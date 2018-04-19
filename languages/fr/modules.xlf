@@ -17,6 +17,10 @@
 			<source>Trash</source>
 			<target>Corbeille</target>
 		</trans-unit>
+		<trans-unit id="MOD.files.0">
+			<source>Files</source>
+			<target>Fichiers</target>
+		</trans-unit>
 
 		<trans-unit id="MOD.calendar.0">
 			<source>Calendar</source>

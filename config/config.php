@@ -16,3 +16,12 @@ array_insert($GLOBALS['BE_MOD']['content'], 0, array
 	'page' => $GLOBALS['BE_MOD']['design']['page']
 ));
 unset($GLOBALS['BE_MOD']['design']['page']);
+
+/**
+ * Move Files Backend Module
+ */
+array_insert($GLOBALS['BE_MOD']['content'], 99, array
+(
+	'files' => $GLOBALS['BE_MOD']['system']['files']
+));
+unset($GLOBALS['BE_MOD']['system']['files']);
