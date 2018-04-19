@@ -1,0 +1,14 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/tl_article.php" source-language="en" target-language="fr">
+    <body>
+		<trans-unit id="tl_article.new.0">
+			<source>New content block</source>
+			<target>Nouveau bloc de contenus</target>
+		</trans-unit>
+		<trans-unit id="tl_article.new.1">
+			<source>Create a new content block</source>
+			<target>Créer un nouveau bloc de contenus</target>
+		</trans-unit>
+    </body>
+  </file>
+</xliff>
