@@ -1,0 +1,42 @@
+{
+    "name": "webexmachina/contao-smartgear",
+    "description": "SMARTGEAR for Contao Open Source CMS",
+    "keywords": ["smartgear", "webexmachina", "module", "contao"],
+    "type": "contao-module",
+    "license": "LGPL-3.0+",
+    "authors": [
+        {
+            "name": "Web ex Machina",
+            "homepage": "https://www.webexmachina.fr",
+            "role":"Developer"
+        }
+    ],
+    "support":{
+        "website":"https://www.webexmachina.fr/",
+        "issues":"https://github.com/webexmachina/contao-smartgear/issues",
+        "source":"https://github.com/webexmachina/contao-smartgear"
+    },
+    "require": {
+        "php": ">=5.5",
+        "contao/core-bundle": "~3.2 || ~4.1",
+        "madeyourday/contao-rocksolid-custom-elements": "^2.2"
+    },
+    "autoload":{
+        "psr-0": {
+            "WEM\\": [
+                "library/"
+            ]
+        },
+        "classmap": [""]
+    },
+    "extra": {
+        "contao": {
+            "sources": {
+                "": "system/modules/wem-contao-smartgear"
+            },
+            "runonce": [
+                "system/modules/wem-contao-smartgear/config/runonce.php"
+            ]
+        }
+    }
+}
