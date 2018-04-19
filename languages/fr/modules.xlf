@@ -18,6 +18,11 @@
 			<target>Corbeille</target>
 		</trans-unit>
 
+		<trans-unit id="MOD.calendar.0">
+			<source>Calendar</source>
+			<target>Calendrier</target>
+		</trans-unit>
+
 		<trans-unit id="MOD.newsletter.0">
 			<source>Newsletters</source>
 			<target>Newsletters</target>
