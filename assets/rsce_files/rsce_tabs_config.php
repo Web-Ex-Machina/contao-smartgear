@@ -9,7 +9,7 @@ return array
     ,'fields' => array
     (
         // Items
-        ,'items' => array
+        'items' => array
         (
             'label' => array('Tabs', 'Editez les onglets')
             ,'elementLabel' => '%s. Onglet'
@@ -17,7 +17,7 @@ return array
             ,'fields' => array
             (
                 // Content
-                ,'title' => array
+                'title' => array
                 (
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['title']
                     ,'inputType' => 'text'
