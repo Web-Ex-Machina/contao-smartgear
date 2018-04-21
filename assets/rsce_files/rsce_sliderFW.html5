@@ -1,0 +1,81 @@
+<?php
+  $intHeight = 400;
+  $strLoop = "false";
+  $strAuto = "false";
+
+  // Define the slider height
+  if($this->slide_height)
+    $intHeight = $this->slide_height;
+  if($this->slide_autoplay)
+    $strLoop = "true";
+  if($this->slider_loop)
+    $strAuto = "true";
+
+  // Prepare the main block classes
+  $arrClasses = [];
+  if($this->nav_display)
+    $arrClasses[] = 'nav--'.$this->nav_display;
+  if($this->nav_horizontal)
+    $arrClasses[] = 'nav--'.$this->nav_horizontal;
+  if($this->nav_vertical)
+    $arrClasses[] = 'nav--'.$this->nav_vertical;
+
+  if($this->content_horizontal)
+    $arrClasses[] = 'content--'.$this->content_horizontal;
+  if($this->content_vertical)
+    $arrClasses[] = 'content__text--'.$this->content_vertical;
+  if($this->content_noblur)
+    $arrClasses[] = 'content--noblur';
+
+  // Prepare the slides
+  if($this->items){
+    $arrSlides = [];
+    foreach($this->items as $slide){
+      $arrCrop = deserialize($slide->slide_img_crop);
+      $objFile = FilesModel::findByUuid($slide->slide_img_src);
+      $strFile = \Image::get($objFile->path, $arrCrop[0], $arrCrop[1], $arrCrop[2]);
+      $arrSlide = [
+        "src"=>$strFile
+        ,"alt"=>$slide->slide_img_alt
+      ];
+
+      $arrSlide["content"] = '';
+
+      if($slide->slide_content)
+        $arrSlide["content"] .= $slide->slide_content;
+
+      if($slide->slide_link_href){
+        $arrSlide["content"] .= sprintf(
+          '<a href="%s" title="%s" class="btn"%s>%s</a>'
+          ,$slide->slide_link_href
+          ,$slide->slide_link_title
+          ,($slide->slide_link_target ? ' target="_blank"' : '')
+          ,$slide->slide_link_text
+        );
+      }
+
+      $arrSlides[] = $arrSlide;
+    }
+  }
+?>
+
+<div class="sliderFW <?= implode(' ', $arrClasses) ?>" data-height="<?= $intHeight ?>" data-loop="<?= $strLoop ?>" data-auto="<?= $strAuto ?>">
+  <div class="sliderFW__container">
+    <div class="sliderFW__rail">
+    <?php if(!empty($arrSlides)): ?>
+      <?php foreach($arrSlides as $slide): ?>
+      <div class="sliderFW__item">
+        <div class="sliderFW__item__bg">
+          <img src="<?= $slide['src'] ?>" alt="<?= $slide['alt'] ?>">
+        </div>
+        <?php if($slide['content']): ?>
+        <div class="sliderFW__item__content">
+          <?= $slide['content'] ?>
+        </div>
+        <?php endif; ?>
+      </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
+    </div>
+  </div>
+</div>

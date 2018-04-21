@@ -10,10 +10,7 @@
 
 namespace WEM\SmartGear;
 
-use Contao\Database;
-use Contao\Folder;
-use Contao\Files;
-use Contao\File;
+use Composer\Script\Event;
 
 /**
  * Handle SmartGear Install/Update shortcuts 
@@ -29,9 +26,35 @@ class ScriptHandler
      */
     public static function initialize(Event $event)
     {
-    	$objFiles = Files::getInstance();
-
         // Copy all the files from the assets folder
-    	$objFiles->rcopy('system/modules/wem-contao-smartgear/assets/rsce_files', 'templates/rsce');
+    	static::rcopy('system/modules/wem-contao-smartgear/assets/rsce_files', 'templates/rsce');
     }
+
+    /**
+	 * Recursively copy a directory
+	 *
+	 * @param string $strSource      The source file or folder
+	 * @param string $strDestination The new file or folder path
+	 */
+	public static function rcopy($strSource, $strDestination)
+	{
+		//$strSource = getcwd().'/'.$strSource;
+		//$strDestination = getcwd().'/'.$strDestination;
+
+		if(!file_exists($strDestination))
+			mkdir($strDestination);
+
+		$arrFiles = scandir($strSource);
+
+		foreach ($arrFiles as $strFile)
+		{
+			if($strFile == '.' || $strFile == '..')
+				continue;
+			
+			if (is_dir($strSource . '/' . $strFile))
+				static::rcopy($strSource . '/' . $strFile, $strDestination . '/' . $strFile);
+			else
+				copy($strSource . '/' . $strFile, $strDestination . '/' . $strFile);
+		}
+	}
 }
