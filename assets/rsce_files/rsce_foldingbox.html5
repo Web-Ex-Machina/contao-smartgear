@@ -1,0 +1,72 @@
+<?php
+  $intHeight = '';
+  $strBreak = '';
+
+  // Define the slider height
+  if($this->height)
+    $intHeight = $this->height;
+
+  // Define the slider break
+  if($this->break)
+    $strBreak = $this->break;
+
+  // Prepare headline
+  if($this->headline)
+    $arrHeadline = deserialize($this->headline);
+
+
+  // Prepare the slides
+  if($this->items){
+    $arrItems = [];
+    foreach($this->items as $item){
+      $arrCrop = deserialize($item->img_crop);
+      $objFile = FilesModel::findByUuid($item->img_src);
+      $strFile = \Image::get($objFile->path, $arrCrop[0], $arrCrop[1], $arrCrop[2]);
+      $arrSlide = [
+        "src"=>$strFile
+        ,"alt"=>$item->img_alt
+      ];
+
+      $arrSlide["content"] = '';
+
+      if($item->content)
+        $arrSlide["content"] .= $item->content;
+
+      if($item->link_href){
+        $arrSlide["content"] .= sprintf(
+          '<a href="%s" title="%s" class="btn"%s>%s</a>'
+          ,$item->link_href
+          ,$item->link_title
+          ,($item->link_target ? ' target="_blank"' : '')
+          ,$item->link_text
+        );
+      }
+
+      $arrItems[] = $arrSlide;
+    }
+  }
+?>
+
+<div class="foldingbox" data-height="<?= $intHeight ?>" data-break="<?= $strBreak ?>">
+  <?php if($this->headline): ?>
+  <div class="foldingbox__title">
+    <<?= $arrHeadline["unit"] ?>><?= $arrHeadline["value"] ?></<?= $arrHeadline["unit"] ?>>
+  </div>
+  <?php endif; ?>
+  <div class="foldingbox__container">
+    <?php if(!empty($arrItems)): ?>
+      <?php foreach($arrItems as $item): ?>
+        <div class="foldingbox__item">
+          <div class="foldingbox__item__bg">
+            <img src="<?= $item['src'] ?>" alt="<?= $item['alt'] ?>">
+          </div>
+          <?php if($item['content']): ?>
+          <div class="foldingbox__item__content">
+            <?= $item['content'] ?>
+          </div>
+          <?php endif; ?>
+        </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
+  </div>
+</div>

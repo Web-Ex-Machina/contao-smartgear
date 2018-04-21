@@ -12,6 +12,8 @@
  * Register the templates
  */
 TemplateLoader::addFiles([
-    'rsce_block-img'  => 'templates/rsce'
-    ,'rsce_sliderFW'  => 'templates/rsce'
+    'rsce_block-img'	=> 'templates/rsce'
+    ,'rsce_sliderFW'	=> 'templates/rsce'
+    ,'rsce_foldingbox'	=> 'templates/rsce'
+    ,'rsce_tabs'		=> 'templates/rsce'
 ]);
