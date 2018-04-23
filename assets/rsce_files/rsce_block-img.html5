@@ -55,7 +55,7 @@
 
 		<?php if($this->text): ?>
 		<div class="block-img__content">
-			Lorem ipsum dolor sit amet
+			<div class="content_container"><?= $this->text ?></div>
 		</div>
 		<?php endif; ?>
 
