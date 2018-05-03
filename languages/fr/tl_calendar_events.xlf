@@ -1,0 +1,30 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/tl_calendar_events.php" source-language="en" target-language="fr">
+    <body>
+      <trans-unit id="tl_calendar_events.location.0">
+        <source>Location name</source>
+        <target>Lieu de l'événement</target>
+      </trans-unit>
+      <trans-unit id="tl_calendar_events.location.1">
+        <source>Here you can enter the name of the event location.</source>
+        <target>Saisir le nom du lieu de l'événement</target>
+      </trans-unit>
+      <trans-unit id="tl_calendar_events.address.0">
+        <source>Location address</source>
+        <target>Adresse du lieu</target>
+      </trans-unit>
+      <trans-unit id="tl_calendar_events.address.1">
+        <source>Here you can enter the address of the event location.</source>
+        <target>Saisir l'adresse postale du lieu de l'événément.</target>
+      </trans-unit>
+      <trans-unit id="tl_calendar_events.teaser.0">
+        <source>Event teaser</source>
+        <target>Détails de l'événement</target>
+      </trans-unit>
+      <trans-unit id="tl_calendar_events.teaser.1">
+        <source>The event teaser can be shown in an event list instead of the full article. A &quot;read more …&quot; link will be added automatically.</source>
+        <target>Dans une liste d'événements, l'accroche peut être affichée à la place de l'article complet. Un lien &quot;En savoir plus ...&quot; sera ajouté automatiquement.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -23,8 +23,8 @@
 		</trans-unit>
 
 		<trans-unit id="MOD.calendar.0">
-			<source>Calendar</source>
-			<target>Calendrier</target>
+			<source>Events</source>
+			<target>Événements</target>
 		</trans-unit>
 
 		<trans-unit id="MOD.newsletter.0">
