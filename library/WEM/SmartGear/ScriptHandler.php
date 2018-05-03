@@ -66,9 +66,6 @@ class ScriptHandler
 	 */
 	public static function rUnlink($strSource)
 	{
-		if(!file_exists($strDestination))
-			mkdir($strDestination);
-
 		$arrFiles = scandir($strSource);
 
 		foreach ($arrFiles as $strFile)
