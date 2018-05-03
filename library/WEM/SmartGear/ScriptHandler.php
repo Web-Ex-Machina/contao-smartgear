@@ -26,8 +26,11 @@ class ScriptHandler
      */
     public static function initialize(Event $event)
     {
+    	// Make sure to update the files
+    	static::rUnlink('templates/rsce');
+
         // Copy all the files from the assets folder
-    	static::rcopy('system/modules/wem-contao-smartgear/assets/rsce_files', 'templates/rsce');
+    	static::rCopy('system/modules/wem-contao-smartgear/assets/rsce_files', 'templates/rsce');
     }
 
     /**
@@ -36,11 +39,8 @@ class ScriptHandler
 	 * @param string $strSource      The source file or folder
 	 * @param string $strDestination The new file or folder path
 	 */
-	public static function rcopy($strSource, $strDestination)
+	public static function rCopy($strSource, $strDestination)
 	{
-		//$strSource = getcwd().'/'.$strSource;
-		//$strDestination = getcwd().'/'.$strDestination;
-
 		if(!file_exists($strDestination))
 			mkdir($strDestination);
 
@@ -52,9 +52,34 @@ class ScriptHandler
 				continue;
 			
 			if (is_dir($strSource . '/' . $strFile))
-				static::rcopy($strSource . '/' . $strFile, $strDestination . '/' . $strFile);
+				static::rCopy($strSource . '/' . $strFile, $strDestination . '/' . $strFile);
 			else
 				copy($strSource . '/' . $strFile, $strDestination . '/' . $strFile);
+		}
+	}
+
+	/**
+	 * Recursively delete a directory
+	 *
+	 * @param string $strSource      The source file or folder
+	 * @param string $strDestination The new file or folder path
+	 */
+	public static function rUnlink($strSource)
+	{
+		if(!file_exists($strDestination))
+			mkdir($strDestination);
+
+		$arrFiles = scandir($strSource);
+
+		foreach ($arrFiles as $strFile)
+		{
+			if($strFile == '.' || $strFile == '..')
+				continue;
+			
+			if (is_dir($strSource . '/' . $strFile))
+				static::rUnlink($strSource . '/' . $strFile);
+			else
+				unlink($strSource . '/' . $strFile);
 		}
 	}
 }

@@ -38,13 +38,5 @@
                 "system/modules/wem-contao-smartgear/config/runonce.php"
             ]
         }
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "WEM\\SmartGear\\ScriptHandler::initialize"
-        ],
-        "post-update-cmd": [
-            "WEM\\SmartGear\\ScriptHandler::initialize"
-        ]
     }
 }
