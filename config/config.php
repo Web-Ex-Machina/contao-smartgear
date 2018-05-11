@@ -25,3 +25,14 @@ array_insert($GLOBALS['BE_MOD']['content'], 99, array
 	'files' => $GLOBALS['BE_MOD']['system']['files']
 ));
 unset($GLOBALS['BE_MOD']['system']['files']);
+
+/**
+ * Add SmartGear Module to System
+ */
+array_insert($GLOBALS['BE_MOD']['system'], 0, array
+(
+	'smartgear' => array
+	(
+		'callback' => "\WEM\SmartGear\Backend\Install"
+	)
+));

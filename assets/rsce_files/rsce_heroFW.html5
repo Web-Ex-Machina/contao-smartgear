@@ -1,0 +1,41 @@
+<?php
+  // Get the file
+  $arrCrop = deserialize($this->size);
+  $objFile = FilesModel::findByUuid($this->singleSRC);
+  $strFile = \Image::get($objFile->path, $arrCrop[0], $arrCrop[1], $arrCrop[2]);
+
+  // Prepare the main block classes
+  $arrClasses = [];
+  if($this->force_fullwidth)
+    $arrClasses[] = 'force-full';
+  if($this->image_opacity)
+    $arrClasses[] = 'figure__opacity--'.intval($this->image_opacity);
+  if($this->imagesize_horizontal)
+    $arrClasses[] = 'img--'.$this->imagesize_horizontal;
+  if($this->imagesize_vertical)
+    $arrClasses[] = 'img--'.$this->imagesize_vertical;
+  if($this->content_horizontal || $this->content_vertical)
+    $arrClasses[] = 'content--'.$this->content_horizontal.'--'.$this->content_vertical;
+  if($this->content_color)
+    $arrClasses[] = 'ft-'.$this->content_color;
+  if($this->content_background)
+    $arrClasses[] = 'content__bg--'.$this->content_background;
+  if($this->content_background_opacity)
+    $arrClasses[] = 'content__bg__opacity--'.intval($this->content_background_opacity);
+?>
+<div class="heroFW <?= implode(' ', $arrClasses) ?>">
+  <div class="heroFW__wrapper">
+    <div class="heroFW__figure">
+      <img src="<?= $strFile ?>" alt="<?= $this->alt ?>">
+    </div>
+    <div class="heroFW__content">
+      <div class="heroFW__content__wrapper">
+        <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
+        <?= $this->text ?>
+        <?php if($this->url): ?>
+        <a class="btn" href="<?= $this->url ?>" title="<?= $this->linkTitle ?>"><?= $this->linkTitle ?></a>
+        <?php endif; ?>
+      </div>
+    </div>
+  </div>
+</div>

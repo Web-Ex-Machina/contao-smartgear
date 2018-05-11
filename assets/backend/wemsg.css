@@ -1,0 +1,5 @@
+.wem_module .content_container{padding:15px;}
+.wem_module .content_container h2{margin-bottom:1em;}
+.wem_module .content_container ul{margin-left:1em;}
+.wem_module .content_container ul,
+.wem_module .content_container li{list-style-type:disc !important;}

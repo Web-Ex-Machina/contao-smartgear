@@ -12,8 +12,14 @@
  * Register the templates
  */
 TemplateLoader::addFiles([
+    
+    // RSCE Templates
     'rsce_block-img'	=> 'templates/rsce'
     ,'rsce_sliderFW'	=> 'templates/rsce'
     ,'rsce_foldingbox'	=> 'templates/rsce'
     ,'rsce_tabs'		=> 'templates/rsce'
+    ,'rsce_heroFW'		=> 'templates/rsce'
+
+    // Backend Templates
+    ,'be_wem_sg_install' => 'system/modules/wem-contao-smartgear/templates/backend'
 ]);

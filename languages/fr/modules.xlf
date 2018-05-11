@@ -35,6 +35,15 @@
 			<source>Manage subscriptions and send newsletters</source>
 			<target>Gérer les abonnements et envoyer des newsletters.</target>
 		</trans-unit>
+
+		<trans-unit id="MOD.smartgear.0">
+			<source>Smartgear</source>
+			<target>Smartgear</target>
+		</trans-unit>
+		<trans-unit id="MOD.smartgear.1">
+			<source>Configurer votre Smartgear</source>
+			<target>Configurer votre Smartgear</target>
+		</trans-unit>
     </body>
   </file>
 </xliff>

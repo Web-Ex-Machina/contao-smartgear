@@ -1,0 +1,74 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/tl_settings.php" source-language="en" target-language="fr">
+    <body>
+    	<trans-unit id="tl_settings.smartgear_legend">
+			<source>Smartgear</source>
+			<target>Smartgear</target>
+		</trans-unit>
+    	<trans-unit id="tl_settings.sgInstallComplete.0">
+			<source>Complete setup ?</source>
+			<target>Installation complète ?</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgInstallComplete.1">
+			<source>Check if the Smartgear setup has been completed.</source>
+			<target>Cocher si l'installation Smartgear a été complétée.</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgInstallTheme.0">
+			<source>Smartgear Theme</source>
+			<target>Thème Smartgear</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgInstallTheme.1">
+			<source>Select the Smartgear theme installed.</source>
+			<target>Sélectionner le thème Smartgear installé.</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgInstallLayout.0">
+			<source>Smartgear Layout</source>
+			<target>Squelette Smartgear</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgInstallLayout.1">
+			<source>Select the Smartgear layout installed.</source>
+			<target>Sélectionner le squelette Smartgear installé.</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgInstallModules.0">
+			<source>Smartgear Modules</source>
+			<target>Modules Smartgear</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgInstallModules.1">
+			<source>Select the Smartgear modules installed.</source>
+			<target>Sélectionner les modules Smartgear installé.</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgInstallUserGroup.0">
+			<source>Smartgear User Group</source>
+			<target>Groupe d'utilisateurs Smartgear</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgInstallUserGroup.1">
+			<source>Select the user group theme installed.</source>
+			<target>Sélectionner le groupe d'utilisateurs Smartgear installé.</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgInstallUser.0">
+			<source>Smartgear User</source>
+			<target>Utilisateur Smartgear</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgInstallUser.1">
+			<source>Select the Smartgear user installed.</source>
+			<target>Sélectionner l'utilisateur Smartgear installé.</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgInstallRootPage.0">
+			<source>Smartgear Root page</source>
+			<target>Racine de site Smartgear</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgInstallRootPage.1">
+			<source>Select the Smartgear root page installed.</source>
+			<target>Sélectionner la racine de site Smartgear installé.</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgInstallNcGateway.0">
+			<source>Smartgear Gateway</source>
+			<target>Passerelle Smartgear</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgInstallNcGateway.1">
+			<source>Select the Smartgear gateway installed.</source>
+			<target>Sélectionner la passerelle Smartgear installée.</target>
+		</trans-unit>
+    </body>
+  </file>
+</xliff>

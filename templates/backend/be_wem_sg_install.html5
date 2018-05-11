@@ -1,0 +1,127 @@
+<?= Message::generate() ?>
+
+<div id="tl_wem_sg_install" class="wem_module">
+	
+	<?php if($this->logs && !empty($this->logs)): ?>
+		<div id="tl_buttons">
+			<a href="<?= $this->backButtonHref ?>" class="header_back" title="<?= $this->backButtonTitle ?>"><?= $this->backButtonButton ?></a>
+		</div>
+		<div class="logs">
+			<div class="content_container">
+				<?php foreach($this->logs as $log): ?>
+				<p class="<?= $log["status"] ?>"><?= $log["msg"] ?></p>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	<?php elseif(!$this->isSetupComplete): ?>
+		<div class="setup">
+			<div class="content_container">
+				<h2>Smartgear | Core | Installation</h2>
+				<p>Avant de faire quoique ce soit l'ami, tu vas devoir installer quelques trucs de base. Pas de soucis, on gère tout ça pour toi. Voilà ce qui est prévu :</p>
+				<ul>
+					<li>Modification de la configuration (tailles des images, limite d'upload...)</li>
+					<li>Création des répertoires des modèles, avec import de ceux qu'on a modifier</li>
+					<li>Vérification des répertoires des fichiers (pour l'app et pour le client). On doit bien avoir le framway d'installé avant la prochaine étape.</li>
+					<li>Création du thème Smartgear</li>
+					<li>Création des squelettes Smartgear</li>
+					<li>Création d'un groupe d'utilisateurs par défaut. Les droits seront probablement à ajuster.</li>
+					<li>Création de la racine de site, avec le titre configuré dans le champ ci-dessous.</li>
+					<li>Création d'une passerelle de notification par défaut (Email de service). Pensez à configurer le SMTP si besoin.</li>
+				</ul>
+			</div>
+
+			<p class="tl_info">A noter que tout cela sera prochainement découpé en étapes, pour permettre de configurer chaque module plus précisément.</p>
+			<br />
+
+			<form action="<?= $this->request ?>" class="tl_form" method="post">
+				<div class="tl_formbody_edit">
+					<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
+					<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
+					<input name="sg_step" value="setup" type="hidden">
+				</div>
+				<div class="widget">
+					<h3><label for="ctrl_websiteTitle"><span class="invisible">Champ obligatoire </span>Titre du site internet<span class="mandatory">*</span></label></h3>
+					<input name="websiteTitle" id="ctrl_websiteTitle" class="tl_text" value="<?= $this->websiteTitle ?>" required="" onfocus="Backend.getScrollOffset()" type="text">
+					<p class="tl_help tl_tip" title="">Saisir le titre du site internet.</p>
+				</div>
+				<br />
+				<div class="tl_submit_container">
+					<button type="submit" name="setup" class="tl_submit">Installer Smartgear</button>
+				</div>
+			</form>
+		</div>
+	<?php else: ?>
+		<div class="setup">
+			<div class="content_container">
+				<h2>Smartgear | Core | Réparation - Désinstallation</h2>
+				<p class="tl_error">Vous pouvez réparer ou réinitialiser la configuration Smartgear établie. Veuillez prendre note que cela supprimera tous les éléments liés aux thèmes, squelettes, modules associés !</p>
+			</div>
+			<form action="<?= $this->request ?>" class="tl_form" method="post">
+				<div class="tl_formbody_edit">
+					<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
+					<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
+					<input name="sg_step" value="repair" type="hidden">
+				</div>
+				<div class="tl_submit_container">
+					<button type="submit" onclick="if(!confirm('Voulez-vous vraiment réinitialiser Smartgear ?'))return false;Backend.getScrollOffset()" value="reset" name="action" class="tl_submit" >Réinitialiser Smartgear</button>
+					<button type="submit" onclick="if(!confirm('Voulez-vous vraiment supprimer Smartgear ?'))return false;Backend.getScrollOffset()" value="delete" name="action" class="tl_submit">Supprimer Smartgear</button>
+				</div>
+			</form>
+		</div>
+
+		<div class="setup">
+			<div class="content_container">
+				<h2>Smartgear | Core | RSCE</h2>
+				<p class="tl_info">Cette section permet de réinitialiser, de rafraichir ou de supprimer les éléments personnalisés RSCE utilisés par Smartgear.</p>
+			</div>
+			<form action="<?= $this->request ?>" class="tl_form" method="post">
+				<div class="tl_formbody_edit">
+					<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
+					<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
+					<input name="sg_step" value="rsce" type="hidden">
+				</div>
+				<div class="tl_submit_container">
+					<button type="submit" onclick="if(!confirm('Voulez-vous vraiment réimporter les éléments personnalisés ?'))return false;Backend.getScrollOffset()" value="reimport" name="action" class="tl_submit" >Réimporter les éléments</button>
+				</div>
+			</form>
+		</div>
+
+		<div class="setup module">
+			<div class="content_container">
+				<h2>Smartgear | Blog</h2>
+				<p>Statut : ??</p>
+			</div>
+			<form action="<?= $this->request ?>" class="tl_form" method="post">
+				<div class="tl_formbody_edit">
+					<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
+					<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
+					<input name="sg_step" value="module" type="hidden">
+				</div>
+				<div class="tl_submit_container">
+					<button type="submit" value="setup" name="action" class="tl_submit">Installer</button>
+				</div>
+			</form>
+		</div>
+
+		<h2>TODO</h2>
+		<ul>
+			<li>Installation et configuration globale (Configuration, Modèles, Layouts)</li>
+			<li>Faire la liste de tous les modules connus et utilisables + leur état (si installé, si configuré...)</li>
+		</ul>
+
+		<h2>Modules connus</h2>
+		<ul>
+			<li>Blog</li>
+			<li>Evénements</li>
+			<li>FAQ</li>
+			<li>Formulaires</li>
+			<li>Commentaires</li>
+			<li>Newsletter</li>
+			<li>Extranet</li>
+			<li>SEO</li>
+			<li>Planning</li>
+			<li>Portfolio</li>
+		</ul>
+
+	<?php endif; ?>
+</div>
