@@ -88,7 +88,7 @@
 
 		<div class="setup module">
 			<div class="content_container">
-				<h2>Smartgear | Blog</h2>
+				<h2>Smartgear | Module | Blog</h2>
 				<p>Statut : ??</p>
 			</div>
 			<form action="<?= $this->request ?>" class="tl_form" method="post">

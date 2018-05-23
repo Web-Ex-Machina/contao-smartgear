@@ -17,7 +17,7 @@
   if($this->content_horizontal || $this->content_vertical)
     $arrClasses[] = 'content--'.$this->content_horizontal.'--'.$this->content_vertical;
   if($this->content_color)
-    $arrClasses[] = 'ft-'.$this->content_color;
+    $arrClasses[] = $this->content_color;
   if($this->content_background)
     $arrClasses[] = 'content__bg--'.$this->content_background;
   if($this->content_background_opacity)
