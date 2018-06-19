@@ -86,27 +86,7 @@
 			</form>
 		</div>
 
-		<div class="setup module">
-			<div class="content_container">
-				<h2>Smartgear | Module | Blog</h2>
-				<p class="<?= $this->modules['blog']['class'] ?>"><?= $this->modules['blog']['msg'] ?></p>
-			</div>
-			<?php if($this->modules['blog']['actions']): ?>
-			<form action="<?= $this->request ?>" class="tl_form" method="post">
-				<div class="tl_formbody_edit">
-					<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
-					<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
-					<input name="sg_step" value="module" type="hidden">
-					<input name="sg_module" value="blog" type="hidden">
-				</div>
-				<div class="tl_submit_container">
-					<?php foreach($this->modules['blog']['actions'] as $input): ?>
-					<button type="submit" value="<?= $input['action'] ?>" name="action" class="tl_submit"><?= $input['label'] ?></button>
-					<?php endforeach; ?>
-				</div>
-			</form>
-			<?php endif; ?>
-		</div>
+		<?php if($this->modules): ?><?= implode('', $this->modules) ?><?php endif; ?>
 
 		<h2>TODO</h2>
 		<ul>

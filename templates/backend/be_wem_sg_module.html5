@@ -1,0 +1,21 @@
+<div class="setup module">
+	<div class="content_container">
+		<h2><?= $this->title ?></h2>
+		<p class="<?= $this->msgClass ?>"><?= $this->msgText ?></p>
+	</div>
+	<?php if($this->actions): ?>
+	<form action="<?= $this->request ?>" class="tl_form" method="post">
+		<div class="tl_formbody_edit">
+			<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
+			<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
+			<input name="sg_step" value="module" type="hidden">
+			<input name="sg_module" value="<?= $this->module ?>" type="hidden">
+		</div>
+		<div class="tl_submit_container">
+			<?php foreach($this->actions as $input): ?>
+			<button type="submit" value="<?= $input['action'] ?>" name="action" class="tl_submit"><?= $input['label'] ?></button>
+			<?php endforeach; ?>
+		</div>
+	</form>
+	<?php endif; ?>
+</div>

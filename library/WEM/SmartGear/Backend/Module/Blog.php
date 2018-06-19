@@ -17,15 +17,43 @@ use Contao\ModuleModel;
 use Contao\NewsArchiveModel;
 use Contao\ArticleModel;
 use Contao\ContentModel;
-use WEM\SmartGear\Backend\Module;
+use Contao\FrontendTemplate;
 
 /**
  * Back end module "smartgear".
  *
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
-class Blog extends Module
+class Blog extends Module implements ModuleInterface
 {
+	public function checkStatus(){
+		$objTemplate = new FrontendTemplate("be_wem_sg_module");
+		$objTemplate->title = "SmartGear | Module | Blog";
+		$objTemplate->module = "blog";
+		$objTemplate->request = \Environment::get('request');
+		$objTemplate->token = \RequestToken::get();
+		$arrActions = array();
+		$bundles = \System::getContainer()->getParameter('kernel.bundles');
+
+		if(!isset($bundles['ContaoNewsBundle'])){
+			$objTemplate->msgClass = 'tl_error';
+			$objTemplate->msgText = 'Le blog n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.';
+		} else if(!Config::get('sgBlogInstall') || 0 === \NewsArchiveModel::countById(Config::get('sgBlogNewsArchive'))){
+			$objTemplate->msgClass = 'tl_info';
+			$objTemplate->msgText = 'Le blog est installé, mais pas configuré.';
+			$arrActions[] = ['action'=>'install', 'label'=>'Installer'];
+		} else {
+			$objTemplate->msgClass = 'tl_confirm';
+			$objTemplate->msgText = 'Le blog est installé et configuré.';
+			$arrActions[] = ['action'=>'reset', 'label'=>'Réinitialiser'];
+			$arrActions[] = ['action'=>'remove', 'label'=>'Supprimer'];
+		}
+
+		$objTemplate->actions = $arrActions;
+
+		return $objTemplate->parse();
+	}
+
 	public function install(){
 		// Create the archive
 		$objArchive = new NewsArchiveModel();

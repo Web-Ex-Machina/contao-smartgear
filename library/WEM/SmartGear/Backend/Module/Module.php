@@ -8,7 +8,7 @@
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
 
-namespace WEM\SmartGear\Backend;
+namespace WEM\SmartGear\Backend\Module;
 
 use Exception;
 use Contao\Config;

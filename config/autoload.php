@@ -22,4 +22,5 @@ TemplateLoader::addFiles([
 
     // Backend Templates
     ,'be_wem_sg_install' => 'system/modules/wem-contao-smartgear/templates/backend'
+    ,'be_wem_sg_module'  => 'system/modules/wem-contao-smartgear/templates/backend'
 ]);

@@ -20,6 +20,8 @@ use Contao\Message;
 use Contao\RequestToken;
 use Contao\StringUtil;
 
+use WEM\SmartGear\Backend\Module as ModulePath;
+
 /**
  * Back end module "smartgear".
  *
@@ -41,6 +43,12 @@ class Install extends BackendModule
 	protected $arrLogs = array();
 
 	/**
+	 * Module basepath
+	 * @var string
+	 */
+	protected $strBasePath = 'system/modules/wem-contao-smartgear';
+
+	/**
 	 * Generate the module
 	 *
 	 * @throws Exception
@@ -53,7 +61,7 @@ class Install extends BackendModule
 		$this->Template->backButtonButton = $GLOBALS['TL_LANG']['MSC']['backBT'];
 
 		// Add WEM styles to template
-		$GLOBALS['TL_CSS'][] = 'system/modules/wem-contao-smartgear/assets/backend/wemsg.css';
+		$GLOBALS['TL_CSS'][] = $this->strBasePath.'/assets/backend/wemsg.css';
 
 		// Catch the setup submit
 		if(Input::post("FORM_SUBMIT") == "tl_wem_sg_install")
@@ -83,7 +91,7 @@ class Install extends BackendModule
 					break;
 
 					case "module":
-						$strClass = "WEM\SmartGear\Backend\Module\\".ucfirst(Input::post('sg_module'));
+						$strClass = sprintf("WEM\SmartGear\Backend\Module\%s", ucfirst(Input::post('sg_module')));
 						if(!class_exists($strClass))
 							throw new Exception(sprintf("Classe inconnue : %s", $strClass));
 						$objModule = new $strClass();
@@ -100,34 +108,20 @@ class Install extends BackendModule
 			}
 			catch(Exception $e)
 			{
-				Message::addError($e->getResponse());
+				Message::addError($e->getMessage());
 			}
 		}
 
 		// Check if we already completed the Smartgear setup
 		if(Config::get('sgInstallComplete')){
 			$this->Template->isSetupComplete = true;
-			$bundles = \System::getContainer()->getParameter('kernel.bundles');
-
-			// Find News Module
-			$arrModules["blog"] = array();
-			if(!isset($bundles['ContaoNewsBundle'])){
-				$arrModules["blog"]["status"] = 0;
-				$arrModules["blog"]["class"] = 'tl_error';
-				$arrModules["blog"]["msg"] = 'Le blog n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.';
-			} else if(!Config::get('sgBlogInstall') || 0 === \NewsArchiveModel::countById(Config::get('sgBlogNewsArchive'))){
-				$arrModules["blog"]["status"] = 1;
-				$arrModules["blog"]["class"] = 'tl_info';
-				$arrModules["blog"]["msg"] = 'Le blog est installé, mais pas configuré.';
-				$arrModules["blog"]["actions"][] = ['action'=>'install', 'label'=>'Installer'];
-			} else {
-				$arrModules["blog"]["status"] = 2;
-				$arrModules["blog"]["class"] = 'tl_confirm';
-				$arrModules["blog"]["msg"] = 'Le blog est installé et configuré.';
-				$arrModules["blog"]["actions"][] = ['action'=>'reset', 'label'=>'Réinitialiser'];
-				$arrModules["blog"]["actions"][] = ['action'=>'remove', 'label'=>'Supprimer'];
-			}
+			$modules = ["blog"];
 			
+			foreach($modules as $module){
+				$strClass = sprintf("WEM\SmartGear\Backend\Module\%s", ucfirst($module));
+				$objModule = new $strClass;
+				$arrModules[] = $objModule->checkStatus();
+			}
 		}
 
 		// Send msc data to template
@@ -432,8 +426,8 @@ class Install extends BackendModule
 
 			// Create templates and rsce folders and Move all Smartgear files in this one
 			if($strMode == 'install'){		
-				$objFiles->rcopy("system/modules/wem-contao-smartgear/assets/templates_files", "templates/smartgear");
-				$objFiles->rcopy("system/modules/wem-contao-smartgear/assets/rsce_files", "templates/rsce");
+				$objFiles->rcopy($this->strBasePath."/assets/templates_files", "templates/smartgear");
+				$objFiles->rcopy($this->strBasePath."/assets/rsce_files", "templates/rsce");
 				$this->arrLogs[] = ["status"=>"tl_confirm", "msg"=>"Les templates SmartGear ont été importés (templates et rsce)"];
 			}
 			else if($strMode == 'delete'){
