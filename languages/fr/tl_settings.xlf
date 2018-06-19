@@ -69,6 +69,59 @@
 			<source>Select the Smartgear gateway installed.</source>
 			<target>Sélectionner la passerelle Smartgear installée.</target>
 		</trans-unit>
+		
+		<trans-unit id="tl_settings.sgblog_legend">
+			<source>Smartgear - Blog</source>
+			<target>Smartgear - Blog</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgBlogInstall.0">
+			<source>Blog setup ?</source>
+			<target>Blog installé ?</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgBlogInstall.1">
+			<source>Check if the Smartgear Blog setup has been completed.</source>
+			<target>Cocher si l'installation du blog Smartgear a été complétée.</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgBlogNewsArchive.0">
+			<source>News category</source>
+			<target>Catégorie d'actualités</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgBlogNewsArchive.1">
+			<source>Select the news category installed.</source>
+			<target>Sélectionner la catégorie d'actualités installée.</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgBlogModuleList.0">
+			<source>Module Newslist</source>
+			<target>Module Liste d'actualités</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgBlogModuleList.1">
+			<source>Select the module newslist installed.</source>
+			<target>Sélectionner le module liste d'actualités installé.</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgBlogModuleReader.0">
+			<source>Module Newsreader</source>
+			<target>Module Lecteur d'actualités</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgBlogModuleReader.1">
+			<source>Select the module newsreader installed.</source>
+			<target>Sélectionner le module lecteur d'actualités installé.</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgBlogPageList.0">
+			<source>Page Newslist</source>
+			<target>Page Liste d'actualités</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgBlogPageList.1">
+			<source>Select the page who'll show the newslist module.</source>
+			<target>Sélectionner la page qui affichera le module Liste d'actualités.</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgBlogPageReader.0">
+			<source>Page Newsreader</source>
+			<target>Page Lecteur d'actualités</target>
+		</trans-unit>
+		<trans-unit id="tl_settings.sgBlogPageReader.1">
+			<source>Select the page who'll show the newsreader module.</source>
+			<target>Sélectionner la page qui affichera le module Lecteur d'actualités.</target>
+		</trans-unit>
     </body>
   </file>
 </xliff>

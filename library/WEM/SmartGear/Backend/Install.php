@@ -60,8 +60,7 @@ class Install extends BackendModule
 		{
 			try
 			{
-				switch(Input::post("sg_step"))
-				{
+				switch(Input::post("sg_step")){
 					case "setup":
 						// Launch setup function
 						$this->installSmartgear();
@@ -77,11 +76,20 @@ class Install extends BackendModule
 					break;
 
 					case "rsce":
-						if(Input::post("action") == "reimport")
-						{
+						if(Input::post("action") == "reimport"){
 							$this->processRSCE('delete');
 							$this->processRSCE('install');
 						}
+					break;
+
+					case "module":
+						$strClass = "WEM\SmartGear\Backend\Module\\".ucfirst(Input::post('sg_module'));
+						if(!class_exists($strClass))
+							throw new Exception(sprintf("Classe inconnue : %s", $strClass));
+						$objModule = new $strClass();
+						if(!method_exists($objModule, Input::post('action')))
+							throw new Exception(sprintf("Méthode %s inconnue dans la classe %s", Input::post('action'), get_class($objModule)));
+						call_user_func([$objModule, Input::post('action')]);
 					break;
 
 					default:
@@ -92,17 +100,33 @@ class Install extends BackendModule
 			}
 			catch(Exception $e)
 			{
-				Message::addError($e->getMessage());
+				Message::addError($e->getResponse());
 			}
 		}
 
 		// Check if we already completed the Smartgear setup
-		if(Config::get('sgInstallComplete'))
-		{
+		if(Config::get('sgInstallComplete')){
 			$this->Template->isSetupComplete = true;
+			$bundles = \System::getContainer()->getParameter('kernel.bundles');
 
 			// Find News Module
-			
+			$arrModules["blog"] = array();
+			if(!isset($bundles['ContaoNewsBundle'])){
+				$arrModules["blog"]["status"] = 0;
+				$arrModules["blog"]["class"] = 'tl_error';
+				$arrModules["blog"]["msg"] = 'Le blog n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.';
+			} else if(!Config::get('sgBlogInstall') || 0 === \NewsArchiveModel::countById(Config::get('sgBlogNewsArchive'))){
+				$arrModules["blog"]["status"] = 1;
+				$arrModules["blog"]["class"] = 'tl_info';
+				$arrModules["blog"]["msg"] = 'Le blog est installé, mais pas configuré.';
+				$arrModules["blog"]["actions"][] = ['action'=>'install', 'label'=>'Installer'];
+			} else {
+				$arrModules["blog"]["status"] = 2;
+				$arrModules["blog"]["class"] = 'tl_confirm';
+				$arrModules["blog"]["msg"] = 'Le blog est installé et configuré.';
+				$arrModules["blog"]["actions"][] = ['action'=>'reset', 'label'=>'Réinitialiser'];
+				$arrModules["blog"]["actions"][] = ['action'=>'remove', 'label'=>'Supprimer'];
+			}
 			
 		}
 
@@ -110,14 +134,13 @@ class Install extends BackendModule
 		$this->Template->request = Environment::get('request');
 		$this->Template->token = RequestToken::get();
 		$this->Template->websiteTitle = Config::get("websiteTitle");
-
+		$this->Template->modules = $arrModules;
 	}
 
 	/**
 	 * Process to the setup
 	 */
-	protected function installSmartgear()
-	{
+	protected function installSmartgear(){
 		try
 		{
 			// Prepare the log array
@@ -314,8 +337,7 @@ class Install extends BackendModule
 	/**
 	 * Delete all the Smartgear setup
 	 */
-	protected function deleteSmartgear()
-	{
+	protected function deleteSmartgear(){
 		try
 		{
 			// Delete the Gateway
@@ -409,14 +431,12 @@ class Install extends BackendModule
 			$objFiles = Files::getInstance();
 
 			// Create templates and rsce folders and Move all Smartgear files in this one
-			if($strMode == 'install')
-			{		
+			if($strMode == 'install'){		
 				$objFiles->rcopy("system/modules/wem-contao-smartgear/assets/templates_files", "templates/smartgear");
 				$objFiles->rcopy("system/modules/wem-contao-smartgear/assets/rsce_files", "templates/rsce");
 				$this->arrLogs[] = ["status"=>"tl_confirm", "msg"=>"Les templates SmartGear ont été importés (templates et rsce)"];
 			}
-			else if($strMode == 'delete')
-			{
+			else if($strMode == 'delete'){
 				$objFiles->rrdir("templates/smartgear");
 				$objFiles->rrdir("templates/rsce");
 				$this->arrLogs[] = ["status"=>"tl_confirm", "msg"=>"Les templates SmartGear ont été supprimés (templates et rsce)"];
