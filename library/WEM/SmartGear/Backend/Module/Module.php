@@ -20,6 +20,10 @@ use Contao\Config;
  */
 abstract class Module
 {
+	/**
+	 * Update Contao Config
+	 * @param  [Array] $arrVars [Key/Value Array]
+	 */
 	public function updateConfig($arrVars){
 		foreach($arrVars as $strKey => $varValue)
 			Config::persist($strKey, $varValue);

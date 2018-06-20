@@ -17,7 +17,7 @@ namespace WEM\SmartGear\Backend\Module;
  */
 interface ModuleInterface
 {
-	public function checkStatus();
+	public function checkStatus($strTemplate = 'be_wem_sg_module');
 	public function install();
 	public function reset();
 	public function remove();

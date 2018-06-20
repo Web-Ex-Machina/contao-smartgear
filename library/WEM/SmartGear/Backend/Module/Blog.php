@@ -26,8 +26,12 @@ use Contao\FrontendTemplate;
  */
 class Blog extends Module implements ModuleInterface
 {
-	public function checkStatus(){
-		$objTemplate = new FrontendTemplate("be_wem_sg_module");
+	/**
+	 * Check Module Status
+	 * @return [String] [Template of the module check status]
+	 */
+	public function checkStatus($strTemplate = 'be_wem_sg_module'){
+		$objTemplate = new FrontendTemplate($strTemplate);
 		$objTemplate->title = "SmartGear | Module | Blog";
 		$objTemplate->module = "blog";
 		$objTemplate->request = \Environment::get('request');
@@ -54,6 +58,9 @@ class Blog extends Module implements ModuleInterface
 		return $objTemplate->parse();
 	}
 
+	/**
+	 * Setup the module
+	 */
 	public function install(){
 		// Create the archive
 		$objArchive = new NewsArchiveModel();
@@ -175,11 +182,17 @@ class Blog extends Module implements ModuleInterface
 		]);
 	}
 
+	/**
+	 * Reset the module
+	 */
 	public function reset(){
 		$this->remove();
 		$this->install();
 	}
 
+	/**
+	 * Remove the module
+	 */
 	public function remove(){
 		$objArchive = NewsArchiveModel::findByPk(Config::get("sgBlogNewsArchive"));
 		$objArchive->delete();
