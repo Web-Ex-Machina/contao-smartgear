@@ -10,11 +10,6 @@
   if($this->break)
     $strBreak = $this->break;
 
-  // Prepare headline
-  if($this->headline)
-    $arrHeadline = deserialize($this->headline);
-
-
   // Prepare the slides
   if($this->items){
     $arrItems = [];
@@ -50,7 +45,7 @@
 <div class="foldingbox" data-height="<?= $intHeight ?>" data-break="<?= $strBreak ?>">
   <?php if($this->headline): ?>
   <div class="foldingbox__title">
-    <<?= $arrHeadline["unit"] ?>><?= $arrHeadline["value"] ?></<?= $arrHeadline["unit"] ?>>
+    <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
   </div>
   <?php endif; ?>
   <div class="foldingbox__container">
