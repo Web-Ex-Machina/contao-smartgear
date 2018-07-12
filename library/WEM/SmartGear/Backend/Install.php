@@ -296,7 +296,7 @@ class Install extends BackendModule
 			$objRootPage->language = "fr";
 			$objRootPage->fallback = 1;
 			$objRootPage->createSitemap = 1;
-			$objRootPage->sitemapName = "sitemap-".$objRootPage->alias;
+			$objRootPage->sitemapName = substr("sitemap-".$objRootPage->alias, 0, 30);
 			$objRootPage->useSSL = 1;
 			$objRootPage->includeLayout = 1;
 			$objRootPage->layout = $objLayout->id;
