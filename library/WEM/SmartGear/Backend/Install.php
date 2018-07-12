@@ -324,6 +324,7 @@ class Install extends BackendModule
 		}
 		catch(Exception $e)
 		{
+			$this->deleteSmartgear();
 			throw $e;
 		}
 	}
