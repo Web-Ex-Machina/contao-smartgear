@@ -21,7 +21,7 @@
 				<ul>
 					<li>Modification de la configuration (tailles des images, limite d'upload...)</li>
 					<li>Création des répertoires des modèles, avec import de ceux qu'on a modifier</li>
-					<li>Vérification des répertoires des fichiers (pour l'app et pour le client). On doit bien avoir le framway d'installé avant la prochaine étape.</li>
+					<li>Vérification des répertoires des fichiers (pour l'app et pour le client). On doit bien avoir le framway d'installé dans files/app avant la prochaine étape.</li>
 					<li>Création du thème Smartgear</li>
 					<li>Création des squelettes Smartgear</li>
 					<li>Création d'un groupe d'utilisateurs par défaut. Les droits seront probablement à ajuster.</li>
@@ -55,6 +55,7 @@
 			<div class="content_container">
 				<h2>Smartgear | Core | Réparation - Désinstallation</h2>
 				<p class="tl_error">Vous pouvez réparer ou réinitialiser la configuration Smartgear établie. Veuillez prendre note que cela supprimera tous les éléments liés aux thèmes, squelettes, modules associés !</p>
+				<p class="tl_error">Vous pouvez également réinitialiser la totalité des données Contao. Tous les fichiers et toutes les données seront supprimés.</p>
 			</div>
 			<form action="<?= $this->request ?>" class="tl_form" method="post">
 				<div class="tl_formbody_edit">
@@ -65,6 +66,7 @@
 				<div class="tl_submit_container">
 					<button type="submit" onclick="if(!confirm('Voulez-vous vraiment réinitialiser Smartgear ?'))return false;Backend.getScrollOffset()" value="reset" name="action" class="tl_submit" >Réinitialiser Smartgear</button>
 					<button type="submit" onclick="if(!confirm('Voulez-vous vraiment supprimer Smartgear ?'))return false;Backend.getScrollOffset()" value="delete" name="action" class="tl_submit">Supprimer Smartgear</button>
+					<button type="submit" onclick="if(!confirm('Voulez-vous vraiment tout réinitialiser ?'))return false;Backend.getScrollOffset()" value="truncate" name="action" class="tl_submit">Réinitialiser Contao</button>
 				</div>
 			</form>
 		</div>

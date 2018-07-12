@@ -13,6 +13,7 @@ namespace WEM\SmartGear\Backend;
 use Exception;
 use Contao\BackendModule;
 use Contao\Config;
+use Contao\Database;
 use Contao\Environment;
 use Contao\Files;
 use Contao\Input;
@@ -81,6 +82,10 @@ class Install extends BackendModule
 						// And if reset, relaunch the setup function
 						if(Input::post("action") == "reset")
 							$this->installSmartgear();
+
+						// And if truncate, this is sparta
+						if(Input::post("action") == "truncate")
+							$this->resetContao();
 					break;
 
 					case "rsce":
@@ -391,7 +396,7 @@ class Install extends BackendModule
 				if(empty($arrModules))
 					Config::remove("sgInstallModules");
 				else
-					Config::persist(serialize($arrModules));
+					Config::persist("sgInstallModules", serialize($arrModules));
 			}
 
 			// Delete the theme
@@ -439,6 +444,26 @@ class Install extends BackendModule
 		}
 		catch(Exception $e)
 		{
+			throw $e;
+		}
+	}
+
+	/**
+	 * Reset Contao install by Truncating everything
+	 */
+	protected function resetContao(){
+		try{
+			$objDb = Database::getInstance();
+			foreach($objDb->listTables() as $strTable)
+				$objDb->prepare("TRUNCATE TABLE ".$strTable)->execute();
+
+			$objFiles = Files::getInstance();
+			$objFiles->rrdir("files");
+			$objFiles->rrdir("templates");
+
+			$this->arrLogs[] = ["status"=>"tl_confirm", "msg"=>"Contao a été réinitialisé"];
+		}
+		catch(Exception $e){
 			throw $e;
 		}
 	}
