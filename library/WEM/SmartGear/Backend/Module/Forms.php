@@ -90,35 +90,35 @@ class Forms extends Module implements ModuleInterface
 		$objArticle->save();
 
 		// Create the form page where the users will be redirected
-		$obJumpPage = new PageModel();
-		$obJumpPage->tstamp = time();
-		$obJumpPage->pid = $objPage->id;
-		$obJumpPage->sorting = 128;
-		$obJumpPage->title = "Contact envoyé";
-		$obJumpPage->alias = \StringUtil::generateAlias($obJumpPage->title);
-		$obJumpPage->type = "regular";
-		$obJumpPage->robots = "noindex,nofollow";
-		$obJumpPage->sitemap = "map_never";
-		$obJumpPage->hide = 1;
-		$obJumpPage->published = 1;
-		$obJumpPage->save();
+		$objJumpPage = new PageModel();
+		$objJumpPage->tstamp = time();
+		$objJumpPage->pid = $objPage->id;
+		$objJumpPage->sorting = 128;
+		$objJumpPage->title = "Contact envoyé";
+		$objJumpPage->alias = \StringUtil::generateAlias($objJumpPage->title);
+		$objJumpPage->type = "regular";
+		$objJumpPage->robots = "noindex,nofollow";
+		$objJumpPage->sitemap = "map_never";
+		$objJumpPage->hide = 1;
+		$objJumpPage->published = 1;
+		$objJumpPage->save();
 
 		// Create the article
-		$objArticle = new ArticleModel();
-		$objArticle->tstamp = time();
-		$objArticle->pid = $obJumpPage->id;
-		$objArticle->sorting = 128;
-		$objArticle->title = $obJumpPage->title;
-		$objArticle->alias = $obJumpPage->alias;
-		$objArticle->author = Config::get("sgInstallUser");
-		$objArticle->inColumn = "main";
-		$objArticle->published = 1;
-		$objArticle->save();
+		$objJumpArticle = new ArticleModel();
+		$objJumpArticle->tstamp = time();
+		$objJumpArticle->pid = $objJumpPage->id;
+		$objJumpArticle->sorting = 128;
+		$objJumpArticle->title = $objJumpPage->title;
+		$objJumpArticle->alias = $objJumpPage->alias;
+		$objJumpArticle->author = Config::get("sgInstallUser");
+		$objJumpArticle->inColumn = "main";
+		$objJumpArticle->published = 1;
+		$objJumpArticle->save();
 
 		// Create the content
 		$objContent = new ContentModel();
 		$objContent->tstamp = time();
-		$objContent->pid = $objArticle->id;
+		$objContent->pid = $objJumpArticle->id;
 		$objContent->ptable = "tl_article";
 		$objContent->sorting = 128;
 		$objContent->type = "text";
