@@ -1,4 +1,11 @@
 <div class="setup module">
+	<?php if($this->isError): ?>
+	<div class="content_container">
+		<h2><?= $this->title ?></h2>
+		<p class="tl_error"><?= $this->error ?></p>
+		<p class="tl_error"><?= $this->trace ?></p>
+	</div>
+	<?php else: ?>
 	<div class="content_container">
 		<h2><?= $this->title ?></h2>
 		<p class="<?= $this->msgClass ?>"><?= $this->msgText ?></p>
@@ -17,5 +24,6 @@
 			<?php endforeach; ?>
 		</div>
 	</form>
+	<?php endif; ?>
 	<?php endif; ?>
 </div>
