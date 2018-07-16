@@ -33,7 +33,7 @@ class Calendar extends Module implements ModuleInterface
 	public function checkStatus($strTemplate = 'be_wem_sg_module'){
 		try{
 			$objTemplate = new FrontendTemplate($strTemplate);
-			$objTemplate->title = "SmartGear | Module | Agenda";
+			$objTemplate->title = "SmartGear | Module | Événements";
 			$objTemplate->module = "calendar";
 			$objTemplate->request = \Environment::get('request');
 			$objTemplate->token = \RequestToken::get();
@@ -42,14 +42,14 @@ class Calendar extends Module implements ModuleInterface
 
 			if(!isset($bundles['ContaoCalendarBundle'])){
 				$objTemplate->msgClass = 'tl_error';
-				$objTemplate->msgText = 'L\'agenda n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.';
+				$objTemplate->msgText = 'Le module Événements n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.';
 			} else if(!Config::get('sgCalendarInstall') || 0 === \CalendarModel::countById(Config::get('sgCalendar'))){
 				$objTemplate->msgClass = 'tl_info';
-				$objTemplate->msgText = 'L\'agenda est installé, mais pas configuré.';
+				$objTemplate->msgText = 'Le module Événements est installé, mais pas configuré.';
 				$arrActions[] = ['action'=>'install', 'label'=>'Installer'];
 			} else {
 				$objTemplate->msgClass = 'tl_confirm';
-				$objTemplate->msgText = 'L\'agenda est installé et configuré.';
+				$objTemplate->msgText = 'Le module Événements est installé et configuré.';
 				$arrActions[] = ['action'=>'reset', 'label'=>'Réinitialiser'];
 				$arrActions[] = ['action'=>'remove', 'label'=>'Supprimer'];
 			}
@@ -73,14 +73,14 @@ class Calendar extends Module implements ModuleInterface
 		// Create the archive
 		$objCalendar = new CalendarModel();
 		$objCalendar->tstamp = time();
-		$objCalendar->title = "Agenda";
+		$objCalendar->title = "Événements";
 		$objCalendar->save();
 
 		// Create the reader module
 		$objReaderModule = new ModuleModel();
 		$objReaderModule->tstamp = time();
 		$objReaderModule->pid = Config::get("sgInstallTheme");
-		$objReaderModule->name = "Agenda - Reader";
+		$objReaderModule->name = "Événements - Reader";
 		$objReaderModule->type = "eventreader";
 		$objReaderModule->cal_calendar = serialize([0=>$objCalendar->id]);
 		$objReaderModule->cal_template = 'event_full';
@@ -91,7 +91,7 @@ class Calendar extends Module implements ModuleInterface
 		$objListModule = new ModuleModel();
 		$objListModule->tstamp = time();
 		$objListModule->pid = Config::get("sgInstallTheme");
-		$objListModule->name = "Agenda - List - Upcoming";
+		$objListModule->name = "Événements - List - Upcoming";
 		$objListModule->type = "eventlist";
 		$objListModule->cal_calendar = serialize([0=>$objCalendar->id]);
 		$objListModule->cal_format = "next_cur_month";
@@ -109,7 +109,7 @@ class Calendar extends Module implements ModuleInterface
 		$objListModulePassed = new ModuleModel();
 		$objListModulePassed->tstamp = time();
 		$objListModulePassed->pid = Config::get("sgInstallTheme");
-		$objListModulePassed->name = "Agenda - List - Passed";
+		$objListModulePassed->name = "Événements - List - Passed";
 		$objListModulePassed->type = "eventlist";
 		$objListModulePassed->cal_calendar = serialize([0=>$objCalendar->id]);
 		$objListModulePassed->cal_format = "past_all";
@@ -129,10 +129,10 @@ class Calendar extends Module implements ModuleInterface
 		$objPage->tstamp = time();
 		$objPage->pid = Config::get("sgInstallRootPage");
 		$objPage->sorting = (PageModel::countBy("pid", Config::get("sgInstallRootPage")) + 1) * 128;
-		$objPage->title = "Agenda";
+		$objPage->title = "Événements";
 		$objPage->alias = \StringUtil::generateAlias($objPage->title);
 		$objPage->type = "regular";
-		$objPage->pageTitle = "Agenda";
+		$objPage->pageTitle = "Événements";
 		$objPage->robots = "index,follow";
 		$objPage->sitemap = "map_default";
 		$objPage->published = 1;
