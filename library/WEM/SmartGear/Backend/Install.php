@@ -120,7 +120,7 @@ class Install extends BackendModule
 		// Check if we already completed the Smartgear setup
 		if(Config::get('sgInstallComplete')){
 			$this->Template->isSetupComplete = true;
-			$modules = ["blog", "forms"];
+			$modules = ["blog", "calendar", "forms"];
 			
 			foreach($modules as $module){
 				$strClass = sprintf("WEM\SmartGear\Backend\Module\%s", ucfirst($module));

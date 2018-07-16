@@ -13,6 +13,7 @@
  */
 $GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{smartgear_legend},sgInstallComplete,sgInstallTheme,sgInstallLayout,sgInstallModules,sgInstallUserGroup,sgInstallUser,sgInstallRootPage,sgInstallNcGateway';
 $GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{sgblog_legend},sgBlogInstall,sgBlogNewsArchive,sgBlogModuleList,sgBlogModuleReader,sgBlogPageList,sgBlogPageReader';
+$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{sgcalendar_legend},sgCalendarInstall,sgCalendar,sgCalendarModuleList,sgCalendarModuleListPassed,sgCalendarModuleReader,sgCalendarPageList,sgCalendarPageReader';
 
 /**
  * ;{smartgear_legend},sgInstallComplete,sgInstallTheme,sgInstallLayout,sgInstallModules,sgInstallUserGroup,sgInstallUser,sgInstallNcGateway
@@ -113,6 +114,56 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['sgBlogPageList'] = array
 $GLOBALS['TL_DCA']['tl_settings']['fields']['sgBlogPageReader'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['sgBlogPageReader'],
+	'inputType'               => 'select',
+	'foreignKey'			  => 'tl_page.title',
+	'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50')
+);
+
+// {sgcalendar_legend},sgCalendarInstall,sgCalendar,sgCalendarModuleList,sgCalendarModuleListPassed,sgCalendarModuleReader,sgCalendarPageList,sgCalendarPageReader
+$GLOBALS['TL_DCA']['tl_settings']['fields']['sgCalendarInstall'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['sgCalendarInstall'],
+	'inputType'               => 'checkbox',
+	'eval'                    => array('tl_class'=>'clr')
+);
+$GLOBALS['TL_DCA']['tl_settings']['fields']['sgCalendar'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['sgCalendar'],
+	'inputType'               => 'select',
+	'foreignKey'			  => 'tl_calendar.title',
+	'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'')
+);
+$GLOBALS['TL_DCA']['tl_settings']['fields']['sgCalendarModuleList'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['sgCalendarModuleList'],
+	'inputType'               => 'select',
+	'foreignKey'			  => 'tl_module.name',
+	'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50')
+);
+$GLOBALS['TL_DCA']['tl_settings']['fields']['sgCalendarModuleListPassed'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['sgCalendarModuleListPassed'],
+	'inputType'               => 'select',
+	'foreignKey'			  => 'tl_module.name',
+	'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50')
+);
+$GLOBALS['TL_DCA']['tl_settings']['fields']['sgCalendarModuleReader'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['sgCalendarModuleReader'],
+	'inputType'               => 'select',
+	'foreignKey'			  => 'tl_module.name',
+	'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50')
+);
+$GLOBALS['TL_DCA']['tl_settings']['fields']['sgCalendarPageList'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['sgCalendarPageList'],
+	'inputType'               => 'select',
+	'foreignKey'			  => 'tl_page.title',
+	'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50')
+);
+$GLOBALS['TL_DCA']['tl_settings']['fields']['sgCalendarPageReader'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['sgCalendarPageReader'],
 	'inputType'               => 'select',
 	'foreignKey'			  => 'tl_page.title',
 	'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50')
