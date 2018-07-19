@@ -14,10 +14,7 @@
 $GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{smartgear_legend},sgInstallComplete,sgInstallTheme,sgInstallLayout,sgInstallModules,sgInstallUserGroup,sgInstallUser,sgInstallRootPage,sgInstallNcGateway';
 $GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{sgblog_legend},sgBlogInstall,sgBlogNewsArchive,sgBlogModuleList,sgBlogModuleReader,sgBlogPageList,sgBlogPageReader';
 $GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{sgcalendar_legend},sgCalendarInstall,sgCalendar,sgCalendarModuleList,sgCalendarModuleListPassed,sgCalendarModuleReader,sgCalendarPageList,sgCalendarPageReader';
-<<<<<<< HEAD
 $GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{sgfaq_legend},sgFAQInstall,sgFAQ,sgFAQModule,sgFAQPage';
-=======
->>>>>>> bdccee3ec2e58d1bb209f84accd2d74c1b8d0cbd
 
 /**
  * ;{smartgear_legend},sgInstallComplete,sgInstallTheme,sgInstallLayout,sgInstallModules,sgInstallUserGroup,sgInstallUser,sgInstallNcGateway
@@ -171,7 +168,6 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['sgCalendarPageReader'] = array
 	'inputType'               => 'select',
 	'foreignKey'			  => 'tl_page.title',
 	'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50')
-<<<<<<< HEAD
 );
 
 // $GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{sgfaq_legend},sgFAQInstall,sgFAQ,sgFAQModule,sgFAQPage';
@@ -201,6 +197,4 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['sgFAQPage'] = array
 	'inputType'               => 'select',
 	'foreignKey'			  => 'tl_page.title',
 	'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50')
-=======
->>>>>>> bdccee3ec2e58d1bb209f84accd2d74c1b8d0cbd
 );
