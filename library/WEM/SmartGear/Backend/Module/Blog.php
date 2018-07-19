@@ -31,29 +31,36 @@ class Blog extends Module implements ModuleInterface
 	 * @return [String] [Template of the module check status]
 	 */
 	public function checkStatus($strTemplate = 'be_wem_sg_module'){
-		$objTemplate = new FrontendTemplate($strTemplate);
-		$objTemplate->title = "SmartGear | Module | Blog";
-		$objTemplate->module = "blog";
-		$objTemplate->request = \Environment::get('request');
-		$objTemplate->token = \RequestToken::get();
-		$arrActions = array();
-		$bundles = \System::getContainer()->getParameter('kernel.bundles');
+		try{
+			$objTemplate = new FrontendTemplate($strTemplate);
+			$objTemplate->title = "SmartGear | Module | Blog";
+			$objTemplate->module = "blog";
+			$objTemplate->request = \Environment::get('request');
+			$objTemplate->token = \RequestToken::get();
+			$arrActions = array();
+			$bundles = \System::getContainer()->getParameter('kernel.bundles');
 
-		if(!isset($bundles['ContaoNewsBundle'])){
-			$objTemplate->msgClass = 'tl_error';
-			$objTemplate->msgText = 'Le blog n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.';
-		} else if(!Config::get('sgBlogInstall') || 0 === \NewsArchiveModel::countById(Config::get('sgBlogNewsArchive'))){
-			$objTemplate->msgClass = 'tl_info';
-			$objTemplate->msgText = 'Le blog est installé, mais pas configuré.';
-			$arrActions[] = ['action'=>'install', 'label'=>'Installer'];
-		} else {
-			$objTemplate->msgClass = 'tl_confirm';
-			$objTemplate->msgText = 'Le blog est installé et configuré.';
-			$arrActions[] = ['action'=>'reset', 'label'=>'Réinitialiser'];
-			$arrActions[] = ['action'=>'remove', 'label'=>'Supprimer'];
+			if(!isset($bundles['ContaoNewsBundle'])){
+				$objTemplate->msgClass = 'tl_error';
+				$objTemplate->msgText = 'Le blog n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.';
+			} else if(!Config::get('sgBlogInstall') || 0 === \NewsArchiveModel::countById(Config::get('sgBlogNewsArchive'))){
+				$objTemplate->msgClass = 'tl_info';
+				$objTemplate->msgText = 'Le blog est installé, mais pas configuré.';
+				$arrActions[] = ['action'=>'install', 'label'=>'Installer'];
+			} else {
+				$objTemplate->msgClass = 'tl_confirm';
+				$objTemplate->msgText = 'Le blog est installé et configuré.';
+				$arrActions[] = ['action'=>'reset', 'label'=>'Réinitialiser'];
+				$arrActions[] = ['action'=>'remove', 'label'=>'Supprimer'];
+			}
+
+			$objTemplate->actions = $arrActions;
 		}
-
-		$objTemplate->actions = $arrActions;
+		catch(Exception $e){
+			$objTemplate->isError = true;
+			$objTemplate->error = $e->getMessage();
+			$objTemplate->trace = $e->getTrace();
+		}
 
 		return $objTemplate->parse();
 	}
@@ -62,6 +69,7 @@ class Blog extends Module implements ModuleInterface
 	 * Setup the module
 	 */
 	public function install(){
+		
 		// Create the archive
 		$objArchive = new NewsArchiveModel();
 		$objArchive->tstamp = time();
@@ -96,26 +104,26 @@ class Blog extends Module implements ModuleInterface
 		$objReaderModule->save();
 
 		// Create the list page
-		$objListPage = new PageModel();
-		$objListPage->tstamp = time();
-		$objListPage->pid = Config::get("sgInstallRootPage");
-		$objListPage->sorting = (PageModel::countBy("pid", Config::get("sgInstallRootPage")) + 1) * 128;
-		$objListPage->title = "Blog - List";
-		$objListPage->alias = \StringUtil::generateAlias($objListPage->title);
-		$objListPage->type = "regular";
-		$objListPage->pageTitle = "Blog";
-		$objListPage->robots = "index,follow";
-		$objListPage->sitemap = "map_default";
-		$objListPage->published = 1;
-		$objListPage->save();
+		$objPage = new PageModel();
+		$objPage->tstamp = time();
+		$objPage->pid = Config::get("sgInstallRootPage");
+		$objPage->sorting = (PageModel::countBy("pid", Config::get("sgInstallRootPage")) + 1) * 128;
+		$objPage->title = "Blog";
+		$objPage->alias = \StringUtil::generateAlias($objPage->title);
+		$objPage->type = "regular";
+		$objPage->pageTitle = "Blog";
+		$objPage->robots = "index,follow";
+		$objPage->sitemap = "map_default";
+		$objPage->published = 1;
+		$objPage->save();
 
 		// Create the article
 		$objArticle = new ArticleModel();
 		$objArticle->tstamp = time();
-		$objArticle->pid = $objListPage->id;
+		$objArticle->pid = $objPage->id;
 		$objArticle->sorting = 128;
-		$objArticle->title = $objListPage->title;
-		$objArticle->alias = $objListPage->alias;
+		$objArticle->title = $objPage->title;
+		$objArticle->alias = $objPage->alias;
 		$objArticle->author = Config::get("sgInstallUser");
 		$objArticle->inColumn = "main";
 		$objArticle->published = 1;
@@ -131,32 +139,6 @@ class Blog extends Module implements ModuleInterface
 		$objContent->module = $objListModule->id;
 		$objContent->save();
 
-		// Create the reader page
-		$objReaderPage = new PageModel();
-		$objReaderPage->tstamp = time();
-		$objReaderPage->pid = $objListPage->id;
-		$objReaderPage->sorting = 128;
-		$objReaderPage->title = "Blog - Reader";
-		$objReaderPage->alias = \StringUtil::generateAlias($objReaderPage->title);
-		$objReaderPage->type = "regular";
-		$objReaderPage->robots = "index,follow";
-		$objReaderPage->sitemap = "map_never";
-		$objReaderPage->hide = 1;
-		$objReaderPage->published = 1;
-		$objReaderPage->save();
-
-		// Create the article
-		$objArticle = new ArticleModel();
-		$objArticle->tstamp = time();
-		$objArticle->pid = $objReaderPage->id;
-		$objArticle->sorting = 128;
-		$objArticle->title = $objReaderPage->title;
-		$objArticle->alias = $objReaderPage->alias;
-		$objArticle->author = Config::get("sgInstallUser");
-		$objArticle->inColumn = "main";
-		$objArticle->published = 1;
-		$objArticle->save();
-
 		// Create the content
 		$objContent = new ContentModel();
 		$objContent->tstamp = time();
@@ -168,7 +150,7 @@ class Blog extends Module implements ModuleInterface
 		$objContent->save();
 
 		// Update the archive jumpTo
-		$objArchive->jumpTo = $objReaderPage->id;
+		$objArchive->jumpTo = $objPage->id;
 		$objArchive->save();
 		
 		// And save stuff in config
@@ -177,8 +159,8 @@ class Blog extends Module implements ModuleInterface
 			,"sgBlogNewsArchive"=>$objArchive->id
 			,"sgBlogModuleList"=>$objListModule->id
 			,"sgBlogModuleReader"=>$objReaderModule->id
-			,"sgBlogPageList"=>$objListPage->id
-			,"sgBlogPageReader"=>$objReaderPage->id
+			,"sgBlogPageList"=>$objPage->id
+			,"sgBlogPageReader"=>$objPage->id
 		]);
 	}
 
@@ -194,16 +176,16 @@ class Blog extends Module implements ModuleInterface
 	 * Remove the module
 	 */
 	public function remove(){
-		$objArchive = NewsArchiveModel::findByPk(Config::get("sgBlogNewsArchive"));
-		$objArchive->delete();
-		$objModule = ModuleModel::findByPk(Config::get("sgBlogModuleList"));
-		$objModule->delete();
-		$objModule = ModuleModel::findByPk(Config::get("sgBlogModuleReader"));
-		$objModule->delete();
-		$objPage = PageModel::findByPk(Config::get("sgBlogPageList"));
-		$objPage->delete();
-		$objPage = PageModel::findByPk(Config::get("sgBlogPageReader"));
-		$objPage->delete();
+		if($objArchive = NewsArchiveModel::findByPk(Config::get("sgBlogNewsArchive")))
+			$objArchive->delete();
+		if($objModule = ModuleModel::findByPk(Config::get("sgBlogModuleList")))
+			$objModule->delete();
+		if($objModule = ModuleModel::findByPk(Config::get("sgBlogModuleReader")))
+			$objModule->delete();
+		if($objPage = PageModel::findByPk(Config::get("sgBlogPageList")))
+			$objPage->delete();
+		if($objPage = PageModel::findByPk(Config::get("sgBlogPageReader")))
+			$objPage->delete();
 
 		$this->updateConfig([
 			"sgBlogInstall"=>''

@@ -1,0 +1,45 @@
+<?php $this->extend('block_unsearchable'); ?>
+
+<?php $this->block('content'); ?>
+
+  <?php foreach($this->faq as $category): ?>
+    <article class="<?= $category['class'] ?>">
+      <h2><?= $category['headline'] ?></h2>
+
+      <div class="accordionFW" data-deployall="false" data-collapsible="true" data-autocollapse="false">
+      <?php foreach ($category['items'] as $faq): ?>
+        <section class="accordionFW__item  <?= $faq->class ?> <?= strpos($faq->class,'first') !== false ? 'active':''; ?>">
+          <div class="accordionFW__title" id="<?= $faq->alias ?>"><?= $faq->question ?></div>
+          <div class="accordionFW__content">
+
+            <?php if (!$faq->addBefore): ?>
+              <?= $faq->answer ?>
+            <?php endif; ?>
+
+            <?php if ($faq->addImage): ?>
+              <?php $this->insert('image', (array) $faq); ?>
+            <?php endif; ?>
+
+            <?php if ($faq->addBefore): ?>
+              <?= $faq->answer ?>
+            <?php endif; ?>
+
+            <?php if ($faq->enclosure): ?>
+              <ul class="enclosure">
+                <?php foreach ($faq->enclosure as $enclosure): ?>
+                  <li class="download-element ext-<?= $enclosure['extension'] ?>">
+                    <a href="<?= $enclosure['href'] ?>" title="<?= $enclosure['title'] ?>"><?= $enclosure['link'] ?> <span class="size">(<?= $enclosure['filesize'] ?>)</span></a>
+                  </li>
+                <?php endforeach; ?>
+              </ul>
+            <?php endif; ?>
+            <!-- <p class="info"><?= $faq->info ?></p> -->
+          </div>
+          <div class="clear"></div>
+        </section>
+      <?php endforeach; ?>
+      </div>
+    </article>
+  <?php endforeach; ?>
+
+<?php $this->endblock(); ?>
