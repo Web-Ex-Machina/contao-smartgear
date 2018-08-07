@@ -26,7 +26,15 @@
 			<source>Events</source>
 			<target>Événements</target>
 		</trans-unit>
-
+		
+		<trans-unit id="MOD.channels.0">
+			<source>Subscribers lists</source>
+			<target>Listes d'abonnés</target>
+		</trans-unit>
+		<trans-unit id="MOD.channels.1">
+			<source>Manage newsletters channels</source>
+			<target>Gérer les listes d'abonnés.</target>
+		</trans-unit>
 		<trans-unit id="MOD.newsletter.0">
 			<source>Newsletters</source>
 			<target>Newsletters</target>
