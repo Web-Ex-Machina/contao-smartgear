@@ -14,7 +14,9 @@ use \Exception;
 use Contao\Config;
 use Contao\FrontendTemplate;
 use Contao\NewsletterChannelModel;
+use Contao\NewsletterModel;
 use Contao\ModuleModel;
+use Contao\PageModel;
 
 /**
  * Back end module "smartgear".
@@ -136,6 +138,16 @@ class Newsletter extends Module implements ModuleInterface
 		// Update the unsubscribe module
 		$objUnsubscribeModule->jumpTo = $intConfirmUnsubscribePage;
 		$objUnsubscribeModule->save();
+
+		// Create a newsletter template
+		$objNewletter = new NewsletterModel();
+		$objNewletter->tstamp = time();
+		$objNewletter->pid = $objNewsletterChannel->id;
+		$objNewletter->subject = "Newsletter Exemple 01";
+		$objNewletter->alias = \StringUtil::generateAlias("Newsletter Exemple 01");
+		$objNewletter->content = file_get_contents("system/modules/wem-contao-smartgear/assets/examples/newsletter_1.html");
+		$objNewletter->text = strip_tags($objNewletter->content);
+		$objNewletter->save();
 
 		// And save stuff in config
 		$this->updateConfig([
