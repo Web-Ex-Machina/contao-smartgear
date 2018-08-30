@@ -9,10 +9,11 @@
  */
 
 // Load icon in Contao 4.2 backend
-if ('BE' === TL_MODE) {
+if('BE' === TL_MODE){
     $GLOBALS['TL_CSS'][] = 'system/modules/wem-contao-smartgear/assets/backend/backend.css';
 }
 
+// Load Contao Bundles
 $bundles = \System::getContainer()->getParameter('kernel.bundles');
 
 /**
@@ -60,3 +61,10 @@ array_insert($GLOBALS['BE_MOD']['system'], 0, array
 		'callback' => "\WEM\SmartGear\Backend\Install"
 	)
 ));
+
+/**
+ * Add BE Hooks
+ */
+if('BE' === TL_MODE){
+	$GLOBALS['TL_HOOKS']['executePreActions'][] = array('\WEM\SmartGear\Backend\Install', 'processAjaxRequest');
+}

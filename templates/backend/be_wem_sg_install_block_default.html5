@@ -1,5 +1,5 @@
-<div class="block module" data-name="module_<?= $this->module ?>">
-	<h2 class="title"><i class="fas fa-cogs"></i><?= $this->title ?></h2>
+<div class="block loading <?= $this->type ?>" data-name="<?= $this->type ?>_<?= $this->module ?>">
+	<h2 class="title"><i class="fas fa-<?= $this->icon ?>"></i><?= $this->title ?></h2>
 	<?php if($this->isError): ?>
 	<div class="content_container">
 		<p class="tl_error"><?= $this->error ?></p>
@@ -7,19 +7,23 @@
 	</div>
 	<?php else: ?>
 	<div class="content_container">
-		<p class="<?= $this->msgClass ?>"><?= $this->msgText ?></p>
+	<?php if($this->messages): ?>
+		<?php foreach($this->messages as $message): ?>
+		<p class="<?= $message['class'] ?>"><?= $message['text'] ?></p>
+		<?php endforeach; ?>
+	<?php endif; ?>
 	</div>
 	<?php if($this->actions): ?>
 	<form action="<?= $this->request ?>" class="tl_form" method="post">
 		<div class="tl_formbody_edit">
 			<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
 			<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
-			<input name="sg_step" value="module" type="hidden">
+			<input name="sg_type" value="<?= $this->type ?>" type="hidden">
 			<input name="sg_module" value="<?= $this->module ?>" type="hidden">
 		</div>
 		<div class="tl_submit_container">
 			<?php foreach($this->actions as $input): ?>
-			<button type="submit" value="<?= $input['action'] ?>" name="action" class="tl_submit"><?= $input['label'] ?></button>
+			<button type="submit" value="<?= $input['action'] ?>" name="action" class="tl_submit" <?= $input['attributes'] ?>><?= $input['label'] ?></button>
 			<?php endforeach; ?>
 		</div>
 	</form>

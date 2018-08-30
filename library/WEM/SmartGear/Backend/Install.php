@@ -20,6 +20,7 @@ use Contao\Input;
 use Contao\Message;
 use Contao\RequestToken;
 use Contao\StringUtil;
+use Contao\FrontendTemplate;
 
 use WEM\SmartGear\Backend\Module as ModulePath;
 
@@ -48,6 +49,15 @@ class Install extends BackendModule
 	 * @var string
 	 */
 	protected $strBasePath = 'system/modules/wem-contao-smartgear';
+
+	/**
+	 * Available modules
+	 * @var array
+	 */
+	protected $modules = [
+		"core" => ["global", "rsce"]
+		,"module" => ["blog", "calendar", "forms", "faq", "newsletter"]
+	];
 
 	/**
 	 * Generate the module
@@ -120,20 +130,18 @@ class Install extends BackendModule
 		// Check if we already completed the Smartgear setup
 		if(Config::get('sgInstallComplete')){
 			$this->Template->isSetupComplete = true;
-			$modules = ["blog", "calendar", "forms", "faq", "newsletter"];
 			
-			foreach($modules as $module){
-				$strClass = sprintf("WEM\SmartGear\Backend\Module\%s", ucfirst($module));
-				$objModule = new $strClass;
-				$arrModules[] = $objModule->checkStatus();
-			}
+			foreach($this->modules as $type => $blocks)
+				foreach($blocks as $block)
+					$arrBlocks[$type][] = $this->parseBlock($type.'_'.$block);
+			
 		}
 
 		// Send msc data to template
 		$this->Template->request = Environment::get('request');
 		$this->Template->token = RequestToken::get();
 		$this->Template->websiteTitle = Config::get("websiteTitle");
-		$this->Template->modules = $arrModules;
+		$this->Template->blocks = $arrBlocks;
 	}
 
 	/**
@@ -462,6 +470,118 @@ class Install extends BackendModule
 			$objFiles->rrdir("templates");
 
 			$this->arrLogs[] = ["status"=>"tl_confirm", "msg"=>"Contao a été réinitialisé"];
+		}
+		catch(Exception $e){
+			throw $e;
+		}
+	}
+
+	/**
+	 * Process AJAX actions
+	 */
+	public function processAjaxRequest($strAction){
+
+		// Catch AJAX Requests
+		if(Input::post('TL_WEM_AJAX') && 'be_smartgear' == Input::post('module')){
+			try{
+				switch($strAction){
+					case 'refreshBlock':
+						echo $this->parseBlock(Input::post('name')); die;
+					break;
+					default:
+						throw new Exception(sprintf("Unknown AJAX action %s", $strAction));
+				}
+			}
+			catch(Exception $e){
+				$arrResponse = ["status"=>"error", "msg"=>$e->getMessage(), "trace"=>$e->getTrace()];
+			}
+
+			// Add Request Token to JSON answer and return
+			$arrResponse["rt"] = RequestToken::get();
+			echo json_encode($arrResponse);
+			die;
+		}
+	}
+
+	protected function parseBlock($strName, $strTemplate = 'be_wem_sg_install_block_default'){
+		try{
+			// First explode the _ to separate type and name of the block
+			$arrName = explode('_', $strName);
+
+			// Depending on the type, we will generate differents things
+			switch($arrName[0]){
+				case 'core':
+					// Create the template
+					$objTemplate = new FrontendTemplate($strTemplate);
+					$objTemplate->request = Environment::get('request');
+					$objTemplate->token = RequestToken::get();
+					$objTemplate->type = $arrName[0];
+					$objTemplate->module = $arrName[1];
+					$objTemplate->icon = "exclamation-triangle";
+					
+					switch($arrName[1]){
+						case 'global':
+							$objTemplate->title = "Smartgear | Core | Réparation - Désinstallation";
+
+							$arrMsgs[] = ['class' => 'tl_error', 'text' => 'Vous pouvez réparer ou réinitialiser la configuration Smartgear établie. Veuillez prendre note que cela supprimera tous les éléments liés aux thèmes, squelettes, modules associés !'];
+							$arrMsgs[] = ['class' => 'tl_error', 'text' => 'Vous pouvez également réinitialiser la totalité des données Contao. Tous les fichiers et toutes les données seront supprimés.'];
+
+							$arrActions[] = ['action'=>'reset', 'label'=>'Réinitialiser Smartgear', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Smartgear ?\'))return false;Backend.getScrollOffset()"'];
+							$arrActions[] = ['action'=>'delete', 'label'=>'Supprimer Smartgear', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment supprimer Smartgear ?\'))return false;Backend.getScrollOffset()"'];
+							$arrActions[] = ['action'=>'truncate', 'label'=>'Réinitialiser Contao', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Contao ?\'))return false;Backend.getScrollOffset()"'];
+						break;
+
+						case 'rsce':
+							$objTemplate->title = "Smartgear | Core | RSCE";
+
+							$arrMsgs[] = ['class' => 'tl_info', 'text' => 'Cette section permet de réinitialiser, de rafraichir ou de supprimer les éléments personnalisés RSCE utilisés par Smartgear.'];
+
+							$arrActions[] = ['action'=>'reimport', 'label'=>'Réinitialiser Smartgear'];
+						break;
+
+						default:
+							throw new Exception(sprintf("Unknown block name %s (complete name : %s)", $arrName[1], $strName));
+					}
+
+					// Add the messages in each templates
+					if(!empty($arrMsgs))
+						$objTemplate->messages = $arrMsgs;
+
+					// Add the actions in each templates
+					if(!empty($arrActions))
+						$objTemplate->actions = $arrActions;
+
+					// Return the template, parsed
+					$strHtml = $objTemplate->parse();
+
+				break;
+
+				case 'module':
+					// Parse the classname
+					$strClass = sprintf("WEM\SmartGear\Backend\Module\%s", ucfirst($arrName[1]));
+					
+					// Throw error if class doesn't exists
+					if(!class_exists($strClass))
+						throw new Exception(sprintf("Unknown class %s", $strClass));
+					
+					// Create the object
+					$objModule = new $strClass;
+
+					// Check if a "checkStatus" function exists, and call it if yes
+					if(!method_exists($objModule, "checkStatus"))
+						throw new Exception(sprintf("Method %s is missing in class %s", "checkStatus", get_class($objModule)));
+					
+					// And parse the module block with the function checkStatus
+					// TODO : There is probably a better way to name it or to call it.
+					$strHtml = $objModule->checkStatus();
+				break;
+
+				default:
+					throw new Exception(sprintf("Unknown block type %s (complete name : %s)", $arrName[0], $strName));
+			}
+
+			// And return the value
+			return $strHtml;
 		}
 		catch(Exception $e){
 			throw $e;

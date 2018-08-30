@@ -3,3 +3,13 @@
 .wem_module .content_container ul{margin-left:1em;}
 .wem_module .content_container ul,
 .wem_module .content_container li{list-style-type:disc !important;}
+
+#tl_wem_sg_install *{box-sizing:border-box;}
+#tl_wem_sg_install .blocks{display:flex;flex-direction:row;justify-content:space-between;flex-wrap:wrap;border-bottom:5px solid #f3f3f5;padding-bottom:1em;margin-bottom:1em;}
+#tl_wem_sg_install .blocks:last-of-type{padding-bottom:0;margin-bottom:0;border:none;}
+#tl_wem_sg_install .blocks .block{width:calc(50% - 30px);margin:15px;border:1px solid #f3f3f5;position:relative;padding-bottom:50px;}
+#tl_wem_sg_install .blocks .block .title{background:#f3f3f5;padding:12px 15px 12px 55px;position:relative;}
+#tl_wem_sg_install .blocks .block .title i{position:absolute;left:0;top:0;width:40px;height:40px;display:block;color:#fff;text-align:center;line-height:40px;}
+#tl_wem_sg_install .blocks .block.core .title i{background-color:#f47c00;}
+#tl_wem_sg_install .blocks .block.module .title i{background-color:#172b3b;}
+#tl_wem_sg_install .blocks .block .tl_submit_container{position:absolute;bottom:0;width:100%;}

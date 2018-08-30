@@ -1,108 +1,108 @@
+<!-- Load Libraries -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<!-- Display eventual messages -->
 <?= Message::generate() ?>
 
+<!-- Display Module -->
 <div id="tl_wem_sg_install" class="wem_module">
 	
 	<?php if($this->logs && !empty($this->logs)): ?>
-		<div id="tl_buttons">
-			<a href="<?= $this->backButtonHref ?>" class="header_back" title="<?= $this->backButtonTitle ?>"><?= $this->backButtonButton ?></a>
+	<div id="tl_buttons">
+		<a href="<?= $this->backButtonHref ?>" class="header_back" title="<?= $this->backButtonTitle ?>"><?= $this->backButtonButton ?></a>
+	</div>
+	<div class="logs">
+		<div class="content_container">
+			<?php foreach($this->logs as $log): ?>
+			<p class="<?= $log["status"] ?>"><?= $log["msg"] ?></p>
+			<?php endforeach; ?>
 		</div>
-		<div class="logs">
-			<div class="content_container">
-				<?php foreach($this->logs as $log): ?>
-				<p class="<?= $log["status"] ?>"><?= $log["msg"] ?></p>
-				<?php endforeach; ?>
-			</div>
-		</div>
+	</div>
 	<?php elseif(!$this->isSetupComplete): ?>
-		<div class="setup">
-			<div class="content_container">
-				<h2>Smartgear | Core | Installation</h2>
-				<p>Avant de faire quoique ce soit l'ami, tu vas devoir installer quelques trucs de base. Pas de soucis, on gère tout ça pour toi. Voilà ce qui est prévu :</p>
-				<ul>
-					<li>Modification de la configuration (tailles des images, limite d'upload...)</li>
-					<li>Création des répertoires des modèles, avec import de ceux qu'on a modifier</li>
-					<li>Vérification des répertoires des fichiers (pour l'app et pour le client). On doit bien avoir le framway d'installé dans files/app avant la prochaine étape.</li>
-					<li>Création du thème Smartgear</li>
-					<li>Création des squelettes Smartgear</li>
-					<li>Création d'un groupe d'utilisateurs par défaut. Les droits seront probablement à ajuster.</li>
-					<li>Création de la racine de site, avec le titre configuré dans le champ ci-dessous.</li>
-					<li>Création d'une passerelle de notification par défaut (Email de service). Pensez à configurer le SMTP si besoin.</li>
-				</ul>
-			</div>
+	<div class="block">
+		<div class="content_container">
+			<h2>Smartgear | Core | Installation</h2>
+			<p>Avant de faire quoique ce soit l'ami, tu vas devoir installer quelques trucs de base. Pas de soucis, on gère tout ça pour toi. Voilà ce qui est prévu :</p>
+			<ul>
+				<li>Modification de la configuration (tailles des images, limite d'upload...)</li>
+				<li>Création des répertoires des modèles, avec import de ceux qu'on a modifier</li>
+				<li>Vérification des répertoires des fichiers (pour l'app et pour le client). On doit bien avoir le framway d'installé dans files/app avant la prochaine étape.</li>
+				<li>Création du thème Smartgear</li>
+				<li>Création des squelettes Smartgear</li>
+				<li>Création d'un groupe d'utilisateurs par défaut. Les droits seront probablement à ajuster.</li>
+				<li>Création de la racine de site, avec le titre configuré dans le champ ci-dessous.</li>
+				<li>Création d'une passerelle de notification par défaut (Email de service). Pensez à configurer le SMTP si besoin.</li>
+			</ul>
+		</div>
 
-			<p class="tl_info">A noter que tout cela sera prochainement découpé en étapes, pour permettre de configurer chaque module plus précisément.</p>
+		<p class="tl_info">A noter que tout cela sera prochainement découpé en étapes, pour permettre de configurer chaque module plus précisément.</p>
+		<br />
+
+		<form action="<?= $this->request ?>" class="tl_form" method="post">
+			<div class="tl_formbody_edit">
+				<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
+				<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
+				<input name="sg_step" value="setup" type="hidden">
+			</div>
+			<div class="widget">
+				<h3><label for="ctrl_websiteTitle"><span class="invisible">Champ obligatoire </span>Titre du site internet<span class="mandatory">*</span></label></h3>
+				<input name="websiteTitle" id="ctrl_websiteTitle" class="tl_text" value="<?= $this->websiteTitle ?>" required="" onfocus="Backend.getScrollOffset()" type="text">
+				<p class="tl_help tl_tip" title="">Saisir le titre du site internet.</p>
+			</div>
 			<br />
-
-			<form action="<?= $this->request ?>" class="tl_form" method="post">
-				<div class="tl_formbody_edit">
-					<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
-					<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
-					<input name="sg_step" value="setup" type="hidden">
-				</div>
-				<div class="widget">
-					<h3><label for="ctrl_websiteTitle"><span class="invisible">Champ obligatoire </span>Titre du site internet<span class="mandatory">*</span></label></h3>
-					<input name="websiteTitle" id="ctrl_websiteTitle" class="tl_text" value="<?= $this->websiteTitle ?>" required="" onfocus="Backend.getScrollOffset()" type="text">
-					<p class="tl_help tl_tip" title="">Saisir le titre du site internet.</p>
-				</div>
-				<br />
-				<div class="tl_submit_container">
-					<button type="submit" name="setup" class="tl_submit">Installer Smartgear</button>
-				</div>
-			</form>
-		</div>
+			<div class="tl_submit_container">
+				<button type="submit" name="setup" class="tl_submit">Installer Smartgear</button>
+			</div>
+		</form>
+	</div>
 	<?php else: ?>
-		<div class="setup">
-			<div class="content_container">
-				<h2>Smartgear | Core | Réparation - Désinstallation</h2>
-				<p class="tl_error">Vous pouvez réparer ou réinitialiser la configuration Smartgear établie. Veuillez prendre note que cela supprimera tous les éléments liés aux thèmes, squelettes, modules associés !</p>
-				<p class="tl_error">Vous pouvez également réinitialiser la totalité des données Contao. Tous les fichiers et toutes les données seront supprimés.</p>
-			</div>
-			<form action="<?= $this->request ?>" class="tl_form" method="post">
-				<div class="tl_formbody_edit">
-					<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
-					<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
-					<input name="sg_step" value="repair" type="hidden">
-				</div>
-				<div class="tl_submit_container">
-					<button type="submit" onclick="if(!confirm('Voulez-vous vraiment réinitialiser Smartgear ?'))return false;Backend.getScrollOffset()" value="reset" name="action" class="tl_submit" >Réinitialiser Smartgear</button>
-					<button type="submit" onclick="if(!confirm('Voulez-vous vraiment supprimer Smartgear ?'))return false;Backend.getScrollOffset()" value="delete" name="action" class="tl_submit">Supprimer Smartgear</button>
-					<button type="submit" onclick="if(!confirm('Voulez-vous vraiment tout réinitialiser ?'))return false;Backend.getScrollOffset()" value="truncate" name="action" class="tl_submit">Réinitialiser Contao</button>
-				</div>
-			</form>
-		</div>
 
-		<div class="setup">
-			<div class="content_container">
-				<h2>Smartgear | Core | RSCE</h2>
-				<p class="tl_info">Cette section permet de réinitialiser, de rafraichir ou de supprimer les éléments personnalisés RSCE utilisés par Smartgear.</p>
-			</div>
-			<form action="<?= $this->request ?>" class="tl_form" method="post">
-				<div class="tl_formbody_edit">
-					<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
-					<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
-					<input name="sg_step" value="rsce" type="hidden">
-				</div>
-				<div class="tl_submit_container">
-					<button type="submit" onclick="if(!confirm('Voulez-vous vraiment réimporter les éléments personnalisés ?'))return false;Backend.getScrollOffset()" value="reimport" name="action" class="tl_submit" >Réimporter les éléments</button>
-				</div>
-			</form>
-		</div>
-
-		<?php if($this->modules): ?><?= implode('', $this->modules) ?><?php endif; ?>
-
-		<h2>TODO</h2>
-		<ul>
-			<li>Installation et configuration globale (Configuration, Modèles, Layouts)</li>
-			<li>Faire la liste de tous les modules connus et utilisables + leur état (si installé, si configuré...)</li>
-		</ul>
-
-		<h2>Modules connus</h2>
-		<ul>
-			<li>Extranet</li>
-			<li>SEO</li>
-			<li>Planning</li>
-			<li>Portfolio</li>
-		</ul>
-
+	<?php foreach($this->blocks as $type => $blocks): ?>
+	<div class="blocks <?= $type ?>">
+		<?= implode('', $blocks) ?>
+	</div>
+	<?php endforeach; ?>
+	
 	<?php endif; ?>
 </div>
+<script type="text/javascript">
+var j = jQuery.noConflict();
+
+j(document).ready(function(){
+
+});
+
+function refreshBlock(name){
+	var ctn = j('div[data-name="'+name+'"]');
+	ctn.addClass("loading");
+
+	var objFields = {
+		'TL_WEM_AJAX':1
+		,'REQUEST_TOKEN':"<?= $this->token ?>"
+		,'module':'be_smartgear'
+		,'action':'refreshBlock'
+		,'name':name
+	};
+
+	j.ajax({
+		method: "POST"
+		,timeout:5000
+		,data: objFields
+	})
+	.done(function(msg){
+		console.log(msg);
+	})
+	.fail(function(jqXHR, textStatus, errorThrown){
+		toastr.error(textStatus+"<br>"+errorThrown);
+		console.log(jqXHR);
+		console.log(textStatus);
+		console.log(errorThrown);
+	})
+	.always(function(){
+		ctn.removeClass("loading");
+	});
+}	
+</script>
