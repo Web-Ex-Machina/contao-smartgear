@@ -1,4 +1,4 @@
-<div class="block loading <?= $this->type ?>" data-name="<?= $this->type ?>_<?= $this->module ?>">
+<div id="block-<?= $this->type ?>-<?= $this->module ?>" class="block <?= $this->type ?>" data-type="<?= $this->type ?>" data-module="<?= $this->module ?>">
 	<h2 class="title"><i class="fas fa-<?= $this->icon ?>"></i><?= $this->title ?></h2>
 	<?php if($this->isError): ?>
 	<div class="content_container">
@@ -21,6 +21,15 @@
 			<input name="sg_type" value="<?= $this->type ?>" type="hidden">
 			<input name="sg_module" value="<?= $this->module ?>" type="hidden">
 		</div>
+		<?php if(!empty($this->fields)): ?>
+		<?php foreach($this->fields as $field): ?>
+		<div class="widget">
+			<h3><label for="ctrl_<?= $field['name'] ?>"><?= $field['label'] ?></label></h3>
+			<input name="<?= $field['name'] ?>" id="ctrl_<?= $field['name'] ?>" class="tl_text" value="<?= $field['value'] ?>" required="" onfocus="Backend.getScrollOffset()" type="text">
+			<p class="tl_help tl_tip"><?= $field['help'] ?></p>
+		</div>
+		<?php endforeach; ?>
+		<?php endif; ?>
 		<div class="tl_submit_container">
 			<?php foreach($this->actions as $input): ?>
 			<button type="submit" value="<?= $input['action'] ?>" name="action" class="tl_submit" <?= $input['attributes'] ?>><?= $input['label'] ?></button>

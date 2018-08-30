@@ -20,19 +20,23 @@ use Contao\ArticleModel;
 use Contao\ContentModel;
 use Contao\FrontendTemplate;
 
+use WEM\SmartGear\Backend\Block;
+use WEM\SmartGear\Backend\BlockInterface;
+use WEM\SmartGear\Backend\Util;
+
 /**
  * Back end module "smartgear".
  *
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
-class Faq extends Module implements ModuleInterface
+class Faq extends Block implements BlockInterface
 {
 	/**
 	 * Check Module Status
 	 * @return [String] [Template of the module check status]
 	 */
-	public function checkStatus($strTemplate = 'be_wem_sg_module'){
-		try{
+	public function getStatus(){
+		/*try{
 			$objTemplate = new FrontendTemplate($strTemplate);
 			$objTemplate->title = "SmartGear | Module | FAQ";
 			$objTemplate->module = "faq";
@@ -63,7 +67,7 @@ class Faq extends Module implements ModuleInterface
 			$objTemplate->trace = $e->getTrace();
 		}
 
-		return $objTemplate->parse();
+		return $objTemplate->parse();*/
 	}
 
 	/**

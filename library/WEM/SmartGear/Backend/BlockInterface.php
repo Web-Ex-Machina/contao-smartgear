@@ -8,16 +8,16 @@
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
 
-namespace WEM\SmartGear\Backend\Module;
+namespace WEM\SmartGear\Backend;
 
 /**
  * Interface for Smartgear modules install tool
  *
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
-interface ModuleInterface
+interface BlockInterface
 {
-	public function checkStatus($strTemplate = 'be_wem_sg_module');
+	public function getStatus();
 	public function install();
 	public function reset();
 	public function remove();

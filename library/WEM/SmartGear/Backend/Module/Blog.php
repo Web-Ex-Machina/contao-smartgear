@@ -19,28 +19,31 @@ use Contao\ArticleModel;
 use Contao\ContentModel;
 use Contao\FrontendTemplate;
 
+use WEM\SmartGear\Backend\Block;
+use WEM\SmartGear\Backend\BlockInterface;
+use WEM\SmartGear\Backend\Util;
+
 /**
  * Back end module "smartgear".
  *
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
-class Blog extends Module implements ModuleInterface
+class Blog extends Block implements BlockInterface
 {
 	/**
 	 * Check Module Status
 	 * @return [String] [Template of the module check status]
 	 */
-	public function checkStatus($strTemplate = 'be_wem_sg_module'){
-		try{
+	public function getStatus(){
+		/*try{
 			$objTemplate = new FrontendTemplate($strTemplate);
 			$objTemplate->title = "SmartGear | Module | Blog";
 			$objTemplate->module = "blog";
 			$objTemplate->request = \Environment::get('request');
 			$objTemplate->token = \RequestToken::get();
 			$arrActions = array();
-			$bundles = \System::getContainer()->getParameter('kernel.bundles');
 
-			if(!isset($bundles['ContaoNewsBundle'])){
+			if(!isset($this->bundles['ContaoNewsBundle'])){
 				$objTemplate->msgClass = 'tl_error';
 				$objTemplate->msgText = 'Le blog n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.';
 			} else if(!Config::get('sgBlogInstall') || 0 === \NewsArchiveModel::countById(Config::get('sgBlogNewsArchive'))){
@@ -62,7 +65,7 @@ class Blog extends Module implements ModuleInterface
 			$objTemplate->trace = $e->getTrace();
 		}
 
-		return $objTemplate->parse();
+		return $objTemplate->parse();*/
 	}
 
 	/**

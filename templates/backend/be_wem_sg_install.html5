@@ -4,16 +4,13 @@
 <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-<!-- Display eventual messages -->
+<!-- Display messages -->
 <?= Message::generate() ?>
 
 <!-- Display Module -->
 <div id="tl_wem_sg_install" class="wem_module">
 	
 	<?php if($this->logs && !empty($this->logs)): ?>
-	<div id="tl_buttons">
-		<a href="<?= $this->backButtonHref ?>" class="header_back" title="<?= $this->backButtonTitle ?>"><?= $this->backButtonButton ?></a>
-	</div>
 	<div class="logs">
 		<div class="content_container">
 			<?php foreach($this->logs as $log): ?>
@@ -21,44 +18,7 @@
 			<?php endforeach; ?>
 		</div>
 	</div>
-	<?php elseif(!$this->isSetupComplete): ?>
-	<div class="block">
-		<div class="content_container">
-			<h2>Smartgear | Core | Installation</h2>
-			<p>Avant de faire quoique ce soit l'ami, tu vas devoir installer quelques trucs de base. Pas de soucis, on gère tout ça pour toi. Voilà ce qui est prévu :</p>
-			<ul>
-				<li>Modification de la configuration (tailles des images, limite d'upload...)</li>
-				<li>Création des répertoires des modèles, avec import de ceux qu'on a modifier</li>
-				<li>Vérification des répertoires des fichiers (pour l'app et pour le client). On doit bien avoir le framway d'installé dans files/app avant la prochaine étape.</li>
-				<li>Création du thème Smartgear</li>
-				<li>Création des squelettes Smartgear</li>
-				<li>Création d'un groupe d'utilisateurs par défaut. Les droits seront probablement à ajuster.</li>
-				<li>Création de la racine de site, avec le titre configuré dans le champ ci-dessous.</li>
-				<li>Création d'une passerelle de notification par défaut (Email de service). Pensez à configurer le SMTP si besoin.</li>
-			</ul>
-		</div>
-
-		<p class="tl_info">A noter que tout cela sera prochainement découpé en étapes, pour permettre de configurer chaque module plus précisément.</p>
-		<br />
-
-		<form action="<?= $this->request ?>" class="tl_form" method="post">
-			<div class="tl_formbody_edit">
-				<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
-				<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
-				<input name="sg_step" value="setup" type="hidden">
-			</div>
-			<div class="widget">
-				<h3><label for="ctrl_websiteTitle"><span class="invisible">Champ obligatoire </span>Titre du site internet<span class="mandatory">*</span></label></h3>
-				<input name="websiteTitle" id="ctrl_websiteTitle" class="tl_text" value="<?= $this->websiteTitle ?>" required="" onfocus="Backend.getScrollOffset()" type="text">
-				<p class="tl_help tl_tip" title="">Saisir le titre du site internet.</p>
-			</div>
-			<br />
-			<div class="tl_submit_container">
-				<button type="submit" name="setup" class="tl_submit">Installer Smartgear</button>
-			</div>
-		</form>
-	</div>
-	<?php else: ?>
+	<?php endif; ?>
 
 	<?php foreach($this->blocks as $type => $blocks): ?>
 	<div class="blocks <?= $type ?>">
@@ -66,7 +26,6 @@
 	</div>
 	<?php endforeach; ?>
 	
-	<?php endif; ?>
 </div>
 <script type="text/javascript">
 var j = jQuery.noConflict();
@@ -75,16 +34,17 @@ j(document).ready(function(){
 
 });
 
-function refreshBlock(name){
-	var ctn = j('div[data-name="'+name+'"]');
+function refreshBlock(id){
+	var ctn = j('div#'+id);
 	ctn.addClass("loading");
 
 	var objFields = {
 		'TL_WEM_AJAX':1
 		,'REQUEST_TOKEN':"<?= $this->token ?>"
-		,'module':'be_smartgear'
+		,'wem_module':'be_smartgear'
 		,'action':'refreshBlock'
-		,'name':name
+		,'type':ctn.data("type")
+		,'module':ctn.data("module")
 	};
 
 	j.ajax({
@@ -93,7 +53,7 @@ function refreshBlock(name){
 		,data: objFields
 	})
 	.done(function(msg){
-		console.log(msg);
+		ctn.replaceWith(msg.replace(/<!--[\s\S]*?-->/g, ""));
 	})
 	.fail(function(jqXHR, textStatus, errorThrown){
 		toastr.error(textStatus+"<br>"+errorThrown);

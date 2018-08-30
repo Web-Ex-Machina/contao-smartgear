@@ -18,19 +18,23 @@ use Contao\NewsletterModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
 
+use WEM\SmartGear\Backend\Block;
+use WEM\SmartGear\Backend\BlockInterface;
+use WEM\SmartGear\Backend\Util;
+
 /**
  * Back end module "smartgear".
  *
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
-class Newsletter extends Module implements ModuleInterface
+class Newsletter extends Block implements BlockInterface
 {
 	/**
 	 * Check Module Status
 	 * @return [String] [Template of the module check status]
 	 */
-	public function checkStatus($strTemplate = 'be_wem_sg_module'){
-		try{
+	public function getStatus(){
+		/*try{
 			$objTemplate = new FrontendTemplate($strTemplate);
 			$objTemplate->title = "SmartGear | Module | Newsletter";
 			$objTemplate->module = "newsletter";
@@ -61,7 +65,7 @@ class Newsletter extends Module implements ModuleInterface
 			$objTemplate->trace = $e->getTrace();
 		}
 
-		return $objTemplate->parse();
+		return $objTemplate->parse();*/
 	}
 
 	/**

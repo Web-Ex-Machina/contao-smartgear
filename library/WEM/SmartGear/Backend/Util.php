@@ -8,7 +8,7 @@
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
 
-namespace WEM\SmartGear\Backend\Module;
+namespace WEM\SmartGear\Backend;
 
 use Exception;
 use Contao\Config;
@@ -21,13 +21,39 @@ use Contao\ContentModel;
  *
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
-abstract class Module
+class Util
 {
+	/**
+	 * Find and Create an Object, depending on type and module
+	 * @param  [String] $strType   [Type / Folder]
+	 * @param  [String] $strModule [Class / File]
+	 * @return [Object]            [Object of the class]
+	 */
+	public static function findAndCreateObject($strType, $strModule){
+		try{
+			// Parse the classname
+			$strClass = sprintf("WEM\SmartGear\Backend\%s\%s", ucfirst($strType), ucfirst($strModule));
+
+			// Throw error if class doesn't exists
+			if(!class_exists($strClass))
+				throw new Exception(sprintf("Unknown class %s", $strClass));
+
+			// Create the object
+			$objModule = new $strClass;
+
+			// And return
+			return $objModule;
+		}
+		catch(Exception $e){
+			throw $e;
+		}
+	}
+	
 	/**
 	 * Update Contao Config
 	 * @param  [Array] $arrVars [Key/Value Array]
 	 */
-	public function updateConfig($arrVars){
+	public static function updateConfig($arrVars){
 		foreach($arrVars as $strKey => $varValue)
 			Config::persist($strKey, $varValue);
 	}
@@ -35,7 +61,7 @@ abstract class Module
 	/**
 	 * Shortcut for page w/ modules creations
 	 */
-	public function createPageWithModule($strTitle, $intModule, $intPid = 0){
+	public static function createPageWithModule($strTitle, $intModule, $intPid = 0){
 		if(0 === $intPid)
 			$intPid = Config::get("sgInstallRootPage");
 		
@@ -82,7 +108,7 @@ abstract class Module
 	/**
 	 * Shortcut for page w/ texts creations
 	 */
-	public function createPageWithText($strTitle, $strText, $intPid = 0, $arrHl = null){
+	public static function createPageWithText($strTitle, $strText, $intPid = 0, $arrHl = null){
 		if(0 === $intPid)
 			$intPid = Config::get("sgInstallRootPage");
 		

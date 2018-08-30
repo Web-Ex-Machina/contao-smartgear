@@ -23,19 +23,23 @@ use NotificationCenter\Model\Message as NCMessage;
 use NotificationCenter\Model\Language as NCLanguage;
 use NotificationCenter\Model\Gateway as NCGateway;
 
+use WEM\SmartGear\Backend\Block;
+use WEM\SmartGear\Backend\BlockInterface;
+use WEM\SmartGear\Backend\Util;
+
 /**
  * Back end module "smartgear".
  *
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
-class Forms extends Module implements ModuleInterface
+class Forms extends Block implements BlockInterface
 {
 	/**
 	 * Check Module Status
 	 * @return [String] [Template of the module check status]
 	 */
-	public function checkStatus($strTemplate = 'be_wem_sg_module'){
-		$objTemplate = new FrontendTemplate($strTemplate);
+	public function getStatus(){
+		/*$objTemplate = new FrontendTemplate($strTemplate);
 		$objTemplate->title = "SmartGear | Module | Formulaires";
 		$objTemplate->module = "forms";
 		$objTemplate->request = \Environment::get('request');
@@ -56,7 +60,7 @@ class Forms extends Module implements ModuleInterface
 
 		$objTemplate->actions = $arrActions;
 
-		return $objTemplate->parse();
+		return $objTemplate->parse();*/
 	}
 
 	/**
