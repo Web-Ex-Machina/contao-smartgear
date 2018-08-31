@@ -74,59 +74,6 @@ class Install extends BackendModule
 		// Add WEM styles to template
 		$GLOBALS['TL_CSS'][] = $this->strBasePath.'/assets/backend/wemsg.css';
 
-		// Catch the setup submit
-		/*if(Input::post("FORM_SUBMIT") == "tl_wem_sg_install")
-		{
-			try
-			{
-				switch(Input::post("sg_step")){
-					case "setup":
-						// Launch setup function
-						$this->installSmartgear();
-					break;
-
-					case "repair":
-						// In both cases, we need to trash everything linked to Smartgear
-						$this->deleteSmartgear();
-
-						// And if reset, relaunch the setup function
-						if(Input::post("action") == "reset")
-							$this->installSmartgear();
-
-						// And if truncate, this is sparta
-						if(Input::post("action") == "truncate")
-							$this->resetContao();
-					break;
-
-					case "rsce":
-						if(Input::post("action") == "reimport"){
-							$this->processRSCE('delete');
-							$this->processRSCE('install');
-						}
-					break;
-
-					case "module":
-						$strClass = sprintf("WEM\SmartGear\Backend\Module\%s", ucfirst(Input::post('sg_module')));
-						if(!class_exists($strClass))
-							throw new Exception(sprintf("Classe inconnue : %s", $strClass));
-						$objModule = new $strClass();
-						if(!method_exists($objModule, Input::post('action')))
-							throw new Exception(sprintf("Méthode %s inconnue dans la classe %s", Input::post('action'), get_class($objModule)));
-						call_user_func([$objModule, Input::post('action')]);
-					break;
-
-					default:
-						throw new Exception(sprintf("Action inconnue : %s", Input::post("sg_step")));
-				}
-
-				$this->Template->logs = $arrLogs;
-			}
-			catch(Exception $e)
-			{
-				Message::addError($e->getMessage());
-			}
-		}*/
-
 		// Check if we already completed the Smartgear setup
 		if(Config::get('sgInstallComplete')){
 			$this->Template->isSetupComplete = true;

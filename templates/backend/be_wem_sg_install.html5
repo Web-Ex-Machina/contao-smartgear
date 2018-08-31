@@ -36,7 +36,7 @@ j(document).ready(function(){
 
 function refreshBlock(id){
 	var ctn = j('div#'+id);
-	ctn.addClass("loading");
+	ctn.find('.loader').addClass("active");
 
 	var objFields = {
 		'TL_WEM_AJAX':1
@@ -62,7 +62,7 @@ function refreshBlock(id){
 		console.log(errorThrown);
 	})
 	.always(function(){
-		ctn.removeClass("loading");
+		ctn.find('.loader').removeClass("active");
 	});
 }	
 </script>

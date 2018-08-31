@@ -1,4 +1,4 @@
-<div id="block-<?= $this->type ?>-<?= $this->module ?>" class="block <?= $this->type ?>" data-type="<?= $this->type ?>" data-module="<?= $this->module ?>">
+<div id="block-<?= $this->type ?>-<?= $this->module ?>" class="block <?= $this->type ?><?= ($this->actions) ? ' hasActions' : '' ?>" data-type="<?= $this->type ?>" data-module="<?= $this->module ?>">
 	<h2 class="title"><i class="fas fa-<?= $this->icon ?>"></i><?= $this->title ?></h2>
 	<?php if($this->isError): ?>
 	<div class="content_container">
@@ -37,5 +37,6 @@
 		</div>
 	</form>
 	<?php endif; ?>
+	<div class="loader"><i class="fas fa-spinner fa-4x fa-spin"></i></div>
 	<?php endif; ?>
 </div>

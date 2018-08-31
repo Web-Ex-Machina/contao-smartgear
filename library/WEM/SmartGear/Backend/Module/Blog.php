@@ -31,41 +31,34 @@ use WEM\SmartGear\Backend\Util;
 class Blog extends Block implements BlockInterface
 {
 	/**
+	 * Constructor
+	 */
+	public function __construct(){
+		$this->type = "module";
+		$this->module = "blog";
+		$this->icon = "cogs";
+		$this->title = "SmartGear | Module | Blog";
+
+		parent::__construct();
+	}
+
+	/**
 	 * Check Module Status
 	 * @return [String] [Template of the module check status]
 	 */
 	public function getStatus(){
-		/*try{
-			$objTemplate = new FrontendTemplate($strTemplate);
-			$objTemplate->title = "SmartGear | Module | Blog";
-			$objTemplate->module = "blog";
-			$objTemplate->request = \Environment::get('request');
-			$objTemplate->token = \RequestToken::get();
-			$arrActions = array();
-
-			if(!isset($this->bundles['ContaoNewsBundle'])){
-				$objTemplate->msgClass = 'tl_error';
-				$objTemplate->msgText = 'Le blog n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.';
-			} else if(!Config::get('sgBlogInstall') || 0 === \NewsArchiveModel::countById(Config::get('sgBlogNewsArchive'))){
-				$objTemplate->msgClass = 'tl_info';
-				$objTemplate->msgText = 'Le blog est installé, mais pas configuré.';
-				$arrActions[] = ['action'=>'install', 'label'=>'Installer'];
-			} else {
-				$objTemplate->msgClass = 'tl_confirm';
-				$objTemplate->msgText = 'Le blog est installé et configuré.';
-				$arrActions[] = ['action'=>'reset', 'label'=>'Réinitialiser'];
-				$arrActions[] = ['action'=>'remove', 'label'=>'Supprimer'];
-			}
-
-			$objTemplate->actions = $arrActions;
+		if(!isset($this->bundles['ContaoNewsBundle'])){
+			$this->messages[] = ['class' => 'tl_error', 'text' => 'Le blog n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.'];
 		}
-		catch(Exception $e){
-			$objTemplate->isError = true;
-			$objTemplate->error = $e->getMessage();
-			$objTemplate->trace = $e->getTrace();
+		else if(!Config::get('sgBlogInstall') || 0 === \NewsArchiveModel::countById(Config::get('sgBlogNewsArchive'))){
+			$this->messages[] = ['class' => 'tl_info', 'text' => 'Le blog est installé, mais pas configuré.'];
+			$this->actions[] = ['action'=>'install', 'label'=>'Installer'];
 		}
-
-		return $objTemplate->parse();*/
+		else{
+			$this->messages[] = ['class' => 'tl_confirm', 'text' => 'Le blog est installé et configuré.'];
+			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser'];
+			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer'];
+		}
 	}
 
 	/**

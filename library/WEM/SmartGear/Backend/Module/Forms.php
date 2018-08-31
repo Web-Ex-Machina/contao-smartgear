@@ -35,32 +35,31 @@ use WEM\SmartGear\Backend\Util;
 class Forms extends Block implements BlockInterface
 {
 	/**
+	 * Constructor
+	 */
+	public function __construct(){
+		$this->type = "module";
+		$this->module = "forms";
+		$this->icon = "cogs";
+		$this->title = "SmartGear | Module | Formulaires";
+
+		parent::__construct();
+	}
+
+	/**
 	 * Check Module Status
 	 * @return [String] [Template of the module check status]
 	 */
 	public function getStatus(){
-		/*$objTemplate = new FrontendTemplate($strTemplate);
-		$objTemplate->title = "SmartGear | Module | Formulaires";
-		$objTemplate->module = "forms";
-		$objTemplate->request = \Environment::get('request');
-		$objTemplate->token = \RequestToken::get();
-		$arrActions = array();
-		
-
 		if(!Config::get('sgFormsInstall') || 0 === FormModel::countById(Config::get('sgForm'))){
-			$objTemplate->msgClass = 'tl_info';
-			$objTemplate->msgText = 'Les formulaires sont installés, mais pas configurés.';
-			$arrActions[] = ['action'=>'install', 'label'=>'Installer'];
-		} else {
-			$objTemplate->msgClass = 'tl_confirm';
-			$objTemplate->msgText = 'Les formulaires sont installés et configurés.';
-			$arrActions[] = ['action'=>'reset', 'label'=>'Réinitialiser'];
-			$arrActions[] = ['action'=>'remove', 'label'=>'Supprimer'];
+			$this->messages[] = ['class' => 'tl_info', 'text' => 'Les formulaires sont installés, mais pas configurés.'];
+			$this->actions[] = ['action'=>'install', 'label'=>'Installer'];
 		}
-
-		$objTemplate->actions = $arrActions;
-
-		return $objTemplate->parse();*/
+		else{
+			$this->messages[] = ['class' => 'tl_confirm', 'text' => 'Les formulaires sont installés et configurés.'];
+			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser'];
+			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer'];
+		}
 	}
 
 	/**

@@ -32,42 +32,34 @@ use WEM\SmartGear\Backend\Util;
 class Faq extends Block implements BlockInterface
 {
 	/**
+	 * Constructor
+	 */
+	public function __construct(){
+		$this->type = "module";
+		$this->module = "faq";
+		$this->icon = "cogs";
+		$this->title = "SmartGear | Module | FAQ";
+
+		parent::__construct();
+	}
+
+	/**
 	 * Check Module Status
 	 * @return [String] [Template of the module check status]
 	 */
 	public function getStatus(){
-		/*try{
-			$objTemplate = new FrontendTemplate($strTemplate);
-			$objTemplate->title = "SmartGear | Module | FAQ";
-			$objTemplate->module = "faq";
-			$objTemplate->request = \Environment::get('request');
-			$objTemplate->token = \RequestToken::get();
-			$arrActions = array();
-			$bundles = \System::getContainer()->getParameter('kernel.bundles');
-
-			if(!isset($bundles['ContaoFaqBundle'])){
-				$objTemplate->msgClass = 'tl_error';
-				$objTemplate->msgText = 'Le module FAQ n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.';
-			} else if(!Config::get('sgCalendarInstall') || 0 === FaqCategoryModel::countById(Config::get('sgFAQ'))){
-				$objTemplate->msgClass = 'tl_info';
-				$objTemplate->msgText = 'Le module FAQ est installé, mais pas configuré.';
-				$arrActions[] = ['action'=>'install', 'label'=>'Installer'];
-			} else {
-				$objTemplate->msgClass = 'tl_confirm';
-				$objTemplate->msgText = 'Le module FAQ est installé et configuré.';
-				$arrActions[] = ['action'=>'reset', 'label'=>'Réinitialiser'];
-				$arrActions[] = ['action'=>'remove', 'label'=>'Supprimer'];
-			}
-
-			$objTemplate->actions = $arrActions;
+		if(!isset($this->bundles['ContaoFaqBundle'])){
+			$this->messages[] = ['class' => 'tl_error', 'text' => 'Le module FAQ n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.'];
 		}
-		catch(Exception $e){
-			$objTemplate->isError = true;
-			$objTemplate->error = $e->getMessage();
-			$objTemplate->trace = $e->getTrace();
+		else if(!Config::get('sgFAQInstall') || 0 === \FaqCategoryModel::countById(Config::get('sgFAQ'))){
+			$this->messages[] = ['class' => 'tl_info', 'text' => 'Le module FAQ est installé, mais pas configuré.'];
+			$this->actions[] = ['action'=>'install', 'label'=>'Installer'];
 		}
-
-		return $objTemplate->parse();*/
+		else{
+			$this->messages[] = ['class' => 'tl_confirm', 'text' => 'Le module FAQ est installé et configuré.'];
+			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser'];
+			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer'];
+		}
 	}
 
 	/**
