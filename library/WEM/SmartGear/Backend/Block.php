@@ -30,6 +30,9 @@ class Block extends Controller
 		// Load the bundles, since we will need them in every block
 		$this->bundles = \System::getContainer()->getParameter('kernel.bundles');
 
+		// Load the Smartgear config, we will need it
+		$this->sgConfig = Util::loadSmartgearConfig();
+
 		// Instance some vars
 		$this->strTemplate = 'be_wem_sg_install_block_default';
 		$this->logs = [];
@@ -46,6 +49,20 @@ class Block extends Controller
 	public function reset(){
 		$this->remove();
 		$this->install();
+
+		// And return an explicit status with some instructions
+		return [
+			"toastr" => [
+				"status"=>"success"
+				,"msg"=>"Réinitialisation effectuée avec succès."
+			]
+			,"callbacks" => [
+				0 => [
+					"method" => "refreshBlock"
+					,"args"	 => ["block-".$this->type."-".$this->module]
+				]
+			]
+		];
 	}
 
 	/**

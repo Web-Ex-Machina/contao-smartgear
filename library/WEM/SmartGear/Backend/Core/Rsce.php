@@ -11,13 +11,6 @@
 namespace WEM\SmartGear\Backend\Core;
 
 use \Exception;
-use Contao\Config;
-use Contao\PageModel;
-use Contao\ModuleModel;
-use Contao\NewsArchiveModel;
-use Contao\ArticleModel;
-use Contao\ContentModel;
-use Contao\FrontendTemplate;
 
 use WEM\SmartGear\Backend\Block;
 use WEM\SmartGear\Backend\BlockInterface;
@@ -55,10 +48,24 @@ class Rsce extends Block implements BlockInterface
 	 */
 	public function install(){
 		try{
-			$objFiles = Files::getInstance();
+			$objFiles = \Files::getInstance();
 			$objFiles->rcopy($this->strBasePath."/assets/templates_files", "templates/smartgear");
 			$objFiles->rcopy($this->strBasePath."/assets/rsce_files", "templates/rsce");
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les templates Smartgear ont été importés (templates et rsce)"];
+
+			// And return an explicit status with some instructions
+			return [
+				"toastr" => [
+					"status"=>"success"
+					,"msg"=>"L'installation des templates Smartgear a été effectuée avec succès."
+				]
+				,"callbacks" => [
+					0 => [
+						"method" => "refreshBlock"
+						,"args"	 => ["block-".$this->type."-".$this->module]
+					]
+				]
+			];
 		}
 		catch(Exception $e){
 			$this->remove();
@@ -71,10 +78,24 @@ class Rsce extends Block implements BlockInterface
 	 */
 	public function remove(){
 		try{
-			$objFiles = Files::getInstance();
+			$objFiles = \Files::getInstance();
 			$objFiles->rrdir("templates/smartgear");
 			$objFiles->rrdir("templates/rsce");
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les templates Smartgear ont été supprimés (templates et rsce)"];
+
+			// And return an explicit status with some instructions
+			return [
+				"toastr" => [
+					"status"=>"success"
+					,"msg"=>"La désinstallation des templates Smartgear a été effectuée avec succès."
+				]
+				,"callbacks" => [
+					0 => [
+						"method" => "refreshBlock"
+						,"args"	 => ["block-".$this->type."-".$this->module]
+					]
+				]
+			];
 		}
 		catch(Exception $e){
 			throw $e;

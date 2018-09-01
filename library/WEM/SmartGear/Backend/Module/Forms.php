@@ -11,13 +11,7 @@
 namespace WEM\SmartGear\Backend\Module;
 
 use \Exception;
-use Contao\Config;
-use Contao\FormModel;
-use Contao\FormFieldModel;
-use Contao\FrontendTemplate;
-use Contao\PageModel;
-use Contao\ArticleModel;
-use Contao\ContentModel;
+
 use NotificationCenter\Model\Notification as NCNotification;
 use NotificationCenter\Model\Message as NCMessage;
 use NotificationCenter\Model\Language as NCLanguage;
@@ -51,7 +45,7 @@ class Forms extends Block implements BlockInterface
 	 * @return [String] [Template of the module check status]
 	 */
 	public function getStatus(){
-		if(!Config::get('sgFormsInstall') || 0 === FormModel::countById(Config::get('sgForm'))){
+		if(!$this->sgConfig['sgFormsInstall'] || 0 === \FormModel::countById($this->sgConfig['sgForm'])){
 			$this->messages[] = ['class' => 'tl_info', 'text' => 'Les formulaires sont installés, mais pas configurés.'];
 			$this->actions[] = ['action'=>'install', 'label'=>'Installer'];
 		}
@@ -67,10 +61,10 @@ class Forms extends Block implements BlockInterface
 	 */
 	public function install(){
 		// Create the form page
-		$objPage = new PageModel();
+		$objPage = new \PageModel();
 		$objPage->tstamp = time();
-		$objPage->pid = Config::get("sgInstallRootPage");
-		$objPage->sorting = (PageModel::countBy("pid", Config::get("sgInstallRootPage")) + 1) * 128;
+		$objPage->pid = $this->sgConfig["sgInstallRootPage"];
+		$objPage->sorting = (\PageModel::countBy("pid", $this->sgConfig["sgInstallRootPage"]) + 1) * 128;
 		$objPage->title = "Contact";
 		$objPage->alias = \StringUtil::generateAlias($objPage->title);
 		$objPage->type = "regular";
@@ -81,53 +75,19 @@ class Forms extends Block implements BlockInterface
 		$objPage->save();
 
 		// Create the article
-		$objArticle = new ArticleModel();
+		$objArticle = new \ArticleModel();
 		$objArticle->tstamp = time();
 		$objArticle->pid = $objPage->id;
 		$objArticle->sorting = 128;
 		$objArticle->title = $objPage->title;
 		$objArticle->alias = $objPage->alias;
-		$objArticle->author = Config::get("sgInstallUser");
+		$objArticle->author = $this->sgConfig["sgInstallUser"];
 		$objArticle->inColumn = "main";
 		$objArticle->published = 1;
 		$objArticle->save();
 
 		// Create the form page where the users will be redirected
-		$objJumpPage = new PageModel();
-		$objJumpPage->tstamp = time();
-		$objJumpPage->pid = $objPage->id;
-		$objJumpPage->sorting = 128;
-		$objJumpPage->title = "Contact envoyé";
-		$objJumpPage->alias = \StringUtil::generateAlias($objJumpPage->title);
-		$objJumpPage->type = "regular";
-		$objJumpPage->robots = "noindex,nofollow";
-		$objJumpPage->sitemap = "map_never";
-		$objJumpPage->hide = 1;
-		$objJumpPage->published = 1;
-		$objJumpPage->save();
-
-		// Create the article
-		$objJumpArticle = new ArticleModel();
-		$objJumpArticle->tstamp = time();
-		$objJumpArticle->pid = $objJumpPage->id;
-		$objJumpArticle->sorting = 128;
-		$objJumpArticle->title = $objJumpPage->title;
-		$objJumpArticle->alias = $objJumpPage->alias;
-		$objJumpArticle->author = Config::get("sgInstallUser");
-		$objJumpArticle->inColumn = "main";
-		$objJumpArticle->published = 1;
-		$objJumpArticle->save();
-
-		// Create the content
-		$objContent = new ContentModel();
-		$objContent->tstamp = time();
-		$objContent->pid = $objJumpArticle->id;
-		$objContent->ptable = "tl_article";
-		$objContent->sorting = 128;
-		$objContent->type = "text";
-		$objContent->headline = serialize(["unit"=>"h1", "value"=>"Message envoyé !"]);
-		$objContent->text = '<p>Votre message a bien été envoyé ! <a href="{{env::/}}" title="Retour à l\'accueil">Retour à l\'accueil</a></p>';
-		$objContent->save();
+		$intJumpPage = Util::createPageWithText("Contact envoyé", '<p>Votre message a bien été envoyé ! <a href="{{env::/}}" title="Retour à l\'accueil">Retour à l\'accueil</a></p>', $objPage->id, ["unit"=>"h1", "value"=>"Message envoyé !"]);
 
 		// Create the notification
 		$objNotification = new NCNotification();
@@ -136,7 +96,7 @@ class Forms extends Block implements BlockInterface
 		$objNotification->type = "core_form";
 		$objNotification->save();
 
-		$objGateway = NCGateway::findByPk(Config::get('sgInstallNcGateway'));
+		$objGateway = NCGateway::findByPk($this->sgConfig['sgInstallNcGateway']);
 		$objMessage = new NCMessage();
 		$objMessage->tstamp = time();
 		$objMessage->pid = $objNotification->id;
@@ -159,7 +119,7 @@ class Forms extends Block implements BlockInterface
 				<br />Cordialement, 
 				<br />%s
 			"
-			,Config::get("websiteTitle")
+			,$this->sgConfig["websiteTitle"]
 		);
 
 		$objLanguage = new NCLanguage();
@@ -168,13 +128,13 @@ class Forms extends Block implements BlockInterface
 		$objLanguage->gateway_type = $objGateway->type;
 		$objLanguage->language = "fr";
 		$objLanguage->fallback = 1;
-		$objLanguage->email_sender_name = Config::get("websiteTitle");
+		$objLanguage->email_sender_name = $this->sgConfig["websiteTitle"];
 		$objLanguage->email_sender_address = "##admin_email##";
 		$objLanguage->recipients = "##form_email##";
 		$objLanguage->email_recipient_cc = "";
 		$objLanguage->email_recipient_bcc = "";
 		$objLanguage->email_replyTo = "";
-		$objLanguage->email_subject = sprintf("Votre message sur %s", Config::get("websiteTitle"));
+		$objLanguage->email_subject = sprintf("Votre message sur %s", $this->sgConfig["websiteTitle"]);
 		$objLanguage->email_mode = "textAndHtml";
 		$objLanguage->email_text = strip_tags($strHtml);
 		$objLanguage->email_html = $strHtml;
@@ -182,7 +142,7 @@ class Forms extends Block implements BlockInterface
 		$objLanguage->save();
 
 		// Create the form
-		$objForm = new FormModel();
+		$objForm = new \FormModel();
 		$objForm->tstamp = time();
 		$objForm->title = "Formulaire de contact";
 		$objForm->alias = \StringUtil::generateAlias($objForm->title);
@@ -191,7 +151,7 @@ class Forms extends Block implements BlockInterface
 		$objForm->save();
 
 		// Create the form fields
-		$objField = new FormFieldModel();
+		$objField = new \FormFieldModel();
 		$objField->tstamp = time();
 		$objField->pid = $objForm->id;
 		$objField->sorting = 128;
@@ -203,7 +163,7 @@ class Forms extends Block implements BlockInterface
 		$objField->placeholder = "Saisissez votre nom et prénom";
 		$objField->save();
 
-		$objField = new FormFieldModel();
+		$objField = new \FormFieldModel();
 		$objField->tstamp = time();
 		$objField->pid = $objForm->id;
 		$objField->sorting = 256;
@@ -214,7 +174,7 @@ class Forms extends Block implements BlockInterface
 		$objField->placeholder = "Saisissez votre numéro de téléphone";
 		$objField->save();
 
-		$objField = new FormFieldModel();
+		$objField = new \FormFieldModel();
 		$objField->tstamp = time();
 		$objField->pid = $objForm->id;
 		$objField->sorting = 384;
@@ -226,7 +186,7 @@ class Forms extends Block implements BlockInterface
 		$objField->placeholder = "Saisissez votre adresse email";
 		$objField->save();
 
-		$objField = new FormFieldModel();
+		$objField = new \FormFieldModel();
 		$objField->tstamp = time();
 		$objField->pid = $objForm->id;
 		$objField->sorting = 512;
@@ -238,7 +198,7 @@ class Forms extends Block implements BlockInterface
 		$objField->placeholder = "Saisissez votre message";
 		$objField->save();
 
-		$objField = new FormFieldModel();
+		$objField = new \FormFieldModel();
 		$objField->tstamp = time();
 		$objField->pid = $objForm->id;
 		$objField->sorting = 640;
@@ -247,7 +207,7 @@ class Forms extends Block implements BlockInterface
 		$objField->placeholder = "Veuillez répondre à la question de sécurité";
 		$objField->save();
 
-		$objField = new FormFieldModel();
+		$objField = new \FormFieldModel();
 		$objField->tstamp = time();
 		$objField->pid = $objForm->id;
 		$objField->sorting = 768;
@@ -256,7 +216,7 @@ class Forms extends Block implements BlockInterface
 		$objField->save();
 
 		// Create the content
-		$objContent = new ContentModel();
+		$objContent = new \ContentModel();
 		$objContent->tstamp = time();
 		$objContent->pid = $objArticle->id;
 		$objContent->ptable = "tl_article";
@@ -267,23 +227,26 @@ class Forms extends Block implements BlockInterface
 		$objContent->save();
 
 		// And save stuff in config
-		$this->updateConfig([
+		Util::updateConfig([
 			"sgFormsInstall"=>1
 			,"sgForm"=>$objForm->id
 			,"sgFormPage"=>$objPage->id
 			,"sgFormJumpPage"=>$obJumpPage->id
 		]);
 
-		// TODO 
-		// Poursuivre le module quand le système de réponse aux forms sera en place
-	}
-
-	/**
-	 * Reset the module
-	 */
-	public function reset(){
-		$this->remove();
-		$this->install();
+		// And return an explicit status with some instructions
+		return [
+			"toastr" => [
+				"status"=>"success"
+				,"msg"=>"La configuration du module a été effectuée avec succès."
+			]
+			,"callbacks" => [
+				0 => [
+					"method" => "refreshBlock"
+					,"args"	 => ["block-".$this->type."-".$this->module]
+				]
+			]
+		];
 	}
 
 	/**
@@ -291,7 +254,7 @@ class Forms extends Block implements BlockInterface
 	 */
 	public function remove(){
 		// Get the form
-		$objForm = FormModel::findByPk(Config::get('sgForm'));
+		$objForm = \FormModel::findByPk($this->sgConfig['sgForm']);
 
 		// Delete all the form fields
 		\Database::getInstance()->prepare("DELETE FROM tl_form_field WHERE pid = ?")->execute($objForm->id);
@@ -301,22 +264,36 @@ class Forms extends Block implements BlockInterface
 			$objNotification->delete();
 
 		// Get and delete the form page
-		if($objPage = PageModel::findByPk(Config::get('sgFormPage')))
+		if($objPage = \PageModel::findByPk($this->sgConfig['sgFormPage']))
 			$objPage->delete();
 
 		// Get and delete the form jump page
-		if($objPage = PageModel::findByPk(Config::get('sgFormJumpPage')))
+		if($objPage = \PageModel::findByPk($this->sgConfig['sgFormJumpPage']))
 			$objPage->delete();
 
 		// Delete the form
 		$objForm->delete();
 
 		// And save stuff in config
-		$this->updateConfig([
+		Util::updateConfig([
 			"sgFormsInstall"=>""
 			,"sgForm"=>""
 			,"sgFormPage"=>""
 			,"sgFormJumpPage"=>""
 		]);
+
+		// And return an explicit status with some instructions
+		return [
+			"toastr" => [
+				"status"=>"success"
+				,"msg"=>"La suppression du module a été effectuée avec succès."
+			]
+			,"callbacks" => [
+				0 => [
+					"method" => "refreshBlock"
+					,"args"	 => ["block-".$this->type."-".$this->module]
+				]
+			]
+		];
 	}
 }

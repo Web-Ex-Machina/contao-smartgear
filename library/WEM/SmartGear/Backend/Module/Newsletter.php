@@ -11,12 +11,6 @@
 namespace WEM\SmartGear\Backend\Module;
 
 use \Exception;
-use Contao\Config;
-use Contao\FrontendTemplate;
-use Contao\NewsletterChannelModel;
-use Contao\NewsletterModel;
-use Contao\ModuleModel;
-use Contao\PageModel;
 
 use WEM\SmartGear\Backend\Block;
 use WEM\SmartGear\Backend\BlockInterface;
@@ -49,7 +43,7 @@ class Newsletter extends Block implements BlockInterface
 		if(!isset($this->bundles['ContaoNewsletterBundle'])){
 			$this->messages[] = ['class' => 'tl_error', 'text' => 'Le module Newsletter n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.'];
 		}
-		else if(!Config::get('sgNewsletterInstall') || 0 === \FormModel::countById(Config::get('sgNewsletterChannel'))){
+		else if(!$this->sgConfig['sgNewsletterInstall'] || 0 === \FormModel::countById($this->sgConfig['sgNewsletterChannel'])){
 			$this->messages[] = ['class' => 'tl_info', 'text' => 'Le module Newsletter est installé, mais pas configuré.'];
 			$this->actions[] = ['action'=>'install', 'label'=>'Installer'];
 		}
@@ -65,18 +59,18 @@ class Newsletter extends Block implements BlockInterface
 	 */
 	public function install(){
 		// Create the channel
-		$objNewsletterChannel = new NewsletterChannelModel();
+		$objNewsletterChannel = new \NewsletterChannelModel();
 		$objNewsletterChannel->tstamp = time();
 		$objNewsletterChannel->title = "Newsletter";
 		$objNewsletterChannel->template = "mail_newsletter";
-		$objNewsletterChannel->sender = Config::get('adminEmail');
-		$objNewsletterChannel->senderName = Config::get('websiteTitle');
+		$objNewsletterChannel->sender = $this->sgConfig['adminEmail'];
+		$objNewsletterChannel->senderName = $this->sgConfig['websiteTitle'];
 		$objNewsletterChannel->save();
 
 		// Create the subscribe module
-		$objSubscribeModule = new ModuleModel();
+		$objSubscribeModule = new \ModuleModel();
 		$objSubscribeModule->tstamp = time();
-		$objSubscribeModule->pid = Config::get("sgInstallTheme");
+		$objSubscribeModule->pid = $this->sgConfig["sgInstallTheme"];
 		$objSubscribeModule->name = "Newsletter - Inscription";
 		$objSubscribeModule->type = "subscribe";
 		$objSubscribeModule->nl_channels = serialize([0=>$objNewsletterChannel->id]);
@@ -86,9 +80,9 @@ class Newsletter extends Block implements BlockInterface
 		$objSubscribeModule->save();
 
 		// Create the unsubscribe module
-		$objUnsubscribeModule = new ModuleModel();
+		$objUnsubscribeModule = new \ModuleModel();
 		$objUnsubscribeModule->tstamp = time();
-		$objUnsubscribeModule->pid = Config::get("sgInstallTheme");
+		$objUnsubscribeModule->pid = $this->sgConfig["sgInstallTheme"];
 		$objUnsubscribeModule->name = "Newsletter - Désinscription";
 		$objUnsubscribeModule->type = "unsubscribe";
 		$objUnsubscribeModule->nl_channels = serialize([0=>$objNewsletterChannel->id]);
@@ -98,18 +92,18 @@ class Newsletter extends Block implements BlockInterface
 		$objUnsubscribeModule->save();
 
 		// Create the list module
-		$objListModule = new ModuleModel();
+		$objListModule = new \ModuleModel();
 		$objListModule->tstamp = time();
-		$objListModule->pid = Config::get("sgInstallTheme");
+		$objListModule->pid = $this->sgConfig["sgInstallTheme"];
 		$objListModule->name = "Newsletter - Liste";
 		$objListModule->type = "newsletterlist";
 		$objListModule->nl_channels = serialize([0=>$objNewsletterChannel->id]);
 		$objListModule->save();
 
 		// Create the reader module
-		$objReaderModule = new ModuleModel();
+		$objReaderModule = new \ModuleModel();
 		$objReaderModule->tstamp = time();
-		$objReaderModule->pid = Config::get("sgInstallTheme");
+		$objReaderModule->pid = $this->sgConfig["sgInstallTheme"];
 		$objReaderModule->name = "Newsletter - Lecteur";
 		$objReaderModule->type = "newsletterreader";
 		$objReaderModule->nl_channels = serialize([0=>$objNewsletterChannel->id]);
@@ -136,7 +130,7 @@ class Newsletter extends Block implements BlockInterface
 		$objUnsubscribeModule->save();
 
 		// Create a newsletter template
-		$objNewletter = new NewsletterModel();
+		$objNewletter = new \NewsletterModel();
 		$objNewletter->tstamp = time();
 		$objNewletter->pid = $objNewsletterChannel->id;
 		$objNewletter->subject = "Newsletter Exemple 01";
@@ -146,40 +140,60 @@ class Newsletter extends Block implements BlockInterface
 		$objNewletter->save();
 
 		// And save stuff in config
-		$this->updateConfig([
+		Util::updateConfig([
 			"sgNewsletterInstall"=>1
 			,"sgNewsletterChannel"=>$objNewsletterChannel->id
 			,"sgNewsletterPage"=>$intListPage
 			,"sgNewsletterModules"=>serialize([$objSubscribeModule->id, $objUnsubscribeModule->id, $objListModule->id, $objReaderModule->id])
 		]);
-	}
 
-	/**
-	 * Reset the module
-	 */
-	public function reset(){
-		$this->remove();
-		$this->install();
+		// And return an explicit status with some instructions
+		return [
+			"toastr" => [
+				"status"=>"success"
+				,"msg"=>"La configuration du module a été effectuée avec succès."
+			]
+			,"callbacks" => [
+				0 => [
+					"method" => "refreshBlock"
+					,"args"	 => ["block-".$this->type."-".$this->module]
+				]
+			]
+		];
 	}
 
 	/**
 	 * Remove the module
 	 */
 	public function remove(){
-		if($objNewsletterChannel = NewsletterChannelModel::findByPk(Config::get("sgNewsletterChannel")))
+		if($objNewsletterChannel = \NewsletterChannelModel::findByPk($this->sgConfig["sgNewsletterChannel"]))
 			$objNewsletterChannel->delete();
-		if($objPage = PageModel::findByPk(Config::get("sgNewsletterPage")))
+		if($objPage = \PageModel::findByPk($this->sgConfig["sgNewsletterPage"]))
 			$objPage->delete();
-		if($arrModules = deserialize(Config::get("sgNewsletterModules")))
+		if($arrModules = deserialize($this->sgConfig["sgNewsletterModules"]))
 			foreach($arrModules as $intModule)
-				if($objModule = ModuleModel::findByPk($intModule))
+				if($objModule = \ModuleModel::findByPk($intModule))
 					$objModule->delete();
 
-		$this->updateConfig([
+		Util::updateConfig([
 			"sgNewsletterInstall"=>''
 			,"sgNewsletterChannel"=>''
 			,"sgNewsletterPage"=>''
 			,"sgNewsletterModules"=>''
 		]);
+
+		// And return an explicit status with some instructions
+		return [
+			"toastr" => [
+				"status"=>"success"
+				,"msg"=>"La suppression du module a été effectuée avec succès."
+			]
+			,"callbacks" => [
+				0 => [
+					"method" => "refreshBlock"
+					,"args"	 => ["block-".$this->type."-".$this->module]
+				]
+			]
+		];
 	}
 }

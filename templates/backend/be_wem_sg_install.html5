@@ -30,10 +30,88 @@
 <script type="text/javascript">
 var j = jQuery.noConflict();
 
-j(document).ready(function(){
+// Toastr Options
+toastr.options.closeButton = true;
+toastr.options.timeOut = 0;
+toastr.options.extendedTimeOut = 0;
 
+j(document).ready(function(){
+	/**
+	 * Store the "submit" clicked for the form
+	 */
+	j('#tl_wem_sg_install').on('click', '.block .tl_submit', function(e){
+		j(this).closest('form').find('input.btnAction').val(j(this).attr('value'));
+	});
+
+	/**
+	 * Replace normal form submit by an AJAX one
+	 */
+	j('#tl_wem_sg_install').on('submit', '.block form', function(e){
+		e.preventDefault();
+		var ctn = j(this).closest('.block');
+		ctn.find('.loader').addClass("active");
+
+		var objFields = {
+			'TL_WEM_AJAX':1
+			,'wem_module':'be_smartgear'
+		};
+
+		j(this).find('input').each(function(){
+			objFields[j(this).attr('name')] = j(this).val();
+		});
+
+		j.ajax({
+			method: "POST"
+			//,timeout:5000
+			,data: objFields
+		})
+		.done(function(msg){
+			// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+			try{
+				var results = j.parseJSON(msg);
+
+				// Display a toastr if asked
+				if(results["toastr"]){
+					toastr[results["toastr"]["status"]](results["toastr"]["msg"]);
+				}
+
+				// Callbakcs if asked
+				if(results["callbacks"]){
+					for(var i in results["callbacks"]){
+						if("object" == typeof(results["callbacks"][i])){
+							window[results["callbacks"][i].method].apply(null, results["callbacks"][i].args);
+						}
+					}
+				}
+			}
+			catch(err){
+       			toastr.error(err);
+			}
+		})
+		.fail(function(jqXHR, textStatus, errorThrown){
+			toastr.error(textStatus+"<br>"+errorThrown);
+			console.log(jqXHR);
+			console.log(textStatus);
+			console.log(errorThrown);
+		})
+		.always(function(){
+			ctn.find('.loader').removeClass("active");
+		});
+	});
 });
 
+/**
+ * Refresh all the blocks in the page
+ */
+function refreshAllBlocks(){
+	j('#tl_wem_sg_install .block').each(function(){
+		refreshBlock(j(this).attr('id'));
+	});
+}
+
+/**
+ * Refresh a block with its ID
+ */
 function refreshBlock(id){
 	var ctn = j('div#'+id);
 	ctn.find('.loader').addClass("active");
@@ -42,14 +120,15 @@ function refreshBlock(id){
 		'TL_WEM_AJAX':1
 		,'REQUEST_TOKEN':"<?= $this->token ?>"
 		,'wem_module':'be_smartgear'
-		,'action':'refreshBlock'
+		,'action':'parse'
+		,'format':'html'
 		,'type':ctn.data("type")
 		,'module':ctn.data("module")
 	};
 
 	j.ajax({
 		method: "POST"
-		,timeout:5000
+		//,timeout:5000
 		,data: objFields
 	})
 	.done(function(msg){

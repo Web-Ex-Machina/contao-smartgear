@@ -21,4 +21,5 @@ interface BlockInterface
 	public function install();
 	public function reset();
 	public function remove();
+	public function parse();
 }

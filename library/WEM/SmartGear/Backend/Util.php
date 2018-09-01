@@ -11,7 +11,7 @@
 namespace WEM\SmartGear\Backend;
 
 use Exception;
-use Contao\Config;
+use Contao\File;
 use Contao\PageModel;
 use Contao\ArticleModel;
 use Contao\ContentModel;
@@ -23,6 +23,12 @@ use Contao\ContentModel;
  */
 class Util
 {
+	/**
+	 * Store the path to the config file
+	 * @var String
+	 */
+	protected static $strConfigPath = "system/modules/wem-contao-smartgear/assets/config/smartgear.json";
+
 	/**
 	 * Find and Create an Object, depending on type and module
 	 * @param  [String] $strType   [Type / Folder]
@@ -48,22 +54,67 @@ class Util
 			throw $e;
 		}
 	}
+
+	/**
+	 * Get Smartgear Config
+	 * @param  [String] $strKey [Config key wanted]
+	 * @return [Mixed] 			[Config value]
+	 */
+	public static function loadSmartgearConfig(){
+		try{
+			$objFiles = \Files::getInstance();
+			$objFile = $objFiles->fopen(static::$strConfigPath, "a");
+			$arrConfig = [];
+
+			// Get the config file
+			if($strConfig = file_get_contents(static::$strConfigPath))
+				$arrConfig = (array)json_decode($strConfig, JSON_PRETTY_PRINT);
+
+			// And return the entire config, updated
+			return $arrConfig;
+		}
+		catch(Exception $e){
+			throw $e;
+		}
+	}
 	
 	/**
 	 * Update Contao Config
 	 * @param  [Array] $arrVars [Key/Value Array]
 	 */
 	public static function updateConfig($arrVars){
-		foreach($arrVars as $strKey => $varValue)
-			Config::persist($strKey, $varValue);
+		try{
+			$objFiles = \Files::getInstance();
+			$strConfig = file_get_contents(static::$strConfigPath);
+			$arrConfig = [];
+
+			// Decode the config
+			if($strConfig)
+				$arrConfig = (array)json_decode($strConfig);
+			
+			// Update the config
+			foreach($arrVars as $strKey => $varValue)
+				$arrConfig[$strKey] = $varValue;
+
+			// Open and update the config file
+			$objFile = $objFiles->fopen(static::$strConfigPath, "w");
+			$objFiles->fputs($objFile, json_encode($arrConfig));
+			
+			// And return the entire config, updated
+			return $arrConfig;
+		}
+		catch(Exception $e){
+			throw $e;
+		}
 	}
 
 	/**
 	 * Shortcut for page w/ modules creations
 	 */
 	public static function createPageWithModule($strTitle, $intModule, $intPid = 0){
+		$arrConfig = static::loadSmartgearConfig();
 		if(0 === $intPid)
-			$intPid = Config::get("sgInstallRootPage");
+			$intPid = $arrConfig["sgInstallRootPage"];
 		
 		// Create the page
 		$objPage = new PageModel();
@@ -86,7 +137,7 @@ class Util
 		$objArticle->sorting = 128;
 		$objArticle->title = $objPage->title;
 		$objArticle->alias = $objPage->alias;
-		$objArticle->author = Config::get("sgInstallUser");
+		$objArticle->author = $arrConfig["sgInstallUser"];
 		$objArticle->inColumn = "main";
 		$objArticle->published = 1;
 		$objArticle->save();
@@ -109,8 +160,9 @@ class Util
 	 * Shortcut for page w/ texts creations
 	 */
 	public static function createPageWithText($strTitle, $strText, $intPid = 0, $arrHl = null){
+		$arrConfig = static::loadSmartgearConfig();
 		if(0 === $intPid)
-			$intPid = Config::get("sgInstallRootPage");
+			$intPid = $arrConfig["sgInstallRootPage"];
 		
 		// Create the page
 		$objPage = new PageModel();
@@ -133,7 +185,7 @@ class Util
 		$objArticle->sorting = 128;
 		$objArticle->title = $objPage->title;
 		$objArticle->alias = $objPage->alias;
-		$objArticle->author = Config::get("sgInstallUser");
+		$objArticle->author = $arrConfig["sgInstallUser"];
 		$objArticle->inColumn = "main";
 		$objArticle->published = 1;
 		$objArticle->save();

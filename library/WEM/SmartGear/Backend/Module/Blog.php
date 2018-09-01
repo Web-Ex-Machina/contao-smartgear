@@ -11,13 +11,6 @@
 namespace WEM\SmartGear\Backend\Module;
 
 use \Exception;
-use Contao\Config;
-use Contao\PageModel;
-use Contao\ModuleModel;
-use Contao\NewsArchiveModel;
-use Contao\ArticleModel;
-use Contao\ContentModel;
-use Contao\FrontendTemplate;
 
 use WEM\SmartGear\Backend\Block;
 use WEM\SmartGear\Backend\BlockInterface;
@@ -50,7 +43,7 @@ class Blog extends Block implements BlockInterface
 		if(!isset($this->bundles['ContaoNewsBundle'])){
 			$this->messages[] = ['class' => 'tl_error', 'text' => 'Le blog n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.'];
 		}
-		else if(!Config::get('sgBlogInstall') || 0 === \NewsArchiveModel::countById(Config::get('sgBlogNewsArchive'))){
+		else if(!$this->sgConfig['sgBlogInstall'] || 0 === \NewsArchiveModel::countById($this->sgConfig['sgBlogNewsArchive'])){
 			$this->messages[] = ['class' => 'tl_info', 'text' => 'Le blog est installé, mais pas configuré.'];
 			$this->actions[] = ['action'=>'install', 'label'=>'Installer'];
 		}
@@ -67,15 +60,15 @@ class Blog extends Block implements BlockInterface
 	public function install(){
 		
 		// Create the archive
-		$objArchive = new NewsArchiveModel();
+		$objArchive = new \NewsArchiveModel();
 		$objArchive->tstamp = time();
 		$objArchive->title = "Blog";
 		$objArchive->save();
 
 		// Create the list module
-		$objListModule = new ModuleModel();
+		$objListModule = new \ModuleModel();
 		$objListModule->tstamp = time();
-		$objListModule->pid = Config::get("sgInstallTheme");
+		$objListModule->pid = $this->sgConfig["sgInstallTheme"];
 		$objListModule->name = "Blog - List";
 		$objListModule->type = "newslist";
 		$objListModule->news_archives = serialize([0=>$objArchive->id]);
@@ -89,9 +82,9 @@ class Blog extends Block implements BlockInterface
 		$objListModule->save();
 
 		// Create the reader module
-		$objReaderModule = new ModuleModel();
+		$objReaderModule = new \ModuleModel();
 		$objReaderModule->tstamp = time();
-		$objReaderModule->pid = Config::get("sgInstallTheme");
+		$objReaderModule->pid = $this->sgConfig["sgInstallTheme"];
 		$objReaderModule->name = "Blog - Reader";
 		$objReaderModule->type = "newsreader";
 		$objReaderModule->news_archives = serialize([0=>$objArchive->id]);
@@ -100,10 +93,10 @@ class Blog extends Block implements BlockInterface
 		$objReaderModule->save();
 
 		// Create the list page
-		$objPage = new PageModel();
+		$objPage = new \PageModel();
 		$objPage->tstamp = time();
-		$objPage->pid = Config::get("sgInstallRootPage");
-		$objPage->sorting = (PageModel::countBy("pid", Config::get("sgInstallRootPage")) + 1) * 128;
+		$objPage->pid = $this->sgConfig["sgInstallRootPage"];
+		$objPage->sorting = (\PageModel::countBy("pid", $this->sgConfig["sgInstallRootPage"]) + 1) * 128;
 		$objPage->title = "Blog";
 		$objPage->alias = \StringUtil::generateAlias($objPage->title);
 		$objPage->type = "regular";
@@ -114,19 +107,19 @@ class Blog extends Block implements BlockInterface
 		$objPage->save();
 
 		// Create the article
-		$objArticle = new ArticleModel();
+		$objArticle = new \ArticleModel();
 		$objArticle->tstamp = time();
 		$objArticle->pid = $objPage->id;
 		$objArticle->sorting = 128;
 		$objArticle->title = $objPage->title;
 		$objArticle->alias = $objPage->alias;
-		$objArticle->author = Config::get("sgInstallUser");
+		$objArticle->author = $this->sgConfig["sgInstallUser"];
 		$objArticle->inColumn = "main";
 		$objArticle->published = 1;
 		$objArticle->save();
 
 		// Create the content
-		$objContent = new ContentModel();
+		$objContent = new \ContentModel();
 		$objContent->tstamp = time();
 		$objContent->pid = $objArticle->id;
 		$objContent->ptable = "tl_article";
@@ -136,7 +129,7 @@ class Blog extends Block implements BlockInterface
 		$objContent->save();
 
 		// Create the content
-		$objContent = new ContentModel();
+		$objContent = new \ContentModel();
 		$objContent->tstamp = time();
 		$objContent->pid = $objArticle->id;
 		$objContent->ptable = "tl_article";
@@ -150,7 +143,7 @@ class Blog extends Block implements BlockInterface
 		$objArchive->save();
 		
 		// And save stuff in config
-		$this->updateConfig([
+		Util::updateConfig([
 			"sgBlogInstall"=>1
 			,"sgBlogNewsArchive"=>$objArchive->id
 			,"sgBlogModuleList"=>$objListModule->id
@@ -158,32 +151,38 @@ class Blog extends Block implements BlockInterface
 			,"sgBlogPageList"=>$objPage->id
 			,"sgBlogPageReader"=>$objPage->id
 		]);
-	}
 
-	/**
-	 * Reset the module
-	 */
-	public function reset(){
-		$this->remove();
-		$this->install();
+		// And return an explicit status with some instructions
+		return [
+			"toastr" => [
+				"status"=>"success"
+				,"msg"=>"La configuration du blog a été effectuée avec succès."
+			]
+			,"callbacks" => [
+				0 => [
+					"method" => "refreshBlock"
+					,"args"	 => ["block-".$this->type."-".$this->module]
+				]
+			]
+		];
 	}
 
 	/**
 	 * Remove the module
 	 */
 	public function remove(){
-		if($objArchive = NewsArchiveModel::findByPk(Config::get("sgBlogNewsArchive")))
+		if($objArchive = \NewsArchiveModel::findByPk($this->sgConfig["sgBlogNewsArchive"]))
 			$objArchive->delete();
-		if($objModule = ModuleModel::findByPk(Config::get("sgBlogModuleList")))
+		if($objModule = \ModuleModel::findByPk($this->sgConfig["sgBlogModuleList"]))
 			$objModule->delete();
-		if($objModule = ModuleModel::findByPk(Config::get("sgBlogModuleReader")))
+		if($objModule = \ModuleModel::findByPk($this->sgConfig["sgBlogModuleReader"]))
 			$objModule->delete();
-		if($objPage = PageModel::findByPk(Config::get("sgBlogPageList")))
+		if($objPage = \PageModel::findByPk($this->sgConfig["sgBlogPageList"]))
 			$objPage->delete();
-		if($objPage = PageModel::findByPk(Config::get("sgBlogPageReader")))
+		if($objPage = \PageModel::findByPk($this->sgConfig["sgBlogPageReader"]))
 			$objPage->delete();
 
-		$this->updateConfig([
+		Util::updateConfig([
 			"sgBlogInstall"=>''
 			,"sgBlogNewsArchive"=>''
 			,"sgBlogModuleList"=>''
@@ -191,5 +190,19 @@ class Blog extends Block implements BlockInterface
 			,"sgBlogPageList"=>''
 			,"sgBlogPageReader"=>''
 		]);
+
+		// And return an explicit status with some instructions
+		return [
+			"toastr" => [
+				"status"=>"success"
+				,"msg"=>"La suppression du blog a été effectuée avec succès."
+			]
+			,"callbacks" => [
+				0 => [
+					"method" => "refreshBlock"
+					,"args"	 => ["block-".$this->type."-".$this->module]
+				]
+			]
+		];
 	}
 }

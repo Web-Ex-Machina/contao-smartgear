@@ -11,13 +11,6 @@
 namespace WEM\SmartGear\Backend\Module;
 
 use \Exception;
-use Contao\Config;
-use Contao\PageModel;
-use Contao\ModuleModel;
-use Contao\CalendarModel;
-use Contao\ArticleModel;
-use Contao\ContentModel;
-use Contao\FrontendTemplate;
 
 use WEM\SmartGear\Backend\Block;
 use WEM\SmartGear\Backend\BlockInterface;
@@ -50,7 +43,7 @@ class Calendar extends Block implements BlockInterface
 		if(!isset($this->bundles['ContaoCalendarBundle'])){
 			$this->messages[] = ['class' => 'tl_error', 'text' => 'Le module Événements n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.'];
 		}
-		else if(!Config::get('sgCalendarInstall') || 0 === \CalendarModel::countById(Config::get('sgCalendar'))){
+		else if(!$this->sgConfig['sgCalendarInstall'] || 0 === \CalendarModel::countById($this->sgConfig['sgCalendar'])){
 			$this->messages[] = ['class' => 'tl_info', 'text' => 'Le module Événements est installé, mais pas configuré.'];
 			$this->actions[] = ['action'=>'install', 'label'=>'Installer'];
 		}
@@ -67,15 +60,15 @@ class Calendar extends Block implements BlockInterface
 	public function install(){
 		
 		// Create the archive
-		$objCalendar = new CalendarModel();
+		$objCalendar = new \CalendarModel();
 		$objCalendar->tstamp = time();
 		$objCalendar->title = "Événements";
 		$objCalendar->save();
 
 		// Create the reader module
-		$objReaderModule = new ModuleModel();
+		$objReaderModule = new \ModuleModel();
 		$objReaderModule->tstamp = time();
-		$objReaderModule->pid = Config::get("sgInstallTheme");
+		$objReaderModule->pid = $this->sgConfig["sgInstallTheme"];
 		$objReaderModule->name = "Événements - Reader";
 		$objReaderModule->type = "eventreader";
 		$objReaderModule->cal_calendar = serialize([0=>$objCalendar->id]);
@@ -84,9 +77,9 @@ class Calendar extends Block implements BlockInterface
 		$objReaderModule->save();
 
 		// Create the list modules
-		$objListModule = new ModuleModel();
+		$objListModule = new \ModuleModel();
 		$objListModule->tstamp = time();
-		$objListModule->pid = Config::get("sgInstallTheme");
+		$objListModule->pid = $this->sgConfig["sgInstallTheme"];
 		$objListModule->name = "Événements - List - Upcoming";
 		$objListModule->type = "eventlist";
 		$objListModule->cal_calendar = serialize([0=>$objCalendar->id]);
@@ -102,9 +95,9 @@ class Calendar extends Block implements BlockInterface
 		$objListModule->imgSize = serialize([0=>1000,1=>"",2=>"proportional"]);
 		$objListModule->save();
 
-		$objListModulePassed = new ModuleModel();
+		$objListModulePassed = new \ModuleModel();
 		$objListModulePassed->tstamp = time();
-		$objListModulePassed->pid = Config::get("sgInstallTheme");
+		$objListModulePassed->pid = $this->sgConfig["sgInstallTheme"];
 		$objListModulePassed->name = "Événements - List - Passed";
 		$objListModulePassed->type = "eventlist";
 		$objListModulePassed->cal_calendar = serialize([0=>$objCalendar->id]);
@@ -121,10 +114,10 @@ class Calendar extends Block implements BlockInterface
 		$objListModulePassed->save();
 
 		// Create the list page
-		$objPage = new PageModel();
+		$objPage = new \PageModel();
 		$objPage->tstamp = time();
-		$objPage->pid = Config::get("sgInstallRootPage");
-		$objPage->sorting = (PageModel::countBy("pid", Config::get("sgInstallRootPage")) + 1) * 128;
+		$objPage->pid = $this->sgConfig["sgInstallRootPage"];
+		$objPage->sorting = (\PageModel::countBy("pid", $this->sgConfig["sgInstallRootPage"]) + 1) * 128;
 		$objPage->title = "Événements";
 		$objPage->alias = \StringUtil::generateAlias($objPage->title);
 		$objPage->type = "regular";
@@ -135,19 +128,19 @@ class Calendar extends Block implements BlockInterface
 		$objPage->save();
 
 		// Create the article
-		$objArticle = new ArticleModel();
+		$objArticle = new \ArticleModel();
 		$objArticle->tstamp = time();
 		$objArticle->pid = $objPage->id;
 		$objArticle->sorting = 128;
 		$objArticle->title = $objPage->title;
 		$objArticle->alias = $objPage->alias;
-		$objArticle->author = Config::get("sgInstallUser");
+		$objArticle->author = $this->sgConfig["sgInstallUser"];
 		$objArticle->inColumn = "main";
 		$objArticle->published = 1;
 		$objArticle->save();
 
 		// Create the content
-		$objContent = new ContentModel();
+		$objContent = new \ContentModel();
 		$objContent->tstamp = time();
 		$objContent->pid = $objArticle->id;
 		$objContent->ptable = "tl_article";
@@ -156,7 +149,7 @@ class Calendar extends Block implements BlockInterface
 		$objContent->module = $objListModule->id;
 		$objContent->save();
 
-		$objContent = new ContentModel();
+		$objContent = new \ContentModel();
 		$objContent->tstamp = time();
 		$objContent->pid = $objArticle->id;
 		$objContent->ptable = "tl_article";
@@ -166,7 +159,7 @@ class Calendar extends Block implements BlockInterface
 		$objContent->save();
 
 		// Create the content
-		$objContent = new ContentModel();
+		$objContent = new \ContentModel();
 		$objContent->tstamp = time();
 		$objContent->pid = $objArticle->id;
 		$objContent->ptable = "tl_article";
@@ -180,7 +173,7 @@ class Calendar extends Block implements BlockInterface
 		$objCalendar->save();
 		
 		// And save stuff in config
-		$this->updateConfig([
+		Util::updateConfig([
 			"sgCalendarInstall"=>1
 			,"sgCalendar"=>$objCalendar->id
 			,"sgCalendarModuleList"=>$objListModule->id
@@ -189,34 +182,40 @@ class Calendar extends Block implements BlockInterface
 			,"sgCalendarPageList"=>$objPage->id
 			,"sgCalendarPageReader"=>$objPage->id
 		]);
-	}
 
-	/**
-	 * Reset the module
-	 */
-	public function reset(){
-		$this->remove();
-		$this->install();
+		// And return an explicit status with some instructions
+		return [
+			"toastr" => [
+				"status"=>"success"
+				,"msg"=>"La configuration du module a été effectuée avec succès."
+			]
+			,"callbacks" => [
+				0 => [
+					"method" => "refreshBlock"
+					,"args"	 => ["block-".$this->type."-".$this->module]
+				]
+			]
+		];
 	}
 
 	/**
 	 * Remove the module
 	 */
 	public function remove(){
-		if($objArchive = CalendarModel::findByPk(Config::get("sgCalendar")))
+		if($objArchive = \CalendarModel::findByPk($this->sgConfig["sgCalendar"]))
 			$objArchive->delete();
-		if($objModule = ModuleModel::findByPk(Config::get("sgCalendarModuleList")))
+		if($objModule = \ModuleModel::findByPk($this->sgConfig["sgCalendarModuleList"]))
 			$objModule->delete();
-		if($objModule = ModuleModel::findByPk(Config::get("sgCalendarModuleListPassed")))
+		if($objModule = \ModuleModel::findByPk($this->sgConfig["sgCalendarModuleListPassed"]))
 			$objModule->delete();
-		if($objModule = ModuleModel::findByPk(Config::get("sgCalendarModuleReader")))
+		if($objModule = \ModuleModel::findByPk($this->sgConfig["sgCalendarModuleReader"]))
 			$objModule->delete();
-		if($objPage = PageModel::findByPk(Config::get("sgCalendarPageList")))
+		if($objPage = \PageModel::findByPk($this->sgConfig["sgCalendarPageList"]))
 			$objPage->delete();
-		if($objPage = PageModel::findByPk(Config::get("sgCalendarPageReader")))
+		if($objPage = \PageModel::findByPk($this->sgConfig["sgCalendarPageReader"]))
 			$objPage->delete();
 
-		$this->updateConfig([
+		Util::updateConfig([
 			"sgCalendarInstall"=>''
 			,"sgCalendar"=>''
 			,"sgCalendarModuleList"=>''
@@ -225,5 +224,19 @@ class Calendar extends Block implements BlockInterface
 			,"sgCalendarPageList"=>''
 			,"sgCalendarPageReader"=>''
 		]);
+
+		// And return an explicit status with some instructions
+		return [
+			"toastr" => [
+				"status"=>"success"
+				,"msg"=>"La suppression du module a été effectuée avec succès."
+			]
+			,"callbacks" => [
+				0 => [
+					"method" => "refreshBlock"
+					,"args"	 => ["block-".$this->type."-".$this->module]
+				]
+			]
+		];
 	}
 }

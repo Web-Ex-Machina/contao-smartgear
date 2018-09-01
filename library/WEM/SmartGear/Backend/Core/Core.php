@@ -11,13 +11,6 @@
 namespace WEM\SmartGear\Backend\Core;
 
 use \Exception;
-use Contao\Config;
-use Contao\PageModel;
-use Contao\ModuleModel;
-use Contao\NewsArchiveModel;
-use Contao\ArticleModel;
-use Contao\ContentModel;
-use Contao\FrontendTemplate;
 
 use WEM\SmartGear\Backend\Block;
 use WEM\SmartGear\Backend\BlockInterface;
@@ -47,7 +40,7 @@ class Core extends Block implements BlockInterface
 	 */
 	public function getStatus(){
 		// Check if Smartgear is install
-		if(!Config::get('sgInstallComplete')){
+		if(!$this->sgConfig['sgInstallComplete']){
 			$this->title = "Smartgear | Core | Installation";
 			$this->messages[] = ["text"=>"Avant de faire quoique ce soit l'ami, tu vas devoir installer quelques trucs de base. Pas de soucis, on gère tout ça pour toi. Voilà ce qui est prévu :"];
 			$this->messages[] = ["text"=>"<ul>
@@ -62,7 +55,7 @@ class Core extends Block implements BlockInterface
 		</ul>"];
 			$this->messages[] = ["class"=>"tl_info", "text"=>"A noter que tout cela sera prochainement découpé en étapes, pour permettre de configurer chaque module plus précisément."];
 
-			$this->fields[] = ['name'=>'websiteTitle', 'value'=>Config::get('websiteTitle'), 'label'=>'Titre du site internet', 'help'=>'Saisir le titre du site internet'];
+			$this->fields[] = ['name'=>'websiteTitle', 'value'=>$this->sgConfig['websiteTitle'], 'label'=>'Titre du site internet', 'help'=>'Saisir le titre du site internet'];
 			$this->actions[] = ['action'=>'setup', 'label'=>'Installer Smartgear'];
 
 		} else {
@@ -86,22 +79,22 @@ class Core extends Block implements BlockInterface
 			$this->logs[] = ["status"=>"tl_info", "msg"=>"Début de l'installation"];
 
 			// Store the default config
-			Config::persist("websiteTitle", Input::post('websiteTitle'));
-			Config::persist("dateFormat", "d/m/Y");
-			Config::persist("timeFormat", "H:i");
-			Config::persist("datimFormat", "d/m/Y à H:i");
-			Config::persist("timeZone", "Europe/Paris");
-			Config::persist("adminEmail", "contact@webexmachina.fr");
-			Config::persist("characterSet", "utf-8");
-			Config::persist("useAutoItem", 1);
-			Config::persist("privacyAnonymizeIp", 1);
-			Config::persist("privacyAnonymizeGA", 1);
-			Config::persist("gdMaxImgWidth", 5000);
-			Config::persist("gdMaxImgHeight", 5000);
-			Config::persist("maxFileSize", 20971520);
+			$arrSgConfig["websiteTitle"] = Input::post('websiteTitle');
+			$arrSgConfig["dateFormat"] = "d/m/Y";
+			$arrSgConfig["timeFormat"] = "H:i";
+			$arrSgConfig["datimFormat"] = "d/m/Y à H:i";
+			$arrSgConfig["timeZone"] = "Europe/Paris";
+			$arrSgConfig["adminEmail"] = "contact@webexmachina.fr";
+			$arrSgConfig["characterSet"] = "utf-8";
+			$arrSgConfig["useAutoItem"] = 1;
+			$arrSgConfig["privacyAnonymizeIp"] = 1;
+			$arrSgConfig["privacyAnonymizeGA"] = 1;
+			$arrSgConfig["gdMaxImgWidth"] = 5000;
+			$arrSgConfig["gdMaxImgHeight"] = 5000;
+			$arrSgConfig["maxFileSize"] = 20971520;
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Configuration importée"];
 
-			// Create templates and rsce folders and Move all Smartgear files in this one
+			// Create templates and rsce folders and move all Smartgear files in this one
 			$this->processRSCE('install');
 
 			// Check app folders and check if there is all Jeff stuff loaded
@@ -120,7 +113,6 @@ class Core extends Block implements BlockInterface
 			$objTheme->author = "Web ex Machina";
 			$objTheme->templates = "templates/smartgear";
 			$objTheme->save();
-			Config::persist("sgInstallTheme", $objTheme->id);
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le thème %s a été créé et sera utilisé pour la suite de la configuration", $objTheme->name)];
 
 			// Create the Smartgear main modules
@@ -165,12 +157,10 @@ class Core extends Block implements BlockInterface
 			$objModule->tstamp = time();
 			$objModule->type = "html";
 			$objModule->name = "FOOTER";
-			$objModule->html = '<div class="footer__copyright">© {{date::Y}} '.Config::get('websiteTitle').'</div>';
+			$objModule->html = '<div class="footer__copyright">© {{date::Y}} '.$this->sgConfig['websiteTitle'].'</div>';
 			$objModule->save();
 			$arrLayoutModules[] = ["mod"=>$objModule->id, "col"=>"footer", "enable"=>"1"];
 			$arrModules[] = $objModule->id;
-
-			Config::persist("sgInstallModules", serialize($arrModules));
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Les modules principaux ont été créés", $objTheme->name)];
 
 			// Create the Smartgear main layout
@@ -203,7 +193,6 @@ class Core extends Block implements BlockInterface
 			$objLayout->orderExtJs = serialize($arrJsFiles);
 			$objLayout->modules = serialize($arrLayoutModules);
 			$objLayout->save();
-			Config::persist("sgInstallLayout", $objLayout->id);
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le layout %s a été créé et sera utilisé pour la suite de la configuration", $objLayout->name)];
 
 			// Create the default user group
@@ -211,7 +200,6 @@ class Core extends Block implements BlockInterface
 			$objUserGroup->tstamp = time();
 			$objUserGroup->name = "Administrateurs";
 			$objUserGroup->save();
-			Config::persist("sgInstallUserGroup", $objUserGroup->id);
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le groupe d'utilisateurs %s a été créé", $objUserGroup->name)];
 
 			// Add a default user to the user group
@@ -227,7 +215,6 @@ class Core extends Block implements BlockInterface
 			$objUser->uploader = "DropZone";
 			$objUser->pwChange = 1;
 			$objUser->save();
-			Config::persist("sgInstallUser", $objUser->id);
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("L'utilisateur %s a été créé", $objUser->name)];
 
 			// Generate a root page with the stuff previously created
@@ -235,7 +222,7 @@ class Core extends Block implements BlockInterface
 			$objRootPage->pid = 0;
 			$objRootPage->sorting = (\PageModel::countByPid(0) + 1) * 128;
 			$objRootPage->tstamp = time();
-			$objRootPage->title = Config::get('websiteTitle');
+			$objRootPage->title = $this->sgConfig['websiteTitle'];
 			$objRootPage->alias = StringUtil::generateAlias($objRootPage->title);
 			$objRootPage->type = "root";
 			$objRootPage->language = "fr";
@@ -251,7 +238,6 @@ class Core extends Block implements BlockInterface
 			$objRootPage->chmod = 'a:12:{i:0;s:2:"u1";i:1;s:2:"u2";i:2;s:2:"u3";i:3;s:2:"u4";i:4;s:2:"u5";i:5;s:2:"u6";i:6;s:2:"g1";i:7;s:2:"g2";i:8;s:2:"g3";i:9;s:2:"g4";i:10;s:2:"g5";i:11;s:2:"g6";}';
 			$objRootPage->published = 1;
 			$objRootPage->save();
-			Config::persist("sgInstallRootPage", $objRootPage->id);
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le site Internet %s a été créé", $objRootPage->title)];
 
 			// Generate a gateway in the Notification Center
@@ -260,12 +246,35 @@ class Core extends Block implements BlockInterface
 			$objGateway->title = "Email de service - Smartgear";
 			$objGateway->type = "email";
 			$objGateway->save();
-			Config::persist("sgInstallNcGateway", $objGateway->id);
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("La passerelle (Notification Center) %s a été créée", $objGateway->title)];
 
 			// Finally, notify in Config that the install is complete :)
-			Config::persist("sgInstallComplete", 1);
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Installation terminée"];
+
+			// Update Config
+			$arrSgConfig["sgInstallTheme"] = $objTheme->id;
+			$arrSgConfig["sgInstallModules"] = serialize($arrModules);
+			$arrSgConfig["sgInstallLayout"] = $objLayout->id;
+			$arrSgConfig["sgInstallUserGroup"] = $objUserGroup->id;
+			$arrSgConfig["sgInstallUser"] = $objUser->id;
+			$arrSgConfig["sgInstallRootPage"] = $objRootPage->id;
+			$arrSgConfig["sgInstallNcGateway"] = $objGateway->id;
+			$arrSgConfig["sgInstallComplete"] = 1;
+			Util::updateConfig($arrSgConfig);
+
+			// And return an explicit status with some instructions
+			return [
+				"toastr" => [
+					"status"=>"success"
+					,"msg"=>"L'installation de Smartgear est terminée avec succès !"
+				]
+				,"callbacks" => [
+					0 => [
+						"method" => "refreshBlock"
+						,"args"	 => ["block-".$this->type."-".$this->module]
+					]
+				]
+			];
 		}
 		catch(Exception $e){
 			$this->remove();
@@ -279,47 +288,47 @@ class Core extends Block implements BlockInterface
 	public function remove(){
 		try{
 			// Delete the Gateway
-			if($objGateway = \NotificationCenter\Model\Gateway::findByPk(Config::get('sgInstallNcGateway'))){
+			if($objGateway = \NotificationCenter\Model\Gateway::findByPk($this->sgConfig['sgInstallNcGateway'])){
 				if($objGateway->delete()){
-					Config::remove("sgInstallNcGateway");
+					$arrSgConfig["sgInstallNcGateway"] = "";
 					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("La passerelle (Notification Center) %s a été supprimée", $objGateway->title)];
 				}
 			}
 
 			// Delete the root page
-			if($objRootPage = \PageModel::findByPk(Config::get('sgInstallRootPage'))){
+			if($objRootPage = \PageModel::findByPk($this->sgConfig['sgInstallRootPage'])){
 				if($objRootPage->delete()){
-					Config::remove("sgInstallRootPage");
+					$arrSgConfig["sgInstallRootPage"] = "";
 					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le site Internet %s a été supprimé", $objRootPage->title)];
 				}
 			}
 
 			// Delete the user
-			if($objUser = \UserModel::findByPk(Config::get('sgInstallUser'))){
+			if($objUser = \UserModel::findByPk($this->sgConfig['sgInstallUser'])){
 				if($objUser->delete()){
-					Config::remove("sgInstallUser");
+					$arrSgConfig["sgInstallUser"] = "";
 					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("L'utilisateur %s a été supprimé", $objUser->name)];
 				}
 			}
 
 			// Delete the user group
-			if($objUserGroup = \UserModel::findByPk(Config::get('sgInstallUserGroup'))){
+			if($objUserGroup = \UserModel::findByPk($this->sgConfig['sgInstallUserGroup'])){
 				if($objUserGroup->delete()){
-					Config::remove("sgInstallUserGroup");
+					$arrSgConfig["sgInstallUserGroup"] = "";
 					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le groupe d'utilisateur %s a été supprimé", $objUserGroup->name)];
 				}
 			}
 
 			// Delete the layout
-			if($objLayout = \LayoutModel::findByPk(Config::get('sgInstallLayout'))){
+			if($objLayout = \LayoutModel::findByPk($this->sgConfig['sgInstallLayout'])){
 				if($objLayout->delete()){
-					Config::remove("sgInstallLayout");
+					$arrSgConfig["sgInstallLayout"] = "";
 					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le squelette %s a été supprimé", $objLayout->name)];
 				}
 			}
 
 			// Delete the modules
-			$arrModules = deserialize(Config::get('sgInstallModules'));
+			$arrModules = deserialize($this->sgConfig['sgInstallModules']);
 			if(is_array($arrModules) && !empty($arrModules)){
 				foreach($arrModules as $intKey => $intModule){
 					if($objModule = \ModuleModel::findByPk($intModule)){
@@ -332,15 +341,15 @@ class Core extends Block implements BlockInterface
 
 				// Clear the config
 				if(empty($arrModules))
-					Config::remove("sgInstallModules");
+					$arrSgConfig["sgInstallModules"] = "";
 				else
-					Config::persist("sgInstallModules", serialize($arrModules));
+					$arrSgConfig["sgInstallModules"] = serialize($arrModules);
 			}
 
 			// Delete the theme
-			if($objTheme = \ThemeModel::findByPk(Config::get('sgInstallTheme'))){
+			if($objTheme = \ThemeModel::findByPk($this->sgConfig['sgInstallTheme'])){
 				if($objTheme->delete()){
-					Config::remove("sgInstallTheme");
+					$arrSgConfig["sgInstallTheme"] = "";
 					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le thème %s a été supprimé", $objTheme->name)];
 				}
 			}
@@ -349,8 +358,23 @@ class Core extends Block implements BlockInterface
 			$this->processRSCE('delete');
 
 			// Finally, reset the config
-			Config::remove("sgInstallComplete");
+			$arrSgConfig["sgInstallComplete"] = "";
+			Util::updateConfig($arrSgConfig);
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Désinstallation terminée"];
+
+			// And return an explicit status with some instructions
+			return [
+				"toastr" => [
+					"status"=>"success"
+					,"msg"=>"La désinstallation de Smartgear a été effectuée avec succès."
+				]
+				,"callbacks" => [
+					0 => [
+						"method" => "refreshBlock"
+						,"args"	 => ["block-".$this->type."-".$this->module]
+					]
+				]
+			];
 		}
 		catch(Exception $e){
 			throw $e;
@@ -374,6 +398,20 @@ class Core extends Block implements BlockInterface
 			$objFiles->rrdir("templates");
 
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Contao a été réinitialisé"];
+
+			// And return an explicit status with some instructions
+			return [
+				"toastr" => [
+					"status"=>"success"
+					,"msg"=>"La réinitialisation de Contao a été effectuée avec succès."
+				]
+				,"callbacks" => [
+					0 => [
+						"method" => "refreshBlock"
+						,"args"	 => ["block-".$this->type."-".$this->module]
+					]
+				]
+			];
 		}
 		catch(Exception $e){
 			throw $e;

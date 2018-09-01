@@ -11,14 +11,6 @@
 namespace WEM\SmartGear\Backend\Module;
 
 use \Exception;
-use Contao\Config;
-use Contao\Files;
-use Contao\PageModel;
-use Contao\ModuleModel;
-use Contao\FaqCategoryModel;
-use Contao\ArticleModel;
-use Contao\ContentModel;
-use Contao\FrontendTemplate;
 
 use WEM\SmartGear\Backend\Block;
 use WEM\SmartGear\Backend\BlockInterface;
@@ -51,7 +43,7 @@ class Faq extends Block implements BlockInterface
 		if(!isset($this->bundles['ContaoFaqBundle'])){
 			$this->messages[] = ['class' => 'tl_error', 'text' => 'Le module FAQ n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.'];
 		}
-		else if(!Config::get('sgFAQInstall') || 0 === \FaqCategoryModel::countById(Config::get('sgFAQ'))){
+		else if(!$this->sgConfig['sgFAQInstall'] || 0 === \FaqCategoryModel::countById($this->sgConfig['sgFAQ'])){
 			$this->messages[] = ['class' => 'tl_info', 'text' => 'Le module FAQ est installé, mais pas configuré.'];
 			$this->actions[] = ['action'=>'install', 'label'=>'Installer'];
 		}
@@ -68,21 +60,21 @@ class Faq extends Block implements BlockInterface
 	public function install(){
 		// Make sure the template is here before doing anything
 		if(!file_exists("templates/smartgear/mod_faqpage.html5")){
-			$objFiles = Files::getInstance();
+			$objFiles = \Files::getInstance();
 			$objFiles->copy("system/modules/wem-contao-smartgear/assets/templates_files/mod_faqpage.html5", "templates/smartgear/mod_faqpage.html5");
 		}
 
 		// Create the archive
-		$objFAQ = new FaqCategoryModel();
+		$objFAQ = new \FaqCategoryModel();
 		$objFAQ->tstamp = time();
 		$objFAQ->title = "FAQ";
 		$objFAQ->headline = "FAQ";
 		$objFAQ->save();
 
 		// Create the reader module
-		$objModule = new ModuleModel();
+		$objModule = new \ModuleModel();
 		$objModule->tstamp = time();
-		$objModule->pid = Config::get("sgInstallTheme");
+		$objModule->pid = $this->sgConfig["sgInstallTheme"];
 		$objModule->name = "FAQ";
 		$objModule->type = "faqpage";
 		$objModule->faq_categories = serialize([0=>$objFAQ->id]);
@@ -90,74 +82,61 @@ class Faq extends Block implements BlockInterface
 		$objModule->save();
 
 		// Create the page
-		$objPage = new PageModel();
-		$objPage->tstamp = time();
-		$objPage->pid = Config::get("sgInstallRootPage");
-		$objPage->sorting = (PageModel::countBy("pid", Config::get("sgInstallRootPage")) + 1) * 128;
-		$objPage->title = "FAQ";
-		$objPage->alias = \StringUtil::generateAlias($objPage->title);
-		$objPage->type = "regular";
-		$objPage->pageTitle = "FAQ";
-		$objPage->robots = "index,follow";
-		$objPage->sitemap = "map_default";
-		$objPage->published = 1;
-		$objPage->save();
-
-		// Create the article
-		$objArticle = new ArticleModel();
-		$objArticle->tstamp = time();
-		$objArticle->pid = $objPage->id;
-		$objArticle->sorting = 128;
-		$objArticle->title = $objPage->title;
-		$objArticle->alias = $objPage->alias;
-		$objArticle->author = Config::get("sgInstallUser");
-		$objArticle->inColumn = "main";
-		$objArticle->published = 1;
-		$objArticle->save();
-
-		// Create the content
-		$objContent = new ContentModel();
-		$objContent->tstamp = time();
-		$objContent->pid = $objArticle->id;
-		$objContent->ptable = "tl_article";
-		$objContent->sorting = 128;
-		$objContent->type = "module";
-		$objContent->module = $objModule->id;
-		$objContent->save();
+		$intPage = Util::createPageWithModule("FAQ", $objModule->id);
 		
 		// And save stuff in config
-		$this->updateConfig([
+		Util::updateConfig([
 			"sgFAQInstall"=>1
 			,"sgFAQ"=>$objFAQ->id
 			,"sgFAQModule"=>$objModule->id
-			,"sgFAQPage"=>$objPage->id
+			,"sgFAQPage"=>$intPage
 		]);
-	}
 
-	/**
-	 * Reset the module
-	 */
-	public function reset(){
-		$this->remove();
-		$this->install();
+		// And return an explicit status with some instructions
+		return [
+			"toastr" => [
+				"status"=>"success"
+				,"msg"=>"La configuration du module a été effectuée avec succès."
+			]
+			,"callbacks" => [
+				0 => [
+					"method" => "refreshBlock"
+					,"args"	 => ["block-".$this->type."-".$this->module]
+				]
+			]
+		];
 	}
 
 	/**
 	 * Remove the module
 	 */
 	public function remove(){
-		if($objFAQ = FaqCategoryModel::findByPk(Config::get("sgFAQ")))
+		if($objFAQ = \FaqCategoryModel::findByPk($this->sgConfig["sgFAQ"]))
 			$objFAQ->delete();
-		if($objModule = ModuleModel::findByPk(Config::get("sgFAQModule")))
+		if($objModule = \ModuleModel::findByPk($this->sgConfig["sgFAQModule"]))
 			$objModule->delete();
-		if($objPage = PageModel::findByPk(Config::get("sgFAQPage")))
+		if($objPage = \PageModel::findByPk($this->sgConfig["sgFAQPage"]))
 			$objPage->delete();
 
-		$this->updateConfig([
+		Util::updateConfig([
 			"sgFAQInstall"=>''
 			,"sgFAQ"=>''
 			,"sgFAQModule"=>''
 			,"sgFAQPage"=>''
 		]);
+
+		// And return an explicit status with some instructions
+		return [
+			"toastr" => [
+				"status"=>"success"
+				,"msg"=>"La suppression du module a été effectuée avec succès."
+			]
+			,"callbacks" => [
+				0 => [
+					"method" => "refreshBlock"
+					,"args"	 => ["block-".$this->type."-".$this->module]
+				]
+			]
+		];
 	}
 }
