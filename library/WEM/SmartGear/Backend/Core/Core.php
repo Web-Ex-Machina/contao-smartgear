@@ -56,7 +56,7 @@ class Core extends Block implements BlockInterface
 			$this->messages[] = ["class"=>"tl_info", "text"=>"A noter que tout cela sera prochainement découpé en étapes, pour permettre de configurer chaque module plus précisément."];
 
 			$this->fields[] = ['name'=>'websiteTitle', 'value'=>$this->sgConfig['websiteTitle'], 'label'=>'Titre du site internet', 'help'=>'Saisir le titre du site internet'];
-			$this->actions[] = ['action'=>'setup', 'label'=>'Installer Smartgear'];
+			$this->actions[] = ['action'=>'install', 'label'=>'Installer Smartgear'];
 
 			$this->status = 0;
 
@@ -67,11 +67,34 @@ class Core extends Block implements BlockInterface
 			$this->messages[] = ['class' => 'tl_error', 'text' => 'Vous pouvez également réinitialiser la totalité des données Contao. Tous les fichiers et toutes les données seront supprimés.'];
 
 			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser Smartgear', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Smartgear ?\'))return false;Backend.getScrollOffset()"'];
-			$this->actions[] = ['action'=>'delete', 'label'=>'Supprimer Smartgear', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment supprimer Smartgear ?\'))return false;Backend.getScrollOffset()"'];
+			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer Smartgear', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment supprimer Smartgear ?\'))return false;Backend.getScrollOffset()"'];
 			$this->actions[] = ['action'=>'truncate', 'label'=>'Réinitialiser Contao', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Contao ?\'))return false;Backend.getScrollOffset()"'];
 
 			$this->status = 1;
 		}
+	}
+
+	/**
+	 * Reset Smartgear
+	 */
+	public function reset(){
+		\Input::setPost("websiteTitle", $this->sgConfig["websiteTitle"]);
+		$this->remove();
+		$this->install();
+
+		// And return an explicit status with some instructions
+		return [
+			"toastr" => [
+				"status"=>"success"
+				,"msg"=>"Réinitialisation effectuée avec succès."
+			]
+			,"callbacks" => [
+				0 => [
+					"method" => "refreshBlock"
+					,"args"	 => ["block-".$this->type."-".$this->module]
+				]
+			]
+		];
 	}
 
 	/**
@@ -83,7 +106,7 @@ class Core extends Block implements BlockInterface
 			$this->logs[] = ["status"=>"tl_info", "msg"=>"Début de l'installation"];
 
 			// Store the default config
-			$arrSgConfig["websiteTitle"] = Input::post('websiteTitle');
+			$arrSgConfig["websiteTitle"] = \Input::post('websiteTitle');
 			$arrSgConfig["dateFormat"] = "d/m/Y";
 			$arrSgConfig["timeFormat"] = "H:i";
 			$arrSgConfig["datimFormat"] = "d/m/Y à H:i";
@@ -96,10 +119,16 @@ class Core extends Block implements BlockInterface
 			$arrSgConfig["gdMaxImgWidth"] = 5000;
 			$arrSgConfig["gdMaxImgHeight"] = 5000;
 			$arrSgConfig["maxFileSize"] = 20971520;
+			
+			// Update Contao Config
+			foreach($arrSgConfig as $k=>$v)
+				\Config::persist($k, $v);
+
+			$this->sgConfig = Util::updateConfig(["websiteTitle"=>\Input::post('websiteTitle')]);
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Configuration importée"];
 
 			// Check app folders and check if there is all Jeff stuff loaded
-			if(!file_exists("files/app/build/css/framway.css") || !file_exists("files/app/build/css/vendor.css") || !file_exists("files/app/build/js/framway.js") || !file_exists("files/app/build/js/vendor.js"))
+			if(!file_exists(TL_ROOT."/files/app/build/css/framway.css") || !file_exists(TL_ROOT."/files/app/build/css/vendor.css") || !file_exists(TL_ROOT."/files/app/build/js/framway.js") || !file_exists(TL_ROOT."/files/app/build/js/vendor.js"))
 				throw new Exception("Des fichiers Framway sont manquants !");
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les fichiers Smartgear ont été trouvés (framway.css, framway.js, vendor.css, vendor.js)"];
 
@@ -110,10 +139,11 @@ class Core extends Block implements BlockInterface
 			// Create the Smartgear main theme
 			$objTheme = new \ThemeModel();
 			$objTheme->tstamp = time();
-			$objTheme->name = "Smargear";
+			$objTheme->name = "Smartgear";
 			$objTheme->author = "Web ex Machina";
 			$objTheme->templates = "templates/smartgear";
 			$objTheme->save();
+			$this->sgConfig = Util::updateConfig(["sgInstallTheme"=>$objTheme->id]);
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le thème %s a été créé et sera utilisé pour la suite de la configuration", $objTheme->name)];
 
 			// Create the Smartgear main modules
@@ -162,6 +192,7 @@ class Core extends Block implements BlockInterface
 			$objModule->save();
 			$arrLayoutModules[] = ["mod"=>$objModule->id, "col"=>"footer", "enable"=>"1"];
 			$arrModules[] = $objModule->id;
+
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Les modules principaux ont été créés", $objTheme->name)];
 
 			// Create the Smartgear main layout
@@ -202,6 +233,7 @@ class Core extends Block implements BlockInterface
 			$objUserGroup->name = "Administrateurs";
 			$objUserGroup->save();
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le groupe d'utilisateurs %s a été créé", $objUserGroup->name)];
+			$this->sgConfig = Util::updateConfig(["sgInstallUserGroup"=>$objUserGroup->id]);
 
 			// Add a default user to the user group
 			$objUser = new \UserModel();
@@ -217,6 +249,7 @@ class Core extends Block implements BlockInterface
 			$objUser->pwChange = 1;
 			$objUser->save();
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("L'utilisateur %s a été créé", $objUser->name)];
+			$this->sgConfig = Util::updateConfig(["sgInstallUser"=>$objUser->id]);
 
 			// Generate a root page with the stuff previously created
 			$objRootPage = new \PageModel();
@@ -224,7 +257,7 @@ class Core extends Block implements BlockInterface
 			$objRootPage->sorting = (\PageModel::countByPid(0) + 1) * 128;
 			$objRootPage->tstamp = time();
 			$objRootPage->title = $this->sgConfig['websiteTitle'];
-			$objRootPage->alias = StringUtil::generateAlias($objRootPage->title);
+			$objRootPage->alias = \StringUtil::generateAlias($objRootPage->title);
 			$objRootPage->type = "root";
 			$objRootPage->language = "fr";
 			$objRootPage->fallback = 1;
@@ -240,6 +273,7 @@ class Core extends Block implements BlockInterface
 			$objRootPage->published = 1;
 			$objRootPage->save();
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le site Internet %s a été créé", $objRootPage->title)];
+			$this->sgConfig = Util::updateConfig(["sgInstallRootPage"=>$objRootPage->id]);
 
 			// Generate a gateway in the Notification Center
 			$objGateway = new \NotificationCenter\Model\Gateway();
@@ -248,16 +282,56 @@ class Core extends Block implements BlockInterface
 			$objGateway->type = "email";
 			$objGateway->save();
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("La passerelle (Notification Center) %s a été créée", $objGateway->title)];
+			$this->sgConfig = Util::updateConfig(["sgInstallNcGateway"=>$objGateway->id]);
 
 			// Create a homepage
-			$objHomePage = Util::createPage("Accueil");
+			$objHomePage = Util::createPage("Accueil", $objRootPage->id);
 			$objArticle = Util::createArticle($objHomePage);
 
-			// Create a 404 page
-			$int404Page = Util::createPageWithText("Erreur 404 - Page non trouvée", "<p>La page demandée n'existe pas.</p>", ["unit"=>"h1", "value"=>"Page non trouvée !"]);
-			$objPage = \PageModel::findByPk($int404Page);
-			$objPage->type = "error_404";
-			$objPage->save();
+			// Create a module Sitemap
+			$objModule = new \ModuleModel();
+			$objModule->pid = $objTheme->id;
+			$objModule->tstamp = time();
+			$objModule->name = "Plan du site";
+			$objModule->type = "sitemap";
+			$objModule->headline = serialize(["unit"=>"h1", "value"=>"Plan du site"]);
+			$objModule->rootPage = $objRootPage->id;
+			$objModule->save();
+			$arrModules[] = $objModule->id;
+
+			// Create a page with the sitemap
+			$objSitemapPage = Util::createPageWithModules("Plan du site", [$objModule->id], $objRootPage->id);
+
+			// Create a 404 page, with a sitemap after
+			$obj404Page = Util::createPage("Erreur 404 - Page non trouvée", $objRootPage->id);
+			$obj404Page->type = "error_404";
+			$obj404Page->save();
+			$objArticle = Util::createArticle($obj404Page);
+
+			$objContent = new \ContentModel();
+			$objContent->tstamp = time();
+			$objContent->pid = $objArticle->id;
+			$objContent->ptable = "tl_article";
+			$objContent->sorting = 128;
+			$objContent->type = "text";
+			$objContent->headline = serialize(["unit"=>"h1", "value"=>"Page non trouvée !"]);
+			$objContent->text = "<p>La page demandée n'existe pas. Vous pouvez consulter le plan du site ci-dessous pour poursuivre votre navigation.</p>";
+			$objContent->save();
+
+			$objContent = new \ContentModel();
+			$objContent->tstamp = time();
+			$objContent->pid = $objArticle->id;
+			$objContent->ptable = "tl_article";
+			$objContent->sorting = 256;
+			$objContent->type = "module";
+			$objContent->module = $objModule->id;
+			$objContent->save();
+
+			// Create a Legal Notices Page
+			$objPage = Util::createPageWithText("Mentions légales", "<p>A remplir</p>", $objRootPage->id, ["unit"=>"h1", "value"=>"Mentions légales"]);
+
+			// Create a Guidelines Page
+			$objPage = Util::createPageWithText("Guidelines", "<p>A remplir</p>", $objRootPage->id, ["unit"=>"h1", "value"=>"Guidelines"]);
 
 			// Finally, notify in Config that the install is complete :)
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Installation terminée"];
@@ -271,7 +345,7 @@ class Core extends Block implements BlockInterface
 			$arrSgConfig["sgInstallRootPage"] = $objRootPage->id;
 			$arrSgConfig["sgInstallNcGateway"] = $objGateway->id;
 			$arrSgConfig["sgInstallComplete"] = 1;
-			Util::updateConfig($arrSgConfig);
+			$this->sgConfig = Util::updateConfig($arrSgConfig);
 
 			// And return an explicit status with some instructions
 			return [
@@ -281,8 +355,7 @@ class Core extends Block implements BlockInterface
 				]
 				,"callbacks" => [
 					0 => [
-						"method" => "refreshBlock"
-						,"args"	 => ["block-".$this->type."-".$this->module]
+						"method" => "refreshAllBlocks"
 					]
 				]
 			];
@@ -302,6 +375,7 @@ class Core extends Block implements BlockInterface
 			if($objGateway = \NotificationCenter\Model\Gateway::findByPk($this->sgConfig['sgInstallNcGateway'])){
 				if($objGateway->delete()){
 					$arrSgConfig["sgInstallNcGateway"] = "";
+					$this->sgConfig = Util::updateConfig($arrSgConfig);
 					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("La passerelle (Notification Center) %s a été supprimée", $objGateway->title)];
 				}
 			}
@@ -310,6 +384,7 @@ class Core extends Block implements BlockInterface
 			if($objRootPage = \PageModel::findByPk($this->sgConfig['sgInstallRootPage'])){
 				if($objRootPage->delete()){
 					$arrSgConfig["sgInstallRootPage"] = "";
+					$this->sgConfig = Util::updateConfig($arrSgConfig);
 					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le site Internet %s a été supprimé", $objRootPage->title)];
 				}
 			}
@@ -318,35 +393,40 @@ class Core extends Block implements BlockInterface
 			if($objUser = \UserModel::findByPk($this->sgConfig['sgInstallUser'])){
 				if($objUser->delete()){
 					$arrSgConfig["sgInstallUser"] = "";
+					$this->sgConfig = Util::updateConfig($arrSgConfig);
 					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("L'utilisateur %s a été supprimé", $objUser->name)];
 				}
 			}
 
 			// Delete the user group
-			if($objUserGroup = \UserModel::findByPk($this->sgConfig['sgInstallUserGroup'])){
+			if($objUserGroup = \UserGroupModel::findByPk($this->sgConfig['sgInstallUserGroup'])){
 				if($objUserGroup->delete()){
 					$arrSgConfig["sgInstallUserGroup"] = "";
+					$this->sgConfig = Util::updateConfig($arrSgConfig);
 					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le groupe d'utilisateur %s a été supprimé", $objUserGroup->name)];
 				}
 			}
 
 			// Delete the layout
-			if($objLayout = \LayoutModel::findByPk($this->sgConfig['sgInstallLayout'])){
-				if($objLayout->delete()){
-					$arrSgConfig["sgInstallLayout"] = "";
-					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le squelette %s a été supprimé", $objLayout->name)];
-				}
+			$objLayouts = \LayoutModel::findByPid($this->sgConfig['sgInstallTheme']);
+			if($objLayouts && 0 < $objLayouts->count()){
+				while($objLayouts->next())
+					$objLayouts->delete();
+		
+				$arrSgConfig["sgInstallLayout"] = "";
+				$this->sgConfig = Util::updateConfig($arrSgConfig);
+				$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le squelette %s a été supprimé", $objLayout->name)];
 			}
 
 			// Delete the modules
+			$objModules = \ModuleModel::findByPid($this->sgConfig['sgInstallTheme']);
 			$arrModules = deserialize($this->sgConfig['sgInstallModules']);
-			if(is_array($arrModules) && !empty($arrModules)){
-				foreach($arrModules as $intKey => $intModule){
-					if($objModule = \ModuleModel::findByPk($intModule)){
-						if($objModule->delete()){
-							unset($arrModules[$intKey]);
-							$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le module %s a été supprimé", $objModule->name)];
-						}
+			if($objModules && 0 < $objModules->count()){
+				while($objModules->next()){
+					if($objModules->delete()){
+						if(is_array($arrModules) && in_array($objModules->id, $arrModules))
+							unset($arrModules[array_search($objModules->id, $arrModules)]);
+						$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le module %s a été supprimé", $objModules->name)];
 					}
 				}
 
@@ -355,6 +435,8 @@ class Core extends Block implements BlockInterface
 					$arrSgConfig["sgInstallModules"] = "";
 				else
 					$arrSgConfig["sgInstallModules"] = serialize($arrModules);
+
+				$this->sgConfig = Util::updateConfig($arrSgConfig);
 			}
 
 			// Delete the theme
@@ -367,7 +449,7 @@ class Core extends Block implements BlockInterface
 
 			// Finally, reset the config
 			$arrSgConfig["sgInstallComplete"] = "";
-			Util::updateConfig($arrSgConfig);
+			$this->sgConfig = Util::updateConfig($arrSgConfig);
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Désinstallation terminée"];
 
 			// And return an explicit status with some instructions
@@ -378,8 +460,7 @@ class Core extends Block implements BlockInterface
 				]
 				,"callbacks" => [
 					0 => [
-						"method" => "refreshBlock"
-						,"args"	 => ["block-".$this->type."-".$this->module]
+						"method" => "refreshAllBlocks"
 					]
 				]
 			];

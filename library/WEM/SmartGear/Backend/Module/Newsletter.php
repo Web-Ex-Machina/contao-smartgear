@@ -50,7 +50,7 @@ class Newsletter extends Block implements BlockInterface
 			$this->messages[] = ['class' => 'tl_error', 'text' => 'Le module Newsletter n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.'];
 			$this->status = 0;
 		}
-		else if(!$this->sgConfig['sgNewsletterInstall'] || 0 === \FormModel::countById($this->sgConfig['sgNewsletterChannel'])){
+		else if(!$this->sgConfig['sgNewsletterInstall'] || 0 === \NewsletterChannelModel::countById($this->sgConfig['sgNewsletterChannel'])){
 			$this->messages[] = ['class' => 'tl_info', 'text' => 'Le module Newsletter est installé, mais pas configuré.'];
 			$this->actions[] = ['action'=>'install', 'label'=>'Installer'];
 			$this->status = 0;
@@ -119,12 +119,12 @@ class Newsletter extends Block implements BlockInterface
 		$objReaderModule->save();
 		
 		// Create the pages
-		$intListPage = $this->createPageWithModules("Newsletters", [$objListModule->id]);
-		$intReaderPage = $this->createPageWithModules("Newsletters - Lecteur", [$objReaderModule->id], $intListPage);
-		$intSubscribePage = $this->createPageWithModules("Newsletters - Inscription", [$objSubscribeModule->id], $intListPage);
-		$intConfirmSubscribePage = $this->createPageWithText("Newsletters - Confirmation d'inscription", "Votre inscription est confirmée !", $intSubscribePage);
-		$intUnsubscribePage = $this->createPageWithModules("Newsletters - Désinscription", [$objUnsubscribeModule->id], $intListPage);
-		$intConfirmUnsubscribePage = $this->createPageWithText("Newsletters - Confirmation de désinscription", "Votre désinscription est prise en compte.", $intUnsubscribePage);
+		$intListPage = Util::createPageWithModules("Newsletters", [$objListModule->id]);
+		$intReaderPage = Util::createPageWithModules("Newsletters - Lecteur", [$objReaderModule->id], $intListPage);
+		$intSubscribePage = Util::createPageWithModules("Newsletters - Inscription", [$objSubscribeModule->id], $intListPage);
+		$intConfirmSubscribePage = Util::createPageWithText("Newsletters - Confirmation d'inscription", "Votre inscription est confirmée !", $intSubscribePage);
+		$intUnsubscribePage = Util::createPageWithModules("Newsletters - Désinscription", [$objUnsubscribeModule->id], $intListPage);
+		$intConfirmUnsubscribePage = Util::createPageWithText("Newsletters - Confirmation de désinscription", "Votre désinscription est prise en compte.", $intUnsubscribePage);
 
 		// Update the newsletter channel
 		$objNewsletterChannel->jumpTo = $intReaderPage;

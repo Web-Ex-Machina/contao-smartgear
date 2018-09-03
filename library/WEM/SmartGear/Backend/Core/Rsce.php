@@ -47,10 +47,23 @@ class Rsce extends Block implements BlockInterface
 	public function getStatus(){
 		$this->messages[] = ['class' => 'tl_info', 'text' => 'Cette section permet d\'importer les éléments personnalisés RSCE utilisés par Smartgear.'];
 		
+		// Check the install status
 		if(1 === $this->sgConfig["sgInstallRsce"]){
-			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser les fichiers RSCE'];
-			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer les fichiers RSCE'];
+			
 			$this->status = 1;
+
+			// Compare the source folder and the existing one to check if an update should be done
+			if($this->shouldBeUpdated()){
+				$this->messages[] = ['class' => 'tl_new', 'text' => 'Il y a une différence entre les deux répertoires. Mettez à jour via le bouton ci-dessous'];
+				$this->actions[] = ['action'=>'reset', 'label'=>'Mettre à jour les fichiers RSCE'];
+			}
+			else{
+				$this->messages[] = ['class' => 'tl_confirm', 'text' => 'Les éléments RSCE sont à jour.'];
+				$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser les fichiers RSCE'];
+			}
+
+			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer les fichiers RSCE'];
+		
 		}
 		else{
 			$this->actions[] = ['action'=>'install', 'label'=>'Importer les fichiers RSCE'];
@@ -63,9 +76,6 @@ class Rsce extends Block implements BlockInterface
 	 */
 	public function install(){
 		try{
-			$objFolder = new \Folder("templates/smartgear");
-			$objFolder = new \Folder("templates/rsce");
-
 			$objFiles = \Files::getInstance();
 			$objFiles->rcopy("system/modules/wem-contao-smartgear/assets/templates_files", "templates/smartgear");
 			$objFiles->rcopy("system/modules/wem-contao-smartgear/assets/rsce_files", "templates/rsce");
@@ -124,5 +134,17 @@ class Rsce extends Block implements BlockInterface
 		catch(Exception $e){
 			throw $e;
 		}
+	}
+
+	/**
+	 * Calculate the difference between RSCE Source Folder and Smartgear installed one
+	 * @return [Boolean] [True means should be updated. Crazy uh ?]
+	 */
+	protected function shouldBeUpdated(){
+		clearstatcache();
+		$arrSrcFolder = scandir(TL_ROOT."/system/modules/wem-contao-smartgear/assets/rsce_files");
+		$arrFolder = scandir(TL_ROOT."/templates/rsce");
+
+		return !empty(array_diff($arrSrcFolder, $arrFolder)) || !empty(array_diff($arrFolder, $arrSrcFolder));
 	}
 }

@@ -123,10 +123,10 @@ class Calendar extends Block implements BlockInterface
 		$objListModulePassed->save();
 
 		// Create the page with the modules
-		$objPage = Util::createPageWithModules("Événements", [$objListModule->id, $objListModulePassed->id, $objReaderModule->id]);
+		$intPage = Util::createPageWithModules("Événements", [$objListModule->id, $objListModulePassed->id, $objReaderModule->id]);
 
 		// Update the archive jumpTo
-		$objCalendar->jumpTo = $objPage->id;
+		$objCalendar->jumpTo = $intPage;
 		$objCalendar->save();
 		
 		// And save stuff in config
