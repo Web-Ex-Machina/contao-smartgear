@@ -24,6 +24,12 @@ use WEM\SmartGear\Backend\Util;
 class Newsletter extends Block implements BlockInterface
 {
 	/**
+	 * Module dependancies
+	 * @var Array
+	 */
+	protected $require = ["core_core"];
+
+	/**
 	 * Constructor
 	 */
 	public function __construct(){
@@ -42,15 +48,18 @@ class Newsletter extends Block implements BlockInterface
 	public function getStatus(){
 		if(!isset($this->bundles['ContaoNewsletterBundle'])){
 			$this->messages[] = ['class' => 'tl_error', 'text' => 'Le module Newsletter n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.'];
+			$this->status = 0;
 		}
 		else if(!$this->sgConfig['sgNewsletterInstall'] || 0 === \FormModel::countById($this->sgConfig['sgNewsletterChannel'])){
 			$this->messages[] = ['class' => 'tl_info', 'text' => 'Le module Newsletter est installé, mais pas configuré.'];
 			$this->actions[] = ['action'=>'install', 'label'=>'Installer'];
+			$this->status = 0;
 		}
 		else{
 			$this->messages[] = ['class' => 'tl_confirm', 'text' => 'Le module Newsletter est installé et configuré.'];
 			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser'];
 			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer'];
+			$this->status = 1;
 		}
 	}
 
@@ -110,11 +119,11 @@ class Newsletter extends Block implements BlockInterface
 		$objReaderModule->save();
 		
 		// Create the pages
-		$intListPage = $this->createPageWithModule("Newsletters", $objListModule->id);
-		$intReaderPage = $this->createPageWithModule("Newsletters - Lecteur", $objReaderModule->id, $intListPage);
-		$intSubscribePage = $this->createPageWithModule("Newsletters - Inscription", $objSubscribeModule->id, $intListPage);
+		$intListPage = $this->createPageWithModules("Newsletters", [$objListModule->id]);
+		$intReaderPage = $this->createPageWithModules("Newsletters - Lecteur", [$objReaderModule->id], $intListPage);
+		$intSubscribePage = $this->createPageWithModules("Newsletters - Inscription", [$objSubscribeModule->id], $intListPage);
 		$intConfirmSubscribePage = $this->createPageWithText("Newsletters - Confirmation d'inscription", "Votre inscription est confirmée !", $intSubscribePage);
-		$intUnsubscribePage = $this->createPageWithModule("Newsletters - Désinscription", $objUnsubscribeModule->id, $intListPage);
+		$intUnsubscribePage = $this->createPageWithModules("Newsletters - Désinscription", [$objUnsubscribeModule->id], $intListPage);
 		$intConfirmUnsubscribePage = $this->createPageWithText("Newsletters - Confirmation de désinscription", "Votre désinscription est prise en compte.", $intUnsubscribePage);
 
 		// Update the newsletter channel

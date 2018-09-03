@@ -24,6 +24,12 @@ use WEM\SmartGear\Backend\Util;
 class Blog extends Block implements BlockInterface
 {
 	/**
+	 * Module dependancies
+	 * @var Array
+	 */
+	protected $require = ["core_core"];
+	
+	/**
 	 * Constructor
 	 */
 	public function __construct(){
@@ -42,15 +48,21 @@ class Blog extends Block implements BlockInterface
 	public function getStatus(){
 		if(!isset($this->bundles['ContaoNewsBundle'])){
 			$this->messages[] = ['class' => 'tl_error', 'text' => 'Le blog n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.'];
+
+			$this->status = 0;
 		}
 		else if(!$this->sgConfig['sgBlogInstall'] || 0 === \NewsArchiveModel::countById($this->sgConfig['sgBlogNewsArchive'])){
 			$this->messages[] = ['class' => 'tl_info', 'text' => 'Le blog est installé, mais pas configuré.'];
 			$this->actions[] = ['action'=>'install', 'label'=>'Installer'];
+
+			$this->status = 0;
 		}
 		else{
 			$this->messages[] = ['class' => 'tl_confirm', 'text' => 'Le blog est installé et configuré.'];
 			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser'];
 			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer'];
+
+			$this->status = 1;
 		}
 	}
 
@@ -58,7 +70,6 @@ class Blog extends Block implements BlockInterface
 	 * Setup the module
 	 */
 	public function install(){
-		
 		// Create the archive
 		$objArchive = new \NewsArchiveModel();
 		$objArchive->tstamp = time();
@@ -93,53 +104,10 @@ class Blog extends Block implements BlockInterface
 		$objReaderModule->save();
 
 		// Create the list page
-		$objPage = new \PageModel();
-		$objPage->tstamp = time();
-		$objPage->pid = $this->sgConfig["sgInstallRootPage"];
-		$objPage->sorting = (\PageModel::countBy("pid", $this->sgConfig["sgInstallRootPage"]) + 1) * 128;
-		$objPage->title = "Blog";
-		$objPage->alias = \StringUtil::generateAlias($objPage->title);
-		$objPage->type = "regular";
-		$objPage->pageTitle = "Blog";
-		$objPage->robots = "index,follow";
-		$objPage->sitemap = "map_default";
-		$objPage->published = 1;
-		$objPage->save();
-
-		// Create the article
-		$objArticle = new \ArticleModel();
-		$objArticle->tstamp = time();
-		$objArticle->pid = $objPage->id;
-		$objArticle->sorting = 128;
-		$objArticle->title = $objPage->title;
-		$objArticle->alias = $objPage->alias;
-		$objArticle->author = $this->sgConfig["sgInstallUser"];
-		$objArticle->inColumn = "main";
-		$objArticle->published = 1;
-		$objArticle->save();
-
-		// Create the content
-		$objContent = new \ContentModel();
-		$objContent->tstamp = time();
-		$objContent->pid = $objArticle->id;
-		$objContent->ptable = "tl_article";
-		$objContent->sorting = 128;
-		$objContent->type = "module";
-		$objContent->module = $objListModule->id;
-		$objContent->save();
-
-		// Create the content
-		$objContent = new \ContentModel();
-		$objContent->tstamp = time();
-		$objContent->pid = $objArticle->id;
-		$objContent->ptable = "tl_article";
-		$objContent->sorting = 128;
-		$objContent->type = "module";
-		$objContent->module = $objReaderModule->id;
-		$objContent->save();
+		$intPage = Util::createPageWithModules("Blog", [$objListModule->id, $objReaderModule->id]);
 
 		// Update the archive jumpTo
-		$objArchive->jumpTo = $objPage->id;
+		$objArchive->jumpTo = $intPage;
 		$objArchive->save();
 		
 		// And save stuff in config
@@ -148,8 +116,8 @@ class Blog extends Block implements BlockInterface
 			,"sgBlogNewsArchive"=>$objArchive->id
 			,"sgBlogModuleList"=>$objListModule->id
 			,"sgBlogModuleReader"=>$objReaderModule->id
-			,"sgBlogPageList"=>$objPage->id
-			,"sgBlogPageReader"=>$objPage->id
+			,"sgBlogPageList"=>$intPage
+			,"sgBlogPageReader"=>$intPage
 		]);
 
 		// And return an explicit status with some instructions

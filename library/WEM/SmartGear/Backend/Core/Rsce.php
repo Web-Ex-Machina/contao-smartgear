@@ -24,6 +24,12 @@ use WEM\SmartGear\Backend\Util;
 class Rsce extends Block implements BlockInterface
 {
 	/**
+	 * Module dependancies
+	 * @var Array
+	 */
+	protected $require = ["core_core"];
+
+	/**
 	 * Constructor
 	 */
 	public function __construct(){
@@ -39,8 +45,17 @@ class Rsce extends Block implements BlockInterface
 	 * @return [String] [Template of the module check status]
 	 */
 	public function getStatus(){
-		$this->messages[] = ['class' => 'tl_info', 'text' => 'Cette section permet de réinitialiser, de rafraichir ou de supprimer les éléments personnalisés RSCE utilisés par Smartgear.'];
-		$this->actions[] = ['action'=>'reimport', 'label'=>'Réinitialiser Smartgear'];
+		$this->messages[] = ['class' => 'tl_info', 'text' => 'Cette section permet d\'importer les éléments personnalisés RSCE utilisés par Smartgear.'];
+		
+		if(1 === $this->sgConfig["sgInstallRsce"]){
+			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser les fichiers RSCE'];
+			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer les fichiers RSCE'];
+			$this->status = 1;
+		}
+		else{
+			$this->actions[] = ['action'=>'install', 'label'=>'Importer les fichiers RSCE'];
+			$this->status = 0;
+		}
 	}
 
 	/**
@@ -48,10 +63,16 @@ class Rsce extends Block implements BlockInterface
 	 */
 	public function install(){
 		try{
+			$objFolder = new \Folder("templates/smartgear");
+			$objFolder = new \Folder("templates/rsce");
+
 			$objFiles = \Files::getInstance();
-			$objFiles->rcopy($this->strBasePath."/assets/templates_files", "templates/smartgear");
-			$objFiles->rcopy($this->strBasePath."/assets/rsce_files", "templates/rsce");
+			$objFiles->rcopy("system/modules/wem-contao-smartgear/assets/templates_files", "templates/smartgear");
+			$objFiles->rcopy("system/modules/wem-contao-smartgear/assets/rsce_files", "templates/rsce");
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les templates Smartgear ont été importés (templates et rsce)"];
+
+			// Update config
+			Util::updateConfig(["sgInstallRsce"=>1]);
 
 			// And return an explicit status with some instructions
 			return [
@@ -82,6 +103,9 @@ class Rsce extends Block implements BlockInterface
 			$objFiles->rrdir("templates/smartgear");
 			$objFiles->rrdir("templates/rsce");
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les templates Smartgear ont été supprimés (templates et rsce)"];
+
+			// Update config
+			Util::updateConfig(["sgInstallRsce"=>0]);
 
 			// And return an explicit status with some instructions
 			return [

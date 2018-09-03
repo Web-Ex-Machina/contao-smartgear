@@ -58,6 +58,8 @@ class Core extends Block implements BlockInterface
 			$this->fields[] = ['name'=>'websiteTitle', 'value'=>$this->sgConfig['websiteTitle'], 'label'=>'Titre du site internet', 'help'=>'Saisir le titre du site internet'];
 			$this->actions[] = ['action'=>'setup', 'label'=>'Installer Smartgear'];
 
+			$this->status = 0;
+
 		} else {
 			$this->title = "Smartgear | Core | Réparation - Désinstallation";
 
@@ -67,6 +69,8 @@ class Core extends Block implements BlockInterface
 			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser Smartgear', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Smartgear ?\'))return false;Backend.getScrollOffset()"'];
 			$this->actions[] = ['action'=>'delete', 'label'=>'Supprimer Smartgear', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment supprimer Smartgear ?\'))return false;Backend.getScrollOffset()"'];
 			$this->actions[] = ['action'=>'truncate', 'label'=>'Réinitialiser Contao', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Contao ?\'))return false;Backend.getScrollOffset()"'];
+
+			$this->status = 1;
 		}
 	}
 
@@ -93,9 +97,6 @@ class Core extends Block implements BlockInterface
 			$arrSgConfig["gdMaxImgHeight"] = 5000;
 			$arrSgConfig["maxFileSize"] = 20971520;
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Configuration importée"];
-
-			// Create templates and rsce folders and move all Smartgear files in this one
-			$this->processRSCE('install');
 
 			// Check app folders and check if there is all Jeff stuff loaded
 			if(!file_exists("files/app/build/css/framway.css") || !file_exists("files/app/build/css/vendor.css") || !file_exists("files/app/build/js/framway.js") || !file_exists("files/app/build/js/vendor.js"))
@@ -248,6 +249,10 @@ class Core extends Block implements BlockInterface
 			$objGateway->save();
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("La passerelle (Notification Center) %s a été créée", $objGateway->title)];
 
+			// Create a homepage
+			$objHomePage = Util::createPage("Accueil");
+			$objArticle = Util::createArticle($objHomePage);
+
 			// Finally, notify in Config that the install is complete :)
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Installation terminée"];
 
@@ -353,9 +358,6 @@ class Core extends Block implements BlockInterface
 					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le thème %s a été supprimé", $objTheme->name)];
 				}
 			}
-			
-			// Delete Smartgear files
-			$this->processRSCE('delete');
 
 			// Finally, reset the config
 			$arrSgConfig["sgInstallComplete"] = "";

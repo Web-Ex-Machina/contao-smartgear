@@ -70,6 +70,7 @@ class Block extends Controller
 	 * @return [String] [Block HTML]
 	 */
 	public function parse(){
+		// Create the block template and add some general vars
 		$objTemplate = new FrontendTemplate($this->strTemplate);
 		$objTemplate->request = Environment::get('request');
 		$objTemplate->token = RequestToken::get();
@@ -77,11 +78,44 @@ class Block extends Controller
 		$objTemplate->module = $this->module;
 		$objTemplate->title = $this->title;
 		$objTemplate->icon = $this->icon;
-		$objTemplate->messages = $this->messages;
-		$objTemplate->fields = $this->fields;
-		$objTemplate->actions = $this->actions;
-		$objTemplate->logs = $this->logs;
 
+		// Check if we need other modules and if yes, check if it's okay
+		$blnCanManage = true;
+		if($this->require){
+			$arrMissingModules = [];
+			foreach($this->require as $strModule){
+				$objModule = Util::findAndCreateObject($strModule);
+				$objModule->getStatus();
+
+				if(1 != $objModule->status){
+					$arrMissingModules[] = $strModule;
+				}
+
+				if(!empty($arrMissingModules)){
+					$this->messages = [];
+					$this->messages[] = [
+						'class' => 'tl_error'
+						,'text' => sprintf(
+							'Vous ne pouvez pas gérer ce module tant que les dépendances suivantes ne seront pas résolues : %s'
+							,implode(', ', $arrMissingModules)
+						)
+					];
+					$blnCanManage = false;
+				}
+			}
+		}
+
+		// Always add messages	
+		$objTemplate->messages = $this->messages;
+
+		// Add actions only if we can manage the module
+		if($blnCanManage){
+			$objTemplate->fields = $this->fields;
+			$objTemplate->actions = $this->actions;
+			$objTemplate->logs = $this->logs;
+		}
+
+		// And return the template, parsed.
 		return $objTemplate->parse();
 	}
 }

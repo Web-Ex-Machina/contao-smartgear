@@ -24,6 +24,12 @@ use WEM\SmartGear\Backend\Util;
 class Calendar extends Block implements BlockInterface
 {
 	/**
+	 * Module dependancies
+	 * @var Array
+	 */
+	protected $require = ["core_core"];
+	
+	/**
 	 * Constructor
 	 */
 	public function __construct(){
@@ -42,15 +48,18 @@ class Calendar extends Block implements BlockInterface
 	public function getStatus(){
 		if(!isset($this->bundles['ContaoCalendarBundle'])){
 			$this->messages[] = ['class' => 'tl_error', 'text' => 'Le module Événements n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.'];
+			$this->status = 0;
 		}
 		else if(!$this->sgConfig['sgCalendarInstall'] || 0 === \CalendarModel::countById($this->sgConfig['sgCalendar'])){
 			$this->messages[] = ['class' => 'tl_info', 'text' => 'Le module Événements est installé, mais pas configuré.'];
 			$this->actions[] = ['action'=>'install', 'label'=>'Installer'];
+			$this->status = 0;
 		}
 		else{
 			$this->messages[] = ['class' => 'tl_confirm', 'text' => 'Le module Événements est installé et configuré.'];
 			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser'];
 			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer'];
+			$this->status = 1;
 		}
 	}
 
@@ -113,60 +122,8 @@ class Calendar extends Block implements BlockInterface
 		$objListModulePassed->imgSize = serialize([0=>1000,1=>"",2=>"proportional"]);
 		$objListModulePassed->save();
 
-		// Create the list page
-		$objPage = new \PageModel();
-		$objPage->tstamp = time();
-		$objPage->pid = $this->sgConfig["sgInstallRootPage"];
-		$objPage->sorting = (\PageModel::countBy("pid", $this->sgConfig["sgInstallRootPage"]) + 1) * 128;
-		$objPage->title = "Événements";
-		$objPage->alias = \StringUtil::generateAlias($objPage->title);
-		$objPage->type = "regular";
-		$objPage->pageTitle = "Événements";
-		$objPage->robots = "index,follow";
-		$objPage->sitemap = "map_default";
-		$objPage->published = 1;
-		$objPage->save();
-
-		// Create the article
-		$objArticle = new \ArticleModel();
-		$objArticle->tstamp = time();
-		$objArticle->pid = $objPage->id;
-		$objArticle->sorting = 128;
-		$objArticle->title = $objPage->title;
-		$objArticle->alias = $objPage->alias;
-		$objArticle->author = $this->sgConfig["sgInstallUser"];
-		$objArticle->inColumn = "main";
-		$objArticle->published = 1;
-		$objArticle->save();
-
-		// Create the content
-		$objContent = new \ContentModel();
-		$objContent->tstamp = time();
-		$objContent->pid = $objArticle->id;
-		$objContent->ptable = "tl_article";
-		$objContent->sorting = 128;
-		$objContent->type = "module";
-		$objContent->module = $objListModule->id;
-		$objContent->save();
-
-		$objContent = new \ContentModel();
-		$objContent->tstamp = time();
-		$objContent->pid = $objArticle->id;
-		$objContent->ptable = "tl_article";
-		$objContent->sorting = 256;
-		$objContent->type = "module";
-		$objContent->module = $objListModulePassed->id;
-		$objContent->save();
-
-		// Create the content
-		$objContent = new \ContentModel();
-		$objContent->tstamp = time();
-		$objContent->pid = $objArticle->id;
-		$objContent->ptable = "tl_article";
-		$objContent->sorting = 384;
-		$objContent->type = "module";
-		$objContent->module = $objReaderModule->id;
-		$objContent->save();
+		// Create the page with the modules
+		$objPage = Util::createPageWithModules("Événements", [$objListModule->id, $objListModulePassed->id, $objReaderModule->id]);
 
 		// Update the archive jumpTo
 		$objCalendar->jumpTo = $objPage->id;

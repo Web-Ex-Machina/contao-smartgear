@@ -29,6 +29,12 @@ use WEM\SmartGear\Backend\Util;
 class Forms extends Block implements BlockInterface
 {
 	/**
+	 * Module dependancies
+	 * @var Array
+	 */
+	protected $require = ["core_core"];
+
+	/**
 	 * Constructor
 	 */
 	public function __construct(){
@@ -48,11 +54,13 @@ class Forms extends Block implements BlockInterface
 		if(!$this->sgConfig['sgFormsInstall'] || 0 === \FormModel::countById($this->sgConfig['sgForm'])){
 			$this->messages[] = ['class' => 'tl_info', 'text' => 'Les formulaires sont installés, mais pas configurés.'];
 			$this->actions[] = ['action'=>'install', 'label'=>'Installer'];
+			$this->status = 0;
 		}
 		else{
 			$this->messages[] = ['class' => 'tl_confirm', 'text' => 'Les formulaires sont installés et configurés.'];
 			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser'];
 			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer'];
+			$this->status = 1;
 		}
 	}
 
@@ -61,30 +69,10 @@ class Forms extends Block implements BlockInterface
 	 */
 	public function install(){
 		// Create the form page
-		$objPage = new \PageModel();
-		$objPage->tstamp = time();
-		$objPage->pid = $this->sgConfig["sgInstallRootPage"];
-		$objPage->sorting = (\PageModel::countBy("pid", $this->sgConfig["sgInstallRootPage"]) + 1) * 128;
-		$objPage->title = "Contact";
-		$objPage->alias = \StringUtil::generateAlias($objPage->title);
-		$objPage->type = "regular";
-		$objPage->pageTitle = "Contact";
-		$objPage->robots = "index,follow";
-		$objPage->sitemap = "map_default";
-		$objPage->published = 1;
-		$objPage->save();
+		$objPage = Util::createPage("Contact");
 
 		// Create the article
-		$objArticle = new \ArticleModel();
-		$objArticle->tstamp = time();
-		$objArticle->pid = $objPage->id;
-		$objArticle->sorting = 128;
-		$objArticle->title = $objPage->title;
-		$objArticle->alias = $objPage->alias;
-		$objArticle->author = $this->sgConfig["sgInstallUser"];
-		$objArticle->inColumn = "main";
-		$objArticle->published = 1;
-		$objArticle->save();
+		$objArticle = Util::createArticle($objPage);
 
 		// Create the form page where the users will be redirected
 		$intJumpPage = Util::createPageWithText("Contact envoyé", '<p>Votre message a bien été envoyé ! <a href="{{env::/}}" title="Retour à l\'accueil">Retour à l\'accueil</a></p>', $objPage->id, ["unit"=>"h1", "value"=>"Message envoyé !"]);

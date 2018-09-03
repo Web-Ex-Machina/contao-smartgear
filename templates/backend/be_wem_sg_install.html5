@@ -70,6 +70,11 @@ j(document).ready(function(){
 			try{
 				var results = j.parseJSON(msg);
 
+				// Handle actions errors
+				if("error" === results["status"]){
+					toastr.error(results["msg"], "Une erreur est survenue :");
+				}
+
 				// Display a toastr if asked
 				if(results["toastr"]){
 					toastr[results["toastr"]["status"]](results["toastr"]["msg"]);

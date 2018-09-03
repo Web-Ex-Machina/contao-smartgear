@@ -24,6 +24,12 @@ use WEM\SmartGear\Backend\Util;
 class Faq extends Block implements BlockInterface
 {
 	/**
+	 * Module dependancies
+	 * @var Array
+	 */
+	protected $require = ["core_core"];
+
+	/**
 	 * Constructor
 	 */
 	public function __construct(){
@@ -42,15 +48,18 @@ class Faq extends Block implements BlockInterface
 	public function getStatus(){
 		if(!isset($this->bundles['ContaoFaqBundle'])){
 			$this->messages[] = ['class' => 'tl_error', 'text' => 'Le module FAQ n\'est pas installé. Veuillez utiliser le <a href="{{env::/}}/contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.'];
+			$this->status = 0;
 		}
 		else if(!$this->sgConfig['sgFAQInstall'] || 0 === \FaqCategoryModel::countById($this->sgConfig['sgFAQ'])){
 			$this->messages[] = ['class' => 'tl_info', 'text' => 'Le module FAQ est installé, mais pas configuré.'];
 			$this->actions[] = ['action'=>'install', 'label'=>'Installer'];
+			$this->status = 0;
 		}
 		else{
 			$this->messages[] = ['class' => 'tl_confirm', 'text' => 'Le module FAQ est installé et configuré.'];
 			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser'];
 			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer'];
+			$this->status = 1;
 		}
 	}
 
@@ -82,7 +91,7 @@ class Faq extends Block implements BlockInterface
 		$objModule->save();
 
 		// Create the page
-		$intPage = Util::createPageWithModule("FAQ", $objModule->id);
+		$intPage = Util::createPageWithModules("FAQ", [$objModule->id]);
 		
 		// And save stuff in config
 		Util::updateConfig([

@@ -11,10 +11,6 @@
 namespace WEM\SmartGear\Backend;
 
 use Exception;
-use Contao\File;
-use Contao\PageModel;
-use Contao\ArticleModel;
-use Contao\ContentModel;
 
 /**
  * Back end module "smartgear".
@@ -35,8 +31,15 @@ class Util
 	 * @param  [String] $strModule [Class / File]
 	 * @return [Object]            [Object of the class]
 	 */
-	public static function findAndCreateObject($strType, $strModule){
+	public static function findAndCreateObject($strType, $strModule = ''){
 		try{
+			// If module is missing, try to explode strType
+			if('' === $strModule && false != strpos($strType, '_')){
+				$arrObject = explode('_', $strType);
+				$strType = $arrObject[0];
+				$strModule = $arrObject[1];
+			}
+
 			// Parse the classname
 			$strClass = sprintf("WEM\SmartGear\Backend\%s\%s", ucfirst($strType), ucfirst($strModule));
 
@@ -68,7 +71,7 @@ class Util
 
 			// Get the config file
 			if($strConfig = file_get_contents(static::$strConfigPath))
-				$arrConfig = (array)json_decode($strConfig, JSON_PRETTY_PRINT);
+				$arrConfig = (array)json_decode($strConfig);
 
 			// And return the entire config, updated
 			return $arrConfig;
@@ -98,7 +101,7 @@ class Util
 
 			// Open and update the config file
 			$objFile = $objFiles->fopen(static::$strConfigPath, "w");
-			$objFiles->fputs($objFile, json_encode($arrConfig));
+			$objFiles->fputs($objFile, json_encode($arrConfig, JSON_PRETTY_PRINT));
 			
 			// And return the entire config, updated
 			return $arrConfig;
@@ -109,18 +112,18 @@ class Util
 	}
 
 	/**
-	 * Shortcut for page w/ modules creations
+	 * Shortcut for page creation
 	 */
-	public static function createPageWithModule($strTitle, $intModule, $intPid = 0){
+	public static function createPage($strTitle, $intPid = 0){
 		$arrConfig = static::loadSmartgearConfig();
 		if(0 === $intPid)
 			$intPid = $arrConfig["sgInstallRootPage"];
-		
+
 		// Create the page
-		$objPage = new PageModel();
+		$objPage = new \PageModel();
 		$objPage->tstamp = time();
 		$objPage->pid = $intPid;
-		$objPage->sorting = (PageModel::countBy("pid", $intPid) + 1) * 128;
+		$objPage->sorting = (\PageModel::countBy("pid", $intPid) + 1) * 128;
 		$objPage->title = $strTitle;
 		$objPage->alias = \StringUtil::generateAlias($objPage->title);
 		$objPage->type = "regular";
@@ -130,11 +133,19 @@ class Util
 		$objPage->published = 1;
 		$objPage->save();
 
+		// Return the page ID
+		return $objPage;
+	}
+
+	/**
+	 * Shortcut for article creation
+	 */
+	public static function createArticle($objPage){
 		// Create the article
-		$objArticle = new ArticleModel();
+		$objArticle = new \ArticleModel();
 		$objArticle->tstamp = time();
 		$objArticle->pid = $objPage->id;
-		$objArticle->sorting = 128;
+		$objArticle->sorting = (\ArticleModel::countBy("pid", $objPage->id) + 1) * 128;;
 		$objArticle->title = $objPage->title;
 		$objArticle->alias = $objPage->alias;
 		$objArticle->author = $arrConfig["sgInstallUser"];
@@ -142,15 +153,37 @@ class Util
 		$objArticle->published = 1;
 		$objArticle->save();
 
+		// Return the page ID
+		return $objArticle;
+	}
+
+	/**
+	 * Shortcut for page w/ modules creations
+	 */
+	public static function createPageWithModules($strTitle, $arrModules, $intPid = 0){
+		$arrConfig = static::loadSmartgearConfig();
+		if(0 === $intPid)
+			$intPid = $arrConfig["sgInstallRootPage"];
+		
+		// Create the page
+		$objPage = static::createPage($strTitle, $intPid);
+
+		// Create the article
+		$objArticle = static::createArticle($objPage);
+
 		// Create the content
-		$objContent = new ContentModel();
-		$objContent->tstamp = time();
-		$objContent->pid = $objArticle->id;
-		$objContent->ptable = "tl_article";
-		$objContent->sorting = 128;
-		$objContent->type = "module";
-		$objContent->module = $intModule;
-		$objContent->save();
+		$i = 0;
+		foreach($arrModules as $intModule){
+			$i += 128;
+			$objContent = new \ContentModel();
+			$objContent->tstamp = time();
+			$objContent->pid = $objArticle->id;
+			$objContent->ptable = "tl_article";
+			$objContent->sorting = $i;
+			$objContent->type = "module";
+			$objContent->module = $intModule;
+			$objContent->save();
+		}
 
 		// Return the page ID
 		return $objPage->id;
@@ -165,33 +198,13 @@ class Util
 			$intPid = $arrConfig["sgInstallRootPage"];
 		
 		// Create the page
-		$objPage = new PageModel();
-		$objPage->tstamp = time();
-		$objPage->pid = $intPid;
-		$objPage->sorting = (PageModel::countBy("pid", $intPid) + 1) * 128;
-		$objPage->title = $strTitle;
-		$objPage->alias = \StringUtil::generateAlias($objPage->title);
-		$objPage->type = "regular";
-		$objPage->pageTitle = $strTitle;
-		$objPage->robots = "index,follow";
-		$objPage->sitemap = "map_default";
-		$objPage->published = 1;
-		$objPage->save();
+		$objPage = static::createPage($strTitle, $intPid);
 
 		// Create the article
-		$objArticle = new ArticleModel();
-		$objArticle->tstamp = time();
-		$objArticle->pid = $objPage->id;
-		$objArticle->sorting = 128;
-		$objArticle->title = $objPage->title;
-		$objArticle->alias = $objPage->alias;
-		$objArticle->author = $arrConfig["sgInstallUser"];
-		$objArticle->inColumn = "main";
-		$objArticle->published = 1;
-		$objArticle->save();
+		$objArticle = static::createArticle($objPage);
 
 		// Create the content
-		$objContent = new ContentModel();
+		$objContent = new \ContentModel();
 		$objContent->tstamp = time();
 		$objContent->pid = $objArticle->id;
 		$objContent->ptable = "tl_article";
