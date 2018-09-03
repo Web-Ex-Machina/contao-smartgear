@@ -253,6 +253,12 @@ class Core extends Block implements BlockInterface
 			$objHomePage = Util::createPage("Accueil");
 			$objArticle = Util::createArticle($objHomePage);
 
+			// Create a 404 page
+			$int404Page = Util::createPageWithText("Erreur 404 - Page non trouvée", "<p>La page demandée n'existe pas.</p>", ["unit"=>"h1", "value"=>"Page non trouvée !"]);
+			$objPage = \PageModel::findByPk($int404Page);
+			$objPage->type = "error_404";
+			$objPage->save();
+
 			// Finally, notify in Config that the install is complete :)
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Installation terminée"];
 
