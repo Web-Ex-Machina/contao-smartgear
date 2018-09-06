@@ -77,9 +77,8 @@ class Rsce extends Block implements BlockInterface
 	public function install(){
 		try{
 			$objFiles = \Files::getInstance();
-			$objFiles->rcopy("system/modules/wem-contao-smartgear/assets/templates_files", "templates/smartgear");
 			$objFiles->rcopy("system/modules/wem-contao-smartgear/assets/rsce_files", "templates/rsce");
-			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les templates Smartgear ont été importés (templates et rsce)"];
+			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les templates RSCE ont été importés."];
 
 			// Update config
 			Util::updateConfig(["sgInstallRsce"=>1]);
@@ -88,7 +87,7 @@ class Rsce extends Block implements BlockInterface
 			return [
 				"toastr" => [
 					"status"=>"success"
-					,"msg"=>"L'installation des templates Smartgear a été effectuée avec succès."
+					,"msg"=>"L'installation des templates RSCE a été effectuée avec succès."
 				]
 				,"callbacks" => [
 					0 => [
@@ -110,9 +109,8 @@ class Rsce extends Block implements BlockInterface
 	public function remove(){
 		try{
 			$objFiles = \Files::getInstance();
-			$objFiles->rrdir("templates/smartgear");
 			$objFiles->rrdir("templates/rsce");
-			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les templates Smartgear ont été supprimés (templates et rsce)"];
+			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les templates RSCE ont été supprimés."];
 
 			// Update config
 			Util::updateConfig(["sgInstallRsce"=>0]);
@@ -121,7 +119,7 @@ class Rsce extends Block implements BlockInterface
 			return [
 				"toastr" => [
 					"status"=>"success"
-					,"msg"=>"La désinstallation des templates Smartgear a été effectuée avec succès."
+					,"msg"=>"La désinstallation des templates RSCE a été effectuée avec succès."
 				]
 				,"callbacks" => [
 					0 => [

@@ -79,22 +79,7 @@ class Core extends Block implements BlockInterface
 	 */
 	public function reset(){
 		\Input::setPost("websiteTitle", $this->sgConfig["websiteTitle"]);
-		$this->remove();
-		$this->install();
-
-		// And return an explicit status with some instructions
-		return [
-			"toastr" => [
-				"status"=>"success"
-				,"msg"=>"Réinitialisation effectuée avec succès."
-			]
-			,"callbacks" => [
-				0 => [
-					"method" => "refreshBlock"
-					,"args"	 => ["block-".$this->type."-".$this->module]
-				]
-			]
-		];
+		parent::reset();
 	}
 
 	/**
@@ -106,31 +91,35 @@ class Core extends Block implements BlockInterface
 			$this->logs[] = ["status"=>"tl_info", "msg"=>"Début de l'installation"];
 
 			// Store the default config
-			$arrSgConfig["websiteTitle"] = \Input::post('websiteTitle');
-			$arrSgConfig["dateFormat"] = "d/m/Y";
-			$arrSgConfig["timeFormat"] = "H:i";
-			$arrSgConfig["datimFormat"] = "d/m/Y à H:i";
-			$arrSgConfig["timeZone"] = "Europe/Paris";
-			$arrSgConfig["adminEmail"] = "contact@webexmachina.fr";
-			$arrSgConfig["characterSet"] = "utf-8";
-			$arrSgConfig["useAutoItem"] = 1;
-			$arrSgConfig["privacyAnonymizeIp"] = 1;
-			$arrSgConfig["privacyAnonymizeGA"] = 1;
-			$arrSgConfig["gdMaxImgWidth"] = 5000;
-			$arrSgConfig["gdMaxImgHeight"] = 5000;
-			$arrSgConfig["maxFileSize"] = 20971520;
+			$arrConfig["websiteTitle"] = \Input::post('websiteTitle');
+			$arrConfig["dateFormat"] = "d/m/Y";
+			$arrConfig["timeFormat"] = "H:i";
+			$arrConfig["datimFormat"] = "d/m/Y à H:i";
+			$arrConfig["timeZone"] = "Europe/Paris";
+			$arrConfig["adminEmail"] = "contact@webexmachina.fr";
+			$arrConfig["characterSet"] = "utf-8";
+			$arrConfig["useAutoItem"] = 1;
+			$arrConfig["privacyAnonymizeIp"] = 1;
+			$arrConfig["privacyAnonymizeGA"] = 1;
+			$arrConfig["gdMaxImgWidth"] = 5000;
+			$arrConfig["gdMaxImgHeight"] = 5000;
+			$arrConfig["maxFileSize"] = 20971520;
 			
 			// Update Contao Config
-			foreach($arrSgConfig as $k=>$v)
+			foreach($arrConfig as $k=>$v)
 				\Config::persist($k, $v);
 
-			$this->sgConfig = Util::updateConfig(["websiteTitle"=>\Input::post('websiteTitle')]);
+			$this->sgConfig["websiteTitle"] = \Input::post('websiteTitle');
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Configuration importée"];
 
 			// Check app folders and check if there is all Jeff stuff loaded
 			if(!file_exists(TL_ROOT."/files/app/build/css/framway.css") || !file_exists(TL_ROOT."/files/app/build/css/vendor.css") || !file_exists(TL_ROOT."/files/app/build/js/framway.js") || !file_exists(TL_ROOT."/files/app/build/js/vendor.js"))
 				throw new Exception("Des fichiers Framway sont manquants !");
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les fichiers Smartgear ont été trouvés (framway.css, framway.js, vendor.css, vendor.js)"];
+
+			// Import the folders
+			$objFiles = \Files::getInstance();
+			$objFiles->rcopy("system/modules/wem-contao-smartgear/assets/templates_files", "templates/smartgear");
 
 			// Check if there is another themes and warn the user
 			if(\ThemeModel::countAll() > 0)
@@ -143,7 +132,7 @@ class Core extends Block implements BlockInterface
 			$objTheme->author = "Web ex Machina";
 			$objTheme->templates = "templates/smartgear";
 			$objTheme->save();
-			$this->sgConfig = Util::updateConfig(["sgInstallTheme"=>$objTheme->id]);
+			$this->sgConfig["sgInstallTheme"] = $objTheme->id;
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le thème %s a été créé et sera utilisé pour la suite de la configuration", $objTheme->name)];
 
 			// Create the Smartgear main modules
@@ -166,6 +155,7 @@ class Core extends Block implements BlockInterface
 			$objModule->save();
 			$arrLayoutModules[] = ["mod"=>$objModule->id, "col"=>"header", "enable"=>"1"];
 			$arrModules[] = $objModule->id;
+			$this->sgConfig["sgInstallModules"] = serialize($arrModules);
 
 			// Header - Nav
 			$objModule = new \ModuleModel();
@@ -178,6 +168,7 @@ class Core extends Block implements BlockInterface
 			$objModule->save();
 			$arrLayoutModules[] = ["mod"=>$objModule->id, "col"=>"header", "enable"=>"1"];
 			$arrModules[] = $objModule->id;
+			$this->sgConfig["sgInstallModules"] = serialize($arrModules);
 
 			// Main - Articles
 			$arrLayoutModules[] = ["mod"=>0, "col"=>"main", "enable"=>"1"];
@@ -192,6 +183,7 @@ class Core extends Block implements BlockInterface
 			$objModule->save();
 			$arrLayoutModules[] = ["mod"=>$objModule->id, "col"=>"footer", "enable"=>"1"];
 			$arrModules[] = $objModule->id;
+			$this->sgConfig["sgInstallModules"] = serialize($arrModules);
 
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Les modules principaux ont été créés", $objTheme->name)];
 
@@ -225,6 +217,7 @@ class Core extends Block implements BlockInterface
 			$objLayout->orderExtJs = serialize($arrJsFiles);
 			$objLayout->modules = serialize($arrLayoutModules);
 			$objLayout->save();
+			$this->sgConfig["sgInstallLayout"] = $objLayout->id;
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le layout %s a été créé et sera utilisé pour la suite de la configuration", $objLayout->name)];
 
 			// Create the default user group
@@ -232,48 +225,99 @@ class Core extends Block implements BlockInterface
 			$objUserGroup->tstamp = time();
 			$objUserGroup->name = "Administrateurs";
 			$objUserGroup->save();
+			$this->sgConfig["sgInstallUserGroup"] = $objUserGroup->id;
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le groupe d'utilisateurs %s a été créé", $objUserGroup->name)];
-			$this->sgConfig = Util::updateConfig(["sgInstallUserGroup"=>$objUserGroup->id]);
 
 			// Add a default user to the user group
-			$objUser = new \UserModel();
-			$objUser->tstamp = time();
-			$objUser->dateAdded = time();
-			$objUser->username = "webmaster";
-			$objUser->name = "Webmaster";
-			$objUser->email = "to@fill.fr";
-			$objUser->language = "fr";
-			$objUser->backendTheme = "flexible";
-			$objUser->fullscreen = 1;
-			$objUser->uploader = "DropZone";
-			$objUser->pwChange = 1;
-			$objUser->save();
-			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("L'utilisateur %s a été créé", $objUser->name)];
-			$this->sgConfig = Util::updateConfig(["sgInstallUser"=>$objUser->id]);
+			if(0 === \UserModel::countBy('username', 'webmaster')){
+				$objUser = new \UserModel();
+				$objUser->tstamp = time();
+				$objUser->dateAdded = time();
+				$objUser->username = "webmaster";
+				$objUser->name = "Webmaster";
+				$objUser->email = "to@fill.fr";
+				$objUser->language = "fr";
+				$objUser->backendTheme = "flexible";
+				$objUser->fullscreen = 1;
+				$objUser->uploader = "DropZone";
+				$objUser->password = \Encryption::hash("webmaster");
+				$objUser->pwChange = 1;
+				$objUser->groups = serialize([0=>$objUserGroup->id]);
+				$objUser->save();
+				$this->sgConfig["sgInstallUser"] = $objUser->id;
+				$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("L'utilisateur %s a été créé", $objUser->name)];
+			}
+
+			// Create the Web ex Machina Admins
+			if(0 === \UserModel::countBy('email', 'julien@webexmachina.fr')){
+				$objUser = new \UserModel();
+				$objUser->tstamp = time();
+				$objUser->dateAdded = time();
+				$objUser->username = "jthirion";
+				$objUser->name = "Julien - Web ex Machina";
+				$objUser->email = "julien@webexmachina.fr";
+				$objUser->language = "fr";
+				$objUser->backendTheme = "flexible";
+				$objUser->fullscreen = 1;
+				$objUser->admin = 1;
+				$objUser->uploader = "DropZone";
+				$objUser->password = \Encryption::hash("webexmachina");
+				$objUser->pwChange = 1;
+				$objUser->save();
+			}
+
+			if(0 === \UserModel::countBy('email', 'quentin@webexmachina.fr')){
+				$objUser = new \UserModel();
+				$objUser->tstamp = time();
+				$objUser->dateAdded = time();
+				$objUser->username = "qvansteene";
+				$objUser->name = "Quentin - Web ex Machina";
+				$objUser->email = "quentin@webexmachina.fr";
+				$objUser->language = "fr";
+				$objUser->backendTheme = "flexible";
+				$objUser->fullscreen = 1;
+				$objUser->admin = 1;
+				$objUser->uploader = "DropZone";
+				$objUser->password = \Encryption::hash("webexmachina");
+				$objUser->pwChange = 1;
+				$objUser->save();
+			}
+
+			if(0 === \UserModel::countBy('email', 'benedict@webexmachina.fr')){
+				$objUser = new \UserModel();
+				$objUser->tstamp = time();
+				$objUser->dateAdded = time();
+				$objUser->username = "bbianchini";
+				$objUser->name = "Benedict - Web ex Machina";
+				$objUser->email = "benedict@webexmachina.fr";
+				$objUser->language = "fr";
+				$objUser->backendTheme = "flexible";
+				$objUser->fullscreen = 1;
+				$objUser->admin = 1;
+				$objUser->uploader = "DropZone";
+				$objUser->password = \Encryption::hash("webexmachina");
+				$objUser->pwChange = 1;
+				$objUser->save();
+			}
 
 			// Generate a root page with the stuff previously created
-			$objRootPage = new \PageModel();
-			$objRootPage->pid = 0;
-			$objRootPage->sorting = (\PageModel::countByPid(0) + 1) * 128;
-			$objRootPage->tstamp = time();
-			$objRootPage->title = $this->sgConfig['websiteTitle'];
-			$objRootPage->alias = \StringUtil::generateAlias($objRootPage->title);
-			$objRootPage->type = "root";
-			$objRootPage->language = "fr";
-			$objRootPage->fallback = 1;
-			$objRootPage->createSitemap = 1;
-			$objRootPage->sitemapName = substr("sitemap-".$objRootPage->alias, 0, 30);
-			$objRootPage->useSSL = 1;
-			$objRootPage->includeLayout = 1;
-			$objRootPage->layout = $objLayout->id;
-			$objRootPage->includeChmod = 1;
-			$objRootPage->cuser = $objUser->id;
-			$objRootPage->cgroup = $objUserGroup->id;
-			$objRootPage->chmod = 'a:12:{i:0;s:2:"u1";i:1;s:2:"u2";i:2;s:2:"u3";i:3;s:2:"u4";i:4;s:2:"u5";i:5;s:2:"u6";i:6;s:2:"g1";i:7;s:2:"g2";i:8;s:2:"g3";i:9;s:2:"g4";i:10;s:2:"g5";i:11;s:2:"g6";}';
-			$objRootPage->published = 1;
-			$objRootPage->save();
+			$objRootPage = Util::createPage($this->sgConfig['websiteTitle'], 0, [
+				"pid" => 0
+				,"type"=>"root"
+				,"language"=>"fr"
+				,"fallback"=>1
+				,"createSitemap"=>1
+				,"sitemapName"=>substr("sitemap-".$objRootPage->alias, 0, 30)
+				,"useSSL"=>1
+				,"includeLayout"=>1
+				,"layout"=>$objLayout->id
+				,"includeChmod"=>1
+				,"cuser"=>$objUser->id
+				,"cgroup"=>$objUserGroup->id
+				,"chmod"=>'a:12:{i:0;s:2:"u1";i:1;s:2:"u2";i:2;s:2:"u3";i:3;s:2:"u4";i:4;s:2:"u5";i:5;s:2:"u6";i:6;s:2:"g1";i:7;s:2:"g2";i:8;s:2:"g3";i:9;s:2:"g4";i:10;s:2:"g5";i:11;s:2:"g6";}'
+			]);
+			$this->sgConfig["sgInstallRootPage"] = $objRootPage->id;
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le site Internet %s a été créé", $objRootPage->title)];
-			$this->sgConfig = Util::updateConfig(["sgInstallRootPage"=>$objRootPage->id]);
 
 			// Generate a gateway in the Notification Center
 			$objGateway = new \NotificationCenter\Model\Gateway();
@@ -281,8 +325,8 @@ class Core extends Block implements BlockInterface
 			$objGateway->title = "Email de service - Smartgear";
 			$objGateway->type = "email";
 			$objGateway->save();
+			$this->sgConfig["sgInstallNcGateway"] = $objGateway->id;
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("La passerelle (Notification Center) %s a été créée", $objGateway->title)];
-			$this->sgConfig = Util::updateConfig(["sgInstallNcGateway"=>$objGateway->id]);
 
 			// Create a homepage
 			$objHomePage = Util::createPage("Accueil", $objRootPage->id);
@@ -303,49 +347,36 @@ class Core extends Block implements BlockInterface
 			$objSitemapPage = Util::createPageWithModules("Plan du site", [$objModule->id], $objRootPage->id);
 
 			// Create a 404 page, with a sitemap after
-			$obj404Page = Util::createPage("Erreur 404 - Page non trouvée", $objRootPage->id);
-			$obj404Page->type = "error_404";
-			$obj404Page->save();
+			$obj404Page = Util::createPage("Erreur 404 - Page non trouvée", $objRootPage->id, ["type"=>"error_404"]);
 			$objArticle = Util::createArticle($obj404Page);
-
-			$objContent = new \ContentModel();
-			$objContent->tstamp = time();
-			$objContent->pid = $objArticle->id;
-			$objContent->ptable = "tl_article";
-			$objContent->sorting = 128;
-			$objContent->type = "text";
-			$objContent->headline = serialize(["unit"=>"h1", "value"=>"Page non trouvée !"]);
-			$objContent->text = "<p>La page demandée n'existe pas. Vous pouvez consulter le plan du site ci-dessous pour poursuivre votre navigation.</p>";
-			$objContent->save();
-
-			$objContent = new \ContentModel();
-			$objContent->tstamp = time();
-			$objContent->pid = $objArticle->id;
-			$objContent->ptable = "tl_article";
-			$objContent->sorting = 256;
-			$objContent->type = "module";
-			$objContent->module = $objModule->id;
-			$objContent->save();
+			$objContent = Util::createContent($objArticle, [
+				"headline"=>serialize(["unit"=>"h1", "value"=>"Page non trouvée !"])
+				,"text"=>"<p>La page demandée n'existe pas. Vous pouvez consulter le plan du site ci-dessous pour poursuivre votre navigation.</p>"
+			]);
+			$objContent = Util::createContent($objArticle, [
+				"type"=>"module"
+				,"module"=>$objModule->id
+			]);
 
 			// Create a Legal Notices Page
 			$objPage = Util::createPageWithText("Mentions légales", "<p>A remplir</p>", $objRootPage->id, ["unit"=>"h1", "value"=>"Mentions légales"]);
 
 			// Create a Guidelines Page
-			$objPage = Util::createPageWithText("Guidelines", "<p>A remplir</p>", $objRootPage->id, ["unit"=>"h1", "value"=>"Guidelines"]);
+			$objPage = Util::createPage("Guidelines", $objRootPage->id);
+			$objArticle = Util::createArticle($objPage, ["cssID"=>serialize([0=>"guideline"])]);
+
+			// Create a robots.txt file with a Disallow
+			if(!file_exists(TL_ROOT."/web/robots.txt")){
+				$objFile = $objFiles->fopen("web/robots.txt", "w");
+				$objFiles->fputs($objFile, "User-agent: *"."\n"."Disallow: /");
+			}
 
 			// Finally, notify in Config that the install is complete :)
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Installation terminée"];
 
 			// Update Config
-			$arrSgConfig["sgInstallTheme"] = $objTheme->id;
-			$arrSgConfig["sgInstallModules"] = serialize($arrModules);
-			$arrSgConfig["sgInstallLayout"] = $objLayout->id;
-			$arrSgConfig["sgInstallUserGroup"] = $objUserGroup->id;
-			$arrSgConfig["sgInstallUser"] = $objUser->id;
-			$arrSgConfig["sgInstallRootPage"] = $objRootPage->id;
-			$arrSgConfig["sgInstallNcGateway"] = $objGateway->id;
-			$arrSgConfig["sgInstallComplete"] = 1;
-			$this->sgConfig = Util::updateConfig($arrSgConfig);
+			$this->sgConfig["sgInstallComplete"] = 1;
+			Util::updateConfig($this->sgConfig);
 
 			// And return an explicit status with some instructions
 			return [
@@ -374,8 +405,7 @@ class Core extends Block implements BlockInterface
 			// Delete the Gateway
 			if($objGateway = \NotificationCenter\Model\Gateway::findByPk($this->sgConfig['sgInstallNcGateway'])){
 				if($objGateway->delete()){
-					$arrSgConfig["sgInstallNcGateway"] = "";
-					$this->sgConfig = Util::updateConfig($arrSgConfig);
+					$this->sgConfig["sgInstallNcGateway"] = "";
 					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("La passerelle (Notification Center) %s a été supprimée", $objGateway->title)];
 				}
 			}
@@ -383,8 +413,7 @@ class Core extends Block implements BlockInterface
 			// Delete the root page
 			if($objRootPage = \PageModel::findByPk($this->sgConfig['sgInstallRootPage'])){
 				if($objRootPage->delete()){
-					$arrSgConfig["sgInstallRootPage"] = "";
-					$this->sgConfig = Util::updateConfig($arrSgConfig);
+					$this->sgConfig["sgInstallRootPage"] = "";
 					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le site Internet %s a été supprimé", $objRootPage->title)];
 				}
 			}
@@ -392,8 +421,7 @@ class Core extends Block implements BlockInterface
 			// Delete the user
 			if($objUser = \UserModel::findByPk($this->sgConfig['sgInstallUser'])){
 				if($objUser->delete()){
-					$arrSgConfig["sgInstallUser"] = "";
-					$this->sgConfig = Util::updateConfig($arrSgConfig);
+					$this->sgConfig["sgInstallUser"] = "";
 					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("L'utilisateur %s a été supprimé", $objUser->name)];
 				}
 			}
@@ -401,8 +429,7 @@ class Core extends Block implements BlockInterface
 			// Delete the user group
 			if($objUserGroup = \UserGroupModel::findByPk($this->sgConfig['sgInstallUserGroup'])){
 				if($objUserGroup->delete()){
-					$arrSgConfig["sgInstallUserGroup"] = "";
-					$this->sgConfig = Util::updateConfig($arrSgConfig);
+					$this->sgConfig["sgInstallUserGroup"] = "";
 					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le groupe d'utilisateur %s a été supprimé", $objUserGroup->name)];
 				}
 			}
@@ -413,8 +440,7 @@ class Core extends Block implements BlockInterface
 				while($objLayouts->next())
 					$objLayouts->delete();
 		
-				$arrSgConfig["sgInstallLayout"] = "";
-				$this->sgConfig = Util::updateConfig($arrSgConfig);
+				$this->sgConfig["sgInstallLayout"] = "";
 				$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le squelette %s a été supprimé", $objLayout->name)];
 			}
 
@@ -432,24 +458,31 @@ class Core extends Block implements BlockInterface
 
 				// Clear the config
 				if(empty($arrModules))
-					$arrSgConfig["sgInstallModules"] = "";
+					$this->sgConfig["sgInstallModules"] = "";
 				else
-					$arrSgConfig["sgInstallModules"] = serialize($arrModules);
-
-				$this->sgConfig = Util::updateConfig($arrSgConfig);
+					$this->sgConfig["sgInstallModules"] = serialize($arrModules);
 			}
 
 			// Delete the theme
 			if($objTheme = \ThemeModel::findByPk($this->sgConfig['sgInstallTheme'])){
 				if($objTheme->delete()){
-					$arrSgConfig["sgInstallTheme"] = "";
+					$this->sgConfig["sgInstallTheme"] = "";
 					$this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le thème %s a été supprimé", $objTheme->name)];
 				}
 			}
 
+			// Delete the templates folder
+			$objFiles = \Files::getInstance();
+			if(file_exists(TL_ROOT."/templates/smartgear"))
+				$objFiles->rrdir("templates/smartgear");
+
+			// Delete the robots file
+			if(file_exists(TL_ROOT."/web/robots.txt"))
+				$objFiles->delete("web/robots.txt");
+			
 			// Finally, reset the config
-			$arrSgConfig["sgInstallComplete"] = "";
-			$this->sgConfig = Util::updateConfig($arrSgConfig);
+			$this->sgConfig["sgInstallComplete"] = "";
+			Util::updateConfig($this->sgConfig);
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Désinstallation terminée"];
 
 			// And return an explicit status with some instructions
@@ -466,6 +499,7 @@ class Core extends Block implements BlockInterface
 			];
 		}
 		catch(Exception $e){
+			Util::updateConfig($this->sgConfig);
 			throw $e;
 		}
 	}

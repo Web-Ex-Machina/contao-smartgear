@@ -114,7 +114,7 @@ class Util
 	/**
 	 * Shortcut for page creation
 	 */
-	public static function createPage($strTitle, $intPid = 0){
+	public static function createPage($strTitle, $intPid = 0, $arrData = []){
 		$arrConfig = static::loadSmartgearConfig();
 		if(0 === $intPid)
 			$intPid = $arrConfig["sgInstallRootPage"];
@@ -131,30 +131,65 @@ class Util
 		$objPage->robots = "index,follow";
 		$objPage->sitemap = "map_default";
 		$objPage->published = 1;
+
+		// Now we get the default values, get the arrData table
+		if(!empty($arrData))
+			foreach($arrData as $k=>$v)
+				$objPage->$k = $v;
+		
 		$objPage->save();
 
-		// Return the page ID
+		// Return the model
 		return $objPage;
 	}
 
 	/**
 	 * Shortcut for article creation
 	 */
-	public static function createArticle($objPage){
+	public static function createArticle($objPage, $arrData = []){
 		// Create the article
 		$objArticle = new \ArticleModel();
 		$objArticle->tstamp = time();
 		$objArticle->pid = $objPage->id;
-		$objArticle->sorting = (\ArticleModel::countBy("pid", $objPage->id) + 1) * 128;;
+		$objArticle->sorting = (\ArticleModel::countBy("pid", $objPage->id) + 1) * 128;
 		$objArticle->title = $objPage->title;
 		$objArticle->alias = $objPage->alias;
-		$objArticle->author = $arrConfig["sgInstallUser"];
+		$objArticle->author = 1;
 		$objArticle->inColumn = "main";
 		$objArticle->published = 1;
+
+		// Now we get the default values, get the arrData table
+		if(!empty($arrData))
+			foreach($arrData as $k=>$v)
+				$objArticle->$k = $v;
+
 		$objArticle->save();
 
-		// Return the page ID
+		// Return the model
 		return $objArticle;
+	}
+
+	/**
+	 * Shortcut for content creation
+	 */
+	public static function createContent($objArticle, $arrData = []){
+		// Create the content
+		$objContent = new \ContentModel();
+		$objContent->tstamp = time();
+		$objContent->pid = $objArticle->id;
+		$objContent->ptable = "tl_article";
+		$objContent->sorting = (\ContentModel::countPublishedByPidAndTable($objArticle->id, "tl_article") + 1) * 128;
+		$objContent->type = "text";
+
+		// Now we get the default values, get the arrData table
+		if(!empty($arrData))
+			foreach($arrData as $k=>$v)
+				$objContent->$k = $v;
+
+		$objContent->save();
+
+		// Return the model
+		return $objContent;
 	}
 
 	/**
@@ -171,19 +206,9 @@ class Util
 		// Create the article
 		$objArticle = static::createArticle($objPage);
 
-		// Create the content
-		$i = 0;
-		foreach($arrModules as $intModule){
-			$i += 128;
-			$objContent = new \ContentModel();
-			$objContent->tstamp = time();
-			$objContent->pid = $objArticle->id;
-			$objContent->ptable = "tl_article";
-			$objContent->sorting = $i;
-			$objContent->type = "module";
-			$objContent->module = $intModule;
-			$objContent->save();
-		}
+		// Create the contents
+		foreach($arrModules as $intModule)
+			$objContent = static::createContent($objArticle, ["type"=>"module", "module"=>$intModule]);
 
 		// Return the page ID
 		return $objPage->id;
@@ -204,18 +229,7 @@ class Util
 		$objArticle = static::createArticle($objPage);
 
 		// Create the content
-		$objContent = new \ContentModel();
-		$objContent->tstamp = time();
-		$objContent->pid = $objArticle->id;
-		$objContent->ptable = "tl_article";
-		$objContent->sorting = 128;
-		$objContent->type = "text";
-		$objContent->text = $strText;
-
-		if($arrHl)
-			$objContent->headline = serialize($arrHl);
-
-		$objContent->save();
+		$objContent = static::createContent($objArticle, ["text"=>$strText, "headline"=>$arrHl]);
 
 		// Return the page ID
 		return $objPage->id;
