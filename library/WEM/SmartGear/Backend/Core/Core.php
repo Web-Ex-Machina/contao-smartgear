@@ -345,7 +345,12 @@ class Core extends Block implements BlockInterface
 			$arrModules[] = $objModule->id;
 
 			// Create a page with the sitemap
-			$objSitemapPage = Util::createPageWithModules("Plan du site", [$objModule->id], $objRootPage->id);
+			$objSitemapPage = Util::createPage("Plan du site", $objRootPage->id, ["hide"=>1]);
+			$objArticle = Util::createArticle($objSitemapPage);
+			$objContent = Util::createContent($objArticle, [
+				"type"=>"module"
+				,"module"=>$objModule->id
+			]);
 
 			// Create a 404 page, with a sitemap after
 			$obj404Page = Util::createPage("Erreur 404 - Page non trouvée", $objRootPage->id, ["type"=>"error_404"]);
@@ -360,10 +365,15 @@ class Core extends Block implements BlockInterface
 			]);
 
 			// Create a Legal Notices Page
-			$objPage = Util::createPageWithText("Mentions légales", "<p>A remplir</p>", $objRootPage->id, ["unit"=>"h1", "value"=>"Mentions légales"]);
+			$objPage = Util::createPage("Mentions légales", $objRootPage->id, ["hide"=>1]);
+			$objArticle = Util::createArticle($objPage);
+			$objContent = Util::createContent($objArticle, [
+				"headline"=>serialize(["unit"=>"h1", "value"=>"Mentions légales"])
+				,"text"=>"<p>A remplir</p>"
+			]);
 
 			// Create a Guidelines Page
-			$objPage = Util::createPage("Guidelines", $objRootPage->id);
+			$objPage = Util::createPage("Guidelines", $objRootPage->id, ["hide"=>1]);
 			$objArticle = Util::createArticle($objPage, ["cssID"=>serialize([0=>"guideline"])]);
 
 			// Create a robots.txt file with a Disallow
@@ -535,8 +545,7 @@ class Core extends Block implements BlockInterface
 				]
 				,"callbacks" => [
 					0 => [
-						"method" => "refreshBlock"
-						,"args"	 => ["block-".$this->type."-".$this->module]
+						"method" => "refreshAllBlocks"
 					]
 				]
 			];

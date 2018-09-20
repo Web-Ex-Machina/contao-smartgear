@@ -210,7 +210,7 @@ class Forms extends Block implements BlockInterface
 		$objContent->ptable = "tl_article";
 		$objContent->sorting = 128;
 		$objContent->type = "form";
-		$objContent->headline = serialize(["unit"=>"h1", "value"=>"Message envoyé !"]);
+		$objContent->headline = serialize(["unit"=>"h1", "value"=>"Contact"]);
 		$objContent->form = $objForm->id;
 		$objContent->save();
 
