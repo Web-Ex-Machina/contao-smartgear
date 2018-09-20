@@ -88,6 +88,10 @@ class Util
 	public static function updateConfig($arrVars){
 		try{
 			$objFiles = \Files::getInstance();
+			if(!file_exists(static::$strConfigPath)){
+				$objFiles->mkdir(str_replace("/smartgear.json", "", static::$strConfigPath));
+				$objFiles->fopen(static::$strConfigPath, "wb");
+			}
 			$strConfig = file_get_contents(static::$strConfigPath);
 			$arrConfig = [];
 

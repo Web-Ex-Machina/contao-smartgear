@@ -57,6 +57,7 @@ class Core extends Block implements BlockInterface
 
 			$this->fields[] = ['name'=>'websiteTitle', 'value'=>$this->sgConfig['websiteTitle'], 'label'=>'Titre du site internet', 'help'=>'Saisir le titre du site internet'];
 			$this->actions[] = ['action'=>'install', 'label'=>'Installer Smartgear'];
+			$this->actions[] = ['action'=>'resetContao', 'label'=>'Réinitialiser Contao', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Contao ?\'))return false;Backend.getScrollOffset()"'];
 
 			$this->status = 0;
 
@@ -68,7 +69,7 @@ class Core extends Block implements BlockInterface
 
 			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser Smartgear', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Smartgear ?\'))return false;Backend.getScrollOffset()"'];
 			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer Smartgear', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment supprimer Smartgear ?\'))return false;Backend.getScrollOffset()"'];
-			$this->actions[] = ['action'=>'truncate', 'label'=>'Réinitialiser Contao', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Contao ?\'))return false;Backend.getScrollOffset()"'];
+			$this->actions[] = ['action'=>'resetContao', 'label'=>'Réinitialiser Contao', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Contao ?\'))return false;Backend.getScrollOffset()"'];
 
 			$this->status = 1;
 		}
@@ -512,13 +513,17 @@ class Core extends Block implements BlockInterface
 			// Clear Smartgear install before, if exists (useful for config vars)
 			$this->remove();
 
-			$objDb = Database::getInstance();
-			foreach($objDb->listTables() as $strTable)
+			$objDb = \Database::getInstance();
+			foreach($objDb->listTables() as $strTable){
+				// Do not delete user table
+				if($strTable == "tl_user")
+					continue;
 				$objDb->prepare("TRUNCATE TABLE ".$strTable)->execute();
+			}
 
-			$objFiles = Files::getInstance();
-			$objFiles->rrdir("files");
-			$objFiles->rrdir("templates");
+			$objFiles = \Files::getInstance();
+			$objFiles->rrdir("files", true);
+			$objFiles->rrdir("templates", true);
 
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Contao a été réinitialisé"];
 
