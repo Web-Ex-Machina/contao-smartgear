@@ -111,8 +111,45 @@ class Block extends Controller
 		// Add actions only if we can manage the module
 		if($blnCanManage){
 			$objTemplate->fields = $this->fields;
-			$objTemplate->actions = $this->actions;
+			$arrActions = [];
 			$objTemplate->logs = $this->logs;
+
+			// Parse the actions
+			if(is_array($this->actions) && !empty($this->actions)){
+				foreach($this->actions as &$action){
+					switch($action['v']){
+						case 2 :
+							$arrAttributes = [];
+							if($action['attrs']){
+								if(!$action['attrs']['class'])
+									$action['attrs']['class'] = 'tl_submit';
+								else if(strpos($action['attrs']['class'], 'tl_submit') == false)
+									$action['attrs']['class'] .= ' tl_submit';
+
+								foreach($action['attrs'] as $k=>$v)
+									$arrAttributes[] = sprintf('%s="%s"', $k, $v);
+							}
+							$arrActions[] = sprintf(
+								'<%s %s>%s</%s>'
+								,($action['tag']) ? $action['tag'] : 'button'
+								,(0<count($arrAttributes)) ? implode(' ', $arrAttributes) : ''
+								,($action['text']) ? $action['text'] : 'text missing'
+								,($action['tag']) ? $action['tag'] : 'button'
+							);
+						break;
+						default:
+							$arrActions[] = sprintf(
+								'<button type="submit" name="action" value="%s" class="tl_submit" %s>%s</button>'
+								,$action['action']
+								,($action['attributes']) ?: $action['attributes']
+								,$action['label']
+							);
+					}
+				}
+			}
+
+			// Add actions to the block
+			$objTemplate->actions = $arrActions;
 		}
 
 		// And return the template, parsed.

@@ -32,9 +32,7 @@
 		<?php endforeach; ?>
 		<?php endif; ?>
 		<div class="tl_submit_container">
-			<?php foreach($this->actions as $input): ?>
-			<button type="submit" value="<?= $input['action'] ?>" name="action" class="tl_submit" <?= $input['attributes'] ?>><?= $input['label'] ?></button>
-			<?php endforeach; ?>
+			<?= implode(' ', $this->actions) ?>
 		</div>
 	</form>
 	<?php endif; ?>

@@ -37,6 +37,9 @@ class Rsce extends Block implements BlockInterface
 		$this->module = "rsce";
 		$this->icon = "exclamation-triangle";
 		$this->title = "Smartgear | Core | RSCE";
+
+		$this->objFiles = \Files::getInstance();
+
 		parent::__construct();
 	}
 
@@ -46,9 +49,9 @@ class Rsce extends Block implements BlockInterface
 	 */
 	public function getStatus(){
 		$this->messages[] = ['class' => 'tl_info', 'text' => 'Cette section permet d\'importer les éléments personnalisés RSCE utilisés par Smartgear.'];
-		
+	
 		// Check the install status
-		if(1 === $this->sgConfig["sgInstallRsce"]){
+		if(1 === $this->sgConfig["sgInstallRsce"] && !$this->shouldBeUpdated()){
 			
 			$this->status = 1;
 
@@ -76,8 +79,7 @@ class Rsce extends Block implements BlockInterface
 	 */
 	public function install(){
 		try{
-			$objFiles = \Files::getInstance();
-			$objFiles->rcopy("system/modules/wem-contao-smartgear/assets/rsce_files", "templates/rsce");
+			$this->objFiles->rcopy("system/modules/wem-contao-smartgear/assets/rsce_files", "templates/rsce");
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les templates RSCE ont été importés."];
 
 			// Update config
@@ -108,8 +110,7 @@ class Rsce extends Block implements BlockInterface
 	 */
 	public function remove(){
 		try{
-			$objFiles = \Files::getInstance();
-			$objFiles->rrdir("templates/rsce");
+			$this->objFiles->rrdir("templates/rsce");
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les templates RSCE ont été supprimés."];
 
 			// Update config
@@ -139,10 +140,15 @@ class Rsce extends Block implements BlockInterface
 	 * @return [Boolean] [True means should be updated. Crazy uh ?]
 	 */
 	protected function shouldBeUpdated(){
-		clearstatcache();
-		$arrSrcFolder = scandir(TL_ROOT."/system/modules/wem-contao-smartgear/assets/rsce_files");
-		$arrFolder = scandir(TL_ROOT."/templates/rsce");
+		try{
+			clearstatcache();
+			$arrSrcFolder = scandir(TL_ROOT."/system/modules/wem-contao-smartgear/assets/rsce_files");
+			$arrFolder = scandir(TL_ROOT."/templates/rsce");
 
-		return !empty(array_diff($arrSrcFolder, $arrFolder)) || !empty(array_diff($arrFolder, $arrSrcFolder));
+			return !empty(array_diff($arrSrcFolder, $arrFolder)) || !empty(array_diff($arrFolder, $arrSrcFolder));
+		}
+		catch(Exception $e){
+			return true;
+		}
 	}
 }

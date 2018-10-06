@@ -44,6 +44,14 @@ j(document).ready(function(){
 	});
 
 	/**
+	 * Handle modal openers
+	 */
+	j('#tl_wem_sg_install').on('click', '.block .openContaoModal', function(e){
+		e.preventDefault();
+		Backend.openModalIframe({'title':this.title,'url':this.href});
+	});
+
+	/**
 	 * Replace normal form submit by an AJAX one
 	 */
 	j('#tl_wem_sg_install').on('submit', '.block form', function(e){
