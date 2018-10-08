@@ -5,6 +5,19 @@
 			<source>Cancel</source>
 			<target>Annuler</target>
 		</trans-unit>
+
+		<trans-unit id="WEM.SMARTGEAR.BACKEND.missingPackage">
+			<source>The %s module is missing. Please use the <a href="contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> for that.</source>
+			<target>Le module %s n'est pas installé. Veuillez utiliser le <a href="contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKEND.notInstalledPackage">
+			<source>The %s package has been found but not installed yet.</source>
+			<target>Le module %s a été trouvé mais n'est pas installé.</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKEND.installedPackage">
+			<source>The %s package has been found and is installed.</source>
+			<target>Le module %s a été trouvé et est installé.</target>
+		</trans-unit>
     </body>
   </file>
 </xliff>
