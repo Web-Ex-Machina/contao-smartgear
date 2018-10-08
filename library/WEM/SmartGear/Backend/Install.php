@@ -47,7 +47,7 @@ class Install extends \BackendModule
 	protected $modules = [
 		"core" => ["core", "rsce"]
 		,"module" => ["blog", "calendar", "faq", "forms", "newsletter", "locations", "portfolio", "planning"]
-		,"addon" => ["formsubmissions", "seo"]
+		,"addon" => ["formsubmissions", "seo", "conditionalnotifications"]
 	];
 
 	/**
