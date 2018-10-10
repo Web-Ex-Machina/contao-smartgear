@@ -22,8 +22,18 @@
     $arrClasses[] = 'content__bg--'.$this->content_background;
   if($this->content_background_opacity)
     $arrClasses[] = 'content__bg__opacity--'.intval($this->content_background_opacity);
+  if($this->title_modifier)
+    $arrClasses[] = $this->title_modifier;
+
+
+  $height = '';
+  if($this->block_height)
+    $height = $this->block_height;
+  if($this->force_fullheight)
+    $height = 'viewport';
+
 ?>
-<div class="heroFW <?= implode(' ', $arrClasses) ?>">
+<div class="heroFW <?= implode(' ', $arrClasses) ?>" data-height="<?= $height ?>" <?= $height ?: 'style="height:'.$height.';"' ?>>
   <div class="heroFW__wrapper">
     <div class="heroFW__figure">
       <img src="<?= $strFile ?>" alt="<?= $this->alt ?>">

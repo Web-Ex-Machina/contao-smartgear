@@ -1,5 +1,5 @@
 <?php
-// rsce_kwicks_config.php
+// rsce_heroFW_config.php
 return array
 (
     'label' => array('Hero FW', 'Générez un élément stylisé composé d\'un texte sur une image')
@@ -15,15 +15,28 @@ return array
         )
         ,'force_fullwidth' => array
         (
-            'label' => array("Toute la largeur", "Cochez pour forcer le bloc à prendre toute la largeur de l'écran")
-            ,'inputType' => 'checkbox'
+            'label' => array("Toute la largeur", "Cochez pour forcer le bloc à prendre toute la largeur de l'écran"),
+            'inputType' => 'checkbox',
+            'eval' => array( 'tl_class' => 'w50')
+        ),
+        'force_fullheight' => array
+        (
+            'label' => array("Toute la hauteur", "Cochez pour forcer le bloc à prendre toute la hauteur de l'écran"),
+            'inputType' => 'checkbox',
+            'eval' => array( 'tl_class' => 'w50')
+        ),
+        'block_height' => array
+        (
+            'label' => array("Hauteur de l'élément", "Indiquez la hauteur voulue de l'élément"),
+            'inputType' => 'text',
+            'eval' => array( 'tl_class' => 'w50')
         ),
 
         'image_legend' => array
         (
             'label' => array('Image'),
             'inputType' => 'group',
-        ),   
+        ),
         'singleSRC' => array
         (
             'inputType' => 'standardField',
@@ -42,12 +55,8 @@ return array
 
         'imagesize_legend' => array
         (
-            'label' => array('Image - Redimensionnement et Positionnement'),
+            'label' => array('Image - Positionnement'),
             'inputType' => 'group',
-        ),
-        'size' => array
-        (
-            'inputType' => 'standardField',
         ),
         'imagesize_horizontal' => array
         (
@@ -78,12 +87,27 @@ return array
         (
             'label' => array('Contenu'),
             'inputType' => 'group',
-        ),   
+        ),
         'headline' => array
         (
             'inputType' => 'standardField',
             'eval' => array('mandatory'=>false)
         ),
+        'title_modifier' => array
+        (
+            'label' => array('Variante titre', 'Ajoute un style particulier au titre'),
+            'inputType' => 'select',
+            'options' => array
+            (
+                '' => ' - ',
+                'title--1' => 'Style 1',
+                'title--2' => 'Style 2',
+                'title--3' => 'Style 3',
+                'title--4' => 'Style 4',
+            ),
+            'eval' => array('tl_class'=>'w50'),
+        ),
+
         'text' => array
         (
             'inputType' => 'standardField',
@@ -135,6 +159,9 @@ return array
             'options' => array
             (
                 ""=>"Par défaut"
+                ,"ft-red"=>"red"
+                ,"ft-grey"=>"grey"
+                ,"ft-yellow"=>"yellow"
                 ,"ft-blue"=>"blue"
                 ,"ft-green"=>"green"
                 ,"ft-orange"=>"orange"
@@ -145,11 +172,10 @@ return array
                 ,"ft-blacklighter"=>"blacklighter"
                 ,"ft-greystronger"=>"greystronger"
                 ,"ft-greystrong"=>"greystrong"
-                ,"ft-grey"=>"grey"
                 ,"ft-greylight"=>"greylight"
                 ,"ft-greylighter"=>"greylighter"
                 ,"ft-white"=>"white"
-                ,"ft-none"=>"none"
+                ,"ft-none"=> "none"
             ),
             'eval' => array('tl_class'=>'w50'),
         ),
@@ -160,6 +186,9 @@ return array
             'options' => array
             (
                 ""=>"Par défaut"
+                ,"red"=>"red"
+                ,"grey"=>"grey"
+                ,"yellow"=>"yellow"
                 ,"blue"=>"blue"
                 ,"green"=>"green"
                 ,"orange"=>"orange"
@@ -170,11 +199,10 @@ return array
                 ,"blacklighter"=>"blacklighter"
                 ,"greystronger"=>"greystronger"
                 ,"greystrong"=>"greystrong"
-                ,"grey"=>"grey"
                 ,"greylight"=>"greylight"
                 ,"greylighter"=>"greylighter"
                 ,"white"=>"white"
-                ,"none"=>"none"
+                ,"none"=> "none"
             ),
             'eval' => array('tl_class'=>'w50 clr'),
         ),
