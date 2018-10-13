@@ -50,6 +50,33 @@ j(document).ready(function(){
 		e.preventDefault();
 		Backend.openModalIframe({'title':this.title,'url':this.href});
 	});
+	j('#tl_wem_sg_install').on('click', '.block .openSmartgearModal', function(e){
+		e.preventDefault();
+		var w = 768;
+		var h = (window.getSize().y-180).toInt();
+		if(parseInt(j(this).data('modal-width')) > 0)
+			w = parseInt(j(this).data('modal-width'));
+		if(parseInt(j(this).data('modal-height')) > 0)
+			h = parseInt(j(this).data('modal-height'));
+		var title = j(this).attr('title');
+		var href = j(this).attr('href');		
+		
+		var M = new SimpleModal({
+			'width': w,
+			'draggable': false,
+			'overlayOpacity': .5,
+			'onShow': function() { document.body.setStyle('overflow', 'hidden'); },
+			'onHide': function() { document.body.setStyle('overflow', 'auto'); }
+		});
+		M.addButton(Contao.lang.close, 'btn', function() {
+			this.hide();
+		});
+		M.show({
+			'title':title
+			,'contents':'<iframe src="'+href+'" name="simple-modal-contents" width="100%" height="'+h+'" frameborder="0"></iframe>'
+			,'model':'modal'
+		});
+	});
 
 	/**
 	 * Replace normal form submit by an AJAX one

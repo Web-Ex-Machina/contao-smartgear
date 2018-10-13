@@ -17,3 +17,5 @@
 #tl_wem_sg_install .blocks .block .tl_submit_container{position:absolute;bottom:0;width:100%;}
 #tl_wem_sg_install .blocks .block .loader{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);text-align:center;transition:visibility 0s, opacity 0.5s linear;visibility:hidden;display:flex;flex-direction:column;justify-content:center;color:#fff;z-index:2;opacity:0;}
 #tl_wem_sg_install .blocks .block .loader.active{visibility:visible;opacity:1;}
+
+.wem_sg_modal{padding:15px 0;}

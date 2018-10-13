@@ -62,13 +62,20 @@ class Core extends Block implements BlockInterface
 			$this->status = 0;
 
 		} else {
-			$this->title = "Smartgear | Core | Réparation - Désinstallation";
+			$this->title = "Smartgear | Core | Configuration";
 
 			$this->messages[] = ['class' => 'tl_error', 'text' => 'Vous pouvez réparer ou réinitialiser la configuration Smartgear établie. Veuillez prendre note que cela supprimera tous les éléments liés aux thèmes, squelettes, modules associés !'];
 			$this->messages[] = ['class' => 'tl_error', 'text' => 'Vous pouvez également réinitialiser la totalité des données Contao. Tous les fichiers et toutes les données seront supprimés.'];
 
-			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser Smartgear', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Smartgear ?\'))return false;Backend.getScrollOffset()"'];
-			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer Smartgear', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment supprimer Smartgear ?\'))return false;Backend.getScrollOffset()"'];
+			$href = sprintf('contao?do=smartgear&act=modal&type=%s&module=%s&function=%s&popup=1&rt=%s'
+				,$this->type
+				,$this->module
+				,"configure"
+				,\RequestToken::get()
+			);
+			$this->actions[] = ['v'=>2, 'tag'=>'a', 'text'=>'Configurer', 'attrs'=>['href'=>$href, 'title'=>'Configurer Smartgear', 'class'=>'openSmartgearModal']];
+			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Smartgear ?\'))return false;Backend.getScrollOffset()"'];
+			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment supprimer Smartgear ?\'))return false;Backend.getScrollOffset()"'];
 			$this->actions[] = ['action'=>'resetContao', 'label'=>'Réinitialiser Contao', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Contao ?\'))return false;Backend.getScrollOffset()"'];
 
 			$this->status = 1;
@@ -81,6 +88,34 @@ class Core extends Block implements BlockInterface
 	public function reset(){
 		\Input::setPost("websiteTitle", $this->sgConfig["websiteTitle"]);
 		parent::reset();
+	}
+
+	/**
+	 * Display & Update Smartgear config 
+	 */
+	public function configure(){
+		if(\Input::post('TL_WEM_AJAX')){
+			try{
+				$arrResponse = [
+					"toastr" => [
+						"status"=>"success"
+						,"msg"=>"Configuration sauvegardée"
+					]
+				];			
+			}
+			catch(Exception $e){
+				$arrResponse = ["status"=>"error", "msg"=>$e->getMessage(), "trace"=>$e->getTrace()];
+			}
+
+			// Add Request Token to JSON answer and return
+			$arrResponse["rt"] = \RequestToken::get();
+			echo json_encode($arrResponse);
+			die;
+		}
+
+		$objTemplate = new \FrontendTemplate('be_wem_sg_install_modal_core_configure');
+		$objTemplate->config = $this->sgConfig;
+		return $objTemplate;
 	}
 
 	/**

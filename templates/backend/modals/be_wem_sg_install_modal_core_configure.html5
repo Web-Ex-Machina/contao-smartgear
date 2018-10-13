@@ -1,0 +1,161 @@
+<!-- Load Libraries -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<div class="wem_sg_modal">
+	<form action="#" method="POST" name="wem_sg_modal">
+		<div class="w50 widget">
+			<h3><label for="websiteTitle" class="mandatory">Titre du site</label></h3>
+			<input name="websiteTitle" id="websiteTitle" class="tl_text" value="<?= $this->config['websiteTitle'] ?>" type="text">
+		</div>
+		<div class="w50 widget">
+			<h3><label for="framwayPath" class="mandatory">Accès au framway</label></h3>
+			<input name="framwayPath" id="framwayPath" class="tl_text" value="<?= $this->config['framwayPath'] ?>" type="text">
+		</div>
+
+		<div class="widget w50">
+			<div id="ctrl_protected" class="tl_checkbox_single_container">
+				<input name="sgInstallComplete" id="sgInstallComplete" class="tl_checkbox" value="1" type="checkbox"<?= ($this->config['websiteTitle'] == 1) ?: ' checked' ?>>
+				<label for="sgInstallComplete">Smartgear Installé ?</label>
+				<br>
+			</div>
+		</div>
+
+		<div class="w50 clr widget">
+			<h3><label for="sgInstallTheme">Thème Smartgear</label></h3>
+			<select name="sgInstallTheme" id="sgInstallTheme" class="tl_select tl_chosen">
+				<option value="">Défaut</option>
+				<option value="map_always">Toujours afficher</option>
+				<option value="map_never">Ne jamais afficher</option>
+			</select>
+		</div>
+		<div class="w50 widget">
+			<h3><label for="sgInstallModules">Modules Smartgear</label></h3>
+			<select name="sgInstallModules" id="sgInstallModules" class="tl_select tl_chosen" multiple>
+				<option value="">Défaut</option>
+				<option value="map_always">Toujours afficher</option>
+				<option value="map_never">Ne jamais afficher</option>
+			</select>
+		</div>
+
+		<div class="w50 widget">
+			<h3><label for="sgInstallLayout">Squelette Smartgear</label></h3>
+			<select name="sgInstallLayout" id="sgInstallLayout" class="tl_select tl_chosen">
+				<option value="">Défaut</option>
+				<option value="map_always">Toujours afficher</option>
+				<option value="map_never">Ne jamais afficher</option>
+			</select>
+		</div>
+		<div class="w50 widget">
+			<h3><label for="sgInstallUserGroup">Groupe d'administrateurs Smartgear</label></h3>
+			<select name="sgInstallUserGroup" id="sgInstallUserGroup" class="tl_select tl_chosen">
+				<option value="">Défaut</option>
+				<option value="map_always">Toujours afficher</option>
+				<option value="map_never">Ne jamais afficher</option>
+			</select>
+		</div>
+		
+		<div class="w50 widget">
+			<h3><label for="sgInstallRootPage">Racine de site Smartgear</label></h3>
+			<select name="sgInstallRootPage" id="sgInstallRootPage" class="tl_select tl_chosen">
+				<option value="">Défaut</option>
+				<option value="map_always">Toujours afficher</option>
+				<option value="map_never">Ne jamais afficher</option>
+			</select>
+		</div>
+		<div class="w50 widget">
+			<h3><label for="sgInstallNcGateway">Passerelle email Smartgear</label></h3>
+			<select name="sgInstallNcGateway" id="sgInstallNcGateway" class="tl_select tl_chosen">
+				<option value="">Défaut</option>
+				<option value="map_always">Toujours afficher</option>
+				<option value="map_never">Ne jamais afficher</option>
+			</select>
+		</div>
+		
+		<div class="widget clr">
+			<button type="submit" name="action" value="apply" class="tl_submit apply">Sauvegarder</button>
+		</div>
+
+		<div class="loader"></div>
+	</form>
+</div>
+<script type="text/javascript">
+	var j = jQuery.noConflict();
+	// Toastr Options
+	toastr.options.closeButton = true;
+	toastr.options.timeOut = 0;
+	toastr.options.extendedTimeOut = 0;
+
+	j(document).ready(function(){
+		j('.wem_sg_modal form').on('submit', function(e){
+			e.preventDefault();
+			var form = j(this);
+			form.find('.loader').addClass("active");
+
+			var objFields = {
+				"TL_WEM_AJAX":1
+				,'wem_module':'be_smartgear'
+				,'type':'core'
+				,'module':'core'
+				,'action':'configure'
+			};
+			form.find('input, select').each(function(){
+				if(j(this).attr('name') != "undefined"){
+					if('checkbox' == j(this).attr('type'))
+						if(j(this).prop('checked'))
+							objFields[j(this).attr('name')] = 1;
+						else
+							objFields[j(this).attr('name')] = '';
+					else
+						objFields[j(this).attr('name')] = j(this).val();
+				}
+			});
+			
+			j.ajax({
+				method: "POST"
+				//,timeout:5000
+				,data: objFields
+			})
+			.done(function(msg){
+				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+				try{
+					var results = j.parseJSON(msg);
+
+					// Handle actions errors
+					if("error" === results["status"]){
+						toastr.error(results["msg"], "Une erreur est survenue :");
+					}
+
+					// Display a toastr if asked
+					if(results["toastr"]){
+						toastr[results["toastr"]["status"]](results["toastr"]["msg"]);
+					}
+
+					// Callbakcs if asked
+					if(results["callbacks"]){
+						for(var i in results["callbacks"]){
+							if("object" == typeof(results["callbacks"][i])){
+								window[results["callbacks"][i].method].apply(null, results["callbacks"][i].args);
+							}
+						}
+					}
+				}
+				catch(err){
+	       			toastr.error(err);
+				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				toastr.error(textStatus+"<br>"+errorThrown);
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+			})
+			.always(function(){
+				ctn.find('.loader').removeClass("active");
+			});
+
+		});
+	});
+</script>

@@ -57,13 +57,29 @@ class Install extends \BackendModule
 	 */
 	protected function compile()
 	{
+		// Add WEM styles to template
+		$GLOBALS['TL_CSS'][] = $this->strBasePath.'/assets/backend/wemsg.css';
+		
+		// Catch Modal Calls
+		if("modal" == \Input::get('act')){
+			// Catch Errors
+			if(!\Input::get('type'))
+				throw new Exception("Absence du paramètre type");
+			if(!\Input::get('module'))
+				throw new Exception("Absence du paramètre module");
+			if(!\Input::get('function'))
+				throw new Exception("Absence du paramètre function");
+
+			// Load the good block
+			$objModule = Util::findAndCreateObject(\Input::get('type'), \Input::get('module'));
+			$this->Template = $objModule->{\Input::get('function')}();
+			return;
+		}
+
 		// Back button
 		$this->Template->backButtonHref = \Environment::get('request');
 		$this->Template->backButtonTitle = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']);
 		$this->Template->backButtonButton = $GLOBALS['TL_LANG']['MSC']['backBT'];
-
-		// Add WEM styles to template
-		$GLOBALS['TL_CSS'][] = $this->strBasePath.'/assets/backend/wemsg.css';
 
 		// Parse Smartgear components
 		foreach($this->modules as $type => $blocks){
