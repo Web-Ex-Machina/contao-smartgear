@@ -17,7 +17,7 @@
 
 		<div class="widget w50">
 			<div id="ctrl_protected" class="tl_checkbox_single_container">
-				<input name="sgInstallComplete" id="sgInstallComplete" class="tl_checkbox" value="1" type="checkbox"<?= ($this->config['websiteTitle'] == 1) ?: ' checked' ?>>
+				<input name="sgInstallComplete" id="sgInstallComplete" class="tl_checkbox" value="1" type="checkbox"<?= ($this->config['sgInstallComplete'] == 1) ? ' checked' : '' ?>>
 				<label for="sgInstallComplete">Smartgear Installé ?</label>
 				<br>
 			</div>
@@ -25,53 +25,77 @@
 
 		<div class="w50 clr widget">
 			<h3><label for="sgInstallTheme">Thème Smartgear</label></h3>
+			<?php if($this->themes): ?>
 			<select name="sgInstallTheme" id="sgInstallTheme" class="tl_select tl_chosen">
-				<option value="">Défaut</option>
-				<option value="map_always">Toujours afficher</option>
-				<option value="map_never">Ne jamais afficher</option>
+				<?php foreach($this->themes as $id => $theme): ?>
+				<option value="<?= $id ?>"<?= $theme['selected'] ? ' selected' : '' ?>><?= $theme['name'] ?></option>
+				<?php endforeach; ?>
 			</select>
+			<?php else : ?>
+			<p class="error">Pas de thèmes installés</p>
+			<?php endif; ?>
 		</div>
 		<div class="w50 widget">
 			<h3><label for="sgInstallModules">Modules Smartgear</label></h3>
+			<?php if($this->modules): ?>
 			<select name="sgInstallModules" id="sgInstallModules" class="tl_select tl_chosen" multiple>
-				<option value="">Défaut</option>
-				<option value="map_always">Toujours afficher</option>
-				<option value="map_never">Ne jamais afficher</option>
+				<?php foreach($this->modules as $id => $module): ?>
+				<option value="<?= $id ?>"<?= $module['selected'] ? ' selected' : '' ?>><?= $module['name'] ?></option>
+				<?php endforeach; ?>
 			</select>
+			<?php else : ?>
+			<p class="error">Pas de modules installés</p>
+			<?php endif; ?>
 		</div>
 
 		<div class="w50 widget">
 			<h3><label for="sgInstallLayout">Squelette Smartgear</label></h3>
+			<?php if($this->layouts): ?>
 			<select name="sgInstallLayout" id="sgInstallLayout" class="tl_select tl_chosen">
-				<option value="">Défaut</option>
-				<option value="map_always">Toujours afficher</option>
-				<option value="map_never">Ne jamais afficher</option>
+				<?php foreach($this->layouts as $id => $layout): ?>
+				<option value="<?= $id ?>"<?= $layout['selected'] ? ' selected' : '' ?>><?= $layout['name'] ?></option>
+				<?php endforeach; ?>
 			</select>
+			<?php else : ?>
+			<p class="error">Pas de squelettes installés</p>
+			<?php endif; ?>
 		</div>
 		<div class="w50 widget">
 			<h3><label for="sgInstallUserGroup">Groupe d'administrateurs Smartgear</label></h3>
+			<?php if($this->usergroups): ?>
 			<select name="sgInstallUserGroup" id="sgInstallUserGroup" class="tl_select tl_chosen">
-				<option value="">Défaut</option>
-				<option value="map_always">Toujours afficher</option>
-				<option value="map_never">Ne jamais afficher</option>
+				<?php foreach($this->usergroups as $id => $usergroup): ?>
+				<option value="<?= $id ?>"<?= $usergroup['selected'] ? ' selected' : '' ?>><?= $usergroup['name'] ?></option>
+				<?php endforeach; ?>
 			</select>
+			<?php else : ?>
+			<p class="error">Pas de groupes d'administrateurs installés</p>
+			<?php endif; ?>
 		</div>
 		
 		<div class="w50 widget">
 			<h3><label for="sgInstallRootPage">Racine de site Smartgear</label></h3>
+			<?php if($this->rootpages): ?>
 			<select name="sgInstallRootPage" id="sgInstallRootPage" class="tl_select tl_chosen">
-				<option value="">Défaut</option>
-				<option value="map_always">Toujours afficher</option>
-				<option value="map_never">Ne jamais afficher</option>
+				<?php foreach($this->rootpages as $id => $rootpage): ?>
+				<option value="<?= $id ?>"<?= $rootpage['selected'] ? ' selected' : '' ?>><?= $rootpage['name'] ?></option>
+				<?php endforeach; ?>
 			</select>
+			<?php else : ?>
+			<p class="error">Pas de racines de site installées</p>
+			<?php endif; ?>
 		</div>
 		<div class="w50 widget">
 			<h3><label for="sgInstallNcGateway">Passerelle email Smartgear</label></h3>
+			<?php if($this->ncgateways): ?>
 			<select name="sgInstallNcGateway" id="sgInstallNcGateway" class="tl_select tl_chosen">
-				<option value="">Défaut</option>
-				<option value="map_always">Toujours afficher</option>
-				<option value="map_never">Ne jamais afficher</option>
+				<?php foreach($this->ncgateways as $id => $ncgateway): ?>
+				<option value="<?= $id ?>"<?= $ncgateway['selected'] ? ' selected' : '' ?>><?= $ncgateway['name'] ?></option>
+				<?php endforeach; ?>
 			</select>
+			<?php else : ?>
+			<p class="error">Pas de passerelles installées</p>
+			<?php endif; ?>
 		</div>
 		
 		<div class="widget clr">
@@ -100,16 +124,17 @@
 				,'type':'core'
 				,'module':'core'
 				,'action':'configure'
+				,'config':{}
 			};
 			form.find('input, select').each(function(){
 				if(j(this).attr('name') != "undefined"){
 					if('checkbox' == j(this).attr('type'))
 						if(j(this).prop('checked'))
-							objFields[j(this).attr('name')] = 1;
+							objFields['config'][j(this).attr('name')] = 1;
 						else
-							objFields[j(this).attr('name')] = '';
+							objFields['config'][j(this).attr('name')] = '';
 					else
-						objFields[j(this).attr('name')] = j(this).val();
+						objFields['config'][j(this).attr('name')] = j(this).val();
 				}
 			});
 			

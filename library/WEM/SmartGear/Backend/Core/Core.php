@@ -96,12 +96,35 @@ class Core extends Block implements BlockInterface
 	public function configure(){
 		if(\Input::post('TL_WEM_AJAX')){
 			try{
-				$arrResponse = [
-					"toastr" => [
-						"status"=>"success"
-						,"msg"=>"Configuration sauvegardée"
-					]
-				];			
+				if(!\Input::post('config') || empty(\Input::post('config')))
+					throw new Exception("No data sent");
+
+				$blnUpdate = false;
+				foreach(\Input::post('config') as $k=>$v){
+					if($v != $this->sgConfig[$k]){
+						$this->sgConfig[$k] = $v;
+						$blnUpdate = true;
+					}
+				}
+
+				if($blnUpdate){
+					Util::updateConfig($this->sgConfig);
+
+					$arrResponse = [
+						"toastr" => [
+							"status"=>"success"
+							,"msg"=>"Configuration sauvegardée"
+						]
+					];
+				}
+				else{
+					$arrResponse = [
+						"toastr" => [
+							"status"=>"info"
+							,"msg"=>"Pas de changements détectés"
+						]
+					];
+				}					
 			}
 			catch(Exception $e){
 				$arrResponse = ["status"=>"error", "msg"=>$e->getMessage(), "trace"=>$e->getTrace()];
@@ -115,6 +138,80 @@ class Core extends Block implements BlockInterface
 
 		$objTemplate = new \FrontendTemplate('be_wem_sg_install_modal_core_configure');
 		$objTemplate->config = $this->sgConfig;
+
+		$objThemes = \ThemeModel::findAll();
+		$arrThemes = [];
+		if($objThemes){
+			while($objThemes->next()){
+				$arrThemes[$objThemes->id] = [
+					"name"		=> $objThemes->name
+					,"selected"	=> ($this->sgConfig['sgInstallTheme'] == $objThemes->id) ? true : false
+				];
+			}
+		}
+		$objTemplate->themes = $arrThemes;
+
+		$objModules = \ModuleModel::findAll();
+		if($objModules){
+			$arrConfigModules = deserialize($this->sgConfig['sgInstallModules']);
+			while($objModules->next()){
+				$arrModules[$objModules->id] = [
+					"name"		=> $objModules->name
+					,"selected"	=> (in_array($objModules->id, $arrConfigModules)) ? true : false
+				];
+			}
+		}
+		$objTemplate->modules = $arrModules;
+
+		$objLayouts = \LayoutModel::findAll();
+		$arrLayouts = [];
+		if($objLayouts){
+			while($objLayouts->next()){
+				$arrLayouts[$objLayouts->id] = [
+					"name"		=> $objLayouts->name
+					,"selected"	=> ($this->sgConfig['sgInstallLayout'] == $objLayouts->id) ? true : false
+				];
+			}
+		}
+		$objTemplate->layouts = $arrLayouts;
+
+		$objUserGroups = \UserGroupModel::findAll();
+		$arrUserGroups = [];
+		if($objUserGroups){
+			while($objUserGroups->next()){
+				$arrUserGroups[$objUserGroups->id] = [
+					"name"		=> $objUserGroups->name
+					,"selected"	=> ($this->sgConfig['sgInstallUserGroup'] == $objUserGroups->id) ? true : false
+				];
+			}
+		}
+		$objTemplate->usergroups = $arrUserGroups;
+
+		$objRootPages = \PageModel::findByPid(0);
+		$arrRootPages = [];
+		if($objRootPages){
+			while($objRootPages->next()){
+				$arrRootPages[$objRootPages->id] = [
+					"name"		=> $objRootPages->title
+					,"selected"	=> ($this->sgConfig['sgInstallRootPage'] == $objRootPages->id) ? true : false
+				];
+			}
+		}
+		$objTemplate->rootpages = $arrRootPages;
+
+		$objNcGateways = \NotificationCenter\Model\Gateway::findAll();
+		$arrNcGateways = [];
+		if($objNcGateways){
+			while($objNcGateways->next()){
+				$arrNcGateways[$objNcGateways->id] = [
+					"name"		=> $objNcGateways->title
+					,"selected"	=> ($this->sgConfig['sgInstallNcGateway'] == $objNcGateways->id) ? true : false
+				];
+			}
+		}
+		$objTemplate->ncgateways = $arrNcGateways;
+		
+		dump($objTemplate->config);
 		return $objTemplate;
 	}
 
@@ -149,9 +246,9 @@ class Core extends Block implements BlockInterface
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Configuration importée"];
 
 			// Check app folders and check if there is all Jeff stuff loaded
-			if(!file_exists(TL_ROOT."/files/app/build/css/framway.css") || !file_exists(TL_ROOT."/files/app/build/css/vendor.css") || !file_exists(TL_ROOT."/files/app/build/js/framway.js") || !file_exists(TL_ROOT."/files/app/build/js/vendor.js"))
+			/*if(!file_exists(TL_ROOT."/files/app/build/css/framway.css") || !file_exists(TL_ROOT."/files/app/build/css/vendor.css") || !file_exists(TL_ROOT."/files/app/build/js/framway.js") || !file_exists(TL_ROOT."/files/app/build/js/vendor.js"))
 				throw new Exception("Des fichiers Framway sont manquants !");
-			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les fichiers Smartgear ont été trouvés (framway.css, framway.js, vendor.css, vendor.js)"];
+			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les fichiers Smartgear ont été trouvés (framway.css, framway.js, vendor.css, vendor.js)"];*/
 
 			// Import the folders
 			$objFiles = \Files::getInstance();

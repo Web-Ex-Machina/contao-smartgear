@@ -100,8 +100,14 @@ class Util
 				$arrConfig = (array)json_decode($strConfig);
 			
 			// Update the config
-			foreach($arrVars as $strKey => $varValue)
+			foreach($arrVars as $strKey => $varValue){
+				// Make sure arrays are converted in varValues (for blob compatibility)
+				if(is_array($varValue))
+					$varValue = serialize($varValue);
+
+				// And update the global array
 				$arrConfig[$strKey] = $varValue;
+			}
 
 			// Open and update the config file
 			$objFile = $objFiles->fopen(static::$strConfigPath, "w");
