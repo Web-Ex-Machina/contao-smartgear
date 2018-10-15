@@ -52,13 +52,24 @@ if(isset($bundles['ContaoNewsletterBundle'])){
 }
 
 /**
- * Add SmartGear Module to System
+ * Backend modules
  */
 array_insert($GLOBALS['BE_MOD']['system'], 0, array
 (
 	'smartgear' => array
 	(
 		'callback' => "\WEM\SmartGear\Backend\Install"
+	)
+));
+
+/**
+ * Frontend modules
+ */
+array_insert($GLOBALS['FE_MOD'], 2, array
+(
+	'smartgear' => array
+	(
+		'wem_sg_header'    		=> '\WEM\SmartGear\Module\Header',
 	)
 ));
 

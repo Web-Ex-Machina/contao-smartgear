@@ -52,6 +52,19 @@
 			<source>Configurer votre Smartgear</source>
 			<target>Configurer votre Smartgear</target>
 		</trans-unit>
+
+		<trans-unit id="FMD.smartgear">
+			<source>Smartgear</source>
+			<target>Smartgear</target>
+		</trans-unit>
+		<trans-unit id="FMD.wem_sg_header.0">
+			<source>Header</source>
+			<target>Header</target>
+		</trans-unit>
+		<trans-unit id="FMD.wem_sg_header.1">
+			<source>Afficher un header conçu pour Smartgear</source>
+			<target>Afficher un header conçu pour Smartgear</target>
+		</trans-unit>
     </body>
   </file>
 </xliff>

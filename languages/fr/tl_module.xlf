@@ -1,0 +1,86 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/tl_module.php" source-language="en" target-language="fr">
+    <body>
+    	<trans-unit id="tl_module.wemsgheader_legend">
+			<source>Headbanner</source>
+			<target>Headbanner</target>
+		</trans-unit>
+
+		<trans-unit id="tl_module.wem_sg_header_preset.0">
+			<source>Preset</source>
+			<target>Preset</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_preset.1">
+			<source>Select a header preset</source>
+			<target>Sélectionnez un preset de header</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_above.0">
+			<source>Above ?</source>
+			<target>Above ?</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_above.1">
+			<source>Check if you want to place the headbanner above the menu</source>
+			<target>Cochez si vous souhaitez placer le headbanner au dessus du menu</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_sticky.0">
+			<source>Sticky ?</source>
+			<target>Sticky ?</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_sticky.1">
+			<source>Check if you want to make the header sticky</source>
+			<target>Cochez si vous souhaitez que le header soit sticky</target>
+		</trans-unit>
+
+		<trans-unit id="tl_module.wem_sg_header_logo.0">
+			<source>Logo</source>
+			<target>Logo</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_logo.1">
+			<source>Select the logo</source>
+			<target>Sélectionnez le logo</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_logo_size.0">
+			<source>Logo size</source>
+			<target>Taille du logo</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_logo_size.1">
+			<source>Define the logo size</source>
+			<target>Définissez la taille du logo</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_logo_alt.0">
+			<source>Logo alt</source>
+			<target>Logo alt</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_logo_alt.1">
+			<source>Enter the value of the alt attribute for the logo</source>
+			<target>Saisissez la valeur de la balise alternative pour le logo</target>
+		</trans-unit>
+
+		<trans-unit id="tl_module.wem_sg_header_content.0">
+			<source>Add content</source>
+			<target>Ajouter du contenu</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_content.1">
+			<source>Check to add free content to the header</source>
+			<target>Cochez pour ajouter du contenu libre au header</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_content_html.0">
+			<source>HTML code</source>
+			<target>Code HTML</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_content_html.1">
+			<source>Enter the content as HTML</source>
+			<target>Saisissez le contenu HTML</target>
+		</trans-unit>
+
+		<trans-unit id="tl_module.wem_sg_navigation.0">
+			<source>Navigation module</source>
+			<target>Module de navigation</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_navigation.1">
+			<source>Pick the module who's used as main navigation</source>
+			<target>Sélectionnez le menu utilisé comme navigation principale.</target>
+		</trans-unit>
+    </body>
+  </file>
+</xliff>

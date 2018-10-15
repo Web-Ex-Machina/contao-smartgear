@@ -25,6 +25,9 @@ TemplateLoader::addFiles([
     ,'be_wem_sg_install_block_default' => 'system/modules/wem-contao-smartgear/templates/backend'
     ,'be_wem_sg_module'  => 'system/modules/wem-contao-smartgear/templates/backend'
 
+    // Components Templates
+    ,'mod_wem_sg_header' => 'system/modules/wem-contao-smartgear/templates/components'
+
     // Backend Modals
     ,'be_wem_sg_install_modal_core_configure' => 'system/modules/wem-contao-smartgear/templates/backend/modals'
 ]);
