@@ -46,7 +46,7 @@
 
       if($slide->slide_link_href){
         $arrSlide["content"] .= sprintf(
-          '<a href="%s" title="%s" class="btn"%s>%s</a>'
+          '<a href="%s" title="%s" class="btn center d-block"%s>%s</a>'
           ,$slide->slide_link_href
           ,$slide->slide_link_title
           ,($slide->slide_link_target ? ' target="_blank"' : '')
@@ -70,7 +70,9 @@
         </div>
         <?php if($slide['content']): ?>
         <div class="sliderFW__item__content">
+          <div class="sliderFW__tem__content__wrapper">
           <?= $slide['content'] ?>
+          </div>
         </div>
         <?php endif; ?>
       </div>

@@ -19,7 +19,7 @@ return array
                 // Content
                 'title' => array
                 (
-                    'label' => &$GLOBALS['TL_LANG']['tl_content']['title']
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['headline']
                     ,'inputType' => 'text'
                     ,'eval' => array('tl_class'=>'w100 long')
                 )

@@ -31,9 +31,9 @@
         $arrSlide["content"] .= sprintf(
           '<a href="%s" title="%s" class="btn"%s>%s</a>'
           ,$item->link_href
-          ,$item->link_title
-          ,($item->link_target ? ' target="_blank"' : '')
           ,$item->link_text
+          ,($item->link_target ? ' target="_blank"' : '')
+          ,$item->link_title
         );
       }
 
@@ -42,7 +42,7 @@
   }
 ?>
 
-<div class="foldingbox" data-height="<?= $intHeight ?>" data-break="<?= $strBreak ?>">
+<div class="foldingbox" data-height="<?= $intHeight ?>" data-break="<?= $strBreak ?>" >
   <?php if($this->headline): ?>
   <div class="foldingbox__title">
     <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
@@ -51,7 +51,7 @@
   <div class="foldingbox__container">
     <?php if(!empty($arrItems)): ?>
       <?php foreach($arrItems as $item): ?>
-        <div class="foldingbox__item">
+        <div class="foldingbox__item" style="height: <?= $intHeight ?>;">
           <div class="foldingbox__item__bg">
             <img src="<?= $item['src'] ?>" alt="<?= $item['alt'] ?>">
           </div>

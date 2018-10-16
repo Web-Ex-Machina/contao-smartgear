@@ -20,7 +20,7 @@ return array
         )
         ,'height' => array
         (
-            'label' => array('Hauteur du slider', 'Configurez la hauteur du slider')
+            'label' => array('Hauteur du slider', 'Configurez la hauteur de l\'élément')
             ,'inputType' => 'text'
             ,'eval' => array('tl_class' => 'w50')
         )
@@ -43,17 +43,9 @@ return array
                 // Background
                 'img_src' => array
                 (
-                    'label' => array('Fond', 'Insérez une image qui sera utilisé comme fond de cet item')
+                    'label' => array('Image de fond', 'Insérez une image qui sera utilisé comme fond de cet item')
                     ,'inputType' => 'fileTree'
                     ,'eval' => array('filesOnly'=>true, 'fieldType'=>'radio', 'extensions'=>Config::get('validImageTypes'))
-                )
-                ,'img_crop' => array
-                (
-                    'label' => array('Redimensionnement', 'Ajustez, si souhaité, le fond d\'item choisi')
-                    ,'inputType' => 'imageSize'
-                    ,'options' => System::getImageSizes()
-                    ,'reference' => &$GLOBALS['TL_LANG']['MSC']
-                    ,'eval' => array('rgxp'=>'natural', 'includeBlankOption'=>true, 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50')
                 )
                 ,'img_alt' => array
                 (
@@ -65,7 +57,7 @@ return array
                 // Content
                 ,'content' => array
                 (
-                    'label' => array('Contenu', 'Saisissez le contenu textuel de la slide')
+                    'label' => array('Contenu', 'Saisissez le contenu textuel de l\'élément')
                     ,'inputType' => 'textarea'
                     ,'eval' => array('rte' => 'tinyMCE', 'tl_class' => 'clr')
                 )

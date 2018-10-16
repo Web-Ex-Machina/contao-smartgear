@@ -2,7 +2,7 @@
   <div class="tabs__nav">
     <?php if($this->items): ?>
       <?php foreach($this->items as $item): ?>
-      <button><?= $item['title'] ?></button>
+      <button><?= $item->title ?></button>
       <?php endforeach; ?>
     <?php endif; ?>
   </div>
@@ -10,9 +10,8 @@
     <?php if($this->items): ?>
       <?php foreach($this->items as $item): ?>
       <div class="tab">
-        <?= $item['content'] ?>
+        <?= $item->content ?>
       </div>
-      <button><?= $item['title'] ?></button>
       <?php endforeach; ?>
     <?php endif; ?>
   </div>

@@ -68,14 +68,14 @@ return array
         (
             'label' => array('Alignement Horizontal', 'Si souhaité, ajustez la position horizontale du contenu')
             ,'inputType' => 'select'
-            ,'options' => array(''=>'Aucun', 'left'=>'Gauche', 'right'=>'Droite')
+            ,'options' => array(''=>'Aucun', 'right'=>'Droite','center'=>'Center')
             ,'eval' => array('tl_class'=>'w50')
         )
         ,'content_vertical' => array
         (
             'label' => array('Alignement vertical', 'Si souhaité, ajustez la position verticale du contenu')
             ,'inputType' => 'select'
-            ,'options' => array(''=>'Aucun', 'top'=>'Haut', 'bottom'=>'Bas')
+            ,'options' => array(''=>'Aucun', 'top'=>'Haut', 'center'=>'Centre')
             ,'eval' => array('tl_class'=>'w50')
         )
         ,'content_noblur' => array
@@ -100,14 +100,6 @@ return array
                     ,'inputType' => 'fileTree'
                     ,'eval' => array('filesOnly'=>true, 'fieldType'=>'radio', 'extensions'=>Config::get('validImageTypes'))
                 )
-                ,'slide_img_crop' => array
-                (
-                    'label' => array('Redimensionnement', 'Ajustez, si souhaité, le fond d\'item choisi')
-                    ,'inputType' => 'imageSize'
-                    ,'options' => System::getImageSizes()
-                    ,'reference' => &$GLOBALS['TL_LANG']['MSC']
-                    ,'eval' => array('rgxp'=>'natural', 'includeBlankOption'=>true, 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50')
-                )
                 ,'slide_img_alt' => array
                 (
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['alt']
@@ -131,13 +123,13 @@ return array
                     ,'eval' => array('rgxp'=>'url', 'tl_class' => 'w50 wizard')
                     ,'wizard' => array(array('tl_content', 'pagePicker'))
                 )
-                ,'slide_link_title' => array
+                ,'slide_link_text' => array
                 (
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['linkTitle']
                     ,'inputType' => 'text'
                     ,'eval' => array('tl_class'=>'w50')
                 )
-                ,'slide_link_text' => array
+                ,'slide_link_title' => array
                 (
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['titleText']
                     ,'inputType' => 'text'
