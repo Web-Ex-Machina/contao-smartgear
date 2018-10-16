@@ -56,6 +56,7 @@ class Core extends Block implements BlockInterface
 			$this->messages[] = ["class"=>"tl_info", "text"=>"A noter que tout cela sera prochainement découpé en étapes, pour permettre de configurer chaque module plus précisément."];
 
 			$this->fields[] = ['name'=>'websiteTitle', 'value'=>$this->sgConfig['websiteTitle'], 'label'=>'Titre du site internet', 'help'=>'Saisir le titre du site internet'];
+			$this->fields[] = ['name'=>'framwayPath', 'value'=>$this->sgConfig['framwayPath'], 'label'=>'Chemin du Framway', 'help'=>'Saisir le dossier vers le Framway'];
 			$this->actions[] = ['action'=>'install', 'label'=>'Installer Smartgear'];
 			$this->actions[] = ['action'=>'resetContao', 'label'=>'Réinitialiser Contao', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Contao ?\'))return false;Backend.getScrollOffset()"'];
 
@@ -87,6 +88,7 @@ class Core extends Block implements BlockInterface
 	 */
 	public function reset(){
 		\Input::setPost("websiteTitle", $this->sgConfig["websiteTitle"]);
+		\Input::setPost("framwayPath", $this->sgConfig["framwayPath"]);
 		parent::reset();
 	}
 
@@ -243,12 +245,16 @@ class Core extends Block implements BlockInterface
 				\Config::persist($k, $v);
 
 			$this->sgConfig["websiteTitle"] = \Input::post('websiteTitle');
+			$this->sgConfig["framwayPath"] = \Input::post('framwayPath');
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Configuration importée"];
 
+			// Make sure Contao knows the files path
+			\Dbafs::syncFiles();
+
 			// Check app folders and check if there is all Jeff stuff loaded
-			/*if(!file_exists(TL_ROOT."/files/app/build/css/framway.css") || !file_exists(TL_ROOT."/files/app/build/css/vendor.css") || !file_exists(TL_ROOT."/files/app/build/js/framway.js") || !file_exists(TL_ROOT."/files/app/build/js/vendor.js"))
+			if(!file_exists(TL_ROOT."/".$this->sgConfig["framwayPath"]."/css/framway.css") || !file_exists(TL_ROOT."/".$this->sgConfig["framwayPath"]."/css/vendor.css") || !file_exists(TL_ROOT."/".$this->sgConfig["framwayPath"]."/js/framway.js") || !file_exists(TL_ROOT."/".$this->sgConfig["framwayPath"]."/js/vendor.js"))
 				throw new Exception("Des fichiers Framway sont manquants !");
-			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les fichiers Smartgear ont été trouvés (framway.css, framway.js, vendor.css, vendor.js)"];*/
+			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les fichiers Smartgear ont été trouvés (framway.css, framway.js, vendor.css, vendor.js)"];
 
 			// Import the folders
 			$objFiles = \Files::getInstance();
@@ -276,28 +282,10 @@ class Core extends Block implements BlockInterface
 			$objModule = new \ModuleModel();
 			$objModule->pid = $objTheme->id;
 			$objModule->tstamp = time();
-			$objModule->type = "html";
-			$objModule->name = "HEADER - LOGO";
-			$objModule->html = '
-				<div id="logo">
-					<a class="logo__container" href="{{env::url}}">
-						<img src="files/app_v1/build/img/logo_placeholder.png" title="Your logo goes here">
-					</a>
-				</div>
-			';
-			$objModule->save();
-			$arrLayoutModules[] = ["mod"=>$objModule->id, "col"=>"header", "enable"=>"1"];
-			$arrModules[] = $objModule->id;
-			$this->sgConfig["sgInstallModules"] = serialize($arrModules);
-
-			// Header - Nav
-			$objModule = new \ModuleModel();
-			$objModule->pid = $objTheme->id;
-			$objModule->tstamp = time();
-			$objModule->type = "navigation";
-			$objModule->name = "HEADER - NAV";
-			$objModule->showLevel = 3;
-			$objModule->navigationTpl = "nav_default";
+			$objModule->type = "wem_sg_header";
+			$objModule->name = "HEADER";
+			$objModule->wem_sg_header_preset = "classic";
+			$objModule->wem_sg_header_sticky = 1;
 			$objModule->save();
 			$arrLayoutModules[] = ["mod"=>$objModule->id, "col"=>"header", "enable"=>"1"];
 			$arrModules[] = $objModule->id;
@@ -323,13 +311,13 @@ class Core extends Block implements BlockInterface
 			// Create the Smartgear main layout
 			$arrCssFiles = array();
 			$arrJsFiles = array();
-			$objFile = \FilesModel::findOneByPath("files/app/build/css/framway.css");
+			$objFile = \FilesModel::findOneByPath($this->sgConfig["framwayPath"]."/css/framway.css");
 			$arrCssFiles[] = $objFile->uuid;
-			$objFile = \FilesModel::findOneByPath("files/app/build/css/vendor.css");
+			$objFile = \FilesModel::findOneByPath($this->sgConfig["framwayPath"]."/css/vendor.css");
 			$arrCssFiles[] = $objFile->uuid;
-			$objFile = \FilesModel::findOneByPath("files/app/build/js/framway.js");
+			$objFile = \FilesModel::findOneByPath($this->sgConfig["framwayPath"]."/js/framway.js");
 			$arrJsFiles[] = $objFile->uuid;
-			$objFile = \FilesModel::findOneByPath("files/app/build/js/vendor.js");
+			$objFile = \FilesModel::findOneByPath($this->sgConfig["framwayPath"]."/js/vendor.js");
 			$arrJsFiles[] = $objFile->uuid;
 
 			$objLayout = new \LayoutModel();

@@ -28,6 +28,7 @@
 			<h3><label for="ctrl_<?= $field['name'] ?>"><?= $field['label'] ?></label></h3>
 			<input name="<?= $field['name'] ?>" id="ctrl_<?= $field['name'] ?>" class="tl_text" value="<?= $field['value'] ?>" required="" onfocus="Backend.getScrollOffset()" type="text">
 			<p class="tl_help tl_tip"><?= $field['help'] ?></p>
+			<br>
 		</div>
 		<?php endforeach; ?>
 		<?php endif; ?>
