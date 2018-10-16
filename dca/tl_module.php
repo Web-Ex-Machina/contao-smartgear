@@ -12,6 +12,7 @@
  * Add fields for header component
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_header_content';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_navigation';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['wem_sg_header']    = '
 	{title_legend},name,type;
 	{config_legend},wem_sg_header_preset,wem_sg_header_above,wem_sg_header_sticky;
@@ -20,6 +21,7 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['wem_sg_header']    = '
 	{expert_legend:hide},customTpl,cssID
 ';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['wem_sg_header_content'] = 'wem_sg_header_content_html';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['wem_sg_navigation_module'] = 'wem_sg_navigation_module';
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['wem_sg_header_preset'] = array(
 	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_header_preset'],
@@ -86,6 +88,16 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['wem_sg_header_content_html'] = array(
 	'sql'                     => "text NULL"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['wem_sg_navigation'] = array(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_navigation'],
+	'default'                 => 'classic',
+	'exclude'                 => true,
+	'inputType'               => 'radio',
+	'options'                 => array('classic', 'module'),
+	'reference'               => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_navigation'],
+	'eval'                    => array('submitOnChange'=>true),
+	'sql'                     => "varchar(32) NOT NULL default ''"
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['wem_sg_navigation_module'] = array(
 	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_navigation'],
 	'exclude'                 => true,
 	'inputType'               => 'select',

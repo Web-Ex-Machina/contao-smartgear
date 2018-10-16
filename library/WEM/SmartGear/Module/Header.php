@@ -74,12 +74,26 @@ class Header extends \Module
 			$this->Template->preset = $this->wem_sg_header_preset;
 			$this->Template->logo = $picture;
 			$this->Template->alt = $this->wem_sg_header_logo_alt;
-			$this->Template->nav = $this->wem_sg_navigation;
 
 			// Check if we want to add content
 			if($this->wem_sg_header_content){
 				$this->Template->content = true;
 				$this->Template->content_html = $this->wem_sg_header_content_html;
+			}
+
+			// Check if we want to use a module as navigation
+			switch($this->wem_sg_navigation){
+				case 'module':
+					$this->Template->nav = sprintf('{{insert_module::%s}}', $this->wem_sg_navigation_module);
+				break;
+				default:
+					$objModel = new \ModuleModel();
+					$objModel->type = "navigation";
+					$objModel->levelOffset = 0;
+					$objModel->showLevel = 3;
+					$objModel->navigationTpl = "nav_default";
+					$objModule = new \ModuleNavigation($objModel);
+					$this->Template->nav = $objModule->generate();
 			}
 
 			// Determine if we are at the root of the website

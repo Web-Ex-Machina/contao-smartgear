@@ -72,12 +72,28 @@
 			<source>Enter the content as HTML</source>
 			<target>Saisissez le contenu HTML</target>
 		</trans-unit>
-
+		
 		<trans-unit id="tl_module.wem_sg_navigation.0">
+			<source>Navigation type</source>
+			<target>Type de navigation</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_navigation.1">
+			<source>Pick the navigation type</source>
+			<target>Sélectionnez le type de navigation</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_navigation.classic">
+			<source>Classic</source>
+			<target>Classique</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_navigation.module">
+			<source>Module</source>
+			<target>Module</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_navigation_module.0">
 			<source>Navigation module</source>
 			<target>Module de navigation</target>
 		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_navigation.1">
+		<trans-unit id="tl_module.wem_sg_navigation_module.1">
 			<source>Pick the module who's used as main navigation</source>
 			<target>Sélectionnez le menu utilisé comme navigation principale.</target>
 		</trans-unit>
