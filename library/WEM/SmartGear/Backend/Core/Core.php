@@ -311,13 +311,13 @@ class Core extends Block implements BlockInterface
 			// Create the Smartgear main layout
 			$arrCssFiles = array();
 			$arrJsFiles = array();
-			$objFile = \FilesModel::findOneByPath($this->sgConfig["framwayPath"]."/css/framway.css");
-			$arrCssFiles[] = $objFile->uuid;
 			$objFile = \FilesModel::findOneByPath($this->sgConfig["framwayPath"]."/css/vendor.css");
 			$arrCssFiles[] = $objFile->uuid;
-			$objFile = \FilesModel::findOneByPath($this->sgConfig["framwayPath"]."/js/framway.js");
-			$arrJsFiles[] = $objFile->uuid;
+			$objFile = \FilesModel::findOneByPath($this->sgConfig["framwayPath"]."/css/framway.css");
+			$arrCssFiles[] = $objFile->uuid;
 			$objFile = \FilesModel::findOneByPath($this->sgConfig["framwayPath"]."/js/vendor.js");
+			$arrJsFiles[] = $objFile->uuid;
+			$objFile = \FilesModel::findOneByPath($this->sgConfig["framwayPath"]."/js/framway.js");
 			$arrJsFiles[] = $objFile->uuid;
 
 			$objLayout = new \LayoutModel();
