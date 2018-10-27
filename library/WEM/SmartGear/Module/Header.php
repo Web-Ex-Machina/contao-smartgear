@@ -92,15 +92,19 @@ class Header extends \Module
 					$objModel->levelOffset = 0;
 					$objModel->showLevel = 3;
 					$objModel->navigationTpl = "nav_default";
+					$objModel->cssID = [0=>"", 1=>"headerFW__nav__inline"];
 					$objModule = new \ModuleNavigation($objModel);
 					$this->Template->nav = $objModule->generate();
 			}
 
 			// Determine if we are at the root of the website
 			global $objPage;
-			if($objPage->id != \Frontend::getRootPageFromUrl()->id){
-				$this->Template->addLink = true;
-				$this->Template->href = \Environment::get('base');
+			$this->Template->isRoot = true;
+			$objHomepage = \PageModel::findFirstPublishedRegularByPid(\Frontend::getRootPageFromUrl()->id);
+
+			if($objPage->id != $objHomepage->id){
+				$this->Template->isRoot = false;
+				$this->Template->rootHref = \Environment::get('base');
 			}
 		}
 		catch(Exception $e){
