@@ -12,23 +12,32 @@
 		</trans-unit>
 		<trans-unit id="tl_module.wem_sg_header_preset.1">
 			<source>Select a header preset</source>
-			<target>Sélectionnez un preset de header</target>
+			<target>Sélectionnez un style de header</target>
 		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_preset.classic">
+			<source>Default</source>
+			<target>Par défaut</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_preset.nav--arrowed">
+			<source>Arrowed navigation</source>
+			<target>Navigation fléchée</target>
+		</trans-unit>
+
 		<trans-unit id="tl_module.wem_sg_header_above.0">
-			<source>Above ?</source>
-			<target>Above ?</target>
+			<source>Logo and contents above</source>
+			<target>Logo et contenus au dessus</target>
 		</trans-unit>
 		<trans-unit id="tl_module.wem_sg_header_above.1">
-			<source>Check if you want to place the headbanner above the menu</source>
-			<target>Cochez si vous souhaitez placer le headbanner au dessus du menu</target>
+			<source>Check if you want to place the logo and other contents above the navigation</source>
+			<target>Cochez si vous souhaitez placer le logo et autres contenus au dessus du menu</target>
 		</trans-unit>
 		<trans-unit id="tl_module.wem_sg_header_sticky.0">
-			<source>Sticky ?</source>
-			<target>Sticky ?</target>
+			<source>Sticky ? test</source>
+			<target>Activer le mode "sticky"</target>
 		</trans-unit>
 		<trans-unit id="tl_module.wem_sg_header_sticky.1">
 			<source>Check if you want to make the header sticky</source>
-			<target>Cochez si vous souhaitez que le header soit sticky</target>
+			<target>Cochez si vous souhaitez que le menu reste visible lors du scroll</target>
 		</trans-unit>
 
 		<trans-unit id="tl_module.wem_sg_header_logo.0">
@@ -48,8 +57,8 @@
 			<target>Définissez la taille du logo</target>
 		</trans-unit>
 		<trans-unit id="tl_module.wem_sg_header_logo_alt.0">
-			<source>Logo alt</source>
-			<target>Logo alt</target>
+			<source>Alternative text</source>
+			<target>Texte alternatif du logo</target>
 		</trans-unit>
 		<trans-unit id="tl_module.wem_sg_header_logo_alt.1">
 			<source>Enter the value of the alt attribute for the logo</source>
@@ -72,7 +81,7 @@
 			<source>Enter the content as HTML</source>
 			<target>Saisissez le contenu HTML</target>
 		</trans-unit>
-		
+
 		<trans-unit id="tl_module.wem_sg_navigation.0">
 			<source>Navigation type</source>
 			<target>Type de navigation</target>
@@ -82,8 +91,8 @@
 			<target>Sélectionnez le type de navigation</target>
 		</trans-unit>
 		<trans-unit id="tl_module.wem_sg_navigation.classic">
-			<source>Classic</source>
-			<target>Classique</target>
+			<source>Default</source>
+			<target>Par défault</target>
 		</trans-unit>
 		<trans-unit id="tl_module.wem_sg_navigation.module">
 			<source>Module</source>

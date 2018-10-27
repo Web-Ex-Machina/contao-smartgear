@@ -28,7 +28,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['wem_sg_header_preset'] = array(
 	'default'                 => 'classic',
 	'exclude'                 => true,
 	'inputType'               => 'select',
-	'options'                 => array('classic', 'arrowed'),
+	'options'                 => array('classic', 'nav--arrowed'),
 	'reference'               => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_header_preset'],
 	'eval'                    => array('helpwizard'=>true),
 	'sql'                     => "varchar(32) NOT NULL default ''"
