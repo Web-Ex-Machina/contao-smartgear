@@ -1,0 +1,80 @@
+<?php
+  $intHeight = '';
+  $strLoop = "false";
+  $strAuto = "false";
+  $strArrows = "false";
+
+  // Define the slider height
+  if($this->slide_height)
+    $intHeight = $this->slide_height;
+  if($this->slide_autoplay)
+    $strAuto = "true";
+  if($this->slider_loop)
+    $strLoop = "true";
+  if($this->nav_arrows)
+    $strArrows = "true";
+
+  // Prepare the main block classes
+  $arrClasses = [];
+  if($this->nav_display)
+    $arrClasses[] = 'nav--'.$this->nav_display;
+  if($this->nav_horizontal)
+    $arrClasses[] = 'nav--'.$this->nav_horizontal;
+  if($this->nav_vertical)
+    $arrClasses[] = 'nav--'.$this->nav_vertical;
+
+  if($this->content_horizontal)
+    $arrClasses[] = 'content--'.$this->content_horizontal;
+  if($this->content_vertical)
+    $arrClasses[] = 'content__text--'.$this->content_vertical;
+  if($this->content_noblur)
+    $arrClasses[] = 'content--noblur';
+
+  // Prepare the slides
+  if($this->items){
+    $arrSlides = [];
+    foreach($this->items as $slide){
+      $arrCrop = deserialize($slide->slide_img_crop);
+      $objFile = FilesModel::findByUuid($slide->slide_img_src);
+      $strFile = \Image::get($objFile->path, $arrCrop[0], $arrCrop[1], $arrCrop[2]);
+      $arrSlide = [
+        "src"=>$strFile
+        ,"alt"=>$slide->slide_img_alt
+      ];
+
+      $arrSlide["content"] = '';
+      $arrSlide["author"] = '';
+
+      if($slide->slide_content)
+        $arrSlide["content"] .= $slide->slide_content;
+      if($slide->slide_author)
+        $arrSlide["author"] .= $slide->slide_author;
+
+      $arrSlides[] = $arrSlide;
+    }
+  }
+?>
+
+<div class="sliderFW preset--testimonial <?= implode(' ', $arrClasses) ?> <?= $this->class ?>" data-height="<?= $intHeight ?>" data-loop="<?= $strLoop ?>" data-auto="<?= $strAuto ?>" data-arrows="<?= $strArrows ?>">
+  <div class="sliderFW__container">
+    <div class="sliderFW__rail">
+    <?php if(!empty($arrSlides)): ?>
+      <?php foreach($arrSlides as $slide): ?>
+      <div class="sliderFW__item">
+        <div class="sliderFW__item__bg">
+          <img src="<?= $slide['src'] ?>" alt="<?= $slide['alt'] ?>">
+        </div>
+        <?php if($slide['content']): ?>
+        <div class="sliderFW__item__content">
+          <div class="quote"><?= $slide['content'] ?></div>
+          <?php if ($slide['author'] != ''): ?>
+            <p class="author"> <?= $slide['author'] ?> </p>
+          <?php endif ?>
+        </div>
+        <?php endif; ?>
+      </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
+    </div>
+  </div>
+</div>
