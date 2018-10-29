@@ -92,6 +92,7 @@ class Header extends \Module
 					$objModel->levelOffset = 0;
 					$objModel->showLevel = 3;
 					$objModel->navigationTpl = "nav_default";
+					$objModel->customTpl = "mod_sg_navigation";
 					$objModel->cssID = [0=>"", 1=>"headerFW__nav__inline"];
 					$objModule = new \ModuleNavigation($objModel);
 					$this->Template->nav = $objModule->generate();
