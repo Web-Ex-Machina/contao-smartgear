@@ -10,10 +10,11 @@
 
 /**
  * Remove PID from tl_newsletter
+ * 2018-10-29 : Bad Idea (Generate issues in Backend)
  */
-unset($GLOBALS['TL_DCA']['tl_newsletter']['config']['ptable']);
-unset($GLOBALS['TL_DCA']['tl_newsletter']['config']['sql']['keys']['pid']);
-unset($GLOBALS['TL_DCA']['tl_newsletter']['fields']['pid']);
+// unset($GLOBALS['TL_DCA']['tl_newsletter']['config']['ptable']);
+// unset($GLOBALS['TL_DCA']['tl_newsletter']['config']['sql']['keys']['pid']);
+// unset($GLOBALS['TL_DCA']['tl_newsletter']['fields']['pid']);
 
 $GLOBALS['TL_DCA']['tl_newsletter']['list']['sorting']['mode'] = 1;
 $GLOBALS['TL_DCA']['tl_newsletter']['list']['sorting']['flag'] = 1;
