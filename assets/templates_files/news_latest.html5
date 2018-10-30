@@ -1,0 +1,38 @@
+<div class="layout_latest arc_<?= $this->archive->id ?> <?= $this->class ?> block-list r_2-1 zoomin col-12 col-sm-6 col-md-4" itemscope itemtype="http://schema.org/Article">
+  <?php if ($this->hasText || $this->hasTeaser): ?>
+    <a href="<?= $this->link ?>" class="block-list__wrapper">
+  <?php endif; ?>
+  <?php if ($this->addImage): ?>
+    <figure class="block-list__figure" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="associatedMedia">
+      <?php if (strpos($this->class, "featured") != false): ?>
+        <div class="ribbon featured"><i class="fas fa-star"></i></div>
+      <?php endif ?>
+      <img src="<?= $this->singleSRC ?>" alt="<?= $this->headline ?>" itemprop="image">
+    </figure>
+  <?php endif; ?>
+  <?php if ($this->hasMetaFields): ?>
+    <div class="block-list__headline">
+      <div class="block-list__category"><?= $this->archive->title ?></div>
+      <div class="block-list__date"><time datetime="<?= $this->datetime ?>" itemprop="datePublished"><?= $this->date ?></time></div>
+      <!-- <p class="info"><time datetime="<?= $this->datetime ?>" itemprop="datePublished"><?= $this->date ?></time> <?= $this->author ?> <?= $this->commentCount ?></p> -->
+    </div>
+  <?php endif; ?>
+  <div class="block-list__content">
+    <div class="block-list__title" itemprop="name"><?= $this->headline ?></div>
+    <div class="block-list__text" itemprop="description">
+      <?= $this->teaser ?>
+    </div>
+  </div>
+  <?php if ($this->hasMetaFields): ?>
+    <div class="block-list__footer">
+      <div class="block-list__author"><?= $this->author ?></div>
+    </div>
+  <?php endif; ?>
+  <?php if ($this->hasText || $this->hasTeaser): ?>
+    </a>
+  <?php endif; ?>
+</div>
+<?php if (strpos($this->class, "last") != false): ?>
+  <div class="block-list col-12 col-sm-6 col-md-4"></div>
+  <div class="block-list col-12 col-sm-6 col-md-4"></div>
+<?php endif ?>

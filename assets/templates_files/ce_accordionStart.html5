@@ -1,0 +1,8 @@
+
+<section class="<?= $this->class ?> accordionFW ce_accordion block"<?= $this->cssID ?>>
+  <div class="accordionFW__item">
+    <div class="accordionFW__title <?= $this->toggler ?>">
+      <?= $this->headline ?>
+    </div>
+    <div class="accordionFW__content <?= $this->accordion ?>">
+      <div>
