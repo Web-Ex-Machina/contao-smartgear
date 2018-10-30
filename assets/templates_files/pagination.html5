@@ -1,0 +1,44 @@
+
+<!-- indexer::stop -->
+<nav class="pagination block flex-justifycontent--center" aria-label="<?= $this->pagination ?>">
+  <ul class="reset flex-wrap-justifycontent--center">
+    <?php if ($this->hasFirst): ?>
+      <li class="first hidden">
+          <a href="<?= $this->first['href'] ?>" class="btn-sm d-none d-sm-inline-block first" title="<?= $this->first['title'] ?>"><?= $this->first['link'] ?></a>
+          <a href="<?= $this->first['href'] ?>" class="btn-sm d-inline-inline-block d-sm-none first" title="<?= $this->first['title'] ?>"> << </a>
+      </li>
+    <?php endif; ?>
+
+    <?php if ($this->hasPrevious): ?>
+      <li class="previous">
+        <a href="<?= $this->previous['href'] ?>" class="btn-sm d-none d-sm-inline-block previous" title="<?= $this->previous['title'] ?>"><?= $this->previous['link'] ?></a>
+        <a href="<?= $this->previous['href'] ?>" class="btn-sm d-inline-inline-block d-sm-none previous" title="<?= $this->previous['title'] ?>"> < </a>
+      </li>
+    <?php endif; ?>
+
+    <?php foreach ($this->pages as $page): ?>
+      <?php if ($page['href'] === null): ?>
+        <li><span class="current btn-sm active no-events"><?= $page['page'] ?></span></li>
+      <?php else: ?>
+        <li><a href="<?= $page['href'] ?>" class="btn-sm link" title="<?= $page['title'] ?>"><?= $page['page'] ?></a></li>
+      <?php endif; ?>
+    <?php endforeach; ?>
+
+    <?php if ($this->hasNext): ?>
+      <li class="next">
+        <a href="<?= $this->next['href'] ?>" class="btn-sm d-none d-sm-inline-block next" title="<?= $this->next['title'] ?>"><?= $this->next['link'] ?></a>
+        <a href="<?= $this->next['href'] ?>" class="btn-sm d-inline-inline-block d-sm-none next" title="<?= $this->next['title'] ?>"> > </a>
+    </li>
+    <?php endif; ?>
+
+
+    <?php if ($this->hasLast): ?>
+      <li class="last hidden">
+        <a href="<?= $this->last['href'] ?>" class="btn-sm d-none d-sm-inline-block last" title="<?= $this->last['title'] ?>"><?= $this->last['link'] ?></a>
+        <a href="<?= $this->last['href'] ?>" class="btn-sm d-inline-inline-block d-sm-none last" title="<?= $this->last['title'] ?>"> >> </a>
+    </li>
+    <?php endif; ?>
+  </ul>
+
+</nav>
+<!-- indexer::continue -->

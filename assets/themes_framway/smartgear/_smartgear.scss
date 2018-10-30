@@ -42,8 +42,8 @@ body.home .heroFW{ @extend .counter-y;
 .mod_article>.heroFW:first-child{@extend .counter-top;}
 
 // BLOCK-LIST - DEFAULT
-.block-list{flex-basis: 33.33%; min-width: 300px; flex-grow: 1; max-width: 100%; order: 1;
-  & .block-list__wrapper{width: 100%;
+.block-list{flex-basis: 33.33%; min-width: 300px; flex-grow: 1; max-width: 100%; order: 1;  margin-bottom: 0;
+  & .block-list__wrapper{width: 100%;  margin-bottom: $spacing;
     @include media-max(xs){margin-bottom: $spacing/2;}
   }
   & .ribbon{position: absolute; right: 0; top: 0; z-index: 2;transform-origin: 100% 100%; transform: translateX(0) translateY(3.35em) rotate(45deg); height: 2.3em; background: color(white); width: 8em; text-align: center; box-shadow: 1px 5px 10px rgba(0,0,0,0.5);
@@ -164,6 +164,11 @@ table.calendar{margin-bottom: $spacing;
     & .reduced+.toggler{display: block;}
 
   }
+}
+
+// PAGINATION
+.pagination{
+  & li{margin: 0 1px;}
 }
 
 // TESTIMONIAL
