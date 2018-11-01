@@ -1,0 +1,5 @@
+<div class="countUpFW" data-startval="<?= $this->startVal ?>" data-endval="<?= $this->endVal ?>" data-decimals="<?= $this->decimals ?>" data-duration="<?= $this->duration ?>" data-delay="<?= $this->delay ?>" >
+  <span class="countUpFW__num"></span>
+  <span class="countUpFW__unit"><?= $this->unit ?></span>
+  <div class="countUpFW__label"><?= $this->label ?></div>
+</div>
