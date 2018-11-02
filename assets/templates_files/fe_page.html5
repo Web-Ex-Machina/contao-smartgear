@@ -80,7 +80,7 @@
       <?php $this->block('footer'); ?>
         <?php if ($this->footer): ?>
           <footer id="footer" itemscope itemtype="http://schema.org/WPFooter">
-            <div class="inside container">
+            <div class="inside container-fluid">
               <?= $this->footer ?>
             </div>
           </footer>

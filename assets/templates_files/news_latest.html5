@@ -1,13 +1,13 @@
-<div class="layout_latest arc_<?= $this->archive->id ?> <?= $this->class ?> block-list r_2-1 zoomin col-12 col-sm-6 col-md-4" itemscope itemtype="http://schema.org/Article">
+<div class="layout_latest arc_<?= $this->archive->id ?> <?= $this->class ?> block-list r_16-9 fadetocolor col-12 col-sm-6 col-md-4" itemscope itemtype="http://schema.org/Article">
   <?php if ($this->hasText || $this->hasTeaser): ?>
-    <a href="<?= $this->link ?>" class="block-list__wrapper">
+    <a href="<?= $this->link ?>" class="block-list__wrapper" title="<?= $this->headline ?>">
   <?php endif; ?>
   <?php if ($this->addImage): ?>
     <figure class="block-list__figure" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="associatedMedia">
       <?php if (strpos($this->class, "featured") != false): ?>
         <div class="ribbon featured"><i class="fas fa-star"></i></div>
       <?php endif ?>
-      <img src="<?= $this->singleSRC ?>" alt="<?= $this->headline ?>" itemprop="image">
+      <img src="<?= $this->picture['img']['src'] ?>" alt="<?= $this->headline ?>" itemprop="image">
     </figure>
   <?php endif; ?>
   <?php if ($this->hasMetaFields): ?>
