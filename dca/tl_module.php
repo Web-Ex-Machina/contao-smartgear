@@ -95,7 +95,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['wem_sg_navigation'] = array(
 	'options'                 => array('classic', 'module'),
 	'reference'               => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_navigation'],
 	'eval'                    => array('submitOnChange'=>true),
-	'sql'                     => "varchar(32) NOT NULL default ''"
+	'sql'                     => "varchar(32) NOT NULL default 'classic'"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['wem_sg_navigation_module'] = array(
 	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_navigation'],

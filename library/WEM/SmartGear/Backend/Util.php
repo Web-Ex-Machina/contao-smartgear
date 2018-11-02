@@ -23,7 +23,7 @@ class Util
 	 * Store the path to the config file
 	 * @var String
 	 */
-	protected static $strConfigPath = "system/modules/wem-contao-smartgear/assets/config/smartgear.json";
+	protected static $strConfigPath = "assets/smartgear/config.json";
 
 	/**
 	 * Find and Create an Object, depending on type and module
@@ -66,6 +66,10 @@ class Util
 	public static function loadSmartgearConfig(){
 		try{
 			$objFiles = \Files::getInstance();
+			if(!file_exists(static::$strConfigPath)){
+				$objFiles->mkdir(str_replace("/config.json", "", static::$strConfigPath));
+				$objFiles->fopen(static::$strConfigPath, "wb");
+			}
 			$objFile = $objFiles->fopen(static::$strConfigPath, "a");
 			$arrConfig = [];
 
@@ -89,7 +93,7 @@ class Util
 		try{
 			$objFiles = \Files::getInstance();
 			if(!file_exists(static::$strConfigPath)){
-				$objFiles->mkdir(str_replace("/smartgear.json", "", static::$strConfigPath));
+				$objFiles->mkdir(str_replace("/config.json", "", static::$strConfigPath));
 				$objFiles->fopen(static::$strConfigPath, "wb");
 			}
 			$strConfig = file_get_contents(static::$strConfigPath);
