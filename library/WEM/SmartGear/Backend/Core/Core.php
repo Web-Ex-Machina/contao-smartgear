@@ -251,10 +251,14 @@ class Core extends Block implements BlockInterface
 			// Make sure Contao knows the files path
 			\Dbafs::syncFiles();
 
-			// Check app folders and check if there is all Jeff stuff loaded
+			// Check app folders and check if there is all Framway stuff loaded
 			if(!file_exists(TL_ROOT."/".$this->sgConfig["framwayPath"]."/css/framway.css") || !file_exists(TL_ROOT."/".$this->sgConfig["framwayPath"]."/css/vendor.css") || !file_exists(TL_ROOT."/".$this->sgConfig["framwayPath"]."/js/framway.js") || !file_exists(TL_ROOT."/".$this->sgConfig["framwayPath"]."/js/vendor.js"))
 				throw new Exception("Des fichiers Framway sont manquants !");
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les fichiers Smartgear ont été trouvés (framway.css, framway.js, vendor.css, vendor.js)"];
+
+			// Make sure framway path is public
+			$objFramwayFolder = new \Folder($this->sgConfig["framwayPath"]);
+			$objFramwayFolder->unprotect();
 
 			// Import the folders
 			$objFiles = \Files::getInstance();
@@ -286,6 +290,7 @@ class Core extends Block implements BlockInterface
 			$objModule->name = "HEADER";
 			$objModule->wem_sg_header_preset = "classic";
 			$objModule->wem_sg_header_sticky = 1;
+			$objModule->wem_sg_navigation = 'classic';
 			$objModule->save();
 			$arrLayoutModules[] = ["mod"=>$objModule->id, "col"=>"header", "enable"=>"1"];
 			$arrModules[] = $objModule->id;
@@ -644,15 +649,16 @@ class Core extends Block implements BlockInterface
 			$this->remove();
 
 			$objDb = \Database::getInstance();
+			$arrSkipTables = ["tl_user", "tl_files"];
 			foreach($objDb->listTables() as $strTable){
 				// Do not delete user table
-				if($strTable == "tl_user")
+				if(in_array($strTable, $arrSkipTables))
 					continue;
 				$objDb->prepare("TRUNCATE TABLE ".$strTable)->execute();
 			}
 
 			$objFiles = \Files::getInstance();
-			$objFiles->rrdir("files", true);
+			//$objFiles->rrdir("files", true);
 			$objFiles->rrdir("templates", true);
 
 			$this->logs[] = ["status"=>"tl_confirm", "msg"=>"Contao a été réinitialisé"];

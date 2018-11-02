@@ -75,7 +75,11 @@ class Forms extends Block implements BlockInterface
 		$objArticle = Util::createArticle($objPage);
 
 		// Create the form page where the users will be redirected
-		$intJumpPage = Util::createPageWithText("Contact envoyé", '<p>Votre message a bien été envoyé ! <a href="{{env::/}}" title="Retour à l\'accueil">Retour à l\'accueil</a></p>', $objPage->id, ["unit"=>"h1", "value"=>"Message envoyé !"]);
+		$objJumpPage = Util::createPage("Contact envoyé", $objPage->id, ["hide"=>1]);
+		$objJumpArticle = Util::createArticle($objJumpPage);
+		$strText = '<p>Votre message a bien été envoyé ! <a href="{{env::/}}" title="Retour à l\'accueil">Retour à l\'accueil</a></p>';
+		$arrHl = ["unit"=>"h1", "value"=>"Message envoyé !"];
+		$objJumpContent = Util::createContent($objJumpArticle, ["text"=>$strText, "headline"=>$arrHl]);
 
 		// Create the notification
 		$objNotification = new NCNotification();
