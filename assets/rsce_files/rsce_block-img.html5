@@ -17,7 +17,11 @@
 	if($this->imagehover_fade)
 		$arrClasses[] = $this->imagehover_fade;
 	if($this->content_opacity)
-		$arrClasses[] = 'content__opacity--'.intval($this->content_opacity);
+		$arrClasses[] = 'content__bg__opacity--'.intval($this->content_opacity);
+	if($this->content_background)
+		$arrClasses[] = 'content__bg--'.$this->content_background;
+	if($this->content_color)
+		$arrClasses[] = $this->content_color;
 	if($this->content_position)
 		$arrClasses[] = 'content--'.$this->content_position;
 	if($this->content_horizontal)
@@ -47,7 +51,7 @@
 		$strWrapperEnd = 'a';
 	}
 ?>
-<div class="block-img <?= implode(' ', $arrClasses) ?>">
+<div class="block-img <?= implode(' ', $arrClasses) ?> <?= $this->class ?>">
 	<<?= $strWrapperStart ?>>
 		<div class="block-img__figure">
 			<img src="<?= $strFile ?>" alt="<?= $this->alt ?>">

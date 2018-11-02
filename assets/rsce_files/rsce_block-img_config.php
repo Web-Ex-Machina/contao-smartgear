@@ -16,7 +16,7 @@ return array
         (
             'label' => array('Image'),
             'inputType' => 'group',
-        ),   
+        ),
         'singleSRC' => array
         (
             'inputType' => 'standardField',
@@ -117,11 +117,65 @@ return array
         (
             'label' => array('Contenu'),
             'inputType' => 'group',
-        ),   
+        ),
         'text' => array
         (
             'inputType' => 'standardField',
             'eval' => array('mandatory'=>false),
+        ),
+        'content_background' => array
+        (
+            'label' => array('Fond du texte', 'Si souhaité, ajustez le fond du contenu'),
+            'inputType' => 'select',
+            'options' => array
+            (
+                ""=>"Par défaut"
+                ,"red"=>"red"
+                ,"grey"=>"grey"
+                ,"yellow"=>"yellow"
+                ,"blue"=>"blue"
+                ,"green"=>"green"
+                ,"orange"=>"orange"
+                ,"darkblue"=>"darkblue"
+                ,"gold"=>"gold"
+                ,"black"=>"black"
+                ,"blacklight"=>"blacklight"
+                ,"blacklighter"=>"blacklighter"
+                ,"greystronger"=>"greystronger"
+                ,"greystrong"=>"greystrong"
+                ,"greylight"=>"greylight"
+                ,"greylighter"=>"greylighter"
+                ,"white"=>"white"
+                ,"none"=> "none"
+            ),
+            'eval' => array('tl_class'=>'w50 clr'),
+        ),
+        'content_color' => array
+        (
+            'label' => array('Couleur du texte', 'Si souhaité, ajustez la couleur du contenu'),
+            'inputType' => 'select',
+            'options' => array
+            (
+                ""=>"Par défaut"
+                ,"ft-red"=>"red"
+                ,"ft-grey"=>"grey"
+                ,"ft-yellow"=>"yellow"
+                ,"ft-blue"=>"blue"
+                ,"ft-green"=>"green"
+                ,"ft-orange"=>"orange"
+                ,"ft-darkblue"=>"darkblue"
+                ,"ft-gold"=>"gold"
+                ,"ft-black"=>"black"
+                ,"ft-blacklight"=>"blacklight"
+                ,"ft-blacklighter"=>"blacklighter"
+                ,"ft-greystronger"=>"greystronger"
+                ,"ft-greystrong"=>"greystrong"
+                ,"ft-greylight"=>"greylight"
+                ,"ft-greylighter"=>"greylighter"
+                ,"ft-white"=>"white"
+                ,"ft-none"=> "none"
+            ),
+            'eval' => array('tl_class'=>'w50'),
         ),
         'content_opacity' => array
         (

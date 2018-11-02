@@ -59,8 +59,8 @@
   }
 ?>
 
-<div class="sliderFW <?= implode(' ', $arrClasses) ?>" data-height="<?= $intHeight ?>" data-loop="<?= $strLoop ?>" data-auto="<?= $strAuto ?>">
-  <div class="sliderFW__container">
+<div class="sliderFW <?= implode(' ', $arrClasses) ?> <?= $this->class ?>" data-height="<?= $intHeight ?>" data-loop="<?= $strLoop ?>" data-auto="<?= $strAuto ?>">
+  <div class="sliderFW__container" <?= $intHeight ? 'style="height:'.$intHeight.';"' : '' ?>>
     <div class="sliderFW__rail">
     <?php if(!empty($arrSlides)): ?>
       <?php foreach($arrSlides as $slide): ?>
