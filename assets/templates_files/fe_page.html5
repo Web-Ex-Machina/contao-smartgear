@@ -93,6 +93,6 @@
   <?php $this->endblock(); ?>
 
   <?= $this->mootools ?>
-
+  [[TL_JQUERY]]
 </body>
 </html>
