@@ -58,7 +58,7 @@ j(document).ready(function(){
 			w = parseInt(j(this).data('modal-width'));
 		if(parseInt(j(this).data('modal-height')) > 0)
 			h = parseInt(j(this).data('modal-height'));
-		var title = j(this).attr('title');
+		var title = j(this).data('title');
 		var href = j(this).attr('href');		
 		
 		var M = new SimpleModal({

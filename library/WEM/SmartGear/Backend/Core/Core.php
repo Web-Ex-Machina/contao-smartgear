@@ -74,7 +74,7 @@ class Core extends Block implements BlockInterface
 				,"configure"
 				,\RequestToken::get()
 			);
-			$this->actions[] = ['v'=>2, 'tag'=>'a', 'text'=>'Configurer', 'attrs'=>['href'=>$href, 'title'=>'Configurer Smartgear', 'class'=>'openSmartgearModal']];
+			$this->actions[] = ['v'=>2, 'tag'=>'a', 'text'=>'Configurer', 'attrs'=>['href'=>$href, 'title'=>'Configurer Smartgear', 'class'=>'openSmartgearModal', 'data-title'=>'Configurer Smartgear']];
 			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Smartgear ?\'))return false;Backend.getScrollOffset()"'];
 			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment supprimer Smartgear ?\'))return false;Backend.getScrollOffset()"'];
 			$this->actions[] = ['action'=>'resetContao', 'label'=>'Réinitialiser Contao', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Contao ?\'))return false;Backend.getScrollOffset()"'];
@@ -213,7 +213,6 @@ class Core extends Block implements BlockInterface
 		}
 		$objTemplate->ncgateways = $arrNcGateways;
 		
-		dump($objTemplate->config);
 		return $objTemplate;
 	}
 
