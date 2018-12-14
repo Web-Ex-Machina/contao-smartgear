@@ -46,9 +46,10 @@
 
       if($slide->slide_link_href){
         $arrSlide["content"] .= sprintf(
-          '<a href="%s" title="%s" class="btn center d-block"%s>%s</a>'
+          '<a href="%s" title="%s" class="%s center d-block"%s>%s</a>'
           ,$slide->slide_link_href
           ,$slide->slide_link_title
+          ,$slide->slide_link_classes
           ,($slide->slide_link_target ? ' target="_blank"' : '')
           ,$slide->slide_link_text
         );

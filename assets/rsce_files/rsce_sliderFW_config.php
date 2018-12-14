@@ -135,6 +135,12 @@ return array
                     ,'inputType' => 'text'
                     ,'eval' => array('tl_class'=>'w50')
                 )
+                ,'slide_link_classes' => array
+                (
+                    'label' => array('Classe(s) css du lien', 'Saisissez une ou plusieurs classes css à appliquer au lien (séparées par un espace)')
+                    ,'inputType' => 'text'
+                    ,'eval' => array('tl_class'=>'w50')
+                )
                 ,'slide_link_target' => array
                 (
                     'label' => &$GLOBALS['TL_LANG']['MSC']['target']
