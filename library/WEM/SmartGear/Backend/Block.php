@@ -155,4 +155,29 @@ class Block extends Controller
 		// And return the template, parsed.
 		return $objTemplate->parse();
 	}
+
+	/**
+	 * Get generic callbacks for requests
+	 * @param  [String]	$key 	[Key of the callbacks array]
+	 * @param  [Array]	$args 	[Optional array of arguments]
+	 * @return [Array]			[Callback array]
+	 */
+	public function callback($key, $args = null){
+		try{
+			switch($key){
+				case "refreshBlock":
+					return ["method" => "refreshBlock", "args" => ["block-".$this->type."-".$this->module]];
+				break;
+				case "toastr":
+					return ["status"=>$args[0], "msg"=>$args[1]];
+				break;
+
+				default:
+					throw new Exception("Callback inconnu : ".$key);
+			}
+		}
+		catch(Exception $e){
+			throw $e;
+		}
+	}
 }
