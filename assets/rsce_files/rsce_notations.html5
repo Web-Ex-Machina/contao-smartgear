@@ -1,0 +1,24 @@
+<div class="<?= $this->class ?>">
+  <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
+  <?php foreach($this->notations as $notation): ?>
+    <div class="notation">
+      <div class="label">
+        <?= $notation->label ?>
+      </div>
+      <div class="stars" title="<?= $notation->note ?>/<?= $this->noteMax ?>">
+        <?php for ($i=0; $i < $this->noteMax; $i++) {
+          $classes = 'fa-star';
+          if ($i < $notation->note){
+            if(($i+1) > $notation->note)
+              $classes.='-half-alt';
+            $classes.=' fas';
+          }
+          else
+            $classes.=' far';
+          echo '<i class="'.$classes.'"></i>';
+        } ?>
+      </div>
+    </div>
+  <?php endforeach; ?>
+  <?= $this->text ?>
+</div>

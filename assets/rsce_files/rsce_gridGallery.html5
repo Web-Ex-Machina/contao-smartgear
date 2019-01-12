@@ -1,0 +1,65 @@
+<?php
+  $responsiveClasses = '';
+  if($this->nbCols_xl)
+    $responsiveClasses .= ' cols-xl-'.$this->nbCols_xl;
+  if($this->nbCols_lg)
+    $responsiveClasses .= ' cols-lg-'.$this->nbCols_lg;
+  if($this->nbCols_md)
+    $responsiveClasses .= ' cols-md-'.$this->nbCols_md;
+  if($this->nbCols_sm)
+    $responsiveClasses .= ' cols-sm-'.$this->nbCols_sm;
+  if($this->nbCols_xs)
+    $responsiveClasses .= ' cols-xs-'.$this->nbCols_xs;
+  if($this->nbCols_xxs)
+    $responsiveClasses .= ' cols-xxs-'.$this->nbCols_xxs;
+
+  if($this->listItems){
+    $arrItems = [];
+    foreach($this->listItems as $item){
+      if ($item->img_src) {
+        $arrCrop = deserialize($item->img_crop);
+        $objFile = FilesModel::findByUuid($item->img_src);
+        $strFile = \Image::get($objFile->path, $arrCrop[0], $arrCrop[1], $arrCrop[2]);
+        $arrItem = [
+          "src"=>$strFile,
+          "alt"=>($item->img_alt) ? $item->img_alt : $objFile->name
+        ];
+      }
+
+      $arrItem['classes'] = $item->classes ? $item->classes : '';
+      if($item->span_cols)
+        $arrItem['classes'] .= ' cols-span-'.$item->span_cols;
+      if($item->span_rows)
+        $arrItem['classes'] .= ' rows-span-'.$item->span_rows;
+
+      if ($item->href){
+        $arrItem["url"]   = 1;
+        $arrItem["href"]  = $item->href;
+        $arrItem["title"] = $item->title;
+      }
+      else if ($item->target)
+        $arrItem["href"] = $objFile->path;
+      if($item->target)
+        $arrItem['target'] = 1;
+      $arrItems[] = $arrItem;
+    }
+  }
+?>
+<div class="<?= $this->class ?>">
+  <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
+  <div class="d-grid cols-<?= $this->nbCols_default ?><?= $responsiveClasses ?>">
+    <?php foreach($arrItems as $item): ?>
+      <figure class="<?= $item['classes']?>">
+        <?php if ($item['url']): ?>
+          <a href="<?= $item['href'] ?>" title="<?= $item['title'] ?>" <?= ($item['target']) ? 'target="_blank"':'' ?>>
+        <?php elseif($item['target']): ?>
+          <a href="<?= $item['href'] ?>" title="<?= $item['alt'] ?>" data-modal="modalGallery_<?= uniqid() ?>">
+        <?php endif ?>
+        <img src="<?= $item['src'] ?>" alt="<?= $item['alt'] ?>">
+        <?php if ($item['href'] || $item['target']): ?>
+          </a>
+        <?php endif ?>
+      </figure>
+    <?php endforeach; ?>
+  </div>
+</div>
