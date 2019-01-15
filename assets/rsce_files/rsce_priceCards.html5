@@ -1,0 +1,58 @@
+<?php
+  $responsiveClasses = '';
+  if($this->nbCols_xl)
+    $responsiveClasses .= ' cols-xl-'.$this->nbCols_xl;
+  if($this->nbCols_lg)
+    $responsiveClasses .= ' cols-lg-'.$this->nbCols_lg;
+  if($this->nbCols_md)
+    $responsiveClasses .= ' cols-md-'.$this->nbCols_md;
+  if($this->nbCols_sm)
+    $responsiveClasses .= ' cols-sm-'.$this->nbCols_sm;
+  if($this->nbCols_xs)
+    $responsiveClasses .= ' cols-xs-'.$this->nbCols_xs;
+  if($this->nbCols_xxs)
+    $responsiveClasses .= ' cols-xxs-'.$this->nbCols_xxs;
+?>
+<div class="<?= $this->class ?>">
+<div class="d-grid cols-<?= $this->nbCols_default ?><?= $responsiveClasses ?>">
+  <?php foreach($this->listItems as $item): ?>
+    <?php
+      $itemClasses = '';
+      if ($item->font_color != '')
+        $itemClasses.='ft-'.$item->font_color.' ';
+      if ($item->bg_color != '')
+        $itemClasses.='bg--'.$item->bg_color.' ';
+      if ($item->content_color != '')
+        $itemClasses.='content--'.$item->content_color.' ';
+      if ($item->isMain != '')
+        $itemClasses.='main ';
+    ?>
+    <div class="priceCard <?= $itemClasses ?>">
+      <div class="priceCard__wrapper">
+        <?php if ($item->title): ?>
+          <div class="priceCard__title"><?= $item->title ?></div>
+        <?php endif; ?>
+        <?php if ($item->amount): ?>
+          <div class="priceCard__price">
+            <?php if ($item->amount): ?> <span class="priceCard__price__amount"><?= $item->amount ?></span> <?php endif ?>
+            <?php if ($item->currency): ?> <span class="priceCard__price__currency"><?= $item->currency ?></span> <?php endif ?>
+            <?php if ($item->period): ?> <div class="priceCard__price__period"><?= $item->period ?></div> <?php endif ?>
+          </div>
+        <?php endif; ?>
+        <?php if (count($item->lines) > 0): ?>
+          <div class="priceCard__content">
+            <?php foreach ($item->lines as $line): ?>
+              <div class="priceCard__content__item"><?= $line ?></div>
+            <?php endforeach ?>
+          </div>
+        <?php endif; ?>
+        <?php if ($item->cta_href): ?>
+          <div class="priceCard__cta">
+            <a href="<?= $item->cta_href ?>" title="<?= $item->cta_title ?>" class="btn <?= $item->cta_classes ?>" <?= ($item->cta_target) ? 'target="_blank"':'' ?>><?= $item->cta_text ?></a>
+          </div>
+        <?php endif; ?>
+      </div>
+    </div>
+  <?php endforeach; ?>
+</div>
+</div>

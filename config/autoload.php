@@ -12,7 +12,7 @@
  * Register the templates
  */
 TemplateLoader::addFiles([
-    
+
     // RSCE Templates
     'rsce_block-img'	=> 'templates/rsce'
     ,'rsce_sliderFW'	=> 'templates/rsce'
@@ -22,6 +22,9 @@ TemplateLoader::addFiles([
     ,'rsce_accordionFW' => 'templates/rsce'
     ,'rsce_counterFW'   => 'templates/rsce'
     ,'rsce_testimonials'=> 'templates/rsce'
+    ,'rsce_notations'   => 'templates/rsce'
+    ,'rsce_gridGallery' => 'templates/rsce'
+    ,'rsce_priceCards'  => 'templates/rsce'
 
     // Backend Templates
     ,'be_wem_sg_install' => 'system/modules/wem-contao-smartgear/templates/backend'
