@@ -18,6 +18,20 @@ return array
             'inputType' => 'text',
             'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min'=>1, 'max'=>12, 'mandatory'=>true)
         ),
+        'ratio' => array
+        (
+            'label' => array('Ratio des images', 'Si souhaité, indiquez le ratio par défaut des images de la galerie'),
+            'inputType' => 'select',
+            'options' => array
+            (
+                '' => ' - ',
+                'r_1-1'  => '1:1',
+                'r_2-1'  => '2:1',
+                'r_1-2'  => '1:2',
+                'r_16-9' => '16:9',
+            ),
+            'eval' => array('tl_class'=>'w50 clr'),
+        ),
         'responsive_legend' => array
         (
             'label' => array('Configuration responsive')
@@ -82,6 +96,20 @@ return array
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['alt']
                     ,'inputType' => 'text'
                     ,'eval' => array('tl_class'=>'w50')
+                ),
+                'ratio' => array
+                (
+                    'label' => array('Ratio de l\'image', 'Si souhaité, indiquez le ratio de cette image'),
+                    'inputType' => 'select',
+                    'options' => array
+                    (
+                        '' => ' - ',
+                        'r_1-1'  => '1:1',
+                        'r_2-1'  => '2:1',
+                        'r_1-2'  => '1:2',
+                        'r_16-9' => '16:9',
+                    ),
+                    'eval' => array('tl_class'=>'w50 clr'),
                 ),
                 'link_legend' => array
                 (

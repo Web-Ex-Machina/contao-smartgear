@@ -13,8 +13,8 @@
   if($this->nbCols_xxs)
     $responsiveClasses .= ' cols-xxs-'.$this->nbCols_xxs;
 
+  $arrItems = [];
   if($this->listItems){
-    $arrItems = [];
     foreach($this->listItems as $item){
       if ($item->img_src) {
         $arrCrop = deserialize($item->img_crop);
@@ -31,6 +31,7 @@
         $arrItem['classes'] .= ' cols-span-'.$item->span_cols;
       if($item->span_rows)
         $arrItem['classes'] .= ' rows-span-'.$item->span_rows;
+      $arrItem['classes'] .= $item->ratio ? ' '.$item->ratio : ' '.$this->ratio;
 
       if ($item->href){
         $arrItem["url"]   = 1;
