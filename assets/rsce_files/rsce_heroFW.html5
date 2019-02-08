@@ -15,7 +15,9 @@
   if($this->imagesize_vertical)
     $arrClasses[] = 'img--'.$this->imagesize_vertical;
   if($this->content_horizontal || $this->content_vertical)
-    $arrClasses[] = 'content--'.$this->content_horizontal.'--'.$this->content_vertical;
+    $arrClasses[] = 'content--h--'.$this->content_horizontal;
+  if($this->content_vertical)
+    $arrClasses[] = 'content--v--'.$this->content_vertical;
   if($this->content_color)
     $arrClasses[] = $this->content_color;
   if($this->content_background)
