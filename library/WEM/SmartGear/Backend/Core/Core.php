@@ -364,6 +364,10 @@ class Core extends Block implements BlockInterface
 				$objUser->language = "fr";
 				$objUser->backendTheme = "flexible";
 				$objUser->fullscreen = 1;
+				$objUser->showHelp = 1;
+				$objUser->thumbnails = 1;
+				$objUser->useRTE = 1;
+				$objUser->useCE = 1;
 				$objUser->uploader = "DropZone";
 				$objUser->password = \Encryption::hash("webmaster");
 				$objUser->pwChange = 1;
@@ -384,6 +388,10 @@ class Core extends Block implements BlockInterface
 				$objUser->language = "fr";
 				$objUser->backendTheme = "flexible";
 				$objUser->fullscreen = 1;
+				$objUser->showHelp = 1;
+				$objUser->thumbnails = 1;
+				$objUser->useRTE = 1;
+				$objUser->useCE = 1;
 				$objUser->admin = 1;
 				$objUser->uploader = "DropZone";
 				$objUser->password = \Encryption::hash("webexmachina");
@@ -401,6 +409,10 @@ class Core extends Block implements BlockInterface
 				$objUser->language = "fr";
 				$objUser->backendTheme = "flexible";
 				$objUser->fullscreen = 1;
+				$objUser->showHelp = 1;
+				$objUser->thumbnails = 1;
+				$objUser->useRTE = 1;
+				$objUser->useCE = 1;
 				$objUser->admin = 1;
 				$objUser->uploader = "DropZone";
 				$objUser->password = \Encryption::hash("webexmachina");
@@ -418,6 +430,10 @@ class Core extends Block implements BlockInterface
 				$objUser->language = "fr";
 				$objUser->backendTheme = "flexible";
 				$objUser->fullscreen = 1;
+				$objUser->showHelp = 1;
+				$objUser->thumbnails = 1;
+				$objUser->useRTE = 1;
+				$objUser->useCE = 1;
 				$objUser->admin = 1;
 				$objUser->uploader = "DropZone";
 				$objUser->password = \Encryption::hash("webexmachina");
