@@ -36,4 +36,5 @@ TemplateLoader::addFiles([
 
     // Backend Modals
     ,'be_wem_sg_install_modal_core_configure' => 'system/modules/wem-contao-smartgear/templates/backend/modals'
+    ,'be_wem_sg_install_modal_blog_configure' => 'system/modules/wem-contao-smartgear/templates/backend/modals'
 ]);

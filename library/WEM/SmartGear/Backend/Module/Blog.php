@@ -58,12 +58,131 @@ class Blog extends Block implements BlockInterface
 			$this->status = 0;
 		}
 		else{
+			$href = sprintf('contao?do=smartgear&act=modal&type=%s&module=%s&function=%s&popup=1&rt=%s'
+				,$this->type
+				,$this->module
+				,"configure"
+				,\RequestToken::get()
+			);
 			$this->messages[] = ['class' => 'tl_confirm', 'text' => 'Le blog est installé et configuré.'];
+			$this->actions[] = ['v'=>2, 'tag'=>'a', 'text'=>'Configurer', 'attrs'=>['href'=>$href, 'title'=>'Configurer le blog', 'class'=>'openSmartgearModal', 'data-title'=>'Configurer le blog']];
 			$this->actions[] = ['action'=>'reset', 'label'=>'Réinitialiser'];
 			$this->actions[] = ['action'=>'remove', 'label'=>'Supprimer'];
 
 			$this->status = 1;
 		}
+	}
+
+	/**
+	 * Display & Update Blog config 
+	 */
+	public function configure(){
+		if(\Input::post('TL_WEM_AJAX')){
+			try{
+				if(!\Input::post('config') || empty(\Input::post('config')))
+					throw new Exception("No data sent");
+
+				$blnUpdate = false;
+				foreach(\Input::post('config') as $k=>$v){
+					if($v != $this->sgConfig[$k]){
+						$this->sgConfig[$k] = $v;
+						$blnUpdate = true;
+					}
+				}
+
+				if($blnUpdate){
+					Util::updateConfig($this->sgConfig);
+
+					$arrResponse = [
+						"toastr" => [
+							"status"=>"success"
+							,"msg"=>"Configuration sauvegardée"
+						]
+					];
+				}
+				else{
+					$arrResponse = [
+						"toastr" => [
+							"status"=>"info"
+							,"msg"=>"Pas de changements détectés"
+						]
+					];
+				}					
+			}
+			catch(Exception $e){
+				$arrResponse = ["status"=>"error", "msg"=>$e->getMessage(), "trace"=>$e->getTrace()];
+			}
+
+			// Add Request Token to JSON answer and return
+			$arrResponse["rt"] = \RequestToken::get();
+			echo json_encode($arrResponse);
+			die;
+		}
+
+		$objTemplate = new \FrontendTemplate('be_wem_sg_install_modal_blog_configure');
+		$objTemplate->config = $this->sgConfig;
+
+		$objNewsArchives = \NewsArchiveModel::findAll();
+		$arrNewsArchives = [];
+		if($objNewsArchives){
+			while($objNewsArchives->next()){
+				$arrNewsArchives[$objNewsArchives->id] = [
+					"name"		=> $objNewsArchives->title
+					,"selected"	=> ($this->sgConfig['sgBlogNewsArchive'] == $objNewsArchives->id) ? true : false
+				];
+			}
+		}
+		$objTemplate->newsarchives = $arrNewsArchives;
+
+		$objListModules = \ModuleModel::findByType('newslist');
+		$arrModules = [];
+		if($objListModules){
+			while($objListModules->next()){
+				$arrModules[$objListModules->id] = [
+					"name"		=> $objListModules->name
+					,"selected"	=> ($this->sgConfig['sgBlogModuleList'] == $objListModules->id) ? true : false
+				];
+			}
+		}
+		$objTemplate->listmodules = $arrModules;
+
+		$objReaderModules = \ModuleModel::findByType('newsreader');
+		$arrModules = [];
+		if($objReaderModules){
+			while($objReaderModules->next()){
+				$arrModules[$objReaderModules->id] = [
+					"name"		=> $objReaderModules->name
+					,"selected"	=> ($this->sgConfig['sgBlogModuleReader'] == $objReaderModules->id) ? true : false
+				];
+			}
+		}
+		$objTemplate->readermodules = $arrModules;
+
+		$objListPages = \PageModel::findByPid($this->sgConfig['sgInstallRootPage']);
+		$arrListPages = [];
+		if($objListPages){
+			while($objListPages->next()){
+				$arrListPages[$objListPages->id] = [
+					"name"		=> $objListPages->title
+					,"selected"	=> ($this->sgConfig['sgBlogPageList'] == $objListPages->id) ? true : false
+				];
+			}
+		}
+		$objTemplate->listpages = $arrListPages;
+
+		$objReaderPages = \PageModel::findByPid($this->sgConfig['sgInstallRootPage']);
+		$arrReaderPages = [];
+		if($objReaderPages){
+			while($objReaderPages->next()){
+				$arrReaderPages[$objReaderPages->id] = [
+					"name"		=> $objReaderPages->title
+					,"selected"	=> ($this->sgConfig['sgBlogPageReader'] == $objReaderPages->id) ? true : false
+				];
+			}
+		}
+		$objTemplate->readerpages = $arrReaderPages;		
+		
+		return $objTemplate;
 	}
 
 	/**

@@ -1,0 +1,157 @@
+<!-- Load Libraries -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<div class="wem_sg_modal">
+	<form action="#" method="POST" name="wem_sg_modal">
+		<div class="w50 widget">
+			<h3><label for="sgBlogNewsArchive">Blog - Flux d'actualités</label></h3>
+			<?php if($this->newsarchives): ?>
+			<select name="sgBlogNewsArchive" id="sgBlogNewsArchive" class="tl_select tl_chosen">
+				<?php foreach($this->newsarchives as $id => $archive): ?>
+				<option value="<?= $id ?>"<?= $archive['selected'] ? ' selected' : '' ?>><?= $archive['name'] ?></option>
+				<?php endforeach; ?>
+			</select>
+			<?php else : ?>
+			<p class="error">Pas de flux d'actualité installé</p>
+			<?php endif; ?>
+		</div>
+
+		<div class="w50 widget">
+			<h3><label for="sgBlogModuleList">Blog - Module liste</label></h3>
+			<?php if($this->listmodules): ?>
+			<select name="sgBlogModuleList" id="sgBlogModuleList" class="tl_select tl_chosen">
+				<?php foreach($this->listmodules as $id => $module): ?>
+				<option value="<?= $id ?>"<?= $module['selected'] ? ' selected' : '' ?>><?= $module['name'] ?></option>
+				<?php endforeach; ?>
+			</select>
+			<?php else : ?>
+			<p class="error">Pas de module liste installé</p>
+			<?php endif; ?>
+		</div>
+		<div class="w50 widget">
+			<h3><label for="sgBlogModuleReader">Blog - Module reader</label></h3>
+			<?php if($this->readermodules): ?>
+			<select name="sgBlogModuleReader" id="sgBlogModuleReader" class="tl_select tl_chosen">
+				<?php foreach($this->readermodules as $id => $module): ?>
+				<option value="<?= $id ?>"<?= $module['selected'] ? ' selected' : '' ?>><?= $module['name'] ?></option>
+				<?php endforeach; ?>
+			</select>
+			<?php else : ?>
+			<p class="error">Pas de module reader installé</p>
+			<?php endif; ?>
+		</div>
+
+		<div class="w50 widget">
+			<h3><label for="sgBlogPageList">Blog - Page liste</label></h3>
+			<?php if($this->listpages): ?>
+			<select name="sgBlogPageList" id="sgBlogPageList" class="tl_select tl_chosen">
+				<?php foreach($this->listpages as $id => $page): ?>
+				<option value="<?= $id ?>"<?= $page['selected'] ? ' selected' : '' ?>><?= $page['name'] ?></option>
+				<?php endforeach; ?>
+			</select>
+			<?php else : ?>
+			<p class="error">Pas de page liste installée</p>
+			<?php endif; ?>
+		</div>
+		<div class="w50 widget">
+			<h3><label for="sgBlogPageReader">Blog - Page lecteur</label></h3>
+			<?php if($this->readerpages): ?>
+			<select name="sgBlogPageReader" id="sgBlogPageReader" class="tl_select tl_chosen">
+				<?php foreach($this->readerpages as $id => $page): ?>
+				<option value="<?= $id ?>"<?= $page['selected'] ? ' selected' : '' ?>><?= $page['name'] ?></option>
+				<?php endforeach; ?>
+			</select>
+			<?php else : ?>
+			<p class="error">Pas de page lecteur installée</p>
+			<?php endif; ?>
+		</div>
+		
+		<div class="widget clr">
+			<button type="submit" name="action" value="apply" class="tl_submit apply">Sauvegarder</button>
+		</div>
+
+		<div class="loader"></div>
+	</form>
+</div>
+<script type="text/javascript">
+	var j = jQuery.noConflict();
+	// Toastr Options
+	toastr.options.closeButton = true;
+	toastr.options.timeOut = 0;
+	toastr.options.extendedTimeOut = 0;
+
+	j(document).ready(function(){
+		j('.wem_sg_modal form').on('submit', function(e){
+			e.preventDefault();
+			var form = j(this);
+			form.find('.loader').addClass("active");
+
+			var objFields = {
+				"TL_WEM_AJAX":1
+				,'wem_module':'be_smartgear'
+				,'type':'module'
+				,'module':'blog'
+				,'action':'configure'
+				,'config':{}
+			};
+			form.find('input, select').each(function(){
+				if(j(this).attr('name') != "undefined"){
+					if('checkbox' == j(this).attr('type'))
+						if(j(this).prop('checked'))
+							objFields['config'][j(this).attr('name')] = 1;
+						else
+							objFields['config'][j(this).attr('name')] = '';
+					else
+						objFields['config'][j(this).attr('name')] = j(this).val();
+				}
+			});
+			
+			j.ajax({
+				method: "POST"
+				//,timeout:5000
+				,data: objFields
+			})
+			.done(function(msg){
+				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+				try{
+					var results = j.parseJSON(msg);
+
+					// Handle actions errors
+					if("error" === results["status"]){
+						toastr.error(results["msg"], "Une erreur est survenue :");
+					}
+
+					// Display a toastr if asked
+					if(results["toastr"]){
+						toastr[results["toastr"]["status"]](results["toastr"]["msg"]);
+					}
+
+					// Callbakcs if asked
+					if(results["callbacks"]){
+						for(var i in results["callbacks"]){
+							if("object" == typeof(results["callbacks"][i])){
+								window[results["callbacks"][i].method].apply(null, results["callbacks"][i].args);
+							}
+						}
+					}
+				}
+				catch(err){
+	       			toastr.error(err);
+				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				toastr.error(textStatus+"<br>"+errorThrown);
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+			})
+			.always(function(){
+				ctn.find('.loader').removeClass("active");
+			});
+
+		});
+	});
+</script>
