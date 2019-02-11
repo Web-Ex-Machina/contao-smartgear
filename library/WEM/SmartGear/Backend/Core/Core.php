@@ -263,6 +263,10 @@ class Core extends Block implements BlockInterface
 			$objFiles = \Files::getInstance();
 			$objFiles->rcopy("system/modules/wem-contao-smartgear/assets/templates_files", "templates/smartgear");
 
+			// Quickfix : adjust the path to themes and copy package themes into framway folder
+			$strPath = str_replace('/build', '/src/themes', TL_ROOT."/".$this->sgConfig["framwayPath"]);
+			$objFiles->rcopy("system/modules/wem-contao-smartgear/assets/themes_framway", $strPath);
+
 			// Check if there is another themes and warn the user
 			if(\ThemeModel::countAll() > 0)
 				$this->logs[] = ["status"=>"tl_info", "msg"=>"Attention, il existe d'autres thèmes potentiellement utilisés sur ce Contao"];
