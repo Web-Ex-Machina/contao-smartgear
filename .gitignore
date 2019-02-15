@@ -1,5 +1,6 @@
 # DEV FILES
 sftp-config.json 
+*.sublime-*
 
 # Ignore all assets/vendor libraries
 assets/config
