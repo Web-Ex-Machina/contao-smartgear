@@ -60,6 +60,7 @@ if (isset($bundles['VerstaerkerI18nl10nBundle'])) {
             'i18nl10n' => $GLOBALS['BE_MOD']['design']['i18nl10n']
         )
     );
+    unset($GLOBALS['BE_MOD']['design']['i18nl10n']);
 }
 
 /**
