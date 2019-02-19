@@ -23,7 +23,7 @@
     <?php if ($this->isRoot): ?>
       <h1 id="logo">
     <?php else: ?>
-      <a href="{{env::url}}" id="logo">
+      <a href="<?= $this->rootHref ?>" id="logo">
     <?php endif ?>
       <img src="<?= $strFile ?>" alt="<?= $this->wem_sg_header_logo_alt ? $this->wem_sg_header_logo_alt : '{{page::rootTitle}}' ?>">
     <?php if ($this->isRoot): ?>

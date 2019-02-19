@@ -104,8 +104,9 @@ class Header extends \Module
             $this->Template->isRoot = true;
             
             if ("/" !== $objPage->alias) {
-                $this->Template->isRoot = false;
-                $this->Template->rootHref = \Environment::get('base');
+                $objPage = \PageModel::findByIdOrAlias("/");
+				$this->Template->isRoot = false;
+				$this->Template->rootHref = \Controller::generateFrontendUrl($objPage->row());
             }
         } catch (Exception $e) {
             $this->Template->blnError = true;
