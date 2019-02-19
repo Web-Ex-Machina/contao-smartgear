@@ -189,6 +189,13 @@ table.calendar{margin-bottom: $spacing;
   @include media-max(xxs){font-size:0.9rem;}
 }
 
+// GRID GALLERY
+.ce_rsce_gridGallery{
+  & figure{@extend %img-container; margin-bottom: 0; height: 100%;
+    & a{@extend %img-container; display: block; height: 100%;}
+  }
+}
+
 /* JVECTOR-MAP */
 #mapWrapper{ padding-top: 0; position: relative; @include flex-container(); @extend .force-full;
   &.no-buttons div[class*="jvectormap-zoom"]{display: none;}
@@ -241,7 +248,7 @@ ol, p, ul{margin-bottom: 1rem;}
   }
 }
 
-figure img{width: 100%;}
+// figure img{width: 100%;}
 .ce_text figure{
   &.float_right,
   &.float_left{ margin: 0 1rem 1rem 0;
