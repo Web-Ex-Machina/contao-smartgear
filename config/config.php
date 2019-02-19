@@ -40,7 +40,7 @@ if (isset($bundles['ContaoNewsletterBundle'])) {
         'newsletters' => array(
             'channels' => $GLOBALS['BE_MOD']['content']['newsletter'],
             'newsletter' => array(
-                'tables' 	 => array('tl_newsletter'),
+                'tables'     => array('tl_newsletter'),
                 'send'       => array('\WEM\SmartGear\Override\Newsletter', 'send'),
                 'stylesheet' => 'bundles/contaonewsletter/style.css'
             )
@@ -77,7 +77,7 @@ array_insert($GLOBALS['BE_MOD']['system'], 0, array(
  */
 array_insert($GLOBALS['FE_MOD'], 2, array(
     'smartgear' => array(
-        'wem_sg_header'    		=> '\WEM\SmartGear\Module\Header',
+        'wem_sg_header'         => '\WEM\SmartGear\Module\Header',
     )
 ));
 
