@@ -13,6 +13,8 @@
 
   // Prepare the main block classes
   $arrClasses = [];
+  if($this->force_fullwidth)
+    $arrClasses[] = 'w-full';
   if($this->nav_display)
     $arrClasses[] = 'nav--'.$this->nav_display;
   if($this->nav_horizontal)
