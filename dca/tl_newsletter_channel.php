@@ -5,7 +5,10 @@
  *
  * Copyright (c) 2015-2018 Web ex Machina
  *
- * @author Web ex Machina <https://www.webexmachina.fr>
+ * @category ContaoBundle
+ * @package  Web-Ex-Machina/contao-smartgear
+ * @author   Web ex Machina <contact@webexmachina.fr>
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
 if (isset($bundles['ContaoNewsletterBundle'])) {

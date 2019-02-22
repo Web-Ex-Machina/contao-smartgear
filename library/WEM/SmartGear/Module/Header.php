@@ -3,9 +3,12 @@
 /**
  * SMARTGEAR for Contao Open Source CMS
  *
- * Copyright (c) 2015-2018 Web ex Machina
+ * Copyright (c) 2015-2019 Web ex Machina
  *
- * @author Web ex Machina <https://www.webexmachina.fr>
+ * @category ContaoBundle
+ * @package  Web-Ex-Machina/contao-smartgear
+ * @author   Web ex Machina <contact@webexmachina.fr>
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
 namespace WEM\SmartGear\Module;
@@ -105,8 +108,8 @@ class Header extends \Module
             
             if ("/" !== $objPage->alias) {
                 $objHomePage = \PageModel::findByIdOrAlias("/");
-				$this->Template->isRoot = false;
-				$this->Template->rootHref = \Controller::generateFrontendUrl($objHomePage->row());
+                $this->Template->isRoot = false;
+                $this->Template->rootHref = \Controller::generateFrontendUrl($objHomePage->row());
             }
         } catch (Exception $e) {
             $this->Template->blnError = true;

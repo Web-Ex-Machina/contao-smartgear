@@ -3,9 +3,12 @@
 /**
  * SMARTGEAR for Contao Open Source CMS
  *
- * Copyright (c) 2015-2018 Web ex Machina
+ * Copyright (c) 2015-2019 Web ex Machina
  *
- * @author Web ex Machina <https://www.webexmachina.fr>
+ * @category ContaoBundle
+ * @package  Web-Ex-Machina/contao-smartgear
+ * @author   Web ex Machina <contact@webexmachina.fr>
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
 namespace WEM\SmartGear\Backend;
@@ -17,9 +20,9 @@ namespace WEM\SmartGear\Backend;
  */
 interface BlockInterface
 {
-	public function getStatus();
-	public function install();
-	public function reset();
-	public function remove();
-	public function parse();
+    public function getStatus();
+    public function install();
+    public function reset();
+    public function remove();
+    public function parse();
 }

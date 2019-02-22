@@ -3,9 +3,12 @@
 /**
  * SMARTGEAR for Contao Open Source CMS
  *
- * Copyright (c) 2015-2018 Web ex Machina
+ * Copyright (c) 2015-2019 Web ex Machina
  *
- * @author Web ex Machina <https://www.webexmachina.fr>
+ * @category ContaoBundle
+ * @package  Web-Ex-Machina/contao-smartgear
+ * @author   Web ex Machina <contact@webexmachina.fr>
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
 namespace WEM\SmartGear\Backend\Core;
@@ -107,7 +110,7 @@ class Core extends Block implements BlockInterface
                 }
 
                 $blnUpdate = false;
-                foreach (\Input::post('config') as $k=>$v) {
+                foreach (\Input::post('config') as $k => $v) {
                     if ($v != $this->sgConfig[$k]) {
                         $this->sgConfig[$k] = $v;
                         $blnUpdate = true;
@@ -149,8 +152,8 @@ class Core extends Block implements BlockInterface
         if ($objThemes) {
             while ($objThemes->next()) {
                 $arrThemes[$objThemes->id] = [
-                    "name"		=> $objThemes->name
-                    ,"selected"	=> ($this->sgConfig['sgInstallTheme'] == $objThemes->id) ? true : false
+                    "name"      => $objThemes->name
+                    ,"selected" => ($this->sgConfig['sgInstallTheme'] == $objThemes->id) ? true : false
                 ];
             }
         }
@@ -161,8 +164,8 @@ class Core extends Block implements BlockInterface
             $arrConfigModules = deserialize($this->sgConfig['sgInstallModules']);
             while ($objModules->next()) {
                 $arrModules[$objModules->id] = [
-                    "name"		=> $objModules->name
-                    ,"selected"	=> (in_array($objModules->id, $arrConfigModules)) ? true : false
+                    "name"      => $objModules->name
+                    ,"selected" => (in_array($objModules->id, $arrConfigModules)) ? true : false
                 ];
             }
         }
@@ -173,8 +176,8 @@ class Core extends Block implements BlockInterface
         if ($objLayouts) {
             while ($objLayouts->next()) {
                 $arrLayouts[$objLayouts->id] = [
-                    "name"		=> $objLayouts->name
-                    ,"selected"	=> ($this->sgConfig['sgInstallLayout'] == $objLayouts->id) ? true : false
+                    "name"      => $objLayouts->name
+                    ,"selected" => ($this->sgConfig['sgInstallLayout'] == $objLayouts->id) ? true : false
                 ];
             }
         }
@@ -185,8 +188,8 @@ class Core extends Block implements BlockInterface
         if ($objUserGroups) {
             while ($objUserGroups->next()) {
                 $arrUserGroups[$objUserGroups->id] = [
-                    "name"		=> $objUserGroups->name
-                    ,"selected"	=> ($this->sgConfig['sgInstallUserGroup'] == $objUserGroups->id) ? true : false
+                    "name"      => $objUserGroups->name
+                    ,"selected" => ($this->sgConfig['sgInstallUserGroup'] == $objUserGroups->id) ? true : false
                 ];
             }
         }
@@ -197,8 +200,8 @@ class Core extends Block implements BlockInterface
         if ($objRootPages) {
             while ($objRootPages->next()) {
                 $arrRootPages[$objRootPages->id] = [
-                    "name"		=> $objRootPages->title
-                    ,"selected"	=> ($this->sgConfig['sgInstallRootPage'] == $objRootPages->id) ? true : false
+                    "name"      => $objRootPages->title
+                    ,"selected" => ($this->sgConfig['sgInstallRootPage'] == $objRootPages->id) ? true : false
                 ];
             }
         }
@@ -209,8 +212,8 @@ class Core extends Block implements BlockInterface
         if ($objNcGateways) {
             while ($objNcGateways->next()) {
                 $arrNcGateways[$objNcGateways->id] = [
-                    "name"		=> $objNcGateways->title
-                    ,"selected"	=> ($this->sgConfig['sgInstallNcGateway'] == $objNcGateways->id) ? true : false
+                    "name"      => $objNcGateways->title
+                    ,"selected" => ($this->sgConfig['sgInstallNcGateway'] == $objNcGateways->id) ? true : false
                 ];
             }
         }
@@ -244,7 +247,7 @@ class Core extends Block implements BlockInterface
             $arrConfig["maxFileSize"] = 20971520;
             
             // Update Contao Config
-            foreach ($arrConfig as $k=>$v) {
+            foreach ($arrConfig as $k => $v) {
                 \Config::persist($k, $v);
             }
 
