@@ -487,7 +487,7 @@ class Core extends Block implements BlockInterface
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("La passerelle (Notification Center) %s a été créée", $objGateway->title)];
 
             // Create a homepage
-            $objHomePage = Util::createPage("Accueil", $objRootPage->id);
+            $objHomePage = Util::createPage("Accueil", $objRootPage->id, ["alias"=>"/"]);
             $objArticle = Util::createArticle($objHomePage);
 
             // Create a module Sitemap
