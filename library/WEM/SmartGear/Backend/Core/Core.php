@@ -458,13 +458,14 @@ class Core extends Block implements BlockInterface
             }
 
             // Generate a root page with the stuff previously created
+            $websiteTitleAlias = \StringUtil::generateAlias($this->sgConfig['websiteTitle']);
             $objRootPage = Util::createPage($this->sgConfig['websiteTitle'], 0, [
                 "pid" => 0
                 ,"type"=>"root"
                 ,"language"=>"fr"
                 ,"fallback"=>1
                 ,"createSitemap"=>1
-                ,"sitemapName"=>substr("sitemap-".$objRootPage->alias, 0, 30)
+                ,"sitemapName"=>substr("sitemap-".$websiteTitleAlias, 0, 30)
                 ,"useSSL"=>1
                 ,"includeLayout"=>1
                 ,"layout"=>$objLayout->id
