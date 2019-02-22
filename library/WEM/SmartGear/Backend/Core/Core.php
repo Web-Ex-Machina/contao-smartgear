@@ -534,10 +534,10 @@ class Core extends Block implements BlockInterface
             $objArticle = Util::createArticle($objPage, ["cssID"=>serialize([0=>"guideline"])]);
 
             // Create a robots.txt file with a Disallow
-            if (!file_exists(TL_ROOT."/web/robots.txt")) {
+            /*if (!file_exists(TL_ROOT."/web/robots.txt")) {
                 $objFile = $objFiles->fopen("web/robots.txt", "w");
                 $objFiles->fputs($objFile, "User-agent: *"."\n"."Disallow: /");
-            }
+            }*/
 
             // Finally, notify in Config that the install is complete :)
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>"Installation terminée"];
