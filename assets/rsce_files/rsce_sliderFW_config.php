@@ -19,6 +19,12 @@ return array
             ,'inputType' => 'text'
             ,'eval' => array('tl_class' => 'w50')
         )
+        ,'force_fullwidth' => array
+        (
+            'label' => array("Toute la largeur", "Cochez pour forcer le bloc à prendre toute la largeur de l'écran"),
+            'inputType' => 'checkbox',
+            'eval' => array( 'tl_class' => 'w50')
+        )
         ,'slide_autoplay' => array
         (
             'label' => array("Démarrage automatique", "Cochez pour faire en sorte que le slider se lance automatiquement")
@@ -46,14 +52,14 @@ return array
         )
         ,'nav_horizontal' => array
         (
-            'label' => array('Position horizontale', 'Si souhaité, ajustez la position horizontale du contenu')
+            'label' => array('Position horizontale', 'Si souhaité, ajustez la position horizontale de la navigation')
             ,'inputType' => 'select'
             ,'options' => array(''=>'Aucun', 'left' => 'A gauche', 'right' => 'A droite')
             ,'eval' => array('tl_class'=>'w50')
         )
         ,'nav_vertical' => array
         (
-            'label' => array('Position verticale', 'Si souhaité, ajustez la position verticale du contenu')
+            'label' => array('Position verticale', 'Si souhaité, ajustez la position verticale de la navigation')
             ,'inputType' => 'select'
             ,'options' => array(''=>'Aucun', 'top'=>'En Haut', 'bottom'=>'En Bas')
             ,'eval' => array('tl_class'=>'w50')
