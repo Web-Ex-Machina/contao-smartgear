@@ -100,6 +100,12 @@ return array
                     ,'inputType' => 'text'
                     ,'eval' => array('tl_class'=>'w50','tl_class' => 'clr')
                 )
+                ,'author_classes' => array
+                (
+                    'label' => array('Classes supplémentaires auteur', 'Indiquez, si souhaité, la ou les classes css à ajouter au bloc de l\'auteur')
+                    ,'inputType' => 'text'
+                    ,'eval' => array('tl_class'=>'w50 clr')
+                )
             )
         )
     )
