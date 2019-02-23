@@ -188,6 +188,8 @@ table.calendar{margin-bottom: $spacing;
 .quote{margin-bottom: 1rem;
   @include media-max(xxs){font-size:0.9rem;}
 }
+.sliderFW.preset--testimonial .sliderFW__item__content .author:after,
+.sliderFW.preset--testimonial .sliderFW__item__content .author:before{content:none;}
 
 // GRID GALLERY
 .ce_rsce_gridGallery{

@@ -49,6 +49,8 @@
         $arrSlide["content"] .= $slide->slide_content;
       if($slide->slide_author)
         $arrSlide["author"] .= $slide->slide_author;
+      if($slide->author_classes)
+        $arrSlide["author_classes"] .= $slide->author_classes;
 
       $arrSlides[] = $arrSlide;
     }
@@ -68,7 +70,15 @@
         <div class="sliderFW__item__content">
           <div class="quote"><?= $slide['content'] ?></div>
           <?php if ($slide['author'] != ''): ?>
-            <p class="author"> <?= $slide['author'] ?> </p>
+            <p class="author">
+              <?php if ($slide['author_classes']): ?>
+                <span class="<?= $slide['author_classes'] ?>">
+              <?php endif ?>
+                -&nbsp;<?= $slide['author'] ?>&nbsp;-
+              <?php if ($slide['author_classes']): ?>
+                </span>
+              <?php endif ?>
+            </p>
           <?php endif ?>
         </div>
         <?php endif; ?>
