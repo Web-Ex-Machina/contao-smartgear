@@ -90,3 +90,10 @@ array_insert($GLOBALS['FE_MOD'], 2, array(
 if ('BE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['executePreActions'][] = array('\WEM\SmartGear\Backend\Install', 'processAjaxRequest');
 }
+
+/**
+ * Add FE Hooks
+ */
+if ('FE' === TL_MODE) {
+    $GLOBALS['TL_HOOKS']['generateFrontendUrl'][] = array('\WEM\SmartGear\Hooks\GenerateFrontendUrlHook', 'generateFrontendUrl');
+}
