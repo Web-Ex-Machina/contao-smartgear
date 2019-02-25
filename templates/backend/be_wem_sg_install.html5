@@ -97,7 +97,7 @@ j(document).ready(function(){
 
 		j.ajax({
 			method: "POST"
-			//,timeout:5000
+			,timeout:5000
 			,data: objFields
 		})
 		.done(function(msg){
