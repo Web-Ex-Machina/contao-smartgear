@@ -7,6 +7,166 @@
 <!-- Display messages -->
 <?= Message::generate() ?>
 
+<!-- Scripts -->
+<script type="text/javascript">
+	var j = jQuery.noConflict();
+
+	// Toastr Options
+	toastr.options.closeButton = true;
+	toastr.options.timeOut = 0;
+	toastr.options.extendedTimeOut = 0;
+
+	j(document).ready(function(){
+		/**
+		 * Store the "submit" clicked for the form
+		 */
+		j('#tl_wem_sg_install').on('click', '.block .tl_submit', function(e){
+			j(this).closest('form').find('input.btnAction').val(j(this).attr('value'));
+		});
+
+		/**
+		 * Handle modal openers
+		 */
+		j('#tl_wem_sg_install').on('click', '.block .openContaoModal', function(e){
+			e.preventDefault();
+			Backend.openModalIframe({'title':this.title,'url':this.href});
+		});
+		j('#tl_wem_sg_install').on('click', '.block .openSmartgearModal', function(e){
+			e.preventDefault();
+			var w = 768;
+			var h = (window.getSize().y-180).toInt();
+			if(parseInt(j(this).data('modal-width')) > 0)
+				w = parseInt(j(this).data('modal-width'));
+			if(parseInt(j(this).data('modal-height')) > 0)
+				h = parseInt(j(this).data('modal-height'));
+			var title = j(this).data('title');
+			var href = j(this).attr('href');		
+			
+			var M = new SimpleModal({
+				'width': w,
+				'draggable': false,
+				'overlayOpacity': .5,
+				'onShow': function() { document.body.setStyle('overflow', 'hidden'); },
+				'onHide': function() { document.body.setStyle('overflow', 'auto'); }
+			});
+			M.addButton(Contao.lang.close, 'btn', function() {
+				this.hide();
+			});
+			M.show({
+				'title':title
+				,'contents':'<iframe src="'+href+'" name="simple-modal-contents" width="100%" height="'+h+'" frameborder="0"></iframe>'
+				,'model':'modal'
+			});
+		});
+
+		/**
+		 * Replace normal form submit by an AJAX one
+		 */
+		j('#tl_wem_sg_install').on('submit', '.block-default form', function(e){
+			e.preventDefault();
+			var ctn = j(this).closest('.block');
+			ctn.find('.loader').addClass("active");
+
+			var objFields = {
+				'TL_WEM_AJAX':1
+				,'wem_module':'be_smartgear'
+			};
+
+			j(this).find('input').each(function(){
+				objFields[j(this).attr('name')] = j(this).val();
+			});
+
+			j.ajax({
+				method: "POST"
+				,timeout:5000
+				,data: objFields
+			})
+			.done(function(msg){
+				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+				try{
+					var results = j.parseJSON(msg);
+
+					// Handle actions errors
+					if("error" === results["status"]){
+						toastr.error(results["msg"], "Une erreur est survenue :");
+					}
+
+					// Display a toastr if asked
+					if(results["toastr"]){
+						toastr[results["toastr"]["status"]](results["toastr"]["msg"]);
+					}
+
+					// Callbakcs if asked
+					if(results["callbacks"]){
+						for(var i in results["callbacks"]){
+							if("object" == typeof(results["callbacks"][i])){
+								window[results["callbacks"][i].method].apply(null, results["callbacks"][i].args);
+							}
+						}
+					}
+				}
+				catch(err){
+	       			toastr.error(err);
+				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				toastr.error(textStatus+"<br>"+errorThrown);
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+			})
+			.always(function(){
+				ctn.find('.loader').removeClass("active");
+			});
+		});
+	});
+
+	/**
+	 * Refresh all the blocks in the page
+	 */
+	function refreshAllBlocks(){
+		j('#tl_wem_sg_install .block').each(function(){
+			refreshBlock(j(this).attr('id'));
+		});
+	}
+
+	/**
+	 * Refresh a block with its ID
+	 */
+	function refreshBlock(id){
+		var ctn = j('div#'+id);
+		ctn.find('.loader').addClass("active");
+
+		var objFields = {
+			'TL_WEM_AJAX':1
+			,'REQUEST_TOKEN':"<?= $this->token ?>"
+			,'wem_module':'be_smartgear'
+			,'action':'parse'
+			,'format':'html'
+			,'type':ctn.data("type")
+			,'module':ctn.data("module")
+		};
+
+		j.ajax({
+			method: "POST"
+			//,timeout:5000
+			,data: objFields
+		})
+		.done(function(msg){
+			ctn.replaceWith(msg.replace(/<!--[\s\S]*?-->/g, ""));
+		})
+		.fail(function(jqXHR, textStatus, errorThrown){
+			toastr.error(textStatus+"<br>"+errorThrown);
+			console.log(jqXHR);
+			console.log(textStatus);
+			console.log(errorThrown);
+		})
+		.always(function(){
+			ctn.find('.loader').removeClass("active");
+		});
+	}	
+</script>
+
 <!-- Display Module -->
 <div id="tl_wem_sg_install" class="wem_module">
 	
@@ -27,161 +187,3 @@
 	<?php endforeach; ?>
 	
 </div>
-<script type="text/javascript">
-var j = jQuery.noConflict();
-
-// Toastr Options
-toastr.options.closeButton = true;
-toastr.options.timeOut = 0;
-toastr.options.extendedTimeOut = 0;
-
-j(document).ready(function(){
-	/**
-	 * Store the "submit" clicked for the form
-	 */
-	j('#tl_wem_sg_install').on('click', '.block .tl_submit', function(e){
-		j(this).closest('form').find('input.btnAction').val(j(this).attr('value'));
-	});
-
-	/**
-	 * Handle modal openers
-	 */
-	j('#tl_wem_sg_install').on('click', '.block .openContaoModal', function(e){
-		e.preventDefault();
-		Backend.openModalIframe({'title':this.title,'url':this.href});
-	});
-	j('#tl_wem_sg_install').on('click', '.block .openSmartgearModal', function(e){
-		e.preventDefault();
-		var w = 768;
-		var h = (window.getSize().y-180).toInt();
-		if(parseInt(j(this).data('modal-width')) > 0)
-			w = parseInt(j(this).data('modal-width'));
-		if(parseInt(j(this).data('modal-height')) > 0)
-			h = parseInt(j(this).data('modal-height'));
-		var title = j(this).data('title');
-		var href = j(this).attr('href');		
-		
-		var M = new SimpleModal({
-			'width': w,
-			'draggable': false,
-			'overlayOpacity': .5,
-			'onShow': function() { document.body.setStyle('overflow', 'hidden'); },
-			'onHide': function() { document.body.setStyle('overflow', 'auto'); }
-		});
-		M.addButton(Contao.lang.close, 'btn', function() {
-			this.hide();
-		});
-		M.show({
-			'title':title
-			,'contents':'<iframe src="'+href+'" name="simple-modal-contents" width="100%" height="'+h+'" frameborder="0"></iframe>'
-			,'model':'modal'
-		});
-	});
-
-	/**
-	 * Replace normal form submit by an AJAX one
-	 */
-	j('#tl_wem_sg_install').on('submit', '.block form', function(e){
-		e.preventDefault();
-		var ctn = j(this).closest('.block');
-		ctn.find('.loader').addClass("active");
-
-		var objFields = {
-			'TL_WEM_AJAX':1
-			,'wem_module':'be_smartgear'
-		};
-
-		j(this).find('input').each(function(){
-			objFields[j(this).attr('name')] = j(this).val();
-		});
-
-		j.ajax({
-			method: "POST"
-			,timeout:5000
-			,data: objFields
-		})
-		.done(function(msg){
-			// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
-			try{
-				var results = j.parseJSON(msg);
-
-				// Handle actions errors
-				if("error" === results["status"]){
-					toastr.error(results["msg"], "Une erreur est survenue :");
-				}
-
-				// Display a toastr if asked
-				if(results["toastr"]){
-					toastr[results["toastr"]["status"]](results["toastr"]["msg"]);
-				}
-
-				// Callbakcs if asked
-				if(results["callbacks"]){
-					for(var i in results["callbacks"]){
-						if("object" == typeof(results["callbacks"][i])){
-							window[results["callbacks"][i].method].apply(null, results["callbacks"][i].args);
-						}
-					}
-				}
-			}
-			catch(err){
-       			toastr.error(err);
-			}
-		})
-		.fail(function(jqXHR, textStatus, errorThrown){
-			toastr.error(textStatus+"<br>"+errorThrown);
-			console.log(jqXHR);
-			console.log(textStatus);
-			console.log(errorThrown);
-		})
-		.always(function(){
-			ctn.find('.loader').removeClass("active");
-		});
-	});
-});
-
-/**
- * Refresh all the blocks in the page
- */
-function refreshAllBlocks(){
-	j('#tl_wem_sg_install .block').each(function(){
-		refreshBlock(j(this).attr('id'));
-	});
-}
-
-/**
- * Refresh a block with its ID
- */
-function refreshBlock(id){
-	var ctn = j('div#'+id);
-	ctn.find('.loader').addClass("active");
-
-	var objFields = {
-		'TL_WEM_AJAX':1
-		,'REQUEST_TOKEN':"<?= $this->token ?>"
-		,'wem_module':'be_smartgear'
-		,'action':'parse'
-		,'format':'html'
-		,'type':ctn.data("type")
-		,'module':ctn.data("module")
-	};
-
-	j.ajax({
-		method: "POST"
-		//,timeout:5000
-		,data: objFields
-	})
-	.done(function(msg){
-		ctn.replaceWith(msg.replace(/<!--[\s\S]*?-->/g, ""));
-	})
-	.fail(function(jqXHR, textStatus, errorThrown){
-		toastr.error(textStatus+"<br>"+errorThrown);
-		console.log(jqXHR);
-		console.log(textStatus);
-		console.log(errorThrown);
-	})
-	.always(function(){
-		ctn.find('.loader').removeClass("active");
-	});
-}	
-</script>

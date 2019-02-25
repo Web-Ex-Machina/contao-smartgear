@@ -46,22 +46,9 @@ class Core extends Block implements BlockInterface
     {
         // Check if Smartgear is install
         if (!$this->sgConfig['sgInstallComplete']) {
-            $this->title = "Smartgear | Core | Installation";
-            $this->messages[] = ["text"=>"Avant de faire quoique ce soit l'ami, tu vas devoir installer quelques trucs de base. Pas de soucis, on gère tout ça pour toi. Voilà ce qui est prévu :"];
-            $this->messages[] = ["text"=>"<ul>
-			<li>Modification de la configuration (tailles des images, limite d'upload...)</li>
-			<li>Création des répertoires des modèles, avec import de ceux qu'on a modifier</li>
-			<li>Vérification des répertoires des fichiers (pour l'app et pour le client). On doit bien avoir le framway d'installé dans files/app avant la prochaine étape.</li>
-			<li>Création du thème Smartgear</li>
-			<li>Création des squelettes Smartgear</li>
-			<li>Création d'un groupe d'utilisateurs par défaut. Les droits seront probablement à ajuster.</li>
-			<li>Création de la racine de site, avec le titre configuré dans le champ ci-dessous.</li>
-			<li>Création d'une passerelle de notification par défaut (Email de service). Pensez à configurer le SMTP si besoin.</li>
-		</ul>"];
-            $this->messages[] = ["class"=>"tl_info", "text"=>"A noter que tout cela sera prochainement découpé en étapes, pour permettre de configurer chaque module plus précisément."];
+            // Use a specific template for install
+            $this->strTemplate = "be_wem_sg_install_block_core_core";
 
-            $this->fields[] = ['name'=>'websiteTitle', 'value'=>$this->sgConfig['websiteTitle'], 'label'=>'Titre du site internet', 'help'=>'Saisir le titre du site internet'];
-            $this->fields[] = ['name'=>'framwayPath', 'value'=>$this->sgConfig['framwayPath'], 'label'=>'Chemin du Framway', 'help'=>'Saisir le dossier vers le Framway'];
             $this->actions[] = ['action'=>'install', 'label'=>'Installer Smartgear'];
             $this->actions[] = ['action'=>'resetContao', 'label'=>'Réinitialiser Contao', 'attributes'=>'onclick="if(!confirm(\'Voulez-vous vraiment réinitialiser Contao ?\'))return false;Backend.getScrollOffset()"'];
 
