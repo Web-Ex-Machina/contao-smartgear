@@ -11,7 +11,7 @@
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\Smartgear\Hooks;
+namespace WEM\SmartGear\Hooks;
 
 /**
  * Class GenerateFrontendUrlHook
