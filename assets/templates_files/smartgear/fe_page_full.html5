@@ -45,7 +45,7 @@
 
           <?php $this->block('main'); ?>
             <main id="main" itemscope itemtype="http://schema.org/WebPageElement" itemprop="mainContentOfPage">
-              <div class="inside container-fluid">
+              <div class="inside container-fluid p-x">
                 <?= $this->main ?>
               </div>
               <?php $this->sections('main'); ?>
