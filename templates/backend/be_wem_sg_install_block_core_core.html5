@@ -45,8 +45,7 @@
 		</div>
 		<div class="widget">
 			<h3><label for="ctrl_framwayLogo">Logo</label></h3>
-			<input name="websiteLogoB64" id="ctrl_websiteLogoB64" type="hidden" value="" />
-			<input name="websiteLogo" id="ctrl_websiteLogo" class="tl_input" value="" onfocus="Backend.getScrollOffset()" type="file">
+			<input id="ctrl_websiteLogo" class="tl_input skip" value="" onfocus="Backend.getScrollOffset()" type="file">
 			<p class="tl_help tl_tip" title="">Choisissez le logo.</p>
 			<br>
 		</div>
@@ -60,9 +59,6 @@
 </div>
 <script type="text/javascript">
 j(document).ready(function(){
-
-	document.getElementById("ctrl_websiteLogo").addEventListener("change", fetchLogo);
-
 	/**
 	 * Replace normal form submit by an AJAX one
 	 */
@@ -76,27 +72,17 @@ j(document).ready(function(){
 			,'wem_module':'be_smartgear'
 		};
 
-		j(this).find('input').each(function(){
+		j(this).find('input:not(.skip)').each(function(){
 			objFields[j(this).attr('name')] = j(this).val();
 		});
 
-		console.log(objFields);
-		/*j.ajax({
-			method: "POST"
-			,timeout:5000
-			,data: objFields
-		})
-		.done(function(msg){
-			// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
-			try{
-				var results = j.parseJSON(msg);
+		var file = document.querySelector('#tl_wem_sg_install input#ctrl_websiteLogo').files[0];
+		getBase64(file).then(
+		  data => {
+		  	objFields.websiteLogo = data;
 
-				// Handle actions errors
-				if("error" === results["status"]){
-					toastr.error(results["msg"], "Une erreur est survenue :");
-				}
-
-				// Display a toastr if asked
+		  	processCore(objFields).then(function(results){
+		  		// Display a toastr if asked
 				if(results["toastr"]){
 					toastr[results["toastr"]["status"]](results["toastr"]["msg"]);
 				}
@@ -109,34 +95,56 @@ j(document).ready(function(){
 						}
 					}
 				}
-			}
-			catch(err){
-       			toastr.error(err);
-			}
-		})
-		.fail(function(jqXHR, textStatus, errorThrown){
-			toastr.error(textStatus+"<br>"+errorThrown);
-			console.log(jqXHR);
-			console.log(textStatus);
-			console.log(errorThrown);
-		})
-		.always(function(){
-			ctn.find('.loader').removeClass("active");
-		});*/
+	  		})
+	  		.catch(function(error){
+	  			toastr.error(error, "Une erreur est survenue :");
+	  		})
+	  		.always(function(){
+	  			ctn.find('.loader').removeClass("active");
+	  		});
+		  }
+		);
 
 		ctn.find('.loader').removeClass("active");
 	});
 });
 
-function fetchLogo() {
-	if (this.files && this.files[0]) {
-		var FR = new FileReader();
-		FR.addEventListener("load", function(e) {
-			//document.getElementById("img").src       = e.target.result;
-			document.getElementById("ctrl_websiteLogoB64")[0].attr('value', e.target.result);
-		}); 
+function processCore(objFields) {
+	return new Promise((resolve, reject) => {
 
-		FR.readAsDataURL( this.files[0] );
-	}
+		j.ajax({
+			method: "POST"
+			,timeout:5000
+			,data: objFields
+		})
+		.done(function(msg){
+			// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+			try{
+				var results = j.parseJSON(msg);
+
+				// Handle actions errors
+				if("error" === results["status"])
+					reject(results["msg"]);
+
+				// Notify everything goes well
+				resolve(results);
+			}
+			catch(err){
+       			reject(err); 
+			}
+		})
+		.fail(function(jqXHR, textStatus, errorThrown){
+			reject(textStatus+"<br>"+errorThrown);
+		})
+	});
+}
+
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
 }
 </script>
