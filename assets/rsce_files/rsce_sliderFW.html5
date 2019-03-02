@@ -1,15 +1,20 @@
 <?php
-  $intHeight = 400;
-  $strLoop = "false";
-  $strAuto = "false";
+  $intHeight     = 400;
+  $strLoop       = "false";
+  $strAuto       = "false";
+  $strSwipe      = "true";
+  $strArrows     = "false";
 
-  // Define the slider height
   if($this->slide_height)
     $intHeight = $this->slide_height;
   if($this->slide_autoplay)
-    $strLoop = "true";
-  if($this->slider_loop)
     $strAuto = "true";
+  if($this->slider_loop)
+    $strLoop = "true";
+  if($this->disable_swipe)
+    $strSwipe = "false";
+  if($this->nav_arrows)
+    $strArrows = "true";
 
   // Prepare the main block classes
   $arrClasses = [];
@@ -62,7 +67,7 @@
   }
 ?>
 
-<div class="sliderFW <?= implode(' ', $arrClasses) ?> <?= $this->class ?>" data-height="<?= $intHeight ?>" data-loop="<?= $strLoop ?>" data-auto="<?= $strAuto ?>">
+<div class="sliderFW <?= implode(' ', $arrClasses) ?> <?= $this->class ?>" data-height="<?= $intHeight ?>" data-loop="<?= $strLoop ?>" data-auto="<?= $strAuto ?>" data-swipe="<?= $strSwipe ?>" data-arrows="<?= $strArrows ?>" data-transition="<?= $this->slider_transition ?>">
   <div class="sliderFW__container" <?= $intHeight ? 'style="height:'.$intHeight.';"' : '' ?>>
     <div class="sliderFW__rail">
     <?php if(!empty($arrSlides)): ?>
