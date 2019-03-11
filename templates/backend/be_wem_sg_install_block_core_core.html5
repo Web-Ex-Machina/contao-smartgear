@@ -99,19 +99,16 @@ j(document).ready(function(){
 	  		.catch(function(error){
 	  			toastr.error(error, "Une erreur est survenue :");
 	  		})
-	  		.always(function(){
+	  		.finally(function(){
 	  			ctn.find('.loader').removeClass("active");
 	  		});
 		  }
 		);
-
-		ctn.find('.loader').removeClass("active");
 	});
 });
 
 function processCore(objFields) {
 	return new Promise((resolve, reject) => {
-
 		j.ajax({
 			method: "POST"
 			,timeout:5000
