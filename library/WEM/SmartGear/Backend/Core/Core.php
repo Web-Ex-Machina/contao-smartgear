@@ -77,6 +77,7 @@ class Core extends Block implements BlockInterface
 
     /**
      * Reset Smartgear
+     * @todo Handle the Logo reset (the install POST value is a b64 so either we match that or we create a rule in install to handle b64 or path)
      */
     public function reset()
     {
@@ -87,6 +88,7 @@ class Core extends Block implements BlockInterface
 
     /**
      * Display & Update Smartgear config
+     * @todo Add the logo input file
      */
     public function configure()
     {
@@ -275,7 +277,7 @@ class Core extends Block implements BlockInterface
             $objFolder->unprotect();
 
             // Import the logo into files/medias/logos folder
-            if(\Input::post('websiteLogo')) {
+            if (\Input::post('websiteLogo')) {
                 $objFolder = new \Folder("files/medias/logos");
                 $objLogo = Util::base64ToImage(\Input::post('websiteLogo'), "files/medias/logos", "logo");
                 $objLogoModel = $objLogo->getModel();
@@ -687,6 +689,7 @@ class Core extends Block implements BlockInterface
 
     /**
      * Reset Contao install by Truncating everything
+     * @todo Plan to build a "hard" & a "soft" reset. The hard should truncate data & files where as the soft should truncate only data (current behaviour)
      */
     public function resetContao()
     {
