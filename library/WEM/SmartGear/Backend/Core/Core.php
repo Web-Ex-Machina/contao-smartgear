@@ -247,7 +247,7 @@ class Core extends Block implements BlockInterface
             \Dbafs::addResource($strFramwayPathBuild);
 
             // Check app folders and check if there is all Framway stuff loaded
-            if (!file_exists(TL_ROOT."/".$strFramwayBuildPath."/css/framway.css") || !file_exists(TL_ROOT."/".$strFramwayBuildPath."/css/vendor.css") || !file_exists(TL_ROOT."/".$strFramwayBuildPath."/js/framway.js") || !file_exists(TL_ROOT."/".$strFramwayBuildPath."/js/vendor.js")) {
+            if (!file_exists(TL_ROOT."/".$strFramwayPathBuild."/css/framway.css") || !file_exists(TL_ROOT."/".$strFramwayPathBuild."/css/vendor.css") || !file_exists(TL_ROOT."/".$strFramwayPathBuild."/js/framway.js") || !file_exists(TL_ROOT."/".$strFramwayPathBuild."/js/vendor.js")) {
                 throw new Exception("Des fichiers Framway sont manquants !");
             }
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les fichiers Smartgear ont été trouvés (framway.css, framway.js, vendor.css, vendor.js)"];
@@ -279,6 +279,8 @@ class Core extends Block implements BlockInterface
                 $objFolder = new \Folder("files/medias/logos");
                 $objLogo = Util::base64ToImage(\Input::post('websiteLogo'), "files/medias/logos", "logo");
                 $objLogoModel = $objLogo->getModel();
+            } else {
+                $objLogoModel = \FilesModel::findOneByPath($strFramwayPathBuild."/img/logo_placeholder.png");
             }
 
             // Set up some config vars
