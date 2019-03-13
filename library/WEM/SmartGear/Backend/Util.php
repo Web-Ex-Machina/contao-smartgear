@@ -270,4 +270,49 @@ class Util
         // Return the page ID
         return $objPage->id;
     }
+
+    /**
+     * Contao Friendly Base64 Converter to FileSystem
+     * @param  [String]  $base64          [Base64 String to decode]
+     * @param  [String]  $folder          [Folder name]
+     * @param  [String]  $file            [File name]
+     * @param  [Boolean] $blnReturnFile   [Return the File Object if set to true]
+     * @return [Object]                   [File Object]
+     */
+    public static function base64ToImage($base64, $folder, $file, $blnReturnFile = true)
+    {
+        try {
+            // split the string on commas
+            // $data[ 0 ] == "data:image/png;base64"
+            // $data[ 1 ] == <actual base64 string>
+            $data = explode(',', $base64);
+            $ext = substr($data[0], strpos($data[0], "/")+1, (strpos($data[0], ";") - strpos($data[0], "/") - 1));
+            $img = base64_decode($data[1]);
+
+            if (strpos(\Config::get('validImageTypes'), $ext) === false) {
+                throw new \Exception("Invalid image type : ".$ext);
+            }
+
+            // Determine a filename if absent
+            $path = $folder.'/'.$file.'.'.$ext;
+
+            // Create & Close the file to generate the Model, and then, reopen the file
+            // Because ->close() do not return the File object but true \o/
+            $objFile = new \File($path);
+            $objFile->write($img);
+
+            if (!$objFile->close()) {
+                throw new \Exception(sprintf("The file %s hasn't been saved correctly", $path));
+            }
+
+            if ($blnReturnFile) {
+                $objFile = new \File($path);
+                return $objFile;
+            }
+                
+            return true;
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
 }

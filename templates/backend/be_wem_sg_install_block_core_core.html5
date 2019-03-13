@@ -76,12 +76,19 @@ j(document).ready(function(){
 			objFields[j(this).attr('name')] = j(this).val();
 		});
 
-		var file = document.querySelector('#tl_wem_sg_install input#ctrl_websiteLogo').files[0];
-		getBase64(file).then(
-		  data => {
-		  	objFields.websiteLogo = data;
-
-		  	processCore(objFields).then(function(results){
+		var inputFile = document.querySelector('#tl_wem_sg_install input#ctrl_websiteLogo');
+		getBase64(inputFile).then(
+		  data => objFields.websiteLogo = data
+		)
+		.catch(function(error){
+			if(error == "empty") {
+				toastr.info("Pas de logo envoyé, un placeholder sera utilisé.");
+			} else {
+				toastr.error("Erreur dans le chargement du logo : "+error);
+			}
+		})
+		.finally(function(){
+			processCore(objFields).then(function(results){
 		  		// Display a toastr if asked
 				if(results["toastr"]){
 					toastr[results["toastr"]["status"]](results["toastr"]["msg"]);
@@ -102,8 +109,7 @@ j(document).ready(function(){
 	  		.finally(function(){
 	  			ctn.find('.loader').removeClass("active");
 	  		});
-		  }
-		);
+		});
 	});
 });
 
@@ -111,7 +117,7 @@ function processCore(objFields) {
 	return new Promise((resolve, reject) => {
 		j.ajax({
 			method: "POST"
-			,timeout:5000
+			,timeout:7500
 			,data: objFields
 		})
 		.done(function(msg){
@@ -136,10 +142,15 @@ function processCore(objFields) {
 	});
 }
 
-function getBase64(file) {
+function getBase64(inputFile) {
   return new Promise((resolve, reject) => {
+  	// Reject with a specific error if empty
+  	if(0 === inputFile.files.length) {
+  		reject("empty");
+  	}
+  	// Else, handle the file
     const reader = new FileReader();
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(inputFile.files[0]);
     reader.onload = () => resolve(reader.result);
     reader.onerror = error => reject(error);
   });

@@ -238,8 +238,17 @@ class Core extends Block implements BlockInterface
                 \Config::persist($k, $v);
             }
 
+            // Import the logo into files/medias/logos folder
+            $objFolder = new \Folder("files/medias");
+            $objFolder->unprotect();
+            $objFolder = new \Folder("files/medias/logos");
+            $objLogo = Util::base64ToImage(\Input::post('websiteLogo'), "files/medias/logos", "logo");
+            $objLogoModel = $objLogo->getModel();
+
+            // Set up some config vars
             $this->sgConfig["websiteTitle"] = \Input::post('websiteTitle');
             $this->sgConfig["framwayPath"] = \Input::post('framwayPath');
+            $this->sgConfig["websiteLogo"] = $objLogo->path;
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>"Configuration importée"];
 
             // Make sure Contao knows the files path
@@ -293,6 +302,9 @@ class Core extends Block implements BlockInterface
             $objModule->wem_sg_header_preset = "classic";
             $objModule->wem_sg_header_sticky = 1;
             $objModule->wem_sg_navigation = 'classic';
+            $objModule->wem_sg_header_logo = $objLogoModel->uuid;
+            $objModule->wem_sg_header_logo_size = 'a:3:{i:0;s:0:"";i:1;s:2:"75";i:2;s:12:"proportional";}';
+            $objModule->wem_sg_header_logo_alt = "Logo ".$this->sgConfig["websiteTitle"];
             $objModule->save();
             $arrLayoutModules[] = ["mod"=>$objModule->id, "col"=>"header", "enable"=>"1"];
             $arrModules[] = $objModule->id;
