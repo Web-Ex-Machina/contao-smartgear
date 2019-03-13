@@ -238,46 +238,54 @@ class Core extends Block implements BlockInterface
                 \Config::persist($k, $v);
             }
 
-            // Import the logo into files/medias/logos folder
-            $objFolder = new \Folder("files/medias");
-            $objFolder->unprotect();
-            $objFolder = new \Folder("files/medias/logos");
-            $objLogo = Util::base64ToImage(\Input::post('websiteLogo'), "files/medias/logos", "logo");
-            $objLogoModel = $objLogo->getModel();
+            // Standardize Framway path (make sure we are at the framway root)
+            $strFramwayPath = str_replace("/build", "", \Input::post('framwayPath'));
+            $strFramwayPathBuild = $strFramwayPath."/build";
+            $strFramwayPathThemes = $strFramwayPath."/src/themes";
 
-            // Set up some config vars
-            $this->sgConfig["websiteTitle"] = \Input::post('websiteTitle');
-            $this->sgConfig["framwayPath"] = \Input::post('framwayPath');
-            $this->sgConfig["websiteLogo"] = $objLogo->path;
-            $this->logs[] = ["status"=>"tl_confirm", "msg"=>"Configuration importée"];
-
-            // Make sure Contao knows the files path
-            \Dbafs::syncFiles();
+            // Make sure Contao knows the framway build files
+            \Dbafs::addResource($strFramwayPathBuild);
 
             // Check app folders and check if there is all Framway stuff loaded
-            if (!file_exists(TL_ROOT."/".$this->sgConfig["framwayPath"]."/css/framway.css") || !file_exists(TL_ROOT."/".$this->sgConfig["framwayPath"]."/css/vendor.css") || !file_exists(TL_ROOT."/".$this->sgConfig["framwayPath"]."/js/framway.js") || !file_exists(TL_ROOT."/".$this->sgConfig["framwayPath"]."/js/vendor.js")) {
+            if (!file_exists(TL_ROOT."/".$strFramwayBuildPath."/css/framway.css") || !file_exists(TL_ROOT."/".$strFramwayBuildPath."/css/vendor.css") || !file_exists(TL_ROOT."/".$strFramwayBuildPath."/js/framway.js") || !file_exists(TL_ROOT."/".$strFramwayBuildPath."/js/vendor.js")) {
                 throw new Exception("Des fichiers Framway sont manquants !");
             }
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les fichiers Smartgear ont été trouvés (framway.css, framway.js, vendor.css, vendor.js)"];
 
             // Make sure framway path is public
-            $objFramwayFolder = new \Folder($this->sgConfig["framwayPath"]);
+            $objFramwayFolder = new \Folder($strFramwayPath);
             $objFramwayFolder->unprotect();
 
             // Import the folders
             $objFiles = \Files::getInstance();
             $objFiles->rcopy("system/modules/wem-contao-smartgear/assets/templates_files", "templates");
 
-            // Quickfix : adjust the path to themes and copy package themes into framway folder
-            $strPath = str_replace('/build', '/src/themes', $this->sgConfig["framwayPath"]);
-            $objFolder = new \Folder($strPath);
+            // Copy package themes into framway folder
+            $objFolder = new \Folder($strFramwayPathThemes);
             $objFolder->unprotect();
-            $objFiles->rcopy("system/modules/wem-contao-smartgear/assets/themes_framway", $strPath);
+            $objFiles->rcopy("system/modules/wem-contao-smartgear/assets/themes_framway", $strFramwayPathThemes);
 
             // Check if there is another themes and warn the user
             if (\ThemeModel::countAll() > 0) {
                 $this->logs[] = ["status"=>"tl_info", "msg"=>"Attention, il existe d'autres thèmes potentiellement utilisés sur ce Contao"];
             }
+
+            // Create smartgear medias folder
+            $objFolder = new \Folder("files/medias");
+            $objFolder->unprotect();
+
+            // Import the logo into files/medias/logos folder
+            if(\Input::post('websiteLogo')) {
+                $objFolder = new \Folder("files/medias/logos");
+                $objLogo = Util::base64ToImage(\Input::post('websiteLogo'), "files/medias/logos", "logo");
+                $objLogoModel = $objLogo->getModel();
+            }
+
+            // Set up some config vars
+            $this->sgConfig["websiteTitle"] = \Input::post('websiteTitle');
+            $this->sgConfig["framwayPath"] = $strFramwayPath;
+            $this->sgConfig["websiteLogo"] = $objLogoModel->path;
+            $this->logs[] = ["status"=>"tl_confirm", "msg"=>"Configuration importée"];
 
             // Create the Smartgear main theme
             $objTheme = new \ThemeModel();
@@ -330,13 +338,13 @@ class Core extends Block implements BlockInterface
             // Create the Smartgear main layout
             $arrCssFiles = array();
             $arrJsFiles = array();
-            $objFile = \FilesModel::findOneByPath($this->sgConfig["framwayPath"]."/css/vendor.css");
+            $objFile = \FilesModel::findOneByPath($strFramwayPathBuild."/css/vendor.css");
             $arrCssFiles[] = $objFile->uuid;
-            $objFile = \FilesModel::findOneByPath($this->sgConfig["framwayPath"]."/css/framway.css");
+            $objFile = \FilesModel::findOneByPath($strFramwayPathBuild."/css/framway.css");
             $arrCssFiles[] = $objFile->uuid;
-            $objFile = \FilesModel::findOneByPath($this->sgConfig["framwayPath"]."/js/vendor.js");
+            $objFile = \FilesModel::findOneByPath($strFramwayPathBuild."/js/vendor.js");
             $arrJsFiles[] = $objFile->uuid;
-            $objFile = \FilesModel::findOneByPath($this->sgConfig["framwayPath"]."/js/framway.js");
+            $objFile = \FilesModel::findOneByPath($strFramwayPathBuild."/js/framway.js");
             $arrJsFiles[] = $objFile->uuid;
 
             $objLayout = new \LayoutModel();
