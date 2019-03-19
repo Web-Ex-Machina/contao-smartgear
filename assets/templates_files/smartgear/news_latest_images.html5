@@ -1,6 +1,8 @@
 <div class="layout_latest arc_<?= $this->archive->id ?> <?= $this->class ?> block-img r_1-1 zoomout content--full content--fadein content__bg__opacity--7 fadetogrey content__bg--darkblue col-12 col-sm-6 col-md-4" itemscope itemtype="http://schema.org/Article">
   <?php if ($this->hasText || $this->hasTeaser): ?>
-    <a href="<?= $this->link ?>" class="block-img__wrapper">
+    <a href="<?= $this->link ?>" class="block-img__wrapper" title="<?= $this->headline ?>">
+  <?php else: ?>
+    <div class="block-img__wrapper" title="<?= $this->headline ?>">
   <?php endif; ?>
   <?php if ($this->addImage): ?>
     <figure class="block-img__figure" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="associatedMedia">
@@ -31,6 +33,8 @@
   </div>
   <?php if ($this->hasText || $this->hasTeaser): ?>
     </a>
+  <?php else: ?>
+    </div>
   <?php endif; ?>
 </div>
 <?php if (strpos($this->class, "last") != false): ?>

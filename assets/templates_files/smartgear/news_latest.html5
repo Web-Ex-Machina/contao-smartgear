@@ -1,6 +1,8 @@
 <div class="layout_latest arc_<?= $this->archive->id ?> <?= $this->class ?> block-list r_16-9 fadetocolor col-12 col-sm-6 col-md-4" itemscope itemtype="http://schema.org/Article">
   <?php if ($this->hasText || $this->hasTeaser): ?>
     <a href="<?= $this->link ?>" class="block-list__wrapper" title="<?= $this->headline ?>">
+  <?php else: ?>
+    <div class="block-list__wrapper" title="<?= $this->headline ?>">
   <?php endif; ?>
   <?php if ($this->addImage): ?>
     <figure class="block-list__figure" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="associatedMedia">
@@ -30,6 +32,8 @@
   <?php endif; ?>
   <?php if ($this->hasText || $this->hasTeaser): ?>
     </a>
+  <?php else: ?>
+    </div>
   <?php endif; ?>
 </div>
 <?php if (strpos($this->class, "last") != false): ?>
