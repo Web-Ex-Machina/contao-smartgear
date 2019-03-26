@@ -7,9 +7,9 @@
   if($this->slide_height)
     $intHeight = $this->slide_height;
   if($this->slide_autoplay)
-    $strLoop = "true";
-  if($this->slider_loop)
     $strAuto = "true";
+  if($this->slider_loop)
+    $strLoop = "true";
 
   // Prepare the main block classes
   $arrClasses = [];
