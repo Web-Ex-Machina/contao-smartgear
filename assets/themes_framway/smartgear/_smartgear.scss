@@ -35,12 +35,6 @@ body.home .heroFW{ @extend .counter-y;
 }
 
 
-// MOD_ARTICLE
-.mod_article{padding: $spacing 0;
-  @include media-max(xs){padding: $spacing/2 0;}
-}
-.mod_article>.heroFW:first-child{@extend .counter-top;}
-
 // BLOCK-LIST - DEFAULT
 .block-list{flex-basis: 33.33%; min-width: 300px; flex-grow: 1; max-width: 100%; order: 1;  margin-bottom: 0;
   & .block-list__wrapper{width: 100%;  margin-bottom: $spacing;
@@ -243,13 +237,14 @@ ol, p, ul{margin-bottom: 1rem;}
 .float_right{float: right;}
 .float_left{float: left;}
 
-.ce_text{clear: both;}
+.ce_text{clear: both; margin-bottom: $spacing;}
 .ce_text[class*="bg-"]{@extend .block-std;
   @each $key, $value in $colors{
     &.bg-#{$key}{background-color: $value;}
   }
 }
 
+.ce_image{margin-bottom: $spacing;}
 // figure img{width: 100%;}
 .ce_text figure{
   &.float_right,
@@ -259,7 +254,9 @@ ol, p, ul{margin-bottom: 1rem;}
   &.float_right{ margin: 0 0 1rem 1rem;}
 }
 
-.mod_article{margin-bottom: $spacing;
+.mod_article>.heroFW:first-child{@extend .counter-top;}
+.mod_article{margin-bottom: $spacing; padding: $spacing 0;
+  @include media-max(xs){padding: $spacing/2 0; margin-bottom: $spacing/2;}
   .modalFW &.first{padding-top: 0;}
   .modalFW &.last{padding-bottom: 0;}
   &>*:last-child{margin-bottom: 0;}

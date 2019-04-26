@@ -18,7 +18,7 @@
     $stick = "true";
 ?>
 
-<div class="headerFW <?= $this->class ?> <?= implode(' ', $arrClasses) ?>" data-stick="<?= $stick ?>">
+<div id="header" class="headerFW <?= $this->class ?> <?= implode(' ', $arrClasses) ?>" data-stick="<?= $stick ?>">
   <div class="headerFW__headbanner">
     <?php if ($this->isRoot): ?>
       <h1 id="logo">
