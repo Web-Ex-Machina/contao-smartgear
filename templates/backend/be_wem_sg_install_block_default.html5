@@ -1,4 +1,4 @@
-<div id="block-<?= $this->type ?>-<?= $this->module ?>" class="block <?= $this->type ?><?= ($this->actions) ? ' hasActions' : '' ?>" data-type="<?= $this->type ?>" data-module="<?= $this->module ?>">
+<div id="block-<?= $this->type ?>-<?= $this->module ?>" class="block block-default <?= $this->type ?><?= ($this->actions) ? ' hasActions' : '' ?>" data-type="<?= $this->type ?>" data-module="<?= $this->module ?>">
 	<h2 class="title"><i class="fas fa-<?= $this->icon ?>"></i><?= $this->title ?></h2>
 	<?php if($this->isError): ?>
 	<div class="content_container">
