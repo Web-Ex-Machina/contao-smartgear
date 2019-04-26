@@ -1,4 +1,4 @@
-<div class="tabs">
+<div class="tabs <?= $this->class ?>"<?= $this->cssID ?>>
   <div class="tabs__nav">
     <?php if($this->items): ?>
       <?php foreach($this->items as $item): ?>
