@@ -1,4 +1,4 @@
-<div class="accordionFW" data-disable="<?= !$this->disable_collapse ? '' : 'true' ?>" data-autocollapse="<?= !$this->auto_collapse ? '' : 'true' ?>" data-deployall="<?= !$this->deploy_all ? '' : 'true' ?>">
+<div class="accordionFW <?= $this->class ?>"<?= $this->cssID ?> data-disable="<?= !$this->disable_collapse ? '' : 'true' ?>" data-autocollapse="<?= !$this->auto_collapse ? '' : 'true' ?>" data-deployall="<?= !$this->deploy_all ? '' : 'true' ?>">
   <?php if(!empty($this->items)): ?>
       <?php foreach($this->items as $item): ?>
         <div class="accordionFW__item <?= !$item->lock ? '' : 'lock' ?> <?= !$item->active ? '' : 'active' ?>">

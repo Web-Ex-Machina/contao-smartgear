@@ -1,5 +1,5 @@
 
-<table class="calendar table block-std">
+<table class="calendar table block-std <?= $this->class ?>"<?= $this->cssID ?>>
 <div class="loader"><i class="fas fa-circle-notch fa-spin"></i></div>
 <thead>
   <tr>

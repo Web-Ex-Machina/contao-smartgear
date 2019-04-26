@@ -67,7 +67,7 @@
   }
 ?>
 
-<div class="sliderFW <?= implode(' ', $arrClasses) ?> <?= $this->class ?>" data-height="<?= $intHeight ?>" data-loop="<?= $strLoop ?>" data-auto="<?= $strAuto ?>" data-swipe="<?= $strSwipe ?>" data-arrows="<?= $strArrows ?>" data-transition="<?= $this->slider_transition ?>">
+<div class="sliderFW <?= implode(' ', $arrClasses) ?> <?= $this->class ?>"<?= $this->cssID ?> data-height="<?= $intHeight ?>" data-loop="<?= $strLoop ?>" data-auto="<?= $strAuto ?>" data-swipe="<?= $strSwipe ?>" data-arrows="<?= $strArrows ?>" data-transition="<?= $this->slider_transition ?>">
   <div class="sliderFW__container" <?= $intHeight ? 'style="height:'.$intHeight.';"' : '' ?>>
     <div class="sliderFW__rail">
     <?php if(!empty($arrSlides)): ?>

@@ -42,7 +42,7 @@
   }
 ?>
 
-<div class="foldingbox <?= $this->class ?>" data-height="<?= $intHeight ?>" data-break="<?= $strBreak ?>" >
+<div class="foldingbox <?= $this->class ?>"<?= $this->cssID ?> data-height="<?= $intHeight ?>" data-break="<?= $strBreak ?>" >
   <?php if($this->headline): ?>
   <div class="foldingbox__title">
     <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>

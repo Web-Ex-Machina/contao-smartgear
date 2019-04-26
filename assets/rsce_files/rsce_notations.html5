@@ -1,4 +1,4 @@
-<div class="<?= $this->class ?>">
+<div class="<?= $this->class ?>"<?= $this->cssID ?>>
   <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
   <?php foreach($this->notations as $notation): ?>
     <div class="notation">
