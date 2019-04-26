@@ -1,5 +1,5 @@
 
-<div class="layout_full block<?= $this->class ?>" itemscope itemtype="http://schema.org/Article">
+<div class="layout_full block <?= $this->class ?>"<?= $this->cssID ?> itemscope itemtype="http://schema.org/Article">
 
   <h1 itemprop="name" class="sep-bottom txt-center"><?= $this->newsHeadline ?></h1>
 

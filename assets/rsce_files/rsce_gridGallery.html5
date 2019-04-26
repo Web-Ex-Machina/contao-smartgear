@@ -46,7 +46,7 @@
     }
   }
 ?>
-<div class="<?= $this->class ?>">
+<div class="<?= $this->class ?>"<?= $this->cssID ?>>
   <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
   <div class="d-grid cols-<?= $this->nbCols_default ?><?= $responsiveClasses ?>">
     <?php foreach($arrItems as $item): ?>

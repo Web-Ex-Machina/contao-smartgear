@@ -21,7 +21,9 @@
         "contao/core-bundle": "~3.2 || ~4.1",
         "contao-community-alliance/composer-plugin":"~2.4 || ~3.0",
         "madeyourday/contao-rocksolid-custom-elements": "^2.2",
-        "terminal42/notification_center": "^1.5"
+        "terminal42/notification_center": "^1.5",
+        "webexmachina/contao-grid": "^0.3",
+        "jrgregory/m17-sticky-backend-footer": "^2.0"
     },
     "autoload":{
         "psr-0": {

@@ -1,5 +1,5 @@
 
-<div class="event layout_full block<?= $this->class ?>" itemscope itemtype="http://schema.org/Event">
+<div class="event layout_full block <?= $this->class ?>"<?= $this->cssID ?> itemscope itemtype="http://schema.org/Event">
   <div class="flex-wrap-justifycontent--spacebetween-alignitems--baseline">
     <h1 class="m-right m-bottom-0" itemprop="name"><?= $this->title ?></h1>
     <p class="info m-bottom-0 ft-grey ft-i">
