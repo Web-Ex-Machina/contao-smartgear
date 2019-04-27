@@ -106,7 +106,6 @@ class Tinymce extends Block implements BlockInterface
     public function install()
     {
         try {
-            //$this->objFiles->rcopy("system/modules/wem-contao-smartgear/assets/tinymce/plugins", "assets/tinymce4/js/plugins");
             $this->objFiles->copy("system/modules/wem-contao-smartgear/assets/tinymce/be_tinyMCE.html5", "templates/be_tinyMCE.html5");
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>"La configuration TinyMCE a été importée."];
 
@@ -142,16 +141,20 @@ class Tinymce extends Block implements BlockInterface
     public function remove()
     {
         try {
-            $this->objFiles->delete("templates/be_tinyMCE.html5");
+            if (file_exists("templates/be_tinyMCE.html5")) {
+                $this->objFiles->delete("templates/be_tinyMCE.html5");
+            }
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>"La configuration TinyMCE a été supprimée."];
 
             // Update config
             Util::updateConfig(["sgTinyMCEConfig"=>0]);
 
             // Remove every plugin who've been copied and stored in the current config
-            if (!empty($this->sgConfig["sgTinyMCEPlugins"])) {
-                foreach ($this->sgConfig["sgTinyMCEPlugins"] as $plugin) {
-                    $this->objFiles->rrdir($this->tinymce_basepath."/plugins/".$plugin);
+            if (!empty($this->tinymce_plugins)) {
+                foreach ($this->tinymce_plugins as $k => $v) {
+                    if (file_exists($this->tinymce_basepath."/plugins/".$plugin)) {
+                        $this->objFiles->rrdir($this->tinymce_basepath."/plugins/".$k);
+                    }
                 }
 
                 Util::updateConfig(["sgTinyMCEPlugins"=>""]);

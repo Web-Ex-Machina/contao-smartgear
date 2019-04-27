@@ -660,9 +660,9 @@ class Core extends Block implements BlockInterface
             }
 
             // Delete the robots file
-            if (file_exists(TL_ROOT."/web/robots.txt")) {
+            /*if (file_exists(TL_ROOT."/web/robots.txt")) {
                 $objFiles->delete("web/robots.txt");
-            }
+            }*/
             
             // Finally, reset the config
             $this->sgConfig["sgInstallComplete"] = "";
@@ -708,7 +708,6 @@ class Core extends Block implements BlockInterface
             }
 
             $objFiles = \Files::getInstance();
-            //$objFiles->rrdir("files", true);
             $objFiles->rrdir("templates", true);
 
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>"Contao a été réinitialisé"];
