@@ -501,6 +501,18 @@ class Core extends Block implements BlockInterface
             $objHomePage = Util::createPage("Accueil", $objRootPage->id, ["alias"=>"/"]);
             $objArticle = Util::createArticle($objHomePage);
 
+            // Create a 404 page, with a sitemap after
+            $obj404Page = Util::createPage("Erreur 404 - Page non trouvée", $objRootPage->id, ["type"=>"error_404"]);
+            $objArticle = Util::createArticle($obj404Page);
+            $objContent = Util::createContent($objArticle, [
+                "headline"=>serialize(["unit"=>"h1", "value"=>"Page non trouvée !"])
+                ,"text"=>"<p>La page demandée n'existe pas. Vous pouvez consulter le plan du site ci-dessous pour poursuivre votre navigation.</p>"
+            ]);
+            $objContent = Util::createContent($objArticle, [
+                "type"=>"module"
+                ,"module"=>$objModule->id
+            ]);
+
             // Create a module Sitemap
             $objModule = new \ModuleModel();
             $objModule->pid = $objTheme->id;
@@ -520,23 +532,19 @@ class Core extends Block implements BlockInterface
                 ,"module"=>$objModule->id
             ]);
 
-            // Create a 404 page, with a sitemap after
-            $obj404Page = Util::createPage("Erreur 404 - Page non trouvée", $objRootPage->id, ["type"=>"error_404"]);
-            $objArticle = Util::createArticle($obj404Page);
-            $objContent = Util::createContent($objArticle, [
-                "headline"=>serialize(["unit"=>"h1", "value"=>"Page non trouvée !"])
-                ,"text"=>"<p>La page demandée n'existe pas. Vous pouvez consulter le plan du site ci-dessous pour poursuivre votre navigation.</p>"
-            ]);
-            $objContent = Util::createContent($objArticle, [
-                "type"=>"module"
-                ,"module"=>$objModule->id
-            ]);
-
             // Create a Legal Notices Page
             $objPage = Util::createPage("Mentions légales", $objRootPage->id, ["hide"=>1]);
             $objArticle = Util::createArticle($objPage);
             $objContent = Util::createContent($objArticle, [
                 "headline"=>serialize(["unit"=>"h1", "value"=>"Mentions légales"])
+                ,"text"=>"<p>A remplir</p>"
+            ]);
+
+            // Create a Privacy Page
+            $objPage = Util::createPage("Confidentialité", $objRootPage->id, ["hide"=>1]);
+            $objArticle = Util::createArticle($objPage);
+            $objContent = Util::createContent($objArticle, [
+                "headline"=>serialize(["unit"=>"h1", "value"=>"Confidentialité"])
                 ,"text"=>"<p>A remplir</p>"
             ]);
 
