@@ -56,7 +56,7 @@ class Rsce extends Block implements BlockInterface
         $this->messages[] = ['class' => 'tl_info', 'text' => 'Cette section permet d\'importer les éléments personnalisés RSCE utilisés par Smartgear.'];
     
         // Check the install status
-        if (1 === $this->sgConfig["sgInstallRsce"] && !$this->shouldBeUpdated()) {
+        if (1 === $this->sgConfig["sgInstallRsce"]) {
             $this->status = 1;
 
             // Compare the source folder and the existing one to check if an update should be done
@@ -147,7 +147,26 @@ class Rsce extends Block implements BlockInterface
             $arrSrcFolder = scandir(TL_ROOT."/system/modules/wem-contao-smartgear/assets/rsce_files");
             $arrFolder = scandir(TL_ROOT."/templates/rsce");
 
-            return !empty(array_diff($arrSrcFolder, $arrFolder)) || !empty(array_diff($arrFolder, $arrSrcFolder));
+            // Check if there is a difference between the files itselfs, If there is already differences noticed, return true
+            if (!empty(array_diff($arrSrcFolder, $arrFolder)) || !empty(array_diff($arrFolder, $arrSrcFolder))) {
+                return true;
+            }
+
+            // Then, loop on the files contents and check if there is a diff between them
+            $blnUpdate = false;
+            foreach($arrSrcFolder as $rsce){
+                if($rsce == "." || $rsce == ".."){
+                    continue;
+                }
+
+                if(md5_file(TL_ROOT."/system/modules/wem-contao-smartgear/assets/rsce_files/".$rsce) !== md5_file(TL_ROOT."/templates/rsce/".$rsce)){
+                    $this->messages[] = ['class' => 'tl_new', 'text' => 'Fichier à mettre à jour : '.$rsce];
+                    $blnUpdate = true;
+                }
+            }
+
+            // Fallback, return false
+            return $blnUpdate;
         } catch (Exception $e) {
             return true;
         }
