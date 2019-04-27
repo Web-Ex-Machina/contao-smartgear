@@ -331,7 +331,7 @@ class Core extends Block implements BlockInterface
             $objModule->tstamp = time();
             $objModule->type = "html";
             $objModule->name = "FOOTER";
-            $objModule->html = '<div class="footer__copyright">© {{date::Y}} '.$this->sgConfig['websiteTitle'].'</div>';
+            $objModule->html = file_get_contents("system/modules/wem-contao-smartgear/assets/examples/footer_1.html");
             $objModule->save();
             $arrLayoutModules[] = ["mod"=>$objModule->id, "col"=>"footer", "enable"=>"1"];
             $arrModules[] = $objModule->id;
