@@ -21,15 +21,13 @@ namespace WEM\SmartGear\Hooks;
 class GenerateFrontendUrlHook
 {
     /**
+     * Make sure empty requests are correctly redirected as root page
+     *
      * @param $arrRow
      * @param $strParams
      * @param $strUrl
-     * @return mixed|string
-     * @throws \Exception
      *
-     * @todo:   Don't use TL_LANGUAGE in backend
-     * @todo:   Get language by domain
-     * @todo:   I18nl10n::getInstance()->getLanguagesByDomain() not valid in BE, since the domain is taken from url
+     * @return mixed|string
      */
     public function generateFrontendUrl($arrRow, $strParams, $strUrl)
     {
