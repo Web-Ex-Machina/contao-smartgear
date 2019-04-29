@@ -46,6 +46,17 @@ return array
             'inputType' => 'standardField',
             'eval' => array('tl_class'=>'w50')
         ),
+        'img_size' => array
+        (
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['size']
+            ,'inputType' => 'imageSize'
+            ,'reference' => &$GLOBALS['TL_LANG']['MSC']
+            ,'eval'      => array('rgxp'=>'natural', 'includeBlankOption'=>true, 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50 clr')
+            ,'options_callback' => function ()
+            {
+                return System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance());
+            }
+        ),
         'image_opacity' => array
         (
             'label' => array('Opacité', 'Ajustez, si souhaité, l\'opacité de l\'image (Valeur entre 0 et 10)'),
