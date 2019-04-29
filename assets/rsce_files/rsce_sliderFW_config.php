@@ -13,36 +13,36 @@ return array
             'label' => array('Configuration du slider')
             ,'inputType' => 'group'
         )
+        ,'force_fullwidth' => array
+        (
+            'label' => array("Toute la largeur", "Cochez pour forcer le bloc à prendre toute la largeur de l'écran"),
+            'inputType' => 'checkbox',
+            'eval' => array( 'tl_class' => 'w50 m12')
+        )
         ,'slide_height' => array
         (
             'label' => array('Hauteur du slider', 'Configurez la hauteur du slider')
             ,'inputType' => 'text'
             ,'eval' => array('tl_class' => 'w50')
         )
-        ,'force_fullwidth' => array
-        (
-            'label' => array("Toute la largeur", "Cochez pour forcer le bloc à prendre toute la largeur de l'écran"),
-            'inputType' => 'checkbox',
-            'eval' => array( 'tl_class' => 'clr w50')
-        )
         ,'slide_autoplay' => array
         (
             'label' => array("Démarrage automatique", "Cochez pour faire en sorte que le slider se lance automatiquement")
             ,'inputType' => 'checkbox'
-            ,'eval' => array('tl_class'=>'w50 clr')
+            ,'eval' => array('tl_class'=>'w50 m12')
         )
         ,'slider_loop' => array
         (
             'label' => array("Répétition", "Cochez pour faire en sorte que le slider se relance une fois fini")
             ,'inputType' => 'checkbox'
-            ,'eval' => array('tl_class'=>'w50 clr')
+            ,'eval' => array('tl_class'=>'w50 m12')
         )
         ,'slider_transition' => array
         (
             'label' => array('Transition', 'Sélectionner le type de transition souhaitée entre les slides')
             ,'inputType' => 'select'
             ,'options' => array('translate'=>'Translation', 'fade'=>'Fading', 'none'=>'Aucune')
-            ,'eval' => array('tl_class'=>'w50 clr')
+            ,'eval' => array('tl_class'=>'w50')
         )
 
         ,'config_nav_legend' => array
@@ -75,13 +75,13 @@ return array
         (
             'label' => array("Navigation fléchée", "Cochez pour activer la navigation fléchée (désactive la navigation classique)"),
             'inputType' => 'checkbox',
-            'eval' => array( 'tl_class' => 'w50 clr')
+            'eval' => array( 'tl_class' => 'w50 m12')
         )
         ,'disable_swipe' => array
         (
             'label' => array("Désactiver swipe", "Cochez pour désactiver la navigation par swipe"),
             'inputType' => 'checkbox',
-            'eval' => array( 'tl_class' => 'w50 clr')
+            'eval' => array( 'tl_class' => 'w50 m12')
         )
 
         ,'config_content_legend' => array
@@ -107,7 +107,7 @@ return array
         (
             'label' => array("Pas de flou", "Cochez pour désactiver l'effet de flou derrière le contenu")
             ,'inputType' => 'checkbox'
-            ,'eval' => array('tl_class'=>'w50')
+            ,'eval' => array('tl_class'=>'w50 m12')
         )
 
         // Items
@@ -124,6 +124,17 @@ return array
                     'label' => array('Fond', 'Insérez une image qui sera utilisé comme fond de cet item')
                     ,'inputType' => 'fileTree'
                     ,'eval' => array('filesOnly'=>true, 'fieldType'=>'radio', 'extensions'=>Config::get('validImageTypes'))
+                )
+                ,'slide_img_size' => array
+                (
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['size']
+                    ,'inputType' => 'imageSize'
+                    ,'reference' => &$GLOBALS['TL_LANG']['MSC']
+                    ,'eval'      => array('rgxp'=>'natural', 'includeBlankOption'=>true, 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50 clr')
+                    ,'options_callback' => function ()
+                    {
+                        return System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance());
+                    }
                 )
                 ,'slide_img_alt' => array
                 (
