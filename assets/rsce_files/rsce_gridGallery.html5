@@ -17,7 +17,7 @@
   if($this->listItems){
     foreach($this->listItems as $item){
       if ($item->img_src) {
-        $arrCrop = deserialize($item->img_crop);
+        $arrCrop = deserialize($item->img_size);
         $objFile = FilesModel::findByUuid($item->img_src);
         $strFile = \Image::get($objFile->path, $arrCrop[0], $arrCrop[1], $arrCrop[2]);
         $arrItem = [
