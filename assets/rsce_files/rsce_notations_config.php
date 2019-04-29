@@ -2,8 +2,7 @@
 return array
 (
     'label' => array('Notes', 'Générez une liste notations sous forme d\'étoiles'),
-    'types' => array('content'),
-    'contentCategory' => 'texts',
+    'contentCategory' => 'SMARTGEAR',
     'standardFields' => array('cssID','headline'),
     'fields' => array
     (

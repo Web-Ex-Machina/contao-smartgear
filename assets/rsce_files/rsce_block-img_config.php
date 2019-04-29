@@ -7,8 +7,7 @@
 return array
 (
     'label' => array('Image ++', 'Générez un bloc Image disposant de davantage d\'options'),
-    'types' => array('content'),
-    'contentCategory' => 'texts',
+    'contentCategory' => 'SMARTGEAR',
     'standardFields' => array('cssID'),
     'fields' => array
     (

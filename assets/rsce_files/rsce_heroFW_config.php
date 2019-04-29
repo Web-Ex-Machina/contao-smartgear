@@ -3,8 +3,7 @@
 return array
 (
     'label' => array('Hero FW', 'Générez un élément stylisé composé d\'un texte sur une image')
-    ,'types' => array('content')
-    ,'contentCategory' => 'includes'
+    ,'contentCategory' => 'SMARTGEAR'
     ,'standardFields' => array('cssID')
     ,'fields' => array
     (

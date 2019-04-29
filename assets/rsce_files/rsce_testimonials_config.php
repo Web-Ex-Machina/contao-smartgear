@@ -3,8 +3,7 @@
 return array
 (
     'label' => array('Testimonials', 'Générez un slider affichant des témoignages/citations')
-    ,'types' => array('content')
-    ,'contentCategory' => 'includes'
+    ,'contentCategory' => 'SMARTGEAR'
     ,'standardFields' => array('cssID')
     ,'fields' => array
     (

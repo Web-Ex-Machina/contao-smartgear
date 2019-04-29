@@ -3,8 +3,7 @@
 return array
 (
     'label' => array('Onglets / Tabs', 'Générez un ensemble d\'onglets ouvrants')
-    ,'types' => array('content')
-    ,'contentCategory' => 'includes'
+    ,'contentCategory' => 'SMARTGEAR'
     ,'standardFields' => array('cssID')
     ,'fields' => array
     (

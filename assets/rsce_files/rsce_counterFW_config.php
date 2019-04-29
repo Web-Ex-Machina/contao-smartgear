@@ -3,8 +3,7 @@
 return array
 (
     'label' => array('Compteur', 'Générez un compteur animé')
-    ,'types' => array('content')
-    ,'contentCategory' => 'includes'
+    ,'contentCategory' => 'SMARTGEAR'
     ,'standardFields' => array('cssID')
     ,'fields' => array
     (

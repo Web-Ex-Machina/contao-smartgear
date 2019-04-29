@@ -2,8 +2,7 @@
 return array
 (
     'label' => array('Galerie responsive', 'Générez une galerie d\'images personnalisée utilisant une grille responsive'),
-    'types' => array('content'),
-    'contentCategory' => 'texts',
+    'contentCategory' => 'SMARTGEAR',
     'standardFields' => array('cssID'),
     'fields' => array
     (

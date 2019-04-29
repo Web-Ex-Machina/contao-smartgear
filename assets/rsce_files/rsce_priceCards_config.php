@@ -21,8 +21,7 @@ $arrColors = array (
 return array
 (
     'label' => array('Price cards', 'Générez une liste de price cards'),
-    'types' => array('content'),
-    'contentCategory' => 'texts',
+    'contentCategory' => 'SMARTGEAR',
     'standardFields' => array('cssID'),
     'fields' => array
     (

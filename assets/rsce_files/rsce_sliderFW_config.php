@@ -3,8 +3,7 @@
 return array
 (
     'label' => array('Slider FW', 'Générez un slider et configurez vos images')
-    ,'types' => array('content')
-    ,'contentCategory' => 'includes'
+    ,'contentCategory' => 'SMARTGEAR'
     ,'standardFields' => array('cssID')
     ,'fields' => array
     (

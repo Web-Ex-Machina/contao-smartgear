@@ -3,8 +3,7 @@
 return array
 (
     'label' => array('Folding Box', 'Générez un ensemble de panels ouvrants')
-    ,'types' => array('content')
-    ,'contentCategory' => 'includes'
+    ,'contentCategory' => 'SMARTGEAR'
     ,'standardFields' => array('cssID')
     ,'fields' => array
     (

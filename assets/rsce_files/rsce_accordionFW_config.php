@@ -3,8 +3,7 @@
 return array
 (
     'label' => array('Accordion FW', 'Générez un accordéon et configurez les éléments')
-    ,'types' => array('content')
-    ,'contentCategory' => 'includes'
+    ,'contentCategory' => 'SMARTGEAR'
     ,'standardFields' => array('cssID')
     ,'fields' => array
     (
