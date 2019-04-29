@@ -10,13 +10,13 @@ return array
         'headline' => array
         (
             'inputType' => 'standardField'
-            ,'eval' => array('tl_class' => 'w50')
+            ,'eval' => array('tl_class' => 'w100')
         ),
         'nbCols_default' => array
         (
             'label' => array('Nombre de colonnes', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'),
             'inputType' => 'text',
-            'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min'=>1, 'max'=>12, 'mandatory'=>true)
+            'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50', 'min'=>1, 'max'=>12, 'mandatory'=>true)
         ),
         'ratio' => array
         (
@@ -30,7 +30,7 @@ return array
                 'r_1-2'  => '1:2',
                 'r_16-9' => '16:9',
             ),
-            'eval' => array('tl_class'=>'w50 clr'),
+            'eval' => array('tl_class'=>'w50'),
         ),
         'responsive_legend' => array
         (
@@ -41,37 +41,37 @@ return array
         (
             'label' => array('Nombre de colonnes < 1400px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'),
             'inputType' => 'text',
-            'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min'=>1, 'max'=>12)
+            'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50', 'min'=>1, 'max'=>12)
         ),
         'nbCols_lg' => array
         (
             'label' => array('Nombre de colonnes < 1200px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'),
             'inputType' => 'text',
-            'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min'=>1, 'max'=>12)
+            'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50', 'min'=>1, 'max'=>12)
         ),
         'nbCols_md' => array
         (
             'label' => array('Nombre de colonnes < 992px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'),
             'inputType' => 'text',
-            'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min'=>1, 'max'=>12)
+            'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50', 'min'=>1, 'max'=>12)
         ),
         'nbCols_sm' => array
         (
             'label' => array('Nombre de colonnes < 768px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'),
             'inputType' => 'text',
-            'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min'=>1, 'max'=>12)
+            'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50', 'min'=>1, 'max'=>12)
         ),
         'nbCols_xs' => array
         (
             'label' => array('Nombre de colonnes < 620px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'),
             'inputType' => 'text',
-            'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min'=>1, 'max'=>12)
+            'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50', 'min'=>1, 'max'=>12)
         ),
         'nbCols_xxs' => array
         (
             'label' => array('Nombre de colonnes < 520px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'),
             'inputType' => 'text',
-            'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min'=>1, 'max'=>12)
+            'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50', 'min'=>1, 'max'=>12)
         ),
         'listItems' => array
         (
