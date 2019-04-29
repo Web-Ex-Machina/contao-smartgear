@@ -37,23 +37,7 @@ setTimeout(function() {
     extended_valid_elements: 'q[cite|class|title],article,section,hgroup,figure,figcaption',
     menubar: 'file edit insert view format table',
     toolbar: 'link unlink | image | formatselect | forecolor fontsizeselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | code',
-    textcolor_map: [
-      "d12227","red",
-      "2e3c60","blue",
-      "bb886c","orange",
-      "5cb85c","green",
-      "0a1d29","darkblue",
-      "edbe5f","gold",
-      "000000","black",
-      "111414","blacklight",
-      "222222","blacklighter",
-      "424041","greystronger",
-      "535052","greystrong",
-      "7A7778","grey",
-      "DDDDDD","greylight",
-      "EEEEEE","greylighter",
-      "ffffff","white",
-    ],
+    textcolor_map: <?= \WEM\SmartGear\Backend\Util::getSmartgearColors('tinymce') ?>,
     fontsize_formats: '- 8px 10px 12px 14px 16px 18px 20px 22px 24px 26px 28px 30px 32px 34px 36px'
   });
 }, 0);

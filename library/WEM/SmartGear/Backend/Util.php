@@ -29,6 +29,75 @@ class Util
     protected static $strConfigPath = "assets/smartgear/config.json";
 
     /**
+     * Get available colors in Smartgear
+     *
+     * @param String $strFor - 
+     * 
+     * @return Array - An Array of classes / color names
+     */
+    public static function getSmartgearColors($strFor = 'rsce')
+    {
+        try {
+            // Prepare the array of available colors
+            // @todo get everything from a JSON, built elsewhere
+            $arrColors = array(
+                "" => ["label" => "Par défaut", "hexa" => ""]
+                ,'blue'=> ["label" => "Bleu (#004C79)", "hexa" => "004C79"]
+                ,'darkblue'=> ["label" => "Bleu foncé (#0a1d29)", "hexa" => "0a1d29"]
+                ,'green'=> ["label" => "Vert (#5cb85c)", "hexa" => "5cb85c"]
+                ,'orange'=> ["label" => "Rouge (#DC6053)", "hexa" => "DC6053"]
+                ,'gold'=> ["label" => "Doré (#edbe5f)", "hexa" => "edbe5f"]
+                ,'black'=> ["label" => "Noir (#000000)", "hexa" => "000000"]
+                ,'blacklight'=> ["label" => "Noir 90% (#111414)", "hexa" => "111414"]
+                ,'blacklighter'=> ["label" => "Noir 80% (#222222)", "hexa" => "222222"]
+                ,'greystronger'=> ["label" => "Noir 70% (#424041)", "hexa" => "424041"]
+                ,'greystrong'=> ["label" => "Noir 60% (#535052)", "hexa" => "535052"]
+                ,'grey'=> ["label" => "Gris (#7A7778)", "hexa" => "7A7778"]
+                ,'greylight'=> ["label" => "Gris 50% (#DDDDDD)", "hexa" => "DDDDDD"]
+                ,'greylighter'=> ["label" => "Gris 25% (#EEEEEE)", "hexa" => "EEEEEE"]
+                ,'white'=> ["label" => "Blanc (#ffffff)", "hexa" => "ffffff"]
+                ,'none'=> ["label" => "Transparent", "hexa" => ""]
+            );
+
+            // Depending on who asks the array, we will need a specific format
+            $colors = [];
+            switch ($strFor) {
+                case 'tinymce':
+                    foreach ($arrColors as $k=>$c) {
+                        if ("" == $k) {
+                            continue;
+                        }
+
+                        $colors[] = $c["hexa"];
+                        $colors[] = $c["label"];
+                    }
+                    $colors = json_encode($colors);
+                    break;
+
+                case 'rsce-ft':
+                    foreach ($arrColors as $k=>$c) {
+                        if ("" == $k) {
+                            $colors[$k] = $c["label"];
+                        } else {
+                            $colors["ft-".$k] = $c["label"];
+                        }
+                    }
+                    break;
+                
+                case 'rsce':
+                default:
+                    foreach ($arrColors as $k=>$c) {
+                        $colors[$k] = $c["label"];
+                    }
+            }
+
+            return $colors;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
      * Find and Create an Object, depending on type and module
      * @param  [String] $strType   [Type / Folder]
      * @param  [String] $strModule [Class / File]

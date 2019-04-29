@@ -1,23 +1,4 @@
 <?php
-$arrColors = array (
-                ""=>"Par défaut"
-                ,'blue'=> "blue"
-                ,'green'=> "green"
-                ,'red'=> "red"
-                ,'darkblue'=> "darkblue"
-                ,'gold'=> "gold"
-                ,'black'=> "black"
-                ,'blacklight'=> "blacklight"
-                ,'blacklighter'=> "blacklighter"
-                ,'grey'=> "grey"
-                ,'greylight'=> "greylight"
-                ,'greylighter'=> "greylighter"
-                ,'greystrong'=> "greystrong"
-                ,'greystronger'=> "greystronger"
-                ,'white'=> "white"
-                ,'none'=> "transparent"
-            );
-
 return array
 (
     'label' => array('Price cards', 'Générez une liste de price cards'),
@@ -159,21 +140,21 @@ return array
                 (
                     'label' => array('Couleur du texte', 'Si souhaité, ajustez la couleur du contenu'),
                     'inputType' => 'select',
-                    'options' => $arrColors,
+                    'options' => \WEM\SmartGear\Backend\Util::getSmartgearColors(),
                     'eval' => array('tl_class'=>'w50'),
                 ),
                 'bg_color' => array
                 (
                     'label' => array('Couleur du fond', 'Si souhaité, ajustez la couleur de fond du bloc'),
                     'inputType' => 'select',
-                    'options' => $arrColors,
+                    'options' => \WEM\SmartGear\Backend\Util::getSmartgearColors(),
                     'eval' => array('tl_class'=>'w50'),
                 ),
                 'content_color' => array
                 (
                     'label' => array('Couleur du titre et du prix', 'Si souhaité, ajustez la couleur du titre et du prix'),
                     'inputType' => 'select',
-                    'options' => $arrColors,
+                    'options' => \WEM\SmartGear\Backend\Util::getSmartgearColors(),
                     'eval' => array('tl_class'=>'w50'),
                 ),
                 'isMain' => array
