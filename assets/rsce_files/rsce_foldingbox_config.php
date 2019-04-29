@@ -47,6 +47,17 @@ return array
                     ,'inputType' => 'fileTree'
                     ,'eval' => array('filesOnly'=>true, 'fieldType'=>'radio', 'extensions'=>Config::get('validImageTypes'))
                 )
+                ,'img_size' => array
+                (
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['size']
+                    ,'inputType' => 'imageSize'
+                    ,'reference' => &$GLOBALS['TL_LANG']['MSC']
+                    ,'eval'      => array('rgxp'=>'natural', 'includeBlankOption'=>true, 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50')
+                    ,'options_callback' => function ()
+                    {
+                        return System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance());
+                    }
+                )
                 ,'img_alt' => array
                 (
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['alt']
