@@ -31,7 +31,7 @@
         $arrItem['classes'] .= ' cols-span-'.$item->span_cols;
       if($item->span_rows)
         $arrItem['classes'] .= ' rows-span-'.$item->span_rows;
-      $arrItem['classes'] .= $item->ratio ? ' '.$item->ratio : ' '.$this->ratio;
+      $arrItem['classes'] .= $item->ratio ?:$this->ratio?:'';
 
       if ($item->href){
         $arrItem["url"]   = 1;
@@ -46,21 +46,23 @@
     }
   }
 ?>
-<div class="<?= $this->class ?>"<?= $this->cssID ?>>
+<div class="<?= $this->class ?>">
   <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
   <div class="d-grid cols-<?= $this->nbCols_default ?><?= $responsiveClasses ?>">
     <?php foreach($arrItems as $item): ?>
-      <figure class="<?= $item['classes']?>">
-        <?php if ($item['url']): ?>
-          <a href="<?= $item['href'] ?>" title="<?= $item['title'] ?>" <?= ($item['target']) ? 'target="_blank"':'' ?>>
-        <?php elseif($item['target']): ?>
-          <a href="<?= $item['href'] ?>" title="<?= $item['alt'] ?>" data-modal="modalGallery_<?= uniqid() ?>">
-        <?php endif ?>
+      <?php if ($item['url']): ?>
+        <a class="img-container <?= $item['classes']?>" href="<?= $item['href'] ?>" title="<?= $item['title'] ?>" <?= ($item['target']) ? 'target="_blank"':'' ?>>
+      <?php elseif($item['target']): ?>
+        <a class="img-container <?= $item['classes']?>" href="<?= $item['href'] ?>" title="<?= $item['alt'] ?>" data-modal="modalGallery_<?= uniqid() ?>">
+      <?php else: ?>
+        <figure class="img-container <?= $item['classes']?>">
+      <?php endif ?>
         <img src="<?= $item['src'] ?>" alt="<?= $item['alt'] ?>">
-        <?php if ($item['href'] || $item['target']): ?>
-          </a>
-        <?php endif ?>
-      </figure>
+      <?php if ($item['href'] || $item['target']): ?>
+        </a>
+      <?php else: ?>
+        </figure>
+      <?php endif ?>
     <?php endforeach; ?>
   </div>
 </div>
