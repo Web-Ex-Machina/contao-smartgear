@@ -30,7 +30,7 @@ class Locations extends Block implements BlockInterface
      * Module dependancies
      * @var Array
      */
-    protected $require = ["core_core", "core_rsce"];
+    protected $require = ["core_core"];
     
     /**
      * Constructor
@@ -76,11 +76,49 @@ class Locations extends Block implements BlockInterface
      */
     public function install()
     {
+        $mapConfig = [];
+        foreach (\WEM\Location\Controller\Provider\Leaflet::getDefaultConfig() as $strKey => $strValue) {
+            $mapConfig[] = ["key"=>$strKey, "value"=>$strValue];
+        }
+
         // Create the map
         $objMap = new \WEM\Location\Model\Map();
+        $objMap->createdAt = time();
         $objMap->tstamp = time();
         $objMap->title = "Emplacements";
+        $objMap->mapProvider = "leaflet";
+        $objMap->mapConfig = serialize($mapConfig);
         $objMap->save();
+
+        // Create a location category
+        $objCategory = new \WEM\Location\Model\Category();
+        $objCategory->createdAt = time();
+        $objCategory->tstamp = time();
+        $objCategory->pid = $objMap->id;
+        $objCategory->title = "Par défaut";
+        $objCategory->save();
+
+        // Create a location for example
+        $objLocation = new \WEM\Location\Model\Location();
+        $objLocation->createdAt = time();
+        $objLocation->tstamp = time();
+        $objLocation->pid = $objMap->id;
+        $objLocation->title = "Exemple";
+        $objLocation->alias = "exemple";
+        $objLocation->category = $objCategory->id;
+        $objLocation->published = 1;
+        $objLocation->lat = "45.7771258";
+        $objLocation->lng = "4.8691705";
+        $objLocation->street = "40 rue de Bruxelles";
+        $objLocation->postal = "69100";
+        $objLocation->city = "VILLEURBANNE";
+        $objLocation->region = "AUVERGNE RHÔNE-ALPES";
+        $objLocation->country = "fr";
+        $objLocation->teaser = "Emplacement Test";
+        $objLocation->phone = "0404040404";
+        $objLocation->email = "contact@webexmachina.fr";
+        $objLocation->website = "https://www.webexmachina.fr";
+        $objLocation->save();
 
         // Create the module
         $objModule = new \ModuleModel();
