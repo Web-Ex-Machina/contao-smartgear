@@ -1,5 +1,5 @@
 
-<div class="event layout_full block <?= $this->class ?>"<?= $this->cssID ?> itemscope itemtype="http://schema.org/Event">
+<div class="event layout_full block<?= $this->class ?>" itemscope itemtype="http://schema.org/Event">
   <div class="flex-wrap-justifycontent--spacebetween-alignitems--baseline">
     <h1 class="m-right m-bottom-0" itemprop="name"><?= $this->title ?></h1>
     <p class="info m-bottom-0 ft-grey ft-i">
@@ -18,19 +18,14 @@
     </p>
   <?php endif; ?>
 
+  <?php if ($this->addImage): ?>
+    <?php $this->insert('image', $this->arrData); ?>
+  <?php endif; ?>
   <?php if ($this->hasDetails): ?>
     <?= $this->details ?>
   <?php else: ?>
     <div class="ce_text block">
-      <?php if (!$this->addBefore): ?>
-        <?= $this->teaser ?>
-      <?php endif; ?>
-
-      <?php if ($this->addImage): ?>
-        <?php $this->insert('image', $this->arrData); ?>
-      <?php endif; ?>
-
-      <?php if ($this->addBefore): ?>
+      <?php if ($this->teaser): ?>
         <?= $this->teaser ?>
       <?php endif; ?>
     </div>
