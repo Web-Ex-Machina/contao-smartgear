@@ -20,13 +20,20 @@
             <?php endif; ?>
           </p>
         <?php endif; ?>
-        <?php if ($this->hasDetails): ?>
-          <?= $this->details ?>
-        <?php else: ?>
-          <div class="ce_text block" itemprop="description">
-            <?= $this->teaser ?>
-          </div>
-        <?php endif; ?>
+        <div class="<?= ($this->addImage)? 'd-grid cols-3 cols-md-1':'' ?>">
+          <?php if ($this->addImage): ?>
+            <div>
+              <figure class="img-container r_2-1 m-bottom-0">
+                <img src="<?= $this->picture['img']['src'] ?>" alt="<?= $this->headline ?>" itemprop="image">
+              </figure>
+            </div>
+          <?php endif; ?>
+          <?php if ($this->hasTeaser): ?>
+            <div class="ce_text block <?= ($this->addImage)? 'cols-span-2 cols-span-md-1':'' ?>" itemprop="description">
+              <?= $this->teaser ?>
+            </div>
+          <?php endif; ?>
+        </div>
       </div>
     </div>
     <div class="block-list__footer">
