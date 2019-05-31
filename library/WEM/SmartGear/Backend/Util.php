@@ -31,8 +31,8 @@ class Util
     /**
      * Get available colors in Smartgear
      *
-     * @param String $strFor - 
-     * 
+     * @param String $strFor -
+     *
      * @return Array - An Array of classes / color names
      */
     public static function getSmartgearColors($strFor = 'rsce')
@@ -63,7 +63,7 @@ class Util
             $colors = [];
             switch ($strFor) {
                 case 'tinymce':
-                    foreach ($arrColors as $k=>$c) {
+                    foreach ($arrColors as $k => $c) {
                         if ("" == $k) {
                             continue;
                         }
@@ -75,7 +75,7 @@ class Util
                     break;
 
                 case 'rsce-ft':
-                    foreach ($arrColors as $k=>$c) {
+                    foreach ($arrColors as $k => $c) {
                         if ("" == $k) {
                             $colors[$k] = $c["label"];
                         } else {
@@ -86,7 +86,7 @@ class Util
                 
                 case 'rsce':
                 default:
-                    foreach ($arrColors as $k=>$c) {
+                    foreach ($arrColors as $k => $c) {
                         $colors[$k] = $c["label"];
                     }
             }
