@@ -106,8 +106,10 @@ class Header extends \Module
             global $objPage;
             $this->Template->isRoot = true;
             
-            if ("/" !== $objPage->alias) {
-                $objHomePage = \PageModel::findByIdOrAlias("/");
+            // Check if the current page is the first page of the current root page
+            // It not : we need to retrieve the link to the home page
+            $objHomePage = \PageModel::findFirstPublishedRegularByPid($objPage->rootId);
+            if ($objHomePage->id !== $objPage->id) {
                 $this->Template->isRoot = false;
                 $this->Template->rootHref = \Controller::generateFrontendUrl($objHomePage->row());
             }
