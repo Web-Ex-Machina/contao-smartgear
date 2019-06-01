@@ -27,24 +27,28 @@ class Install extends \BackendModule
 
     /**
      * Template
+     *
      * @var string
      */
     protected $strTemplate = 'be_wem_sg_install';
 
     /**
      * Logs
+     *
      * @var array
      */
     protected $arrLogs = array();
 
     /**
      * Module basepath
+     *
      * @var string
      */
     protected $strBasePath = 'system/modules/wem-contao-smartgear';
 
     /**
      * Available modules
+     *
      * @var array
      */
     protected $modules = [
@@ -56,6 +60,8 @@ class Install extends \BackendModule
 
     /**
      * Generate the module
+     *
+     * @return void
      *
      * @throws Exception
      */
@@ -83,6 +89,41 @@ class Install extends \BackendModule
             return;
         }
 
+        // Load the updater
+        $objUpdater = new Updater();
+
+        // If we catch an update to run, call it,
+        // if return true, redirect to the Smartgear dashboard
+        if (\Input::get('sgUpdate')) {
+            if ($objUpdater->runUpdate(\Input::get('sgUpdate'))) {
+                $this->redirect(str_replace("&sgUpdate=".\Input::get('sgUpdate'), "", \Environment::get('request')));
+            }
+        }
+
+        // Fetch Smartgear updates
+        if (false === $objUpdater->update) {
+            \Message::addConfirmation(sprintf("Smartgear v%s trouvé, installé et à jour !", $objUpdater->getCurrentVersion()));
+        } else {
+            if ("" != $objUpdater->update) {
+                $link = sprintf(
+                    '&nbsp;<a class="tl_submit" href="%s" title="Jouer l\'update %s">Jouer l\'update %s</a>',
+                    $objUpdater->getUpdateLink($objUpdater->update),
+                    $objUpdater->update,
+                    $objUpdater->update
+                );
+            }
+
+            // @todo : Coder l'appel de la fonction trouvée, en AJAX ou pas.
+            \Message::addRaw(
+                sprintf(
+                    '<div class="tl_info"><p>Il y a une différence de versions entre le Smartgear installé (%s) et le package trouvé (%s).</p>%s</div>',
+                    $objUpdater->getCurrentVersion() ?: "NR",
+                    $objUpdater->getPackageVersion() ?: "NR",
+                    $link ?: ''
+                )
+            );
+        }
+
         // Back button
         $this->Template->backButtonHref = \Environment::get('request');
         $this->Template->backButtonTitle = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']);
@@ -105,6 +146,10 @@ class Install extends \BackendModule
 
     /**
      * Process AJAX actions
+     *
+     * @param [String] $strAction - Ajax action wanted
+     *
+     * @return String - Ajax response, as String or JSON
      */
     public function processAjaxRequest($strAction)
     {
