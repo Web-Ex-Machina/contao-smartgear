@@ -131,6 +131,30 @@ return array
                     ,'inputType' => 'text'
                     ,'eval' => array('tl_class'=>'w50')
                 )
+                ,'imagesize_horizontal' => array
+                (
+                    'label' => array('Alignement Horizontal', 'Si souhaité, ajustez la position horizontale de l\'image'),
+                    'inputType' => 'select',
+                    'options' => array
+                    (
+                        '' => 'Aucun',
+                        'left' => 'Gauche',
+                        'right' => 'Droite',
+                    ),
+                    'eval' => array('tl_class'=>'w50 clr'),
+                )
+                ,'imagesize_vertical' => array
+                (
+                    'label' => array('Alignement vertical', 'Si souhaité, ajustez la position verticale de l\'image'),
+                    'inputType' => 'select',
+                    'options' => array
+                    (
+                        '' => 'Aucun',
+                        'top' => 'Haut',
+                        'bottom' => 'Bas',
+                    ),
+                    'eval' => array('tl_class'=>'w50'),
+                )
 
                 // Content
                 ,'slide_content' => array
