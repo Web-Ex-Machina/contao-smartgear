@@ -45,6 +45,11 @@
         "src"=>$strFile
         ,"alt"=>$slide->slide_img_alt
       ];
+      $arrSlide['imgClasses'] = [];
+      if($slide->imagesize_horizontal)
+        $arrSlide['imgClasses'][] = 'img-container r_ img--'.$slide->imagesize_horizontal;
+      if($slide->imagesize_vertical)
+        $arrSlide['imgClasses'][] = 'img-container r_ img--'.$slide->imagesize_vertical;
 
       $arrSlide["content"] = '';
 
@@ -68,12 +73,12 @@
 ?>
 
 <div class="sliderFW <?= implode(' ', $arrClasses) ?> <?= $this->class ?>"<?= $this->cssID ?> data-height="<?= $intHeight ?>" data-loop="<?= $strLoop ?>" data-auto="<?= $strAuto ?>" data-swipe="<?= $strSwipe ?>" data-arrows="<?= $strArrows ?>" data-transition="<?= $this->slider_transition ?>">
-  <div class="sliderFW__container" <?= $intHeight ? 'style="height:'.$intHeight.';"' : '' ?>>
+  <div class="sliderFW__container" <?= ($intHeight!="viewport") ? 'style="height:'.$intHeight.';"' : 'style="height:80vh;"' ?>>
     <div class="sliderFW__rail">
     <?php if(!empty($arrSlides)): ?>
       <?php foreach($arrSlides as $slide): ?>
       <div class="sliderFW__item">
-        <div class="sliderFW__item__bg">
+        <div class="sliderFW__item__bg <?= implode(' ', $slide['imgClasses']) ?>">
           <img src="<?= $slide['src'] ?>" alt="<?= $slide['alt'] ?>">
         </div>
         <?php if($slide['content']): ?>
