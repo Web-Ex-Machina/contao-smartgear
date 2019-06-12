@@ -35,7 +35,7 @@
     $height = 'viewport';
 
 ?>
-<div class="heroFW <?= implode(' ', $arrClasses) ?> <?= $this->class ?>"<?= $this->cssID ?> data-height="<?= $height ?>" <?= $height ? 'style="height:'.$height.';"' : '' ?>>
+<div class="heroFW <?= implode(' ', $arrClasses) ?> <?= $this->class ?>"<?= $this->cssID ?> data-height="<?= $height ?>" <?= ($height!="viewport") ? 'style="height:'.$height.';"' : 'style="height:80vh;"' ?>>
   <div class="heroFW__wrapper">
     <div class="heroFW__figure">
       <img src="<?= $strFile ?>" alt="<?= $this->alt ?>">
