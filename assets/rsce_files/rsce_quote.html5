@@ -1,0 +1,36 @@
+<?php
+  // Get the file
+  $arrCrop = deserialize($this->size);
+  $objFile = FilesModel::findByUuid($this->singleSRC);
+  $strFile = \Image::get($objFile->path, $arrCrop[0], $arrCrop[1], $arrCrop[2]);
+
+  // Prepare the main block classes
+  $arrClasses = [];
+  if($this->imagesize_ratio)
+    $arrClasses[] = $this->imagesize_ratio;
+  if($this->imagesize_horizontal)
+    $arrClasses[] = 'img--'.$this->imagesize_horizontal;
+  if($this->imagesize_vertical)
+    $arrClasses[] = 'img--'.$this->imagesize_vertical;
+  if($this->bg_color)
+    $arrClasses[] = 'bg-'.$this->bg_color;
+
+?>
+<div class="<?= implode(' ', $arrClasses) ?> <?= $this->class ?> d-grid gap-0 cols-3 cols-sm-1 block-std p-0">
+  <?php if ($strFile && $this->image_pos == 'before'): ?>
+    <div class="img-container">
+      <img src="<?= $strFile ?>" alt="<?= $this->alt ?>">
+    </div>
+  <?php endif ?>
+  <div class="cols-span-<?= $strFile ? '2':'3' ?> cols-sm-1 p-all  flex-alignitems--center">
+    <div>
+      <div class="ft-i ft-inherit quote"><?= $this->text ?></div>
+      <div class="txt-right"><strong><?= $this->author ?></strong></div>
+    </div>
+  </div>
+  <?php if ($strFile && $this->image_pos == 'after'): ?>
+    <div class="img-container">
+      <img src="<?= $strFile ?>" alt="<?= $this->alt ?>">
+    </div>
+  <?php endif ?>
+</div>
