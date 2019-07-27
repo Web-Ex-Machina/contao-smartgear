@@ -38,19 +38,21 @@ class GetPageLayoutHook
      */
     public function generateApiToken()
     {
-        try {
-            if ("getToken" == \Input::get('action') && self::$strSecurityToken == \Input::get('security')) {
-                $container = \System::getContainer();
-                $token = $container->get('contao.csrf.token_manager')->getToken($container->getParameter('contao.csrf_token_name'))->getValue();
-                $arrResponse = ["status"=>"success", "token"=>$token];
-            } else {
-                throw new \Exception("Forbidden");
+        if ("" != \Input::get('action')) {
+            try {
+                if ("getToken" == \Input::get('action') && self::$strSecurityToken == \Input::get('security')) {
+                    $container = \System::getContainer();
+                    $token = $container->get('contao.csrf.token_manager')->getToken($container->getParameter('contao.csrf_token_name'))->getValue();
+                    $arrResponse = ["status"=>"success", "token"=>$token];
+                } else {
+                    throw new \Exception("Forbidden");
+                }
+            } catch (\Exception $e) {
+                $arrResponse = ["status"=>"error", "msg"=>$e->getMessage()];
             }
-        } catch (\Exception $e) {
-            $arrResponse = ["status"=>"error", "msg"=>$e->getMessage()];
+            
+            echo json_encode($arrResponse);
+            die;
         }
-        
-        echo json_encode($arrResponse);
-        die;
     }
 }
