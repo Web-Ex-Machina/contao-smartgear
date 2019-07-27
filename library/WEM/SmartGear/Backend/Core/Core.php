@@ -275,8 +275,8 @@ class Core extends Block implements BlockInterface
             }
 
             // Create smartgear medias folder
-            $objFolder = new \Folder("files/medias");
-            $objFolder->unprotect();
+            $objMediaFolder = new \Folder("files/medias");
+            $objMediaFolder->unprotect();
 
             // Import the logo into files/medias/logos folder
             if (\Input::post('websiteLogo')) {
@@ -388,6 +388,14 @@ class Core extends Block implements BlockInterface
             $objUserGroup = new \UserGroupModel();
             $objUserGroup->tstamp = time();
             $objUserGroup->name = "Administrateurs";
+            $objUserGroup->modules = 'a:8:{i:0;s:4:"page";i:1;s:7:"article";i:2;s:4:"form";i:3;s:5:"files";i:4;s:16:"nc_notifications";i:5;s:4:"user";i:6;s:3:"log";i:7;s:11:"maintenance";}';
+            $arrPageMounts = [];
+            $objUserGroup->pagemounts = '';
+            $objUserGroup->alpty = 'a:3:{i:0;s:7:"regular";i:1;s:7:"forward";i:2;s:8:"redirect";}';
+            $objUserGroup->filemounts = 'a:1:{i:0;s:16:"'.$objMediaFolder->getModel()->uuid.'";}';
+            $objUserGroup->fop = 'a:4:{i:0;s:2:"f1";i:1;s:2:"f2";i:2;s:2:"f3";i:3;s:2:"f4";}';
+            $objUserGroup->imageSizes = 'a:3:{i:0;s:12:"proportional";i:1;s:3:"box";i:2;s:4:"crop";}';
+            $objUserGroup->alexf = 'a:156:{i:0;s:17:"tl_article::title";i:1;s:17:"tl_article::alias";i:2;s:17:"tl_article::cssID";i:3;s:21:"tl_article::published";i:4;s:17:"tl_article::start";i:5;s:16:"tl_article::stop";i:6;s:16:"tl_content::type";i:7;s:20:"tl_content::headline";i:8;s:16:"tl_content::text";i:9;s:20:"tl_content::addImage";i:10;s:25:"tl_content::overwriteMeta";i:11;s:21:"tl_content::singleSRC";i:12;s:15:"tl_content::alt";i:13;s:22:"tl_content::imageTitle";i:14;s:16:"tl_content::size";i:15;s:23:"tl_content::imagemargin";i:16;s:20:"tl_content::imageUrl";i:17;s:20:"tl_content::fullsize";i:18;s:19:"tl_content::caption";i:19;s:20:"tl_content::floating";i:20;s:16:"tl_content::html";i:21;s:20:"tl_content::listtype";i:22;s:21:"tl_content::listitems";i:23;s:22:"tl_content::tableitems";i:24;s:19:"tl_content::summary";i:25;s:17:"tl_content::thead";i:26;s:17:"tl_content::tfoot";i:27;s:17:"tl_content::tleft";i:28;s:20:"tl_content::sortable";i:29;s:21:"tl_content::sortIndex";i:30;s:21:"tl_content::sortOrder";i:31;s:23:"tl_content::mooHeadline";i:32;s:20:"tl_content::mooStyle";i:33;s:22:"tl_content::mooClasses";i:34;s:21:"tl_content::highlight";i:35;s:16:"tl_content::code";i:36;s:15:"tl_content::url";i:37;s:18:"tl_content::target";i:38;s:25:"tl_content::overwriteLink";i:39;s:21:"tl_content::titleText";i:40;s:21:"tl_content::linkTitle";i:41;s:17:"tl_content::embed";i:42;s:15:"tl_content::rel";i:43;s:20:"tl_content::useImage";i:44;s:20:"tl_content::multiSRC";i:45;s:22:"tl_content::useHomeDir";i:46;s:18:"tl_content::perRow";i:47;s:19:"tl_content::perPage";i:48;s:25:"tl_content::numberOfItems";i:49;s:18:"tl_content::sortBy";i:50;s:22:"tl_content::metaIgnore";i:51;s:22:"tl_content::galleryTpl";i:52;s:21:"tl_content::customTpl";i:53;s:21:"tl_content::playerSRC";i:54;s:19:"tl_content::youtube";i:55;s:17:"tl_content::vimeo";i:56;s:21:"tl_content::posterSRC";i:57;s:22:"tl_content::playerSize";i:58;s:25:"tl_content::playerOptions";i:59;s:23:"tl_content::playerStart";i:60;s:22:"tl_content::playerStop";i:61;s:25:"tl_content::playerCaption";i:62;s:24:"tl_content::playerAspect";i:63;s:25:"tl_content::playerPreload";i:64;s:23:"tl_content::playerColor";i:65;s:26:"tl_content::youtubeOptions";i:66;s:24:"tl_content::vimeoOptions";i:67;s:23:"tl_content::sliderDelay";i:68;s:23:"tl_content::sliderSpeed";i:69;s:28:"tl_content::sliderStartSlide";i:70;s:28:"tl_content::sliderContinuous";i:71;s:20:"tl_content::cteAlias";i:72;s:24:"tl_content::articleAlias";i:73;s:19:"tl_content::article";i:74;s:16:"tl_content::form";i:75;s:18:"tl_content::module";i:76;s:21:"tl_content::protected";i:77;s:18:"tl_content::groups";i:78;s:18:"tl_content::guests";i:79;s:17:"tl_content::cssID";i:80;s:21:"tl_content::invisible";i:81;s:17:"tl_content::start";i:82;s:16:"tl_content::stop";i:83;s:21:"tl_content::rsce_data";i:84;s:23:"tl_content::grid_preset";i:85;s:26:"tl_content::grid_row_class";i:86;s:21:"tl_content::grid_rows";i:87;s:21:"tl_content::grid_cols";i:88;s:22:"tl_content::grid_items";i:89;s:24:"tl_nc_language::language";i:90;s:24:"tl_nc_language::fallback";i:91;s:26:"tl_nc_language::recipients";i:92;s:33:"tl_nc_language::attachment_tokens";i:93;s:27:"tl_nc_language::attachments";i:94;s:36:"tl_nc_language::attachment_templates";i:95;s:33:"tl_nc_language::email_sender_name";i:96;s:36:"tl_nc_language::email_sender_address";i:97;s:34:"tl_nc_language::email_recipient_cc";i:98;s:35:"tl_nc_language::email_recipient_bcc";i:99;s:29:"tl_nc_language::email_replyTo";i:100;s:29:"tl_nc_language::email_subject";i:101;s:26:"tl_nc_language::email_mode";i:102;s:26:"tl_nc_language::email_text";i:103;s:26:"tl_nc_language::email_html";i:104;s:37:"tl_nc_language::email_external_images";i:105;s:25:"tl_nc_language::file_name";i:106;s:33:"tl_nc_language::file_storage_mode";i:107;s:28:"tl_nc_language::file_content";i:108;s:14:"tl_page::title";i:109;s:14:"tl_page::alias";i:110;s:13:"tl_page::type";i:111;s:18:"tl_page::pageTitle";i:112;s:17:"tl_page::language";i:113;s:15:"tl_page::robots";i:114;s:20:"tl_page::description";i:115;s:17:"tl_page::redirect";i:116;s:15:"tl_page::jumpTo";i:117;s:21:"tl_page::redirectBack";i:118;s:12:"tl_page::url";i:119;s:15:"tl_page::target";i:120;s:17:"tl_page::noSearch";i:121;s:16:"tl_page::sitemap";i:122;s:13:"tl_page::hide";i:123;s:18:"tl_page::published";i:124;s:14:"tl_page::start";i:125;s:13:"tl_page::stop";i:126;s:17:"tl_user::username";i:127;s:13:"tl_user::name";i:128;s:14:"tl_user::email";i:129;s:17:"tl_user::language";i:130;s:21:"tl_user::backendTheme";i:131;s:19:"tl_user::fullscreen";i:132;s:17:"tl_user::uploader";i:133;s:17:"tl_user::showHelp";i:134;s:19:"tl_user::thumbnails";i:135;s:15:"tl_user::useRTE";i:136;s:14:"tl_user::useCE";i:137;s:17:"tl_user::password";i:138;s:17:"tl_user::pwChange";i:139;s:14:"tl_user::admin";i:140;s:15:"tl_user::groups";i:141;s:16:"tl_user::inherit";i:142;s:16:"tl_user::modules";i:143;s:15:"tl_user::themes";i:144;s:19:"tl_user::pagemounts";i:145;s:14:"tl_user::alpty";i:146;s:19:"tl_user::filemounts";i:147;s:12:"tl_user::fop";i:148;s:19:"tl_user::imageSizes";i:149;s:14:"tl_user::forms";i:150;s:14:"tl_user::formp";i:151;s:12:"tl_user::amg";i:152;s:16:"tl_user::disable";i:153;s:14:"tl_user::start";i:154;s:13:"tl_user::stop";i:155;s:16:"tl_user::session";}';
             $objUserGroup->save();
             $this->sgConfig["sgInstallUserGroup"] = $objUserGroup->id;
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le groupe d'utilisateurs %s a été créé", $objUserGroup->name)];
@@ -477,6 +485,7 @@ class Core extends Block implements BlockInterface
                 ,"cgroup"=>$objUserGroup->id
                 ,"chmod"=>'a:12:{i:0;s:2:"u1";i:1;s:2:"u2";i:2;s:2:"u3";i:3;s:2:"u4";i:4;s:2:"u5";i:5;s:2:"u6";i:6;s:2:"g1";i:7;s:2:"g2";i:8;s:2:"g3";i:9;s:2:"g4";i:10;s:2:"g5";i:11;s:2:"g6";}'
             ]);
+            $arrPageMounts[] = $objRootPage->id;
             $this->sgConfig["sgInstallRootPage"] = $objRootPage->id;
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le site Internet %s a été créé", $objRootPage->title)];
 
@@ -491,6 +500,7 @@ class Core extends Block implements BlockInterface
 
             // Create a homepage
             $objHomePage = Util::createPage("Accueil", $objRootPage->id, ["alias"=>"/"]);
+            $arrPageMounts[] = $objHomePage->id;
             $objArticle = Util::createArticle($objHomePage);
 
             // Create a 404 page, with a sitemap after
@@ -526,6 +536,7 @@ class Core extends Block implements BlockInterface
 
             // Create a Legal Notices Page
             $objPage = Util::createPage("Mentions légales", $objRootPage->id, ["hide"=>1]);
+            $arrPageMounts[] = $objPage->id;
             $objArticle = Util::createArticle($objPage);
             $objContent = Util::createContent($objArticle, [
                 "headline"=>serialize(["unit"=>"h1", "value"=>"Mentions légales"])
@@ -534,6 +545,7 @@ class Core extends Block implements BlockInterface
 
             // Create a Privacy Page
             $objPage = Util::createPage("Confidentialité", $objRootPage->id, ["hide"=>1]);
+            $arrPageMounts[] = $objPage->id;
             $objArticle = Util::createArticle($objPage);
             $objContent = Util::createContent($objArticle, [
                 "headline"=>serialize(["unit"=>"h1", "value"=>"Confidentialité"])
@@ -542,7 +554,12 @@ class Core extends Block implements BlockInterface
 
             // Create a Guidelines Page
             $objPage = Util::createPage("Guidelines", $objRootPage->id, ["hide"=>1]);
+            $arrPageMounts[] = $objPage->id;
             $objArticle = Util::createArticle($objPage, ["cssID"=>serialize([0=>"guideline"])]);
+
+            // Add the generated pages to the user group
+            $objUserGroup->pagemounts = serialize($arrPageMounts);
+            $objUserGroup->save();
 
             // Create a robots.txt file with a Disallow
             /*if (!file_exists(TL_ROOT."/web/robots.txt")) {
