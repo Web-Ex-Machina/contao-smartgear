@@ -321,7 +321,16 @@ class Core extends Block implements BlockInterface
             $objModule->save();
             $arrLayoutModules[] = ["mod"=>$objModule->id, "col"=>"header", "enable"=>"1"];
             $arrModules[] = $objModule->id;
-            $this->sgConfig["sgInstallModules"] = serialize($arrModules);
+            
+            // Breadcrumb
+            $objModule = new \ModuleModel();
+            $objModule->pid = $objTheme->id;
+            $objModule->tstamp = time();
+            $objModule->type = "breadcrumb";
+            $objModule->name = "Fil d'ariane";
+            $objModule->save();
+            $arrLayoutModules[] = ["mod"=>$objModule->id, "col"=>"main", "enable"=>"1"];
+            $arrModules[] = $objModule->id;
 
             // Main - Articles
             $arrLayoutModules[] = ["mod"=>0, "col"=>"main", "enable"=>"1"];
@@ -336,8 +345,9 @@ class Core extends Block implements BlockInterface
             $objModule->save();
             $arrLayoutModules[] = ["mod"=>$objModule->id, "col"=>"footer", "enable"=>"1"];
             $arrModules[] = $objModule->id;
-            $this->sgConfig["sgInstallModules"] = serialize($arrModules);
 
+            // Store & log module creation
+            $this->sgConfig["sgInstallModules"] = serialize($arrModules);
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Les modules principaux ont été créés", $objTheme->name)];
 
             // Create the Smartgear main layout
