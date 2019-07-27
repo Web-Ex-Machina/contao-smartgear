@@ -460,27 +460,6 @@ class Core extends Block implements BlockInterface
                 $objUser->save();
             }
 
-            if (0 === \UserModel::countBy('email', 'benedict@webexmachina.fr')) {
-                $objUser = new \UserModel();
-                $objUser->tstamp = time();
-                $objUser->dateAdded = time();
-                $objUser->username = "bbianchini";
-                $objUser->name = "Benedict - Web ex Machina";
-                $objUser->email = "benedict@webexmachina.fr";
-                $objUser->language = "fr";
-                $objUser->backendTheme = "flexible";
-                $objUser->fullscreen = 1;
-                $objUser->showHelp = 1;
-                $objUser->thumbnails = 1;
-                $objUser->useRTE = 1;
-                $objUser->useCE = 1;
-                $objUser->admin = 1;
-                $objUser->uploader = "DropZone";
-                $objUser->password = \Encryption::hash("webexmachina");
-                $objUser->pwChange = 1;
-                $objUser->save();
-            }
-
             // Generate a root page with the stuff previously created
             $websiteTitleAlias = \StringUtil::generateAlias($this->sgConfig['websiteTitle']);
             $objRootPage = Util::createPage($this->sgConfig['websiteTitle'], 0, [
