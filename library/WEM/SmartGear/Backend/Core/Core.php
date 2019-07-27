@@ -262,6 +262,7 @@ class Core extends Block implements BlockInterface
             // Import the folders
             $objFiles = \Files::getInstance();
             $objFiles->rcopy("system/modules/wem-contao-smartgear/assets/templates_files", "templates");
+            $objFiles->rcopy("system/modules/wem-contao-smartgear/assets/templates_app", "app");
 
             // Copy package themes into framway folder
             $objFolder = new \Folder($strFramwayPathThemes);
