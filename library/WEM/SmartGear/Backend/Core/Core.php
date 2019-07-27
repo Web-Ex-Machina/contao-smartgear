@@ -729,6 +729,7 @@ class Core extends Block implements BlockInterface
 
             $objFiles = \Files::getInstance();
             $objFiles->rrdir("templates", true);
+            $objFiles->rrdir("app/Resources");
 
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>"Contao a été réinitialisé"];
 
