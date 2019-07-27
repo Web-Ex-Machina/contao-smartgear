@@ -213,6 +213,20 @@ class Forms extends Block implements BlockInterface
         $objField->slabel = "Envoyer";
         $objField->save();
 
+        $objField = new \FormFieldModel();
+        $objField->tstamp = time();
+        $objField->pid = $objForm->id;
+        $objField->sorting = 896;
+        $objField->type = "explanation";
+        $objField->text = sprintf(
+            "<p><u>Informations légales</u></p>
+            <p>Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par %s afin d’optimiser le traitement des demandes clients. Elles sont conservées pendant une durée d’un an et effacées par la suite. Conformément au Règlement (UE) 2016/679 du Parlement européen et du Conseil du 27 avril 2016 [en application depuis mai 2018], vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en contactant %s au travers de ce même formulaire.</p>
+            ",
+            \Config::get('websiteTitle'),
+            \Config::get('websiteTitle')
+        );
+        $objField->save();
+
         // Create the content
         $objContent = new \ContentModel();
         $objContent->tstamp = time();
