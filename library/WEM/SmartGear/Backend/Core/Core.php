@@ -411,6 +411,7 @@ class Core extends Block implements BlockInterface
                 $objUser->password = \Encryption::hash("webmaster");
                 $objUser->pwChange = 1;
                 $objUser->groups = serialize([0=>$objUserGroup->id]);
+                $objUser->inherit = "group";
                 $objUser->save();
                 $this->sgConfig["sgInstallUser"] = $objUser->id;
                 $this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("L'utilisateur %s a été créé", $objUser->name)];
