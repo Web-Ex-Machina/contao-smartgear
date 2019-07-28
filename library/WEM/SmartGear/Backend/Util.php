@@ -13,6 +13,8 @@
 
 namespace WEM\SmartGear\Backend;
 
+use Contao\CoreBundle\Monolog\ContaoContext;
+use Psr\Log\LogLevel;
 use Exception;
 
 /**
@@ -63,6 +65,7 @@ class Util
      * @return [Array] [Framway colors]
      *
      * @todo Find a way to add friendly names to the colors retrieved
+     * @todo Maybe store these colors into a file to avoid load/format a shitload of stuff ?
      */
     public static function getFramwayColors($strFWTheme = "")
     {
@@ -112,11 +115,17 @@ class Util
     public static function getSmartgearColors($strFor = 'rsce', $strFWTheme = "")
     {
         try {
-            // Extract colors from installed Framway
-            $arrColors = self::getFramwayColors($strFWTheme);
-
-            // If colors array is empty, load default colors
-            if (!is_array($arrColors) || empty($arrColors)) {
+            try {
+                // Extract colors from installed Framway
+                $arrColors = self::getFramwayColors($strFWTheme);
+            } catch (\Exception $e) {
+                \System::getContainer()
+                    ->get('monolog.logger.contao')
+                    ->log(
+                        LogLevel::ERROR,
+                        "Error when trying to get Framway Colors : ".$e->getMessage(),
+                        array('contao' => new ContaoContext(__METHOD__, "SMARTGEAR"))
+                    );
                 $arrColors = self::getDefaultColors();
             }
 
