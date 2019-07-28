@@ -83,6 +83,7 @@ class Core extends Block implements BlockInterface
     {
         \Input::setPost("websiteTitle", $this->sgConfig["websiteTitle"]);
         \Input::setPost("framwayPath", $this->sgConfig["framwayPath"]);
+        \Input::setPost("framwayTheme", $this->sgConfig["framwayTheme"]);
         parent::reset();
     }
 
@@ -290,6 +291,7 @@ class Core extends Block implements BlockInterface
             // Set up some config vars
             $this->sgConfig["websiteTitle"] = \Input::post('websiteTitle');
             $this->sgConfig["framwayPath"] = $strFramwayPath;
+            $this->sgConfig["framwayTheme"] = \Input::post('framwayTheme');
             $this->sgConfig["websiteLogo"] = $objLogoModel->path;
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>"Configuration importée"];
 

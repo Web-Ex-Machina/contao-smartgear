@@ -44,6 +44,12 @@
 			<br>
 		</div>
 		<div class="widget">
+			<h3><label for="ctrl_framwayTheme">Thème du Framway</label></h3>
+			<input name="framwayTheme" id="ctrl_framwayTheme" class="tl_text" value="smartgear" required="" onfocus="Backend.getScrollOffset()" type="text">
+			<p class="tl_help tl_tip" title="">Saisir le thème utilisé dans le Framway</p>
+			<br>
+		</div>
+		<div class="widget">
 			<h3><label for="ctrl_framwayLogo">Logo</label></h3>
 			<input id="ctrl_websiteLogo" class="tl_input skip" value="" onfocus="Backend.getScrollOffset()" type="file">
 			<p class="tl_help tl_tip" title="">Choisissez le logo.</p>
