@@ -74,7 +74,7 @@
               <?php if ($slide['author_classes']): ?>
                 <span class="<?= $slide['author_classes'] ?>">
               <?php endif ?>
-                -&nbsp;<?= $slide['author'] ?>&nbsp;-
+                <?= $slide['author'] ?>
               <?php if ($slide['author_classes']): ?>
                 </span>
               <?php endif ?>
