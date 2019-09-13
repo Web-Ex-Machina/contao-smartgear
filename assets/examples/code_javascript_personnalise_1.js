@@ -7,12 +7,13 @@
 <script>
 // Plain Javascript
 //event listener: DOM ready
-function addLoadEvent(func) {
+function addLoadEvent(func)
+{
     var oldonload = window.onload;
     if (typeof window.onload != 'function') {
         window.onload = func;
     } else {
-        window.onload = function() {
+        window.onload = function () {
             if (oldonload) {
                 oldonload();
             }
@@ -21,7 +22,7 @@ function addLoadEvent(func) {
     }
 }
 //call plugin function after DOM ready
-addLoadEvent(function(){
+addLoadEvent(function () {
     outdatedBrowser({
         bgColor: '#f25648',
         color: '#ffffff',
@@ -34,6 +35,7 @@ addLoadEvent(function(){
 
 <script type="text/javascript">
 tarteaucitron.user.gtagUa = 'UA-XXXXXXXXX-X';
-tarteaucitron.user.gtagMore = function () { /* add here your optionnal gtag() */ };
+tarteaucitron.user.gtagMore = function () {
+ /* add here your optionnal gtag() */ };
 (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
 </script>

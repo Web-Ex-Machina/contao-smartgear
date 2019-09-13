@@ -113,7 +113,7 @@ class Rsce extends Block implements BlockInterface
     public function remove()
     {
         try {
-            if(file_exists(TL_ROOT."templates/rsce")) {
+            if (file_exists(TL_ROOT."templates/rsce")) {
                 $this->objFiles->rrdir("templates/rsce");
             }
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les templates RSCE ont été supprimés."];
@@ -157,12 +157,12 @@ class Rsce extends Block implements BlockInterface
 
             // Then, loop on the files contents and check if there is a diff between them
             $blnUpdate = false;
-            foreach($arrSrcFolder as $rsce){
-                if($rsce == "." || $rsce == ".."){
+            foreach ($arrSrcFolder as $rsce) {
+                if ($rsce == "." || $rsce == "..") {
                     continue;
                 }
 
-                if(md5_file(TL_ROOT."/system/modules/wem-contao-smartgear/assets/rsce_files/".$rsce) !== md5_file(TL_ROOT."/templates/rsce/".$rsce)){
+                if (md5_file(TL_ROOT."/system/modules/wem-contao-smartgear/assets/rsce_files/".$rsce) !== md5_file(TL_ROOT."/templates/rsce/".$rsce)) {
                     $this->messages[] = ['class' => 'tl_new', 'text' => 'Fichier à mettre à jour : '.$rsce];
                     $blnUpdate = true;
                 }

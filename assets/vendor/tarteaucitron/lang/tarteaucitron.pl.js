@@ -74,3 +74,4 @@ tarteaucitron.lang = {
     }
 
 };
+

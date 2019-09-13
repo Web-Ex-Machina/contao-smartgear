@@ -127,7 +127,7 @@ tarteaucitron.services.aduptech_ads = {
 
         tarteaucitron.fallback([IDENTIFIER], "");
 
-        tarteaucitron.addScript(API_URL, "", function() {
+        tarteaucitron.addScript(API_URL, "", function () {
             for (var i = 0; i < elements.length; i++) {
                 var element = elements[i];
 
@@ -177,15 +177,15 @@ tarteaucitron.services.aduptech_conversion = {
         tarteaucitron.fallback([IDENTIFIER], "");
 
         for (var i = 0; i < elements.length; i++) {
-            var element = elements[i];  
+            var element = elements[i];
                 
             if (!element.getAttribute("advertiserId") || !element.getAttribute("conversionCode")) {
                 continue;
             }
             
-            var url = CONVERSION_PIXEL_BASE_URL + 
-                "/" + encodeURIComponent(element.getAttribute("advertiserId")) + 
-                "?t=" + encodeURIComponent(element.getAttribute("conversionCode"));   
+            var url = CONVERSION_PIXEL_BASE_URL +
+                "/" + encodeURIComponent(element.getAttribute("advertiserId")) +
+                "?t=" + encodeURIComponent(element.getAttribute("conversionCode"));
             
             if (element.getAttribute("price")) {
                 url += "&price=" + encodeURIComponent(element.getAttribute("price"));
@@ -211,7 +211,7 @@ tarteaucitron.services.aduptech_conversion = {
                 url += "&description=" + encodeURIComponent(element.getAttribute("description"));
             }
 
-            (new Image()).src = url;            
+            (new Image()).src = url;
         }
     }
 };
@@ -237,7 +237,7 @@ tarteaucitron.services.aduptech_retargeting = {
 
         tarteaucitron.fallback([IDENTIFIER], "");
 
-        window.AdUpRetargeting = function(api) {
+        window.AdUpRetargeting = function (api) {
             for (var i = 0; i < elements.length; i++) {
                 var element = elements[i];
 
@@ -1022,7 +1022,7 @@ tarteaucitron.services.gajs = {
         window._gaq.push(['_setAccount', tarteaucitron.user.gajsUa]);
 
         if (tarteaucitron.user.gajsAnonymizeIp) {
-            window._gaq.push (['_gat._anonymizeIp']);
+            window._gaq.push(['_gat._anonymizeIp']);
         }
 
         if (tarteaucitron.user.gajsPageView) {
@@ -1094,19 +1094,21 @@ tarteaucitron.services.gtag = {
         gatGtagUaCookie = gatGtagUaCookie.replace(/-/g, '_');
         return ['_ga', '_gat', '_gid', '__utma', '__utmb', '__utmc', '__utmt', '__utmz', gatGtagUaCookie];
     })(),
-    "js": function () {
-        "use strict";
-        window.dataLayer = window.dataLayer || [];
-        tarteaucitron.addScript('https://www.googletagmanager.com/gtag/js?id=' + tarteaucitron.user.gtagUa, '', function () {
-            window.gtag = function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', tarteaucitron.user.gtagUa);
+"js": function () {
+    "use strict";
+    window.dataLayer = window.dataLayer || [];
+    tarteaucitron.addScript('https://www.googletagmanager.com/gtag/js?id=' + tarteaucitron.user.gtagUa, '', function () {
+        window.gtag = function gtag()
+        {
+            dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', tarteaucitron.user.gtagUa);
 
-            if (typeof tarteaucitron.user.gtagMore === 'function') {
-                tarteaucitron.user.gtagMore();
-            }
-        });
-    }
+        if (typeof tarteaucitron.user.gtagMore === 'function') {
+            tarteaucitron.user.gtagMore();
+        }
+    });
+}
 };
 
 // google maps
@@ -1350,11 +1352,11 @@ tarteaucitron.services.mautic = {
         }
 
         window['MauticTrackingObject'] = 'mt';
-        window['mt'] = window['mt'] || function() {
+        window['mt'] = window['mt'] || function () {
             (window['mt'].q = window['mt'].q || []).push(arguments);
         };
 
-        tarteaucitron.addScript(tarteaucitron.user.mauticurl, '', function() {
+        tarteaucitron.addScript(tarteaucitron.user.mauticurl, '', function () {
             mt('send', 'pageview');
         });
     }
@@ -1520,7 +1522,8 @@ tarteaucitron.services.purechat = {
         tarteaucitron.addScript('//app.purechat.com/VisitorWidget/WidgetScript', '', function () {
             try {
                 window.w = new PCWidget({ c: tarteaucitron.user.purechatId, f: true });
-            } catch (e) {}
+            } catch (e) {
+            }
         });
     }
 };
@@ -1543,7 +1546,8 @@ tarteaucitron.services.shareaholic = {
         tarteaucitron.addScript('//dsms0mj1bbhn4.cloudfront.net/assets/pub/shareaholic.js', '', function () {
             try {
                 Shareaholic.init(tarteaucitron.user.shareaholicSiteId);
-            } catch (e) {}
+            } catch (e) {
+            }
         });
     },
     "fallback": function () {
@@ -1758,7 +1762,8 @@ tarteaucitron.services.typekit = {
         tarteaucitron.addScript('//use.typekit.net/' + tarteaucitron.user.typekitId + '.js', '', function () {
             try {
                 Typekit.load();
-            } catch (e) {}
+            } catch (e) {
+            }
         });
     }
 };
@@ -2059,7 +2064,7 @@ tarteaucitron.services.atinternet = {
             return;
         }
 
-        tarteaucitron.addScript(tarteaucitron.user.atLibUrl, '', function() {
+        tarteaucitron.addScript(tarteaucitron.user.atLibUrl, '', function () {
             if (typeof tarteaucitron.user.atMore === 'function') {
                 tarteaucitron.user.atMore();
             }
@@ -2212,9 +2217,14 @@ tarteaucitron.services.facebookpixel = {
     "js": function () {
         "use strict";
         var n;
-        if(window.fbq)return;
-        n=window.fbq=function(){n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)} ;
-        if(!window._fbq)window._fbq=n;
+        if (window.fbq) {
+            return;
+        }
+        n=window.fbq=function () {
+            n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)} ;
+        if (!window._fbq) {
+            window._fbq=n;
+        }
         n.push=n;
         n.loaded=!0;
         n.version='2.0';
@@ -2289,11 +2299,11 @@ tarteaucitron.services.webmecanik = {
             return;
         }
         window['WebmecanikTrackingObject'] = 'mt';
-        window['mt'] = window['mt'] || function() {
+        window['mt'] = window['mt'] || function () {
             (window['mt'].q = window['mt'].q || []).push(arguments);
         };
 
-        tarteaucitron.addScript(tarteaucitron.user.webmecanikurl, '', function() {
+        tarteaucitron.addScript(tarteaucitron.user.webmecanikurl, '', function () {
             mt('send', 'pageview');
         });
     }
@@ -2311,26 +2321,28 @@ tarteaucitron.services.multiplegtag = {
         var cookies = ['_ga', '_gat', '_gid', '__utma', '__utmb', '__utmc', '__utmt', '__utmz'];
 
         if (tarteaucitron.user.multiplegtagUa !== undefined) {
-            tarteaucitron.user.multiplegtagUa.forEach(function(ua) {
+            tarteaucitron.user.multiplegtagUa.forEach(function (ua) {
                 cookies.push('_gat_gtag_' + ua.replace(/-/g, '_'));
             });
         }
 
         return cookies;
     })(),
-    "js": function () {
-        "use strict";
-        window.dataLayer = window.dataLayer || [];
+"js": function () {
+    "use strict";
+    window.dataLayer = window.dataLayer || [];
 
-        tarteaucitron.user.multiplegtagUa.forEach(function(ua) {
+    tarteaucitron.user.multiplegtagUa.forEach(function (ua) {
 
-            tarteaucitron.addScript('https://www.googletagmanager.com/gtag/js?id=' + ua, '', function () {
-                window.gtag = function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', ua);
-            });
+        tarteaucitron.addScript('https://www.googletagmanager.com/gtag/js?id=' + ua, '', function () {
+            window.gtag = function gtag()
+            {
+                dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', ua);
         });
-    }
+    });
+}
 };
 
 // Koban
@@ -2350,13 +2362,13 @@ tarteaucitron.services.koban = {
             return;
         }
         window.KobanObject = 'kb';
-        window.kb = window.kb || function() {
+        window.kb = window.kb || function () {
             window.kb.q = window.kb.q || [];
             window.kb.q.push(arguments);
         };
         window.kb.l = new Date();
         kb('reg', tarteaucitron.user.kobanapi);
-        tarteaucitron.addScript(tarteaucitron.user.kobanurl, '', function() {
+        tarteaucitron.addScript(tarteaucitron.user.kobanurl, '', function () {
         });
     }
 };
@@ -2396,9 +2408,10 @@ tarteaucitron.services.matomo = {
         window._paq.push(["trackPageView"]);
         window._paq.push(["setIgnoreClasses", ["no-tracking", "colorbox"]]);
         window._paq.push(["enableLinkTracking"]);
-        window._paq.push([function() {
+        window._paq.push([function () {
             var self = this;
-            function getOriginalVisitorCookieTimeout() {
+            function getOriginalVisitorCookieTimeout()
+            {
                 var now = new Date(),
                 nowTs = Math.round(now.getTime() / 1000),
                 visitorInfo = self.getVisitorInfo();
@@ -2407,7 +2420,7 @@ tarteaucitron.services.matomo = {
                 var originalTimeout = createTs + cookieTimeout - nowTs;
                 return originalTimeout;
             }
-            this.setVisitorCookieTimeout( getOriginalVisitorCookieTimeout() );
+            this.setVisitorCookieTimeout(getOriginalVisitorCookieTimeout());
         }]);
 
         tarteaucitron.addScript(tarteaucitron.user.matomoHost + 'piwik.js', '', '', true, 'defer', true);
@@ -2436,9 +2449,9 @@ tarteaucitron.services.hotjar = {
         if (tarteaucitron.user.hotjarId === undefined || tarteaucitron.user.HotjarSv === undefined) {
             return;
         }
-         window.hj = window.hj || function() {
+         window.hj = window.hj || function () {
             (window.hj.q = window.hj.q || []).push(arguments)
-        };
+         };
         window._hjSettings = {
             hjid: tarteaucitron.user.hotjarId,
             hjsv: tarteaucitron.user.HotjarSv
@@ -2488,53 +2501,53 @@ DELETE IFRAME
     <iframe type="text/html" width="100%" height="550" src="https://my.matterport.com/show/?m=N2Q67sZUNUd&utm_source=hit-content&play=1" frameborder="0" allowfullscreen="allowfullscreen"></iframe>'
  */
 tarteaucitron.services.matterport = {
-  "key": "matterport",
-  "type": "other",
-  "name": "Matterport",
-  "uri": "https://matterport.com/es/legal/privacy-policy/",
-  "needConsent": true,
-  "cookies": ['__cfduid', 'ajs_anonymous_id', 'ajs_group_id', 'ajs_user_id'],
-  "js": function () {
-    "use strict";
-    tarteaucitron.fallback(['matterport'], function (x) {
-      var matterport_id = x.getAttribute("matterportID"),
-        matterport_width = x.getAttribute("width"),
-        frame_width = 'width=',
-        matterport_height = x.getAttribute("height"),
-        frame_height = 'height=',
-        matterport_parameters = x.getAttribute("parameters"),
-        matterport_frame;
+    "key": "matterport",
+    "type": "other",
+    "name": "Matterport",
+    "uri": "https://matterport.com/es/legal/privacy-policy/",
+    "needConsent": true,
+    "cookies": ['__cfduid', 'ajs_anonymous_id', 'ajs_group_id', 'ajs_user_id'],
+    "js": function () {
+        "use strict";
+        tarteaucitron.fallback(['matterport'], function (x) {
+            var matterport_id = x.getAttribute("matterportID"),
+            matterport_width = x.getAttribute("width"),
+            frame_width = 'width=',
+            matterport_height = x.getAttribute("height"),
+            frame_height = 'height=',
+            matterport_parameters = x.getAttribute("parameters"),
+            matterport_frame;
 
-      if (matterport_id === undefined) {
-        return "";
-      }
-      if (matterport_width !== undefined) {
-        frame_width += '"' + matterport_width + '" ';
-      } else {
-        frame_width += '"" ';
-      }
-      if (matterport_height !== undefined) {
-        frame_height += '"' + matterport_height + '" ';
-      } else {
-        frame_height += '"" ';
-      }
-      if (matterport_parameters === undefined) {
-        return "";
-      }
+            if (matterport_id === undefined) {
+                return "";
+            }
+            if (matterport_width !== undefined) {
+                frame_width += '"' + matterport_width + '" ';
+            } else {
+                frame_width += '"" ';
+            }
+            if (matterport_height !== undefined) {
+                frame_height += '"' + matterport_height + '" ';
+            } else {
+                frame_height += '"" ';
+            }
+            if (matterport_parameters === undefined) {
+                return "";
+            }
 
-      matterport_frame = '<iframe type="text/html" ' + frame_width + frame_height + ' src="https://my.matterport.com/show/?m=' + matterport_id + '&utm_source=hit-content' + matterport_parameters + '" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
-      return matterport_frame;
-    });
-  },
-  "fallback": function () {
-    "use strict";
-    var id = 'matterport';
-    tarteaucitron.fallback(['matterport'], function (elem) {
-      elem.style.width = elem.getAttribute('width') + 'px';
-      elem.style.height = elem.getAttribute('height') + 'px';
-      return tarteaucitron.engage(id);
-    });
-  }
+            matterport_frame = '<iframe type="text/html" ' + frame_width + frame_height + ' src="https://my.matterport.com/show/?m=' + matterport_id + '&utm_source=hit-content' + matterport_parameters + '" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
+            return matterport_frame;
+        });
+    },
+    "fallback": function () {
+        "use strict";
+        var id = 'matterport';
+        tarteaucitron.fallback(['matterport'], function (elem) {
+            elem.style.width = elem.getAttribute('width') + 'px';
+            elem.style.height = elem.getAttribute('height') + 'px';
+            return tarteaucitron.engage(id);
+        });
+    }
 };
 
 // Adform
@@ -2600,7 +2613,7 @@ tarteaucitron.services.tawkto = {
         window.Tawk_LoadStart=new Date();
 
         tarteaucitron.addScript('https://embed.tawk.to/' + tarteaucitron.user.tawktoId + '/default');
-    } 
+    }
   
 };
 
@@ -2625,3 +2638,4 @@ tarteaucitron.services.getquanty = {
         tarteaucitron.addScript('https://get.smart-data-systems.com/track?site_id=' + tarteaucitron.user.getguanty);
     }
 };
+

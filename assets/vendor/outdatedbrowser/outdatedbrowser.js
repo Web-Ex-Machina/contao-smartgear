@@ -5,7 +5,7 @@ author:     Burocratik
 website:    http://www.burocratik.com
 * @preserve
 -----------------------------------------------------------------------*/
-var outdatedBrowser = function(options) {
+var outdatedBrowser = function (options) {
 
     //Variable definition (before ajax)
     var outdated = document.getElementById("outdated");
@@ -28,7 +28,7 @@ var outdatedBrowser = function(options) {
             options.lowerThan = 'transform';
         } else if (options.lowerThan == 'IE11' || options.lowerThan == 'borderImage') {
             options.lowerThan = 'borderImage';
-        }  else if (options.lowerThan == 'Edge' || options.lowerThan == 'js:Promise') {
+        } else if (options.lowerThan == 'Edge' || options.lowerThan == 'js:Promise') {
             options.lowerThan = 'js:Promise';
         }
 
@@ -53,7 +53,8 @@ var outdatedBrowser = function(options) {
     //Define opacity and fadeIn/fadeOut functions
     var done = true;
 
-    function function_opacity(opacity_value) {
+    function function_opacity(opacity_value)
+    {
         outdated.style.opacity = opacity_value / 100;
         outdated.style.filter = 'alpha(opacity=' + opacity_value + ')';
     }
@@ -66,7 +67,8 @@ var outdatedBrowser = function(options) {
     //     }
     // }
 
-    function function_fade_in(opacity_value) {
+    function function_fade_in(opacity_value)
+    {
         function_opacity(opacity_value);
         if (opacity_value == 1) {
             outdated.style.display = 'block';
@@ -81,15 +83,17 @@ var outdatedBrowser = function(options) {
     //     return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
     // }
 
-    var supports = ( function() {
+    var supports = ( function () {
         var div = document.createElement('div');
         var vendors = 'Khtml Ms O Moz Webkit'.split(' ');
         var len = vendors.length;
 
-        return function(prop) {
-            if (prop in div.style) return true;
+        return function (prop) {
+            if (prop in div.style) {
+                return true;
+            }
 
-            prop = prop.replace(/^[a-z]/, function(val) {
+            prop = prop.replace(/^[a-z]/, function (val) {
                 return val.toUpperCase();
             });
 
@@ -105,36 +109,37 @@ var outdatedBrowser = function(options) {
     var validBrowser = false;
 
     // browser check by js props
-    if(/^js:+/g.test(cssProp)) {
+    if (/^js:+/g.test(cssProp)) {
         var jsProp = cssProp.split(':')[1];
-        if(!jsProp)
+        if (!jsProp) {
             return;
+        }
 
         switch (jsProp) {
-			case 'Promise':
+            case 'Promise':
                 validBrowser = window.Promise !== undefined && window.Promise !== null && Object.prototype.toString.call(window.Promise.resolve()) === '[object Promise]';
                 break;
             default:
                 validBrowser = false;
-		}
+        }
     } else {
         // check by css3 property (transform=default)
         validBrowser = supports('' + cssProp + '');
     }
 
 
-	if (!validBrowser) {
-		if (done && outdated.style.opacity !== '1') {
-			done = false;
-			for (var i = 1; i <= 100; i++) {
-				setTimeout((function (x) {
-					return function () {
-						function_fade_in(x);
-					};
-				})(i), i * 8);
-			}
-		}
-	} else {
+    if (!validBrowser) {
+        if (done && outdated.style.opacity !== '1') {
+            done = false;
+            for (var i = 1; i <= 100; i++) {
+                setTimeout((function (x) {
+                    return function () {
+                        function_fade_in(x);
+                    };
+                })(i), i * 8);
+            }
+        }
+    } else {
         return;
     } //end if
 
@@ -147,7 +152,8 @@ var outdatedBrowser = function(options) {
     }
 
     //events and colors
-    function startStylesAndEvents() {
+    function startStylesAndEvents()
+    {
         var btnClose = document.getElementById("btnCloseUpdateBrowser");
         var btnUpdate = document.getElementById("btnUpdateBrowser");
 
@@ -167,17 +173,17 @@ var outdatedBrowser = function(options) {
         btnClose.style.color = txtColor;
 
         //close button
-        btnClose.onmousedown = function() {
+        btnClose.onmousedown = function () {
             outdated.style.display = 'none';
             return false;
         };
 
         //Override the update button color to match the background color
-        btnUpdate.onmouseover = function() {
+        btnUpdate.onmouseover = function () {
             this.style.color = bkgColor;
             this.style.backgroundColor = txtColor;
         };
-        btnUpdate.onmouseout = function() {
+        btnUpdate.onmouseout = function () {
             this.style.color = txtColor;
             this.style.backgroundColor = bkgColor;
         };
@@ -191,7 +197,8 @@ var outdatedBrowser = function(options) {
 
 
     //** AJAX FUNCTIONS - Bulletproof Ajax by Jeremy Keith **
-    function getHTTPObject() {
+    function getHTTPObject()
+    {
         var xhr = false;
         if (window.XMLHttpRequest) {
             xhr = new XMLHttpRequest();
@@ -209,10 +216,11 @@ var outdatedBrowser = function(options) {
         return xhr;
     }//end function
 
-    function grabFile(file) {
+    function grabFile(file)
+    {
         var request = getHTTPObject();
         if (request) {
-            request.onreadystatechange = function() {
+            request.onreadystatechange = function () {
                 displayResponse(request);
             };
             request.open("GET", file, true);
@@ -221,7 +229,8 @@ var outdatedBrowser = function(options) {
         return false;
     } //end grabFile
 
-    function displayResponse(request) {
+    function displayResponse(request)
+    {
         var insertContentHere = document.getElementById("outdated");
         if (request.readyState == 4) {
             if (request.status == 200 || request.status == 304) {
@@ -236,6 +245,7 @@ var outdatedBrowser = function(options) {
 
 ////////END of outdatedBrowser function
 };
+
 
 
 

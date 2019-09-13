@@ -1,5 +1,5 @@
 <?php
-$arrColors = array (
+$arrColors = array(
                 ""=>"Par défaut"
                 ,'red'=> "red"
                 ,'grey'=> "grey"
@@ -20,39 +20,31 @@ $arrColors = array (
                 ,'none'=> "none"
             );
 
-return array
-(
+return array(
     'label' => array('Citation', 'Générez un block citation, avec ou sans photo'),
     'types' => array('content'),
     'contentCategory' => 'texts',
     'standardFields' => array('cssID'),
-    'fields' => array
-    (
-        'image_legend' => array
-        (
+    'fields' => array(
+        'image_legend' => array(
             'label' => array('Image'),
             'inputType' => 'group',
         ),
-        'singleSRC' => array
-        (
+        'singleSRC' => array(
             'inputType' => 'standardField',
             'eval' => array('mandatory'=>false)
         ),
-        'alt' => array
-        (
+        'alt' => array(
             'inputType' => 'standardField',
             'eval' => array('tl_class'=>'w100 long')
         ),
-        'size' => array
-        (
+        'size' => array(
             'inputType' => 'standardField',
         ),
-        'imagesize_ratio' => array
-        (
+        'imagesize_ratio' => array(
             'label' => array('Ratio', 'Si souhaité, sélectionnez un ratio d\'image'),
             'inputType' => 'select',
-            'options' => array
-            (
+            'options' => array(
                 '' => 'Original',
                 'r_1-1' => '1:1',
                 'r_2-1' => '2:1',
@@ -62,59 +54,49 @@ return array
             ),
             'eval' => array('tl_class'=>'w50'),
         ),
-        'image_pos' => array
-        (
+        'image_pos' => array(
             'label' => array('Positionnement', 'Sélectionnez la position de l\'image (gauche ou droite de la citation)'),
             'inputType' => 'select',
-            'options' => array
-            (
+            'options' => array(
                 'before' => 'Gauche',
                 'after' => 'Droite',
             ),
             'eval' => array('tl_class'=>'w50'),
         ),
-        'imagesize_horizontal' => array
-        (
+        'imagesize_horizontal' => array(
             'label' => array('Alignement Horizontal', 'Si souhaité, ajustez la position horizontale de l\'image'),
             'inputType' => 'select',
-            'options' => array
-            (
+            'options' => array(
                 '' => 'Aucun',
                 'left' => 'Gauche',
                 'right' => 'Droite',
             ),
             'eval' => array('tl_class'=>'w50 clr'),
         ),
-        'imagesize_vertical' => array
-        (
+        'imagesize_vertical' => array(
             'label' => array('Alignement vertical', 'Si souhaité, ajustez la position verticale de l\'image'),
             'inputType' => 'select',
-            'options' => array
-            (
+            'options' => array(
                 '' => 'Aucun',
                 'top' => 'Haut',
                 'bottom' => 'Bas',
             ),
             'eval' => array('tl_class'=>'w50'),
         ),
-        'content_legend' => array
-        (
+        'content_legend' => array(
             'label' => array('Contenu'),
             'inputType' => 'group',
         ),
-        'text' => array
-        (
+        'text' => array(
             'inputType' => 'standardField',
             'eval' => array('mandatory'=>false, 'tl_class'=>'clr')
         ),
-        'author' => array
-        (
+        'author' => array(
             'label' => array('Auteur', 'Si souhaité, indiquez l\'auteur de la citation')
             ,'inputType' => 'text'
             ,'eval' => array('tl_class'=>'w50 clr', 'mandatory' => false)
         ),
-        'bg_color' => array
-        (
+        'bg_color' => array(
             'label' => array('Couleur du fond', 'Si souhaité, ajustez la couleur de fond du bloc'),
             'inputType' => 'select',
             'options' => $arrColors,

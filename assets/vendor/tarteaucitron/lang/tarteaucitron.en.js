@@ -73,3 +73,4 @@ tarteaucitron.lang = {
         "details": "Services to display web content."
     }
 };
+
