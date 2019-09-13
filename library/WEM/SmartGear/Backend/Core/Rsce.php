@@ -81,6 +81,7 @@ class Rsce extends Block implements BlockInterface
     public function install()
     {
         try {
+            $objMediaFolder = new \Folder("templates/rsce");
             $this->objFiles->rcopy("system/modules/wem-contao-smartgear/assets/rsce_files", "templates/rsce");
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les templates RSCE ont été importés."];
 
@@ -112,7 +113,9 @@ class Rsce extends Block implements BlockInterface
     public function remove()
     {
         try {
-            $this->objFiles->rrdir("templates/rsce");
+            if(file_exists(TL_ROOT."templates/rsce")) {
+                $this->objFiles->rrdir("templates/rsce");
+            }
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les templates RSCE ont été supprimés."];
 
             // Update config
