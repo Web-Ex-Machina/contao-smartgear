@@ -264,12 +264,16 @@ class Core extends Block implements BlockInterface
             $objFiles = \Files::getInstance();
             $objFiles->rcopy("system/modules/wem-contao-smartgear/assets/templates_files", "templates");
             $objFiles->rcopy("system/modules/wem-contao-smartgear/assets/templates_app", "app");
-            $objFiles->rcopy("system/modules/wem-contao-smartgear/assets/vendor", "assets");
+            $objFiles->rcopy("system/modules/wem-contao-smartgear/assets/vendor", "files/vendor");
 
             // Copy package themes into framway folder
             $objFolder = new \Folder($strFramwayPathThemes);
-            $objFolder->unprotect();
             $objFiles->rcopy("system/modules/wem-contao-smartgear/assets/themes_framway", $strFramwayPathThemes);
+            $objFolder->unprotect();
+
+            // Unprotect vendor folder
+            $objFolder = new \Folder("files/vendor");
+            $objFolder->unprotect();
 
             // Check if there is another themes and warn the user
             if (\ThemeModel::countAll() > 0) {
@@ -360,6 +364,8 @@ class Core extends Block implements BlockInterface
             $objFile = \FilesModel::findOneByPath($strFramwayPathBuild."/css/vendor.css");
             $arrCssFiles[] = $objFile->uuid;
             $objFile = \FilesModel::findOneByPath($strFramwayPathBuild."/css/framway.css");
+            $arrCssFiles[] = $objFile->uuid;
+            $objFile = \FilesModel::findOneByPath("files/vendor/outdatedbrowser/outdatedbrowser.min.js");
             $arrCssFiles[] = $objFile->uuid;
             $objFile = \FilesModel::findOneByPath($strFramwayPathBuild."/js/vendor.js");
             $arrJsFiles[] = $objFile->uuid;
