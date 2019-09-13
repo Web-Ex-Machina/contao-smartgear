@@ -365,7 +365,7 @@ class Core extends Block implements BlockInterface
             $arrCssFiles[] = $objFile->uuid;
             $objFile = \FilesModel::findOneByPath($strFramwayPathBuild."/css/framway.css");
             $arrCssFiles[] = $objFile->uuid;
-            $objFile = \FilesModel::findOneByPath("files/vendor/outdatedbrowser/outdatedbrowser.min.js");
+            $objFile = \FilesModel::findOneByPath("files/vendor/outdatedbrowser/outdatedbrowser.min.css");
             $arrCssFiles[] = $objFile->uuid;
             $objFile = \FilesModel::findOneByPath($strFramwayPathBuild."/js/vendor.js");
             $arrJsFiles[] = $objFile->uuid;
