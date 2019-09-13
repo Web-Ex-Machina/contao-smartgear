@@ -56,7 +56,7 @@ class Templates extends Block implements BlockInterface
         $this->messages[] = ['class' => 'tl_info', 'text' => 'Cette section permet d\'importer les templates Contao utilisés par Smartgear.'];
     
         // Check the install status
-        if (1 === $this->sgConfig["sgInstallTemplates"] || !empty(scandir(TL_ROOT."/templates/smartgear"))) {
+        if (1 === $this->sgConfig["sgInstallTemplates"] || (file_exists(TL_ROOT."/templates/smartgear") && !empty(scandir(TL_ROOT."/templates/smartgear")))) {
             $this->status = 1;
 
             // Compare the source folder and the existing one to check if an update should be done
