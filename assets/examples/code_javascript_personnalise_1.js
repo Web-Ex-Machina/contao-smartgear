@@ -1,4 +1,4 @@
-<script src="files/assets/outdatedbrowser/outdatedbrowser.min.js"></script>
+<script src="assets/outdatedbrowser/outdatedbrowser.min.js"></script>
 <div id="outdated">
     <h6>Your browser is out-of-date!</h6>
     <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
@@ -26,7 +26,7 @@ addLoadEvent(function(){
         bgColor: '#f25648',
         color: '#ffffff',
         lowerThan: 'object-fit',
-        languagePath: 'files/assets/outdatedbrowser/lang/{{page::language}}.html'
+        languagePath: 'assets/outdatedbrowser/lang/{{page::language}}.html'
     })
 });
 
