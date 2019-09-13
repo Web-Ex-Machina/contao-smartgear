@@ -1,4 +1,4 @@
-<script type="text/javascript" src="assets/tarteaucitron/tarteaucitron.js"></script>
+<script type="text/javascript" src="files/vendor/tarteaucitron/tarteaucitron.js"></script>
 
 <script type="text/javascript">
 var tarteaucitronForceLanguage = '{{page::language}}';
