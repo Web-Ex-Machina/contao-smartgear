@@ -1,6 +1,6 @@
 <div class="layout_latest arc_<?= $this->archive->id ?> block-list r_16-9 fadetocolor col-12 col-sm-6 col-md-4 <?= $this->class ?>"<?= $this->cssID ?> itemscope itemtype="http://schema.org/Article">
   <?php if ($this->hasText || $this->hasTeaser): ?>
-    <a href="<?= $this->link ?>" class="block-list__wrapper" title="<?= $this->headline ?>">
+    <a href="<?= $this->link ?>" class="block-list__wrapper" title="<?= $this->headline ?>"<?= ($this->target) ? ' target="_blank"' : '' ?>>
   <?php else: ?>
     <div class="block-list__wrapper" title="<?= $this->headline ?>">
   <?php endif; ?>

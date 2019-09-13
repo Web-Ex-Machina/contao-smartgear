@@ -13,6 +13,8 @@
 
 namespace WEM\SmartGear\Backend;
 
+use Contao\CoreBundle\Monolog\ContaoContext;
+use Psr\Log\LogLevel;
 use Exception;
 
 /**
@@ -27,6 +29,143 @@ class Util
      * @var String
      */
     protected static $strConfigPath = "assets/smartgear/config.json";
+
+    /**
+     * Extract colors used in Framway
+     *
+     * @return [Array] [Framway colors]
+     */
+    public static function getDefaultColors()
+    {
+        return array(
+            "" => ["label" => "Par défaut", "hexa" => ""]
+            ,'blue'=> ["label" => "Bleu (#004C79)", "hexa" => "004C79"]
+            ,'darkblue'=> ["label" => "Bleu foncé (#0a1d29)", "hexa" => "0a1d29"]
+            ,'green'=> ["label" => "Vert (#5cb85c)", "hexa" => "5cb85c"]
+            ,'orange'=> ["label" => "Rouge (#DC6053)", "hexa" => "DC6053"]
+            ,'gold'=> ["label" => "Doré (#edbe5f)", "hexa" => "edbe5f"]
+            ,'black'=> ["label" => "Noir (#000000)", "hexa" => "000000"]
+            ,'blacklight'=> ["label" => "Noir 90% (#111414)", "hexa" => "111414"]
+            ,'blacklighter'=> ["label" => "Noir 80% (#222222)", "hexa" => "222222"]
+            ,'greystronger'=> ["label" => "Noir 70% (#424041)", "hexa" => "424041"]
+            ,'greystrong'=> ["label" => "Noir 60% (#535052)", "hexa" => "535052"]
+            ,'grey'=> ["label" => "Gris (#7A7778)", "hexa" => "7A7778"]
+            ,'greylight'=> ["label" => "Gris 50% (#DDDDDD)", "hexa" => "DDDDDD"]
+            ,'greylighter'=> ["label" => "Gris 25% (#EEEEEE)", "hexa" => "EEEEEE"]
+            ,'white'=> ["label" => "Blanc (#ffffff)", "hexa" => "ffffff"]
+            ,'none'=> ["label" => "Transparent", "hexa" => ""]
+        );
+    }
+
+    /**
+     * Extract colors used in Framway
+     *
+     * @param [String] $strFWTheme [Get the colors of a specific theme]
+     *
+     * @return [Array] [Framway colors]
+     *
+     * @todo Find a way to add friendly names to the colors retrieved
+     * @todo Maybe store these colors into a file to avoid load/format a shitload of stuff ?
+     */
+    public static function getFramwayColors($strFWTheme = "")
+    {
+        try {
+            $arrConfig = self::loadSmartgearConfig();
+
+            if ("" == $strFWTheme && $arrConfig['framwayTheme']) {
+                $strFWTheme = $arrConfig['framwayTheme'];
+            } elseif ("" == $strFWTheme) {
+                $strFWTheme = "smartgear";
+            }
+
+            $strFramwayConfig = file_get_contents($arrConfig['framwayPath'].'/src/themes/'.$strFWTheme.'/_config.scss');
+            $startsAt = strpos($strFramwayConfig, "$colors: (") + strlen("$colors: (");
+            $endsAt = strpos($strFramwayConfig, ");", $startsAt);
+            $result = trim(str_replace([" ", "\n"], "", substr($strFramwayConfig, $startsAt, $endsAt - $startsAt)));
+
+            $return = [];
+            $colors = explode(",", $result);
+
+            foreach ($colors as $v) {
+                if ("" == $v) {
+                    continue;
+                }
+
+                $color = explode(":", $v);
+                $name = str_replace("'", "", $color[0]);
+                $hexa = str_replace("#", "", $color[1]);
+
+                $return[$name] = ["label" => $name, "hexa" => $hexa];
+            }
+
+            return $return;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Get available colors in Smartgear
+     *
+     * @param [String] $strFor [Format wanted]
+     * @param [String] $strFWTheme [Framway theme wanted]
+     *
+     * @return [Array] An Array of classes / color names
+     */
+    public static function getSmartgearColors($strFor = 'rsce', $strFWTheme = "")
+    {
+        try {
+            try {
+                // Extract colors from installed Framway
+                $arrColors = self::getFramwayColors($strFWTheme);
+            } catch (\Exception $e) {
+                \System::getContainer()
+                    ->get('monolog.logger.contao')
+                    ->log(
+                        LogLevel::ERROR,
+                        "Error when trying to get Framway Colors : ".$e->getMessage(),
+                        array('contao' => new ContaoContext(__METHOD__, "SMARTGEAR"))
+                    );
+                $arrColors = self::getDefaultColors();
+            }
+
+            // Depending on who asks the array, we will need a specific format
+            $colors = [];
+            switch ($strFor) {
+                case 'tinymce':
+                    foreach ($arrColors as $k => $c) {
+                        if ("" == $k) {
+                            continue;
+                        }
+
+                        $colors[] = $c["hexa"];
+                        $colors[] = $c["label"];
+                    }
+                    $colors = json_encode($colors);
+                    break;
+
+                case 'rsce-ft':
+                    foreach ($arrColors as $k => $c) {
+                        if ("" == $k) {
+                            $colors[$k] = $c["label"];
+                        } else {
+                            $colors["ft-".$k] = $c["label"];
+                        }
+                    }
+                    break;
+                
+                case 'rsce':
+                default:
+                    foreach ($arrColors as $k => $c) {
+                        $colors[$k] = $c["label"];
+                    }
+            }
+
+            return $colors;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
 
     /**
      * Find and Create an Object, depending on type and module

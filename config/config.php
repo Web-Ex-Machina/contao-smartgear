@@ -95,5 +95,8 @@ if ('BE' === TL_MODE) {
  * Add FE Hooks
  */
 if ('FE' === TL_MODE) {
+    $GLOBALS['TL_HOOKS']['getPageLayout'][] = array('\WEM\SmartGear\Hooks\GetPageLayoutHook', 'generateApiToken');
+    $GLOBALS['TL_HOOKS']['executePreActions'][] = array('\WEM\SmartGear\Hooks\ExecutePreActionsHook', 'catchApiRequests');
     $GLOBALS['TL_HOOKS']['generateFrontendUrl'][] = array('\WEM\SmartGear\Hooks\GenerateFrontendUrlHook', 'generateFrontendUrl');
+    $GLOBALS['TL_HOOKS']['generateBreadcrumb'][] = array('\WEM\SmartGear\Hooks\GenerateBreadcrumbHook', 'updateRootItem');
 }

@@ -1,0 +1,54 @@
+<?php
+  if($this->listItems){
+    $arrItems = [];
+    foreach($this->listItems as $item){
+      $arrItem = [];
+      if ($item->img_src && !$item->img_text) {
+        $arrCrop = deserialize($item->img_crop);
+        $objFile = FilesModel::findByUuid($item->img_src);
+        $strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
+        $arrItem = [
+          "src"=>$strFile,
+          "alt"=>($item->img_alt) ? $item->img_alt : $objFile->name
+        ];
+      } else if($item->img_text){
+        $arrItem['icon'] = $item->img_text;
+      }
+
+      $arrItem['classes'] = $item->classes ? $item->classes : '';
+      $arrItem['text'] = $item->text;
+
+      if ($item->href){
+        $arrItem["url"]   = 1;
+        $arrItem["href"]  = $item->href;
+        $arrItem["title"] = $item->title;
+      }
+      if($item->target)
+        $arrItem['target'] = 1;
+      $arrItems[] = $arrItem;
+    }
+  }
+?>
+<div class="<?= $this->class ?>">
+  <?php foreach($arrItems as $item): ?>
+    <div class="block-icon <?= $item['classes']?>">
+      <?php if ($item['url']): ?>
+        <a href="<?= $item['href'] ?>" title="<?= $item['title'] ?>" <?= ($item['target']) ? 'target="_blank"':'' ?>>
+      <?php endif; ?>
+      <div class="block-icon__roundgradient r_1-1">
+        <?php if ($item['src']): ?>
+          <img class="block-icon__img" src="<?= $item['src'] ?>" alt="<?= $item['alt'] ?>">
+        <?php endif; ?>
+        <?php if($item['icon']): ?>
+          <?= $item['icon'] ?>
+        <?php endif; ?>
+      </div>
+      <div class="block-icon__text">
+        <?= $item['text'] ?>
+      </div>
+      <?php if ($item['url']): ?>
+        </a>
+      <?php endif; ?>
+    </div>
+  <?php endforeach; ?>
+</div>

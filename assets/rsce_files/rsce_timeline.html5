@@ -1,0 +1,46 @@
+<?php
+  if ($this->image){
+    $arrCrop = deserialize($this->imageCrop);
+    $objFile = FilesModel::findByUuid($this->image);
+    $strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
+  }
+?>
+<div class="<?= $this->class ?> <?= $this->timeline_style?><?= $this->timeline_color ? ' timeline__color--'.$this->timeline_color:'' ?><?= ($this->image) ? ' hasImg':'' ?>">
+  <?php if($this->headline): ?>
+    <<?= $this->hl ?> class="timeline__title"><?= $this->headline ?></<?= $this->hl ?>>
+  <?php endif; ?>
+  <div class="timeline__wrapper">
+    <?php if ($objFile && $this->imagePos == 'left'): ?>
+      <div class="timeline__img">
+        <img src="<?= $strFile ?>" alt="">
+      </div>
+    <?php endif ?>
+    <div class="timeline__content">
+      <div class="timeline__body">
+        <?php foreach ($this->items as $key => $item): ?>
+          <?php if ($item->headline['value'] || $item->year || $item->text): ?>
+            <div class="timeline__item <?= $key % 2 == 0 ? 'reverse' : ''; ?>">
+              <div class="timeline__item__year<?= $this->title_color ? ' ft-'.$this->title_color:'' ?>"><?= $item->year ?></div>
+              <div class="timeline__item__gauge <?= $key == 0 ? 'item--start':''; ?><?= $key == count($this->items) - 1 ? 'item--end':''; ?>">
+                <!-- <div class="filler"></div> -->
+              </div>
+              <div class="timeline__item__content">
+                <div>
+                  <?php if ($item->headline['value']): ?>
+                    <<?= $item->headline['unit'] ?> class="timeline__item__title<?= $this->title_color ? ' ft-'.$this->title_color:'' ?>"><?= $item->headline['value'] ?></<?= $item->headline['unit'] ?>>
+                  <?php endif ?>
+                  <?= $item->text ?>
+                </div>
+              </div>
+            </div>
+          <?php endif ?>
+        <?php endforeach ?>
+      </div>
+    </div>
+    <?php if ($objFile && $this->imagePos == 'right'): ?>
+      <div class="timeline__img">
+        <img src="<?= $strFile ?>" alt="">
+      </div>
+    <?php endif ?>
+  </div>
+</div>

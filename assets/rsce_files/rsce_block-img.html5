@@ -2,7 +2,7 @@
 	// Get the file
 	$arrCrop = deserialize($this->size);
 	$objFile = FilesModel::findByUuid($this->singleSRC);
-	$strFile = \Image::get($objFile->path, $arrCrop[0], $arrCrop[1], $arrCrop[2]);
+	$strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
 
 	// Prepare the main block classes
 	$arrClasses = [];

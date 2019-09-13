@@ -4,54 +4,60 @@
 //   // images[i].src="";
 // }
 
-$(function(){
+$(function () {
   // INIT
-  $(window).resize(function(){
-    $('body.home .heroFW').css('height',viewport.height - $('#header').outerHeight());
+    $(window).resize(function () {
+        $('body.home .heroFW').css('height',viewport.height - $('#header').outerHeight());
 
-    if($('.mod_faqpage .accordionFW').length)
-      resizeFAQ();
-    if($('table.calendar').length)
-      toggleCalendarEventView();
-  }).trigger('resize');
+        if ($('.mod_faqpage .accordionFW').length) {
+            resizeFAQ();
+        }
+        if ($('table.calendar').length) {
+            toggleCalendarEventView();
+        }
+    }).trigger('resize');
 
-  $('.mod_wem_locations_map').attr('id','mapWrapper');
+    $('.mod_wem_locations_map').attr('id','mapWrapper');
 
-  $('table.calendar').each(function(index,$calendar){
-    $calendar = $($calendar);
-    $calendar.find('.event').each(function(index,$event){
-      $event = $($event);
-      setTimeout(function(){
-        $event.addClass('active');
-      },100*index);
+    $('table.calendar').each(function (index,$calendar) {
+        $calendar = $($calendar);
+        $calendar.find('.event').each(function (index,$event) {
+            $event = $($event);
+            setTimeout(function () {
+                $event.addClass('active');
+            },100*index);
+        });
+        $calendar.prev('.loader').remove();
     });
-    $calendar.prev('.loader').remove();
-  });
-  $('.calendar__event').each(function(){
-    $(this).css('background-color',utils.stringToColor($(this).text()));
-  });
+    $('.calendar__event').each(function () {
+        $(this).css('background-color',utils.stringToColor($(this).text()));
+    });
 });
 
-var toggleCalendarEventView = function toggleCalendarEventView(){
-  $('table.calendar').find('.days.active').each(function(index,$day){
-    $day = $($day);
-    var offseted = false;
-    $day.find('.event').unwrap('.reduced').each(function(){
-      if($(this).position().top <= 0)
-        offseted = true;
+var toggleCalendarEventView = function toggleCalendarEventView()
+{
+    $('table.calendar').find('.days.active').each(function (index,$day) {
+        $day = $($day);
+        var offseted = false;
+        $day.find('.event').unwrap('.reduced').each(function () {
+            if ($(this).position().top <= 0) {
+                offseted = true;
+            }
+        });
+        if (offseted) {
+            $day.find('.event').wrapAll('<div class="reduced"></div>');
+        }
     });
-    if(offseted){
-      $day.find('.event').wrapAll('<div class="reduced"></div>');
-    }
-  });
 };
 
-var resizeFAQ = function resizeFAQ(){
-  var $titles = $('.mod_faqpage .accordionFW__item .accordionFW__title').css('width','auto');
-  var maxWidth = 0;
-  $titles.each(function(){
-    if(this.scrollWidth+10 > maxWidth)
-      maxWidth = this.scrollWidth+10;
-  });
-  $titles.outerWidth(maxWidth);
+var resizeFAQ = function resizeFAQ()
+{
+    var $titles = $('.mod_faqpage .accordionFW__item .accordionFW__title').css('width','auto');
+    var maxWidth = 0;
+    $titles.each(function () {
+        if (this.scrollWidth+10 > maxWidth) {
+            maxWidth = this.scrollWidth+10;
+        }
+    });
+    $titles.outerWidth(maxWidth);
 }
