@@ -6,7 +6,7 @@
       if ($item->img_src && !$item->img_text) {
         $arrCrop = deserialize($item->img_crop);
         $objFile = FilesModel::findByUuid($item->img_src);
-        $strFile = \Image::get($objFile->path, $arrCrop[0], $arrCrop[1], $arrCrop[2]);
+        $strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
         $arrItem = [
           "src"=>$strFile,
           "alt"=>($item->img_alt) ? $item->img_alt : $objFile->name
