@@ -264,6 +264,7 @@ class Core extends Block implements BlockInterface
             $objFiles = \Files::getInstance();
             $objFiles->rcopy("system/modules/wem-contao-smartgear/assets/templates_files", "templates");
             $objFiles->rcopy("system/modules/wem-contao-smartgear/assets/templates_app", "app");
+            $objFiles->rcopy("system/modules/wem-contao-smartgear/assets/vendor", "assets");
 
             // Copy package themes into framway folder
             $objFolder = new \Folder($strFramwayPathThemes);
@@ -382,6 +383,8 @@ class Core extends Block implements BlockInterface
             $objLayout->externalJs = serialize($arrJsFiles);
             $objLayout->orderExtJs = serialize($arrJsFiles);
             $objLayout->modules = serialize($arrLayoutModules);
+            $objLayout->head = file_get_contents("system/modules/wem-contao-smartgear/assets/examples/balises_supplementaires_1.js");
+            $objLayout->script = file_get_contents("system/modules/wem-contao-smartgear/assets/examples/code_javascript_personnalise_1.js");
             $objLayout->save();
             $this->sgConfig["sgInstallLayout"] = $objLayout->id;
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le layout %s a été créé et sera utilisé pour la suite de la configuration", $objLayout->name)];
