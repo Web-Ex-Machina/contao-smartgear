@@ -46,6 +46,22 @@ return array
                     ,'inputType' => 'text'
                     ,'eval' => array('tl_class'=>'w50','mandatory'=>true)
                 )
+                ,'hl_title' => array
+                (
+                    'label' => array('Format titre', 'Selectionner un format de titre a appliquer'),
+                    'inputType' => 'select',
+                    'options' => array
+                    (
+                        '' => 'Aucun',
+                        'h1' => 'H1',
+                        'h2' => 'H2',
+                        'h3' => 'H3',
+                        'h4' => 'H4',
+                        'h5' => 'H5',
+                        'h6' => 'H6',
+                    ),
+                    'eval' => array('tl_class'=>'w50 clr', 'mandatory'=>false),
+                )
                 ,'content' => array
                 (
                     'label' => array('Contenu', 'Saisissez le contenu textuel de l\'élément')

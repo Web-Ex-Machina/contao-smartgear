@@ -6,7 +6,7 @@
       <p class="empty"><?= $this->empty ?></p>
     <?php else: ?>
       <?= implode('', $this->articles) ?>
-      <?= $this->pagination ?>
     <?php endif; ?>
   </div>
+  <?= $this->pagination ?>
 <?php $this->endblock(); ?>
