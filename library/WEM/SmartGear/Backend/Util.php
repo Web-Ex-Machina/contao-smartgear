@@ -92,8 +92,8 @@ class Util
                 }
 
                 $color = explode(":", $v);
-                $name = str_replace("'", "", $color[0]);
-                $hexa = str_replace("#", "", $color[1]);
+                $name = trim(str_replace("'", "", $color[0]));
+                $hexa = trim(str_replace("#", "", $color[1]));
 
                 $return[$name] = ["label" => $name, "hexa" => $hexa];
             }
