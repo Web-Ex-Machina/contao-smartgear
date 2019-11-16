@@ -101,25 +101,24 @@ class Install extends \BackendModule
         }
 
         // Fetch Smartgear updates
-        if (false === $objUpdater->update) {
+        if (false === $objUpdater->shouldBeUpdated()) {
             \Message::addConfirmation(sprintf("Smartgear v%s trouvé, installé et à jour !", $objUpdater->getCurrentVersion()));
         } else {
-            if ("" != $objUpdater->update) {
-                $link = sprintf(
-                    '&nbsp;<a class="tl_submit" href="%s" title="Jouer l\'update %s">Jouer l\'update %s</a>',
-                    $objUpdater->getUpdateLink($objUpdater->update),
-                    $objUpdater->update,
-                    $objUpdater->update
-                );
+            $updates = [];
+            if (!empty($objUpdater->updates)) {
+                foreach ($objUpdater->updates as $strFunction) {
+                    $updates[] = sprintf('<span id="sg_update_%s">Update %s</span>', $strFunction, $strFunction);
+                }
             }
 
             // @todo : Coder l'appel de la fonction trouvée, en AJAX ou pas.
             \Message::addRaw(
                 sprintf(
-                    '<div class="tl_info"><p>Il y a une différence de versions entre le Smartgear installé (%s) et le package trouvé (%s).</p>%s</div>',
+                    '<div class="tl_info">Il y a une différence de version entre le Smartgear installé (%s) et le package trouvé (%s).%s%s</div>',
                     $objUpdater->getCurrentVersion() ?: "NR",
                     $objUpdater->getPackageVersion() ?: "NR",
-                    $link ?: ''
+                    !empty($updates) ? '<br>' : '',
+                    implode('<br>', $updates)
                 )
             );
         }

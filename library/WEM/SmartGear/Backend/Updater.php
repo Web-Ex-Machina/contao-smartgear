@@ -28,7 +28,7 @@ class Updater
      *
      * @var [Array]
      */
-    protected $updates = [];
+    public $updates = [];
 
     /**
      * Constructor.
@@ -126,6 +126,9 @@ class Updater
                 $this->update = 'to050';
             }
 
+            // Clear the current updates array to avoid doublons
+            $this->updates = [];
+
             // We need to compare current version with the package one
             $arrPackageVersion = explode('.', $this->getPackageVersion());
             $arrCurrentVersion = explode('.', $this->getCurrentVersion());
@@ -136,7 +139,6 @@ class Updater
                 && $arrCurrentVersion[0] >= $arrPackageVersion[0]
             ) {
                 $this->update = false;
-
                 return false;
             }
 
@@ -199,6 +201,9 @@ class Updater
                 }
             }
 
+            // At the end, always add the generic version update
+            $this->updates[] = 'updateCurrentVersionToPackageVersion';
+
             return !empty($this->updates);
         } catch (Exception $e) {
             throw $e;
@@ -213,6 +218,18 @@ class Updater
     {
         try {
             Util::updateConfig(['sgVersion' => '0.5.0']);
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Generic function who will just update the current version to package version
+     * Useful when there is no updates to play but we still need to update the config version
+     */
+    public function updateCurrentVersionToPackageVersion() {
+        try {
+            Util::updateConfig(['sgVersion' => $this->getPackageVersion()]);
         } catch (Exception $e) {
             throw $e;
         }
