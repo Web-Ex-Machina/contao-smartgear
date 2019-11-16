@@ -106,9 +106,11 @@ class Install extends \BackendModule
         } else {
             $updates = [];
             if (!empty($objUpdater->updates)) {
+                $updates[] = '<ul>';
                 foreach ($objUpdater->updates as $strFunction) {
-                    $updates[] = sprintf('<span id="sg_update_%s">Update %s</span>', $strFunction, $strFunction);
+                    $updates[] = sprintf('<li data-update="%s">Update %s</li>', $strFunction, $strFunction);
                 }
+                $updates[] = '</ul>';
             }
 
             // @todo : Coder l'appel de la fonction trouvée, en AJAX ou pas.
@@ -117,8 +119,8 @@ class Install extends \BackendModule
                     '<div class="tl_info">Il y a une différence de version entre le Smartgear installé (%s) et le package trouvé (%s).%s%s</div>',
                     $objUpdater->getCurrentVersion() ?: "NR",
                     $objUpdater->getPackageVersion() ?: "NR",
-                    !empty($updates) ? '<br>' : '',
-                    implode('<br>', $updates)
+                    implode('', $updates),
+                    !empty($updates) ? '<br><button title="Appliquer toutes les updates" class="tl_submit sgUpdateAll">Appliquer</button>' : ''
                 )
             );
         }
@@ -152,7 +154,6 @@ class Install extends \BackendModule
      */
     public function processAjaxRequest($strAction)
     {
-
         // Catch AJAX Requests
         if (\Input::post('TL_WEM_AJAX') && 'be_smartgear' == \Input::post('wem_module')) {
             try {
@@ -177,6 +178,22 @@ class Install extends \BackendModule
                 // Launch the action and store the result
                 $arrResponse = $objModule->$strAction();
                 $arrResponse["logs"] = $objModule->logs;
+            } catch (Exception $e) {
+                $arrResponse = ["status"=>"error", "msg"=>$e->getMessage(), "trace"=>$e->getTrace()];
+            }
+
+            // Add Request Token to JSON answer and return
+            $arrResponse["rt"] = \RequestToken::get();
+            echo json_encode($arrResponse);
+            die;
+        } else if(\Input::post('TL_WEM_AJAX') && 'be_smartgear_update' == \Input::post('wem_module')) {
+            try {
+                $objUpdater = new Updater();
+                if($objUpdater->runUpdate(\Input::post('action'))) {
+                    $arrResponse = ['status'=>"success", "msg" => "La mise à jour ".\Input::post('action')." a été appliquée avec succès !"];
+                } else {
+                    throw new \Exception("Une erreur est survenue - et on est pas passé dans l'exception comme prévu");
+                }
             } catch (Exception $e) {
                 $arrResponse = ["status"=>"error", "msg"=>$e->getMessage(), "trace"=>$e->getTrace()];
             }
