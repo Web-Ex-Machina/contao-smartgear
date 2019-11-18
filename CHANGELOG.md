@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+0.6 - 2019-xx-xx
+- Smartgear : Add a real updater system
+
 0.5 - 2019-09-13
 - Smartgear : Add breadcrumb in the setup
 - Smartgear : Add API functions
