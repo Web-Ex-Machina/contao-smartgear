@@ -21,7 +21,7 @@
 <div id="header" class="headerFW <?= $this->class ?> <?= implode(' ', $arrClasses) ?>" data-stick="<?= $stick ?>">
   <div class="headerFW__headbanner">
     <?php if ($this->isRoot): ?>
-      <h1 id="logo">
+      <h1 id="logo" title="<?= $this->wem_sg_header_logo_alt ? $this->wem_sg_header_logo_alt : '{{page::rootTitle}}' ?>">
     <?php else: ?>
       <a href="<?= $this->rootHref ?>" id="logo">
     <?php endif ?>
