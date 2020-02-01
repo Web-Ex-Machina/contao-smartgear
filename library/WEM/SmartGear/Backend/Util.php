@@ -341,12 +341,17 @@ class Util
      */
     public static function createContent($objArticle, $arrData = [])
     {
+        // Dynamic ptable support
+        if(!$arrData['ptable']) {
+            $arrData['ptable'] = 'tl_article';
+        }
+
         // Create the content
         $objContent = new \ContentModel();
         $objContent->tstamp = time();
         $objContent->pid = $objArticle->id;
-        $objContent->ptable = "tl_article";
-        $objContent->sorting = (\ContentModel::countPublishedByPidAndTable($objArticle->id, "tl_article") + 1) * 128;
+        $objContent->ptable = $arrData['ptable'];
+        $objContent->sorting = (\ContentModel::countPublishedByPidAndTable($objArticle->id, $arrData['ptable']) + 1) * 128;
         $objContent->type = "text";
 
         // Now we get the default values, get the arrData table
