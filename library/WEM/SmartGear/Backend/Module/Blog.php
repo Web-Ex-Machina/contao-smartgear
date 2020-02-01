@@ -243,7 +243,7 @@ class Blog extends Block implements BlockInterface
         ]);
 
         // Create the reader page
-        $intPageReader = Util::createPageWithModules("Blog - Article", [$objReaderModule->id], $objPageList->id);
+        $intPageReader = Util::createPageWithModules("Blog - Article", [$objReaderModule->id], $objPageList->id, ['hide' => 1]);
 
         // Update the archive jumpTo
         $objArchive->jumpTo = $intPageReader;
