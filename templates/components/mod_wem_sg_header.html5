@@ -17,7 +17,7 @@
   if($this->wem_sg_header_sticky)
     $stick = "true";
 ?>
-
+<!--indexer::stop-->
 <div id="header" class="headerFW <?= $this->class ?> <?= implode(' ', $arrClasses) ?>" data-stick="<?= $stick ?>">
   <div class="headerFW__headbanner">
     <?php if ($this->isRoot): ?>
@@ -39,3 +39,4 @@
       <?= $this->nav ?>
   </nav>
 </div>
+<!--indexer::continue-->
