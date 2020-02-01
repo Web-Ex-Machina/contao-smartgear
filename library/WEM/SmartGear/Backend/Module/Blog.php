@@ -248,6 +248,41 @@ class Blog extends Block implements BlockInterface
         // Update the archive jumpTo
         $objArchive->jumpTo = $intPageReader;
         $objArchive->save();
+
+        // Create two false news, one with no content (display teaser), one with contents
+        $objNews = new \NewsModel();
+        $objNews->pid = $objArchive->id;
+        $objNews->tstamp = time();
+        $objNews->headline = "News Test 01";
+        $objNews->alias = \StringUtil::generateAlias($objNews->headline);
+        $objNews->author = $this->User->id;
+        $objNews->date = time();
+        $objNews->time = time();
+        $objNews->teaser = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus porttitor diam eu egestas. Maecenas egestas, lectus a tempus rhoncus, orci magna mollis nisi, et venenatis erat massa id justo. Aenean nec iaculis felis, in porttitor urna. Proin vitae odio ac ligula porttitor lobortis non et urna. Vivamus tempor non orci in ultricies. Vestibulum eleifend sit amet ligula eget accumsan. Suspendisse lobortis est sit amet lorem mattis faucibus. Ut mattis sapien et urna placerat posuere. Vestibulum felis diam, tristique vel auctor ac, auctor in diam. Suspendisse potenti. Sed vulputate quam sapien, quis molestie massa condimentum ac. Sed at est leo. Vivamus vitae aliquet magna, in pellentesque felis. Aenean non semper nulla, non dignissim turpis. Nam ultrices mauris diam, a pharetra sem hendrerit vel.<br />Nulla vel tortor eget massa condimentum sollicitudin non sit amet erat. Nullam quis justo ut diam commodo efficitur. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse elit felis, vehicula eget sapien eu, venenatis pellentesque augue. Praesent enim eros, laoreet vitae semper ac, imperdiet sed lorem. Donec eu consectetur sem. Aenean gravida vitae enim eu gravida. Donec volutpat, lacus et sagittis vulputate, justo velit dignissim turpis, id vulputate erat felis a enim. Cras in felis diam. Vivamus vitae quam aliquet, mattis nisi et, lacinia arcu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec sodales tempor ornare. Cras a leo lorem.</p>";
+        $objNews->addImage = 1;
+        $objNews->singleSRC = \FilesModel::findOneByPath("files/app/build/img/san_francisco_tramway.jpg")->uuid;
+        $objNews->published = 1;
+        $objNews->save();
+
+        $objNews = new \NewsModel();
+        $objNews->pid = $objArchive->id;
+        $objNews->tstamp = time() + 60;
+        $objNews->headline = "News Test 02";
+        $objNews->alias = \StringUtil::generateAlias($objNews->headline);
+        $objNews->author = $this->User->id;
+        $objNews->date = time() + 60;
+        $objNews->time = time() + 60;
+        $objNews->teaser = "<p> Duis lectus est, volutpat convallis neque eget, elementum feugiat erat. Nullam sodales justo ac quam rhoncus hendrerit. Maecenas eget gravida odio. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed dui risus, accumsan ac sagittis et, dictum non lacus. Nunc ultricies sollicitudin magna. Phasellus venenatis venenatis odio, a vehicula quam tristique a. Aliquam accumsan arcu non auctor accumsan.<br />Integer purus turpis, imperdiet in volutpat sit amet, molestie ac magna. Nulla faucibus hendrerit ex, quis ultrices libero tempor a. Pellentesque id risus varius, sodales nunc eu, consequat metus. Nullam turpis orci, tristique facilisis ante vitae, semper rutrum est. Vivamus venenatis dolor sit amet lacinia sollicitudin. Aliquam nec dolor viverra, interdum erat non, pharetra est. Duis in massa a nisl tincidunt lobortis. Duis dignissim, risus sed luctus venenatis, tellus nisi tristique enim, et mollis eros mi non quam. Vestibulum sit amet mauris non est lobortis porta. </p>";
+        $objNews->addImage = 1;
+        $objNews->singleSRC = \FilesModel::findOneByPath("files/app/build/img/tramway_lego.jpg")->uuid;
+        $objNews->published = 1;
+        $objNews->save();
+
+        $objContent = Util::createContent($objNews, [
+            'type' => 'text',
+            'ptable' => 'tl_news',
+            'text' => "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus porttitor diam eu egestas. Maecenas egestas, lectus a tempus rhoncus, orci magna mollis nisi, et venenatis erat massa id justo. Aenean nec iaculis felis, in porttitor urna. Proin vitae odio ac ligula porttitor lobortis non et urna. Vivamus tempor non orci in ultricies. Vestibulum eleifend sit amet ligula eget accumsan. Suspendisse lobortis est sit amet lorem mattis faucibus. Ut mattis sapien et urna placerat posuere. Vestibulum felis diam, tristique vel auctor ac, auctor in diam. Suspendisse potenti. Sed vulputate quam sapien, quis molestie massa condimentum ac. Sed at est leo. Vivamus vitae aliquet magna, in pellentesque felis. Aenean non semper nulla, non dignissim turpis. Nam ultrices mauris diam, a pharetra sem hendrerit vel.<br />Nulla vel tortor eget massa condimentum sollicitudin non sit amet erat. Nullam quis justo ut diam commodo efficitur. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse elit felis, vehicula eget sapien eu, venenatis pellentesque augue. Praesent enim eros, laoreet vitae semper ac, imperdiet sed lorem. Donec eu consectetur sem. Aenean gravida vitae enim eu gravida. Donec volutpat, lacus et sagittis vulputate, justo velit dignissim turpis, id vulputate erat felis a enim. Cras in felis diam. Vivamus vitae quam aliquet, mattis nisi et, lacinia arcu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec sodales tempor ornare. Cras a leo lorem.</p>"
+        ]);
         
         // And save stuff in config
         Util::updateConfig([
@@ -255,7 +290,7 @@ class Blog extends Block implements BlockInterface
             ,"sgBlogNewsArchive"=>$objArchive->id
             ,"sgBlogModuleList"=>$objListModule->id
             ,"sgBlogModuleReader"=>$objReaderModule->id
-            ,"sgBlogPageList"=>$intPageList
+            ,"sgBlogPageList"=>$objPageList->id
             ,"sgBlogPageReader"=>$intPageReader
         ]);
 
