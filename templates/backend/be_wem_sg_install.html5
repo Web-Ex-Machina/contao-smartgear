@@ -5,7 +5,7 @@
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <!-- Display messages -->
-<?= Message::generate() ?>
+<?= Message::generate(); ?>
 
 <!-- Scripts -->
 <script type="text/javascript">
@@ -57,6 +57,29 @@
 				,'contents':'<iframe src="'+href+'" name="simple-modal-contents" width="100%" height="'+h+'" frameborder="0"></iframe>'
 				,'model':'modal'
 			});
+		});
+
+		/**
+		 * Handle update buttons
+		 */
+		j('.sgUpdateAll').bind('click', function(e) {
+			e.preventDefault();
+			var blnReload = true;
+			j(this).parent().find('li').each(function() {
+				applyUpdate(j(this).data('update')).then(function(r) {
+					toastr[r["status"]](r["msg"]);
+				}).catch(function(e) {
+					toastr.error(e, "Une erreur est survenue :");
+					blnReload = false;
+					return false;
+				});
+			});
+
+			if(blnReload) {
+				setTimeout(function() {
+					location.reload()
+				}, 2500);
+			}
 		});
 
 		/**
@@ -139,7 +162,7 @@
 
 		var objFields = {
 			'TL_WEM_AJAX':1
-			,'REQUEST_TOKEN':"<?= $this->token ?>"
+			,'REQUEST_TOKEN':"<?= $this->token; ?>"
 			,'wem_module':'be_smartgear'
 			,'action':'parse'
 			,'format':'html'
@@ -164,25 +187,62 @@
 		.always(function(){
 			ctn.find('.loader').removeClass("active");
 		});
-	}	
+	}
+
+function applyUpdate(update) {
+	return new Promise((resolve, reject) => {
+		var objFields = {
+			'TL_WEM_AJAX':1
+			,'REQUEST_TOKEN':"<?= $this->token; ?>"
+			,'wem_module':'be_smartgear_update'
+			,'action':update
+		};
+
+		j.ajax({
+			method: "POST"
+			,timeout:7500
+			,data: objFields
+		})
+		.done(function(msg){
+			// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+			try{
+				var results = j.parseJSON(msg);
+
+				// Handle actions errors
+				if("error" === results["status"]) {
+					reject(results["msg"]);
+				}
+
+				// Notify everything goes well
+				resolve(results);
+			}
+			catch(err){
+       			reject(err); 
+			}
+		})
+		.fail(function(jqXHR, textStatus, errorThrown){
+			reject(textStatus+"<br>"+errorThrown);
+		})
+	});
+}
 </script>
 
 <!-- Display Module -->
 <div id="tl_wem_sg_install" class="wem_module">
 	
-	<?php if($this->logs && !empty($this->logs)): ?>
+	<?php if ($this->logs && !empty($this->logs)): ?>
 	<div class="logs">
 		<div class="content_container">
-			<?php foreach($this->logs as $log): ?>
-			<p class="<?= $log["status"] ?>"><?= $log["msg"] ?></p>
+			<?php foreach ($this->logs as $log): ?>
+			<p class="<?= $log['status']; ?>"><?= $log['msg']; ?></p>
 			<?php endforeach; ?>
 		</div>
 	</div>
 	<?php endif; ?>
 
-	<?php foreach($this->blocks as $type => $blocks): ?>
-	<div class="blocks <?= $type ?>">
-		<?= implode('', $blocks) ?>
+	<?php foreach ($this->blocks as $type => $blocks): ?>
+	<div class="blocks <?= $type; ?>">
+		<?= implode('', $blocks); ?>
 	</div>
 	<?php endforeach; ?>
 	

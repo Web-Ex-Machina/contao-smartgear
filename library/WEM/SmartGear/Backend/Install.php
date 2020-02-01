@@ -101,25 +101,26 @@ class Install extends \BackendModule
         }
 
         // Fetch Smartgear updates
-        if (false === $objUpdater->update) {
+        if (false === $objUpdater->shouldBeUpdated()) {
             \Message::addConfirmation(sprintf("Smartgear v%s trouvé, installé et à jour !", $objUpdater->getCurrentVersion()));
         } else {
-            if ("" != $objUpdater->update) {
-                $link = sprintf(
-                    '&nbsp;<a class="tl_submit" href="%s" title="Jouer l\'update %s">Jouer l\'update %s</a>',
-                    $objUpdater->getUpdateLink($objUpdater->update),
-                    $objUpdater->update,
-                    $objUpdater->update
-                );
+            $updates = [];
+            if (!empty($objUpdater->updates)) {
+                $updates[] = '<ul>';
+                foreach ($objUpdater->updates as $strFunction) {
+                    $updates[] = sprintf('<li data-update="%s">Update %s</li>', $strFunction, $strFunction);
+                }
+                $updates[] = '</ul>';
             }
 
             // @todo : Coder l'appel de la fonction trouvée, en AJAX ou pas.
             \Message::addRaw(
                 sprintf(
-                    '<div class="tl_info"><p>Il y a une différence de versions entre le Smartgear installé (%s) et le package trouvé (%s).</p>%s</div>',
+                    '<div class="tl_info">Il y a une différence de version entre le Smartgear installé (%s) et le package trouvé (%s).%s%s</div>',
                     $objUpdater->getCurrentVersion() ?: "NR",
                     $objUpdater->getPackageVersion() ?: "NR",
-                    $link ?: ''
+                    implode('', $updates),
+                    !empty($updates) ? '<br><button title="Appliquer toutes les updates" class="tl_submit sgUpdateAll">Appliquer</button>' : ''
                 )
             );
         }
@@ -153,7 +154,6 @@ class Install extends \BackendModule
      */
     public function processAjaxRequest($strAction)
     {
-
         // Catch AJAX Requests
         if (\Input::post('TL_WEM_AJAX') && 'be_smartgear' == \Input::post('wem_module')) {
             try {
@@ -178,6 +178,22 @@ class Install extends \BackendModule
                 // Launch the action and store the result
                 $arrResponse = $objModule->$strAction();
                 $arrResponse["logs"] = $objModule->logs;
+            } catch (Exception $e) {
+                $arrResponse = ["status"=>"error", "msg"=>$e->getMessage(), "trace"=>$e->getTrace()];
+            }
+
+            // Add Request Token to JSON answer and return
+            $arrResponse["rt"] = \RequestToken::get();
+            echo json_encode($arrResponse);
+            die;
+        } else if(\Input::post('TL_WEM_AJAX') && 'be_smartgear_update' == \Input::post('wem_module')) {
+            try {
+                $objUpdater = new Updater();
+                if($objUpdater->runUpdate(\Input::post('action'))) {
+                    $arrResponse = ['status'=>"success", "msg" => "La mise à jour ".\Input::post('action')." a été appliquée avec succès !"];
+                } else {
+                    throw new \Exception("Une erreur est survenue - et on est pas passé dans l'exception comme prévu");
+                }
             } catch (Exception $e) {
                 $arrResponse = ["status"=>"error", "msg"=>$e->getMessage(), "trace"=>$e->getTrace()];
             }
