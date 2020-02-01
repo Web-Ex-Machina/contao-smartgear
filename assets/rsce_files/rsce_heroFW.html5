@@ -45,7 +45,7 @@
         <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
         <?= $this->text ?>
         <?php if($this->url): ?>
-        <a class="btn" href="<?= $this->url ?>" title="<?= $this->linkTitle ?>"><?= $this->linkTitle ?></a>
+        <a class="btn" href="<?= $this->url ?>" title="<?= $this->linkTitle ?>"<?= $this->target ? ' target="_blank"' : '' ?>><?= $this->linkTitle ?></a>
         <?php endif; ?>
       </div>
     </div>

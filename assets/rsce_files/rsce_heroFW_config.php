@@ -108,6 +108,11 @@ return array(
         'linkTitle' => array(
             'inputType' => 'standardField',
         ),
+        'target' => array(
+            'label' => &$GLOBALS['TL_LANG']['MSC']['target']
+            ,'inputType' => 'checkbox'
+            ,'eval' => array('tl_class'=>'w50')
+        ),
 
         'contentstyle_legend' => array(
             'label' => array('Style du contenu'),
