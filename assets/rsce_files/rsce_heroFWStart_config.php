@@ -1,7 +1,7 @@
 <?php
 // rsce_heroFW_config.php
 return array(
-    'label' => array('Hero FW', 'Générez un élément stylisé composé d\'un texte sur une image')
+    'label' => array('Hero FW -- Wrapper Start', 'Générez un élément stylisé composé d\'un texte sur une image')
     ,'contentCategory' => 'SMARTGEAR'
     ,'standardFields' => array('cssID')
     ,'fields' => array(
@@ -76,44 +76,6 @@ return array(
             'eval' => array('tl_class'=>'w50'),
         ),
 
-        'content_legend' => array(
-            'label' => array('Contenu'),
-            'inputType' => 'group',
-        ),
-        'headline' => array(
-            'inputType' => 'standardField',
-            'eval' => array('mandatory'=>false)
-        ),
-        'title_modifier' => array(
-            'label' => array('Variante titre', 'Ajoute un style particulier au titre'),
-            'inputType' => 'select',
-            'options' => array(
-                '' => ' - ',
-                'title--1' => 'Style 1',
-                'title--2' => 'Style 2',
-                'title--3' => 'Style 3',
-                'title--4' => 'Style 4',
-            ),
-            'eval' => array('tl_class'=>'w50'),
-        ),
-
-        'text' => array(
-            'inputType' => 'standardField',
-            'eval' => array('mandatory'=>false, 'tl_class'=>'clr')
-        ),
-        'url' => array(
-            'inputType' => 'standardField',
-            'eval' => array('mandatory'=>false)
-        ),
-        'linkTitle' => array(
-            'inputType' => 'standardField',
-        ),
-        'target' => array(
-            'label' => &$GLOBALS['TL_LANG']['MSC']['target']
-            ,'inputType' => 'checkbox'
-            ,'eval' => array('tl_class'=>'w50')
-        ),
-
         'contentstyle_legend' => array(
             'label' => array('Style du contenu'),
             'inputType' => 'group',
@@ -136,12 +98,6 @@ return array(
                 'top' => 'Haut',
                 'bottom' => 'Bas',
             ),
-            'eval' => array('tl_class'=>'w50'),
-        ),
-        'content_color' => array(
-            'label' => array('Couleur du texte', 'Si souhaité, ajustez la couleur du contenu'),
-            'inputType' => 'select',
-            'options' => \WEM\SmartGear\Backend\Util::getSmartgearColors("rsce-ft"),
             'eval' => array('tl_class'=>'w50'),
         ),
         'content_background' => array(

@@ -18,15 +18,10 @@
     $arrClasses[] = 'content--h--'.$this->content_horizontal;
   if($this->content_vertical)
     $arrClasses[] = 'content--v--'.$this->content_vertical;
-  if($this->content_color)
-    $arrClasses[] = $this->content_color;
   if($this->content_background)
     $arrClasses[] = 'content__bg--'.$this->content_background;
   if($this->content_background_opacity)
     $arrClasses[] = 'content__bg__opacity--'.intval($this->content_background_opacity);
-  if($this->title_modifier)
-    $arrClasses[] = $this->title_modifier;
-
 
   $height = '';
   if($this->block_height)
@@ -42,12 +37,4 @@
     </div>
     <div class="heroFW__content">
       <div class="heroFW__content__wrapper">
-        <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
-        <?= $this->text ?>
-        <?php if($this->url): ?>
-        <a class="btn" href="<?= $this->url ?>" title="<?= $this->linkTitle ?>"<?= $this->target ? ' target="_blank"' : '' ?>><?= $this->linkTitle ?></a>
-        <?php endif; ?>
-      </div>
-    </div>
-  </div>
-</div>
+        
