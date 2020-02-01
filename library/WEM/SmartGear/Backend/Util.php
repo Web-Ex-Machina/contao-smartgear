@@ -370,7 +370,7 @@ class Util
     /**
      * Shortcut for page w/ modules creations
      */
-    public static function createPageWithModules($strTitle, $arrModules, $intPid = 0)
+    public static function createPageWithModules($strTitle, $arrModules, $intPid = 0, $arrPageData = [])
     {
         $arrConfig = static::loadSmartgearConfig();
         if (0 === $intPid) {
@@ -378,7 +378,7 @@ class Util
         }
         
         // Create the page
-        $objPage = static::createPage($strTitle, $intPid);
+        $objPage = static::createPage($strTitle, $intPid, $arrPageData);
 
         // Create the article
         $objArticle = static::createArticle($objPage);
