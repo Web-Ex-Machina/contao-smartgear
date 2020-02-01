@@ -523,16 +523,6 @@ class Core extends Block implements BlockInterface
             $arrPageMounts[] = $objHomePage->id;
             $objArticle = Util::createArticle($objHomePage);
 
-            // Create a 404 page, with a sitemap after
-            $obj404Page = Util::createPage('Erreur 404 - Page non trouvée', $objRootPage->id, ['type' => 'error_404']);
-            $objArticle = Util::createArticle($obj404Page);
-            $objContent = Util::createContent($objArticle, [
-                'headline' => serialize(['unit' => 'h1', 'value' => 'Page non trouvée !']), 'text' => "<p>La page demandée n'existe pas. Vous pouvez consulter le plan du site ci-dessous pour poursuivre votre navigation.</p>",
-            ]);
-            $objContent = Util::createContent($objArticle, [
-                'type' => 'module', 'module' => $objModule->id,
-            ]);
-
             // Create a module Sitemap
             $objModule = new \ModuleModel();
             $objModule->pid = $objTheme->id;
@@ -543,6 +533,16 @@ class Core extends Block implements BlockInterface
             $objModule->rootPage = $objRootPage->id;
             $objModule->save();
             $arrModules[] = $objModule->id;
+
+            // Create a 404 page, with a sitemap after
+            $obj404Page = Util::createPage('Erreur 404 - Page non trouvée', $objRootPage->id, ['type' => 'error_404']);
+            $objArticle = Util::createArticle($obj404Page);
+            $objContent = Util::createContent($objArticle, [
+                'headline' => serialize(['unit' => 'h1', 'value' => 'Page non trouvée !']), 'text' => "<p>La page demandée n'existe pas. Vous pouvez consulter le plan du site ci-dessous pour poursuivre votre navigation.</p>",
+            ]);
+            $objContent = Util::createContent($objArticle, [
+                'type' => 'module', 'module' => $objModule->id,
+            ]);
 
             // Create a page with the sitemap
             $objSitemapPage = Util::createPage('Plan du site', $objRootPage->id, ['hide' => 1]);

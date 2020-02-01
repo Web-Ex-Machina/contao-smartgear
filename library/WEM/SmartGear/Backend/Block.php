@@ -44,6 +44,9 @@ class Block extends Controller
         $this->fields = [];
         $this->actions = [];
 
+        // Import backend user
+        $this->import('BackendUser', 'User');
+
         $this->getStatus();
     }
 
