@@ -22,6 +22,8 @@ TemplateLoader::addFiles(
         ,'rsce_foldingbox'  => 'templates/rsce'
         ,'rsce_tabs'        => 'templates/rsce'
         ,'rsce_heroFW'      => 'templates/rsce'
+        ,'rsce_heroFWStart' => 'templates/rsce'
+        ,'rsce_heroFWStop'  => 'templates/rsce'
         ,'rsce_accordionFW' => 'templates/rsce'
         ,'rsce_counterFW'   => 'templates/rsce'
         ,'rsce_testimonials'=> 'templates/rsce'
