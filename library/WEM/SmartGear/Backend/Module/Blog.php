@@ -206,6 +206,7 @@ class Blog extends Block implements BlockInterface
         $objListModule->pid = $this->sgConfig["sgInstallTheme"];
         $objListModule->name = "Blog - List";
         $objListModule->type = "newslist";
+        $objListModule->imgSize = 'a:3:{i:0;s:4:"1000";i:1;s:3:"500";i:2;s:4:"crop";}';
         $objListModule->news_archives = serialize([0=>$objArchive->id]);
         $objListModule->numberOfItems = 0;
         $objListModule->news_featured = "all_items";
@@ -222,16 +223,30 @@ class Blog extends Block implements BlockInterface
         $objReaderModule->pid = $this->sgConfig["sgInstallTheme"];
         $objReaderModule->name = "Blog - Reader";
         $objReaderModule->type = "newsreader";
+        $objReaderModule->imgSize = 'a:3:{i:0;s:4:"1000";i:1;s:3:"500";i:2;s:4:"crop";}';
         $objReaderModule->news_archives = serialize([0=>$objArchive->id]);
         $objReaderModule->news_metaFields = serialize([0=>'date']);
         $objReaderModule->news_template = 'news_full';
         $objReaderModule->save();
 
         // Create the list page
-        $intPage = Util::createPageWithModules("Blog", [$objListModule->id, $objReaderModule->id]);
+        $strTitleList = "Blog";
+        $objPageList = Util::createPage($strTitleList, 0);
+        $objArticle = Util::createArticle($objPageList);
+        $objTitle = Util::createContent($objArticle, [
+            'type' => 'headline',
+            'headline' => serialize(['unit'=>'h1','value'=>$strTitleList])
+        ]);
+        $objModule = Util::createContent($objArticle, [
+            'type' => 'module',
+            'module' => $objListModule->id
+        ]);
+
+        // Create the reader page
+        $intPageReader = Util::createPageWithModules("Blog - Article", [$objReaderModule->id], $objPageList->id);
 
         // Update the archive jumpTo
-        $objArchive->jumpTo = $intPage;
+        $objArchive->jumpTo = $intPageReader;
         $objArchive->save();
         
         // And save stuff in config
@@ -240,8 +255,8 @@ class Blog extends Block implements BlockInterface
             ,"sgBlogNewsArchive"=>$objArchive->id
             ,"sgBlogModuleList"=>$objListModule->id
             ,"sgBlogModuleReader"=>$objReaderModule->id
-            ,"sgBlogPageList"=>$intPage
-            ,"sgBlogPageReader"=>$intPage
+            ,"sgBlogPageList"=>$intPageList
+            ,"sgBlogPageReader"=>$intPageReader
         ]);
 
         // And return an explicit status with some instructions
