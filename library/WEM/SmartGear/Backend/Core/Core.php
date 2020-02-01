@@ -398,6 +398,29 @@ class Core extends Block implements BlockInterface
             $this->sgConfig["sgInstallLayout"] = $objLayout->id;
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le layout %s a été créé et sera utilisé pour la suite de la configuration", $objLayout->name)];
 
+            // Add a layout without header and guidelines
+            $objLayoutWithoutHeaderAndFooter = new \LayoutModel();
+            $objLayoutWithoutHeaderAndFooter->pid = $objTheme->id;
+            $objLayoutWithoutHeaderAndFooter->name = "Page sans header/footer";
+            $objLayoutWithoutHeaderAndFooter->rows = "1rw";
+            $objLayoutWithoutHeaderAndFooter->cols = "1cl";
+            $objLayoutWithoutHeaderAndFooter->framework = '';
+            $objLayoutWithoutHeaderAndFooter->stylesheet = '';
+            $objLayoutWithoutHeaderAndFooter->external = serialize($arrCssFiles);
+            $objLayoutWithoutHeaderAndFooter->orderExt = serialize($arrCssFiles);
+            $objLayoutWithoutHeaderAndFooter->loadingOrder = "external_first";
+            $objLayoutWithoutHeaderAndFooter->combineScripts = 1;
+            $objLayoutWithoutHeaderAndFooter->doctype = "html5";
+            $objLayoutWithoutHeaderAndFooter->template = "fe_page";
+            $objLayoutWithoutHeaderAndFooter->viewport = "width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0";
+            $objLayoutWithoutHeaderAndFooter->externalJs = serialize($arrJsFiles);
+            $objLayoutWithoutHeaderAndFooter->orderExtJs = serialize($arrJsFiles);
+            $objLayoutWithoutHeaderAndFooter->modules = 'a:1:{i:0;a:3:{s:3:"mod";s:1:"0";s:3:"col";s:4:"main";s:6:"enable";s:1:"1";}}';
+            $objLayoutWithoutHeaderAndFooter->head = file_get_contents("system/modules/wem-contao-smartgear/assets/examples/balises_supplementaires_1.js");
+            $objLayoutWithoutHeaderAndFooter->script = file_get_contents("system/modules/wem-contao-smartgear/assets/examples/code_javascript_personnalise_1.js");
+            $objLayoutWithoutHeaderAndFooter->save();
+            $this->logs[] = ["status"=>"tl_confirm", "msg"=>sprintf("Le layout %s a été créé et sera utilisé pour la suite de la configuration", $objLayout->name)];
+
             // Create the default user group
             $objUserGroup = new \UserGroupModel();
             $objUserGroup->tstamp = time();
@@ -567,7 +590,11 @@ class Core extends Block implements BlockInterface
             ]);
 
             // Create a Guidelines Page
-            $objPage = Util::createPage("Guidelines", $objRootPage->id, ["hide"=>1]);
+            $objPage = Util::createPage("Guidelines", $objRootPage->id, [
+                "includeLayout"=>1
+                ,"layout"=>$objLayoutWithoutHeaderAndFooter->id
+                ,"hide"=>1
+            ]);
             $arrPageMounts[] = $objPage->id;
             $objArticle = Util::createArticle($objPage, ["cssID"=>serialize([0=>"guideline"])]);
 
