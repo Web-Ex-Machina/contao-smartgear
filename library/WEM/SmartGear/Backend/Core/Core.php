@@ -320,6 +320,13 @@ class Core extends Block implements BlockInterface
             $this->sgConfig['framwayPath'] = $fp;
             $this->sgConfig['framwayTheme'] = $fttp;
             $this->sgConfig['websiteLogo'] = $objLogoModel->path;
+            $this->sgConfig['ownerTitle'] = \Input::post('ownerTitle');
+            $this->sgConfig['ownerStatus'] = \Input::post('ownerStatus');
+            $this->sgConfig['ownerSIRET'] = \Input::post('ownerSIRET');
+            $this->sgConfig['ownerAddress'] = \Input::post('ownerAddress');
+            $this->sgConfig['ownerEmail'] = \Input::post('ownerEmail');
+            $this->sgConfig['ownerDomain'] = \Input::post('ownerDomain') ?: \Environment::get('base');
+            $this->sgConfig['ownerHost'] = \Input::post('ownerHost');
             $this->logs[] = ['status' => 'tl_confirm', 'msg' => 'Configuration importée'];
 
             // Create the Smartgear main theme
@@ -579,16 +586,63 @@ class Core extends Block implements BlockInterface
             $objPage = Util::createPage('Mentions légales', $objRootPage->id, ['hide' => 1]);
             $arrPageMounts[] = $objPage->id;
             $objArticle = Util::createArticle($objPage);
+            $strText = file_get_contents('system/modules/wem-contao-smartgear/assets/examples/legal-notices_1.html');
+            $strHtml = '<p>A remplir</p>';
+            if($strText) {
+                /**
+                    1: URL du site entière
+                    2: URL du site sans https://
+                    3: Nom de l'entreprise
+                    4: Statut de l'entreprise
+                    5: Siret de l'entreprise
+                    6: Adresse du siège de l'entreprise
+                    7: Adresse mail de l'entreprise
+                    8: Nom & Adresse de l'hébergeur
+                */
+                $strHtml = sprintf(
+                    $strText,
+                    $this->sgConfig['ownerDomain'],
+                    $this->sgConfig['ownerDomain'],
+                    $this->sgConfig['ownerTitle'],
+                    $this->sgConfig['ownerStatus'],
+                    $this->sgConfig['ownerSIRET'],
+                    $this->sgConfig['ownerAddress'],
+                    $this->sgConfig['ownerEmail'],
+                    $this->sgConfig['ownerHost']
+                );
+            }
+            
             $objContent = Util::createContent($objArticle, [
-                'headline' => serialize(['unit' => 'h1', 'value' => 'Mentions légales']), 'text' => '<p>A remplir</p>',
+                'headline' => serialize(['unit' => 'h1', 'value' => 'Mentions légales']), 'text' => $strHtml,
             ]);
 
             // Create a Privacy Page
             $objPage = Util::createPage('Confidentialité', $objRootPage->id, ['hide' => 1]);
             $arrPageMounts[] = $objPage->id;
             $objArticle = Util::createArticle($objPage);
+            $strText = file_get_contents('system/modules/wem-contao-smartgear/assets/examples/privacy_1.html');
+            $strHtml = '<p>A remplir</p>';
+            if($strText) {
+                /**
+                    1: Nom de la boite
+                    2: Adresse
+                    3: SIRET
+                    4: URL de la page confidentialité
+                    5: Date
+                    6: Contact email
+                */
+                $strHtml = sprintf(
+                    $strText,
+                    $this->sgConfig['ownerTitle'],
+                    $this->sgConfig['ownerAddress'],
+                    $this->sgConfig['ownerSIRET'],
+                    $this->sgConfig['ownerDomain'].'/'.$objPage->alias.'.html',
+                    date('d/m/Y'),
+                    $this->sgConfig['ownerEmail']
+                );
+            }
             $objContent = Util::createContent($objArticle, [
-                'headline' => serialize(['unit' => 'h1', 'value' => 'Confidentialité']), 'text' => '<p>A remplir</p>',
+                'text' => $strHtml,
             ]);
 
             // Create a Guidelines Page
