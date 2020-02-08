@@ -762,6 +762,26 @@ class Core extends Block implements BlockInterface
                 $objDb->prepare('TRUNCATE TABLE '.$strTable)->execute();
             }
 
+            // Restore Contao default config
+            \Config::remove('websiteTitle');
+            \Config::remove('dateFormat');
+            \Config::remove('timeFormat');
+            \Config::remove('datimFormat');
+            \Config::remove('timeZone');
+            \Config::remove('adminEmail');
+            \Config::remove('characterSet');
+            \Config::remove('useAutoItem');
+            \Config::remove('privacyAnonymizeIp');
+            \Config::remove('privacyAnonymizeGA');
+            \Config::remove('gdMaxImgWidth');
+            \Config::remove('gdMaxImgHeight');
+            \Config::remove('maxFileSize');
+            \Config::remove('undoPeriod');
+            \Config::remove('versionPeriod');
+            \Config::remove('logPeriod');
+            \Config::remove('allowedTags');
+
+            // Clear user files and folders
             $objFiles = \Files::getInstance();
             $objFiles->rrdir('templates', true);
             $objFiles->rrdir('app/Resources');
