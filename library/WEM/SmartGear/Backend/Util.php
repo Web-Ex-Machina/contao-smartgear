@@ -221,7 +221,7 @@ class Util
     }
 
     /**
-     * Update Contao Config.
+     * Update Smartgear Config.
      *
      * @param [Array] $arrVars [Key/Value Array]
      */
@@ -258,6 +258,23 @@ class Util
 
             // And return the entire config, updated
             return $arrConfig;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Reset Smartgear Config
+     */
+    public static function resetConfig()
+    {
+        try {
+            $objFiles = \Files::getInstance();
+            
+            // Open and update the config file
+            $objFile = $objFiles->fopen(static::$strConfigPath, 'w');
+            $objFiles->fputs($objFile, "{}");
+            $objFiles->fclose($objFile);
         } catch (Exception $e) {
             throw $e;
         }

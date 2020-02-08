@@ -752,6 +752,9 @@ class Core extends Block implements BlockInterface
             // Clear Smartgear install before, if exists (useful for config vars)
             $this->remove();
 
+            // Make sure all the SG config is purged (since every table will be truncated)
+            Util::resetConfig();
+
             $objDb = \Database::getInstance();
             $arrSkipTables = ['tl_user', 'tl_files'];
             foreach ($objDb->listTables() as $strTable) {
