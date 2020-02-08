@@ -1,9 +1,9 @@
-<div id="block-<?= $this->type ?>-<?= $this->module ?>" class="block block-install <?= $this->type ?><?= ($this->actions) ? ' hasActions' : '' ?>" data-type="<?= $this->type ?>" data-module="<?= $this->module ?>">
-	<h2 class="title"><i class="fas fa-<?= $this->icon ?>"></i>Smartgear | Core | Installation</h2>
-	<?php if($this->isError): ?>
+<div id="block-<?= $this->type; ?>-<?= $this->module; ?>" class="block block-install <?= $this->type; ?><?= ($this->actions) ? ' hasActions' : ''; ?>" data-type="<?= $this->type; ?>" data-module="<?= $this->module; ?>">
+	<h2 class="title"><i class="fas fa-<?= $this->icon; ?>"></i>Smartgear | Core | Installation</h2>
+	<?php if ($this->isError): ?>
 	<div class="content_container">
-		<p class="tl_error"><?= $this->error ?></p>
-		<p class="tl_error"><?= $this->trace ?></p>
+		<p class="tl_error"><?= $this->error; ?></p>
+		<p class="tl_error"><?= $this->trace; ?></p>
 	</div>
 	<?php else: ?>
 	<div class="content_container">
@@ -22,13 +22,13 @@
 		</p>
 		<p class="tl_info">A noter que tout cela sera prochainement découpé en étapes, pour permettre de configurer chaque module plus précisément.</p>
 	</div>
-	<?php if($this->actions): ?>
-	<form action="<?= $this->request ?>" class="tl_form tl_box" method="post">
+	<?php if ($this->actions): ?>
+	<form action="<?= $this->request; ?>" class="tl_form tl_box" method="post">
 		<div class="tl_formbody_edit">
 			<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
-			<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
-			<input name="type" value="<?= $this->type ?>" type="hidden">
-			<input name="module" value="<?= $this->module ?>" type="hidden">
+			<input name="REQUEST_TOKEN" value="<?= $this->token; ?>" type="hidden">
+			<input name="type" value="<?= $this->type; ?>" type="hidden">
+			<input name="module" value="<?= $this->module; ?>" type="hidden">
 			<input name="action" value="" type="hidden" class="btnAction">
 		</div>
 
@@ -84,7 +84,7 @@
 			<p class="tl_help tl_tip" title="">Choisissez le logo.</p>
 		</div>
 		<div class="tl_submit_container">
-			<?= implode(' ', $this->actions) ?>
+			<?= implode(' ', $this->actions); ?>
 		</div>
 	</form>
 	<?php endif; ?>
