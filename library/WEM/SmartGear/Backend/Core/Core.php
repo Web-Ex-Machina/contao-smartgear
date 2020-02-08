@@ -213,8 +213,43 @@ class Core extends Block implements BlockInterface
     public function install()
     {
         try {
+            $objFiles = \Files::getInstance();
+
             // Prepare the log array
             $this->logs[] = ['status' => 'tl_info', 'msg' => "Début de l'installation"];
+
+            // Create framway paths for later
+            $rp = \System::getContainer()->getParameter('kernel.project_dir').'/';
+            $fp = \Input::post('framwayPath');
+            $fbp = $fp.'/build';
+            $ftp = $fp.'/src/themes';
+            $fttp = \Input::post('framwayTheme');
+
+            // Check if Framway Folder exists
+            if(!file_exists($rp.$fp)) {
+                throw new Exception(sprintf('Le dossier Framway indiqué (%s) n\'existe pas', $fp));
+            }
+
+            // Check if Framway themes folder exists
+            if(!file_exists($rp.$ftp)) {
+                throw new Exception(sprintf('Le dossier du thème Framway indiqué (%s) n\'existe pas', $ftp));
+            }
+
+            // Check if the Framway Theme Folder exists
+            if(!file_exists($rp.$fttp)) {
+                throw new Exception(sprintf('Le dossier du thème Framway indiqué (%s) n\'existe pas', $fttp));
+            }
+
+            // Check app folders and check if there is all Framway stuff loaded
+            if (
+                !file_exists($rp.$fbp.'/css/framway.css')
+                || !file_exists($rp.$fbp.'/css/vendor.css')
+                || !file_exists($rp.$fbp.'/js/framway.js')
+                || !file_exists($rp.$fbp.'/js/vendor.js')
+            ) {
+                throw new Exception('Des fichiers Framway sont manquants.');
+            }
+            $this->logs[] = ['status' => 'tl_confirm', 'msg' => 'Les fichiers Smartgear ont été trouvés (framway.css, framway.js, vendor.css, vendor.js)'];
 
             // Store the default config
             $arrConfig['websiteTitle'] = \Input::post('websiteTitle');
@@ -240,23 +275,12 @@ class Core extends Block implements BlockInterface
                 \Config::persist($k, $v);
             }
 
-            // Standardize Framway path (make sure we are at the framway root)
-            $strFramwayPath = str_replace('/build', '', \Input::post('framwayPath'));
-            $strFramwayPathBuild = $strFramwayPath.'/build';
-            $strFramwayPathThemes = $strFramwayPath.'/src/themes';
-
-            // Make sure Contao knows the framway build files
-            \Dbafs::addResource($strFramwayPathBuild);
-
-            // Check app folders and check if there is all Framway stuff loaded
-            if (!file_exists(TL_ROOT.'/'.$strFramwayPathBuild.'/css/framway.css') || !file_exists(TL_ROOT.'/'.$strFramwayPathBuild.'/css/vendor.css') || !file_exists(TL_ROOT.'/'.$strFramwayPathBuild.'/js/framway.js') || !file_exists(TL_ROOT.'/'.$strFramwayPathBuild.'/js/vendor.js')) {
-                throw new Exception('Des fichiers Framway sont manquants !');
-            }
-            $this->logs[] = ['status' => 'tl_confirm', 'msg' => 'Les fichiers Smartgear ont été trouvés (framway.css, framway.js, vendor.css, vendor.js)'];
-
             // Make sure framway path is public
-            $objFramwayFolder = new \Folder($strFramwayPath);
+            $objFramwayFolder = new \Folder($fp);
             $objFramwayFolder->unprotect();
+
+            // Make sure Contao knows the framway files
+            \Dbafs::addResource($fp);
 
             // Import the folders
             $objFiles = \Files::getInstance();
@@ -265,8 +289,8 @@ class Core extends Block implements BlockInterface
             $objFiles->rcopy('system/modules/wem-contao-smartgear/assets/vendor', 'files/vendor');
 
             // Copy package themes into framway folder
-            $objFolder = new \Folder($strFramwayPathThemes);
-            $objFiles->rcopy('system/modules/wem-contao-smartgear/assets/themes_framway', $strFramwayPathThemes);
+            $objFolder = new \Folder($ftp);
+            $objFiles->rcopy('system/modules/wem-contao-smartgear/assets/themes_framway', $ftp);
             $objFolder->unprotect();
 
             // Unprotect vendor folder
@@ -288,13 +312,13 @@ class Core extends Block implements BlockInterface
                 $objLogo = Util::base64ToImage(\Input::post('websiteLogo'), 'files/medias/logos', 'logo');
                 $objLogoModel = $objLogo->getModel();
             } else {
-                $objLogoModel = \FilesModel::findOneByPath($strFramwayPathBuild.'/img/logo_placeholder.png');
+                $objLogoModel = \FilesModel::findOneByPath($fbp.'/img/logo_placeholder.png');
             }
 
             // Set up some config vars
             $this->sgConfig['websiteTitle'] = \Input::post('websiteTitle');
-            $this->sgConfig['framwayPath'] = $strFramwayPath;
-            $this->sgConfig['framwayTheme'] = \Input::post('framwayTheme');
+            $this->sgConfig['framwayPath'] = $fp;
+            $this->sgConfig['framwayTheme'] = $fttp;
             $this->sgConfig['websiteLogo'] = $objLogoModel->path;
             $this->logs[] = ['status' => 'tl_confirm', 'msg' => 'Configuration importée'];
 
@@ -359,15 +383,15 @@ class Core extends Block implements BlockInterface
             // Create the Smartgear main layout
             $arrCssFiles = [];
             $arrJsFiles = [];
-            $objFile = \FilesModel::findOneByPath($strFramwayPathBuild.'/css/vendor.css');
+            $objFile = \FilesModel::findOneByPath($fbp.'/css/vendor.css');
             $arrCssFiles[] = $objFile->uuid;
-            $objFile = \FilesModel::findOneByPath($strFramwayPathBuild.'/css/framway.css');
+            $objFile = \FilesModel::findOneByPath($fbp.'/css/framway.css');
             $arrCssFiles[] = $objFile->uuid;
             $objFile = \FilesModel::findOneByPath('files/vendor/outdatedbrowser/outdatedbrowser.min.css');
             $arrCssFiles[] = $objFile->uuid;
-            $objFile = \FilesModel::findOneByPath($strFramwayPathBuild.'/js/vendor.js');
+            $objFile = \FilesModel::findOneByPath($fbp.'/js/vendor.js');
             $arrJsFiles[] = $objFile->uuid;
-            $objFile = \FilesModel::findOneByPath($strFramwayPathBuild.'/js/framway.js');
+            $objFile = \FilesModel::findOneByPath($fbp.'/js/framway.js');
             $arrJsFiles[] = $objFile->uuid;
 
             $objLayout = new \LayoutModel();
