@@ -70,7 +70,7 @@ class Updater
      */
     public function getCurrentVersion()
     {
-        return $this->conf['sgVersion'];
+        return $this->conf['sgVersion'] ?: null;
     }
 
     /**
@@ -121,11 +121,6 @@ class Updater
     public function shouldBeUpdated()
     {
         try {
-            // If no version setup, just call the first
-            if (!$this->getCurrentVersion()) {
-                $this->update = 'to050';
-            }
-
             // Clear the current updates array to avoid doublons
             $this->updates = [];
 
@@ -140,6 +135,11 @@ class Updater
             ) {
                 $this->update = false;
                 return false;
+            }
+
+            // If no version setup, just call the first
+            if (!$this->getCurrentVersion()) {
+                $this->updates[] = 'to050';
             }
 
             // Now we will find out what is the function to call
@@ -202,7 +202,7 @@ class Updater
             }
 
             // At the end, always add the generic version update
-            $this->updates[] = 'updateCurrentVersionToPackageVersion';
+            // $this->updates[] = 'updateCurrentVersionToPackageVersion';
 
             return !empty($this->updates);
         } catch (Exception $e) {
@@ -218,6 +218,31 @@ class Updater
     {
         try {
             Util::updateConfig(['sgVersion' => '0.5.0']);
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Update to Smartgear 0.6
+     */
+    public function to060()
+    {
+        try {
+            // Update version
+            Util::updateConfig(['sgVersion' => '0.6.0']);
+
+            // Update timers in Contao config
+            \Config::persist('undoPeriod', 7776000);
+            \Config::persist('versionPeriod', 7776000);
+            \Config::persist('logPeriod', 7776000);
+
+            // Create the Smartgear theme template folder and update the ThemeModel
+            $objFiles = \Files::getInstance();
+            $objFiles->mkdir(sprintf('templates/%s', \StringUtil::generateAlias($this->conf['websiteTitle'])));
+            $objTheme = \ThemeModel::findByPk($this->conf['sgInstallTheme']);
+            $objTheme->templates = sprintf('templates/%s', \StringUtil::generateAlias($this->conf['websiteTitle']));
+            $objTheme->save();
         } catch (Exception $e) {
             throw $e;
         }
