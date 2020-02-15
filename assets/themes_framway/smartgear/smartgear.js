@@ -32,6 +32,19 @@ $(function () {
     $('.calendar__event').each(function () {
         $(this).css('background-color',utils.stringToColor($(this).text()));
     });
+
+
+
+    $('body').on('click', 'a[data-lightbox]', function(e) {
+      e.preventDefault();
+      if (!$('.modalFW[data-name='+$(this).attr('data-lightbox')+']').length) {
+        $(this).attr('data-modal', $(this).attr('data-lightbox'));
+        new app.ModalFW({
+          name: $(this).attr('data-lightbox'),
+          url: $(this).attr('href'),
+        }).open();
+      }
+    });
 });
 
 var toggleCalendarEventView = function toggleCalendarEventView()
