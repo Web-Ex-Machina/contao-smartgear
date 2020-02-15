@@ -99,4 +99,5 @@ if ('FE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['executePreActions'][] = array('\WEM\SmartGear\Hooks\ExecutePreActionsHook', 'catchApiRequests');
     $GLOBALS['TL_HOOKS']['generateFrontendUrl'][] = array('\WEM\SmartGear\Hooks\GenerateFrontendUrlHook', 'generateFrontendUrl');
     $GLOBALS['TL_HOOKS']['generateBreadcrumb'][] = array('\WEM\SmartGear\Hooks\GenerateBreadcrumbHook', 'updateRootItem');
+    $GLOBALS['TL_HOOKS']['parseTemplate'][] = array('\WEM\SmartGear\Hooks\ParseTemplateHook', 'overrideDefaultTemplate');
 }

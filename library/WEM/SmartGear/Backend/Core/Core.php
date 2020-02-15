@@ -288,6 +288,9 @@ class Core extends Block implements BlockInterface
             $objFiles->rcopy('system/modules/wem-contao-smartgear/assets/templates_app', 'app');
             $objFiles->rcopy('system/modules/wem-contao-smartgear/assets/vendor', 'files/vendor');
 
+            // Create the theme template folder
+            $objFiles->mkdir(sprintf('templates/%s', \StringUtil::generateAlias($arrConfig['websiteTitle'])));
+
             // Copy package themes into framway folder
             $objFolder = new \Folder($ftp);
             $objFiles->rcopy('system/modules/wem-contao-smartgear/assets/themes_framway', $ftp);
@@ -334,7 +337,7 @@ class Core extends Block implements BlockInterface
             $objTheme->tstamp = time();
             $objTheme->name = 'Smartgear';
             $objTheme->author = 'Web ex Machina';
-            $objTheme->templates = 'templates/smartgear';
+            $objTheme->templates = sprintf('templates/%s', \StringUtil::generateAlias($arrConfig['websiteTitle']));
             $objTheme->save();
             $this->sgConfig['sgInstallTheme'] = $objTheme->id;
             $this->logs[] = ['status' => 'tl_confirm', 'msg' => sprintf('Le thème %s a été créé et sera utilisé pour la suite de la configuration', $objTheme->name)];
