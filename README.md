@@ -8,27 +8,24 @@ Functionnalities
  * Merge several useful plugins
  * Adjust translations to make them more understandable
  * Upgrade backend UX
+ * Add a lot of components, based on RSCE plugin
 
 System requirements
 -------------------
 
- * Contao 3.*
- * Contao 4.* (Manager Edition)
-
+ * From Contao 4.4 to 4.9
+ * [Framway][4]
 
 Installation
 ------------
 
 Clone the extension from Packagist (Contao Manager)
-or
-Download and paste the folder in system/modules of your Contao Website.
 
 Documentation
 -------------
 
  * [Change log][1]
  * [Git repository][2]
-
 
 License
 -------
@@ -51,3 +48,4 @@ You can get the extension with this repository URL : [Github][2]
 [1]: CHANGELOG.md
 [2]: https://github.com/webexmachina/contao-smartgear
 [3]: https://www.webexmachina.fr/
+[4]: https://framway.webexmachina.fr/

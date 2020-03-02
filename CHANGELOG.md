@@ -1,6 +1,10 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+0.7 - 2020-XX-XX
+- Global: Add a PHPCSFixer set of rules
+- Global: Update Smartgear Readme
+
 0.6 - 2020-02-15
 - Contao: Add Contao 4.8 compatibility
 - Contao: Use Framway ModalFW component instead of colorbox plugin
