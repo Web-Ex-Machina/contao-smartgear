@@ -1,15 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * SMARTGEAR for Contao Open Source CMS.
- *
- * Copyright (c) 2015-2019 Web ex Machina
+ * SMARTGEAR for Contao Open Source CMS
+ * Copyright (c) 2015-2020 Web ex Machina
  *
  * @category ContaoBundle
- *
+ * @package  Web-Ex-Machina/contao-smartgear
  * @author   Web ex Machina <contact@webexmachina.fr>
- *
- * @see     https://github.com/Web-Ex-Machina/contao-smartgear/
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
 namespace WEM\SmartGear\Backend\Core;
@@ -81,7 +81,7 @@ class Core extends Block implements BlockInterface
      *
      * @todo Handle the Logo reset (the install POST value is a b64 so either we match that or we create a rule in install to handle b64 or path)
      */
-    public function reset()
+    public function reset(): void
     {
         \Input::setPost('websiteTitle', $this->sgConfig['websiteTitle']);
         \Input::setPost('framwayPath', $this->sgConfig['framwayPath']);
@@ -104,7 +104,7 @@ class Core extends Block implements BlockInterface
 
                 $blnUpdate = false;
                 foreach (\Input::post('config') as $k => $v) {
-                    if ($v != $this->sgConfig[$k]) {
+                    if ($v !== $this->sgConfig[$k]) {
                         $this->sgConfig[$k] = $v;
                         $blnUpdate = true;
                     }
@@ -143,7 +143,7 @@ class Core extends Block implements BlockInterface
         if ($objThemes) {
             while ($objThemes->next()) {
                 $arrThemes[$objThemes->id] = [
-                    'name' => $objThemes->name, 'selected' => ($this->sgConfig['sgInstallTheme'] == $objThemes->id) ? true : false,
+                    'name' => $objThemes->name, 'selected' => ($this->sgConfig['sgInstallTheme'] === $objThemes->id) ? true : false,
                 ];
             }
         }
@@ -154,7 +154,7 @@ class Core extends Block implements BlockInterface
             $arrConfigModules = deserialize($this->sgConfig['sgInstallModules']);
             while ($objModules->next()) {
                 $arrModules[$objModules->id] = [
-                    'name' => $objModules->name, 'selected' => (in_array($objModules->id, $arrConfigModules)) ? true : false,
+                    'name' => $objModules->name, 'selected' => (\in_array($objModules->id, $arrConfigModules, true)) ? true : false,
                 ];
             }
         }
@@ -165,7 +165,7 @@ class Core extends Block implements BlockInterface
         if ($objLayouts) {
             while ($objLayouts->next()) {
                 $arrLayouts[$objLayouts->id] = [
-                    'name' => $objLayouts->name, 'selected' => ($this->sgConfig['sgInstallLayout'] == $objLayouts->id) ? true : false,
+                    'name' => $objLayouts->name, 'selected' => ($this->sgConfig['sgInstallLayout'] === $objLayouts->id) ? true : false,
                 ];
             }
         }
@@ -176,7 +176,7 @@ class Core extends Block implements BlockInterface
         if ($objUserGroups) {
             while ($objUserGroups->next()) {
                 $arrUserGroups[$objUserGroups->id] = [
-                    'name' => $objUserGroups->name, 'selected' => ($this->sgConfig['sgInstallUserGroup'] == $objUserGroups->id) ? true : false,
+                    'name' => $objUserGroups->name, 'selected' => ($this->sgConfig['sgInstallUserGroup'] === $objUserGroups->id) ? true : false,
                 ];
             }
         }
@@ -187,7 +187,7 @@ class Core extends Block implements BlockInterface
         if ($objRootPages) {
             while ($objRootPages->next()) {
                 $arrRootPages[$objRootPages->id] = [
-                    'name' => $objRootPages->title, 'selected' => ($this->sgConfig['sgInstallRootPage'] == $objRootPages->id) ? true : false,
+                    'name' => $objRootPages->title, 'selected' => ($this->sgConfig['sgInstallRootPage'] === $objRootPages->id) ? true : false,
                 ];
             }
         }
@@ -198,7 +198,7 @@ class Core extends Block implements BlockInterface
         if ($objNcGateways) {
             while ($objNcGateways->next()) {
                 $arrNcGateways[$objNcGateways->id] = [
-                    'name' => $objNcGateways->title, 'selected' => ($this->sgConfig['sgInstallNcGateway'] == $objNcGateways->id) ? true : false,
+                    'name' => $objNcGateways->title, 'selected' => ($this->sgConfig['sgInstallNcGateway'] === $objNcGateways->id) ? true : false,
                 ];
             }
         }
@@ -226,17 +226,17 @@ class Core extends Block implements BlockInterface
             $fttp = \Input::post('framwayTheme');
 
             // Check if Framway Folder exists
-            if(!file_exists($rp.$fp)) {
+            if (!file_exists($rp.$fp)) {
                 throw new Exception(sprintf('Le dossier Framway indiqué (%s) n\'existe pas', $fp));
             }
 
             // Check if Framway themes folder exists
-            if(!file_exists($rp.$ftp)) {
+            if (!file_exists($rp.$ftp)) {
                 throw new Exception(sprintf('Le dossier du thème Framway indiqué (%s) n\'existe pas', $ftp));
             }
 
             // Check if the Framway Theme Folder exists
-            if(!file_exists($rp.$fttp)) {
+            if (!file_exists($rp.$fttp)) {
                 throw new Exception(sprintf('Le dossier du thème Framway indiqué (%s) n\'existe pas', $fttp));
             }
 
@@ -591,17 +591,17 @@ class Core extends Block implements BlockInterface
             $objArticle = Util::createArticle($objPage);
             $strText = file_get_contents('system/modules/wem-contao-smartgear/assets/examples/legal-notices_1.html');
             $strHtml = '<p>A remplir</p>';
-            if($strText) {
+            if ($strText) {
                 /**
-                    1: URL du site entière
-                    2: URL du site sans https://
-                    3: Nom de l'entreprise
-                    4: Statut de l'entreprise
-                    5: Siret de l'entreprise
-                    6: Adresse du siège de l'entreprise
-                    7: Adresse mail de l'entreprise
-                    8: Nom & Adresse de l'hébergeur
-                */
+                 * 1: URL du site entière
+                 * 2: URL du site sans https://
+                 * 3: Nom de l'entreprise
+                 * 4: Statut de l'entreprise
+                 * 5: Siret de l'entreprise
+                 * 6: Adresse du siège de l'entreprise
+                 * 7: Adresse mail de l'entreprise
+                 * 8: Nom & Adresse de l'hébergeur
+                 */
                 $strHtml = sprintf(
                     $strText,
                     $this->sgConfig['ownerDomain'],
@@ -614,7 +614,7 @@ class Core extends Block implements BlockInterface
                     $this->sgConfig['ownerHost']
                 );
             }
-            
+
             $objContent = Util::createContent($objArticle, [
                 'headline' => serialize(['unit' => 'h1', 'value' => 'Mentions légales']), 'text' => $strHtml,
             ]);
@@ -625,15 +625,15 @@ class Core extends Block implements BlockInterface
             $objArticle = Util::createArticle($objPage);
             $strText = file_get_contents('system/modules/wem-contao-smartgear/assets/examples/privacy_1.html');
             $strHtml = '<p>A remplir</p>';
-            if($strText) {
+            if ($strText) {
                 /**
-                    1: Nom de la boite
-                    2: Adresse
-                    3: SIRET
-                    4: URL de la page confidentialité
-                    5: Date
-                    6: Contact email
-                */
+                 * 1: Nom de la boite
+                 * 2: Adresse
+                 * 3: SIRET
+                 * 4: URL de la page confidentialité
+                 * 5: Date
+                 * 6: Contact email
+                 */
                 $strHtml = sprintf(
                     $strText,
                     $this->sgConfig['ownerTitle'],
@@ -743,8 +743,8 @@ class Core extends Block implements BlockInterface
             if ($objModules && 0 < $objModules->count()) {
                 while ($objModules->next()) {
                     if ($objModules->delete()) {
-                        if (is_array($arrModules) && in_array($objModules->id, $arrModules)) {
-                            unset($arrModules[array_search($objModules->id, $arrModules)]);
+                        if (\is_array($arrModules) && \in_array($objModules->id, $arrModules, true)) {
+                            unset($arrModules[array_search($objModules->id, $arrModules, true)]);
                         }
                         $this->logs[] = ['status' => 'tl_confirm', 'msg' => sprintf('Le module %s a été supprimé', $objModules->name)];
                     }
@@ -776,6 +776,9 @@ class Core extends Block implements BlockInterface
             /*if (file_exists(TL_ROOT."/web/robots.txt")) {
                 $objFiles->delete("web/robots.txt");
             }*/
+
+            // Call the https redirection rewriting
+            $this->addHttpsRedirectToHtaccess();
 
             // Finally, reset the config
             $this->sgConfig['sgInstallComplete'] = '';
@@ -816,7 +819,7 @@ class Core extends Block implements BlockInterface
             $arrSkipTables = ['tl_user', 'tl_files'];
             foreach ($objDb->listTables() as $strTable) {
                 // Do not delete user table
-                if (in_array($strTable, $arrSkipTables)) {
+                if (\in_array($strTable, $arrSkipTables, true)) {
                     continue;
                 }
                 $objDb->prepare('TRUNCATE TABLE '.$strTable)->execute();
@@ -859,6 +862,41 @@ class Core extends Block implements BlockInterface
                 ],
             ];
         } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Add "Redirect to https" in htaccess.
+     *
+     * @return [void]
+     */
+    protected function addHttpsRedirectToHtaccess()
+    {
+        try {
+            // 1st: open htaccess
+            $strContent = file_get_contents(TL_ROOT.'/web/.htaccess');
+
+            // 2nd: check if we already have the https redirect
+            if (false !== strpos($strContent, 'RewriteCond %{HTTPS} off')) {
+                return;
+            }
+
+            // 3rd: Add the redirect to https directives after RewriteEngine On
+            $str = 'RewriteEngine On'."\n";
+            $str2 = '    RewriteCond %{HTTPS} off'."\n".'    RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]'."\n";
+            $strContent = substr_replace(
+                $strContent,
+                $str2,
+                strpos($strContent, $str) + \strlen($str),
+                0
+            );
+
+            // 4th: write in the htaccess
+            $f = fopen(TL_ROOT.'/web/.htaccess', 'w+');
+            fwrite($f, $strContent);
+            fclose($f);
+        } catch (\Exception $e) {
             throw $e;
         }
     }
