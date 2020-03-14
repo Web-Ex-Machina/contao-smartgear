@@ -6,97 +6,158 @@
 
 <div class="wem_sg_modal">
 	<form action="#" method="POST" name="wem_sg_modal">
-		<div class="w50 widget">
-			<h3><label for="websiteTitle" class="mandatory">Titre du site</label></h3>
-			<input name="websiteTitle" id="websiteTitle" class="tl_text" value="<?= $this->config['websiteTitle'] ?>" type="text">
-		</div>
-		<div class="w50 widget">
-			<h3><label for="framwayPath" class="mandatory">Accès au framway</label></h3>
-			<input name="framwayPath" id="framwayPath" class="tl_text" value="<?= $this->config['framwayPath'] ?>" type="text">
-		</div>
-
-		<div class="widget w50">
-			<div id="ctrl_protected" class="tl_checkbox_single_container">
-				<input name="sgInstallComplete" id="sgInstallComplete" class="tl_checkbox" value="1" type="checkbox"<?= ($this->config['sgInstallComplete'] == 1) ? ' checked' : '' ?>>
-				<label for="sgInstallComplete">Smartgear Installé ?</label>
-				<br>
+		<fieldset class="tl_tbox">
+			<legend>Smartgear settings</legend>
+			<div class="w50 widget">
+				<h3><label for="websiteTitle" class="mandatory">Titre du site</label></h3>
+				<input name="websiteTitle" id="websiteTitle" class="tl_text" value="<?= $this->config['websiteTitle'] ?>" type="text">
 			</div>
-		</div>
+			<div class="widget w50">
+				<h3><label for="ctrl_websiteLogo">Logo<?= $this->config['websiteLogo'] ? sprintf(' actuel: <a href="%s" title="Voir le logo" target="_blank">Voir le logo</a>', $this->config['websiteLogo']) : '' ?></label></h3>
+				<input id="ctrl_websiteLogo" class="tl_input skip" value="" onfocus="Backend.getScrollOffset()" type="file">
+				<p class="tl_help tl_tip" title="">Modifiez le logo.</p>
+			</div>
 
-		<div class="w50 clr widget">
-			<h3><label for="sgInstallTheme">Thème Smartgear</label></h3>
-			<?php if($this->themes): ?>
-			<select name="sgInstallTheme" id="sgInstallTheme" class="tl_select tl_chosen">
-				<?php foreach($this->themes as $id => $theme): ?>
-				<option value="<?= $id ?>"<?= $theme['selected'] ? ' selected' : '' ?>><?= $theme['name'] ?></option>
-				<?php endforeach; ?>
-			</select>
-			<?php else : ?>
-			<p class="error">Pas de thèmes installés</p>
-			<?php endif; ?>
-		</div>
-		<div class="w50 widget">
-			<h3><label for="sgInstallModules">Modules Smartgear</label></h3>
-			<?php if($this->modules): ?>
-			<select name="sgInstallModules" id="sgInstallModules" class="tl_select tl_chosen" multiple>
-				<?php foreach($this->modules as $id => $module): ?>
-				<option value="<?= $id ?>"<?= $module['selected'] ? ' selected' : '' ?>><?= $module['name'] ?></option>
-				<?php endforeach; ?>
-			</select>
-			<?php else : ?>
-			<p class="error">Pas de modules installés</p>
-			<?php endif; ?>
-		</div>
+			<div class="w50 widget">
+				<h3><label for="framwayPath" class="mandatory">Chemin du framway</label></h3>
+				<input name="framwayPath" id="framwayPath" class="tl_text" value="<?= $this->config['framwayPath'] ?>" type="text">
+			</div>
+			<div class="w50 widget">
+				<h3><label for="framwayTheme" class="mandatory">Thème du framway</label></h3>
+				<input name="framwayTheme" id="framwayTheme" class="tl_text" value="<?= $this->config['framwayTheme'] ?>" type="text">
+			</div>
+		</fieldset>
 
-		<div class="w50 widget">
-			<h3><label for="sgInstallLayout">Squelette Smartgear</label></h3>
-			<?php if($this->layouts): ?>
-			<select name="sgInstallLayout" id="sgInstallLayout" class="tl_select tl_chosen">
-				<?php foreach($this->layouts as $id => $layout): ?>
-				<option value="<?= $id ?>"<?= $layout['selected'] ? ' selected' : '' ?>><?= $layout['name'] ?></option>
-				<?php endforeach; ?>
-			</select>
-			<?php else : ?>
-			<p class="error">Pas de squelettes installés</p>
-			<?php endif; ?>
-		</div>
-		<div class="w50 widget">
-			<h3><label for="sgInstallUserGroup">Groupe d'administrateurs Smartgear</label></h3>
-			<?php if($this->usergroups): ?>
-			<select name="sgInstallUserGroup" id="sgInstallUserGroup" class="tl_select tl_chosen">
-				<?php foreach($this->usergroups as $id => $usergroup): ?>
-				<option value="<?= $id ?>"<?= $usergroup['selected'] ? ' selected' : '' ?>><?= $usergroup['name'] ?></option>
-				<?php endforeach; ?>
-			</select>
-			<?php else : ?>
-			<p class="error">Pas de groupes d'administrateurs installés</p>
-			<?php endif; ?>
-		</div>
-		
-		<div class="w50 widget">
-			<h3><label for="sgInstallRootPage">Racine de site Smartgear</label></h3>
-			<?php if($this->rootpages): ?>
-			<select name="sgInstallRootPage" id="sgInstallRootPage" class="tl_select tl_chosen">
-				<?php foreach($this->rootpages as $id => $rootpage): ?>
-				<option value="<?= $id ?>"<?= $rootpage['selected'] ? ' selected' : '' ?>><?= $rootpage['name'] ?></option>
-				<?php endforeach; ?>
-			</select>
-			<?php else : ?>
-			<p class="error">Pas de racines de site installées</p>
-			<?php endif; ?>
-		</div>
-		<div class="w50 widget">
-			<h3><label for="sgInstallNcGateway">Passerelle email Smartgear</label></h3>
-			<?php if($this->ncgateways): ?>
-			<select name="sgInstallNcGateway" id="sgInstallNcGateway" class="tl_select tl_chosen">
-				<?php foreach($this->ncgateways as $id => $ncgateway): ?>
-				<option value="<?= $id ?>"<?= $ncgateway['selected'] ? ' selected' : '' ?>><?= $ncgateway['name'] ?></option>
-				<?php endforeach; ?>
-			</select>
-			<?php else : ?>
-			<p class="error">Pas de passerelles installées</p>
-			<?php endif; ?>
-		</div>
+		<fieldset class="tl_box">
+			<legend>Informations du détenteur du site</legend>
+			<div class="widget w50">
+				<h3><label for="ctrl_ownerTitle">Raison sociale</label></h3>
+				<input name="ownerTitle" id="ctrl_ownerTitle" class="tl_text" value="<?= $this->config['ownerTitle'] ?>" required="" onfocus="Backend.getScrollOffset()" type="text">
+				<p class="tl_help tl_tip" title="">Saisir la raison sociale du détenteur du site</p>
+			</div>
+
+			<div class="widget w50">
+				<h3><label for="ctrl_ownerStatus">Statut</label></h3>
+				<input name="ownerStatus" id="ctrl_ownerStatus" class="tl_text" value="<?= $this->config['ownerStatus'] ?>" required="" onfocus="Backend.getScrollOffset()" type="text">
+				<p class="tl_help tl_tip" title="">Saisir le statut du détenteur du site</p>
+			</div>
+
+			<div class="widget w50">
+				<h3><label for="ctrl_ownerSIRET">SIRET</label></h3>
+				<input name="ownerSIRET" id="ctrl_ownerSIRET" class="tl_text" value="<?= $this->config['ownerSIRET'] ?>" required="" onfocus="Backend.getScrollOffset()" type="text">
+				<p class="tl_help tl_tip" title="">Saisir le SIRET du détenteur du site</p>
+			</div>
+
+			<div class="widget w50">
+				<h3><label for="ctrl_ownerAddress">Adresse</label></h3>
+				<input name="ownerAddress" id="ctrl_ownerAddress" class="tl_text" value="<?= $this->config['ownerAddress'] ?>" required="" onfocus="Backend.getScrollOffset()" type="text">
+				<p class="tl_help tl_tip" title="">Saisir l'adresse du siège du détenteur du site</p>
+			</div>
+
+			<div class="widget w50">
+				<h3><label for="ctrl_ownerEmail">Adresse email</label></h3>
+				<input name="ownerEmail" id="ctrl_ownerEmail" class="tl_text" value="<?= $this->config['ownerEmail'] ?>" required="" onfocus="Backend.getScrollOffset()" type="email">
+				<p class="tl_help tl_tip" title="">Saisir l'adresse email du détenteur du site</p>
+			</div>
+
+			<div class="widget w50">
+				<h3><label for="ctrl_ownerDomain">Domaine</label></h3>
+				<input name="ownerDomain" id="ctrl_ownerDomain" class="tl_text" value="<?= $this->config['ownerDomain'] ?>" required="" onfocus="Backend.getScrollOffset()" type="text">
+				<p class="tl_help tl_tip" title="">Saisir le domaine principal du détenteur du site (laisser vide pour utiliser le domaine actuel)</p>
+			</div>
+
+			<div class="widget w50">
+				<h3><label for="ctrl_ownerHost">Hébergeur</label></h3>
+				<input name="ownerHost" id="ctrl_ownerHost" class="tl_text" value="<?= $this->config['ownerHost'] ?>" required="" onfocus="Backend.getScrollOffset()" type="text">
+				<p class="tl_help tl_tip" title="">Saisir le nom et l'adresse de l'hébergeur du site</p>
+			</div>
+		</fieldset>
+
+		<fieldset class="tl_tbox">
+			<legend>Smartgear data</legend>
+
+			<div class="widget w50">
+				<div id="ctrl_protected" class="tl_checkbox_single_container">
+					<input name="sgInstallComplete" id="sgInstallComplete" class="tl_checkbox" value="1" type="checkbox"<?= ($this->config['sgInstallComplete'] == 1) ? ' checked' : '' ?>>
+					<label for="sgInstallComplete">Smartgear Installé ?</label>
+				</div>
+			</div>
+
+			<div class="w50 clr widget">
+				<h3><label for="sgInstallTheme">Thème Smartgear</label></h3>
+				<?php if($this->themes): ?>
+				<select name="sgInstallTheme" id="sgInstallTheme" class="tl_select tl_chosen">
+					<?php foreach($this->themes as $id => $theme): ?>
+					<option value="<?= $id ?>"<?= $theme['selected'] ? ' selected' : '' ?>><?= $theme['name'] ?></option>
+					<?php endforeach; ?>
+				</select>
+				<?php else : ?>
+				<p class="error">Pas de thèmes installés</p>
+				<?php endif; ?>
+			</div>
+			<div class="w50 widget">
+				<h3><label for="sgInstallModules">Modules Smartgear</label></h3>
+				<?php if($this->modules): ?>
+				<select name="sgInstallModules" id="sgInstallModules" class="tl_select tl_chosen" multiple>
+					<?php foreach($this->modules as $id => $module): ?>
+					<option value="<?= $id ?>"<?= $module['selected'] ? ' selected' : '' ?>><?= $module['name'] ?></option>
+					<?php endforeach; ?>
+				</select>
+				<?php else : ?>
+				<p class="error">Pas de modules installés</p>
+				<?php endif; ?>
+			</div>
+
+			<div class="w50 widget">
+				<h3><label for="sgInstallLayout">Squelette Smartgear</label></h3>
+				<?php if($this->layouts): ?>
+				<select name="sgInstallLayout" id="sgInstallLayout" class="tl_select tl_chosen">
+					<?php foreach($this->layouts as $id => $layout): ?>
+					<option value="<?= $id ?>"<?= $layout['selected'] ? ' selected' : '' ?>><?= $layout['name'] ?></option>
+					<?php endforeach; ?>
+				</select>
+				<?php else : ?>
+				<p class="error">Pas de squelettes installés</p>
+				<?php endif; ?>
+			</div>
+			<div class="w50 widget">
+				<h3><label for="sgInstallUserGroup">Groupe d'administrateurs Smartgear</label></h3>
+				<?php if($this->usergroups): ?>
+				<select name="sgInstallUserGroup" id="sgInstallUserGroup" class="tl_select tl_chosen">
+					<?php foreach($this->usergroups as $id => $usergroup): ?>
+					<option value="<?= $id ?>"<?= $usergroup['selected'] ? ' selected' : '' ?>><?= $usergroup['name'] ?></option>
+					<?php endforeach; ?>
+				</select>
+				<?php else : ?>
+				<p class="error">Pas de groupes d'administrateurs installés</p>
+				<?php endif; ?>
+			</div>
+			
+			<div class="w50 widget">
+				<h3><label for="sgInstallRootPage">Racine de site Smartgear</label></h3>
+				<?php if($this->rootpages): ?>
+				<select name="sgInstallRootPage" id="sgInstallRootPage" class="tl_select tl_chosen">
+					<?php foreach($this->rootpages as $id => $rootpage): ?>
+					<option value="<?= $id ?>"<?= $rootpage['selected'] ? ' selected' : '' ?>><?= $rootpage['name'] ?></option>
+					<?php endforeach; ?>
+				</select>
+				<?php else : ?>
+				<p class="error">Pas de racines de site installées</p>
+				<?php endif; ?>
+			</div>
+			<div class="w50 widget">
+				<h3><label for="sgInstallNcGateway">Passerelle email Smartgear</label></h3>
+				<?php if($this->ncgateways): ?>
+				<select name="sgInstallNcGateway" id="sgInstallNcGateway" class="tl_select tl_chosen">
+					<?php foreach($this->ncgateways as $id => $ncgateway): ?>
+					<option value="<?= $id ?>"<?= $ncgateway['selected'] ? ' selected' : '' ?>><?= $ncgateway['name'] ?></option>
+					<?php endforeach; ?>
+				</select>
+				<?php else : ?>
+				<p class="error">Pas de passerelles installées</p>
+				<?php endif; ?>
+			</div>
+		</fieldset>
 		
 		<div class="widget clr">
 			<button type="submit" name="action" value="apply" class="tl_submit apply">Sauvegarder</button>
