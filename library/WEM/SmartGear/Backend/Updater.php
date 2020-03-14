@@ -1,15 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * SMARTGEAR for Contao Open Source CMS.
- *
- * Copyright (c) 2015-2019 Web ex Machina
+ * SMARTGEAR for Contao Open Source CMS
+ * Copyright (c) 2015-2020 Web ex Machina
  *
  * @category ContaoBundle
- *
+ * @package  Web-Ex-Machina/contao-smartgear
  * @author   Web ex Machina <contact@webexmachina.fr>
- *
- * @see     https://github.com/Web-Ex-Machina/contao-smartgear/
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
 namespace WEM\SmartGear\Backend;
@@ -37,7 +37,7 @@ class Updater
      */
     public function __construct($checkForUpdates = true)
     {
-        $this->sgVersion = '0.6.0';
+        $this->sgVersion = $this->getPackageVersion();
         $this->conf = Util::loadSmartgearConfig();
 
         if ($checkForUpdates) {
@@ -60,6 +60,15 @@ class Updater
      */
     public function getPackageVersion()
     {
+        $packages = json_decode(file_get_contents(TL_ROOT.'/vendor/composer/installed.json'));
+
+        foreach ($packages as $p) {
+            $p = (array) $p;
+            if ('webexmachina/contao-smartgear' === $p['name']) {
+                $this->sgVersion = $p['version'];
+            }
+        }
+
         return $this->sgVersion;
     }
 
@@ -134,6 +143,7 @@ class Updater
                 && $arrCurrentVersion[0] >= $arrPackageVersion[0]
             ) {
                 $this->update = false;
+
                 return false;
             }
 
@@ -152,7 +162,7 @@ class Updater
             // 1st we want to apply all the fix updates of the current major/minor version
             // We assume that 50 is a good enough limit to the fix version
             // or we must stop doing whatever we are doing.
-            $maxZ = ($x == $arrPackageVersion[0] && $y == $arrPackageVersion[1]) ? $arrPackageVersion[2] : 50;
+            $maxZ = ($x === $arrPackageVersion[0] && $y === $arrPackageVersion[1]) ? $arrPackageVersion[2] : 50;
             for ($z = $arrCurrentVersion[2] + 1; $z <= $maxZ; ++$z) {
                 // Format the function name
                 $strFunction = sprintf('to%s%s%s', $x, $y, $z);
@@ -167,11 +177,11 @@ class Updater
             // If we are already on the same major
             // maxY will be the current package minor
             // Else, limit that count to 20
-            $maxY = ($x == $arrPackageVersion[0]) ? $arrPackageVersion[1] : 20;
+            $maxY = ($x === $arrPackageVersion[0]) ? $arrPackageVersion[1] : 20;
             for ($y = $arrCurrentVersion[1] + 1; $y <= $maxY; ++$y) {
                 // And check again for fix updates
                 // Here too, check if the current X & Y are equal to the package X & Y
-                $maxZ = ($x == $arrPackageVersion[0] && $y == $arrPackageVersion[1]) ? $arrPackageVersion[2] : 50;
+                $maxZ = ($x === $arrPackageVersion[0] && $y === $arrPackageVersion[1]) ? $arrPackageVersion[2] : 50;
                 for ($z = 0; $z <= $maxZ; ++$z) {
                     // Format the function name
                     $strFunction = sprintf('to%s%s%s', $x, $y, $z);
@@ -214,7 +224,7 @@ class Updater
      * Standardize config to Smartgear 0.5
      * Just add the version to the current config.
      */
-    public function to050()
+    public function to050(): void
     {
         try {
             Util::updateConfig(['sgVersion' => '0.5.0']);
@@ -224,9 +234,9 @@ class Updater
     }
 
     /**
-     * Update to Smartgear 0.6
+     * Update to Smartgear 0.6.
      */
-    public function to060()
+    public function to060(): void
     {
         try {
             // Update version
@@ -250,9 +260,10 @@ class Updater
 
     /**
      * Generic function who will just update the current version to package version
-     * Useful when there is no updates to play but we still need to update the config version
+     * Useful when there is no updates to play but we still need to update the config version.
      */
-    public function updateCurrentVersionToPackageVersion() {
+    public function updateCurrentVersionToPackageVersion(): void
+    {
         try {
             Util::updateConfig(['sgVersion' => $this->getPackageVersion()]);
         } catch (Exception $e) {
