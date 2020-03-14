@@ -142,8 +142,6 @@ class Updater
                 && $arrCurrentVersion[1] >= $arrPackageVersion[1]
                 && $arrCurrentVersion[0] >= $arrPackageVersion[0]
             ) {
-                $this->update = false;
-
                 return false;
             }
 
@@ -212,7 +210,9 @@ class Updater
             }
 
             // At the end, always add the generic version update
-            // $this->updates[] = 'updateCurrentVersionToPackageVersion';
+            if ($this->sgVersion !== $this->getCurrentVersion()) {
+                $this->updates[] = 'updateCurrentVersionToPackageVersion';
+            }
 
             return !empty($this->updates);
         } catch (Exception $e) {
