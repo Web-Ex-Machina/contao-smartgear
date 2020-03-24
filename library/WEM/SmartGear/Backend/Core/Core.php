@@ -393,11 +393,11 @@ class Core extends Block implements BlockInterface
             // Create the Smartgear main layout
             $arrCssFiles = [];
             $arrJsFiles = [];
+            $objFile = \FilesModel::findOneByPath('files/vendor/outdatedbrowser/outdatedbrowser.min.css');
+            $arrCssFiles[] = $objFile->uuid;
             $objFile = \FilesModel::findOneByPath($fbp.'/css/vendor.css');
             $arrCssFiles[] = $objFile->uuid;
             $objFile = \FilesModel::findOneByPath($fbp.'/css/framway.css');
-            $arrCssFiles[] = $objFile->uuid;
-            $objFile = \FilesModel::findOneByPath('files/vendor/outdatedbrowser/outdatedbrowser.min.css');
             $arrCssFiles[] = $objFile->uuid;
             $objFile = \FilesModel::findOneByPath($fbp.'/js/vendor.js');
             $arrJsFiles[] = $objFile->uuid;
