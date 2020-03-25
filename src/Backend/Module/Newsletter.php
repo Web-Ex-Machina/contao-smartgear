@@ -148,7 +148,7 @@ class Newsletter extends Block implements BlockInterface
         $objNewletter->pid = $objNewsletterChannel->id;
         $objNewletter->subject = "Newsletter Exemple 01";
         $objNewletter->alias = \StringUtil::generateAlias("Newsletter Exemple 01");
-        $objNewletter->content = file_get_contents("system/modules/wem-contao-smartgear/assets/examples/newsletter_1.html");
+        $objNewletter->content = file_get_contents("bundles/wemsmartgear/examples/newsletter_1.html");
         $objNewletter->text = strip_tags($objNewletter->content);
         $objNewletter->save();
 

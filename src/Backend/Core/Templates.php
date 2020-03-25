@@ -81,7 +81,7 @@ class Templates extends Block implements BlockInterface
     public function install()
     {
         try {
-            $this->objFiles->rcopy("system/modules/wem-contao-smartgear/assets/templates_files/smartgear", "templates/smartgear");
+            $this->objFiles->rcopy("web/bundles/wemsmartgear/templates_files/smartgear", "templates/smartgear");
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les templates Contao ont été importés."];
 
             // Update config
@@ -144,7 +144,7 @@ class Templates extends Block implements BlockInterface
     {
         try {
             clearstatcache();
-            $arrSrcFolder = scandir(TL_ROOT."/system/modules/wem-contao-smartgear/assets/templates_files/smartgear");
+            $arrSrcFolder = scandir(TL_ROOT."/web/bundles/wemsmartgear/templates_files/smartgear");
             $arrFolder = scandir(TL_ROOT."/templates/smartgear");
 
             // Then, loop on the files contents and check if there is a diff between them
@@ -157,7 +157,7 @@ class Templates extends Block implements BlockInterface
                 if (!file_exists(TL_ROOT."/templates/smartgear/".$smartgear)) {
                     $this->messages[] = ['class' => 'tl_new', 'text' => 'Fichier à importer : '.$smartgear];
                     $blnUpdate = true;
-                } elseif (md5_file(TL_ROOT."/system/modules/wem-contao-smartgear/assets/templates_files/smartgear/".$smartgear) !== md5_file(TL_ROOT."/templates/smartgear/".$smartgear)) {
+                } elseif (md5_file(TL_ROOT."/web/bundles/wemsmartgear/templates_files/smartgear/".$smartgear) !== md5_file(TL_ROOT."/templates/smartgear/".$smartgear)) {
                     $this->messages[] = ['class' => 'tl_new', 'text' => 'Fichier à mettre à jour : '.$smartgear];
                     $blnUpdate = true;
                 }

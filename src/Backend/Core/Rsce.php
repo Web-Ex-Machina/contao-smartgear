@@ -82,7 +82,7 @@ class Rsce extends Block implements BlockInterface
     {
         try {
             $objMediaFolder = new \Folder("templates/rsce");
-            $this->objFiles->rcopy("system/modules/wem-contao-smartgear/assets/rsce_files", "templates/rsce");
+            $this->objFiles->rcopy("web/bundles/wemsmartgear/rsce_files", "templates/rsce");
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>"Les templates RSCE ont été importés."];
 
             // Update config
@@ -147,7 +147,7 @@ class Rsce extends Block implements BlockInterface
     {
         try {
             clearstatcache();
-            $arrSrcFolder = scandir(TL_ROOT."/system/modules/wem-contao-smartgear/assets/rsce_files");
+            $arrSrcFolder = scandir(TL_ROOT."/web/bundles/wemsmartgear/rsce_files");
             $arrFolder = scandir(TL_ROOT."/templates/rsce");
 
             // Check if there is a difference between the files itselfs, If there is already differences noticed, return true
@@ -162,7 +162,7 @@ class Rsce extends Block implements BlockInterface
                     continue;
                 }
 
-                if (md5_file(TL_ROOT."/system/modules/wem-contao-smartgear/assets/rsce_files/".$rsce) !== md5_file(TL_ROOT."/templates/rsce/".$rsce)) {
+                if (md5_file(TL_ROOT."/web/bundles/wemsmartgear/rsce_files/".$rsce) !== md5_file(TL_ROOT."/templates/rsce/".$rsce)) {
                     $this->messages[] = ['class' => 'tl_new', 'text' => 'Fichier à mettre à jour : '.$rsce];
                     $blnUpdate = true;
                 }

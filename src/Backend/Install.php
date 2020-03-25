@@ -44,7 +44,7 @@ class Install extends \BackendModule
      *
      * @var string
      */
-    protected $strBasePath = 'system/modules/wem-contao-smartgear';
+    protected $strBasePath = 'bundles/wemsmartgear';
 
     /**
      * Available modules
@@ -68,7 +68,7 @@ class Install extends \BackendModule
     protected function compile()
     {
         // Add WEM styles to template
-        $GLOBALS['TL_CSS'][] = $this->strBasePath.'/assets/backend/wemsg.css';
+        $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
         
         // Catch Modal Calls
         if ("modal" == \Input::get('act')) {

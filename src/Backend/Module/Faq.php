@@ -74,7 +74,7 @@ class Faq extends Block implements BlockInterface
         // Make sure the template is here before doing anything
         if (!file_exists("templates/smartgear/mod_faqpage.html5")) {
             $objFiles = \Files::getInstance();
-            $objFiles->copy("system/modules/wem-contao-smartgear/assets/templates_files/mod_faqpage.html5", "templates/smartgear/mod_faqpage.html5");
+            $objFiles->copy("web/bundles/wemsmartgear/templates_files/mod_faqpage.html5", "templates/smartgear/mod_faqpage.html5");
         }
 
         // Create the archive

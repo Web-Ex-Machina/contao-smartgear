@@ -57,7 +57,7 @@ class Tinymce extends Block implements BlockInterface
         $this->objFiles = \Files::getInstance();
 
         // Get the available plugins and paths
-        $plugins = glob("system/modules/wem-contao-smartgear/assets/tinymce/plugins/*", GLOB_ONLYDIR);
+        $plugins = glob("web/bundles/wemsmartgear/tinymce/plugins/*", GLOB_ONLYDIR);
         if (!empty($plugins)) {
             foreach ($plugins as $path) {
                 $parts = explode('/', $path);
@@ -106,7 +106,7 @@ class Tinymce extends Block implements BlockInterface
     public function install()
     {
         try {
-            $this->objFiles->copy("system/modules/wem-contao-smartgear/assets/tinymce/be_tinyMCE.html5", "templates/be_tinyMCE.html5");
+            $this->objFiles->copy("web/bundles/wemsmartgear/tinymce/be_tinyMCE.html5", "templates/be_tinyMCE.html5");
             $this->logs[] = ["status"=>"tl_confirm", "msg"=>"La configuration TinyMCE a été importée."];
 
             // Update config
@@ -185,7 +185,7 @@ class Tinymce extends Block implements BlockInterface
             }
 
             // 2nd, if be_tinyMCE exists, we will compare the size of the two files, if the file has been updated, it is most likely their sizes will be different
-            if (filesize(TL_ROOT."/system/modules/wem-contao-smartgear/assets/tinymce/be_tinyMCE.html5") !== filesize(TL_ROOT."/templates/be_tinyMCE.html5")) {
+            if (filesize(TL_ROOT."/web/bundles/wemsmartgear/tinymce/be_tinyMCE.html5") !== filesize(TL_ROOT."/templates/be_tinyMCE.html5")) {
                 return true;
             }
 

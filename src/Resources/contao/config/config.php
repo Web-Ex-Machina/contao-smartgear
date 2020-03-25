@@ -13,7 +13,7 @@
 
 // Load icon in Contao 4.2 backend
 if ('BE' === TL_MODE) {
-    $GLOBALS['TL_CSS'][] = 'system/modules/wem-contao-smartgear/assets/backend/backend.css';
+    $GLOBALS['TL_CSS'][] = 'bundles/wemsmartgear/backend/backend.css';
 }
 
 // Load Contao Bundles
