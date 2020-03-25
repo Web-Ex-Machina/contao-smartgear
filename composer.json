@@ -26,21 +26,20 @@
         "jrgregory/m17-sticky-backend-footer": "^2.0"
     },
     "autoload":{
-        "psr-0": {
-            "WEM\\": [
-                "library/"
-            ]
+        "psr-4": {
+            "WEM\\SmartgearBundle\\": "src/"
         },
-        "classmap": [""]
+        "classmap": [
+            "src/Resources/contao/"
+        ],
+        "exclude-from-classmap": [
+            "src/Resources/contao/config/",
+            "src/Resources/contao/dca/",
+            "src/Resources/contao/languages/",
+            "src/Resources/contao/templates/"
+        ]
     },
-    "extra": {
-        "contao": {
-            "sources": {
-                "": "system/modules/wem-contao-smartgear"
-            },
-            "runonce": [
-                "system/modules/wem-contao-smartgear/config/runonce.php"
-            ]
-        }
+    "extra":{
+        "contao-manager-plugin": "WEM\\SmartgearBundle\\ContaoManager\\Plugin"
     }
 }
