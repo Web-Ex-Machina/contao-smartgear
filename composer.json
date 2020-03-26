@@ -1,8 +1,8 @@
 {
     "name": "webexmachina/contao-smartgear",
     "description": "SMARTGEAR for Contao Open Source CMS",
-    "keywords": ["smartgear", "webexmachina", "module", "contao"],
-    "type": "contao-module",
+    "keywords": ["smartgear", "webexmachina", "bundle", "contao"],
+    "type": "contao-bundle",
     "license": "LGPL-3.0+",
     "authors": [
         {
