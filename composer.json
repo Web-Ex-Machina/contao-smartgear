@@ -25,6 +25,9 @@
         "webexmachina/contao-grid": "^0.3",
         "jrgregory/m17-sticky-backend-footer": "^2.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
     "autoload":{
         "psr-4": {
             "WEM\\SmartgearBundle\\": "src/"
