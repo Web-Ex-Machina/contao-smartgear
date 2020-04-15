@@ -381,7 +381,7 @@ class Core extends Block implements BlockInterface
             $objModule->tstamp = time();
             $objModule->type = 'html';
             $objModule->name = 'FOOTER';
-            $objModule->html = file_get_contents('web/bundles/wemsmartgear/examples/footer_1.html');
+            $objModule->html = file_get_contents(TL_ROOT . '/web/bundles/wemsmartgear/examples/footer_1.html');
             $objModule->save();
             $arrLayoutModules[] = ['mod' => $objModule->id, 'col' => 'footer', 'enable' => '1'];
             $arrModules[] = $objModule->id;
@@ -421,8 +421,8 @@ class Core extends Block implements BlockInterface
             $objLayout->externalJs = serialize($arrJsFiles);
             $objLayout->orderExtJs = serialize($arrJsFiles);
             $objLayout->modules = serialize($arrLayoutModules);
-            $objLayout->head = file_get_contents('web/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
-            $objLayout->script = file_get_contents('web/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
+            $objLayout->head = file_get_contents(TL_ROOT . '/web/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+            $objLayout->script = file_get_contents(TL_ROOT . '/web/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
             $objLayout->save();
             $this->sgConfig['sgInstallLayout'] = $objLayout->id;
             $this->logs[] = ['status' => 'tl_confirm', 'msg' => sprintf('Le layout %s a été créé et sera utilisé pour la suite de la configuration', $objLayout->name)];
@@ -445,8 +445,8 @@ class Core extends Block implements BlockInterface
             $objLayoutWithoutHeaderAndFooter->externalJs = serialize($arrJsFiles);
             $objLayoutWithoutHeaderAndFooter->orderExtJs = serialize($arrJsFiles);
             $objLayoutWithoutHeaderAndFooter->modules = 'a:1:{i:0;a:3:{s:3:"mod";s:1:"0";s:3:"col";s:4:"main";s:6:"enable";s:1:"1";}}';
-            $objLayoutWithoutHeaderAndFooter->head = file_get_contents('web/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
-            $objLayoutWithoutHeaderAndFooter->script = file_get_contents('web/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
+            $objLayoutWithoutHeaderAndFooter->head = file_get_contents(TL_ROOT . '/web/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+            $objLayoutWithoutHeaderAndFooter->script = file_get_contents(TL_ROOT . '/web/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
             $objLayoutWithoutHeaderAndFooter->save();
             $this->logs[] = ['status' => 'tl_confirm', 'msg' => sprintf('Le layout %s a été créé et sera utilisé pour la suite de la configuration', $objLayout->name)];
 
@@ -589,7 +589,7 @@ class Core extends Block implements BlockInterface
             $objPage = Util::createPage('Mentions légales', $objRootPage->id, ['hide' => 1]);
             $arrPageMounts[] = $objPage->id;
             $objArticle = Util::createArticle($objPage);
-            $strText = file_get_contents('web/bundles/wemsmartgear/examples/legal-notices_1.html');
+            $strText = file_get_contents(TL_ROOT . '/web/bundles/wemsmartgear/examples/legal-notices_1.html');
             $strHtml = '<p>A remplir</p>';
             if ($strText) {
                 /**
@@ -623,7 +623,7 @@ class Core extends Block implements BlockInterface
             $objPage = Util::createPage('Confidentialité', $objRootPage->id, ['hide' => 1]);
             $arrPageMounts[] = $objPage->id;
             $objArticle = Util::createArticle($objPage);
-            $strText = file_get_contents('web/bundles/wemsmartgear/examples/privacy_1.html');
+            $strText = file_get_contents(TL_ROOT . '/web/bundles/wemsmartgear/examples/privacy_1.html');
             $strHtml = '<p>A remplir</p>';
             if ($strText) {
                 /**
