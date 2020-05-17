@@ -1,9 +1,14 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
-0.7 - 2020-XX-XX
+0.7 - 2020-05-17
 - Global: Add a PHPCSFixer set of rules
+- Global: Use Symfony bundle architecture
 - Global: Update Smartgear Readme
+- Global: Add an automatic redirection to https in the htaccess
+- Global: Add manager fields to the Smartgear setup (useful to generate automatic licences, etc...)
+- Updater: Retrieve ther current version through the system instead of a constant
+- Dependancies: Use contao-grid version 0.4
 
 0.6 - 2020-02-15
 - Contao: Add Contao 4.8 compatibility
