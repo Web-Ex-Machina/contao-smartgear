@@ -1,8 +1,8 @@
 {
     "name": "webexmachina/contao-smartgear",
     "description": "SMARTGEAR for Contao Open Source CMS",
-    "keywords": ["smartgear", "webexmachina", "module", "contao"],
-    "type": "contao-module",
+    "keywords": ["smartgear", "webexmachina", "bundle", "contao"],
+    "type": "contao-bundle",
     "license": "LGPL-3.0+",
     "authors": [
         {
@@ -22,25 +22,27 @@
         "contao-community-alliance/composer-plugin":"~2.4 || ~3.0",
         "madeyourday/contao-rocksolid-custom-elements": "^2.2",
         "terminal42/notification_center": "^1.5",
-        "webexmachina/contao-grid": "^0.3",
+        "webexmachina/contao-grid": "^0.4",
         "jrgregory/m17-sticky-backend-footer": "^2.0"
     },
-    "autoload":{
-        "psr-0": {
-            "WEM\\": [
-                "library/"
-            ]
-        },
-        "classmap": [""]
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
     },
-    "extra": {
-        "contao": {
-            "sources": {
-                "": "system/modules/wem-contao-smartgear"
-            },
-            "runonce": [
-                "system/modules/wem-contao-smartgear/config/runonce.php"
-            ]
-        }
+    "autoload":{
+        "psr-4": {
+            "WEM\\SmartgearBundle\\": "src/"
+        },
+        "classmap": [
+            "src/Resources/contao/"
+        ],
+        "exclude-from-classmap": [
+            "src/Resources/contao/config/",
+            "src/Resources/contao/dca/",
+            "src/Resources/contao/languages/",
+            "src/Resources/contao/templates/"
+        ]
+    },
+    "extra":{
+        "contao-manager-plugin": "WEM\\SmartgearBundle\\ContaoManager\\Plugin"
     }
 }

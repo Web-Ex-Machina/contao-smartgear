@@ -1,0 +1,243 @@
+<div id="block-<?= $this->type; ?>-<?= $this->module; ?>" class="block full block-install <?= $this->type; ?><?= ($this->actions) ? ' hasActions' : ''; ?>" data-type="<?= $this->type; ?>" data-module="<?= $this->module; ?>">
+	<h2 class="title"><i class="fas fa-<?= $this->icon; ?>"></i>Smartgear | Core | Installation</h2>
+	<?php if ($this->isError): ?>
+	<div class="content_container">
+		<p class="tl_error"><?= $this->error; ?></p>
+		<p class="tl_error"><?= $this->trace; ?></p>
+	</div>
+	<?php else: ?>
+	<div class="content_container">
+		<p>Avant de faire quoique ce soit l'ami, tu vas devoir installer quelques trucs de base. Pas de soucis, on gère tout ça pour toi. Voilà ce qui est prévu :</p>
+		<p>
+			<ul>
+				<li>Modification de la configuration (tailles des images, limite d'upload...)</li>
+				<li>Création des répertoires des modèles, avec import de ceux qu'on a modifier</li>
+				<li>Vérification des répertoires des fichiers (pour l'app et pour le client). On doit bien avoir le framway d'installé dans files/app avant la prochaine étape.</li>
+				<li>Création du thème Smartgear</li>
+				<li>Création des squelettes Smartgear</li>
+				<li>Création d'un groupe d'utilisateurs par défaut. Les droits seront probablement à ajuster.</li>
+				<li>Création de la racine de site, avec le titre configuré dans le champ ci-dessous.</li>
+				<li>Création d'une passerelle de notification par défaut (Email de service). Pensez à configurer le SMTP si besoin.</li>
+			</ul>
+		</p>
+		<p class="tl_info">A noter que tout cela sera prochainement découpé en étapes, pour permettre de configurer chaque module plus précisément.</p>
+	</div>
+	<?php if ($this->actions): ?>
+	<form action="<?= $this->request; ?>" class="tl_form" method="post">
+		<div class="tl_formbody_edit">
+			<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
+			<input name="REQUEST_TOKEN" value="<?= $this->token; ?>" type="hidden">
+			<input name="type" value="<?= $this->type; ?>" type="hidden">
+			<input name="module" value="<?= $this->module; ?>" type="hidden">
+			<input name="action" value="" type="hidden" class="btnAction">
+		</div>
+
+		<fieldset class="tl_tbox">
+			<legend>Smartgear settings</legend>
+
+			<div class="widget w50">
+				<h3><label for="ctrl_websiteTitle">Titre du site internet</label></h3>
+				<input name="websiteTitle" id="ctrl_websiteTitle" class="tl_text" value="" required="" onfocus="Backend.getScrollOffset()" type="text">
+				<p class="tl_help tl_tip" title="">Saisir le titre du site internet</p>
+			</div>
+
+			<div class="widget w50">
+				<h3><label for="ctrl_framwayLogo">Logo</label></h3>
+				<input id="ctrl_websiteLogo" class="tl_input skip" value="" onfocus="Backend.getScrollOffset()" type="file">
+				<p class="tl_help tl_tip" title="">Choisissez le logo.</p>
+			</div>
+
+			<div class="w50 dcapicker widget">
+			  <h3><label for="ctrl_framwayPath">Framway</label></h3>
+			  <input type="text" name="framwayPath" id="ctrl_framwayPath" class="tl_text" value="" required="" maxlength="255" onfocus="Backend.getScrollOffset()">
+			  <a href="/contao/picker?context=file&amp;extras%5BfieldType%5D=radio&amp;value=" title="" id="pp_framwayPath"><img src="system/themes/flexible/icons/pickpage.svg" alt="Sélecteur de dossier" width="16" height="16"></a>
+			  <script>
+			    $("pp_framwayPath").addEvent("click", function(e) {
+			      e.preventDefault();
+			      Backend.openModalSelector({
+			        "id": "tl_listing",
+			        "title": "Dossier du Framway",
+			        "url": this.href + document.getElementById("ctrl_framwayPath").value,
+			        "callback": function(table, value) {
+			          document.getElementById("ctrl_framwayPath").value = value[0];
+			        }
+			      });
+			    });
+			  </script>
+			  <p class="tl_help tl_tip" title="">Sélectionner le dossier du Framway</p>
+			</div>
+
+			<div class="w50 dcapicker widget">
+			  <h3><label for="ctrl_framwayTheme">Thème Framway</label></h3>
+			  <input type="text" name="framwayTheme" id="ctrl_framwayTheme" class="tl_text" value="" required="" maxlength="255" onfocus="Backend.getScrollOffset()">
+			  <a href="/contao/picker?context=file&amp;extras%5BfieldType%5D=radio&amp;value=" title="" id="pp_framwayTheme"><img src="system/themes/flexible/icons/pickpage.svg" alt="Sélecteur de dossier" width="16" height="16"></a>
+			  <script>
+			    $("pp_framwayTheme").addEvent("click", function(e) {
+			      e.preventDefault();
+			      Backend.openModalSelector({
+			        "id": "tl_listing",
+			        "title": "Répertoire du thème Framway",
+			        "url": this.href + document.getElementById("ctrl_framwayTheme").value,
+			        "callback": function(table, value) {
+			          document.getElementById("ctrl_framwayTheme").value = value[0];
+			        }
+			      });
+			    });
+			  </script>
+			  <p class="tl_help tl_tip" title="">Sélectionner le thème Framway à utiliser</p>
+			</div>
+		</fieldset>
+
+		<fieldset class="tl_box">
+			<legend>Informations du détenteur du site</legend>
+
+			<div class="widget w50">
+				<h3><label for="ctrl_ownerTitle">Raison sociale</label></h3>
+				<input name="ownerTitle" id="ctrl_ownerTitle" class="tl_text" value="" required="" onfocus="Backend.getScrollOffset()" type="text">
+				<p class="tl_help tl_tip" title="">Saisir la raison sociale du détenteur du site</p>
+			</div>
+
+			<div class="widget w50">
+				<h3><label for="ctrl_ownerStatus">Statut</label></h3>
+				<input name="ownerStatus" id="ctrl_ownerStatus" class="tl_text" value="" required="" onfocus="Backend.getScrollOffset()" type="text">
+				<p class="tl_help tl_tip" title="">Saisir le statut du détenteur du site</p>
+			</div>
+
+			<div class="widget w50">
+				<h3><label for="ctrl_ownerSIRET">SIRET</label></h3>
+				<input name="ownerSIRET" id="ctrl_ownerSIRET" class="tl_text" value="" required="" onfocus="Backend.getScrollOffset()" type="text">
+				<p class="tl_help tl_tip" title="">Saisir le SIRET du détenteur du site</p>
+			</div>
+
+			<div class="widget w50">
+				<h3><label for="ctrl_ownerAddress">Adresse</label></h3>
+				<input name="ownerAddress" id="ctrl_ownerAddress" class="tl_text" value="" required="" onfocus="Backend.getScrollOffset()" type="text">
+				<p class="tl_help tl_tip" title="">Saisir l'adresse du siège du détenteur du site</p>
+			</div>
+
+			<div class="widget w50">
+				<h3><label for="ctrl_ownerEmail">Adresse email</label></h3>
+				<input name="ownerEmail" id="ctrl_ownerEmail" class="tl_text" value="" required="" onfocus="Backend.getScrollOffset()" type="email">
+				<p class="tl_help tl_tip" title="">Saisir l'adresse email du détenteur du site</p>
+			</div>
+
+			<div class="widget w50">
+				<h3><label for="ctrl_ownerDomain">Domaine</label></h3>
+				<input name="ownerDomain" id="ctrl_ownerDomain" class="tl_text" value="" required="" onfocus="Backend.getScrollOffset()" type="text">
+				<p class="tl_help tl_tip" title="">Saisir le domaine principal du détenteur du site (laisser vide pour utiliser le domaine actuel)</p>
+			</div>
+
+			<div class="widget w50">
+				<h3><label for="ctrl_ownerHost">Hébergeur</label></h3>
+				<input name="ownerHost" id="ctrl_ownerHost" class="tl_text" value="" required="" onfocus="Backend.getScrollOffset()" type="text">
+				<p class="tl_help tl_tip" title="">Saisir le nom et l'adresse de l'hébergeur du site</p>
+			</div>
+		</fieldset>
+
+		<div class="tl_submit_container">
+			<?= implode(' ', $this->actions); ?>
+		</div>
+	</form>
+	<?php endif; ?>
+	<div class="loader"><i class="fas fa-spinner fa-4x fa-spin"></i></div>
+	<?php endif; ?>
+</div>
+<script type="text/javascript">
+j(document).ready(function(){
+	/**
+	 * Replace normal form submit by an AJAX one
+	 */
+	j('#tl_wem_sg_install').on('submit', '.block-install form', function(e){
+		e.preventDefault();
+		var ctn = j(this).closest('.block');
+		ctn.find('.loader').addClass("active");
+
+		var objFields = {
+			'TL_WEM_AJAX':1
+			,'wem_module':'be_smartgear'
+		};
+
+		j(this).find('input:not(.skip)').each(function(){
+			objFields[j(this).attr('name')] = j(this).val();
+		});
+
+		var inputFile = document.querySelector('#tl_wem_sg_install input#ctrl_websiteLogo');
+		getBase64(inputFile).then(
+		  data => objFields.websiteLogo = data
+		)
+		.catch(function(error){
+			if(error == "empty") {
+				toastr.info("Pas de logo envoyé, un placeholder sera utilisé.");
+			} else {
+				toastr.error("Erreur dans le chargement du logo : "+error);
+			}
+		})
+		.finally(function(){
+			processCore(objFields).then(function(results){
+		  		// Display a toastr if asked
+				if(results["toastr"]){
+					toastr[results["toastr"]["status"]](results["toastr"]["msg"]);
+				}
+
+				// Callbakcs if asked
+				if(results["callbacks"]){
+					for(var i in results["callbacks"]){
+						if("object" == typeof(results["callbacks"][i])){
+							window[results["callbacks"][i].method].apply(null, results["callbacks"][i].args);
+						}
+					}
+				}
+	  		})
+	  		.catch(function(error){
+	  			toastr.error(error, "Une erreur est survenue :");
+	  		})
+	  		.finally(function(){
+	  			ctn.find('.loader').removeClass("active");
+	  		});
+		});
+	});
+});
+
+function processCore(objFields) {
+	return new Promise((resolve, reject) => {
+		j.ajax({
+			method: "POST"
+			,timeout:7500
+			,data: objFields
+		})
+		.done(function(msg){
+			// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+			try{
+				var results = j.parseJSON(msg);
+
+				// Handle actions errors
+				if("error" === results["status"])
+					reject(results["msg"]);
+
+				// Notify everything goes well
+				resolve(results);
+			}
+			catch(err){
+       			reject(err); 
+			}
+		})
+		.fail(function(jqXHR, textStatus, errorThrown){
+			reject(textStatus+"<br>"+errorThrown);
+		})
+	});
+}
+
+function getBase64(inputFile) {
+  return new Promise((resolve, reject) => {
+  	// Reject with a specific error if empty
+  	if(0 === inputFile.files.length) {
+  		reject("empty");
+  	}
+  	// Else, handle the file
+    const reader = new FileReader();
+    reader.readAsDataURL(inputFile.files[0]);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+</script>
