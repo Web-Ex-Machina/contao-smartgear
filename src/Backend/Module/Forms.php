@@ -94,6 +94,7 @@ class Forms extends Block implements BlockInterface
         $objNotification->save();
 
         $objGateway = NCGateway::findByPk($this->sgConfig['sgInstallNcGateway']);
+
         $objMessage = new NCMessage();
         $objMessage->tstamp = time();
         $objMessage->pid = $objNotification->id;
@@ -133,6 +134,48 @@ class Forms extends Block implements BlockInterface
         $objLanguage->email_recipient_bcc = "";
         $objLanguage->email_replyTo = "";
         $objLanguage->email_subject = sprintf("Votre message sur %s", $this->sgConfig["websiteTitle"]);
+        $objLanguage->email_mode = "textAndHtml";
+        $objLanguage->email_text = strip_tags($strHtml);
+        $objLanguage->email_html = $strHtml;
+        $objLanguage->email_external_images = "";
+        $objLanguage->save();
+
+        $objMessage = new NCMessage();
+        $objMessage->tstamp = time();
+        $objMessage->pid = $objNotification->id;
+        $objMessage->title = "Notification administrateur";
+        $objMessage->gateway = $objGateway->id;
+        $objMessage->gateway_type = $objGateway->type;
+        $objMessage->email_priority = 1;
+        $objMessage->email_template = 'mail_default';
+        $objMessage->published = 1;
+        $objMessage->save();
+
+        $strHtml = sprintf(
+            "
+                <p>Bonjour,
+                <br />Un visiteur a rempli votre formulaire de contact avec les informations suivantes :
+                <br />- ##formlabel_name## : ##form_name##
+                <br />- ##formlabel_phone## : ##form_phone##
+                <br />- ##formlabel_email## : ##form_email##
+                <br />- ##formlabel_message## : ##form_message##
+                <br />Bonne journée !
+            ",
+        );
+
+        $objLanguage = new NCLanguage();
+        $objLanguage->tstamp = time();
+        $objLanguage->pid = $objMessage->id;
+        $objLanguage->gateway_type = $objGateway->type;
+        $objLanguage->language = "fr";
+        $objLanguage->fallback = 1;
+        $objLanguage->email_sender_name = $this->sgConfig["websiteTitle"];
+        $objLanguage->email_sender_address = "##admin_email##";
+        $objLanguage->recipients = "##admin_email##";
+        $objLanguage->email_recipient_cc = "";
+        $objLanguage->email_recipient_bcc = "";
+        $objLanguage->email_replyTo = "";
+        $objLanguage->email_subject = sprintf("Contact sur %s", $this->sgConfig["websiteTitle"]);
         $objLanguage->email_mode = "textAndHtml";
         $objLanguage->email_text = strip_tags($strHtml);
         $objLanguage->email_html = $strHtml;
