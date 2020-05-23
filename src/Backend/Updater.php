@@ -134,8 +134,9 @@ class Updater
             $this->updates = [];
 
             // If no version setup, just call the first
-            if (null === $this->getCurrentVersion()) {
+            if (!$this->getCurrentVersion()) {
                 $this->updates[] = 'to050';
+                return !empty($this->updates);
             }
 
             // We need to compare current version with the package one
@@ -147,7 +148,7 @@ class Updater
                 && $arrCurrentVersion[1] >= $arrPackageVersion[1]
                 && $arrCurrentVersion[0] >= $arrPackageVersion[0]
             ) {
-                return false;
+                return !empty($this->updates);
             }
 
             // Now we will find out what is the function to call
