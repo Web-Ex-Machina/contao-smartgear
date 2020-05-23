@@ -221,6 +221,8 @@ class Core extends Block implements BlockInterface
             // Create framway paths for later
             $rp = \System::getContainer()->getParameter('kernel.project_dir').'/';
             $fp = \Input::post('framwayPath');
+            $mp = 'files/media';
+            $vp = 'files/vendor';
             $fbp = $fp.'/build';
             $ftp = $fp.'/src/themes';
             $fttp = \Input::post('framwayTheme');
@@ -298,8 +300,9 @@ class Core extends Block implements BlockInterface
             $objFolder->unprotect();
 
             // Unprotect vendor folder
-            $objFolder = new \Folder('files/vendor');
+            $objFolder = new \Folder($vp);
             $objFolder->unprotect();
+            \Dbafs::addResource($vp);
 
             // Check if there is another themes and warn the user
             if (\ThemeModel::countAll() > 0) {
@@ -307,8 +310,9 @@ class Core extends Block implements BlockInterface
             }
 
             // Create smartgear medias folder
-            $objMediaFolder = new \Folder('files/medias');
+            $objMediaFolder = new \Folder($mp);
             $objMediaFolder->unprotect();
+            \Dbafs::addResource($mp);
 
             // Import the logo into files/medias/logos folder
             if (\Input::post('websiteLogo')) {
@@ -382,7 +386,7 @@ class Core extends Block implements BlockInterface
             $objModule->tstamp = time();
             $objModule->type = 'html';
             $objModule->name = 'FOOTER';
-            $objModule->html = file_get_contents(TL_ROOT . '/web/bundles/wemsmartgear/examples/footer_1.html');
+            $objModule->html = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/footer_1.html');
             $objModule->save();
             $arrLayoutModules[] = ['mod' => $objModule->id, 'col' => 'footer', 'enable' => '1'];
             $arrModules[] = $objModule->id;
@@ -422,8 +426,8 @@ class Core extends Block implements BlockInterface
             $objLayout->externalJs = serialize($arrJsFiles);
             $objLayout->orderExtJs = serialize($arrJsFiles);
             $objLayout->modules = serialize($arrLayoutModules);
-            $objLayout->head = file_get_contents(TL_ROOT . '/web/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
-            $objLayout->script = file_get_contents(TL_ROOT . '/web/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
+            $objLayout->head = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+            $objLayout->script = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
             $objLayout->save();
             $this->sgConfig['sgInstallLayout'] = $objLayout->id;
             $this->logs[] = ['status' => 'tl_confirm', 'msg' => sprintf('Le layout %s a été créé et sera utilisé pour la suite de la configuration', $objLayout->name)];
@@ -446,8 +450,8 @@ class Core extends Block implements BlockInterface
             $objLayoutWithoutHeaderAndFooter->externalJs = serialize($arrJsFiles);
             $objLayoutWithoutHeaderAndFooter->orderExtJs = serialize($arrJsFiles);
             $objLayoutWithoutHeaderAndFooter->modules = 'a:1:{i:0;a:3:{s:3:"mod";s:1:"0";s:3:"col";s:4:"main";s:6:"enable";s:1:"1";}}';
-            $objLayoutWithoutHeaderAndFooter->head = file_get_contents(TL_ROOT . '/web/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
-            $objLayoutWithoutHeaderAndFooter->script = file_get_contents(TL_ROOT . '/web/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
+            $objLayoutWithoutHeaderAndFooter->head = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+            $objLayoutWithoutHeaderAndFooter->script = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
             $objLayoutWithoutHeaderAndFooter->save();
             $this->logs[] = ['status' => 'tl_confirm', 'msg' => sprintf('Le layout %s a été créé et sera utilisé pour la suite de la configuration', $objLayout->name)];
 
@@ -590,7 +594,7 @@ class Core extends Block implements BlockInterface
             $objPage = Util::createPage('Mentions légales', $objRootPage->id, ['hide' => 1]);
             $arrPageMounts[] = $objPage->id;
             $objArticle = Util::createArticle($objPage);
-            $strText = file_get_contents(TL_ROOT . '/web/bundles/wemsmartgear/examples/legal-notices_1.html');
+            $strText = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/legal-notices_1.html');
             $strHtml = '<p>A remplir</p>';
             if ($strText) {
                 /**
@@ -601,7 +605,7 @@ class Core extends Block implements BlockInterface
                  * 5: Siret de l'entreprise
                  * 6: Adresse du siège de l'entreprise
                  * 7: Adresse mail de l'entreprise
-                 * 8: Nom & Adresse de l'hébergeur
+                 * 8: Nom & Adresse de l'hébergeur.
                  */
                 $strHtml = sprintf(
                     $strText,
@@ -624,7 +628,7 @@ class Core extends Block implements BlockInterface
             $objPage = Util::createPage('Confidentialité', $objRootPage->id, ['hide' => 1]);
             $arrPageMounts[] = $objPage->id;
             $objArticle = Util::createArticle($objPage);
-            $strText = file_get_contents(TL_ROOT . '/web/bundles/wemsmartgear/examples/privacy_1.html');
+            $strText = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/privacy_1.html');
             $strHtml = '<p>A remplir</p>';
             if ($strText) {
                 /**
@@ -633,7 +637,7 @@ class Core extends Block implements BlockInterface
                  * 3: SIRET
                  * 4: URL de la page confidentialité
                  * 5: Date
-                 * 6: Contact email
+                 * 6: Contact email.
                  */
                 $strHtml = sprintf(
                     $strText,
