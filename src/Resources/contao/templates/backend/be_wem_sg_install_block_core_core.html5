@@ -202,7 +202,7 @@ function processCore(objFields) {
 	return new Promise((resolve, reject) => {
 		j.ajax({
 			method: "POST"
-			,timeout:7500
+			,timeout:10000
 			,data: objFields
 		})
 		.done(function(msg){
