@@ -47,9 +47,9 @@
 				<p class="tl_help tl_tip" title="">Choisissez le logo.</p>
 			</div>
 
-			<div class="w50 dcapicker widget">
+			<div class="w50 dcapicker widget clr">
 			  <h3><label for="ctrl_framwayPath">Framway</label></h3>
-			  <input type="text" name="framwayPath" id="ctrl_framwayPath" class="tl_text" value="" required="" maxlength="255" onfocus="Backend.getScrollOffset()">
+			  <input type="text" name="framwayPath" id="ctrl_framwayPath" class="tl_text" value="files/app" required="" maxlength="255" onfocus="Backend.getScrollOffset()">
 			  <a href="/contao/picker?context=file&amp;extras%5BfieldType%5D=radio&amp;value=" title="" id="pp_framwayPath"><img src="system/themes/flexible/icons/pickpage.svg" alt="Sélecteur de dossier" width="16" height="16"></a>
 			  <script>
 			    $("pp_framwayPath").addEvent("click", function(e) {
@@ -69,7 +69,7 @@
 
 			<div class="w50 dcapicker widget">
 			  <h3><label for="ctrl_framwayTheme">Thème Framway</label></h3>
-			  <input type="text" name="framwayTheme" id="ctrl_framwayTheme" class="tl_text" value="" required="" maxlength="255" onfocus="Backend.getScrollOffset()">
+			  <input type="text" name="framwayTheme" id="ctrl_framwayTheme" class="tl_text" value="files/app/src/themes/smartgear" required="" maxlength="255" onfocus="Backend.getScrollOffset()">
 			  <a href="/contao/picker?context=file&amp;extras%5BfieldType%5D=radio&amp;value=" title="" id="pp_framwayTheme"><img src="system/themes/flexible/icons/pickpage.svg" alt="Sélecteur de dossier" width="16" height="16"></a>
 			  <script>
 			    $("pp_framwayTheme").addEvent("click", function(e) {
@@ -92,43 +92,43 @@
 			<legend>Informations du détenteur du site</legend>
 
 			<div class="widget w50">
-				<h3><label for="ctrl_ownerTitle">Raison sociale</label></h3>
+				<h3><label for="ctrl_ownerTitle">Raison sociale</label>*</h3>
 				<input name="ownerTitle" id="ctrl_ownerTitle" class="tl_text" value="" required="" onfocus="Backend.getScrollOffset()" type="text">
 				<p class="tl_help tl_tip" title="">Saisir la raison sociale du détenteur du site</p>
 			</div>
 
 			<div class="widget w50">
-				<h3><label for="ctrl_ownerStatus">Statut</label></h3>
+				<h3><label for="ctrl_ownerStatus">Statut</label>*</h3>
 				<input name="ownerStatus" id="ctrl_ownerStatus" class="tl_text" value="" required="" onfocus="Backend.getScrollOffset()" type="text">
 				<p class="tl_help tl_tip" title="">Saisir le statut du détenteur du site</p>
 			</div>
 
 			<div class="widget w50">
 				<h3><label for="ctrl_ownerSIRET">SIRET</label></h3>
-				<input name="ownerSIRET" id="ctrl_ownerSIRET" class="tl_text" value="" required="" onfocus="Backend.getScrollOffset()" type="text">
+				<input name="ownerSIRET" id="ctrl_ownerSIRET" class="tl_text" value="" onfocus="Backend.getScrollOffset()" type="text">
 				<p class="tl_help tl_tip" title="">Saisir le SIRET du détenteur du site</p>
 			</div>
 
 			<div class="widget w50">
-				<h3><label for="ctrl_ownerAddress">Adresse</label></h3>
+				<h3><label for="ctrl_ownerAddress">Adresse</label>*</h3>
 				<input name="ownerAddress" id="ctrl_ownerAddress" class="tl_text" value="" required="" onfocus="Backend.getScrollOffset()" type="text">
 				<p class="tl_help tl_tip" title="">Saisir l'adresse du siège du détenteur du site</p>
 			</div>
 
 			<div class="widget w50">
-				<h3><label for="ctrl_ownerEmail">Adresse email</label></h3>
+				<h3><label for="ctrl_ownerEmail">Adresse email</label>*</h3>
 				<input name="ownerEmail" id="ctrl_ownerEmail" class="tl_text" value="" required="" onfocus="Backend.getScrollOffset()" type="email">
 				<p class="tl_help tl_tip" title="">Saisir l'adresse email du détenteur du site</p>
 			</div>
 
 			<div class="widget w50">
-				<h3><label for="ctrl_ownerDomain">Domaine</label></h3>
-				<input name="ownerDomain" id="ctrl_ownerDomain" class="tl_text" value="" required="" onfocus="Backend.getScrollOffset()" type="text">
+				<h3><label for="ctrl_ownerDomain">Domaine</label>*</h3>
+				<input name="ownerDomain" id="ctrl_ownerDomain" class="tl_text" value="<?= \Environment::get('base') ?>" required="" onfocus="Backend.getScrollOffset()" type="text">
 				<p class="tl_help tl_tip" title="">Saisir le domaine principal du détenteur du site (laisser vide pour utiliser le domaine actuel)</p>
 			</div>
 
 			<div class="widget w50">
-				<h3><label for="ctrl_ownerHost">Hébergeur</label></h3>
+				<h3><label for="ctrl_ownerHost">Hébergeur</label>*</h3>
 				<input name="ownerHost" id="ctrl_ownerHost" class="tl_text" value="" required="" onfocus="Backend.getScrollOffset()" type="text">
 				<p class="tl_help tl_tip" title="">Saisir le nom et l'adresse de l'hébergeur du site</p>
 			</div>
