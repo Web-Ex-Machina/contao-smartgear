@@ -244,12 +244,13 @@ class Core extends Block implements BlockInterface
             if (
                 !file_exists($rp.$fbp.'/css/framway.css')
                 || !file_exists($rp.$fbp.'/css/vendor.css')
+                || !file_exists($rp.'/files/vendor/outdatedbrowser/outdatedbrowser.min.css')
                 || !file_exists($rp.$fbp.'/js/framway.js')
                 || !file_exists($rp.$fbp.'/js/vendor.js')
             ) {
-                throw new Exception('Des fichiers Framway sont manquants.');
+                throw new Exception('Des fichiers sont manquants.');
             }
-            $this->logs[] = ['status' => 'tl_confirm', 'msg' => 'Les fichiers Smartgear ont été trouvés (framway.css, framway.js, vendor.css, vendor.js)'];
+            $this->logs[] = ['status' => 'tl_confirm', 'msg' => 'Les fichiers Smartgear ont été trouvés (outdatedbrowser.min.css, framway.css, framway.js, vendor.css, vendor.js)'];
 
             // Store the default config
             $arrConfig['websiteTitle'] = \Input::post('websiteTitle');
