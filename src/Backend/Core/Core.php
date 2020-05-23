@@ -604,14 +604,14 @@ class Core extends Block implements BlockInterface
                  */
                 $strHtml = sprintf(
                     $strText,
-                    $this->sgConfig['ownerDomain'],
-                    $this->sgConfig['ownerDomain'],
-                    $this->sgConfig['ownerTitle'],
-                    $this->sgConfig['ownerStatus'],
-                    $this->sgConfig['ownerSIRET'],
-                    $this->sgConfig['ownerAddress'],
-                    $this->sgConfig['ownerEmail'],
-                    $this->sgConfig['ownerHost']
+                    $this->sgConfig['ownerDomain'] ?: 'NR',
+                    $this->sgConfig['ownerDomain'] ?: 'NR',
+                    $this->sgConfig['ownerTitle'] ?: 'NR',
+                    $this->sgConfig['ownerStatus'] ?: 'NR',
+                    $this->sgConfig['ownerSIRET'] ?: 'NR',
+                    $this->sgConfig['ownerAddress'] ?: 'NR',
+                    $this->sgConfig['ownerEmail'] ?: 'NR',
+                    $this->sgConfig['ownerHost'] ?: 'NR'
                 );
             }
 
@@ -636,12 +636,12 @@ class Core extends Block implements BlockInterface
                  */
                 $strHtml = sprintf(
                     $strText,
-                    $this->sgConfig['ownerTitle'],
-                    $this->sgConfig['ownerAddress'],
-                    $this->sgConfig['ownerSIRET'],
+                    $this->sgConfig['ownerTitle'] ?: 'NR',
+                    $this->sgConfig['ownerAddress'] ?: 'NR',
+                    $this->sgConfig['ownerSIRET'] ?: 'NR',
                     $this->sgConfig['ownerDomain'].'/'.$objPage->alias.'.html',
                     date('d/m/Y'),
-                    $this->sgConfig['ownerEmail']
+                    $this->sgConfig['ownerEmail'] ?: 'NR'
                 );
             }
             $objContent = Util::createContent($objArticle, [
