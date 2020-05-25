@@ -101,7 +101,7 @@
 
 			j.ajax({
 				method: "POST"
-				,timeout:5000
+				,timeout:10000
 				,data: objFields
 			})
 			.done(function(msg){
@@ -172,7 +172,7 @@
 
 		j.ajax({
 			method: "POST"
-			//,timeout:5000
+			//,timeout:10000
 			,data: objFields
 		})
 		.done(function(msg){
@@ -200,7 +200,7 @@ function applyUpdate(update) {
 
 		j.ajax({
 			method: "POST"
-			,timeout:7500
+			,timeout:10000
 			,data: objFields
 		})
 		.done(function(msg){
