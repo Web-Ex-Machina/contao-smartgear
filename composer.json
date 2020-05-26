@@ -20,6 +20,7 @@
         "php": ">=7.1",
         "contao/core-bundle": "~4.4",
         "madeyourday/contao-rocksolid-custom-elements": "^2.2",
+        "heimrichhannot/contao-backend-lost-password-bundle": "~1.2",
         "terminal42/notification_center": "^1.5",
         "webexmachina/contao-utils": "^0.1",
         "webexmachina/contao-grid": "^0.4",

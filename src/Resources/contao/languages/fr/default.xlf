@@ -20,6 +20,11 @@
 			<source>The %s package has been found and is installed.</source>
 			<target>Le module %s a été trouvé et est installé.</target>
 		</trans-unit>
+
+		<!-- heimrichhannot/contao-backend-lost-password-bundle -->
+		<trans-unit id="MSC.backendLostPassword.messageSubjectResetPassword">
+			<target>Réinitialisation de votre mot de passe Contao</target>
+		</trans-unit>
     </body>
   </file>
 </xliff>
