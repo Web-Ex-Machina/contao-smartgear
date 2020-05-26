@@ -22,6 +22,7 @@
         "contao-community-alliance/composer-plugin":"~2.4 || ~3.0",
         "madeyourday/contao-rocksolid-custom-elements": "^2.2",
         "terminal42/notification_center": "^1.5",
+        "webexmachina/contao-utils": "^0.1",
         "webexmachina/contao-grid": "^0.4",
         "jrgregory/m17-sticky-backend-footer": "^2.0"
     },
