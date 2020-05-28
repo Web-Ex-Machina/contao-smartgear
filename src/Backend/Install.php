@@ -52,7 +52,7 @@ class Install extends \BackendModule
      * @var array
      */
     protected $modules = [
-        "core" => ["core", "templates", "rsce", "tinymce"]
+        "core" => ["core", "templates"]
         //,"component" => ["header"]
         ,"module" => ["blog", "calendar", "faq", "forms", "newsletter", "locations", "portfolio", "planning"]
         ,"addon" => ["formsubmissions", "seo", "conditionalnotifications"]
