@@ -21,6 +21,24 @@
 			<target>Le module %s a été trouvé et est installé.</target>
 		</trans-unit>
 
+		<!-- Backup manager -->
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.backupManagerBTTitle">
+			<source>Access Smartgear Backups</source>
+			<target>Accéder aux back-ups Smartgear</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.backupManagerBT">
+			<source>Backups</source>
+			<target>Back-ups</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.newBackUpBTTitle">
+			<source>New backup</source>
+			<target>Nouveau back-up</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.newBackUpBT">
+			<source>New backup</source>
+			<target>Nouveau back-up</target>
+		</trans-unit>
+
 		<!-- heimrichhannot/contao-backend-lost-password-bundle -->
 		<trans-unit id="MSC.backendLostPassword.messageSubjectResetPassword">
 			<target>Réinitialisation de votre mot de passe Contao</target>

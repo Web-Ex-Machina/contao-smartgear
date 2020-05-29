@@ -1,22 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * SMARTGEAR for Contao Open Source CMS.
- *
- * Copyright (c) 2015-2019 Web ex Machina
+ * SMARTGEAR for Contao Open Source CMS
+ * Copyright (c) 2015-2020 Web ex Machina
  *
  * @category ContaoBundle
- *
+ * @package  Web-Ex-Machina/contao-smartgear
  * @author   Web ex Machina <contact@webexmachina.fr>
- *
- * @see     https://github.com/Web-Ex-Machina/contao-smartgear/
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
 namespace WEM\SmartgearBundle\Backend;
 
 use Contao\CoreBundle\Monolog\ContaoContext;
-use Psr\Log\LogLevel;
 use Exception;
+use Psr\Log\LogLevel;
 
 /**
  * Back end module "smartgear".
@@ -59,14 +59,14 @@ class Util
         try {
             $arrConfig = self::loadSmartgearConfig();
 
-            if ('' == $strFWTheme && $arrConfig['framwayTheme']) {
+            if ('' === $strFWTheme && $arrConfig['framwayTheme']) {
                 $strFWTheme = $arrConfig['framwayTheme'];
-            } elseif ('' == $strFWTheme) {
+            } elseif ('' === $strFWTheme) {
                 $strFWTheme = $arrConfig['framwayPath'].'/src/themes/smartgear';
             }
 
             $strFramwayConfig = file_get_contents($strFWTheme.'/_config.scss');
-            $startsAt = strpos($strFramwayConfig, "$colors: (") + strlen("$colors: (");
+            $startsAt = strpos($strFramwayConfig, "$colors: (") + \strlen("$colors: (");
             $endsAt = strpos($strFramwayConfig, ');', $startsAt);
             $result = trim(str_replace([' ', "\n"], '', substr($strFramwayConfig, $startsAt, $endsAt - $startsAt)));
 
@@ -74,7 +74,7 @@ class Util
             $colors = explode(',', $result);
 
             foreach ($colors as $v) {
-                if ('' == $v) {
+                if ('' === $v) {
                     continue;
                 }
 
@@ -112,7 +112,8 @@ class Util
                         LogLevel::ERROR,
                         'Error when trying to get Framway Colors : '.$e->getMessage(),
                         ['contao' => new ContaoContext(__METHOD__, 'SMARTGEAR')]
-                    );
+                    )
+                ;
                 $arrColors = self::getDefaultColors();
             }
 
@@ -121,7 +122,7 @@ class Util
             switch ($strFor) {
                 case 'tinymce':
                     foreach ($arrColors as $k => $c) {
-                        if ('' == $k) {
+                        if ('' === $k) {
                             continue;
                         }
 
@@ -133,7 +134,7 @@ class Util
 
                 case 'rsce-ft':
                     foreach ($arrColors as $k => $c) {
-                        if ('' == $k) {
+                        if ('' === $k) {
                             $colors[$k] = $c['label'];
                         } else {
                             $colors['ft-'.$k] = $c['label'];
@@ -166,7 +167,7 @@ class Util
     {
         try {
             // If module is missing, try to explode strType
-            if ('' === $strModule && false != strpos($strType, '_')) {
+            if ('' === $strModule && false !== strpos($strType, '_')) {
                 $arrObject = explode('_', $strType);
                 $strType = $arrObject[0];
                 $strModule = $arrObject[1];
@@ -181,10 +182,9 @@ class Util
             }
 
             // Create the object
-            $objModule = new $strClass();
+            return new $strClass();
 
             // And return
-            return $objModule;
         } catch (Exception $e) {
             throw $e;
         }
@@ -192,8 +192,6 @@ class Util
 
     /**
      * Get Smartgear Config.
-     *
-     * @param [String] $strKey [Config key wanted]
      *
      * @return [Mixed] [Config value]
      */
@@ -244,7 +242,7 @@ class Util
             // Update the config
             foreach ($arrVars as $strKey => $varValue) {
                 // Make sure arrays are converted in varValues (for blob compatibility)
-                if (is_array($varValue)) {
+                if (\is_array($varValue)) {
                     $varValue = serialize($varValue);
                 }
 
@@ -264,16 +262,16 @@ class Util
     }
 
     /**
-     * Reset Smartgear Config
+     * Reset Smartgear Config.
      */
-    public static function resetConfig()
+    public static function resetConfig(): void
     {
         try {
             $objFiles = \Files::getInstance();
-            
+
             // Open and update the config file
             $objFile = $objFiles->fopen(static::$strConfigPath, 'w');
-            $objFiles->fputs($objFile, "{}");
+            $objFiles->fputs($objFile, '{}');
             $objFiles->fclose($objFile);
         } catch (Exception $e) {
             throw $e;
@@ -403,6 +401,8 @@ class Util
 
     /**
      * Shortcut for page w/ texts creations.
+     *
+     * @param mixed|null $arrHl
      */
     public static function createPageWithText($strTitle, $strText, $intPid = 0, $arrHl = null)
     {
@@ -442,7 +442,7 @@ class Util
             // $data[ 1 ] == <actual base64 string>
             $data = explode(',', $base64);
             $ext = substr($data[0], strpos($data[0], '/') + 1, (strpos($data[0], ';') - strpos($data[0], '/') - 1));
-            $img = base64_decode($data[1]);
+            $img = base64_decode($data[1], true);
 
             if (false === strpos(\Config::get('validImageTypes'), $ext)) {
                 throw new \Exception('Invalid image type : '.$ext);
@@ -461,14 +461,38 @@ class Util
             }
 
             if ($blnReturnFile) {
-                $objFile = new \File($path);
-
-                return $objFile;
+                return new \File($path);
             }
 
             return true;
         } catch (\Exception $e) {
             throw $e;
         }
+    }
+
+    /**
+     * Return a list of files in a certain dir.
+     *
+     * @param string $strDir
+     *
+     * @return array
+     */
+    public static function getFileList($strDir)
+    {
+        $root = scandir($strDir);
+        foreach ($root as $value) {
+            if ('.' === $value || '..' === $value) {
+                continue;
+            }
+            if (is_file("$strDir/$value")) {
+                $result[] = "$strDir/$value";
+                continue;
+            }
+            foreach (static::getFileList("$strDir/$value") as $value) {
+                $result[] = $value;
+            }
+        }
+
+        return $result;
     }
 }
