@@ -47,7 +47,7 @@
 						<a href="<?= $this->addToUrl('&act=download&file='.$b['sqlPath']) ?>" title="" target="_blank"><img src="bundles/wemsmartgear/icons/icon_sql.png" alt="Télécharger la base de données" width="14" height="16"></a>
 						<?php endif; ?>	
 
-						<a href="<?= $this->addToUrl('&act=restore&backup='.$k) ?>" title=""><img src="bundles/wemsmartgear/icons/icon_restore.png" alt="Restaurer le back-up" width="14" height="16"></a>
+						<a href="<?= $this->addToUrl('&act=restore&backup='.$b['zipPath']) ?>" title=""><img src="bundles/wemsmartgear/icons/icon_restore.png" alt="Restaurer le back-up" width="14" height="16"></a>
 					</td>
 				</tr>
 				<?php endforeach; ?>
