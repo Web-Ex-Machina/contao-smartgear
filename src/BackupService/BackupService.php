@@ -18,6 +18,8 @@ use Ausi\SlugGenerator\SlugGeneratorInterface;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 class BackupService
 {
@@ -74,6 +76,7 @@ class BackupService
             // Regroup backups by date
             if (!\array_key_exists(end($name), $backups)) {
                 $backups[end($name)] = [
+                    'tstamp' => $date->timestamp,
                     'date' => $date->datim,
                     'name' => $filename,
                     'hasFiles' => false,
@@ -84,6 +87,10 @@ class BackupService
             if ('zip' === $ext) {
                 $backups[end($name)]['hasFiles'] = true;
                 $backups[end($name)]['zipPath'] = $path.'/'.$f;
+            }
+
+            if ('txt' === $ext) {
+                $backups[end($name)]['fileslistPath'] = $path.'/'.$f;
             }
 
             if ('sql' === $ext) {
@@ -121,15 +128,17 @@ class BackupService
 
             // Prepare the ZipArchive of the backup
             $objArchive = new \ZipWriter($strFolderPath.$strArchiveName.'.zip');
-
             foreach ($files as $f) {
                 if (!$this->filesystem->exists($f)) {
                     continue;
                 }
                 $objArchive->addFile($f);
             }
-
             $objArchive->close();
+
+            $objFileList = new \File($strFolderPath.$strArchiveName.'.txt');
+            $objFileList->write(implode("\n", $files));
+            $objFileList->close();
 
             // Save the database
             $objDatabaseBackup = new BackupDatabase();
@@ -139,7 +148,103 @@ class BackupService
         }
     }
 
-    public function restore(): void
+    public function restore($backup): void
     {
+        // Nota : Restoring a backup as a certain date means we have to play ALL the backups done after the one we want
+        // This way, we're sure everything is restored the way it was
+        $backups = [];
+
+        // Retrieve backup folder
+        $folder = pathinfo($backup, PATHINFO_DIRNAME);
+
+        // Retrieve backup name
+        $name = explode('_', str_replace('.'.pathinfo($backup, PATHINFO_EXTENSION), '', pathinfo($backup, PATHINFO_FILENAME)));
+        $date = $date = new \Date($name[1], 'YmdHi');
+
+        // Get backup list with the same settings
+        $arrBackups = $this->list($folder, $name[0]);
+
+        // Retrieve backups made after this one
+        foreach ($arrBackups as $k => $b) {
+            if ($date->timestamp >= $b['timestamp']) {
+                $backups[] = $b;
+            }
+        }
+
+        // Reverse backups
+        $backups = array_reverse($backups);
+
+        // Now, we can execute the backups
+        foreach ($backups as $b) {
+            // Restore files
+            if ($b['hasFiles']) {
+                // We first need to remove all the files listed in the txt
+                $objList = new \File($b['fileslistPath']);
+                foreach (explode("\n", $objList->getContent()) as $f) {
+                    $objFile = new \File($f);
+                    $objFile->delete();
+                }
+
+                // Then, we need to extract the Zip
+                $objArchive = new \ZipReader($b['zipPath']);
+                while ($objArchive->next()) {
+                    \File::putContent($objArchive->current()['file_name'], $objArchive->unzip());
+                }
+            }
+        }
+
+        // Restore sql
+        // Nota : Here, we do not need to execute the dump of each backup, since we've saved everything each time.
+        $backup = end($backups);
+        if ($backup['hasSql']) {
+            // No questions asked, we dump the database
+            $cmd = sprintf(
+                'mysqldump -u %s -p%s --no-data --add-drop-table %s | grep ^DROP | mysql -u %s -p%s -v %s',
+                \Config::get('dbUser'),
+                \Config::get('dbPass'),
+                \Config::get('dbDatabase'),
+                \Config::get('dbUser'),
+                \Config::get('dbPass'),
+                \Config::get('dbDatabase')
+            );
+            $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline(
+                $cmd
+            ) : new Process($cmd);
+            $process->run();
+
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+            }
+
+            // And then, we import the backup database
+            $cmd = sprintf(
+                'mysql -u %s -p%s %s < %s',
+                \Config::get('dbUser'),
+                \Config::get('dbPass'),
+                \Config::get('dbDatabase'),
+                TL_ROOT.'/'.$backup['sqlPath']
+            );
+            $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline(
+                $cmd
+            ) : new Process($cmd);
+            $process->run();
+
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+            }
+        }
+
+        // Finally, clean the Contao cache
+        $cmd = sprintf(
+            'php ../vendor/bin/contao-console cache:warmup --env=prod'
+        );
+        $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline(
+            $cmd
+        ) : new Process($cmd);
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
     }
 }

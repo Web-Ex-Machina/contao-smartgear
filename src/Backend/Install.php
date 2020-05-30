@@ -148,6 +148,15 @@ class Install extends \BackendModule
 
                 // And redirect
                 \Controller::redirect(str_replace('&act=new', '', \Environment::get('request')));
+            } else if('restore' == \Input::get('act')) {
+                $objService->restore(\Input::get('backup'));
+
+                // Add Message
+                //\Message::addConfirmation('Backup restauré');
+
+                // And redirect
+                //\Controller::redirect(str_replace('&act=restore&backup=', '', \Environment::get('request')));
+
             } else if('download' == \Input::get('act')) {
                 $objFile = new \File(\Input::get('file'));
                 $objFile->sendToBrowser();
