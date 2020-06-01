@@ -151,6 +151,7 @@ class Updater
             // If no version setup, just call the first
             if (!$this->getCurrentVersion()) {
                 $this->updates[] = 'to050';
+
                 return !empty($this->updates);
             }
 
@@ -267,6 +268,11 @@ class Updater
             $objFiles = \Files::getInstance();
             $objFiles->mkdir(sprintf('templates/%s', \StringUtil::generateAlias($this->conf['websiteTitle'])));
             $objTheme = \ThemeModel::findByPk($this->conf['sgInstallTheme']);
+
+            if (!$objTheme) {
+                return;
+            }
+
             $objTheme->templates = sprintf('templates/%s', \StringUtil::generateAlias($this->conf['websiteTitle']));
             $objTheme->save();
         } catch (Exception $e) {
