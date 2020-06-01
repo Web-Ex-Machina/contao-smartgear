@@ -212,12 +212,11 @@ class Templates extends Block implements BlockInterface
      */
     protected function rcopy($strSource, $strDestination)
     {
-        $this->objFiles->mkdir($strDestination);
-        $arrFiles = scan($this->objFiles->strRootDir . '/' . $strSource, true);
+        $arrFiles = scan(\System::getContainer()->getParameter('kernel.project_dir') . '/' . $strSource, true);
 
         foreach ($arrFiles as $strFile)
         {
-            if (is_dir($this->objFiles->strRootDir . '/' . $strSource . '/' . $strFile))
+            if (is_dir(\System::getContainer()->getParameter('kernel.project_dir') . '/' . $strSource . '/' . $strFile))
             {
                 $this->rcopy($strSource . '/' . $strFile, $strDestination . '/' . $strFile);
             }
