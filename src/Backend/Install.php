@@ -123,6 +123,9 @@ class Install extends \BackendModule
      */
     protected function compile(): void
     {
+        // Get session
+        $objSession = \Session::getInstance();
+
         // Add WEM styles to template
         $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
 
@@ -148,22 +151,29 @@ class Install extends \BackendModule
 
                 // And redirect
                 \Controller::redirect(str_replace('&act=new', '', \Environment::get('request')));
-            } else if('restore' == \Input::get('act')) {
+            } elseif ('restore' === \Input::get('act')) {
                 $objService->restore(\Input::get('backup'));
 
+                $objSession->set('wem_sg_backup_logs', $objService->getLogs());
+
                 // Add Message
-                //\Message::addConfirmation('Backup restauré');
+                \Message::addConfirmation('Backup restauré');
 
                 // And redirect
-                //\Controller::redirect(str_replace('&act=restore&backup=', '', \Environment::get('request')));
-
-            } else if('download' == \Input::get('act')) {
+                \Controller::redirect(str_replace('&act=restore&backup='.\Input::get('backup'), '', \Environment::get('request')));
+            } elseif ('download' === \Input::get('act')) {
                 $objFile = new \File(\Input::get('file'));
                 $objFile->sendToBrowser();
             }
 
-            $arrBackups = $objService->list('files/backups');
+            // Retrieve eventual logs
+            if ($objSession->get('wem_sg_backup_logs')) {
+                $this->Template->logs = $objSession->get('wem_sg_backup_logs');
+                $objSession->set('wem_sg_backup_logs', '');
+            }
 
+            // Retrieve backups
+            $arrBackups = $objService->list('files/backups');
             if (!$arrBackups) {
                 $this->Template->empty = true;
             } else {

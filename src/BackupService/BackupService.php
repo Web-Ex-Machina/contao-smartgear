@@ -24,6 +24,11 @@ use Symfony\Component\Process\Process;
 class BackupService
 {
     /**
+     * @var array
+     */
+    public $logs;
+
+    /**
      * @var ContaoFramework
      */
     private $framework;
@@ -52,6 +57,13 @@ class BackupService
         $this->filesystem = $filesystem;
         $this->slugGenerator = $slugGenerator;
         $this->requestStack = $requestStack;
+
+        $this->logs = [];
+    }
+
+    public function getLogs()
+    {
+        return $this->logs;
     }
 
     public function list($path, $filename = 'sgbackup')
@@ -178,18 +190,12 @@ class BackupService
         foreach ($backups as $b) {
             // Restore files
             if ($b['hasFiles']) {
-                // We first need to remove all the files listed in the txt
+                // Remove all the files listed in the txt
                 $objList = new \File($b['fileslistPath']);
-                foreach (explode("\n", $objList->getContent()) as $f) {
-                    $objFile = new \File($f);
-                    $objFile->delete();
-                }
+                $this->dumpFiles(explode("\n", $objList->getContent()));
 
-                // Then, we need to extract the Zip
-                $objArchive = new \ZipReader($b['zipPath']);
-                while ($objArchive->next()) {
-                    \File::putContent($objArchive->current()['file_name'], $objArchive->unzip());
-                }
+                // Then, import files
+                $this->importFiles($b['zipPath']);
             }
         }
 
@@ -198,46 +204,78 @@ class BackupService
         $backup = end($backups);
         if ($backup['hasSql']) {
             // No questions asked, we dump the database
-            $cmd = sprintf(
-                'mysqldump -u %s -p%s --no-data --add-drop-table %s | grep ^DROP | mysql -u %s -p%s -v %s',
-                \Config::get('dbUser'),
-                \Config::get('dbPass'),
-                \Config::get('dbDatabase'),
-                \Config::get('dbUser'),
-                \Config::get('dbPass'),
-                \Config::get('dbDatabase')
-            );
-            $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline(
-                $cmd
-            ) : new Process($cmd);
-            $process->run();
-
-            if (!$process->isSuccessful()) {
-                throw new ProcessFailedException($process);
-            }
+            $this->removeDatabase();
 
             // And then, we import the backup database
-            $cmd = sprintf(
-                'mysql -u %s -p%s %s < %s',
-                \Config::get('dbUser'),
-                \Config::get('dbPass'),
-                \Config::get('dbDatabase'),
-                TL_ROOT.'/'.$backup['sqlPath']
-            );
-            $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline(
-                $cmd
-            ) : new Process($cmd);
-            $process->run();
+            $this->importDatabase(TL_ROOT.'/'.$backup['sqlPath']);
+        }
 
-            if (!$process->isSuccessful()) {
-                throw new ProcessFailedException($process);
+        // Warmup cache
+        //$this->warmUpCache();
+    }
+
+    public function importFiles($archive): void
+    {
+        $objArchive = new \ZipReader($archive);
+        $files = $objArchive->getFileList();
+        $this->logs[] = 'Import files: '.\count($files).' to import';
+
+        while ($objArchive->next()) {
+            $strFilename = $objArchive->current()['file_name'];
+            $this->logs[] = 'File to import: '.$strFilename;
+
+            $strContent = $objArchive->unzip();
+
+            $objFile = new \File($strFilename);
+            $objFile->truncate();
+            $objFile->write($strContent);
+
+            if ($strContent !== $objFile->getContent()) {
+                $this->logs[] = 'File was not imported correctly';
+            } else {
+                ++$i;
+            }
+
+            $objFile->close();
+        }
+
+        $this->logs[] = 'End of process: '.$i.'/'.\count($files).' files imported';
+    }
+
+    public function dumpFiles($files): void
+    {
+        $this->logs[] = 'Remove files: '.\count($files).' to remove';
+
+        $i = 0;
+        foreach ($files as $f) {
+            $objFile = new \File($f);
+            $this->logs[] = 'File to delete: '.$f;
+
+            if (!$objFile->exists()) {
+                $this->logs[] = 'File do not exists: skipped';
+                continue;
+            }
+
+            if ($objFile->delete()) {
+                $this->logs[] = 'File deleted';
+                ++$i;
             }
         }
 
-        // Finally, clean the Contao cache
+        $this->logs[] = 'End of process: '.$i.'/'.\count($files).' files deleted';
+    }
+
+    public function importDatabase($path): void
+    {
+        $this->logs[] = 'Import Database '.$path;
         $cmd = sprintf(
-            'php ../vendor/bin/contao-console cache:warmup --env=prod'
+            'mysql -u %s -p%s %s < %s',
+            \Config::get('dbUser'),
+            \Config::get('dbPass'),
+            \Config::get('dbDatabase'),
+            $path
         );
+        $this->logs[] = 'Command: '.$cmd;
         $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline(
             $cmd
         ) : new Process($cmd);
@@ -246,5 +284,56 @@ class BackupService
         if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
+
+        $this->logs[] = 'End of process : '.$process->getOutput();
+    }
+
+    public function removeDatabase(): void
+    {
+        $this->logs[] = 'Remove Database';
+
+        // No questions asked, we dump the database
+        $cmd = sprintf(
+            'mysqldump -u %s -p%s --no-data --add-drop-table %s | grep ^DROP | mysql -u %s -p%s -v %s',
+            \Config::get('dbUser'),
+            \Config::get('dbPass'),
+            \Config::get('dbDatabase'),
+            \Config::get('dbUser'),
+            \Config::get('dbPass'),
+            \Config::get('dbDatabase')
+        );
+
+        $this->logs[] = 'Command: '.$cmd;
+        $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline(
+            $cmd
+        ) : new Process($cmd);
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        $this->logs[] = 'End of process: '.$process->getOutput();
+    }
+
+    public function warmUpCache(): void
+    {
+        $this->logs[] = 'Cache Warmup';
+
+        // Finally, clean the Contao cache
+        $cmd = sprintf(
+            'php ../vendor/bin/contao-console cache:warmup --env=prod'
+        );
+        $this->logs[] = 'Command: '.$cmd;
+        $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline(
+            $cmd
+        ) : new Process($cmd);
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        $this->logs[] = 'End of process: '.$process->getOutput();
     }
 }
