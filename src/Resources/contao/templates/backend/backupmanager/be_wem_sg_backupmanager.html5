@@ -14,18 +14,12 @@
 
 <!-- Display Module -->
 <div id="tl_wem_sg_backupmanager" class="wem_module">
-	
-	<?php if ($this->logs && !empty($this->logs)): ?>
-	<div class="logs">
-		<div class="content_container">
-			<?php foreach ($this->logs as $log): ?>
-			<p class="<?= $log['status']; ?>"><?= $log['msg']; ?></p>
-			<?php endforeach; ?>
-		</div>
-	</div>
-	<?php endif; ?>
 
 	<h2 class="sub_headline">Backup Manager</h2>
+	<?php if($this->logs): ?>
+	<?php dump(trim(implode("\n", $this->logs))); ?>
+	<?php endif; ?>
+
 	<div class="tl_listing_container list_view" id="tl_listing">
 		<table class="tl_listing showColumns">
   			<tbody>
