@@ -85,16 +85,31 @@ class Updater
     /**
      * Play the functions wanted in params.
      *
-     * @param string $update Update to call
+     * @param string $update         | Update to call
+     * @param bool   $doBackupBefore | Do a backup before update
      *
      * @return [Boolean] True/False depending of the update status
      */
-    public function runUpdate($update)
+    public function runUpdate($update, $doBackupBefore = true)
     {
         try {
             // Check if the update called exists
             if (!method_exists($this, $update)) {
                 throw new \Exception(sprintf('Update %s introuvable !', $update));
+            }
+
+            if ($doBackupBefore) {
+                $objService = \System::getContainer()->get('smartgear.backend.backupservice');
+
+                // Retrieve and list all the files to save
+                $strDir = TL_ROOT.'/web/bundles/wemsmartgear/contao_files';
+                $files = Util::getFileList($strDir);
+
+                foreach ($files as &$f) {
+                    $f = str_replace($strDir.'/', '', $f);
+                }
+
+                $objService->save($files, ['name' => 'sgbackup_'.$update.'_']);
             }
 
             // Run the update
