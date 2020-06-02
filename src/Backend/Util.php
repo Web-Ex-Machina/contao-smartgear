@@ -535,11 +535,11 @@ class Util
         foreach ($packages as $p) {
             $p = (array) $p;
             if ($package === $p['name']) {
-                $this->sgVersion = $p['version'];
+                return $p['version'];
             }
         }
 
-        return $this->sgVersion;
+        return null;
     }
 
     /**

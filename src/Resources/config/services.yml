@@ -7,4 +7,11 @@ services:
             - '@contao.slug.generator'
             - '@request_stack'
         public: true
-        
+    smartgear.backend.updater:
+        class: WEM\SmartgearBundle\Updater\UpdaterService
+        arguments:
+            - '@contao.framework'
+            - '@filesystem'
+            - '@contao.slug.generator'
+            - '@request_stack'
+        public: true

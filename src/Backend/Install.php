@@ -110,7 +110,7 @@ class Install extends \BackendModule
         }
         if (\Input::post('TL_WEM_AJAX') && 'be_smartgear_update' === \Input::post('wem_module')) {
             try {
-                $objUpdater = new Updater();
+                $objUpdater = \System::getContainer()->get('smartgear.backend.updater');
                 if ($objUpdater->runUpdate(\Input::post('action'))) {
                     $arrResponse = ['status' => 'success', 'msg' => 'La mise à jour '.\Input::post('action').' a été appliquée avec succès !'];
                 } else {
@@ -226,7 +226,7 @@ class Install extends \BackendModule
         }
 
         // Load the updater
-        $objUpdater = new Updater();
+        $objUpdater = \System::getContainer()->get('smartgear.backend.updater');
 
         // If we catch an update to run, call it,
         // if return true, redirect to the Smartgear dashboard
@@ -238,7 +238,7 @@ class Install extends \BackendModule
 
         // Fetch Smartgear updates
         if (false === $objUpdater->shouldBeUpdated()) {
-            \Message::addConfirmation(sprintf('Smartgear v%s trouvé, installé et à jour !', $objUpdater->getCurrentVersion()));
+            \Message::addConfirmation(sprintf('Smartgear v%s trouvé, installé et à jour !', Util::getCurrentVersion()));
         } else {
             $updates = [];
             if (!empty($objUpdater->updates)) {
