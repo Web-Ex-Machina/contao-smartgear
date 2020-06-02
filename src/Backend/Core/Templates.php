@@ -233,13 +233,11 @@ class Templates extends Block implements BlockInterface
                     $filesystem->mkdir(\System::getContainer()->getParameter('kernel.project_dir').'/'.$strDestination.'/'.$strFile, 0755);
                     $this->rcopy($strSource.'/'.$strFile, $strDestination.'/'.$strFile);
                 } else {
-                    if (!$filesystem->copy(
+                    $filesystem->copy(
                         \System::getContainer()->getParameter('kernel.project_dir').'/'.$strSource.'/'.$strFile,
                         \System::getContainer()->getParameter('kernel.project_dir').$strDestination.'/'.$strFile,
                         true
-                    )) {
-                        throw new \Exception('Une erreur est survenue lors de la copie du fichier : '.$strDestination.'/'.$strFile);
-                    }
+                    );
                 }
             } catch (IOExceptionInterface $exception) {
                 throw $e;
