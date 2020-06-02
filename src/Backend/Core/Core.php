@@ -675,6 +675,7 @@ class Core extends Block implements BlockInterface
             $this->logs[] = ['status' => 'tl_confirm', 'msg' => 'Installation terminée'];
 
             // Update Config
+            $this->sgConfig['sgVersion'] = Util::getPackageVersion('webexmachina/contao-smartgear');
             $this->sgConfig['sgInstallComplete'] = 1;
             Util::updateConfig($this->sgConfig);
 
