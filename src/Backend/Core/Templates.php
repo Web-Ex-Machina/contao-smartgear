@@ -221,8 +221,7 @@ class Templates extends Block implements BlockInterface
     {
         $filesystem = new Filesystem();
         $arrFiles = scandir(\System::getContainer()->getParameter('kernel.project_dir').'/'.$strSource);
-        error_reporting(E_ALL);
-        ini_set('display_errors', '1');
+
         foreach ($arrFiles as $strFile) {
             if ('.' === $strFile || '..' === $strFile) {
                 continue;
