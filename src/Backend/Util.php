@@ -541,4 +541,16 @@ class Util
 
         return $this->sgVersion;
     }
+
+    /**
+     * Return current Smartgear version.
+     *
+     * @return [Float] Smartgear version
+     */
+    public function getCurrentVersion()
+    {
+        $conf = self::loadSmartgearConfig();
+
+        return $conf['sgVersion'] ?: null;
+    }
 }
