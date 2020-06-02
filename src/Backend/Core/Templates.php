@@ -15,6 +15,8 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Core;
 
 use Exception;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use WEM\SmartgearBundle\Backend\Block;
 use WEM\SmartgearBundle\Backend\BlockInterface;
 use WEM\SmartgearBundle\Backend\Util;
@@ -104,6 +106,9 @@ class Templates extends Block implements BlockInterface
             // Update config
             Util::updateConfig(['sgInstallFiles' => 1]);
 
+            // Refresh Cache
+            Util::executeCmd('cache:warmup');
+
             // And return an explicit status with some instructions
             return [
                 'toastr' => [
@@ -131,6 +136,9 @@ class Templates extends Block implements BlockInterface
 
             // Update config
             Util::updateConfig(['sgInstallFiles' => 0]);
+
+            // Refresh Cache
+            Util::executeCmd('cache:warmup');
 
             // And return an explicit status with some instructions
             return [
@@ -204,25 +212,37 @@ class Templates extends Block implements BlockInterface
     }
 
     /**
-     * Recursively copy a directory
-     * 
+     * Recursively copy a directory.
      *
      * @param string $strSource      The source file or folder
      * @param string $strDestination The new file or folder path
      */
-    protected function rcopy($strSource, $strDestination)
+    protected function rcopy($strSource, $strDestination): void
     {
-        $arrFiles = scan(\System::getContainer()->getParameter('kernel.project_dir') . '/' . $strSource, true);
-
-        foreach ($arrFiles as $strFile)
-        {
-            if (is_dir(\System::getContainer()->getParameter('kernel.project_dir') . '/' . $strSource . '/' . $strFile))
-            {
-                $this->rcopy($strSource . '/' . $strFile, $strDestination . '/' . $strFile);
+        $filesystem = new Filesystem();
+        $arrFiles = scandir(\System::getContainer()->getParameter('kernel.project_dir').'/'.$strSource);
+        error_reporting(E_ALL);
+        ini_set('display_errors', '1');
+        foreach ($arrFiles as $strFile) {
+            if ('.' === $strFile || '..' === $strFile) {
+                continue;
             }
-            else
-            {
-                $this->objFiles->copy($strSource . '/' . $strFile, $strDestination . '/' . $strFile);
+
+            try {
+                if (is_dir(\System::getContainer()->getParameter('kernel.project_dir').'/'.$strSource.'/'.$strFile)) {
+                    $filesystem->mkdir(\System::getContainer()->getParameter('kernel.project_dir').'/'.$strDestination.'/'.$strFile, 0755);
+                    $this->rcopy($strSource.'/'.$strFile, $strDestination.'/'.$strFile);
+                } else {
+                    if (!$filesystem->copy(
+                        \System::getContainer()->getParameter('kernel.project_dir').'/'.$strSource.'/'.$strFile,
+                        \System::getContainer()->getParameter('kernel.project_dir').$strDestination.'/'.$strFile,
+                        true
+                    )) {
+                        throw new \Exception('Une erreur est survenue lors de la copie du fichier : '.$strDestination.'/'.$strFile);
+                    }
+                }
+            } catch (IOExceptionInterface $exception) {
+                throw $e;
             }
         }
     }
