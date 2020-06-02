@@ -522,4 +522,23 @@ class Util
             throw new ProcessFailedException($process);
         }
     }
+
+    /**
+     * Return package version.
+     *
+     * @return [Float] Package version
+     */
+    public static function getPackageVersion($package)
+    {
+        $packages = json_decode(file_get_contents(TL_ROOT.'/vendor/composer/installed.json'));
+
+        foreach ($packages as $p) {
+            $p = (array) $p;
+            if ($package === $p['name']) {
+                $this->sgVersion = $p['version'];
+            }
+        }
+
+        return $this->sgVersion;
+    }
 }
