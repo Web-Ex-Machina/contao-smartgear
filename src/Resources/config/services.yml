@@ -1,9 +1,10 @@
 services:
     smartgear.backend.backupservice:
-        class: WEM\SmartgearBundle\BackupService\BackupService
+        class: WEM\SmartgearBundle\Backup\BackupService
         arguments:
             - '@contao.framework'
             - '@filesystem'
             - '@contao.slug.generator'
             - '@request_stack'
         public: true
+        

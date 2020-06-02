@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\BackupService;
+namespace WEM\SmartgearBundle\Backup;
 
 class BackupDatabase
 {
