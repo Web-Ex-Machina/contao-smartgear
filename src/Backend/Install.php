@@ -226,39 +226,41 @@ class Install extends \BackendModule
         }
 
         // Load the updater
-        $objUpdater = \System::getContainer()->get('smartgear.backend.updater');
+        if (null !== Util::getCurrentVersion()) {
+            $objUpdater = \System::getContainer()->get('smartgear.backend.updater');
 
-        // If we catch an update to run, call it,
-        // if return true, redirect to the Smartgear dashboard
-        if (\Input::get('sgUpdate')) {
-            if ($objUpdater->runUpdate(\Input::get('sgUpdate'))) {
-                $this->redirect(str_replace('&sgUpdate='.\Input::get('sgUpdate'), '', \Environment::get('request')));
-            }
-        }
-
-        // Fetch Smartgear updates
-        if (false === $objUpdater->shouldBeUpdated()) {
-            \Message::addConfirmation(sprintf('Smartgear v%s trouvé, installé et à jour !', Util::getCurrentVersion()));
-        } else {
-            $updates = [];
-            if (!empty($objUpdater->updates)) {
-                $updates[] = '<ul>';
-                foreach ($objUpdater->updates as $strFunction) {
-                    $updates[] = sprintf('<li data-update="%s">Update %s</li>', $strFunction, $strFunction);
+            // If we catch an update to run, call it,
+            // if return true, redirect to the Smartgear dashboard
+            if (\Input::get('sgUpdate')) {
+                if ($objUpdater->runUpdate(\Input::get('sgUpdate'))) {
+                    $this->redirect(str_replace('&sgUpdate='.\Input::get('sgUpdate'), '', \Environment::get('request')));
                 }
-                $updates[] = '</ul>';
             }
 
-            // @todo : Coder l'appel de la fonction trouvée, en AJAX ou pas.
-            \Message::addRaw(
-                sprintf(
-                    '<div class="tl_info">Il y a une différence de version entre le Smartgear installé (%s) et le package trouvé (%s).%s%s</div>',
-                    $objUpdater->getCurrentVersion() ?: 'NR',
-                    $objUpdater->getPackageVersion() ?: 'NR',
-                    implode('', $updates),
-                    !empty($updates) ? '<br><button title="Appliquer toutes les updates" class="tl_submit sgUpdateAll">Appliquer</button>' : ''
-                )
-            );
+            // Fetch Smartgear updates
+            if (false === $objUpdater->shouldBeUpdated()) {
+                \Message::addConfirmation(sprintf('Smartgear v%s trouvé, installé et à jour !', Util::getCurrentVersion()));
+            } else {
+                $updates = [];
+                if (!empty($objUpdater->updates)) {
+                    $updates[] = '<ul>';
+                    foreach ($objUpdater->updates as $strFunction) {
+                        $updates[] = sprintf('<li data-update="%s">Update %s</li>', $strFunction, $strFunction);
+                    }
+                    $updates[] = '</ul>';
+                }
+
+                // @todo : Coder l'appel de la fonction trouvée, en AJAX ou pas.
+                \Message::addRaw(
+                    sprintf(
+                        '<div class="tl_info">Il y a une différence de version entre le Smartgear installé (%s) et le package trouvé (%s).%s%s</div>',
+                        Util::getCurrentVersion() ?: 'NR',
+                        Util::getPackageVersion('webexmachina/contao-smartgear') ?: 'NR',
+                        implode('', $updates),
+                        !empty($updates) ? '<br><button title="Appliquer toutes les updates" class="tl_submit sgUpdateAll">Appliquer</button>' : ''
+                    )
+                );
+            }
         }
 
         // Backup manager button
