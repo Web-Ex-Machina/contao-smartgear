@@ -17,6 +17,8 @@ namespace WEM\SmartgearBundle\Backend;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Exception;
 use Psr\Log\LogLevel;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 /**
  * Back end module "smartgear".
@@ -494,5 +496,30 @@ class Util
         }
 
         return $result;
+    }
+
+    /**
+     * Execute a command through PHP.
+     *
+     * @param string $strCmd [Check https://docs.contao.org/dev/reference/commands/ for available commands]
+     */
+    public static function executeCmd($strCmd): void
+    {
+        // Finally, clean the Contao cache
+        $strConsolePath = \System::getContainer()->getParameter('kernel.project_dir').' /vendor/bin/contao-console';
+        $cmd = sprintf(
+            'php %s %s --env=prod',
+            $strConsolePath,
+            $strCmd
+        );
+
+        $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline(
+            $cmd
+        ) : new Process($cmd);
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
     }
 }
