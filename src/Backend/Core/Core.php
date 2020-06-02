@@ -677,6 +677,9 @@ class Core extends Block implements BlockInterface
             $this->sgConfig['sgInstallComplete'] = 1;
             Util::updateConfig($this->sgConfig);
 
+            // Refresh Cache
+            Util::executeCmd('cache:warmup');
+
             // And return an explicit status with some instructions
             return [
                 'toastr' => [
@@ -789,6 +792,9 @@ class Core extends Block implements BlockInterface
             $this->sgConfig['sgInstallComplete'] = '';
             Util::updateConfig($this->sgConfig);
             $this->logs[] = ['status' => 'tl_confirm', 'msg' => 'Désinstallation terminée'];
+
+            // Refresh Cache
+            Util::executeCmd('cache:warmup');
 
             // And return an explicit status with some instructions
             return [
