@@ -1,5 +1,8 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
+0.8 - 2020-07-x
+- Global: Allow Smartgear to execute Contao Commands through the backend
+- Global: List templates/smartgear templates in the customTpl options
 
 0.7 - 2020-05-17
 - Global: Add a PHPCSFixer set of rules
