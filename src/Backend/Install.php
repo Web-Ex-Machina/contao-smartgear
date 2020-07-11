@@ -78,27 +78,38 @@ class Install extends \BackendModule
         // Catch AJAX Requests
         if (\Input::post('TL_WEM_AJAX') && 'be_smartgear' === \Input::post('wem_module')) {
             try {
-                // Check if we get all the params we need first
-                if (!\Input::post('type') || !\Input::post('module') || !\Input::post('action')) {
-                    throw new Exception('Missing one or several arguments : type/module/action');
+                switch (\Input::post('action')) {
+                    case 'executeCmd':
+                        if (!\Input::post('cmd')) {
+                            throw new Exception('Missing one arguments : cmd');
+                        }
+
+                        Util::executeCmd(\Input::post('cmd'));
+                        break;
+
+                    default:
+                        // Check if we get all the params we need first
+                        if (!\Input::post('type') || !\Input::post('module') || !\Input::post('action')) {
+                            throw new Exception('Missing one or several arguments : type/module/action');
+                        }
+
+                        $objModule = Util::findAndCreateObject(\Input::post('type'), \Input::post('module'));
+
+                        // Check if the method asked exists
+                        if (!method_exists($objModule, $strAction)) {
+                            throw new Exception(sprintf('Unknown method %s in Class %s', $strAction, \get_class($objModule)));
+                        }
+
+                        // Just make sure we return a response in the asked format, if no format sent, we assume it's JSON.
+                        if ('html' === \Input::post('format')) {
+                            echo $objModule->$strAction();
+                            die;
+                        }
+
+                        // Launch the action and store the result
+                        $arrResponse = $objModule->$strAction();
+                        $arrResponse['logs'] = $objModule->logs;
                 }
-
-                $objModule = Util::findAndCreateObject(\Input::post('type'), \Input::post('module'));
-
-                // Check if the method asked exists
-                if (!method_exists($objModule, $strAction)) {
-                    throw new Exception(sprintf('Unknown method %s in Class %s', $strAction, \get_class($objModule)));
-                }
-
-                // Just make sure we return a response in the asked format, if no format sent, we assume it's JSON.
-                if ('html' === \Input::post('format')) {
-                    echo $objModule->$strAction();
-                    die;
-                }
-
-                // Launch the action and store the result
-                $arrResponse = $objModule->$strAction();
-                $arrResponse['logs'] = $objModule->logs;
             } catch (Exception $e) {
                 $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
             }
