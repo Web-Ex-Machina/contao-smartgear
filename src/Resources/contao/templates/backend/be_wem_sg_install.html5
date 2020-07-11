@@ -8,6 +8,7 @@
 <?= Message::generate(); ?>
 
 <div id="tl_buttons">
+  <a href="<?= $this->request ?>" class="executeCmd" data-cmd="cache:warmup" title="Refresh Cache" accesskey="b">Refresh Cache</a>
   <a href="<?= ampersand($this->backupManagerBtnHref) ?>" title="<?= Contao\StringUtil::specialchars($this->backupManagerBtnTitle) ?>" accesskey="b"><?= $this->backupManagerBtnButton ?></a>
 </div>
 
@@ -85,6 +86,18 @@
 					location.reload()
 				}, 2500);
 			}
+		});
+
+		/**
+		 * Handle command buttons
+		 */
+		j('#tl_wem_sg_install').on('click', '.executeCmd', function(e){
+			e.preventDefault();
+			executeCmd(j(this).data('cmd')).then(function(r) {
+				toastr[r["status"]](r["msg"]);
+			}).catch(function(e) {
+				toastr.error(e, "Une erreur est survenue :");
+			});
 		});
 
 		/**
@@ -201,6 +214,44 @@ function applyUpdate(update) {
 			,'REQUEST_TOKEN':"<?= $this->token; ?>"
 			,'wem_module':'be_smartgear_update'
 			,'action':update
+		};
+
+		j.ajax({
+			method: "POST"
+			,timeout:10000
+			,data: objFields
+		})
+		.done(function(msg){
+			// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+			try{
+				var results = j.parseJSON(msg);
+
+				// Handle actions errors
+				if("error" === results["status"]) {
+					reject(results["msg"]);
+				}
+
+				// Notify everything goes well
+				resolve(results);
+			}
+			catch(err){
+       			reject(err); 
+			}
+		})
+		.fail(function(jqXHR, textStatus, errorThrown){
+			reject(textStatus+"<br>"+errorThrown);
+		})
+	});
+}
+
+function executeCmd(cmd) {
+	return new Promise((resolve, reject) => {
+		var objFields = {
+			'TL_WEM_AJAX':1
+			,'REQUEST_TOKEN':"<?= $this->token; ?>"
+			,'wem_module':'be_smartgear'
+			,'action':'executeCmd',
+			,'cmd':cmd
 		};
 
 		j.ajax({
