@@ -242,6 +242,9 @@ class Core extends Block implements BlockInterface
                 throw new Exception(sprintf('Le dossier du thème Framway indiqué (%s) n\'existe pas', $fttp));
             }
 
+            // Copy the vendors into the filesystem
+            $objFiles->rcopy('web/bundles/wemsmartgear/vendor', 'files/vendor');
+
             // Check app folders and check if there is all Framway stuff loaded
             if (
                 !file_exists($rp.$fbp.'/css/framway.css')
@@ -286,10 +289,8 @@ class Core extends Block implements BlockInterface
             \Dbafs::addResource($fp);
 
             // Import the folders
-            $objFiles = \Files::getInstance();
             $objFiles->rcopy('web/bundles/wemsmartgear/templates_files', 'templates');
             $objFiles->rcopy('web/bundles/wemsmartgear/templates_app', 'app');
-            $objFiles->rcopy('web/bundles/wemsmartgear/vendor', 'files/vendor');
 
             // Create the theme template folder
             $objFiles->mkdir(sprintf('templates/%s', \StringUtil::generateAlias($arrConfig['websiteTitle'])));
