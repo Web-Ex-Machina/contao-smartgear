@@ -509,8 +509,10 @@ class Util
      * Execute a command through PHP.
      *
      * @param string $strCmd [Check https://docs.contao.org/dev/reference/commands/ for available commands]
+     *
+     * @return string [Function output]
      */
-    public static function executeCmd($strCmd): void
+    public static function executeCmd($strCmd)
     {
         // Finally, clean the Contao cache
         $strConsolePath = \System::getContainer()->getParameter('kernel.project_dir').' /vendor/bin/contao-console';
@@ -525,9 +527,22 @@ class Util
         ) : new Process($cmd);
         $process->run();
 
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
+        $i = 0;
+        while ($i <= $process->getTimeout()) {
+            sleep(1);
+
+            if ($process->isTerminated()) {
+                if (!$process->isSuccessful()) {
+                    throw new ProcessFailedException($process);
+                }
+
+                return $process->getOutput();
+            }
+
+            ++$i;
         }
+
+        return $process->getOutput();
     }
 
     /**
@@ -638,12 +653,12 @@ class Util
             if (\is_array($varPermission)) {
                 foreach ($varPermission as $strPermission) {
                     if (\in_array($strPermission, $arrPermissions, true)) {
-                        unset($arrPermissions[array_search($strPermission, $arrPermissions)]);
+                        unset($arrPermissions[array_search($strPermission, $arrPermissions, true)]);
                     }
                 }
             } else {
                 if (\in_array($varPermission, $arrPermissions, true)) {
-                    unset($arrPermissions[array_search($varPermission, $arrPermissions)]);
+                    unset($arrPermissions[array_search($varPermission, $arrPermissions, true)]);
                 }
             }
 

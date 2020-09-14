@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend;
 
 use Exception;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 /**
  * Back end module "smartgear".
@@ -73,7 +74,13 @@ class Install extends \BackendModule
                             throw new Exception('Missing one arguments : cmd');
                         }
 
-                        Util::executeCmd(\Input::post('cmd'));
+                        try {
+                            $arrResponse['status'] = 'success';
+                            $arrResponse['msg'] = sprintf('La commande %s a été executée avec succès', \Input::post('cmd'));
+                            $arrResponse['output'] = Util::executeCmd(\Input::post('cmd'));
+                        } catch (ProcessFailedException $e) {
+                            throw $e;
+                        }
                         break;
 
                     default:
