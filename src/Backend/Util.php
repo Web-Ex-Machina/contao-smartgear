@@ -515,9 +515,10 @@ class Util
     public static function executeCmd($strCmd)
     {
         // Finally, clean the Contao cache
-        $strConsolePath = \System::getContainer()->getParameter('kernel.project_dir').' /vendor/bin/contao-console';
+        $strConsolePath = \System::getContainer()->getParameter('kernel.project_dir').'/vendor/bin/contao-console';
         $cmd = sprintf(
-            'php %s %s --env=prod',
+            '%s/php -q %s %s --env=prod',
+            PHP_BINDIR,
             $strConsolePath,
             $strCmd
         );
