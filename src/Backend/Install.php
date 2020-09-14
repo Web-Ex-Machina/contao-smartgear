@@ -12,17 +12,6 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-/**
- * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2020 Web ex Machina.
- *
- * @category ContaoBundle
- *
- * @author   Web ex Machina <contact@webexmachina.fr>
- *
- * @see     https://github.com/Web-Ex-Machina/contao-smartgear/
- */
-
 namespace WEM\SmartgearBundle\Backend;
 
 use Exception;
