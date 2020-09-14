@@ -250,7 +250,7 @@ function executeCmd(cmd) {
 			'TL_WEM_AJAX':1
 			,'REQUEST_TOKEN':"<?= $this->token; ?>"
 			,'wem_module':'be_smartgear'
-			,'action':'executeCmd',
+			,'action':'executeCmd'
 			,'cmd':cmd
 		};
 
