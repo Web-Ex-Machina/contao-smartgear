@@ -35,6 +35,13 @@ class Util
     protected static $strConfigPath = 'assets/smartgear/config.json';
 
     /**
+     * Permissions cache system.
+     *
+     * @var array
+     */
+    protected static $arrContaoPermissions;
+
+    /**
      * Extract colors used in Framway.
      *
      * @return [Array] [Framway colors]
@@ -552,5 +559,150 @@ class Util
         $conf = self::loadSmartgearConfig();
 
         return $conf['sgVersion'] ?: null;
+    }
+
+    /**
+     * Add permissions to user group.
+     *
+     * @param String/Array $varPermission [Permission name / Array of permission names to add]
+     * @param int          $intGroup      [User group ID, if not specified, we'll take Smartgear default user group]
+     *
+     * @return array [Permissions Array]
+     */
+    public static function addPermissions($varPermission, $intGroup = null)
+    {
+        try {
+            // Retrieve usergroup existing permissions
+            $arrPermissions = [];
+            if (null === $intGroup) {
+                $conf = self::loadSmartgearConfig();
+
+                if ($conf['sgInstallUserGroup']) {
+                    $objUserGroup = \UserGroupModel::findByPk($conf['sgInstallUserGroup']);
+                }
+            } else {
+                $objUserGroup = \UserGroupModel::findByPk($intGroup);
+            }
+
+            if ($objUserGroup) {
+                $arrPermissions = deserialize($objUserGroup->alexf);
+            }
+
+            // Add the permissions
+            if (\is_array($varPermission)) {
+                foreach ($varPermission as $strPermission) {
+                    if (self::canAddPermission($strPermission) && !\in_array($strPermission, $arrPermissions, true)) {
+                        $arrPermissions[] = $strPermission;
+                    }
+                }
+            } else {
+                if (self::canAddPermission($varPermission) && !\in_array($varPermission, $arrPermissions, true)) {
+                    $arrPermissions[] = $varPermission;
+                }
+            }
+
+            return $arrPermissions;
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Remove permissions to user group.
+     *
+     * @param String/Array $varPermission [Permission name / Array of permission names to add]
+     * @param int          $intGroup      [User group ID, if not specified, we'll take Smartgear default user group]
+     *
+     * @return array [Permissions Array]
+     */
+    public static function removePermissions($varPermission, $intGroup = null)
+    {
+        try {
+            // Retrieve usergroup existing permissions
+            $arrPermissions = [];
+            if (null === $intGroup) {
+                $conf = self::loadSmartgearConfig();
+
+                if ($conf['sgInstallUserGroup']) {
+                    $objUserGroup = \UserGroupModel::findByPk($conf['sgInstallUserGroup']);
+                }
+            } else {
+                $objUserGroup = \UserGroupModel::findByPk($intGroup);
+            }
+
+            if ($objUserGroup) {
+                $arrPermissions = deserialize($objUserGroup->alexf);
+            }
+
+            // Add the permissions
+            if (\is_array($varPermission)) {
+                foreach ($varPermission as $strPermission) {
+                    if (\in_array($strPermission, $arrPermissions, true)) {
+                        unset($arrPermissions[array_search($strPermission, $arrPermissions)]);
+                    }
+                }
+            } else {
+                if (\in_array($varPermission, $arrPermissions, true)) {
+                    unset($arrPermissions[array_search($varPermission, $arrPermissions)]);
+                }
+            }
+
+            return $arrPermissions;
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Check if a permission can be added into.
+     *
+     * @param string $strPermission [Permission to add]
+     *
+     * @return bool
+     */
+    private static function canAddPermission($strPermission)
+    {
+        if (!\in_array($strPermission, self::getContaoPermissions(), true)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Retrieve Contao permissions.
+     *
+     * @param bool $blnRefresh [description]
+     *
+     * @return array
+     */
+    private static function getContaoPermissions($blnRefresh = false)
+    {
+        if (!static::$arrContaoPermissions || $blnRefresh) {
+            \Controller::loadDataContainer('tl_user_group');
+            $stdClass = $GLOBALS['TL_DCA']['tl_user_group']['fields']['alexf']['options_callback'][0];
+            $stdMethod = $GLOBALS['TL_DCA']['tl_user_group']['fields']['alexf']['options_callback'][1];
+            $objClass = new $stdClass();
+            $arrContaoPermissions = $objClass->$stdMethod();
+
+            // Format available permissions into one flat array
+            if (!\is_array($arrContaoPermissions) || empty($arrContaoPermissions)) {
+                throw new \Exception("Les permissions Contao n'ont pas été correctement récupérées");
+            }
+
+            $arrPermissions = [];
+            foreach ($arrContaoPermissions as $strTable => $arrContaoPermissions) {
+                if (!\is_array($arrContaoPermissions) || empty($arrContaoPermissions)) {
+                    continue;
+                }
+
+                foreach ($arrContaoPermissions as $strPermission => $strLabel) {
+                    $arrPermissions[] = $strPermission;
+                }
+            }
+            static::$arrContaoPermissions = $arrPermissions;
+        }
+
+        return static::$arrContaoPermissions;
     }
 }
