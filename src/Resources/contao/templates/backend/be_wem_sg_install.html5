@@ -91,7 +91,7 @@
 		/**
 		 * Handle command buttons
 		 */
-		j('#tl_wem_sg_install').on('click', '.executeCmd', function(e){
+		j('#tl_buttons').on('click', '.executeCmd', function(e){
 			e.preventDefault();
 			executeCmd(j(this).data('cmd')).then(function(r) {
 				toastr[r["status"]](r["msg"]);
