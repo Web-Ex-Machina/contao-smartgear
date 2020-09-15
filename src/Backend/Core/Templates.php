@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Backend\Core;
 use Exception;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use WEM\SmartgearBundle\Backend\Block;
 use WEM\SmartgearBundle\Backend\BlockInterface;
 use WEM\SmartgearBundle\Backend\Util;
@@ -107,7 +108,11 @@ class Templates extends Block implements BlockInterface
             Util::updateConfig(['sgInstallFiles' => 1]);
 
             // Refresh Cache
-            Util::executeCmd('cache:warmup');
+            try {
+                Util::executeCmd('cache:warmup');
+            } catch (ProcessFailedException $e) {
+                throw $e;
+            }
 
             // And return an explicit status with some instructions
             return [
@@ -138,7 +143,11 @@ class Templates extends Block implements BlockInterface
             Util::updateConfig(['sgInstallFiles' => 0]);
 
             // Refresh Cache
-            Util::executeCmd('cache:warmup');
+            try {
+                Util::executeCmd('cache:warmup');
+            } catch (ProcessFailedException $e) {
+                throw $e;
+            }
 
             // And return an explicit status with some instructions
             return [
