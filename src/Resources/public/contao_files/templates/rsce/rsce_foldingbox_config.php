@@ -10,8 +10,9 @@ return array(
             ,'inputType' => 'group'
         )
         ,'headline' => array(
-            'inputType' => 'standardField'
-            ,'eval' => array('tl_class' => 'w50')
+            'label' => array('Titre', 'Saisissez le titre de l\'élément')
+            ,'inputType' => 'textarea'
+            ,'eval' => array('rte' => 'tinyMCE', 'tl_class' => 'clr')
         )
         ,'height' => array(
             'label' => array('Hauteur du slider', 'Configurez la hauteur de l\'élément')
