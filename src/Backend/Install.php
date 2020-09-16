@@ -135,9 +135,10 @@ class Install extends \BackendModule
     }
 
     /**
-     * Backup manager behaviour
+     * Backup manager behaviour.
      */
-    protected function getBackupManager() {
+    protected function getBackupManager(): void
+    {
         $this->Template = new \BackendTemplate('be_wem_sg_backupmanager');
 
         $objService = \System::getContainer()->get('smartgear.backend.backupservice');
@@ -200,45 +201,10 @@ class Install extends \BackendModule
     }
 
     /**
-     * Generate the module.
-     *
-     * @throws Exception
+     * Updater service.
      */
-    protected function compile(): void
+    protected function getUpdater(): void
     {
-        // Get session
-        $objSession = \Session::getInstance();
-
-        // Add WEM styles to template
-        $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
-
-        // Backup manager
-        if ('backupmanager' === \Input::get('key')) {
-            $this->getBackupManager();
-            return;
-        }
-
-        // Catch Modal Calls
-        if ('modal' === \Input::get('act')) {
-            // Catch Errors
-            if (!\Input::get('type')) {
-                throw new Exception('Absence du paramètre type');
-            }
-            if (!\Input::get('module')) {
-                throw new Exception('Absence du paramètre module');
-            }
-            if (!\Input::get('function')) {
-                throw new Exception('Absence du paramètre function');
-            }
-
-            // Load the good block
-            $objModule = Util::findAndCreateObject(\Input::get('type'), \Input::get('module'));
-            $this->Template = $objModule->{\Input::get('function')}();
-
-            return;
-        }
-
-        // Load the updater
         if (null !== Util::getCurrentVersion()) {
             $objUpdater = \System::getContainer()->get('smartgear.backend.updater');
 
@@ -263,7 +229,6 @@ class Install extends \BackendModule
                     $updates[] = '</ul>';
                 }
 
-                // @todo : Coder l'appel de la fonction trouvée, en AJAX ou pas.
                 \Message::addRaw(
                     sprintf(
                         '<div class="tl_info">Il y a une différence de version entre le Smartgear installé (%s) et le package trouvé (%s).%s%s</div>',
@@ -275,6 +240,50 @@ class Install extends \BackendModule
                 );
             }
         }
+    }
+
+    /**
+     * Generate the module.
+     *
+     * @throws Exception
+     */
+    protected function compile(): void
+    {
+        // Get session
+        $objSession = \Session::getInstance();
+
+        // Add WEM styles to template
+        $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
+
+        // Backup manager
+        if ('backupmanager' === \Input::get('key')) {
+            $this->getBackupManager();
+
+            return;
+        }
+
+        // Catch Modal Calls
+        if ('modal' === \Input::get('act')) {
+            // Catch Errors
+            if (!\Input::get('type')) {
+                throw new Exception('Absence du paramètre type');
+            }
+            if (!\Input::get('module')) {
+                throw new Exception('Absence du paramètre module');
+            }
+            if (!\Input::get('function')) {
+                throw new Exception('Absence du paramètre function');
+            }
+
+            // Load the good block
+            $objModule = Util::findAndCreateObject(\Input::get('type'), \Input::get('module'));
+            $this->Template = $objModule->{\Input::get('function')}();
+
+            return;
+        }
+
+        // Load the updater
+        $this->getUpdater();
 
         // Backup manager button
         $this->Template->backupManagerBtnHref = $this->addToUrl('&key=backupmanager');
