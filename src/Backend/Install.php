@@ -135,6 +135,71 @@ class Install extends \BackendModule
     }
 
     /**
+     * Backup manager behaviour
+     */
+    protected function getBackupManager() {
+        $this->Template = new \BackendTemplate('be_wem_sg_backupmanager');
+
+        $objService = \System::getContainer()->get('smartgear.backend.backupservice');
+
+        if ('new' === \Input::get('act')) {
+            // Retrieve and list all the files to save
+            $strDir = TL_ROOT.'/web/bundles/wemsmartgear/contao_files';
+            $files = Util::getFileList($strDir);
+
+            foreach ($files as &$f) {
+                $f = str_replace($strDir.'/', '', $f);
+            }
+
+            $objService->save($files);
+
+            // Add Message
+            \Message::addConfirmation('Backup effectué');
+
+            // And redirect
+            \Controller::redirect(str_replace('&act=new', '', \Environment::get('request')));
+        } elseif ('restore' === \Input::get('act')) {
+            $objService->restore(\Input::get('backup'));
+
+            $objSession->set('wem_sg_backup_logs', $objService->getLogs());
+
+            // Add Message
+            \Message::addConfirmation('Backup restauré');
+
+            // And redirect
+            \Controller::redirect(str_replace('&act=restore&backup='.\Input::get('backup'), '', \Environment::get('request')));
+        } elseif ('download' === \Input::get('act')) {
+            $objFile = new \File(\Input::get('file'));
+            $objFile->sendToBrowser();
+        }
+
+        // Retrieve eventual logs
+        if ($objSession->get('wem_sg_backup_logs')) {
+            $this->Template->logs = $objSession->get('wem_sg_backup_logs');
+            $objSession->set('wem_sg_backup_logs', '');
+        }
+
+        // Retrieve backups
+        $arrBackups = $objService->list('files/backups');
+        if (!$arrBackups) {
+            $this->Template->empty = true;
+        } else {
+            $this->Template->empty = false;
+            $this->Template->backups = $arrBackups;
+        }
+
+        // Back button
+        $this->Template->backButtonHref = str_replace('&key=backupmanager', '', \Environment::get('request'));
+        $this->Template->backButtonTitle = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']);
+        $this->Template->backButtonButton = $GLOBALS['TL_LANG']['MSC']['backBT'];
+
+        // New backup button
+        $this->Template->newBackUpButtonHref = $this->addToUrl('&act=new');
+        $this->Template->newBackUpButtonTitle = \StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['newBackUpBTTitle']);
+        $this->Template->newBackUpButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['newBackUpBT'];
+    }
+
+    /**
      * Generate the module.
      *
      * @throws Exception
@@ -149,66 +214,7 @@ class Install extends \BackendModule
 
         // Backup manager
         if ('backupmanager' === \Input::get('key')) {
-            $this->Template = new \BackendTemplate('be_wem_sg_backupmanager');
-
-            $objService = \System::getContainer()->get('smartgear.backend.backupservice');
-
-            if ('new' === \Input::get('act')) {
-                // Retrieve and list all the files to save
-                $strDir = TL_ROOT.'/web/bundles/wemsmartgear/contao_files';
-                $files = Util::getFileList($strDir);
-
-                foreach ($files as &$f) {
-                    $f = str_replace($strDir.'/', '', $f);
-                }
-
-                $objService->save($files);
-
-                // Add Message
-                \Message::addConfirmation('Backup effectué');
-
-                // And redirect
-                \Controller::redirect(str_replace('&act=new', '', \Environment::get('request')));
-            } elseif ('restore' === \Input::get('act')) {
-                $objService->restore(\Input::get('backup'));
-
-                $objSession->set('wem_sg_backup_logs', $objService->getLogs());
-
-                // Add Message
-                \Message::addConfirmation('Backup restauré');
-
-                // And redirect
-                \Controller::redirect(str_replace('&act=restore&backup='.\Input::get('backup'), '', \Environment::get('request')));
-            } elseif ('download' === \Input::get('act')) {
-                $objFile = new \File(\Input::get('file'));
-                $objFile->sendToBrowser();
-            }
-
-            // Retrieve eventual logs
-            if ($objSession->get('wem_sg_backup_logs')) {
-                $this->Template->logs = $objSession->get('wem_sg_backup_logs');
-                $objSession->set('wem_sg_backup_logs', '');
-            }
-
-            // Retrieve backups
-            $arrBackups = $objService->list('files/backups');
-            if (!$arrBackups) {
-                $this->Template->empty = true;
-            } else {
-                $this->Template->empty = false;
-                $this->Template->backups = $arrBackups;
-            }
-
-            // Back button
-            $this->Template->backButtonHref = str_replace('&key=backupmanager', '', \Environment::get('request'));
-            $this->Template->backButtonTitle = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']);
-            $this->Template->backButtonButton = $GLOBALS['TL_LANG']['MSC']['backBT'];
-
-            // New backup button
-            $this->Template->newBackUpButtonHref = $this->addToUrl('&act=new');
-            $this->Template->newBackUpButtonTitle = \StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['newBackUpBTTitle']);
-            $this->Template->newBackUpButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['newBackUpBT'];
-
+            $this->getBackupManager();
             return;
         }
 
