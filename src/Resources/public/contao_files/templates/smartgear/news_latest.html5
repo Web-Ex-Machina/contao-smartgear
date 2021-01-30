@@ -22,7 +22,7 @@
   <div class="block-list__content">
     <div class="block-list__title" itemprop="name"><?= $this->headline ?></div>
     <div class="block-list__text" itemprop="description">
-      <?= $this->teaser ?>
+      <?= strlen($this->teaser)>250 ? substr(htmlspecialchars_decode($this->teaser),0,250).'...':htmlspecialchars_decode($this->teaser) ?>
     </div>
   </div>
   <?php if ($this->hasMetaFields): ?>
