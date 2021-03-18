@@ -19,7 +19,6 @@
     "require": {
         "php": ">=7.1",
         "contao/core-bundle": "~4.4",
-        "contao-community-alliance/composer-plugin":"~2.4 || ~3.0",
         "madeyourday/contao-rocksolid-custom-elements": "^2.2",
         "heimrichhannot/contao-backend-lost-password-bundle": "~1.2",
         "terminal42/notification_center": "^1.5",
