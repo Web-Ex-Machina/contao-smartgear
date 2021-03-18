@@ -4,6 +4,7 @@
     "keywords": ["smartgear", "webexmachina", "bundle", "contao"],
     "type": "contao-bundle",
     "license": "LGPL-3.0+",
+    "website":"https://www.webexmachina.fr/",
     "authors": [
         {
             "name": "Web ex Machina",
@@ -12,7 +13,6 @@
         }
     ],
     "support":{
-        "website":"https://www.webexmachina.fr/",
         "issues":"https://github.com/webexmachina/contao-smartgear/issues",
         "source":"https://github.com/webexmachina/contao-smartgear"
     },
