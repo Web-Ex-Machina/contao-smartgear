@@ -243,7 +243,7 @@ class Core extends Block implements BlockInterface
             }
 
             // Copy the vendors into the filesystem
-            $objFiles->rcopy('web/bundles/wemsmartgear/vendor', 'files/vendor');
+            $objFiles->rcopy('web/bundles/wemsmartgear/contao_files', '/');
 
             // Check app folders and check if there is all Framway stuff loaded
             if (
