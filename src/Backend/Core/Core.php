@@ -317,8 +317,8 @@ class Core extends Block implements BlockInterface
 
             // Import the logo into files/medias/logos folder
             if (\Input::post('websiteLogo')) {
-                $objFolder = new \Folder('files/medias/logos');
-                $objLogo = Util::base64ToImage(\Input::post('websiteLogo'), 'files/medias/logos', 'logo');
+                $objFolder = new \Folder('files/media/logos');
+                $objLogo = Util::base64ToImage(\Input::post('websiteLogo'), 'files/media/logos', 'logo');
                 $objLogoModel = $objLogo->getModel();
             } else {
                 $objLogoModel = \FilesModel::findOneByPath($fbp.'/img/logo_placeholder.png');
