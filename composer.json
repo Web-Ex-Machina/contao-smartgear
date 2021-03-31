@@ -24,6 +24,8 @@
         "heimrichhannot/contao-filename-sanitizer-bundle": "^2.2",
         "marcel-mathias-nolte/contao-filesmanager-fileusage": "^1.0",
         "christianbarkowsky/contao-tiny-compress-images": "^1.0",
+        "do-while/contao-backupdb-bundle": "^1.4",
+        "numero2/contao-opengraph3": "^4.1",
         "terminal42/notification_center": "^1.5",
         "webexmachina/contao-utils": "^0.3",
         "webexmachina/contao-grid": "^0.4",
