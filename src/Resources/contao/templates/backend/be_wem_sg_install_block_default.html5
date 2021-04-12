@@ -1,4 +1,4 @@
-<div id="block-<?= $this->type ?>-<?= $this->module ?>" class="block block-default <?= $this->type ?><?= ($this->actions) ? ' hasActions' : '' ?>" data-type="<?= $this->type ?>" data-module="<?= $this->module ?>">
+<div id="block-<?= $this->type ?>-<?= $this->module ?>" class="block block-default <?= $this->type ?><?= ($this->actions) ? ' hasActions' : '' ?><?= $this->class ?>" data-type="<?= $this->type ?>" data-module="<?= $this->module ?>">
 	<h2 class="title"><i class="fas fa-<?= $this->icon ?>"></i><?= $this->title ?></h2>
 	<?php if($this->isError): ?>
 	<div class="content_container">
@@ -26,7 +26,16 @@
 		<?php foreach($this->fields as $field): ?>
 		<div class="widget">
 			<h3><label for="ctrl_<?= $field['name'] ?>"><?= $field['label'] ?></label></h3>
-			<input name="<?= $field['name'] ?>" id="ctrl_<?= $field['name'] ?>" class="tl_text" value="<?= $field['value'] ?>" required="" onfocus="Backend.getScrollOffset()" type="text">
+
+			<?php if("textarea" === $field['type']): ?>
+			<textarea name="<?= $field['name'] ?>" id="ctrl_<?= $field['name'] ?>" class="tl_textarea"<?= $field['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()"><?= $field['value'] ?></textarea>
+			<?php elseif("select" === $field['type']): ?>
+			<?php elseif("checkbox" === $field['type']): ?>
+			<?php elseif("radio" === $field['type']): ?>
+			<?php else: ?>
+			<input name="<?= $field['name'] ?>" id="ctrl_<?= $field['name'] ?>" class="tl_text" value="<?= $field['value'] ?>"<?= $field['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()" type="text">
+			<?php endif; ?>
+			
 			<p class="tl_help tl_tip"><?= $field['help'] ?></p>
 			<br>
 		</div>

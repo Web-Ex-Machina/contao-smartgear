@@ -19,15 +19,9 @@ namespace WEM\SmartgearBundle\Backend;
  *
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
-interface BlockInterface
+interface BlockInstallInterface
 {
     public function getStatus();
-
-    public function install();
-
-    public function reset();
-
-    public function remove();
 
     public function parse();
 }

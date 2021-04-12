@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2020 Web ex Machina
+ * Copyright (c) 2015-2021 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -75,6 +75,11 @@ class Util
             }
 
             $strFramwayConfig = file_get_contents($strFWTheme.'/_config.scss');
+
+            if (false === $strFramwayConfig) {
+                return [];
+            }
+
             $startsAt = strpos($strFramwayConfig, "$colors: (") + \strlen("$colors: (");
             $endsAt = strpos($strFramwayConfig, ');', $startsAt);
             $result = trim(str_replace([' ', "\n"], '', substr($strFramwayConfig, $startsAt, $endsAt - $startsAt)));

@@ -21,6 +21,48 @@
 			<target>Le module %s a été trouvé et est installé.</target>
 		</trans-unit>
 
+		<!-- Install l10n -->
+		<trans-unit id="WEM.SMARTGEAR.INSTALL.framway">
+			<source>Framway</source>
+			<target>Framway</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.INSTALL.files">
+			<source>Files</source>
+			<target>Fichiers</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.INSTALL.config">
+			<source>Global configuration</source>
+			<target>Configuration globale</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.INSTALL.theme">
+			<source>Theme</source>
+			<target>Thème</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.INSTALL.modules">
+			<source>Modules</source>
+			<target>Modules</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.INSTALL.layouts">
+			<source>Page layouts</source>
+			<target>Squelettes de page</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.INSTALL.users">
+			<source>Users</source>
+			<target>Utilisateurs</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.INSTALL.gateways">
+			<source>Notification gateways</source>
+			<target>Passerelles de notification</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.INSTALL.pages">
+			<source>Pages</source>
+			<target>Pages</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.INSTALL.guidelines">
+			<source>Guidelines</source>
+			<target>Guidelines</target>
+		</trans-unit>
+
 		<!-- Backup manager -->
 		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.backupManagerBTTitle">
 			<source>Access Smartgear Backups</source>
