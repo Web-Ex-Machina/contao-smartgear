@@ -43,10 +43,6 @@ class BlockInstall extends Block
     {
         try {
             switch ($key) {
-                case 'check':
-                    return ['method' => 'check'];
-                break;
-
                 case 'loadNextStep':
                     return ['method' => 'loadNextStep'];
                 break;

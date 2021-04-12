@@ -120,43 +120,17 @@ class Files extends BlockInstall implements BlockInstallInterface
         $this->objFiles = \Files::getInstance();
         $this->strRootDir = \System::getContainer()->getParameter('kernel.project_dir');
 
-        // Init session
-        $this->objSession = \System::getContainer()->get('session');
-
         // Load config
-        if (\Input::post('framwayFolderPath')) {
-            $this->framwayFolderPath = \Input::post('framwayFolderPath');
-            $this->objSession->set('sg_install_framwayFolderPath', $this->framwayFolderPath);
-        } elseif ($this->objSession->get('sg_install_framwayFolderPath')) {
-            $this->framwayFolderPath = $this->objSession->get('sg_install_framwayFolderPath');
-        } elseif ($this->sgConfig['framwayFolderPath']) {
-            $this->framwayFolderPath = $this->sgConfig['framwayFolderPath'];
-        }
-
-        if (\Input::post('framwayTheme')) {
-            $this->framwayTheme = \Input::post('framwayTheme');
-            $this->objSession->set('sg_install_framwayTheme', $this->framwayTheme);
-        } elseif ($this->objSession->get('sg_install_framwayTheme')) {
-            $this->framwayTheme = $this->objSession->get('sg_install_framwayTheme');
-        } elseif ($this->sgConfig['framwayTheme']) {
-            $this->framwayTheme = $this->sgConfig['framwayTheme'];
-        }
-
-        /*if (\Input::post('vendorFolderPath')) {
-            $this->vendorFolderPath = \Input::post('vendorFolderPath');
-            $this->objSession->set('sg_install_vendorFolderPath', $this->vendorFolderPath);
-        } elseif ($this->objSession->get('sg_install_vendorFolderPath')) {
-            $this->vendorFolderPath = $this->objSession->get('sg_install_vendorFolderPath');
-        } elseif ($this->sgConfig['vendorFolderPath']) {
-            $this->vendorFolderPath = $this->sgConfig['vendorFolderPath'];
-        }*/
+        $this->checkValue('framwayFolderPath');
+        $this->checkValue('framwayTheme');
+        // $this->checkValue('vendorFolderPath');
 
         // Add block intro
         $this->addInfo('Sélectionnez l\'emplacement du Framway et stockez sa configuration.');
 
         // Add block fields
-        $this->addTextField('framwayFolderPath', 'Chemin vers la racine du framway', $this->framwayFolderPath, true);
-        $this->addTextField('framwayTheme', 'Nom du thème framway', $this->framwayTheme, true);
+        $this->addTextField('framwayFolderPath', 'Chemin vers la racine du framway', $this->framwayFolderPath, true, 'w50');
+        $this->addTextField('framwayTheme', 'Nom du thème framway', $this->framwayTheme, true, 'w50');
         // $this->addTextField('vendorFolderPath', 'Chemin vers le répertoire des librairies', $this->vendorFolderPath, true);
 
         // Check App files
@@ -212,13 +186,15 @@ class Files extends BlockInstall implements BlockInstallInterface
             }
         }
 
+        if($this->hasErrors() || $this->hasUpdates()) {
+            $this->addAction('process', 'Importer les fichiers Smartgear');
+        }
+
         if (!$this->hasErrors()) {
             $this->addConfirm('Les fichiers ont été trouvés, sont à jour et sont accessibles !');
             $this->addAction('next', 'Suivant');
 
             $this->status = 1;
-        } else {
-            $this->addAction('process', 'Importer les fichiers Smartgear');
         }
     }
 
@@ -231,6 +207,13 @@ class Files extends BlockInstall implements BlockInstallInterface
             if ($this->hasErrors()) {
                 return [
                     'toastr' => $this->callback('toastr', ['error', 'Fichiers manquants']),
+                    'callbacks' => [$this->callback('refreshBlock')],
+                ];
+            }
+
+            if ($this->hasUpdates()) {
+                return [
+                    'toastr' => $this->callback('toastr', ['info', 'Des fichiers sont à mettre à jour']),
                     'callbacks' => [$this->callback('refreshBlock')],
                 ];
             }
@@ -290,8 +273,13 @@ class Files extends BlockInstall implements BlockInstallInterface
 
             if (!empty($this->arrFilesToUpdate)) {
                 foreach ($this->arrFilesToUpdate as $p) {
-                    $objFile = new \File($p);
-                    $objFile->copyTo(str_replace($this->sgFolderPath.'/', '', $p));
+                    $objFileA = new \File($p); // Source file
+                    $objFileB = new \File(str_replace($this->sgFolderPath.'/', '', $p)); // App file
+
+                    $objFileB->truncate();
+                    $objFileB->write($objFileA->getContent());
+
+                    $objFileB->close();
                 }
             }
 
@@ -311,7 +299,8 @@ class Files extends BlockInstall implements BlockInstallInterface
 
             // And return an explicit status with some instructions
             return [
-                'toastr' => $this->callback('toastr', ['success', 'Les fichiers ont été trouvés, sont à jour et sont accessibles !']), 'callbacks' => [$this->callback('check')],
+                'toastr' => $this->callback('toastr', ['info', 'Import des fichiers terminé']),
+                'callbacks' => [$this->callback('refreshBlock')],
             ];
         } catch (Exception $e) {
             throw $e;
@@ -434,19 +423,18 @@ class Files extends BlockInstall implements BlockInstallInterface
         }
     }
 
-    protected function checkIfFilesAreDifferent($objFileA, $objFileB): void
+    protected function checkIfFilesAreDifferent($objFileA, $objFileB)
     {
         try {
-            // $objFileA = new \File($strFileA);
-            // $objFileB = new \File($strFileB);
-
             if (!$objFileA->exists()) {
-                $this->addError('Impossible de comparer : le fichier '.$strFileA." n'existe pas");
+                return true;
             } elseif (!$objFileB->exists()) {
-                $this->addError('Impossible de comparer : le fichier '.$strFileB." n'existe pas");
+                return true;
             } elseif ($objFileA->hash !== $objFileB->hash) {
-                $this->addNew('Fichier à mettre à jour : '.$objFileA->path);
+                return true;
             }
+
+            return false;
         } catch (Exception $e) {
             throw $e;
         }

@@ -92,20 +92,30 @@ class Install extends \BackendModule
                         break;
 
                     case 'getSteps':
+                        $this->getActiveStep();
+
                         echo $this->parseInstallSteps();
                         die;
                         break;
 
-                    case 'getNextStep':
-                        $this->getActiveStep();
+                    case 'setStep':
+                        if(!in_array(\Input::post('step'), $this->modules['install'])) {
+                            throw new \Exception("Step inconnue : ".\Input::post('step'));
+                        }
 
+                        $objSession = \System::getContainer()->get('session');
+                        $objSession->set('sg_install_step', \Input::post('step'));
+                        break;
+
+                    case 'getNextStep':
                         $arrNextStep = $this->getNextInstallStep($this->strActiveStep);
 
                         $arrResponse['status'] = 'success';
                         $arrResponse['step'] = $arrNextStep;
 
-                        $objSession = \Session::getInstance();
-                        $this->strActiveStep = $objSession->set('sg_install_step', $arrNextStep['name']);
+                        $objSession = \System::getContainer()->get('session');
+                        $objSession->set('sg_install_step', $arrNextStep['name']);
+                        $this->strActiveStep = $arrNextStep['name'];
 
                         break;
 
@@ -337,8 +347,13 @@ class Install extends \BackendModule
 
     protected function getActiveStep()
     {
-        $objSession = \Session::getInstance();
-        $this->strActiveStep = $objSession->get('sg_install_step') ?: $this->modules['install'][0];
+        $objSession = \System::getContainer()->get('session');
+
+        if(null === $objSession->get('sg_install_step')) {
+            $objSession->set('sg_install_step', $this->modules['install'][0]);
+        }
+
+        $this->strActiveStep = $objSession->get('sg_install_step');
     }
 
     protected function parseInstallSteps()
@@ -379,7 +394,7 @@ class Install extends \BackendModule
             'name' => $step,
             'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['INSTALL'][$step],
             'active' => $step === $this->strActiveStep,
-            'disabled' => true,
+            'disabled' => $k > array_search($this->strActiveStep, $this->modules['install']),
         ];
 
         if ($getNextStep) {

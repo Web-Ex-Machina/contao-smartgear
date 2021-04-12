@@ -31,12 +31,39 @@
 		});
 
 		/**
+		 * Store the "submit" clicked for the form
+		 */
+		j('#sg_steps').on('click', 'a.step', function(e){
+			e.preventDefault();
+			var ctn = j('#tl_wem_sg_install .blocks.install .block').first();
+			ctn.find('.loader').addClass("active");
+			var step = j(this);
+
+			setStep(step.data('module')).then(function(r) {
+				refreshSteps();
+
+				getBlock(step.data('type'), step.data('module')).then(function(r) {
+					ctn.replaceWith(r);
+				}).catch(function(e) {
+					toastr.error(e, "Une erreur est survenue :");
+				}).finally(function() {
+					ctn.find('.loader').removeClass("active");
+				});
+			}).catch(function(e) {
+				toastr.error(e, "Une erreur est survenue :");
+			}).finally(function() {
+				ctn.find('.loader').removeClass("active");
+			});
+		});
+
+		/**
 		 * Handle modal openers
 		 */
 		j('#tl_wem_sg_install').on('click', '.block .openContaoModal', function(e){
 			e.preventDefault();
 			Backend.openModalIframe({'title':this.title,'url':this.href});
 		});
+
 		j('#tl_wem_sg_install').on('click', '.block .openSmartgearModal', function(e){
 			e.preventDefault();
 			var w = 768;
@@ -188,7 +215,7 @@
 	}
 
 	/**
-	 * Refresh a block with its ID
+	 * Refresh steps
 	 */
 	function refreshSteps(){
 		var ctn = j('div#sg_steps');
@@ -198,13 +225,13 @@
 			ctn.replaceWith(r);
 		}).catch(function(e) {
 			toastr.error(e, "Une erreur est survenue :");
-		}).finally(function() { i
+		}).finally(function() {
 			ctn.find('.loader').removeClass("active");
 		});
 	}
 
 	/**
-	 * Refresh a block with its ID
+	 * Load the next step
 	 */
 	function loadNextStep(){
 		getNextStep().then(function(r) {
@@ -214,10 +241,10 @@
 			// Get the next block
 			var ctn = j('div.block-install');
 			getBlock(r.type, r.name).then(function(r) {
-				ctn.replaceWith(r["msg"]);
+				ctn.replaceWith(r);
 			}).catch(function(e) {
 				toastr.error(e, "Une erreur est survenue :");
-			}).finally(function() { i
+			}).finally(function() {
 				ctn.find('.loader').removeClass("active");
 			});
 
@@ -226,8 +253,10 @@
 		});
 	}
 
-	function getNextStep()
-	{
+	/**
+	 * Retrieve the next step
+	 */
+	function getNextStep() {
 		return new Promise((resolve, reject) => {
 			var objFields = {
 				'TL_WEM_AJAX':1
@@ -263,8 +292,47 @@
 		});
 	}
 
-	function getSteps()
-	{
+	/**
+	 * Set the new step
+	 */
+	function setStep(step) {
+		return new Promise((resolve, reject) => {
+			var objFields = {
+				'TL_WEM_AJAX':1
+				,'REQUEST_TOKEN':"<?= $this->token; ?>"
+				,'wem_module':'be_smartgear'
+				,'action':'setStep'
+				,'step':step
+			};
+
+			j.ajax({
+				method: "POST"
+				,data: objFields
+			})
+			.done(function(msg){
+				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+				try{
+					var results = j.parseJSON(msg);
+
+					// Handle actions errors
+					if("error" === results["status"]) {
+						reject(results["msg"]);
+					}
+
+					// Notify everything goes well
+					resolve(results['step']);
+				}
+				catch(err){
+	       			reject(err); 
+				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				reject(jqXHR, textStatus, errorThrown); 
+			});
+		});
+	}
+
+	function getSteps()	{
 		return new Promise((resolve, reject) => {
 			var objFields = {
 				'TL_WEM_AJAX':1
@@ -286,8 +354,7 @@
 		});
 	}
 
-	function getBlock(strType, strModule)
-	{
+	function getBlock(strType, strModule) {
 		return new Promise((resolve, reject) => {
 			var objFields = {
 				'TL_WEM_AJAX':1
