@@ -68,6 +68,11 @@ class Block extends Controller
 
         // Import backend user
         $this->import('BackendUser', 'User');
+
+        // Init session
+        $this->objSession = \System::getContainer()->get('session');
+
+        // dump($this->objSession);
     }
 
     /**
@@ -226,6 +231,22 @@ class Block extends Controller
     }
 
     /**
+     * Return true if there is updates in this block.
+     */
+    protected function hasUpdates()
+    {
+        if (!empty($this->messages)) {
+            foreach ($this->messages as $m) {
+                if ('tl_new' === $m['class']) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Add an error.
      */
     protected function addError($msg): void
@@ -283,7 +304,7 @@ class Block extends Controller
     /**
      * Add a text field.
      */
-    protected function addTextField($strName, $strLabel, $strValue = '', $blnRequired = false, $strType = 'text', $strPlaceholder = ''): void
+    protected function addTextField($strName, $strLabel, $strValue = '', $blnRequired = false, $strClass = '', $strType = 'text', $strPlaceholder = ''): void
     {
         $this->fields[] = [
             'type' => $strType,
@@ -292,13 +313,14 @@ class Block extends Controller
             'placeholder' => $strPlaceholder,
             'value' => $strValue,
             'required' => $blnRequired,
+            'class' => $strClass,
         ];
     }
 
     /**
      * Add a dropdown/checkbox/radio.
      */
-    protected function addSelectField($strName, $strLabel, $arrOptions, $strValue = '', $blnRequired = false, $strType = 'select'): void
+    protected function addSelectField($strName, $strLabel, $arrOptions, $strValue = '', $blnRequired = false, $strClass = '', $strType = 'select'): void
     {
         foreach ($arrOptions as &$o) {
             $o['selected'] = false;
@@ -313,6 +335,22 @@ class Block extends Controller
             'label' => $strLabel,
             'options' => $arrOptions,
             'required' => $blnRequired,
+            'class' => $strClass,
         ];
+    }
+
+    /**
+     * 
+     */
+    protected function checkValue($strName) {
+        // Load config
+        if (\Input::post($strName)) {
+            $this->$strName = \Input::post($strName);
+            $this->objSession->set('sg_install_'.$strName, $this->$strName);
+        } elseif ($this->objSession->get('sg_install_'.$strName)) {
+            $this->$strName = $this->objSession->get('sg_install_'.$strName);
+        } elseif ($this->sgConfig[$strName]) {
+            $this->$strName = $this->sgConfig[$strName];
+        }
     }
 }

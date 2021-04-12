@@ -4,7 +4,7 @@
 		<?php if($step['active'] || $step['disabled']): ?>
 		<span class="step<?= $step['active'] ? ' active' : '' ?>"><?= $step['number'] ?>. <?= $step['label'] ?></span>
 		<?php else: ?>
-		<a href="<?= $step['href'] ?>" title="<?= $step['label'] ?>" class="step"><?= $step['number'] ?>. <?= $step['label'] ?></a>
+		<a href="<?= $step['href'] ?>" title="<?= $step['label'] ?>" class="step" data-type="<?= $step['type'] ?>" data-module="<?= $step['name'] ?>"><?= $step['number'] ?>. <?= $step['label'] ?></a>
 		<?php endif; ?>
 	</div>
 <?php endforeach; ?>
