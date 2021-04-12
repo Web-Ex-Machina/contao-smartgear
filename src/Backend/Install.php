@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2020 Web ex Machina
+ * Copyright (c) 2015-2021 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -24,6 +24,13 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
  */
 class Install extends \BackendModule
 {
+    /**
+     * Active step of this installation.
+     *
+     * @var string
+     */
+    protected $strInstallStep = '';
+
     /**
      * Template.
      *
@@ -51,9 +58,10 @@ class Install extends \BackendModule
      * @var array
      */
     protected $modules = [
-        'core' => ['core', 'templates']
-        //,"component" => ["header"]
-        , 'module' => ['blog', 'calendar', 'faq', 'forms', 'newsletter', 'locations', 'portfolio', 'planning'], 'addon' => ['formsubmissions', 'seo', 'conditionalnotifications'],
+        'install' => ['files', 'config', 'theme', 'modules', 'layouts', 'users', 'gateways', 'pages', 'guidelines'],
+        //"component" => ["header"],
+        'module' => ['blog', 'calendar', 'faq', 'forms', 'newsletter', 'locations', 'portfolio', 'planning'],
+        'addon' => ['formsubmissions', 'seo', 'conditionalnotifications'],
     ];
 
     /**
@@ -81,6 +89,24 @@ class Install extends \BackendModule
                         } catch (ProcessFailedException $e) {
                             throw $e;
                         }
+                        break;
+
+                    case 'getSteps':
+                        echo $this->parseInstallSteps();
+                        die;
+                        break;
+
+                    case 'getNextStep':
+                        $this->getActiveStep();
+
+                        $arrNextStep = $this->getNextInstallStep($this->strActiveStep);
+
+                        $arrResponse['status'] = 'success';
+                        $arrResponse['step'] = $arrNextStep;
+
+                        $objSession = \Session::getInstance();
+                        $this->strActiveStep = $objSession->set('sg_install_step', $arrNextStep['name']);
+
                         break;
 
                     default:
@@ -190,9 +216,7 @@ class Install extends \BackendModule
         }
 
         // Back button
-        $this->Template->backButtonHref = str_replace('&key=backupmanager', '', \Environment::get('request'));
-        $this->Template->backButtonTitle = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']);
-        $this->Template->backButtonButton = $GLOBALS['TL_LANG']['MSC']['backBT'];
+        $this->getBackButton(str_replace('&key=backupmanager', '', \Environment::get('request')));
 
         // New backup button
         $this->Template->newBackUpButtonHref = $this->addToUrl('&act=new');
@@ -249,9 +273,6 @@ class Install extends \BackendModule
      */
     protected function compile(): void
     {
-        // Get session
-        $objSession = \Session::getInstance();
-
         // Add WEM styles to template
         $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
 
@@ -282,31 +303,121 @@ class Install extends \BackendModule
             return;
         }
 
-        // Load the updater
-        $this->getUpdater();
+        // If there is nothing setup, trigger Smartgear Install
+        if (!$this->isSmartgearSetup()) {
+            $this->getActiveStep();
+            $this->Template->steps = $this->parseInstallSteps();
 
-        // Backup manager button
-        $this->Template->backupManagerBtnHref = $this->addToUrl('&key=backupmanager');
-        $this->Template->backupManagerBtnTitle = \StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['backupManagerBTTitle']);
-        $this->Template->backupManagerBtnButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['backupManagerBT'];
+            $blocks['install'][$this->strActiveStep] = $this->getInstallBlock();
+            $this->Template->blocks = $blocks;
+        } else {
+            // Load the updater
+            $this->getUpdater();
 
-        // Back button
-        $this->Template->backButtonHref = \Environment::get('request');
-        $this->Template->backButtonTitle = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']);
-        $this->Template->backButtonButton = $GLOBALS['TL_LANG']['MSC']['backBT'];
+            // Load buttons
+            $this->getBackupManagerButton();
 
-        // Parse Smartgear components
-        foreach ($this->modules as $type => $blocks) {
-            foreach ($blocks as $block) {
-                $objModule = Util::findAndCreateObject($type, $block);
-                $arrBlocks[$type][] = $objModule->parse();
+            // Parse Smartgear components
+            foreach ($this->modules as $type => $blocks) {
+                foreach ($blocks as $block) {
+                    $objModule = Util::findAndCreateObject($type, $block);
+                    $arrBlocks[$type][] = $objModule->parse();
+                }
             }
+
+            // Send blocks to template
+            $this->Template->blocks = $arrBlocks;
         }
 
         // Send msc data to template
         $this->Template->request = \Environment::get('request');
         $this->Template->token = \RequestToken::get();
         $this->Template->websiteTitle = \Config::get('websiteTitle');
-        $this->Template->blocks = $arrBlocks;
+    }
+
+    protected function getActiveStep()
+    {
+        $objSession = \Session::getInstance();
+        $this->strActiveStep = $objSession->get('sg_install_step') ?: $this->modules['install'][0];
+    }
+
+    protected function parseInstallSteps()
+    {
+        $objTemplate = new \FrontendTemplate('be_wem_sg_install_steps');
+        $objTemplate->steps = $this->getInstallSteps();
+
+        return $objTemplate->parse();
+    }
+
+    protected function getInstallSteps()
+    {
+        $arrSteps = [];
+
+        foreach ($this->modules['install'] as $k => $step) {
+            $arrSteps[$step] = $this->getInstallStep($step, $k);
+        }
+
+        return $arrSteps;
+    }
+
+    protected function getNextInstallStep($step, $getNextStep = false)
+    {
+        $key = array_search($step, $this->modules['install'], true) + 1;
+
+        if (!\array_key_exists($key, $this->modules['install'])) {
+            return null;
+        }
+
+        return $this->getInstallStep($this->modules['install'][$key], $key, $getNextStep);
+    }
+
+    protected function getInstallStep($step, $k, $getNextStep = false)
+    {
+        $s = [
+            'number' => $k + 1,
+            'type' => "install",
+            'name' => $step,
+            'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['INSTALL'][$step],
+            'active' => $step === $this->strActiveStep,
+            'disabled' => true,
+        ];
+
+        if ($getNextStep) {
+            $s['next'] = $this->getNextInstallStep($step, false);
+        }
+
+        return $s;
+    }
+
+    protected function getInstallBlock()
+    {
+        $objModule = Util::findAndCreateObject('install', $this->strActiveStep);
+
+        return $objModule->parse();
+    }
+
+    protected function getBackButton($strHref = ''): void
+    {
+        // Back button
+        $this->Template->backButtonHref = $strHref ?: \Environment::get('request');
+        $this->Template->backButtonTitle = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']);
+        $this->Template->backButtonButton = $GLOBALS['TL_LANG']['MSC']['backBT'];
+    }
+
+    protected function getBackupManagerButton(): void
+    {
+        // Backup manager button
+        $this->Template->backupManagerBtnHref = $this->addToUrl('&key=backupmanager');
+        $this->Template->backupManagerBtnTitle = \StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['backupManagerBTTitle']);
+        $this->Template->backupManagerBtnButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['backupManagerBT'];
+    }
+
+    protected function isSmartgearSetup()
+    {
+        return $this->sgConfig['sgInstallComplete'];
+    }
+
+    protected function checkSmartgearSetup(): void
+    {
     }
 }

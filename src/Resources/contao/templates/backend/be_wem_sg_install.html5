@@ -19,7 +19,7 @@
 
 	// Toastr Options
 	toastr.options.closeButton = true;
-	toastr.options.timeOut = 0;
+	toastr.options.timeOut = 5000;
 	toastr.options.extendedTimeOut = 0;
 
 	j(document).ready(function(){
@@ -178,113 +178,221 @@
 		var ctn = j('div#'+id);
 		ctn.find('.loader').addClass("active");
 
-		var objFields = {
-			'TL_WEM_AJAX':1
-			,'REQUEST_TOKEN':"<?= $this->token; ?>"
-			,'wem_module':'be_smartgear'
-			,'action':'parse'
-			,'format':'html'
-			,'type':ctn.data("type")
-			,'module':ctn.data("module")
-		};
-
-		j.ajax({
-			method: "POST"
-			//,timeout:10000
-			,data: objFields
-		})
-		.done(function(msg){
-			ctn.replaceWith(msg.replace(/<!--[\s\S]*?-->/g, ""));
-		})
-		.fail(function(jqXHR, textStatus, errorThrown){
-			toastr.error(textStatus+"<br>"+errorThrown);
-			console.log(jqXHR);
-			console.log(textStatus);
-			console.log(errorThrown);
-		})
-		.always(function(){
+		getBlock(ctn.data("type"), ctn.data("module")).then(function(r) {
+			ctn.replaceWith(r);
+		}).catch(function(e) {
+			toastr.error(e, "Une erreur est survenue :");
+		}).finally(function() { i
 			ctn.find('.loader').removeClass("active");
 		});
 	}
 
-function applyUpdate(update) {
-	return new Promise((resolve, reject) => {
-		var objFields = {
-			'TL_WEM_AJAX':1
-			,'REQUEST_TOKEN':"<?= $this->token; ?>"
-			,'wem_module':'be_smartgear_update'
-			,'action':update
-		};
+	/**
+	 * Refresh a block with its ID
+	 */
+	function refreshSteps(){
+		var ctn = j('div#sg_steps');
+		ctn.find('.loader').addClass("active");
 
-		j.ajax({
-			method: "POST"
-			,timeout:10000
-			,data: objFields
-		})
-		.done(function(msg){
-			// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
-			try{
-				var results = j.parseJSON(msg);
+		getSteps().then(function(r) {
+			ctn.replaceWith(r);
+		}).catch(function(e) {
+			toastr.error(e, "Une erreur est survenue :");
+		}).finally(function() { i
+			ctn.find('.loader').removeClass("active");
+		});
+	}
 
-				// Handle actions errors
-				if("error" === results["status"]) {
-					reject(results["msg"]);
+	/**
+	 * Refresh a block with its ID
+	 */
+	function loadNextStep(){
+		getNextStep().then(function(r) {
+			// Refresh the steps
+			refreshSteps();
+
+			// Get the next block
+			var ctn = j('div.block-install');
+			getBlock(r.type, r.name).then(function(r) {
+				ctn.replaceWith(r["msg"]);
+			}).catch(function(e) {
+				toastr.error(e, "Une erreur est survenue :");
+			}).finally(function() { i
+				ctn.find('.loader').removeClass("active");
+			});
+
+		}).catch(function(e) {
+			toastr.error(e, "Une erreur est survenue :");
+		});
+	}
+
+	function getNextStep()
+	{
+		return new Promise((resolve, reject) => {
+			var objFields = {
+				'TL_WEM_AJAX':1
+				,'REQUEST_TOKEN':"<?= $this->token; ?>"
+				,'wem_module':'be_smartgear'
+				,'action':'getNextStep'
+			};
+
+			j.ajax({
+				method: "POST"
+				,data: objFields
+			})
+			.done(function(msg){
+				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+				try{
+					var results = j.parseJSON(msg);
+
+					// Handle actions errors
+					if("error" === results["status"]) {
+						reject(results["msg"]);
+					}
+
+					// Notify everything goes well
+					resolve(results['step']);
 				}
-
-				// Notify everything goes well
-				resolve(results);
-			}
-			catch(err){
-       			reject(err); 
-			}
-		})
-		.fail(function(jqXHR, textStatus, errorThrown){
-			reject(textStatus+"<br>"+errorThrown);
-		})
-	});
-}
-
-function executeCmd(cmd) {
-	return new Promise((resolve, reject) => {
-		var objFields = {
-			'TL_WEM_AJAX':1
-			,'REQUEST_TOKEN':"<?= $this->token; ?>"
-			,'wem_module':'be_smartgear'
-			,'action':'executeCmd'
-			,'cmd':cmd
-		};
-
-		j.ajax({
-			method: "POST"
-			,timeout:10000
-			,data: objFields
-		})
-		.done(function(msg){
-			// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
-			try{
-				var results = j.parseJSON(msg);
-
-				// Handle actions errors
-				if("error" === results["status"]) {
-					reject(results["msg"]);
+				catch(err){
+	       			reject(err); 
 				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				reject(jqXHR, textStatus, errorThrown); 
+			});
+		});
+	}
 
-				// Notify everything goes well
-				resolve(results);
-			}
-			catch(err){
-       			reject(err); 
-			}
-		})
-		.fail(function(jqXHR, textStatus, errorThrown){
-			reject(textStatus+"<br>"+errorThrown);
-		})
-	});
-}
+	function getSteps()
+	{
+		return new Promise((resolve, reject) => {
+			var objFields = {
+				'TL_WEM_AJAX':1
+				,'REQUEST_TOKEN':"<?= $this->token; ?>"
+				,'wem_module':'be_smartgear'
+				,'action':'getSteps'
+			};
+
+			j.ajax({
+				method: "POST"
+				,data: objFields
+			})
+			.done(function(msg){
+				resolve(msg.replace(/<!--[\s\S]*?-->/g, ""));
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				reject(jqXHR, textStatus, errorThrown); 
+			});
+		});
+	}
+
+	function getBlock(strType, strModule)
+	{
+		return new Promise((resolve, reject) => {
+			var objFields = {
+				'TL_WEM_AJAX':1
+				,'REQUEST_TOKEN':"<?= $this->token; ?>"
+				,'wem_module':'be_smartgear'
+				,'action':'parse'
+				,'format':'html'
+				,'type': strType
+				,'module': strModule
+			};
+
+			j.ajax({
+				method: "POST"
+				,data: objFields
+			})
+			.done(function(msg){
+				resolve(msg.replace(/<!--[\s\S]*?-->/g, ""));
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				reject(jqXHR, textStatus, errorThrown); 
+			});
+		});
+	}
+
+	function applyUpdate(update) {
+		return new Promise((resolve, reject) => {
+			var objFields = {
+				'TL_WEM_AJAX':1
+				,'REQUEST_TOKEN':"<?= $this->token; ?>"
+				,'wem_module':'be_smartgear_update'
+				,'action':update
+			};
+
+			j.ajax({
+				method: "POST"
+				,data: objFields
+			})
+			.done(function(msg){
+				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+				try{
+					var results = j.parseJSON(msg);
+
+					// Handle actions errors
+					if("error" === results["status"]) {
+						reject(results["msg"]);
+					}
+
+					// Notify everything goes well
+					resolve(results);
+				}
+				catch(err){
+	       			reject(err); 
+				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				reject(textStatus+"<br>"+errorThrown);
+			})
+		});
+	}
+
+	function executeCmd(cmd) {
+		return new Promise((resolve, reject) => {
+			var objFields = {
+				'TL_WEM_AJAX':1
+				,'REQUEST_TOKEN':"<?= $this->token; ?>"
+				,'wem_module':'be_smartgear'
+				,'action':'executeCmd'
+				,'cmd':cmd
+			};
+
+			j.ajax({
+				method: "POST"
+				,timeout:10000
+				,data: objFields
+			})
+			.done(function(msg){
+				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+				try{
+					var results = j.parseJSON(msg);
+
+					// Handle actions errors
+					if("error" === results["status"]) {
+						reject(results["msg"]);
+					}
+
+					// Notify everything goes well
+					resolve(results);
+				}
+				catch(err){
+	       			reject(err); 
+				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				reject(textStatus+"<br>"+errorThrown);
+			})
+		});
+	}
 </script>
 
 <!-- Display Module -->
 <div id="tl_wem_sg_install" class="wem_module">
+
+	<?php if($this->steps): ?>
+	<?= $this->steps ?>
+	<?php endif; ?>
 	
 	<?php if ($this->logs && !empty($this->logs)): ?>
 	<div class="logs">
@@ -296,10 +404,11 @@ function executeCmd(cmd) {
 	</div>
 	<?php endif; ?>
 
+	<?php if($this->blocks): ?>
 	<?php foreach ($this->blocks as $type => $blocks): ?>
 	<div class="blocks <?= $type; ?>">
 		<?= implode('', $blocks); ?>
 	</div>
 	<?php endforeach; ?>
-	
+	<?php endif; ?>
 </div>

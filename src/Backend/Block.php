@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SMARTGEAR for Contao Open Source CMS
- *
- * Copyright (c) 2015-2019 Web ex Machina
+ * Copyright (c) 2015-2021 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -13,11 +14,11 @@
 
 namespace WEM\SmartgearBundle\Backend;
 
-use Exception;
 use Contao\Controller;
 use Contao\Environment;
 use Contao\FrontendTemplate;
 use Contao\RequestToken;
+use Exception;
 
 /**
  * Back end module "smartgear".
@@ -27,7 +28,28 @@ use Contao\RequestToken;
 class Block extends Controller
 {
     /**
-     * Construct the block object
+     * Generic array of messages.
+     *
+     * @var array
+     */
+    protected $messages = [];
+
+    /**
+     * Generic array of actions.
+     *
+     * @var array
+     */
+    protected $actions = [];
+
+    /**
+     * Generic array of fields.
+     *
+     * @var array
+     */
+    protected $fields = [];
+
+    /**
+     * Construct the block object.
      */
     public function __construct()
     {
@@ -46,35 +68,11 @@ class Block extends Controller
 
         // Import backend user
         $this->import('BackendUser', 'User');
-
-        $this->getStatus();
     }
 
     /**
-     * Reset the module
-     */
-    public function reset()
-    {
-        $this->remove();
-        $this->install();
-
-        // And return an explicit status with some instructions
-        return [
-            "toastr" => [
-                "status"=>"success"
-                ,"msg"=>"Réinitialisation effectuée avec succès."
-            ]
-            ,"callbacks" => [
-                0 => [
-                    "method" => "refreshBlock"
-                    ,"args"  => ["block-".$this->type."-".$this->module]
-                ]
-            ]
-        ];
-    }
-
-    /**
-     * Parse and return the block as HTML
+     * Parse and return the block as HTML.
+     *
      * @return [String] [Block HTML]
      */
     public function parse()
@@ -87,6 +85,7 @@ class Block extends Controller
         $objTemplate->module = $this->module;
         $objTemplate->title = $this->title;
         $objTemplate->icon = $this->icon;
+        $objTemplate->class = $this->class;
 
         // Check if we need other modules and if yes, check if it's okay
         $blnCanManage = true;
@@ -96,18 +95,17 @@ class Block extends Controller
                 $objModule = Util::findAndCreateObject($strModule);
                 $objModule->getStatus();
 
-                if (1 != $objModule->status) {
+                if (1 !== $objModule->status) {
                     $arrMissingModules[] = $strModule;
                 }
 
                 if (!empty($arrMissingModules)) {
                     $this->messages = [];
                     $this->messages[] = [
-                        'class' => 'tl_error'
-                        ,'text' => sprintf(
+                        'class' => 'tl_error', 'text' => sprintf(
                             'Vous ne pouvez pas gérer ce module tant que les dépendances suivantes ne seront pas résolues : %s',
                             implode(', ', $arrMissingModules)
-                        )
+                        ),
                     ];
                     $blnCanManage = false;
                 }
@@ -124,7 +122,7 @@ class Block extends Controller
             $objTemplate->logs = $this->logs;
 
             // Parse the actions
-            if (is_array($this->actions) && !empty($this->actions)) {
+            if (\is_array($this->actions) && !empty($this->actions)) {
                 foreach ($this->actions as &$action) {
                     switch ($action['v']) {
                         case 2:
@@ -132,7 +130,7 @@ class Block extends Controller
                             if ($action['attrs']) {
                                 if (!$action['attrs']['class']) {
                                     $action['attrs']['class'] = 'tl_submit';
-                                } elseif (strpos($action['attrs']['class'], 'tl_submit') == false) {
+                                } elseif (false === strpos($action['attrs']['class'], 'tl_submit')) {
                                     $action['attrs']['class'] .= ' tl_submit';
                                 }
 
@@ -143,7 +141,7 @@ class Block extends Controller
                             $arrActions[] = sprintf(
                                 '<%s %s>%s</%s>',
                                 ($action['tag']) ? $action['tag'] : 'button',
-                                (0<count($arrAttributes)) ? implode(' ', $arrAttributes) : '',
+                                (0 < \count($arrAttributes)) ? implode(' ', $arrAttributes) : '',
                                 ($action['text']) ? $action['text'] : 'text missing',
                                 ($action['tag']) ? $action['tag'] : 'button'
                             );
@@ -168,27 +166,153 @@ class Block extends Controller
     }
 
     /**
-     * Get generic callbacks for requests
-     * @param  [String] $key    [Key of the callbacks array]
-     * @param  [Array]  $args   [Optional array of arguments]
-     * @return [Array]          [Callback array]
+     * Get generic callbacks for requests.
+     *
+     * @param [String] $key  [Key of the callbacks array]
+     * @param [Array]  $args [Optional array of arguments]
+     *
+     * @return [Array] [Callback array]
      */
     public function callback($key, $args = null)
     {
         try {
             switch ($key) {
-                case "refreshBlock":
-                    return ["method" => "refreshBlock", "args" => ["block-".$this->type."-".$this->module]];
+                case 'toastr':
+                    return ['status' => $args[0], 'msg' => $args[1]];
                 break;
-                case "toastr":
-                    return ["status"=>$args[0], "msg"=>$args[1]];
+
+                case 'refreshBlock':
+                    return ['method' => 'refreshBlock', 'args' => ['block-'.$this->type.'-'.$this->module]];
                 break;
 
                 default:
-                    throw new Exception("Callback inconnu : ".$key);
+                    throw new Exception('Callback inconnu : '.$key);
             }
         } catch (Exception $e) {
             throw $e;
         }
+    }
+
+    /**
+     * Reset the errors array.
+     */
+    protected function resetMessages(): void
+    {
+        $this->messages = [];
+    }
+
+    /**
+     * Reset the errors array.
+     */
+    protected function getMessages()
+    {
+        return $this->messages;
+    }
+
+    /**
+     * Return true if there is errors in this block.
+     */
+    protected function hasErrors()
+    {
+        if (!empty($this->messages)) {
+            foreach ($this->messages as $m) {
+                if ('tl_error' === $m['class']) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Add an error.
+     */
+    protected function addError($msg): void
+    {
+        $this->messages[] = [
+            'class' => 'tl_error',
+            'text' => $msg,
+        ];
+    }
+
+    /**
+     * Add an error.
+     */
+    protected function addInfo($msg): void
+    {
+        $this->messages[] = [
+            'class' => 'tl_info',
+            'text' => $msg,
+        ];
+    }
+
+    /**
+     * Add an error.
+     */
+    protected function addConfirm($msg): void
+    {
+        $this->messages[] = [
+            'class' => 'tl_confirm',
+            'text' => $msg,
+        ];
+    }
+
+    /**
+     * Add an error.
+     */
+    protected function addNew($msg): void
+    {
+        $this->messages[] = [
+            'class' => 'tl_new',
+            'text' => $msg,
+        ];
+    }
+
+    /**
+     * Add an action.
+     */
+    protected function addAction($strAction, $strLabel): void
+    {
+        $this->actions[] = [
+            'action' => $strAction,
+            'label' => $strLabel,
+        ];
+    }
+
+    /**
+     * Add a text field.
+     */
+    protected function addTextField($strName, $strLabel, $strValue = '', $blnRequired = false, $strType = 'text', $strPlaceholder = ''): void
+    {
+        $this->fields[] = [
+            'type' => $strType,
+            'name' => $strName,
+            'label' => $strLabel,
+            'placeholder' => $strPlaceholder,
+            'value' => $strValue,
+            'required' => $blnRequired,
+        ];
+    }
+
+    /**
+     * Add a dropdown/checkbox/radio.
+     */
+    protected function addSelectField($strName, $strLabel, $arrOptions, $strValue = '', $blnRequired = false, $strType = 'select'): void
+    {
+        foreach ($arrOptions as &$o) {
+            $o['selected'] = false;
+            if ($strValue === $o['value']) {
+                $o['selected'] = true;
+            }
+        }
+
+        $this->fields[] = [
+            'type' => $strType,
+            'name' => $strName,
+            'label' => $strLabel,
+            'options' => $arrOptions,
+            'required' => $blnRequired,
+        ];
     }
 }
