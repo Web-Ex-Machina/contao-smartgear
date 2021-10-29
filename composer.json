@@ -4,19 +4,20 @@
     "keywords": ["smartgear", "webexmachina", "bundle", "contao"],
     "type": "contao-bundle",
     "license": "LGPL-3.0+",
-    "website":"https://www.webexmachina.fr/",
+    "website": "https://www.webexmachina.fr/",
     "authors": [
-        {
-            "name": "Web ex Machina",
-            "homepage": "https://www.webexmachina.fr",
-            "role":"Developer"
-        }
-    ],
-    "support":{
-        "issues":"https://github.com/webexmachina/contao-smartgear/issues",
-        "source":"https://github.com/webexmachina/contao-smartgear"
+    {
+        "name": "Web ex Machina",
+        "homepage": "https://www.webexmachina.fr",
+        "role": "Developer"
+    }],
+    "support":
+    {
+        "issues": "https://github.com/webexmachina/contao-smartgear/issues",
+        "source": "https://github.com/webexmachina/contao-smartgear"
     },
-    "require": {
+    "require":
+    {
         "php": ">=7.1",
         "contao/core-bundle": "^4.9",
         "madeyourday/contao-rocksolid-custom-elements": "^2.2",
@@ -28,14 +29,16 @@
         "numero2/contao-opengraph3": "^4.1",
         "terminal42/notification_center": "^1.5",
         "webexmachina/contao-utils": "^0.3",
-        "webexmachina/contao-grid": "^0.4",
-        "jrgregory/m17-sticky-backend-footer": "^3.0"
+        "webexmachina/contao-grid": "^0.4"
     },
-    "require-dev": {
+    "require-dev":
+    {
         "phpunit/phpunit": "^9.0"
     },
-    "autoload":{
-        "psr-4": {
+    "autoload":
+    {
+        "psr-4":
+        {
             "WEM\\SmartgearBundle\\": "src/"
         },
         "classmap": [
@@ -48,7 +51,8 @@
             "src/Resources/contao/templates/"
         ]
     },
-    "extra":{
+    "extra":
+    {
         "contao-manager-plugin": "WEM\\SmartgearBundle\\ContaoManager\\Plugin"
     }
 }

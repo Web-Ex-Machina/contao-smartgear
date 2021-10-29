@@ -164,7 +164,7 @@ class Files extends BlockInstall implements BlockInstallInterface
     {
         if (!empty($this->arrFilesToAdd)) {
             foreach ($this->arrFilesToAdd as $p) {
-                $this->addError(sprintf('Le fichier %s doit être importer', $p));
+                $this->addError(sprintf('Le fichier %s doit être importé', $p));
             }
         }
 
@@ -176,7 +176,7 @@ class Files extends BlockInstall implements BlockInstallInterface
 
         if (!empty($this->arrFilesToDelete)) {
             foreach ($this->arrFilesToDelete as $p) {
-                $this->addError(sprintf('Le fichier %s doit être supprimer', $p));
+                $this->addError(sprintf('Le fichier %s doit être supprimé', $p));
             }
         }
 
