@@ -17,57 +17,65 @@ $finder = PhpCsFixer\Finder::create()
 
 $config = new PhpCsFixer\Config();
 return $config->setRules([
-    '@Symfony' => true,
-    '@Symfony:risky' => true,
+    '@PhpCsFixer' => true,
+    '@PhpCsFixer:risky' => true,
     '@PHP71Migration' => true,
     '@PHP71Migration:risky' => true,
-    '@PHPUnit60Migration:risky' => true,
-    'align_multiline_comment' => true,
-    'array_indentation' => true,
-    'array_syntax' => ['syntax' => 'short'],
-    'combine_consecutive_issets' => true,
-    'combine_consecutive_unsets' => true,
-    'comment_to_phpdoc' => true,
-    'compact_nullable_typehint' => true,
-    'fully_qualified_strict_types' => true,
-    'header_comment' => ['header' => $header, 'comment_type' => 'PHPDoc'],
-    'heredoc_to_nowdoc' => true,
+    '@PHPUnit75Migration:risky' => true,
+
+    // @PhpCsFixer adjustments
+    'blank_line_before_statement' => [
+        'statements' => [
+            'case',
+            'declare',
+            'default',
+            'do',
+            'for',
+            'foreach',
+            'if',
+            'return',
+            'switch',
+            'throw',
+            'try',
+            'while',
+        ],
+    ],
+    'explicit_indirect_variable' => false,
+    'explicit_string_variable' => false,
+    'method_chaining_indentation' => false,
+    'no_extra_blank_lines' => [
+        'tokens' => [
+            'curly_brace_block',
+            'extra',
+            'parenthesis_brace_block',
+            'square_brace_block',
+            'throw',
+            'use',
+        ],
+    ],
+    'php_unit_internal_class' => false,
+    'php_unit_test_class_requires_covers' => false,
+    'phpdoc_types_order' => false,
+    'single_line_comment_style' => [
+        'comment_types' => ['hash'],
+    ],
+    'single_line_throw' => true,
+
+    // @PhpCsFixer:risky adjustments
+    'final_internal_class' => false,
+    'php_unit_strict' => false,
+    'php_unit_test_case_static_method_calls' => [
+        'call_type' => 'this',
+    ],
+
+    // Other
     'linebreak_after_opening_tag' => true,
     'list_syntax' => ['syntax' => 'short'],
-    'multiline_comment_opening_closing' => true,
-    'multiline_whitespace_before_semicolons' => [
-        'strategy' => 'new_line_for_chained_calls',
-    ],
-    'native_function_invocation' => [
-        'include' => ['@compiler_optimized'],
-        'strict' => true,
-    ],
-    'no_alternative_syntax' => true,
-    'no_binary_string' => true,
-    'no_null_property_initialization' => true,
-    'no_superfluous_elseif' => true,
     'no_superfluous_phpdoc_tags' => true,
-    'no_unreachable_default_argument_value' => true,
-    'no_useless_else' => true,
-    'no_useless_return' => true,
-    'ordered_class_elements' => true,
-    'ordered_imports' => true,
-    'php_unit_method_casing' => true,
-    'php_unit_strict' => true,
-    'phpdoc_add_missing_param_annotation' => true,
-    'phpdoc_order' => true,
-    'phpdoc_trim_consecutive_blank_line_separation' => true,
-    'phpdoc_types_order' => [
-        'null_adjustment' => 'always_last',
-        'sort_algorithm' => 'none',
-    ],
-    'phpdoc_var_annotation_correct_order' => true,
-    'return_assignment' => true,
-    'strict_comparison' => true,
-    'strict_param' => true,
-    'string_line_ending' => true,
-    'void_return' => true,
-    'no_multiline_whitespace_around_double_arrow' => false
+    'static_lambda' => true,
+
+    // WeM Rules
+    'header_comment' => ['header' => $header]
 ])
 ->setFinder($finder)
 ->setRiskyAllowed(true)
