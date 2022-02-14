@@ -28,23 +28,6 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install gmp \
     && docker-php-ext-configure zip \
     && docker-php-ext-install zip
-    # already loaded
-    # && docker-php-ext-configure xml \
-    # && docker-php-ext-install xml \
-    # && docker-php-ext-configure dom \
-    # && docker-php-ext-install dom \
-    # added recently
-    # && docker-php-ext-configure pcre \
-    # && docker-php-ext-install pcre \
-    # && docker-php-ext-configure zlib \
-    # && docker-php-ext-install zlib \
-    # && docker-php-ext-configure json \
-    # && docker-php-ext-install json \
-    # && docker-php-ext-configure curl \
-    # && docker-php-ext-install curl \
-    # && docker-php-ext-configure mbstring \
-    # && docker-php-ext-instabill mbstring 
-    # 
     # Use the default development configuration
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \
     # Install Composer
@@ -70,14 +53,21 @@ ARG workdir_bundle
 ARG workdir_init
 
 # Here we can have additional work to be done specifically for the test container
-# Install contao
-RUN cd / \
+RUN apt-get update && apt-get install -y \
+    git \
+    npm \
+    && mkdir -p ~/.ssh \
+    && mkdir -p /var/www/.npm \
+    && ssh-keyscan github.com >> ~/.ssh/known_host \
+    # Install contao
+    cd / \
     && mkdir -p $workdir_contao \
     # We give the www-data the same user UUID as ours
     && usermod -u 1000 www-data \
     && groupmod -g 1000 www-data \
     && chown -R www-data:www-data $workdir_contao \
     && chown -R www-data:www-data /usr/local/bin/composer \
+    && chown -R www-data:www-data /var/www/.npm \
     # get contao into a fake dir and then move it to the real install-dir
     && mkdir -p /fake \
     && cd /fake \
@@ -95,11 +85,7 @@ RUN sed -i "s~{{DB_USER}}~$db_user~g" $workdir_contao/.env \
     && sed -i "s~{{DB_DATABASE}}~$db_database~g" $workdir_contao/.env \
     && sed -i "s~{{DB_HOST}}~$db_host~g" $workdir_contao/.env \
     && sed -i "s~{{APP_SECRET}}~$app_secret~g" $workdir_contao/.env \
-    && chown -R www-data:www-data $workdir_contao 
-    # \
-    # && mkdir -p $workdir_simlink_base \
-    # && chown -R www-data:www-data $workdir_simlink_base \
-    # && runuser -u www-data -- ln -sf $workdir_bundle $workdir_simlink_base
+    && chown -R www-data:www-data $workdir_contao
 
 WORKDIR $workdir_contao
 
