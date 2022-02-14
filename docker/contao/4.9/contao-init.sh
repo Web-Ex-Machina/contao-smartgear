@@ -6,6 +6,7 @@ mkdir -p ../${PRJ_NAME}/config
 cp ./system/config/localconfig.php ../${PRJ_NAME}/system/config/localconfig.php # webexmachina / azertyui
 cp ./config/config.yml ../${PRJ_NAME}/config/config.yml
 cp -r ./templates/smartgear/. ../${PRJ_NAME}/templates/smartgear/
+cp ./contao-manager/users.json ../${PRJ_NAME}/contao-manager/users.json # webexmachina / testtest
 chown -R www-data:www-data ../${PRJ_NAME}/contao-manager
 # We should create an admin user
 php contao-init.php # creates user + merge composer requierments

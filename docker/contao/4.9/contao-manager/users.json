@@ -1,0 +1,10 @@
+{
+    "users": {
+        "webexmachina": {
+            "username": "webexmachina",
+            "password": "$argon2id$v=19$m=65536,t=4,p=1$6ne0aiC8gTIednwTMd1RyA$9TwQijAngndV9XK9d4X1Pg09iqmVRLpaFUViAt++P1k"
+        }
+    },
+    "version": 2,
+    "secret": "44400dc599d8689033a32f2677812ca399430c8850a8f31a16312cda7e9d9a6feedaa69c48511082"
+} 
