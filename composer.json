@@ -54,5 +54,13 @@
     "extra":
     {
         "contao-manager-plugin": "WEM\\SmartgearBundle\\ContaoManager\\Plugin"
+    },
+    "config": {
+        "allow-plugins": {
+            "contao-components/installer": true,
+            "contao/manager-plugin": true,
+            "composer/package-versions-deprecated": true,
+            "contao-community-alliance/composer-plugin": true
+        }
     }
 }
