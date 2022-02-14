@@ -1,0 +1,18 @@
+{
+	"require":
+    {
+        "christianbarkowsky/contao-tiny-compress-images": "^1.0",
+        "contao/conflicts": "*@dev",
+        "do-while/contao-backupdb-bundle": "^1.4",
+        "heimrichhannot/contao-backend-lost-password-bundle": "^1.5",
+        "heimrichhannot/contao-cleaner-bundle": "^2.6",
+        "heimrichhannot/contao-filename-sanitizer-bundle": "^2.4",
+        "jrgregory/m17-sticky-backend-footer": "^2.0",
+        "madeyourday/contao-rocksolid-custom-elements": "^2.3",
+        "numero2/contao-opengraph3": "^4.2",
+        "terminal42/contao-changelanguage": "^3.2",
+        "terminal42/contao-mailusername": "^2.0",
+        "terminal42/contao-shortlink": "^1.0",
+        "terminal42/notification_center": "^1.6"
+    }
+}

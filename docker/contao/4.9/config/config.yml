@@ -1,0 +1,11 @@
+doctrine:
+  dbal:
+    connections:
+      default:
+        options:
+          1002: "SET SESSION sql_mode=(SELECT CONCAT(@@sql_mode, ',TRADITIONAL'))"
+contao:
+    prepend_locale: true
+    locales:
+      - fr
+      - en
