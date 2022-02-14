@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  php:
+    build: 
+      context: ./php/${IMAGE_PHP_DIR}
+      target: php_base
+      args:
+        image: ${IMAGE_PHP}        
+        workdir_base: ${WORKDIR_BASE}
+        workdir_init: ${WORKDIR_INIT}
+        workdir_contao: ${WORKDIR_CONTAO}
+        workdir_contao_web: ${WORKDIR_CONTAO_WEB}
+        workdir_bundle: ${WORKDIR_BUNDLE}
+        workdir_simlink_base: ${WORKDIR_SIMLINK_BASE}
+        workdir_bundle_end_slash: ${WORKDIR_BUNDLE_END_SLASH}
+        db_host: 'db' # the db node
+        db_database: ${DB_DATABASE}
+        db_user: ${DB_USER}
+        db_password: ${DB_PASSWORD}
+    environment:
+      PRJ_NAME: ${PRJ_NAME}
+      DB_HOST: 'db'
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PORT: 3306
+      CONTAO_USER: ${CONTAO_USER}
+      CONTAO_USER_PWD: ${CONTAO_USER_PWD}
+      CONTAO_USER_MAIL: ${CONTAO_USER_MAIL}
+      WORKDIR_BUNDLE: ${WORKDIR_BUNDLE}
+      WORKDIR_CONTAO: ${WORKDIR_CONTAO}
+      BUNDLE_NAME: ${BUNDLE_NAME}
+    container_name: ${COMPOSE_PROJECT_NAME_SHORT}_php_base
+    volumes:
+      # - ..:${WORKDIR_BASE}/${BUNDLE_NAME}
+      - ..:${WORKDIR_BUNDLE}
+      - ./contao/${CONTAO_VERSION}:${WORKDIR_BASE}/init:ro
+      - type: volume
+        source: static-content
+        target : ${WORKDIR_BASE}/${PRJ_NAME}
+    networks:
+      - common
+      - db
+      - php
+
+  db:
+    build: 
+      context: ./db/${IMAGE_DB_DIR}
+      target: db_base
+      args:
+        image: ${IMAGE_DB}
+        prj_name: ${PRJ_NAME}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD} #mandatory
+      MYSQL_USER: ${DB_USER} #mandatory
+      MYSQL_PASSWORD: ${DB_PASSWORD} #mandatory
+      MYSQL_DATABASE: ${DB_DATABASE} #optionnal, makes mysql create a database on startup
+    container_name: ${COMPOSE_PROJECT_NAME_SHORT}_db_base
+    networks:
+      - db
+  
+  web:
+    build: 
+      context: ./web/${IMAGE_WEBSERVER_DIR}
+      target: web_base
+      args:
+        image: ${IMAGE_WEBSERVER}
+        workdir_contao_web: ${WORKDIR_CONTAO_WEB}
+        prj_name: ${PRJ_NAME}
+    container_name: ${COMPOSE_PROJECT_NAME_SHORT}_web_base
+    restart: unless-stopped
+    tty: true
+    volumes:
+      # - ..:${WORKDIR_BASE}/${BUNDLE_NAME}
+      - ..:${WORKDIR_BUNDLE}
+      - type: volume
+        source: static-content
+        target : ${WORKDIR_BASE}/${PRJ_NAME}
+    networks:
+      - common
+      - php
+
+volumes:
+  static-content:
+    name: volume-shared-php-web-base
+
+#Docker Networks
+networks:
+  common:
+  php:
+  db:

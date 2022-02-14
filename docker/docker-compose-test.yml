@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+
+  php_test:
+    extends:
+      file: docker-compose-dev.yml
+      service: php
+    build: 
+      args:
+        DB_HOST: 'db_test'
+    environment:
+      DB_HOST: 'db_test'
+    container_name: ${COMPOSE_PROJECT_NAME_SHORT}_php_test
+    ports:
+      - "${PHP_FPM_EXPOSED_PORT_TEST}:9000"
+    networks:
+      - common
+      - db
+      - php
+
+  db_test:
+    extends:
+      file: docker-compose-dev.yml
+      service: db
+    container_name: ${COMPOSE_PROJECT_NAME_SHORT}_db_test
+    ports:
+      - "${DB_EXPOSED_PORT_TEST}:3306"
+    networks:
+      - db
+
+  web_test:
+    extends:
+      file: docker-compose-dev.yml
+      service: web
+    container_name: ${COMPOSE_PROJECT_NAME_SHORT}_web_test
+    ports:
+      - "${WEBSERVER_EXPOSED_PORT_TEST}:80"
+      - "${WEBSERVER_EXPOSED_PORT_SSL_TEST}:443"
+    networks:
+      - common
+      - php
+
+  chrome:
+    image: selenium/standalone-chrome
+    container_name: ${COMPOSE_PROJECT_NAME_SHORT}_chrome_test
+    shm_size: 2gb
+    networks:
+      - php
+    depends_on:
+      - php
+
+  firefox:
+    image: selenium/standalone-firefox
+    container_name: ${COMPOSE_PROJECT_NAME_SHORT}_firefox_test
+    shm_size: 2gb
+    networks:
+      - php
+    depends_on:
+      - php
+
+  edge:
+    image: selenium/standalone-edge
+    container_name: ${COMPOSE_PROJECT_NAME_SHORT}_edge_test
+    shm_size: 2gb
+    networks:
+      - php
+    depends_on:
+      - php
+
+  
+  # this container will only be built 
+  # when the "php" one is built and is considered "healthy"
+  # (stupid hack to force docker-compose to wait for composer to finish its work in the "php" container)
+  php_dependencies_loaded:
+    container_name: ${COMPOSE_PROJECT_NAME_SHORT}_php_dependencies_loaded_test
+    image: alpine:latest
+    depends_on:
+      php_test:
+        condition: service_healthy
+
+#Docker Networks
+networks:
+  common:
+    name: ${COMPOSE_PROJECT_NAME_SHORT}_network_common_test
+  php:
+    name: ${COMPOSE_PROJECT_NAME_SHORT}_network_php_test
+  db:
+    name: ${COMPOSE_PROJECT_NAME_SHORT}_network_db_test
+
+volumes:
+  static-content:
+    name: volume-shared-php-web-test
