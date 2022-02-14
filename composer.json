@@ -18,22 +18,26 @@
     },
     "require":
     {
-        "php": ">=7.1",
+        "php": ">=7.4",
         "contao/core-bundle": "^4.9",
-        "madeyourday/contao-rocksolid-custom-elements": "^2.2",
-        "heimrichhannot/contao-backend-lost-password-bundle": "^1.3",
-        "heimrichhannot/contao-filename-sanitizer-bundle": "^2.2",
+        "madeyourday/contao-rocksolid-custom-elements": "^2.3",
+        "heimrichhannot/contao-backend-lost-password-bundle": "^1.5",
+        "heimrichhannot/contao-filename-sanitizer-bundle": "^2.4",
         "marcel-mathias-nolte/contao-filesmanager-fileusage": "^1.0",
-        "christianbarkowsky/contao-tiny-compress-images": "^1.0",
         "do-while/contao-backupdb-bundle": "^1.4",
-        "numero2/contao-opengraph3": "^4.1",
-        "terminal42/notification_center": "^1.5",
+        "numero2/contao-opengraph3": "^4.2",
+        "terminal42/notification_center": "^1.6",
         "webexmachina/contao-utils": "^0.3",
-        "webexmachina/contao-grid": "^0.4"
+        "webexmachina/contao-grid": "^0.4",
+        "heimseiten/contao-sticky-footer-backend-bundle": "^1.0"
     },
     "require-dev":
     {
-        "phpunit/phpunit": "^9.0"
+        "phpunit/phpunit": "^9.0",
+        "codeception/codeception": "^4",
+        "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/module-asserts": "^1.0.0",
+        "codeception/module-webdriver": "^2.0"
     },
     "autoload":
     {

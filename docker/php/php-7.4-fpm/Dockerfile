@@ -82,6 +82,7 @@ RUN cd / \
     && mkdir -p /fake \
     && cd /fake \
     && composer create-project contao/managed-edition . $contao_version \
+    && curl -o web/contao-manager.phar.php https://download.contao.org/contao-manager/stable/contao-manager.phar \
     && cp -ar /fake/. $workdir_contao \
     && cd $workdir_contao \
     # Also clean up cache
