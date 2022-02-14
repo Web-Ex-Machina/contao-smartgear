@@ -2,6 +2,7 @@
 mkdir -p ../${PRJ_NAME}/contao-manager
 mkdir -p ../${PRJ_NAME}/templates/smartgear
 mkdir -p ../${PRJ_NAME}/config
+cp ./contao-manager/users.json ../${PRJ_NAME}/contao-manager/users.json # webexmachina / testtest
 
 cp ./system/config/localconfig.php ../${PRJ_NAME}/system/config/localconfig.php # webexmachina / azertyui
 cp ./config/config.yml ../${PRJ_NAME}/config/config.yml
