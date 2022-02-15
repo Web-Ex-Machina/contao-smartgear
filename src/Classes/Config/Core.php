@@ -16,11 +16,11 @@ namespace WEM\SmartgearBundle\Classes\Config;
 
 class Core implements ConfigInterface
 {
-    public const ANALYTICS_SYSTEM_EMPTY = '';
+    public const ANALYTICS_SYSTEM_NONE = 'none';
     public const ANALYTICS_SYSTEM_GOOGLE = 'google';
     public const ANALYTICS_SYSTEM_MATOMO = 'matomo';
     public const ANALYTICS_SYSTEMS_ALLOWED = [
-        self::ANALYTICS_SYSTEM_EMPTY,
+        self::ANALYTICS_SYSTEM_NONE,
         self::ANALYTICS_SYSTEM_GOOGLE,
         self::ANALYTICS_SYSTEM_MATOMO,
     ];
@@ -47,7 +47,7 @@ class Core implements ConfigInterface
     /** @var string */
     protected $sgOwnerEmail = '';
     /** @var string */
-    protected $sgAnalytics = self::ANALYTICS_SYSTEM_EMPTY;
+    protected $sgAnalytics = self::ANALYTICS_SYSTEM_NONE;
     /** @var string */
     protected $sgAnalyticsGoogleId = '';
     /** @var string */
@@ -57,7 +57,7 @@ class Core implements ConfigInterface
     /** @var string */
     protected $sgOwnerDomain = '';
     /** @var string */
-    protected $sgOwnerHost = '';
+    protected $sgOwnerHost = 'INFOMANIAK - 25 Eugène-Marziano 1227 Les Acacias - GENÈVE - SUISSE';
     /** @var string */
     protected $sgOwnerLogo = '';
     /** @var string */
@@ -87,13 +87,13 @@ class Core implements ConfigInterface
             ->setSgWebsiteTitle($json->websiteTitle ?? '')
             ->setSgFramwayPath($json->framway->path ?? '')
             ->setSgFramwayThemes($json->framway->themes ?? [])
-            ->setSgAnalytics($json->analytics->system ?? static::ANALYTICS_SYSTEM_EMPTY)
+            ->setSgAnalytics($json->analytics->system ?? static::ANALYTICS_SYSTEM_NONE)
             ->setSgAnalyticsGoogleId($json->analytics->google->id ?? '')
             ->setSgAnalyticsMatomoHost($json->analytics->matomo->host ?? '')
             ->setSgAnalyticsMatomoId($json->analytics->matomo->id ?? '')
             ->setSgOwnerEmail($json->owner->email ?? '')
             ->setSgOwnerDomain($json->owner->domain ?? '')
-            ->setSgOwnerHost($json->owner->host ?? '')
+            ->setSgOwnerHost($json->owner->host ?? 'INFOMANIAK - 25 Eugène-Marziano 1227 Les Acacias - GENÈVE - SUISSE')
             ->setSgOwnerLogo($json->owner->logo ?? '')
             ->setSgOwnerStatus($json->owner->status ?? '')
             ->setSgOwnerStreet($json->owner->street ?? '')
@@ -244,7 +244,7 @@ class Core implements ConfigInterface
     public function setSgMode(string $sgMode): self
     {
         if (!in_array($sgMode, static::MODES_ALLOWED)) {
-            throw new \InvalidArgumentException('Invalid mode given');
+            throw new \InvalidArgumentException(sprintf('Invalid mode "%s" given', $sgMode));
         }
 
         $this->sgMode = $sgMode;
@@ -308,7 +308,7 @@ class Core implements ConfigInterface
     public function setSgAnalytics(string $sgAnalytics): self
     {
         if (!in_array($sgAnalytics, static::ANALYTICS_SYSTEMS_ALLOWED)) {
-            throw new \InvalidArgumentException('Invalid analytics system given');
+            throw new \InvalidArgumentException(sprintf('Invalid analytics system "%s" given', $sgAnalytics));
         }
 
         $this->sgAnalytics = $sgAnalytics;
