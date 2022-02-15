@@ -1,0 +1,37 @@
+{
+	"version":"1.0.0",
+	"selectedModules":["module_a","module_b"],
+	"mode":"dev",
+	"websiteTitle":"foobar",
+	"framway":{
+		"path":"/path/to/somewhere/over/the/rainbow",
+		"themes":["theme_1","theme_2"]
+	},
+	"analytics":{
+		"system":"google",
+		"google":{
+			"id":"a"
+		},
+		"matomo":{
+			"id":"",
+			"host":""
+		}
+	},
+	"owner":{
+		"email":"myemail@foobar.com",
+		"domain":"mydomain.bar",
+		"host":"INFOMANIAK - 25 Eugène-Marziano 1227 Les Acacias - GENÈVE - SUISSE",
+		"logo":"moon_over_the_castle.jpg",
+		"status":"EURL",
+		"street":"102 Missile Fixe",
+		"postal":"12345",
+		"city":"Touloupé",
+		"region":"Rhône-Alpes",
+		"country":"France",
+		"siret":"0123456789",
+		"dpo":{
+			"name":"dpo name",
+			"email":"dpo@foobar.com"
+		}
+	}
+}

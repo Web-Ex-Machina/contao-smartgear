@@ -15,3 +15,14 @@ services:
             - '@contao.slug.generator'
             - '@request_stack'
         public: true
+
+    smartgear.classes.config.manager.core:
+        class: WEM\SmartgearBundle\Classes\Config\Manager
+        arguments:
+            $configuration: '@smartgear.classes.config.core'
+            $configurationFilePath: 'assets/smartgear/config_core.json'
+        public: true
+
+    smartgear.classes.config.core:
+        class: WEM\SmartgearBundle\Classes\Config\Core
+        public: true

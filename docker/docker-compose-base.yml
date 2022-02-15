@@ -83,7 +83,7 @@ services:
 
 volumes:
   static-content:
-    name: volume-shared-php-web-base
+    name: ${COMPOSE_PROJECT_NAME_SHORT}-volume-shared-php-web-base
 
 #Docker Networks
 networks:

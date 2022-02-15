@@ -138,11 +138,11 @@ modeUp(){
     if [[ "$type" = "test-unit" ]]
     then
         echo -e "To run unit tests, run the following command :"
-        echo -e "> docker exec ms_php_tu ../metalstore-contao-bundle/vendor/bin/phpunit --bootstrap vendor/autoload.php ../metalstore-contao-bundle/tests/unit";
+        echo -e "> docker exec sm_php_tu ../contao-smartgear/vendor/bin/codecept run unit";
     elif [[ "$type" = "test" ]]
     then
         echo -e "To run tests, run the following command :"
-        echo -e "> docker exec ms_php_test ../metalstore-contao-bundle/vendor/bin/codecept run --steps -c ../metalstore-contao-bundle/codeception.yml --no-redirect  --env firefox --env chrome";
+        echo -e "> docker exec sm_php_test ../contao-smartgear/vendor/bin/codecept run --steps -c ../contao-smartgear/codeception.yml --no-redirect  --env firefox --env chrome";
     fi
 }
 

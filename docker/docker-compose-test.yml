@@ -90,4 +90,4 @@ networks:
 
 volumes:
   static-content:
-    name: volume-shared-php-web-test
+    name: ${COMPOSE_PROJECT_NAME_SHORT}-volume-shared-php-web-test
