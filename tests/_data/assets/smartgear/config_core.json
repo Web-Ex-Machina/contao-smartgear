@@ -1,0 +1,37 @@
+{
+	"version":"",
+	"selectedModules":[],
+	"mode":"dev",
+	"websiteTitle":"",
+	"framway":{
+		"path":"",
+		"themes":[]
+	},
+	"analytics":{
+		"system":"google",
+		"google":{
+			"id":"a"
+		},
+		"matomo":{
+			"id":"",
+			"host":""
+		}
+	},
+	"owner":{
+		"email":"",
+		"domain":"",
+		"host":"",
+		"logo":"",
+		"status":"",
+		"street":"",
+		"postal":"",
+		"city":"",
+		"region":"",
+		"country":"",
+		"siret":"",
+		"dpo":{
+			"name":"",
+			"email":""
+		}
+	}
+}
