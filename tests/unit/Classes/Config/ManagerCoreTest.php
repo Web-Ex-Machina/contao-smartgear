@@ -34,9 +34,10 @@ class ManagerCoreTest extends \Codeception\Test\Unit
     // tests
     public function testLoad()
     {
-        $json = $this->sut->retrieveConfigurationAsStdClass();
+        $json = $this->sut->retrieveConfigurationAsStdClassFromFile();
         $config = $this->sut->load();
 
+        $this->assertEquals($config->getSgInstallComplete(), $json->installComplete);
         $this->assertEquals($config->getSgVersion(), $json->version);
         $this->assertEquals($config->getSgSelectedModules(), $json->selectedModules);
         $this->assertEquals($config->getSgMode(), $json->mode);

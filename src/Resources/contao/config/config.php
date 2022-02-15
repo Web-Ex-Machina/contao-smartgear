@@ -72,7 +72,7 @@ if (isset($bundles['VerstaerkerI18nl10nBundle'])) {
  */
 array_insert($GLOBALS['BE_MOD']['system'], 0, [
     'smartgear' => [
-        'callback' => "\WEM\SmartgearBundle\Backend\Install",
+        'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
     ],
 ]);
 
@@ -89,7 +89,7 @@ array_insert($GLOBALS['FE_MOD'], 2, [
  * Add BE Hooks
  */
 if ('BE' === TL_MODE) {
-    $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Backend\Install', 'processAjaxRequest'];
+    $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Backend\Smartgear', 'processAjaxRequest'];
 }
 
 /*

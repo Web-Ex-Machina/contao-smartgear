@@ -23,6 +23,7 @@ class CoreTest extends \Codeception\Test\Unit
     public function testImport()
     {
         $json = new \stdClass();
+        $json->installComplete = true;
         $json->version = '1';
         $json->selectedModules = ['foo','bar'];
         $json->mode = CoreConfig::MODE_DEV;
@@ -58,6 +59,7 @@ class CoreTest extends \Codeception\Test\Unit
 
         $this->sut->import($json);
 
+        $this->assertEquals($this->sut->getSgInstallComplete(), $json->installComplete);
         $this->assertEquals($this->sut->getSgVersion(), $json->version);
         $this->assertEquals($this->sut->getSgSelectedModules(), $json->selectedModules);
         $this->assertEquals($this->sut->getSgMode(), $json->mode);

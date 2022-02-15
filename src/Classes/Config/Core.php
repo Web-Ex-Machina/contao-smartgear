@@ -31,7 +31,8 @@ class Core implements ConfigInterface
         self::MODE_DEV,
         self::MODE_PROD,
     ];
-
+    /** @var bool */
+    protected $sgInstallComplete = false;
     /** @var string */
     protected $sgVersion = '';
     /** @var string */
@@ -79,9 +80,41 @@ class Core implements ConfigInterface
     /** @var string */
     protected $sgOwnerDpoEmail = '';
 
+    public function reset(): self
+    {
+        $this->setSgInstallComplete(false)
+            ->setSgVersion('')
+            ->setSgSelectedModules([])
+            ->setSgMode(static::MODE_DEV)
+            ->setSgWebsiteTitle('')
+            ->setSgFramwayPath('')
+            ->setSgFramwayThemes([])
+            ->setSgAnalytics(static::ANALYTICS_SYSTEM_NONE)
+            ->setSgAnalyticsGoogleId('')
+            ->setSgAnalyticsMatomoHost('')
+            ->setSgAnalyticsMatomoId('')
+            ->setSgOwnerEmail('')
+            ->setSgOwnerDomain('')
+            ->setSgOwnerHost('INFOMANIAK - 25 Eugène-Marziano 1227 Les Acacias - GENÈVE - SUISSE')
+            ->setSgOwnerLogo('')
+            ->setSgOwnerStatus('')
+            ->setSgOwnerStreet('')
+            ->setSgOwnerPostal('')
+            ->setSgOwnerCity('')
+            ->setSgOwnerRegion('')
+            ->setSgOwnerCountry('')
+            ->setSgOwnerSiret('')
+            ->setSgOwnerDpoName('')
+            ->setSgOwnerDpoEmail('')
+        ;
+
+        return $this;
+    }
+
     public function import(\stdClass $json): self
     {
-        $this->setSgVersion($json->version ?? '')
+        $this->setSgInstallComplete($json->installComplete ?? false)
+            ->setSgVersion($json->version ?? '')
             ->setSgSelectedModules($json->selectedModules ?? [])
             ->setSgMode($json->mode ?? static::MODE_DEV)
             ->setSgWebsiteTitle($json->websiteTitle ?? '')
@@ -112,6 +145,7 @@ class Core implements ConfigInterface
     public function export(): string
     {
         $json = new \stdClass();
+        $json->installComplete = $this->getSgInstallComplete();
         $json->version = $this->getSgVersion();
         $json->selectedModules = $this->getSgSelectedModules();
         $json->mode = $this->getSgMode();
@@ -612,6 +646,26 @@ class Core implements ConfigInterface
     public function setSgOwnerDpoEmail(string $sgOwnerDpoEmail): self
     {
         $this->sgOwnerDpoEmail = $sgOwnerDpoEmail;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getSgInstallComplete(): bool
+    {
+        return $this->sgInstallComplete;
+    }
+
+    /**
+     * @param bool $sgInstallComplete
+     *
+     * @return self
+     */
+    public function setSgInstallComplete(bool $sgInstallComplete): self
+    {
+        $this->sgInstallComplete = $sgInstallComplete;
 
         return $this;
     }

@@ -18,4 +18,5 @@ interface ConfigInterface
 {
     public function import(\stdClass $json): self;
     public function export(): string;
+    public function reset(): self;
 }
