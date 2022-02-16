@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Classes\Backend;
 use Contao\Controller;
 use Contao\Environment;
 use Contao\FrontendTemplate;
+use Contao\Input;
 use Contao\RequestToken;
 use Contao\System;
 use Exception;
@@ -113,10 +114,11 @@ class Block extends Controller
         $objTemplate->title = $this->title;
         $objTemplate->icon = $this->icon;
         $objTemplate->class = $this->class;
+        $objTemplate->steps = $this->configurationStepManager->parseSteps();
 
         $objTemplate->content = $this->configurationStepManager->parse();
 
-        return $objTemplate;
+        return $objTemplate->parse();
         // Check if we need other modules and if yes, check if it's okay
         $blnCanManage = true;
         if ($this->require) {
@@ -152,43 +154,9 @@ class Block extends Controller
             $objTemplate->logs = $this->logs;
 
             // Parse the actions
-            if (\is_array($this->actions) && !empty($this->actions)) {
-                foreach ($this->actions as &$action) {
-                    switch ($action['v']) {
-                        case 2:
-                            $arrAttributes = [];
-                            if ($action['attrs']) {
-                                if (!$action['attrs']['class']) {
-                                    $action['attrs']['class'] = 'tl_submit';
-                                } elseif (false === strpos($action['attrs']['class'], 'tl_submit')) {
-                                    $action['attrs']['class'] .= ' tl_submit';
-                                }
-
-                                foreach ($action['attrs'] as $k => $v) {
-                                    $arrAttributes[] = sprintf('%s="%s"', $k, $v);
-                                }
-                            }
-                            $arrActions[] = sprintf(
-                                '<%s %s>%s</%s>',
-                                ($action['tag']) ?: 'button',
-                                (0 < \count($arrAttributes)) ? implode(' ', $arrAttributes) : '',
-                                ($action['text']) ?: 'text missing',
-                                ($action['tag']) ?: 'button'
-                            );
-                            break;
-                        default:
-                            $arrActions[] = sprintf(
-                                '<button type="submit" name="action" value="%s" class="tl_submit" %s>%s</button>',
-                                $action['action'],
-                                ($action['attributes']) ?: $action['attributes'],
-                                $action['label']
-                            );
-                    }
-                }
-            }
 
             // Add actions to the block
-            $objTemplate->actions = $arrActions;
+            $objTemplate->actions = $this->formatActions();
         }
 
         // And return the template, parsed.
@@ -221,6 +189,47 @@ class Block extends Controller
         } catch (Exception $e) {
             throw $e;
         }
+    }
+
+    public function processAjaxRequest()
+    {
+        try {
+            switch (Input::post('action')) {
+                case 'next':
+                    // try {
+                        $this->configurationStepManager->goToNextStep();
+                        $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+                    // } catch (Exception $e) {
+                    //     $arrResponse = ['status' => 'error', 'msg' => $e->getMessage()];
+                    // }
+                break;
+                case 'previous':
+                    // try {
+                        $this->configurationStepManager->goToPreviousStep();
+                        $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+                    // } catch (Exception $e) {
+                    //     $arrResponse = ['status' => 'error', 'msg' => $e->getMessage()];
+                    // }
+                break;
+                case 'parse':
+                   return $this->parse();
+                break;
+            }
+        } catch (Exception $e) {
+            $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
+        }
+
+        return $arrResponse;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function getLogs(): array
+    {
+        return $this->logs;
     }
 
     /**

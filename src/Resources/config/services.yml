@@ -28,7 +28,7 @@ services:
         public: true
 
     smartgear.backend.module.core.block:
-        class: WEM\SmartgearBundle\Classes\Backend\Block
+        class: WEM\SmartgearBundle\Backend\Module\Core\Block
         arguments:
             $configurationStepManager: '@smartgear.backend.module.core.configuration_step_manager'
         public: true
@@ -38,12 +38,24 @@ services:
         arguments:
             $configurationManager: '@smartgear.classes.config.manager.core'
             $module: 'core'
+            $type: 'core'
             $steps: 
                 - '@smartgear.backend.module.core.configuration_step_general'
+                - '@smartgear.backend.module.core.configuration_step_framway'
         public: true
 
     smartgear.backend.module.core.configuration_step_general:
         class: WEM\SmartgearBundle\Backend\Module\Core\ConfigurationStep\General
         arguments:
             $module: 'core'
+            $type: 'core'
+            $configurationManager: '@smartgear.classes.config.manager.core'
+        public: true
+
+    smartgear.backend.module.core.configuration_step_framway:
+        class: WEM\SmartgearBundle\Backend\Module\Core\ConfigurationStep\Framway
+        arguments:
+            $module: 'core'
+            $type: 'core'
+            $configurationManager: '@smartgear.classes.config.manager.core'
         public: true

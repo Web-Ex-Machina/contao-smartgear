@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Backend;
 
 use Contao\Config;
 use Contao\Environment;
+use Contao\Input;
 use Contao\RequestToken;
 use Contao\System;
 use Exception;
@@ -50,6 +51,104 @@ class Smartgear extends \Contao\BackendModule
     protected $strBasePath = 'bundles/wemsmartgear';
 
     /**
+     * Process AJAX actions.
+     *
+     * @param [String] $strAction - Ajax action wanted
+     *
+     * @return string - Ajax response, as String or JSON
+     */
+    public function processAjaxRequest($strAction)
+    {
+        // Catch AJAX Requests
+        if (Input::post('TL_WEM_AJAX') && 'be_smartgear' === Input::post('wem_module')) {
+            try {
+                switch (Input::post('action')) {
+                    case 'executeCmd':
+                        if (!Input::post('cmd')) {
+                            throw new Exception('Missing one arguments : cmd');
+                        }
+
+                        try {
+                            $arrResponse['status'] = 'success';
+                            $arrResponse['msg'] = sprintf('La commande %s a été executée avec succès', Input::post('cmd'));
+                            $arrResponse['output'] = Util::executeCmd(Input::post('cmd'));
+                            // } catch (ProcessFailedException $e) {
+                        } catch (Exception $e) {
+                            throw $e;
+                        }
+                        break;
+
+                    // case 'getSteps':
+                    //     $this->getActiveStep();
+
+                    //     echo $this->parseInstallSteps();
+                    //     exit;
+                    //     break;
+
+                    // case 'setStep':
+                    //     if (!\in_array(Input::post('step'), $this->modules['install'], true)) {
+                    //         throw new \Exception('Step inconnue : '.Input::post('step'));
+                    //     }
+
+                    //     $objSession = \System::getContainer()->get('session');
+                    //     $objSession->set('sg_install_step', Input::post('step'));
+                    //     break;
+
+                    // case 'getNextStep':
+                    //     $arrNextStep = $this->getNextInstallStep($this->strActiveStep);
+
+                    //     $arrResponse['status'] = 'success';
+                    //     $arrResponse['step'] = $arrNextStep;
+
+                    //     $objSession = \System::getContainer()->get('session');
+                    //     $objSession->set('sg_install_step', $arrNextStep['name']);
+                    //     $this->strActiveStep = $arrNextStep['name'];
+
+                    //     break;
+
+                    default:
+                        // Check if we get all the params we need first
+                        if (!Input::post('type') || !Input::post('module') || !Input::post('action')) {
+                            throw new Exception('Missing one or several arguments : type/module/action');
+                        }
+
+                        $objBlock = System::getContainer()->get('smartgear.backend.module.'.Input::post('module').'.block');
+                        if ('parse' === Input::post('action')) {
+                            echo $objBlock->processAjaxRequest();
+                            exit();
+                        }
+                        $arrResponse = $objBlock->processAjaxRequest();
+                        $arrResponse['logs'] = $objBlock->getLogs();
+
+                        // $objModule = Util::findAndCreateObject(Input::post('type'), Input::post('module'));
+
+                        // // Check if the method asked exists
+                        // if (!method_exists($objModule, $strAction)) {
+                        //     throw new Exception(sprintf('Unknown method %s in Class %s', $strAction, \get_class($objModule)));
+                        // }
+
+                        // // Just make sure we return a response in the asked format, if no format sent, we assume it's JSON.
+                        // if ('html' === Input::post('format')) {
+                        //     echo $objModule->$strAction();
+                        //     exit;
+                        // }
+
+                        // // Launch the action and store the result
+                        // $arrResponse = $objModule->$strAction();
+                        // $arrResponse['logs'] = $objModule->logs;
+                }
+            } catch (Exception $e) {
+                $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
+            }
+
+            // Add Request Token to JSON answer and return
+            $arrResponse['rt'] = \RequestToken::get();
+            echo json_encode($arrResponse);
+            exit;
+        }
+    }
+
+    /**
      * Generate the module.
      *
      * @throws Exception
@@ -66,21 +165,21 @@ class Smartgear extends \Contao\BackendModule
         }
 
         // Catch Modal Calls
-        if ('modal' === \Input::get('act')) {
+        if ('modal' === Input::get('act')) {
             // Catch Errors
-            if (!\Input::get('type')) {
+            if (!Input::get('type')) {
                 throw new Exception('Absence du paramètre type');
             }
-            if (!\Input::get('module')) {
+            if (!Input::get('module')) {
                 throw new Exception('Absence du paramètre module');
             }
-            if (!\Input::get('function')) {
+            if (!Input::get('function')) {
                 throw new Exception('Absence du paramètre function');
             }
 
             // Load the good block
-            $objModule = Util::findAndCreateObject(\Input::get('type'), \Input::get('module'));
-            $this->Template = $objModule->{\Input::get('function')}();
+            $objModule = Util::findAndCreateObject(Input::get('type'), Input::get('module'));
+            $this->Template = $objModule->{Input::get('function')}();
 
             return;
         }
@@ -94,24 +193,23 @@ class Smartgear extends \Contao\BackendModule
             // $blocks['install'][$this->strActiveStep] = $this->getInstallBlock();
             // $this->Template->blocks = $blocks;
             $coreBlock = System::getContainer()->get('smartgear.backend.module.core.block');
-            $this->Template = $coreBlock->parse();
+            // $this->Template = $coreBlock->parse();
+            $arrBlocks[$coreBlock->getType()][] = $coreBlock->parse();
+        } else {
+            // Load the updater
+            $this->getUpdater();
 
-            return;
-        }
-        // Load the updater
-        $this->getUpdater();
+            // Load buttons
+            $this->getBackupManagerButton();
 
-        // Load buttons
-        $this->getBackupManagerButton();
-
-        // Parse Smartgear components
-        foreach ($this->modules as $type => $blocks) {
-            foreach ($blocks as $block) {
-                $objModule = Util::findAndCreateObject($type, $block);
-                $arrBlocks[$type][] = $objModule->parse();
+            // Parse Smartgear components
+            foreach ($this->modules as $type => $blocks) {
+                foreach ($blocks as $block) {
+                    $objModule = Util::findAndCreateObject($type, $block);
+                    $arrBlocks[$type][] = $objModule->parse();
+                }
             }
         }
-
         // Send blocks to template
         $this->Template->blocks = $arrBlocks;
 

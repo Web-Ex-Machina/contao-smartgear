@@ -13,8 +13,11 @@
 		<?php endforeach; ?>
 	<?php endif; ?>
 	</div>
+	<?php if($this->steps): ?>
+		<?= $this->steps ?>
+	<?php endif; ?>
 	<?= $this->content; ?>
-	<?php if($this->actions && 1==2): ?>
+	<?php if($this->actions): ?>
 	<form action="<?= $this->request ?>" class="tl_form" method="post">
 		<div class="tl_formbody_edit">
 			<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">

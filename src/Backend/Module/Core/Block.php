@@ -14,9 +14,29 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Module\Core;
 
+use Contao\Input;
+use Exception;
 use WEM\SmartgearBundle\Classes\Backend\Block as BackendBlock;
 
 class Block extends BackendBlock
 {
+    protected $type = 'core';
+    protected $module = 'core';
+    protected $icon = 'exclamation-triangle';
     protected $title = 'Core';
+
+    public function processAjaxRequest()
+    {
+        try {
+            switch (Input::post('action')) {
+                default:
+                    return parent::processAjaxRequest();
+                break;
+            }
+        } catch (Exception $e) {
+            $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
+        }
+
+        return $arrResponse;
+    }
 }

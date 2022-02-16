@@ -22,6 +22,7 @@ class ConfigurationStep
 {
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step';
     protected $title = '';
+    protected $type = '';
     /** @var string */
     protected $module = '';
     /**
@@ -39,9 +40,11 @@ class ConfigurationStep
     protected $fields = [];
 
     public function __construct(
-        string $module
+        string $module,
+        string $type
     ) {
         $this->module = $module;
+        $this->type = $type;
     }
 
     public function getFilledTemplate(): FrontendTemplate
@@ -51,10 +54,12 @@ class ConfigurationStep
         $objTemplate->request = Environment::get('request');
         $objTemplate->token = RequestToken::get();
         $objTemplate->module = $this->module;
+        $objTemplate->type = $this->type;
         $objTemplate->title = $this->title;
         $objTemplate->fields = $this->fields;
         // Always add messages
         $objTemplate->messages = $this->messages;
+        $objTemplate->actions = [];
 
         // And return the template, parsed.
         return $objTemplate;
@@ -69,6 +74,11 @@ class ConfigurationStep
     public function do(): void
     {
         // do what is meant to be done in this step
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     /**

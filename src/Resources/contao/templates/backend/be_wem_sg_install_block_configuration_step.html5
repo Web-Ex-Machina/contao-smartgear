@@ -14,6 +14,13 @@
 		<?php if("textarea" === $field['type']): ?>
 		<textarea name="<?= $field['name'] ?>" id="ctrl_<?= $field['name'] ?>" class="tl_textarea"<?= $field['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()"><?= $field['value'] ?></textarea>
 		<?php elseif("select" === $field['type']): ?>
+		<select name="<?= $field['name'] ?>" id="ctrl_<?= $field['name'] ?>" class="tl_select"<?= $field['required'] ? ' required=""' : '' ?> <?= $field['multiple'] ? ' multiple=""' : '' ?> onfocus="Backend.getScrollOffset()"> 
+			<?php foreach($field['options'] as $option): ?>
+				<option value="<?= $option['value']; ?>" <?= $option['selected'] ? ' selected' : '' ?>>
+					<?= $option['label']; ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
 		<?php elseif("checkbox" === $field['type']): ?>
 		<?php elseif("radio" === $field['type']): ?>
 		<?php else: ?>

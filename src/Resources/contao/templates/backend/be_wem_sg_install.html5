@@ -144,6 +144,14 @@
 				objFields[j(this).attr('name')] = j(this).val();
 			});
 
+			j(this).find('select').each(function(){
+				objFields[j(this).attr('name')] = j(this).val();
+			});
+
+			j(this).find('textarea').each(function(){
+				objFields[j(this).attr('name')] = j(this).val();
+			});
+
 			j.ajax({
 				method: "POST"
 				,timeout:10000
@@ -209,7 +217,7 @@
 			ctn.replaceWith(r);
 		}).catch(function(e) {
 			toastr.error(e, "Une erreur est survenue :");
-		}).finally(function() { i
+		}).finally(function() {
 			ctn.find('.loader').removeClass("active");
 		});
 	}

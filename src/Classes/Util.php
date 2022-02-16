@@ -674,6 +674,47 @@ class Util
         }
     }
 
+    public function formatActions(array $arrUnformattedActions): array
+    {
+        $arrActions = [];
+        if (\is_array($arrUnformattedActions) && !empty($arrUnformattedActions)) {
+            foreach ($arrUnformattedActions as &$action) {
+                switch ($action['v']) {
+                    case 2:
+                        $arrAttributes = [];
+                        if ($action['attrs']) {
+                            if (!$action['attrs']['class']) {
+                                $action['attrs']['class'] = 'tl_submit';
+                            } elseif (false === strpos($action['attrs']['class'], 'tl_submit')) {
+                                $action['attrs']['class'] .= ' tl_submit';
+                            }
+
+                            foreach ($action['attrs'] as $k => $v) {
+                                $arrAttributes[] = sprintf('%s="%s"', $k, $v);
+                            }
+                        }
+                        $arrActions[] = sprintf(
+                            '<%s %s>%s</%s>',
+                            ($action['tag']) ?: 'button',
+                            (0 < \count($arrAttributes)) ? implode(' ', $arrAttributes) : '',
+                            ($action['text']) ?: 'text missing',
+                            ($action['tag']) ?: 'button'
+                        );
+                        break;
+                    default:
+                        $arrActions[] = sprintf(
+                            '<button type="submit" name="action" value="%s" class="tl_submit" %s>%s</button>',
+                            $action['action'],
+                            ($action['attributes']) ?: $action['attributes'],
+                            $action['label']
+                        );
+                }
+            }
+        }
+
+        return $arrActions;
+    }
+
     /**
      * Check if a permission can be added into.
      *
