@@ -12,7 +12,9 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Classes\Config;
+namespace WEM\SmartgearBundle\Config;
+
+use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
 
 class Core implements ConfigInterface
 {
@@ -179,22 +181,14 @@ class Core implements ConfigInterface
         $json->owner->dpo->name = $this->getSgOwnerDpoName();
         $json->owner->dpo->email = $this->getSgOwnerDpoEmail();
 
-        return json_encode($json, JSON_PRETTY_PRINT);
+        return json_encode($json, \JSON_PRETTY_PRINT);
     }
 
-    /**
-     * @return string
-     */
     public function getSgVersion(): string
     {
         return $this->sgVersion;
     }
 
-    /**
-     * @param string $sgVersion
-     *
-     * @return self
-     */
     public function setSgVersion(string $sgVersion): self
     {
         $this->sgVersion = $sgVersion;
@@ -202,19 +196,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgFramwayPath(): string
     {
         return $this->sgFramwayPath;
     }
 
-    /**
-     * @param string $sgFramwayPath
-     *
-     * @return self
-     */
     public function setSgFramwayPath(string $sgFramwayPath): self
     {
         $this->sgFramwayPath = $sgFramwayPath;
@@ -222,19 +208,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getSgFramwayThemes(): array
     {
         return $this->sgFramwayThemes;
     }
 
-    /**
-     * @param array $sgFramwayThemes
-     *
-     * @return self
-     */
     public function setSgFramwayThemes(array $sgFramwayThemes): self
     {
         $this->sgFramwayThemes = $sgFramwayThemes;
@@ -242,19 +220,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getSgSelectedModules(): array
     {
         return $this->sgSelectedModules;
     }
 
-    /**
-     * @param array $sgSelectedModules
-     *
-     * @return self
-     */
     public function setSgSelectedModules(array $sgSelectedModules): self
     {
         $this->sgSelectedModules = $sgSelectedModules;
@@ -262,22 +232,14 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgMode(): string
     {
         return $this->sgMode;
     }
 
-    /**
-     * @param string $sgMode
-     *
-     * @return self
-     */
     public function setSgMode(string $sgMode): self
     {
-        if (!in_array($sgMode, static::MODES_ALLOWED)) {
+        if (!\in_array($sgMode, static::MODES_ALLOWED, true)) {
             throw new \InvalidArgumentException(sprintf('Invalid mode "%s" given', $sgMode));
         }
 
@@ -286,19 +248,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgWebsiteTitle(): string
     {
         return $this->sgWebsiteTitle;
     }
 
-    /**
-     * @param string $sgWebsiteTitle
-     *
-     * @return self
-     */
     public function setSgWebsiteTitle(string $sgWebsiteTitle): self
     {
         $this->sgWebsiteTitle = $sgWebsiteTitle;
@@ -306,19 +260,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgOwnerEmail(): string
     {
         return $this->sgOwnerEmail;
     }
 
-    /**
-     * @param string $sgOwnerEmail
-     *
-     * @return self
-     */
     public function setSgOwnerEmail(string $sgOwnerEmail): self
     {
         $this->sgOwnerEmail = $sgOwnerEmail;
@@ -326,22 +272,14 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgAnalytics(): string
     {
         return $this->sgAnalytics;
     }
 
-    /**
-     * @param string $sgAnalytics
-     *
-     * @return self
-     */
     public function setSgAnalytics(string $sgAnalytics): self
     {
-        if (!in_array($sgAnalytics, static::ANALYTICS_SYSTEMS_ALLOWED)) {
+        if (!\in_array($sgAnalytics, static::ANALYTICS_SYSTEMS_ALLOWED, true)) {
             throw new \InvalidArgumentException(sprintf('Invalid analytics system "%s" given', $sgAnalytics));
         }
 
@@ -350,19 +288,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgAnalyticsGoogleId(): string
     {
         return $this->sgAnalyticsGoogleId;
     }
 
-    /**
-     * @param string $sgAnalyticsGoogleId
-     *
-     * @return self
-     */
     public function setSgAnalyticsGoogleId(string $sgAnalyticsGoogleId): self
     {
         $this->sgAnalyticsGoogleId = $sgAnalyticsGoogleId;
@@ -370,19 +300,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgAnalyticsMatomoHost(): string
     {
         return $this->sgAnalyticsMatomoHost;
     }
 
-    /**
-     * @param string $sgAnalyticsMatomoHost
-     *
-     * @return self
-     */
     public function setSgAnalyticsMatomoHost(string $sgAnalyticsMatomoHost): self
     {
         $this->sgAnalyticsMatomoHost = $sgAnalyticsMatomoHost;
@@ -390,19 +312,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgAnalyticsMatomoId(): string
     {
         return $this->sgAnalyticsMatomoId;
     }
 
-    /**
-     * @param string $sgAnalyticsMatomoId
-     *
-     * @return self
-     */
     public function setSgAnalyticsMatomoId(string $sgAnalyticsMatomoId): self
     {
         $this->sgAnalyticsMatomoId = $sgAnalyticsMatomoId;
@@ -410,19 +324,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgOwnerDomain(): string
     {
         return $this->sgOwnerDomain;
     }
 
-    /**
-     * @param string $sgOwnerDomain
-     *
-     * @return self
-     */
     public function setSgOwnerDomain(string $sgOwnerDomain): self
     {
         $this->sgOwnerDomain = $sgOwnerDomain;
@@ -430,19 +336,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgOwnerHost(): string
     {
         return $this->sgOwnerHost;
     }
 
-    /**
-     * @param string $sgOwnerHost
-     *
-     * @return self
-     */
     public function setSgOwnerHost(string $sgOwnerHost): self
     {
         $this->sgOwnerHost = $sgOwnerHost;
@@ -450,19 +348,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgOwnerLogo(): string
     {
         return $this->sgOwnerLogo;
     }
 
-    /**
-     * @param string $sgOwnerLogo
-     *
-     * @return self
-     */
     public function setSgOwnerLogo(string $sgOwnerLogo): self
     {
         $this->sgOwnerLogo = $sgOwnerLogo;
@@ -470,19 +360,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgOwnerStatus(): string
     {
         return $this->sgOwnerStatus;
     }
 
-    /**
-     * @param string $sgOwnerStatus
-     *
-     * @return self
-     */
     public function setSgOwnerStatus(string $sgOwnerStatus): self
     {
         $this->sgOwnerStatus = $sgOwnerStatus;
@@ -490,19 +372,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgOwnerStreet(): string
     {
         return $this->sgOwnerStreet;
     }
 
-    /**
-     * @param string $sgOwnerStreet
-     *
-     * @return self
-     */
     public function setSgOwnerStreet(string $sgOwnerStreet): self
     {
         $this->sgOwnerStreet = $sgOwnerStreet;
@@ -510,19 +384,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgOwnerPostal(): string
     {
         return $this->sgOwnerPostal;
     }
 
-    /**
-     * @param string $sgOwnerPostal
-     *
-     * @return self
-     */
     public function setSgOwnerPostal(string $sgOwnerPostal): self
     {
         $this->sgOwnerPostal = $sgOwnerPostal;
@@ -530,19 +396,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgOwnerCity(): string
     {
         return $this->sgOwnerCity;
     }
 
-    /**
-     * @param string $sgOwnerCity
-     *
-     * @return self
-     */
     public function setSgOwnerCity(string $sgOwnerCity): self
     {
         $this->sgOwnerCity = $sgOwnerCity;
@@ -550,19 +408,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgOwnerRegion(): string
     {
         return $this->sgOwnerRegion;
     }
 
-    /**
-     * @param string $sgOwnerRegion
-     *
-     * @return self
-     */
     public function setSgOwnerRegion(string $sgOwnerRegion): self
     {
         $this->sgOwnerRegion = $sgOwnerRegion;
@@ -570,19 +420,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgOwnerCountry(): string
     {
         return $this->sgOwnerCountry;
     }
 
-    /**
-     * @param string $sgOwnerCountry
-     *
-     * @return self
-     */
     public function setSgOwnerCountry(string $sgOwnerCountry): self
     {
         $this->sgOwnerCountry = $sgOwnerCountry;
@@ -590,19 +432,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgOwnerSiret(): string
     {
         return $this->sgOwnerSiret;
     }
 
-    /**
-     * @param string $sgOwnerSiret
-     *
-     * @return self
-     */
     public function setSgOwnerSiret(string $sgOwnerSiret): self
     {
         $this->sgOwnerSiret = $sgOwnerSiret;
@@ -610,19 +444,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgOwnerDpoName(): string
     {
         return $this->sgOwnerDpoName;
     }
 
-    /**
-     * @param string $sgOwnerDpoName
-     *
-     * @return self
-     */
     public function setSgOwnerDpoName(string $sgOwnerDpoName): self
     {
         $this->sgOwnerDpoName = $sgOwnerDpoName;
@@ -630,19 +456,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSgOwnerDpoEmail(): string
     {
         return $this->sgOwnerDpoEmail;
     }
 
-    /**
-     * @param string $sgOwnerDpoEmail
-     *
-     * @return self
-     */
     public function setSgOwnerDpoEmail(string $sgOwnerDpoEmail): self
     {
         $this->sgOwnerDpoEmail = $sgOwnerDpoEmail;
@@ -650,19 +468,11 @@ class Core implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function getSgInstallComplete(): bool
     {
         return $this->sgInstallComplete;
     }
 
-    /**
-     * @param bool $sgInstallComplete
-     *
-     * @return self
-     */
     public function setSgInstallComplete(bool $sgInstallComplete): self
     {
         $this->sgInstallComplete = $sgInstallComplete;

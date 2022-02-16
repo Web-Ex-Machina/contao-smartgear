@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2021 Web ex Machina
+ * Copyright (c) 2015-2022 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -14,9 +14,11 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend;
 
+use Contao\Config;
+use Contao\Environment;
+use Contao\RequestToken;
+use Contao\System;
 use Exception;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use WEM\SmartgearBundle\Classes\Config\Manager as CoreConfigurationManager;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 /**
@@ -85,34 +87,37 @@ class Smartgear extends \Contao\BackendModule
 
         // If there is nothing setup, trigger Smartgear Install
         if (!$coreConfig->getSgInstallComplete()) {
-            // load the core block which will take care of his installation itself²
-            $this->getActiveStep();
-            $this->Template->steps = $this->parseInstallSteps();
+            // load the core block which will take care of his installation itself
+            // $this->getActiveStep();
+            // $this->Template->steps = $this->parseInstallSteps();
 
-            $blocks['install'][$this->strActiveStep] = $this->getInstallBlock();
-            $this->Template->blocks = $blocks;
-        } else {
-            // Load the updater
-            $this->getUpdater();
+            // $blocks['install'][$this->strActiveStep] = $this->getInstallBlock();
+            // $this->Template->blocks = $blocks;
+            $coreBlock = System::getContainer()->get('smartgear.backend.module.core.block');
+            $this->Template = $coreBlock->parse();
 
-            // Load buttons
-            $this->getBackupManagerButton();
+            return;
+        }
+        // Load the updater
+        $this->getUpdater();
 
-            // Parse Smartgear components
-            foreach ($this->modules as $type => $blocks) {
-                foreach ($blocks as $block) {
-                    $objModule = Util::findAndCreateObject($type, $block);
-                    $arrBlocks[$type][] = $objModule->parse();
-                }
+        // Load buttons
+        $this->getBackupManagerButton();
+
+        // Parse Smartgear components
+        foreach ($this->modules as $type => $blocks) {
+            foreach ($blocks as $block) {
+                $objModule = Util::findAndCreateObject($type, $block);
+                $arrBlocks[$type][] = $objModule->parse();
             }
-
-            // Send blocks to template
-            $this->Template->blocks = $arrBlocks;
         }
 
+        // Send blocks to template
+        $this->Template->blocks = $arrBlocks;
+
         // Send msc data to template
-        $this->Template->request = \Environment::get('request');
-        $this->Template->token = \RequestToken::get();
-        $this->Template->websiteTitle = \Config::get('websiteTitle');
+        $this->Template->request = Environment::get('request');
+        $this->Template->token = RequestToken::get();
+        $this->Template->websiteTitle = Config::get('websiteTitle');
     }
 }

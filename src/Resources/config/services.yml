@@ -19,10 +19,31 @@ services:
     smartgear.classes.config.manager.core:
         class: WEM\SmartgearBundle\Classes\Config\Manager
         arguments:
-            $configuration: '@smartgear.classes.config.core'
+            $configuration: '@smartgear.config.core'
             $configurationFilePath: 'assets/smartgear/config_core.json'
         public: true
 
-    smartgear.classes.config.core:
-        class: WEM\SmartgearBundle\Classes\Config\Core
+    smartgear.config.core:
+        class: WEM\SmartgearBundle\Config\Core
+        public: true
+
+    smartgear.backend.module.core.block:
+        class: WEM\SmartgearBundle\Classes\Backend\Block
+        arguments:
+            $configurationStepManager: '@smartgear.backend.module.core.configuration_step_manager'
+        public: true
+
+    smartgear.backend.module.core.configuration_step_manager:
+        class: WEM\SmartgearBundle\Classes\Backend\ConfigurationStepManager
+        arguments:
+            $configurationManager: '@smartgear.classes.config.manager.core'
+            $module: 'core'
+            $steps: 
+                - '@smartgear.backend.module.core.configuration_step_general'
+        public: true
+
+    smartgear.backend.module.core.configuration_step_general:
+        class: WEM\SmartgearBundle\Backend\Module\Core\ConfigurationStep\General
+        arguments:
+            $module: 'core'
         public: true
