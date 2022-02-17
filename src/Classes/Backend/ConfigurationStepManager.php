@@ -61,8 +61,8 @@ class ConfigurationStepManager
         $objTemplate = $currentStep->getFilledTemplate();
         $this->actions = [
             ['action' => 'previous', 'label' => 'Précédent'],
-            ['action' => 'reset', 'label' => 'Réinitialiser'],
-            ['action' => 'save', 'label' => 'Sauvegarder'],
+            // ['action' => 'reset', 'label' => 'Réinitialiser'],
+            // ['action' => 'save', 'label' => 'Sauvegarder'],
             ['action' => 'next', 'label' => 'Suivant'],
         ];
 

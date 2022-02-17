@@ -1,0 +1,41 @@
+<form action="<?= $this->request ?>" class="tl_form" method="post">
+	<div class="tl_formbody_edit">
+		<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
+		<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
+		<input name="type" value="<?= $this->type ?>" type="hidden">
+		<input name="module" value="<?= $this->module ?>" type="hidden">
+		<input name="action" value="" type="hidden" class="btnAction">
+	</div>
+	<pre id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-result">
+	</pre>
+	<button class="btn executeCmdLive" type="button" data-type="<?= $this->type;?>" data-module="<?= $this->module;?>" data-action="framwayRetrieval"  data-result-container-id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-result" id="button-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval" title="Récupérer le Framway" accesskey="b">Récupérer le Framway</button>
+	<div class="tl_submit_container">
+		<?= implode(' ', $this->actions) ?>
+	</div>
+</form>
+<!-- Scripts -->
+<script type="text/javascript">
+	var j = jQuery.noConflict();
+
+	// Toastr Options
+	toastr.options.closeButton = true;
+	toastr.options.timeOut = 5000;
+	toastr.options.extendedTimeOut = 0;
+
+	/**
+	 * Handle command buttons
+	 */
+	j('button#button-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval').on('click', function(e){
+		e.preventDefault();
+		executeCmdLive(
+			j(this).data('type'),
+			j(this).data('module'),
+			j(this).data('action'),
+			j(this).data('result-container-id'),
+		).then(function(r) {
+			toastr[r["status"]](r["msg"]);
+		}).catch(function(e) {
+			toastr.error(e, "Une erreur est survenue :");
+		});
+	});
+</script>

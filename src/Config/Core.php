@@ -38,7 +38,7 @@ class Core implements ConfigInterface
     /** @var string */
     protected $sgVersion = '';
     /** @var string */
-    protected $sgFramwayPath = '';
+    protected $sgFramwayPath = 'assets/framway';
     /** @var array */
     protected $sgFramwayThemes = [];
     /** @var array */
@@ -89,7 +89,7 @@ class Core implements ConfigInterface
             ->setSgSelectedModules([])
             ->setSgMode(static::MODE_DEV)
             ->setSgWebsiteTitle('')
-            ->setSgFramwayPath('')
+            ->setSgFramwayPath('assets/framway')
             ->setSgFramwayThemes([])
             ->setSgAnalytics(static::ANALYTICS_SYSTEM_NONE)
             ->setSgAnalyticsGoogleId('')
@@ -120,7 +120,7 @@ class Core implements ConfigInterface
             ->setSgSelectedModules($json->selectedModules ?? [])
             ->setSgMode($json->mode ?? static::MODE_DEV)
             ->setSgWebsiteTitle($json->websiteTitle ?? '')
-            ->setSgFramwayPath($json->framway->path ?? '')
+            ->setSgFramwayPath($json->framway->path ?? 'assets/framway')
             ->setSgFramwayThemes($json->framway->themes ?? [])
             ->setSgAnalytics($json->analytics->system ?? static::ANALYTICS_SYSTEM_NONE)
             ->setSgAnalyticsGoogleId($json->analytics->google->id ?? '')

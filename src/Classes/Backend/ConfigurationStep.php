@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Classes\Backend;
 
 use Contao\Environment;
 use Contao\FrontendTemplate;
+use Contao\Input;
 use Contao\RequestToken;
 
 class ConfigurationStep
@@ -122,8 +123,8 @@ class ConfigurationStep
     protected function checkValue($strName): void
     {
         // Load config
-        if (\Input::post($strName)) {
-            $this->$strName = \Input::post($strName);
+        if (Input::post($strName)) {
+            $this->$strName = Input::post($strName);
             $this->objSession->set('sg_install_'.$strName, $this->$strName);
         } elseif ($this->objSession->get('sg_install_'.$strName)) {
             $this->$strName = $this->objSession->get('sg_install_'.$strName);

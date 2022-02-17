@@ -20,6 +20,7 @@ use Contao\Input;
 use Contao\RequestToken;
 use Contao\System;
 use Exception;
+use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 /**
@@ -77,6 +78,17 @@ class Smartgear extends \Contao\BackendModule
                             throw $e;
                         }
                         break;
+                    case 'executeCmdLive':
+                        if (!Input::post('cmd')) {
+                            throw new Exception('Missing one arguments : cmd');
+                        }
+
+                        $arrResponse['status'] = 'success';
+                        $arrResponse['msg'] = sprintf('La commande %s a été executée avec succès', Input::post('cmd'));
+                        $res = Util::executeCmdLive(Input::post('cmd'));
+                        $arrResponse['output'] = $res;
+                        // exit();
+                    break;
 
                     // case 'getSteps':
                     //     $this->getActiveStep();

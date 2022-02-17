@@ -8,7 +8,7 @@
 <?= Message::generate(); ?>
 
 <div id="tl_buttons">
-  <a href="<?= $this->request ?>" class="executeCmd" data-cmd="cache:warmup" title="Refresh Cache" accesskey="b">Refresh Cache</a>
+  <a href="<?= $this->request ?>" class="executeCmdLive" data-cmd="cache:warmup" title="Refresh Cache" accesskey="b">Refresh Cache</a>
   <a href="<?= ampersand($this->backupManagerBtnHref) ?>" title="<?= Contao\StringUtil::specialchars($this->backupManagerBtnTitle) ?>" accesskey="b"><?= $this->backupManagerBtnButton ?></a>
 </div>
 
@@ -121,6 +121,23 @@
 		j('#tl_buttons').on('click', '.executeCmd', function(e){
 			e.preventDefault();
 			executeCmd(j(this).data('cmd')).then(function(r) {
+				toastr[r["status"]](r["msg"]);
+			}).catch(function(e) {
+				toastr.error(e, "Une erreur est survenue :");
+			});
+		});
+
+		/**
+		 * Handle command buttons
+		 */
+		j('#tl_buttons').on('click', '.executeCmdLive', function(e){
+			e.preventDefault();
+			executeCmdLive(
+				j(this).data('type'),
+				j(this).data('module'),
+				j(this).data('action'),
+				j(this).data('result-container-id'),
+			).then(function(r) {
 				toastr[r["status"]](r["msg"]);
 			}).catch(function(e) {
 				toastr.error(e, "Une erreur est survenue :");
@@ -442,6 +459,78 @@
 				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
 				try{
 					var results = j.parseJSON(msg);
+
+					// Handle actions errors
+					if("error" === results["status"]) {
+						reject(results["msg"]);
+					}
+
+					// Notify everything goes well
+					resolve(results);
+				}
+				catch(err){
+	       			reject(err); 
+				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				reject(textStatus+"<br>"+errorThrown);
+			})
+		});
+	}
+
+	function executeCmdLive(strType, strModule, strAction, resultContainerId) {
+		return new Promise((resolve, reject) => {
+			var objFields = {
+				'TL_WEM_AJAX':1
+				,'REQUEST_TOKEN':"<?= $this->token; ?>"
+				,'wem_module':'be_smartgear'
+				,'action':strAction
+				// ,'action':'executeCmdLive'
+				// ,'cmd':cmd
+				,'type': strType
+				,'module': strModule
+			};
+
+			j.ajax({
+				method: "POST"
+				// ,timeout:10000
+				,data: objFields
+				,headers:{
+					'Cache-Control': 'no-cache, must-revalidate'
+				}
+				,xhrFields: {
+          // Getting on progress streaming response
+          onprogress: function(e)
+          {
+            var progressResponse;
+            var response = e.currentTarget.response;
+            progressResponse = typeof lastResponseLength === "undefined" ? response : response.substring(lastResponseLength);
+            lastResponseLength = response.length;
+            let json = j.parseJSON("{\"full\":[" + progressResponse.replace(/\}\{/gi, "},{") + "]}");
+            let html = '';
+            for(let i in json.full){
+          		if(typeof json.full[i].data !== "undefined"){
+	            	html = html.concat(json.full[i].data);
+	            }
+            }
+            j('#'+resultContainerId).html(html);
+          }
+        }
+			})
+			.done(function(msg){
+				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+				try{
+			 		msg = "{\"full\":[" + msg.replace(/\}\{/gi, "},{") + "]}";
+					var json = j.parseJSON(msg);
+					results = json.full[json.full.length - 1];
+					let html = '';
+          for(let i in json.full){
+          		if(typeof json.full[i].data !== "undefined"){
+	            	html = html.concat(json.full[i].data);
+	            }
+          }
+          html = html.concat(results.msg);
+          j('#'+resultContainerId).html(html);
 
 					// Handle actions errors
 					if("error" === results["status"]) {

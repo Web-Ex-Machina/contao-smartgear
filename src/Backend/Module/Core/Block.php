@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Module\Core;
 
 use Contao\Input;
+use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Classes\Backend\Block as BackendBlock;
 
@@ -29,6 +30,13 @@ class Block extends BackendBlock
     {
         try {
             switch (Input::post('action')) {
+                case 'framwayRetrieval':
+                    $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_retrieval');
+                    $arrResponse['status'] = 'success';
+                    $arrResponse['msg'] = 'Le framway a été récupéré avec succès';
+                    $res = $framwayRetrievalStep->retrieve();
+                    $arrResponse['output'] = $res;
+                break;
                 default:
                     return parent::processAjaxRequest();
                 break;

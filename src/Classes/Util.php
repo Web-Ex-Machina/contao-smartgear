@@ -552,6 +552,48 @@ class Util
     }
 
     /**
+     * Execute the given command by displaying console output live to the user.
+     *
+     *  @param  string  cmd          :  command to be executed
+     *
+     *  @return array   exit_status  :  exit status of the executed command
+     *                  output       :  console output of the executed command
+     */
+    public static function executeCmdLive($cmd)
+    {
+        while (@ob_end_flush()) {
+        } // end all output buffers if any
+        $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline(
+            $cmd
+        ) : new Process($cmd);
+
+        $process->run(function ($type, $buffer): void {
+            if (Process::ERR === $type) {
+                echo json_encode(['data' => $buffer, 'status' => 'error']);
+            } else {
+                echo json_encode(['data' => $buffer, 'status' => 'success']);
+            }
+            @flush();
+        });
+
+        $i = 0;
+        while ($i <= $process->getTimeout()) {
+            sleep(1);
+            if ($process->isTerminated()) {
+                if (!$process->isSuccessful()) {
+                    throw new ProcessFailedException($process);
+                }
+
+                return $process->getOutput();
+            }
+
+            ++$i;
+        }
+
+        return $process->getOutput();
+    }
+
+    /**
      * Return package version.
      *
      * @return [Float] Package version

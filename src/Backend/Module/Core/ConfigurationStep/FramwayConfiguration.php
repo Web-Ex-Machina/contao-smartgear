@@ -18,7 +18,7 @@ use Contao\Input;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Config\Manager as ConfigurationManager;
 
-class Framway extends ConfigurationStep
+class FramwayConfiguration extends ConfigurationStep
 {
     /** @var ConfigurationManager */
     protected $configurationManager;
@@ -29,7 +29,7 @@ class Framway extends ConfigurationStep
         ConfigurationManager $configurationManager
     ) {
         parent::__construct($module, $type);
-        $this->title = 'Framway';
+        $this->title = 'Framway | Configuration';
         $this->configurationManager = $configurationManager;
         $this->addTextField('titi', 'The titiiiiiii !!!');
     }
