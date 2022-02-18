@@ -23,8 +23,19 @@ services:
             $configurationFilePath: 'assets/smartgear/config_core.json'
         public: true
 
+    smartgear.classes.config.manager.framway:
+        class: WEM\SmartgearBundle\Classes\Config\ManagerFramway
+        arguments:
+            $configuration: '@smartgear.config.framway'
+            $configurationManagerCore: '@smartgear.classes.config.manager.core'
+        public: true
+
     smartgear.config.core:
         class: WEM\SmartgearBundle\Config\Core
+        public: true
+
+    smartgear.config.framway:
+        class: WEM\SmartgearBundle\Config\Framway
         public: true
 
     smartgear.backend.module.core.block:
@@ -67,4 +78,5 @@ services:
             $module: 'core'
             $type: 'core'
             $configurationManager: '@smartgear.classes.config.manager.core'
+            $configurationManagerFramway: '@smartgear.classes.config.manager.framway'
         public: true

@@ -16,13 +16,12 @@ namespace WEM\SmartgearBundle\Classes\Config;
 
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
-class Manager
+class Manager implements ManagerInterface
 {
     /** @var ConfigInterface */
     protected $configuration;
     /** @var string */
     protected $configurationFilePath;
-
 
     public function __construct(
         ConfigInterface $configuration,
@@ -33,8 +32,7 @@ class Manager
     }
 
     /**
-     * [load description]
-     * @return ConfigInterface
+     * [load description].
      */
     public function new(): ConfigInterface
     {
@@ -42,8 +40,7 @@ class Manager
     }
 
     /**
-     * [load description]
-     * @return ConfigInterface
+     * [load description].
      */
     public function load(): ConfigInterface
     {
@@ -51,19 +48,20 @@ class Manager
     }
 
     /**
-     * [save description]
-     * @param  ConfigInterface $configuration [description]
-     * @return bool
+     * [save description].
+     *
+     * @param ConfigInterface $configuration [description]
      */
     public function save(ConfigInterface $configuration): bool
     {
         $this->configuration = $configuration;
+
         return false !== file_put_contents($this->configurationFilePath, $this->configuration->export());
     }
 
     public function retrieveConfigurationAsStdClassFromFile(): \stdClass
     {
-        return json_decode($this->retrieveConfigurationFromFile(), false, 512, JSON_THROW_ON_ERROR);
+        return json_decode($this->retrieveConfigurationFromFile(), false, 512, \JSON_THROW_ON_ERROR);
     }
 
     protected function retrieveConfigurationFromFile(): string
@@ -72,6 +70,7 @@ class Manager
         if (!$content) {
             throw new FileNotFoundException('Configuration file not found');
         }
+
         return $content;
     }
 }

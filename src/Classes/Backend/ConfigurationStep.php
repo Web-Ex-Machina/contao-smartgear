@@ -101,7 +101,7 @@ class ConfigurationStep
     /**
      * Add a dropdown/checkbox/radio.
      */
-    protected function addSelectField($strName, $strLabel, $arrOptions, $strValue = '', $blnRequired = false, $strClass = '', $strType = 'select'): void
+    protected function addSelectField($strName, $strLabel, $arrOptions, $strValue = '', $blnRequired = false, $blnMultiple = false, $strClass = '', $strType = 'select'): void
     {
         foreach ($arrOptions as &$o) {
             $o['selected'] = false;
@@ -116,6 +116,7 @@ class ConfigurationStep
             'label' => $strLabel,
             'options' => $arrOptions,
             'required' => $blnRequired,
+            'multiple' => $blnMultiple,
             'class' => $strClass,
         ];
     }
