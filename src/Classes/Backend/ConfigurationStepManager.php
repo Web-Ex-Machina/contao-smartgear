@@ -80,8 +80,9 @@ class ConfigurationStepManager
             $arrSteps[] = [
                 'active' => $index === $this->getCurrentStepIndex(),
                 'number' => $index + 1,
+                'index' => $index,
                 'label' => $step->getTitle(),
-                // 'href' => '',
+                // 'href' => ''
                 'type' => $this->type,
                 'name' => $this->module,
             ];
@@ -102,6 +103,11 @@ class ConfigurationStepManager
         }
         $this->getCurrentStep()->do();
         $this->setCurrentStepIndex($this->getNextStepIndex());
+    }
+
+    public function goToStep(int $stepIndex): void
+    {
+        $this->setCurrentStepIndex($stepIndex);
     }
 
     public function goToPreviousStep(): void

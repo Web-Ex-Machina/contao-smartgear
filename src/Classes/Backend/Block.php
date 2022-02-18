@@ -211,6 +211,18 @@ class Block extends Controller
                     //     $arrResponse = ['status' => 'error', 'msg' => $e->getMessage()];
                     // }
                 break;
+                case 'setStep':
+                    // try {
+                        $this->configurationStepManager->goToStep((int) Input::post('step') ?? 0);
+                        $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+                    // } catch (Exception $e) {
+                    //     $arrResponse = ['status' => 'error', 'msg' => $e->getMessage()];
+                    // }
+                break;
+                case 'getSteps':
+                    echo $this->configurationStepManager->parseSteps();
+                    exit;
+                break;
                 case 'parse':
                    return $this->parse();
                 break;

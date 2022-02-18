@@ -1,4 +1,4 @@
-<!-- Load Libraries -->
+<!-- <!-- Load Libraries -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -30,32 +30,8 @@
 			j(this).closest('form').find('input.btnAction').val(j(this).attr('value'));
 		});
 
-		/**
-		 * Store the "submit" clicked for the form
-		 */
-		j('#sg_steps').on('click', 'a.step', function(e){
-			e.preventDefault();
-			var ctn = j('#tl_wem_sg_install .blocks.install .block').first();
-			ctn.find('.loader').addClass("active");
-			var step = j(this);
 
-			setStep(step.data('module')).then(function(r) {
-				refreshSteps();
-
-				getBlock(step.data('type'), step.data('module')).then(function(r) {
-					ctn.replaceWith(r);
-				}).catch(function(e) {
-					toastr.error(e, "Une erreur est survenue :");
-				}).finally(function() {
-					ctn.find('.loader').removeClass("active");
-				});
-			}).catch(function(e) {
-				toastr.error(e, "Une erreur est survenue :");
-			}).finally(function() {
-				ctn.find('.loader').removeClass("active");
-			});
-		});
-
+		applyStepBehaviour();
 		/**
 		 * Handle modal openers
 		 */
@@ -214,6 +190,29 @@
 		});
 	});
 
+
+
+		function applyStepBehaviour()
+		{
+			/**
+			 * Store the "submit" clicked for the form
+			 */
+			j('#sg_steps').on('click', 'a.step', function(e){
+				e.preventDefault();
+				var ctn = j('#tl_wem_sg_install .blocks.install .block').first();
+				ctn.find('.loader').addClass("active");
+				var step = j(this);
+
+				setStep(step.data('type'),step.data('module'),step.data('index')).then(function(r) {
+					refreshBlock(step.parents('.block')[0].id);
+				}).catch(function(e) {
+					toastr.error(e, "Une erreur est survenue :");
+				}).finally(function() {
+					ctn.find('.loader').removeClass("active");
+				});
+			});
+		}
+
 	/**
 	 * Refresh all the blocks in the page
 	 */
@@ -232,6 +231,7 @@
 
 		getBlock(ctn.data("type"), ctn.data("module")).then(function(r) {
 			ctn.replaceWith(r);
+			applyStepBehaviour();
 		}).catch(function(e) {
 			toastr.error(e, "Une erreur est survenue :");
 		}).finally(function() {
@@ -242,11 +242,11 @@
 	/**
 	 * Refresh steps
 	 */
-	function refreshSteps(){
+	function refreshSteps(strType, strModule){
 		var ctn = j('div#sg_steps');
 		ctn.find('.loader').addClass("active");
 
-		getSteps().then(function(r) {
+		getSteps(strType, strModule).then(function(r) {
 			ctn.replaceWith(r);
 		}).catch(function(e) {
 			toastr.error(e, "Une erreur est survenue :");
@@ -320,7 +320,7 @@
 	/**
 	 * Set the new step
 	 */
-	function setStep(step) {
+	function setStep(strType, strModule, step) {
 		return new Promise((resolve, reject) => {
 			var objFields = {
 				'TL_WEM_AJAX':1
@@ -328,6 +328,8 @@
 				,'wem_module':'be_smartgear'
 				,'action':'setStep'
 				,'step':step
+				,'type':strType
+				,'module':strModule
 			};
 
 			j.ajax({
@@ -357,13 +359,15 @@
 		});
 	}
 
-	function getSteps()	{
+	function getSteps(strType, strModule)	{
 		return new Promise((resolve, reject) => {
 			var objFields = {
 				'TL_WEM_AJAX':1
 				,'REQUEST_TOKEN':"<?= $this->token; ?>"
 				,'wem_module':'be_smartgear'
 				,'action':'getSteps'
+				,'type':strType
+				,'module': strModule
 			};
 
 			j.ajax({
@@ -541,7 +545,7 @@
 					resolve(results);
 				}
 				catch(err){
-	       			reject(err); 
+	       	reject(err); 
 				}
 			})
 			.fail(function(jqXHR, textStatus, errorThrown){

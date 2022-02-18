@@ -33,24 +33,29 @@ class Core implements ConfigInterface
         self::MODE_DEV,
         self::MODE_PROD,
     ];
+
+    public const DEFAULT_ANALYTICS_SYSTEM = self::ANALYTICS_SYSTEM_NONE;
+    public const DEFAULT_MODE = self::MODE_DEV;
+    public const DEFAULT_FRAMWAY_PATH = 'assets/framway';
+    public const DEFAULT_OWNER_HOST = 'INFOMANIAK - 25 Eugène-Marziano 1227 Les Acacias - GENÈVE - SUISSE';
     /** @var bool */
     protected $sgInstallComplete = false;
     /** @var string */
     protected $sgVersion = '';
     /** @var string */
-    protected $sgFramwayPath = 'assets/framway';
+    protected $sgFramwayPath = self::DEFAULT_FRAMWAY_PATH;
     /** @var array */
     protected $sgFramwayThemes = [];
     /** @var array */
     protected $sgSelectedModules = [];
     /** @var string */
-    protected $sgMode = self::MODE_DEV;
+    protected $sgMode = self::DEFAULT_MODE;
     /** @var string */
     protected $sgWebsiteTitle = '';
     /** @var string */
     protected $sgOwnerEmail = '';
     /** @var string */
-    protected $sgAnalytics = self::ANALYTICS_SYSTEM_NONE;
+    protected $sgAnalytics = self::DEFAULT_ANALYTICS_SYSTEM;
     /** @var string */
     protected $sgAnalyticsGoogleId = '';
     /** @var string */
@@ -60,7 +65,7 @@ class Core implements ConfigInterface
     /** @var string */
     protected $sgOwnerDomain = '';
     /** @var string */
-    protected $sgOwnerHost = 'INFOMANIAK - 25 Eugène-Marziano 1227 Les Acacias - GENÈVE - SUISSE';
+    protected $sgOwnerHost = '';
     /** @var string */
     protected $sgOwnerLogo = '';
     /** @var string */
@@ -87,17 +92,17 @@ class Core implements ConfigInterface
         $this->setSgInstallComplete(false)
             ->setSgVersion('')
             ->setSgSelectedModules([])
-            ->setSgMode(static::MODE_DEV)
+            ->setSgMode(static::DEFAULT_MODE)
             ->setSgWebsiteTitle('')
-            ->setSgFramwayPath('assets/framway')
+            ->setSgFramwayPath(self::DEFAULT_FRAMWAY_PATH)
             ->setSgFramwayThemes([])
-            ->setSgAnalytics(static::ANALYTICS_SYSTEM_NONE)
+            ->setSgAnalytics(static::DEFAULT_ANALYTICS_SYSTEM)
             ->setSgAnalyticsGoogleId('')
             ->setSgAnalyticsMatomoHost('')
             ->setSgAnalyticsMatomoId('')
             ->setSgOwnerEmail('')
             ->setSgOwnerDomain('')
-            ->setSgOwnerHost('INFOMANIAK - 25 Eugène-Marziano 1227 Les Acacias - GENÈVE - SUISSE')
+            ->setSgOwnerHost(self::DEFAULT_OWNER_HOST)
             ->setSgOwnerLogo('')
             ->setSgOwnerStatus('')
             ->setSgOwnerStreet('')
@@ -118,17 +123,17 @@ class Core implements ConfigInterface
         $this->setSgInstallComplete($json->installComplete ?? false)
             ->setSgVersion($json->version ?? '')
             ->setSgSelectedModules($json->selectedModules ?? [])
-            ->setSgMode($json->mode ?? static::MODE_DEV)
+            ->setSgMode($json->mode ?? static::DEFAULT_MODE)
             ->setSgWebsiteTitle($json->websiteTitle ?? '')
-            ->setSgFramwayPath($json->framway->path ?? 'assets/framway')
+            ->setSgFramwayPath($json->framway->path ?? self::DEFAULT_FRAMWAY_PATH)
             ->setSgFramwayThemes($json->framway->themes ?? [])
-            ->setSgAnalytics($json->analytics->system ?? static::ANALYTICS_SYSTEM_NONE)
+            ->setSgAnalytics($json->analytics->system ?? static::DEFAULT_ANALYTICS_SYSTEM)
             ->setSgAnalyticsGoogleId($json->analytics->google->id ?? '')
             ->setSgAnalyticsMatomoHost($json->analytics->matomo->host ?? '')
             ->setSgAnalyticsMatomoId($json->analytics->matomo->id ?? '')
             ->setSgOwnerEmail($json->owner->email ?? '')
             ->setSgOwnerDomain($json->owner->domain ?? '')
-            ->setSgOwnerHost($json->owner->host ?? 'INFOMANIAK - 25 Eugène-Marziano 1227 Les Acacias - GENÈVE - SUISSE')
+            ->setSgOwnerHost($json->owner->host ?? self::DEFAULT_OWNER_HOST)
             ->setSgOwnerLogo($json->owner->logo ?? '')
             ->setSgOwnerStatus($json->owner->status ?? '')
             ->setSgOwnerStreet($json->owner->street ?? '')

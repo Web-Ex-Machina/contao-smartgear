@@ -566,7 +566,7 @@ class Util
         $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline(
             $cmd
         ) : new Process($cmd);
-
+        $process->setTimeout(3600);
         $process->run(function ($type, $buffer): void {
             if (Process::ERR === $type) {
                 echo json_encode(['data' => $buffer, 'status' => 'error']);
