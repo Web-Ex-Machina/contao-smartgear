@@ -63,6 +63,8 @@ class Core implements ConfigInterface
     /** @var string */
     protected $sgAnalyticsMatomoId = '';
     /** @var string */
+    protected $sgOwnerName = '';
+    /** @var string */
     protected $sgOwnerDomain = '';
     /** @var string */
     protected $sgOwnerHost = '';
@@ -86,11 +88,17 @@ class Core implements ConfigInterface
     protected $sgOwnerDpoName = '';
     /** @var string */
     protected $sgOwnerDpoEmail = '';
+    /** @var string */
+    protected $sgTheme = '';
+    /** @var array */
+    protected $sgModules = [];
 
     public function reset(): self
     {
         $this->setSgInstallComplete(false)
             ->setSgVersion('')
+            ->setSgTheme('')
+            ->setSgModules([])
             ->setSgSelectedModules([])
             ->setSgMode(static::DEFAULT_MODE)
             ->setSgWebsiteTitle('')
@@ -100,6 +108,7 @@ class Core implements ConfigInterface
             ->setSgAnalyticsGoogleId('')
             ->setSgAnalyticsMatomoHost('')
             ->setSgAnalyticsMatomoId('')
+            ->setSgOwnerName('')
             ->setSgOwnerEmail('')
             ->setSgOwnerDomain('')
             ->setSgOwnerHost(self::DEFAULT_OWNER_HOST)
@@ -122,6 +131,8 @@ class Core implements ConfigInterface
     {
         $this->setSgInstallComplete($json->installComplete ?? false)
             ->setSgVersion($json->version ?? '')
+            ->setSgTheme($json->theme ?? '')
+            ->setSgModules($json->modules ?? [])
             ->setSgSelectedModules($json->selectedModules ?? [])
             ->setSgMode($json->mode ?? static::DEFAULT_MODE)
             ->setSgWebsiteTitle($json->websiteTitle ?? '')
@@ -131,6 +142,7 @@ class Core implements ConfigInterface
             ->setSgAnalyticsGoogleId($json->analytics->google->id ?? '')
             ->setSgAnalyticsMatomoHost($json->analytics->matomo->host ?? '')
             ->setSgAnalyticsMatomoId($json->analytics->matomo->id ?? '')
+            ->setSgOwnerName($json->owner->name ?? '')
             ->setSgOwnerEmail($json->owner->email ?? '')
             ->setSgOwnerDomain($json->owner->domain ?? '')
             ->setSgOwnerHost($json->owner->host ?? self::DEFAULT_OWNER_HOST)
@@ -154,7 +166,10 @@ class Core implements ConfigInterface
         $json = new \stdClass();
         $json->installComplete = $this->getSgInstallComplete();
         $json->version = $this->getSgVersion();
+        $json->theme = $this->getSgTheme();
+        $json->version = $this->getSgVersion();
         $json->selectedModules = $this->getSgSelectedModules();
+        $json->modules = $this->getSgModules();
         $json->mode = $this->getSgMode();
         $json->websiteTitle = $this->getSgWebsiteTitle();
 
@@ -171,6 +186,7 @@ class Core implements ConfigInterface
         $json->analytics->matomo->id = $this->getSgAnalyticsMatomoId();
 
         $json->owner = new \stdClass();
+        $json->owner->name = $this->getSgOwnerName();
         $json->owner->email = $this->getSgOwnerEmail();
         $json->owner->domain = $this->getSgOwnerDomain();
         $json->owner->host = $this->getSgOwnerHost();
@@ -481,6 +497,42 @@ class Core implements ConfigInterface
     public function setSgInstallComplete(bool $sgInstallComplete): self
     {
         $this->sgInstallComplete = $sgInstallComplete;
+
+        return $this;
+    }
+
+    public function getSgTheme(): string
+    {
+        return $this->sgTheme;
+    }
+
+    public function setSgTheme(string $sgTheme): self
+    {
+        $this->sgTheme = $sgTheme;
+
+        return $this;
+    }
+
+    public function getSgModules(): array
+    {
+        return $this->sgModules;
+    }
+
+    public function setSgModules(array $sgModules): self
+    {
+        $this->sgModules = $sgModules;
+
+        return $this;
+    }
+
+    public function getSgOwnerName(): string
+    {
+        return $this->sgOwnerName;
+    }
+
+    public function setSgOwnerName(string $sgOwnerName): self
+    {
+        $this->sgOwnerName = $sgOwnerName;
 
         return $this;
     }

@@ -68,7 +68,7 @@ services:
                 - '@smartgear.backend.module.core.configuration_step.general'
                 - '@smartgear.backend.module.core.configuration_step.framway_retrieval'
                 - '@smartgear.backend.module.core.configuration_step.framway_configuration'
-                - '@smartgear.backend.module.core.configuration_step.general'
+                - '@smartgear.backend.module.core.configuration_step.website'
         public: true
 
     smartgear.backend.module.core.configuration_step.general:
@@ -96,4 +96,12 @@ services:
             $configurationManagerFramway: '@smartgear.classes.config.manager.framway'
             $templateSynchronizer: '@smartgear.classes.directories_synchronizer.templates.rsce'
             $tinyMCEPluginsSynchronizer: '@smartgear.classes.directories_synchronizer.tiny_mce.plugins'
+        public: true
+
+    smartgear.backend.module.core.configuration_step.website:
+        class: WEM\SmartgearBundle\Backend\Module\Core\ConfigurationStep\Website
+        arguments:
+            $module: 'core'
+            $type: 'core'
+            $configurationManager: '@smartgear.classes.config.manager.core'
         public: true

@@ -125,31 +125,46 @@
 		 */
 		j('#tl_wem_sg_install').on('submit', '.block-default form', function(e){
 			e.preventDefault();
+			var isUpload = false;
 			var ctn = j(this).closest('.block');
 			ctn.find('.loader').addClass("active");
 
-			var objFields = {
-				'TL_WEM_AJAX':1
-				,'wem_module':'be_smartgear'
-			};
+			var objFields = new FormData();
+			objFields.append("TL_WEM_AJAX", 1 );
+			objFields.append("wem_module", 'be_smartgear' );
 
 			j(this).find('input').each(function(){
-				objFields[j(this).attr('name')] = j(this).val();
+				if("file" == j(this).type){
+					var files = j(this)[0].files;
+					isUpload = true;
+		        
+	        // Check file selected or not
+	        for(let i in files){
+						objFields.append(j(this).attr('name'),files[i]);
+	        }
+				}else{
+					objFields.append(j(this).attr('name'),j(this).val());
+				}
 			});
 
 			j(this).find('select').each(function(){
-				objFields[j(this).attr('name')] = j(this).val();
+				objFields.append(j(this).attr('name'),j(this).val());
 			});
 
 			j(this).find('textarea').each(function(){
-				objFields[j(this).attr('name')] = j(this).val();
+				objFields.append(j(this).attr('name'),j(this).val());
 			});
 
-			j.ajax({
+			var ajaxOptions = {
 				method: "POST"
 				,timeout:60000
 				,data: objFields
-			})
+			};
+			// if(isUpload){
+				ajaxOptions = Object.assign(ajaxOptions,{contentType: false,processData: false});
+			// }
+
+			j.ajax(ajaxOptions)
 			.done(function(msg){
 				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
 				try{

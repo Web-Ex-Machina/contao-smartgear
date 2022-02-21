@@ -23,6 +23,8 @@
 		</select>
 		<?php elseif("checkbox" === $field['type']): ?>
 		<?php elseif("radio" === $field['type']): ?>
+		<?php elseif("file" === $field['type']): ?>
+		<input name="<?= $field['name'] ?>" id="ctrl_<?= $field['name'] ?>" class="tl_text" <?= $field['accept'] ? ' accept="'.$field['accept'].'"' : '' ?> <?= $field['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()" type="file">
 		<?php else: ?>
 		<input name="<?= $field['name'] ?>" id="ctrl_<?= $field['name'] ?>" class="tl_text" value="<?= $field['value'] ?>"<?= $field['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()" type="text">
 		<?php endif; ?>

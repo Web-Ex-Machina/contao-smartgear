@@ -128,6 +128,7 @@ class FramwayConfiguration extends ConfigurationStep
         }
 
         $this->updateFramwayConfiguration(Input::post('themes') ?? [], Input::post('components'), $fa);
+        $this->updateCoreConfiguration(Input::post('themes') ?? []);
 
         UtilFramway::build($config->getSgFramwayPath());
 
@@ -170,6 +171,21 @@ class FramwayConfiguration extends ConfigurationStep
         $this->configurationManagerFramway->save($framwayConfig);
 
         return $framwayConfig;
+    }
+
+    /**
+     * Update Core configuration.
+     *
+     * @param array $themes [description]
+     */
+    protected function updateCoreConfiguration(array $themes): CoreConfig
+    {
+        /** @var CoreConfig */
+        $coreConfif = $this->configurationManager->load();
+        $coreConfif->setSgFramwayThemes($themes);
+        $this->configurationManager->save($coreConfif);
+
+        return $coreConfif;
     }
 
     protected function importRSCETemplates(): void

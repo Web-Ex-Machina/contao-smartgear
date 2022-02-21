@@ -100,6 +100,23 @@ class ConfigurationStep
     }
 
     /**
+     * Add a text field.
+     */
+    protected function addFileField(string $strName, string $strLabel, ?bool $blnRequired = false, ?string $accept = '', ?string $strClass = '', ?string $strPlaceholder = '', ?string $strHelp = ''): void
+    {
+        $this->fields[$strName] = [
+            'type' => 'file',
+            'name' => $strName,
+            'label' => $strLabel,
+            'placeholder' => $strPlaceholder,
+            'required' => $blnRequired,
+            'class' => $strClass,
+            'help' => $strHelp,
+            'accept' => $accept,
+        ];
+    }
+
+    /**
      * Add a dropdown/checkbox/radio.
      */
     protected function addSelectField(string $strName, string $strLabel, array $arrOptions, $strValue = '', ?bool $blnRequired = false, ?bool $blnMultiple = false, ?string $strClass = '', ?string $strType = 'select', ?string $strHelp = ''): void
