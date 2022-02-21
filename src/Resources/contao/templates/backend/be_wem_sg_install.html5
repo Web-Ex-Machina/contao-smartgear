@@ -147,7 +147,7 @@
 
 			j.ajax({
 				method: "POST"
-				,timeout:10000
+				,timeout:60000
 				,data: objFields
 			})
 			.done(function(msg){
@@ -482,7 +482,8 @@
 		});
 	}
 
-	function executeCmdLive(strType, strModule, strAction, resultContainerId) {
+	function executeCmdLive(strType, strModule, strAction, resultContainerId, aditionnalParameters) {
+		aditionnalParameters = aditionnalParameters || {};
 		return new Promise((resolve, reject) => {
 			var objFields = {
 				'TL_WEM_AJAX':1
@@ -494,6 +495,7 @@
 				,'type': strType
 				,'module': strModule
 			};
+			objFields = Object.assign(objFields,aditionnalParameters);
 
 			j.ajax({
 				method: "POST"

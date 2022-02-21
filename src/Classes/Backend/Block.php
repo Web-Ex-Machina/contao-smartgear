@@ -191,47 +191,45 @@ class Block extends Controller
         }
     }
 
-    public function processAjaxRequest()
+    public function processAjaxRequest(): void
     {
         try {
+            if (empty(Input::post('action'))) {
+                throw new \InvalidArgumentException('No action specified');
+            }
             switch (Input::post('action')) {
                 case 'next':
-                    // try {
-                        $this->configurationStepManager->goToNextStep();
-                        $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
-                    // } catch (Exception $e) {
-                    //     $arrResponse = ['status' => 'error', 'msg' => $e->getMessage()];
-                    // }
+                    $this->configurationStepManager->goToNextStep();
+                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
                 case 'previous':
-                    // try {
-                        $this->configurationStepManager->goToPreviousStep();
-                        $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
-                    // } catch (Exception $e) {
-                    //     $arrResponse = ['status' => 'error', 'msg' => $e->getMessage()];
-                    // }
+                    $this->configurationStepManager->goToPreviousStep();
+                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
                 case 'setStep':
-                    // try {
-                        $this->configurationStepManager->goToStep((int) Input::post('step') ?? 0);
-                        $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
-                    // } catch (Exception $e) {
-                    //     $arrResponse = ['status' => 'error', 'msg' => $e->getMessage()];
-                    // }
+                    $this->configurationStepManager->goToStep((int) Input::post('step') ?? 0);
+                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
                 case 'getSteps':
                     echo $this->configurationStepManager->parseSteps();
                     exit;
                 break;
                 case 'parse':
-                   return $this->parse();
+                    echo $this->parse();
+                    exit;
+                break;
+                default:
+                    throw new \InvalidArgumentException(sprintf('Action "%s" is not a valid action', Input::post('action')));
                 break;
             }
         } catch (Exception $e) {
             $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
         }
 
-        return $arrResponse;
+        // Add Request Token to JSON answer and return
+        $arrResponse['rt'] = \RequestToken::get();
+        echo json_encode($arrResponse);
+        exit;
     }
 
     public function getType(): string

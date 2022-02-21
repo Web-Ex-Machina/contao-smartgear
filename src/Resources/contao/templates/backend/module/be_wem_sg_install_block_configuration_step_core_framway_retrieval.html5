@@ -22,8 +22,6 @@
 		>
 			Récupérer le Framway
 		</button>
-		<!-- <pre id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-result" style="height:200px;overflow-y:scroll;" class="hidden"> -->
-		</pre>
 	</div>
 	<div class="widget" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-step-1">
 		<h3>1. Récupération / Mise à jour du Framway&nbsp;<i class="fas fa-hourglass hidden icon"></i></h3>

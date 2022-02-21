@@ -85,9 +85,9 @@ class ConfigurationStep
     /**
      * Add a text field.
      */
-    protected function addTextField($strName, $strLabel, $strValue = '', $blnRequired = false, $strClass = '', $strType = 'text', $strPlaceholder = ''): void
+    protected function addTextField(string $strName, string $strLabel, ?string $strValue = '', ?bool $blnRequired = false, ?string $strClass = '', ?string $strType = 'text', ?string $strPlaceholder = '', ?string $strHelp = ''): void
     {
-        $this->fields[] = [
+        $this->fields[$strName] = [
             'type' => $strType,
             'name' => $strName,
             'label' => $strLabel,
@@ -95,22 +95,32 @@ class ConfigurationStep
             'value' => $strValue,
             'required' => $blnRequired,
             'class' => $strClass,
+            'help' => $strHelp,
         ];
     }
 
     /**
      * Add a dropdown/checkbox/radio.
      */
-    protected function addSelectField($strName, $strLabel, $arrOptions, $strValue = '', $blnRequired = false, $blnMultiple = false, $strClass = '', $strType = 'select'): void
+    protected function addSelectField(string $strName, string $strLabel, array $arrOptions, $strValue = '', ?bool $blnRequired = false, ?bool $blnMultiple = false, ?string $strClass = '', ?string $strType = 'select', ?string $strHelp = ''): void
     {
-        foreach ($arrOptions as &$o) {
-            $o['selected'] = false;
-            if ($strValue === $o['value']) {
-                $o['selected'] = true;
+        if (\is_array($strValue)) {
+            foreach ($arrOptions as &$o) {
+                $o['selected'] = false;
+                if (\in_array($o['value'], $strValue, true)) {
+                    $o['selected'] = true;
+                }
+            }
+        } else {
+            foreach ($arrOptions as &$o) {
+                $o['selected'] = false;
+                if ($strValue === $o['value']) {
+                    $o['selected'] = true;
+                }
             }
         }
 
-        $this->fields[] = [
+        $this->fields[$strName] = [
             'type' => $strType,
             'name' => $strName,
             'label' => $strLabel,
@@ -118,6 +128,7 @@ class ConfigurationStep
             'required' => $blnRequired,
             'multiple' => $blnMultiple,
             'class' => $strClass,
+            'help' => $strHelp,
         ];
     }
 

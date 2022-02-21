@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Classes;
 
 use Contao\CoreBundle\Monolog\ContaoContext;
+use Contao\System;
 use Exception;
 use Psr\Log\LogLevel;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -212,21 +213,24 @@ class Util
     public static function loadSmartgearConfig()
     {
         try {
-            $objFiles = \Files::getInstance();
-            if (!file_exists(static::$strConfigPath)) {
-                $objFiles->mkdir(str_replace('/config.json', '', static::$strConfigPath));
-                $objFiles->fopen(static::$strConfigPath, 'wb');
-            }
-            $objFile = $objFiles->fopen(static::$strConfigPath, 'a');
-            $arrConfig = [];
+            // $objFiles = \Files::getInstance();
+            // if (!file_exists(static::$strConfigPath)) {
+            //     $objFiles->mkdir(str_replace('/config.json', '', static::$strConfigPath));
+            //     $objFiles->fopen(static::$strConfigPath, 'wb');
+            // }
+            // $objFile = $objFiles->fopen(static::$strConfigPath, 'a');
+            // $arrConfig = [];
 
-            // Get the config file
-            if ($strConfig = file_get_contents(static::$strConfigPath)) {
-                $arrConfig = (array) json_decode($strConfig);
-            }
+            // // Get the config file
+            // if ($strConfig = file_get_contents(static::$strConfigPath)) {
+            //     $arrConfig = (array) json_decode($strConfig);
+            // }
 
-            // And return the entire config, updated
-            return $arrConfig;
+            // // And return the entire config, updated
+            // return $arrConfig;
+            $configManager = System::getContainer()->get('smartgear.classes.config.manager.core');
+
+            return $configManager->load();
         } catch (Exception $e) {
             throw $e;
         }
@@ -236,6 +240,8 @@ class Util
      * Update Smartgear Config.
      *
      * @param [Array] $arrVars [Key/Value Array]
+     *
+     * @deprecated
      */
     public static function updateConfig($arrVars)
     {
@@ -277,6 +283,8 @@ class Util
 
     /**
      * Reset Smartgear Config.
+     *
+     * @deprecated
      */
     public static function resetConfig(): void
     {
@@ -517,7 +525,7 @@ class Util
      *
      * @return string [Function output]
      */
-    public static function executeCmd($strCmd)
+    public static function executeCmdPHP($strCmd)
     {
         // Finally, clean the Contao cache
         $strConsolePath = \System::getContainer()->getParameter('kernel.project_dir').'/vendor/bin/contao-console';
@@ -552,14 +560,45 @@ class Util
     }
 
     /**
+     * Execute the given command.
+     *
+     *  @param  string  cmd          command to be executed
+     *
+     *  @return string
+     */
+    public static function executeCmd(string $cmd)
+    {
+        $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline(
+            $cmd
+        ) : new Process($cmd);
+        $process->setTimeout(3600);
+        $process->run();
+
+        $i = 0;
+        while ($i <= $process->getTimeout()) {
+            sleep(1);
+            if ($process->isTerminated()) {
+                if (!$process->isSuccessful()) {
+                    throw new ProcessFailedException($process);
+                }
+
+                return $process->getOutput();
+            }
+
+            ++$i;
+        }
+
+        return $process->getOutput();
+    }
+
+    /**
      * Execute the given command by displaying console output live to the user.
      *
-     *  @param  string  cmd          :  command to be executed
+     *  @param  string  cmd          command to be executed
      *
-     *  @return array   exit_status  :  exit status of the executed command
-     *                  output       :  console output of the executed command
+     *  @return string
      */
-    public static function executeCmdLive($cmd)
+    public static function executeCmdLive(string $cmd)
     {
         while (@ob_end_flush()) {
         } // end all output buffers if any
@@ -621,7 +660,7 @@ class Util
     {
         $conf = self::loadSmartgearConfig();
 
-        return $conf['sgVersion'] ?: null;
+        return $conf->getSgVersion();
     }
 
     /**

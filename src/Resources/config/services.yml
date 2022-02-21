@@ -16,6 +16,20 @@ services:
             - '@request_stack'
         public: true
 
+    smartgear.classes.directories_synchronizer.templates.rsce:
+        class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
+        arguments:
+            $directoryToSynchronizeFrom: './web/bundles/wemsmartgear/contao_files/templates/rsce'
+            $directoryToSynchronizeTo: './templates/rsce'
+        public: true
+
+    smartgear.classes.directories_synchronizer.tiny_mce.plugins:
+        class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
+        arguments:
+            $directoryToSynchronizeFrom: './web/bundles/wemsmartgear/contao_files/assets/tinymce4/js/plugins'
+            $directoryToSynchronizeTo: './assets/tinymce4/js/plugins'
+        public: true
+
     smartgear.classes.config.manager.core:
         class: WEM\SmartgearBundle\Classes\Config\Manager
         arguments:
@@ -54,6 +68,7 @@ services:
                 - '@smartgear.backend.module.core.configuration_step.general'
                 - '@smartgear.backend.module.core.configuration_step.framway_retrieval'
                 - '@smartgear.backend.module.core.configuration_step.framway_configuration'
+                - '@smartgear.backend.module.core.configuration_step.general'
         public: true
 
     smartgear.backend.module.core.configuration_step.general:
@@ -79,4 +94,6 @@ services:
             $type: 'core'
             $configurationManager: '@smartgear.classes.config.manager.core'
             $configurationManagerFramway: '@smartgear.classes.config.manager.framway'
+            $templateSynchronizer: '@smartgear.classes.directories_synchronizer.templates.rsce'
+            $tinyMCEPluginsSynchronizer: '@smartgear.classes.directories_synchronizer.tiny_mce.plugins'
         public: true

@@ -26,7 +26,7 @@ class Block extends BackendBlock
     protected $icon = 'exclamation-triangle';
     protected $title = 'Core';
 
-    public function processAjaxRequest()
+    public function processAjaxRequest(): void
     {
         try {
             switch (Input::post('action')) {
@@ -46,7 +46,7 @@ class Block extends BackendBlock
                         $arrResponse['output'] = $res;
                     } catch (Exception $e) {
                         $arrResponse['status'] = 'error';
-                        $arrResponse['msg'] = 'Une erreur est surevenue lors de l\'installation du framway';
+                        $arrResponse['msg'] = 'Une erreur est survenue lors de l\'installation du framway';
                         $arrResponse['output'] = $e->getMessage();
                     }
                 break;
@@ -59,7 +59,7 @@ class Block extends BackendBlock
                         $arrResponse['output'] = $res;
                     } catch (Exception $e) {
                         $arrResponse['status'] = 'error';
-                        $arrResponse['msg'] = 'Une erreur est surevenue lors de l\'initialisation du framway';
+                        $arrResponse['msg'] = 'Une erreur est survenue lors de l\'initialisation du framway';
                         $arrResponse['output'] = $e->getMessage();
                     }
                 break;
@@ -72,24 +72,35 @@ class Block extends BackendBlock
                         $arrResponse['output'] = $res;
                     } catch (Exception $e) {
                         $arrResponse['status'] = 'error';
-                        $arrResponse['msg'] = 'Une erreur est surevenue lors du build du framway';
+                        $arrResponse['msg'] = 'Une erreur est survenue lors du build du framway';
                         $arrResponse['output'] = $e->getMessage();
                     }
                 break;
-                case 'nothing':
-                    // $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_retrieval');
-                    // $res = $framwayRetrievalStep->retrieve();
-                    $arrResponse['status'] = 'success';
-                    $arrResponse['msg'] = 'Le framway a été récupéré avec succès';
+                case 'framwayThemeAdd':
+                    try {
+                        $framwayConfigurationStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_configuration');
+                        $res = $framwayConfigurationStep->framwayThemeAdd();
+                        $arrResponse['status'] = 'success';
+                        $arrResponse['msg'] = 'Le thème a été ajouté au framway avec succès';
+                        $arrResponse['output'] = $res;
+                    } catch (Exception $e) {
+                        $arrResponse['status'] = 'error';
+                        $arrResponse['msg'] = 'Une erreur est survenue lors de l\'ajout du thème au framway : '.$e->getMessage();
+                        $arrResponse['output'] = $e->getMessage();
+                    }
                 break;
                 default:
-                    return parent::processAjaxRequest();
+                    parent::processAjaxRequest();
                 break;
             }
         } catch (Exception $e) {
             $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
         }
 
-        return $arrResponse;
+        // return $arrResponse;
+        // Add Request Token to JSON answer and return
+        $arrResponse['rt'] = \RequestToken::get();
+        echo json_encode($arrResponse);
+        exit;
     }
 }

@@ -17,7 +17,7 @@ namespace WEM\SmartgearBundle\Backend\Module\Core\ConfigurationStep;
 use Contao\FrontendTemplate;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Config\Manager as ConfigurationManager;
-use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Classes\UtilFramway;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 
 class FramwayRetrieval extends ConfigurationStep
@@ -60,33 +60,37 @@ class FramwayRetrieval extends ConfigurationStep
     public function framwayRetrieve()
     {
         set_time_limit(0);
+        /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        return Util::executeCmdLive('sh ../vendor/webexmachina/contao-smartgear/src/Resources/public/scripts/smartgear/module/core/framway_retrieve.sh ./'.$config->getSgFramwayPath());
+        return UtilFramway::retrieve($config->getSgFramwayPath(), true);
     }
 
     public function framwayInstall()
     {
         set_time_limit(0);
+        /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        return Util::executeCmdLive('sh ../vendor/webexmachina/contao-smartgear/src/Resources/public/scripts/smartgear/module/core/framway_install.sh ./'.$config->getSgFramwayPath());
+        return UtilFramway::install($config->getSgFramwayPath(), true);
     }
 
     public function framwayInitialize()
     {
         set_time_limit(0);
+        /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        return Util::executeCmdLive('sh ../vendor/webexmachina/contao-smartgear/src/Resources/public/scripts/smartgear/module/core/framway_initialize.sh ./'.$config->getSgFramwayPath());
+        return UtilFramway::initialize($config->getSgFramwayPath(), true);
     }
 
     public function framwayBuild()
     {
         set_time_limit(0);
+        /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        return Util::executeCmdLive('sh ../vendor/webexmachina/contao-smartgear/src/Resources/public/scripts/smartgear/module/core/framway_build.sh ./'.$config->getSgFramwayPath());
+        return UtilFramway::build($config->getSgFramwayPath(), true);
     }
 
     public function checkFramwayPresence()
@@ -94,6 +98,6 @@ class FramwayRetrieval extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        return file_exists($config->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js') && file_exists($config->getSgFramwayPath().\DIRECTORY_SEPARATOR.'build');
+        return UtilFramway::checkPresence($config->getSgFramwayPath());
     }
 }

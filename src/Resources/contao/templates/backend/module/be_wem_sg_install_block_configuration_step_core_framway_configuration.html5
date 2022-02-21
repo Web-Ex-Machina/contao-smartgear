@@ -1,0 +1,209 @@
+<form action="<?= $this->request ?>" class="tl_form" method="post">
+	<div class="tl_formbody_edit">
+		<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
+		<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
+		<input name="type" value="<?= $this->type ?>" type="hidden">
+		<input name="module" value="<?= $this->module ?>" type="hidden">
+		<input name="action" value="" type="hidden" class="btnAction">
+	</div>
+
+	<div class="widget <?= $this->fields['themes']['class'] ?>">
+		<h3><label for="ctrl_<?= $this->fields['themes']['name'] ?>"><?= $this->fields['themes']['label'] ?></label></h3>
+		<select name="<?= $this->fields['themes']['name'] ?>" id="ctrl_<?= $this->fields['themes']['name'] ?>" class="tl_select"<?= $this->fields['themes']['required'] ? ' required=""' : '' ?> <?= $this->fields['themes']['multiple'] ? ' multiple=""' : '' ?> onfocus="Backend.getScrollOffset()"> 
+			<?php foreach($this->fields['themes']['options'] as $option): ?>
+				<option value="<?= $option['value']; ?>" <?= $option['selected'] ? ' selected' : '' ?>>
+					<?= $option['label']; ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+		<p class="tl_help tl_tip"><?= $this->fields['themes']['help'] ?></p>
+		<br>
+	</div>
+
+	<div class="widget">
+		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme" 
+		title="Ajouter un thème au Framway">Nouveau thème</button>
+		<br>
+	</div>
+
+	<div class="widget <?= $this->fields['new_theme']['class'] ?>" id="widget-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme"">
+		<h3><label for="ctrl_<?= $this->fields['new_theme']['name'] ?>"><?= $this->fields['new_theme']['label'] ?></label></h3>
+		<input name="<?= $this->fields['new_theme']['name'] ?>" id="ctrl_<?= $this->fields['new_theme']['name'] ?>" class="tl_text" value="<?= $this->fields['new_theme']['value'] ?>"<?= $this->fields['new_theme']['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()" type="text">
+		<p class="tl_help tl_tip"><?= $this->fields['new_theme']['help'] ?></p>
+		<br>
+		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme-validation" 
+		title="Valider ce thème">Valider thème</button>
+		<pre id="block-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme-result" style="height:100px;overflow-y:scroll;" class="hidden result">
+	</div>
+
+	<div class="widget <?= $this->fields['components']['class'] ?>">
+		<h3><label for="ctrl_<?= $this->fields['components']['name'] ?>"><?= $this->fields['components']['label'] ?></label></h3>
+		<select name="<?= $this->fields['components']['name'] ?>" id="ctrl_<?= $this->fields['components']['name'] ?>" class="tl_select"<?= $this->fields['components']['required'] ? ' required=""' : '' ?> <?= $this->fields['components']['multiple'] ? ' multiple=""' : '' ?> onfocus="Backend.getScrollOffset()"> 
+			<?php foreach($this->fields['components']['options'] as $option): ?>
+				<option value="<?= $option['value']; ?>" <?= $option['selected'] ? ' selected' : '' ?>>
+					<?= $option['label']; ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+		<p class="tl_help tl_tip"><?= $this->fields['components']['help'] ?></p>
+		<br>
+	</div>
+
+	<div class="widget <?= $this->fields['fontawesome']['class'] ?>">
+		<h3><label for="ctrl_<?= $this->fields['fontawesome']['name'] ?>"><?= $this->fields['fontawesome']['label'] ?></label></h3>
+
+		<select name="<?= $this->fields['fontawesome']['name'] ?>" id="ctrl_<?= $this->fields['fontawesome']['name'] ?>" class="tl_select"<?= $this->fields['fontawesome']['required'] ? ' required=""' : '' ?> <?= $this->fields['fontawesome']['multiple'] ? ' multiple=""' : '' ?> onfocus="Backend.getScrollOffset()"> 
+			<?php foreach($this->fields['fontawesome']['options'] as $option): ?>
+				<option value="<?= $option['value']; ?>" <?= $option['selected'] ? ' selected' : '' ?>>
+					<?= $option['label']; ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+		<p class="tl_help tl_tip"><?= $this->fields['fontawesome']['help'] ?></p>
+		<br>
+	</div>
+
+	<div class="widget" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-step-1">
+		<h3>1. Récupération / Mise à jour du Framway&nbsp;<i class="fas fa-hourglass hidden icon"></i></h3>
+		<div class="loader"><i class="fas fa-spinner fa-4x fa-spin"></i></div>
+		<pre class="hidden result" style="overflow: auto;" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-result-1">
+		</pre>
+	</div>
+	<div class="tl_submit_container">
+		<?= implode(' ', $this->actions) ?>
+	</div>
+</form>
+<!-- Scripts -->
+<script type="text/javascript">
+	var j = jQuery.noConflict();
+
+	// Toastr Options
+	toastr.options.closeButton = true;
+	toastr.options.timeOut = 5000;
+	toastr.options.extendedTimeOut = 0;
+
+	var waitIcon = "fas fa-hourglass";
+	var successIcon = "fas fa-check";
+	var errorIcon = "fas exclamation-triangle";
+
+	/**
+	 * Handle command buttons
+	 */
+	j('button#button-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme').on('click', function(e){
+		e.preventDefault();
+		j('div#widget-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme').removeClass('hidden');
+	});
+
+	j('button#button-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme-validation').on('click', function(e){
+		e.preventDefault();
+		framwayThemeAdd()
+		.catch(function(e) {
+			toastr.error(e, "Une erreur est survenue :");
+		});
+		
+	});
+
+	function framwayThemeAdd(type, module){
+		var ctn = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme');
+		var field = ctn.find('.tl_text');
+		var selectThemesField = j('#ctrl_themes');
+		ctn.find('.loader').addClass("active");
+		ctn.find('.result').removeClass("hidden").html('');
+
+		// ctn.find('.icon').removeClass("hidden").removeClass(successIcon).removeClass(errorIcon).addClass(waitIcon);
+		return executeCmdLive(
+			"<?= $this->type ?>",
+			"<?= $this->module ?>",
+			'framwayThemeAdd',
+			"block-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme-result",
+			{'new_theme':field.val()}
+		).then(function(r) {
+			toastr[r["status"]](r["msg"]);
+			ctn.find('.result').html(ctn.find('.result').html().concat(r["msg"]));
+			ctn.find('.loader').removeClass("active");
+			selectThemesField.append(j('<option>', {
+			    value: field.val(),
+			    text: field.val(),
+			    selected: ''
+			}));
+			field.val('');
+
+			// ctn.find('.icon').removeClass(waitIcon).addClass(successIcon);
+		}).catch(function(e, output) {
+			// toastr.error(e, "Une erreur est survenue :");
+			ctn.find('.loader').removeClass("active");
+			ctn.find('.result').html(e);
+			// ctn.find('.icon').removeClass(waitIcon).addClass(errorIcon);
+			throw new Error(e);
+		});
+	}
+
+	// function framwayInstall(type, module){
+	// 	var ctn = j('div#block-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-step-2');
+	// 	ctn.find('.loader').addClass("active");
+	// 	ctn.find('.result').removeClass("hidden").html('');
+	// 	ctn.find('.icon').removeClass("hidden").removeClass(successIcon).removeClass(errorIcon).addClass(waitIcon);
+	// 	return executeCmdLive(
+	// 		"<?= $this->type ?>",
+	// 		"<?= $this->module ?>",
+	// 		'framwayInstall',
+	// 		"block-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-result-2",
+	// 	).then(function(r) {
+	// 		toastr[r["status"]](r["msg"]);
+	// 		ctn.find('.result').html(ctn.find('.result').html().concat(r["msg"]));
+	// 		ctn.find('.loader').removeClass("active");
+	// 		ctn.find('.icon').removeClass(waitIcon).addClass(successIcon);
+	// 	}).catch(function(e) {
+	// 		toastr.error(e, "Une erreur est survenue :");
+	// 		ctn.find('.loader').removeClass("active");
+	// 		ctn.find('.icon').removeClass(waitIcon).addClass(errorIcon);
+	// 		throw new Error(e);
+	// 	});
+	// }
+
+	// function framwayInitialize(type, module){
+	// 	var ctn = j('div#block-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-step-3');
+	// 	ctn.find('.loader').addClass("active");
+	// 	ctn.find('.result').removeClass("hidden").html('');
+	// 	ctn.find('.icon').removeClass("hidden").removeClass(successIcon).removeClass(errorIcon).addClass(waitIcon);
+	// 	return executeCmdLive(
+	// 		"<?= $this->type ?>",
+	// 		"<?= $this->module ?>",
+	// 		'framwayInitialize',
+	// 		"block-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-result-3",
+	// 	).then(function(r) {
+	// 		toastr[r["status"]](r["msg"]);
+	// 		ctn.find('.result').html(ctn.find('.result').html().concat(r["msg"]));
+	// 		ctn.find('.loader').removeClass("active");
+	// 		ctn.find('.icon').removeClass(waitIcon).addClass(successIcon);
+	// 	}).catch(function(e) {
+	// 		toastr.error(e, "Une erreur est survenue :");
+	// 		ctn.find('.loader').removeClass("active");
+	// 		ctn.find('.icon').removeClass(waitIcon).addClass(errorIcon);
+	// 		throw new Error(e);
+	// 	});
+	// }
+
+	// function framwayBuild(type, module){
+	// 	var ctn = j('div#block-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-step-4');
+	// 	ctn.find('.loader').addClass("active");
+	// 	ctn.find('.result').removeClass("hidden").html('');
+	// 	ctn.find('.icon').removeClass("hidden").removeClass(successIcon).removeClass(errorIcon).addClass(waitIcon);
+	// 	return executeCmdLive(
+	// 		"<?= $this->type ?>",
+	// 		"<?= $this->module ?>",
+	// 		'framwayBuild',
+	// 		"block-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-result-4",
+	// 	).then(function(r) {
+	// 		toastr[r["status"]](r["msg"]);
+	// 		ctn.find('.result').html(ctn.find('.result').html().concat(r["msg"]));
+	// 		ctn.find('.loader').removeClass("active");
+	// 		ctn.find('.icon').removeClass(waitIcon).addClass(successIcon);
+	// 	}).catch(function(e) {
+	// 		toastr.error(e, "Une erreur est survenue :");
+	// 		ctn.find('.loader').removeClass("active");
+	// 		ctn.find('.icon').removeClass(waitIcon).addClass(errorIcon);
+	// 		throw new Error(e);
+	// 	});
+	// }
+</script>
