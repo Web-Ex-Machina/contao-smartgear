@@ -52,10 +52,16 @@ services:
         class: WEM\SmartgearBundle\Config\Framway
         public: true
 
+    smartgear.backend.module.core.dashboard:
+        class: WEM\SmartgearBundle\Classes\Backend\Dashboard
+        public: true
+
     smartgear.backend.module.core.block:
         class: WEM\SmartgearBundle\Backend\Module\Core\Block
         arguments:
+            $configurationManager: '@smartgear.classes.config.manager.core'
             $configurationStepManager: '@smartgear.backend.module.core.configuration_step_manager'
+            $dashboard: '@smartgear.backend.module.core.dashboard'
         public: true
 
     smartgear.backend.module.core.configuration_step_manager:

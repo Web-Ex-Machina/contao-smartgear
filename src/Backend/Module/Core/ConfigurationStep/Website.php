@@ -16,13 +16,22 @@ namespace WEM\SmartgearBundle\Backend\Module\Core\ConfigurationStep;
 
 use Contao\File;
 use Contao\Files;
+use Contao\FilesModel;
 use Contao\FrontendTemplate;
 use Contao\Input;
+use Contao\LayoutModel;
+use Contao\ModuleModel;
+use Contao\PageModel;
+use Contao\ThemeModel;
+use Contao\UserGroupModel;
+use Contao\UserModel;
 use Exception;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Config\Manager as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 use WEM\UtilsBundle\Classes\Files as WEMFiles;
+use WEM\UtilsBundle\Classes\StringUtil as WEMStringUtil;
 
 class Website extends ConfigurationStep
 {
@@ -135,8 +144,300 @@ class Website extends ConfigurationStep
     public function do(): void
     {
         // do what is meant to be done in this step
-        $objFileLogo = $this->uploadLogo();
-        $this->updateModuleConfiguration($objFileLogo);
+        $this->updateModuleConfiguration();
+        if (!empty($_FILES)) {
+            $objFileLogo = $this->uploadLogo();
+            $this->updateModuleConfigurationLogo($objFileLogo);
+        }
+
+        $themeId = $this->createTheme();
+        $this->updateModuleConfigurationTheme($themeId);
+        $modules = $this->createModules($themeId);
+        $this->updateModuleConfigurationModules($modules);
+        $layouts = $this->createLayouts($themeId, $modules);
+        $groups = $this->createUserGroups();
+        $users = $this->createUsers($groups);
+        $pages = $this->createPages($layouts, $groups, $users);
+        $this->createModules2($themeId, $pages);
+        $this->createNotificationGateways();
+        // activer le mode dev
+    }
+
+    protected function createTheme()
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        // Create the Smartgear main theme
+        $objTheme = new ThemeModel();
+        $objTheme->tstamp = time();
+        $objTheme->name = 'Smartgear '.$config->getSgWebsiteTitle();
+        $objTheme->author = 'Web ex Machina';
+        $objTheme->templates = sprintf('templates/%s', WEMStringUtil::generateAlias($config->getSgWebsiteTitle()));
+        $objTheme->save();
+
+        return (int) $objTheme->id;
+    }
+
+    protected function createModules(int $themeId): array
+    {
+        $modules = [];
+        // Header - Logo
+
+        $objHeaderModule = ModuleModel::findOneByName('HEADER') ?? new ModuleModel();
+        $objHeaderModule->pid = $themeId;
+        $objHeaderModule->tstamp = time();
+        $objHeaderModule->type = 'wem_sg_header';
+        $objHeaderModule->name = 'HEADER';
+        // $objHeaderModule->wem_sg_header_preset = 'classic';
+        // $objHeaderModule->wem_sg_header_sticky = 1;
+        // $objHeaderModule->wem_sg_navigation = 'classic';
+        // $objHeaderModule->wem_sg_header_logo = $objLogoModel->uuid;
+        // $objHeaderModule->wem_sg_header_logo_size = 'a:3:{i:0;s:0:"";i:1;s:2:"75";i:2;s:12:"proportional";}';
+        // $objHeaderModule->wem_sg_header_logo_alt = 'Logo '.$this->sgConfig['websiteTitle'];
+        $objHeaderModule->save();
+        $modules[$objHeaderModule->type] = $objHeaderModule;
+
+        // Breadcrumb
+        $objBreadcrumbModule = ModuleModel::findOneByName('Fil d\'ariane') ?? new ModuleModel();
+        $objBreadcrumbModule->pid = $themeId;
+        $objBreadcrumbModule->tstamp = time();
+        $objBreadcrumbModule->type = 'breadcrumb';
+        $objBreadcrumbModule->name = "Fil d'ariane";
+        $objBreadcrumbModule->save();
+        $modules[$objBreadcrumbModule->type] = $objBreadcrumbModule;
+
+        // Main - Articles
+        // $arrLayoutModules[] = ['mod' => 0, 'col' => 'main', 'enable' => '1'];
+
+        // Footer
+        $objFooterModule = ModuleModel::findOneByName('FOOTER') ?? new ModuleModel();
+        $objFooterModule->pid = $themeId;
+        $objFooterModule->tstamp = time();
+        $objFooterModule->type = 'wem_sg_footer';
+        $objFooterModule->name = 'FOOTER';
+        // $objFooterModule->html = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/footer_1.html');
+        $objFooterModule->save();
+        $modules[$objFooterModule->type] = $objFooterModule;
+
+        return $modules;
+    }
+
+    protected function createLayouts(int $themeId, array $modules): array
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $layouts = [];
+
+        $arrLayoutModules = [
+            ['mod' => $modules['wem_sg_header']->id, 'col' => 'header', 'enable' => '1'],
+            ['mod' => $modules['breadcrumb']->id, 'col' => 'main', 'enable' => '1'],
+            ['mod' => 0, 'col' => 'main', 'enable' => '1'],
+            ['mod' => $modules['wem_sg_footer']->id, 'col' => 'footer', 'enable' => '1'],
+        ];
+
+        $arrCssFiles = [];
+        $arrJsFiles = [];
+        $objFile = FilesModel::findOneByPath($config->getSgFramwayPath().'/css/vendor.css');
+        $arrCssFiles[] = $objFile->uuid;
+        $objFile = FilesModel::findOneByPath($config->getSgFramwayPath().'/css/framway.css');
+        $arrCssFiles[] = $objFile->uuid;
+        $objFile = FilesModel::findOneByPath($config->getSgFramwayPath().'/js/vendor.js');
+        $arrJsFiles[] = $objFile->uuid;
+        $objFile = FilesModel::findOneByPath($config->getSgFramwayPath().'/js/framway.js');
+        $arrJsFiles[] = $objFile->uuid;
+
+        $objLayout = LayoutModel::findOneByName('Page Standard') ?? new LayoutModel();
+        $objLayout->pid = $themeId;
+        $objLayout->name = 'Page Standard';
+        $objLayout->rows = '3rw';
+        $objLayout->cols = '1cl';
+        $objLayout->external = serialize($arrCssFiles);
+        $objLayout->loadingOrder = 'external_first';
+        $objLayout->combineScripts = 1;
+        $objLayout->viewport = 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0';
+        $objLayout->externalJs = serialize($arrJsFiles);
+        $objLayout->modules = serialize($arrLayoutModules);
+        // $objLayout->tempalte = 'fe_page';
+        // $objLayout->webfonts = '';
+        // $objLayout->head = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+        // $objLayout->script = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
+        $objLayout->save();
+
+        $layouts['standard'] = $objLayout;
+
+        $objLayout = LayoutModel::findOneByName('Page Standard - Fullwidth') ?? new LayoutModel();
+        $objLayout->pid = $themeId;
+        $objLayout->name = 'Page Standard - Fullwidth';
+        $objLayout->rows = '3rw';
+        $objLayout->cols = '1cl';
+        $objLayout->external = serialize($arrCssFiles);
+        $objLayout->loadingOrder = 'external_first';
+        $objLayout->combineScripts = 1;
+        $objLayout->viewport = 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0';
+        $objLayout->externalJs = serialize($arrJsFiles);
+        $objLayout->modules = serialize($arrLayoutModules);
+        $objLayout->tempalte = 'fe_page_full';
+        // $objLayout->webfonts = '';
+        // $objLayout->head = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+        // $objLayout->script = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
+        $objLayout->save();
+
+        $layouts['fullwidth'] = $objLayout;
+
+        return $layouts;
+    }
+
+    protected function createUserGroups(): array
+    {
+        $userGroups = [];
+
+        $objUserGroup = UserGroupModel::findOneByName('Administrateurs') ?? new UserGroupModel();
+        $objUserGroup->tstamp = time();
+        $objUserGroup->name = 'Administrateurs';
+        $objUserGroup->modules = 'a:8:{i:0;s:4:"page";i:1;s:7:"article";i:2;s:4:"form";i:3;s:5:"files";i:4;s:16:"nc_notifications";i:5;s:4:"user";i:6;s:3:"log";i:7;s:11:"maintenance";}';
+        // $objUserGroup->pagemounts = '';
+        // $objUserGroup->alpty = 'a:3:{i:0;s:7:"regular";i:1;s:7:"forward";i:2;s:8:"redirect";}';
+        // $objUserGroup->filemounts = 'a:1:{i:0;s:16:"'.$objMediaFolder->getModel()->uuid.'";}';
+        // $objUserGroup->fop = 'a:4:{i:0;s:2:"f1";i:1;s:2:"f2";i:2;s:2:"f3";i:3;s:2:"f4";}';
+        // $objUserGroup->imageSizes = 'a:3:{i:0;s:12:"proportional";i:1;s:3:"box";i:2;s:4:"crop";}';
+        // $objUserGroup->alexf = Util::addPermissions($this->getCorePermissions());
+        $objUserGroup->save();
+        $userGroups['administrators'] = $objUserGroup;
+
+        $objUserGroup = UserGroupModel::findOneByName('Redacteurs') ?? new UserGroupModel();
+        $objUserGroup->tstamp = time();
+        $objUserGroup->name = 'Redacteurs';
+        $objUserGroup->modules = 'a:8:{i:0;s:7:"article";i:1;s:5:"files";}';
+        $objUserGroup->save();
+        $userGroups['redactors'] = $objUserGroup;
+
+        return $userGroups;
+    }
+
+    protected function createUsers(array $groups): array
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $objUser = UserModel::findOneByName('Webmaster') ?? new UserModel();
+        $objUser->tstamp = time();
+        $objUser->dateAdded = time();
+        $objUser->username = 'webmaster';
+        $objUser->name = 'Webmaster';
+        $objUser->email = $config->getSgOwnerEmail();
+        $objUser->language = 'fr';
+        $objUser->backendTheme = 'flexible';
+        $objUser->fullscreen = 1;
+        $objUser->showHelp = 1;
+        $objUser->thumbnails = 1;
+        $objUser->useRTE = 1;
+        $objUser->useCE = 1;
+        $objUser->uploader = 'DropZone';
+        // $objUser->password = \Contao\Encryption::hash('webmaster');
+        $objUser->password = password_hash('webmaster', \PASSWORD_DEFAULT);
+        $objUser->pwChange = 1;
+        $objUser->groups = serialize([0 => $groups['administrators']->id]);
+        $objUser->inherit = 'group';
+        $objUser->save();
+
+        return ['webmaster' => $objUser];
+    }
+
+    protected function createPages(array $layouts, array $groups, array $users): array
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        $pages = [];
+
+        $page = PageModel::findOneBy('title', $config->getSgwebsiteTitle());
+        $pages['root'] = Util::createPage($config->getSgwebsiteTitle(), 0, array_merge([
+            'sorting' => 128,
+            'type' => 'root',
+            'language' => 'fr',
+            'fallback' => 1,
+            'adminEmail' => $config->getSgOwnerEmail(),
+            'createSitemap' => 1,
+            'sitemapName' => 'sitemap',
+            'useSSL' => 1,
+            'includeLayout' => 1,
+            'layout' => $layouts['standard']->id,
+            'includeChmod' => 1,
+            'cuser' => $users['webmaster']->id,
+            'cgroup' => $groups['administrators']->id,
+            'chmod' => 'a:12:{i:0;s:2:"u1";i:1;s:2:"u2";i:2;s:2:"u3";i:3;s:2:"u4";i:4;s:2:"u5";i:5;s:2:"u6";i:6;s:2:"g1";i:7;s:2:"g2";i:8;s:2:"g3";i:9;s:2:"g4";i:10;s:2:"g5";i:11;s:2:"g6";}',
+        ], null !== $page ? ['id' => $page->id] : []));
+
+        $page = PageModel::findOneBy('title', 'Accueil');
+        $pages['home'] = Util::createPage('Accueil', $pages['root']->id, array_merge([
+            'sorting' => 128,
+            'sitemap' => 'default',
+            'hide' => 1,
+        ], null !== $page ? ['id' => $page->id] : []));
+
+        $page = PageModel::findOneBy('title', 'Erreur 404 - Page non trouvée');
+        $pages['404'] = Util::createPage('Erreur 404 - Page non trouvée', $pages['root']->id, array_merge([
+            'sorting' => 256,
+            'sitemap' => 'default',
+            'hide' => 1,
+        ], null !== $page ? ['id' => $page->id] : []));
+
+        $page = PageModel::findOneBy('title', 'Mentions légales');
+        $pages['legal_notice'] = Util::createPage('Mentions légales', $pages['root']->id, array_merge([
+            'sorting' => 386,
+            'sitemap' => 'default',
+            'description' => 'Mentions légales de '.$config->getSgWebsiteTitle(),
+            'hide' => 1,
+        ], null !== $page ? ['id' => $page->id] : []));
+
+        $page = PageModel::findOneBy('title', 'Confidentialité');
+        $pages['privacy_politics'] = Util::createPage('Confidentialité', $pages['root']->id, array_merge([
+            'sorting' => 512,
+            'sitemap' => 'default',
+            'description' => 'Politique de confidentialité de '.$config->getSgWebsiteTitle(),
+            'hide' => 1,
+        ], null !== $page ? ['id' => $page->id] : []));
+
+        $page = PageModel::findOneBy('title', 'Plan du site');
+        $pages['sitemap'] = Util::createPage('Plan du site', $pages['root']->id, array_merge([
+            'sorting' => 640,
+            'sitemap' => 'default',
+            'description' => 'Plan du site de '.$config->getSgWebsiteTitle(),
+            'hide' => 1,
+        ], null !== $page ? ['id' => $page->id] : []));
+
+        // $objSamplerPage = Util::createPage('Sampler', $pages['root']->id, []);
+
+        return $pages;
+    }
+
+    protected function createModules2(int $themeId, array $pages): void
+    {
+        $objCustomNavModule = ModuleModel::findOneByName('Nav - footer') ?? new ModuleModel();
+        $objCustomNavModule->pid = $themeId;
+        $objCustomNavModule->tstamp = time();
+        $objCustomNavModule->type = 'customnav';
+        $objCustomNavModule->name = 'Nav - footer';
+        $objCustomNavModule->pages = [$pages['legal_notice']->id, $pages['privacy_politics']->id, $pages['sitemap']->id];
+        $objCustomNavModule->navigationTpl = 'nav_default';
+        $objCustomNavModule->save();
+
+        $objSitemapModule = ModuleModel::findOneByName('Plan du site') ?? new ModuleModel();
+        $objSitemapModule->pid = $themeId;
+        $objSitemapModule->tstamp = time();
+        $objSitemapModule->type = 'sitemap';
+        $objSitemapModule->name = 'Plan du site';
+        $objSitemapModule->save();
+    }
+
+    protected function createNotificationGateways(): void
+    {
+        $objGateway = \NotificationCenter\Model\Gateway::findOneBy('title', 'Email de service - Smartgear') ?? new \NotificationCenter\Model\Gateway();
+        $objGateway->tstamp = time();
+        $objGateway->title = 'Email de service - Smartgear';
+        $objGateway->type = 'email';
+        $objGateway->save();
     }
 
     protected function uploadLogo(): File
@@ -148,12 +449,11 @@ class Website extends ConfigurationStep
         return $objFile;
     }
 
-    protected function updateModuleConfiguration(File $objFileLogo): void
+    protected function updateModuleConfiguration(): void
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        $config->setSgOwnerLogo($objFileLogo->path);
         $config->setSgWebsiteTitle(Input::post('sgWebsiteTitle'));
         $config->setSgOwnerStatus(Input::post('sgOwnerStatus'));
         $config->setSgOwnerSiret(Input::post('sgOwnerSiret'));
@@ -167,6 +467,41 @@ class Website extends ConfigurationStep
         $config->setSgOwnerHost(Input::post('sgOwnerHost'));
         $config->setSgOwnerDpoName(Input::post('sgOwnerDpoName'));
         $config->setSgOwnerDpoEmail(Input::post('sgOwnerDpoEmail'));
+
+        $this->configurationManager->save($config);
+    }
+
+    protected function updateModuleConfigurationLogo(File $objFileLogo): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $config->setSgOwnerLogo($objFileLogo->path);
+
+        $this->configurationManager->save($config);
+    }
+
+    protected function updateModuleConfigurationTheme(int $themeId): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $config->setSgTheme((string) $themeId);
+
+        $this->configurationManager->save($config);
+    }
+
+    protected function updateModuleConfigurationModules(array $modules): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $formattedModules = [];
+        foreach ($modules as $key => $objModule) {
+            $formattedModules[] = [$objModule->type => $objModule->id];
+        }
+
+        $config->setSgModules($formattedModules);
 
         $this->configurationManager->save($config);
     }

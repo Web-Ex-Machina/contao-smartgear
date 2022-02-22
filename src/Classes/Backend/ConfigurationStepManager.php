@@ -59,12 +59,23 @@ class ConfigurationStepManager
         $currentStep = $this->getCurrentStep();
 
         $objTemplate = $currentStep->getFilledTemplate();
-        $this->actions = [
-            ['action' => 'previous', 'label' => 'Précédent'],
-            // ['action' => 'reset', 'label' => 'Réinitialiser'],
-            // ['action' => 'save', 'label' => 'Sauvegarder'],
-            ['action' => 'next', 'label' => 'Suivant'],
-        ];
+
+        if (0 !== $this->getCurrentStepIndex()) {
+            $this->actions[] = ['action' => 'previous', 'label' => 'Précédent'];
+        }
+
+        if ($this->getCurrentStepIndex() < \count($this->steps) - 1) {
+            $this->actions[] = ['action' => 'next', 'label' => 'Suivant'];
+        } else {
+            $this->actions[] = ['action' => 'finish', 'label' => 'Terminer la configuration'];
+        }
+
+        // $this->actions = [
+        //     ['action' => 'previous', 'label' => 'Précédent'],
+        //     // ['action' => 'reset', 'label' => 'Réinitialiser'],
+        //     // ['action' => 'save', 'label' => 'Sauvegarder'],
+        //     ['action' => 'next', 'label' => 'Suivant'],
+        // ];
 
         $objTemplate->actions = Util::formatActions($this->actions);
 
@@ -103,6 +114,17 @@ class ConfigurationStepManager
         }
         $this->getCurrentStep()->do();
         $this->setCurrentStepIndex($this->getNextStepIndex());
+    }
+
+    public function finish(): void
+    {
+        if (!$this->getCurrentStep()->isStepValid()) {
+            throw new Exception('Formulaire invalide');
+        }
+        $this->getCurrentStep()->do();
+        $config = $this->configurationManager->load();
+        $config->setSgInstallComplete(true);
+        $this->configurationManager->save($config);
     }
 
     public function goToStep(int $stepIndex): void

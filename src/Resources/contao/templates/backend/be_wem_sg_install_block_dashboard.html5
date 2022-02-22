@@ -1,0 +1,3 @@
+<div id="block-<?= $this->type ?>-<?= $this->module ?>-dashboard">
+	COUCOU
+</div>

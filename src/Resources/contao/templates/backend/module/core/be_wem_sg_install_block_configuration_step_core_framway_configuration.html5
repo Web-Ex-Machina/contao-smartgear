@@ -1,5 +1,5 @@
 <form action="<?= $this->request ?>" class="tl_form" method="post">
-	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()]); ?>
+	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
 
 	<div class="widget <?= $this->fields['themes']['class'] ?>">
 		<h3><label for="ctrl_<?= $this->fields['themes']['name'] ?>"><?= $this->fields['themes']['label'] ?></label></h3>

@@ -135,7 +135,6 @@
 
 			j(this).find('input').each(function(){
 				if("file" == j(this).attr('type')){
-					alert('fiiiiles');
 					var files = j(this)[0].files;
 					isUpload = true;
 		        

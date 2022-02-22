@@ -21,6 +21,7 @@ use Contao\Input;
 use Contao\RequestToken;
 use Contao\System;
 use Exception;
+use WEM\SmartgearBundle\Classes\Config\Manager as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\Util;
 
 /**
@@ -51,6 +52,13 @@ class Block extends Controller
      */
     protected $logs = [];
 
+    /**
+     * Array of requierments.
+     *
+     * @var array
+     */
+    protected $require = [];
+
     /** @var string */
     protected $strTemplate = 'be_wem_sg_install_block_default';
 
@@ -64,22 +72,27 @@ class Block extends Controller
     protected $icon = '';
     /** @var string */
     protected $class = '';
+    /** @var ConfigurationManager */
+    protected $configurationManager;
     /** @var ConfigurationStepManager */
     protected $configurationStepManager;
+    /** @var Dashboard */
+    protected $dashboard;
 
     /**
      * Construct the block object.
      */
     public function __construct(
-        ConfigurationStepManager $configurationStepManager
+        ConfigurationManager $configurationManager,
+        ConfigurationStepManager $configurationStepManager,
+        Dashboard $dashboard
     ) {
+        $this->configurationManager = $configurationManager;
         $this->configurationStepManager = $configurationStepManager;
+        $this->dashboard = $dashboard;
 
         // Load the bundles, since we will need them in every block
         $this->bundles = System::getContainer()->getParameter('kernel.bundles');
-
-        // Load the Smartgear config, we will need it
-        $this->sgConfig = Util::loadSmartgearConfig();
 
         // Import backend user
         $this->import('BackendUser', 'User');
@@ -114,20 +127,16 @@ class Block extends Controller
         $objTemplate->title = $this->title;
         $objTemplate->icon = $this->icon;
         $objTemplate->class = $this->class;
-        $objTemplate->steps = $this->configurationStepManager->parseSteps();
 
-        $objTemplate->content = $this->configurationStepManager->parse();
-
-        return $objTemplate->parse();
+        // return $objTemplate->parse();
         // Check if we need other modules and if yes, check if it's okay
         $blnCanManage = true;
         if ($this->require) {
             $arrMissingModules = [];
             foreach ($this->require as $strModule) {
-                $objModule = Util::findAndCreateObject($strModule);
-                $objModule->getStatus();
+                $objModule = System::getContainer()->get('smartgear.backend.module.'.$strModule.'.block');
 
-                if (1 !== $objModule->status) {
+                if (!$objModule->isInstalled()) {
                     $arrMissingModules[] = $strModule;
                 }
 
@@ -149,14 +158,20 @@ class Block extends Controller
 
         // Add actions only if we can manage the module
         if ($blnCanManage) {
-            $objTemplate->fields = $this->fields;
-            $arrActions = [];
-            $objTemplate->logs = $this->logs;
+            if (!$this->isInstalled()) {
+                $objTemplate->steps = $this->configurationStepManager->parseSteps();
+                $objTemplate->content = $this->configurationStepManager->parse();
+            } else {
+                $objTemplate->content = $this->dashboard->parse();
+                // $objTemplate->fields = $this->fields;
+                // $arrActions = [];
+                // $objTemplate->logs = $this->logs;
 
-            // Parse the actions
+                // Parse the actions
 
-            // Add actions to the block
-            $objTemplate->actions = $this->formatActions();
+                // Add actions to the block
+                // $objTemplate->actions = Util::formatActions($arrActions);
+            }
         }
 
         // And return the template, parsed.
@@ -210,6 +225,10 @@ class Block extends Controller
                     $this->configurationStepManager->goToStep((int) Input::post('step') ?? 0);
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
+                case 'finish':
+                    $this->configurationStepManager->finish();
+                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+                break;
                 case 'getSteps':
                     echo $this->configurationStepManager->parseSteps();
                     exit;
@@ -240,6 +259,13 @@ class Block extends Controller
     public function getLogs(): array
     {
         return $this->logs;
+    }
+
+    public function isInstalled(): bool
+    {
+        $config = $this->configurationManager->load();
+
+        return (bool) $config->getSgInstallComplete();
     }
 
     /**

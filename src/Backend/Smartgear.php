@@ -51,6 +51,8 @@ class Smartgear extends \Contao\BackendModule
      */
     protected $strBasePath = 'bundles/wemsmartgear';
 
+    protected $modules = ['module' => ['core']];
+
     /**
      * Process AJAX actions.
      *
@@ -208,16 +210,16 @@ class Smartgear extends \Contao\BackendModule
             // $this->Template = $coreBlock->parse();
             $arrBlocks[$coreBlock->getType()][] = $coreBlock->parse();
         } else {
-            // Load the updater
-            $this->getUpdater();
+            // // Load the updater
+            // $this->getUpdater();
 
-            // Load buttons
-            $this->getBackupManagerButton();
+            // // Load buttons
+            // $this->getBackupManagerButton();
 
             // Parse Smartgear components
             foreach ($this->modules as $type => $blocks) {
                 foreach ($blocks as $block) {
-                    $objModule = Util::findAndCreateObject($type, $block);
+                    $objModule = $this->getContainer()->get('smartgear.backend.'.$type.'.'.$block.'.block'); //Util::findAndCreateObject($type, $block);
                     $arrBlocks[$type][] = $objModule->parse();
                 }
             }

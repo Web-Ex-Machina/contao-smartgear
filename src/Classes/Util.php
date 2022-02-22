@@ -14,12 +14,22 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes;
 
+use Contao\ArticleModel;
+use Contao\Config;
+use Contao\ContentModel;
+use Contao\Controller;
 use Contao\CoreBundle\Monolog\ContaoContext;
+use Contao\File;
+use Contao\Files;
+use Contao\PageModel;
 use Contao\System;
+use Contao\UserGroupModel;
 use Exception;
+use InvalidArgumentException;
 use Psr\Log\LogLevel;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use WEM\UtilsBundle\Classes\StringUtil;
 
 /**
  * Back end module "smartgear".
@@ -121,7 +131,7 @@ class Util
                 // Extract colors from installed Framway
                 $arrColors = self::getFramwayColors($strFWTheme);
             } catch (\Exception $e) {
-                \System::getContainer()
+                System::getContainer()
                     ->get('monolog.logger.contao')
                     ->log(
                         LogLevel::ERROR,
@@ -246,7 +256,7 @@ class Util
     public static function updateConfig($arrVars)
     {
         try {
-            $objFiles = \Files::getInstance();
+            $objFiles = Files::getInstance();
             if (!file_exists(static::$strConfigPath)) {
                 $objFiles->mkdir(str_replace('/config.json', '', static::$strConfigPath));
                 $objFiles->fopen(static::$strConfigPath, 'wb');
@@ -289,7 +299,7 @@ class Util
     public static function resetConfig(): void
     {
         try {
-            $objFiles = \Files::getInstance();
+            $objFiles = Files::getInstance();
 
             // Open and update the config file
             $objFile = $objFiles->fopen(static::$strConfigPath, 'w');
@@ -305,18 +315,20 @@ class Util
      */
     public static function createPage($strTitle, $intPid = 0, $arrData = [])
     {
-        $arrConfig = static::loadSmartgearConfig();
-        if (0 === $intPid) {
-            $intPid = $arrConfig['sgInstallRootPage'];
-        }
-
         // Create the page
-        $objPage = new \PageModel();
+        if (\array_key_exists('id', $arrData)) {
+            $objPage = PageModel::findOneById($arrData['id']);
+            if (!$objPage) {
+                throw new InvalidArgumentException('La page ayant pour id "'.$arrData['id'].'" n\'existe pas');
+            }
+        } else {
+            $objPage = new PageModel();
+        }
         $objPage->tstamp = time();
         $objPage->pid = $intPid;
-        $objPage->sorting = (\PageModel::countBy('pid', $intPid) + 1) * 128;
+        $objPage->sorting = (PageModel::countBy('pid', $intPid) + 1) * 128;
         $objPage->title = $strTitle;
-        $objPage->alias = \StringUtil::generateAlias($objPage->title);
+        $objPage->alias = StringUtil::generateAlias($objPage->title);
         $objPage->type = 'regular';
         $objPage->pageTitle = $strTitle;
         $objPage->robots = 'index,follow';
@@ -342,10 +354,10 @@ class Util
     public static function createArticle($objPage, $arrData = [])
     {
         // Create the article
-        $objArticle = new \ArticleModel();
+        $objArticle = new ArticleModel();
         $objArticle->tstamp = time();
         $objArticle->pid = $objPage->id;
-        $objArticle->sorting = (\ArticleModel::countBy('pid', $objPage->id) + 1) * 128;
+        $objArticle->sorting = (ArticleModel::countBy('pid', $objPage->id) + 1) * 128;
         $objArticle->title = $objPage->title;
         $objArticle->alias = $objPage->alias;
         $objArticle->author = 1;
@@ -376,11 +388,11 @@ class Util
         }
 
         // Create the content
-        $objContent = new \ContentModel();
+        $objContent = new ContentModel();
         $objContent->tstamp = time();
         $objContent->pid = $objArticle->id;
         $objContent->ptable = $arrData['ptable'];
-        $objContent->sorting = (\ContentModel::countPublishedByPidAndTable($objArticle->id, $arrData['ptable']) + 1) * 128;
+        $objContent->sorting = (ContentModel::countPublishedByPidAndTable($objArticle->id, $arrData['ptable']) + 1) * 128;
         $objContent->type = 'text';
 
         // Now we get the default values, get the arrData table
@@ -466,7 +478,7 @@ class Util
             $ext = substr($data[0], strpos($data[0], '/') + 1, (strpos($data[0], ';') - strpos($data[0], '/') - 1));
             $img = base64_decode($data[1], true);
 
-            if (false === strpos(\Config::get('validImageTypes'), $ext)) {
+            if (false === strpos(Config::get('validImageTypes'), $ext)) {
                 throw new \Exception('Invalid image type : '.$ext);
             }
 
@@ -475,7 +487,7 @@ class Util
 
             // Create & Close the file to generate the Model, and then, reopen the file
             // Because ->close() do not return the File object but true \o/
-            $objFile = new \File($path);
+            $objFile = new File($path);
             $objFile->write($img);
 
             if (!$objFile->close()) {
@@ -483,7 +495,7 @@ class Util
             }
 
             if ($blnReturnFile) {
-                return new \File($path);
+                return new File($path);
             }
 
             return true;
@@ -528,7 +540,7 @@ class Util
     public static function executeCmdPHP($strCmd)
     {
         // Finally, clean the Contao cache
-        $strConsolePath = \System::getContainer()->getParameter('kernel.project_dir').'/vendor/bin/contao-console';
+        $strConsolePath = System::getContainer()->getParameter('kernel.project_dir').'/vendor/bin/contao-console';
         $cmd = sprintf(
             '%s/php -q %s %s --env=prod',
             \PHP_BINDIR,
@@ -680,10 +692,10 @@ class Util
                 $conf = self::loadSmartgearConfig();
 
                 if ($conf['sgInstallUserGroup']) {
-                    $objUserGroup = \UserGroupModel::findByPk($conf['sgInstallUserGroup']);
+                    $objUserGroup = UserGroupModel::findByPk($conf['sgInstallUserGroup']);
                 }
             } else {
-                $objUserGroup = \UserGroupModel::findByPk($intGroup);
+                $objUserGroup = UserGroupModel::findByPk($intGroup);
             }
 
             if ($objUserGroup) {
@@ -726,10 +738,10 @@ class Util
                 $conf = self::loadSmartgearConfig();
 
                 if ($conf['sgInstallUserGroup']) {
-                    $objUserGroup = \UserGroupModel::findByPk($conf['sgInstallUserGroup']);
+                    $objUserGroup = UserGroupModel::findByPk($conf['sgInstallUserGroup']);
                 }
             } else {
-                $objUserGroup = \UserGroupModel::findByPk($intGroup);
+                $objUserGroup = UserGroupModel::findByPk($intGroup);
             }
 
             if ($objUserGroup) {
@@ -755,7 +767,7 @@ class Util
         }
     }
 
-    public function formatActions(array $arrUnformattedActions): array
+    public static function formatActions(array $arrUnformattedActions): array
     {
         $arrActions = [];
         if (\is_array($arrUnformattedActions) && !empty($arrUnformattedActions)) {
@@ -822,7 +834,7 @@ class Util
     private static function getContaoPermissions($blnRefresh = false)
     {
         if (!static::$arrContaoPermissions || $blnRefresh) {
-            \Controller::loadDataContainer('tl_user_group');
+            Controller::loadDataContainer('tl_user_group');
             $stdClass = $GLOBALS['TL_DCA']['tl_user_group']['fields']['alexf']['options_callback'][0];
             $stdMethod = $GLOBALS['TL_DCA']['tl_user_group']['fields']['alexf']['options_callback'][1];
             $objClass = new $stdClass();

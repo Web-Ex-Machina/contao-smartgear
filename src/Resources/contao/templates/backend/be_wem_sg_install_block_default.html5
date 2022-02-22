@@ -19,28 +19,12 @@
 	<?= $this->content; ?>
 	<?php if($this->actions): ?>
 	<form action="<?= $this->request ?>" class="tl_form" method="post">
-		<div class="tl_formbody_edit">
-			<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
-			<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
-			<input name="type" value="<?= $this->type ?>" type="hidden">
-			<input name="module" value="<?= $this->module ?>" type="hidden">
-			<input name="action" value="" type="hidden" class="btnAction">
-		</div>
+		<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
 		<?php if(!empty($this->fields)): ?>
 		<?php foreach($this->fields as $field): ?>
 		<div class="widget <?= $field['class'] ?>">
 			<h3><label for="ctrl_<?= $field['name'] ?>"><?= $field['label'] ?></label></h3>
-
-			<?php if("textarea" === $field['type']): ?>
-			<textarea name="<?= $field['name'] ?>" id="ctrl_<?= $field['name'] ?>" class="tl_textarea"<?= $field['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()"><?= $field['value'] ?></textarea>
-			<?php elseif("select" === $field['type']): ?>
-			<?php elseif("checkbox" === $field['type']): ?>
-			<?php elseif("radio" === $field['type']): ?>
-			<?php else: ?>
-			<input name="<?= $field['name'] ?>" id="ctrl_<?= $field['name'] ?>" class="tl_text" value="<?= $field['value'] ?>"<?= $field['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()" type="text">
-			<?php endif; ?>
-			
-			<p class="tl_help tl_tip"><?= $field['help'] ?></p>
+			<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$field]); ?>
 			<br>
 		</div>
 		<?php endforeach; ?>
