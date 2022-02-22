@@ -14,16 +14,22 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Module\Core\ConfigurationStep;
 
+use Contao\File;
+use Contao\Files;
+use Contao\FrontendTemplate;
 use Contao\Input;
 use Exception;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Config\Manager as ConfigurationManager;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\UtilsBundle\Classes\Files as WEMFiles;
 
 class Website extends ConfigurationStep
 {
     /** @var ConfigurationManager */
     protected $configurationManager;
+
+    protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_website';
 
     public function __construct(
         string $module,
@@ -34,10 +40,13 @@ class Website extends ConfigurationStep
         $this->configurationManager = $configurationManager;
         $this->title = 'Informations';
         /** @var CoreConfig */
-        $config = $this->configurationManager->new();
+        $config = $this->configurationManager->load();
 
-        // le logo, qlq part
-        $this->addFileField('sgWebsiteLogo', 'Logo du site web', true);
+        $countries = [];
+        foreach (\Contao\System::getCountries() as $shortName => $longName) {
+            $countries[] = ['value' => $shortName, 'label' => $longName];
+        }
+        $this->addFileField('sgWebsiteLogo', 'Logo du site web', empty($config->getSgOwnerLogo()));
         $this->addTextField('sgWebsiteTitle', 'Titre du site web', !empty($config->getSgOwnerName()) ? $config->getSgOwnerName() : $config->getSgWebsiteTitle(), true);
         $this->addTextField('sgOwnerStatus', 'Statut', $config->getSgOwnerStatus(), true);
         $this->addTextField('sgOwnerSiret', 'SIRET', $config->getSgOwnerSiret(), true);
@@ -45,12 +54,24 @@ class Website extends ConfigurationStep
         $this->addTextField('sgOwnerPostal', 'Code postal', $config->getSgOwnerPostal(), true);
         $this->addTextField('sgOwnerCity', 'Ville', $config->getSgOwnerCity(), true);
         $this->addTextField('sgOwnerRegion', 'Region', $config->getSgOwnerRegion(), true);
-        $this->addSelectField('sgOwnerCountry', 'Pays', \Contao\System::getCountries(), $config->getSgOwnerCountry(), true);
+        $this->addSelectField('sgOwnerCountry', 'Pays', $countries, !empty($config->getSgOwnerCountry()) ? $config->getSgOwnerCountry() : 'fr', true);
         $this->addTextField('sgOwnerEmail', 'Email', $config->getSgOwnerEmail(), true);
         $this->addTextField('sgOwnerDomain', 'Domaine', !empty($config->getSgOwnerDomain()) ? $config->getSgOwnerDomain() : \Contao\Environment::get('base'), true);
         $this->addTextField('sgOwnerHost', 'Nom et adresse de l\'hébergeur', $config->getSgOwnerHost(), true);
         $this->addTextField('sgOwnerDpoName', 'Nom du DPO', $config->getSgOwnerDpoName(), true);
         $this->addTextField('sgOwnerDpoEmail', 'Email du DPO', $config->getSgOwnerDpoEmail(), true);
+    }
+
+    public function getFilledTemplate(): FrontendTemplate
+    {
+        // to render the step
+        $objTemplate = parent::getFilledTemplate();
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $objTemplate->logo = WEMFiles::imageToBase64(new File($config->getSgOwnerLogo()));
+        // And return the template, parsed.
+        return $objTemplate;
     }
 
     public function isStepValid(): bool
@@ -114,15 +135,25 @@ class Website extends ConfigurationStep
     public function do(): void
     {
         // do what is meant to be done in this step
-        $this->uploadLogo();
-        $this->updateModuleConfiguration();
+        $objFileLogo = $this->uploadLogo();
+        $this->updateModuleConfiguration($objFileLogo);
     }
 
-    protected function updateModuleConfiguration(): void
+    protected function uploadLogo(): File
+    {
+        $fm = Files::getInstance();
+        $fm->move_uploaded_file($_FILES['sgWebsiteLogo']['tmp_name'], 'files/'.$_FILES['sgWebsiteLogo']['name']);
+        $objFile = new File('files/'.$_FILES['sgWebsiteLogo']['name']);
+
+        return $objFile;
+    }
+
+    protected function updateModuleConfiguration(File $objFileLogo): void
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
+        $config->setSgOwnerLogo($objFileLogo->path);
         $config->setSgWebsiteTitle(Input::post('sgWebsiteTitle'));
         $config->setSgOwnerStatus(Input::post('sgOwnerStatus'));
         $config->setSgOwnerSiret(Input::post('sgOwnerSiret'));

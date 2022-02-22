@@ -134,7 +134,8 @@
 			objFields.append("wem_module", 'be_smartgear' );
 
 			j(this).find('input').each(function(){
-				if("file" == j(this).type){
+				if("file" == j(this).attr('type')){
+					alert('fiiiiles');
 					var files = j(this)[0].files;
 					isUpload = true;
 		        

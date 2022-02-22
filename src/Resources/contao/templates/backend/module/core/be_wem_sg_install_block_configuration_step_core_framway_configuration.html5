@@ -1,22 +1,9 @@
 <form action="<?= $this->request ?>" class="tl_form" method="post">
-	<div class="tl_formbody_edit">
-		<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
-		<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
-		<input name="type" value="<?= $this->type ?>" type="hidden">
-		<input name="module" value="<?= $this->module ?>" type="hidden">
-		<input name="action" value="" type="hidden" class="btnAction">
-	</div>
+	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()]); ?>
 
 	<div class="widget <?= $this->fields['themes']['class'] ?>">
 		<h3><label for="ctrl_<?= $this->fields['themes']['name'] ?>"><?= $this->fields['themes']['label'] ?></label></h3>
-		<select name="<?= $this->fields['themes']['name'] ?>" id="ctrl_<?= $this->fields['themes']['name'] ?>" class="tl_select"<?= $this->fields['themes']['required'] ? ' required=""' : '' ?> <?= $this->fields['themes']['multiple'] ? ' multiple=""' : '' ?> onfocus="Backend.getScrollOffset()"> 
-			<?php foreach($this->fields['themes']['options'] as $option): ?>
-				<option value="<?= $option['value']; ?>" <?= $option['selected'] ? ' selected' : '' ?>>
-					<?= $option['label']; ?>
-				</option>
-			<?php endforeach; ?>
-		</select>
-		<p class="tl_help tl_tip"><?= $this->fields['themes']['help'] ?></p>
+		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['themes']]); ?>
 		<br>
 	</div>
 
@@ -28,8 +15,8 @@
 
 	<div class="widget <?= $this->fields['new_theme']['class'] ?>" id="widget-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme"">
 		<h3><label for="ctrl_<?= $this->fields['new_theme']['name'] ?>"><?= $this->fields['new_theme']['label'] ?></label></h3>
-		<input name="<?= $this->fields['new_theme']['name'] ?>" id="ctrl_<?= $this->fields['new_theme']['name'] ?>" class="tl_text" value="<?= $this->fields['new_theme']['value'] ?>"<?= $this->fields['new_theme']['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()" type="text">
-		<p class="tl_help tl_tip"><?= $this->fields['new_theme']['help'] ?></p>
+
+		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['new_theme']]); ?>
 		<br>
 		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme-validation" 
 		title="Valider ce thème">Valider thème</button>
@@ -38,28 +25,13 @@
 
 	<div class="widget <?= $this->fields['components']['class'] ?>">
 		<h3><label for="ctrl_<?= $this->fields['components']['name'] ?>"><?= $this->fields['components']['label'] ?></label></h3>
-		<select name="<?= $this->fields['components']['name'] ?>" id="ctrl_<?= $this->fields['components']['name'] ?>" class="tl_select"<?= $this->fields['components']['required'] ? ' required=""' : '' ?> <?= $this->fields['components']['multiple'] ? ' multiple=""' : '' ?> onfocus="Backend.getScrollOffset()"> 
-			<?php foreach($this->fields['components']['options'] as $option): ?>
-				<option value="<?= $option['value']; ?>" <?= $option['selected'] ? ' selected' : '' ?>>
-					<?= $option['label']; ?>
-				</option>
-			<?php endforeach; ?>
-		</select>
-		<p class="tl_help tl_tip"><?= $this->fields['components']['help'] ?></p>
+		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['components']]); ?>
 		<br>
 	</div>
 
 	<div class="widget <?= $this->fields['fontawesome']['class'] ?>">
 		<h3><label for="ctrl_<?= $this->fields['fontawesome']['name'] ?>"><?= $this->fields['fontawesome']['label'] ?></label></h3>
-
-		<select name="<?= $this->fields['fontawesome']['name'] ?>" id="ctrl_<?= $this->fields['fontawesome']['name'] ?>" class="tl_select"<?= $this->fields['fontawesome']['required'] ? ' required=""' : '' ?> <?= $this->fields['fontawesome']['multiple'] ? ' multiple=""' : '' ?> onfocus="Backend.getScrollOffset()"> 
-			<?php foreach($this->fields['fontawesome']['options'] as $option): ?>
-				<option value="<?= $option['value']; ?>" <?= $option['selected'] ? ' selected' : '' ?>>
-					<?= $option['label']; ?>
-				</option>
-			<?php endforeach; ?>
-		</select>
-		<p class="tl_help tl_tip"><?= $this->fields['fontawesome']['help'] ?></p>
+		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['fontawesome']]); ?>
 		<br>
 	</div>
 	<div class="tl_submit_container">

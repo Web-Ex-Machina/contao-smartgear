@@ -1,5 +1,6 @@
 <form action="<?= $this->request ?>" class="tl_form" method="post">
 	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
+	<img src="<?= $this->logo; ?>" />
 	<?php if(!empty($this->fields)): ?>
 		<?php foreach($this->fields as $field): ?>
 			<div class="widget <?= $field['class'] ?>">

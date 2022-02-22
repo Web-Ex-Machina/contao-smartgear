@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "89733a19e74948b6110f9bd9c08d2b10",
+    "content-hash": "d28b8039981d503c99fd4546d9afb69d",
     "packages": [
         {
             "name": "ausi/slug-generator",
@@ -161,12 +161,12 @@
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "Assert\\": "lib/Assert"
-                },
                 "files": [
                     "lib/Assert/functions.php"
-                ]
+                ],
+                "psr-4": {
+                    "Assert\\": "lib/Assert"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -198,16 +198,16 @@
         },
         {
             "name": "clue/stream-filter",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/clue/stream-filter.git",
-                "reference": "aeb7d8ea49c7963d3b581378955dbf5bc49aa320"
+                "reference": "d6169430c7731d8509da7aecd0af756a5747b78e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/clue/stream-filter/zipball/aeb7d8ea49c7963d3b581378955dbf5bc49aa320",
-                "reference": "aeb7d8ea49c7963d3b581378955dbf5bc49aa320",
+                "url": "https://api.github.com/repos/clue/stream-filter/zipball/d6169430c7731d8509da7aecd0af756a5747b78e",
+                "reference": "d6169430c7731d8509da7aecd0af756a5747b78e",
                 "shasum": ""
             },
             "require": {
@@ -248,7 +248,7 @@
             ],
             "support": {
                 "issues": "https://github.com/clue/stream-filter/issues",
-                "source": "https://github.com/clue/stream-filter/tree/v1.5.0"
+                "source": "https://github.com/clue/stream-filter/tree/v1.6.0"
             },
             "funding": [
                 {
@@ -260,7 +260,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-10-02T12:38:20+00:00"
+            "time": "2022-02-21T13:15:14+00:00"
         },
         {
             "name": "codefog/contao-haste",
@@ -869,16 +869,16 @@
         },
         {
             "name": "contao-components/jquery-ui",
-            "version": "1.12.1.1",
+            "version": "1.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contao-components/jquery-ui.git",
-                "reference": "1fabbe27469a6b44130c1ad38bd1aa0a2a3720a1"
+                "reference": "3ab2e7e9a2828bb9f84a37558040fd2bcb0e3c01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/contao-components/jquery-ui/zipball/1fabbe27469a6b44130c1ad38bd1aa0a2a3720a1",
-                "reference": "1fabbe27469a6b44130c1ad38bd1aa0a2a3720a1",
+                "url": "https://api.github.com/repos/contao-components/jquery-ui/zipball/3ab2e7e9a2828bb9f84a37558040fd2bcb0e3c01",
+                "reference": "3ab2e7e9a2828bb9f84a37558040fd2bcb0e3c01",
                 "shasum": ""
             },
             "require": {
@@ -898,9 +898,9 @@
             "description": "jQuery UI integration for Contao Open Source CMS",
             "support": {
                 "issues": "https://github.com/contao-components/jquery-ui/issues",
-                "source": "https://github.com/contao-components/jquery-ui/tree/master"
+                "source": "https://github.com/contao-components/jquery-ui/tree/1.13.1"
             },
-            "time": "2017-09-26T08:11:43+00:00"
+            "time": "2022-02-16T14:55:44+00:00"
         },
         {
             "name": "contao-components/mediabox",
@@ -1149,16 +1149,16 @@
         },
         {
             "name": "contao/core-bundle",
-            "version": "4.12.6",
+            "version": "4.12.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contao/core-bundle.git",
-                "reference": "06c9fa66b8e373a555ae27fa2dd644687b363979"
+                "reference": "4628542c674481a6d06d67807da2ca91d2ba496d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/contao/core-bundle/zipball/06c9fa66b8e373a555ae27fa2dd644687b363979",
-                "reference": "06c9fa66b8e373a555ae27fa2dd644687b363979",
+                "url": "https://api.github.com/repos/contao/core-bundle/zipball/4628542c674481a6d06d67807da2ca91d2ba496d",
+                "reference": "4628542c674481a6d06d67807da2ca91d2ba496d",
                 "shasum": ""
             },
             "require": {
@@ -1326,7 +1326,7 @@
                 "issues": "https://github.com/contao/contao/issues",
                 "source": "https://github.com/contao/core-bundle"
             },
-            "time": "2022-02-08T10:01:22+00:00"
+            "time": "2022-02-18T10:18:18+00:00"
         },
         {
             "name": "contao/image",
@@ -3518,16 +3518,16 @@
         },
         {
             "name": "heimrichhannot/contao-utils-bundle",
-            "version": "2.209.4",
+            "version": "2.209.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/heimrichhannot/contao-utils-bundle.git",
-                "reference": "ce05133a1911e6865ab1a512a8d88573da432d67"
+                "reference": "fba725ed688800d67a8e9d1e1753872266cd982b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/heimrichhannot/contao-utils-bundle/zipball/ce05133a1911e6865ab1a512a8d88573da432d67",
-                "reference": "ce05133a1911e6865ab1a512a8d88573da432d67",
+                "url": "https://api.github.com/repos/heimrichhannot/contao-utils-bundle/zipball/fba725ed688800d67a8e9d1e1753872266cd982b",
+                "reference": "fba725ed688800d67a8e9d1e1753872266cd982b",
                 "shasum": ""
             },
             "require": {
@@ -3587,9 +3587,9 @@
             "description": "This bundle offers various utility functionality for the Contao CMS.",
             "support": {
                 "issues": "https://github.com/heimrichhannot/contao-utils-bundle/issues",
-                "source": "https://github.com/heimrichhannot/contao-utils-bundle/tree/2.209.4"
+                "source": "https://github.com/heimrichhannot/contao-utils-bundle/tree/2.209.6"
             },
-            "time": "2022-02-15T09:27:51+00:00"
+            "time": "2022-02-17T14:54:50+00:00"
         },
         {
             "name": "heimseiten/contao-sticky-footer-backend-bundle",
@@ -4225,22 +4225,22 @@
         },
         {
             "name": "marcel-mathias-nolte/contao-filesmanager-fileusage",
-            "version": "1.0.10",
+            "version": "1.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marcel-mathias-nolte/contao-filesmanager-fileusage.git",
-                "reference": "01f2f29648f3c01ba13606730538766d14efcbfb"
+                "reference": "d2e1455e3b4d142d2c6fb858e71c7981ba0d5d2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marcel-mathias-nolte/contao-filesmanager-fileusage/zipball/01f2f29648f3c01ba13606730538766d14efcbfb",
-                "reference": "01f2f29648f3c01ba13606730538766d14efcbfb",
+                "url": "https://api.github.com/repos/marcel-mathias-nolte/contao-filesmanager-fileusage/zipball/d2e1455e3b4d142d2c6fb858e71c7981ba0d5d2e",
+                "reference": "d2e1455e3b4d142d2c6fb858e71c7981ba0d5d2e",
                 "shasum": ""
             },
             "require": {
                 "contao-community-alliance/composer-plugin": "^2.4.0 || 3.*",
                 "contao/core-bundle": "^4.4",
-                "php": "^7.2"
+                "php": "^7.2 || 8.*"
             },
             "require-dev": {
                 "doctrine/doctrine-cache-bundle": "^1.3",
@@ -4283,7 +4283,7 @@
                 "issues": "https://github.com/marcel-mathias-nolte/contao-filesmanager-fileusage/issues",
                 "source": "https://github.com/marcel-mathias-nolte/contao-filesmanager-fileusage"
             },
-            "time": "2022-01-10T23:17:25+00:00"
+            "time": "2022-02-18T10:04:39+00:00"
         },
         {
             "name": "matthiasmullie/minify",
@@ -5107,16 +5107,16 @@
         },
         {
             "name": "php-http/httplug",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/httplug.git",
-                "reference": "191a0a1b41ed026b717421931f8d3bd2514ffbf9"
+                "reference": "f640739f80dfa1152533976e3c112477f69274eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/httplug/zipball/191a0a1b41ed026b717421931f8d3bd2514ffbf9",
-                "reference": "191a0a1b41ed026b717421931f8d3bd2514ffbf9",
+                "url": "https://api.github.com/repos/php-http/httplug/zipball/f640739f80dfa1152533976e3c112477f69274eb",
+                "reference": "f640739f80dfa1152533976e3c112477f69274eb",
                 "shasum": ""
             },
             "require": {
@@ -5163,9 +5163,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/httplug/issues",
-                "source": "https://github.com/php-http/httplug/tree/master"
+                "source": "https://github.com/php-http/httplug/tree/2.3.0"
             },
-            "time": "2020-07-13T15:43:23+00:00"
+            "time": "2022-02-21T09:52:22+00:00"
         },
         {
             "name": "php-http/message",
@@ -8419,14 +8419,14 @@
             },
             "type": "library",
             "autoload": {
+                "files": [
+                    "Resources/functions.php"
+                ],
                 "psr-4": {
                     "Symfony\\Component\\Intl\\": ""
                 },
                 "classmap": [
                     "Resources/stubs"
-                ],
-                "files": [
-                    "Resources/functions.php"
                 ],
                 "exclude-from-classmap": [
                     "/Tests/"
@@ -11818,16 +11818,16 @@
         },
         {
             "name": "webexmachina/contao-grid",
-            "version": "0.4.3",
+            "version": "0.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Web-Ex-Machina/contao-grid.git",
-                "reference": "3dab6ec8b270cadfa9a7aeb075e96bc984383880"
+                "reference": "2240fa50233ec3b2d043df7a2ef8f09a56e87a17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Web-Ex-Machina/contao-grid/zipball/3dab6ec8b270cadfa9a7aeb075e96bc984383880",
-                "reference": "3dab6ec8b270cadfa9a7aeb075e96bc984383880",
+                "url": "https://api.github.com/repos/Web-Ex-Machina/contao-grid/zipball/2240fa50233ec3b2d043df7a2ef8f09a56e87a17",
+                "reference": "2240fa50233ec3b2d043df7a2ef8f09a56e87a17",
                 "shasum": ""
             },
             "require": {
@@ -11880,7 +11880,7 @@
                 "source": "https://github.com/webexmachina/contao-grid",
                 "website": "https://www.webexmachina.fr/"
             },
-            "time": "2020-05-30T14:09:09+00:00"
+            "time": "2022-02-21T14:39:38+00:00"
         },
         {
             "name": "webexmachina/contao-utils",
@@ -13197,16 +13197,16 @@
         },
         {
             "name": "phar-io/version",
-            "version": "3.1.1",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phar-io/version.git",
-                "reference": "15a90844ad40f127afd244c0cad228de2a80052a"
+                "reference": "4f7fd7836c6f332bb2933569e566a0d6c4cbed74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phar-io/version/zipball/15a90844ad40f127afd244c0cad228de2a80052a",
-                "reference": "15a90844ad40f127afd244c0cad228de2a80052a",
+                "url": "https://api.github.com/repos/phar-io/version/zipball/4f7fd7836c6f332bb2933569e566a0d6c4cbed74",
+                "reference": "4f7fd7836c6f332bb2933569e566a0d6c4cbed74",
                 "shasum": ""
             },
             "require": {
@@ -13242,9 +13242,9 @@
             "description": "Library for handling version information and constraints",
             "support": {
                 "issues": "https://github.com/phar-io/version/issues",
-                "source": "https://github.com/phar-io/version/tree/3.1.1"
+                "source": "https://github.com/phar-io/version/tree/3.2.1"
             },
-            "time": "2022-02-07T21:56:48+00:00"
+            "time": "2022-02-21T01:04:05+00:00"
         },
         {
             "name": "php-webdriver/webdriver",
@@ -13540,16 +13540,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.10",
+            "version": "9.2.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "d5850aaf931743067f4bfc1ae4cbd06468400687"
+                "reference": "665a1ac0a763c51afc30d6d130dac0813092b17f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/d5850aaf931743067f4bfc1ae4cbd06468400687",
-                "reference": "d5850aaf931743067f4bfc1ae4cbd06468400687",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/665a1ac0a763c51afc30d6d130dac0813092b17f",
+                "reference": "665a1ac0a763c51afc30d6d130dac0813092b17f",
                 "shasum": ""
             },
             "require": {
@@ -13605,7 +13605,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.10"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.11"
             },
             "funding": [
                 {
@@ -13613,7 +13613,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-12-05T09:12:13+00:00"
+            "time": "2022-02-18T12:46:09+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -13858,16 +13858,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.13",
+            "version": "9.5.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "597cb647654ede35e43b137926dfdfef0fb11743"
+                "reference": "1883687169c017d6ae37c58883ca3994cfc34189"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/597cb647654ede35e43b137926dfdfef0fb11743",
-                "reference": "597cb647654ede35e43b137926dfdfef0fb11743",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1883687169c017d6ae37c58883ca3994cfc34189",
+                "reference": "1883687169c017d6ae37c58883ca3994cfc34189",
                 "shasum": ""
             },
             "require": {
@@ -13945,7 +13945,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.13"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.14"
             },
             "funding": [
                 {
@@ -13957,7 +13957,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-24T07:33:35+00:00"
+            "time": "2022-02-18T12:54:07+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
