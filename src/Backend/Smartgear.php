@@ -80,6 +80,20 @@ class Smartgear extends \Contao\BackendModule
                             throw $e;
                         }
                         break;
+                    case 'executeCmdPhp':
+                        if (!Input::post('cmd')) {
+                            throw new Exception('Missing one arguments : cmd');
+                        }
+
+                        try {
+                            $arrResponse['status'] = 'success';
+                            $arrResponse['msg'] = sprintf('La commande %s a été executée avec succès', Input::post('cmd'));
+                            $arrResponse['output'] = Util::executeCmdPHP(Input::post('cmd'));
+                            // } catch (ProcessFailedException $e) {
+                        } catch (Exception $e) {
+                            throw $e;
+                        }
+                        break;
                     case 'executeCmdLive':
                         if (!Input::post('cmd')) {
                             throw new Exception('Missing one arguments : cmd');

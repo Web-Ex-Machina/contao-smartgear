@@ -6,13 +6,13 @@
 		<p class="tl_error"><?= $this->trace ?></p>
 	</div>
 	<?php else: ?>
-	<div class="content_container">
 	<?php if($this->messages): ?>
-		<?php foreach($this->messages as $message): ?>
-		<p class="<?= $message['class'] ?>"><?= $message['text'] ?></p>
-		<?php endforeach; ?>
+		<div class="content_container">
+			<?php foreach($this->messages as $message): ?>
+			<p class="<?= $message['class'] ?>"><?= $message['text'] ?></p>
+			<?php endforeach; ?>
+		</div>
 	<?php endif; ?>
-	</div>
 	<?php if($this->steps): ?>
 		<?= $this->steps ?>
 	<?php endif; ?>

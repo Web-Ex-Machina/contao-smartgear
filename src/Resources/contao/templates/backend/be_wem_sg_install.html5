@@ -8,7 +8,7 @@
 <?= Message::generate(); ?>
 
 <div id="tl_buttons">
-  <a href="<?= $this->request ?>" class="executeCmdLive" data-cmd="cache:warmup" title="Refresh Cache" accesskey="b">Refresh Cache</a>
+  <a href="<?= $this->request ?>" class="executeCmdPhp" data-cmd="cache:clear" title="Refresh Cache" accesskey="b">Refresh Cache</a>
   <a href="<?= ampersand($this->backupManagerBtnHref) ?>" title="<?= Contao\StringUtil::specialchars($this->backupManagerBtnTitle) ?>" accesskey="b"><?= $this->backupManagerBtnButton ?></a>
 </div>
 
@@ -97,6 +97,18 @@
 		j('#tl_buttons').on('click', '.executeCmd', function(e){
 			e.preventDefault();
 			executeCmd(j(this).data('cmd')).then(function(r) {
+				toastr[r["status"]](r["msg"]);
+			}).catch(function(e) {
+				toastr.error(e, "Une erreur est survenue :");
+			});
+		});
+
+		/**
+		 * Handle command buttons
+		 */
+		j('#tl_buttons').on('click', '.executeCmdPhp', function(e){
+			e.preventDefault();
+			executeCmdPhp(j(this).data('cmd')).then(function(r) {
 				toastr[r["status"]](r["msg"]);
 			}).catch(function(e) {
 				toastr.error(e, "Une erreur est survenue :");
@@ -207,26 +219,26 @@
 
 
 
-		function applyStepBehaviour()
-		{
-			/**
-			 * Store the "submit" clicked for the form
-			 */
-			j('#sg_steps').on('click', 'a.step', function(e){
-				e.preventDefault();
-				var ctn = j('#tl_wem_sg_install .blocks.install .block').first();
-				ctn.find('.loader').addClass("active");
-				var step = j(this);
+	function applyStepBehaviour()
+	{
+		/**
+		 * Store the "submit" clicked for the form
+		 */
+		j('#sg_steps').on('click', 'a.step', function(e){
+			e.preventDefault();
+			var ctn = j('#tl_wem_sg_install .blocks.install .block').first();
+			ctn.find('.loader').addClass("active");
+			var step = j(this);
 
-				setStep(step.data('type'),step.data('module'),step.data('index')).then(function(r) {
-					refreshBlock(step.parents('.block')[0].id);
-				}).catch(function(e) {
-					toastr.error(e, "Une erreur est survenue :");
-				}).finally(function() {
-					ctn.find('.loader').removeClass("active");
-				});
+			setStep(step.data('type'),step.data('module'),step.data('index')).then(function(r) {
+				refreshBlock(step.parents('.block')[0].id);
+			}).catch(function(e) {
+				toastr.error(e, "Une erreur est survenue :");
+			}).finally(function() {
+				ctn.find('.loader').removeClass("active");
 			});
-		}
+		});
+	}
 
 	/**
 	 * Refresh all the blocks in the page
@@ -237,6 +249,9 @@
 		});
 	}
 
+	function toastrDisplay(type,msg){
+		toastr[type](msg);
+	}
 	/**
 	 * Refresh a block with its ID
 	 */
@@ -434,6 +449,44 @@
 
 			j.ajax({
 				method: "POST"
+				,data: objFields
+			})
+			.done(function(msg){
+				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+				try{
+					var results = j.parseJSON(msg);
+
+					// Handle actions errors
+					if("error" === results["status"]) {
+						reject(results["msg"]);
+					}
+
+					// Notify everything goes well
+					resolve(results);
+				}
+				catch(err){
+	       			reject(err); 
+				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				reject(textStatus+"<br>"+errorThrown);
+			})
+		});
+	}
+
+	function executeCmdPhp(cmd) {
+		return new Promise((resolve, reject) => {
+			var objFields = {
+				'TL_WEM_AJAX':1
+				,'REQUEST_TOKEN':"<?= $this->token; ?>"
+				,'wem_module':'be_smartgear'
+				,'action':'executeCmdPhp'
+				,'cmd':cmd
+			};
+
+			j.ajax({
+				method: "POST"
+				,timeout:10000
 				,data: objFields
 			})
 			.done(function(msg){

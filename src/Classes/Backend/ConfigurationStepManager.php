@@ -23,6 +23,8 @@ use WEM\SmartgearBundle\Classes\Util;
 
 class ConfigurationStepManager
 {
+    public const MODE_INSTALL = 'install';
+    public const MODE_CONFIGURE = 'configure';
     /** @var array */
     protected $steps = [];
     /** @var string */
@@ -33,6 +35,8 @@ class ConfigurationStepManager
     protected $configurationManager;
     /** @var array */
     protected $actions = [];
+    /** @var string */
+    protected $mode = '';
 
     protected $strStepsTemplate = 'be_wem_sg_install_steps';
 
@@ -62,6 +66,10 @@ class ConfigurationStepManager
 
         if (0 !== $this->getCurrentStepIndex()) {
             $this->actions[] = ['action' => 'previous', 'label' => 'Précédent'];
+        }
+
+        if (self::MODE_CONFIGURE === $this->mode) {
+            $this->actions[] = ['action' => 'save', 'label' => 'Enregistrer'];
         }
 
         if ($this->getCurrentStepIndex() < \count($this->steps) - 1) {
@@ -125,6 +133,14 @@ class ConfigurationStepManager
         $config = $this->configurationManager->load();
         $config->setSgInstallComplete(true);
         $this->configurationManager->save($config);
+    }
+
+    public function save(): void
+    {
+        if (!$this->getCurrentStep()->isStepValid()) {
+            throw new Exception('Formulaire invalide');
+        }
+        $this->getCurrentStep()->do();
     }
 
     public function goToStep(int $stepIndex): void
@@ -191,5 +207,12 @@ class ConfigurationStepManager
     public function getInstallStepSessionKey(): string
     {
         return 'sg_'.$this->module.'_install_step';
+    }
+
+    public function setMode(string $mode): self
+    {
+        $this->mode = $mode;
+
+        return $this;
     }
 }

@@ -53,7 +53,11 @@ services:
         public: true
 
     smartgear.backend.module.core.dashboard:
-        class: WEM\SmartgearBundle\Classes\Backend\Dashboard
+        class: WEM\SmartgearBundle\Backend\Module\Core\Dashboard
+        arguments:
+            $configurationManager: '@smartgear.classes.config.manager.core'
+            $module: 'core'
+            $type: 'core'
         public: true
 
     smartgear.backend.module.core.block:

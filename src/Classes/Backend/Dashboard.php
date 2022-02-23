@@ -18,13 +18,35 @@ use Contao\Environment;
 use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\RequestToken;
+use Contao\System;
 use Exception;
 use InvalidArgumentException;
+use WEM\SmartgearBundle\Classes\Config\Manager as ConfigurationManager;
 
 class Dashboard
 {
     /** @var string */
+    protected $module = '';
+    /** @var string */
+    protected $type = '';
+    /** @var ConfigurationManager [description] */
+    protected $configurationManager;
+    /** @var array */
+    protected $actions = [];
+    /** @var string */
     protected $strTemplate = 'be_wem_sg_install_block_dashboard';
+
+    public function __construct(
+        ConfigurationManager $configurationManager,
+        string $module,
+        string $type
+    ) {
+        $this->configurationManager = $configurationManager;
+        $this->module = $module;
+        $this->type = $type;
+        // Init session
+        $this->objSession = System::getContainer()->get('session');
+    }
 
     /**
      * Parse and return the block as HTML.
@@ -33,22 +55,7 @@ class Dashboard
      */
     public function parse()
     {
-        // > Check config
-        // -> Dependencies not satisied
-        // --> Display a message to inform user
-        // --> RETURN
-        // -> Intall not finished
-        // --> Ask the ConfigurationStepManager to give us the correct step
-        // --> RETURN
-        // -> Everything OK
-        // --> Display normal informations
-
-        // Create the block template and add some general vars
-        $objTemplate = new FrontendTemplate($this->strTemplate);
-        $objTemplate->request = Environment::get('request');
-        $objTemplate->token = RequestToken::get();
-
-        return $objTemplate->parse();
+        return $this->getFilledTemplate()->parse();
     }
 
     public function processAjaxRequest(): void
@@ -70,5 +77,16 @@ class Dashboard
         $arrResponse['rt'] = RequestToken::get();
         echo json_encode($arrResponse);
         exit;
+    }
+
+    protected function getFilledTemplate(): FrontendTemplate
+    {
+        $objTemplate = new FrontendTemplate($this->strTemplate);
+        $objTemplate->request = Environment::get('request');
+        $objTemplate->token = RequestToken::get();
+        $objTemplate->module = $this->module;
+        $objTemplate->type = $this->type;
+
+        return $objTemplate;
     }
 }

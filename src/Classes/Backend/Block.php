@@ -31,6 +31,9 @@ use WEM\SmartgearBundle\Classes\Util;
  */
 class Block extends Controller
 {
+    public const MODE_DASHBOARD = 'dashboard';
+    public const MODE_INSTALL = 'install';
+    public const MODE_CONFIGURE = 'configure';
     /**
      * Generic array of messages.
      *
@@ -78,6 +81,8 @@ class Block extends Controller
     protected $configurationStepManager;
     /** @var Dashboard */
     protected $dashboard;
+    /** @var @var string */
+    protected $mode = '';
 
     /**
      * Construct the block object.
@@ -159,10 +164,12 @@ class Block extends Controller
         // Add actions only if we can manage the module
         if ($blnCanManage) {
             if (!$this->isInstalled()) {
+                $this->setMode(self::MODE_INSTALL);
+                $this->configurationStepManager->setMode($this->configurationStepManager::MODE_INSTALL);
                 $objTemplate->steps = $this->configurationStepManager->parseSteps();
                 $objTemplate->content = $this->configurationStepManager->parse();
             } else {
-                $objTemplate->content = $this->dashboard->parse();
+                $objTemplate = $this->parseDependingOnMode($objTemplate);
                 // $objTemplate->fields = $this->fields;
                 // $arrActions = [];
                 // $objTemplate->logs = $this->logs;
@@ -190,8 +197,8 @@ class Block extends Controller
     {
         try {
             switch ($key) {
-                case 'toastr':
-                    return ['status' => $args[0], 'msg' => $args[1]];
+                case 'toastrDisplay':
+                    return ['method' => 'toastrDisplay', 'args' => [$args[0], $args[1]]];
                 break;
 
                 case 'refreshBlock':
@@ -228,6 +235,13 @@ class Block extends Controller
                 case 'finish':
                     $this->configurationStepManager->finish();
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+                break;
+                case 'save':
+                    $this->configurationStepManager->save();
+                    $arrResponse = ['status' => 'success', 'msg' => 'Les données ont été sauvegardées', 'callbacks' => [
+                        $this->callback('refreshBlock'),
+                        $this->callback('toastrDisplay', ['success', 'Les données ont été sauvegardées']),
+                    ]];
                 break;
                 case 'getSteps':
                     echo $this->configurationStepManager->parseSteps();
@@ -266,6 +280,27 @@ class Block extends Controller
         $config = $this->configurationManager->load();
 
         return (bool) $config->getSgInstallComplete();
+    }
+
+    public function getMode(): string
+    {
+        $mode = $this->objSession->get($this->getModeSessionKey()) ?? self::MODE_DASHBOARD;
+        $this->setMode($mode);
+
+        return $mode;
+    }
+
+    protected function parseDependingOnMode(FrontendTemplate $objTemplate): FrontendTemplate
+    {
+        if (self::MODE_CONFIGURE === $this->getMode()) {
+            $this->configurationStepManager->setMode($this->configurationStepManager::MODE_CONFIGURE);
+            $objTemplate->steps = $this->configurationStepManager->parseSteps();
+            $objTemplate->content = $this->configurationStepManager->parse();
+        } elseif (self::MODE_DASHBOARD === $this->getMode()) {
+            $objTemplate->content = $this->dashboard->parse();
+        }
+
+        return $objTemplate;
     }
 
     /**
@@ -371,5 +406,19 @@ class Block extends Controller
             'action' => $strAction,
             'label' => $strLabel,
         ];
+    }
+
+    protected function getModeSessionKey(): string
+    {
+        return 'sg_'.$this->module.'_mode';
+    }
+
+    protected function setMode(string $mode): self
+    {
+        $this->mode = $mode;
+
+        $this->objSession->set($this->getModeSessionKey(), $mode);
+
+        return $this;
     }
 }

@@ -89,6 +89,11 @@ class Block extends BackendBlock
                         $arrResponse['output'] = $e->getMessage();
                     }
                 break;
+                case 'configure':
+                    $this->setMode(self::MODE_CONFIGURE);
+                    $this->configurationStepManager->goToStep(0);
+                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+                break;
                 default:
                     parent::processAjaxRequest();
                 break;
