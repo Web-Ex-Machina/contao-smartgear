@@ -31,7 +31,7 @@ class ConfigurationStepManager
     protected $module = '';
     /** @var string */
     protected $type = '';
-    /** @var ConfigurationManager [description] */
+    /** @var ConfigurationManager */
     protected $configurationManager;
     /** @var array */
     protected $actions = [];

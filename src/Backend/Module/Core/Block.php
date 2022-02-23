@@ -89,10 +89,13 @@ class Block extends BackendBlock
                         $arrResponse['output'] = $e->getMessage();
                     }
                 break;
-                case 'configure':
-                    $this->setMode(self::MODE_CONFIGURE);
-                    $this->configurationStepManager->goToStep(0);
-                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+                case 'dev_mode':
+                    $this->dashboard->setDevMode();
+                    $arrResponse = ['status' => 'success', 'msg' => 'Le mode "développement" a bien été activé', 'callbacks' => [$this->callback('refreshBlock')]];
+                break;
+                case 'prod_mode':
+                    $this->dashboard->setProdMode();
+                    $arrResponse = ['status' => 'success', 'msg' => 'Le mode "production" a bien été activé', 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
                 default:
                     parent::processAjaxRequest();

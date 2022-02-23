@@ -69,6 +69,7 @@ class Website extends ConfigurationStep
         $this->addTextField('sgOwnerHost', 'Nom et adresse de l\'hébergeur', $config->getSgOwnerHost(), true);
         $this->addTextField('sgOwnerDpoName', 'Nom du DPO', $config->getSgOwnerDpoName(), true);
         $this->addTextField('sgOwnerDpoEmail', 'Email du DPO', $config->getSgOwnerDpoEmail(), true);
+        $this->addTextField('sgGoogleFonts', 'Google Fonts', implode(',', $config->getSgGoogleFonts()), false, '', 'text', '', 'Liste des noms de polices Google Fonts, séparées par des virgules');
     }
 
     public function getFilledTemplate(): FrontendTemplate
@@ -169,7 +170,7 @@ class Website extends ConfigurationStep
         $config = $this->configurationManager->load();
 
         // Create the Smartgear main theme
-        $objTheme = new ThemeModel();
+        $objTheme = ModuleModel::findOneByName('Smartgear '.$config->getSgWebsiteTitle()) ?? new ThemeModel();
         $objTheme->tstamp = time();
         $objTheme->name = 'Smartgear '.$config->getSgWebsiteTitle();
         $objTheme->author = 'Web ex Machina';
@@ -236,33 +237,36 @@ class Website extends ConfigurationStep
             ['mod' => 0, 'col' => 'main', 'enable' => '1'],
             ['mod' => $modules['wem_sg_footer']->id, 'col' => 'footer', 'enable' => '1'],
         ];
+        $script = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
+        $script = str_replace('{{config.googleFonts}}', "'".implode("','", $config->getSgGoogleFonts())."'", $script);
+        $script = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $script);
 
-        $arrCssFiles = [];
-        $arrJsFiles = [];
-        $objFile = FilesModel::findOneByPath($config->getSgFramwayPath().'/css/vendor.css');
-        $arrCssFiles[] = $objFile->uuid;
-        $objFile = FilesModel::findOneByPath($config->getSgFramwayPath().'/css/framway.css');
-        $arrCssFiles[] = $objFile->uuid;
-        $objFile = FilesModel::findOneByPath($config->getSgFramwayPath().'/js/vendor.js');
-        $arrJsFiles[] = $objFile->uuid;
-        $objFile = FilesModel::findOneByPath($config->getSgFramwayPath().'/js/framway.js');
-        $arrJsFiles[] = $objFile->uuid;
+        // $arrCssFiles = [];
+        // $arrJsFiles = [];
+        // $objFile = FilesModel::findOneByPath($config->getSgFramwayPath().'/css/vendor.css');
+        // $arrCssFiles[] = $objFile->uuid;
+        // $objFile = FilesModel::findOneByPath($config->getSgFramwayPath().'/css/framway.css');
+        // $arrCssFiles[] = $objFile->uuid;
+        // $objFile = FilesModel::findOneByPath($config->getSgFramwayPath().'/js/vendor.js');
+        // $arrJsFiles[] = $objFile->uuid;
+        // $objFile = FilesModel::findOneByPath($config->getSgFramwayPath().'/js/framway.js');
+        // $arrJsFiles[] = $objFile->uuid;
 
         $objLayout = LayoutModel::findOneByName('Page Standard') ?? new LayoutModel();
         $objLayout->pid = $themeId;
         $objLayout->name = 'Page Standard';
         $objLayout->rows = '3rw';
         $objLayout->cols = '1cl';
-        $objLayout->external = serialize($arrCssFiles);
+        // $objLayout->external = serialize($arrCssFiles);
         $objLayout->loadingOrder = 'external_first';
         $objLayout->combineScripts = 1;
         $objLayout->viewport = 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0';
-        $objLayout->externalJs = serialize($arrJsFiles);
+        // $objLayout->externalJs = serialize($arrJsFiles);
         $objLayout->modules = serialize($arrLayoutModules);
-        // $objLayout->tempalte = 'fe_page';
+        // $objLayout->template = 'fe_page';
         // $objLayout->webfonts = '';
         // $objLayout->head = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
-        // $objLayout->script = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
+        $objLayout->script = $script;
         $objLayout->save();
 
         $layouts['standard'] = $objLayout;
@@ -272,16 +276,16 @@ class Website extends ConfigurationStep
         $objLayout->name = 'Page Standard - Fullwidth';
         $objLayout->rows = '3rw';
         $objLayout->cols = '1cl';
-        $objLayout->external = serialize($arrCssFiles);
+        // $objLayout->external = serialize($arrCssFiles);
         $objLayout->loadingOrder = 'external_first';
         $objLayout->combineScripts = 1;
         $objLayout->viewport = 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0';
-        $objLayout->externalJs = serialize($arrJsFiles);
+        // $objLayout->externalJs = serialize($arrJsFiles);
         $objLayout->modules = serialize($arrLayoutModules);
-        $objLayout->tempalte = 'fe_page_full';
+        $objLayout->template = 'fe_page_full';
         // $objLayout->webfonts = '';
         // $objLayout->head = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
-        // $objLayout->script = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
+        $objLayout->script = $script;
         $objLayout->save();
 
         $layouts['fullwidth'] = $objLayout;
@@ -454,6 +458,11 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
+        $fonts = explode(',', Input::post('sgGoogleFonts'));
+        foreach ($fonts as $key => $value) {
+            $fonts[$key] = trim($value);
+        }
+
         $config->setSgWebsiteTitle(Input::post('sgWebsiteTitle'));
         $config->setSgOwnerStatus(Input::post('sgOwnerStatus'));
         $config->setSgOwnerSiret(Input::post('sgOwnerSiret'));
@@ -467,6 +476,7 @@ class Website extends ConfigurationStep
         $config->setSgOwnerHost(Input::post('sgOwnerHost'));
         $config->setSgOwnerDpoName(Input::post('sgOwnerDpoName'));
         $config->setSgOwnerDpoEmail(Input::post('sgOwnerDpoEmail'));
+        $config->setSgGoogleFonts($fonts);
 
         $this->configurationManager->save($config);
     }

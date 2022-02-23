@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Config;
 
-use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
+use WEM\SmartgearBundle\Classes\Config\ConfigModuleInterface;
 
-class Core implements ConfigInterface
+class Core implements ConfigModuleInterface
 {
     public const ANALYTICS_SYSTEM_NONE = 'none';
     public const ANALYTICS_SYSTEM_GOOGLE = 'google';
@@ -38,6 +38,7 @@ class Core implements ConfigInterface
     public const DEFAULT_MODE = self::MODE_DEV;
     public const DEFAULT_FRAMWAY_PATH = 'assets/framway';
     public const DEFAULT_OWNER_HOST = 'INFOMANIAK - 25 Eugène-Marziano 1227 Les Acacias - GENÈVE - SUISSE';
+    public const DEFAULT_GOOGLE_FONTS = ['Exo', 'OpenSans', 'Shizuru'];
     /** @var bool */
     protected $sgInstallComplete = false;
     /** @var string */
@@ -46,6 +47,8 @@ class Core implements ConfigInterface
     protected $sgFramwayPath = self::DEFAULT_FRAMWAY_PATH;
     /** @var array */
     protected $sgFramwayThemes = [];
+    /** @var array */
+    protected $sgGoogleFonts = self::DEFAULT_GOOGLE_FONTS;
     /** @var array */
     protected $sgSelectedModules = [];
     /** @var string */
@@ -122,6 +125,7 @@ class Core implements ConfigInterface
             ->setSgOwnerSiret('')
             ->setSgOwnerDpoName('')
             ->setSgOwnerDpoEmail('')
+            ->setSgGoogleFonts(self::DEFAULT_GOOGLE_FONTS)
         ;
 
         return $this;
@@ -156,6 +160,7 @@ class Core implements ConfigInterface
             ->setSgOwnerSiret($json->owner->siret ?? '')
             ->setSgOwnerDpoName($json->owner->dpo->name ?? '')
             ->setSgOwnerDpoEmail($json->owner->dpo->email ?? '')
+            ->setSgGoogleFonts($json->googleFonts ?? self::DEFAULT_GOOGLE_FONTS)
         ;
 
         return $this;
@@ -172,6 +177,7 @@ class Core implements ConfigInterface
         $json->modules = $this->getSgModules();
         $json->mode = $this->getSgMode();
         $json->websiteTitle = $this->getSgWebsiteTitle();
+        $json->googleFonts = $this->getSgGoogleFonts();
 
         $json->framway = new \stdClass();
         $json->framway->path = $this->getSgFramwayPath();
@@ -533,6 +539,18 @@ class Core implements ConfigInterface
     public function setSgOwnerName(string $sgOwnerName): self
     {
         $this->sgOwnerName = $sgOwnerName;
+
+        return $this;
+    }
+
+    public function getSgGoogleFonts(): array
+    {
+        return $this->sgGoogleFonts;
+    }
+
+    public function setSgGoogleFonts(array $sgGoogleFonts): self
+    {
+        $this->sgGoogleFonts = $sgGoogleFonts;
 
         return $this;
     }

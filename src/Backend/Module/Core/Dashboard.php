@@ -21,6 +21,7 @@ use Exception;
 use InvalidArgumentException;
 use WEM\SmartgearBundle\Classes\Backend\Dashboard as BackendDashboard;
 use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Config\Core as CoreConfig;
 
 class Dashboard extends BackendDashboard
 {
@@ -48,15 +49,35 @@ class Dashboard extends BackendDashboard
         exit;
     }
 
+    public function setDevMode(): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        $config->setSgMode(CoreConfig::MODE_DEV);
+        $this->configurationManager->save($config);
+    }
+
+    public function setProdMode(): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        $config->setSgMode(CoreConfig::MODE_PROD);
+        $this->configurationManager->save($config);
+    }
+
     protected function getFilledTemplate(): FrontendTemplate
     {
         $objTemplate = parent::getFilledTemplate();
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
 
-        $this->actions = [
-            ['action' => 'dev_mode', 'label' => 'Mode développement'],
-            ['action' => 'prod_mode', 'label' => 'Mode production'],
-            ['action' => 'configure', 'label' => 'Configuration'],
-        ];
+        if (CoreConfig::MODE_DEV === $config->getSgMode()) {
+            $this->actions[] = ['action' => 'prod_mode', 'label' => 'Mode production'];
+        } else {
+            $this->actions[] = ['action' => 'dev_mode', 'label' => 'Mode développement'];
+        }
+
+        $this->actions[] = ['action' => 'configure', 'label' => 'Configuration'];
 
         $objTemplate->actions = Util::formatActions($this->actions);
 

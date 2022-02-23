@@ -234,6 +234,7 @@ class Block extends Controller
                 break;
                 case 'finish':
                     $this->configurationStepManager->finish();
+                    $this->setMode(self::MODE_DASHBOARD);
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
                 case 'save':
@@ -242,6 +243,11 @@ class Block extends Controller
                         $this->callback('refreshBlock'),
                         $this->callback('toastrDisplay', ['success', 'Les données ont été sauvegardées']),
                     ]];
+                break;
+                case 'configure':
+                    $this->setMode(self::MODE_CONFIGURE);
+                    $this->configurationStepManager->goToStep(0);
+                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
                 case 'getSteps':
                     echo $this->configurationStepManager->parseSteps();
