@@ -35,6 +35,19 @@ class Dashboard
     protected $actions = [];
     /** @var string */
     protected $strTemplate = 'be_wem_sg_install_block_dashboard';
+    /**
+     * Generic array of messages.
+     *
+     * @var array
+     */
+    protected $messages = [];
+
+    /**
+     * Generic array of logs.
+     *
+     * @var array
+     */
+    protected $logs = [];
 
     public function __construct(
         ConfigurationManager $configurationManager,
@@ -86,7 +99,53 @@ class Dashboard
         $objTemplate->token = RequestToken::get();
         $objTemplate->module = $this->module;
         $objTemplate->type = $this->type;
+        $objTemplate->messages = $this->messages;
+        $objTemplate->logs = $this->logs;
 
         return $objTemplate;
+    }
+
+    /**
+     * Add an error.
+     */
+    protected function addError($msg): void
+    {
+        $this->messages[] = [
+            'class' => 'tl_error',
+            'text' => $msg,
+        ];
+    }
+
+    /**
+     * Add an error.
+     */
+    protected function addInfo($msg): void
+    {
+        $this->messages[] = [
+            'class' => 'tl_info',
+            'text' => $msg,
+        ];
+    }
+
+    /**
+     * Add an error.
+     */
+    protected function addConfirm($msg): void
+    {
+        $this->messages[] = [
+            'class' => 'tl_confirm',
+            'text' => $msg,
+        ];
+    }
+
+    /**
+     * Add an error.
+     */
+    protected function addNew($msg): void
+    {
+        $this->messages[] = [
+            'class' => 'tl_new',
+            'text' => $msg,
+        ];
     }
 }

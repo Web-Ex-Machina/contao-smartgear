@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Module\Core;
 
+use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\System;
 use Exception;
@@ -21,6 +22,7 @@ use WEM\SmartgearBundle\Classes\Backend\Block as BackendBlock;
 
 class Block extends BackendBlock
 {
+    public const MODE_CHECK_PROD = 'check_prod';
     protected $type = 'core';
     protected $module = 'core';
     protected $icon = 'exclamation-triangle';
@@ -90,12 +92,20 @@ class Block extends BackendBlock
                     }
                 break;
                 case 'dev_mode':
-                    $this->dashboard->setDevMode();
+                    $this->dashboard->enableDevMode();
                     $arrResponse = ['status' => 'success', 'msg' => 'Le mode "développement" a bien été activé', 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
                 case 'prod_mode':
-                    $this->dashboard->setProdMode();
+                    $this->dashboard->enableProdMode();
                     $arrResponse = ['status' => 'success', 'msg' => 'Le mode "production" a bien été activé', 'callbacks' => [$this->callback('refreshBlock')]];
+                break;
+                case 'prod_mode_check':
+                    $this->setMode(self::MODE_CHECK_PROD);
+                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+                break;
+                case 'prod_mode_check_cancel':
+                    $this->setMode(self::MODE_DASHBOARD);
+                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
                 default:
                     parent::processAjaxRequest();
@@ -110,5 +120,19 @@ class Block extends BackendBlock
         $arrResponse['rt'] = \RequestToken::get();
         echo json_encode($arrResponse);
         exit;
+    }
+
+    protected function parseDependingOnMode(FrontendTemplate $objTemplate): FrontendTemplate
+    {
+        switch ($this->getMode()) {
+            case self::MODE_CHECK_PROD:
+                $objTemplate->content = $this->dashboard->checkProdMode();
+            break;
+            default:
+                $objTemplate = parent::parseDependingOnMode($objTemplate);
+            break;
+        }
+
+        return $objTemplate;
     }
 }

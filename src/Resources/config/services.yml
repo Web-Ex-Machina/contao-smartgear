@@ -37,11 +37,18 @@ services:
             $configurationFilePath: 'assets/smartgear/config_core.json'
         public: true
 
-    smartgear.classes.config.manager.framway:
-        class: WEM\SmartgearBundle\Classes\Config\ManagerFramway
+    smartgear.config.manager.framway:
+        class: WEM\SmartgearBundle\Config\Manager\Framway
         arguments:
             $configuration: '@smartgear.config.framway'
             $configurationManagerCore: '@smartgear.classes.config.manager.core'
+        public: true
+
+    smartgear.config.manager.env_file.local:
+        class: WEM\SmartgearBundle\Config\Manager\EnvFile
+        arguments:
+            $configuration: '@smartgear.config.env_file'
+            $configurationFilePath: '../.env.local'
         public: true
 
     smartgear.config.core:
@@ -52,12 +59,17 @@ services:
         class: WEM\SmartgearBundle\Config\Framway
         public: true
 
+    smartgear.config.env_file:
+        class: WEM\SmartgearBundle\Config\EnvFile
+        public: true
+
     smartgear.backend.module.core.dashboard:
         class: WEM\SmartgearBundle\Backend\Module\Core\Dashboard
         arguments:
             $configurationManager: '@smartgear.classes.config.manager.core'
             $module: 'core'
             $type: 'core'
+            $configurationEnvFileManager: '@smartgear.config.manager.env_file.local'
         public: true
 
     smartgear.backend.module.core.block:
@@ -103,7 +115,7 @@ services:
             $module: 'core'
             $type: 'core'
             $configurationManager: '@smartgear.classes.config.manager.core'
-            $configurationManagerFramway: '@smartgear.classes.config.manager.framway'
+            $configurationManagerFramway: '@smartgear.config.manager.framway'
             $templateSynchronizer: '@smartgear.classes.directories_synchronizer.templates.rsce'
             $tinyMCEPluginsSynchronizer: '@smartgear.classes.directories_synchronizer.tiny_mce.plugins'
         public: true

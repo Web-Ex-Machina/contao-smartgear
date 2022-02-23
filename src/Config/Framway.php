@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Config;
 
-use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
+use WEM\SmartgearBundle\Classes\Config\ConfigJsonInterface;
 
-class Framway implements ConfigInterface
+class Framway implements ConfigJsonInterface
 {
     public const USE_FA_NONE = false;
     public const USE_FA_FREE = 'free';

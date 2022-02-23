@@ -12,12 +12,14 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Classes\Config;
+namespace WEM\SmartgearBundle\Config\Manager;
 
+use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager as ConfigurationManagerCore;
+use WEM\SmartgearBundle\Classes\Config\ManagerJsonInterface;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
-class ManagerFramway implements ManagerInterface
+class Framway implements ManagerJsonInterface
 {
     /** @var ConfigInterface */
     protected $configuration;
@@ -45,10 +47,10 @@ class ManagerFramway implements ManagerInterface
      */
     public function load(): ConfigInterface
     {
-        return $this->configuration->import($this->retrieveConfigurationAsStdClassFromFile());
+        return $this->configuration->import($this->retrieveConfigurationAsImportableFormatFromFile());
     }
 
-    public function retrieveConfigurationAsStdClassFromFile(): \stdClass
+    public function retrieveConfigurationAsImportableFormatFromFile(): \stdClass
     {
         $notJsonCompliant = $this->retrieveConfigurationFromFile();
         $notJsonCompliant = str_replace('module.exports = ', '', $notJsonCompliant);

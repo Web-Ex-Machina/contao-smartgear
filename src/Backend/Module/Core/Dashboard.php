@@ -16,17 +16,34 @@ namespace WEM\SmartgearBundle\Backend\Module\Core;
 
 use Contao\FrontendTemplate;
 use Contao\Input;
+use Contao\PageModel;
 use Contao\RequestToken;
 use Exception;
 use InvalidArgumentException;
 use WEM\SmartgearBundle\Classes\Backend\Dashboard as BackendDashboard;
+use WEM\SmartgearBundle\Classes\Config\Manager as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\EnvFile as EnvFileConfig;
+use WEM\SmartgearBundle\Config\Manager\EnvFile as ConfigurationEnvFileManager;
 
 class Dashboard extends BackendDashboard
 {
     /** @var string */
     protected $strTemplate = 'be_wem_sg_block_core_dashboard';
+
+    /** @var ConfigurationEnvFileManager */
+    protected $configurationEnvFileManager;
+
+    public function __construct(
+        ConfigurationManager $configurationManager,
+        string $module,
+        string $type,
+        ConfigurationEnvFileManager $configurationEnvFileManager
+    ) {
+        parent::__construct($configurationManager, $module, $type);
+        $this->configurationEnvFileManager = $configurationEnvFileManager;
+    }
 
     public function processAjaxRequest(): void
     {
@@ -49,20 +66,52 @@ class Dashboard extends BackendDashboard
         exit;
     }
 
-    public function setDevMode(): void
+    public function enableDevMode(): void
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
         $config->setSgMode(CoreConfig::MODE_DEV);
         $this->configurationManager->save($config);
+
+        $rootPages = PageModel::findPublishedRootPages();
+        foreach ($rootPages as $rootPage) {
+            $rootPage->robotsTxt = 'Disallow /';
+            $rootPage->includeCache = '';
+            $rootPage->save();
+        }
+        $envFilePath = '../.env';
+        if (!file_exists($envFilePath)) {
+            file_put_contents($envFilePath, '');
+        }
+        /** @var EnvFileConfig */
+        $envConfig = $this->configurationEnvFileManager->load();
+        $envConfig->setAPPENV(EnvFileConfig::MODE_DEV);
+        $this->configurationEnvFileManager->save($envConfig);
     }
 
-    public function setProdMode(): void
+    public function enableProdMode(): void
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
         $config->setSgMode(CoreConfig::MODE_PROD);
         $this->configurationManager->save($config);
+    }
+
+    public function checkProdMode(): string
+    {
+        $this->addError('Il manque des trucs pour passer en prod ...');
+        $objTemplate = $this->getFilledTemplate();
+        $this->actions = [];
+        $this->actions[] = ['action' => 'prod_mode_check_cancel', 'label' => 'Annuler'];
+        if (true) {
+            $this->actions[] = ['action' => 'mode_prod', 'label' => 'Forcer la mise en production', 'attributes' => 'onclick="if(!confirm(\'Voulez-vous vraiment forcer le passage en mode production de Contao ?\'))return false;Backend.getScrollOffset()"'];
+        } else {
+            $this->actions[] = ['action' => 'mode_prod', 'label' => 'Effectuer la mise en production'];
+        }
+
+        $objTemplate->actions = Util::formatActions($this->actions);
+
+        return $objTemplate->parse();
     }
 
     protected function getFilledTemplate(): FrontendTemplate
@@ -72,7 +121,7 @@ class Dashboard extends BackendDashboard
         $config = $this->configurationManager->load();
 
         if (CoreConfig::MODE_DEV === $config->getSgMode()) {
-            $this->actions[] = ['action' => 'prod_mode', 'label' => 'Mode production'];
+            $this->actions[] = ['action' => 'prod_mode_check', 'label' => 'Mode production'];
         } else {
             $this->actions[] = ['action' => 'dev_mode', 'label' => 'Mode développement'];
         }

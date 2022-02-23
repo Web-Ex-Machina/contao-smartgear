@@ -12,11 +12,15 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Classes\Config;
+namespace WEM\SmartgearBundle\Config\Manager;
 
+use WEM\SmartgearBundle\Classes\Config\ConfigEnvInterface;
+use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
+use WEM\SmartgearBundle\Classes\Config\ManagerEnvInterface;
+use WEM\SmartgearBundle\Config\EnvFile as ConfigEnvFile;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
-class Manager implements ManagerJsonInterface
+class EnvFile implements ManagerEnvInterface
 {
     /** @var ConfigInterface */
     protected $configuration;
@@ -24,7 +28,7 @@ class Manager implements ManagerJsonInterface
     protected $configurationFilePath;
 
     public function __construct(
-        ConfigInterface $configuration,
+        ConfigEnvFile $configuration,
         string $configurationFilePath
     ) {
         $this->configuration = $configuration;
@@ -34,7 +38,7 @@ class Manager implements ManagerJsonInterface
     /**
      * [load description].
      */
-    public function new(): ConfigInterface
+    public function new(): ConfigEnvInterface
     {
         return $this->configuration->reset();
     }
@@ -42,7 +46,7 @@ class Manager implements ManagerJsonInterface
     /**
      * [load description].
      */
-    public function load(): ConfigInterface
+    public function load(): ConfigEnvInterface
     {
         return $this->configuration->import($this->retrieveConfigurationAsImportableFormatFromFile());
     }
@@ -59,9 +63,21 @@ class Manager implements ManagerJsonInterface
         return false !== file_put_contents($this->configurationFilePath, $this->configuration->export());
     }
 
-    public function retrieveConfigurationAsImportableFormatFromFile(): \stdClass
+    public function retrieveConfigurationAsImportableFormatFromFile(): array
     {
-        return json_decode($this->retrieveConfigurationFromFile(), false, 512, \JSON_THROW_ON_ERROR);
+        try {
+            $content = $this->retrieveConfigurationFromFile();
+        } catch (FileNotFoundException $e) {
+            return [];
+        }
+        $arrLines = explode("\n", $content);
+        $arrFinal = [];
+        foreach ($arrLines as $line) {
+            $arrLineSeparated = explode('=', $line);
+            $arrFinal[$arrLineSeparated[0]] = $arrLineSeparated[1];
+        }
+
+        return $arrFinal;
     }
 
     protected function retrieveConfigurationFromFile(): string

@@ -17,11 +17,11 @@ namespace WEM\SmartgearBundle\Backend\Module\Core\ConfigurationStep;
 use Contao\Input;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Config\Manager as ConfigurationManager;
-use WEM\SmartgearBundle\Classes\Config\ManagerFramway as ConfigurationManagerFramway;
 use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 use WEM\SmartgearBundle\Classes\UtilFramway;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Framway as FramwayConfig;
+use WEM\SmartgearBundle\Config\Manager\Framway as ConfigurationManagerFramway;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
 class FramwayConfiguration extends ConfigurationStep

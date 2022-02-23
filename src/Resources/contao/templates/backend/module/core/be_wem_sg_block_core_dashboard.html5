@@ -1,4 +1,18 @@
 <div id="block-<?= $this->type ?>-<?= $this->module ?>-dashboard">
+	<?php if($this->isError): ?>
+	<div class="content_container">
+		<p class="tl_error"><?= $this->error ?></p>
+		<p class="tl_error"><?= $this->trace ?></p>
+	</div>
+	<?php else: ?>
+		<?php if($this->messages): ?>
+			<div class="content_container">
+				<?php foreach($this->messages as $message): ?>
+				<p class="<?= $message['class'] ?>"><?= $message['text'] ?></p>
+				<?php endforeach; ?>
+			</div>
+		<?php endif; ?>
+	<?php endif; ?>
 	Ceci est le dashboooaaardeuh !
 	<?php if($this->actions): ?>
 	<form action="<?= $this->request ?>" class="tl_form" method="post">

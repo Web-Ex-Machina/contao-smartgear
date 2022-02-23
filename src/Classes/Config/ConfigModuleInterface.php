@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Config;
 
-interface ConfigModuleInterface extends ConfigInterface
+interface ConfigModuleInterface extends ConfigJsonInterface
 {
     public function getSgInstallComplete(): bool;
 

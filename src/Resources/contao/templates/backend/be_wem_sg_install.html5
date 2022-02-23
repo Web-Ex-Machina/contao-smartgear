@@ -252,6 +252,12 @@
 	function toastrDisplay(type,msg){
 		toastr[type](msg);
 	}
+
+	function replaceBlockContent(id, content){
+		var ctn = j('div#'+id);
+		ctn.replaceWith(content);
+	}
+
 	/**
 	 * Refresh a block with its ID
 	 */
@@ -260,7 +266,7 @@
 		ctn.find('.loader').addClass("active");
 
 		getBlock(ctn.data("type"), ctn.data("module")).then(function(r) {
-			ctn.replaceWith(r);
+			replaceBlockContent(id,r);
 			applyStepBehaviour();
 		}).catch(function(e) {
 			toastr.error(e, "Une erreur est survenue :");

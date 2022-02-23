@@ -25,11 +25,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Config;
 
-interface ManagerInterface
+interface ManagerEnvInterface extends ManagerInterface
 {
-    public function new(): ConfigInterface;
-
-    public function load(): ConfigInterface;
-
-    public function save(ConfigInterface $configuration): bool;
+    public function retrieveConfigurationAsImportableFormatFromFile(): array;
 }

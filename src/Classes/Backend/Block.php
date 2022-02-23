@@ -205,6 +205,10 @@ class Block extends Controller
                     return ['method' => 'refreshBlock', 'args' => ['block-'.$this->type.'-'.$this->module]];
                 break;
 
+                case 'replaceBlockContent':
+                    return ['method' => 'replaceBlockContent', 'args' => ['block-'.$this->type.'-'.$this->module, $args[0]]];
+                break;
+
                 default:
                     throw new Exception('Callback inconnu : '.$key);
             }
