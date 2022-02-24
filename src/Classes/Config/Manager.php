@@ -56,7 +56,7 @@ class Manager implements ManagerJsonInterface
     {
         $this->configuration = $configuration;
 
-        return false !== file_put_contents($this->configurationFilePath, $this->configuration->export());
+        return $this->file_force_contents($this->configurationFilePath, $this->configuration->export());
     }
 
     public function retrieveConfigurationAsImportableFormatFromFile(): \stdClass
@@ -72,5 +72,23 @@ class Manager implements ManagerJsonInterface
         }
 
         return $content;
+    }
+
+    protected function file_force_contents($dir, $contents): bool
+    {
+        $parts = explode('/', $dir);
+        $file = array_pop($parts);
+        $dir = '';
+        foreach ($parts as $part) {
+            if ('.' !== $part) {
+                if (!is_dir($dir .= "/$part")) {
+                    mkdir($dir);
+                }
+            } else {
+                $dir .= $part;
+            }
+        }
+
+        return false !== file_put_contents("$dir/$file", $contents);
     }
 }

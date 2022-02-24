@@ -34,7 +34,7 @@ services:
         class: WEM\SmartgearBundle\Classes\Config\Manager
         arguments:
             $configuration: '@smartgear.config.core'
-            $configurationFilePath: 'assets/smartgear/config_core.json'
+            $configurationFilePath: './assets/smartgear/config_core.json'
         public: true
 
     smartgear.classes.analyzer.htaccess:

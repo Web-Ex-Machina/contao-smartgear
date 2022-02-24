@@ -185,11 +185,12 @@ class Smartgear extends \Contao\BackendModule
     {
         // Add WEM styles to template
         $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
-        $coreConfifManager = $this->getContainer()->get('smartgear.classes.config.manager.core');
+        $coreConfigManager = $this->getContainer()->get('smartgear.classes.config.manager.core');
         try {
-            $coreConfig = $coreConfifManager->load();
+            $coreConfig = $coreConfigManager->load();
         } catch (FileNotFoundException $e) {
-            $coreConfig = $coreConfifManager->new();
+            $coreConfig = $coreConfigManager->new();
+            $save = $coreConfigManager->save($coreConfig);
         }
 
         // Catch Modal Calls

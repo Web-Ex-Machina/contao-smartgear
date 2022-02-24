@@ -79,7 +79,11 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        $objTemplate->logo = WEMFiles::imageToBase64(new File($config->getSgOwnerLogo()));
+        if (!empty($config->getSgOwnerLogo())) {
+            $objTemplate->logo = WEMFiles::imageToBase64(new File($config->getSgOwnerLogo()));
+        } else {
+            $objTemplate->logo = '';
+        }
         // And return the template, parsed.
         return $objTemplate;
     }

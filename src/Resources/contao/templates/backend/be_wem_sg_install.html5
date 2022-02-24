@@ -160,7 +160,11 @@
 			});
 
 			j(this).find('select').each(function(){
-				objFields.append(j(this).attr('name'),j(this).val());
+				if(j(this).attr('multiple')){
+					j(this).val().forEach((item) => objFields.append(j(this).attr('name'), item))
+				}else{
+					objFields.append(j(this).attr('name'),j(this).val());
+				}
 			});
 
 			j(this).find('textarea').each(function(){

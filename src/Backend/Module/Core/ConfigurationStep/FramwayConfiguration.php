@@ -89,8 +89,8 @@ class FramwayConfiguration extends ConfigurationStep
                 ],
             ];
 
-            $this->addSelectField('themes', 'Thèmes', $arrThemes, $framwayConfig->getThemes(), true, true);
-            $this->addSelectField('components', 'Composants', $arrComponents, $framwayConfig->getComponents(), true, true);
+            $this->addSelectField('themes[]', 'Thèmes', $arrThemes, $framwayConfig->getThemes(), true, true);
+            $this->addSelectField('components[]', 'Composants', $arrComponents, $framwayConfig->getComponents(), true, true);
             $this->addSelectField('fontawesome', 'Configuration Font-Awesome', $arrFontAwesome, $framwayConfig->getUseFA(), false);
             $this->addTextField('new_theme', 'Nouveau thème', '', false, 'hidden', 'text');
         } catch (NotFound $e) {

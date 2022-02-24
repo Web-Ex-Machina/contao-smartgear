@@ -23,6 +23,7 @@ use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Classes\Config\Manager as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 /**
  * Back end module "smartgear".
@@ -287,7 +288,12 @@ class Block extends Controller
 
     public function isInstalled(): bool
     {
-        $config = $this->configurationManager->load();
+        try {
+            $config = $this->configurationManager->load();
+        } catch (FileNotFoundException $e) {
+            $config = $this->configurationManager->new();
+            $this->configurationManager->save($config);
+        }
 
         return (bool) $config->getSgInstallComplete();
     }

@@ -1,9 +1,9 @@
 <form action="<?= $this->request ?>" class="tl_form" method="post">
 	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
 
-	<div class="widget <?= $this->fields['themes']['class'] ?>">
-		<h3><label for="ctrl_<?= $this->fields['themes']['name'] ?>"><?= $this->fields['themes']['label'] ?></label></h3>
-		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['themes']]); ?>
+	<div class="widget <?= $this->fields['themes[]']['class'] ?>">
+		<h3><label for="ctrl_<?= $this->fields['themes[]']['name'] ?>"><?= $this->fields['themes[]']['label'] ?></label></h3>
+		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['themes[]']]); ?>
 		<br>
 	</div>
 
@@ -23,9 +23,9 @@
 		<pre id="block-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme-result" style="height:100px;overflow-y:scroll;" class="hidden result">
 	</div>
 
-	<div class="widget <?= $this->fields['components']['class'] ?>">
-		<h3><label for="ctrl_<?= $this->fields['components']['name'] ?>"><?= $this->fields['components']['label'] ?></label></h3>
-		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['components']]); ?>
+	<div class="widget <?= $this->fields['components[]']['class'] ?>">
+		<h3><label for="ctrl_<?= $this->fields['components[]']['name'] ?>"><?= $this->fields['components[]']['label'] ?></label></h3>
+		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['components[]']]); ?>
 		<br>
 	</div>
 
