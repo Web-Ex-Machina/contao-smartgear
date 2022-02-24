@@ -308,6 +308,10 @@ class Block extends Controller
             $objTemplate->content = $this->configurationStepManager->parse();
         } elseif (self::MODE_DASHBOARD === $this->getMode()) {
             $objTemplate->content = $this->dashboard->parse();
+            // $objTemplate->fields = $this->dashboard->fields;
+            $objTemplate->logs = $this->dashboard->getLogs();
+            $objTemplate->messages = $this->dashboard->getMessages();
+            $objTemplate->actions = Util::formatActions($this->dashboard->getActions());
         }
 
         return $objTemplate;

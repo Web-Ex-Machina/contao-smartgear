@@ -13,7 +13,9 @@
 			</div>
 		<?php endif; ?>
 	<?php endif; ?>
-	Ceci est le dashboooaaardeuh !
+	<div class="content_container">
+		<p>Ceci est le dashboooaaardeuh !</p>
+	</div>
 	<?php if($this->actions): ?>
 	<form action="<?= $this->request ?>" class="tl_form" method="post">
 		<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>

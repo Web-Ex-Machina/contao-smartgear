@@ -297,9 +297,9 @@ class Website extends ConfigurationStep
     {
         $userGroups = [];
 
-        $objUserGroup = UserGroupModel::findOneByName('Administrateurs') ?? new UserGroupModel();
+        $objUserGroup = UserGroupModel::findOneByName(CoreConfig::DEFAULT_USER_GROUP_ADMIN_NAME) ?? new UserGroupModel();
         $objUserGroup->tstamp = time();
-        $objUserGroup->name = 'Administrateurs';
+        $objUserGroup->name = CoreConfig::DEFAULT_USER_GROUP_ADMIN_NAME;
         $objUserGroup->modules = 'a:8:{i:0;s:4:"page";i:1;s:7:"article";i:2;s:4:"form";i:3;s:5:"files";i:4;s:16:"nc_notifications";i:5;s:4:"user";i:6;s:3:"log";i:7;s:11:"maintenance";}';
         // $objUserGroup->pagemounts = '';
         // $objUserGroup->alpty = 'a:3:{i:0;s:7:"regular";i:1;s:7:"forward";i:2;s:8:"redirect";}';
@@ -328,7 +328,7 @@ class Website extends ConfigurationStep
         $objUser = UserModel::findOneByName('Webmaster') ?? new UserModel();
         $objUser->tstamp = time();
         $objUser->dateAdded = time();
-        $objUser->username = 'webmaster';
+        $objUser->username = CoreConfig::DEFAULT_USER_USERNAME;
         $objUser->name = 'Webmaster';
         $objUser->email = $config->getSgOwnerEmail();
         $objUser->language = 'fr';
@@ -370,7 +370,7 @@ class Website extends ConfigurationStep
             'includeChmod' => 1,
             'cuser' => $users['webmaster']->id,
             'cgroup' => $groups['administrators']->id,
-            'chmod' => 'a:12:{i:0;s:2:"u1";i:1;s:2:"u2";i:2;s:2:"u3";i:3;s:2:"u4";i:4;s:2:"u5";i:5;s:2:"u6";i:6;s:2:"g1";i:7;s:2:"g2";i:8;s:2:"g3";i:9;s:2:"g4";i:10;s:2:"g5";i:11;s:2:"g6";}',
+            'chmod' => CoreConfig::DEFAULT_ROOTPAGE_CHMOD,
         ], null !== $page ? ['id' => $page->id] : []));
 
         $page = PageModel::findOneBy('title', 'Accueil');

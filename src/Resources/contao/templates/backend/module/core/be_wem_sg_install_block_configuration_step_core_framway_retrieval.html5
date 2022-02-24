@@ -1,5 +1,5 @@
 <form action="<?= $this->request ?>" class="tl_form" method="post">
-	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()]); ?>
+	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
 	<div class="widget">
 		<?php if($this->framway_is_present): ?>
 			<p>Le framway est déjà présent et configuré.</p>

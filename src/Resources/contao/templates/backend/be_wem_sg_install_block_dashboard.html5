@@ -1,3 +1,7 @@
 <div id="block-<?= $this->type ?>-<?= $this->module ?>-dashboard">
-	This is a default dashboard.
+	<div class="content_container">
+		<p>
+			This is a default dashboard.
+		</p>
+	</div>
 </div>

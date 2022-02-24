@@ -19,6 +19,7 @@ use Contao\Input;
 use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Classes\Backend\Block as BackendBlock;
+use WEM\SmartgearBundle\Classes\Util;
 
 class Block extends BackendBlock
 {
@@ -101,11 +102,15 @@ class Block extends BackendBlock
                 break;
                 case 'prod_mode_check':
                     $this->setMode(self::MODE_CHECK_PROD);
-                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+                    $content = $this->parse();
+                    // $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('replaceBlockContent', [$content])]];
                 break;
                 case 'prod_mode_check_cancel':
                     $this->setMode(self::MODE_DASHBOARD);
-                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+                    $content = $this->parse();
+                    // $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('replaceBlockContent', [$content])]];
                 break;
                 default:
                     parent::processAjaxRequest();
@@ -127,6 +132,9 @@ class Block extends BackendBlock
         switch ($this->getMode()) {
             case self::MODE_CHECK_PROD:
                 $objTemplate->content = $this->dashboard->checkProdMode();
+                $objTemplate->logs = $this->dashboard->getLogs();
+                $objTemplate->messages = $this->dashboard->getMessages();
+                $objTemplate->actions = Util::formatActions($this->dashboard->getActions());
             break;
             default:
                 $objTemplate = parent::parseDependingOnMode($objTemplate);

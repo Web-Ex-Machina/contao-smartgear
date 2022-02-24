@@ -37,6 +37,12 @@ services:
             $configurationFilePath: 'assets/smartgear/config_core.json'
         public: true
 
+    smartgear.classes.analyzer.htaccess:
+        class: WEM\SmartgearBundle\Classes\Analyzer\Htaccess
+        arguments:
+            $htAccessFilePath: './.htaccess'
+        public: true
+
     smartgear.config.manager.framway:
         class: WEM\SmartgearBundle\Config\Manager\Framway
         arguments:
@@ -70,6 +76,7 @@ services:
             $module: 'core'
             $type: 'core'
             $configurationEnvFileManager: '@smartgear.config.manager.env_file.local'
+            $htaccessAnalyzer: '@smartgear.classes.analyzer.htaccess'
         public: true
 
     smartgear.backend.module.core.block:

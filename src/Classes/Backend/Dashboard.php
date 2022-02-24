@@ -92,6 +92,24 @@ class Dashboard
         exit;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getActions(): array
+    {
+        return $this->actions;
+    }
+
+    public function getMessages(): array
+    {
+        return $this->messages;
+    }
+
+    public function getLogs(): array
+    {
+        return $this->logs;
+    }
+
     protected function getFilledTemplate(): FrontendTemplate
     {
         $objTemplate = new FrontendTemplate($this->strTemplate);
@@ -99,8 +117,8 @@ class Dashboard
         $objTemplate->token = RequestToken::get();
         $objTemplate->module = $this->module;
         $objTemplate->type = $this->type;
-        $objTemplate->messages = $this->messages;
-        $objTemplate->logs = $this->logs;
+        // $objTemplate->messages = $this->messages;
+        // $objTemplate->logs = $this->logs;
 
         return $objTemplate;
     }

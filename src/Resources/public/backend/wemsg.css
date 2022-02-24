@@ -14,7 +14,7 @@
 #tl_wem_sg_install .blocks:last-of-type{padding-bottom:0;margin-bottom:0;border:none;}
 #tl_wem_sg_install .blocks .block{width:calc(50% - 30px);margin:15px;border:1px solid #f3f3f5;position:relative;}
 #tl_wem_sg_install .blocks .block.full{width:calc(100% - 2px);}
-#tl_wem_sg_install .blocks .block.hasActions{padding-bottom:50px;}
+#tl_wem_sg_install .blocks .block.hasActions{margin-bottom:50px;}
 #tl_wem_sg_install .blocks .block .title{background:#f3f3f5;padding:12px 15px 12px 55px;position:relative;}
 #tl_wem_sg_install .blocks .block .title i{position:absolute;left:0;top:0;width:40px;height:40px;display:block;color:#fff;text-align:center;line-height:40px;}
 #tl_wem_sg_install .blocks .block.core .title i,
