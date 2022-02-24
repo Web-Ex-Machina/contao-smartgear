@@ -17,8 +17,8 @@ namespace WEM\SmartgearBundle\Classes\Analyzer;
 class Htaccess
 {
     public const REWRITE_ENGINE_ON = 'RewriteEngine On';
-    public const REWRITE_COND_HTTPS_1 = 'RewriteCond %{HTTPS} off [OR]';
-    public const REWRITE_COND_HTTPS_2 = 'RewriteCond %{SERVER_PORT} 80 [OR]';
+    public const REWRITE_COND_HTTPS_1 = 'RewriteCond %{HTTPS} off';
+    public const REWRITE_COND_HTTPS_2 = 'RewriteCond %{SERVER_PORT} 80';
     public const REWRITE_COND_WWW_1 = 'RewriteCond %{HTTP_HOST} !^www\. [NC]';
     public const REWRITE_COND_WWW_2 = 'RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]';
     public const REWRITE_RULE = 'RewriteRule ^.*$ https://www.%1%{REQUEST_URI} [L,NE,R=301]'; // [L,NE,R=301]

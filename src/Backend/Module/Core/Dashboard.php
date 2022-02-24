@@ -115,8 +115,8 @@ class Dashboard extends BackendDashboard
         $this->configurationEnvFileManager->save($envConfig);
         $rootPages = PageModel::findPublishedRootPages();
         foreach ($rootPages as $rootPage) {
-            if (empty($rootPage->domain)) {
-                $rootPage->domain = \Contao\Environment::get('base');
+            if (empty($rootPage->dns)) {
+                $rootPage->dns = \Contao\Environment::get('base');
             }
             if (empty($rootPage->language)) {
                 $rootPage->language = 'fr';
@@ -145,7 +145,7 @@ class Dashboard extends BackendDashboard
         $nbErrors = 0;
         $rootPages = PageModel::findPublishedRootPages();
         foreach ($rootPages as $rootPage) {
-            if (empty($rootPage->domain)) {
+            if (empty($rootPage->dns)) {
                 $this->addError(sprintf('Pas de domaine configuré sur la page racine "%s"', $rootPage->title));
             }
             if (empty($rootPage->language)) {
