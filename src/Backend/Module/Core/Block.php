@@ -24,6 +24,7 @@ use WEM\SmartgearBundle\Classes\Util;
 class Block extends BackendBlock
 {
     public const MODE_CHECK_PROD = 'check_prod';
+    public const MODE_RESET_PROD = 'check_reset';
     protected $type = 'core';
     protected $module = 'core';
     protected $icon = 'exclamation-triangle';
@@ -103,13 +104,17 @@ class Block extends BackendBlock
                 case 'prod_mode_check':
                     $this->setMode(self::MODE_CHECK_PROD);
                     $content = $this->parse();
-                    // $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('replaceBlockContent', [$content])]];
+                break;
+                case 'reset_mode_check':
+                    $this->setMode(self::MODE_RESET_PROD);
+                    $content = $this->parse();
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('replaceBlockContent', [$content])]];
                 break;
                 case 'prod_mode_check_cancel':
+                case 'reset_mode_check_cancel':
                     $this->setMode(self::MODE_DASHBOARD);
                     $content = $this->parse();
-                    // $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('replaceBlockContent', [$content])]];
                 break;
                 default:
@@ -132,6 +137,12 @@ class Block extends BackendBlock
         switch ($this->getMode()) {
             case self::MODE_CHECK_PROD:
                 $objTemplate->content = $this->dashboard->checkProdMode();
+                $objTemplate->logs = $this->dashboard->getLogs();
+                $objTemplate->messages = $this->dashboard->getMessages();
+                $objTemplate->actions = Util::formatActions($this->dashboard->getActions());
+            break;
+            case self::MODE_RESET_PROD:
+                $objTemplate->content = $this->dashboard->checkReset();
                 $objTemplate->logs = $this->dashboard->getLogs();
                 $objTemplate->messages = $this->dashboard->getMessages();
                 $objTemplate->actions = Util::formatActions($this->dashboard->getActions());

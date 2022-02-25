@@ -568,8 +568,6 @@
 				,'REQUEST_TOKEN':"<?= $this->token; ?>"
 				,'wem_module':'be_smartgear'
 				,'action':strAction
-				// ,'action':'executeCmdLive'
-				// ,'cmd':cmd
 				,'type': strType
 				,'module': strModule
 			};
@@ -588,19 +586,11 @@
           {
             var progressResponse;
             var response = e.currentTarget.response;
-            // console.log("== before cut ==");
-            // console.log(response);
-            // console.log(response.length);
             progressResponse = typeof lastResponseLength === "undefined" ? response : response.substring(lastResponseLength);
             lastResponseLength = response.length;
-            // console.log("== after cut ==");
-            // console.log(progressResponse);
-            // console.log(progressResponse.length);
-            // console.log(lastResponseLength);
             if(progressResponse.slice(-1) == ","){
             	progressResponse = progressResponse.substring(progressResponse.length - 1);
             }
-            // let json = j.parseJSON("{\"full\":[" + progressResponse.replace(/\}\{/gi, "},{") + "]}");
             let json = j.parseJSON("{\"full\":[" + progressResponse + "]}");
             let html = '';
             for(let i in json.full){

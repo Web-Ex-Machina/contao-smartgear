@@ -179,6 +179,17 @@ class Dashboard extends BackendDashboard
         return $objTemplate->parse();
     }
 
+    public function checkReset(): string
+    {
+        $objTemplate = $this->getFilledTemplate();
+
+        $this->actions = [];
+        $this->actions[] = ['action' => 'reset_mode_check_cancel', 'label' => 'Annuler'];
+        $this->actions[] = ['action' => 'reset', 'label' => 'Effectuer la mise en production'];
+
+        return $objTemplate->parse();
+    }
+
     protected function getFilledTemplate(): FrontendTemplate
     {
         $objTemplate = parent::getFilledTemplate();
@@ -192,6 +203,7 @@ class Dashboard extends BackendDashboard
         }
 
         $this->actions[] = ['action' => 'configure', 'label' => 'Configuration'];
+        $this->actions[] = ['action' => 'reset_mode_check', 'label' => 'Réinitialisation'];
 
         // $objTemplate->actions = Util::formatActions($this->actions);
 

@@ -550,27 +550,7 @@ class Util
             $strCmd
         );
 
-        $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline(
-            $cmd
-        ) : new Process($cmd);
-        $process->run();
-
-        $i = 0;
-        while ($i <= $process->getTimeout()) {
-            sleep(1);
-
-            if ($process->isTerminated()) {
-                if (!$process->isSuccessful()) {
-                    throw new ProcessFailedException($process);
-                }
-
-                return $process->getOutput();
-            }
-
-            ++$i;
-        }
-
-        return $process->getOutput();
+        return self::executeCmd($cmd);
     }
 
     /**
