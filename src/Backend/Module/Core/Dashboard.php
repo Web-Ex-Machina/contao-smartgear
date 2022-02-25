@@ -111,7 +111,7 @@ class Dashboard extends BackendDashboard
         }
         /** @var EnvFileConfig */
         $envConfig = $this->configurationEnvFileManager->load();
-        $envConfig->setAPPENV(EnvFileConfig::MODE_DEV);
+        $envConfig->setAPPENV(EnvFileConfig::MODE_PROD);
         $this->configurationEnvFileManager->save($envConfig);
         $rootPages = PageModel::findPublishedRootPages();
         foreach ($rootPages as $rootPage) {

@@ -23,15 +23,18 @@ class DirectoriesSynchronizer
     protected $directoryToSynchronizeFrom;
     /** @var string */
     protected $directoryToSynchronizeTo;
+    /** @var string */
+    protected $rootDir; // nedded 'cause Contao always prefix our paths with it ...
 
     protected $filesToAdd = [];
     protected $filesToDelete = [];
     protected $filesToUpdate = [];
 
-    public function __construct(string $directoryToSynchronizeFrom, string $directoryToSynchronizeTo)
+    public function __construct(string $directoryToSynchronizeFrom, string $directoryToSynchronizeTo, string $rootDir)
     {
         $this->directoryToSynchronizeFrom = $directoryToSynchronizeFrom;
         $this->directoryToSynchronizeTo = $directoryToSynchronizeTo;
+        $this->rootDir = $rootDir;
     }
 
     public function synchronize(?bool $withDeletions = true): void
@@ -43,14 +46,16 @@ class DirectoriesSynchronizer
         if (!empty($this->filesToAdd)) {
             foreach ($this->filesToAdd as $relativePath => $realPath) {
                 $objFile = new File($realPath);
-                $objFile->copyTo($this->directoryToSynchronizeTo.\DIRECTORY_SEPARATOR.$relativePath);
+                if (!$objFile->copyTo($this->directoryToSynchronizeTo.$relativePath)) {
+                    throw new Exception('Erreur dans la copie de "'.$realPath.'" vers "'.$this->directoryToSynchronizeTo.$relativePath.'"');
+                }
             }
         }
 
         if (!empty($this->filesToUpdate)) {
             foreach ($this->filesToUpdate as $relativePath => $realPath) {
                 $objFileFrom = new File($realPath);
-                $objFileTo = new File($this->directoryToSynchronizeTo.\DIRECTORY_SEPARATOR.$relativePath);
+                $objFileTo = new File($this->directoryToSynchronizeTo.$relativePath);
 
                 $objFileTo->truncate();
                 $objFileTo->write($objFileFrom->getContent());
@@ -93,12 +98,12 @@ class DirectoriesSynchronizer
 
     protected function getDirectoryToSynchronizeFromFiles()
     {
-        return $this->getFiles($this->directoryToSynchronizeFrom, true);
+        return $this->getFiles($this->rootDir.\DIRECTORY_SEPARATOR.$this->directoryToSynchronizeFrom, true);
     }
 
     protected function getDirectoryToSynchronizeToFiles()
     {
-        return $this->getFiles($this->directoryToSynchronizeTo, true);
+        return $this->getFiles($this->rootDir.\DIRECTORY_SEPARATOR.$this->directoryToSynchronizeTo, true);
     }
 
     protected function checkFiles(array $filesFrom, array $filesTo): void
@@ -126,7 +131,11 @@ class DirectoriesSynchronizer
     {
         try {
             $strBasePath = $rootFolderPath.$currentFolderPath;
-            $arrFiles = scandir($strBasePath);
+            try {
+                $arrFiles = scandir($strBasePath);
+            } catch (Exception $e) {
+                $arrFiles = [];
+            }
             $arrPaths = [];
 
             foreach ($arrFiles as $f) {
@@ -137,9 +146,9 @@ class DirectoriesSynchronizer
                 $isFolder = is_dir($strBasePath.\DIRECTORY_SEPARATOR.$f);
 
                 if ($blnGetSubFolders && $isFolder) {
-                    $arrPaths = array_merge($arrPaths, $this->getFiles($rootFolderPath, $blnGetSubFolders, $currentFolderPath.\DIRECTORY_SEPARATOR.$f, ));
+                    $arrPaths = array_merge($arrPaths, $this->getFiles($rootFolderPath, $blnGetSubFolders, $currentFolderPath.\DIRECTORY_SEPARATOR.$f));
                 } elseif (!$isFolder) {
-                    $arrPaths[$currentFolderPath.\DIRECTORY_SEPARATOR.$f] = $strBasePath.\DIRECTORY_SEPARATOR.$f;
+                    $arrPaths[$currentFolderPath.\DIRECTORY_SEPARATOR.$f] = $this->stripRootPathFromPath($this->rootDir, $strBasePath.\DIRECTORY_SEPARATOR.$f);
                 }
             }
 
@@ -170,6 +179,6 @@ class DirectoriesSynchronizer
 
     protected function stripRootPathFromPath(string $rootFolder, string $path): string
     {
-        return str_replace($rootFolder, '', $path);
+        return str_replace($rootFolder.\DIRECTORY_SEPARATOR, '', $path);
     }
 }

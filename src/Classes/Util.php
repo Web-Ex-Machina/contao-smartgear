@@ -29,6 +29,7 @@ use InvalidArgumentException;
 use Psr\Log\LogLevel;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use WEM\SmartgearBundle\Config\Core as CoreConfig;
 use WEM\UtilsBundle\Classes\StringUtil;
 
 /**
@@ -77,12 +78,13 @@ class Util
     public static function getFramwayColors($strFWTheme = '')
     {
         try {
-            $arrConfig = self::loadSmartgearConfig();
+            /** @var CoreConfig */
+            $coreConfig = self::loadSmartgearConfig();
 
-            if ('' === $strFWTheme && $arrConfig['framwayTheme']) {
-                $strFWTheme = $arrConfig['framwayTheme'];
+            if ('' === $strFWTheme && $coreConfig->getSgFramwayThemes()) {
+                $strFWTheme = $coreConfig->getSgFramwayThemes()[0];
             } elseif ('' === $strFWTheme) {
-                $strFWTheme = $arrConfig['framwayPath'].'/src/themes/smartgear';
+                $strFWTheme = $coreConfig->getSgFramwayPath().'/src/themes/smartgear';
             }
 
             $strFramwayConfig = file_get_contents($strFWTheme.'/_config.scss');

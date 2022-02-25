@@ -31,7 +31,9 @@ class FramwayConfiguration extends ConfigurationStep
     /** @var ConfigurationManagerFramway */
     protected $configurationManagerFramway;
     /** @var DirectoriesSynchronizer */
-    protected $templateSynchronizer;
+    protected $templateRSCESynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected $templateSmartgearSynchronizer;
     /** @var DirectoriesSynchronizer */
     protected $tinyMCEPluginsSynchronizer;
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_configuration';
@@ -41,14 +43,16 @@ class FramwayConfiguration extends ConfigurationStep
         string $type,
         ConfigurationManager $configurationManager,
         ConfigurationManagerFramway $configurationManagerFramway,
-        DirectoriesSynchronizer $templateSynchronizer,
+        DirectoriesSynchronizer $templateRSCESynchronizer,
+        DirectoriesSynchronizer $templateSmartgearSynchronizer,
         DirectoriesSynchronizer $tinyMCEPluginsSynchronizer
     ) {
         parent::__construct($module, $type);
         $this->title = 'Framway | Configuration';
         $this->configurationManager = $configurationManager;
         $this->configurationManagerFramway = $configurationManagerFramway;
-        $this->templateSynchronizer = $templateSynchronizer;
+        $this->templateRSCESynchronizer = $templateRSCESynchronizer;
+        $this->templateSmartgearSynchronizer = $templateSmartgearSynchronizer;
         $this->tinyMCEPluginsSynchronizer = $tinyMCEPluginsSynchronizer;
         try {
             /** @var CoreConfig */
@@ -130,9 +134,10 @@ class FramwayConfiguration extends ConfigurationStep
         $this->updateFramwayConfiguration(Input::post('themes') ?? [], Input::post('components'), $fa);
         $this->updateCoreConfiguration(Input::post('themes') ?? []);
 
-        UtilFramway::build($config->getSgFramwayPath());
+        //UtilFramway::build($config->getSgFramwayPath());
 
         $this->importRSCETemplates();
+        $this->importSmartgearTemplates();
         $this->importTinyMCEPlugins();
     }
 
@@ -190,7 +195,12 @@ class FramwayConfiguration extends ConfigurationStep
 
     protected function importRSCETemplates(): void
     {
-        $this->templateSynchronizer->synchronize(false);
+        $this->templateRSCESynchronizer->synchronize(false);
+    }
+
+    protected function importSmartgearTemplates(): void
+    {
+        $this->templateSmartgearSynchronizer->synchronize(false);
     }
 
     protected function importTinyMCEPlugins(): void

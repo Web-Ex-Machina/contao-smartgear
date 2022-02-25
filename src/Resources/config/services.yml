@@ -19,15 +19,25 @@ services:
     smartgear.classes.directories_synchronizer.templates.rsce:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
-            $directoryToSynchronizeFrom: './web/bundles/wemsmartgear/contao_files/templates/rsce'
-            $directoryToSynchronizeTo: './templates/rsce'
+            $directoryToSynchronizeFrom: 'web/bundles/wemsmartgear/contao_files/templates/rsce'
+            $directoryToSynchronizeTo: 'templates/rsce'
+            $rootDir: '%kernel.project_dir%'
+        public: true
+
+    smartgear.classes.directories_synchronizer.templates.smartgear:
+        class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
+        arguments:
+            $directoryToSynchronizeFrom: 'web/bundles/wemsmartgear/contao_files/templates/smartgear'
+            $directoryToSynchronizeTo: 'templates/smartgear'
+            $rootDir: '%kernel.project_dir%'
         public: true
 
     smartgear.classes.directories_synchronizer.tiny_mce.plugins:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
-            $directoryToSynchronizeFrom: './web/bundles/wemsmartgear/contao_files/assets/tinymce4/js/plugins'
-            $directoryToSynchronizeTo: './assets/tinymce4/js/plugins'
+            $directoryToSynchronizeFrom: 'web/bundles/wemsmartgear/contao_files/assets/tinymce4/js/plugins'
+            $directoryToSynchronizeTo: 'assets/tinymce4/js/plugins'
+            $rootDir: '%kernel.project_dir%'
         public: true
 
     smartgear.classes.config.manager.core:
@@ -123,7 +133,8 @@ services:
             $type: 'core'
             $configurationManager: '@smartgear.classes.config.manager.core'
             $configurationManagerFramway: '@smartgear.config.manager.framway'
-            $templateSynchronizer: '@smartgear.classes.directories_synchronizer.templates.rsce'
+            $templateRSCESynchronizer: '@smartgear.classes.directories_synchronizer.templates.rsce'
+            $templateSmartgearSynchronizer: '@smartgear.classes.directories_synchronizer.templates.smartgear'
             $tinyMCEPluginsSynchronizer: '@smartgear.classes.directories_synchronizer.tiny_mce.plugins'
         public: true
 
