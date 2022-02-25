@@ -23,6 +23,12 @@ class Htaccess
     public const REWRITE_COND_WWW_2 = 'RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]';
     public const REWRITE_RULE = 'RewriteRule ^.*$ https://www.%1%{REQUEST_URI} [L,NE,R=301]'; // [L,NE,R=301]
 
+    // RewriteCond %{HTTPS} off
+    // RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    // RewriteCond %{HTTP_HOST} !^www\. [NC]
+    // RewriteRule (.*) https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
     protected $filepath;
 
     public function __construct(string $htAccessFilePath)

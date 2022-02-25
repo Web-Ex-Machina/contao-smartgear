@@ -67,7 +67,7 @@
 	function framwayThemeAdd(type, module){
 		var ctn = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme');
 		var field = ctn.find('.tl_text');
-		var selectThemesField = j('#ctrl_themes');
+		var selectThemesField = j('select[name="themes[]"]')
 		ctn.find('.loader').addClass("active");
 		ctn.find('.result').removeClass("hidden").html('');
 		return executeCmdLive(

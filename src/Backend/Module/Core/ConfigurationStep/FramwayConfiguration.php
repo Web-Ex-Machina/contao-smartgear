@@ -134,7 +134,7 @@ class FramwayConfiguration extends ConfigurationStep
         $this->updateFramwayConfiguration(Input::post('themes') ?? [], Input::post('components'), $fa);
         $this->updateCoreConfiguration(Input::post('themes') ?? []);
 
-        //UtilFramway::build($config->getSgFramwayPath());
+        UtilFramway::build($config->getSgFramwayPath());
 
         $this->importRSCETemplates();
         $this->importSmartgearTemplates();

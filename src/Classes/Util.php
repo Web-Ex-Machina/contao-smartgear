@@ -622,9 +622,9 @@ class Util
         $process->setTimeout(3600);
         $process->run(function ($type, $buffer): void {
             if (Process::ERR === $type) {
-                echo json_encode(['data' => $buffer, 'status' => 'error']);
+                echo json_encode(['data' => $buffer, 'status' => 'error']).',';
             } else {
-                echo json_encode(['data' => $buffer, 'status' => 'success']);
+                echo json_encode(['data' => $buffer, 'status' => 'success']).',';
             }
             @flush();
         });

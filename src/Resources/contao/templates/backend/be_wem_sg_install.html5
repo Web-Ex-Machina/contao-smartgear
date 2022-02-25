@@ -574,7 +574,7 @@
 				,'module': strModule
 			};
 			objFields = Object.assign(objFields,aditionnalParameters);
-
+			var lastResponseLength = 0;
 			j.ajax({
 				method: "POST"
 				// ,timeout:10000
@@ -588,9 +588,20 @@
           {
             var progressResponse;
             var response = e.currentTarget.response;
+            // console.log("== before cut ==");
+            // console.log(response);
+            // console.log(response.length);
             progressResponse = typeof lastResponseLength === "undefined" ? response : response.substring(lastResponseLength);
             lastResponseLength = response.length;
-            let json = j.parseJSON("{\"full\":[" + progressResponse.replace(/\}\{/gi, "},{") + "]}");
+            // console.log("== after cut ==");
+            // console.log(progressResponse);
+            // console.log(progressResponse.length);
+            // console.log(lastResponseLength);
+            if(progressResponse.slice(-1) == ","){
+            	progressResponse = progressResponse.substring(progressResponse.length - 1);
+            }
+            // let json = j.parseJSON("{\"full\":[" + progressResponse.replace(/\}\{/gi, "},{") + "]}");
+            let json = j.parseJSON("{\"full\":[" + progressResponse + "]}");
             let html = '';
             for(let i in json.full){
           		if(typeof json.full[i].data !== "undefined"){
