@@ -82,7 +82,7 @@ class Util
             $coreConfig = self::loadSmartgearConfig();
 
             if ('' === $strFWTheme && $coreConfig->getSgFramwayThemes()) {
-                $strFWTheme = $coreConfig->getSgFramwayThemes()[0];
+                $strFWTheme = $coreConfig->getSgFramwayPath().'/src/themes/'.$coreConfig->getSgFramwayThemes()[0];
             } elseif ('' === $strFWTheme) {
                 $strFWTheme = $coreConfig->getSgFramwayPath().'/src/themes/smartgear';
             }
@@ -240,7 +240,7 @@ class Util
 
             // // And return the entire config, updated
             // return $arrConfig;
-            $configManager = System::getContainer()->get('smartgear.classes.config.manager.core');
+            $configManager = System::getContainer()->get('smartgear.config.manager.core');
 
             return $configManager->load();
         } catch (Exception $e) {

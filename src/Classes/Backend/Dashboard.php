@@ -21,26 +21,20 @@ use Contao\RequestToken;
 use Contao\System;
 use Exception;
 use InvalidArgumentException;
-use WEM\SmartgearBundle\Classes\Config\Manager as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
 
 class Dashboard
 {
+    use Traits\ActionsTrait;
+    use Traits\MessagesTrait;
     /** @var string */
     protected $module = '';
     /** @var string */
     protected $type = '';
     /** @var ConfigurationManager [description] */
     protected $configurationManager;
-    /** @var array */
-    protected $actions = [];
     /** @var string */
     protected $strTemplate = 'be_wem_sg_install_block_dashboard';
-    /**
-     * Generic array of messages.
-     *
-     * @var array
-     */
-    protected $messages = [];
 
     /**
      * Generic array of logs.
@@ -92,19 +86,6 @@ class Dashboard
         exit;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getActions(): array
-    {
-        return $this->actions;
-    }
-
-    public function getMessages(): array
-    {
-        return $this->messages;
-    }
-
     public function getLogs(): array
     {
         return $this->logs;
@@ -121,49 +102,5 @@ class Dashboard
         // $objTemplate->logs = $this->logs;
 
         return $objTemplate;
-    }
-
-    /**
-     * Add an error.
-     */
-    protected function addError($msg): void
-    {
-        $this->messages[] = [
-            'class' => 'tl_error',
-            'text' => $msg,
-        ];
-    }
-
-    /**
-     * Add an error.
-     */
-    protected function addInfo($msg): void
-    {
-        $this->messages[] = [
-            'class' => 'tl_info',
-            'text' => $msg,
-        ];
-    }
-
-    /**
-     * Add an error.
-     */
-    protected function addConfirm($msg): void
-    {
-        $this->messages[] = [
-            'class' => 'tl_confirm',
-            'text' => $msg,
-        ];
-    }
-
-    /**
-     * Add an error.
-     */
-    protected function addNew($msg): void
-    {
-        $this->messages[] = [
-            'class' => 'tl_new',
-            'text' => $msg,
-        ];
     }
 }

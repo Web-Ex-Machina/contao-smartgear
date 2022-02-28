@@ -21,7 +21,7 @@ use Contao\Input;
 use Contao\RequestToken;
 use Contao\System;
 use Exception;
-use WEM\SmartgearBundle\Classes\Config\Manager as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
@@ -32,22 +32,11 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
  */
 class Block extends Controller
 {
+    use Traits\ActionsTrait;
+    use Traits\MessagesTrait;
     public const MODE_DASHBOARD = 'dashboard';
     public const MODE_INSTALL = 'install';
     public const MODE_CONFIGURE = 'configure';
-    /**
-     * Generic array of messages.
-     *
-     * @var array
-     */
-    protected $messages = [];
-
-    /**
-     * Generic array of actions.
-     *
-     * @var array
-     */
-    protected $actions = [];
 
     /**
      * Generic array of logs.
@@ -226,24 +215,22 @@ class Block extends Controller
             }
             switch (Input::post('action')) {
                 case 'next':
-                    $this->configurationStepManager->goToNextStep();
+                    $this->goToNextStep();
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
                 case 'previous':
-                    $this->configurationStepManager->goToPreviousStep();
+                    $this->goToPreviousStep();
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
                 case 'setStep':
-                    $this->configurationStepManager->goToStep((int) Input::post('step') ?? 0);
+                    $this->goToStep((int) Input::post('step') ?? 0);
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
                 case 'finish':
-                    $this->configurationStepManager->finish();
-                    $this->setMode(self::MODE_DASHBOARD);
-                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+                    $arrResponse = $this->finish();
                 break;
                 case 'save':
-                    $this->configurationStepManager->save();
+                    $this->save();
                     $arrResponse = ['status' => 'success', 'msg' => 'Les données ont été sauvegardées', 'callbacks' => [
                         $this->callback('refreshBlock'),
                         $this->callback('toastrDisplay', ['success', 'Les données ont été sauvegardées']),
@@ -254,8 +241,12 @@ class Block extends Controller
                     $this->configurationStepManager->goToStep(0);
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
+                case 'dashboard':
+                    $this->setMode(self::MODE_DASHBOARD);
+                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+                break;
                 case 'getSteps':
-                    echo $this->configurationStepManager->parseSteps();
+                    echo $this->parseSteps();
                     exit;
                 break;
                 case 'parse':
@@ -306,6 +297,70 @@ class Block extends Controller
         return $mode;
     }
 
+    protected function goToNextStep(): void
+    {
+        switch ($this->getMode()) {
+            case self::MODE_CONFIGURE:
+            case self::MODE_INSTALL:
+                $this->configurationStepManager->goToNextStep();
+            break;
+        }
+    }
+
+    protected function goToPreviousStep(): void
+    {
+        switch ($this->getMode()) {
+            case self::MODE_CONFIGURE:
+            case self::MODE_INSTALL:
+                $this->configurationStepManager->goToPreviousStep();
+            break;
+        }
+    }
+
+    protected function goToStep(int $stepIndex): void
+    {
+        switch ($this->getMode()) {
+            case self::MODE_CONFIGURE:
+            case self::MODE_INSTALL:
+                $this->configurationStepManager->goToStep($stepIndex);
+            break;
+        }
+    }
+
+    protected function finish(): array
+    {
+        switch ($this->getMode()) {
+            case self::MODE_CONFIGURE:
+            case self::MODE_INSTALL:
+                $this->configurationStepManager->finish();
+                $this->setMode(self::MODE_DASHBOARD);
+                $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+            break;
+        }
+
+        return $arrResponse;
+    }
+
+    protected function save(): void
+    {
+        switch ($this->getMode()) {
+            case self::MODE_CONFIGURE:
+            case self::MODE_INSTALL:
+                $this->configurationStepManager->save();
+            break;
+        }
+    }
+
+    protected function parseSteps()
+    {
+        switch ($this->getMode()) {
+            case self::MODE_CONFIGURE:
+            case self::MODE_INSTALL:
+                return $this->configurationStepManager->parseSteps();
+            break;
+        }
+    }
+
     protected function parseDependingOnMode(FrontendTemplate $objTemplate): FrontendTemplate
     {
         if (self::MODE_CONFIGURE === $this->getMode()) {
@@ -317,115 +372,10 @@ class Block extends Controller
             // $objTemplate->fields = $this->dashboard->fields;
             $objTemplate->logs = $this->dashboard->getLogs();
             $objTemplate->messages = $this->dashboard->getMessages();
-            $objTemplate->actions = Util::formatActions($this->dashboard->getActions());
+            $objTemplate->actions = $this->formatActions($this->dashboard->getActions());
         }
 
         return $objTemplate;
-    }
-
-    /**
-     * Reset the errors array.
-     */
-    protected function resetMessages(): void
-    {
-        $this->messages = [];
-    }
-
-    /**
-     * Reset the errors array.
-     *
-     * @param mixed|null $strScope
-     */
-    protected function getMessages($strScope = null)
-    {
-        return $this->messages;
-    }
-
-    /**
-     * Return true if there is errors in this block.
-     */
-    protected function hasErrors()
-    {
-        if (!empty($this->messages)) {
-            foreach ($this->messages as $m) {
-                if ('tl_error' === $m['class']) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Return true if there is updates in this block.
-     */
-    protected function hasUpdates()
-    {
-        if (!empty($this->messages)) {
-            foreach ($this->messages as $m) {
-                if ('tl_new' === $m['class']) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Add an error.
-     */
-    protected function addError($msg): void
-    {
-        $this->messages[] = [
-            'class' => 'tl_error',
-            'text' => $msg,
-        ];
-    }
-
-    /**
-     * Add an error.
-     */
-    protected function addInfo($msg): void
-    {
-        $this->messages[] = [
-            'class' => 'tl_info',
-            'text' => $msg,
-        ];
-    }
-
-    /**
-     * Add an error.
-     */
-    protected function addConfirm($msg): void
-    {
-        $this->messages[] = [
-            'class' => 'tl_confirm',
-            'text' => $msg,
-        ];
-    }
-
-    /**
-     * Add an error.
-     */
-    protected function addNew($msg): void
-    {
-        $this->messages[] = [
-            'class' => 'tl_new',
-            'text' => $msg,
-        ];
-    }
-
-    /**
-     * Add an action.
-     */
-    protected function addAction($strAction, $strLabel): void
-    {
-        $this->actions[] = [
-            'action' => $strAction,
-            'label' => $strLabel,
-        ];
     }
 
     protected function getModeSessionKey(): string

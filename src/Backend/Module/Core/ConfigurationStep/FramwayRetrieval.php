@@ -16,7 +16,7 @@ namespace WEM\SmartgearBundle\Backend\Module\Core\ConfigurationStep;
 
 use Contao\FrontendTemplate;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
-use WEM\SmartgearBundle\Classes\Config\Manager as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\UtilFramway;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 

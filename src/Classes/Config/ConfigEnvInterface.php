@@ -17,4 +17,6 @@ namespace WEM\SmartgearBundle\Classes\Config;
 interface ConfigEnvInterface extends ConfigInterface
 {
     public function import(array $content): self;
+
+    public function export(): string;
 }

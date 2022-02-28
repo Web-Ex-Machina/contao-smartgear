@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Config\Manager;
 
 use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
-use WEM\SmartgearBundle\Classes\Config\Manager as ConfigurationManagerCore;
+use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManagerCore;
 use WEM\SmartgearBundle\Classes\Config\ManagerJsonInterface;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 

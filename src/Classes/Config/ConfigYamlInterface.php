@@ -14,7 +14,9 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Config;
 
-interface ConfigInterface
+interface ConfigYamlInterface extends ConfigInterface
 {
-    public function reset(): self;
+    public function import(array $content): self;
+
+    public function export(): array;
 }

@@ -16,7 +16,7 @@ namespace WEM\SmartgearBundle\Classes\Config;
 
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
-class Manager implements ManagerJsonInterface
+class ManagerJson implements ManagerJsonInterface
 {
     /** @var ConfigInterface */
     protected $configuration;

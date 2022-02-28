@@ -12,18 +12,15 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Classes\Backend;
+namespace WEM\SmartgearBundle\Backend\Module\Core;
 
+use WEM\SmartgearBundle\Classes\Backend\StepManager;
 use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
 
-class ConfigurationStepManager extends StepManager
+class ResetStepManager extends StepManager
 {
-    public const MODE_INSTALL = 'install';
-    public const MODE_CONFIGURE = 'configure';
     /** @var ConfigurationManager */
     protected $configurationManager;
-    /** @var string */
-    protected $mode = '';
 
     public function __construct(
         ConfigurationManager $configurationManager,
@@ -39,36 +36,22 @@ class ConfigurationStepManager extends StepManager
     public function finish(): void
     {
         parent::finish();
-        $this->setInstallAsComplete();
+        $this->setInstallAsIncomplete();
     }
 
-    public function setMode(string $mode): self
-    {
-        $this->mode = $mode;
-
-        return $this;
-    }
-
-    public function setInstallAsComplete(): void
+    public function setInstallAsIncomplete(): void
     {
         $config = $this->configurationManager->load();
-        $config->setSgInstallComplete(true);
+        $config->setSgInstallComplete(false);
         $this->configurationManager->save($config);
-    }
-
-    public function getCurrentStep(): ConfigurationStep
-    {
-        return parent::getCurrentStep();
     }
 
     protected function fillActions(): void
     {
+        $this->actions[] = ['action' => 'reset_mode_check_cancel', 'label' => 'Annuler'];
+
         if (0 !== $this->getCurrentStepIndex()) {
             $this->actions[] = ['action' => 'previous', 'label' => 'Précédent'];
-        }
-
-        if (self::MODE_CONFIGURE === $this->mode) {
-            $this->actions[] = ['action' => 'save', 'label' => 'Enregistrer'];
         }
 
         if ($this->getCurrentStepIndex() < \count($this->steps) - 1) {

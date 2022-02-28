@@ -146,18 +146,28 @@
 			objFields.append("wem_module", 'be_smartgear' );
 
 			j(this).find('input').each(function(){
-				if("file" == j(this).attr('type')){
-					var files = j(this)[0].files;
-					isUpload = true;
-		        
-	        // Check file selected or not
-	        for(let i in files){
-						objFields.append(j(this).attr('name'),files[i]);
-	        }
-				}else{
-					objFields.append(j(this).attr('name'),j(this).val());
+				switch(j(this).attr('type')){
+					case "file":
+						var files = j(this)[0].files;
+						isUpload = true;
+			        
+		        // Check file selected or not
+		        for(let i in files){
+							objFields.append(j(this).attr('name'),files[i]);
+		        }
+					break;
+					case "checkbox":
+						if(j(this).prop('checked')){
+							objFields.append(j(this).attr('name'),j(this).val());
+						}
+					break;
+					default:
+						objFields.append(j(this).attr('name'),j(this).val());
+					break;
 				}
 			});
+
+
 
 			j(this).find('select').each(function(){
 				if(j(this).attr('multiple')){

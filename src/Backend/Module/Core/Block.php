@@ -19,16 +19,29 @@ use Contao\Input;
 use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Classes\Backend\Block as BackendBlock;
-use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Classes\Backend\ConfigurationStepManager;
+use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
 
 class Block extends BackendBlock
 {
     public const MODE_CHECK_PROD = 'check_prod';
-    public const MODE_RESET_PROD = 'check_reset';
+    public const MODE_RESET = 'check_reset';
     protected $type = 'core';
     protected $module = 'core';
     protected $icon = 'exclamation-triangle';
     protected $title = 'Core';
+
+    protected $resetStepManager;
+
+    public function __construct(
+        ConfigurationManager $configurationManager,
+        ConfigurationStepManager $configurationStepManager,
+        ResetStepManager $resetStepManager,
+        Dashboard $dashboard
+    ) {
+        parent::__construct($configurationManager, $configurationStepManager, $dashboard);
+        $this->resetStepManager = $resetStepManager;
+    }
 
     public function processAjaxRequest(): void
     {
@@ -106,10 +119,10 @@ class Block extends BackendBlock
                     $content = $this->parse();
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('replaceBlockContent', [$content])]];
                 break;
-                case 'reset_mode_check':
-                    $this->setMode(self::MODE_RESET_PROD);
-                    $content = $this->parse();
-                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('replaceBlockContent', [$content])]];
+                case 'reset_mode':
+                    $this->setMode(self::MODE_RESET);
+                    $this->resetStepManager->goToStep(0);
+                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
                 case 'prod_mode_check_cancel':
                 case 'reset_mode_check_cancel':
@@ -139,13 +152,11 @@ class Block extends BackendBlock
                 $objTemplate->content = $this->dashboard->checkProdMode();
                 $objTemplate->logs = $this->dashboard->getLogs();
                 $objTemplate->messages = $this->dashboard->getMessages();
-                $objTemplate->actions = Util::formatActions($this->dashboard->getActions());
+                $objTemplate->actions = $this->formatActions($this->dashboard->getActions());
             break;
-            case self::MODE_RESET_PROD:
-                $objTemplate->content = $this->dashboard->checkReset();
-                $objTemplate->logs = $this->dashboard->getLogs();
-                $objTemplate->messages = $this->dashboard->getMessages();
-                $objTemplate->actions = Util::formatActions($this->dashboard->getActions());
+            case self::MODE_RESET:
+                $objTemplate->steps = $this->resetStepManager->parseSteps();
+                $objTemplate->content = $this->resetStepManager->parse();
             break;
             default:
                 $objTemplate = parent::parseDependingOnMode($objTemplate);
@@ -153,5 +164,83 @@ class Block extends BackendBlock
         }
 
         return $objTemplate;
+    }
+
+    protected function goToNextStep(): void
+    {
+        switch ($this->getMode()) {
+            case self::MODE_RESET:
+                $this->resetStepManager->goToNextStep();
+            break;
+            default:
+                parent::goToNextStep();
+            break;
+        }
+    }
+
+    protected function goToPreviousStep(): void
+    {
+        switch ($this->getMode()) {
+            case self::MODE_RESET:
+                $this->resetStepManager->goToPreviousStep();
+            break;
+            default:
+                parent::goToPreviousStep();
+            break;
+        }
+    }
+
+    protected function goToStep(int $stepIndex): void
+    {
+        switch ($this->getMode()) {
+            case self::MODE_RESET:
+                $this->resetStepManager->goToStep($stepIndex);
+            break;
+            default:
+                parent::goToStep($stepIndex);
+            break;
+        }
+    }
+
+    protected function finish(): array
+    {
+        switch ($this->getMode()) {
+            case self::MODE_RESET:
+                $this->resetStepManager->finish();
+
+                $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [
+                    $this->callback('replaceBlockContent', [$this->parse()]),
+                ]];
+            break;
+            default:
+                return parent::finish();
+            break;
+        }
+
+        return $arrResponse;
+    }
+
+    protected function save(): void
+    {
+        switch ($this->getMode()) {
+            case self::MODE_RESET:
+                $this->resetStepManager->save();
+            break;
+            default:
+                parent::save();
+            break;
+        }
+    }
+
+    protected function parseSteps()
+    {
+        switch ($this->getMode()) {
+            case self::MODE_RESET:
+                return $this->configurationStepManager->parseSteps();
+            break;
+            default:
+                parent::parseSteps();
+            break;
+        }
     }
 }

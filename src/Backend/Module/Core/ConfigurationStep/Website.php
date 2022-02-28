@@ -27,7 +27,7 @@ use Contao\UserGroupModel;
 use Contao\UserModel;
 use Exception;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
-use WEM\SmartgearBundle\Classes\Config\Manager as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 use WEM\UtilsBundle\Classes\Files as WEMFiles;

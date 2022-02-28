@@ -14,13 +14,13 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Module\Core\ConfigurationStep;
 
-use Contao\Config;
 use Contao\Input;
 use Exception;
-use Symfony\Component\Yaml\Yaml;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
-use WEM\SmartgearBundle\Classes\Config\Manager as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\LocalConfig as LocalConfig;
+use WEM\SmartgearBundle\Config\Manager\LocalConfig as LocalConfigManager;
 
 class General extends ConfigurationStep
 {
@@ -30,10 +30,12 @@ class General extends ConfigurationStep
     public function __construct(
         string $module,
         string $type,
-        ConfigurationManager $configurationManager
+        ConfigurationManager $configurationManager,
+        LocalConfigManager $localConfigManager
     ) {
         parent::__construct($module, $type);
         $this->configurationManager = $configurationManager;
+        $this->localConfigManager = $localConfigManager;
         $this->title = 'Général';
         try {
             /** @var CoreConfig */
@@ -124,39 +126,31 @@ class General extends ConfigurationStep
 
     protected function updateContaoConfiguration(): void
     {
-        // Config::persist();
-        $configFilePath = '../config/config.yml';
-        $config = [];
-        if (file_exists($configFilePath)) {
-            $yamlparser = new \Symfony\Component\Yaml\Parser();
-            $config = $yamlparser->parse(file_get_contents($configFilePath));
-        }
-        $config['contao']['localconfig']['dateFormat'] = 'd/m/Y';
-        $config['contao']['localconfig']['timeFormat'] = 'H:i';
-        $config['contao']['localconfig']['datimFormat'] = 'd/m/Y à H:i';
-        $config['contao']['localconfig']['timeZone'] = 'Europe/Paris';
-        $config['contao']['localconfig']['characterSet'] = 'utf-8';
-        $config['contao']['localconfig']['useAutoItem'] = 1;
-        $config['contao']['localconfig']['folderUrl'] = 1;
-        $config['contao']['localconfig']['maxResultsPerPage'] = 500;
-        $config['contao']['localconfig']['privacyAnonymizeIp'] = 1;
-        $config['contao']['localconfig']['privacyAnonymizeGA'] = 1;
-        $config['contao']['localconfig']['gdMaxImgWidth'] = 5000;
-        $config['contao']['localconfig']['gdMaxImgHeight'] = 5000;
-        $config['contao']['localconfig']['maxFileSize'] = 10000000;
-        $config['contao']['localconfig']['undoPeriod'] = 7776000;
-        $config['contao']['localconfig']['versionPeriod'] = 7776000;
-        $config['contao']['localconfig']['logPeriod'] = 7776000;
-        $config['contao']['localconfig']['allowedTags'] = '<script><iframe><a><abbr><acronym><address><area><article><aside><audio><b><bdi><bdo><big><blockquote><br><base><button><canvas><caption><cite><code><col><colgroup><data><datalist><dataset><dd><del><dfn><div><dl><dt><em><fieldset><figcaption><figure><footer><form><h1><h2><h3><h4><h5><h6><header><hgroup><hr><i><img><input><ins><kbd><keygen><label><legend><li><link><map><mark><menu><nav><object><ol><optgroup><option><output><p><param><picture><pre><q><s><samp><section><select><small><source><span><strong><style><sub><sup><table><tbody><td><textarea><tfoot><th><thead><time><tr><tt><u><ul><var><video><wbr>';
-        $config['contao']['localconfig']['sgOwnerDomain'] = \Contao\Environment::get('base');
-        $config['contao']['localconfig']['sgOwnerHost'] = 'INFOMANIAK - 25 Eugène-Marziano 1227 Les Acacias - GENÈVE - SUISSE';
-        $config['contao']['image']['reject_large_uploads'] = true;
-        /**
-         * @todo : configure the sizes
-         * https://docs.contao.org/manual/en/system/settings/#config-yml
-         */
-        $yaml = Yaml::dump($config);
+        /** @var LocalConfig */
+        $config = $this->localConfigManager->load();
 
-        file_put_contents($configFilePath, $yaml);
+        $config->setDateFormat('d/m/Y')
+        ->setTimeFormat('H:i')
+        ->setDatimFormat('d/m/Y à H:i')
+        ->setTimeZone('Europe/Paris')
+        ->setCharacterSet('utf-8')
+        ->setUseAutoItem(1)
+        ->setFolderUrl(1)
+        ->setMaxResultsPerPage(500)
+        ->setPrivacyAnonymizeIp(1)
+        ->setPrivacyAnonymizeGA(1)
+        ->setGdMaxImgWidth(5000)
+        ->setGdMaxImgHeight(5000)
+        ->setMaxFileSize(10000000)
+        ->setUndoPeriod(7776000)
+        ->setVersionPeriod(7776000)
+        ->setLogPeriod(7776000)
+        ->setAllowedTags('<script><iframe><a><abbr><acronym><address><area><article><aside><audio><b><bdi><bdo><big><blockquote><br><base><button><canvas><caption><cite><code><col><colgroup><data><datalist><dataset><dd><del><dfn><div><dl><dt><em><fieldset><figcaption><figure><footer><form><h1><h2><h3><h4><h5><h6><header><hgroup><hr><i><img><input><ins><kbd><keygen><label><legend><li><link><map><mark><menu><nav><object><ol><optgroup><option><output><p><param><picture><pre><q><s><samp><section><select><small><source><span><strong><style><sub><sup><table><tbody><td><textarea><tfoot><th><thead><time><tr><tt><u><ul><var><video><wbr>')
+        ->setSgOwnerDomain(\Contao\Environment::get('base'))
+        ->setSgOwnerHost(CoreConfig::DEFAULT_OWNER_HOST)
+        ->setRejectLargeUploads(true)
+        ;
+
+        $this->localConfigManager->save($config);
     }
 }

@@ -4,7 +4,7 @@
 	<?php if(!empty($this->fields)): ?>
 		<?php foreach($this->fields as $field): ?>
 			<div class="widget <?= $field['class'] ?>">
-				<h3><label for="ctrl_<?= $field['name'] ?>"><?= $field['label'] ?></label></h3>
+				<!-- <h3><label for="ctrl_<?= $field['name'] ?>"><?= $field['label'] ?></label></h3> -->
 				<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$field]); ?>
 				<br>
 			</div>

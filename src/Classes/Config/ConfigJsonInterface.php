@@ -17,4 +17,6 @@ namespace WEM\SmartgearBundle\Classes\Config;
 interface ConfigJsonInterface extends ConfigInterface
 {
     public function import(\stdClass $json): self;
+
+    public function export(): string;
 }

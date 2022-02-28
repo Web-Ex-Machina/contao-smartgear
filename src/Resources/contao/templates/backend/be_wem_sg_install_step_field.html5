@@ -1,18 +1,28 @@
 <?php if("textarea" === $this->field['type']): ?>
+	<h3><label for="ctrl_<?= $this->field['name'] ?>"><?= $this->fields['label'] ?></label></h3>
 	<textarea name="<?= $this->field['name'] ?>" id="ctrl_<?= $this->field['name'] ?>" class="tl_textarea"<?= $this->field['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()"><?= $this->field['value'] ?></textarea>
 <?php elseif("select" === $this->field['type']): ?>
+	<h3><label for="ctrl_<?= $this->field['name'] ?>"><?= $this->fields['label'] ?></label></h3>
 	<select name="<?= $this->field['name'] ?>" id="ctrl_<?= $this->field['name'] ?>" class="tl_select"<?= $this->field['required'] ? ' required=""' : '' ?> <?= $this->field['multiple'] ? ' multiple=""' : '' ?> onfocus="Backend.getScrollOffset()"> 
-	<?php foreach($this->field['options'] as $option): ?>
-		<option value="<?= $option['value']; ?>" <?= $option['selected'] ? ' selected' : '' ?>>
-			<?= $option['label']; ?>
-		</option>
-	<?php endforeach; ?>
-</select>
+		<?php foreach($this->field['options'] as $option): ?>
+			<option value="<?= $option['value']; ?>" <?= $option['selected'] ? ' selected' : '' ?>>
+				<?= $option['label']; ?>
+			</option>
+		<?php endforeach; ?>
+	</select>
 <?php elseif("checkbox" === $this->field['type']): ?>
+		<div class="tl_checkbox_single_container">
+			<input name="<?= $this->field['name'] ?>" id="ctrl_<?= $this->field['name'] ?>" class="tl_checkbox" value="<?= $this->field['value'] ?>"<?= $this->field['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()" type="checkbox">
+			<label for="ctrl_<?= $this->field['name'] ?>">
+				<?= $this->field['label'] ?>
+			</label>
+		</div>
 <?php elseif("radio" === $this->field['type']): ?>
 <?php elseif("file" === $this->field['type']): ?>
+	<h3><label for="ctrl_<?= $this->field['name'] ?>"><?= $this->fields['label'] ?></label></h3>
 	<input name="<?= $this->field['name'] ?>" id="ctrl_<?= $this->field['name'] ?>" class="tl_text" <?= $this->field['accept'] ? ' accept="'.$this->field['accept'].'"' : '' ?> <?= $this->field['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()" type="file">
 <?php else: ?>
+	<h3><label for="ctrl_<?= $this->field['name'] ?>"><?= $this->fields['label'] ?></label></h3>
 	<input name="<?= $this->field['name'] ?>" id="ctrl_<?= $this->field['name'] ?>" class="tl_text" value="<?= $this->field['value'] ?>"<?= $this->field['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()" type="text">
 <?php endif; ?>
 <p class="tl_help tl_tip"><?= $this->field['help'] ?></p>
