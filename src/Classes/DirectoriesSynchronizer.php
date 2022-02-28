@@ -43,6 +43,7 @@ class DirectoriesSynchronizer
             $this->getDirectoryToSynchronizeFromFiles(),
             $this->getDirectoryToSynchronizeToFiles()
         );
+
         if (!empty($this->filesToAdd)) {
             foreach ($this->filesToAdd as $relativePath => $realPath) {
                 $objFile = new File($realPath);
@@ -179,6 +180,10 @@ class DirectoriesSynchronizer
 
     protected function stripRootPathFromPath(string $rootFolder, string $path): string
     {
+        if (empty($rootFolder)) {
+            return $path;
+        }
+
         return str_replace($rootFolder.\DIRECTORY_SEPARATOR, '', $path);
     }
 }
