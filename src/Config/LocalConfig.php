@@ -188,7 +188,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->rejectLargeUploads;
     }
 
-    public function setRejectLargeUploads(mixed $rejectLargeUploads): self
+    public function setRejectLargeUploads($rejectLargeUploads): self
     {
         $this->rejectLargeUploads = $rejectLargeUploads;
 
@@ -200,7 +200,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->dateFormat;
     }
 
-    public function setDateFormat(mixed $dateFormat): self
+    public function setDateFormat($dateFormat): self
     {
         $this->dateFormat = $dateFormat;
 
@@ -212,7 +212,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->timeFormat;
     }
 
-    public function setTimeFormat(mixed $timeFormat): self
+    public function setTimeFormat($timeFormat): self
     {
         $this->timeFormat = $timeFormat;
 
@@ -224,7 +224,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->datimFormat;
     }
 
-    public function setDatimFormat(mixed $datimFormat): self
+    public function setDatimFormat($datimFormat): self
     {
         $this->datimFormat = $datimFormat;
 
@@ -236,7 +236,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->timeZone;
     }
 
-    public function setTimeZone(mixed $timeZone): self
+    public function setTimeZone($timeZone): self
     {
         $this->timeZone = $timeZone;
 
@@ -248,7 +248,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->characterSet;
     }
 
-    public function setCharacterSet(mixed $characterSet): self
+    public function setCharacterSet($characterSet): self
     {
         $this->characterSet = $characterSet;
 
@@ -260,7 +260,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->useAutoItem;
     }
 
-    public function setUseAutoItem(mixed $useAutoItem): self
+    public function setUseAutoItem($useAutoItem): self
     {
         $this->useAutoItem = $useAutoItem;
 
@@ -272,7 +272,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->folderUrl;
     }
 
-    public function setFolderUrl(mixed $folderUrl): self
+    public function setFolderUrl($folderUrl): self
     {
         $this->folderUrl = $folderUrl;
 
@@ -284,7 +284,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->maxResultsPerPage;
     }
 
-    public function setMaxResultsPerPage(mixed $maxResultsPerPage): self
+    public function setMaxResultsPerPage($maxResultsPerPage): self
     {
         $this->maxResultsPerPage = $maxResultsPerPage;
 
@@ -296,7 +296,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->privacyAnonymizeIp;
     }
 
-    public function setPrivacyAnonymizeIp(mixed $privacyAnonymizeIp): self
+    public function setPrivacyAnonymizeIp($privacyAnonymizeIp): self
     {
         $this->privacyAnonymizeIp = $privacyAnonymizeIp;
 
@@ -308,7 +308,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->privacyAnonymizeGA;
     }
 
-    public function setPrivacyAnonymizeGA(mixed $privacyAnonymizeGA): self
+    public function setPrivacyAnonymizeGA($privacyAnonymizeGA): self
     {
         $this->privacyAnonymizeGA = $privacyAnonymizeGA;
 
@@ -320,7 +320,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->gdMaxImgWidth;
     }
 
-    public function setGdMaxImgWidth(mixed $gdMaxImgWidth): self
+    public function setGdMaxImgWidth($gdMaxImgWidth): self
     {
         $this->gdMaxImgWidth = $gdMaxImgWidth;
 
@@ -332,7 +332,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->gdMaxImgHeight;
     }
 
-    public function setGdMaxImgHeight(mixed $gdMaxImgHeight): self
+    public function setGdMaxImgHeight($gdMaxImgHeight): self
     {
         $this->gdMaxImgHeight = $gdMaxImgHeight;
 
@@ -344,7 +344,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->maxFileSize;
     }
 
-    public function setMaxFileSize(mixed $maxFileSize): self
+    public function setMaxFileSize($maxFileSize): self
     {
         $this->maxFileSize = $maxFileSize;
 
@@ -356,7 +356,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->undoPeriod;
     }
 
-    public function setUndoPeriod(mixed $undoPeriod): self
+    public function setUndoPeriod($undoPeriod): self
     {
         $this->undoPeriod = $undoPeriod;
 
@@ -368,7 +368,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->versionPeriod;
     }
 
-    public function setVersionPeriod(mixed $versionPeriod): self
+    public function setVersionPeriod($versionPeriod): self
     {
         $this->versionPeriod = $versionPeriod;
 
@@ -380,7 +380,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->logPeriod;
     }
 
-    public function setLogPeriod(mixed $logPeriod): self
+    public function setLogPeriod($logPeriod): self
     {
         $this->logPeriod = $logPeriod;
 
@@ -392,7 +392,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->allowedTags;
     }
 
-    public function setAllowedTags(mixed $allowedTags): self
+    public function setAllowedTags($allowedTags): self
     {
         $this->allowedTags = $allowedTags;
 
@@ -404,7 +404,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->sgOwnerDomain;
     }
 
-    public function setSgOwnerDomain(mixed $sgOwnerDomain): self
+    public function setSgOwnerDomain($sgOwnerDomain): self
     {
         $this->sgOwnerDomain = $sgOwnerDomain;
 
@@ -416,7 +416,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->sgOwnerHost;
     }
 
-    public function setSgOwnerHost(mixed $sgOwnerHost): self
+    public function setSgOwnerHost($sgOwnerHost): self
     {
         $this->sgOwnerHost = $sgOwnerHost;
 
@@ -428,7 +428,7 @@ class LocalConfig implements ConfigYamlInterface
         return $this->untouchedConfig;
     }
 
-    public function setUntouchedConfig(mixed $untouchedConfig): self
+    public function setUntouchedConfig($untouchedConfig): self
     {
         $this->untouchedConfig = $untouchedConfig;
 

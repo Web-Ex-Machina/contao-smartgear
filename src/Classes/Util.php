@@ -790,6 +790,30 @@ class Util
         return $arrActions;
     }
 
+    public function messagesToToastrCallbacksParameters(array $messages)
+    {
+        $callbacks = [];
+        foreach ($messages as $message) {
+            switch ($message['class']) {
+                case 'tl_error':
+                    $class = 'error';
+                break;
+                case 'tl_info':
+                    $class = 'info';
+                break;
+                case 'tl_confirm':
+                    $class = 'success';
+                break;
+                case 'tl_new':
+                    $class = 'info';
+                break;
+            }
+            $callbacks[] = [$class, $message['text']];
+        }
+
+        return $callbacks;
+    }
+
     /**
      * Check if a permission can be added into.
      *

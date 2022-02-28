@@ -18,10 +18,10 @@ use Contao\Input;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\ThemeModel;
-use Exception;
 use WEM\SmartgearBundle\Classes\Backend\AbstractStep;
 use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
-use WEM\SmartgearBundle\Config\LocalConfig as LocalConfig;
+use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\LocalConfig;
 use WEM\SmartgearBundle\Config\Manager\LocalConfig as LocalConfigManager;
 
 class General extends AbstractStep
@@ -52,17 +52,12 @@ class General extends AbstractStep
         $this->addCheckboxField('themes_modules', 'Thèmes & Modules', 'themes_modules');
         $this->addCheckboxField('pages', 'Pages', 'pages');
         $this->addCheckboxField('files', 'Fichiers clients', 'files');
-        $this->addCheckboxField('backup', 'Effectuer une sauvegarde avant la réinitialisation', 'backup');
-
-        $this->addInfo('Il est vivement conseillé d\'effectuer une sauvegarde avant la réinitialisation');
+        $this->addCheckboxField('backup', 'Effectuer une sauvegarde avant la réinitialisation (conseillé)', 'backup');
     }
 
     public function isStepValid(): bool
     {
-        // // check if the step is correct
-        // if (empty(Input::post('sgWebsiteTitle'))) {
-        //     throw new Exception('Le titre du site web n\'est pas renseigné.');
-        // }
+        // check if the step is correct
 
         return true;
     }
@@ -165,5 +160,11 @@ class General extends AbstractStep
     {
         $folder = new \Contao\Folder('files');
         $folder->purge();
+
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $config->setSgOwnerLogo('');
+        $this->configurationManager->save($config);
     }
 }

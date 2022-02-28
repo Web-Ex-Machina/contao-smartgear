@@ -21,6 +21,7 @@ use Exception;
 use WEM\SmartgearBundle\Classes\Backend\Block as BackendBlock;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStepManager;
 use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Util;
 
 class Block extends BackendBlock
 {
@@ -207,10 +208,15 @@ class Block extends BackendBlock
         switch ($this->getMode()) {
             case self::MODE_RESET:
                 $this->resetStepManager->finish();
+                $messageParameters = Util::messagesToToastrCallbacksParameters($this->resetStepManager->getCurrentStep()->getMessages());
+                foreach ($messageParameters as $singleMessageParameters) {
+                    $callbacks[] = $this->callback('toastrDisplay', $singleMessageParameters);
+                }
 
-                $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [
-                    $this->callback('replaceBlockContent', [$this->parse()]),
-                ]];
+                $callbacks[] = $this->callback('refreshBlock');
+                $this->setMode(self::MODE_INSTALL);
+                $this->configurationStepManager->setCurrentStepIndex(0);
+                $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => $callbacks];
             break;
             default:
                 return parent::finish();

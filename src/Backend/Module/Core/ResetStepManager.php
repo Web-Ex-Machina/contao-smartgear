@@ -57,7 +57,7 @@ class ResetStepManager extends StepManager
         if ($this->getCurrentStepIndex() < \count($this->steps) - 1) {
             $this->actions[] = ['action' => 'next', 'label' => 'Suivant'];
         } else {
-            $this->actions[] = ['action' => 'finish', 'label' => 'Terminer la configuration'];
+            $this->actions[] = ['action' => 'finish', 'label' => 'Terminer la réinitialisation'];
         }
     }
 }
