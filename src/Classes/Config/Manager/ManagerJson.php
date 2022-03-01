@@ -12,11 +12,13 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Classes\Config;
+namespace WEM\SmartgearBundle\Classes\Config\Manager;
 
-use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
+use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
 
-class ManagerJson implements ManagerJsonInterface
+// use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
+
+class ManagerJson extends AbstractManager implements ManagerJsonInterface
 {
     /** @var ConfigInterface */
     protected $configuration;
@@ -64,15 +66,14 @@ class ManagerJson implements ManagerJsonInterface
         return json_decode($this->retrieveConfigurationFromFile(), false, 512, \JSON_THROW_ON_ERROR);
     }
 
-    protected function retrieveConfigurationFromFile(): string
-    {
-        $content = file_get_contents($this->configurationFilePath);
-        if (!$content) {
-            throw new FileNotFoundException('Configuration file not found');
-        }
+    // protected function retrieveConfigurationFromFile(): string
+    // {
+    //     if (!file_exists($this->configurationFilePath)) {
+    //         throw new FileNotFoundException('Configuration file not found');
+    //     }
 
-        return $content;
-    }
+    //     return file_get_contents($this->configurationFilePath);
+    // }
 
     protected function file_force_contents($dir, $contents): bool
     {

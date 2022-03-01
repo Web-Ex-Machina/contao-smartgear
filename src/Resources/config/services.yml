@@ -41,7 +41,7 @@ services:
         public: true
 
     smartgear.config.manager.core:
-        class: WEM\SmartgearBundle\Classes\Config\ManagerJson
+        class: WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson
         arguments:
             $configuration: '@smartgear.config.core'
             $configurationFilePath: './assets/smartgear/config_core.json'

@@ -13,13 +13,28 @@ Functionnalities
 System requirements
 -------------------
 
- * From Contao 4.4 to 4.9
- * [Framway][4]
+ * Contao 4.13
+ * [Framway][4] (will be automatically retrieved during first configuration)
 
 Installation
 ------------
 
 Clone the extension from Packagist (Contao Manager)
+
+Testing with docker
+-------------------
+
+A `docker` folder is present in the project, it contains everything needed to run a new contao installation with this module installed on-the-go (linux only).
+
+In your terminal, just type :
+
+```
+./docker/build.sh
+```
+
+The script will give you all options to run a working contao in a docker environment.
+
+All the informations regarding path, ports and everything else are located in the [docker/.env file][5]
 
 Documentation
 -------------
@@ -49,3 +64,4 @@ You can get the extension with this repository URL : [Github][2]
 [2]: https://github.com/webexmachina/contao-smartgear
 [3]: https://www.webexmachina.fr/
 [4]: https://framway.webexmachina.fr/
+[5]: docker/.env

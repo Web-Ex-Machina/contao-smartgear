@@ -17,7 +17,7 @@ namespace WEM\SmartgearBundle\Backend\Module\Core\ConfigurationStep;
 use Contao\Input;
 use Exception;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
-use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\LocalConfig as LocalConfig;
 use WEM\SmartgearBundle\Config\Manager\LocalConfig as LocalConfigManager;

@@ -1,0 +1,42 @@
+<form action="<?= $this->request ?>" class="tl_form" method="post">
+	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
+	<?php if(!empty($this->fields)): ?>
+		<div class="widget">
+			<h3>Liste des éléments a conserver :</h3>
+			<div class="<?= $this->fields['localconfig']['class'] ?>">
+				<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['localconfig']]); ?>
+			</div>
+
+			<div class="<?= $this->fields['framway']['class'] ?>">
+				<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['framway']]); ?>
+			</div>
+
+			<div class="<?= $this->fields['templates']['class'] ?>">
+				<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['templates']]); ?>
+			</div>
+
+			<div class="<?= $this->fields['themes_modules']['class'] ?>">
+				<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['themes_modules']]); ?>
+			</div>
+
+			<div class="<?= $this->fields['pages']['class'] ?>">
+				<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['pages']]); ?>
+			</div>
+
+			<div class="<?= $this->fields['files']['class'] ?>">
+				<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['files']]); ?>
+			</div>
+		</div>
+		<br />
+		<div class="widget">
+			<h3>Sauvegarde avant réinitialisation :</h3>
+			<div class="<?= $this->fields['backup']['class'] ?>">
+				<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['backup']]); ?>
+			</div>
+		</div>
+		<div class="clear"></div>
+	<?php endif; ?>
+	<div class="tl_submit_container">
+		<?= implode(' ', $this->actions) ?>
+	</div>
+</form>

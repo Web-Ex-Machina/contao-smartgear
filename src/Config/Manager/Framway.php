@@ -15,11 +15,12 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Config\Manager;
 
 use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
-use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManagerCore;
-use WEM\SmartgearBundle\Classes\Config\ManagerJsonInterface;
+use WEM\SmartgearBundle\Classes\Config\Manager\AbstractManager;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManagerCore;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJsonInterface;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
-class Framway implements ManagerJsonInterface
+class Framway extends AbstractManager implements ManagerJsonInterface
 {
     /** @var ConfigInterface */
     protected $configuration;
@@ -84,11 +85,10 @@ class Framway implements ManagerJsonInterface
 
     protected function retrieveConfigurationFromFile(): string
     {
-        $content = file_get_contents($this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js');
-        if (!$content) {
+        if (!file_exists($this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js')) {
             throw new FileNotFoundException('Configuration file not found');
         }
 
-        return $content;
+        return file_get_contents($this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js');
     }
 }

@@ -23,9 +23,15 @@ declare(strict_types=1);
  * @see     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Classes\Config;
+namespace WEM\SmartgearBundle\Classes\Config\Manager;
 
-interface ManagerJsonInterface extends ManagerInterface
+use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
+
+interface ManagerInterface
 {
-    public function retrieveConfigurationAsImportableFormatFromFile(): \stdClass;
+    public function new(): ConfigInterface;
+
+    public function load(): ConfigInterface;
+
+    public function save(ConfigInterface $configuration): bool;
 }

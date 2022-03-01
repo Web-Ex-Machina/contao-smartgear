@@ -17,11 +17,12 @@ namespace WEM\SmartgearBundle\Config\Manager;
 use Symfony\Component\Yaml\Yaml;
 use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
 use WEM\SmartgearBundle\Classes\Config\ConfigYamlInterface;
-use WEM\SmartgearBundle\Classes\Config\ManagerYamlInterface;
+use WEM\SmartgearBundle\Classes\Config\Manager\AbstractManager;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerYamlInterface;
 use WEM\SmartgearBundle\Config\LocalConfig as ConfigLocalConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
-class LocalConfig implements ManagerYamlInterface
+class LocalConfig extends AbstractManager implements ManagerYamlInterface
 {
     /** @var ConfigInterface */
     protected $configuration;
@@ -78,13 +79,12 @@ class LocalConfig implements ManagerYamlInterface
         return $this->parser->parse($content);
     }
 
-    protected function retrieveConfigurationFromFile(): string
-    {
-        $content = file_get_contents($this->configurationFilePath);
-        if (!$content) {
-            throw new FileNotFoundException('Configuration file not found');
-        }
+    // protected function retrieveConfigurationFromFile(): string
+    // {
+    //     if (!file_exists($this->configurationFilePath)) {
+    //         throw new FileNotFoundException('Configuration file not found');
+    //     }
 
-        return $content;
-    }
+    //     return file_get_contents($this->configurationFilePath);
+    // }
 }
