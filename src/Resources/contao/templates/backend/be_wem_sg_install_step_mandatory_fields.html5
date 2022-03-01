@@ -1,0 +1,7 @@
+<div class="tl_formbody_edit">
+	<input name="FORM_SUBMIT" value="tl_wem_sg_install" type="hidden">
+	<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
+	<input name="type" value="<?= $this->type ?>" type="hidden">
+	<input name="module" value="<?= $this->module ?>" type="hidden">
+	<input name="action" value="" type="hidden" class="btnAction">
+</div>

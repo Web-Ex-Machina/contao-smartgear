@@ -1,0 +1,95 @@
+<form action="<?= $this->request ?>" class="tl_form" method="post">
+	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
+
+	<div class="widget <?= $this->fields['themes[]']['class'] ?>">
+		<!-- <h3><label for="ctrl_<?= $this->fields['themes[]']['name'] ?>"><?= $this->fields['themes[]']['label'] ?></label></h3> -->
+		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['themes[]']]); ?>
+		<br>
+	</div>
+
+	<div class="widget">
+		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme" 
+		title="Ajouter un thème au Framway">Nouveau thème</button>
+		<br>
+	</div>
+
+	<div class="widget <?= $this->fields['new_theme']['class'] ?>" id="widget-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme"">
+		<!-- <h3><label for="ctrl_<?= $this->fields['new_theme']['name'] ?>"><?= $this->fields['new_theme']['label'] ?></label></h3> -->
+
+		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['new_theme']]); ?>
+		<br>
+		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme-validation" 
+		title="Valider ce thème">Valider thème</button>
+		<pre id="block-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme-result" style="height:100px;overflow-y:scroll;" class="hidden result">
+	</div>
+
+	<div class="widget <?= $this->fields['components[]']['class'] ?>">
+		<!-- <h3><label for="ctrl_<?= $this->fields['components[]']['name'] ?>"><?= $this->fields['components[]']['label'] ?></label></h3> -->
+		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['components[]']]); ?>
+		<br>
+	</div>
+
+	<div class="widget <?= $this->fields['fontawesome']['class'] ?>">
+		<!-- <h3><label for="ctrl_<?= $this->fields['fontawesome']['name'] ?>"><?= $this->fields['fontawesome']['label'] ?></label></h3> -->
+		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['fontawesome']]); ?>
+		<br>
+	</div>
+	<div class="tl_submit_container">
+		<?= implode(' ', $this->actions) ?>
+	</div>
+</form>
+<!-- Scripts -->
+<script type="text/javascript">
+	var j = jQuery.noConflict();
+
+	// Toastr Options
+	toastr.options.closeButton = true;
+	toastr.options.timeOut = 5000;
+	toastr.options.extendedTimeOut = 0;
+
+	/**
+	 * Handle command buttons
+	 */
+	j('button#button-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme').on('click', function(e){
+		e.preventDefault();
+		j('div#widget-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme').removeClass('hidden');
+	});
+
+	j('button#button-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme-validation').on('click', function(e){
+		e.preventDefault();
+		framwayThemeAdd()
+		.catch(function(e) {
+			toastr.error(e, "Une erreur est survenue :");
+		});
+		
+	});
+
+	function framwayThemeAdd(type, module){
+		var ctn = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme');
+		var field = ctn.find('.tl_text');
+		var selectThemesField = j('select[name="themes[]"]')
+		ctn.find('.loader').addClass("active");
+		ctn.find('.result').removeClass("hidden").html('');
+		return executeCmdLive(
+			"<?= $this->type ?>",
+			"<?= $this->module ?>",
+			'framwayThemeAdd',
+			"block-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme-result",
+			{'new_theme':field.val()}
+		).then(function(r) {
+			toastr[r["status"]](r["msg"]);
+			ctn.find('.result').html(ctn.find('.result').html().concat(r["msg"]));
+			ctn.find('.loader').removeClass("active");
+			selectThemesField.append(j('<option>', {
+			    value: field.val(),
+			    text: field.val(),
+			    selected: ''
+			}));
+			field.val('');
+		}).catch(function(e, output) {
+			ctn.find('.loader').removeClass("active");
+			ctn.find('.result').html(e);
+			throw new Error(e);
+		});
+	}
+</script>

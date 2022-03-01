@@ -19,7 +19,7 @@
     "require":
     {
         "php": ">=7.4",
-        "contao/core-bundle": "^4.9",
+        "contao/core-bundle": "~4.9",
         "madeyourday/contao-rocksolid-custom-elements": "^2.3",
         "heimrichhannot/contao-backend-lost-password-bundle": "^1.5",
         "heimrichhannot/contao-filename-sanitizer-bundle": "^2.4",
@@ -37,7 +37,8 @@
         "codeception/codeception": "^4",
         "codeception/module-phpbrowser": "^1.0.0",
         "codeception/module-asserts": "^1.0.0",
-        "codeception/module-webdriver": "^2.0"
+        "codeception/module-webdriver": "^2.0",
+        "contao/test-case":"~4"
     },
     "autoload":
     {

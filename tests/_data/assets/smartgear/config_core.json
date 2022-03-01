@@ -1,4 +1,5 @@
 {
+	"installComplete":true,
 	"version":"1.0.0",
 	"selectedModules":["module_a","module_b"],
 	"mode":"dev",

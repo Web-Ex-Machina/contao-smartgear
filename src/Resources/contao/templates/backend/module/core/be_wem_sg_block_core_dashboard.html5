@@ -1,0 +1,41 @@
+<div id="block-<?= $this->type ?>-<?= $this->module ?>-dashboard">
+	<?php if($this->isError): ?>
+	<div class="content_container">
+		<p class="tl_error"><?= $this->error ?></p>
+		<p class="tl_error"><?= $this->trace ?></p>
+	</div>
+	<?php else: ?>
+		<?php if($this->messages): ?>
+			<div class="content_container">
+				<?php foreach($this->messages as $message): ?>
+				<p class="<?= $message['class'] ?>"><?= $message['text'] ?></p>
+				<?php endforeach; ?>
+			</div>
+		<?php endif; ?>
+	<?php endif; ?>
+	<div class="content_container">
+		<p>Ceci est le dashboooaaardeuh !</p>
+	</div>
+	<?php if($this->actions): ?>
+	<form action="<?= $this->request ?>" class="tl_form" method="post">
+		<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
+		<div class="tl_submit_container">
+			<?= implode(' ', $this->actions) ?>
+		</div>
+	</form>
+	<?php endif; ?>
+	<div class="loader"><i class="fas fa-spinner fa-4x fa-spin"></i></div>
+</div>
+<script type="text/javascript">
+		var j = jQuery.noConflict();
+
+	// Toastr Options
+	toastr.options.closeButton = true;
+	toastr.options.timeOut = 5000;
+	toastr.options.extendedTimeOut = 0;
+
+	j(document).ready(function(){
+
+
+	});
+</script>

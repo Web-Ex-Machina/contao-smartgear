@@ -1,0 +1,17 @@
+<form action="<?= $this->request ?>" class="tl_form" method="post">
+	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
+	<img src="<?= $this->logo; ?>" />
+	<?php if(!empty($this->fields)): ?>
+		<?php foreach($this->fields as $field): ?>
+			<div class="widget <?= $field['class'] ?>">
+				<!-- <h3><label for="ctrl_<?= $field['name'] ?>"><?= $field['label'] ?></label></h3> -->
+				<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$field]); ?>
+				<br>
+			</div>
+		<?php endforeach; ?>
+		<div class="clear"></div>
+	<?php endif; ?>
+	<div class="tl_submit_container">
+		<?= implode(' ', $this->actions) ?>
+	</div>
+</form>

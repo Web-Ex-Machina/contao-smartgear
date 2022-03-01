@@ -1,0 +1,173 @@
+<form action="<?= $this->request ?>" class="tl_form" method="post">
+	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
+	<div class="widget">
+		<?php if($this->framway_is_present): ?>
+			<p>Le framway est déjà présent et configuré.</p>
+			<p>Vous pouvez passer à l'étape suivante ou le mettre à jour.</p>
+		<?php else: ?>
+			<p>Le framway n'est pas présent / configuré.</p>
+			<p>Vous devez le récupérer / mettre à jour avant de passer à l'étape suivante.</p>
+		<?php endif; ?>
+		<button 
+			class="btn" 
+			type="button"
+			id="button-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval" 
+			title="Récupérer le Framway"
+		>
+			Récupérer le Framway
+		</button>
+	</div>
+	<div class="widget" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-step-1">
+		<h3>1. Récupération / Mise à jour du Framway&nbsp;<i class="fas fa-hourglass hidden icon"></i></h3>
+		<div class="loader"><i class="fas fa-spinner fa-4x fa-spin"></i></div>
+		<pre class="hidden result" style="overflow: auto;" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-result-1">
+		</pre>
+	</div>
+	<div class="widget" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-step-2">
+		<h3>2. Installation du Framway&nbsp;<i class="fas fa-hourglass hidden icon"></i></h3>
+		<div class="loader"><i class="fas fa-spinner fa-4x fa-spin"></i></div>
+		<pre class="hidden result" style="overflow: auto;" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-result-2">
+		</pre>
+	</div>
+	<div class="widget" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-step-3">
+		<h3>3. Initialisation du Framway&nbsp;<i class="fas fa-hourglass hidden icon"></i></h3>
+		<div class="loader"><i class="fas fa-spinner fa-4x fa-spin"></i></div>
+		<pre class="hidden result" style="overflow: auto;" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-result-3">
+		</pre>
+	</div>
+	<div class="widget" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-step-4">
+		<h3>4. Build du Framway&nbsp;<i class="fas fa-hourglass hidden icon"></i></h3>
+		<div class="loader"><i class="fas fa-spinner fa-4x fa-spin"></i></div>
+		<pre class="hidden result" style="overflow: auto;" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-result-4">
+		</pre>
+	</div>
+	<div class="tl_submit_container">
+		<?= implode(' ', $this->actions) ?>
+	</div>
+</form>
+<!-- Scripts -->
+<script type="text/javascript">
+	var j = jQuery.noConflict();
+
+	// Toastr Options
+	toastr.options.closeButton = true;
+	toastr.options.timeOut = 5000;
+	toastr.options.extendedTimeOut = 0;
+
+	var waitIcon = "fas fa-hourglass";
+	var successIcon = "fas fa-check";
+	var errorIcon = "fas exclamation-triangle";
+
+	/**
+	 * Handle command buttons
+	 */
+	j('button#button-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval').on('click', function(e){
+		e.preventDefault();
+		framwayRetrieval()
+		.then(function(){
+			framwayInstall()
+			.then(function(){
+				framwayInitialize()
+				.then(function(){
+					framwayBuild();
+				});
+			});
+		}).catch(function(e) {
+			toastr.error(e, "Une erreur est survenue :");
+		});
+		
+	});
+
+	function framwayRetrieval(type, module){
+		var ctn = j('div#block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-step-1');
+		ctn.find('.loader').addClass("active");
+		ctn.find('.result').removeClass("hidden").html('');
+		ctn.find('.icon').removeClass("hidden").removeClass(successIcon).removeClass(errorIcon).addClass(waitIcon);
+		return executeCmdLive(
+			"<?= $this->type ?>",
+			"<?= $this->module ?>",
+			'framwayRetrieval',
+			"block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-result-1",
+		).then(function(r) {
+			toastr[r["status"]](r["msg"]);
+			ctn.find('.result').html(ctn.find('.result').html().concat(r["msg"]));
+			ctn.find('.loader').removeClass("active");
+			ctn.find('.icon').removeClass(waitIcon).addClass(successIcon);
+		}).catch(function(e) {
+			// toastr.error(e, "Une erreur est survenue :");
+			ctn.find('.loader').removeClass("active");
+			ctn.find('.result').html(e);
+			ctn.find('.icon').removeClass(waitIcon).addClass(errorIcon);
+			throw new Error(e);
+		});
+	}
+
+	function framwayInstall(type, module){
+		var ctn = j('div#block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-step-2');
+		ctn.find('.loader').addClass("active");
+		ctn.find('.result').removeClass("hidden").html('');
+		ctn.find('.icon').removeClass("hidden").removeClass(successIcon).removeClass(errorIcon).addClass(waitIcon);
+		return executeCmdLive(
+			"<?= $this->type ?>",
+			"<?= $this->module ?>",
+			'framwayInstall',
+			"block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-result-2",
+		).then(function(r) {
+			toastr[r["status"]](r["msg"]);
+			ctn.find('.result').html(ctn.find('.result').html().concat(r["msg"]));
+			ctn.find('.loader').removeClass("active");
+			ctn.find('.icon').removeClass(waitIcon).addClass(successIcon);
+		}).catch(function(e) {
+			toastr.error(e, "Une erreur est survenue :");
+			ctn.find('.loader').removeClass("active");
+			ctn.find('.icon').removeClass(waitIcon).addClass(errorIcon);
+			throw new Error(e);
+		});
+	}
+
+	function framwayInitialize(type, module){
+		var ctn = j('div#block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-step-3');
+		ctn.find('.loader').addClass("active");
+		ctn.find('.result').removeClass("hidden").html('');
+		ctn.find('.icon').removeClass("hidden").removeClass(successIcon).removeClass(errorIcon).addClass(waitIcon);
+		return executeCmdLive(
+			"<?= $this->type ?>",
+			"<?= $this->module ?>",
+			'framwayInitialize',
+			"block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-result-3",
+		).then(function(r) {
+			toastr[r["status"]](r["msg"]);
+			ctn.find('.result').html(ctn.find('.result').html().concat(r["msg"]));
+			ctn.find('.loader').removeClass("active");
+			ctn.find('.icon').removeClass(waitIcon).addClass(successIcon);
+		}).catch(function(e) {
+			toastr.error(e, "Une erreur est survenue :");
+			ctn.find('.loader').removeClass("active");
+			ctn.find('.icon').removeClass(waitIcon).addClass(errorIcon);
+			throw new Error(e);
+		});
+	}
+
+	function framwayBuild(type, module){
+		var ctn = j('div#block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-step-4');
+		ctn.find('.loader').addClass("active");
+		ctn.find('.result').removeClass("hidden").html('');
+		ctn.find('.icon').removeClass("hidden").removeClass(successIcon).removeClass(errorIcon).addClass(waitIcon);
+		return executeCmdLive(
+			"<?= $this->type ?>",
+			"<?= $this->module ?>",
+			'framwayBuild',
+			"block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-result-4",
+		).then(function(r) {
+			toastr[r["status"]](r["msg"]);
+			ctn.find('.result').html(ctn.find('.result').html().concat(r["msg"]));
+			ctn.find('.loader').removeClass("active");
+			ctn.find('.icon').removeClass(waitIcon).addClass(successIcon);
+		}).catch(function(e) {
+			toastr.error(e, "Une erreur est survenue :");
+			ctn.find('.loader').removeClass("active");
+			ctn.find('.icon').removeClass(waitIcon).addClass(errorIcon);
+			throw new Error(e);
+		});
+	}
+</script>

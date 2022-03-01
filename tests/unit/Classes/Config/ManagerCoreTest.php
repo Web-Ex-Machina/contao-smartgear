@@ -1,9 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * SMARTGEAR for Contao Open Source CMS
+ * Copyright (c) 2015-2022 Web ex Machina
+ *
+ * @category ContaoBundle
+ * @package  Web-Ex-Machina/contao-smartgear
+ * @author   Web ex Machina <contact@webexmachina.fr>
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
+ */
+
 namespace Classes\Config;
 
-use WEM\SmartgearBundle\Classes\Config\Core as CoreConfig;
-use WEM\SmartgearBundle\Classes\Config\Manager;
+use WEM\SmartgearBundle\Classes\Config\ManagerJson as Manager;
+use WEM\SmartgearBundle\Config\Core as CoreConfig;
 
 class ManagerCoreTest extends \Codeception\Test\Unit
 {
@@ -19,46 +31,47 @@ class ManagerCoreTest extends \Codeception\Test\Unit
 
     protected function setUp(): void
     {
-        $this->configurationFilePath = codecept_data_dir() . '/assets/smartgear/config_core.json';
+        $this->configurationFilePath = codecept_data_dir().'/assets/smartgear/config_core.json';
         $this->sut = new Manager(new CoreConfig(), $this->configurationFilePath);
     }
 
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
     // tests
-    public function testLoad()
+    public function testLoad(): void
     {
-        $json = $this->sut->retrieveConfigurationAsStdClass();
+        $json = $this->sut->retrieveConfigurationAsImportableFormatFromFile();
         $config = $this->sut->load();
 
-        $this->assertEquals($config->getSgVersion(), $json->version);
-        $this->assertEquals($config->getSgSelectedModules(), $json->selectedModules);
-        $this->assertEquals($config->getSgMode(), $json->mode);
-        $this->assertEquals($config->getSgWebsiteTitle(), $json->websiteTitle);
-        $this->assertEquals($config->getSgFramwayPath(), $json->framway->path);
-        $this->assertEquals($config->getSgFramwayThemes(), $json->framway->themes);
-        $this->assertEquals($config->getSgAnalytics(), $json->analytics->system);
-        $this->assertEquals($config->getSgAnalyticsGoogleId(), $json->analytics->google->id);
-        $this->assertEquals($config->getSgAnalyticsMatomoHost(), $json->analytics->matomo->host);
-        $this->assertEquals($config->getSgAnalyticsMatomoId(), $json->analytics->matomo->id);
-        $this->assertEquals($config->getSgOwnerEmail(), $json->owner->email);
-        $this->assertEquals($config->getSgOwnerDomain(), $json->owner->domain);
-        $this->assertEquals($config->getSgOwnerHost(), $json->owner->host);
-        $this->assertEquals($config->getSgOwnerLogo(), $json->owner->logo);
-        $this->assertEquals($config->getSgOwnerStatus(), $json->owner->status);
-        $this->assertEquals($config->getSgOwnerStreet(), $json->owner->street);
-        $this->assertEquals($config->getSgOwnerPostal(), $json->owner->postal);
-        $this->assertEquals($config->getSgOwnerCity(), $json->owner->city);
-        $this->assertEquals($config->getSgOwnerRegion(), $json->owner->region);
-        $this->assertEquals($config->getSgOwnerCountry(), $json->owner->country);
-        $this->assertEquals($config->getSgOwnerSiret(), $json->owner->siret);
-        $this->assertEquals($config->getSgOwnerDpoName(), $json->owner->dpo->name);
-        $this->assertEquals($config->getSgOwnerDpoEmail(), $json->owner->dpo->email);
+        $this->assertSame($config->getSgInstallComplete(), $json->installComplete);
+        $this->assertSame($config->getSgVersion(), $json->version);
+        $this->assertSame($config->getSgSelectedModules(), $json->selectedModules);
+        $this->assertSame($config->getSgMode(), $json->mode);
+        $this->assertSame($config->getSgWebsiteTitle(), $json->websiteTitle);
+        $this->assertSame($config->getSgFramwayPath(), $json->framway->path);
+        $this->assertSame($config->getSgFramwayThemes(), $json->framway->themes);
+        $this->assertSame($config->getSgAnalytics(), $json->analytics->system);
+        $this->assertSame($config->getSgAnalyticsGoogleId(), $json->analytics->google->id);
+        $this->assertSame($config->getSgAnalyticsMatomoHost(), $json->analytics->matomo->host);
+        $this->assertSame($config->getSgAnalyticsMatomoId(), $json->analytics->matomo->id);
+        $this->assertSame($config->getSgOwnerEmail(), $json->owner->email);
+        $this->assertSame($config->getSgOwnerDomain(), $json->owner->domain);
+        $this->assertSame($config->getSgOwnerHost(), $json->owner->host);
+        $this->assertSame($config->getSgOwnerLogo(), $json->owner->logo);
+        $this->assertSame($config->getSgOwnerStatus(), $json->owner->status);
+        $this->assertSame($config->getSgOwnerStreet(), $json->owner->street);
+        $this->assertSame($config->getSgOwnerPostal(), $json->owner->postal);
+        $this->assertSame($config->getSgOwnerCity(), $json->owner->city);
+        $this->assertSame($config->getSgOwnerRegion(), $json->owner->region);
+        $this->assertSame($config->getSgOwnerCountry(), $json->owner->country);
+        $this->assertSame($config->getSgOwnerSiret(), $json->owner->siret);
+        $this->assertSame($config->getSgOwnerDpoName(), $json->owner->dpo->name);
+        $this->assertSame($config->getSgOwnerDpoEmail(), $json->owner->dpo->email);
+    }
+
+    protected function _before(): void
+    {
+    }
+
+    protected function _after(): void
+    {
     }
 }

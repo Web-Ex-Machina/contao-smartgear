@@ -68,6 +68,7 @@ services:
         image: ${IMAGE_WEBSERVER}
         workdir_contao_web: ${WORKDIR_CONTAO_WEB}
         prj_name: ${PRJ_NAME}
+        ssl_port: ${WEBSERVER_EXPOSED_PORT_SSL}
     container_name: ${COMPOSE_PROJECT_NAME_SHORT}_web_base
     restart: unless-stopped
     tty: true

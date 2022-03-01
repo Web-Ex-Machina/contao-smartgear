@@ -1,0 +1,30 @@
+<?php if($this->isError): ?>
+<div class="content_container">
+	<p class="tl_error"><?= $this->error ?></p>
+	<p class="tl_error"><?= $this->trace ?></p>
+</div>
+<?php else: ?>
+<?php if($this->messages): ?>
+	<div class="content_container">
+		<?php foreach($this->messages as $message): ?>
+		<p class="<?= $message['class'] ?>"><?= $message['text'] ?></p>
+		<?php endforeach; ?>
+	</div>
+<?php endif; ?>
+<?php endif; ?>
+<form action="<?= $this->request ?>" class="tl_form" method="post">
+	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
+	<?php if(!empty($this->fields)): ?>
+		<?php foreach($this->fields as $field): ?>
+			<div class="widget <?= $field['class'] ?>">
+				<!-- <h3><label for="ctrl_<?= $field['name'] ?>"><?= $field['label'] ?></label></h3> -->
+				<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$field]); ?>
+				<br>
+			</div>
+		<?php endforeach; ?>
+		<div class="clear"></div>
+	<?php endif; ?>
+	<div class="tl_submit_container">
+		<?= implode(' ', $this->actions) ?>
+	</div>
+</form>

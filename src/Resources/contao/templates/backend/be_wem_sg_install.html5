@@ -1,4 +1,4 @@
-<!-- Load Libraries -->
+<!-- <!-- Load Libraries -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -8,7 +8,7 @@
 <?= Message::generate(); ?>
 
 <div id="tl_buttons">
-  <a href="<?= $this->request ?>" class="executeCmd" data-cmd="cache:warmup" title="Refresh Cache" accesskey="b">Refresh Cache</a>
+  <a href="<?= $this->request ?>" class="executeCmdPhp" data-cmd="cache:clear" title="Refresh Cache" accesskey="b">Refresh Cache</a>
   <a href="<?= ampersand($this->backupManagerBtnHref) ?>" title="<?= Contao\StringUtil::specialchars($this->backupManagerBtnTitle) ?>" accesskey="b"><?= $this->backupManagerBtnButton ?></a>
 </div>
 
@@ -30,32 +30,8 @@
 			j(this).closest('form').find('input.btnAction').val(j(this).attr('value'));
 		});
 
-		/**
-		 * Store the "submit" clicked for the form
-		 */
-		j('#sg_steps').on('click', 'a.step', function(e){
-			e.preventDefault();
-			var ctn = j('#tl_wem_sg_install .blocks.install .block').first();
-			ctn.find('.loader').addClass("active");
-			var step = j(this);
 
-			setStep(step.data('module')).then(function(r) {
-				refreshSteps();
-
-				getBlock(step.data('type'), step.data('module')).then(function(r) {
-					ctn.replaceWith(r);
-				}).catch(function(e) {
-					toastr.error(e, "Une erreur est survenue :");
-				}).finally(function() {
-					ctn.find('.loader').removeClass("active");
-				});
-			}).catch(function(e) {
-				toastr.error(e, "Une erreur est survenue :");
-			}).finally(function() {
-				ctn.find('.loader').removeClass("active");
-			});
-		});
-
+		applyStepBehaviour();
 		/**
 		 * Handle modal openers
 		 */
@@ -128,27 +104,93 @@
 		});
 
 		/**
+		 * Handle command buttons
+		 */
+		j('#tl_buttons').on('click', '.executeCmdPhp', function(e){
+			e.preventDefault();
+			executeCmdPhp(j(this).data('cmd')).then(function(r) {
+				toastr[r["status"]](r["msg"]);
+			}).catch(function(e) {
+				toastr.error(e, "Une erreur est survenue :");
+			});
+		});
+
+		/**
+		 * Handle command buttons
+		 */
+		j('#tl_buttons').on('click', '.executeCmdLive', function(e){
+			e.preventDefault();
+			executeCmdLive(
+				j(this).data('type'),
+				j(this).data('module'),
+				j(this).data('action'),
+				j(this).data('result-container-id'),
+			).then(function(r) {
+				toastr[r["status"]](r["msg"]);
+			}).catch(function(e) {
+				toastr.error(e, "Une erreur est survenue :");
+			});
+		});
+
+		/**
 		 * Replace normal form submit by an AJAX one
 		 */
 		j('#tl_wem_sg_install').on('submit', '.block-default form', function(e){
 			e.preventDefault();
+			var isUpload = false;
 			var ctn = j(this).closest('.block');
 			ctn.find('.loader').addClass("active");
 
-			var objFields = {
-				'TL_WEM_AJAX':1
-				,'wem_module':'be_smartgear'
-			};
+			var objFields = new FormData();
+			objFields.append("TL_WEM_AJAX", 1 );
+			objFields.append("wem_module", 'be_smartgear' );
 
 			j(this).find('input').each(function(){
-				objFields[j(this).attr('name')] = j(this).val();
+				switch(j(this).attr('type')){
+					case "file":
+						var files = j(this)[0].files;
+						isUpload = true;
+			        
+		        // Check file selected or not
+		        for(let i in files){
+							objFields.append(j(this).attr('name'),files[i]);
+		        }
+					break;
+					case "checkbox":
+						if(j(this).prop('checked')){
+							objFields.append(j(this).attr('name'),j(this).val());
+						}
+					break;
+					default:
+						objFields.append(j(this).attr('name'),j(this).val());
+					break;
+				}
 			});
 
-			j.ajax({
+
+
+			j(this).find('select').each(function(){
+				if(j(this).attr('multiple')){
+					j(this).val().forEach((item) => objFields.append(j(this).attr('name'), item))
+				}else{
+					objFields.append(j(this).attr('name'),j(this).val());
+				}
+			});
+
+			j(this).find('textarea').each(function(){
+				objFields.append(j(this).attr('name'),j(this).val());
+			});
+
+			var ajaxOptions = {
 				method: "POST"
-				,timeout:10000
+				,timeout:60000
 				,data: objFields
-			})
+			};
+			// if(isUpload){
+				ajaxOptions = Object.assign(ajaxOptions,{contentType: false,processData: false});
+			// }
+
+			j.ajax(ajaxOptions)
 			.done(function(msg){
 				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
 				try{
@@ -189,6 +231,29 @@
 		});
 	});
 
+
+
+	function applyStepBehaviour()
+	{
+		/**
+		 * Store the "submit" clicked for the form
+		 */
+		j('#sg_steps').on('click', 'a.step', function(e){
+			e.preventDefault();
+			var ctn = j('#tl_wem_sg_install .blocks.install .block').first();
+			ctn.find('.loader').addClass("active");
+			var step = j(this);
+
+			setStep(step.data('type'),step.data('module'),step.data('index')).then(function(r) {
+				refreshBlock(step.parents('.block')[0].id);
+			}).catch(function(e) {
+				toastr.error(e, "Une erreur est survenue :");
+			}).finally(function() {
+				ctn.find('.loader').removeClass("active");
+			});
+		});
+	}
+
 	/**
 	 * Refresh all the blocks in the page
 	 */
@@ -196,6 +261,15 @@
 		j('#tl_wem_sg_install .block').each(function(){
 			refreshBlock(j(this).attr('id'));
 		});
+	}
+
+	function toastrDisplay(type,msg){
+		toastr[type](msg);
+	}
+
+	function replaceBlockContent(id, content){
+		var ctn = j('div#'+id);
+		ctn.replaceWith(content);
 	}
 
 	/**
@@ -206,10 +280,11 @@
 		ctn.find('.loader').addClass("active");
 
 		getBlock(ctn.data("type"), ctn.data("module")).then(function(r) {
-			ctn.replaceWith(r);
+			replaceBlockContent(id,r);
+			applyStepBehaviour();
 		}).catch(function(e) {
 			toastr.error(e, "Une erreur est survenue :");
-		}).finally(function() { i
+		}).finally(function() {
 			ctn.find('.loader').removeClass("active");
 		});
 	}
@@ -217,11 +292,11 @@
 	/**
 	 * Refresh steps
 	 */
-	function refreshSteps(){
+	function refreshSteps(strType, strModule){
 		var ctn = j('div#sg_steps');
 		ctn.find('.loader').addClass("active");
 
-		getSteps().then(function(r) {
+		getSteps(strType, strModule).then(function(r) {
 			ctn.replaceWith(r);
 		}).catch(function(e) {
 			toastr.error(e, "Une erreur est survenue :");
@@ -295,7 +370,7 @@
 	/**
 	 * Set the new step
 	 */
-	function setStep(step) {
+	function setStep(strType, strModule, step) {
 		return new Promise((resolve, reject) => {
 			var objFields = {
 				'TL_WEM_AJAX':1
@@ -303,6 +378,8 @@
 				,'wem_module':'be_smartgear'
 				,'action':'setStep'
 				,'step':step
+				,'type':strType
+				,'module':strModule
 			};
 
 			j.ajax({
@@ -332,13 +409,15 @@
 		});
 	}
 
-	function getSteps()	{
+	function getSteps(strType, strModule)	{
 		return new Promise((resolve, reject) => {
 			var objFields = {
 				'TL_WEM_AJAX':1
 				,'REQUEST_TOKEN':"<?= $this->token; ?>"
 				,'wem_module':'be_smartgear'
 				,'action':'getSteps'
+				,'type':strType
+				,'module': strModule
 			};
 
 			j.ajax({
@@ -415,6 +494,44 @@
 		});
 	}
 
+	function executeCmdPhp(cmd) {
+		return new Promise((resolve, reject) => {
+			var objFields = {
+				'TL_WEM_AJAX':1
+				,'REQUEST_TOKEN':"<?= $this->token; ?>"
+				,'wem_module':'be_smartgear'
+				,'action':'executeCmdPhp'
+				,'cmd':cmd
+			};
+
+			j.ajax({
+				method: "POST"
+				,timeout:10000
+				,data: objFields
+			})
+			.done(function(msg){
+				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+				try{
+					var results = j.parseJSON(msg);
+
+					// Handle actions errors
+					if("error" === results["status"]) {
+						reject(results["msg"]);
+					}
+
+					// Notify everything goes well
+					resolve(results);
+				}
+				catch(err){
+	       			reject(err); 
+				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				reject(textStatus+"<br>"+errorThrown);
+			})
+		});
+	}
+
 	function executeCmd(cmd) {
 		return new Promise((resolve, reject) => {
 			var objFields = {
@@ -445,6 +562,81 @@
 				}
 				catch(err){
 	       			reject(err); 
+				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				reject(textStatus+"<br>"+errorThrown);
+			})
+		});
+	}
+
+	function executeCmdLive(strType, strModule, strAction, resultContainerId, aditionnalParameters) {
+		aditionnalParameters = aditionnalParameters || {};
+		return new Promise((resolve, reject) => {
+			var objFields = {
+				'TL_WEM_AJAX':1
+				,'REQUEST_TOKEN':"<?= $this->token; ?>"
+				,'wem_module':'be_smartgear'
+				,'action':strAction
+				,'type': strType
+				,'module': strModule
+			};
+			objFields = Object.assign(objFields,aditionnalParameters);
+			var lastResponseLength = 0;
+			j.ajax({
+				method: "POST"
+				// ,timeout:10000
+				,data: objFields
+				,headers:{
+					'Cache-Control': 'no-cache, must-revalidate'
+				}
+				,xhrFields: {
+          // Getting on progress streaming response
+          onprogress: function(e)
+          {
+            var progressResponse;
+            var response = e.currentTarget.response;
+            progressResponse = typeof lastResponseLength === "undefined" ? response : response.substring(lastResponseLength);
+            lastResponseLength = response.length;
+            if(progressResponse.slice(-1) == ","){
+            	progressResponse = progressResponse.substring(progressResponse.length - 1);
+            }
+            let json = j.parseJSON("{\"full\":[" + progressResponse + "]}");
+            let html = '';
+            for(let i in json.full){
+          		if(typeof json.full[i].data !== "undefined"){
+	            	html = html.concat(json.full[i].data);
+	            }
+            }
+            j('#'+resultContainerId).html(html);
+          }
+        }
+			})
+			.done(function(msg){
+				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+				try{
+			 		msg = "{\"full\":[" + msg.replace(/\}\{/gi, "},{") + "]}";
+					var json = j.parseJSON(msg);
+					results = json.full[json.full.length - 1];
+					let html = '';
+          for(let i in json.full){
+          		if(typeof json.full[i].data !== "undefined"){
+	            	html = html.concat(json.full[i].data);
+	            }
+          }
+          html = html.concat(results.msg);
+          j('#'+resultContainerId).html(html);
+
+					// Handle actions errors
+					if("error" === results["status"]) {
+						reject(results["msg"]);
+					}
+
+					// Notify everything goes well
+					resolve(results);
+				}
+				catch(err){
+	       	reject(err); 
 				}
 			})
 			.fail(function(jqXHR, textStatus, errorThrown){
