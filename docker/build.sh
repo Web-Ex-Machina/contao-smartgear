@@ -37,7 +37,8 @@ mode_default="up"
 image_php_default="php:7.4-fpm"
 image_webserver_default="httpd:2.4"
 image_db_default="mysql:5.7"
-contao_version_default="4.9"
+# contao_version_default="4.9"
+contao_version_default="4.13"
 cache_default="yes"
 
 manual_parameters=false
@@ -255,15 +256,15 @@ verify_parameter_image_webserver(){
 }
 
 verify_parameter_contao_version(){
-    while [[ "$contao_version" != "4.9" ]]
+    while [[ "$contao_version" != "4.9" ]] && [[ "$contao_version" != "4.13" ]]
     do
         manual_parameters=true
-        echo -e "${fg_green}Choose the Contao version (${fg_yellow}4.9${fg_green}) [default is '${fg_yellow}$contao_version_default${fg_green}']:${normal}";
+        echo -e "${fg_green}Choose the Contao version (${fg_white}4.9${fg_green}/${fg_yellow}4.13${fg_green}) [default is '${fg_yellow}$contao_version_default${fg_green}']:${normal}";
         read -p "> " contao_version
         if [ -z "$contao_version" ]
         then
             contao_version=$contao_version_default;
-        elif [[ "$contao_version" != "4.9" ]]
+        elif [[ "$contao_version" != "4.9" ]] && [[ "$contao_version" != "4.13" ]]
         then
             echo -e "${fg_red}Error :${normal} '$contao_version' is not a valid value."
         fi

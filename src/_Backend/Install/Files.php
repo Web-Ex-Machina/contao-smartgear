@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2021 Web ex Machina
+ * Copyright (c) 2015-2022 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -31,7 +31,7 @@ class Files extends BlockInstall implements BlockInstallInterface
      *
      * @var string
      */
-    protected $sgFolderPath = 'web/bundles/wemsmartgear/contao_files';
+    protected $sgFolderPath = 'public/bundles/wemsmartgear/contao_files';
 
     /**
      * App default location.
@@ -186,7 +186,7 @@ class Files extends BlockInstall implements BlockInstallInterface
             }
         }
 
-        if($this->hasErrors() || $this->hasUpdates()) {
+        if ($this->hasErrors() || $this->hasUpdates()) {
             $this->addAction('process', 'Importer les fichiers Smartgear');
         }
 
@@ -428,9 +428,11 @@ class Files extends BlockInstall implements BlockInstallInterface
         try {
             if (!$objFileA->exists()) {
                 return true;
-            } elseif (!$objFileB->exists()) {
+            }
+            if (!$objFileB->exists()) {
                 return true;
-            } elseif ($objFileA->hash !== $objFileB->hash) {
+            }
+            if ($objFileA->hash !== $objFileB->hash) {
                 return true;
             }
 
