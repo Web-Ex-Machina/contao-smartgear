@@ -72,8 +72,6 @@ RUN apt-get update && apt-get install -y \
     && mkdir -p /fake \
     && cd /fake \
     && composer create-project contao/managed-edition . $contao_version \
-    # if "web" directory is present (contao < 4.12)
-    && [ -d /fake/web ] && [ -f /fake/web/contao-manager.phar.php ] && echo "contao manager already present." || curl -o /fake/web/contao-manager.phar.php https://download.contao.org/contao-manager/stable/contao-manager.phar \
     # if "public" directory is present (contao >= 4.12)
     && [ -d /fake/public ] && [ -f /fake/public/contao-manager.phar.php ] && echo "contao manager already present." || curl -o /fake/public/contao-manager.phar.php https://download.contao.org/contao-manager/stable/contao-manager.phar \
     && cp -ar /fake/. $workdir_contao \
