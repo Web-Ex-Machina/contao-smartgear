@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2020 Web ex Machina
+ * Copyright (c) 2015-2022 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -132,7 +132,7 @@ class Core extends Block implements BlockInterface
             // Add Request Token to JSON answer and return
             $arrResponse['rt'] = \RequestToken::get();
             echo json_encode($arrResponse);
-            die;
+            exit;
         }
 
         $objTemplate = new \FrontendTemplate('be_wem_sg_install_modal_core_configure');
@@ -243,7 +243,7 @@ class Core extends Block implements BlockInterface
             }
 
             // Copy the vendors into the filesystem
-            $objFiles->rcopy('web/bundles/wemsmartgear/contao_files', '/');
+            $objFiles->rcopy('public/bundles/wemsmartgear/contao_files', '/');
 
             // Check app folders and check if there is all Framway stuff loaded
             if (
@@ -289,15 +289,15 @@ class Core extends Block implements BlockInterface
             \Dbafs::addResource($fp);
 
             // Import the folders
-            $objFiles->rcopy('web/bundles/wemsmartgear/templates_files', 'templates');
-            $objFiles->rcopy('web/bundles/wemsmartgear/templates_app', 'app');
+            $objFiles->rcopy('public/bundles/wemsmartgear/templates_files', 'templates');
+            $objFiles->rcopy('public/bundles/wemsmartgear/templates_app', 'app');
 
             // Create the theme template folder
             $objFiles->mkdir(sprintf('templates/%s', \StringUtil::generateAlias($arrConfig['websiteTitle'])));
 
             // Copy package themes into framway folder
             $objFolder = new \Folder($ftp);
-            $objFiles->rcopy('web/bundles/wemsmartgear/themes_framway', $ftp);
+            $objFiles->rcopy('public/bundles/wemsmartgear/themes_framway', $ftp);
             $objFolder->unprotect();
 
             // Unprotect vendor folder
@@ -387,7 +387,7 @@ class Core extends Block implements BlockInterface
             $objModule->tstamp = time();
             $objModule->type = 'html';
             $objModule->name = 'FOOTER';
-            $objModule->html = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/footer_1.html');
+            $objModule->html = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/footer_1.html');
             $objModule->save();
             $arrLayoutModules[] = ['mod' => $objModule->id, 'col' => 'footer', 'enable' => '1'];
             $arrModules[] = $objModule->id;
@@ -427,8 +427,8 @@ class Core extends Block implements BlockInterface
             $objLayout->externalJs = serialize($arrJsFiles);
             $objLayout->orderExtJs = serialize($arrJsFiles);
             $objLayout->modules = serialize($arrLayoutModules);
-            $objLayout->head = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
-            $objLayout->script = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
+            $objLayout->head = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+            $objLayout->script = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
             $objLayout->save();
             $this->sgConfig['sgInstallLayout'] = $objLayout->id;
             $this->logs[] = ['status' => 'tl_confirm', 'msg' => sprintf('Le layout %s a été créé et sera utilisé pour la suite de la configuration', $objLayout->name)];
@@ -451,8 +451,8 @@ class Core extends Block implements BlockInterface
             $objLayoutWithoutHeaderAndFooter->externalJs = serialize($arrJsFiles);
             $objLayoutWithoutHeaderAndFooter->orderExtJs = serialize($arrJsFiles);
             $objLayoutWithoutHeaderAndFooter->modules = 'a:1:{i:0;a:3:{s:3:"mod";s:1:"0";s:3:"col";s:4:"main";s:6:"enable";s:1:"1";}}';
-            $objLayoutWithoutHeaderAndFooter->head = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
-            $objLayoutWithoutHeaderAndFooter->script = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
+            $objLayoutWithoutHeaderAndFooter->head = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+            $objLayoutWithoutHeaderAndFooter->script = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
             $objLayoutWithoutHeaderAndFooter->save();
             $this->logs[] = ['status' => 'tl_confirm', 'msg' => sprintf('Le layout %s a été créé et sera utilisé pour la suite de la configuration', $objLayout->name)];
 
@@ -595,7 +595,7 @@ class Core extends Block implements BlockInterface
             $objPage = Util::createPage('Mentions légales', $objRootPage->id, ['hide' => 1]);
             $arrPageMounts[] = $objPage->id;
             $objArticle = Util::createArticle($objPage);
-            $strText = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/legal-notices_1.html');
+            $strText = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/legal-notices_1.html');
             $strHtml = '<p>A remplir</p>';
             if ($strText) {
                 /**
@@ -629,7 +629,7 @@ class Core extends Block implements BlockInterface
             $objPage = Util::createPage('Confidentialité', $objRootPage->id, ['hide' => 1]);
             $arrPageMounts[] = $objPage->id;
             $objArticle = Util::createArticle($objPage);
-            $strText = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/privacy_1.html');
+            $strText = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/privacy_1.html');
             $strHtml = '<p>A remplir</p>';
             if ($strText) {
                 /**
@@ -666,8 +666,8 @@ class Core extends Block implements BlockInterface
             $objUserGroup->save();
 
             // Create a robots.txt file with a Disallow
-            /*if (!file_exists(TL_ROOT."/web/robots.txt")) {
-                $objFile = $objFiles->fopen("web/robots.txt", "w");
+            /*if (!file_exists(TL_ROOT."/public/robots.txt")) {
+                $objFile = $objFiles->fopen("public/robots.txt", "w");
                 $objFiles->fputs($objFile, "User-agent: *"."\n"."Disallow: /");
             }*/
 
@@ -783,8 +783,8 @@ class Core extends Block implements BlockInterface
             }
 
             // Delete the robots file
-            /*if (file_exists(TL_ROOT."/web/robots.txt")) {
-                $objFiles->delete("web/robots.txt");
+            /*if (file_exists(TL_ROOT."/public/robots.txt")) {
+                $objFiles->delete("public/robots.txt");
             }*/
 
             // Call the https redirection rewriting

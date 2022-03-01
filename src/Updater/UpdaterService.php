@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2020 Web ex Machina
+ * Copyright (c) 2015-2022 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -83,7 +83,7 @@ class UpdaterService
                 $objService = \System::getContainer()->get('smartgear.backend.backupservice');
 
                 // Retrieve and list all the files to save
-                $strDir = TL_ROOT.'/web/bundles/wemsmartgear/contao_files';
+                $strDir = TL_ROOT.'/public/bundles/wemsmartgear/contao_files';
                 $files = Util::getFileList($strDir);
 
                 foreach ($files as &$f) {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2020 Web ex Machina
+ * Copyright (c) 2015-2022 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -60,11 +60,11 @@ class Tinymce extends Block implements BlockInterface
         $this->objFiles = \Files::getInstance();
 
         // Get the available plugins and paths
-        $plugins = glob('web/bundles/wemsmartgear/tinymce/plugins/*', GLOB_ONLYDIR);
+        $plugins = glob('public/bundles/wemsmartgear/tinymce/plugins/*', \GLOB_ONLYDIR);
         if (!empty($plugins)) {
             foreach ($plugins as $path) {
                 $parts = explode('/', $path);
-                $this->tinymce_plugins[$parts[count($parts) - 1]] = $path;
+                $this->tinymce_plugins[$parts[\count($parts) - 1]] = $path;
             }
         }
 
@@ -110,7 +110,7 @@ class Tinymce extends Block implements BlockInterface
     public function install()
     {
         try {
-            $this->objFiles->copy('web/bundles/wemsmartgear/tinymce/be_tinyMCE.html5', 'templates/be_tinyMCE.html5');
+            $this->objFiles->copy('public/bundles/wemsmartgear/tinymce/be_tinyMCE.html5', 'templates/be_tinyMCE.html5');
             $this->logs[] = ['status' => 'tl_confirm', 'msg' => 'La configuration TinyMCE a été importée.'];
 
             // Update config
@@ -188,7 +188,7 @@ class Tinymce extends Block implements BlockInterface
             }
 
             // 2nd, if be_tinyMCE exists, we will compare the size of the two files, if the file has been updated, it is most likely their sizes will be different
-            if (filesize(TL_ROOT.'/web/bundles/wemsmartgear/tinymce/be_tinyMCE.html5') !== filesize(TL_ROOT.'/templates/be_tinyMCE.html5')) {
+            if (filesize(TL_ROOT.'/public/bundles/wemsmartgear/tinymce/be_tinyMCE.html5') !== filesize(TL_ROOT.'/templates/be_tinyMCE.html5')) {
                 return true;
             }
 

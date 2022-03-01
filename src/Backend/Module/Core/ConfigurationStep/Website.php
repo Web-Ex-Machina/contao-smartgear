@@ -220,7 +220,7 @@ class Website extends ConfigurationStep
         $objFooterModule->tstamp = time();
         $objFooterModule->type = 'wem_sg_footer';
         $objFooterModule->name = 'FOOTER';
-        // $objFooterModule->html = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/footer_1.html');
+        // $objFooterModule->html = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/footer_1.html');
         $objFooterModule->save();
         $modules[$objFooterModule->type] = $objFooterModule;
 
@@ -240,7 +240,7 @@ class Website extends ConfigurationStep
             ['mod' => 0, 'col' => 'main', 'enable' => '1'],
             ['mod' => $modules['wem_sg_footer']->id, 'col' => 'footer', 'enable' => '1'],
         ];
-        $script = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
+        $script = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
         $script = str_replace('{{config.googleFonts}}', "'".implode("','", $config->getSgGoogleFonts())."'", $script);
         $script = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $script);
 
@@ -268,7 +268,7 @@ class Website extends ConfigurationStep
         $objLayout->modules = serialize($arrLayoutModules);
         // $objLayout->template = 'fe_page';
         // $objLayout->webfonts = '';
-        // $objLayout->head = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+        // $objLayout->head = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
         $objLayout->script = $script;
         $objLayout->save();
 
@@ -287,7 +287,7 @@ class Website extends ConfigurationStep
         $objLayout->modules = serialize($arrLayoutModules);
         $objLayout->template = 'fe_page_full';
         // $objLayout->webfonts = '';
-        // $objLayout->head = file_get_contents(TL_ROOT.'/web/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+        // $objLayout->head = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
         $objLayout->script = $script;
         $objLayout->save();
 

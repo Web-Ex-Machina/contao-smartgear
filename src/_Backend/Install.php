@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2021 Web ex Machina
+ * Copyright (c) 2015-2022 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -95,12 +95,12 @@ class Install extends \BackendModule
                         $this->getActiveStep();
 
                         echo $this->parseInstallSteps();
-                        die;
+                        exit;
                         break;
 
                     case 'setStep':
-                        if(!in_array(\Input::post('step'), $this->modules['install'])) {
-                            throw new \Exception("Step inconnue : ".\Input::post('step'));
+                        if (!\in_array(\Input::post('step'), $this->modules['install'], true)) {
+                            throw new \Exception('Step inconnue : '.\Input::post('step'));
                         }
 
                         $objSession = \System::getContainer()->get('session');
@@ -135,7 +135,7 @@ class Install extends \BackendModule
                         // Just make sure we return a response in the asked format, if no format sent, we assume it's JSON.
                         if ('html' === \Input::post('format')) {
                             echo $objModule->$strAction();
-                            die;
+                            exit;
                         }
 
                         // Launch the action and store the result
@@ -149,7 +149,7 @@ class Install extends \BackendModule
             // Add Request Token to JSON answer and return
             $arrResponse['rt'] = \RequestToken::get();
             echo json_encode($arrResponse);
-            die;
+            exit;
         }
         if (\Input::post('TL_WEM_AJAX') && 'be_smartgear_update' === \Input::post('wem_module')) {
             try {
@@ -166,7 +166,7 @@ class Install extends \BackendModule
             // Add Request Token to JSON answer and return
             $arrResponse['rt'] = \RequestToken::get();
             echo json_encode($arrResponse);
-            die;
+            exit;
         }
     }
 
@@ -181,7 +181,7 @@ class Install extends \BackendModule
 
         if ('new' === \Input::get('act')) {
             // Retrieve and list all the files to save
-            $strDir = TL_ROOT.'/web/bundles/wemsmartgear/contao_files';
+            $strDir = TL_ROOT.'/public/bundles/wemsmartgear/contao_files';
             $files = Util::getFileList($strDir);
 
             foreach ($files as &$f) {
@@ -345,11 +345,11 @@ class Install extends \BackendModule
         $this->Template->websiteTitle = \Config::get('websiteTitle');
     }
 
-    protected function getActiveStep()
+    protected function getActiveStep(): void
     {
         $objSession = \System::getContainer()->get('session');
 
-        if(null === $objSession->get('sg_install_step')) {
+        if (null === $objSession->get('sg_install_step')) {
             $objSession->set('sg_install_step', $this->modules['install'][0]);
         }
 
@@ -390,11 +390,11 @@ class Install extends \BackendModule
     {
         $s = [
             'number' => $k + 1,
-            'type' => "install",
+            'type' => 'install',
             'name' => $step,
             'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['INSTALL'][$step],
             'active' => $step === $this->strActiveStep,
-            'disabled' => $k > array_search($this->strActiveStep, $this->modules['install']),
+            'disabled' => $k > array_search($this->strActiveStep, $this->modules['install'], true),
         ];
 
         if ($getNextStep) {

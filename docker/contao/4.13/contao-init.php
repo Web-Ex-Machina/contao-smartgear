@@ -3,28 +3,14 @@
 declare(strict_types=1);
 
 /**
- * Metal Store Bundle for Contao Open Source CMS
- * Copyright (c) 2021-2021 Web ex Machina
+ * SMARTGEAR for Contao Open Source CMS
+ * Copyright (c) 2015-2022 Web ex Machina
  *
  * @category ContaoBundle
- * @package  Web-Ex-Machina/metalstore-contao-bundle
+ * @package  Web-Ex-Machina/contao-smartgear
  * @author   Web ex Machina <contact@webexmachina.fr>
- * @link     https://github.com/Web-Ex-Machina/metalstore-contao-bundle/
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
-
-$sql = '
-INSERT INTO `tl_user`
-(`id`,`tstamp`,`username`,`name`,`email`,`language`,`backendTheme`,`fullscreen`,`uploader`,`showHelp`,`thumbnails`,`useRTE`,`useCE`,`password`,`pwChange`,`admin`,`groups`,`inherit`,`modules`,`themes`,`elements`,`fields`,`pagemounts`,`alpty`,`filemounts`,`fop`,`imageSizes`,`forms`,`formp`,`amg`,`disable`,`start`,`stop`,`session`,`dateAdded`,`secret`,`useTwoFactor`,`lastLogin`,`currentLogin`,`loginAttempts`,`locked`,`backupCodes`,`trustedTokenVersion`,`faqs`,`faqp`,`news`,`newp`,`newsfeeds`,`newsfeedp`,`calendars`,`calendarp`,`calendarfeeds`,`calendarfeedp`,`newsletters`,`newsletterp`)
-VALUES
-(1,1643644391,\''.getenv('CONTAO_USER').'\',\''.getenv('CONTAO_USER').'\',\''.getenv('CONTAO_USER_MAIL').'\',\'fr\',\'flexible\',\'\',\'\',\'1\',\'1\',\'1\',\'1\',\''.getenv('CONTAO_USER_PWD').'\',\'\',\'1\',NULL,\'group\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'\',\'\',\'\',\'a:0:{}\',1643644391,NULL,\'\',0,1643644400,0,0,NULL,0,\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\',\'a:0:{}\');
-';
-
-$sqlConnection = new PDO(
-    'mysql:host='.getenv('DB_HOST').';port='.getenv('DB_PORT').';dbname='.getenv('DB_DATABASE'),
-    getenv('DB_USER'),
-    getenv('DB_PASSWORD')
-);
-$sqlConnection->prepare($sql, [])->execute();
 
 // adding package informations into contao's composer.json
 $bundleComposerJsonContent = json_decode(file_get_contents(getenv('WORKDIR_BUNDLE').'/composer.json'), true);

@@ -10,7 +10,7 @@ services:
         workdir_base: ${WORKDIR_BASE}
         workdir_init: ${WORKDIR_INIT}
         workdir_contao: ${WORKDIR_CONTAO}
-        workdir_contao_web: ${WORKDIR_CONTAO_WEB}
+        workdir_contao_public: ${WORKDIR_CONTAO_PUBLIC}
         workdir_bundle: ${WORKDIR_BUNDLE}
         workdir_simlink_base: ${WORKDIR_SIMLINK_BASE}
         workdir_bundle_end_slash: ${WORKDIR_BUNDLE_END_SLASH}
@@ -25,9 +25,6 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_PORT: 3306
-      CONTAO_USER: ${CONTAO_USER}
-      CONTAO_USER_PWD: ${CONTAO_USER_PWD}
-      CONTAO_USER_MAIL: ${CONTAO_USER_MAIL}
       WORKDIR_BUNDLE: ${WORKDIR_BUNDLE}
       WORKDIR_CONTAO: ${WORKDIR_CONTAO}
       BUNDLE_NAME: ${BUNDLE_NAME}
@@ -66,7 +63,7 @@ services:
       target: web_base
       args:
         image: ${IMAGE_WEBSERVER}
-        workdir_contao_web: ${WORKDIR_CONTAO_WEB}
+        workdir_contao_public: ${WORKDIR_CONTAO_PUBLIC}
         prj_name: ${PRJ_NAME}
         ssl_port: ${WEBSERVER_EXPOSED_PORT_SSL}
     container_name: ${COMPOSE_PROJECT_NAME_SHORT}_web_base

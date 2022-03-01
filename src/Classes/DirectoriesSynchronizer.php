@@ -132,11 +132,7 @@ class DirectoriesSynchronizer
     {
         try {
             $strBasePath = $rootFolderPath.$currentFolderPath;
-            try {
-                $arrFiles = scandir($strBasePath);
-            } catch (Exception $e) {
-                $arrFiles = [];
-            }
+            $arrFiles = is_dir($strBasePath) ? scandir($strBasePath) : [];
             $arrPaths = [];
 
             foreach ($arrFiles as $f) {

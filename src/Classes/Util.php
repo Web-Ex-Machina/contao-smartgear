@@ -83,11 +83,11 @@ class Util
 
             if ('' === $strFWTheme && $coreConfig->getSgFramwayThemes()) {
                 $strFWTheme = $coreConfig->getSgFramwayPath().'/src/themes/'.$coreConfig->getSgFramwayThemes()[0];
+                $strFramwayConfig = file_get_contents($strFWTheme.'/_'.$strFWTheme.'.scss');
             } elseif ('' === $strFWTheme) {
                 $strFWTheme = $coreConfig->getSgFramwayPath().'/src/themes/smartgear';
+                $strFramwayConfig = file_get_contents($strFWTheme.'/_config.scss');
             }
-
-            $strFramwayConfig = file_get_contents($strFWTheme.'/_config.scss');
 
             if (false === $strFramwayConfig) {
                 return [];

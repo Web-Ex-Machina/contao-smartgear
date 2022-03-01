@@ -1,7 +1,7 @@
 ARG image
 FROM $image AS web_base
 ARG prj_name
-ARG workdir_contao_web
+ARG workdir_contao_public
 ARG ssl_port
 
 EXPOSE 80
@@ -23,7 +23,7 @@ RUN  sed -i 's~#Include conf/extra/httpd-vhosts.conf~Include conf/extra/httpd-vh
 	&& sed -i -e 's/^#\(Include .*httpd-ssl.conf\)/\1/' /usr/local/apache2/conf/httpd.conf \
 	&& sed -i -e 's/^#\(LoadModule .*mod_ssl.so\)/\1/' /usr/local/apache2/conf/httpd.conf \
 	&& sed -i -e 's/^#\(LoadModule .*mod_socache_shmcb.so\)/\1/' /usr/local/apache2/conf/httpd.conf \
-	&& sed -i "s~{{workdir_contao_web}}~$workdir_contao_web~g" /usr/local/apache2/conf/extra/httpd-vhosts.conf \
+	&& sed -i "s~{{workdir_contao_public}}~$workdir_contao_public~g" /usr/local/apache2/conf/extra/httpd-vhosts.conf \
 	&& sed -i "s~{{prj_name}}~$prj_name~g" /usr/local/apache2/conf/extra/httpd-vhosts.conf \
 	&& sed -i "s~{{ssl_port}}~$ssl_port~g" /usr/local/apache2/conf/extra/httpd-vhosts.conf \
 	&& sed -i "s~Listen 443~Listen 443\nListen $ssl_port~g" /usr/local/apache2/conf/extra/httpd-ssl.conf \

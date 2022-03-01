@@ -19,7 +19,7 @@ services:
     smartgear.classes.directories_synchronizer.templates.rsce:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
-            $directoryToSynchronizeFrom: 'web/bundles/wemsmartgear/contao_files/templates/rsce'
+            $directoryToSynchronizeFrom: 'public/bundles/wemsmartgear/contao_files/templates/rsce'
             $directoryToSynchronizeTo: 'templates/rsce'
             $rootDir: '%kernel.project_dir%'
         public: true
@@ -27,7 +27,7 @@ services:
     smartgear.classes.directories_synchronizer.templates.smartgear:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
-            $directoryToSynchronizeFrom: 'web/bundles/wemsmartgear/contao_files/templates/smartgear'
+            $directoryToSynchronizeFrom: 'public/bundles/wemsmartgear/contao_files/templates/smartgear'
             $directoryToSynchronizeTo: 'templates/smartgear'
             $rootDir: '%kernel.project_dir%'
         public: true
@@ -35,7 +35,7 @@ services:
     smartgear.classes.directories_synchronizer.tiny_mce.plugins:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
-            $directoryToSynchronizeFrom: 'web/bundles/wemsmartgear/contao_files/assets/tinymce4/js/plugins'
+            $directoryToSynchronizeFrom: 'public/bundles/wemsmartgear/contao_files/assets/tinymce4/js/plugins'
             $directoryToSynchronizeTo: 'assets/tinymce4/js/plugins'
             $rootDir: '%kernel.project_dir%'
         public: true

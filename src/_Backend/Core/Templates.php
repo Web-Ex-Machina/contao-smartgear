@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2020 Web ex Machina
+ * Copyright (c) 2015-2022 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -41,7 +41,7 @@ class Templates extends Block implements BlockInterface
      *
      * @var string
      */
-    protected $strBasePath = 'web/bundles/wemsmartgear/contao_files';
+    protected $strBasePath = 'public/bundles/wemsmartgear/contao_files';
 
     /**
      * Should be updated.
