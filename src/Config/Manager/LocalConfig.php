@@ -78,13 +78,4 @@ class LocalConfig extends AbstractManager implements ManagerYamlInterface
 
         return $this->parser->parse($content);
     }
-
-    // protected function retrieveConfigurationFromFile(): string
-    // {
-    //     if (!file_exists($this->configurationFilePath)) {
-    //         throw new FileNotFoundException('Configuration file not found');
-    //     }
-
-    //     return file_get_contents($this->configurationFilePath);
-    // }
 }

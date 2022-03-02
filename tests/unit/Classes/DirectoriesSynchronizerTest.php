@@ -67,27 +67,14 @@ class DirectoriesSynchronizerTest extends ContaoTestCase
         $this->assertArrayHasKey('/D/E.txt', $filesToDelete);
     }
 
-    private function delTree($dir): void
-    {
-        $folder = new \Contao\Folder($dir);
-        $folder->delete();
-
-        // $files = array_diff(scandir($dir), ['.', '..']);
-        // foreach ($files as $file) {
-        //     (is_dir("$dir/$file")) ? $this->delTree("$dir/$file") : unlink("$dir/$file");
-        // }
-
-        // return rmdir($dir);
-    }
-
     private function resetFiles(): void
     {
         $container = \Contao\System::getContainer();
         // delete anything inside $this->currentToPath
         // copy everything from $this->toPath to $this->currentToPath
         if (is_dir($container->getParameter('kernel.project_dir').'/'.$this->currentToPath)) {
-            // $this->delTree($container->getParameter('kernel.project_dir').'/'.$this->currentToPath);
-            $this->delTree($this->currentToPath);
+            $folder = new \Contao\Folder($this->currentToPath);
+            $folder->delete();
         }
         mkdir($container->getParameter('kernel.project_dir').'/'.$this->currentToPath);
         copy($this->toPath.'/A.txt', $container->getParameter('kernel.project_dir').'/'.$this->currentToPath.'/A.txt');
