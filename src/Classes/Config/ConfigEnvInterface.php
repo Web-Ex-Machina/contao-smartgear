@@ -16,7 +16,15 @@ namespace WEM\SmartgearBundle\Classes\Config;
 
 interface ConfigEnvInterface extends ConfigInterface
 {
+    /**
+     * Import a configuration.
+     *
+     * @param array $content [description]
+     */
     public function import(array $content): self;
 
+    /**
+     * Export a configuration.
+     */
     public function export(): string;
 }

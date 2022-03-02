@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Backend;
 
-use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 
 class ConfigurationStepManager extends StepManager
 {

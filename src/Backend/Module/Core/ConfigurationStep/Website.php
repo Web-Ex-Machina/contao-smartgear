@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Module\Core\ConfigurationStep;
 
+use Contao\ArticleModel;
+use Contao\ContentModel;
 use Contao\File;
 use Contao\Files;
 use Contao\FilesModel;
@@ -27,7 +29,7 @@ use Contao\UserGroupModel;
 use Contao\UserModel;
 use Exception;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
-use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 use WEM\UtilsBundle\Classes\Files as WEMFiles;
@@ -53,17 +55,17 @@ class Website extends ConfigurationStep
 
         $countries = [];
         foreach (\Contao\System::getCountries() as $shortName => $longName) {
-            $countries[] = ['value' => $shortName, 'label' => $longName];
+            $countries[] = ['value' => $longName, 'label' => $longName];
         }
         $this->addFileField('sgWebsiteLogo', 'Logo du site web', empty($config->getSgOwnerLogo()));
-        $this->addTextField('sgWebsiteTitle', 'Titre du site web', !empty($config->getSgOwnerName()) ? $config->getSgOwnerName() : $config->getSgWebsiteTitle(), true);
+        $this->addTextField('sgOwnerName', 'Nom de l\'entreprise', !empty($config->getSgOwnerName()) ? $config->getSgOwnerName() : $config->getSgWebsiteTitle(), true);
         $this->addTextField('sgOwnerStatus', 'Statut', $config->getSgOwnerStatus(), true);
         $this->addTextField('sgOwnerSiret', 'SIRET', $config->getSgOwnerSiret(), true);
         $this->addTextField('sgOwnerStreet', 'Adresse', $config->getSgOwnerStreet(), true);
         $this->addTextField('sgOwnerPostal', 'Code postal', $config->getSgOwnerPostal(), true);
         $this->addTextField('sgOwnerCity', 'Ville', $config->getSgOwnerCity(), true);
         $this->addTextField('sgOwnerRegion', 'Region', $config->getSgOwnerRegion(), true);
-        $this->addSelectField('sgOwnerCountry', 'Pays', $countries, !empty($config->getSgOwnerCountry()) ? $config->getSgOwnerCountry() : 'fr', true);
+        $this->addSelectField('sgOwnerCountry', 'Pays', $countries, !empty($config->getSgOwnerCountry()) ? $config->getSgOwnerCountry() : 'France', true);
         $this->addTextField('sgOwnerEmail', 'Email', $config->getSgOwnerEmail(), true);
         $this->addTextField('sgOwnerDomain', 'Domaine', !empty($config->getSgOwnerDomain()) ? $config->getSgOwnerDomain() : \Contao\Environment::get('base'), true);
         $this->addTextField('sgOwnerHost', 'Nom et adresse de l\'hébergeur', $config->getSgOwnerHost(), true);
@@ -91,8 +93,8 @@ class Website extends ConfigurationStep
     public function isStepValid(): bool
     {
         // check if the step is correct
-        if (empty(Input::post('sgWebsiteTitle'))) {
-            throw new Exception('Le titre du site web n\'est pas renseigné.');
+        if (empty(Input::post('sgOwnerName'))) {
+            throw new Exception('Le nom de l\'entreprise n\'est pas renseigné.');
         }
 
         if (empty(Input::post('sgOwnerStatus'))) {
@@ -162,8 +164,8 @@ class Website extends ConfigurationStep
         $layouts = $this->createLayouts($themeId, $modules);
         $groups = $this->createUserGroups();
         $users = $this->createUsers($groups);
-        $pages = $this->createPages($layouts, $groups, $users);
-        $this->createModules2($themeId, $pages);
+        $pages = $this->createPages($layouts, $groups, $users, $modules);
+        $modules = array_merge($this->createModules2($themeId, $pages), $modules);
         $this->createNotificationGateways();
     }
 
@@ -220,9 +222,17 @@ class Website extends ConfigurationStep
         $objFooterModule->tstamp = time();
         $objFooterModule->type = 'wem_sg_footer';
         $objFooterModule->name = 'FOOTER';
-        // $objFooterModule->html = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/footer_1.html');
+        $objFooterModule->html = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/footer_1.html');
         $objFooterModule->save();
         $modules[$objFooterModule->type] = $objFooterModule;
+
+        $objSitemapModule = ModuleModel::findOneByName('Plan du site') ?? new ModuleModel();
+        $objSitemapModule->pid = $themeId;
+        $objSitemapModule->tstamp = time();
+        $objSitemapModule->type = 'sitemap';
+        $objSitemapModule->name = 'Plan du site';
+        $objSitemapModule->save();
+        $modules[$objSitemapModule->type] = $objSitemapModule;
 
         return $modules;
     }
@@ -243,6 +253,9 @@ class Website extends ConfigurationStep
         $script = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
         $script = str_replace('{{config.googleFonts}}', "'".implode("','", $config->getSgGoogleFonts())."'", $script);
         $script = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $script);
+
+        $head = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+        $head = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $head);
 
         // $arrCssFiles = [];
         // $arrJsFiles = [];
@@ -266,9 +279,9 @@ class Website extends ConfigurationStep
         $objLayout->viewport = 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0';
         // $objLayout->externalJs = serialize($arrJsFiles);
         $objLayout->modules = serialize($arrLayoutModules);
-        // $objLayout->template = 'fe_page';
+        $objLayout->template = 'fe_page';
         // $objLayout->webfonts = '';
-        // $objLayout->head = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+        $objLayout->head = $head;
         $objLayout->script = $script;
         $objLayout->save();
 
@@ -287,7 +300,7 @@ class Website extends ConfigurationStep
         $objLayout->modules = serialize($arrLayoutModules);
         $objLayout->template = 'fe_page_full';
         // $objLayout->webfonts = '';
-        // $objLayout->head = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+        $objLayout->head = $head;
         $objLayout->script = $script;
         $objLayout->save();
 
@@ -352,14 +365,13 @@ class Website extends ConfigurationStep
         return ['webmaster' => $objUser];
     }
 
-    protected function createPages(array $layouts, array $groups, array $users): array
+    protected function createPageRoot(array $layouts, array $groups, array $users): PageModel
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
-        $pages = [];
-
         $page = PageModel::findOneBy('title', $config->getSgwebsiteTitle());
-        $pages['root'] = Util::createPage($config->getSgwebsiteTitle(), 0, array_merge([
+
+        return Util::createPage($config->getSgwebsiteTitle(), 0, array_merge([
             'sorting' => 128,
             'type' => 'root',
             'language' => 'fr',
@@ -375,47 +387,184 @@ class Website extends ConfigurationStep
             'cgroup' => $groups['administrators']->id,
             'chmod' => CoreConfig::DEFAULT_ROOTPAGE_CHMOD,
         ], null !== $page ? ['id' => $page->id] : []));
+    }
 
+    protected function createPageHome(PageModel $rootPage): PageModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
         $page = PageModel::findOneBy('title', 'Accueil');
-        $pages['home'] = Util::createPage('Accueil', $pages['root']->id, array_merge([
+        $page = Util::createPage('Accueil', $rootPage->id, array_merge([
             'sorting' => 128,
             'alias' => '/',
             'sitemap' => 'default',
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id] : []));
+        $objArticle = ArticleModel::findByPid($page->id) ?? Util::createArticle($page);
 
+        return $page;
+    }
+
+    protected function createPage404(array $modules, PageModel $rootPage): PageModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
         $page = PageModel::findOneBy('title', 'Erreur 404 - Page non trouvée');
-        $pages['404'] = Util::createPage('Erreur 404 - Page non trouvée', $pages['root']->id, array_merge([
+        $page = Util::createPage('Erreur 404 - Page non trouvée', $rootPage->id, array_merge([
             'sorting' => 256,
             'sitemap' => 'default',
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id] : []));
+        $objArticle = ArticleModel::findOneBy(['pid = ?', 'alias = ?'], [$page->id, $page->alias]) ?? Util::createArticle($page);
+        $content = ContentModel::findByPid($objArticle->id);
+        if ($content) {
+            while ($content->next()) {
+                $content->current()->delete();
+            }
+        }
+        $objContent = Util::createContent($objArticle, [
+            'headline' => serialize(['unit' => 'h1', 'value' => 'Page non trouvée !']), 'text' => "<p>La page demandée n'existe pas. Vous pouvez consulter le plan du site ci-dessous pour poursuivre votre navigation.</p>",
+        ]);
+        $objContent = Util::createContent($objArticle, [
+            'type' => 'module', 'module' => $modules['sitemap']->id,
+        ]);
+
+        return $page;
+    }
+
+    protected function createPageLegalNotice(PageModel $rootPage): PageModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
 
         $page = PageModel::findOneBy('title', 'Mentions légales');
-        $pages['legal_notice'] = Util::createPage('Mentions légales', $pages['root']->id, array_merge([
+        $page = Util::createPage('Mentions légales', $rootPage->id, array_merge([
             'sorting' => 386,
             'sitemap' => 'default',
             'description' => 'Mentions légales de '.$config->getSgWebsiteTitle(),
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id] : []));
+        $objArticle = ArticleModel::findOneBy(['pid = ?', 'alias = ?'], [$page->id, $page->alias]) ?? Util::createArticle($page);
+        $content = ContentModel::findByPid($objArticle->id);
+        if ($content) {
+            while ($content->next()) {
+                $content->current()->delete();
+            }
+        }
+        $strText = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/legal-notices_1.html');
+        $strHtml = '<p>A remplir</p>';
+        if ($strText) {
+            /**
+             * 1: URL du site entière
+             * 2: URL du site sans https://
+             * 3: Nom de l'entreprise
+             * 4: Statut de l'entreprise
+             * 5: Siret de l'entreprise
+             * 6: Adresse du siège de l'entreprise
+             * 7: Adresse mail de l'entreprise
+             * 8: Nom & Adresse de l'hébergeur.
+             */
+            $strHtml = sprintf(
+                    $strText,
+                    $config->getSgOwnerDomain() ?: 'NR',
+                    str_replace('https://', '', $config->getSgOwnerDomain()) ?: 'NR',
+                    $config->getSgOwnerName() ?: 'NR',
+                    $config->getSgOwnerStatus() ?: 'NR',
+                    $config->getSgOwnerSIRET() ?: 'NR',
+                    $config->getSgOwnerStreet().' '.$config->getSgOwnerPostal().' '.$config->getSgOwnerCity().' '.$config->getSgOwnerRegion().' '.$config->getSgOwnerCountry() ?: 'NR',
+                    $config->getSgOwnerEmail() ?: 'NR',
+                    $config->getSgOwnerHost() ?: 'NR'
+                );
+        }
+        $objContent = Util::createContent($objArticle, [
+            'headline' => serialize(['unit' => 'h1', 'value' => 'Mentions légales']), 'text' => $strHtml,
+        ]);
 
+        return $page;
+    }
+
+    protected function createPagePrivacyPolitics(PageModel $rootPage): PageModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
         $page = PageModel::findOneBy('title', 'Confidentialité');
-        $pages['privacy_politics'] = Util::createPage('Confidentialité', $pages['root']->id, array_merge([
+        $page = Util::createPage('Confidentialité', $rootPage->id, array_merge([
             'sorting' => 512,
             'sitemap' => 'default',
             'description' => 'Politique de confidentialité de '.$config->getSgWebsiteTitle(),
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id] : []));
+        $objArticle = ArticleModel::findOneBy(['pid = ?', 'alias = ?'], [$page->id, $page->alias]) ?? Util::createArticle($page);
+        $content = ContentModel::findByPid($objArticle->id);
+        if ($content) {
+            while ($content->next()) {
+                $content->current()->delete();
+            }
+        }
+        $strText = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/privacy_1.html');
+        $strHtml = '<p>A remplir</p>';
+        if ($strText) {
+            /**
+             * 1: Nom de la boite
+             * 2: Adresse
+             * 3: SIRET
+             * 4: URL de la page confidentialité
+             * 5: Date
+             * 6: Contact email.
+             */
+            $strHtml = sprintf(
+                $strText,
+                $config->getSgOwnerName() ?: 'NR',
+                $config->getSgOwnerStreet().' '.$config->getSgOwnerPostal().' '.$config->getSgOwnerCity().' '.$config->getSgOwnerRegion().' '.$config->getSgOwnerCountry() ?: 'NR',
+                $config->getSgOwnerSIRET() ?: 'NR',
+                $config->getSgOwnerDomain().'/'.$page->alias.'.html',
+                date('d/m/Y'),
+                $config->getSgOwnerEmail() ?: 'NR'
+            );
+        }
+        $objContent = Util::createContent($objArticle, [
+            'text' => $strHtml,
+        ]);
+
+        return $page;
+    }
+
+    protected function createPageSitemap(array $modules, PageModel $rootPage): PageModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
 
         $page = PageModel::findOneBy('title', 'Plan du site');
-        $pages['sitemap'] = Util::createPage('Plan du site', $pages['root']->id, array_merge([
+        $page = Util::createPage('Plan du site', $rootPage->id, array_merge([
             'sorting' => 640,
             'sitemap' => 'default',
             'description' => 'Plan du site de '.$config->getSgWebsiteTitle(),
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id] : []));
 
-        // $objSamplerPage = Util::createPage('Sampler', $pages['root']->id, []);
+        $objArticle = ArticleModel::findOneBy(['pid = ?', 'alias = ?'], [$page->id, $page->alias]) ?? Util::createArticle($page);
+        $content = ContentModel::findByPid($objArticle->id);
+        if ($content) {
+            while ($content->next()) {
+                $content->current()->delete();
+            }
+        }
+        $objContent = Util::createContent($objArticle, [
+            'type' => 'module', 'module' => $modules['sitemap']->id,
+        ]);
+
+        return $page;
+    }
+
+    protected function createPages(array $layouts, array $groups, array $users, array $modules): array
+    {
+        $pages = [];
+        $pages['root'] = $this->createPageRoot($layouts, $groups, $users, $modules);
+        $pages['home'] = $this->createPageHome($pages['root']);
+        $pages['404'] = $this->createPage404($modules, $pages['root']);
+        $pages['legal_notice'] = $this->createPageLegalNotice($pages['root']);
+        $pages['privacy_politics'] = $this->createPagePrivacyPolitics($pages['root']);
+        $pages['sitemap'] = $this->createPageSitemap($modules, $pages['root']);
 
         return $pages;
     }
@@ -430,13 +579,7 @@ class Website extends ConfigurationStep
         $objCustomNavModule->pages = [$pages['legal_notice']->id, $pages['privacy_politics']->id, $pages['sitemap']->id];
         $objCustomNavModule->navigationTpl = 'nav_default';
         $objCustomNavModule->save();
-
-        $objSitemapModule = ModuleModel::findOneByName('Plan du site') ?? new ModuleModel();
-        $objSitemapModule->pid = $themeId;
-        $objSitemapModule->tstamp = time();
-        $objSitemapModule->type = 'sitemap';
-        $objSitemapModule->name = 'Plan du site';
-        $objSitemapModule->save();
+        $modules[$objCustomNavModule->type] = $objCustomNavModule;
     }
 
     protected function createNotificationGateways(): void
@@ -467,7 +610,7 @@ class Website extends ConfigurationStep
             $fonts[$key] = trim($value);
         }
 
-        $config->setSgWebsiteTitle(Input::post('sgWebsiteTitle'));
+        $config->setSgOwnerName(Input::post('sgOwnerName'));
         $config->setSgOwnerStatus(Input::post('sgOwnerStatus'));
         $config->setSgOwnerSiret(Input::post('sgOwnerSiret'));
         $config->setSgOwnerStreet(Input::post('sgOwnerStreet'));

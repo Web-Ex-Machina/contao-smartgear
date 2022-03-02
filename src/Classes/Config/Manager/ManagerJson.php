@@ -12,11 +12,13 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Classes\Config;
+namespace WEM\SmartgearBundle\Classes\Config\Manager;
 
-use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
+use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
 
-class ManagerJson implements ManagerJsonInterface
+// use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
+
+class ManagerJson extends AbstractManager implements ManagerJsonInterface
 {
     /** @var ConfigInterface */
     protected $configuration;
@@ -32,7 +34,7 @@ class ManagerJson implements ManagerJsonInterface
     }
 
     /**
-     * [load description].
+     * Get a new configuration.
      */
     public function new(): ConfigInterface
     {
@@ -40,7 +42,7 @@ class ManagerJson implements ManagerJsonInterface
     }
 
     /**
-     * [load description].
+     * Load a configuration.
      */
     public function load(): ConfigInterface
     {
@@ -48,7 +50,7 @@ class ManagerJson implements ManagerJsonInterface
     }
 
     /**
-     * [save description].
+     * Save a configuration.
      *
      * @param ConfigInterface $configuration [description]
      */
@@ -59,24 +61,23 @@ class ManagerJson implements ManagerJsonInterface
         return $this->file_force_contents($this->configurationFilePath, $this->configuration->export());
     }
 
+    /**
+     * Retrieve the configuration from the file, but as an importable format.
+     */
     public function retrieveConfigurationAsImportableFormatFromFile(): \stdClass
     {
         return json_decode($this->retrieveConfigurationFromFile(), false, 512, \JSON_THROW_ON_ERROR);
     }
 
-    protected function retrieveConfigurationFromFile(): string
+    /**
+     * Write content in a file.
+     * If the file doesn't exists, it is created.
+     *
+     * @param  [type] $content [description]
+     */
+    protected function file_force_contents(string $filepath, $content): bool
     {
-        $content = file_get_contents($this->configurationFilePath);
-        if (!$content) {
-            throw new FileNotFoundException('Configuration file not found');
-        }
-
-        return $content;
-    }
-
-    protected function file_force_contents($dir, $contents): bool
-    {
-        $parts = explode('/', $dir);
+        $parts = explode('/', $filepath);
         $file = array_pop($parts);
         $dir = '';
         foreach ($parts as $part) {
@@ -89,6 +90,6 @@ class ManagerJson implements ManagerJsonInterface
             }
         }
 
-        return false !== file_put_contents("$dir/$file", $contents);
+        return false !== file_put_contents("$dir/$file", $content);
     }
 }

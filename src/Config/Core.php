@@ -34,6 +34,7 @@ class Core implements ConfigModuleInterface
         self::MODE_PROD,
     ];
 
+    public const DEFAULT_VERSION = '1.0.0';
     public const DEFAULT_ANALYTICS_SYSTEM = self::ANALYTICS_SYSTEM_NONE;
     public const DEFAULT_MODE = self::MODE_DEV;
     public const DEFAULT_FRAMWAY_PATH = 'assets/framway';
@@ -45,7 +46,7 @@ class Core implements ConfigModuleInterface
     /** @var bool */
     protected $sgInstallComplete = false;
     /** @var string */
-    protected $sgVersion = '';
+    protected $sgVersion = self::DEFAULT_VERSION;
     /** @var string */
     protected $sgFramwayPath = self::DEFAULT_FRAMWAY_PATH;
     /** @var array */
@@ -102,7 +103,7 @@ class Core implements ConfigModuleInterface
     public function reset(): self
     {
         $this->setSgInstallComplete(false)
-            ->setSgVersion('')
+            ->setSgVersion(static::DEFAULT_VERSION)
             ->setSgTheme('')
             ->setSgModules([])
             ->setSgSelectedModules([])
@@ -137,7 +138,7 @@ class Core implements ConfigModuleInterface
     public function import(\stdClass $json): self
     {
         $this->setSgInstallComplete($json->installComplete ?? false)
-            ->setSgVersion($json->version ?? '')
+            ->setSgVersion($json->version ?? static::DEFAULT_VERSION)
             ->setSgTheme($json->theme ?? '')
             ->setSgModules($json->modules ?? [])
             ->setSgSelectedModules($json->selectedModules ?? [])

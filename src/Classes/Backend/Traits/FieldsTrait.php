@@ -39,9 +39,19 @@ trait FieldsTrait
     /**
      * Add a checkbox field.
      */
-    protected function addCheckboxField(string $strName, string $strLabel, ?string $strValue = '', ?bool $blnRequired = false, ?string $strClass = '', ?string $strPlaceholder = '', ?string $strHelp = ''): void
+    protected function addCheckboxField(string $strName, string $strLabel, ?string $strValue = '', ?bool $blnChecked = false, ?bool $blnRequired = false, ?string $strClass = '', ?string $strPlaceholder = '', ?string $strHelp = ''): void
     {
-        $this->addTextField($strName, $strLabel, $strValue, $blnRequired, $strClass, 'checkbox', $strPlaceholder, $strHelp);
+        $this->fields[$strName] = [
+            'type' => 'checkbox',
+            'name' => $strName,
+            'label' => $strLabel,
+            'placeholder' => $strPlaceholder,
+            'value' => $strValue,
+            'required' => $blnRequired,
+            'class' => $strClass,
+            'help' => $strHelp,
+            'checked' => $blnChecked,
+        ];
     }
 
     /**

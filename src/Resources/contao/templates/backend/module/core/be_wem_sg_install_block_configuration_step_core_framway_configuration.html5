@@ -2,7 +2,6 @@
 	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
 
 	<div class="widget <?= $this->fields['themes[]']['class'] ?>">
-		<!-- <h3><label for="ctrl_<?= $this->fields['themes[]']['name'] ?>"><?= $this->fields['themes[]']['label'] ?></label></h3> -->
 		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['themes[]']]); ?>
 		<br>
 	</div>
@@ -14,8 +13,6 @@
 	</div>
 
 	<div class="widget <?= $this->fields['new_theme']['class'] ?>" id="widget-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme"">
-		<!-- <h3><label for="ctrl_<?= $this->fields['new_theme']['name'] ?>"><?= $this->fields['new_theme']['label'] ?></label></h3> -->
-
 		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['new_theme']]); ?>
 		<br>
 		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme-validation" 
@@ -24,13 +21,11 @@
 	</div>
 
 	<div class="widget <?= $this->fields['components[]']['class'] ?>">
-		<!-- <h3><label for="ctrl_<?= $this->fields['components[]']['name'] ?>"><?= $this->fields['components[]']['label'] ?></label></h3> -->
 		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['components[]']]); ?>
 		<br>
 	</div>
 
 	<div class="widget <?= $this->fields['fontawesome']['class'] ?>">
-		<!-- <h3><label for="ctrl_<?= $this->fields['fontawesome']['name'] ?>"><?= $this->fields['fontawesome']['label'] ?></label></h3> -->
 		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['fontawesome']]); ?>
 		<br>
 	</div>

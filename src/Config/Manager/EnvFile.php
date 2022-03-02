@@ -16,11 +16,12 @@ namespace WEM\SmartgearBundle\Config\Manager;
 
 use WEM\SmartgearBundle\Classes\Config\ConfigEnvInterface;
 use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
-use WEM\SmartgearBundle\Classes\Config\ManagerEnvInterface;
+use WEM\SmartgearBundle\Classes\Config\Manager\AbstractManager;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerEnvInterface;
 use WEM\SmartgearBundle\Config\EnvFile as ConfigEnvFile;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
-class EnvFile implements ManagerEnvInterface
+class EnvFile extends AbstractManager implements ManagerEnvInterface
 {
     /** @var ConfigInterface */
     protected $configuration;
@@ -78,15 +79,5 @@ class EnvFile implements ManagerEnvInterface
         }
 
         return $arrFinal;
-    }
-
-    protected function retrieveConfigurationFromFile(): string
-    {
-        $content = file_get_contents($this->configurationFilePath);
-        if (!$content) {
-            throw new FileNotFoundException('Configuration file not found');
-        }
-
-        return $content;
     }
 }

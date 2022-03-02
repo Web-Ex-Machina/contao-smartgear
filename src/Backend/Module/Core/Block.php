@@ -20,7 +20,7 @@ use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Classes\Backend\Block as BackendBlock;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStepManager;
-use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\Util;
 
 class Block extends BackendBlock

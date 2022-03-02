@@ -19,7 +19,7 @@ use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\ThemeModel;
 use WEM\SmartgearBundle\Classes\Backend\AbstractStep;
-use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\LocalConfig;
 use WEM\SmartgearBundle\Config\Manager\LocalConfig as LocalConfigManager;
@@ -32,6 +32,8 @@ class General extends AbstractStep
     protected $localConfigManager;
     /** @var array */
     protected $templatesDirs;
+
+    protected $strTemplate = 'be_wem_sg_install_block_reset_step_core_general';
 
     public function __construct(
         string $module,
@@ -46,13 +48,13 @@ class General extends AbstractStep
         $this->templatesDirs = $templatesDirs;
         $this->title = 'Général';
 
-        $this->addCheckboxField('localconfig', 'Configuration locale', 'localconfig');
-        $this->addCheckboxField('framway', 'Framway', 'framway');
-        $this->addCheckboxField('templates', 'Templates', 'templates');
-        $this->addCheckboxField('themes_modules', 'Thèmes & Modules', 'themes_modules');
-        $this->addCheckboxField('pages', 'Pages', 'pages');
-        $this->addCheckboxField('files', 'Fichiers clients', 'files');
-        $this->addCheckboxField('backup', 'Effectuer une sauvegarde avant la réinitialisation (conseillé)', 'backup');
+        $this->addCheckboxField('localconfig', 'Configuration locale', 'localconfig', false, false, '', '', 'Configuration supplémentaire dans le fichier <code>congif/config.yml</code>');
+        $this->addCheckboxField('framway', 'Framway', 'framway', false, false, '', '', 'Le framway sera supprimé, il faudra le récupérer à nouveau.');
+        $this->addCheckboxField('templates', 'Templates', 'templates', false, false, '', '', 'Les dossiers <code>'.implode('</code>,<code>', $this->templatesDirs).'</code> seront supprimés');
+        $this->addCheckboxField('themes_modules', 'Thèmes & Modules', 'themes_modules', false, false, '', '', 'Tous les thèmes & modules seront supprimés');
+        $this->addCheckboxField('pages', 'Pages', 'pages', false, false, '', '', 'Toutes les pages seront supprimées');
+        $this->addCheckboxField('files', 'Fichiers clients', 'files', false, false, '', '', 'Tous les fichiers seront supprimés');
+        $this->addCheckboxField('backup', 'Effectuer une sauvegarde avant la réinitialisation', 'backup', true, false, '', '', 'Il est vivement conseillé d\'effectuer une sauvegarde');
     }
 
     public function isStepValid(): bool

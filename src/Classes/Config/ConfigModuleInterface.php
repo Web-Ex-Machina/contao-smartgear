@@ -16,7 +16,17 @@ namespace WEM\SmartgearBundle\Classes\Config;
 
 interface ConfigModuleInterface extends ConfigJsonInterface
 {
+    /**
+     * Get the installation status.
+     *
+     * @return bool true if installation is complete, false otherwise
+     */
     public function getSgInstallComplete(): bool;
 
+    /**
+     * Set the installation status.
+     *
+     * @param bool $sgInstallComplete true if installation is complete, false otherwise
+     */
     public function setSgInstallComplete(bool $sgInstallComplete): self;
 }

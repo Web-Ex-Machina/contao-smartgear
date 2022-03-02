@@ -14,7 +14,9 @@
 		<?php endif; ?>
 	<?php endif; ?>
 	<div class="content_container">
-		<p>Ceci est le dashboooaaardeuh !</p>
+		<p>Ceci est le dashboard !</p>
+		<p>Version : <?= $this->version; ?></p>
+		<p>Mode : <?= $this->mode; ?></p>
 	</div>
 	<?php if($this->actions): ?>
 	<form action="<?= $this->request ?>" class="tl_form" method="post">

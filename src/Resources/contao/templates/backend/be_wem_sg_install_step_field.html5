@@ -12,7 +12,7 @@
 	</select>
 <?php elseif("checkbox" === $this->field['type']): ?>
 		<div class="tl_checkbox_single_container">
-			<input name="<?= $this->field['name'] ?>" id="ctrl_<?= $this->field['name'] ?>" class="tl_checkbox" value="<?= $this->field['value'] ?>"<?= $this->field['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()" type="checkbox">
+			<input name="<?= $this->field['name'] ?>" id="ctrl_<?= $this->field['name'] ?>" class="tl_checkbox" value="<?= $this->field['value'] ?>"<?= $this->field['required'] ? ' required=""' : '' ?><?= $this->field['checked'] ? ' checked=""' : '' ?> onfocus="Backend.getScrollOffset()" type="checkbox">
 			<label for="ctrl_<?= $this->field['name'] ?>">
 				<?= $this->field['label'] ?>
 			</label>

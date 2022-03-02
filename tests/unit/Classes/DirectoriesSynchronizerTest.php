@@ -49,18 +49,8 @@ class DirectoriesSynchronizerTest extends ContaoTestCase
         $this->toPath = codecept_data_dir().'synchronizer/to';
         $this->currentToPath = 'synchronizer/to_current';
 
-        $this->sut = new DirectoriesSynchronizer($this->fromPath, $this->currentToPath, $container->getParameter('kernel.project_dir'));
-
-        // delete anything inside $this->currentToPath
-        // copy everything from $this->toPath to $this->currentToPath
-        if (is_dir($container->getParameter('kernel.project_dir').'/'.$this->currentToPath)) {
-            $this->delTree($container->getParameter('kernel.project_dir').'/'.$this->currentToPath);
-        }
-        mkdir($container->getParameter('kernel.project_dir').'/'.$this->currentToPath);
-        copy($this->toPath.'/A.txt', $container->getParameter('kernel.project_dir').'/'.$this->currentToPath.'/A.txt');
-        copy($this->toPath.'/C.txt', $container->getParameter('kernel.project_dir').'/'.$this->currentToPath.'/C.txt');
-        mkdir(\dirname($container->getParameter('kernel.project_dir').'/'.$this->currentToPath.'/D/E.txt'), 0777, true);
-        copy($this->toPath.'/D/E.txt', $container->getParameter('kernel.project_dir').'/'.$this->currentToPath.'/D/E.txt');
+        $this->sut = new DirectoriesSynchronizer($this->fromPath, $this->currentToPath, $container->getParameter('kernel.project_dir'), true);
+        $this->resetFiles();
     }
 
     // tests
@@ -77,13 +67,19 @@ class DirectoriesSynchronizerTest extends ContaoTestCase
         $this->assertArrayHasKey('/D/E.txt', $filesToDelete);
     }
 
-    private function delTree($dir)
+    private function resetFiles(): void
     {
-        $files = array_diff(scandir($dir), ['.', '..']);
-        foreach ($files as $file) {
-            (is_dir("$dir/$file")) ? $this->delTree("$dir/$file") : unlink("$dir/$file");
+        $container = \Contao\System::getContainer();
+        // delete anything inside $this->currentToPath
+        // copy everything from $this->toPath to $this->currentToPath
+        if (is_dir($container->getParameter('kernel.project_dir').'/'.$this->currentToPath)) {
+            $folder = new \Contao\Folder($this->currentToPath);
+            $folder->delete();
         }
-
-        return rmdir($dir);
+        mkdir($container->getParameter('kernel.project_dir').'/'.$this->currentToPath);
+        copy($this->toPath.'/A.txt', $container->getParameter('kernel.project_dir').'/'.$this->currentToPath.'/A.txt');
+        copy($this->toPath.'/C.txt', $container->getParameter('kernel.project_dir').'/'.$this->currentToPath.'/C.txt');
+        mkdir(\dirname($container->getParameter('kernel.project_dir').'/'.$this->currentToPath.'/D/E.txt'), 0777, true);
+        copy($this->toPath.'/D/E.txt', $container->getParameter('kernel.project_dir').'/'.$this->currentToPath.'/D/E.txt');
     }
 }

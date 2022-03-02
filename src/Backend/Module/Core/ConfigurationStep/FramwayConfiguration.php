@@ -16,7 +16,7 @@ namespace WEM\SmartgearBundle\Backend\Module\Core\ConfigurationStep;
 
 use Contao\Input;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
-use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 use WEM\SmartgearBundle\Classes\UtilFramway;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
@@ -35,7 +35,13 @@ class FramwayConfiguration extends ConfigurationStep
     /** @var DirectoriesSynchronizer */
     protected $templateSmartgearSynchronizer;
     /** @var DirectoriesSynchronizer */
+    protected $templateGeneralSynchronizer;
+    /** @var DirectoriesSynchronizer */
     protected $tinyMCEPluginsSynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected $tarteAuCitronSynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected $outdatedBrowserSynchronizer;
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_configuration';
 
     public function __construct(
@@ -45,7 +51,10 @@ class FramwayConfiguration extends ConfigurationStep
         ConfigurationManagerFramway $configurationManagerFramway,
         DirectoriesSynchronizer $templateRSCESynchronizer,
         DirectoriesSynchronizer $templateSmartgearSynchronizer,
-        DirectoriesSynchronizer $tinyMCEPluginsSynchronizer
+        DirectoriesSynchronizer $templateGeneralSynchronizer,
+        DirectoriesSynchronizer $tinyMCEPluginsSynchronizer,
+        DirectoriesSynchronizer $tarteAuCitronSynchronizer,
+        DirectoriesSynchronizer $outdatedBrowserSynchronizer
     ) {
         parent::__construct($module, $type);
         $this->title = 'Framway | Configuration';
@@ -53,7 +62,10 @@ class FramwayConfiguration extends ConfigurationStep
         $this->configurationManagerFramway = $configurationManagerFramway;
         $this->templateRSCESynchronizer = $templateRSCESynchronizer;
         $this->templateSmartgearSynchronizer = $templateSmartgearSynchronizer;
+        $this->templateGeneralSynchronizer = $templateGeneralSynchronizer;
         $this->tinyMCEPluginsSynchronizer = $tinyMCEPluginsSynchronizer;
+        $this->tarteAuCitronSynchronizer = $tarteAuCitronSynchronizer;
+        $this->outdatedBrowserSynchronizer = $outdatedBrowserSynchronizer;
         try {
             /** @var CoreConfig */
             $config = $this->configurationManager->load();
@@ -138,7 +150,10 @@ class FramwayConfiguration extends ConfigurationStep
 
         $this->importRSCETemplates();
         $this->importSmartgearTemplates();
+        $this->importGeneralTemplates();
         $this->importTinyMCEPlugins();
+        $this->importOutdatedBrowser();
+        $this->importTarteAuCitron();
     }
 
     public function framwayThemeAdd()
@@ -203,8 +218,23 @@ class FramwayConfiguration extends ConfigurationStep
         $this->templateSmartgearSynchronizer->synchronize(false);
     }
 
+    protected function importGeneralTemplates(): void
+    {
+        $this->templateGeneralSynchronizer->synchronize(false);
+    }
+
     protected function importTinyMCEPlugins(): void
     {
         $this->tinyMCEPluginsSynchronizer->synchronize(false);
+    }
+
+    protected function importOutdatedBrowser(): void
+    {
+        $this->outdatedBrowserSynchronizer->synchronize(true);
+    }
+
+    protected function importTarteAuCitron(): void
+    {
+        $this->tarteAuCitronSynchronizer->synchronize(true);
     }
 }

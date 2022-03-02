@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Module\Core;
 
 use WEM\SmartgearBundle\Classes\Backend\StepManager;
-use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 
 class ResetStepManager extends StepManager
 {

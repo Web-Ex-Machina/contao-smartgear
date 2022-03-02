@@ -24,7 +24,7 @@ use Exception;
 use InvalidArgumentException;
 use WEM\SmartgearBundle\Classes\Analyzer\Htaccess as HtaccessAnalyzer;
 use WEM\SmartgearBundle\Classes\Backend\Dashboard as BackendDashboard;
-use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\EnvFile as EnvFileConfig;
@@ -194,7 +194,8 @@ class Dashboard extends BackendDashboard
         $this->actions[] = ['action' => 'configure', 'label' => 'Configuration'];
         $this->actions[] = ['action' => 'reset_mode', 'label' => 'Réinitialisation'];
 
-        // $objTemplate->actions = Util::formatActions($this->actions);
+        $objTemplate->version = $config->getSgVersion();
+        $objTemplate->mode = $config->getSgMode();
 
         return $objTemplate;
     }

@@ -17,7 +17,8 @@ namespace WEM\SmartgearBundle\Backend\Module\Core\ConfigurationStep;
 use Contao\Input;
 use Exception;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
-use WEM\SmartgearBundle\Classes\Config\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\LocalConfig as LocalConfig;
 use WEM\SmartgearBundle\Config\Manager\LocalConfig as LocalConfigManager;
@@ -103,6 +104,7 @@ class General extends ConfigurationStep
         // do what is meant to be done in this step
         $this->updateModuleConfiguration();
         $this->updateContaoConfiguration();
+        Util::executeCmdPHP('cache:clear');
     }
 
     protected function updateModuleConfiguration(): void
@@ -149,6 +151,42 @@ class General extends ConfigurationStep
         ->setSgOwnerDomain(\Contao\Environment::get('base'))
         ->setSgOwnerHost(CoreConfig::DEFAULT_OWNER_HOST)
         ->setRejectLargeUploads(true)
+        ->setImageSizes([
+            '_defaults' => [
+                'formats' => [
+                    'jpg' => ['jpg', 'jpeg'],
+                    'png' => ['png'],
+                    'gif' => ['gif'],
+                ],
+                'lazy_loading' => true,
+                'resize_mode' => 'crop',
+            ],
+            '16-9' => [
+                'width' => 1920,
+                'height' => 1080,
+                'densities' => '0.5x, 1x, 2x',
+            ],
+            '2-1' => [
+                'width' => 1920,
+                'height' => 960,
+                'densities' => '2x',
+            ],
+            '1-2' => [
+                'width' => 960,
+                'height' => 1920,
+                'densities' => '0.5x',
+            ],
+            '1-1' => [
+                'width' => 1920,
+                'height' => 1920,
+                'densities' => '1x',
+            ],
+            '4-3' => [
+                'width' => 1920,
+                'height' => 1440,
+                'densities' => '0.5x, 1x, 2x',
+            ],
+        ])
         ;
 
         $this->localConfigManager->save($config);
