@@ -19,8 +19,8 @@ services:
     smartgear.classes.directories_synchronizer.templates.rsce:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
-            $directoryToSynchronizeFrom: 'public/bundles/wemsmartgear/contao_files/templates/rsce'
-            $directoryToSynchronizeTo: 'templates/rsce'
+            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/templates/rsce'
+            $destinationDirectory: 'templates/rsce'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: true
         public: true
@@ -28,8 +28,8 @@ services:
     smartgear.classes.directories_synchronizer.templates.smartgear:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
-            $directoryToSynchronizeFrom: 'public/bundles/wemsmartgear/contao_files/templates/smartgear'
-            $directoryToSynchronizeTo: 'templates/smartgear'
+            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/templates/smartgear'
+            $destinationDirectory: 'templates/smartgear'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: true
         public: true
@@ -37,8 +37,8 @@ services:
     smartgear.classes.directories_synchronizer.templates.general:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
-            $directoryToSynchronizeFrom: 'public/bundles/wemsmartgear/contao_files/templates'
-            $directoryToSynchronizeTo: 'templates'
+            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/templates'
+            $destinationDirectory: 'templates'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: false
         public: true
@@ -46,8 +46,8 @@ services:
     smartgear.classes.directories_synchronizer.tiny_mce.plugins:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
-            $directoryToSynchronizeFrom: 'public/bundles/wemsmartgear/contao_files/assets/tinymce4/js/plugins'
-            $directoryToSynchronizeTo: 'assets/tinymce4/js/plugins'
+            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/assets/tinymce4/js/plugins'
+            $destinationDirectory: 'assets/tinymce4/js/plugins'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: true
         public: true
@@ -55,8 +55,8 @@ services:
     smartgear.classes.directories_synchronizer.outdated_browser:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
-            $directoryToSynchronizeFrom: 'public/bundles/wemsmartgear/contao_files/files/vendor/outdatedbrowser'
-            $directoryToSynchronizeTo: 'files/vendor/outdatedbrowser'
+            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/files/vendor/outdatedbrowser'
+            $destinationDirectory: 'files/vendor/outdatedbrowser'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: true
         public: true
@@ -64,8 +64,8 @@ services:
     smartgear.classes.directories_synchronizer.tarte_au_citron:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
-            $directoryToSynchronizeFrom: 'public/bundles/wemsmartgear/contao_files/files/vendor/tarteaucitron'
-            $directoryToSynchronizeTo: 'files/vendor/tarteaucitron'
+            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/files/vendor/tarteaucitron'
+            $destinationDirectory: 'files/vendor/tarteaucitron'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: true
         public: true

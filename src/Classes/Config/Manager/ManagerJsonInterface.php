@@ -27,5 +27,8 @@ namespace WEM\SmartgearBundle\Classes\Config\Manager;
 
 interface ManagerJsonInterface extends ManagerInterface
 {
+    /**
+     * Retrieve the configuration from the file, but as an importable format.
+     */
     public function retrieveConfigurationAsImportableFormatFromFile(): \stdClass;
 }

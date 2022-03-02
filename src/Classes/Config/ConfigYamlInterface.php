@@ -16,7 +16,13 @@ namespace WEM\SmartgearBundle\Classes\Config;
 
 interface ConfigYamlInterface extends ConfigInterface
 {
+    /**
+     * Import a configuration.
+     */
     public function import(array $content): self;
 
+    /**
+     * Export a configuration.
+     */
     public function export(): array;
 }

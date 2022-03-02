@@ -20,9 +20,9 @@ use Exception;
 class DirectoriesSynchronizer
 {
     /** @var string */
-    protected $directoryToSynchronizeFrom;
+    protected $sourceDirectory;
     /** @var string */
-    protected $directoryToSynchronizeTo;
+    protected $destinationDirectory;
     /** @var string */
     protected $rootDir; // nedded 'cause Contao always prefix our paths with it ...
     /** @var bool */
@@ -32,26 +32,37 @@ class DirectoriesSynchronizer
     protected $filesToDelete = [];
     protected $filesToUpdate = [];
 
-    public function __construct(string $directoryToSynchronizeFrom, string $directoryToSynchronizeTo, string $rootDir, bool $manageSubfolders)
+    /**
+     * @param string $sourceDirectory      Path to source directory (without root path)
+     * @param string $destinationDirectory Path to destination directory (without root path)
+     * @param string $rootDir              Root path
+     * @param bool   $manageSubfolders     true to manage subfolders
+     */
+    public function __construct(string $sourceDirectory, string $destinationDirectory, string $rootDir, bool $manageSubfolders)
     {
-        $this->directoryToSynchronizeFrom = $directoryToSynchronizeFrom;
-        $this->directoryToSynchronizeTo = $directoryToSynchronizeTo;
+        $this->sourceDirectory = $sourceDirectory;
+        $this->destinationDirectory = $destinationDirectory;
         $this->rootDir = $rootDir;
         $this->manageSubfolders = $manageSubfolders;
     }
 
+    /**
+     * Synchronize folders.
+     *
+     * @param bool|bool $withDeletions true to delete files in destination not present in source
+     */
     public function synchronize(?bool $withDeletions = true): void
     {
         $this->checkFiles(
-            $this->getDirectoryToSynchronizeFromFiles(),
-            $this->getDirectoryToSynchronizeToFiles()
+            $this->getSourceDirectoryFiles(),
+            $this->getDestinationDirectoryFiles()
         );
 
         if (!empty($this->filesToAdd)) {
             foreach ($this->filesToAdd as $relativePath => $realPath) {
                 $objFile = new File($realPath);
-                if (!$objFile->copyTo($this->directoryToSynchronizeTo.$relativePath)) {
-                    throw new Exception('Erreur dans la copie de "'.$realPath.'" vers "'.$this->directoryToSynchronizeTo.$relativePath.'"');
+                if (!$objFile->copyTo($this->destinationDirectory.$relativePath)) {
+                    throw new Exception('Erreur dans la copie de "'.$realPath.'" vers "'.$this->destinationDirectory.$relativePath.'"');
                 }
             }
         }
@@ -59,7 +70,7 @@ class DirectoriesSynchronizer
         if (!empty($this->filesToUpdate)) {
             foreach ($this->filesToUpdate as $relativePath => $realPath) {
                 $objFileFrom = new File($realPath);
-                $objFileTo = new File($this->directoryToSynchronizeTo.$relativePath);
+                $objFileTo = new File($this->destinationDirectory.$relativePath);
 
                 $objFileTo->truncate();
                 $objFileTo->write($objFileFrom->getContent());
@@ -76,47 +87,44 @@ class DirectoriesSynchronizer
         }
     }
 
-    /**
-     * @return mixed
-     */
     public function getFilesToAdd(): array
     {
         return $this->filesToAdd;
     }
 
-    /**
-     * @return mixed
-     */
     public function getFilesToDelete(): array
     {
         return $this->filesToDelete;
     }
 
-    /**
-     * @return mixed
-     */
     public function getFilesToUpdate(): array
     {
         return $this->filesToUpdate;
     }
 
-    protected function getDirectoryToSynchronizeFromFiles()
+    protected function getSourceDirectoryFiles()
     {
-        return $this->getFiles($this->rootDir.\DIRECTORY_SEPARATOR.$this->directoryToSynchronizeFrom, $this->manageSubfolders);
+        return $this->getFiles($this->rootDir.\DIRECTORY_SEPARATOR.$this->sourceDirectory, $this->manageSubfolders);
     }
 
-    protected function getDirectoryToSynchronizeToFiles()
+    protected function getDestinationDirectoryFiles()
     {
-        return $this->getFiles($this->rootDir.\DIRECTORY_SEPARATOR.$this->directoryToSynchronizeTo, $this->manageSubfolders);
+        return $this->getFiles($this->rootDir.\DIRECTORY_SEPARATOR.$this->destinationDirectory, $this->manageSubfolders);
     }
 
-    protected function checkFiles(array $filesFrom, array $filesTo): void
+    /**
+     * Compare folders to kjnow which files to create, update or delete.
+     *
+     * @param array $sourceFiles      path from the "getFiles" method
+     * @param array $destinationFiles path from the "getFiles" method
+     */
+    protected function checkFiles(array $sourceFiles, array $destinationFiles): void
     {
-        foreach ($filesFrom as $relativePath => $realPath) {
-            if (\array_key_exists($relativePath, $filesTo)) {
+        foreach ($sourceFiles as $relativePath => $realPath) {
+            if (\array_key_exists($relativePath, $destinationFiles)) {
                 // check difference
                 $objFileFrom = new File($realPath);
-                $objFileTo = new File($filesTo[$relativePath]);
+                $objFileTo = new File($destinationFiles[$relativePath]);
                 if ($this->checkIfFilesAreDifferent($objFileFrom, $objFileTo)) {
                     $this->filesToUpdate[$relativePath] = $objFileFrom->path;
                 }
@@ -124,17 +132,25 @@ class DirectoriesSynchronizer
                 $this->filesToAdd[$relativePath] = $realPath;
             }
         }
-        foreach ($filesTo as $relativePath => $realPath) {
-            if (!\array_key_exists($relativePath, $filesFrom)) {
+        foreach ($destinationFiles as $relativePath => $realPath) {
+            if (!\array_key_exists($relativePath, $sourceFiles)) {
                 $this->filesToDelete[$relativePath] = $realPath;
             }
         }
     }
 
-    protected function getFiles(string $rootFolderPath, ?bool $blnGetSubFolders = true, ?string $currentFolderPath = ''): array
+    /**
+     * Get files from folder.
+     *
+     * @param string    $startPath        The start path
+     * @param bool|bool $blnGetSubFolders true to check files inside subfolders
+     *
+     * @return array array of path, in the form ['relative path from start path' => 'fullpath' (without rootdir prefix)]
+     */
+    protected function getFiles(string $startPath, ?bool $blnGetSubFolders = true, ?string $relativePathFromStartPath = ''): array
     {
         try {
-            $strBasePath = $rootFolderPath.$currentFolderPath;
+            $strBasePath = $startPath.$relativePathFromStartPath;
             $arrFiles = is_dir($strBasePath) ? scandir($strBasePath) : [];
             $arrPaths = [];
 
@@ -146,9 +162,9 @@ class DirectoriesSynchronizer
                 $isFolder = is_dir($strBasePath.\DIRECTORY_SEPARATOR.$f);
 
                 if ($blnGetSubFolders && $isFolder) {
-                    $arrPaths = array_merge($arrPaths, $this->getFiles($rootFolderPath, $blnGetSubFolders, $currentFolderPath.\DIRECTORY_SEPARATOR.$f));
+                    $arrPaths = array_merge($arrPaths, $this->getFiles($startPath, $blnGetSubFolders, $relativePathFromStartPath.\DIRECTORY_SEPARATOR.$f));
                 } elseif (!$isFolder) {
-                    $arrPaths[$currentFolderPath.\DIRECTORY_SEPARATOR.$f] = $this->stripRootPathFromPath($this->rootDir, $strBasePath.\DIRECTORY_SEPARATOR.$f);
+                    $arrPaths[$relativePathFromStartPath.\DIRECTORY_SEPARATOR.$f] = $this->stripRootPathFromPath($strBasePath.\DIRECTORY_SEPARATOR.$f);
                 }
             }
 
@@ -158,6 +174,12 @@ class DirectoriesSynchronizer
         }
     }
 
+    /**
+     * Check if 2 files are differents.
+     *
+     * @param File $objFileA [description]
+     * @param File $objFileB [description]
+     */
     protected function checkIfFilesAreDifferent(File $objFileA, File $objFileB): bool
     {
         try {
@@ -177,12 +199,19 @@ class DirectoriesSynchronizer
         }
     }
 
-    protected function stripRootPathFromPath(string $rootFolder, string $path): string
+    /**
+     * Remove rootdir from path.
+     *
+     * @param string $path [description]
+     *
+     * @return string The path without the rootdir prefix
+     */
+    protected function stripRootPathFromPath(string $path): string
     {
-        if (empty($rootFolder)) {
+        if (empty($this->rootDir)) {
             return $path;
         }
 
-        return str_replace($rootFolder.\DIRECTORY_SEPARATOR, '', $path);
+        return str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $path);
     }
 }

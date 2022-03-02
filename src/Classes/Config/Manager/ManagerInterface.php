@@ -29,9 +29,20 @@ use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
 
 interface ManagerInterface
 {
+    /**
+     * Get a new configuration.
+     */
     public function new(): ConfigInterface;
 
+    /**
+     * Load a configuration.
+     */
     public function load(): ConfigInterface;
 
+    /**
+     * Save a configuration.
+     *
+     * @param ConfigInterface $configuration [description]
+     */
     public function save(ConfigInterface $configuration): bool;
 }

@@ -18,6 +18,9 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 abstract class AbstractManager implements ManagerInterface
 {
+    /**
+     * Retrieve content from configuration file.
+     */
     protected function retrieveConfigurationFromFile(): string
     {
         if (!file_exists($this->configurationFilePath)) {

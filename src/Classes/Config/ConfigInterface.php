@@ -16,5 +16,8 @@ namespace WEM\SmartgearBundle\Classes\Config;
 
 interface ConfigInterface
 {
+    /**
+     * Reset a configuration.
+     */
     public function reset(): self;
 }
