@@ -39,6 +39,7 @@ class LocalConfig implements ConfigYamlInterface
     protected $sgOwnerHost;
     protected $rejectLargeUploads;
     protected $untouchedConfig;
+    protected $imageSizes;
 
     public function reset(): self
     {
@@ -64,6 +65,7 @@ class LocalConfig implements ConfigYamlInterface
             ->setSgOwnerDomain(null)
             ->setSgOwnerHost(null)
             ->setRejectLargeUploads(null)
+            ->setImageSizes(null)
         ;
 
         return $this;
@@ -92,9 +94,10 @@ class LocalConfig implements ConfigYamlInterface
             ->setSgOwnerDomain($content['contao']['localconfig']['sgOwnerDomain'] ?? null)
             ->setSgOwnerHost($content['contao']['localconfig']['sgOwnerHost'] ?? null)
             ->setRejectLargeUploads($content['contao']['image']['reject_large_uploads'] ?? null)
+            ->setImageSizes($content['contao']['image']['sizes'] ?? null)
         ;
 
-        unset($content['contao']['localconfig']['dateFormat'], $content['contao']['localconfig']['timeFormat'], $content['contao']['localconfig']['datimFormat'], $content['contao']['localconfig']['timeZone'], $content['contao']['localconfig']['characterSet'], $content['contao']['localconfig']['useAutoItem'], $content['contao']['localconfig']['folderUrl'], $content['contao']['localconfig']['maxResultsPerPage'], $content['contao']['localconfig']['privacyAnonymizeIp'], $content['contao']['localconfig']['privacyAnonymizeGA'], $content['contao']['localconfig']['gdMaxImgWidth'], $content['contao']['localconfig']['gdMaxImgHeight'], $content['contao']['localconfig']['maxFileSize'], $content['contao']['localconfig']['undoPeriod'], $content['contao']['localconfig']['versionPeriod'], $content['contao']['localconfig']['logPeriod'], $content['contao']['localconfig']['allowedTags'], $content['contao']['localconfig']['sgOwnerDomain'], $content['contao']['localconfig']['sgOwnerHost'], $content['contao']['image']['reject_large_uploads']);
+        unset($content['contao']['localconfig']['dateFormat'], $content['contao']['localconfig']['timeFormat'], $content['contao']['localconfig']['datimFormat'], $content['contao']['localconfig']['timeZone'], $content['contao']['localconfig']['characterSet'], $content['contao']['localconfig']['useAutoItem'], $content['contao']['localconfig']['folderUrl'], $content['contao']['localconfig']['maxResultsPerPage'], $content['contao']['localconfig']['privacyAnonymizeIp'], $content['contao']['localconfig']['privacyAnonymizeGA'], $content['contao']['localconfig']['gdMaxImgWidth'], $content['contao']['localconfig']['gdMaxImgHeight'], $content['contao']['localconfig']['maxFileSize'], $content['contao']['localconfig']['undoPeriod'], $content['contao']['localconfig']['versionPeriod'], $content['contao']['localconfig']['logPeriod'], $content['contao']['localconfig']['allowedTags'], $content['contao']['localconfig']['sgOwnerDomain'], $content['contao']['localconfig']['sgOwnerHost'], $content['contao']['image']['reject_large_uploads'], $content['contao']['image']['sizes']);
 
         $this->untouchedConfig = $content;
 
@@ -170,6 +173,9 @@ class LocalConfig implements ConfigYamlInterface
         }
         if (null !== $this->getRejectLargeUploads()) {
             $config['contao']['image']['reject_large_uploads'] = $this->getRejectLargeUploads();
+        }
+        if (null !== $this->getImageSizes()) {
+            $config['contao']['image']['sizes'] = $this->getImageSizes();
         }
 
         if (0 === \count($config['contao']['localconfig'])) {
@@ -431,6 +437,18 @@ class LocalConfig implements ConfigYamlInterface
     public function setUntouchedConfig($untouchedConfig): self
     {
         $this->untouchedConfig = $untouchedConfig;
+
+        return $this;
+    }
+
+    public function getImageSizes()
+    {
+        return $this->imageSizes;
+    }
+
+    public function setImageSizes($imageSizes): self
+    {
+        $this->imageSizes = $imageSizes;
 
         return $this;
     }

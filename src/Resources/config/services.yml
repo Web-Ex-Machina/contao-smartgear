@@ -52,6 +52,24 @@ services:
             $manageSubfolders: true
         public: true
 
+    smartgear.classes.directories_synchronizer.outdated_browser:
+        class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
+        arguments:
+            $directoryToSynchronizeFrom: 'public/bundles/wemsmartgear/contao_files/files/vendor/outdatedbrowser'
+            $directoryToSynchronizeTo: 'files/vendor/outdatedbrowser'
+            $rootDir: '%kernel.project_dir%'
+            $manageSubfolders: true
+        public: true
+
+    smartgear.classes.directories_synchronizer.tarte_au_citron:
+        class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
+        arguments:
+            $directoryToSynchronizeFrom: 'public/bundles/wemsmartgear/contao_files/files/vendor/tarteaucitron'
+            $directoryToSynchronizeTo: 'files/vendor/tarteaucitron'
+            $rootDir: '%kernel.project_dir%'
+            $manageSubfolders: true
+        public: true
+
     smartgear.config.manager.core:
         class: WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson
         arguments:
@@ -174,6 +192,8 @@ services:
             $templateSmartgearSynchronizer: '@smartgear.classes.directories_synchronizer.templates.smartgear'
             $templateGeneralSynchronizer: '@smartgear.classes.directories_synchronizer.templates.general'
             $tinyMCEPluginsSynchronizer: '@smartgear.classes.directories_synchronizer.tiny_mce.plugins'
+            $tarteAuCitronSynchronizer: '@smartgear.classes.directories_synchronizer.tarte_au_citron'
+            $outdatedBrowserSynchronizer: '@smartgear.classes.directories_synchronizer.outdated_browser'
         public: true
 
     smartgear.backend.module.core.configuration_step.website:

@@ -38,6 +38,10 @@ class FramwayConfiguration extends ConfigurationStep
     protected $templateGeneralSynchronizer;
     /** @var DirectoriesSynchronizer */
     protected $tinyMCEPluginsSynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected $tarteAuCitronSynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected $outdatedBrowserSynchronizer;
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_configuration';
 
     public function __construct(
@@ -48,7 +52,9 @@ class FramwayConfiguration extends ConfigurationStep
         DirectoriesSynchronizer $templateRSCESynchronizer,
         DirectoriesSynchronizer $templateSmartgearSynchronizer,
         DirectoriesSynchronizer $templateGeneralSynchronizer,
-        DirectoriesSynchronizer $tinyMCEPluginsSynchronizer
+        DirectoriesSynchronizer $tinyMCEPluginsSynchronizer,
+        DirectoriesSynchronizer $tarteAuCitronSynchronizer,
+        DirectoriesSynchronizer $outdatedBrowserSynchronizer
     ) {
         parent::__construct($module, $type);
         $this->title = 'Framway | Configuration';
@@ -58,6 +64,8 @@ class FramwayConfiguration extends ConfigurationStep
         $this->templateSmartgearSynchronizer = $templateSmartgearSynchronizer;
         $this->templateGeneralSynchronizer = $templateGeneralSynchronizer;
         $this->tinyMCEPluginsSynchronizer = $tinyMCEPluginsSynchronizer;
+        $this->tarteAuCitronSynchronizer = $tarteAuCitronSynchronizer;
+        $this->outdatedBrowserSynchronizer = $outdatedBrowserSynchronizer;
         try {
             /** @var CoreConfig */
             $config = $this->configurationManager->load();
@@ -144,6 +152,8 @@ class FramwayConfiguration extends ConfigurationStep
         $this->importSmartgearTemplates();
         $this->importGeneralTemplates();
         $this->importTinyMCEPlugins();
+        $this->importOutdatedBrowser();
+        $this->importTarteAuCitron();
     }
 
     public function framwayThemeAdd()
@@ -216,5 +226,15 @@ class FramwayConfiguration extends ConfigurationStep
     protected function importTinyMCEPlugins(): void
     {
         $this->tinyMCEPluginsSynchronizer->synchronize(false);
+    }
+
+    protected function importOutdatedBrowser(): void
+    {
+        $this->outdatedBrowserSynchronizer->synchronize(true);
+    }
+
+    protected function importTarteAuCitron(): void
+    {
+        $this->tarteAuCitronSynchronizer->synchronize(true);
     }
 }

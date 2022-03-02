@@ -244,6 +244,9 @@ class Website extends ConfigurationStep
         $script = str_replace('{{config.googleFonts}}', "'".implode("','", $config->getSgGoogleFonts())."'", $script);
         $script = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $script);
 
+        $head = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+        $head = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $head);
+
         // $arrCssFiles = [];
         // $arrJsFiles = [];
         // $objFile = FilesModel::findOneByPath($config->getSgFramwayPath().'/css/vendor.css');
@@ -266,9 +269,9 @@ class Website extends ConfigurationStep
         $objLayout->viewport = 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0';
         // $objLayout->externalJs = serialize($arrJsFiles);
         $objLayout->modules = serialize($arrLayoutModules);
-        // $objLayout->template = 'fe_page';
+        $objLayout->template = 'fe_page';
         // $objLayout->webfonts = '';
-        // $objLayout->head = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+        $objLayout->head = $head;
         $objLayout->script = $script;
         $objLayout->save();
 
@@ -287,7 +290,7 @@ class Website extends ConfigurationStep
         $objLayout->modules = serialize($arrLayoutModules);
         $objLayout->template = 'fe_page_full';
         // $objLayout->webfonts = '';
-        // $objLayout->head = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+        $objLayout->head = $head;
         $objLayout->script = $script;
         $objLayout->save();
 

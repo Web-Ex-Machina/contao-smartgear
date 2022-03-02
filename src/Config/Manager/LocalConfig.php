@@ -63,7 +63,7 @@ class LocalConfig extends AbstractManager implements ManagerYamlInterface
     public function save(ConfigInterface $configuration): bool
     {
         $this->configuration = $configuration;
-        $yaml = Yaml::dump($this->configuration->export());
+        $yaml = Yaml::dump($this->configuration->export(), 10);
 
         return false !== file_put_contents($this->configurationFilePath, $yaml);
     }

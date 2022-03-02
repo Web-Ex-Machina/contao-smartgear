@@ -1,5 +1,5 @@
+<link rel="stylesheet" href="{{config.framway.path}}/build/css/framway.css">
 <script type="text/javascript" src="files/vendor/tarteaucitron/tarteaucitron.js"></script>
-
 <script type="text/javascript">
 var tarteaucitronForceLanguage = '{{page::language}}';
 tarteaucitron.init({
