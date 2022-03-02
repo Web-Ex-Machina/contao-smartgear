@@ -22,6 +22,7 @@ services:
             $directoryToSynchronizeFrom: 'public/bundles/wemsmartgear/contao_files/templates/rsce'
             $directoryToSynchronizeTo: 'templates/rsce'
             $rootDir: '%kernel.project_dir%'
+            $manageSubfolders: true
         public: true
 
     smartgear.classes.directories_synchronizer.templates.smartgear:
@@ -30,6 +31,16 @@ services:
             $directoryToSynchronizeFrom: 'public/bundles/wemsmartgear/contao_files/templates/smartgear'
             $directoryToSynchronizeTo: 'templates/smartgear'
             $rootDir: '%kernel.project_dir%'
+            $manageSubfolders: true
+        public: true
+
+    smartgear.classes.directories_synchronizer.templates.general:
+        class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
+        arguments:
+            $directoryToSynchronizeFrom: 'public/bundles/wemsmartgear/contao_files/templates'
+            $directoryToSynchronizeTo: 'templates'
+            $rootDir: '%kernel.project_dir%'
+            $manageSubfolders: false
         public: true
 
     smartgear.classes.directories_synchronizer.tiny_mce.plugins:
@@ -38,6 +49,7 @@ services:
             $directoryToSynchronizeFrom: 'public/bundles/wemsmartgear/contao_files/assets/tinymce4/js/plugins'
             $directoryToSynchronizeTo: 'assets/tinymce4/js/plugins'
             $rootDir: '%kernel.project_dir%'
+            $manageSubfolders: true
         public: true
 
     smartgear.config.manager.core:
@@ -160,6 +172,7 @@ services:
             $configurationManagerFramway: '@smartgear.config.manager.framway'
             $templateRSCESynchronizer: '@smartgear.classes.directories_synchronizer.templates.rsce'
             $templateSmartgearSynchronizer: '@smartgear.classes.directories_synchronizer.templates.smartgear'
+            $templateGeneralSynchronizer: '@smartgear.classes.directories_synchronizer.templates.general'
             $tinyMCEPluginsSynchronizer: '@smartgear.classes.directories_synchronizer.tiny_mce.plugins'
         public: true
 

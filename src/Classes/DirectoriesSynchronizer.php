@@ -25,16 +25,19 @@ class DirectoriesSynchronizer
     protected $directoryToSynchronizeTo;
     /** @var string */
     protected $rootDir; // nedded 'cause Contao always prefix our paths with it ...
+    /** @var bool */
+    protected $manageSubfolders;
 
     protected $filesToAdd = [];
     protected $filesToDelete = [];
     protected $filesToUpdate = [];
 
-    public function __construct(string $directoryToSynchronizeFrom, string $directoryToSynchronizeTo, string $rootDir)
+    public function __construct(string $directoryToSynchronizeFrom, string $directoryToSynchronizeTo, string $rootDir, bool $manageSubfolders)
     {
         $this->directoryToSynchronizeFrom = $directoryToSynchronizeFrom;
         $this->directoryToSynchronizeTo = $directoryToSynchronizeTo;
         $this->rootDir = $rootDir;
+        $this->manageSubfolders = $manageSubfolders;
     }
 
     public function synchronize(?bool $withDeletions = true): void
@@ -99,12 +102,12 @@ class DirectoriesSynchronizer
 
     protected function getDirectoryToSynchronizeFromFiles()
     {
-        return $this->getFiles($this->rootDir.\DIRECTORY_SEPARATOR.$this->directoryToSynchronizeFrom, true);
+        return $this->getFiles($this->rootDir.\DIRECTORY_SEPARATOR.$this->directoryToSynchronizeFrom, $this->manageSubfolders);
     }
 
     protected function getDirectoryToSynchronizeToFiles()
     {
-        return $this->getFiles($this->rootDir.\DIRECTORY_SEPARATOR.$this->directoryToSynchronizeTo, true);
+        return $this->getFiles($this->rootDir.\DIRECTORY_SEPARATOR.$this->directoryToSynchronizeTo, $this->manageSubfolders);
     }
 
     protected function checkFiles(array $filesFrom, array $filesTo): void

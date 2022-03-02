@@ -35,6 +35,8 @@ class FramwayConfiguration extends ConfigurationStep
     /** @var DirectoriesSynchronizer */
     protected $templateSmartgearSynchronizer;
     /** @var DirectoriesSynchronizer */
+    protected $templateGeneralSynchronizer;
+    /** @var DirectoriesSynchronizer */
     protected $tinyMCEPluginsSynchronizer;
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_configuration';
 
@@ -45,6 +47,7 @@ class FramwayConfiguration extends ConfigurationStep
         ConfigurationManagerFramway $configurationManagerFramway,
         DirectoriesSynchronizer $templateRSCESynchronizer,
         DirectoriesSynchronizer $templateSmartgearSynchronizer,
+        DirectoriesSynchronizer $templateGeneralSynchronizer,
         DirectoriesSynchronizer $tinyMCEPluginsSynchronizer
     ) {
         parent::__construct($module, $type);
@@ -53,6 +56,7 @@ class FramwayConfiguration extends ConfigurationStep
         $this->configurationManagerFramway = $configurationManagerFramway;
         $this->templateRSCESynchronizer = $templateRSCESynchronizer;
         $this->templateSmartgearSynchronizer = $templateSmartgearSynchronizer;
+        $this->templateGeneralSynchronizer = $templateGeneralSynchronizer;
         $this->tinyMCEPluginsSynchronizer = $tinyMCEPluginsSynchronizer;
         try {
             /** @var CoreConfig */
@@ -138,6 +142,7 @@ class FramwayConfiguration extends ConfigurationStep
 
         $this->importRSCETemplates();
         $this->importSmartgearTemplates();
+        $this->importGeneralTemplates();
         $this->importTinyMCEPlugins();
     }
 
@@ -201,6 +206,11 @@ class FramwayConfiguration extends ConfigurationStep
     protected function importSmartgearTemplates(): void
     {
         $this->templateSmartgearSynchronizer->synchronize(false);
+    }
+
+    protected function importGeneralTemplates(): void
+    {
+        $this->templateGeneralSynchronizer->synchronize(false);
     }
 
     protected function importTinyMCEPlugins(): void

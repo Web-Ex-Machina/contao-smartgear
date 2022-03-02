@@ -379,7 +379,6 @@ class Website extends ConfigurationStep
         $page = PageModel::findOneBy('title', 'Accueil');
         $pages['home'] = Util::createPage('Accueil', $pages['root']->id, array_merge([
             'sorting' => 128,
-            'alias' => '/',
             'sitemap' => 'default',
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id] : []));

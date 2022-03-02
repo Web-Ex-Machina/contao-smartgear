@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Classes\Config;
 
-use WEM\SmartgearBundle\Classes\Config\ManagerJson as Manager;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as Manager;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 
 class ManagerCoreTest extends \Codeception\Test\Unit
