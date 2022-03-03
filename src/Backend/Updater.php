@@ -62,7 +62,7 @@ class Updater
     {
         $packages = json_decode(file_get_contents(TL_ROOT.'/vendor/composer/installed.json'));
 
-        foreach ($packages as $p) {
+        foreach ($packages->packages as $p) {
             $p = (array) $p;
             if ('webexmachina/contao-smartgear' === $p['name']) {
                 $this->sgVersion = $p['version'];
