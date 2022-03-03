@@ -237,3 +237,21 @@ services:
                 - '+tl_log'
                 - '+tl_undo'
         public: true
+
+    smartgear.command.backup.abstract:
+        class: WEM\SmartgearBundle\Command\Backup\AbstractBackupCommand
+        arguments:
+            $backupManager : '@smartgear.backup.backup_manager'
+            $framework: '@contao.framework'
+        # tags:
+            # - { name: 'console.command'}
+        public: true
+
+    smartgear.command.backup.create:
+        class: WEM\SmartgearBundle\Command\Backup\BackupCreateCommand
+        arguments:
+            $backupManager : '@smartgear.backup.backup_manager'
+            $framework: '@contao.framework'
+        tags:
+            - { name: 'console.command'}
+        public: true

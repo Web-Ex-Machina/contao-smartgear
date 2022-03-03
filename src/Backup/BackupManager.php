@@ -15,7 +15,10 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backup;
 
 use Contao\CoreBundle\Doctrine\Backup\BackupManager as DatabaseBackupManager;
+use Contao\File;
+use Contao\ZipWriter;
 use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Exceptions\Backup\ManagerException as BackupManagerException;
 
 class BackupManager
 {
@@ -51,35 +54,39 @@ class BackupManager
     /**
      * Create a new backup.
      *
-     * @return string path to the backup
+     * @return File The zipped backup
      */
-    public function new(): string
+    public function new(): File
     {
-        $path = $this->getNewBackupPath();
+        try {
+            $path = $this->getNewBackupPath();
 
-        $backupArchive = new \Contao\ZipWriter($path);
+            $backupArchive = new ZipWriter($path);
 
-        $databaseBackupConfig = $this->databaseBackupManager->createCreateConfig();
-        $databaseBackupConfig->withTablesToIgnore($this->tablesToIgnore);
-        $this->databaseBackupManager->create($databaseBackupConfig);
-        $databaseBackup = $databaseBackupConfig->getBackup();
+            $databaseBackupConfig = $this->databaseBackupManager->createCreateConfig();
+            $databaseBackupConfig->withTablesToIgnore($this->tablesToIgnore);
+            $this->databaseBackupManager->create($databaseBackupConfig);
+            $databaseBackup = $databaseBackupConfig->getBackup();
 
-        $backupArchive->addFile($this->databaseBackupDirectory.\DIRECTORY_SEPARATOR.$databaseBackup->getFilename());
+            $backupArchive->addFile($this->databaseBackupDirectory.\DIRECTORY_SEPARATOR.$databaseBackup->getFilename());
 
-        foreach ($this->artifactsToBackup as $artifactPath) {
-            if (is_file($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath)) {
-                $backupArchive->addFile($artifactPath);
-            } else {
-                $files = Util::getFileList($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath);
-                foreach ($files as $filePath) {
-                    $backupArchive->addFile(str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath));
+            foreach ($this->artifactsToBackup as $artifactPath) {
+                if (is_file($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath)) {
+                    $backupArchive->addFile($artifactPath);
+                } else {
+                    $files = Util::getFileList($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath);
+                    foreach ($files as $filePath) {
+                        $backupArchive->addFile(str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath));
+                    }
                 }
             }
+
+            $backupArchive->close();
+        } catch (\Exception $e) {
+            throw new BackupManagerException('Une erreur est survenue lors de la création du backup : '.$e->getMessage(), $e->getCode(), $e);
         }
 
-        $backupArchive->close();
-
-        return $path;
+        return new File($path);
     }
 
     protected function getNewBackupPath(): string
