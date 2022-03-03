@@ -17,8 +17,11 @@ namespace WEM\SmartgearBundle\Backup;
 use Contao\CoreBundle\Doctrine\Backup\BackupManager as DatabaseBackupManager;
 use Contao\File;
 use Contao\ZipWriter;
+use Contao\ZipReader;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException as BackupManagerException;
+use Contao\CoreBundle\Doctrine\Backup\Config\RestoreConfig;
+use Contao\CoreBundle\Doctrine\Backup\Backup;
 
 class BackupManager
 {
@@ -89,8 +92,83 @@ class BackupManager
         return new File($path);
     }
 
+    public function list(): array
+    {
+        try {
+            $objFiles = [];
+            $files = Util::getFileList($this->rootDir.\DIRECTORY_SEPARATOR.$this->backupDirectory);
+            foreach ($files as $filePath) {
+                $objFiles[] = new File(str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath));
+            }
+
+             usort($objFiles, static fn (File $a, File $b) => $b->ctime <=> $a->ctime);
+
+        } catch (\Exception $e) {
+            throw new BackupManagerException('Une erreur est survenue lors de la récupération de la liste des backups : '.$e->getMessage(), $e->getCode(), $e);
+        }
+
+        return $objFiles;
+    }
+
+    public function restore(string $backupName): array
+    {
+        try{
+            $backup = new ZipReader($this->getBackupFullPath($backupName));
+
+            // 1) we delete the files / empty the dirs from $this->artifactsToBackup
+            // 2) we restore files
+            // 3) we delete the DB
+            // 4) we restore the DB
+
+            // Here we'll delete what need to be deleted
+
+            $i = 0;
+            $backupPath = '';
+            $files = $backup->getFileList();
+            $logs[] = 'Import files: '.\count($files).' to import';
+            $backupPath = $backup->first()->current()['file_name'];
+            $backup->reset();
+            while ($backup->next()) {
+                $strFilename = $backup->current()['file_name'];
+                $logs[] = 'File to import: '.$strFilename;
+
+                $strContent = $backup->unzip();
+
+                $objFile = new File($strFilename);
+                $objFile->truncate();
+                $objFile->write($strContent);
+
+                if ($strContent !== $objFile->getContent()) {
+                    $logs[] = 'File was not imported correctly';
+                } else {
+                    ++$i;
+                }
+
+                $objFile->close();
+
+            }
+            $logs[] = 'End of process: '.$i.'/'.\count($files).' files imported';
+
+            // now files are in place, time to play our DB backup
+            $config = new RestoreConfig(new Backup(\basename($backupPath)));
+            $this->databaseBackupManager->restore($config);
+
+            $logs[] = 'Database restored';
+
+        } catch (\Exception $e) {
+            throw new BackupManagerException('Une erreur est survenue lors de la restauration du backup : '.$e->getMessage(), $e->getCode(), $e);
+        }
+
+        return $logs;
+    }
+
     protected function getNewBackupPath(): string
     {
         return $this->backupDirectory.\DIRECTORY_SEPARATOR.date('YmdHis').'.zip';
+    }
+
+    protected function getBackupFullPath(string $backupName): string
+    {
+        return $this->backupDirectory.\DIRECTORY_SEPARATOR.$backupName;
     }
 }

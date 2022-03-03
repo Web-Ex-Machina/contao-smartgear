@@ -35,7 +35,7 @@ class AbstractBackupCommand extends Command
         $this->framework->initialize();
     }
 
-        protected function configure(): void
+    protected function configure(): void
     {
         $this
             ->addOption('format', null, InputOption::VALUE_REQUIRED, 'The output format (txt, json)', 'txt')

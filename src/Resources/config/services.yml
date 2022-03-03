@@ -255,3 +255,21 @@ services:
         tags:
             - { name: 'console.command'}
         public: true
+
+    smartgear.command.backup.list:
+        class: WEM\SmartgearBundle\Command\Backup\BackupListCommand
+        arguments:
+            $backupManager : '@smartgear.backup.backup_manager'
+            $framework: '@contao.framework'
+        tags:
+            - { name: 'console.command'}
+        public: true
+
+    smartgear.command.backup.restore:
+        class: WEM\SmartgearBundle\Command\Backup\BackupRestoreCommand
+        arguments:
+            $backupManager : '@smartgear.backup.backup_manager'
+            $framework: '@contao.framework'
+        tags:
+            - { name: 'console.command'}
+        public: true
