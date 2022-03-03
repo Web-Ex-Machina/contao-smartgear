@@ -16,6 +16,10 @@ services:
             - '@request_stack'
         public: true
 
+    smartgear.backend.smartgear:
+        class: WEM\SmartgearBundle\Backend\Smartgear
+        public: true
+
     smartgear.classes.directories_synchronizer.templates.rsce:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
@@ -214,4 +218,22 @@ services:
             $templatesDirs: 
                 - 'templates/rsce'
                 - 'templates/smartgear'
+        public: true
+
+    smartgear.backup.backup_manager:
+        class: WEM\SmartgearBundle\Backup\BackupManager
+        arguments:
+            $rootDir: '%kernel.project_dir%'
+            $backupDirectory: 'assets/backups'
+            $databaseBackupDirectory: 'var/backups' # defined in contao source files, with no ways to access it from outside
+            $databaseBackupManager: '@contao.doctrine.backup_manager'
+            $artifactsToBackup:
+                - 'composer.json'
+                - 'assets/smartgear'
+                - 'files'
+                - 'templates'
+            $tablesToIgnore:
+                - '+tl_db_cache'
+                - '+tl_log'
+                - '+tl_undo'
         public: true

@@ -20,6 +20,7 @@ use Contao\Input;
 use Contao\RequestToken;
 use Contao\System;
 use Exception;
+use WEM\SmartgearBundle\Backup\BackupManager;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
@@ -52,6 +53,14 @@ class Smartgear extends \Contao\BackendModule
     protected $strBasePath = 'bundles/wemsmartgear';
 
     protected $modules = ['module' => ['core']];
+    /** @var BackupManager */
+    protected $backupManager;
+
+    public function __construct($dc = null)
+    {
+        parent::__construct($dc);
+        $this->backupManager = \Contao\System::getContainer()->get('smartgear.backup.backup_manager');
+    }
 
     /**
      * Process AJAX actions.
@@ -105,34 +114,6 @@ class Smartgear extends \Contao\BackendModule
                         $arrResponse['output'] = $res;
                         // exit();
                     break;
-
-                    // case 'getSteps':
-                    //     $this->getActiveStep();
-
-                    //     echo $this->parseInstallSteps();
-                    //     exit;
-                    //     break;
-
-                    // case 'setStep':
-                    //     if (!\in_array(Input::post('step'), $this->modules['install'], true)) {
-                    //         throw new \Exception('Step inconnue : '.Input::post('step'));
-                    //     }
-
-                    //     $objSession = \System::getContainer()->get('session');
-                    //     $objSession->set('sg_install_step', Input::post('step'));
-                    //     break;
-
-                    // case 'getNextStep':
-                    //     $arrNextStep = $this->getNextInstallStep($this->strActiveStep);
-
-                    //     $arrResponse['status'] = 'success';
-                    //     $arrResponse['step'] = $arrNextStep;
-
-                    //     $objSession = \System::getContainer()->get('session');
-                    //     $objSession->set('sg_install_step', $arrNextStep['name']);
-                    //     $this->strActiveStep = $arrNextStep['name'];
-
-                    //     break;
 
                     default:
                         // Check if we get all the params we need first
@@ -193,6 +174,10 @@ class Smartgear extends \Contao\BackendModule
             $save = $coreConfigManager->save($coreConfig);
         }
 
+        if ('backup_manager' === Input::get('key')) {
+            dump($this->backupManager->new());
+            exit();
+        }
         // Catch Modal Calls
         if ('modal' === Input::get('act')) {
             // Catch Errors
