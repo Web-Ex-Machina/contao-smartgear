@@ -273,3 +273,12 @@ services:
         tags:
             - { name: 'console.command'}
         public: true
+
+    smartgear.command.backup.delete:
+        class: WEM\SmartgearBundle\Command\Backup\BackupDeleteCommand
+        arguments:
+            $backupManager : '@smartgear.backup.backup_manager'
+            $framework: '@contao.framework'
+        tags:
+            - { name: 'console.command'}
+        public: true

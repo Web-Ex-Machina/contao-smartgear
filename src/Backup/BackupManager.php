@@ -123,12 +123,8 @@ class BackupManager
     {
         try{
             $result = new RestoreResult();
-            $result->setBackup(new File($this->getBackupFullPath($backupName)));
-            $backup = new ZipReader($this->getBackupFullPath($backupName));
-
-            // 1) we delete the files / empty the dirs from $this->artifactsToBackup
-            // 2) we restore files
-            // 3) we restore the DB (Contao's DB backup manager handles the deletion before restoration)
+            $result->setBackup(new File($this->getBackupPath($backupName)));
+            $backup = new ZipReader($this->getBackupPath($backupName));
 
             // 1) Here we'll delete what need to be deleted
             $result->setFilesDeleted($this->cleanArtifactsBeforeRestore());
@@ -152,9 +148,7 @@ class BackupManager
                     $result->addFileRestored($strFilename);
                     ++$i;
                 }
-
                 $objFile->close();
-
             }
 
             // 3) now files are in place, time to play our DB backup
@@ -167,6 +161,15 @@ class BackupManager
         }
 
         return $result;
+    }
+
+    public function delete(string $backupName): bool
+    {
+        if(!file_exists($this->getBackupFullPath($backupName))){
+            throw new BackupManagerException('Le backup a supprimer n\'existe pas');
+        }
+
+        return unlink($this->getBackupFullPath($backupName));
     }
 
     protected function cleanArtifactsBeforeRestore(): array
@@ -191,9 +194,14 @@ class BackupManager
         return $this->backupDirectory.\DIRECTORY_SEPARATOR.date('YmdHis').'.zip';
     }
 
-    protected function getBackupFullPath(string $backupName): string
+    protected function getBackupPath(string $backupName): string
     {
         return $this->backupDirectory.\DIRECTORY_SEPARATOR.$backupName;
+    }
+
+    protected function getBackupFullPath(string $backupName): string
+    {
+        return $this->rootDir.\DIRECTORY_SEPARATOR.$this->getBackupPath($backupName);
     }
 
 }
