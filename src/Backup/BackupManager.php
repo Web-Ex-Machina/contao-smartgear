@@ -119,6 +119,15 @@ class BackupManager
         return $objFiles;
     }
 
+    public function get(string $backupName): File
+    {
+        if(!file_exists($this->getBackupFullPath($backupName))){
+            throw new BackupManagerException('Le backup n\'existe pas');
+        }
+
+        return new File($this->getBackupPath($backupName));
+    }
+
     public function restore(string $backupName): RestoreResult
     {
         try{
@@ -166,7 +175,7 @@ class BackupManager
     public function delete(string $backupName): bool
     {
         if(!file_exists($this->getBackupFullPath($backupName))){
-            throw new BackupManagerException('Le backup a supprimer n\'existe pas');
+            throw new BackupManagerException(sprintf('Le backup a supprimer n\'existe pas (%s)',$this->getBackupFullPath($backupName)));
         }
 
         return unlink($this->getBackupFullPath($backupName));
@@ -176,13 +185,16 @@ class BackupManager
     {
         $filesDeleted = [];
         foreach ($this->artifactsToBackup as $artifactPath) {
-            if (is_file($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath)) {
-                unlink($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath);
-                $filesDeleted[] = $artifactPath;
-            } else {
-                $folder = new Folder($artifactPath);
-                $folder->purge();
-                $filesDeleted[] = $folder->name;
+            $fullPath = $this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath;
+            if(file_exists($fullPath)){
+                if (is_file($fullPath)) {
+                    unlink($fullPath);
+                    $filesDeleted[] = $artifactPath;
+                } else {
+                    $folder = new Folder($artifactPath);
+                    $folder->purge();
+                    $filesDeleted[] = $folder->name;
+                }
             }
         }
 

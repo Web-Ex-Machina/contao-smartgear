@@ -16,8 +16,12 @@
 <div id="tl_wem_sg_backupmanager" class="wem_module">
 
 	<h2 class="sub_headline">Backup Manager</h2>
-	<?php if($this->logs): ?>
-	<?php dump(trim(implode("\n", $this->logs))); ?>
+	<?php if($this->restore_result): ?>
+	<?php dump(trim(implode("\n", $this->restore_result->getFiles()))); ?>
+	<?php endif; ?>
+	<?php if($this->create_result): ?>
+	<?php dump($this->create_result); ?>
+	<?php dump(trim(implode("\n", $this->create_result->getFiles()))); ?>
 	<?php endif; ?>
 
 	<div class="tl_listing_container list_view" id="tl_listing">
@@ -28,30 +32,29 @@
 					<th class="tl_folder_tlist col_name">Name</th>
 					<th class="tl_folder_tlist tl_right_nowrap"></th>
 				</tr>
-				<?php foreach($this->backups as $k => $b): ?>
+				<?php foreach($this->backups as $backup): ?>
 				<tr class="even click2edit toggle_select hover-row">
-					<td colspan="1" class="tl_file_list col_date"><?= $b['date'] ?></td>
-					<td colspan="1" class="tl_file_list col_name"><?= $b['name'] ?></td>
+					<td colspan="1" class="tl_file_list col_date"><?= \DateTime::createFromFormat('U', (string) $backup->ctime)->format('d/m/Y H:i:s') ?></td>
+					<td colspan="1" class="tl_file_list col_name"><?= $backup->basename ?></td>
 					<td class="tl_file_list tl_right_nowrap">
-						<?php if($b['hasFiles']): ?>
-						<a href="<?= $this->addToUrl('&act=download&file='.$b['zipPath']) ?>" title="" target="_blank"><img src="bundles/wemsmartgear/icons/icon_zip.png" alt="Télécharger les fichiers" width="12" height="16"></a>
-						<?php endif; ?>	
-
-						<?php if($b['hasSql']): ?>
-						<a href="<?= $this->addToUrl('&act=download&file='.$b['sqlPath']) ?>" title="" target="_blank"><img src="bundles/wemsmartgear/icons/icon_sql.png" alt="Télécharger la base de données" width="14" height="16"></a>
-						<?php endif; ?>	
-
-						<a href="<?= $this->addToUrl('&act=restore&backup='.$b['zipPath']) ?>" title=""><img src="bundles/wemsmartgear/icons/icon_restore.png" alt="Restaurer le back-up" width="14" height="16"></a>
+						<a href="<?= $this->addToUrl('&act=download&backup='.$backup->basename) ?>" title="" target="_blank">
+							<img src="bundles/wemsmartgear/icons/icon_zip.png" alt="Télécharger le back-up" width="12" height="16">
+						</a>
+						<a href="<?= $this->addToUrl('&act=restore&backup='.$backup->basename) ?>" title="">
+							<img src="bundles/wemsmartgear/icons/icon_restore.png" alt="Restaurer le back-up" width="14" height="16">
+						</a>
+						<a href="<?= $this->addToUrl('&act=delete&backup='.$backup->basename) ?>" title="" onclick="return confirm('Are you sure?')">
+							<i class="fa fa-trash"></i>&nbsp;
+						</a>
 					</td>
 				</tr>
 				<?php endforeach; ?>
+				<?php if($this->empty): ?>
+				<tr>
+					<td colspan="3">Pas de backup disponible</td>
+				</tr>
+				<?php endif; ?>
 			</tbody>
 		</table>
 	</div>
-
-	<?php if($this->empty): ?>
-	<p>Pas de backup disponible</p>
-	<?php else: ?>
-	
-	<?php endif; ?>
 </div>

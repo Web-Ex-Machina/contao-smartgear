@@ -1,4 +1,4 @@
-<!-- <!-- Load Libraries -->
+<!-- Load Libraries -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -8,7 +8,7 @@
 <?= Message::generate(); ?>
 
 <div id="tl_buttons">
-  <a href="<?= $this->request ?>" class="executeCmdPhp" data-cmd="cache:clear" title="Refresh Cache" accesskey="b">Refresh Cache</a>
+  <a href="<?= $this->request ?>" class="executeCmdPhp" data-cmd="cache:clear" title="Refresh Cache" accesskey="r">Refresh Cache</a>
   <a href="<?= ampersand($this->backupManagerBtnHref) ?>" title="<?= Contao\StringUtil::specialchars($this->backupManagerBtnTitle) ?>" accesskey="b"><?= $this->backupManagerBtnButton ?></a>
 </div>
 
