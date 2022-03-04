@@ -22,6 +22,9 @@ use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException as BackupManagerException;
 use Contao\CoreBundle\Doctrine\Backup\Config\RestoreConfig;
 use Contao\CoreBundle\Doctrine\Backup\Backup;
+use Contao\Folder;
+use WEM\SmartgearBundle\Backup\Results\CreateResult;
+use WEM\SmartgearBundle\Backup\Results\RestoreResult;
 
 class BackupManager
 {
@@ -57,11 +60,12 @@ class BackupManager
     /**
      * Create a new backup.
      *
-     * @return File The zipped backup
+     * @return CreateResult The backup result
      */
-    public function new(): File
+    public function new(): CreateResult
     {
         try {
+            $result = new CreateResult();
             $path = $this->getNewBackupPath();
 
             $backupArchive = new ZipWriter($path);
@@ -72,24 +76,29 @@ class BackupManager
             $databaseBackup = $databaseBackupConfig->getBackup();
 
             $backupArchive->addFile($this->databaseBackupDirectory.\DIRECTORY_SEPARATOR.$databaseBackup->getFilename());
+            $result->addFileBackuped($this->databaseBackupDirectory.\DIRECTORY_SEPARATOR.$databaseBackup->getFilename());
 
             foreach ($this->artifactsToBackup as $artifactPath) {
                 if (is_file($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath)) {
                     $backupArchive->addFile($artifactPath);
+                    $result->addFileBackuped($artifactPath);
                 } else {
                     $files = Util::getFileList($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath);
                     foreach ($files as $filePath) {
                         $backupArchive->addFile(str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath));
+                        $result->addFileBackuped(str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath));
                     }
                 }
             }
 
             $backupArchive->close();
+
+            $result->setBackup(new File($path));
         } catch (\Exception $e) {
             throw new BackupManagerException('Une erreur est survenue lors de la création du backup : '.$e->getMessage(), $e->getCode(), $e);
         }
 
-        return new File($path);
+        return $result;
     }
 
     public function list(): array
@@ -101,7 +110,7 @@ class BackupManager
                 $objFiles[] = new File(str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath));
             }
 
-             usort($objFiles, static fn (File $a, File $b) => $b->ctime <=> $a->ctime);
+            usort($objFiles, static fn (File $a, File $b) => $b->ctime <=> $a->ctime);
 
         } catch (\Exception $e) {
             throw new BackupManagerException('Une erreur est survenue lors de la récupération de la liste des backups : '.$e->getMessage(), $e->getCode(), $e);
@@ -110,27 +119,26 @@ class BackupManager
         return $objFiles;
     }
 
-    public function restore(string $backupName): array
+    public function restore(string $backupName): RestoreResult
     {
         try{
+            $result = new RestoreResult();
+            $result->setBackup(new File($this->getBackupFullPath($backupName)));
             $backup = new ZipReader($this->getBackupFullPath($backupName));
 
             // 1) we delete the files / empty the dirs from $this->artifactsToBackup
             // 2) we restore files
-            // 3) we delete the DB
-            // 4) we restore the DB
+            // 3) we restore the DB (Contao's DB backup manager handles the deletion before restoration)
 
-            // Here we'll delete what need to be deleted
+            // 1) Here we'll delete what need to be deleted
+            $result->setFilesDeleted($this->cleanArtifactsBeforeRestore());
 
+            // 2) Restore the files
             $i = 0;
-            $backupPath = '';
-            $files = $backup->getFileList();
-            $logs[] = 'Import files: '.\count($files).' to import';
-            $backupPath = $backup->first()->current()['file_name'];
+            $databaseBackupPath = $backup->first()->current()['file_name'];
             $backup->reset();
             while ($backup->next()) {
                 $strFilename = $backup->current()['file_name'];
-                $logs[] = 'File to import: '.$strFilename;
 
                 $strContent = $backup->unzip();
 
@@ -139,27 +147,43 @@ class BackupManager
                 $objFile->write($strContent);
 
                 if ($strContent !== $objFile->getContent()) {
-                    $logs[] = 'File was not imported correctly';
+                    $result->addFileInError($strFilename);
                 } else {
+                    $result->addFileRestored($strFilename);
                     ++$i;
                 }
 
                 $objFile->close();
 
             }
-            $logs[] = 'End of process: '.$i.'/'.\count($files).' files imported';
 
-            // now files are in place, time to play our DB backup
-            $config = new RestoreConfig(new Backup(\basename($backupPath)));
+            // 3) now files are in place, time to play our DB backup
+            $config = new RestoreConfig(new Backup(\basename($databaseBackupPath)));
             $this->databaseBackupManager->restore($config);
-
-            $logs[] = 'Database restored';
+            $result->setDatabaseRestored(true);
 
         } catch (\Exception $e) {
             throw new BackupManagerException('Une erreur est survenue lors de la restauration du backup : '.$e->getMessage(), $e->getCode(), $e);
         }
 
-        return $logs;
+        return $result;
+    }
+
+    protected function cleanArtifactsBeforeRestore(): array
+    {
+        $filesDeleted = [];
+        foreach ($this->artifactsToBackup as $artifactPath) {
+            if (is_file($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath)) {
+                unlink($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath);
+                $filesDeleted[] = $artifactPath;
+            } else {
+                $folder = new Folder($artifactPath);
+                $folder->purge();
+                $filesDeleted[] = $folder->name;
+            }
+        }
+
+        return $filesDeleted;
     }
 
     protected function getNewBackupPath(): string
@@ -171,4 +195,5 @@ class BackupManager
     {
         return $this->backupDirectory.\DIRECTORY_SEPARATOR.$backupName;
     }
+
 }

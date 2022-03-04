@@ -28,7 +28,7 @@ class BackupListCommand extends AbstractBackupCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-
+        $io->title('Backup list');
         try {
             $backups = $this->backupManager->list();
         } catch (BackupManagerException $e) {

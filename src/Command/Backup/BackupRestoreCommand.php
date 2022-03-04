@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use WEM\SmartgearBundle\Backup\Results\RestoreResult;
 
 class BackupRestoreCommand extends AbstractBackupCommand
 {
@@ -28,11 +29,14 @@ class BackupRestoreCommand extends AbstractBackupCommand
     {
         $io = new SymfonyStyle($input, $output);
 
+        $io->title('Backup restoration');
+
         try {
             if (empty($input->getOption('backup'))) {
                 throw new \Exception('Argument "backup" not defined');
             }
-            $logs = $this->backupManager->restore($input->getOption('backup'));
+            /** @var RestoreResult */
+            $result = $this->backupManager->restore($input->getOption('backup'));
         } catch (\Exception $e) {
             if ($this->isJson($input)) {
                 $io->writeln(json_encode(['error' => $e->getMessage()]));
@@ -44,12 +48,17 @@ class BackupRestoreCommand extends AbstractBackupCommand
         }
 
         if ($this->isJson($input)) {
-            $io->writeln($this->formatForJson($logs));
+            $io->writeln($this->formatForJson($result));
 
             return 0;
         }
 
-        $io->table(['Results'], $this->formatForTable($logs));
+        $io->table(['File', 'Status'], $this->formatForTable($result));
+        if (empty($result->getFilesInError())) {
+            $io->success(sprintf('Successfully restored backup "%s".', $result->getBackup()->basename));
+        } else {
+            $io->error(sprintf('Something went wrong during backup "%s" restoration.', $result->getBackup()->basename));
+        }
 
         return 0;
     }
@@ -62,23 +71,33 @@ class BackupRestoreCommand extends AbstractBackupCommand
         ;
     }
 
-    private function formatForTable(array $logs): array
+    private function formatForTable(RestoreResult $result): array
     {
         $formatted = [];
-        foreach ($logs as $log) {
-            $formatted[] = [$log];
+        foreach ($result->getFilesDeleted() as $filepath) {
+            $formatted[] = [$filepath, 'deleted'];
+        }
+        foreach ($result->getFilesInError() as $filepath) {
+            $formatted[] = [$filepath, 'not restored'];
+        }
+        foreach ($result->getFilesRestored() as $filepath) {
+            $formatted[] = [$filepath, 'restored'];
         }
 
         return $formatted;
     }
 
-    private function formatForJson(array $logs): string
+    private function formatForJson(RestoreResult $result): string
     {
-        $json = [];
-
-        foreach ($logs as $log) {
-            $json[] = ['log' => $log];
-        }
+        $json = [
+            'backup' => $result->getBackup()->basename,
+            'database_restored' => $result->getDatabaseRestored(),
+            'files' => [
+                'deleted' => $result->getFilesDeleted(),
+                'not_restored' => $result->getFilesInError(),
+                'restored' => $result->getFilesRestored(),
+            ],
+        ];
 
         return json_encode($json);
     }

@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Command\Backup;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use WEM\SmartgearBundle\Backup\Results\CreateResult;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException as BackupManagerException;
 
 class BackupCreateCommand extends AbstractBackupCommand
@@ -28,8 +29,11 @@ class BackupCreateCommand extends AbstractBackupCommand
     {
         $io = new SymfonyStyle($input, $output);
 
+        $io->title('Backup creation');
+
         try {
-            $backup = $this->backupManager->new();
+            /** @var CreateResult */
+            $result = $this->backupManager->new();
         } catch (BackupManagerException $e) {
             if ($this->isJson($input)) {
                 $io->writeln(json_encode(['error' => $e->getMessage()]));
@@ -41,13 +45,37 @@ class BackupCreateCommand extends AbstractBackupCommand
         }
 
         if ($this->isJson($input)) {
-            $io->writeln(json_encode(['backup' => $backup->basename]));
+            $io->writeln(json_encode([
+                'backup' => $result->getBackup()->basename,
+                'files' => [
+                    'not_backuped' => $result->getFilesInError(),
+                    'backuped' => $result->getFilesBackuped(),
+                ],
+            ]));
 
             return 0;
         }
 
-        $io->success(sprintf('Successfully created backup "%s".', $backup->basename));
+        $io->table(['File', 'Status'], $this->formatForTable($result));
+        if (empty($result->getFilesInError())) {
+            $io->success(sprintf('Successfully created backup "%s".', $result->getBackup()->basename));
+        } else {
+            $io->error(sprintf('Something went wrong during backup "%s" creation.', $result->getBackup()->basename));
+        }
 
         return 0;
+    }
+
+    private function formatForTable(CreateResult $result): array
+    {
+        $formatted = [];
+        foreach ($result->getFilesInError() as $filepath) {
+            $formatted[] = [$filepath, 'not backuped'];
+        }
+        foreach ($result->getFilesBackuped() as $filepath) {
+            $formatted[] = [$filepath, 'backuped'];
+        }
+
+        return $formatted;
     }
 }
