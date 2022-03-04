@@ -1,0 +1,203 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Smartgear Backup API
+  description: API to manage Smartgear's backups
+
+security:
+  - token: []
+
+paths:
+  /list:
+    get:
+      summary: Returns a list of backups
+      parameters:
+      - name: "limit"
+        in: "query"
+        description: The number of results to retrieve
+        required: false
+        schema:
+          type: integer
+      - name: "offset"
+        in: "query"
+        description: The offset
+        required: false
+        schema:
+          type: integer
+      - name: "before"
+        in: "query"
+        description: Retrieve results dating before this timestamp
+        required: false
+        schema:
+          type: integer
+      - name: "after"
+        in: "query"
+        description: Retrieve results dating after this timestamp
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/ListResponse"
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:           
+                  message:
+                    type: string
+  /create:
+    post:
+      summary: Create a new backup
+      responses:
+        '200':
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/CreateResponse"
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:           
+                  message:
+                    type: string
+  /get/{backupname}:
+    get:
+      summary: Get a backup
+      parameters:
+        - name: backupname
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/GetResponse"
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:           
+                  message:
+                    type: string
+  /delete/{backupname}:
+    post:
+      summary: Delete a backup
+      parameters:
+        - name: backupname
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:           
+                  message:
+                    type: string
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:           
+                  message:
+                    type: string
+  /restore/{backupname}:
+    post:
+      summary: Restore a backup
+      parameters:
+        - name: backupname
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:           
+                  message:
+                    type: string
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:           
+                  message:
+                    type: string
+
+components:
+  securitySchemes:
+    token:        # arbitrary name for the security scheme
+      type: apiKey
+      in: query       # can be "header", "query" or "cookie"
+      name: token  # name of the header, query parameter or cookie
+  schemas:
+    ListResponse:
+      type: "object"
+      required:
+      - "total"
+      - "backups"
+      properties:
+        total:
+          type: "integer"
+          format: "int64"
+        backups:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Backup"
+
+    CreateResponse:
+      type: "object"
+      required:
+      - "backup"
+      properties:
+        backup:
+          $ref: "#/components/schemas/Backup"
+
+    GetResponse:
+      type: "object"
+      required:
+      - "backup"
+      properties:
+        backup:
+          $ref: "#/components/schemas/Backup"
+
+    Backup:
+      type: "object"
+      required:
+      - "path"
+      - "timestamp"
+      properties:
+        path:
+          type: "string"
+        timestamp:
+          type: "integer"
+          format: "int64"

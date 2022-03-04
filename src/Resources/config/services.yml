@@ -1,4 +1,9 @@
 services:
+    # smartgear.controller.api:
+    #     # resource: ../src/Controller/ApiController
+    #     class: WEM\SmartgearBundle\Controller/ApiController
+    #     public: true
+
     smartgear.backend.backupservice:
         class: WEM\SmartgearBundle\Backup\BackupService
         arguments:

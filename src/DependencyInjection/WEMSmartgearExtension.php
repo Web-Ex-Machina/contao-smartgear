@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 /**
- * GRID for Contao Open Source CMS
- * Copyright (c) 2015-2020 Web ex Machina
+ * SMARTGEAR for Contao Open Source CMS
+ * Copyright (c) 2015-2022 Web ex Machina
  *
  * @category ContaoBundle
- * @package  Web-Ex-Machina/contao-grid
+ * @package  Web-Ex-Machina/contao-smartgear
  * @author   Web ex Machina <contact@webexmachina.fr>
- * @link     https://github.com/Web-Ex-Machina/contao-grid/
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
 namespace WEM\SmartgearBundle\DependencyInjection;
@@ -37,5 +37,13 @@ class WEMSmartgearExtension extends Extension
         );
 
         $loader->load('services.yml');
+        $loader->load('routing.yml');
+    }
+
+    public function getAlias()
+    {
+        dump('coucou');
+
+        return 'wem_smartgear';
     }
 }

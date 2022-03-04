@@ -1,0 +1,3 @@
+wem_smartgear:
+    resource: '@WebexmachinaSmartgearBundle/Controller'
+    type: annotation
