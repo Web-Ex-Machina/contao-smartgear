@@ -19,20 +19,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Terminal42\ServiceAnnotationBundle\Annotation\ServiceTag;
-use WEM\SmartgearBundle\Backup\BackupManager;
+use WEM\SmartgearBundle\Api\Backup\V1\Api;
+use Contao\CoreBundle\Framework\ContaoFramework;
 
 /**
  * @Route("/api/backup/v1")
  * @ServiceTag("controller.service_arguments")
  */
-class v1Controller extends Controller
+class V1Controller extends Controller
 {
-    /** @var BackupManager */
-    protected $backupManager;
+    /** @var Api */
+    protected $api;
+    protected ContaoFramework $framework;
 
-    public function __construct(BackupManager $backupManager)
+    public function __construct(ContaoFramework $framework, Api $api)
     {
-        $this->backupManager = $backupManager;
+        $this->framework = $framework;
+        $this->api = $api;
+        $this->framework->initialize();
     }
 
     /**
@@ -44,6 +48,8 @@ class v1Controller extends Controller
      */
     public function indexAction(Request $request)
     {
-        return new Response('INDEX BACKUP V1!');
+        // dump($request);
+
+        return new Response(json_encode($this->api->list(10, 0)));
     }
 }

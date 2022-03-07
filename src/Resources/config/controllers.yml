@@ -1,12 +1,13 @@
 services:
     # We must do it this way if we want to be able to use dependency injections.
     # File your complaints to Symfony
-    WEM\SmartgearBundle\Controller\Api\Backup\v1Controller:
+    WEM\SmartgearBundle\Controller\Api\Backup\V1Controller:
         alias: 'smartgear.controller.api.backup.v1'
         public: true
 
-    smartgear.controller.api.backup.v1:  
-        class: WEM\SmartgearBundle\Controller\Api\Backup\v1Controller
+    smartgear.controller.api.backup.v1:
+        class: WEM\SmartgearBundle\Controller\Api\Backup\V1Controller
         arguments:
-            $backupManager : '@smartgear.backup.backup_manager'
+            $framework: '@contao.framework'
+            $api : '@smartgear.api.backup.v1.api'
         public: true

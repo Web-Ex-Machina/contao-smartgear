@@ -11,6 +11,7 @@ paths:
   /list:
     get:
       summary: Returns a list of backups
+      operationId: list
       parameters:
       - name: "limit"
         in: "query"
@@ -55,6 +56,7 @@ paths:
   /create:
     post:
       summary: Create a new backup
+      operationId: create
       responses:
         '200':
           description: "successful operation"
@@ -74,6 +76,7 @@ paths:
   /get/{backupname}:
     get:
       summary: Get a backup
+      operationId: get
       parameters:
         - name: backupname
           in: path
@@ -99,6 +102,7 @@ paths:
   /delete/{backupname}:
     post:
       summary: Delete a backup
+      operationId: delete
       parameters:
         - name: backupname
           in: path
@@ -127,6 +131,7 @@ paths:
   /restore/{backupname}:
     post:
       summary: Restore a backup
+      operationId: restore
       parameters:
         - name: backupname
           in: path

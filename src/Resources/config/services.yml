@@ -242,3 +242,9 @@ services:
     smartgear.model.backup:
         class: WEM\SmartgearBundle\Model\Backup
         public: true
+
+    smartgear.api.backup.v1.api:
+        class: WEM\SmartgearBundle\Api\Backup\V1\Api
+        arguments:
+            $backupManager : '@smartgear.backup.backup_manager'
+        public: true
