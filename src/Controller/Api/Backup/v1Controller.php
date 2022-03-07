@@ -12,19 +12,31 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Controller;
+namespace WEM\SmartgearBundle\Controller\Api\Backup;
 
+use Contao\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Terminal42\ServiceAnnotationBundle\Annotation\ServiceTag;
+use WEM\SmartgearBundle\Backup\BackupManager;
 
 /**
- * @Route("/api")
+ * @Route("/api/backup/v1")
+ * @ServiceTag("controller.service_arguments")
  */
-class ApiController
+class v1Controller extends Controller
 {
+    /** @var BackupManager */
+    protected $backupManager;
+
+    public function __construct(BackupManager $backupManager)
+    {
+        $this->backupManager = $backupManager;
+    }
+
     /**
-     * @Route("/", name="content_api_auto")
+     * @Route("/")
      *
      * @param Request $request Current request
      *
@@ -32,6 +44,6 @@ class ApiController
      */
     public function indexAction(Request $request)
     {
-        return new Response('INDEX!');
+        return new Response('INDEX BACKUP V1!');
     }
 }

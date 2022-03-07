@@ -1,8 +1,4 @@
 services:
-    # smartgear.controller.api:
-    #     # resource: ../src/Controller/ApiController
-    #     class: WEM\SmartgearBundle\Controller/ApiController
-    #     public: true
 
     smartgear.backend.backupservice:
         class: WEM\SmartgearBundle\Backup\BackupService
@@ -243,53 +239,6 @@ services:
                 - '+tl_undo'
         public: true
 
-    smartgear.command.backup.abstract:
-        class: WEM\SmartgearBundle\Command\Backup\AbstractBackupCommand
-        arguments:
-            $backupManager : '@smartgear.backup.backup_manager'
-            $framework: '@contao.framework'
-        # tags:
-            # - { name: 'console.command'}
-        public: true
-
-    smartgear.command.backup.create:
-        class: WEM\SmartgearBundle\Command\Backup\BackupCreateCommand
-        arguments:
-            $backupManager : '@smartgear.backup.backup_manager'
-            $framework: '@contao.framework'
-        tags:
-            - { name: 'console.command'}
-        public: true
-
-    smartgear.command.backup.list:
-        class: WEM\SmartgearBundle\Command\Backup\BackupListCommand
-        arguments:
-            $backupManager : '@smartgear.backup.backup_manager'
-            $framework: '@contao.framework'
-        tags:
-            - { name: 'console.command'}
-        public: true
-
-    smartgear.command.backup.restore:
-        class: WEM\SmartgearBundle\Command\Backup\BackupRestoreCommand
-        arguments:
-            $backupManager : '@smartgear.backup.backup_manager'
-            $framework: '@contao.framework'
-        tags:
-            - { name: 'console.command'}
-        public: true
-
-    smartgear.command.backup.delete:
-        class: WEM\SmartgearBundle\Command\Backup\BackupDeleteCommand
-        arguments:
-            $backupManager : '@smartgear.backup.backup_manager'
-            $framework: '@contao.framework'
-        tags:
-            - { name: 'console.command'}
-        public: true
-
     smartgear.model.backup:
         class: WEM\SmartgearBundle\Model\Backup
         public: true
-
-    
