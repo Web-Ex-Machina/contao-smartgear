@@ -86,6 +86,11 @@ array_insert($GLOBALS['FE_MOD'], 2, [
 ]);
 
 /*
+ * Models
+ */
+$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\Backup::getTable()] = WEM\SmartgearBundle\Model\Backup::class;
+
+/*
  * Add BE Hooks
  */
 if ('BE' === TL_MODE) {

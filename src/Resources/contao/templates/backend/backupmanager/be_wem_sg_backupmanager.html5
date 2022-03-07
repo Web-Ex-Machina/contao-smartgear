@@ -32,7 +32,7 @@
 					<th class="tl_folder_tlist col_name">Name</th>
 					<th class="tl_folder_tlist tl_right_nowrap"></th>
 				</tr>
-				<?php foreach($this->backups as $backup): ?>
+				<?php foreach($this->backups->getBackups() as $backup): ?>
 				<tr class="even click2edit toggle_select hover-row">
 					<td colspan="1" class="tl_file_list col_date"><?= \DateTime::createFromFormat('U', (string) $backup->ctime)->format('d/m/Y H:i:s') ?></td>
 					<td colspan="1" class="tl_file_list col_name"><?= $backup->basename ?></td>

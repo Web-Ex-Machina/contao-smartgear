@@ -287,3 +287,7 @@ services:
         tags:
             - { name: 'console.command'}
         public: true
+
+    smartgear.model.backup:
+        class: WEM\SmartgearBundle\Model\Backup
+        public: true

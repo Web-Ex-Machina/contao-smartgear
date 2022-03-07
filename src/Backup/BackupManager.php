@@ -14,17 +14,19 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backup;
 
+use Contao\CoreBundle\Doctrine\Backup\Backup;
 use Contao\CoreBundle\Doctrine\Backup\BackupManager as DatabaseBackupManager;
+use Contao\CoreBundle\Doctrine\Backup\Config\RestoreConfig;
 use Contao\File;
-use Contao\ZipWriter;
+use Contao\Folder;
 use Contao\ZipReader;
+use Contao\ZipWriter;
+use WEM\SmartgearBundle\Backup\Results\CreateResult;
+use WEM\SmartgearBundle\Backup\Results\ListResult;
+use WEM\SmartgearBundle\Backup\Results\RestoreResult;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException as BackupManagerException;
-use Contao\CoreBundle\Doctrine\Backup\Config\RestoreConfig;
-use Contao\CoreBundle\Doctrine\Backup\Backup;
-use Contao\Folder;
-use WEM\SmartgearBundle\Backup\Results\CreateResult;
-use WEM\SmartgearBundle\Backup\Results\RestoreResult;
+use WEM\SmartgearBundle\Model\Backup as BackupModel;
 
 class BackupManager
 {
@@ -53,6 +55,7 @@ class BackupManager
         $this->backupDirectory = $backupDirectory;
         $this->databaseBackupDirectory = $databaseBackupDirectory;
         $this->databaseBackupManager = $databaseBackupManager;
+        $this->model = $model;
         $this->artifactsToBackup = $artifactsToBackup;
         $this->tablesToIgnore = $tablesToIgnore;
     }
@@ -94,6 +97,13 @@ class BackupManager
             $backupArchive->close();
 
             $result->setBackup(new File($path));
+
+            $model = new BackupModel();
+            $model->tstamp = time();
+            $model->createdAt = time();
+            $model->name = $result->getBackup()->basename;
+            $model->files = implode(',', $result->getFiles());
+            $model->save();
         } catch (\Exception $e) {
             throw new BackupManagerException('Une erreur est survenue lors de la création du backup : '.$e->getMessage(), $e->getCode(), $e);
         }
@@ -101,27 +111,37 @@ class BackupManager
         return $result;
     }
 
-    public function list(): array
+    public function list(int $limit, int $offset, ?int $before = null, ?int $after = null): ListResult
     {
         try {
-            $objFiles = [];
-            $files = Util::getFileList($this->rootDir.\DIRECTORY_SEPARATOR.$this->backupDirectory);
-            foreach ($files as $filePath) {
-                $objFiles[] = new File(str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath));
+            $arrConfig = [];
+            if (null !== $before) {
+                $arrConfig['before'] = $before;
             }
-
-            usort($objFiles, static fn (File $a, File $b) => $b->ctime <=> $a->ctime);
-
+            if (null !== $after) {
+                $arrConfig['after'] = $after;
+            }
+            $models = BackupModel::findItems($arrConfig, $limit, $offset);
+            $count = BackupModel::countItems($arrConfig);
+            $result = new ListResult();
+            $result
+                ->setTotal($count)
+                ->setLimit($limit)
+                ->setOffset($offset)
+            ;
+            foreach ($models as $model) {
+                $result->addBackup(new File($this->getBackupPath($model->name)));
+            }
         } catch (\Exception $e) {
             throw new BackupManagerException('Une erreur est survenue lors de la récupération de la liste des backups : '.$e->getMessage(), $e->getCode(), $e);
         }
 
-        return $objFiles;
+        return $result;
     }
 
     public function get(string $backupName): File
     {
-        if(!file_exists($this->getBackupFullPath($backupName))){
+        if (!file_exists($this->getBackupFullPath($backupName))) {
             throw new BackupManagerException('Le backup n\'existe pas');
         }
 
@@ -130,7 +150,7 @@ class BackupManager
 
     public function restore(string $backupName): RestoreResult
     {
-        try{
+        try {
             $result = new RestoreResult();
             $result->setBackup(new File($this->getBackupPath($backupName)));
             $backup = new ZipReader($this->getBackupPath($backupName));
@@ -161,10 +181,9 @@ class BackupManager
             }
 
             // 3) now files are in place, time to play our DB backup
-            $config = new RestoreConfig(new Backup(\basename($databaseBackupPath)));
+            $config = new RestoreConfig(new Backup(basename($databaseBackupPath)));
             $this->databaseBackupManager->restore($config);
             $result->setDatabaseRestored(true);
-
         } catch (\Exception $e) {
             throw new BackupManagerException('Une erreur est survenue lors de la restauration du backup : '.$e->getMessage(), $e->getCode(), $e);
         }
@@ -174,9 +193,12 @@ class BackupManager
 
     public function delete(string $backupName): bool
     {
-        if(!file_exists($this->getBackupFullPath($backupName))){
-            throw new BackupManagerException(sprintf('Le backup a supprimer n\'existe pas (%s)',$this->getBackupFullPath($backupName)));
+        if (!file_exists($this->getBackupFullPath($backupName))) {
+            throw new BackupManagerException(sprintf('Le backup a supprimer n\'existe pas (%s)', $this->getBackupFullPath($backupName)));
         }
+
+        $model = BackupModel::findBy('name', $backupName);
+        $model->delete();
 
         return unlink($this->getBackupFullPath($backupName));
     }
@@ -186,7 +208,7 @@ class BackupManager
         $filesDeleted = [];
         foreach ($this->artifactsToBackup as $artifactPath) {
             $fullPath = $this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath;
-            if(file_exists($fullPath)){
+            if (file_exists($fullPath)) {
                 if (is_file($fullPath)) {
                     unlink($fullPath);
                     $filesDeleted[] = $artifactPath;
@@ -215,5 +237,4 @@ class BackupManager
     {
         return $this->rootDir.\DIRECTORY_SEPARATOR.$this->getBackupPath($backupName);
     }
-
 }

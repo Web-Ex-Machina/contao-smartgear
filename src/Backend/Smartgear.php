@@ -293,7 +293,12 @@ class Smartgear extends \Contao\BackendModule
         }
 
         // Retrieve backups
-        $arrBackups = $this->backupManager->list();
+        $arrBackups = $this->backupManager->list(
+            Input::get('limit') ?? 10,
+            Input::get('offset') ?? 0,
+            Input::get('before'),
+            Input::get('after'),
+        );
         if (!$arrBackups) {
             $this->Template->empty = true;
         } else {
