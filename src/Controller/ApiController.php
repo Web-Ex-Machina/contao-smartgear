@@ -19,12 +19,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api", name=ApiController::class)
+ * @Route("/api")
  */
 class ApiController
 {
-    public function __invoke(Request $request): Response
+    /**
+     * @Route("/", name="content_api_auto")
+     *
+     * @param Request $request Current request
+     *
+     * @return Response
+     */
+    public function indexAction(Request $request)
     {
-        return new Response('Hello World!');
+        return new Response('INDEX!');
     }
 }

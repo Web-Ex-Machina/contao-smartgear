@@ -37,13 +37,6 @@ class WEMSmartgearExtension extends Extension
         );
 
         $loader->load('services.yml');
-        $loader->load('routing.yml');
-    }
-
-    public function getAlias()
-    {
-        dump('coucou');
-
-        return 'wem_smartgear';
+        // $loader->load('routing.yml');
     }
 }

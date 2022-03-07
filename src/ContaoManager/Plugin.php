@@ -18,6 +18,9 @@ use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
+use Contao\ManagerPlugin\Routing\RoutingPluginInterface;
+use Symfony\Component\Config\Loader\LoaderResolverInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use WEM\SmartgearBundle\WEMSmartgearBundle;
 
 /**
@@ -25,7 +28,7 @@ use WEM\SmartgearBundle\WEMSmartgearBundle;
  *
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
-class Plugin implements BundlePluginInterface
+class Plugin implements BundlePluginInterface, RoutingPluginInterface
 {
     /**
      * {@inheritdoc}
@@ -37,5 +40,16 @@ class Plugin implements BundlePluginInterface
                 ->setLoadAfter([ContaoCoreBundle::class])
                 ->setReplace(['wem-smartgear']),
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel)
+    {
+        return $resolver
+            ->resolve(__DIR__.'/../Resources/config/routing.yml')
+            ->load(__DIR__.'/../Resources/config/routing.yml')
+        ;
     }
 }
