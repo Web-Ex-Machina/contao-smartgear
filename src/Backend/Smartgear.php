@@ -293,18 +293,24 @@ class Smartgear extends \Contao\BackendModule
         }
 
         // Retrieve backups
-        $arrBackups = $this->backupManager->list(
-            Input::get('limit') ?? 10,
-            Input::get('offset') ?? 0,
+        $page = Input::get('page') ?? 1;
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        $listResults = $this->backupManager->list(
+            $limit,
+            $offset,
             Input::get('before'),
             Input::get('after'),
         );
-        if (!$arrBackups) {
+        if (!$listResults) {
             $this->Template->empty = true;
         } else {
             $this->Template->empty = false;
-            $this->Template->backups = $arrBackups;
+            $this->Template->backups = $listResults;
         }
+
+        $objPagination = new \Contao\Pagination($listResults->getTotal(), $listResults->getLimit());
+        $this->Template->pagination = $objPagination->generate("\n  ");
 
         // Back button
         $this->getBackButton(str_replace('&key=backupmanager', '', Environment::get('request')));

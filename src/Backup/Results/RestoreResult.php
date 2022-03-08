@@ -23,6 +23,21 @@ class RestoreResult extends AbstractResult
     /** @var bool */
     protected $databaseRestored = false;
 
+    public function getFilesReplacedByRestore(): array
+    {
+        return array_intersect($this->filesDeleted, $this->filesRestored);
+    }
+
+    public function getFilesDeletedByRestore(): array
+    {
+        return array_diff($this->filesDeleted, $this->filesRestored);
+    }
+
+    public function getFilesAddedByRestore(): array
+    {
+        return array_diff($this->filesRestored, $this->filesDeleted);
+    }
+
     public function getFilesRestored(): array
     {
         return $this->filesRestored;

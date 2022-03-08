@@ -74,7 +74,7 @@ class BackupManager
             $backupArchive = new ZipWriter($path);
 
             $databaseBackupConfig = $this->databaseBackupManager->createCreateConfig();
-            $databaseBackupConfig->withTablesToIgnore($this->tablesToIgnore);
+            $databaseBackupConfig = $databaseBackupConfig->withTablesToIgnore($this->tablesToIgnore);
             $this->databaseBackupManager->create($databaseBackupConfig);
             $databaseBackup = $databaseBackupConfig->getBackup();
 
@@ -182,6 +182,7 @@ class BackupManager
 
             // 3) now files are in place, time to play our DB backup
             $config = new RestoreConfig(new Backup(basename($databaseBackupPath)));
+            $config = $config->withTablesToIgnore($this->tablesToIgnore);
             $this->databaseBackupManager->restore($config);
             $result->setDatabaseRestored(true);
         } catch (\Exception $e) {
@@ -213,9 +214,14 @@ class BackupManager
                     unlink($fullPath);
                     $filesDeleted[] = $artifactPath;
                 } else {
+                    $files = Util::getFileList($fullPath);
+                    foreach ($files as $filePath) {
+                        unlink($filePath);
+                        $filesDeleted[] = str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath);
+                    }
                     $folder = new Folder($artifactPath);
                     $folder->purge();
-                    $filesDeleted[] = $folder->name;
+                    // $filesDeleted[] = $folder->name;
                 }
             }
         }

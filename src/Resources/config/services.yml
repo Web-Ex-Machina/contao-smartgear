@@ -250,6 +250,7 @@ services:
                 - '+tl_db_cache'
                 - '+tl_log'
                 - '+tl_undo'
+                - '+tl_sm_backup'
         public: true
 
     smartgear.model.backup:
