@@ -23,6 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Terminal42\ServiceAnnotationBundle\Annotation\ServiceTag;
 use WEM\SmartgearBundle\Api\Backup\V1\Api;
 use Contao\CoreBundle\Framework\ContaoFramework;
+use WEM\SmartgearBundle\Classes\Api\Security\Token;
 
 /**
  * @Route("/api/backup/v1")
@@ -33,11 +34,17 @@ class V1Controller extends Controller
     /** @var Api */
     protected $api;
     protected ContaoFramework $framework;
+    protected Token $securityToken;
 
-    public function __construct(ContaoFramework $framework, Api $api)
+    public function __construct(
+        ContaoFramework $framework, 
+        Api $api,
+        Token $securityToken
+    )
     {
         $this->framework = $framework;
         $this->api = $api;
+        $this->securityToken = $securityToken;
         $this->framework->initialize();
     }
 
@@ -51,6 +58,7 @@ class V1Controller extends Controller
     public function listAction(Request $request)
     {
         try{
+            $this->validateToken($request);
             return new Response(
                 $this->api->list(
                     $request->query->getInt('limit',10),
@@ -62,7 +70,7 @@ class V1Controller extends Controller
                 ['Content-Type'=>'application/json']
              );
         }catch(\Exception $e){
-            return new Response(json_encode($e), 400,['Content-Type'=>'application/json']);
+            return new Response(json_encode(['message'=>$e->getMessage()]), 400,['Content-Type'=>'application/json']);
         }
 
     }
@@ -77,13 +85,14 @@ class V1Controller extends Controller
     public function createAction(Request $request)
     {
         try{
+            $this->validateToken($request);
             return new Response(
                 $this->api->create()->toJson(),
                 200,
                 ['Content-Type'=>'application/json']
              );
         }catch(\Exception $e){
-            return new Response(json_encode($e), 400,['Content-Type'=>'application/json']);
+            return new Response(json_encode(['message'=>$e->getMessage()]), 400,['Content-Type'=>'application/json']);
         }
 
     }
@@ -95,9 +104,10 @@ class V1Controller extends Controller
      *
      * @return Response
      */
-    public function deleteAction(string $backupname)
+    public function deleteAction(Request $request, string $backupname)
     {
         try{
+            $this->validateToken($request);
             return new Response(
                 $this->api->delete($backupname),
                 200,
@@ -115,9 +125,10 @@ class V1Controller extends Controller
      *
      * @return Response
      */
-    public function restoreAction(string $backupname)
+    public function restoreAction(Request $request, string $backupname)
     {
         try{
+            $this->validateToken($request);
             return new Response(
                 $this->api->restore($backupname),
                 200,
@@ -135,9 +146,10 @@ class V1Controller extends Controller
      *
      * @return Response
      */
-    public function getAction(string $backupname)
+    public function getAction(Request $request, string $backupname)
     {
         try{
+            $this->validateToken($request);
             $file = $this->api->get($backupname);
             $response = new BinaryFileResponse($file->path);
             $response->headers->set('Content-Type', 'application/zip');
@@ -149,6 +161,14 @@ class V1Controller extends Controller
             return $response;
         }catch(\Exception $e){
             return new Response(json_encode(['message'=>$e->getMessage()]), 400,['Content-Type'=>'application/json']);
+        }
+    }
+
+    protected function validateToken(Request $request): void
+    {
+        // dump($request->query->get('token'));
+        if(!$this->securityToken->validate($request->query->get('token'))){
+            throw new \Exception('Invalid token "' .$request->query->get('token'). '"');
         }
     }
 }

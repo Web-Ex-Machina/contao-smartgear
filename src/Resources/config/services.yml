@@ -88,6 +88,19 @@ services:
             $htAccessFilePath: './.htaccess'
         public: true
 
+    smartgear.classes.api.security.api_key:
+        class: WEM\SmartgearBundle\Classes\Api\Security\ApiKey
+        arguments:
+            $framework: '@contao.framework'
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.classes.api.security.token:
+        class: WEM\SmartgearBundle\Classes\Api\Security\Token
+        arguments:
+            $framework: '@contao.framework'
+        public: true
+
     smartgear.config.manager.framway:
         class: WEM\SmartgearBundle\Config\Manager\Framway
         arguments:
@@ -243,8 +256,17 @@ services:
         class: WEM\SmartgearBundle\Model\Backup
         public: true
 
-    ######## API BACKUP ########
-    ############ V1 ############
+    ############ API SMARTGEAR V1 ############
+
+    smartgear.api.smartgear.v1.api:
+        class: WEM\SmartgearBundle\Api\Smartgear\V1\Api
+        arguments:
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+            $securityApiKey: '@smartgear.classes.api.security.api_key'
+            $securityToken: '@smartgear.classes.api.security.token'
+        public: true
+    #
+    ############ API BACKUP V1 ############
 
     smartgear.api.backup.v1.api:
         class: WEM\SmartgearBundle\Api\Backup\V1\Api
