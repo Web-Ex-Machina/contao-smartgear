@@ -26,7 +26,7 @@ class Token{
 
     public function define(): string
     {
-        $token = "klgjfbkdjfgbkjsdfhbg";
+        $token = str_replace(['=', '+', '/'], '', base64_encode(hash('sha256', random_bytes(20), true)));
         System::getContainer()->get('session')->set('token', $token);
         return $token;
     }
