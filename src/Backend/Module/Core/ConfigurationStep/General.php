@@ -68,6 +68,7 @@ class General extends ConfigurationStep
         $this->addTextField('sgAnalyticsGoogleId', 'Identifiant Google Analytics', $config->getSgAnalyticsGoogleId(), false);
         $this->addTextField('sgAnalyticsMatomoId', 'Identifiant Matomo', $config->getSgAnalyticsMatomoId(), false);
         $this->addTextField('sgAnalyticsMatomoHost', 'Host Matomo', $config->getSgAnalyticsMatomoHost(), false);
+        $this->addTextField('sgApiKey', 'Clef API', $config->getSgApiKey(), false);
     }
 
     public function isStepValid(): bool
@@ -96,6 +97,10 @@ class General extends ConfigurationStep
             }
         }
 
+        if (empty(Input::post('sgApiKey'))) {
+            throw new Exception('La clef API n\'est pas renseignée.');
+        }
+
         return true;
     }
 
@@ -122,6 +127,7 @@ class General extends ConfigurationStep
         $config->setSgAnalyticsGoogleId(Input::post('sgAnalyticsGoogleId'));
         $config->setSgAnalyticsMatomoId(Input::post('sgAnalyticsMatomoId'));
         $config->setSgAnalyticsMatomoHost(Input::post('sgAnalyticsMatomoHost'));
+        $config->setSgApiKey(Input::post('sgApiKey'));
 
         $this->configurationManager->save($config);
     }

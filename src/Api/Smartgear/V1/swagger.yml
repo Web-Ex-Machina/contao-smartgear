@@ -1,0 +1,68 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Smartgear API
+  description: API to manage Smartgear
+
+security:
+  - token: []
+
+paths:
+  /token:
+    get:
+      summary: Returns the token
+      operationId: token
+      security:
+        - apikey: []
+      responses:
+        '200':
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:           
+                  token:
+                    type: string
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:           
+                  message:
+                    type: string
+  /version:
+    get:
+      summary: Get the Smartgear current version
+      operationId: version
+      responses:
+        '200':
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:           
+                  version:
+                    type: string
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:           
+                  message:
+                    type: string
+components:
+  securitySchemes:
+    token:        # arbitrary name for the security scheme
+      type: apiKey
+      in: query       # can be "header", "query" or "cookie"
+      name: token  # name of the header, query parameter or cookie
+    apikey:        # arbitrary name for the security scheme
+      type: apiKey
+      in: query       # can be "header", "query" or "cookie"
+      name: apikey  # name of the header, query parameter or cookie
