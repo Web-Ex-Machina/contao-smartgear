@@ -243,8 +243,30 @@ services:
         class: WEM\SmartgearBundle\Model\Backup
         public: true
 
+    ######## API BACKUP ########
+    ############ V1 ############
+
     smartgear.api.backup.v1.api:
         class: WEM\SmartgearBundle\Api\Backup\V1\Api
         arguments:
             $backupManager : '@smartgear.backup.backup_manager'
+            $listResultToListResponseMapper: '@smartgear.api.backup.v1.model.mapper.list_result_to_list_response'
+            $createResultToCreateResponseMapper: '@smartgear.api.backup.v1.model.mapper.create_result_to_create_response'
         public: true
+
+    smartgear.api.backup.v1.model.list_response:
+        class: WEM\SmartgearBundle\Api\Backup\V1\Model\ListResponse
+        public: true
+
+    smartgear.api.backup.v1.model.Create_response:
+        class: WEM\SmartgearBundle\Api\Backup\V1\Model\CreateResponse
+        public: true
+
+    smartgear.api.backup.v1.model.mapper.list_result_to_list_response:
+        class: WEM\SmartgearBundle\Api\Backup\V1\Model\Mapper\ListResultToListResponse
+        public: true
+
+    smartgear.api.backup.v1.model.mapper.create_result_to_create_response:
+        class: WEM\SmartgearBundle\Api\Backup\V1\Model\Mapper\CreateResultToCreateResponse
+        public: true
+    
