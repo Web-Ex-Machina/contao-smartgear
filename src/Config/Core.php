@@ -43,6 +43,8 @@ class Core implements ConfigModuleInterface
     public const DEFAULT_USER_USERNAME = 'webmaster';
     public const DEFAULT_USER_GROUP_ADMIN_NAME = 'Administrateurs';
     public const DEFAULT_ROOTPAGE_CHMOD = 'a:12:{i:0;s:2:"u1";i:1;s:2:"u2";i:2;s:2:"u3";i:3;s:2:"u4";i:4;s:2:"u5";i:5;s:2:"u6";i:6;s:2:"g1";i:7;s:2:"g2";i:8;s:2:"g3";i:9;s:2:"g4";i:10;s:2:"g5";i:11;s:2:"g6";}';
+
+    public const DEFAULT_API_KEY = 'api-key-to-change';
     /** @var bool */
     protected $sgInstallComplete = false;
     /** @var string */
@@ -99,6 +101,8 @@ class Core implements ConfigModuleInterface
     protected $sgTheme = '';
     /** @var array */
     protected $sgModules = [];
+    /** @var string */
+    protected $sgApiKey = self::DEFAULT_API_KEY;
 
     public function reset(): self
     {
@@ -130,6 +134,7 @@ class Core implements ConfigModuleInterface
             ->setSgOwnerDpoName('')
             ->setSgOwnerDpoEmail('')
             ->setSgGoogleFonts(self::DEFAULT_GOOGLE_FONTS)
+            ->setSgApiKey(self::DEFAULT_API_KEY)
         ;
 
         return $this;
@@ -165,6 +170,7 @@ class Core implements ConfigModuleInterface
             ->setSgOwnerDpoName($json->owner->dpo->name ?? '')
             ->setSgOwnerDpoEmail($json->owner->dpo->email ?? '')
             ->setSgGoogleFonts($json->googleFonts ?? self::DEFAULT_GOOGLE_FONTS)
+            ->setSgApiKey($json->api->key ?? self::DEFAULT_API_KEY)
         ;
 
         return $this;
@@ -211,6 +217,9 @@ class Core implements ConfigModuleInterface
         $json->owner->dpo = new \stdClass();
         $json->owner->dpo->name = $this->getSgOwnerDpoName();
         $json->owner->dpo->email = $this->getSgOwnerDpoEmail();
+
+        $json->api = new \stdClass();
+        $json->api->key = $this->getSgApiKey();
 
         return json_encode($json, \JSON_PRETTY_PRINT);
     }
@@ -555,6 +564,18 @@ class Core implements ConfigModuleInterface
     public function setSgGoogleFonts(array $sgGoogleFonts): self
     {
         $this->sgGoogleFonts = $sgGoogleFonts;
+
+        return $this;
+    }
+
+    public function getSgApiKey(): string
+    {
+        return $this->sgApiKey;
+    }
+
+    public function setSgApiKey(string $sgApiKey): self
+    {
+        $this->sgApiKey = $sgApiKey;
 
         return $this;
     }

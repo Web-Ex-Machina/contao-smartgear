@@ -1,0 +1,26 @@
+services:
+    # We must do it this way if we want to be able to use dependency injections.
+    # File your complaints to Symfony
+    WEM\SmartgearBundle\Controller\Api\Backup\V1Controller:
+        alias: 'smartgear.controller.api.backup.v1'
+        public: true
+
+    smartgear.controller.api.backup.v1:
+        class: WEM\SmartgearBundle\Controller\Api\Backup\V1Controller
+        arguments:
+            $framework: '@contao.framework'
+            $api : '@smartgear.api.backup.v1.api'
+            $securityToken: '@smartgear.classes.api.security.token'
+        public: true
+
+    WEM\SmartgearBundle\Controller\Api\Smartgear\V1Controller:
+        alias: 'smartgear.controller.api.smartgear.v1'
+        public: true
+
+    smartgear.controller.api.smartgear.v1:
+        class: WEM\SmartgearBundle\Controller\Api\Smartgear\V1Controller
+        arguments:
+            $api: '@smartgear.api.smartgear.v1.api'
+            $securityApiKey: '@smartgear.classes.api.security.api_key'
+            $securityToken: '@smartgear.classes.api.security.token'
+        public: true

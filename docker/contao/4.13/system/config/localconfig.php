@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 /**
- * Metal Store Bundle for Contao Open Source CMS
- * Copyright (c) 2021-2021 Web ex Machina
+ * SMARTGEAR for Contao Open Source CMS
+ * Copyright (c) 2015-2022 Web ex Machina
  *
  * @category ContaoBundle
- * @package  Web-Ex-Machina/metalstore-contao-bundle
+ * @package  Web-Ex-Machina/contao-smartgear
  * @author   Web ex Machina <contact@webexmachina.fr>
- * @link     https://github.com/Web-Ex-Machina/metalstore-contao-bundle/
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
 $GLOBALS['TL_CONFIG']['licenseAccepted'] = true;
@@ -26,4 +26,6 @@ $GLOBALS['TL_CONFIG']['dbCacheMaxTime'] = 'a:2:{s:4:"unit";s:1:"d";s:5:"value";i
 $GLOBALS['TL_CONFIG']['timeZone'] = 'Europe/Paris';
 $GLOBALS['TL_CONFIG']['og_image_size'] = 'a:3:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";}';
 $GLOBALS['TL_CONFIG']['twitter_image_size'] = 'a:3:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";}';
-//## INSTALL SCRIPT STOP ###
+// @todo : remove this line until Contao BE file explorer is no more broken
+// cf cd https://github.com/marcel-mathias-nolte/contao-filesmanager-fileusage/issues/4
+$GLOBALS['TL_CONFIG']['fileusageSkipReplaceInsertTags'] = true;

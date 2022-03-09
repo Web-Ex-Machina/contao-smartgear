@@ -16,8 +16,100 @@
 <div id="tl_wem_sg_backupmanager" class="wem_module">
 
 	<h2 class="sub_headline">Backup Manager</h2>
-	<?php if($this->logs): ?>
-	<?php dump(trim(implode("\n", $this->logs))); ?>
+	<?php if($this->restore_result): ?>
+
+		<?php if(count($this->restore_result->getFilesDeletedByRestore()) > 0): ?>
+		<div class="tl_error">
+			<?= count($this->restore_result->getFilesDeletedByRestore()); ?> files deleted
+		</div>
+		<?php endif; ?>
+		<?php if(count($this->restore_result->getFilesReplacedByRestore()) > 0): ?>
+		<div class="tl_confirm">
+			<?= count($this->restore_result->getFilesReplacedByRestore()); ?> files replaced
+			<dd c>
+		</div>
+		<?php endif; ?>
+		<?php if(count($this->restore_result->getFilesAddedByRestore()) > 0): ?>
+		<div class="tl_info">
+			<?= count($this->restore_result->getFilesAddedByRestore()); ?> files added
+			<dd >
+		</div>
+		<?php endif; ?>
+		<?php if(count($this->restore_result->getFilesInError()) > 0): ?>
+		<div class="tl_error">
+			<?= count($this->restore_result->getFilesInError()); ?> files in error
+		</div>
+		<?php endif; ?>
+		<div class="tl_listing_container list_view">
+		<table class="tl_listing showColumns">
+  			<tbody>
+  				<tr>
+					<th class="tl_folder_tlist col_name">Name</th>
+					<th class="tl_folder_tlist col_status">Status</th>
+				</tr>
+			</tbody>
+			<?php foreach($this->restore_result->getFilesDeletedByRestore() as $path): ?>
+				<tr class="even click2edit toggle_select hover-row tl_error">
+					<td colspan="1" class="tl_file_list col_name">
+						<?= $path ?>
+					</td>
+					<td colspan="1" class="tl_file_list col_status">Deleted</td>
+				</tr>
+			<?php endforeach; ?> 
+			<?php foreach($this->restore_result->getFilesReplacedByRestore() as $path): ?>
+				<tr class="even click2edit toggle_select hover-row tl_confirm">
+					<td colspan="1" class="tl_file_list col_name">
+						<?= $path ?>
+					</td>
+					<td colspan="1" class="tl_file_list col_status">Replaced by restore</td>
+				</tr>
+			<?php endforeach; ?> 
+			<?php foreach($this->restore_result->getFilesAddedByRestore() as $path): ?>
+				<tr class="even click2edit toggle_select hover-row tl_info">
+					<td colspan="1" class="tl_file_list col_name">
+						<?= $path ?>
+					</td>
+					<td colspan="1" class="tl_file_list col_status">Added by restore</td>
+				</tr>
+			<?php endforeach; ?> 
+			<?php foreach($this->restore_result->getFilesInError() as $path): ?>
+				<tr class="even click2edit toggle_select hover-row tl_error">
+					<td colspan="1" class="tl_file_list col_name">
+						<?= $path ?>
+					</td>
+					<td colspan="1" class="tl_file_list col_status">In error</td>
+				</tr>
+			<?php endforeach; ?> 
+		</table>
+	</div>
+	<?php endif; ?>
+	<?php if($this->create_result): ?>
+		<div class="tl_listing_container list_view">
+		<table class="tl_listing showColumns">
+  			<tbody>
+  				<tr>
+					<th class="tl_folder_tlist col_name">Name</th>
+					<th class="tl_folder_tlist col_status">Status</th>
+				</tr>
+			</tbody>
+			<?php foreach($this->create_result->getFilesBackuped() as $path): ?>
+				<tr class="even click2edit toggle_select hover-row tl_confirm">
+					<td colspan="1" class="tl_file_list col_name">
+						<?= $path ?>
+					</td>
+					<td colspan="1" class="tl_file_list col_status">Backuped</td>
+				</tr>
+			<?php endforeach; ?> 
+			<?php foreach($this->create_result->getFilesInError() as $path): ?>
+				<tr class="even click2edit toggle_select hover-row tl_error">
+					<td colspan="1" class="tl_file_list col_name">
+						<?= $path ?>
+					</td>
+					<td colspan="1" class="tl_file_list col_status">In error</td>
+				</tr>
+			<?php endforeach; ?> 
+		</table>
+	</div>
 	<?php endif; ?>
 
 	<div class="tl_listing_container list_view" id="tl_listing">
@@ -28,30 +120,32 @@
 					<th class="tl_folder_tlist col_name">Name</th>
 					<th class="tl_folder_tlist tl_right_nowrap"></th>
 				</tr>
-				<?php foreach($this->backups as $k => $b): ?>
+				<?php foreach($this->backups->getBackups() as $backup): ?>
 				<tr class="even click2edit toggle_select hover-row">
-					<td colspan="1" class="tl_file_list col_date"><?= $b['date'] ?></td>
-					<td colspan="1" class="tl_file_list col_name"><?= $b['name'] ?></td>
+					<td colspan="1" class="tl_file_list col_date">
+						<?= empty((string) $backup->ctime) ? 'N/A' : DateTime::createFromFormat('U', (string) $backup->ctime)->format('d/m/Y H:i:s') ?>
+					</td>
+					<td colspan="1" class="tl_file_list col_name"><?= $backup->basename ?></td>
 					<td class="tl_file_list tl_right_nowrap">
-						<?php if($b['hasFiles']): ?>
-						<a href="<?= $this->addToUrl('&act=download&file='.$b['zipPath']) ?>" title="" target="_blank"><img src="bundles/wemsmartgear/icons/icon_zip.png" alt="Télécharger les fichiers" width="12" height="16"></a>
-						<?php endif; ?>	
-
-						<?php if($b['hasSql']): ?>
-						<a href="<?= $this->addToUrl('&act=download&file='.$b['sqlPath']) ?>" title="" target="_blank"><img src="bundles/wemsmartgear/icons/icon_sql.png" alt="Télécharger la base de données" width="14" height="16"></a>
-						<?php endif; ?>	
-
-						<a href="<?= $this->addToUrl('&act=restore&backup='.$b['zipPath']) ?>" title=""><img src="bundles/wemsmartgear/icons/icon_restore.png" alt="Restaurer le back-up" width="14" height="16"></a>
+						<a href="<?= $this->addToUrl('&act=download&backup='.$backup->basename) ?>" title="" target="_blank">
+							<img src="bundles/wemsmartgear/icons/icon_zip.png" alt="Télécharger le back-up" width="12" height="16">
+						</a>
+						<a href="<?= $this->addToUrl('&act=restore&backup='.$backup->basename) ?>" title="">
+							<img src="bundles/wemsmartgear/icons/icon_restore.png" alt="Restaurer le back-up" width="14" height="16">
+						</a>
+						<a href="<?= $this->addToUrl('&act=delete&backup='.$backup->basename) ?>" title="" onclick="return confirm('Are you sure?')">
+							<i class="fa fa-trash"></i>&nbsp;
+						</a>
 					</td>
 				</tr>
 				<?php endforeach; ?>
+				<?php if($this->empty): ?>
+				<tr>
+					<td colspan="3">Pas de backup disponible</td>
+				</tr>
+				<?php endif; ?>
 			</tbody>
 		</table>
 	</div>
-
-	<?php if($this->empty): ?>
-	<p>Pas de backup disponible</p>
-	<?php else: ?>
-	
-	<?php endif; ?>
+	<?= $this->pagination; ?>
 </div>

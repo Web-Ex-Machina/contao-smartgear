@@ -1,0 +1,7 @@
+wem_smartgear.controller:
+    resource: '@WEMSmartgearBundle/Controller'
+    type: annotation
+
+wem_smartgear.controller.api.backup:
+    resource: '@WEMSmartgearBundle/Controller/Api/Backup'
+    type: annotation
