@@ -229,6 +229,7 @@ services:
             $type: 'core'
             $configurationManager: '@smartgear.config.manager.core'
             $localConfigManager: '@smartgear.config.manager.local_config'
+            $backupManager: '@smartgear.backup.backup_manager'
             $templatesDirs: 
                 - 'templates/rsce'
                 - 'templates/smartgear'

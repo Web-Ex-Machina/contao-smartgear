@@ -18,6 +18,8 @@ use Contao\Input;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\ThemeModel;
+use WEM\SmartgearBundle\Backup\BackupManager;
+use WEM\SmartgearBundle\Backup\Results\CreateResult;
 use WEM\SmartgearBundle\Classes\Backend\AbstractStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
@@ -30,6 +32,8 @@ class General extends AbstractStep
     protected $configurationManager;
     /** @var LocalConfigManager */
     protected $localConfigManager;
+    /** @var BackupManager */
+    protected $backupManager;
     /** @var array */
     protected $templatesDirs;
 
@@ -40,11 +44,13 @@ class General extends AbstractStep
         string $type,
         ConfigurationManager $configurationManager,
         LocalConfigManager $localConfigManager,
+        BackupManager $backupManager,
         array $templatesDirs
     ) {
         parent::__construct($module, $type);
         $this->configurationManager = $configurationManager;
         $this->localConfigManager = $localConfigManager;
+        $this->backupManager = $backupManager;
         $this->templatesDirs = $templatesDirs;
         $this->title = 'Général';
 
@@ -73,7 +79,9 @@ class General extends AbstractStep
 
     protected function backup(): void
     {
-        //@todo : call backup manager
+        /** @var CreateResult */
+        $createResult = $this->backupManager->new();
+        $this->addConfirm(sprintf('Backup "%s" effectué.', $createResult->getBackup()->basename));
     }
 
     protected function reset(): void
