@@ -71,29 +71,8 @@ class FramwayConfiguration extends ConfigurationStep
             $config = $this->configurationManager->load();
             /** @var FramwayConfig */
             $framwayConfig = $this->configurationManagerFramway->load();
-
-            $arrThemes = [];
-            $arrComponents = [];
-
-            if ($handle = opendir($config->getSgFramwayPath().\DIRECTORY_SEPARATOR.'src/themes')) {
-                while (false !== ($entry = readdir($handle))) {
-                    if ('.' !== $entry && '..' !== $entry) {
-                        $arrThemes[] = ['label' => $entry, 'value' => $entry];
-                    }
-                }
-                closedir($handle);
-            }
-
-            if ($handle = opendir($config->getSgFramwayPath().\DIRECTORY_SEPARATOR.'src/components')) {
-                while (false !== ($entry = readdir($handle))) {
-                    if ('.' !== $entry && '..' !== $entry) {
-                        $arrComponents[] = ['label' => $entry, 'value' => $entry];
-                    }
-                }
-                closedir($handle);
-            }
-            $this->addSelectField('themes[]', 'Thèmes', $arrThemes, $framwayConfig->getThemes(), true, true);
-            $this->addSelectField('components[]', 'Composants', $arrComponents, $framwayConfig->getComponents(), true, true);
+            $this->addSelectField('themes[]', 'Thèmes', UtilFramway::getThemes($config->getSgFramwayPath()), $framwayConfig->getThemes(), true, true);
+            $this->addSelectField('components[]', 'Composants', UtilFramway::getComponents($config->getSgFramwayPath()), $framwayConfig->getComponents(), true, true);
             $this->addTextField('new_theme', 'Nouveau thème', '', false, 'hidden', 'text');
         } catch (NotFound $e) {
         }

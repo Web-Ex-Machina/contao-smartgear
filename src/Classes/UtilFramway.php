@@ -93,4 +93,34 @@ class UtilFramway
             throw new \InvalidArgumentException('Le nom du nouveau thème est invalide! Les caractères autorisés sont : lettres, chiffres, tirets ("-") et underscores ("_").');
         }
     }
+
+    public static function getThemes(string $framwayPath): array
+    {
+        $arrThemes = [];
+        if ($handle = opendir($framwayPath.\DIRECTORY_SEPARATOR.'src/themes')) {
+            while (false !== ($entry = readdir($handle))) {
+                if ('.' !== $entry && '..' !== $entry) {
+                    $arrThemes[] = ['label' => $entry, 'value' => $entry];
+                }
+            }
+            closedir($handle);
+        }
+
+        return $arrThemes;
+    }
+
+    public static function getComponents(string $framwayPath): array
+    {
+        $arrComponents = [];
+        if ($handle = opendir($framwayPath.\DIRECTORY_SEPARATOR.'src/components')) {
+            while (false !== ($entry = readdir($handle))) {
+                if ('.' !== $entry && '..' !== $entry) {
+                    $arrComponents[] = ['label' => $entry, 'value' => $entry];
+                }
+            }
+            closedir($handle);
+        }
+
+        return $arrComponents;
+    }
 }
