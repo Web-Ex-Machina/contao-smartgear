@@ -71,43 +71,8 @@ class FramwayConfiguration extends ConfigurationStep
             $config = $this->configurationManager->load();
             /** @var FramwayConfig */
             $framwayConfig = $this->configurationManagerFramway->load();
-
-            $arrThemes = [];
-            $arrComponents = [];
-
-            if ($handle = opendir($config->getSgFramwayPath().\DIRECTORY_SEPARATOR.'src/themes')) {
-                while (false !== ($entry = readdir($handle))) {
-                    if ('.' !== $entry && '..' !== $entry) {
-                        $arrThemes[] = ['label' => $entry, 'value' => $entry];
-                    }
-                }
-                closedir($handle);
-            }
-
-            if ($handle = opendir($config->getSgFramwayPath().\DIRECTORY_SEPARATOR.'src/components')) {
-                while (false !== ($entry = readdir($handle))) {
-                    if ('.' !== $entry && '..' !== $entry) {
-                        $arrComponents[] = ['label' => $entry, 'value' => $entry];
-                    }
-                }
-                closedir($handle);
-            }
-
-            $arrFontAwesome = [
-                [
-                    'label' => 'None', 'value' => FramwayConfig::USE_FA_NONE,
-                ],
-                [
-                    'label' => 'kit Smartgear', 'value' => FramwayConfig::USE_FA_FREE,
-                ],
-                [
-                    'label' => 'all', 'value' => FramwayConfig::USE_FA_PRO,
-                ],
-            ];
-
-            $this->addSelectField('themes[]', 'Thèmes', $arrThemes, $framwayConfig->getThemes(), true, true);
-            $this->addSelectField('components[]', 'Composants', $arrComponents, $framwayConfig->getComponents(), true, true);
-            $this->addSelectField('fontawesome', 'Configuration Font-Awesome', $arrFontAwesome, $framwayConfig->getUseFA(), false);
+            $this->addSelectField('themes[]', 'Thèmes', UtilFramway::getThemes($config->getSgFramwayPath()), $framwayConfig->getThemes(), true, true);
+            $this->addSelectField('components[]', 'Composants', UtilFramway::getComponents($config->getSgFramwayPath()), $framwayConfig->getComponents(), true, true);
             $this->addTextField('new_theme', 'Nouveau thème', '', false, 'hidden', 'text');
         } catch (NotFound $e) {
         }
@@ -122,13 +87,6 @@ class FramwayConfiguration extends ConfigurationStep
         if (empty(Input::post('components'))) {
             return false;
         }
-        $fa = Input::post('fontawesome');
-        if (empty($fa)) {
-            $fa = FramwayConfig::USE_FA_NONE;
-        }
-        if (!\in_array($fa, FramwayConfig::USE_FA_ALLOWED, true)) {
-            return false;
-        }
 
         return true;
     }
@@ -138,12 +96,7 @@ class FramwayConfiguration extends ConfigurationStep
         // do what is meant to be done in this step
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
-        $fa = Input::post('fontawesome');
-        if (empty($fa)) {
-            $fa = FramwayConfig::USE_FA_NONE;
-        }
-
-        $this->updateFramwayConfiguration(Input::post('themes') ?? [], Input::post('components'), $fa);
+        $this->updateFramwayConfiguration(Input::post('themes') ?? [], Input::post('components'));
         $this->updateCoreConfiguration(Input::post('themes') ?? []);
 
         UtilFramway::build($config->getSgFramwayPath());
@@ -177,17 +130,15 @@ class FramwayConfiguration extends ConfigurationStep
     /**
      * Update Framway configuration.
      *
-     * @param array       $themes      [description]
-     * @param array       $components  [description]
-     * @param string|bool $fontawesome [description]
+     * @param array $themes     [description]
+     * @param array $components [description]
      */
-    protected function updateFramwayConfiguration(array $themes, array $components, $fontawesome): FramwayConfig
+    protected function updateFramwayConfiguration(array $themes, array $components): FramwayConfig
     {
         /** @var FramwayConfig */
         $framwayConfig = $this->configurationManagerFramway->load();
         $framwayConfig->setThemes($themes);
         $framwayConfig->setComponents($components);
-        $framwayConfig->setUseFA($fontawesome);
         $this->configurationManagerFramway->save($framwayConfig);
 
         return $framwayConfig;

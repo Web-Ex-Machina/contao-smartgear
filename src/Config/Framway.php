@@ -19,13 +19,6 @@ use WEM\SmartgearBundle\Classes\Config\ConfigJsonInterface;
 class Framway implements ConfigJsonInterface
 {
     public const USE_FA_NONE = false;
-    public const USE_FA_FREE = 'free';
-    public const USE_FA_PRO = 'pro';
-    public const USE_FA_ALLOWED = [
-        self::USE_FA_NONE,
-        self::USE_FA_FREE,
-        self::USE_FA_PRO,
-    ];
     public const DEFAULT_USE_FA = self::USE_FA_NONE;
     public const DEFAULT_USE_TOASTR = true;
     public const DEFAULT_USE_OUTDATED_BROWSER = true;
@@ -65,7 +58,7 @@ class Framway implements ConfigJsonInterface
     {
         $this->setThemes($json->themes ?? [])
             ->setComponents($json->components ?? [])
-            ->setUseFA($json->useFA ?? self::DEFAULT_USE_FA)
+            ->setUseFA(self::DEFAULT_USE_FA)
             ->setUseToastr($json->useToastr ?? self::DEFAULT_USE_TOASTR)
             ->setUseOutdatebrowser($json->useOutdatebrowser ?? self::DEFAULT_USE_OUTDATED_BROWSER)
             ->setUseTarteaucitron($json->useTarteaucitron ?? self::DEFAULT_USE_TARTE_AU_CITRON)
@@ -136,7 +129,7 @@ class Framway implements ConfigJsonInterface
 
     public function setUseFA($useFA): self
     {
-        if (!\in_array($useFA, static::USE_FA_ALLOWED, true)) {
+        if (static::USE_FA_NONE !== $useFA) {
             throw new \InvalidArgumentException(sprintf('Invalid useFA "%s" given', $useFA));
         }
         $this->useFA = $useFA;
