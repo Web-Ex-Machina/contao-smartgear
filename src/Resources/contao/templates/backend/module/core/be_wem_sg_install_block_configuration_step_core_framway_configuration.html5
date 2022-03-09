@@ -25,10 +25,6 @@
 		<br>
 	</div>
 
-	<div class="widget <?= $this->fields['fontawesome']['class'] ?>">
-		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['fontawesome']]); ?>
-		<br>
-	</div>
 	<div class="tl_submit_container">
 		<?= implode(' ', $this->actions) ?>
 	</div>
