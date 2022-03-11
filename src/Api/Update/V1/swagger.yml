@@ -1,0 +1,118 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Smartgear Update API
+  description: API to manage Smartgear's updates
+
+security:
+  - token: []
+
+paths:
+  /list:
+    get:
+      summary: Returns a list of updates
+      operationId: list
+      responses:
+        '200':
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/ListResponse"
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:           
+                  message:
+                    type: string
+  /update:
+    post:
+      summary: Play all updates
+      operationId: update
+      responses:
+        '200':
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/UpdateResponse"
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:           
+                  message:
+                    type: string
+
+components:
+  securitySchemes:
+    token:        # arbitrary name for the security scheme
+      type: apiKey
+      in: query       # can be "header", "query" or "cookie"
+      name: token  # name of the header, query parameter or cookie
+  schemas:
+    ListResponse:
+      type: "object"
+      required:
+      - "total"
+      - "updates"
+      properties:
+        total:
+          type: "integer"
+          format: "int64"
+        updates:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Update"
+
+    UpdateResponse:
+      type: "object"
+      required:
+      - "status"
+      - "updates"
+      - "backup"
+      properties:
+        status:
+          type: string
+        updates:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Update"
+        backup:
+          $ref: "#/components/schemas/Backup"
+
+    Update:
+      type: "object"
+      required:
+      - "update"
+      - "status"
+      - "logs"
+      properties:
+        update:
+          type: string
+        status:
+          type: string
+        logs:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/UpdateLog"
+
+    UpdateLog:
+      type: string
+
+    Backup:
+      type: "object"
+      required:
+      - "path"
+      - "timestamp"
+      properties:
+        path:
+          type: "string"
+        timestamp:
+          type: "integer"
+          format: "int64"

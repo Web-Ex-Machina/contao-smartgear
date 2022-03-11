@@ -291,7 +291,7 @@ services:
             $securityApiKey: '@smartgear.classes.api.security.api_key'
             $securityToken: '@smartgear.classes.api.security.token'
         public: true
-    #
+    
     ############ API BACKUP V1 ############
 
     smartgear.api.backup.v1.api:
@@ -306,7 +306,7 @@ services:
         class: WEM\SmartgearBundle\Api\Backup\V1\Model\ListResponse
         public: true
 
-    smartgear.api.backup.v1.model.Create_response:
+    smartgear.api.backup.v1.model.create_response:
         class: WEM\SmartgearBundle\Api\Backup\V1\Model\CreateResponse
         public: true
 
@@ -316,5 +316,31 @@ services:
 
     smartgear.api.backup.v1.model.mapper.create_result_to_create_response:
         class: WEM\SmartgearBundle\Api\Backup\V1\Model\Mapper\CreateResultToCreateResponse
+        public: true
+    
+    ############ API UPDATE V1 ############
+
+    smartgear.api.update.v1.api:
+        class: WEM\SmartgearBundle\Api\Update\V1\Api
+        arguments:
+            $updateManager : '@smartgear.update.update_manager'
+            $listResultToListResponseMapper: '@smartgear.api.update.v1.model.mapper.list_result_to_list_response'
+            $updateResultToUpdateResponseMapper: '@smartgear.api.update.v1.model.mapper.update_result_to_update_response'
+        public: true
+
+    smartgear.api.update.v1.model.list_response:
+        class: WEM\SmartgearBundle\Api\Update\V1\Model\ListResponse
+        public: true
+
+    smartgear.api.update.v1.model.update_response:
+        class: WEM\SmartgearBundle\Api\Update\V1\Model\UpdateResponse
+        public: true
+
+    smartgear.api.update.v1.model.mapper.list_result_to_list_response:
+        class: WEM\SmartgearBundle\Api\Update\V1\Model\Mapper\ListResultToListResponse
+        public: true
+
+    smartgear.api.update.v1.model.mapper.update_result_to_update_response:
+        class: WEM\SmartgearBundle\Api\Update\V1\Model\Mapper\UpdateResultToUpdateResponse
         public: true
     
