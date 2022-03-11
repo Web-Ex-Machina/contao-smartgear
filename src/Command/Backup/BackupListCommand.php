@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Command\Backup;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use WEM\SmartgearBundle\Backup\Results\ListResult;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException as BackupManagerException;
 
@@ -30,7 +31,8 @@ class BackupListCommand extends AbstractBackupCommand
         $io = new SymfonyStyle($input, $output);
         $io->title('Backup list');
         try {
-            $backups = $this->backupManager->list();
+            /** @var ListResult */
+            $listResult = $this->backupManager->list(0, 0);
         } catch (BackupManagerException $e) {
             if ($this->isJson($input)) {
                 $io->writeln(json_encode(['error' => $e->getMessage()]));
@@ -42,12 +44,12 @@ class BackupListCommand extends AbstractBackupCommand
         }
 
         if ($this->isJson($input)) {
-            $io->writeln($this->formatForJson($backups));
+            $io->writeln($this->formatForJson($listResult->getBackups()));
 
             return 0;
         }
 
-        $io->table(['filename', 'size', 'date'], $this->formatForTable($backups));
+        $io->table(['filename', 'size', 'date'], $this->formatForTable($listResult->getBackups()));
 
         return 0;
     }

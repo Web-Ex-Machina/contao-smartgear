@@ -24,7 +24,7 @@ class UpdateResult
     /** @var string */
     protected $status = self::STATUS_ONGOING;
     /** @var array */
-    protected $results;
+    protected $results = [];
     /** @var BackupResult */
     protected $backupResult;
 

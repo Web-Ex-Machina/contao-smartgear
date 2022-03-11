@@ -19,6 +19,7 @@ use WEM\SmartgearBundle\Backup\Results\CreateResult as BackupResult;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigManager;
 use WEM\SmartgearBundle\Classes\Migration\MigrationInterface;
 use WEM\SmartgearBundle\Classes\Migration\Result as MigrationResult;
+use WEM\SmartgearBundle\Update\Results\ListResult;
 use WEM\SmartgearBundle\Update\Results\SingleMigrationResult;
 use WEM\SmartgearBundle\Update\Results\UpdateResult;
 
@@ -39,6 +40,17 @@ class UpdateManager
         $this->configurationManager = $configurationManager;
         $this->backupManager = $backupManager;
         $this->migrations = $migrations;
+    }
+
+    public function list(): ListResult
+    {
+        $listResult = new ListResult();
+
+        foreach ($this->migrations as $migration) {
+            $listResult->addResult($this->shouldRunSingle($migration));
+        }
+
+        return $listResult;
     }
 
     public function update(): UpdateResult
@@ -87,14 +99,21 @@ class UpdateManager
 
     protected function updateSingle(MigrationInterface $migration): SingleMigrationResult
     {
-        $singleMigrationResult = new SingleMigrationResult();
-        $singleMigrationResult->setMigration($migration);
-        $singleMigrationResult->setResult($migration->shouldRun());
+        $singleMigrationResult = $this->shouldRunSingle($migration);
         if (MigrationResult::STATUS_SHOULD_RUN !== $singleMigrationResult->getResult()->getStatus()) {
             return $singleMigrationResult;
         }
 
         $singleMigrationResult->setResult($migration->do());
+
+        return $singleMigrationResult;
+    }
+
+    protected function shouldRunSingle(MigrationInterface $migration): SingleMigrationResult
+    {
+        $singleMigrationResult = new SingleMigrationResult();
+        $singleMigrationResult->setMigration($migration);
+        $singleMigrationResult->setResult($migration->shouldRun());
 
         return $singleMigrationResult;
     }
