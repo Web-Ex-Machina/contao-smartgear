@@ -18,20 +18,20 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use WEM\SmartgearBundle\Exceptions\Update\ManagerException as UpdateManagerException;
-use WEM\SmartgearBundle\Update\Results\ListResult;
+use WEM\SmartgearBundle\Update\Results\UpdateResult;
 
-class UpdateListCommand extends AbstractUpdateCommand
+class UpdateCommand extends AbstractUpdateCommand
 {
-    protected static $defaultName = 'smartgear:update:list';
-    protected static $defaultDescription = 'List updates';
+    protected static $defaultName = 'smartgear:update:update';
+    protected static $defaultDescription = 'Play updates';
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Update list');
+        $io->title('Play updates');
         try {
-            /** @var ListResult */
-            $listResult = $this->updateManager->list();
+            /** @var UpdateResult */
+            $updateResult = $this->updateManager->update();
         } catch (UpdateManagerException $e) {
             if ($this->isJson($input)) {
                 $io->writeln(json_encode(['error' => $e->getMessage()]));
@@ -43,12 +43,20 @@ class UpdateListCommand extends AbstractUpdateCommand
         }
 
         if ($this->isJson($input)) {
-            $io->writeln($this->formatForJson($listResult->getResults()));
+            $io->writeln($this->formatForJson($updateResult));
 
             return 0;
         }
 
-        $io->table(['Name', 'Description', 'Status'], $this->formatForTable($listResult->getResults()));
+        if ($updateResult->isSuccess()) {
+            $io->success('Updates played');
+        } elseif ($updateResult->isFail()) {
+            $io->error('Updates not played');
+        }
+
+        $io->success(sprintf('Backup : %s', $updateResult->getBackupResult()->getBackup()->basename));
+
+        $io->table(['Name', 'Description', 'Status', 'Logs'], $this->formatForTable($updateResult->getResults()));
 
         return 0;
     }
@@ -61,22 +69,31 @@ class UpdateListCommand extends AbstractUpdateCommand
                 $singleMigrationResult->getMigration()->getName(),
                 $singleMigrationResult->getMigration()->getDescription(),
                 $singleMigrationResult->getResult()->getStatus(),
+                implode("\n", $singleMigrationResult->getResult()->getLogs()),
             ];
         }
 
         return $formatted;
     }
 
-    private function formatForJson(array $singleMigrationResults): string
+    private function formatForJson(UpdateResult $updateResult): string
     {
-        $json = [];
+        $json = [
+            'status' => $updateResult->getStatus(),
+            'backup' => [
+                'timestamp' => $updateResult->getBackupResult()->getBackup()->ctime,
+                'path' => $updateResult->getBackupResult()->getBackup()->basename,
+            ],
+            'updates' => [],
+        ];
 
-        foreach ($singleMigrationResults as $singleMigrationResult) {
-            $json[] = [
+        foreach ($updateResult->getResults() as $singleMigrationResult) {
+            $json['updates'][] = [
                 'classname' => \get_class($singleMigrationResult->getMigration()),
                 'name' => $singleMigrationResult->getMigration()->getName(),
                 'description' => $singleMigrationResult->getMigration()->getDescription(),
                 'status' => $singleMigrationResult->getResult()->getStatus(),
+                'logs' => $singleMigrationResult->getResult()->getLogs(),
             ];
         }
 

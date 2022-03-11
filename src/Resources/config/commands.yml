@@ -58,3 +58,12 @@ services:
         tags:
             - { name: 'console.command'}
         public: true
+
+    smartgear.command.update.update:
+        class: WEM\SmartgearBundle\Command\Update\UpdateCommand
+        arguments:
+            $updateManager : '@smartgear.update.update_manager'
+            $framework: '@contao.framework'
+        tags:
+            - { name: 'console.command'}
+        public: true

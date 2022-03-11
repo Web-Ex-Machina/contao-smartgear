@@ -259,6 +259,9 @@ services:
                 - '+tl_db_cache'
                 - '+tl_log'
                 - '+tl_undo'
+                - '+tl_version'
+                - '+tl_search'
+                - '+tl_search_index'
                 - '+tl_sm_backup'
         public: true
 
@@ -267,11 +270,16 @@ services:
         arguments:
             $configurationManager: '@smartgear.config.manager.core'
             $backupManager: '@smartgear.backup.backup_manager'
-            $migrations: []
+            $migrations: 
+                - '@smartgear.migrations.V1_0_0.migration'
         public: true
 
     smartgear.model.backup:
         class: WEM\SmartgearBundle\Model\Backup
+        public: true
+
+    smartgear.migrations.V1_0_0.migration:
+        class: WEM\SmartgearBundle\Migrations\V1_0_0\Migration
         public: true
 
     ############ API SMARTGEAR V1 ############
