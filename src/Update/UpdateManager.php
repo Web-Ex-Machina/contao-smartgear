@@ -56,6 +56,10 @@ class UpdateManager
             }
         }
 
+        if (!$updateResult->isFail()) {
+            $updateResult->setStatusSuccess();
+        }
+
         return $updateResult;
     }
 
@@ -66,7 +70,10 @@ class UpdateManager
             $updateResult->addResult(
                 (new SingleMigrationResult())
                 ->setMigration($remainingMigration)
-                ->setResult((new MigrationResult()))
+                ->setResult(
+                    (new MigrationResult())
+                    ->setStatus(MigrationResult::STATUS_NOT_EXCUTED_YET)
+                )
             );
         }
 
@@ -83,7 +90,7 @@ class UpdateManager
         $singleMigrationResult = new SingleMigrationResult();
         $singleMigrationResult->setMigration($migration);
         $singleMigrationResult->setResult($migration->shouldRun());
-        if (MigrationResult::STATUS_SHOULD_RUN !== $singleMigrationResult->getResult()) {
+        if (MigrationResult::STATUS_SHOULD_RUN !== $singleMigrationResult->getResult()->getStatus()) {
             return $singleMigrationResult;
         }
 

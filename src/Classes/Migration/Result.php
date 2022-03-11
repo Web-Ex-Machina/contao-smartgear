@@ -28,7 +28,7 @@ class Result
 
     public function setStatus(string $status): self
     {
-        if (!\in_array($status, [self::STATUS_SHOULD_RUN, self::STATUS_SKIPPED, self::STATUS_FAIL, self::STATUS_SUCCESS], true)) {
+        if (!\in_array($status, [self::STATUS_NOT_EXCUTED_YET, self::STATUS_SHOULD_RUN, self::STATUS_SKIPPED, self::STATUS_FAIL, self::STATUS_SUCCESS], true)) {
             throw new \InvalidArgumentException(sprintf('The given status "%s" is invalid', $status));
         }
         $this->status = $status;

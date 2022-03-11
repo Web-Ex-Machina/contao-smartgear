@@ -265,8 +265,6 @@ services:
     smartgear.update.update_manager:
         class: WEM\SmartgearBundle\Update\UpdateManager
         arguments:
-            # $rootDir: '%kernel.project_dir%'
-            # $migrationDirectory: 'vendor/webexmachina/contao-smartgear/src/Migrations'
             $configurationManager: '@smartgear.config.manager.core'
             $backupManager: '@smartgear.backup.backup_manager'
             $migrations: []
