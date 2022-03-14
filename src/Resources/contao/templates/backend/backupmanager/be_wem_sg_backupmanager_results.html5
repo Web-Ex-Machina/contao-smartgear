@@ -62,6 +62,7 @@
 			<?php endforeach; ?> 
 		</table>
 	</div>
+	<?= nl2br($this->restore_result->getSearchIndexRebuildLog()); ?>
 	<?php endif; ?>
 	<?php if($this->create_result): ?>
 		<div class="tl_listing_container list_view">

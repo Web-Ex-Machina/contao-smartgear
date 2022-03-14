@@ -25,6 +25,7 @@ use WEM\SmartgearBundle\Backup\Model\Backup as BackupBusinessModel;
 use WEM\SmartgearBundle\Backup\Model\Results\CreateResult;
 use WEM\SmartgearBundle\Backup\Model\Results\ListResult;
 use WEM\SmartgearBundle\Backup\Model\Results\RestoreResult;
+use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException as BackupManagerException;
 use WEM\SmartgearBundle\Model\Backup as BackupModel;
@@ -35,6 +36,8 @@ class BackupManager
     protected $rootDir;
     /** @var string */
     protected $backupDirectory;
+    /** @var CommandUtil */
+    protected $commandUtil;
     /** @var string */
     protected $databaseBackupDirectory;
     /** @var DatabaseBackupManager */
@@ -47,6 +50,7 @@ class BackupManager
     public function __construct(
         string $rootDir,
         string $backupDirectory,
+        CommandUtil $commandUtil,
         string $databaseBackupDirectory,
         DatabaseBackupManager $databaseBackupManager,
         array $artifactsToBackup,
@@ -54,6 +58,7 @@ class BackupManager
     ) {
         $this->rootDir = $rootDir;
         $this->backupDirectory = $backupDirectory;
+        $this->commandUtil = $commandUtil;
         $this->databaseBackupDirectory = $databaseBackupDirectory;
         $this->databaseBackupManager = $databaseBackupManager;
         $this->artifactsToBackup = $artifactsToBackup;
@@ -175,6 +180,13 @@ class BackupManager
             $result->setDatabaseRestored(true);
 
             // 4) rebuild search index if we didn't backup up the corresponding tables
+            if (\in_array('+tl_search_index', $this->tablesToIgnore, true) || \in_array('+tl_search', $this->tablesToIgnore, true)) {
+                try {
+                    $result->setSearchIndexRebuildLog($this->commandUtil->executeCmdPHP('contao:crawl'));
+                } catch (\Exception $e) {
+                    $result->setSearchIndexRebuildLog($e->getMessage());
+                }
+            }
         } catch (\Exception $e) {
             throw new BackupManagerException('Une erreur est survenue lors de la restauration du backup : '.$e->getMessage(), $e->getCode(), $e);
         }

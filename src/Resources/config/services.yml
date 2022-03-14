@@ -265,6 +265,7 @@ services:
             $rootDir: '%kernel.project_dir%'
             $backupDirectory: 'assets/backups'
             $databaseBackupDirectory: 'var/backups' # defined in contao source files, with no ways to access it from outside
+            $commandUtil: '@smartgear.classes.command.util'
             $databaseBackupManager: '@contao.doctrine.backup_manager'
             $artifactsToBackup:
                 - 'composer.json'
