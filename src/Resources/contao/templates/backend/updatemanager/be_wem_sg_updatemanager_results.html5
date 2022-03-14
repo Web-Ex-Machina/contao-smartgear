@@ -1,0 +1,62 @@
+	<?php if($this->update_result): ?>
+	<?php if($this->update_result->isSuccess()): ?>
+	<div class="tl_confirm">
+		Les mises à jour ont été installées
+	</div>
+	<?php elseif($this->update_result->isFail()): ?>
+	<div class="tl_error">
+		Les mises à jour n'ont pas été installées
+	</div>
+	<?php endif; ?>
+	<div class="tl_info">
+		Le back-up <?= $this->update_result->getBackupResult()->getBackup()->basename; ?> a été effectué
+	</div>
+		<div class="tl_listing_container list_view">
+		<table class="tl_listing showColumns">
+  			<tbody>
+  				<tr>
+					<th class="tl_folder_tlist col_version">Version</th>
+					<th class="tl_folder_tlist col_name">Name</th>
+					<th class="tl_folder_tlist col_description">Description</th>
+					<th class="tl_folder_tlist col_status">Status</th>
+					<th class="tl_folder_tlist col_logs">Logs</th>
+				</tr>
+			</tbody>
+			<?php foreach($this->update_result->getResults() as $singleMigrationResult): ?>
+				<tr class="even click2edit toggle_select hover-row">
+					<td colspan="1" class="tl_file_list col_version"><?= $singleMigrationResult->getMigration()->getVersion() ?></td>
+					<td colspan="1" class="tl_file_list col_name"><?= $singleMigrationResult->getMigration()->getName() ?></td>
+					<td colspan="1" class="tl_file_list col_description"><?= $singleMigrationResult->getMigration()->getName() ?></td>
+					<td colspan="1" class="tl_file_list col_status"><?= $singleMigrationResult->getResult()->getStatus() ?></td>
+					<td colspan="1" class="tl_file_list col_logs"><?= implode("<br />",$singleMigrationResult->getResult()->getLogs()) ?></td>
+				</tr>
+			<?php endforeach; ?> 
+		</table>
+	</div>
+	<div class="tl_listing_container list_view">
+		<table class="tl_listing showColumns">
+				<tbody>
+					<tr>
+					<th class="tl_folder_tlist col_name">Name</th>
+					<th class="tl_folder_tlist col_status">Status</th>
+				</tr>
+			</tbody>
+			<?php foreach($this->update_result->getBackupResult()->getFilesBackuped() as $path): ?>
+				<tr class="even click2edit toggle_select hover-row tl_confirm">
+					<td colspan="1" class="tl_file_list col_name">
+						<?= $path ?>
+					</td>
+					<td colspan="1" class="tl_file_list col_status">Backuped</td>
+				</tr>
+			<?php endforeach; ?> 
+			<?php foreach($this->update_result->getBackupResult()->getFilesInError() as $path): ?>
+				<tr class="even click2edit toggle_select hover-row tl_error">
+					<td colspan="1" class="tl_file_list col_name">
+						<?= $path ?>
+					</td>
+					<td colspan="1" class="tl_file_list col_status">In error</td>
+				</tr>
+			<?php endforeach; ?> 
+		</table>
+	</div>
+	<?php endif; ?>

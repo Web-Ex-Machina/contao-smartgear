@@ -1,21 +1,21 @@
 services:
 
-    smartgear.backend.backupservice:
-        class: WEM\SmartgearBundle\Backup\BackupService
-        arguments:
-            - '@contao.framework'
-            - '@filesystem'
-            - '@contao.slug.generator'
-            - '@request_stack'
-        public: true
-    smartgear.backend.updater:
-        class: WEM\SmartgearBundle\Updater\UpdaterService
-        arguments:
-            - '@contao.framework'
-            - '@filesystem'
-            - '@contao.slug.generator'
-            - '@request_stack'
-        public: true
+    # smartgear.backend.backupservice:
+    #     class: WEM\SmartgearBundle\Backup\BackupService
+    #     arguments:
+    #         - '@contao.framework'
+    #         - '@filesystem'
+    #         - '@contao.slug.generator'
+    #         - '@request_stack'
+    #     public: true
+    # smartgear.backend.updater:
+    #     class: WEM\SmartgearBundle\Updater\UpdaterService
+    #     arguments:
+    #         - '@contao.framework'
+    #         - '@filesystem'
+    #         - '@contao.slug.generator'
+    #         - '@request_stack'
+    #     public: true
 
     smartgear.backend.smartgear:
         class: WEM\SmartgearBundle\Backend\Smartgear
@@ -99,6 +99,14 @@ services:
         class: WEM\SmartgearBundle\Classes\Api\Security\Token
         arguments:
             $framework: '@contao.framework'
+        public: true
+
+    smartgear.classes.version.version:
+        class: WEM\SmartgearBundle\Classes\Version\Version
+        public: true
+
+    smartgear.classes.version.comparator:
+        class: WEM\SmartgearBundle\Classes\Version\Comparator
         public: true
 
     smartgear.config.manager.framway:
@@ -251,11 +259,27 @@ services:
                 - '+tl_db_cache'
                 - '+tl_log'
                 - '+tl_undo'
+                - '+tl_version'
+                - '+tl_search'
+                - '+tl_search_index'
                 - '+tl_sm_backup'
+        public: true
+
+    smartgear.update.update_manager:
+        class: WEM\SmartgearBundle\Update\UpdateManager
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $backupManager: '@smartgear.backup.backup_manager'
+            $migrations: 
+                - '@smartgear.migrations.V1_0_0.migration'
         public: true
 
     smartgear.model.backup:
         class: WEM\SmartgearBundle\Model\Backup
+        public: true
+
+    smartgear.migrations.V1_0_0.migration:
+        class: WEM\SmartgearBundle\Migrations\V1_0_0\Migration
         public: true
 
     ############ API SMARTGEAR V1 ############
@@ -267,7 +291,7 @@ services:
             $securityApiKey: '@smartgear.classes.api.security.api_key'
             $securityToken: '@smartgear.classes.api.security.token'
         public: true
-    #
+    
     ############ API BACKUP V1 ############
 
     smartgear.api.backup.v1.api:
@@ -282,7 +306,7 @@ services:
         class: WEM\SmartgearBundle\Api\Backup\V1\Model\ListResponse
         public: true
 
-    smartgear.api.backup.v1.model.Create_response:
+    smartgear.api.backup.v1.model.create_response:
         class: WEM\SmartgearBundle\Api\Backup\V1\Model\CreateResponse
         public: true
 
@@ -292,5 +316,31 @@ services:
 
     smartgear.api.backup.v1.model.mapper.create_result_to_create_response:
         class: WEM\SmartgearBundle\Api\Backup\V1\Model\Mapper\CreateResultToCreateResponse
+        public: true
+    
+    ############ API UPDATE V1 ############
+
+    smartgear.api.update.v1.api:
+        class: WEM\SmartgearBundle\Api\Update\V1\Api
+        arguments:
+            $updateManager : '@smartgear.update.update_manager'
+            $listResultToListResponseMapper: '@smartgear.api.update.v1.model.mapper.list_result_to_list_response'
+            $updateResultToUpdateResponseMapper: '@smartgear.api.update.v1.model.mapper.update_result_to_update_response'
+        public: true
+
+    smartgear.api.update.v1.model.list_response:
+        class: WEM\SmartgearBundle\Api\Update\V1\Model\ListResponse
+        public: true
+
+    smartgear.api.update.v1.model.update_response:
+        class: WEM\SmartgearBundle\Api\Update\V1\Model\UpdateResponse
+        public: true
+
+    smartgear.api.update.v1.model.mapper.list_result_to_list_response:
+        class: WEM\SmartgearBundle\Api\Update\V1\Model\Mapper\ListResultToListResponse
+        public: true
+
+    smartgear.api.update.v1.model.mapper.update_result_to_update_response:
+        class: WEM\SmartgearBundle\Api\Update\V1\Model\Mapper\UpdateResultToUpdateResponse
         public: true
     

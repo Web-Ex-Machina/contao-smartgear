@@ -55,7 +55,6 @@ class BackupManager
         $this->backupDirectory = $backupDirectory;
         $this->databaseBackupDirectory = $databaseBackupDirectory;
         $this->databaseBackupManager = $databaseBackupManager;
-        $this->model = $model;
         $this->artifactsToBackup = $artifactsToBackup;
         $this->tablesToIgnore = $tablesToIgnore;
     }
@@ -129,8 +128,10 @@ class BackupManager
                 ->setLimit($limit)
                 ->setOffset($offset)
             ;
-            foreach ($models as $model) {
-                $result->addBackup(new File($this->getBackupPath($model->name)));
+            if ($models) {
+                foreach ($models as $model) {
+                    $result->addBackup(new File($this->getBackupPath($model->name)));
+                }
             }
         } catch (\Exception $e) {
             throw new BackupManagerException('Une erreur est survenue lors de la récupération de la liste des backups : '.$e->getMessage(), $e->getCode(), $e);

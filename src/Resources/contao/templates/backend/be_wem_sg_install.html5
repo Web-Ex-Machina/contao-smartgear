@@ -10,6 +10,7 @@
 <div id="tl_buttons">
   <a href="<?= $this->request ?>" class="executeCmdPhp" data-cmd="cache:clear" title="Refresh Cache" accesskey="r">Refresh Cache</a>
   <a href="<?= ampersand($this->backupManagerBtnHref) ?>" title="<?= Contao\StringUtil::specialchars($this->backupManagerBtnTitle) ?>" accesskey="b"><?= $this->backupManagerBtnButton ?></a>
+  <a href="<?= ampersand($this->updateManagerBtnHref) ?>" title="<?= Contao\StringUtil::specialchars($this->updateManagerBtnTitle) ?>" accesskey="b"><?= $this->updateManagerBtnButton ?> (<?= $this->update_to_play_number ?? "0"; ?>)</a>
 </div>
 
 

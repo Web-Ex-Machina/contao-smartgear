@@ -42,3 +42,28 @@ services:
         tags:
             - { name: 'console.command'}
         public: true
+
+    smartgear.command.update.abstract:
+        class: WEM\SmartgearBundle\Command\Update\AbstractUpdateCommand
+        arguments:
+            $updateManager : '@smartgear.update.update_manager'
+            $framework: '@contao.framework'
+        public: true
+
+    smartgear.command.update.list:
+        class: WEM\SmartgearBundle\Command\Update\UpdateListCommand
+        arguments:
+            $updateManager : '@smartgear.update.update_manager'
+            $framework: '@contao.framework'
+        tags:
+            - { name: 'console.command'}
+        public: true
+
+    smartgear.command.update.update:
+        class: WEM\SmartgearBundle\Command\Update\UpdateCommand
+        arguments:
+            $updateManager : '@smartgear.update.update_manager'
+            $framework: '@contao.framework'
+        tags:
+            - { name: 'console.command'}
+        public: true

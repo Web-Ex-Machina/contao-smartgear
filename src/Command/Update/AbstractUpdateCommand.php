@@ -12,19 +12,19 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Command\Backup;
+namespace WEM\SmartgearBundle\Command\Update;
 
 use WEM\SmartgearBundle\Command\AbstractCommand;
-use WEM\SmartgearBundle\Backup\BackupManager;
+use WEM\SmartgearBundle\Update\UpdateManager;
 use Contao\CoreBundle\Framework\ContaoFramework;
 
-class AbstractBackupCommand extends AbstractCommand
+class AbstractUpdateCommand extends AbstractCommand
 {
-    protected BackupManager $backupManager;
+    protected UpdateManager $updateManager;
 
-    public function __construct(BackupManager $backupManager, ContaoFramework $framework)
+    public function __construct(UpdateManager $updateManager, ContaoFramework $framework)
     {
-        $this->backupManager = $backupManager;
+        $this->updateManager = $updateManager;
 
         parent::__construct($framework);
 

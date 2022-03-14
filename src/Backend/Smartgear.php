@@ -26,6 +26,7 @@ use WEM\SmartgearBundle\Backup\BackupManager;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Override\Controller;
+use WEM\SmartgearBundle\Update\UpdateManager;
 use WEM\UtilsBundle\Classes\StringUtil;
 
 /**
@@ -59,12 +60,16 @@ class Smartgear extends \Contao\BackendModule
     protected $modules = ['module' => ['core']];
     /** @var BackupManager */
     protected $backupManager;
+    /** @var UpdateManager */
+    protected $updateManager;
 
     public function __construct($dc = null)
     {
         parent::__construct($dc);
-        $this->backupManager = System::getContainer()->get('smartgear.backup.backup_manager'); // Init session
-        $this->objSession = System::getContainer()->get('session');
+        $this->backupManager = System::getContainer()->get('smartgear.backup.backup_manager');
+        $this->updateManager = System::getContainer()->get('smartgear.update.update_manager');
+        $this->coreConfigurationManager = System::getContainer()->get('smartgear.config.manager.core');
+        $this->objSession = System::getContainer()->get('session'); // Init session
     }
 
     /**
@@ -133,23 +138,6 @@ class Smartgear extends \Contao\BackendModule
                         }
                         $arrResponse = $objBlock->processAjaxRequest();
                         $arrResponse['logs'] = $objBlock->getLogs();
-
-                        // $objModule = Util::findAndCreateObject(Input::post('type'), Input::post('module'));
-
-                        // // Check if the method asked exists
-                        // if (!method_exists($objModule, $strAction)) {
-                        //     throw new Exception(sprintf('Unknown method %s in Class %s', $strAction, \get_class($objModule)));
-                        // }
-
-                        // // Just make sure we return a response in the asked format, if no format sent, we assume it's JSON.
-                        // if ('html' === Input::post('format')) {
-                        //     echo $objModule->$strAction();
-                        //     exit;
-                        // }
-
-                        // // Launch the action and store the result
-                        // $arrResponse = $objModule->$strAction();
-                        // $arrResponse['logs'] = $objModule->logs;
                 }
             } catch (Exception $e) {
                 $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
@@ -171,16 +159,21 @@ class Smartgear extends \Contao\BackendModule
     {
         // Add WEM styles to template
         $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
-        $coreConfigManager = $this->getContainer()->get('smartgear.config.manager.core');
         try {
-            $coreConfig = $coreConfigManager->load();
+            $coreConfig = $this->coreConfigurationManager->load();
         } catch (FileNotFoundException $e) {
-            $coreConfig = $coreConfigManager->new();
-            $save = $coreConfigManager->save($coreConfig);
+            $coreConfig = $this->coreConfigurationManager->new();
+            $save = $this->coreConfigurationManager->save($coreConfig);
         }
 
         if ('backupmanager' === Input::get('key')) {
             $this->getBackupManager();
+
+            return;
+        }
+
+        if ('updatemanager' === Input::get('key')) {
+            $this->getUpdateManager();
 
             return;
         }
@@ -206,26 +199,25 @@ class Smartgear extends \Contao\BackendModule
 
         // If there is nothing setup, trigger Smartgear Install
         if (!$coreConfig->getSgInstallComplete()) {
-            // load the core block which will take care of his installation itself
-            // $this->getActiveStep();
-            // $this->Template->steps = $this->parseInstallSteps();
-
-            // $blocks['install'][$this->strActiveStep] = $this->getInstallBlock();
-            // $this->Template->blocks = $blocks;
             $coreBlock = System::getContainer()->get('smartgear.backend.module.core.block');
-            // $this->Template = $coreBlock->parse();
             $arrBlocks[$coreBlock->getType()][] = $coreBlock->parse();
         } else {
-            // // Load the updater
-            // $this->getUpdater();
+            // Retrieve number of updates to play if session key is undefined
+            // @todo : find a way to update this value after an update by the Contao-Manager
+            if ($this->objSession->get('wem_sg_update_to_play_number')) {
+                $listResults = $this->updateManager->list();
+                $this->Template->update_to_play_number = $listResults->getNumbersOfUpdatesToPlay();
+                $this->objSession->set('wem_sg_update_to_play_number', $this->Template->update_to_play_number);
+            }
 
             // Load buttons
             $this->getBackupManagerButton();
+            $this->getUpdateManagerButton();
 
             // Parse Smartgear components
             foreach ($this->modules as $type => $blocks) {
                 foreach ($blocks as $block) {
-                    $objModule = $this->getContainer()->get('smartgear.backend.'.$type.'.'.$block.'.block'); //Util::findAndCreateObject($type, $block);
+                    $objModule = $this->getContainer()->get('smartgear.backend.'.$type.'.'.$block.'.block');
                     $arrBlocks[$type][] = $objModule->parse();
                 }
             }
@@ -237,6 +229,7 @@ class Smartgear extends \Contao\BackendModule
         $this->Template->request = Environment::get('request');
         $this->Template->token = RequestToken::get();
         $this->Template->websiteTitle = Config::get('websiteTitle');
+        $this->Template->version = $this->coreConfigurationManager->load()->getSgVersion();
     }
 
     /**
@@ -321,6 +314,50 @@ class Smartgear extends \Contao\BackendModule
         $this->Template->newBackUpButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['newBackUpBT'];
     }
 
+    /**
+     * Update manager behaviour.
+     */
+    protected function getUpdateManager(): void
+    {
+        $this->Template = new BackendTemplate('be_wem_sg_updatemanager');
+
+        if ('play' === Input::get('act')) {
+            $result = $this->updateManager->update();
+
+            $this->objSession->set('wem_sg_update_update_result', $result);
+
+            // Add Message
+            Message::addConfirmation('Mises à jour effectuées');
+
+            // And redirect
+            Controller::redirect(str_replace('&act=play', '', Environment::get('request')));
+        }
+
+        // Retrieve eventual logs
+        if ($this->objSession->get('wem_sg_update_update_result')) {
+            $this->Template->update_result = $this->objSession->get('wem_sg_update_update_result');
+            $this->objSession->set('wem_sg_update_update_result', '');
+        }
+
+        // Retrieve updates
+        $listResults = $this->updateManager->list();
+        $this->objSession->set('wem_sg_update_to_play_number', $listResults->getNumbersOfUpdatesToPlay());
+        if (!$listResults) {
+            $this->Template->empty = true;
+        } else {
+            $this->Template->empty = false;
+            $this->Template->updates = $listResults;
+        }
+
+        // Back button
+        $this->getBackButton(str_replace('&key=updatemanager', '', Environment::get('request')));
+
+        // play updates button
+        $this->Template->playUpdatesButtonHref = $this->addToUrl('&act=play');
+        $this->Template->playUpdatesButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesBTTitle']);
+        $this->Template->playUpdatesButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesBT'];
+    }
+
     protected function getBackButton($strHref = ''): void
     {
         // Back button
@@ -335,5 +372,13 @@ class Smartgear extends \Contao\BackendModule
         $this->Template->backupManagerBtnHref = $this->addToUrl('&key=backupmanager');
         $this->Template->backupManagerBtnTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['backupManagerBTTitle']);
         $this->Template->backupManagerBtnButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['backupManagerBT'];
+    }
+
+    protected function getUpdateManagerButton(): void
+    {
+        // Backup manager button
+        $this->Template->updateManagerBtnHref = $this->addToUrl('&key=updatemanager');
+        $this->Template->updateManagerBtnTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['updateManagerBTTitle']);
+        $this->Template->updateManagerBtnButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['updateManagerBT'];
     }
 }

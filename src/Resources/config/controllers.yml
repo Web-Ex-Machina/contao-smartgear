@@ -24,3 +24,15 @@ services:
             $securityApiKey: '@smartgear.classes.api.security.api_key'
             $securityToken: '@smartgear.classes.api.security.token'
         public: true
+
+    WEM\SmartgearBundle\Controller\Api\Update\V1Controller:
+        alias: 'smartgear.controller.api.update.v1'
+        public: true
+
+    smartgear.controller.api.update.v1:
+        class: WEM\SmartgearBundle\Controller\Api\Update\V1Controller
+        arguments:
+            $framework: '@contao.framework'
+            $api : '@smartgear.api.update.v1.api'
+            $securityToken: '@smartgear.classes.api.security.token'
+        public: true
