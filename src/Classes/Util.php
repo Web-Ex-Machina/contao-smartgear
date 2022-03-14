@@ -531,11 +531,13 @@ class Util
     }
 
     /**
-     * Return package version.
+     * Get a package's version.
      *
-     * @return [Float] Package version
+     * @param string $package The package name
+     *
+     * @return string|null The package version if found, null otherwise
      */
-    public static function getPackageVersion($package)
+    public static function getCustomPackageVersion(string $package): ?string
     {
         $packages = json_decode(file_get_contents(TL_ROOT.'/vendor/composer/installed.json'));
 
@@ -547,6 +549,16 @@ class Util
         }
 
         return null;
+    }
+
+    /**
+     * Get this package's version.
+     *
+     * @return string|null The package version if found, null otherwise
+     */
+    public static function getPackageVersion(): ?string
+    {
+        return self::getCustomPackageVersion('webexmachina/contao-smartgear');
     }
 
     /**
