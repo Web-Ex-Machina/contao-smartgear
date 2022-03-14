@@ -17,7 +17,6 @@ namespace WEM\SmartgearBundle\Command\Update;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use WEM\SmartgearBundle\Exceptions\Update\ManagerException as UpdateManagerException;
 use WEM\SmartgearBundle\Update\Results\UpdateResult;
 
 class UpdateCommand extends AbstractUpdateCommand
@@ -32,7 +31,7 @@ class UpdateCommand extends AbstractUpdateCommand
         try {
             /** @var UpdateResult */
             $updateResult = $this->updateManager->update();
-        } catch (UpdateManagerException $e) {
+        } catch (\Exception $e) {
             if ($this->isJson($input)) {
                 $io->writeln(json_encode(['error' => $e->getMessage()]));
             } else {
@@ -56,7 +55,7 @@ class UpdateCommand extends AbstractUpdateCommand
 
         $io->success(sprintf('Backup : %s', $updateResult->getBackupResult()->getBackup()->basename));
 
-        $io->table(['Name', 'Description', 'Status', 'Logs'], $this->formatForTable($updateResult->getResults()));
+        $io->table(['Version', 'Name', 'Description', 'Status', 'Logs'], $this->formatForTable($updateResult->getResults()));
 
         return 0;
     }
@@ -66,6 +65,7 @@ class UpdateCommand extends AbstractUpdateCommand
         $formatted = [];
         foreach ($singleMigrationResults as $singleMigrationResult) {
             $formatted[] = [
+                $singleMigrationResult->getMigration()->getVersion(),
                 $singleMigrationResult->getMigration()->getName(),
                 $singleMigrationResult->getMigration()->getDescription(),
                 $singleMigrationResult->getResult()->getStatus(),
@@ -90,6 +90,7 @@ class UpdateCommand extends AbstractUpdateCommand
         foreach ($updateResult->getResults() as $singleMigrationResult) {
             $json['updates'][] = [
                 'classname' => \get_class($singleMigrationResult->getMigration()),
+                'version' => $singleMigrationResult->getMigration()->getVersion(),
                 'name' => $singleMigrationResult->getMigration()->getName(),
                 'description' => $singleMigrationResult->getMigration()->getDescription(),
                 'status' => $singleMigrationResult->getResult()->getStatus(),
