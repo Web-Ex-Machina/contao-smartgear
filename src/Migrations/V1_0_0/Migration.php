@@ -22,7 +22,9 @@ class Migration implements MigrationInterface
 {
     public function shouldRun(): Result
     {
-        return (new Result())->setStatus(Result::STATUS_SHOULD_RUN);
+        return (new Result())
+                ->setStatus(Result::STATUS_SUCCESS)
+        ;
     }
 
     public function do(): Result

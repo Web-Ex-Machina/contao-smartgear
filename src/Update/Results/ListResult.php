@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Update\Results;
 
+use WEM\SmartgearBundle\Classes\Migration\Result as MigrationResult;
+
 class ListResult
 {
     /** @var array */
@@ -29,5 +31,15 @@ class ListResult
     public function getResults(): array
     {
         return $this->results;
+    }
+
+    public function getNumbersOfUpdatesToPlay(): int
+    {
+        $numbersOfUpdatesToPlay = 0;
+        foreach ($this->getResults() as $singleMigrationResult) {
+            $numbersOfUpdatesToPlay = MigrationResult::STATUS_SHOULD_RUN === $singleMigrationResult->getResult()->getStatus() ? $numbersOfUpdatesToPlay + 1 : $numbersOfUpdatesToPlay;
+        }
+
+        return $numbersOfUpdatesToPlay;
     }
 }
