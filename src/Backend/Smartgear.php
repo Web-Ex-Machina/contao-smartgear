@@ -241,7 +241,7 @@ class Smartgear extends \Contao\BackendModule
         $this->Template = new BackendTemplate('be_wem_sg_backupmanager');
 
         if ('new' === Input::get('act')) {
-            $result = $this->backupManager->new();
+            $result = $this->backupManager->newFromUI();
 
             $this->objSession->set('wem_sg_backup_create_result', $result);
 

@@ -54,7 +54,7 @@ class Api
     public function create()
     {
         try {
-            $createResult = $this->backupManager->new();
+            $createResult = $this->backupManager->newFromAPI();
             $response = $this->createResultToCreateResponseMapper->map($createResult, (new CreateResponse()));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());

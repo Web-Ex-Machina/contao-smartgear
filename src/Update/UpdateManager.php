@@ -94,7 +94,7 @@ class UpdateManager
 
     protected function doBackup(): BackupResult
     {
-        return $this->backupManager->new();
+        return $this->backupManager->newFromUpdate();
     }
 
     protected function updateSingle(MigrationInterface $migration): SingleMigrationResult

@@ -80,7 +80,7 @@ class General extends AbstractStep
     protected function backup(): void
     {
         /** @var CreateResult */
-        $createResult = $this->backupManager->new();
+        $createResult = $this->backupManager->newFromConfigurationReset();
         $this->addConfirm(sprintf('Backup "%s" effectué.', $createResult->getBackup()->basename));
     }
 

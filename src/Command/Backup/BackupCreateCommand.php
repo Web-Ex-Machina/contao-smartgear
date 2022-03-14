@@ -33,7 +33,7 @@ class BackupCreateCommand extends AbstractBackupCommand
 
         try {
             /** @var CreateResult */
-            $result = $this->backupManager->new();
+            $result = $this->backupManager->newFromCommand();
         } catch (BackupManagerException $e) {
             if ($this->isJson($input)) {
                 $io->writeln(json_encode(['error' => $e->getMessage()]));

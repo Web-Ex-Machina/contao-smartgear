@@ -59,55 +59,29 @@ class BackupManager
         $this->tablesToIgnore = $tablesToIgnore;
     }
 
-    /**
-     * Create a new backup.
-     *
-     * @return CreateResult The backup result
-     */
-    public function new(): CreateResult
+    public function newFromCommand(): CreateResult
     {
-        try {
-            $result = new CreateResult();
-            $path = $this->getNewBackupPath();
+        return $this->new('command');
+    }
 
-            $backupArchive = new ZipWriter($path);
+    public function newFromConfigurationReset(): CreateResult
+    {
+        return $this->new('configuration reset');
+    }
 
-            $databaseBackupConfig = $this->databaseBackupManager->createCreateConfig();
-            $databaseBackupConfig = $databaseBackupConfig->withTablesToIgnore($this->tablesToIgnore);
-            $this->databaseBackupManager->create($databaseBackupConfig);
-            $databaseBackup = $databaseBackupConfig->getBackup();
+    public function newFromUpdate(): CreateResult
+    {
+        return $this->new('update');
+    }
 
-            $backupArchive->addFile($this->databaseBackupDirectory.\DIRECTORY_SEPARATOR.$databaseBackup->getFilename());
-            $result->addFileBackuped($this->databaseBackupDirectory.\DIRECTORY_SEPARATOR.$databaseBackup->getFilename());
+    public function newFromUI(): CreateResult
+    {
+        return $this->new('ui');
+    }
 
-            foreach ($this->artifactsToBackup as $artifactPath) {
-                if (is_file($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath)) {
-                    $backupArchive->addFile($artifactPath);
-                    $result->addFileBackuped($artifactPath);
-                } else {
-                    $files = Util::getFileList($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath);
-                    foreach ($files as $filePath) {
-                        $backupArchive->addFile(str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath));
-                        $result->addFileBackuped(str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath));
-                    }
-                }
-            }
-
-            $backupArchive->close();
-
-            $result->setBackup(new File($path));
-
-            $model = new BackupModel();
-            $model->tstamp = time();
-            $model->createdAt = time();
-            $model->name = $result->getBackup()->basename;
-            $model->files = implode(',', $result->getFiles());
-            $model->save();
-        } catch (\Exception $e) {
-            throw new BackupManagerException('Une erreur est survenue lors de la création du backup : '.$e->getMessage(), $e->getCode(), $e);
-        }
-
-        return $result;
+    public function newFromAPI(): CreateResult
+    {
+        return $this->new('api');
     }
 
     public function list(int $limit, int $offset, ?int $before = null, ?int $after = null): ListResult
@@ -203,6 +177,58 @@ class BackupManager
         $model->delete();
 
         return unlink($this->getBackupFullPath($backupName));
+    }
+
+    /**
+     * Create a new backup.
+     *
+     * @return CreateResult The backup result
+     */
+    protected function new(string $source): CreateResult
+    {
+        try {
+            $result = new CreateResult();
+            $path = $this->getNewBackupPath();
+
+            $backupArchive = new ZipWriter($path);
+
+            $databaseBackupConfig = $this->databaseBackupManager->createCreateConfig();
+            $databaseBackupConfig = $databaseBackupConfig->withTablesToIgnore($this->tablesToIgnore);
+            $this->databaseBackupManager->create($databaseBackupConfig);
+            $databaseBackup = $databaseBackupConfig->getBackup();
+
+            $backupArchive->addFile($this->databaseBackupDirectory.\DIRECTORY_SEPARATOR.$databaseBackup->getFilename());
+            $result->addFileBackuped($this->databaseBackupDirectory.\DIRECTORY_SEPARATOR.$databaseBackup->getFilename());
+
+            foreach ($this->artifactsToBackup as $artifactPath) {
+                if (is_file($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath)) {
+                    $backupArchive->addFile($artifactPath);
+                    $result->addFileBackuped($artifactPath);
+                } else {
+                    $files = Util::getFileList($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath);
+                    foreach ($files as $filePath) {
+                        $backupArchive->addFile(str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath));
+                        $result->addFileBackuped(str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath));
+                    }
+                }
+            }
+
+            $backupArchive->close();
+
+            $result->setBackup(new File($path));
+
+            $model = new BackupModel();
+            $model->tstamp = time();
+            $model->createdAt = time();
+            $model->name = $result->getBackup()->basename;
+            $model->files = implode(',', $result->getFiles());
+            $model->source = $source;
+            $model->save();
+        } catch (\Exception $e) {
+            throw new BackupManagerException('Une erreur est survenue lors de la création du backup : '.$e->getMessage(), $e->getCode(), $e);
+        }
+
+        return $result;
     }
 
     protected function cleanArtifactsBeforeRestore(): array
