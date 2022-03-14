@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes;
 
+use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
+
 /**
  * SMARTGEAR for Contao Open Source CMS
  * Copyright (c) 2015-2022 Web ex Machina.
@@ -32,10 +34,10 @@ class UtilFramway
     {
         set_time_limit(0);
         if ($live) {
-            return Util::executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_retrieve.sh ./'.$framwayPath);
+            return CommandUtil::executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_retrieve.sh ./'.$framwayPath);
         }
 
-        return Util::executeCmd('sh '.self::SCRIPTS_PATH.'framway_retrieve.sh ./'.$framwayPath);
+        return CommandUtil::executeCmd('sh '.self::SCRIPTS_PATH.'framway_retrieve.sh ./'.$framwayPath);
     }
 
     public static function install(string $framwayPath, bool $live = false)
@@ -43,10 +45,10 @@ class UtilFramway
         set_time_limit(0);
 
         if ($live) {
-            return Util::executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_install.sh ./'.$framwayPath);
+            return CommandUtil::executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_install.sh ./'.$framwayPath);
         }
 
-        return Util::executeCmd('sh '.self::SCRIPTS_PATH.'framway_install.sh ./'.$framwayPath);
+        return CommandUtil::executeCmd('sh '.self::SCRIPTS_PATH.'framway_install.sh ./'.$framwayPath);
     }
 
     public static function initialize(string $framwayPath, bool $live = false)
@@ -54,10 +56,10 @@ class UtilFramway
         set_time_limit(0);
 
         if ($live) {
-            return Util::executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_initialize.sh ./'.$framwayPath);
+            return CommandUtil::executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_initialize.sh ./'.$framwayPath);
         }
 
-        return Util::executeCmd('sh '.self::SCRIPTS_PATH.'framway_initialize.sh ./'.$framwayPath);
+        return CommandUtil::executeCmd('sh '.self::SCRIPTS_PATH.'framway_initialize.sh ./'.$framwayPath);
     }
 
     public static function build(string $framwayPath, bool $live = false)
@@ -65,10 +67,10 @@ class UtilFramway
         set_time_limit(0);
 
         if ($live) {
-            return Util::executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_build.sh ./'.$framwayPath);
+            return CommandUtil::executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_build.sh ./'.$framwayPath);
         }
 
-        return Util::executeCmd('sh '.self::SCRIPTS_PATH.'framway_build.sh ./'.$framwayPath);
+        return CommandUtil::executeCmd('sh '.self::SCRIPTS_PATH.'framway_build.sh ./'.$framwayPath);
     }
 
     public static function checkPresence(string $framwayPath)
@@ -81,10 +83,10 @@ class UtilFramway
         self::checkThemeName($themeName);
 
         if ($live) {
-            return Util::executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_theme_add.sh ./'.$framwayPath);
+            return CommandUtil::executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_theme_add.sh ./'.$framwayPath);
         }
 
-        return Util::executeCmd('sh '.self::SCRIPTS_PATH.'framway_theme_add.sh ./'.$framwayPath.' '.$themeName);
+        return CommandUtil::executeCmd('sh '.self::SCRIPTS_PATH.'framway_theme_add.sh ./'.$framwayPath.' '.$themeName);
     }
 
     public static function checkThemeName(string $themeName): void

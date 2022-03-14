@@ -23,6 +23,7 @@ use Contao\RequestToken;
 use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Backup\BackupManager;
+use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Override\Controller;
@@ -93,7 +94,7 @@ class Smartgear extends \Contao\BackendModule
                         try {
                             $arrResponse['status'] = 'success';
                             $arrResponse['msg'] = sprintf('La commande %s a été executée avec succès', Input::post('cmd'));
-                            $arrResponse['output'] = Util::executeCmd(Input::post('cmd'));
+                            $arrResponse['output'] = CommandUtil::executeCmd(Input::post('cmd'));
                             // } catch (ProcessFailedException $e) {
                         } catch (Exception $e) {
                             throw $e;
@@ -107,7 +108,7 @@ class Smartgear extends \Contao\BackendModule
                         try {
                             $arrResponse['status'] = 'success';
                             $arrResponse['msg'] = sprintf('La commande %s a été executée avec succès', Input::post('cmd'));
-                            $arrResponse['output'] = Util::executeCmdPHP(Input::post('cmd'));
+                            $arrResponse['output'] = CommandUtil::executeCmdPHP(Input::post('cmd'));
                             // } catch (ProcessFailedException $e) {
                         } catch (Exception $e) {
                             throw $e;
@@ -120,7 +121,7 @@ class Smartgear extends \Contao\BackendModule
 
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = sprintf('La commande %s a été executée avec succès', Input::post('cmd'));
-                        $res = Util::executeCmdLive(Input::post('cmd'));
+                        $res = CommandUtil::executeCmdLive(Input::post('cmd'));
                         $arrResponse['output'] = $res;
                         // exit();
                     break;
@@ -144,7 +145,7 @@ class Smartgear extends \Contao\BackendModule
             }
 
             // Add Request Token to JSON answer and return
-            $arrResponse['rt'] = \RequestToken::get();
+            $arrResponse['rt'] = RequestToken::get();
             echo json_encode($arrResponse);
             exit;
         }
