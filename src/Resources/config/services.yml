@@ -109,6 +109,19 @@ services:
         class: WEM\SmartgearBundle\Classes\Version\Comparator
         public: true
 
+    smartgear.classes.command.util:
+        class: WEM\SmartgearBundle\Classes\Command\Util
+        arguments:
+            $rootDir: '%kernel.project_dir%'
+        public: true
+
+    smartgear.classes.util_framway:
+        class: WEM\SmartgearBundle\Classes\UtilFramway
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $commandUtil: '@smartgear.classes.command.util'
+        public: true
+
     smartgear.config.manager.framway:
         class: WEM\SmartgearBundle\Config\Manager\Framway
         arguments:
@@ -197,6 +210,7 @@ services:
             $type: 'core'
             $configurationManager: '@smartgear.config.manager.core'
             $localConfigManager: '@smartgear.config.manager.local_config'
+            $commandUtil: '@smartgear.classes.command.util'
         public: true
 
     smartgear.backend.module.core.configuration_step.framway_retrieval:
@@ -205,6 +219,7 @@ services:
             $module: 'core'
             $type: 'core'
             $configurationManager: '@smartgear.config.manager.core'
+            $framwayUtil: '@smartgear.classes.util_framway'
         public: true
 
     smartgear.backend.module.core.configuration_step.framway_configuration:
@@ -220,6 +235,7 @@ services:
             $tinyMCEPluginsSynchronizer: '@smartgear.classes.directories_synchronizer.tiny_mce.plugins'
             $tarteAuCitronSynchronizer: '@smartgear.classes.directories_synchronizer.tarte_au_citron'
             $outdatedBrowserSynchronizer: '@smartgear.classes.directories_synchronizer.outdated_browser'
+            $framwayUtil: '@smartgear.classes.util_framway'
         public: true
 
     smartgear.backend.module.core.configuration_step.website:

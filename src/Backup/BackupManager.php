@@ -173,6 +173,8 @@ class BackupManager
             $config = $config->withTablesToIgnore($this->tablesToIgnore);
             $this->databaseBackupManager->restore($config);
             $result->setDatabaseRestored(true);
+
+            // 4) rebuild search index if we didn't backup up the corresponding tables
         } catch (\Exception $e) {
             throw new BackupManagerException('Une erreur est survenue lors de la restauration du backup : '.$e->getMessage(), $e->getCode(), $e);
         }

@@ -27,16 +27,20 @@ class General extends ConfigurationStep
 {
     /** @var ConfigurationManager */
     protected $configurationManager;
+    /** @var CommandUtil */
+    protected $commandUtil;
 
     public function __construct(
         string $module,
         string $type,
         ConfigurationManager $configurationManager,
-        LocalConfigManager $localConfigManager
+        LocalConfigManager $localConfigManager,
+        CommandUtil $commandUtil
     ) {
         parent::__construct($module, $type);
         $this->configurationManager = $configurationManager;
         $this->localConfigManager = $localConfigManager;
+        $this->commandUtil = $commandUtil;
         $this->title = 'Général';
         try {
             /** @var CoreConfig */
@@ -109,7 +113,7 @@ class General extends ConfigurationStep
         // do what is meant to be done in this step
         $this->updateModuleConfiguration();
         $this->updateContaoConfiguration();
-        CommandUtil::executeCmdPHP('cache:clear');
+        $this->commandUtil->executeCmdPHP('cache:clear');
     }
 
     protected function updateModuleConfiguration(): void

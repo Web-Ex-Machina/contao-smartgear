@@ -14,12 +14,19 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Command;
 
-use Contao\System;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 class Util
 {
+    /** @var string */
+    protected $rootDir;
+
+    public function __construct(string $rootDir)
+    {
+        $this->rootDir = $rootDir;
+    }
+
     /**
      * Execute a command through PHP.
      *
@@ -27,10 +34,10 @@ class Util
      *
      * @return string The command's output
      */
-    public static function executeCmdPHP($strCmd): string
+    public function executeCmdPHP($strCmd): string
     {
         // Finally, clean the Contao cache
-        $strConsolePath = System::getContainer()->getParameter('kernel.project_dir').'/vendor/bin/contao-console';
+        $strConsolePath = $this->rootDir.'/vendor/bin/contao-console';
         $cmd = sprintf(
             '%s/php -q %s %s --env=prod',
             \PHP_BINDIR,
@@ -49,7 +56,7 @@ class Util
      *
      * @return string The command's output
      */
-    public static function executeCmd(string $cmd, ?int $timeout = 3600)
+    public function executeCmd(string $cmd, ?int $timeout = 3600)
     {
         $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline(
             $cmd
@@ -82,7 +89,7 @@ class Util
      *
      * @return string The command's output
      */
-    public static function executeCmdLive(string $cmd, ?int $timeout = 3600): string
+    public function executeCmdLive(string $cmd, ?int $timeout = 3600): string
     {
         while (@ob_end_flush()) {
         } // end all output buffers if any

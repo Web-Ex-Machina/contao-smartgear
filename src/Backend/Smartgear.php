@@ -63,6 +63,8 @@ class Smartgear extends \Contao\BackendModule
     protected $backupManager;
     /** @var UpdateManager */
     protected $updateManager;
+    /** @var CommandUtil */
+    protected $commandUtil;
 
     public function __construct($dc = null)
     {
@@ -70,6 +72,7 @@ class Smartgear extends \Contao\BackendModule
         $this->backupManager = System::getContainer()->get('smartgear.backup.backup_manager');
         $this->updateManager = System::getContainer()->get('smartgear.update.update_manager');
         $this->coreConfigurationManager = System::getContainer()->get('smartgear.config.manager.core');
+        $this->commandUtil = System::getContainer()->get('smartgear.classes.command.util');
         $this->objSession = System::getContainer()->get('session'); // Init session
     }
 
@@ -94,7 +97,7 @@ class Smartgear extends \Contao\BackendModule
                         try {
                             $arrResponse['status'] = 'success';
                             $arrResponse['msg'] = sprintf('La commande %s a été executée avec succès', Input::post('cmd'));
-                            $arrResponse['output'] = CommandUtil::executeCmd(Input::post('cmd'));
+                            $arrResponse['output'] = $this->commandUtil->executeCmd(Input::post('cmd'));
                             // } catch (ProcessFailedException $e) {
                         } catch (Exception $e) {
                             throw $e;
@@ -108,7 +111,7 @@ class Smartgear extends \Contao\BackendModule
                         try {
                             $arrResponse['status'] = 'success';
                             $arrResponse['msg'] = sprintf('La commande %s a été executée avec succès', Input::post('cmd'));
-                            $arrResponse['output'] = CommandUtil::executeCmdPHP(Input::post('cmd'));
+                            $arrResponse['output'] = $this->commandUtil->executeCmdPHP(Input::post('cmd'));
                             // } catch (ProcessFailedException $e) {
                         } catch (Exception $e) {
                             throw $e;
@@ -121,7 +124,7 @@ class Smartgear extends \Contao\BackendModule
 
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = sprintf('La commande %s a été executée avec succès', Input::post('cmd'));
-                        $res = CommandUtil::executeCmdLive(Input::post('cmd'));
+                        $res = $this->commandUtil->executeCmdLive(Input::post('cmd'));
                         $arrResponse['output'] = $res;
                         // exit();
                     break;
