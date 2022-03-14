@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Migrations\V1_0_0;
 
 use WEM\SmartgearBundle\Classes\Migration\MigrationInterface;
 use WEM\SmartgearBundle\Classes\Migration\Result;
+use WEM\SmartgearBundle\Classes\Version\Version;
 
 class Migration implements MigrationInterface
 {
@@ -44,5 +45,10 @@ class Migration implements MigrationInterface
     public function getDescription(): string
     {
         return 'a getDescription';
+    }
+
+    public function getVersion(): Version
+    {
+        return (new Version())->fromString('1.0.0');
     }
 }

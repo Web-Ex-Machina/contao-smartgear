@@ -1,0 +1,93 @@
+	<?php if($this->restore_result): ?>
+
+		<?php if(count($this->restore_result->getFilesDeletedByRestore()) > 0): ?>
+		<div class="tl_error">
+			<?= count($this->restore_result->getFilesDeletedByRestore()); ?> files deleted
+		</div>
+		<?php endif; ?>
+		<?php if(count($this->restore_result->getFilesReplacedByRestore()) > 0): ?>
+		<div class="tl_confirm">
+			<?= count($this->restore_result->getFilesReplacedByRestore()); ?> files replaced
+		</div>
+		<?php endif; ?>
+		<?php if(count($this->restore_result->getFilesAddedByRestore()) > 0): ?>
+		<div class="tl_info">
+			<?= count($this->restore_result->getFilesAddedByRestore()); ?> files added
+		</div>
+		<?php endif; ?>
+		<?php if(count($this->restore_result->getFilesInError()) > 0): ?>
+		<div class="tl_error">
+			<?= count($this->restore_result->getFilesInError()); ?> files in error
+		</div>
+		<?php endif; ?>
+		<div class="tl_listing_container list_view">
+		<table class="tl_listing showColumns">
+  			<tbody>
+  				<tr>
+					<th class="tl_folder_tlist col_name">Name</th>
+					<th class="tl_folder_tlist col_status">Status</th>
+				</tr>
+			</tbody>
+			<?php foreach($this->restore_result->getFilesDeletedByRestore() as $path): ?>
+				<tr class="even click2edit toggle_select hover-row tl_error">
+					<td colspan="1" class="tl_file_list col_name">
+						<?= $path ?>
+					</td>
+					<td colspan="1" class="tl_file_list col_status">Deleted</td>
+				</tr>
+			<?php endforeach; ?> 
+			<?php foreach($this->restore_result->getFilesReplacedByRestore() as $path): ?>
+				<tr class="even click2edit toggle_select hover-row tl_confirm">
+					<td colspan="1" class="tl_file_list col_name">
+						<?= $path ?>
+					</td>
+					<td colspan="1" class="tl_file_list col_status">Replaced by restore</td>
+				</tr>
+			<?php endforeach; ?> 
+			<?php foreach($this->restore_result->getFilesAddedByRestore() as $path): ?>
+				<tr class="even click2edit toggle_select hover-row tl_info">
+					<td colspan="1" class="tl_file_list col_name">
+						<?= $path ?>
+					</td>
+					<td colspan="1" class="tl_file_list col_status">Added by restore</td>
+				</tr>
+			<?php endforeach; ?> 
+			<?php foreach($this->restore_result->getFilesInError() as $path): ?>
+				<tr class="even click2edit toggle_select hover-row tl_error">
+					<td colspan="1" class="tl_file_list col_name">
+						<?= $path ?>
+					</td>
+					<td colspan="1" class="tl_file_list col_status">In error</td>
+				</tr>
+			<?php endforeach; ?> 
+		</table>
+	</div>
+	<?php endif; ?>
+	<?php if($this->create_result): ?>
+		<div class="tl_listing_container list_view">
+		<table class="tl_listing showColumns">
+  			<tbody>
+  				<tr>
+					<th class="tl_folder_tlist col_name">Name</th>
+					<th class="tl_folder_tlist col_status">Status</th>
+				</tr>
+			</tbody>
+			<?php foreach($this->create_result->getFilesBackuped() as $path): ?>
+				<tr class="even click2edit toggle_select hover-row tl_confirm">
+					<td colspan="1" class="tl_file_list col_name">
+						<?= $path ?>
+					</td>
+					<td colspan="1" class="tl_file_list col_status">Backuped</td>
+				</tr>
+			<?php endforeach; ?> 
+			<?php foreach($this->create_result->getFilesInError() as $path): ?>
+				<tr class="even click2edit toggle_select hover-row tl_error">
+					<td colspan="1" class="tl_file_list col_name">
+						<?= $path ?>
+					</td>
+					<td colspan="1" class="tl_file_list col_status">In error</td>
+				</tr>
+			<?php endforeach; ?> 
+		</table>
+	</div>
+	<?php endif; ?>

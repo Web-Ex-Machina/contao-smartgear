@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Migration;
 
+use WEM\SmartgearBundle\Classes\Version\Version;
+
 interface MigrationInterface
 {
     public function shouldRun(): Result;
@@ -23,4 +25,6 @@ interface MigrationInterface
     public function getName(): string;
 
     public function getDescription(): string;
+
+    public function getVersion(): Version;
 }

@@ -81,6 +81,24 @@
 			<target>Nouveau back-up</target>
 		</trans-unit>
 
+		<!-- Update manager -->
+		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.updateManagerBTTitle">
+			<source>Access Smartgear Updates</source>
+			<target>Accéder aux mises à jour Smartgear</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.updateManagerBT">
+			<source>Updates</source>
+			<target>Mises à jour</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesBTTitle">
+			<source>Play updates</source>
+			<target>Executer les mises à jour</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesBT">
+			<source>Play updates</source>
+			<target>Executer les mises à jour</target>
+		</trans-unit>
+
 		<!-- heimrichhannot/contao-backend-lost-password-bundle -->
 		<trans-unit id="MSC.backendLostPassword.messageSubjectResetPassword">
 			<target>Réinitialisation de votre mot de passe Contao</target>

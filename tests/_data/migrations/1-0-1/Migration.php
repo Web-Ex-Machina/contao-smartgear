@@ -41,6 +41,11 @@ class Migration implements MigrationInterface
         return '1.0.1 - Migration test';
     }
 
+    public function getVersion(): Version
+    {
+        return $this->version;
+    }
+
     public function getDescription(): string
     {
         return 'This migration doesn\'t do anything apart from testing if it should run or not';
