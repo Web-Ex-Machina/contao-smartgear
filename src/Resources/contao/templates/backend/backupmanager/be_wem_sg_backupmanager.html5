@@ -23,22 +23,24 @@
   				<tr>
 					<th class="tl_folder_tlist col_date">Date</th>
 					<th class="tl_folder_tlist col_name">Name</th>
+					<th class="tl_folder_tlist col_source">Source</th>
 					<th class="tl_folder_tlist tl_right_nowrap"></th>
 				</tr>
 				<?php foreach($this->backups->getBackups() as $backup): ?>
 				<tr class="even click2edit toggle_select hover-row">
 					<td colspan="1" class="tl_file_list col_date">
-						<?= empty((string) $backup->ctime) ? 'N/A' : DateTime::createFromFormat('U', (string) $backup->ctime)->format('d/m/Y H:i:s') ?>
+						<?= empty((string) $backup->getFile()->ctime) ? 'N/A' : DateTime::createFromFormat('U', (string) $backup->getFile()->ctime)->format('d/m/Y H:i:s') ?>
 					</td>
-					<td colspan="1" class="tl_file_list col_name"><?= $backup->basename ?></td>
+					<td colspan="1" class="tl_file_list col_name"><?= $backup->getFile()->basename ?></td>
+					<td colspan="1" class="tl_file_list col_source"><?= $backup->getSource() ?></td>
 					<td class="tl_file_list tl_right_nowrap">
-						<a href="<?= $this->addToUrl('&act=download&backup='.$backup->basename) ?>" title="" target="_blank">
+						<a href="<?= $this->addToUrl('&act=download&backup='.$backup->getFile()->basename) ?>" title="" target="_blank">
 							<img src="bundles/wemsmartgear/icons/icon_zip.png" alt="Télécharger le back-up" width="12" height="16">
 						</a>
-						<a href="<?= $this->addToUrl('&act=restore&backup='.$backup->basename) ?>" title="">
+						<a href="<?= $this->addToUrl('&act=restore&backup='.$backup->getFile()->basename) ?>" title="">
 							<img src="bundles/wemsmartgear/icons/icon_restore.png" alt="Restaurer le back-up" width="14" height="16">
 						</a>
-						<a href="<?= $this->addToUrl('&act=delete&backup='.$backup->basename) ?>" title="" onclick="return confirm('Are you sure?')">
+						<a href="<?= $this->addToUrl('&act=delete&backup='.$backup->getFile()->basename) ?>" title="" onclick="return confirm('Are you sure?')">
 							<i class="fa fa-trash"></i>&nbsp;
 						</a>
 					</td>

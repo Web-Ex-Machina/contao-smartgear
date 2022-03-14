@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Update;
 
 use WEM\SmartgearBundle\Backup\BackupManager;
-use WEM\SmartgearBundle\Backup\Results\CreateResult as BackupResult;
+use WEM\SmartgearBundle\Backup\Model\Results\CreateResult as BackupResult;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigManager;
 use WEM\SmartgearBundle\Classes\Migration\MigrationInterface;
 use WEM\SmartgearBundle\Classes\Migration\Result as MigrationResult;

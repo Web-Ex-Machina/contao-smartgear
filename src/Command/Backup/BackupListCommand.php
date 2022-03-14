@@ -17,7 +17,7 @@ namespace WEM\SmartgearBundle\Command\Backup;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use WEM\SmartgearBundle\Backup\Results\ListResult;
+use WEM\SmartgearBundle\Backup\Model\Results\ListResult;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException as BackupManagerException;
 

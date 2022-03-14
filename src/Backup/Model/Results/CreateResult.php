@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Backup\Results;
+namespace WEM\SmartgearBundle\Backup\Model\Results;
 
 class CreateResult extends AbstractResult
 {

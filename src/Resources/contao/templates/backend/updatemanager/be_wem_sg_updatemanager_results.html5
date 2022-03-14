@@ -9,7 +9,7 @@
 	</div>
 	<?php endif; ?>
 	<div class="tl_info">
-		Le back-up <?= $this->update_result->getBackupResult()->getBackup()->basename; ?> a été effectué
+		Le back-up <?= $this->update_result->getBackupResult()->getBackup()->getFile()->basename; ?> a été effectué
 	</div>
 		<div class="tl_listing_container list_view">
 		<table class="tl_listing showColumns">

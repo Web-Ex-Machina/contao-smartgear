@@ -193,9 +193,12 @@ components:
       required:
       - "path"
       - "timestamp"
+      - "source"
       properties:
         path:
           type: "string"
         timestamp:
           type: "integer"
           format: "int64"
+        source:
+          type: "string"

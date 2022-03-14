@@ -21,9 +21,10 @@ use Contao\File;
 use Contao\Folder;
 use Contao\ZipReader;
 use Contao\ZipWriter;
-use WEM\SmartgearBundle\Backup\Results\CreateResult;
-use WEM\SmartgearBundle\Backup\Results\ListResult;
-use WEM\SmartgearBundle\Backup\Results\RestoreResult;
+use WEM\SmartgearBundle\Backup\Model\Backup as BackupBusinessModel;
+use WEM\SmartgearBundle\Backup\Model\Results\CreateResult;
+use WEM\SmartgearBundle\Backup\Model\Results\ListResult;
+use WEM\SmartgearBundle\Backup\Model\Results\RestoreResult;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException as BackupManagerException;
 use WEM\SmartgearBundle\Model\Backup as BackupModel;
@@ -61,27 +62,27 @@ class BackupManager
 
     public function newFromCommand(): CreateResult
     {
-        return $this->new('command');
+        return $this->new(BackupModel::SOURCE_COMMAND);
     }
 
     public function newFromConfigurationReset(): CreateResult
     {
-        return $this->new('configuration reset');
+        return $this->new(BackupModel::SOURCE_CONFIGURATION_RESET);
     }
 
     public function newFromUpdate(): CreateResult
     {
-        return $this->new('update');
+        return $this->new(BackupModel::SOURCE_UPDATE);
     }
 
     public function newFromUI(): CreateResult
     {
-        return $this->new('ui');
+        return $this->new(BackupModel::SOURCE_UI);
     }
 
     public function newFromAPI(): CreateResult
     {
-        return $this->new('api');
+        return $this->new(BackupModel::SOURCE_API);
     }
 
     public function list(int $limit, int $offset, ?int $before = null, ?int $after = null): ListResult
@@ -104,7 +105,11 @@ class BackupManager
             ;
             if ($models) {
                 foreach ($models as $model) {
-                    $result->addBackup(new File($this->getBackupPath($model->name)));
+                    $result->addBackup(
+                        (new BackupBusinessModel())
+                        ->setFile(new File($this->getBackupPath($model->name)))
+                        ->setSource($model->source)
+                    );
                 }
             }
         } catch (\Exception $e) {
@@ -127,7 +132,15 @@ class BackupManager
     {
         try {
             $result = new RestoreResult();
-            $result->setBackup(new File($this->getBackupPath($backupName)));
+
+            $model = BackupModel::findOneBy('name', $backupName);
+
+            $result->setBackup(
+                (new BackupBusinessModel())
+                ->setFile(new File($this->getBackupPath($backupName)))
+                ->setSource($model->source)
+            );
+
             $backup = new ZipReader($this->getBackupPath($backupName));
 
             // 1) Here we'll delete what need to be deleted
@@ -215,12 +228,16 @@ class BackupManager
 
             $backupArchive->close();
 
-            $result->setBackup(new File($path));
+            $result->setBackup(
+                 (new BackupBusinessModel())
+                ->setFile(new File($path))
+                ->setSource($source)
+            );
 
             $model = new BackupModel();
             $model->tstamp = time();
             $model->createdAt = time();
-            $model->name = $result->getBackup()->basename;
+            $model->name = $result->getBackup()->getFile()->basename;
             $model->files = implode(',', $result->getFiles());
             $model->source = $source;
             $model->save();

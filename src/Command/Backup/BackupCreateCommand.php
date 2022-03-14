@@ -17,7 +17,7 @@ namespace WEM\SmartgearBundle\Command\Backup;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use WEM\SmartgearBundle\Backup\Results\CreateResult;
+use WEM\SmartgearBundle\Backup\Model\Results\CreateResult;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException as BackupManagerException;
 
 class BackupCreateCommand extends AbstractBackupCommand
@@ -46,7 +46,7 @@ class BackupCreateCommand extends AbstractBackupCommand
 
         if ($this->isJson($input)) {
             $io->writeln(json_encode([
-                'backup' => $result->getBackup()->basename,
+                'backup' => $result->getBackup()->getFile()->basename,
                 'files' => [
                     'not_backuped' => $result->getFilesInError(),
                     'backuped' => $result->getFilesBackuped(),
@@ -58,9 +58,9 @@ class BackupCreateCommand extends AbstractBackupCommand
 
         $io->table(['File', 'Status'], $this->formatForTable($result));
         if (empty($result->getFilesInError())) {
-            $io->success(sprintf('Successfully created backup "%s".', $result->getBackup()->basename));
+            $io->success(sprintf('Successfully created backup "%s".', $result->getBackup()->getFile()->basename));
         } else {
-            $io->error(sprintf('Something went wrong during backup "%s" creation.', $result->getBackup()->basename));
+            $io->error(sprintf('Something went wrong during backup "%s" creation.', $result->getBackup()->getFile()->basename));
         }
 
         return 0;

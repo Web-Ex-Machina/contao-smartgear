@@ -19,7 +19,7 @@ use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\ThemeModel;
 use WEM\SmartgearBundle\Backup\BackupManager;
-use WEM\SmartgearBundle\Backup\Results\CreateResult;
+use WEM\SmartgearBundle\Backup\Model\Results\CreateResult;
 use WEM\SmartgearBundle\Classes\Backend\AbstractStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
@@ -81,7 +81,7 @@ class General extends AbstractStep
     {
         /** @var CreateResult */
         $createResult = $this->backupManager->newFromConfigurationReset();
-        $this->addConfirm(sprintf('Backup "%s" effectué.', $createResult->getBackup()->basename));
+        $this->addConfirm(sprintf('Backup "%s" effectué.', $createResult->getBackup()->getFile()->basename));
     }
 
     protected function reset(): void

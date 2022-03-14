@@ -12,9 +12,9 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Backup\Results;
+namespace WEM\SmartgearBundle\Backup\Model\Results;
 
-use Contao\File;
+use WEM\SmartgearBundle\Backup\Model\Backup as BackupBusinessModel;
 
 class ListResult
 {
@@ -31,7 +31,7 @@ class ListResult
     /** @var int */
     protected $after = 0;
 
-    public function addBackup(File $backup): self
+    public function addBackup(BackupBusinessModel $backup): self
     {
         $this->backups[] = $backup;
 

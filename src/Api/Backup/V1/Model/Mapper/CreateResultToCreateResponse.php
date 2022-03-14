@@ -15,15 +15,16 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Api\Backup\V1\Model\Mapper;
 
 use WEM\SmartgearBundle\Api\Backup\V1\Model\CreateResponse;
-use WEM\SmartgearBundle\Backup\Results\CreateResult;
+use WEM\SmartgearBundle\Backup\Model\Results\CreateResult;
 
 class CreateResultToCreateResponse
 {
     public function map(CreateResult $createResult, CreateResponse $createResponse): CreateResponse
     {
         $createResponse->setBackup([
-            'timestamp' => $createResult->getBackup()->ctime,
-            'path' => $createResult->getBackup()->basename,
+            'timestamp' => $createResult->getBackup()->getFile()->ctime,
+            'path' => $createResult->getBackup()->getFile()->basename,
+            'source' => $createResult->getBackup()->getSource(),
         ]);
 
         return $createResponse;

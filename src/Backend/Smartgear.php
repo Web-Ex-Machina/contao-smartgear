@@ -246,7 +246,7 @@ class Smartgear extends \Contao\BackendModule
             $this->objSession->set('wem_sg_backup_create_result', $result);
 
             // Add Message
-            Message::addConfirmation(sprintf('Backup "%s" effectué', $result->getBackup()->basename));
+            Message::addConfirmation(sprintf('Backup "%s" effectué', $result->getBackup()->getFile()->basename));
 
             // And redirect
             Controller::redirect(str_replace('&act=new', '', Environment::get('request')));
@@ -256,7 +256,7 @@ class Smartgear extends \Contao\BackendModule
             $this->objSession->set('wem_sg_backup_restore_result', $result);
 
             // Add Message
-            Message::addConfirmation(sprintf('Backup "%s" restauré', $result->getBackup()->basename));
+            Message::addConfirmation(sprintf('Backup "%s" restauré', $result->getBackup()->getFile()->basename));
 
             // And redirect
             Controller::redirect(str_replace('&act=restore&backup='.Input::get('backup'), '', Environment::get('request')));

@@ -23,8 +23,9 @@ class UpdateResultToUpdateResponse
     {
         $updateResponse->setStatus($updateResult->getStatus());
         $updateResponse->setBackup([
-            'timestamp' => $updateResult->getBackupResult()->getBackup()->ctime,
-            'path' => $updateResult->getBackupResult()->getBackup()->basename,
+            'timestamp' => $updateResult->getBackupResult()->getBackup()->getFile()->ctime,
+            'path' => $updateResult->getBackupResult()->getBackup()->getFile()->basename,
+            'source' => $updateResult->getBackupResult()->getBackup()->getSource(),
         ]);
         foreach ($updateResult->getResults() as $item) {
             $updateResponse->addUpdate([

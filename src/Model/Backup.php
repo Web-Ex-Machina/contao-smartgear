@@ -21,6 +21,11 @@ use WEM\UtilsBundle\Model\Model as CoreModel;
  */
 class Backup extends CoreModel
 {
+    public const SOURCE_API = 'api';
+    public const SOURCE_UPDATE = 'update';
+    public const SOURCE_COMMAND = 'command';
+    public const SOURCE_UI = 'ui';
+    public const SOURCE_CONFIGURATION_RESET = 'configuration reset';
     /**
      * Search fields.
      *
