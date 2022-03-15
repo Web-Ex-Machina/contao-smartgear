@@ -242,24 +242,29 @@ class Smartgear extends \Contao\BackendModule
     protected function getBackupManager(): void
     {
         $this->Template = new BackendTemplate('be_wem_sg_backupmanager');
-
         if ('new' === Input::get('act')) {
+            set_time_limit(0);
+            $start = microtime(true);
             $result = $this->backupManager->newFromUI();
+            $end = microtime(true);
 
             $this->objSession->set('wem_sg_backup_create_result', $result);
 
             // Add Message
-            Message::addConfirmation(sprintf('Backup "%s" effectué', $result->getBackup()->getFile()->basename));
+            Message::addConfirmation(sprintf('Backup "%s" effectué en %d secondes', $result->getBackup()->getFile()->basename, ($end - $start)));
 
             // And redirect
             Controller::redirect(str_replace('&act=new', '', Environment::get('request')));
         } elseif ('restore' === Input::get('act')) {
+            set_time_limit(0);
+            $start = microtime(true);
             $result = $this->backupManager->restore(Input::get('backup'));
+            $end = microtime(true);
 
             $this->objSession->set('wem_sg_backup_restore_result', $result);
 
             // Add Message
-            Message::addConfirmation(sprintf('Backup "%s" restauré', $result->getBackup()->getFile()->basename));
+            Message::addConfirmation(sprintf('Backup "%s" restauré en %d secondes', $result->getBackup()->getFile()->basename, ($end - $start)));
 
             // And redirect
             Controller::redirect(str_replace('&act=restore&backup='.Input::get('backup'), '', Environment::get('request')));

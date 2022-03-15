@@ -56,7 +56,7 @@ $GLOBALS['TL_DCA']['tl_sm_backup'] = [
             'search' => true,
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'tl_class' => 'w100'],
-            'sql' => "text NOT NULL default ''",
+            'sql' => "mediumtext NOT NULL default ''",
         ],
     ],
 ];

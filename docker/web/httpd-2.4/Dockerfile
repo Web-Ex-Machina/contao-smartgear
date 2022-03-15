@@ -37,4 +37,4 @@ CMD apachectl -D FOREGROUND
 
 FROM web_base AS web_test
 
-# Here we can have additional work to be done specifically fot the test container
+FROM web_base AS web_dev

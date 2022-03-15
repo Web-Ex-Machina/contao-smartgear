@@ -1,4 +1,7 @@
 ARG image
+################################
+# Minimal image
+################################
 FROM $image AS php_base
 ARG workdir_bundle
 ARG workdir_bundle_end_slash
@@ -38,8 +41,10 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \
 WORKDIR $workdir_bundle_end_slash
 
 # ENTRYPOINT ["/docker-entrypoint.sh"]
-
-FROM php_base AS php_test
+################################
+# Full image base for test & dev
+################################
+FROM php_base AS php_base_full
 ARG database_url
 ARG db_user
 ARG db_password
@@ -74,6 +79,7 @@ RUN apt-get update && apt-get install -y \
     && composer create-project contao/managed-edition . $contao_version \
     # if "public" directory is present (contao >= 4.12)
     && [ -d /fake/public ] && [ -f /fake/public/contao-manager.phar.php ] && echo "contao manager already present." || curl -o /fake/public/contao-manager.phar.php https://download.contao.org/contao-manager/stable/contao-manager.phar \
+    && rm -r $workdir_contao/* \
     && cp -ar /fake/. $workdir_contao \
     && cd $workdir_contao \
     # Also clean up cache
@@ -91,10 +97,30 @@ RUN sed -i "s~{{DB_USER}}~$db_user~g" $workdir_contao/.env \
 WORKDIR $workdir_contao
 
 CMD php-fpm -F
+################################
+# Image for test
+################################
+FROM php_base_full AS php_test
 
+WORKDIR $workdir_contao
+
+CMD php-fpm -F
+
+################################
+# Image for dev
+################################
+FROM php_base_full AS php_dev
+
+RUN apt-get update && apt-get install -y nano
+
+WORKDIR $workdir_contao
+
+CMD php-fpm -F
+
+################################
+# Image for unit tests
+################################
 FROM php_base AS php_test_unit
-
-# Here we can have additional work to be done specifically for the test container
 
 WORKDIR $workdir_end_slash
 
