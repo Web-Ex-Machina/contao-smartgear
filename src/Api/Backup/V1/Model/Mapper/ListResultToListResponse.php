@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Api\Backup\V1\Model\Mapper;
 
 use WEM\SmartgearBundle\Api\Backup\V1\Model\ListResponse;
 use WEM\SmartgearBundle\Backup\Model\Results\ListResult;
+use WEM\SmartgearBundle\Classes\Util;
 
 class ListResultToListResponse
 {
@@ -27,6 +28,10 @@ class ListResultToListResponse
                 'timestamp' => $backup->getFile()->ctime,
                 'path' => $backup->getFile()->basename,
                 'source' => $backup->getSource(),
+                'size' => [
+                    'raw' => $backup->getFile()->size,
+                    'human_readable' => Util::humanReadableFilesize((int) $backup->getFile()->size),
+                ],
             ]);
         }
 

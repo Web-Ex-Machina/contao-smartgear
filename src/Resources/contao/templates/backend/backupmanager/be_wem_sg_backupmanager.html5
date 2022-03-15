@@ -23,6 +23,7 @@
   				<tr>
 					<th class="tl_folder_tlist col_date">Date</th>
 					<th class="tl_folder_tlist col_name">Name</th>
+					<th class="tl_folder_tlist col_size">Size</th>
 					<th class="tl_folder_tlist col_source">Source</th>
 					<th class="tl_folder_tlist tl_right_nowrap"></th>
 				</tr>
@@ -32,6 +33,7 @@
 						<?= empty((string) $backup->getFile()->ctime) ? 'N/A' : DateTime::createFromFormat('U', (string) $backup->getFile()->ctime)->format('d/m/Y H:i:s') ?>
 					</td>
 					<td colspan="1" class="tl_file_list col_name"><?= $backup->getFile()->basename ?></td>
+					<td colspan="1" class="tl_file_list col_size"><?= WEM\SmartgearBundle\Classes\Util::humanReadableFilesize((int) $backup->getFile()->size) ?></td>
 					<td colspan="1" class="tl_file_list col_source"><?= $backup->getSource() ?></td>
 					<td class="tl_file_list tl_right_nowrap">
 						<a href="<?= $this->addToUrl('&act=download&backup='.$backup->getFile()->basename) ?>" title="" target="_blank">

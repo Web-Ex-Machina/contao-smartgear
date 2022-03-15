@@ -155,15 +155,21 @@ class General extends AbstractStep
     protected function resetThemesModules(): void
     {
         $modules = ModuleModel::findAll();
-        $modules->delete();
+        if ($modules) {
+            $modules->delete();
+        }
         $themes = ThemeModel::findAll();
-        $themes->delete();
+        if ($themes) {
+            $themes->delete();
+        }
     }
 
     protected function resetPages(): void
     {
         $pages = PageModel::findAll();
-        $pages->delete();
+        if ($pages) {
+            $pages->delete();
+        }
     }
 
     protected function resetFiles(): void

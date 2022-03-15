@@ -111,6 +111,7 @@ components:
       - "path"
       - "timestamp"
       - "source"
+      - "size"
       properties:
         path:
           type: "string"
@@ -118,4 +119,18 @@ components:
           type: "integer"
           format: "int64"
         source:
+          type: "string"
+        size:
+          $ref: "#/components/schemas/FileSize"
+
+    FileSize:
+      type: "object"
+      required:
+      - "raw"
+      - "human_readable"
+      properties:
+        raw:
+          type: "integer"
+          format: "int64"
+        human_readable:
           type: "string"
