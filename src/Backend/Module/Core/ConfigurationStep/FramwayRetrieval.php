@@ -34,7 +34,7 @@ class FramwayRetrieval extends ConfigurationStep
         UtilFramway $framwayUtil
     ) {
         parent::__construct($module, $type);
-        $this->title = 'Framway | Récupération';
+        $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYRETRIEVAL']['Title'];
         $this->configurationManager = $configurationManager;
         $this->framwayUtil = $framwayUtil;
     }

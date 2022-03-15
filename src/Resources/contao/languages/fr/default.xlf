@@ -62,6 +62,235 @@
 			<source>Guidelines</source>
 			<target>Guidelines</target>
 		</trans-unit>
+		<!-- Install l10n V2 -->
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.Title">
+			<source>Framway | Configuration</source>
+			<target>Framway | Configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.FieldThemes">
+			<source>Themes</source>
+			<target>Thèmes</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.FieldComponents">
+			<source>Components</source>
+			<target>Composants</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.FieldNewTheme">
+			<source>New theme</source>
+			<target>Nouveau thème</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.FieldNewThemeEmpty">
+			<source>New theme's name is missing</source>
+			<target>Le nom du nouveau thème est vide</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.FieldNewThemeIncorrectFormat">
+			<source>New theme's name is incorrect ! Authorized characters are : letters, numbers, middlescores ("-") et underscores ("_")</source>
+			<target>Le nom du nouveau thème est invalide! Les caractères autorisés sont : lettres, chiffres, tirets ("-") et underscores ("_")</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVAL.Title">
+			<source>Framway | Retrieval</source>
+			<target>Framway | Récupération</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.Title">
+			<source>Global</source>
+			<target>Général</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgWebsiteTitle">
+			<source>Website's title</source>
+			<target>Titre du site web</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgOwnerEmail">
+			<source>Administrators' email</source>
+			<target>Adresse email de l'administrateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsLabelNone">
+			<source>None</source>
+			<target>Aucun</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsLabelMatomo">
+			<source>Matomo</source>
+			<target>Matomo</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsLabelGoogle">
+			<source>Google</source>
+			<target>Google</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalytics">
+			<source>Analytics solution</source>
+			<target>Solution statistiques</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsGoogleId">
+			<source>Google Analytics ID</source>
+			<target>Identifiant Google Analytics</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsMatomoId">
+			<source>Matomo ID</source>
+			<target>Identifiant Matomo</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsMatomoHost">
+			<source>Matomo Host</source>
+			<target>Host Matomo</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgApiKey">
+			<source>API Key</source>
+			<target>Clef API</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgWebsiteTitleEmpty">
+			<source>Website's title is missing</source>
+			<target>Le titre du site web n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgOwnerEmailEmpty">
+			<source>Website's title is missing</source>
+			<target>L'adresse email de l'administrateur n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsMatomoIdEmpty">
+			<source>Website's title is missing</source>
+			<target>L'identifiant Matomo n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsMatomoHostEmpty">
+			<source>Website's title is missing</source>
+			<target>Le Host Matomo n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsGoogleIdEmpty">
+			<source>Website's title is missing</source>
+			<target>L'identifiant Google Analytics n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgApiKeyEmpty">
+			<source>Website's title is missing</source>
+			<target>La clef API n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.Title">
+			<source>Informations</source>
+			<target>Informations</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgWebsiteLogo">
+			<source>Website logo</source>
+			<target>Logo du site web</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerName">
+			<source>Owner's name</source>
+			<target>Nom de l'entreprise</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerStatus">
+			<source>Owner's status</source>
+			<target>Statut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerSiret">
+			<source>Owner's enterprise code</source>
+			<target>SIRET</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerStreet">
+			<source>Street</source>
+			<target>Adresse</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerPostal">
+			<source>Postal code</source>
+			<target>Code postal</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerCity">
+			<source>City</source>
+			<target>Ville</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerRegion">
+			<source>Region</source>
+			<target>Région</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerCountry">
+			<source>Country</source>
+			<target>Pays</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerEmail">
+			<source>Owner's email</source>
+			<target>Email</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerDomain">
+			<source>Domain</source>
+			<target>Domaine</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerHost">
+			<source>Host</source>
+			<target>Nom et adresse de l'hébergeur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerDpoName">
+			<source>DPO name</source>
+			<target>Nom du DPO</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerDpoEmail">
+			<source>DPO email</source>
+			<target>Email du DPO</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgGoogleFonts">
+			<source>Google Fonts</source>
+			<target>Google Fonts</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgGoogleFontsHelp">
+			<source>Google Fonts' fonts list, separated by comma</source>
+			<target>Liste des noms de polices Google Fonts, séparées par des virgules</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgWebsiteLogoEmpty">
+			<source>Website logo is missing</source>
+			<target>Logo du site web non renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerNameEmpty">
+			<source>Owner's name is missing</source>
+			<target>Le nom de l'entreprise n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerStatusEmpty">
+			<source>Owner's status is missing</source>
+			<target>Le statut n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerSiretEmpty">
+			<source>Owner's enterprise code is missing</source>
+			<target>Le numéro de SIRET n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerStreetEmpty">
+			<source>Street is missing</source>
+			<target>La rue n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerPostalEmpty">
+			<source>Postal code is missing</source>
+			<target>Le code postal n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerCityEmpty">
+			<source>City is missing</source>
+			<target>La ville n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerRegionEmpty">
+			<source>Region is missing</source>
+			<target>La région n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerCountryEmpty">
+			<source>Country is missing</source>
+			<target>Le pays n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerEmailEmpty">
+			<source>Owner's email is missing</source>
+			<target>L'adresse email de l'administrateur n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerDomainEmpty">
+			<source>Domain is missing</source>
+			<target>Le domaine n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerHostEmpty">
+			<source>Host is missing</source>
+			<target>Les informations de l'hébergeur ne sont pas renseignées.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerDpoNameEmpty">
+			<source>DPO name is missing</source>
+			<target>Le nom du DPO n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerDpoEmailEmpty">
+			<source>DPO email is missing</source>
+			<target>L'adresse email du DPO n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgGoogleFontsEmpty">
+			<source>Google Fonts is missing</source>
+			<target>Google Fonts non renseigné</target>
+		</trans-unit>
+
+
+
 
 		<!-- Backup manager -->
 		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.backupManagerBTTitle">

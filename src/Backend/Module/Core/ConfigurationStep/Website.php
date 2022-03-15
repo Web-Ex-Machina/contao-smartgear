@@ -49,7 +49,7 @@ class Website extends ConfigurationStep
     ) {
         parent::__construct($module, $type);
         $this->configurationManager = $configurationManager;
-        $this->title = 'Informations';
+        $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Title'];
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
@@ -57,21 +57,21 @@ class Website extends ConfigurationStep
         foreach (\Contao\System::getCountries() as $shortName => $longName) {
             $countries[] = ['value' => $longName, 'label' => $longName];
         }
-        $this->addFileField('sgWebsiteLogo', 'Logo du site web', empty($config->getSgOwnerLogo()));
-        $this->addTextField('sgOwnerName', 'Nom de l\'entreprise', !empty($config->getSgOwnerName()) ? $config->getSgOwnerName() : $config->getSgWebsiteTitle(), true);
-        $this->addTextField('sgOwnerStatus', 'Statut', $config->getSgOwnerStatus(), true);
-        $this->addTextField('sgOwnerSiret', 'SIRET', $config->getSgOwnerSiret(), true);
-        $this->addTextField('sgOwnerStreet', 'Adresse', $config->getSgOwnerStreet(), true);
-        $this->addTextField('sgOwnerPostal', 'Code postal', $config->getSgOwnerPostal(), true);
-        $this->addTextField('sgOwnerCity', 'Ville', $config->getSgOwnerCity(), true);
-        $this->addTextField('sgOwnerRegion', 'Region', $config->getSgOwnerRegion(), true);
-        $this->addSelectField('sgOwnerCountry', 'Pays', $countries, !empty($config->getSgOwnerCountry()) ? $config->getSgOwnerCountry() : 'France', true);
-        $this->addTextField('sgOwnerEmail', 'Email', $config->getSgOwnerEmail(), true);
-        $this->addTextField('sgOwnerDomain', 'Domaine', !empty($config->getSgOwnerDomain()) ? $config->getSgOwnerDomain() : \Contao\Environment::get('base'), true);
-        $this->addTextField('sgOwnerHost', 'Nom et adresse de l\'hébergeur', $config->getSgOwnerHost(), true);
-        $this->addTextField('sgOwnerDpoName', 'Nom du DPO', $config->getSgOwnerDpoName(), true);
-        $this->addTextField('sgOwnerDpoEmail', 'Email du DPO', $config->getSgOwnerDpoEmail(), true);
-        $this->addTextField('sgGoogleFonts', 'Google Fonts', implode(',', $config->getSgGoogleFonts()), false, '', 'text', '', 'Liste des noms de polices Google Fonts, séparées par des virgules');
+        $this->addFileField('sgWebsiteLogo', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgWebsiteLogo'], empty($config->getSgOwnerLogo()));
+        $this->addTextField('sgOwnerName', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerName'], !empty($config->getSgOwnerName()) ? $config->getSgOwnerName() : $config->getSgWebsiteTitle(), true);
+        $this->addTextField('sgOwnerStatus', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerStatus'], $config->getSgOwnerStatus(), true);
+        $this->addTextField('sgOwnerSiret', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerSiret'], $config->getSgOwnerSiret(), true);
+        $this->addTextField('sgOwnerStreet', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerStreet'], $config->getSgOwnerStreet(), true);
+        $this->addTextField('sgOwnerPostal', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerPostal'], $config->getSgOwnerPostal(), true);
+        $this->addTextField('sgOwnerCity', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerCity'], $config->getSgOwnerCity(), true);
+        $this->addTextField('sgOwnerRegion', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerRegion'], $config->getSgOwnerRegion(), true);
+        $this->addSelectField('sgOwnerCountry', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerCountry'], $countries, !empty($config->getSgOwnerCountry()) ? $config->getSgOwnerCountry() : 'France', true);
+        $this->addTextField('sgOwnerEmail', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerEmail'], $config->getSgOwnerEmail(), true);
+        $this->addTextField('sgOwnerDomain', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerDomain'], !empty($config->getSgOwnerDomain()) ? $config->getSgOwnerDomain() : \Contao\Environment::get('base'), true);
+        $this->addTextField('sgOwnerHost', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerHost'], $config->getSgOwnerHost(), true);
+        $this->addTextField('sgOwnerDpoName', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerDpoName'], $config->getSgOwnerDpoName(), true);
+        $this->addTextField('sgOwnerDpoEmail', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerDpoEmail'], $config->getSgOwnerDpoEmail(), true);
+        $this->addTextField('sgGoogleFonts', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgGoogleFonts'], implode(',', $config->getSgGoogleFonts()), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgGoogleFontsHelp']);
     }
 
     public function getFilledTemplate(): FrontendTemplate
@@ -94,55 +94,55 @@ class Website extends ConfigurationStep
     {
         // check if the step is correct
         if (empty(Input::post('sgOwnerName'))) {
-            throw new Exception('Le nom de l\'entreprise n\'est pas renseigné.');
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerNameEmpty']);
         }
 
         if (empty(Input::post('sgOwnerStatus'))) {
-            throw new Exception('Le statut n\'est pas renseigné.');
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerStatusEmpty']);
         }
 
         if (empty(Input::post('sgOwnerSiret'))) {
-            throw new Exception('Le numéro de SIRET n\'est pas renseigné.');
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerSiretEmpty']);
         }
 
         if (empty(Input::post('sgOwnerStreet'))) {
-            throw new Exception('La rue n\'est pas renseignée.');
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerStreetEmpty']);
         }
 
         if (empty(Input::post('sgOwnerPostal'))) {
-            throw new Exception('Le code postal n\'est pas renseigné.');
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerPostalEmpty']);
         }
 
         if (empty(Input::post('sgOwnerCity'))) {
-            throw new Exception('La ville n\'est pas renseignée.');
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerCityEmpty']);
         }
 
         if (empty(Input::post('sgOwnerRegion'))) {
-            throw new Exception('La région n\'est pas renseignée.');
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerRegionEmpty']);
         }
 
         if (empty(Input::post('sgOwnerCountry'))) {
-            throw new Exception('Le pays n\'est pas renseigné.');
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerCountryEmpty']);
         }
 
         if (empty(Input::post('sgOwnerEmail'))) {
-            throw new Exception('L\'adresse email de l\'administrateur n\'est pas renseignée.');
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerEmailEmpty']);
         }
 
         if (empty(Input::post('sgOwnerDomain'))) {
-            throw new Exception('Le domaine n\'est pas renseigné.');
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerDomainEmpty']);
         }
 
         if (empty(Input::post('sgOwnerHost'))) {
-            throw new Exception('Les informations de l\'hébergeur ne sont pas renseignées.');
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerHostEmpty']);
         }
 
         if (empty(Input::post('sgOwnerDpoName'))) {
-            throw new Exception('Le nom du DPO n\'est pas renseigné.');
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerDpoNameEmpty']);
         }
 
         if (empty(Input::post('sgOwnerDpoEmail'))) {
-            throw new Exception('L\'adresse email du DPO n\'est pas renseignée.');
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerDpoEmailEmpty']);
         }
 
         return true;
