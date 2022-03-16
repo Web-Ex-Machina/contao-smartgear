@@ -2,7 +2,7 @@
 	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
 	<?php if(!empty($this->fields)): ?>
 		<div class="widget">
-			<h3>Liste des éléments a conserver :</h3>
+			<h3><?= $this->trans('WEMSG.CORE.RESETSTEPMANAGER.elementsToKeep'); ?></h3>
 			<div class="<?= $this->fields['localconfig']['class'] ?>">
 				<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['localconfig']]); ?>
 			</div>
@@ -29,7 +29,7 @@
 		</div>
 		<br />
 		<div class="widget">
-			<h3>Sauvegarde avant réinitialisation :</h3>
+			<h3><?= $this->trans('WEMSG.CORE.RESETSTEPMANAGER.backupBeforeReset'); ?></h3>
 			<div class="<?= $this->fields['backup']['class'] ?>">
 				<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['backup']]); ?>
 			</div>

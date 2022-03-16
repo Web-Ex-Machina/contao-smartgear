@@ -56,6 +56,10 @@
 			<source>Data have been saved</source>
 			<target>Les données ont été sauvegardées</target>
 		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.defaultDashboard">
+			<source>This is a default dashboard.</source>
+			<target>Ceci est le dashboard par défaut</target>
+		</trans-unit>
 
 
 		<!-- Smartgear Backend -->
@@ -679,9 +683,28 @@
 			<source>Reinitialisation</source>
 			<target>Réinitialisation</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.text">
+			<source>
+				<p>This is the dashboard !</p>
+				<p>Version :{%version%}</p>
+				<p>Mode : {%mode%}</p></source>
+			<target>
+				<p>Ceci est le dashboard !</p>
+				<p>Version :{%version%}</p>
+				<p>Mode : {%mode%}</p>
+			</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.CORE.RESETSTEPMANAGER.buttonTerminateLabel">
 			<source>End reinitialisation</source>
 			<target>Terminer la réinitialisation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.RESETSTEPMANAGER.elementsToKeep">
+			<source>Elements to keep : </source>
+			<target>Liste des éléments a conserver :</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.RESETSTEPMANAGER.backupBeforeReset">
+			<source>Backup before reset :</source>
+			<target>Sauvegarde avant réinitialisation :</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.AJAX.COMMAND.messageCmdNotSpecified">
 			<source>Missing one arguments : cmd</source>
@@ -790,6 +813,10 @@
 		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageCreateError">
 			<source>An error occured while creating the backup : {%error%}</source>
 			<target>Une erreur est survenue lors de la création du backup : {%error%}</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.title">
+			<source>Backup Manager</source>
+			<target>Gestionnaire de sauvegardes</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.date">
 			<source>Date</source>
@@ -934,6 +961,78 @@
 		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.messagePlayUpdatesDone">
 			<source>Updates played</source>
 			<target>Mises à jour effectuées</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.LIST.title">
+			<source>Update Manager</source>
+			<target>Gestionnaire de mises à jour</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.LIST.version">
+			<source>Version</source>
+			<target>Version</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.LIST.name">
+			<source>Name</source>
+			<target>Nom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.LIST.description">
+			<source>Description</source>
+			<target>Description</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.LIST.status">
+			<source>Status</source>
+			<target>Statut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.LIST.noItemsToDisplay">
+			<source>No update to display</source>
+			<target>Pas de mises à jour disponibles</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.success">
+			<source>Updates have been installed</source>
+			<target>Les mises à jour ont été installées</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.fail">
+			<source>Updatse haven't been installed</source>
+			<target>Les mises à jour n'ont pas été installées</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.backupInfo">
+			<source>The backup {%name%} has been created</source>
+			<target>Le back-up {%name%} a été effectué</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.version">
+			<source>Version</source>
+			<target>Version</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.name">
+			<source>Name</source>
+			<target>Nom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.description">
+			<source>Description</source>
+			<target>Description</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.status">
+			<source>Status</source>
+			<target>Statut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.logs">
+			<source>Logs</source>
+			<target>Logs</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsName">
+			<source>Name</source>
+			<target>Nom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsStatus">
+			<source>Status</source>
+			<target>Statut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsStatusBackuped">
+			<source>Backuped</source>
+			<target>Sauvegardé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsStatusInError">
+			<source>In error</source>
+			<target>En erreur</target>
 		</trans-unit>
 
 		<!-- heimrichhannot/contao-backend-lost-password-bundle -->

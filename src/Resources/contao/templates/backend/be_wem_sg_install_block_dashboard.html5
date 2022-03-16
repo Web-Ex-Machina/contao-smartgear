@@ -1,7 +1,7 @@
 <div id="block-<?= $this->type ?>-<?= $this->module ?>-dashboard">
 	<div class="content_container">
 		<p>
-			This is a default dashboard.
+			<?= $this->trans('WEM.SMARTGEAR.DEFAULT.defaultDashboard'); ?>
 		</p>
 	</div>
 </div>

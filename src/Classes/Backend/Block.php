@@ -143,9 +143,7 @@ class Block extends Controller
                 if (!empty($arrMissingModules)) {
                     $this->messages = [];
                     $this->messages[] = [
-                        'class' => 'tl_error', 'text' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.MissingDependencies',['dependencies'=>implode(', ', $arrMissingModules)],'contao_default')
-                            
-                        ),
+                        'class' => 'tl_error', 'text' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.MissingDependencies', ['dependencies' => implode(', ', $arrMissingModules)], 'contao_default'),
                     ];
                     $blnCanManage = false;
                 }
@@ -215,7 +213,7 @@ class Block extends Controller
     {
         try {
             if (empty(Input::post('action'))) {
-                throw new \InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxNoActionSpecified',[],'contao_default'));
+                throw new \InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxNoActionSpecified', [], 'contao_default'));
             }
             switch (Input::post('action')) {
                 case 'next':
@@ -235,9 +233,9 @@ class Block extends Controller
                 break;
                 case 'save':
                     $this->save();
-                    $arrResponse = ['status' => 'success', 'msg' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.dataSaved',[],'contao_default'), 'callbacks' => [
+                    $arrResponse = ['status' => 'success', 'msg' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.dataSaved', [], 'contao_default'), 'callbacks' => [
                         $this->callback('refreshBlock'),
-                        $this->callback('toastrDisplay', ['success', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.dataSaved',[],'contao_default')]),
+                        $this->callback('toastrDisplay', ['success', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.dataSaved', [], 'contao_default')]),
                     ]];
                 break;
                 case 'configure':
@@ -258,7 +256,7 @@ class Block extends Controller
                     exit;
                 break;
                 default:
-                    throw new \InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxInvalidActionSpecified',['action'=>Input::post('action')],'contao_default'));
+                    throw new \InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxInvalidActionSpecified', ['action' => Input::post('action')], 'contao_default'));
                 break;
             }
         } catch (Exception $e) {
