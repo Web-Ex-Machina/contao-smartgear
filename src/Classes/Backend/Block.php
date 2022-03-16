@@ -143,9 +143,8 @@ class Block extends Controller
                 if (!empty($arrMissingModules)) {
                     $this->messages = [];
                     $this->messages[] = [
-                        'class' => 'tl_error', 'text' => sprintf(
-                            'Vous ne pouvez pas gérer ce module tant que les dépendances suivantes ne seront pas résolues : %s',
-                            implode(', ', $arrMissingModules)
+                        'class' => 'tl_error', 'text' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.MissingDependencies',['dependencies'=>implode(', ', $arrMissingModules)],'contao_default')
+                            
                         ),
                     ];
                     $blnCanManage = false;
@@ -216,7 +215,7 @@ class Block extends Controller
     {
         try {
             if (empty(Input::post('action'))) {
-                throw new \InvalidArgumentException('No action specified');
+                throw new \InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxNoActionSpecified',[],'contao_default'));
             }
             switch (Input::post('action')) {
                 case 'next':
@@ -236,9 +235,9 @@ class Block extends Controller
                 break;
                 case 'save':
                     $this->save();
-                    $arrResponse = ['status' => 'success', 'msg' => 'Les données ont été sauvegardées', 'callbacks' => [
+                    $arrResponse = ['status' => 'success', 'msg' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.dataSaved',[],'contao_default'), 'callbacks' => [
                         $this->callback('refreshBlock'),
-                        $this->callback('toastrDisplay', ['success', 'Les données ont été sauvegardées']),
+                        $this->callback('toastrDisplay', ['success', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.dataSaved',[],'contao_default')]),
                     ]];
                 break;
                 case 'configure':
@@ -259,7 +258,7 @@ class Block extends Controller
                     exit;
                 break;
                 default:
-                    throw new \InvalidArgumentException(sprintf('Action "%s" is not a valid action', Input::post('action')));
+                    throw new \InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxInvalidActionSpecified',['action'=>Input::post('action')],'contao_default'));
                 break;
             }
         } catch (Exception $e) {

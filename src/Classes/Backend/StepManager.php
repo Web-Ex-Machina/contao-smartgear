@@ -96,7 +96,7 @@ class StepManager
         // do what the step does
         // go to next step
         if (!$this->getCurrentStep()->isStepValid()) {
-            throw new Exception('Formulaire invalide');
+            throw new Exception($this->translator->trans('WEM.SMARTGEAR.DEFAULT.InvalidForm', [], 'contao_default'));
         }
         $this->getCurrentStep()->do();
         $this->setCurrentStepIndex($this->getNextStepIndex());
@@ -110,7 +110,7 @@ class StepManager
     public function save(): void
     {
         if (!$this->getCurrentStep()->isStepValid()) {
-            throw new Exception('Formulaire invalide');
+            throw new Exception($this->translator->trans('WEM.SMARTGEAR.DEFAULT.InvalidForm', [], 'contao_default'));
         }
         $this->getCurrentStep()->do();
     }
@@ -149,7 +149,7 @@ class StepManager
         $index = $this->getCurrentStepIndex() + 1;
 
         if ($index > \count($this->steps) - 1 || 0 > $index) {
-            throw new Exception('Next step is out of bounds');
+            throw new Exception($this->translator->trans('WEMSG.STEPMANAGER.ERRORS.nextStepIsOutOfBounds', [], 'contao_default'));
         }
 
         return $index;
@@ -160,7 +160,7 @@ class StepManager
         $index = $this->getCurrentStepIndex() - 1;
 
         if ($index > \count($this->steps) - 1 || 0 > $index) {
-            throw new Exception('Previous step is out of bounds');
+            throw new Exception($this->translator->trans('WEMSG.STEPMANAGER.ERRORS.previousStepIsOutOfBounds', [], 'contao_default'));
         }
 
         return $index;

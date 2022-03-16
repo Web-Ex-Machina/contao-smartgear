@@ -132,7 +132,7 @@ class BackupManager
     public function get(string $backupName): File
     {
         if (!file_exists($this->getBackupFullPath($backupName))) {
-            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageRetrieveSingleError'), [], 'contao_default');
+            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageRetrieveSingleError', [], 'contao_default'));
         }
 
         return new File($this->getBackupPath($backupName));

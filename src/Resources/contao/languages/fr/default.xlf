@@ -44,6 +44,18 @@
 			<source>Invalid Token</source>
 			<target>Le token est invalide</target>
 		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.InvalidForm">
+			<source>Invalid Form</source>
+			<target>Le formulaire est invalide</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.MissingDependencies">
+			<source>You can't manage this module until the following dependencies have been met : {%dependencies%}</source>
+			<target>Vous ne pouvez pas gérer ce module tant que les dépendances suivantes ne seront pas résolues : {%dependencies%}</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.dataSaved">
+			<source>Data have been saved</source>
+			<target>Les données ont été sauvegardées</target>
+		</trans-unit>
 
 
 		<!-- Smartgear Backend -->
@@ -706,6 +718,14 @@
 		<trans-unit id="WEMSG.STEPMANAGER.BUTTONS.finish">
 			<source>Finish configuration</source>
 			<target>Terminer la configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STEPMANAGER.ERRORS.nextStepIsOutOfBounds">
+			<source>Next step is out of bounds</source>
+			<target>La prochaine étape est hors des bornes</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STEPMANAGER.ERRORS.previousStepIsOutOfBounds">
+			<source>Previous step is out of bounds</source>
+			<target>L'étape précédentes est hors des bornes</target>
 		</trans-unit>
 		<!-- ConfigurationManager -->
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.fileNotFound">
