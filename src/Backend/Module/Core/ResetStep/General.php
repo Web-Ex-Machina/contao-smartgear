@@ -52,15 +52,15 @@ class General extends AbstractStep
         $this->localConfigManager = $localConfigManager;
         $this->backupManager = $backupManager;
         $this->templatesDirs = $templatesDirs;
-        $this->title = 'Général';
+        $this->title = $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['Title'];
 
-        $this->addCheckboxField('localconfig', 'Configuration locale', 'localconfig', false, false, '', '', 'Configuration supplémentaire dans le fichier <code>congif/config.yml</code>');
-        $this->addCheckboxField('framway', 'Framway', 'framway', false, false, '', '', 'Le framway sera supprimé, il faudra le récupérer à nouveau.');
-        $this->addCheckboxField('templates', 'Templates', 'templates', false, false, '', '', 'Les dossiers <code>'.implode('</code>,<code>', $this->templatesDirs).'</code> seront supprimés');
-        $this->addCheckboxField('themes_modules', 'Thèmes & Modules', 'themes_modules', false, false, '', '', 'Tous les thèmes & modules seront supprimés');
-        $this->addCheckboxField('pages', 'Pages', 'pages', false, false, '', '', 'Toutes les pages seront supprimées');
-        $this->addCheckboxField('files', 'Fichiers clients', 'files', false, false, '', '', 'Tous les fichiers seront supprimés');
-        $this->addCheckboxField('backup', 'Effectuer une sauvegarde avant la réinitialisation', 'backup', true, false, '', '', 'Il est vivement conseillé d\'effectuer une sauvegarde');
+        $this->addCheckboxField('localconfig', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['localconfig'], 'localconfig', false, false, '', '', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['localconfigHelp']);
+        $this->addCheckboxField('framway', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['framway'], 'framway', false, false, '', '', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['framwayHelp']);
+        $this->addCheckboxField('templates', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['templates'], 'templates', false, false, '', '', sprintf($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['templatesHelp'], implode('</code>,<code>', $this->templatesDirs)));
+        $this->addCheckboxField('themes_modules', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['themes_modules'], 'themes_modules', false, false, '', '', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['themes_modulesHelp']);
+        $this->addCheckboxField('pages', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['pages'], 'pages', false, false, '', '', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['pagesHelp']);
+        $this->addCheckboxField('files', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['files'], 'files', false, false, '', '', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['filesHelp']);
+        $this->addCheckboxField('backup', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['backup'], 'backup', true, false, '', '', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['backupHelp']);
     }
 
     public function isStepValid(): bool
@@ -81,47 +81,47 @@ class General extends AbstractStep
     {
         /** @var CreateResult */
         $createResult = $this->backupManager->newFromConfigurationReset();
-        $this->addConfirm(sprintf('Backup "%s" effectué.', $createResult->getBackup()->getFile()->basename));
+        $this->addConfirm(sprintf($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['backupCompleted'], $createResult->getBackup()->getFile()->basename));
     }
 
     protected function reset(): void
     {
         // reset everything except what we wanted to keep
         if (Input::post('localconfig')) {
-            $this->addConfirm('localconfig conservée');
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['localconfigKept']);
         } else {
             $this->resetLocalConfig();
-            $this->addConfirm('localconfig détruite');
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['localconfigDeleted']);
         }
         if (Input::post('framway')) {
-            $this->addConfirm('Framway conservé');
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['framwayKept']);
         } else {
             $this->resetFramway();
-            $this->addConfirm('Framway détruit');
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['framwayDeleted']);
         }
         if (Input::post('templates')) {
-            $this->addConfirm('Templates conservés');
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['templatesKept']);
         } else {
             $this->resetTemplates();
-            $this->addConfirm('Templates détruits');
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['templatesDeleted']);
         }
         if (Input::post('themes_modules')) {
-            $this->addConfirm('Themes & Modules conservés');
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['themes_modulesKept']);
         } else {
             $this->resetThemesModules();
-            $this->addConfirm('Themes & Modules détruits');
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['themes_modulesDeleted']);
         }
         if (Input::post('pages')) {
-            $this->addConfirm('Pages conservées');
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['pagesKept']);
         } else {
             $this->resetPages();
-            $this->addConfirm('Pages détruites');
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['pagesDeleted']);
         }
         if (Input::post('files')) {
-            $this->addConfirm('Fichiers conservés');
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['filesKept']);
         } else {
             $this->resetFiles();
-            $this->addConfirm('Fichiers détruits');
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['filesDeleted']);
         }
     }
 

@@ -14,10 +14,11 @@ declare(strict_types=1);
 
 namespace Classes\Config;
 
+use Contao\TestCase\ContaoTestCase;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as Manager;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 
-class ManagerCoreTest extends \Codeception\Test\Unit
+class ManagerCoreTest extends ContaoTestCase
 {
     /**
      * @var \UnitTester
@@ -31,8 +32,19 @@ class ManagerCoreTest extends \Codeception\Test\Unit
 
     protected function setUp(): void
     {
+        if (!\defined('TL_ROOT')) {
+            \define('TL_ROOT', sys_get_temp_dir());
+        }
+
+        $GLOBALS['TL_CONFIG']['uploadPath'] = sys_get_temp_dir();
+
+        $container = $this->getContainerWithContaoConfiguration();
+        $container->setParameter('kernel.project_dir', realpath(__DIR__.'/../../../tests/_data'));
+        \Contao\System::setContainer($container);
+        $this->getTempDir();
+
         $this->configurationFilePath = codecept_data_dir().'/assets/smartgear/config_core.json';
-        $this->sut = new Manager(new CoreConfig(), $this->configurationFilePath);
+        $this->sut = new Manager($container->get('contao.translation.translator'), new CoreConfig(), $this->configurationFilePath);
     }
 
     // tests

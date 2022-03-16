@@ -21,6 +21,7 @@ use Contao\Input;
 use Contao\RequestToken;
 use Contao\System;
 use Exception;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
@@ -71,6 +72,8 @@ class Block extends Controller
     protected $configurationStepManager;
     /** @var Dashboard */
     protected $dashboard;
+    /** @var TranslatorInterface */
+    protected $translator;
     /** @var @var string */
     protected $mode = '';
 
@@ -80,11 +83,13 @@ class Block extends Controller
     public function __construct(
         ConfigurationManager $configurationManager,
         ConfigurationStepManager $configurationStepManager,
-        Dashboard $dashboard
+        Dashboard $dashboard,
+        TranslatorInterface $translator
     ) {
         $this->configurationManager = $configurationManager;
         $this->configurationStepManager = $configurationStepManager;
         $this->dashboard = $dashboard;
+        $this->translator = $translator;
 
         // Load the bundles, since we will need them in every block
         $this->bundles = System::getContainer()->getParameter('kernel.bundles');

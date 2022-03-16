@@ -16,9 +16,12 @@ namespace WEM\SmartgearBundle\Classes;
 
 use Contao\File;
 use Exception;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DirectoriesSynchronizer
 {
+    /** @var TranslatorInterface */
+    protected $translator;
     /** @var string */
     protected $sourceDirectory;
     /** @var string */
@@ -38,8 +41,13 @@ class DirectoriesSynchronizer
      * @param string $rootDir              Root path
      * @param bool   $manageSubfolders     true to manage subfolders
      */
-    public function __construct(string $sourceDirectory, string $destinationDirectory, string $rootDir, bool $manageSubfolders)
-    {
+    public function __construct(
+        TranslatorInterface $translator,
+        string $sourceDirectory,
+        string $destinationDirectory,
+        string $rootDir,
+        bool $manageSubfolders
+    ) {
         $this->sourceDirectory = $sourceDirectory;
         $this->destinationDirectory = $destinationDirectory;
         $this->rootDir = $rootDir;
@@ -62,7 +70,7 @@ class DirectoriesSynchronizer
             foreach ($this->filesToAdd as $relativePath => $realPath) {
                 $objFile = new File($realPath);
                 if (!$objFile->copyTo($this->destinationDirectory.$relativePath)) {
-                    throw new Exception('Erreur dans la copie de "'.$realPath.'" vers "'.$this->destinationDirectory.$relativePath.'"');
+                    throw new Exception($this->translator->trans('WEMSG.DIRECTORIESSYNCHRONIZER.error', ['source' => $realPath, 'destination' => $this->destinationDirectory.$relativePath]));
                 }
             }
         }

@@ -9,6 +9,7 @@ services:
         class: WEM\SmartgearBundle\Controller\Api\Backup\V1Controller
         arguments:
             $framework: '@contao.framework'
+            $translator: '@contao.translation.translator'
             $api : '@smartgear.api.backup.v1.api'
             $securityToken: '@smartgear.classes.api.security.token'
         public: true
@@ -20,6 +21,7 @@ services:
     smartgear.controller.api.smartgear.v1:
         class: WEM\SmartgearBundle\Controller\Api\Smartgear\V1Controller
         arguments:
+            $translator: '@contao.translation.translator'
             $api: '@smartgear.api.smartgear.v1.api'
             $securityApiKey: '@smartgear.classes.api.security.api_key'
             $securityToken: '@smartgear.classes.api.security.token'
@@ -32,6 +34,7 @@ services:
     smartgear.controller.api.update.v1:
         class: WEM\SmartgearBundle\Controller\Api\Update\V1Controller
         arguments:
+            $translator: '@contao.translation.translator'
             $framework: '@contao.framework'
             $api : '@smartgear.api.update.v1.api'
             $securityToken: '@smartgear.classes.api.security.token'

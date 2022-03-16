@@ -14,9 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Config\Manager;
 
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
-
-// use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class ManagerJson extends AbstractManager implements ManagerJsonInterface
 {
@@ -26,9 +25,11 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
     protected $configurationFilePath;
 
     public function __construct(
+        TranslatorInterface $translator,
         ConfigInterface $configuration,
         string $configurationFilePath
     ) {
+        parent::__construct($translator);
         $this->configuration = $configuration;
         $this->configurationFilePath = $configurationFilePath;
     }

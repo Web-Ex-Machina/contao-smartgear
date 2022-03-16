@@ -17,11 +17,14 @@ namespace WEM\SmartgearBundle\Classes\Backend;
 use Contao\FrontendTemplate;
 use Contao\System;
 use Exception;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\AbstractStep as Step;
 
 class StepManager
 {
     use Traits\ActionsTrait;
+    /** @var TranslatorInterface */
+    protected $translator;
     /** @var array */
     protected $steps = [];
     /** @var string */
@@ -34,11 +37,13 @@ class StepManager
     protected $strStepsTemplate = 'be_wem_sg_install_steps';
 
     public function __construct(
+        TranslatorInterface $translator,
         string $module,
         string $type,
         string $stepSessionKey,
         array $steps
     ) {
+        $this->translator = $translator;
         $this->module = $module;
         $this->type = $type;
         $this->steps = $steps;
@@ -181,13 +186,13 @@ class StepManager
     protected function fillActions(): void
     {
         if (0 !== $this->getCurrentStepIndex()) {
-            $this->actions[] = ['action' => 'previous', 'label' => 'Précédent'];
+            $this->actions[] = ['action' => 'previous', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.PreviousStep')];
         }
 
         if ($this->getCurrentStepIndex() < \count($this->steps) - 1) {
-            $this->actions[] = ['action' => 'next', 'label' => 'Suivant'];
+            $this->actions[] = ['action' => 'next', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NextStep')];
         } else {
-            $this->actions[] = ['action' => 'finish', 'label' => 'Terminer'];
+            $this->actions[] = ['action' => 'finish', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.Finish')];
         }
     }
 }

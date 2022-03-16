@@ -23,6 +23,8 @@ use Exception;
 use WEM\SmartgearBundle\Api\Smartgear\V1\Api;
 use WEM\SmartgearBundle\Classes\Api\Security\ApiKey;
 use WEM\SmartgearBundle\Classes\Api\Security\Token;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use WEM\SmartgearBundle\Exceptions\Api\InvalidTokenException;
 
 /**
  * @Route("/api/smartgear/v1")
@@ -30,16 +32,20 @@ use WEM\SmartgearBundle\Classes\Api\Security\Token;
  */
 class V1Controller extends Controller
 {
+    /** @var TranslatorInterface */
+    protected $translator;
     protected Api $api;
     protected ApiKey $securityApiKey;
     protected Token $securityToken;
 
     public function __construct(
+        TranslatorInterface $translator,
         Api $api,
         ApiKey $securityApiKey,
         Token $securityToken
     )
     {
+        $this->translator = $translator;
         $this->api = $api;
         $this->securityApiKey = $securityApiKey;
         $this->securityToken = $securityToken;
@@ -90,7 +96,7 @@ class V1Controller extends Controller
     protected function validateToken(Request $request): void
     {
         if(!$this->securityToken->validate($request->query->get('token'))){
-            throw new Exception('Invalid token');
+            throw new InvalidTokenException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.InvalidToken'));
         }
     }
 }

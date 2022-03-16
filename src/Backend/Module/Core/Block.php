@@ -18,6 +18,7 @@ use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\System;
 use Exception;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\Block as BackendBlock;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStepManager;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
@@ -38,9 +39,10 @@ class Block extends BackendBlock
         ConfigurationManager $configurationManager,
         ConfigurationStepManager $configurationStepManager,
         ResetStepManager $resetStepManager,
-        Dashboard $dashboard
+        Dashboard $dashboard,
+        TranslatorInterface $translator
     ) {
-        parent::__construct($configurationManager, $configurationStepManager, $dashboard);
+        parent::__construct($configurationManager, $configurationStepManager, $dashboard, $translator);
         $this->resetStepManager = $resetStepManager;
     }
 
@@ -52,7 +54,7 @@ class Block extends BackendBlock
                     $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_retrieval');
                     $res = $framwayRetrievalStep->framwayRetrieve();
                     $arrResponse['status'] = 'success';
-                    $arrResponse['msg'] = 'Le framway a été récupéré avec succès';
+                    $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayRetrievalAjaxMessageSuccess'];
                     $arrResponse['output'] = $res;
                 break;
                 case 'framwayInstall':
@@ -60,11 +62,11 @@ class Block extends BackendBlock
                         $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_retrieval');
                         $res = $framwayRetrievalStep->framwayInstall();
                         $arrResponse['status'] = 'success';
-                        $arrResponse['msg'] = 'Le framway a été installé avec succès';
+                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayInstallAjaxMessageSuccess'];
                         $arrResponse['output'] = $res;
                     } catch (Exception $e) {
                         $arrResponse['status'] = 'error';
-                        $arrResponse['msg'] = 'Une erreur est survenue lors de l\'installation du framway';
+                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayInstallAjaxMessageError'];
                         $arrResponse['output'] = $e->getMessage();
                     }
                 break;
@@ -73,11 +75,11 @@ class Block extends BackendBlock
                         $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_retrieval');
                         $res = $framwayRetrievalStep->framwayInitialize();
                         $arrResponse['status'] = 'success';
-                        $arrResponse['msg'] = 'Le framway a été initialisé avec succès';
+                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayInitialiazeAjaxMessageSuccess'];
                         $arrResponse['output'] = $res;
                     } catch (Exception $e) {
                         $arrResponse['status'] = 'error';
-                        $arrResponse['msg'] = 'Une erreur est survenue lors de l\'initialisation du framway';
+                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayInitialiazeAjaxMessageError'];
                         $arrResponse['output'] = $e->getMessage();
                     }
                 break;
@@ -86,11 +88,11 @@ class Block extends BackendBlock
                         $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_retrieval');
                         $res = $framwayRetrievalStep->framwayBuild();
                         $arrResponse['status'] = 'success';
-                        $arrResponse['msg'] = 'Le framway a été build avec succès';
+                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayBuildAjaxMessageSuccess'];
                         $arrResponse['output'] = $res;
                     } catch (Exception $e) {
                         $arrResponse['status'] = 'error';
-                        $arrResponse['msg'] = 'Une erreur est survenue lors du build du framway';
+                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayBuildAjaxMessageError'];
                         $arrResponse['output'] = $e->getMessage();
                     }
                 break;
@@ -99,21 +101,21 @@ class Block extends BackendBlock
                         $framwayConfigurationStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_configuration');
                         $res = $framwayConfigurationStep->framwayThemeAdd();
                         $arrResponse['status'] = 'success';
-                        $arrResponse['msg'] = 'Le thème a été ajouté au framway avec succès';
+                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayThemeAddAjaxMessageSuccess'];
                         $arrResponse['output'] = $res;
                     } catch (Exception $e) {
                         $arrResponse['status'] = 'error';
-                        $arrResponse['msg'] = 'Une erreur est survenue lors de l\'ajout du thème au framway : '.$e->getMessage();
+                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayThemeAddAjaxMessageError'].$e->getMessage();
                         $arrResponse['output'] = $e->getMessage();
                     }
                 break;
                 case 'dev_mode':
                     $this->dashboard->enableDevMode();
-                    $arrResponse = ['status' => 'success', 'msg' => 'Le mode "développement" a bien été activé', 'callbacks' => [$this->callback('refreshBlock')]];
+                    $arrResponse = ['status' => 'success', 'msg' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['enableDevModeAjaxMessageSuccess'], 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
                 case 'prod_mode':
                     $this->dashboard->enableProdMode();
-                    $arrResponse = ['status' => 'success', 'msg' => 'Le mode "production" a bien été activé', 'callbacks' => [$this->callback('refreshBlock')]];
+                    $arrResponse = ['status' => 'success', 'msg' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['enableProdModeAjaxMessageSuccess'], 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
                 case 'prod_mode_check':
                     $this->setMode(self::MODE_CHECK_PROD);

@@ -22,6 +22,7 @@ use Contao\UserGroupModel;
 use Contao\UserModel;
 use Exception;
 use InvalidArgumentException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Analyzer\Htaccess as HtaccessAnalyzer;
 use WEM\SmartgearBundle\Classes\Backend\Dashboard as BackendDashboard;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
@@ -42,12 +43,13 @@ class Dashboard extends BackendDashboard
 
     public function __construct(
         ConfigurationManager $configurationManager,
+        TranslatorInterface $translator,
         string $module,
         string $type,
         ConfigurationEnvFileManager $configurationEnvFileManager,
         HtaccessAnalyzer $htaccessAnalyzer
     ) {
-        parent::__construct($configurationManager, $module, $type);
+        parent::__construct($configurationManager, $translator, $module, $type);
         $this->configurationEnvFileManager = $configurationEnvFileManager;
         $this->htaccessAnalyzer = $htaccessAnalyzer;
     }
@@ -56,7 +58,7 @@ class Dashboard extends BackendDashboard
     {
         try {
             if (empty(Input::post('action'))) {
-                throw new InvalidArgumentException('No action specified');
+                throw new InvalidArgumentException($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['AjaxNoActionSpecified']);
             }
             switch (Input::post('action')) {
                 default:
@@ -130,8 +132,8 @@ class Dashboard extends BackendDashboard
             $rootPage->clientCache = 84600;
             $rootPage->cache = 84600;
             $rootPage->includeChmod = 1;
-            $rootPage->cuser = UserModel::findOneByUsername(CoreConfig::DEFAULT_USER_USERNAME)->id;
-            $rootPage->cgroup = UserGroupModel::findOneByName(CoreConfig::DEFAULT_USER_GROUP_ADMIN_NAME)->id;
+            $rootPage->cuser = UserModel::findOneByUsername($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UserWebmasterName'])->id;
+            $rootPage->cgroup = UserGroupModel::findOneByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName'])->id;
             $rootPage->chmod = CoreConfig::DEFAULT_ROOTPAGE_CHMOD;
             $rootPage->save();
         }
@@ -146,32 +148,32 @@ class Dashboard extends BackendDashboard
         $rootPages = PageModel::findPublishedRootPages();
         foreach ($rootPages as $rootPage) {
             if (empty($rootPage->dns)) {
-                $this->addError(sprintf('Pas de domaine configuré sur la page racine "%s"', $rootPage->title));
+                $this->addError(sprintf($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeRootpageDomainMissing'], $rootPage->title));
             }
             if (empty($rootPage->language)) {
-                $this->addError(sprintf('Pas de langue configuré sur la page racine "%s"', $rootPage->title));
+                $this->addError(sprintf($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeRootpageLanguageMissing'], $rootPage->title));
             }
             if (empty($rootPage->sitemapName)) {
-                $this->addError(sprintf('Pas de sitemap configuré sur la page racine "%s"', $rootPage->title));
+                $this->addError(sprintf($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeRootpageSitemapMissing'], $rootPage->title));
             }
         }
 
         if (empty($GLOBALS['TL_CONFIG']['adminEmail'])) {
-            $this->addError('Aucune adresse email administrateur configurée.');
+            $this->addError($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeAdminEmailMissing']);
         }
 
         if (!$this->htaccessAnalyzer->hasRedirectToWwwAndHttps()) {
-            $this->addError('Aucune redirection https & www configurée.');
+            $this->addError($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeHtaccessRedirectMissing']);
         }
 
         // $this->addInfo(print_r($GLOBALS['TL_CONFIG'], true));
 
         $this->actions = [];
-        $this->actions[] = ['action' => 'prod_mode_check_cancel', 'label' => 'Annuler'];
+        $this->actions[] = ['action' => 'prod_mode_check_cancel', 'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['Cancel']];
         if (0 !== $nbErrors) {
-            $this->actions[] = ['action' => 'prod_mode', 'label' => 'Forcer la mise en production', 'attributes' => 'onclick="if(!confirm(\'Voulez-vous vraiment forcer le passage en mode production de Contao ?\'))return false;Backend.getScrollOffset()"'];
+            $this->actions[] = ['action' => 'prod_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeButtonForceProdModeLabel'], 'attributes' => 'onclick="if(!confirm(\''.$GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeButtonForceProdModeConfirm'].'\'))return false;Backend.getScrollOffset()"'];
         } else {
-            $this->actions[] = ['action' => 'prod_mode', 'label' => 'Effectuer la mise en production'];
+            $this->actions[] = ['action' => 'prod_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeButtonProdModeLabel']];
         }
 
         // $objTemplate->actions = Util::formatActions($this->actions);
@@ -186,13 +188,13 @@ class Dashboard extends BackendDashboard
         $config = $this->configurationManager->load();
 
         if (CoreConfig::MODE_DEV === $config->getSgMode()) {
-            $this->actions[] = ['action' => 'prod_mode_check', 'label' => 'Mode production'];
+            $this->actions[] = ['action' => 'prod_mode_check', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonProdModeLabel']];
         } else {
-            $this->actions[] = ['action' => 'dev_mode', 'label' => 'Mode développement'];
+            $this->actions[] = ['action' => 'dev_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonDevModeLabel']];
         }
 
-        $this->actions[] = ['action' => 'configure', 'label' => 'Configuration'];
-        $this->actions[] = ['action' => 'reset_mode', 'label' => 'Réinitialisation'];
+        $this->actions[] = ['action' => 'configure', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonConfigurationLabel']];
+        $this->actions[] = ['action' => 'reset_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonResetLabel']];
 
         $objTemplate->version = $config->getSgVersion();
         $objTemplate->mode = $config->getSgMode();

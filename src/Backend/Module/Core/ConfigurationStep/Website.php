@@ -205,11 +205,11 @@ class Website extends ConfigurationStep
         $modules[$objHeaderModule->type] = $objHeaderModule;
 
         // Breadcrumb
-        $objBreadcrumbModule = ModuleModel::findOneByName('Fil d\'ariane') ?? new ModuleModel();
+        $objBreadcrumbModule = ModuleModel::findOneByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleBreadcrumbName']) ?? new ModuleModel();
         $objBreadcrumbModule->pid = $themeId;
         $objBreadcrumbModule->tstamp = time();
         $objBreadcrumbModule->type = 'breadcrumb';
-        $objBreadcrumbModule->name = "Fil d'ariane";
+        $objBreadcrumbModule->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleBreadcrumbName'];
         $objBreadcrumbModule->save();
         $modules[$objBreadcrumbModule->type] = $objBreadcrumbModule;
 
@@ -226,11 +226,11 @@ class Website extends ConfigurationStep
         $objFooterModule->save();
         $modules[$objFooterModule->type] = $objFooterModule;
 
-        $objSitemapModule = ModuleModel::findOneByName('Plan du site') ?? new ModuleModel();
+        $objSitemapModule = ModuleModel::findOneByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSitemapName']) ?? new ModuleModel();
         $objSitemapModule->pid = $themeId;
         $objSitemapModule->tstamp = time();
         $objSitemapModule->type = 'sitemap';
-        $objSitemapModule->name = 'Plan du site';
+        $objSitemapModule->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSitemapName'];
         $objSitemapModule->save();
         $modules[$objSitemapModule->type] = $objSitemapModule;
 
@@ -268,9 +268,9 @@ class Website extends ConfigurationStep
         // $objFile = FilesModel::findOneByPath($config->getSgFramwayPath().'/js/framway.js');
         // $arrJsFiles[] = $objFile->uuid;
 
-        $objLayout = LayoutModel::findOneByName('Page Standard') ?? new LayoutModel();
+        $objLayout = LayoutModel::findOneByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardName']) ?? new LayoutModel();
         $objLayout->pid = $themeId;
-        $objLayout->name = 'Page Standard';
+        $objLayout->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardName'];
         $objLayout->rows = '3rw';
         $objLayout->cols = '1cl';
         // $objLayout->external = serialize($arrCssFiles);
@@ -287,9 +287,9 @@ class Website extends ConfigurationStep
 
         $layouts['standard'] = $objLayout;
 
-        $objLayout = LayoutModel::findOneByName('Page Standard - Fullwidth') ?? new LayoutModel();
+        $objLayout = LayoutModel::findOneByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardFullwidthName']) ?? new LayoutModel();
         $objLayout->pid = $themeId;
-        $objLayout->name = 'Page Standard - Fullwidth';
+        $objLayout->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardFullwidthName'];
         $objLayout->rows = '3rw';
         $objLayout->cols = '1cl';
         // $objLayout->external = serialize($arrCssFiles);
@@ -313,9 +313,9 @@ class Website extends ConfigurationStep
     {
         $userGroups = [];
 
-        $objUserGroup = UserGroupModel::findOneByName(CoreConfig::DEFAULT_USER_GROUP_ADMIN_NAME) ?? new UserGroupModel();
+        $objUserGroup = UserGroupModel::findOneByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName']) ?? new UserGroupModel();
         $objUserGroup->tstamp = time();
-        $objUserGroup->name = CoreConfig::DEFAULT_USER_GROUP_ADMIN_NAME;
+        $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName'];
         $objUserGroup->modules = 'a:8:{i:0;s:4:"page";i:1;s:7:"article";i:2;s:4:"form";i:3;s:5:"files";i:4;s:16:"nc_notifications";i:5;s:4:"user";i:6;s:3:"log";i:7;s:11:"maintenance";}';
         // $objUserGroup->pagemounts = '';
         // $objUserGroup->alpty = 'a:3:{i:0;s:7:"regular";i:1;s:7:"forward";i:2;s:8:"redirect";}';
@@ -326,9 +326,9 @@ class Website extends ConfigurationStep
         $objUserGroup->save();
         $userGroups['administrators'] = $objUserGroup;
 
-        $objUserGroup = UserGroupModel::findOneByName('Redacteurs') ?? new UserGroupModel();
+        $objUserGroup = UserGroupModel::findOneByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName']) ?? new UserGroupModel();
         $objUserGroup->tstamp = time();
-        $objUserGroup->name = 'Redacteurs';
+        $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName'];
         $objUserGroup->modules = 'a:8:{i:0;s:7:"article";i:1;s:5:"files";}';
         $objUserGroup->save();
         $userGroups['redactors'] = $objUserGroup;
@@ -341,11 +341,11 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        $objUser = UserModel::findOneByName('Webmaster') ?? new UserModel();
+        $objUser = UserModel::findOneByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UserWebmasterName']) ?? new UserModel();
         $objUser->tstamp = time();
         $objUser->dateAdded = time();
         $objUser->username = CoreConfig::DEFAULT_USER_USERNAME;
-        $objUser->name = 'Webmaster';
+        $objUser->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UserWebmasterName'];
         $objUser->email = $config->getSgOwnerEmail();
         $objUser->language = 'fr';
         $objUser->backendTheme = 'flexible';
@@ -393,8 +393,8 @@ class Website extends ConfigurationStep
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
-        $page = PageModel::findOneBy('title', 'Accueil');
-        $page = Util::createPage('Accueil', $rootPage->id, array_merge([
+        $page = PageModel::findOneBy('title', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageHomeTitle']);
+        $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageHomeTitle'], $rootPage->id, array_merge([
             'sorting' => 128,
             'alias' => '/',
             'sitemap' => 'default',
@@ -409,8 +409,8 @@ class Website extends ConfigurationStep
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
-        $page = PageModel::findOneBy('title', 'Erreur 404 - Page non trouvée');
-        $page = Util::createPage('Erreur 404 - Page non trouvée', $rootPage->id, array_merge([
+        $page = PageModel::findOneBy('title', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Title']);
+        $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Title'], $rootPage->id, array_merge([
             'sorting' => 256,
             'sitemap' => 'default',
             'hide' => 1,
@@ -423,7 +423,7 @@ class Website extends ConfigurationStep
             }
         }
         $objContent = Util::createContent($objArticle, [
-            'headline' => serialize(['unit' => 'h1', 'value' => 'Page non trouvée !']), 'text' => "<p>La page demandée n'existe pas. Vous pouvez consulter le plan du site ci-dessous pour poursuivre votre navigation.</p>",
+            'headline' => serialize(['unit' => 'h1', 'value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Headline']]), 'text' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Text'],
         ]);
         $objContent = Util::createContent($objArticle, [
             'type' => 'module', 'module' => $modules['sitemap']->id,
@@ -437,11 +437,11 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        $page = PageModel::findOneBy('title', 'Mentions légales');
-        $page = Util::createPage('Mentions légales', $rootPage->id, array_merge([
+        $page = PageModel::findOneBy('title', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageLegalNoticeTitle']);
+        $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageLegalNoticeTitle'], $rootPage->id, array_merge([
             'sorting' => 386,
             'sitemap' => 'default',
-            'description' => 'Mentions légales de '.$config->getSgWebsiteTitle(),
+            'description' => sprintf($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageLegalNoticeDescription'], $config->getSgWebsiteTitle()),
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id] : []));
         $objArticle = ArticleModel::findOneBy(['pid = ?', 'alias = ?'], [$page->id, $page->alias]) ?? Util::createArticle($page);
@@ -452,7 +452,7 @@ class Website extends ConfigurationStep
             }
         }
         $strText = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/legal-notices_1.html');
-        $strHtml = '<p>A remplir</p>';
+        $strHtml = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageLegalNoticeTextDefault'];
         if ($strText) {
             /**
              * 1: URL du site entière
@@ -466,18 +466,18 @@ class Website extends ConfigurationStep
              */
             $strHtml = sprintf(
                     $strText,
-                    $config->getSgOwnerDomain() ?: 'NR',
-                    str_replace('https://', '', $config->getSgOwnerDomain()) ?: 'NR',
-                    $config->getSgOwnerName() ?: 'NR',
-                    $config->getSgOwnerStatus() ?: 'NR',
-                    $config->getSgOwnerSIRET() ?: 'NR',
-                    $config->getSgOwnerStreet().' '.$config->getSgOwnerPostal().' '.$config->getSgOwnerCity().' '.$config->getSgOwnerRegion().' '.$config->getSgOwnerCountry() ?: 'NR',
-                    $config->getSgOwnerEmail() ?: 'NR',
-                    $config->getSgOwnerHost() ?: 'NR'
+                    $config->getSgOwnerDomain() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+                    str_replace('https://', '', $config->getSgOwnerDomain()) ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+                    $config->getSgOwnerName() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+                    $config->getSgOwnerStatus() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+                    $config->getSgOwnerSIRET() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+                    $config->getSgOwnerStreet().' '.$config->getSgOwnerPostal().' '.$config->getSgOwnerCity().' '.$config->getSgOwnerRegion().' '.$config->getSgOwnerCountry() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+                    $config->getSgOwnerEmail() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+                    $config->getSgOwnerHost() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled']
                 );
         }
         $objContent = Util::createContent($objArticle, [
-            'headline' => serialize(['unit' => 'h1', 'value' => 'Mentions légales']), 'text' => $strHtml,
+            'headline' => serialize(['unit' => 'h1', 'value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageLegalNoticeHeadline']]), 'text' => $strHtml,
         ]);
 
         return $page;
@@ -487,11 +487,11 @@ class Website extends ConfigurationStep
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
-        $page = PageModel::findOneBy('title', 'Confidentialité');
-        $page = Util::createPage('Confidentialité', $rootPage->id, array_merge([
+        $page = PageModel::findOneBy('title', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PagePrivacyPoliticsTitle']);
+        $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PagePrivacyPoliticsTitle'], $rootPage->id, array_merge([
             'sorting' => 512,
             'sitemap' => 'default',
-            'description' => 'Politique de confidentialité de '.$config->getSgWebsiteTitle(),
+            'description' => sprintf($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PagePrivacyPoliticsDescription'], $config->getSgWebsiteTitle()),
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id] : []));
         $objArticle = ArticleModel::findOneBy(['pid = ?', 'alias = ?'], [$page->id, $page->alias]) ?? Util::createArticle($page);
@@ -502,7 +502,7 @@ class Website extends ConfigurationStep
             }
         }
         $strText = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/privacy_1.html');
-        $strHtml = '<p>A remplir</p>';
+        $strHtml = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PagePrivacyPoliticsTextDefault'];
         if ($strText) {
             /**
              * 1: Nom de la boite
@@ -514,12 +514,12 @@ class Website extends ConfigurationStep
              */
             $strHtml = sprintf(
                 $strText,
-                $config->getSgOwnerName() ?: 'NR',
-                $config->getSgOwnerStreet().' '.$config->getSgOwnerPostal().' '.$config->getSgOwnerCity().' '.$config->getSgOwnerRegion().' '.$config->getSgOwnerCountry() ?: 'NR',
-                $config->getSgOwnerSIRET() ?: 'NR',
+                $config->getSgOwnerName() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+                $config->getSgOwnerStreet().' '.$config->getSgOwnerPostal().' '.$config->getSgOwnerCity().' '.$config->getSgOwnerRegion().' '.$config->getSgOwnerCountry() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+                $config->getSgOwnerSIRET() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
                 $config->getSgOwnerDomain().'/'.$page->alias.'.html',
                 date('d/m/Y'),
-                $config->getSgOwnerEmail() ?: 'NR'
+                $config->getSgOwnerEmail() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled']
             );
         }
         $objContent = Util::createContent($objArticle, [
@@ -534,11 +534,11 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        $page = PageModel::findOneBy('title', 'Plan du site');
-        $page = Util::createPage('Plan du site', $rootPage->id, array_merge([
+        $page = PageModel::findOneBy('title', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapTitle']);
+        $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapTitle'], $rootPage->id, array_merge([
             'sorting' => 640,
             'sitemap' => 'default',
-            'description' => 'Plan du site de '.$config->getSgWebsiteTitle(),
+            'description' => sprintf($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapDescription'], $config->getSgWebsiteTitle()),
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id] : []));
 
@@ -571,11 +571,11 @@ class Website extends ConfigurationStep
 
     protected function createModules2(int $themeId, array $pages): void
     {
-        $objCustomNavModule = ModuleModel::findOneByName('Nav - footer') ?? new ModuleModel();
+        $objCustomNavModule = ModuleModel::findOneByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleFooterNavName']) ?? new ModuleModel();
         $objCustomNavModule->pid = $themeId;
         $objCustomNavModule->tstamp = time();
         $objCustomNavModule->type = 'customnav';
-        $objCustomNavModule->name = 'Nav - footer';
+        $objCustomNavModule->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleFooterNavName'];
         $objCustomNavModule->pages = [$pages['legal_notice']->id, $pages['privacy_politics']->id, $pages['sitemap']->id];
         $objCustomNavModule->navigationTpl = 'nav_default';
         $objCustomNavModule->save();
@@ -584,9 +584,9 @@ class Website extends ConfigurationStep
 
     protected function createNotificationGateways(): void
     {
-        $objGateway = \NotificationCenter\Model\Gateway::findOneBy('title', 'Email de service - Smartgear') ?? new \NotificationCenter\Model\Gateway();
+        $objGateway = \NotificationCenter\Model\Gateway::findOneBy('title', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['NotificationGatewayEmailSmartgearTitle']) ?? new \NotificationCenter\Model\Gateway();
         $objGateway->tstamp = time();
-        $objGateway->title = 'Email de service - Smartgear';
+        $objGateway->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['NotificationGatewayEmailSmartgearTitle'];
         $objGateway->type = 'email';
         $objGateway->save();
     }

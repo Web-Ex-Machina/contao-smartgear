@@ -22,10 +22,10 @@
 		<table class="tl_listing">
   			<tbody>
   				<tr>
-					<th class="tl_folder_tlist col_date">Date</th>
-					<th class="tl_folder_tlist col_name">Name</th>
-					<th class="tl_folder_tlist col_size">Size</th>
-					<th class="tl_folder_tlist col_source">Source</th>
+					<th class="tl_folder_tlist col_date"><?= $this->trans('WEMSG.BACKUPMANAGER.LIST.date'); ?></th>
+					<th class="tl_folder_tlist col_name"><?= $this->trans('WEMSG.BACKUPMANAGER.LIST.name'); ?></th>
+					<th class="tl_folder_tlist col_size"><?= $this->trans('WEMSG.BACKUPMANAGER.LIST.size'); ?></th>
+					<th class="tl_folder_tlist col_source"><?= $this->trans('WEMSG.BACKUPMANAGER.LIST.source'); ?></th>
 					<th class="tl_folder_tlist tl_right_nowrap"></th>
 				</tr>
 				<?php foreach($this->backups->getBackups() as $backup): ?>
@@ -43,7 +43,7 @@
 						<a href="<?= $this->addToUrl('&act=restore&backup='.$backup->getFile()->basename) ?>" title="">
 							<img src="bundles/wemsmartgear/icons/icon_restore.png" alt="Restaurer le back-up" width="14" height="16">
 						</a>
-						<a href="<?= $this->addToUrl('&act=delete&backup='.$backup->getFile()->basename) ?>" title="" onclick="return confirm('Are you sure?')">
+						<a href="<?= $this->addToUrl('&act=delete&backup='.$backup->getFile()->basename) ?>" title="" onclick="return confirm('<?= $this->trans('WEMSG.BACKUPMANAGER.LIST.messageDeleteConfirm'); ?>')">
 							<i class="fa fa-trash"></i>&nbsp;
 						</a>
 					</td>
@@ -51,7 +51,7 @@
 				<?php endforeach; ?>
 				<?php if($this->empty): ?>
 				<tr>
-					<td colspan="3">Pas de backup disponible</td>
+					<td colspan="3"><?= $this->trans('WEMSG.BACKUPMANAGER.LIST.noItemsToDisplay'); ?></td>
 				</tr>
 				<?php endif; ?>
 			</tbody>

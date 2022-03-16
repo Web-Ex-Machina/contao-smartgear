@@ -21,6 +21,7 @@ use Contao\File;
 use Contao\Folder;
 use Contao\ZipReader;
 use Contao\ZipWriter;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Backup\Model\Backup as BackupBusinessModel;
 use WEM\SmartgearBundle\Backup\Model\Results\CreateResult;
 use WEM\SmartgearBundle\Backup\Model\Results\ListResult;
@@ -42,6 +43,8 @@ class BackupManager
     protected $databaseBackupDirectory;
     /** @var DatabaseBackupManager */
     protected $databaseBackupManager;
+    /** @var TranslatorInterface */
+    protected $translator;
     /** @var array */
     protected $artifactsToBackup = [];
     /** @var array */
@@ -53,6 +56,7 @@ class BackupManager
         CommandUtil $commandUtil,
         string $databaseBackupDirectory,
         DatabaseBackupManager $databaseBackupManager,
+        TranslatorInterface $translator,
         array $artifactsToBackup,
         array $tablesToIgnore
     ) {
@@ -61,6 +65,7 @@ class BackupManager
         $this->commandUtil = $commandUtil;
         $this->databaseBackupDirectory = $databaseBackupDirectory;
         $this->databaseBackupManager = $databaseBackupManager;
+        $this->translator = $translator;
         $this->artifactsToBackup = $artifactsToBackup;
         $this->tablesToIgnore = $tablesToIgnore;
     }
@@ -118,7 +123,7 @@ class BackupManager
                 }
             }
         } catch (\Exception $e) {
-            throw new BackupManagerException('Une erreur est survenue lors de la récupération de la liste des backups : '.$e->getMessage(), $e->getCode(), $e);
+            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageRetrieveListError', ['error' => $e->getMessage()]), $e->getCode(), $e);
         }
 
         return $result;
@@ -127,7 +132,7 @@ class BackupManager
     public function get(string $backupName): File
     {
         if (!file_exists($this->getBackupFullPath($backupName))) {
-            throw new BackupManagerException('Le backup n\'existe pas');
+            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageRetrieveSingleError'));
         }
 
         return new File($this->getBackupPath($backupName));
@@ -188,7 +193,7 @@ class BackupManager
                 }
             }
         } catch (\Exception $e) {
-            throw new BackupManagerException('Une erreur est survenue lors de la restauration du backup : '.$e->getMessage(), $e->getCode(), $e);
+            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageRestoreError', ['error' => $e->getMessage()]), $e->getCode(), $e);
         }
 
         return $result;
@@ -197,7 +202,7 @@ class BackupManager
     public function delete(string $backupName): bool
     {
         if (!file_exists($this->getBackupFullPath($backupName))) {
-            throw new BackupManagerException(sprintf('Le backup a supprimer n\'existe pas (%s)', $this->getBackupFullPath($backupName)));
+            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageDeleteError', ['backup' => $this->getBackupFullPath($backupName)]));
         }
 
         $model = BackupModel::findBy('name', $backupName);
@@ -256,7 +261,7 @@ class BackupManager
             $model->source = $source;
             $model->save();
         } catch (\Exception $e) {
-            throw new BackupManagerException('Une erreur est survenue lors de la création du backup : '.$e->getMessage(), $e->getCode(), $e);
+            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageCreateError', ['error' => $e->getMessage()]), $e->getCode(), $e);
         }
 
         return $result;

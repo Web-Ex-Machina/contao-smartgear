@@ -49,7 +49,7 @@ class DirectoriesSynchronizerTest extends ContaoTestCase
         $this->toPath = codecept_data_dir().'synchronizer/to';
         $this->currentToPath = 'synchronizer/to_current';
 
-        $this->sut = new DirectoriesSynchronizer($this->fromPath, $this->currentToPath, $container->getParameter('kernel.project_dir'), true);
+        $this->sut = new DirectoriesSynchronizer($container->get('contao.translation.translator'), $this->fromPath, $this->currentToPath, $container->getParameter('kernel.project_dir'), true);
         $this->resetFiles();
     }
 

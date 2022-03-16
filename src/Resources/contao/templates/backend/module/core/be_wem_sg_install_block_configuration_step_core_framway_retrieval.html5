@@ -2,11 +2,9 @@
 	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
 	<div class="widget">
 		<?php if($this->framway_is_present): ?>
-			<p>Le framway est déjà présent et configuré.</p>
-			<p>Vous pouvez passer à l'étape suivante ou le mettre à jour.</p>
+			<?= $this->trans('WEMSG.INSTALL.FRAMWAYRETRIEVAL.FramwayPresent'); ?>
 		<?php else: ?>
-			<p>Le framway n'est pas présent / configuré.</p>
-			<p>Vous devez le récupérer / mettre à jour avant de passer à l'étape suivante.</p>
+			<?= $this->trans('WEMSG.INSTALL.FRAMWAYRETRIEVAL.FramwayAbsent'); ?>
 		<?php endif; ?>
 		<button 
 			class="btn" 
@@ -18,25 +16,25 @@
 		</button>
 	</div>
 	<div class="widget" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-step-1">
-		<h3>1. Récupération / Mise à jour du Framway&nbsp;<i class="fas fa-hourglass hidden icon"></i></h3>
+		<h3><?= $this->trans('WEMSG.INSTALL.FRAMWAYRETRIEVAL.Step1'); ?>&nbsp;<i class="fas fa-hourglass hidden icon"></i></h3>
 		<div class="loader"><i class="fas fa-spinner fa-4x fa-spin"></i></div>
 		<pre class="hidden result" style="overflow: auto;" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-result-1">
 		</pre>
 	</div>
 	<div class="widget" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-step-2">
-		<h3>2. Installation du Framway&nbsp;<i class="fas fa-hourglass hidden icon"></i></h3>
+		<h3><?= $this->trans('WEMSG.INSTALL.FRAMWAYRETRIEVAL.Step2'); ?>&nbsp;<i class="fas fa-hourglass hidden icon"></i></h3>
 		<div class="loader"><i class="fas fa-spinner fa-4x fa-spin"></i></div>
 		<pre class="hidden result" style="overflow: auto;" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-result-2">
 		</pre>
 	</div>
 	<div class="widget" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-step-3">
-		<h3>3. Initialisation du Framway&nbsp;<i class="fas fa-hourglass hidden icon"></i></h3>
+		<h3><?= $this->trans('WEMSG.INSTALL.FRAMWAYRETRIEVAL.Step3'); ?>&nbsp;<i class="fas fa-hourglass hidden icon"></i></h3>
 		<div class="loader"><i class="fas fa-spinner fa-4x fa-spin"></i></div>
 		<pre class="hidden result" style="overflow: auto;" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-result-3">
 		</pre>
 	</div>
 	<div class="widget" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-step-4">
-		<h3>4. Build du Framway&nbsp;<i class="fas fa-hourglass hidden icon"></i></h3>
+		<h3><?= $this->trans('WEMSG.INSTALL.FRAMWAYRETRIEVAL.Step4'); ?>&nbsp;<i class="fas fa-hourglass hidden icon"></i></h3>
 		<div class="loader"><i class="fas fa-spinner fa-4x fa-spin"></i></div>
 		<pre class="hidden result" style="overflow: auto;" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-result-4">
 		</pre>

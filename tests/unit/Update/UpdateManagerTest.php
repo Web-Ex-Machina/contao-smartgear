@@ -16,7 +16,7 @@ namespace Update;
 
 use Contao\TestCase\ContaoTestCase;
 use WEM\SmartgearBundle\Backup\BackupManager;
-use WEM\SmartgearBundle\Backup\Results\CreateResult as BackupResult;
+use WEM\SmartgearBundle\Backup\Model\Results\CreateResult as BackupResult;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Migration\Result as MigrationResult;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
