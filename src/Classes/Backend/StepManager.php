@@ -186,13 +186,13 @@ class StepManager
     protected function fillActions(): void
     {
         if (0 !== $this->getCurrentStepIndex()) {
-            $this->actions[] = ['action' => 'previous', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.PreviousStep')];
+            $this->actions[] = ['action' => 'previous', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.PreviousStep', [], 'contao_default')];
         }
 
         if ($this->getCurrentStepIndex() < \count($this->steps) - 1) {
-            $this->actions[] = ['action' => 'next', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NextStep')];
+            $this->actions[] = ['action' => 'next', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NextStep', [], 'contao_default')];
         } else {
-            $this->actions[] = ['action' => 'finish', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.Finish')];
+            $this->actions[] = ['action' => 'finish', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.Finish', [], 'contao_default')];
         }
     }
 }

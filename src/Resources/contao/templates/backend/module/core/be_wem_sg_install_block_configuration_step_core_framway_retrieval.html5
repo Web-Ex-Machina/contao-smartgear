@@ -10,9 +10,9 @@
 			class="btn" 
 			type="button"
 			id="button-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval" 
-			title="Récupérer le Framway"
+			title="<?= $this->trans('WEMSG.INSTALL.FRAMWAYRETRIEVAL.ButtonFramwayRetrieve'); ?>"
 		>
-			Récupérer le Framway
+		<?= $this->trans('WEMSG.INSTALL.FRAMWAYRETRIEVAL.ButtonFramwayRetrieve'); ?>
 		</button>
 	</div>
 	<div class="widget" id="block-<?= $this->type ?>-<?= $this->module ?>-framway-retrieval-step-1">

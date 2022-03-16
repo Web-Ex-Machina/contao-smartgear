@@ -89,7 +89,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
     protected function retrieveConfigurationFromFile(): string
     {
         if (!file_exists($this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js')) {
-            throw new FileNotFoundException($this->translator->trans('WEMSG.CONFIGURATIONMANAGER.fileNotFound'));
+            throw new FileNotFoundException($this->translator->trans('WEMSG.CONFIGURATIONMANAGER.fileNotFound', [], 'contao_default'));
         }
 
         return file_get_contents($this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js');

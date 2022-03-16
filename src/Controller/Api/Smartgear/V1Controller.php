@@ -96,7 +96,7 @@ class V1Controller extends Controller
     protected function validateToken(Request $request): void
     {
         if(!$this->securityToken->validate($request->query->get('token'))){
-            throw new InvalidTokenException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.InvalidToken'));
+            throw new InvalidTokenException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.InvalidToken', [], 'contao_default'));
         }
     }
 }

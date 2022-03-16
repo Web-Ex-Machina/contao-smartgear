@@ -74,11 +74,11 @@ class Dashboard
     {
         try {
             if (empty(Input::post('action'))) {
-                throw new InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxNoActionSpecified'));
+                throw new InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxNoActionSpecified', [], 'contao_default'));
             }
             switch (Input::post('action')) {
                 default:
-                    throw new InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxInvalidActionSpecified', ['action' => Input::post('action')]));
+                    throw new InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxInvalidActionSpecified', ['action' => Input::post('action')], 'contao_default'));
                 break;
             }
         } catch (Exception $e) {

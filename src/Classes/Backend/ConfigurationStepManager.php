@@ -66,17 +66,16 @@ class ConfigurationStepManager extends StepManager
     protected function fillActions(): void
     {
         if (0 !== $this->getCurrentStepIndex()) {
-            $this->actions[] = ['action' => 'previous', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.PreviousStep')];
+            $this->actions[] = ['action' => 'previous', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.PreviousStep', [], 'contao_default')];
         }
-
         if (self::MODE_CONFIGURE === $this->mode) {
-            $this->actions[] = ['action' => 'save', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.Save')];
+            $this->actions[] = ['action' => 'save', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.Save', [], 'contao_default')];
         }
 
         if ($this->getCurrentStepIndex() < \count($this->steps) - 1) {
-            $this->actions[] = ['action' => 'next', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NextStep')];
+            $this->actions[] = ['action' => 'next', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NextStep', [], 'contao_default')];
         } else {
-            $this->actions[] = ['action' => 'finish', 'label' => $this->translator->trans('WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish')];
+            $this->actions[] = ['action' => 'finish', 'label' => $this->translator->trans('WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish', [], 'contao_default')];
         }
     }
 }

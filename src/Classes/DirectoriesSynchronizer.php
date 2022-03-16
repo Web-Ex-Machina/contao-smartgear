@@ -70,7 +70,7 @@ class DirectoriesSynchronizer
             foreach ($this->filesToAdd as $relativePath => $realPath) {
                 $objFile = new File($realPath);
                 if (!$objFile->copyTo($this->destinationDirectory.$relativePath)) {
-                    throw new Exception($this->translator->trans('WEMSG.DIRECTORIESSYNCHRONIZER.error', ['source' => $realPath, 'destination' => $this->destinationDirectory.$relativePath]));
+                    throw new Exception($this->translator->trans('WEMSG.DIRECTORIESSYNCHRONIZER.error', ['source' => $realPath, 'destination' => $this->destinationDirectory.$relativePath], 'contao_default'));
                 }
             }
         }

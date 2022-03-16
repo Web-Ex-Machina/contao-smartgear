@@ -126,6 +126,22 @@
 			<source>New theme's name is incorrect ! Authorized characters are : letters, numbers, middlescores ("-") et underscores ("_")</source>
 			<target>Le nom du nouveau thème est invalide! Les caractères autorisés sont : lettres, chiffres, tirets ("-") et underscores ("_")</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeAdd">
+			<source>Add theme</source>
+			<target>Ajouter un thème</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeAddTitle">
+			<source>Add theme to the Framway</source>
+			<target>Ajouter un thème au Framway</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeValidate">
+			<source>Validate theme</source>
+			<target>Valider thème</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeValidateTitle">
+			<source>Validate this theme</source>
+			<target>Valider ce thème</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVAL.Title">
 			<source>Framway | Retrieval</source>
 			<target>Framway | Récupération</target>
@@ -137,6 +153,10 @@
 		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVAL.FramwayAbsent">
 			<source><p>Framway isn't present and/or configured</p><p>You have to retrieve / update it before going to the next step</p></source>
 			<target><p>Le framway n'est pas présent / configuré.</p><p>Vous devez le récupérer / mettre à jour avant de passer à l'étape suivante.</p></target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVAL.ButtonFramwayRetrieve">
+			<source>Retrieve the Framway</source>
+			<target>Récupérer le Framway</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVAL.Step1">
 			<source>1. Retrieval / Update Framway</source>

@@ -15,7 +15,7 @@
 <!-- Display Module -->
 <div id="tl_wem_sg_updatemanager" class="wem_module">
 
-	<h2 class="sub_headline">Backup Manager</h2>
+	<h2 class="sub_headline">Update Manager</h2>
 	<?php $this->insert('be_wem_sg_updatemanager_results', $this->getData()); ?>
 	<div class="tl_listing_container list_view" id="tl_listing">
 		<table class="tl_listing showColumns">

@@ -123,7 +123,7 @@ class BackupManager
                 }
             }
         } catch (\Exception $e) {
-            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageRetrieveListError', ['error' => $e->getMessage()]), $e->getCode(), $e);
+            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageRetrieveListError', ['error' => $e->getMessage()], 'contao_default'), $e->getCode(), $e);
         }
 
         return $result;
@@ -132,7 +132,7 @@ class BackupManager
     public function get(string $backupName): File
     {
         if (!file_exists($this->getBackupFullPath($backupName))) {
-            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageRetrieveSingleError'));
+            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageRetrieveSingleError'), [], 'contao_default');
         }
 
         return new File($this->getBackupPath($backupName));
@@ -193,7 +193,7 @@ class BackupManager
                 }
             }
         } catch (\Exception $e) {
-            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageRestoreError', ['error' => $e->getMessage()]), $e->getCode(), $e);
+            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageRestoreError', ['error' => $e->getMessage()], 'contao_default'), $e->getCode(), $e);
         }
 
         return $result;
@@ -202,7 +202,7 @@ class BackupManager
     public function delete(string $backupName): bool
     {
         if (!file_exists($this->getBackupFullPath($backupName))) {
-            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageDeleteError', ['backup' => $this->getBackupFullPath($backupName)]));
+            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageDeleteError', ['backup' => $this->getBackupFullPath($backupName)], 'contao_default'));
         }
 
         $model = BackupModel::findBy('name', $backupName);
@@ -261,7 +261,7 @@ class BackupManager
             $model->source = $source;
             $model->save();
         } catch (\Exception $e) {
-            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageCreateError', ['error' => $e->getMessage()]), $e->getCode(), $e);
+            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageCreateError', ['error' => $e->getMessage()], 'contao_default'), $e->getCode(), $e);
         }
 
         return $result;
