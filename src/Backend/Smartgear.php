@@ -348,7 +348,7 @@ class Smartgear extends \Contao\BackendModule
             $this->objSession->set('wem_sg_update_update_result', $result);
 
             // Add Message
-            Message::addConfirmation($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messagePlayUpdatesDone']);
+            Message::addConfirmation($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['messagePlayUpdatesDone']);
 
             // And redirect
             Controller::redirect(str_replace('&act=play', '', Environment::get('request')));
