@@ -1,1 +1,1 @@
-This is file A from source !!
+This is file A
