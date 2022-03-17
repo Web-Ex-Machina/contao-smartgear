@@ -21,8 +21,8 @@
 			<target>Aucune action spécifiée</target>
 		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.DEFAULT.AjaxInvalidActionSpecified">
-			<source>Specified action "{%action%}" is invalide</source>
-			<target>L'action "{%action%}" spécifiée est invalide</target>
+			<source>Specified action "%s" is invalid</source>
+			<target>L'action "%s" spécifiée est invalide</target>
 		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.DEFAULT.PreviousStep">
 			<source>Previous</source>
@@ -49,8 +49,8 @@
 			<target>Le formulaire est invalide</target>
 		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.DEFAULT.MissingDependencies">
-			<source>You can't manage this module until the following dependencies have been met : {%dependencies%}</source>
-			<target>Vous ne pouvez pas gérer ce module tant que les dépendances suivantes ne seront pas résolues : {%dependencies%}</target>
+			<source>You can't manage this module until the following dependencies have been met : %s</source>
+			<target>Vous ne pouvez pas gérer ce module tant que les dépendances suivantes ne seront pas résolues : %s</target>
 		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.DEFAULT.dataSaved">
 			<source>Data have been saved</source>
@@ -684,15 +684,16 @@
 			<target>Réinitialisation</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CORE.DASHBOARD.text">
-			<source>
-				<p>This is the dashboard !</p>
-				<p>Version :{%version%}</p>
-				<p>Mode : {%mode%}</p></source>
-			<target>
-				<p>Ceci est le dashboard !</p>
-				<p>Version :{%version%}</p>
-				<p>Mode : {%mode%}</p>
-			</target>
+			<source>This is the dashboard !</source>
+			<target>Ceci est le dashboard !</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.version">
+			<source>Version : %s</source>
+			<target>Version : %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.mode">
+			<source>Mode : %s</source>
+			<target>Mode : %s</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CORE.RESETSTEPMANAGER.buttonTerminateLabel">
 			<source>End reinitialisation</source>
@@ -711,7 +712,7 @@
 			<target>L'argument "cmd" n'a pas été précisé</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.AJAX.COMMAND.messageSuccess">
-			<source>Command "%" has been successfully executed</source>
+			<source>Command "%s" has been successfully executed</source>
 			<target>La commande "%s" a été executée avec succès</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.AJAX.SUBBLOCK.messageParameterMissing">
@@ -757,8 +758,8 @@
 		</trans-unit>
 		<!-- DirectoriesSynchronizer -->
 		<trans-unit id="WEMSG.DIRECTORIESSYNCHRONIZER.error">
-			<source>Error while copying from "{%source%}" to "{%destination%}"</source>
-			<target>Erreur dans la copie de "{%source%}" vers "{%destination%}"</target>
+			<source>Error while copying from "%s" to "%s"</source>
+			<target>Erreur dans la copie de "%s" vers "%s"</target>
 		</trans-unit>
 
 		<!-- Backup manager -->
@@ -795,24 +796,24 @@
 			<target>Backup "%s" non supprimé</target>
 		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageRetrieveListError">
-			<source>An error occured while retrieving backups' list : {%error%}</source>
-			<target>Une erreur est survenue lors de la récupération de la liste des backups : {%error%}</target>
+			<source>An error occured while retrieving backups' list : %s</source>
+			<target>Une erreur est survenue lors de la récupération de la liste des backups : %s</target>
 		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageRetrieveSingleError">
 			<source>The backup doesn't exists</source>
 			<target>Le backup n'existe pas</target>
 		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageRestoreError">
-			<source>An error occured while restoring the backup : {%error%}</source>
-			<target>Une erreur est survenue lors de la restauration du backup : {%error%}</target>
+			<source>An error occured while restoring the backup : %s</source>
+			<target>Une erreur est survenue lors de la restauration du backup : %s</target>
 		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageDeleteError">
-			<source>The specified backup can't be deleted as it doesn't exist ({%backup%})</source>
-			<target>Le backup a supprimer n'existe pas ({%backup%})</target>
+			<source>The specified backup can't be deleted as it doesn't exist (%s)</source>
+			<target>Le backup a supprimer n'existe pas (%s)</target>
 		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageCreateError">
-			<source>An error occured while creating the backup : {%error%}</source>
-			<target>Une erreur est survenue lors de la création du backup : {%error%}</target>
+			<source>An error occured while creating the backup : %s</source>
+			<target>Une erreur est survenue lors de la création du backup : %s</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.title">
 			<source>Backup Manager</source>
@@ -834,6 +835,26 @@
 			<source>Source</source>
 			<target>Source</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.sourceUi">
+			<source>UI</source>
+			<target>Interface utilisateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.sourceApi">
+			<source>API</source>
+			<target>API</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.sourceUpdate">
+			<source>Update</source>
+			<target>Mise à jour</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.sourceCommand">
+			<source>Command</source>
+			<target>Commande</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.sourceConfigurationreset">
+			<source>Smartgear's configuration reset</source>
+			<target>Réinitialisation de la configuration Smartgear</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.noItemsToDisplay">
 			<source>No backup to display</source>
 			<target>Pas de backup disponible</target>
@@ -847,20 +868,20 @@
 			<target>Résultat de la restauration du backup :</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.filesDeletedCount">
-			<source>{%count%} files deleted</source>
-			<target>{%count%} fichiers supprimés</target>
+			<source>%s files deleted</source>
+			<target>%s fichiers supprimés</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.filesReplacedCount">
-			<source>{%count%} files replaced</source>
-			<target>{%count%} fichiers remplacés</target>
+			<source>%s files replaced</source>
+			<target>%s fichiers remplacés</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.filesAddedCount">
-			<source>{%count%} files added</source>
-			<target>{%count%} fichiers ajoutés</target>
+			<source>%s files added</source>
+			<target>%s fichiers ajoutés</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.filesInErrorCount">
-			<source>{%count%} files in error</source>
-			<target>{%count%} fichiers en erreur</target>
+			<source>%s files in error</source>
+			<target>%s fichiers en erreur</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.filesDetails">
 			<source>Files details</source>
@@ -926,16 +947,16 @@
 
 		<!-- Backup API -->
 		<trans-unit id="WEMSG.BACKUPMANAGER.API.messageDeleteSuccess">
-			<source>The specified backup "{%backup%}" has been deleted</source>
-			<target>Le backup "{%backup%}" a bien été supprimé</target>
+			<source>The specified backup "%s" has been deleted</source>
+			<target>Le backup "%s" a bien été supprimé</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.BACKUPMANAGER.API.messageDeleteError">
-			<source>An error occured during the backup deletion "{%backup%}"</source>
-			<target>Une erreur est survenue lors de la suppression du backup "{%backup%}"</target>
+			<source>An error occured during the backup deletion "%s"</source>
+			<target>Une erreur est survenue lors de la suppression du backup "%s"</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.BACKUPMANAGER.API.messageRestoreSuccess">
-			<source>The specified backup "{%backup%}" has been restored</source>
-			<target>Le backup "{%backup%}" a bien été restauré</target>
+			<source>The specified backup "%s" has been restored</source>
+			<target>Le backup "%s" a bien été restauré</target>
 		</trans-unit>
 
 
@@ -995,8 +1016,8 @@
 			<target>Les mises à jour n'ont pas été installées</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.backupInfo">
-			<source>The backup {%name%} has been created</source>
-			<target>Le back-up {%name%} a été effectué</target>
+			<source>The backup %s has been created</source>
+			<target>Le back-up %s a été effectué</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.version">
 			<source>Version</source>
@@ -1033,6 +1054,26 @@
 		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsStatusInError">
 			<source>In error</source>
 			<target>En erreur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusNotexecutedyet">
+			<source>Not executed yet</source>
+			<target>Pas encore exécutée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusShouldrun">
+			<source>Should run</source>
+			<target>A executer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusSkipped">
+			<source>Skipped</source>
+			<target>Ignorée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusFail">
+			<source>Failure</source>
+			<target>Echec</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusSuccess">
+			<source>Success</source>
+			<target>Succès</target>
 		</trans-unit>
 
 		<!-- heimrichhannot/contao-backend-lost-password-bundle -->

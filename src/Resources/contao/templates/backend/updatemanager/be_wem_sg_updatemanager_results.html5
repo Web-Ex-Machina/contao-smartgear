@@ -9,7 +9,7 @@
 	</div>
 	<?php endif; ?>
 	<div class="tl_info">
-		<?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupInfo',['name'=>$this->update_result->getBackupResult()->getBackup()->getFile()->basename]); ?>
+		<?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupInfo',[$this->update_result->getBackupResult()->getBackup()->getFile()->basename]); ?>
 	</div>
 		<div class="tl_listing_container list_view">
 		<table class="tl_listing showColumns">
@@ -27,7 +27,7 @@
 					<td colspan="1" class="tl_file_list col_version"><?= $singleMigrationResult->getMigration()->getVersion() ?></td>
 					<td colspan="1" class="tl_file_list col_name"><?= $singleMigrationResult->getMigration()->getName() ?></td>
 					<td colspan="1" class="tl_file_list col_description"><?= $singleMigrationResult->getMigration()->getName() ?></td>
-					<td colspan="1" class="tl_file_list col_status"><?= $singleMigrationResult->getResult()->getStatus() ?></td>
+					<td colspan="1" class="tl_file_list col_status"><?= $this->trans(sprintf('WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.status%s',ucfirst(str_replace(' ','',$singleMigrationResult->getResult()->getStatus())))); ?></td>
 					<td colspan="1" class="tl_file_list col_logs"><?= implode("<br />",$singleMigrationResult->getResult()->getLogs()) ?></td>
 				</tr>
 			<?php endforeach; ?> 

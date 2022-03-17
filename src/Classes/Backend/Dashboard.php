@@ -78,7 +78,7 @@ class Dashboard
             }
             switch (Input::post('action')) {
                 default:
-                    throw new InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxInvalidActionSpecified', ['action' => Input::post('action')], 'contao_default'));
+                    throw new InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxInvalidActionSpecified', [Input::post('action')], 'contao_default'));
                 break;
             }
         } catch (Exception $e) {

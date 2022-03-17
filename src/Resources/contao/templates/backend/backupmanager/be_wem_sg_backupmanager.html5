@@ -35,7 +35,7 @@
 					</td>
 					<td colspan="1" class="tl_file_list col_name"><?= $backup->getFile()->basename ?></td>
 					<td colspan="1" class="tl_file_list col_size"><?= WEM\SmartgearBundle\Classes\Util::humanReadableFilesize((int) $backup->getFile()->size) ?></td>
-					<td colspan="1" class="tl_file_list col_source"><?= $backup->getSource() ?></td>
+					<td colspan="1" class="tl_file_list col_source"><?= $this->trans(sprintf('WEMSG.BACKUPMANAGER.LIST.source%s',ucfirst(str_replace(' ','',$backup->getSource())))); ?></td>
 					<td class="tl_file_list tl_right_nowrap">
 						<a href="<?= $this->addToUrl('&act=download&backup='.$backup->getFile()->basename) ?>" title="" target="_blank">
 							<img src="bundles/wemsmartgear/icons/icon_zip.png" alt="Télécharger le back-up" width="12" height="16">

@@ -31,7 +31,7 @@
 					<td colspan="1" class="tl_file_list col_version"><?= $singleMigrationResult->getMigration()->getVersion() ?></td>
 					<td colspan="1" class="tl_file_list col_name"><?= $singleMigrationResult->getMigration()->getName() ?></td>
 					<td colspan="1" class="tl_file_list col_description"><?= $singleMigrationResult->getMigration()->getName() ?></td>
-					<td colspan="1" class="tl_file_list col_status"><?= $singleMigrationResult->getResult()->getStatus() ?></td>
+					<td colspan="1" class="tl_file_list col_status"><?= $this->trans(sprintf('WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.status%s',ucfirst(str_replace(' ','',$singleMigrationResult->getResult()->getStatus())))); ?></td>
 				</tr>
 				<?php endforeach; ?>
 				<?php if($this->empty): ?>

@@ -72,13 +72,13 @@ class Api
     {
         try {
             if (!$this->backupManager->delete($backupName)) {
-                throw new \Exception($this->translator->trans('WEMSG.BACKUPMANAGER.API.messageDeleteError', ['backup' => $backupName], 'contao_default'));
+                throw new \Exception($this->translator->trans('WEMSG.BACKUPMANAGER.API.messageDeleteError', [$backupName], 'contao_default'));
             }
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
 
-        return json_encode(['message' => $this->translator->trans('WEMSG.BACKUPMANAGER.API.messageDeleteSuccess', ['backup' => $backupName], 'contao_default')]);
+        return json_encode(['message' => $this->translator->trans('WEMSG.BACKUPMANAGER.API.messageDeleteSuccess', [$backupName], 'contao_default')]);
     }
 
     public function restore(string $backupName)
@@ -89,7 +89,7 @@ class Api
             throw new \Exception($e->getMessage());
         }
 
-        return json_encode(['message' => $this->translator->trans('WEMSG.BACKUPMANAGER.API.messageRestoreSuccess', ['backup' => $backupName], 'contao_default')]);
+        return json_encode(['message' => $this->translator->trans('WEMSG.BACKUPMANAGER.API.messageRestoreSuccess', [$backupName], 'contao_default')]);
     }
 
     public function get(string $backupName)

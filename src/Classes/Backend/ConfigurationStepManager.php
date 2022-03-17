@@ -74,6 +74,9 @@ class ConfigurationStepManager extends StepManager
 
         if ($this->getCurrentStepIndex() < \count($this->steps) - 1) {
             $this->actions[] = ['action' => 'next', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NextStep', [], 'contao_default')];
+            if (self::MODE_CONFIGURE === $this->mode) {
+                $this->actions[] = ['action' => 'finish', 'label' => $this->translator->trans('WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish', [], 'contao_default')];
+            }
         } else {
             $this->actions[] = ['action' => 'finish', 'label' => $this->translator->trans('WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish', [], 'contao_default')];
         }

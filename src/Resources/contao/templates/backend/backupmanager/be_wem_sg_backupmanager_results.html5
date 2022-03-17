@@ -2,22 +2,22 @@
 		<h3 class="subheadline"><?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.title'); ?></h3>
 		<?php if(count($this->restore_result->getFilesDeletedByRestore()) > 0): ?>
 			<div class="tl_error">
-				<?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesDeletedCount',['count'=>count($this->restore_result->getFilesDeletedByRestore())]); ?>
+				<?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesDeletedCount',[count($this->restore_result->getFilesDeletedByRestore())]); ?>
 			</div>
 		<?php endif; ?>
 		<?php if(count($this->restore_result->getFilesReplacedByRestore()) > 0): ?>
 			<div class="tl_confirm">
-				<?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesReplacedCount',['count'=>count($this->restore_result->getFilesReplacedByRestore())]); ?>
+				<?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesReplacedCount',[count($this->restore_result->getFilesReplacedByRestore())]); ?>
 			</div>
 		<?php endif; ?>
 		<?php if(count($this->restore_result->getFilesAddedByRestore()) > 0): ?>
 			<div class="tl_info">
-				<?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesAddedCount',['count'=>count($this->restore_result->getFilesAddedByRestore())]); ?>
+				<?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesAddedCount',[count($this->restore_result->getFilesAddedByRestore())]); ?>
 			</div>
 		<?php endif; ?>
 		<?php if(count($this->restore_result->getFilesInError()) > 0): ?>
 			<div class="tl_error">
-				<?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesInErrorCount',['count'=>count($this->restore_result->getFilesInError())]); ?>
+				<?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesInErrorCount',[count($this->restore_result->getFilesInError())]); ?>
 			</div>
 		<?php endif; ?>
 		<h4 class="subheadline">

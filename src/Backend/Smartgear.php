@@ -342,6 +342,7 @@ class Smartgear extends \Contao\BackendModule
         $this->Template = new BackendTemplate('be_wem_sg_updatemanager');
 
         if ('play' === Input::get('act')) {
+            set_time_limit(0);
             $result = $this->updateManager->update();
 
             $this->objSession->set('wem_sg_update_update_result', $result);
