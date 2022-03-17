@@ -29,3 +29,5 @@ $GLOBALS['TL_CONFIG']['twitter_image_size'] = 'a:3:{i:0;s:0:"";i:1;s:0:"";i:2;s:
 // @todo : remove this line until Contao BE file explorer is no more broken
 // cf cd https://github.com/marcel-mathias-nolte/contao-filesmanager-fileusage/issues/4
 $GLOBALS['TL_CONFIG']['fileusageSkipReplaceInsertTags'] = true;
+// @todo : remove this line until Contao BE file explorer is no more broken (don't know  this time)
+$GLOBALS['TL_CONFIG']['fileusageSkipDatabase'] = true;

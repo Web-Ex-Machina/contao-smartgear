@@ -161,6 +161,8 @@ class General extends ConfigurationStep
         ->setSgOwnerDomain(\Contao\Environment::get('base'))
         ->setSgOwnerHost(CoreConfig::DEFAULT_OWNER_HOST)
         ->setRejectLargeUploads(true)
+        ->setFileusageSkipReplaceInsertTags(true)
+        ->setFileusageSkipDatabase(true)
         ->setImageSizes([
             '_defaults' => [
                 'formats' => [
