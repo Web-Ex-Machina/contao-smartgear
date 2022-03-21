@@ -40,6 +40,7 @@ class CoreTest extends \Codeception\Test\Unit
         $json->selectedModules = ['foo', 'bar'];
         $json->mode = CoreConfig::MODE_DEV;
         $json->websiteTitle = 'bar';
+        $json->googleFonts = ['font1', 'font2', 'font3'];
 
         $json->framway = new \stdClass();
         $json->framway->path = '/path/to/somwhere';
@@ -69,6 +70,9 @@ class CoreTest extends \Codeception\Test\Unit
         $json->owner->dpo->name = '';
         $json->owner->dpo->email = '';
 
+        $json->api = new \stdClass();
+        $json->api->key = 'foo-api-key';
+
         $this->sut->import($json);
 
         $this->assertSame($this->sut->getSgInstallComplete(), $json->installComplete);
@@ -95,6 +99,8 @@ class CoreTest extends \Codeception\Test\Unit
         $this->assertSame($this->sut->getSgOwnerSiret(), $json->owner->siret);
         $this->assertSame($this->sut->getSgOwnerDpoName(), $json->owner->dpo->name);
         $this->assertSame($this->sut->getSgOwnerDpoEmail(), $json->owner->dpo->email);
+        $this->assertSame($this->sut->getSgGoogleFonts(), $json->googleFonts);
+        $this->assertSame($this->sut->getSgApiKey(), $json->api->key);
     }
 
     public function testImportWillFailOverInvalidAnalyticsSystem(): void

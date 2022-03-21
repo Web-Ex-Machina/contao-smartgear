@@ -33,7 +33,6 @@ class ManagerCoreTest extends \Util\SmartgearTestCase
 
     protected function setUp(): void
     {
-        // exit(realpath(__DIR__.'/../../Util/SmartgearTestCase.php'));
         $this->configurationFilePath = codecept_data_dir().'/assets/smartgear/config_core.json';
         $this->sut = new Manager($this->getTranslator(), new CoreConfig(), $this->configurationFilePath);
     }

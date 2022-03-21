@@ -54,12 +54,6 @@ class UpdateManagerTest extends ContaoTestCase
 
         $this->configManager = $this->createMock(CoreConfigurationManager::class);
         $this->backupManager = $this->createMock(BackupManager::class);
-
-        // $this->sut = new UpdateManager(
-        //     $this->configManager,
-        //     $this->backupManager,
-        //     $this->migrations
-        // );
     }
 
     /**
