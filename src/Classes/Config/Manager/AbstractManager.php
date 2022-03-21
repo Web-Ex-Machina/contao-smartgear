@@ -14,17 +14,27 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Config\Manager;
 
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 abstract class AbstractManager implements ManagerInterface
 {
+    /** @var TranslatorInterface */
+    protected $translator;
+
+    public function __construct(
+        TranslatorInterface $translator
+    ) {
+        $this->translator = $translator;
+    }
+
     /**
      * Retrieve content from configuration file.
      */
     protected function retrieveConfigurationFromFile(): string
     {
         if (!file_exists($this->configurationFilePath)) {
-            throw new FileNotFoundException('Configuration file not found');
+            throw new FileNotFoundException($this->translator->trans('WEMSG.CONFIGURATIONMANAGER.fileNotFound', [], 'contao_default'));
         }
 
         return file_get_contents($this->configurationFilePath);

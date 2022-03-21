@@ -8,7 +8,7 @@ services:
       service: php
     build: 
       context: ./php/${IMAGE_PHP_DIR}
-      target: php_test
+      target: php_dev
       args:
         contao_version: ${CONTAO_VERSION}
         app_secret: 1234567890123456789012
@@ -33,7 +33,7 @@ services:
         chown -R www-data:www-data ${WORKDIR_CONTAO}/var && 
         runuser -u www-data -- ${WORKDIR_CONTAO}/vendor/bin/contao-console cache:clear &&
         chown -R www-data:www-data ${WORKDIR_CONTAO}/var && 
-        runuser -u www-data -- ${WORKDIR_CONTAO}/vendor/bin/contao-console contao:migrate --no-interaction --with-deletes &&
+        runuser -u www-data -- ${WORKDIR_CONTAO}/vendor/bin/contao-console contao:migrate --no-interaction --with-deletes --no-backup &&
         cd ${WORKDIR_INIT} &&
         runuser -u www-data -- ./contao-init.sh &&
         cd ${WORKDIR_CONTAO}/vendor/webexmachina/${BUNDLE_NAME}/ &&
@@ -54,7 +54,7 @@ services:
       service: db
     build: 
       context: ./db/${IMAGE_DB_DIR}
-      target: db_test
+      target: db_dev
     restart: unless-stopped
     tty: true
     container_name: ${COMPOSE_PROJECT_NAME_SHORT}_db
@@ -104,3 +104,4 @@ networks:
 
 volumes:
   static-content:
+    name: ${COMPOSE_PROJECT_NAME_SHORT}-volume-shared-php-web-dev

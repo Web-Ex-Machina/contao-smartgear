@@ -8,7 +8,7 @@
 
 	<div class="widget">
 		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme" 
-		title="Ajouter un thème au Framway">Nouveau thème</button>
+		title="<?= $this->trans('WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeAddTitle'); ?>"><?= $this->trans('WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeAdd'); ?></button>
 		<br>
 	</div>
 
@@ -16,7 +16,9 @@
 		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['new_theme']]); ?>
 		<br>
 		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme-validation" 
-		title="Valider ce thème">Valider thème</button>
+		title="<?= $this->trans('WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeValidateTitle'); ?>">
+			<?= $this->trans('WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeValidate'); ?>
+		</button>
 		<pre id="block-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme-result" style="height:100px;overflow-y:scroll;" class="hidden result">
 	</div>
 

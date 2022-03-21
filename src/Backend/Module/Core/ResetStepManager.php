@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Module\Core;
 
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\StepManager;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 
@@ -24,12 +25,13 @@ class ResetStepManager extends StepManager
 
     public function __construct(
         ConfigurationManager $configurationManager,
+        TranslatorInterface $translator,
         string $module,
         string $type,
         string $stepSessionKey,
         array $steps
     ) {
-        parent::__construct($module, $type, $stepSessionKey, $steps);
+        parent::__construct($translator, $module, $type, $stepSessionKey, $steps);
         $this->configurationManager = $configurationManager;
     }
 
@@ -48,16 +50,16 @@ class ResetStepManager extends StepManager
 
     protected function fillActions(): void
     {
-        $this->actions[] = ['action' => 'reset_mode_check_cancel', 'label' => 'Annuler'];
+        $this->actions[] = ['action' => 'reset_mode_check_cancel', 'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['Cancel']];
 
         if (0 !== $this->getCurrentStepIndex()) {
-            $this->actions[] = ['action' => 'previous', 'label' => 'Précédent'];
+            $this->actions[] = ['action' => 'previous', 'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['Cancel']];
         }
 
         if ($this->getCurrentStepIndex() < \count($this->steps) - 1) {
-            $this->actions[] = ['action' => 'next', 'label' => 'Suivant'];
+            $this->actions[] = ['action' => 'next', 'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['Cancel']];
         } else {
-            $this->actions[] = ['action' => 'finish', 'label' => 'Terminer la réinitialisation'];
+            $this->actions[] = ['action' => 'finish', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['RESETSTEPMANAGER']['buttonTerminateLabel']];
         }
     }
 }

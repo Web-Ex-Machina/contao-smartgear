@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Config\Manager;
 
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\AbstractManager;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManagerCore;
@@ -28,9 +29,11 @@ class Framway extends AbstractManager implements ManagerJsonInterface
     protected $configurationManagerCore;
 
     public function __construct(
+        TranslatorInterface $translator,
         ConfigInterface $configuration,
         ConfigurationManagerCore $configurationManagerCore
     ) {
+        parent::__construct($translator);
         $this->configuration = $configuration;
         $this->configurationManagerCore = $configurationManagerCore;
     }
@@ -86,7 +89,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
     protected function retrieveConfigurationFromFile(): string
     {
         if (!file_exists($this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js')) {
-            throw new FileNotFoundException('Configuration file not found');
+            throw new FileNotFoundException($this->translator->trans('WEMSG.CONFIGURATIONMANAGER.fileNotFound', [], 'contao_default'));
         }
 
         return file_get_contents($this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js');

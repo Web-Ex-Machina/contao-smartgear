@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Config\Manager;
 
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\ConfigEnvInterface;
 use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\AbstractManager;
@@ -29,9 +30,11 @@ class EnvFile extends AbstractManager implements ManagerEnvInterface
     protected $configurationFilePath;
 
     public function __construct(
+        TranslatorInterface $translator,
         ConfigEnvFile $configuration,
         string $configurationFilePath
     ) {
+        parent::__construct($translator);
         $this->configuration = $configuration;
         $this->configurationFilePath = $configurationFilePath;
     }

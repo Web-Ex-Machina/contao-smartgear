@@ -18,7 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use WEM\SmartgearBundle\Backup\Results\RestoreResult;
+use WEM\SmartgearBundle\Backup\Model\Results\RestoreResult;
 
 class BackupDeleteCommand extends AbstractBackupCommand
 {

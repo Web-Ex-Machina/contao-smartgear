@@ -15,7 +15,8 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Api\Backup\V1\Model\Mapper;
 
 use WEM\SmartgearBundle\Api\Backup\V1\Model\ListResponse;
-use WEM\SmartgearBundle\Backup\Results\ListResult;
+use WEM\SmartgearBundle\Backup\Model\Results\ListResult;
+use WEM\SmartgearBundle\Classes\Util;
 
 class ListResultToListResponse
 {
@@ -24,8 +25,13 @@ class ListResultToListResponse
         $listResponse->setTotal($listResult->getTotal());
         foreach ($listResult->getBackups() as $backup) {
             $listResponse->addBackup([
-                'timestamp' => $backup->ctime,
-                'path' => $backup->basename,
+                'timestamp' => $backup->getFile()->ctime,
+                'path' => $backup->getFile()->basename,
+                'source' => $backup->getSource(),
+                'size' => [
+                    'raw' => $backup->getFile()->size,
+                    'human_readable' => Util::humanReadableFilesize((int) $backup->getFile()->size),
+                ],
             ]);
         }
 

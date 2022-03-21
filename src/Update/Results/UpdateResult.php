@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Update\Results;
 
-use WEM\SmartgearBundle\Backup\Results\CreateResult as BackupResult;
+use WEM\SmartgearBundle\Backup\Model\Results\CreateResult as BackupResult;
 
 class UpdateResult
 {

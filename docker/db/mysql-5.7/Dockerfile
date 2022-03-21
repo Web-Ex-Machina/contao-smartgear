@@ -7,4 +7,4 @@ CMD ["mysqld"]
 
 FROM db_base AS db_test
 
-# Here we can have additional work to be done specifically fot the test container
+FROM db_base AS db_dev

@@ -44,8 +44,10 @@ paths:
             application/json:
               schema:
                 type: object 
-                properties:           
-                  version:
+                properties:
+                  package:
+                    type: string
+                  installed:
                     type: string
         '400':
           description: Invalid request

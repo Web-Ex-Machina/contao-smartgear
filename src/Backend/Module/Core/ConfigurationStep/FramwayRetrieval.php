@@ -18,22 +18,25 @@ use Contao\FrontendTemplate;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\UtilFramway;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
 
 class FramwayRetrieval extends ConfigurationStep
 {
     /** @var ConfigurationManager */
     protected $configurationManager;
+    /** @var UtilFramway */
+    protected $framwayUtil;
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_retrieval';
 
     public function __construct(
         string $module,
         string $type,
-        ConfigurationManager $configurationManager
+        ConfigurationManager $configurationManager,
+        UtilFramway $framwayUtil
     ) {
         parent::__construct($module, $type);
-        $this->title = 'Framway | Récupération';
+        $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYRETRIEVAL']['Title'];
         $this->configurationManager = $configurationManager;
+        $this->framwayUtil = $framwayUtil;
     }
 
     public function getFilledTemplate(): FrontendTemplate
@@ -60,44 +63,33 @@ class FramwayRetrieval extends ConfigurationStep
     public function framwayRetrieve()
     {
         set_time_limit(0);
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
 
-        return UtilFramway::retrieve($config->getSgFramwayPath(), true);
+        return $this->framwayUtil->retrieve(true);
     }
 
     public function framwayInstall()
     {
         set_time_limit(0);
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
 
-        return UtilFramway::install($config->getSgFramwayPath(), true);
+        return $this->framwayUtil->install(true);
     }
 
     public function framwayInitialize()
     {
         set_time_limit(0);
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
 
-        return UtilFramway::initialize($config->getSgFramwayPath(), true);
+        return $this->framwayUtil->initialize(true);
     }
 
     public function framwayBuild()
     {
         set_time_limit(0);
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
 
-        return UtilFramway::build($config->getSgFramwayPath(), true);
+        return $this->framwayUtil->build(true);
     }
 
     public function checkFramwayPresence()
     {
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
-
-        return UtilFramway::checkPresence($config->getSgFramwayPath());
+        return $this->framwayUtil->checkPresence();
     }
 }

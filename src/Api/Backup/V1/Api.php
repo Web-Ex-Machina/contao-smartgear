@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Api\Backup\V1;
 
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Api\Backup\V1\Model\CreateResponse;
 use WEM\SmartgearBundle\Api\Backup\V1\Model\ListResponse;
 use WEM\SmartgearBundle\Api\Backup\V1\Model\Mapper\CreateResultToCreateResponse;
@@ -22,6 +23,8 @@ use WEM\SmartgearBundle\Backup\BackupManager;
 
 class Api
 {
+    /** @var TranslatorInterface */
+    protected $translator;
     /** @var BackupManager */
     protected $backupManager;
     /** @var ListResultToListResponse */
@@ -30,10 +33,12 @@ class Api
     protected $createResultToCreateResponseMapper;
 
     public function __construct(
+        TranslatorInterface $translator,
         BackupManager $backupManager,
         ListResultToListResponse $listResultToListResponseMapper,
         CreateResultToCreateResponse $createResultToCreateResponseMapper
     ) {
+        $this->translator = $translator;
         $this->backupManager = $backupManager;
         $this->listResultToListResponseMapper = $listResultToListResponseMapper;
         $this->createResultToCreateResponseMapper = $createResultToCreateResponseMapper;
@@ -54,7 +59,7 @@ class Api
     public function create()
     {
         try {
-            $createResult = $this->backupManager->new();
+            $createResult = $this->backupManager->newFromAPI();
             $response = $this->createResultToCreateResponseMapper->map($createResult, (new CreateResponse()));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
@@ -67,13 +72,13 @@ class Api
     {
         try {
             if (!$this->backupManager->delete($backupName)) {
-                throw new \Exception(sprintf('Une erreur est survenue lors de la suppression du backup "%s"', $backupName));
+                throw new \Exception($this->translator->trans('WEMSG.BACKUPMANAGER.API.messageDeleteError', [$backupName], 'contao_default'));
             }
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
 
-        return json_encode(['message' => sprintf('Le backup "%s" a bien été supprimé', $backupName)]);
+        return json_encode(['message' => $this->translator->trans('WEMSG.BACKUPMANAGER.API.messageDeleteSuccess', [$backupName], 'contao_default')]);
     }
 
     public function restore(string $backupName)
@@ -84,7 +89,7 @@ class Api
             throw new \Exception($e->getMessage());
         }
 
-        return json_encode(['message' => sprintf('Le backup "%s" a bien été restauré', $backupName)]);
+        return json_encode(['message' => $this->translator->trans('WEMSG.BACKUPMANAGER.API.messageRestoreSuccess', [$backupName], 'contao_default')]);
     }
 
     public function get(string $backupName)

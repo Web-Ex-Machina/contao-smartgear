@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Backend;
 
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 
 class ConfigurationStepManager extends StepManager
@@ -27,12 +28,13 @@ class ConfigurationStepManager extends StepManager
 
     public function __construct(
         ConfigurationManager $configurationManager,
+        TranslatorInterface $translator,
         string $module,
         string $type,
         string $stepSessionKey,
         array $steps
     ) {
-        parent::__construct($module, $type, $stepSessionKey, $steps);
+        parent::__construct($translator, $module, $type, $stepSessionKey, $steps);
         $this->configurationManager = $configurationManager;
     }
 
@@ -64,17 +66,19 @@ class ConfigurationStepManager extends StepManager
     protected function fillActions(): void
     {
         if (0 !== $this->getCurrentStepIndex()) {
-            $this->actions[] = ['action' => 'previous', 'label' => 'Précédent'];
+            $this->actions[] = ['action' => 'previous', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.PreviousStep', [], 'contao_default')];
         }
-
         if (self::MODE_CONFIGURE === $this->mode) {
-            $this->actions[] = ['action' => 'save', 'label' => 'Enregistrer'];
+            $this->actions[] = ['action' => 'save', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.Save', [], 'contao_default')];
         }
 
         if ($this->getCurrentStepIndex() < \count($this->steps) - 1) {
-            $this->actions[] = ['action' => 'next', 'label' => 'Suivant'];
+            $this->actions[] = ['action' => 'next', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NextStep', [], 'contao_default')];
+            if (self::MODE_CONFIGURE === $this->mode) {
+                $this->actions[] = ['action' => 'finish', 'label' => $this->translator->trans('WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish', [], 'contao_default')];
+            }
         } else {
-            $this->actions[] = ['action' => 'finish', 'label' => 'Terminer la configuration'];
+            $this->actions[] = ['action' => 'finish', 'label' => $this->translator->trans('WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish', [], 'contao_default')];
         }
     }
 }

@@ -1,25 +1,25 @@
 	<?php if($this->update_result): ?>
 	<?php if($this->update_result->isSuccess()): ?>
 	<div class="tl_confirm">
-		Les mises à jour ont été installées
+		<?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.success'); ?>
 	</div>
 	<?php elseif($this->update_result->isFail()): ?>
 	<div class="tl_error">
-		Les mises à jour n'ont pas été installées
+		<?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.fail'); ?>
 	</div>
 	<?php endif; ?>
 	<div class="tl_info">
-		Le back-up <?= $this->update_result->getBackupResult()->getBackup()->basename; ?> a été effectué
+		<?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupInfo',[$this->update_result->getBackupResult()->getBackup()->getFile()->basename]); ?>
 	</div>
 		<div class="tl_listing_container list_view">
 		<table class="tl_listing showColumns">
   			<tbody>
   				<tr>
-					<th class="tl_folder_tlist col_version">Version</th>
-					<th class="tl_folder_tlist col_name">Name</th>
-					<th class="tl_folder_tlist col_description">Description</th>
-					<th class="tl_folder_tlist col_status">Status</th>
-					<th class="tl_folder_tlist col_logs">Logs</th>
+					<th class="tl_folder_tlist col_version"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.version'); ?></th>
+					<th class="tl_folder_tlist col_name"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.name'); ?></th>
+					<th class="tl_folder_tlist col_description"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.description'); ?></th>
+					<th class="tl_folder_tlist col_status"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.status'); ?></th>
+					<th class="tl_folder_tlist col_logs"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.logs'); ?></th>
 				</tr>
 			</tbody>
 			<?php foreach($this->update_result->getResults() as $singleMigrationResult): ?>
@@ -27,7 +27,7 @@
 					<td colspan="1" class="tl_file_list col_version"><?= $singleMigrationResult->getMigration()->getVersion() ?></td>
 					<td colspan="1" class="tl_file_list col_name"><?= $singleMigrationResult->getMigration()->getName() ?></td>
 					<td colspan="1" class="tl_file_list col_description"><?= $singleMigrationResult->getMigration()->getName() ?></td>
-					<td colspan="1" class="tl_file_list col_status"><?= $singleMigrationResult->getResult()->getStatus() ?></td>
+					<td colspan="1" class="tl_file_list col_status"><?= $this->trans(sprintf('WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.status%s',ucfirst(str_replace(' ','',$singleMigrationResult->getResult()->getStatus())))); ?></td>
 					<td colspan="1" class="tl_file_list col_logs"><?= implode("<br />",$singleMigrationResult->getResult()->getLogs()) ?></td>
 				</tr>
 			<?php endforeach; ?> 
@@ -37,8 +37,8 @@
 		<table class="tl_listing showColumns">
 				<tbody>
 					<tr>
-					<th class="tl_folder_tlist col_name">Name</th>
-					<th class="tl_folder_tlist col_status">Status</th>
+					<th class="tl_folder_tlist col_name"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsName'); ?></th>
+					<th class="tl_folder_tlist col_status"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsStatus'); ?></th>
 				</tr>
 			</tbody>
 			<?php foreach($this->update_result->getBackupResult()->getFilesBackuped() as $path): ?>
@@ -46,7 +46,7 @@
 					<td colspan="1" class="tl_file_list col_name">
 						<?= $path ?>
 					</td>
-					<td colspan="1" class="tl_file_list col_status">Backuped</td>
+					<td colspan="1" class="tl_file_list col_status"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsStatusBackuped'); ?></td>
 				</tr>
 			<?php endforeach; ?> 
 			<?php foreach($this->update_result->getBackupResult()->getFilesInError() as $path): ?>
@@ -54,7 +54,7 @@
 					<td colspan="1" class="tl_file_list col_name">
 						<?= $path ?>
 					</td>
-					<td colspan="1" class="tl_file_list col_status">In error</td>
+					<td colspan="1" class="tl_file_list col_status"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsStatusInError'); ?></td>
 				</tr>
 			<?php endforeach; ?> 
 		</table>

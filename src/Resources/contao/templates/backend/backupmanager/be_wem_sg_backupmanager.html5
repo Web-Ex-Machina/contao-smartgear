@@ -15,30 +15,35 @@
 <!-- Display Module -->
 <div id="tl_wem_sg_backupmanager" class="wem_module">
 
-	<h2 class="sub_headline">Backup Manager</h2>
+	<h2 class="sub_headline"><?= $this->trans('WEMSG.BACKUPMANAGER.LIST.title'); ?></h2>
+
 	<?php $this->insert('be_wem_sg_backupmanager_results', $this->getData()); ?>
 	<div class="tl_listing_container list_view" id="tl_listing">
-		<table class="tl_listing showColumns">
+		<table class="tl_listing">
   			<tbody>
   				<tr>
-					<th class="tl_folder_tlist col_date">Date</th>
-					<th class="tl_folder_tlist col_name">Name</th>
+					<th class="tl_folder_tlist col_date"><?= $this->trans('WEMSG.BACKUPMANAGER.LIST.date'); ?></th>
+					<th class="tl_folder_tlist col_name"><?= $this->trans('WEMSG.BACKUPMANAGER.LIST.name'); ?></th>
+					<th class="tl_folder_tlist col_size"><?= $this->trans('WEMSG.BACKUPMANAGER.LIST.size'); ?></th>
+					<th class="tl_folder_tlist col_source"><?= $this->trans('WEMSG.BACKUPMANAGER.LIST.source'); ?></th>
 					<th class="tl_folder_tlist tl_right_nowrap"></th>
 				</tr>
 				<?php foreach($this->backups->getBackups() as $backup): ?>
-				<tr class="even click2edit toggle_select hover-row">
+				<tr class="even hover-row">
 					<td colspan="1" class="tl_file_list col_date">
-						<?= empty((string) $backup->ctime) ? 'N/A' : DateTime::createFromFormat('U', (string) $backup->ctime)->format('d/m/Y H:i:s') ?>
+						<?= empty((string) $backup->getFile()->ctime) ? 'N/A' : DateTime::createFromFormat('U', (string) $backup->getFile()->ctime)->format($GLOBALS['TL_CONFIG']['datimFormat']) ?>
 					</td>
-					<td colspan="1" class="tl_file_list col_name"><?= $backup->basename ?></td>
+					<td colspan="1" class="tl_file_list col_name"><?= $backup->getFile()->basename ?></td>
+					<td colspan="1" class="tl_file_list col_size"><?= WEM\SmartgearBundle\Classes\Util::humanReadableFilesize((int) $backup->getFile()->size) ?></td>
+					<td colspan="1" class="tl_file_list col_source"><?= $this->trans(sprintf('WEMSG.BACKUPMANAGER.LIST.source%s',ucfirst(str_replace(' ','',$backup->getSource())))); ?></td>
 					<td class="tl_file_list tl_right_nowrap">
-						<a href="<?= $this->addToUrl('&act=download&backup='.$backup->basename) ?>" title="" target="_blank">
+						<a href="<?= $this->addToUrl('&act=download&backup='.$backup->getFile()->basename) ?>" title="" target="_blank">
 							<img src="bundles/wemsmartgear/icons/icon_zip.png" alt="Télécharger le back-up" width="12" height="16">
 						</a>
-						<a href="<?= $this->addToUrl('&act=restore&backup='.$backup->basename) ?>" title="">
+						<a href="<?= $this->addToUrl('&act=restore&backup='.$backup->getFile()->basename) ?>" title="">
 							<img src="bundles/wemsmartgear/icons/icon_restore.png" alt="Restaurer le back-up" width="14" height="16">
 						</a>
-						<a href="<?= $this->addToUrl('&act=delete&backup='.$backup->basename) ?>" title="" onclick="return confirm('Are you sure?')">
+						<a href="<?= $this->addToUrl('&act=delete&backup='.$backup->getFile()->basename) ?>" title="" onclick="return confirm('<?= $this->trans('WEMSG.BACKUPMANAGER.LIST.messageDeleteConfirm'); ?>')">
 							<i class="fa fa-trash"></i>&nbsp;
 						</a>
 					</td>
@@ -46,7 +51,7 @@
 				<?php endforeach; ?>
 				<?php if($this->empty): ?>
 				<tr>
-					<td colspan="3">Pas de backup disponible</td>
+					<td colspan="3"><?= $this->trans('WEMSG.BACKUPMANAGER.LIST.noItemsToDisplay'); ?></td>
 				</tr>
 				<?php endif; ?>
 			</tbody>

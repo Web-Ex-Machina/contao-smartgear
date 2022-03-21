@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Backup\Results;
+namespace WEM\SmartgearBundle\Backup\Model\Results;
 
 class RestoreResult extends AbstractResult
 {
@@ -22,6 +22,8 @@ class RestoreResult extends AbstractResult
     protected $filesDeleted = [];
     /** @var bool */
     protected $databaseRestored = false;
+    /** @var string */
+    protected $searchIndexRebuildLog = '';
 
     public function getFilesReplacedByRestore(): array
     {
@@ -85,6 +87,18 @@ class RestoreResult extends AbstractResult
     public function setDatabaseRestored(bool $databaseRestored): self
     {
         $this->databaseRestored = $databaseRestored;
+
+        return $this;
+    }
+
+    public function getSearchIndexRebuildLog(): string
+    {
+        return $this->searchIndexRebuildLog;
+    }
+
+    public function setSearchIndexRebuildLog(string $searchIndexRebuildLog): self
+    {
+        $this->searchIndexRebuildLog = $searchIndexRebuildLog;
 
         return $this;
     }

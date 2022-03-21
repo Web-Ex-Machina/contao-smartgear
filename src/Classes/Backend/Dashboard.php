@@ -21,6 +21,7 @@ use Contao\RequestToken;
 use Contao\System;
 use Exception;
 use InvalidArgumentException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 
 class Dashboard
@@ -33,6 +34,8 @@ class Dashboard
     protected $type = '';
     /** @var ConfigurationManager [description] */
     protected $configurationManager;
+    /** @var TranslatorInterface */
+    protected $translator;
     /** @var string */
     protected $strTemplate = 'be_wem_sg_install_block_dashboard';
 
@@ -45,10 +48,12 @@ class Dashboard
 
     public function __construct(
         ConfigurationManager $configurationManager,
+        TranslatorInterface $translator,
         string $module,
         string $type
     ) {
         $this->configurationManager = $configurationManager;
+        $this->translator = $translator;
         $this->module = $module;
         $this->type = $type;
         // Init session
@@ -69,11 +74,11 @@ class Dashboard
     {
         try {
             if (empty(Input::post('action'))) {
-                throw new InvalidArgumentException('No action specified');
+                throw new InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxNoActionSpecified', [], 'contao_default'));
             }
             switch (Input::post('action')) {
                 default:
-                    throw new InvalidArgumentException(sprintf('Action "%s" is not a valid action', Input::post('action')));
+                    throw new InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxInvalidActionSpecified', [Input::post('action')], 'contao_default'));
                 break;
             }
         } catch (Exception $e) {

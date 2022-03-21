@@ -14,9 +14,15 @@
 		<?php endif; ?>
 	<?php endif; ?>
 	<div class="content_container">
-		<p>Ceci est le dashboard !</p>
-		<p>Version : <?= $this->version; ?></p>
-		<p>Mode : <?= $this->mode; ?></p>
+		<p>
+			<?= $this->trans('WEMSG.CORE.DASHBOARD.text'); ?>
+		</p>
+		<p>
+			<?= $this->trans('WEMSG.CORE.DASHBOARD.version',[$this->version]); ?>
+		</p>
+		<p>
+			<?= $this->trans('WEMSG.CORE.DASHBOARD.mode',[$this->mode]); ?>
+		</p>
 	</div>
 	<?php if($this->actions): ?>
 	<form action="<?= $this->request ?>" class="tl_form" method="post">

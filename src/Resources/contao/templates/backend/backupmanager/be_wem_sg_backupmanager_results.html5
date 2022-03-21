@@ -1,91 +1,102 @@
 	<?php if($this->restore_result): ?>
-
+		<h3 class="subheadline"><?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.title'); ?></h3>
 		<?php if(count($this->restore_result->getFilesDeletedByRestore()) > 0): ?>
-		<div class="tl_error">
-			<?= count($this->restore_result->getFilesDeletedByRestore()); ?> files deleted
-		</div>
+			<div class="tl_error">
+				<?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesDeletedCount',[count($this->restore_result->getFilesDeletedByRestore())]); ?>
+			</div>
 		<?php endif; ?>
 		<?php if(count($this->restore_result->getFilesReplacedByRestore()) > 0): ?>
-		<div class="tl_confirm">
-			<?= count($this->restore_result->getFilesReplacedByRestore()); ?> files replaced
-		</div>
+			<div class="tl_confirm">
+				<?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesReplacedCount',[count($this->restore_result->getFilesReplacedByRestore())]); ?>
+			</div>
 		<?php endif; ?>
 		<?php if(count($this->restore_result->getFilesAddedByRestore()) > 0): ?>
-		<div class="tl_info">
-			<?= count($this->restore_result->getFilesAddedByRestore()); ?> files added
-		</div>
+			<div class="tl_info">
+				<?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesAddedCount',[count($this->restore_result->getFilesAddedByRestore())]); ?>
+			</div>
 		<?php endif; ?>
 		<?php if(count($this->restore_result->getFilesInError()) > 0): ?>
-		<div class="tl_error">
-			<?= count($this->restore_result->getFilesInError()); ?> files in error
-		</div>
+			<div class="tl_error">
+				<?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesInErrorCount',[count($this->restore_result->getFilesInError())]); ?>
+			</div>
 		<?php endif; ?>
+		<h4 class="subheadline">
+			<?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesDetails'); ?>
+		</h4>
 		<div class="tl_listing_container list_view">
-		<table class="tl_listing showColumns">
-  			<tbody>
-  				<tr>
-					<th class="tl_folder_tlist col_name">Name</th>
-					<th class="tl_folder_tlist col_status">Status</th>
-				</tr>
-			</tbody>
-			<?php foreach($this->restore_result->getFilesDeletedByRestore() as $path): ?>
-				<tr class="even click2edit toggle_select hover-row tl_error">
-					<td colspan="1" class="tl_file_list col_name">
-						<?= $path ?>
-					</td>
-					<td colspan="1" class="tl_file_list col_status">Deleted</td>
-				</tr>
-			<?php endforeach; ?> 
-			<?php foreach($this->restore_result->getFilesReplacedByRestore() as $path): ?>
-				<tr class="even click2edit toggle_select hover-row tl_confirm">
-					<td colspan="1" class="tl_file_list col_name">
-						<?= $path ?>
-					</td>
-					<td colspan="1" class="tl_file_list col_status">Replaced by restore</td>
-				</tr>
-			<?php endforeach; ?> 
-			<?php foreach($this->restore_result->getFilesAddedByRestore() as $path): ?>
-				<tr class="even click2edit toggle_select hover-row tl_info">
-					<td colspan="1" class="tl_file_list col_name">
-						<?= $path ?>
-					</td>
-					<td colspan="1" class="tl_file_list col_status">Added by restore</td>
-				</tr>
-			<?php endforeach; ?> 
-			<?php foreach($this->restore_result->getFilesInError() as $path): ?>
-				<tr class="even click2edit toggle_select hover-row tl_error">
-					<td colspan="1" class="tl_file_list col_name">
-						<?= $path ?>
-					</td>
-					<td colspan="1" class="tl_file_list col_status">In error</td>
-				</tr>
-			<?php endforeach; ?> 
-		</table>
-	</div>
+			<table class="tl_listing showColumns">
+	  			<tbody>
+	  				<tr>
+						<th class="tl_folder_tlist col_name"><?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesDetailsName'); ?></th>
+						<th class="tl_folder_tlist col_status"><?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesDetailsStatus'); ?></th>
+					</tr>
+				</tbody>
+				<?php foreach($this->restore_result->getFilesDeletedByRestore() as $path): ?>
+					<tr class="even hover-row tl_error">
+						<td colspan="1" class="tl_file_list col_name">
+							<?= $path ?>
+						</td>
+						<td colspan="1" class="tl_file_list col_status"><?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesDetailsStatusDeleted'); ?></td>
+					</tr>
+				<?php endforeach; ?> 
+				<?php foreach($this->restore_result->getFilesReplacedByRestore() as $path): ?>
+					<tr class="even hover-row tl_confirm">
+						<td colspan="1" class="tl_file_list col_name">
+							<?= $path ?>
+						</td>
+						<td colspan="1" class="tl_file_list col_status"><?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesDetailsStatusReplaced'); ?></td>
+					</tr>
+				<?php endforeach; ?> 
+				<?php foreach($this->restore_result->getFilesAddedByRestore() as $path): ?>
+					<tr class="even hover-row tl_info">
+						<td colspan="1" class="tl_file_list col_name">
+							<?= $path ?>
+						</td>
+						<td colspan="1" class="tl_file_list col_status"><?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesDetailsStatusAdded'); ?></td>
+					</tr>
+				<?php endforeach; ?> 
+				<?php foreach($this->restore_result->getFilesInError() as $path): ?>
+					<tr class="even hover-row tl_error">
+						<td colspan="1" class="tl_file_list col_name">
+							<?= $path ?>
+						</td>
+						<td colspan="1" class="tl_file_list col_status"><?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.filesDetailsStatusInError'); ?></td>
+					</tr>
+				<?php endforeach; ?> 
+			</table>
+		</div>
+		<h4 class="subheadline"><?= $this->trans('WEMSG.BACKUPMANAGER.RESTORERESULT.searchIndexRebuildLog'); ?></h4>
+		<div class="content">
+			<div class="console">
+				<?= nl2br($this->restore_result->getSearchIndexRebuildLog()); ?>
+			</div>
+		</div>
 	<?php endif; ?>
 	<?php if($this->create_result): ?>
+		<h3 class="subheadline"><?= $this->trans('WEMSG.BACKUPMANAGER.CREATERESULT.title'); ?></h3>
+		<h4 class="subheadline"><?= $this->trans('WEMSG.BACKUPMANAGER.CREATERESULT.filesDetails'); ?></h4>
 		<div class="tl_listing_container list_view">
 		<table class="tl_listing showColumns">
   			<tbody>
   				<tr>
-					<th class="tl_folder_tlist col_name">Name</th>
-					<th class="tl_folder_tlist col_status">Status</th>
+					<th class="tl_folder_tlist col_name"><?= $this->trans('WEMSG.BACKUPMANAGER.CREATERESULT.filesDetailsName'); ?></th>
+					<th class="tl_folder_tlist col_status"><?= $this->trans('WEMSG.BACKUPMANAGER.CREATERESULT.filesDetailsStatus'); ?></th>
 				</tr>
 			</tbody>
 			<?php foreach($this->create_result->getFilesBackuped() as $path): ?>
-				<tr class="even click2edit toggle_select hover-row tl_confirm">
+				<tr class="even hover-row tl_confirm">
 					<td colspan="1" class="tl_file_list col_name">
 						<?= $path ?>
 					</td>
-					<td colspan="1" class="tl_file_list col_status">Backuped</td>
+					<td colspan="1" class="tl_file_list col_status"><?= $this->trans('WEMSG.BACKUPMANAGER.CREATERESULT.filesDetailsStatusBackuped'); ?></td>
 				</tr>
 			<?php endforeach; ?> 
 			<?php foreach($this->create_result->getFilesInError() as $path): ?>
-				<tr class="even click2edit toggle_select hover-row tl_error">
+				<tr class="even hover-row tl_error">
 					<td colspan="1" class="tl_file_list col_name">
 						<?= $path ?>
 					</td>
-					<td colspan="1" class="tl_file_list col_status">In error</td>
+					<td colspan="1" class="tl_file_list col_status"><?= $this->trans('WEMSG.BACKUPMANAGER.CREATERESULT.filesDetailsStatusInError'); ?></td>
 				</tr>
 			<?php endforeach; ?> 
 		</table>

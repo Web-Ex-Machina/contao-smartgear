@@ -24,6 +24,7 @@ services:
     smartgear.classes.directories_synchronizer.templates.rsce:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
+            $translator: '@contao.translation.translator'
             $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/templates/rsce'
             $destinationDirectory: 'templates/rsce'
             $rootDir: '%kernel.project_dir%'
@@ -33,6 +34,7 @@ services:
     smartgear.classes.directories_synchronizer.templates.smartgear:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
+            $translator: '@contao.translation.translator'
             $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/templates/smartgear'
             $destinationDirectory: 'templates/smartgear'
             $rootDir: '%kernel.project_dir%'
@@ -42,6 +44,7 @@ services:
     smartgear.classes.directories_synchronizer.templates.general:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
+            $translator: '@contao.translation.translator'
             $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/templates'
             $destinationDirectory: 'templates'
             $rootDir: '%kernel.project_dir%'
@@ -51,6 +54,7 @@ services:
     smartgear.classes.directories_synchronizer.tiny_mce.plugins:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
+            $translator: '@contao.translation.translator'
             $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/assets/tinymce4/js/plugins'
             $destinationDirectory: 'assets/tinymce4/js/plugins'
             $rootDir: '%kernel.project_dir%'
@@ -60,6 +64,7 @@ services:
     smartgear.classes.directories_synchronizer.outdated_browser:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
+            $translator: '@contao.translation.translator'
             $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/files/vendor/outdatedbrowser'
             $destinationDirectory: 'files/vendor/outdatedbrowser'
             $rootDir: '%kernel.project_dir%'
@@ -69,6 +74,7 @@ services:
     smartgear.classes.directories_synchronizer.tarte_au_citron:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
+            $translator: '@contao.translation.translator'
             $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/files/vendor/tarteaucitron'
             $destinationDirectory: 'files/vendor/tarteaucitron'
             $rootDir: '%kernel.project_dir%'
@@ -78,6 +84,7 @@ services:
     smartgear.config.manager.core:
         class: WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson
         arguments:
+            $translator: '@contao.translation.translator'
             $configuration: '@smartgear.config.core'
             $configurationFilePath: './assets/smartgear/config_core.json'
         public: true
@@ -109,9 +116,23 @@ services:
         class: WEM\SmartgearBundle\Classes\Version\Comparator
         public: true
 
+    smartgear.classes.command.util:
+        class: WEM\SmartgearBundle\Classes\Command\Util
+        arguments:
+            $rootDir: '%kernel.project_dir%'
+        public: true
+
+    smartgear.classes.util_framway:
+        class: WEM\SmartgearBundle\Classes\UtilFramway
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $commandUtil: '@smartgear.classes.command.util'
+        public: true
+
     smartgear.config.manager.framway:
         class: WEM\SmartgearBundle\Config\Manager\Framway
         arguments:
+            $translator: '@contao.translation.translator'
             $configuration: '@smartgear.config.framway'
             $configurationManagerCore: '@smartgear.config.manager.core'
         public: true
@@ -119,6 +140,7 @@ services:
     smartgear.config.manager.env_file.local:
         class: WEM\SmartgearBundle\Config\Manager\EnvFile
         arguments:
+            $translator: '@contao.translation.translator'
             $configuration: '@smartgear.config.env_file'
             $configurationFilePath: '../.env.local'
         public: true
@@ -126,6 +148,7 @@ services:
     smartgear.config.manager.local_config:
         class: WEM\SmartgearBundle\Config\Manager\LocalConfig
         arguments:
+            $translator: '@contao.translation.translator'
             $configuration: '@smartgear.config.local_config'
             $configurationFilePath: '../config/config.yml'
         public: true
@@ -150,6 +173,7 @@ services:
         class: WEM\SmartgearBundle\Backend\Module\Core\Dashboard
         arguments:
             $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
             $module: 'core'
             $type: 'core'
             $configurationEnvFileManager: '@smartgear.config.manager.env_file.local'
@@ -163,12 +187,14 @@ services:
             $configurationStepManager: '@smartgear.backend.module.core.configuration_step_manager'
             $resetStepManager: '@smartgear.backend.module.core.reset_step_manager'
             $dashboard: '@smartgear.backend.module.core.dashboard'
+            $translator: '@contao.translation.translator'
         public: true
 
     smartgear.backend.module.core.configuration_step_manager:
         class: WEM\SmartgearBundle\Classes\Backend\ConfigurationStepManager
         arguments:
             $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
             $module: 'core'
             $type: 'core'
             $stepSessionKey: 'sg_core_install_step'
@@ -183,6 +209,7 @@ services:
         class: WEM\SmartgearBundle\Backend\Module\Core\ResetStepManager
         arguments:
             $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
             $module: 'core'
             $type: 'core'
             $stepSessionKey: 'sg_core_reset_step'
@@ -197,6 +224,7 @@ services:
             $type: 'core'
             $configurationManager: '@smartgear.config.manager.core'
             $localConfigManager: '@smartgear.config.manager.local_config'
+            $commandUtil: '@smartgear.classes.command.util'
         public: true
 
     smartgear.backend.module.core.configuration_step.framway_retrieval:
@@ -205,6 +233,7 @@ services:
             $module: 'core'
             $type: 'core'
             $configurationManager: '@smartgear.config.manager.core'
+            $framwayUtil: '@smartgear.classes.util_framway'
         public: true
 
     smartgear.backend.module.core.configuration_step.framway_configuration:
@@ -220,6 +249,7 @@ services:
             $tinyMCEPluginsSynchronizer: '@smartgear.classes.directories_synchronizer.tiny_mce.plugins'
             $tarteAuCitronSynchronizer: '@smartgear.classes.directories_synchronizer.tarte_au_citron'
             $outdatedBrowserSynchronizer: '@smartgear.classes.directories_synchronizer.outdated_browser'
+            $framwayUtil: '@smartgear.classes.util_framway'
         public: true
 
     smartgear.backend.module.core.configuration_step.website:
@@ -249,7 +279,9 @@ services:
             $rootDir: '%kernel.project_dir%'
             $backupDirectory: 'assets/backups'
             $databaseBackupDirectory: 'var/backups' # defined in contao source files, with no ways to access it from outside
+            $commandUtil: '@smartgear.classes.command.util'
             $databaseBackupManager: '@contao.doctrine.backup_manager'
+            $translator: '@contao.translation.translator'
             $artifactsToBackup:
                 - 'composer.json'
                 - 'assets/smartgear'
@@ -297,6 +329,7 @@ services:
     smartgear.api.backup.v1.api:
         class: WEM\SmartgearBundle\Api\Backup\V1\Api
         arguments:
+            $translator: '@contao.translation.translator'
             $backupManager : '@smartgear.backup.backup_manager'
             $listResultToListResponseMapper: '@smartgear.api.backup.v1.model.mapper.list_result_to_list_response'
             $createResultToCreateResponseMapper: '@smartgear.api.backup.v1.model.mapper.create_result_to_create_response'

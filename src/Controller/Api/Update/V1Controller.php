@@ -24,6 +24,8 @@ use Terminal42\ServiceAnnotationBundle\Annotation\ServiceTag;
 use WEM\SmartgearBundle\Api\Update\V1\Api;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use WEM\SmartgearBundle\Classes\Api\Security\Token;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use WEM\SmartgearBundle\Exceptions\Api\InvalidTokenException;
 
 /**
  * @Route("/api/update/v1")
@@ -31,6 +33,8 @@ use WEM\SmartgearBundle\Classes\Api\Security\Token;
  */
 class V1Controller extends Controller
 {
+    /** @var TranslatorInterface */
+    protected $translator;
     /** @var Api */
     protected $api;
     protected ContaoFramework $framework;
@@ -38,11 +42,13 @@ class V1Controller extends Controller
 
     public function __construct(
         ContaoFramework $framework, 
+        TranslatorInterface $translator,
         Api $api,
         Token $securityToken
     )
     {
         $this->framework = $framework;
+        $this->translator = $translator;
         $this->api = $api;
         $this->securityToken = $securityToken;
         $this->framework->initialize();
@@ -92,9 +98,8 @@ class V1Controller extends Controller
 
     protected function validateToken(Request $request): void
     {
-        // dump($request->query->get('token'));
         if(!$this->securityToken->validate($request->query->get('token'))){
-            throw new \Exception('Invalid token "' .$request->query->get('token'). '"');
+            throw new InvalidTokenException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.InvalidToken', [], 'contao_default'));
         }
     }
 }

@@ -18,7 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use WEM\SmartgearBundle\Backup\Results\RestoreResult;
+use WEM\SmartgearBundle\Backup\Model\Results\RestoreResult;
 
 class BackupRestoreCommand extends AbstractBackupCommand
 {
@@ -55,9 +55,9 @@ class BackupRestoreCommand extends AbstractBackupCommand
 
         $io->table(['File', 'Status'], $this->formatForTable($result));
         if (empty($result->getFilesInError())) {
-            $io->success(sprintf('Successfully restored backup "%s".', $result->getBackup()->basename));
+            $io->success(sprintf('Successfully restored backup "%s".', $result->getBackup()->getFile()->basename));
         } else {
-            $io->error(sprintf('Something went wrong during backup "%s" restoration.', $result->getBackup()->basename));
+            $io->error(sprintf('Something went wrong during backup "%s" restoration.', $result->getBackup()->getFile()->basename));
         }
 
         return 0;
@@ -90,7 +90,7 @@ class BackupRestoreCommand extends AbstractBackupCommand
     private function formatForJson(RestoreResult $result): string
     {
         $json = [
-            'backup' => $result->getBackup()->basename,
+            'backup' => $result->getBackup()->getFile()->basename,
             'database_restored' => $result->getDatabaseRestored(),
             'files' => [
                 'deleted' => $result->getFilesDeleted(),

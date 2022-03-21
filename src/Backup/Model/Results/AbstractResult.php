@@ -12,13 +12,13 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Backup\Results;
+namespace WEM\SmartgearBundle\Backup\Model\Results;
 
-use Contao\File;
+use WEM\SmartgearBundle\Backup\Model\Backup as BackupBusinessModel;
 
 abstract class AbstractResult
 {
-    /** @var File */
+    /** @var BackupBusinessModel */
     protected $backup;
     /** @var array */
     protected $files = [];
@@ -30,18 +30,12 @@ abstract class AbstractResult
         return $this->files;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getBackup(): File
+    public function getBackup(): BackupBusinessModel
     {
         return $this->backup;
     }
 
-    /**
-     * @param mixed $backup
-     */
-    public function setBackup(File $backup): self
+    public function setBackup(BackupBusinessModel $backup): self
     {
         $this->backup = $backup;
 

@@ -7,7 +7,62 @@
 			<target>Annuler</target>
 		</trans-unit>
 
-		<!-- Smartgear -->
+		<!-- Smartgear default -->
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.NotFilled">
+			<source>N/A</source>
+			<target>NR</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.Cancel">
+			<source>Cancel</source>
+			<target>Annuler</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.AjaxNoActionSpecified">
+			<source>No action specified</source>
+			<target>Aucune action spécifiée</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.AjaxInvalidActionSpecified">
+			<source>Specified action "%s" is invalid</source>
+			<target>L'action "%s" spécifiée est invalide</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.PreviousStep">
+			<source>Previous</source>
+			<target>Précédente</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.NextStep">
+			<source>Suivant</source>
+			<target>Suivante</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.Save">
+			<source>Save</source>
+			<target>Enregistrer</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.Finish">
+			<source>Finish</source>
+			<target>Terminer</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.InvalidToken">
+			<source>Invalid Token</source>
+			<target>Le token est invalide</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.InvalidForm">
+			<source>Invalid Form</source>
+			<target>Le formulaire est invalide</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.MissingDependencies">
+			<source>You can't manage this module until the following dependencies have been met : %s</source>
+			<target>Vous ne pouvez pas gérer ce module tant que les dépendances suivantes ne seront pas résolues : %s</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.dataSaved">
+			<source>Data have been saved</source>
+			<target>Les données ont été sauvegardées</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.defaultDashboard">
+			<source>This is a default dashboard.</source>
+			<target>Ceci est le dashboard par défaut</target>
+		</trans-unit>
+
+
+		<!-- Smartgear Backend -->
 		<trans-unit id="WEM.SMARTGEAR.BACKEND.missingPackage">
 			<source>The %s module is missing. Please use the <a href="contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> for that.</source>
 			<target>Le module %s n'est pas installé. Veuillez utiliser le <a href="contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> pour cela.</target>
@@ -62,6 +117,650 @@
 			<source>Guidelines</source>
 			<target>Guidelines</target>
 		</trans-unit>
+		<!-- Install l10n V2 -->
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.Title">
+			<source>Framway | Configuration</source>
+			<target>Framway | Configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.FieldThemes">
+			<source>Themes</source>
+			<target>Thèmes</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.FieldComponents">
+			<source>Components</source>
+			<target>Composants</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.FieldNewTheme">
+			<source>New theme</source>
+			<target>Nouveau thème</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.FieldNewThemeEmpty">
+			<source>New theme's name is missing</source>
+			<target>Le nom du nouveau thème est vide</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.FieldNewThemeIncorrectFormat">
+			<source>New theme's name is incorrect ! Authorized characters are : letters, numbers, middlescores ("-") et underscores ("_")</source>
+			<target>Le nom du nouveau thème est invalide! Les caractères autorisés sont : lettres, chiffres, tirets ("-") et underscores ("_")</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeAdd">
+			<source>Add theme</source>
+			<target>Ajouter un thème</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeAddTitle">
+			<source>Add theme to the Framway</source>
+			<target>Ajouter un thème au Framway</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeValidate">
+			<source>Validate theme</source>
+			<target>Valider thème</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeValidateTitle">
+			<source>Validate this theme</source>
+			<target>Valider ce thème</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVAL.Title">
+			<source>Framway | Retrieval</source>
+			<target>Framway | Récupération</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVAL.FramwayPresent">
+			<source><p>Framway is already present and configured</p><p>You can skip this step or update the Framway</p></source>
+			<target><p>Le framway est déjà présent et configuré.</p><p>Vous pouvez passer à l'étape suivante ou le mettre à jour.</p></target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVAL.FramwayAbsent">
+			<source><p>Framway isn't present and/or configured</p><p>You have to retrieve / update it before going to the next step</p></source>
+			<target><p>Le framway n'est pas présent / configuré.</p><p>Vous devez le récupérer / mettre à jour avant de passer à l'étape suivante.</p></target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVAL.ButtonFramwayRetrieve">
+			<source>Retrieve the Framway</source>
+			<target>Récupérer le Framway</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVAL.Step1">
+			<source>1. Retrieval / Update Framway</source>
+			<target>1. Récupération / Mise à jour du Framway</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVAL.Step2">
+			<source>2. Framway installation</source>
+			<target>2. Installation du Framway</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVAL.Step3">
+			<source>3. Framway initialisation</source>
+			<target>3. Initialisation du Framway</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVAL.Step4">
+			<source>4. Framway build</source>
+			<target>4. Build du Framway</target>
+		</trans-unit>
+
+
+
+		<trans-unit id="WEMSG.INSTALL.GENERAL.Title">
+			<source>Global</source>
+			<target>Général</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgWebsiteTitle">
+			<source>Website's title</source>
+			<target>Titre du site web</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgOwnerEmail">
+			<source>Administrators' email</source>
+			<target>Adresse email de l'administrateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsLabelNone">
+			<source>None</source>
+			<target>Aucun</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsLabelMatomo">
+			<source>Matomo</source>
+			<target>Matomo</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsLabelGoogle">
+			<source>Google</source>
+			<target>Google</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalytics">
+			<source>Analytics solution</source>
+			<target>Solution statistiques</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsGoogleId">
+			<source>Google Analytics ID</source>
+			<target>Identifiant Google Analytics</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsMatomoId">
+			<source>Matomo ID</source>
+			<target>Identifiant Matomo</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsMatomoHost">
+			<source>Matomo Host</source>
+			<target>Host Matomo</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgApiKey">
+			<source>API Key</source>
+			<target>Clef API</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgWebsiteTitleEmpty">
+			<source>Website's title is missing</source>
+			<target>Le titre du site web n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgOwnerEmailEmpty">
+			<source>Website's title is missing</source>
+			<target>L'adresse email de l'administrateur n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsMatomoIdEmpty">
+			<source>Website's title is missing</source>
+			<target>L'identifiant Matomo n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsMatomoHostEmpty">
+			<source>Website's title is missing</source>
+			<target>Le Host Matomo n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAnalyticsGoogleIdEmpty">
+			<source>Website's title is missing</source>
+			<target>L'identifiant Google Analytics n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgApiKeyEmpty">
+			<source>Website's title is missing</source>
+			<target>La clef API n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.Title">
+			<source>Informations</source>
+			<target>Informations</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgWebsiteLogo">
+			<source>Website logo</source>
+			<target>Logo du site web</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerName">
+			<source>Owner's name</source>
+			<target>Nom de l'entreprise</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerStatus">
+			<source>Owner's status</source>
+			<target>Statut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerSiret">
+			<source>Owner's enterprise code</source>
+			<target>SIRET</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerStreet">
+			<source>Street</source>
+			<target>Adresse</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerPostal">
+			<source>Postal code</source>
+			<target>Code postal</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerCity">
+			<source>City</source>
+			<target>Ville</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerRegion">
+			<source>Region</source>
+			<target>Région</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerCountry">
+			<source>Country</source>
+			<target>Pays</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerEmail">
+			<source>Owner's email</source>
+			<target>Email</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerDomain">
+			<source>Domain</source>
+			<target>Domaine</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerHost">
+			<source>Host</source>
+			<target>Nom et adresse de l'hébergeur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerDpoName">
+			<source>DPO name</source>
+			<target>Nom du DPO</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerDpoEmail">
+			<source>DPO email</source>
+			<target>Email du DPO</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgGoogleFonts">
+			<source>Google Fonts</source>
+			<target>Google Fonts</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgGoogleFontsHelp">
+			<source>Google Fonts' fonts list, separated by comma</source>
+			<target>Liste des noms de polices Google Fonts, séparées par des virgules</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgWebsiteLogoEmpty">
+			<source>Website logo is missing</source>
+			<target>Logo du site web non renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerNameEmpty">
+			<source>Owner's name is missing</source>
+			<target>Le nom de l'entreprise n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerStatusEmpty">
+			<source>Owner's status is missing</source>
+			<target>Le statut n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerSiretEmpty">
+			<source>Owner's enterprise code is missing</source>
+			<target>Le numéro de SIRET n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerStreetEmpty">
+			<source>Street is missing</source>
+			<target>La rue n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerPostalEmpty">
+			<source>Postal code is missing</source>
+			<target>Le code postal n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerCityEmpty">
+			<source>City is missing</source>
+			<target>La ville n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerRegionEmpty">
+			<source>Region is missing</source>
+			<target>La région n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerCountryEmpty">
+			<source>Country is missing</source>
+			<target>Le pays n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerEmailEmpty">
+			<source>Owner's email is missing</source>
+			<target>L'adresse email de l'administrateur n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerDomainEmpty">
+			<source>Domain is missing</source>
+			<target>Le domaine n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerHostEmpty">
+			<source>Host is missing</source>
+			<target>Les informations de l'hébergeur ne sont pas renseignées.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerDpoNameEmpty">
+			<source>DPO name is missing</source>
+			<target>Le nom du DPO n'est pas renseigné.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgOwnerDpoEmailEmpty">
+			<source>DPO email is missing</source>
+			<target>L'adresse email du DPO n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgGoogleFontsEmpty">
+			<source>Google Fonts is missing</source>
+			<target>Google Fonts non renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.ModuleBreadcrumbName">
+			<source>Breadcrumb</source>
+			<target>Fil d'ariane</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.ModuleSitemapName">
+			<source>Sitemap</source>
+			<target>Plan du site</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.ModuleFooterNavName">
+			<source>Nav - footer</source>
+			<target>Nav - footer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.LayoutStandardName">
+			<source>Standard Page</source>
+			<target>Page Standard</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.LayoutStandardFullwidthName">
+			<source>Standard Page - Fullwidth</source>
+			<target>Page Standard - Fullwidth</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.UsergroupAdministratorsName">
+			<source>Administrators</source>
+			<target>Administrateurs</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.UsergroupRedactorsName">
+			<source>Redactors</source>
+			<target>Redacteurs</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.UserWebmasterName">
+			<source>Webmaster</source>
+			<target>Webmaster</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.PageHomeTitle">
+			<source>Home</source>
+			<target>Accueil</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.Page404Title">
+			<source>Error 404 - Page not found</source>
+			<target>Erreur 404 - Page non trouvée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.Page404Headline">
+			<source>Page not found!</source>
+			<target>Page non trouvée !</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.Page404Text">
+			<source><p>The requested page doesn't existsts. You can use the sitemap at the end of this page to continue your navigation.</p></source>
+			<target><p>La page demandée n'existe pas. Vous pouvez consulter le plan du site ci-dessous pour poursuivre votre navigation.</p></target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.PageLegalNoticeTitle">
+			<source>Legal Notice</source>
+			<target>Mentions légales</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.PageLegalNoticeDescription">
+			<source>Legal Notice for %s</source>
+			<target>Mentions légales de %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.PageLegalNoticeTextDefault">
+			<source><p>To complete</p></source>
+			<target><p>A remplir</p></target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.PageLegalNoticeHeadline">
+			<source>Legal Notice</source>
+			<target>Mentions légales</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.PagePrivacyPoliticsTitle">
+			<source>Privacy Politics</source>
+			<target>Confidentialité</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.PagePrivacyPoliticsDescription">
+			<source>Privacy Politics for %s</source>
+			<target>Politique de confidentialité de %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.PagePrivacyPoliticsTextDefault">
+			<source><p>To complete</p></source>
+			<target><p>A remplir</p></target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.PageSitemapTitle">
+			<source>Sitemap</source>
+			<target>Plan du site</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.PageSitemapDescription">
+			<source>Sitemap for %s</source>
+			<target>Plan du site de %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.NotificationGatewayEmailSmartgearTitle">
+			<source>Service email - Smartgear</source>
+			<target>Email de service - Smartgear</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.RESET.GENERAL.Title">
+			<source>Global</source>
+			<target>Général</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.localconfig">
+			<source>Local configuration</source>
+			<target>Configuration locale</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.localconfigHelp">
+			<source>Additionnal configuration in <code>congif/config.yml</code> file</source>
+			<target>Configuration supplémentaire dans le fichier <code>congif/config.yml</code></target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.localconfigKept">
+			<source>Local configuration kept</source>
+			<target>localconfig conservée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.localconfigDeleted">
+			<source>Local configuration deleted</source>
+			<target>localconfig supprimée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.framway">
+			<source>Framway</source>
+			<target>Framway</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.framwayHelp">
+			<source>The Framway will be deleted, you will have to retrieve it again</source>
+			<target>Le framway sera supprimé, il faudra le récupérer à nouveau.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.framwayKept">
+			<source>Framway kept</source>
+			<target>Framway conservé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.framwayDeleted">
+			<source>Framway deleted</source>
+			<target>Framway supprimé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.templates">
+			<source>Templates</source>
+			<target>Templates</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.templatesHelp">
+			<source>Folders <code>%s</code> will be deleted</source>
+			<target>Les dossiers <code>%s</code> seront supprimés</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.templatesKept">
+			<source>Templates kept</source>
+			<target>Templates conservés</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.templatesDeleted">
+			<source>Templates deleted</source>
+			<target>Templates supprimés</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.themes_modules">
+			<source>Themes &amp; Modules</source>
+			<target>Thèmes &amp; Modules</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.themes_modulesHelp">
+			<source>All themes &amp; modules will be deleted</source>
+			<target>Tous les thèmes &amp; modules seront supprimés</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.themes_modulesKept">
+			<source>Themes &amp; Modules kept</source>
+			<target>Thèmes &amp; Modules conservés</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.themes_modulesDeleted">
+			<source>Themes &amp; Modules deleted</source>
+			<target>Thèmes &amp; Modules supprimés</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.pages">
+			<source>Pages</source>
+			<target>Pages</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.pagesHelp">
+			<source>All pages will be deleted</source>
+			<target>Toutes les pages seront supprimées</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.pagesKept">
+			<source>Pages kept</source>
+			<target>Pages conservées</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.pagesDeleted">
+			<source>Pages deleted</source>
+			<target>Pages supprimées</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.files">
+			<source>Customer files</source>
+			<target>Fichiers clients</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.filesHelp">
+			<source>All customer files will be deleted</source>
+			<target>Tous les fichiers clients seront supprimés</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.filesKept">
+			<source>Customer files kept</source>
+			<target>Fichiers clients conservés</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.filesDeleted">
+			<source>Customer files deleted</source>
+			<target>Fichiers clients supprimés</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.backup">
+			<source>Do a backup before reinitialisation</source>
+			<target>Effectuer une sauvegarde avant la réinitialisation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.backupHelp">
+			<source>We recommend to do a backup</source>
+			<target>Il est vivement conseillé d'effectuer une sauvegarde</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.RESET.GENERAL.backupCompleted">
+			<source>Backup "%s" done</source>
+			<target>Backup "%s" effectué.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.BLOCK.framwayRetrievalAjaxMessageSuccess">
+			<source>Framway has been successfully retrieved</source>
+			<target>Le framway a été récupéré avec succès</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.BLOCK.framwayInstallAjaxMessageSuccess">
+			<source>Framway has been successfully installed</source>
+			<target>Le framway a été installé avec succès</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.BLOCK.framwayInstallAjaxMessageError">
+			<source>Something went wrong during Framway's installation</source>
+			<target>Une erreur est survenue lors de l'installation du framway</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.BLOCK.framwayInitializeAjaxMessageSuccess">
+			<source>Framway has been successfully initialized</source>
+			<target>Le framway a été initialisé avec succès</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.BLOCK.framwayInitializeAjaxMessageError">
+			<source>Something went wrong during Framway's initialization</source>
+			<target>Une erreur est survenue lors de l'initialisation du framway</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.BLOCK.framwayBuildAjaxMessageSuccess">
+			<source>Framway has been successfully built</source>
+			<target>Le framway a été build avec succès</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.BLOCK.framwayBuildAjaxMessageError">
+			<source>Something went wrong during Framway's build</source>
+			<target>Une erreur est survenue lors du build du framway</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.BLOCK.framwayThemeAddAjaxMessageSuccess">
+			<source>The theme has been successfully added to the Framway</source>
+			<target>Le thème a été ajouté au framway avec succès</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.BLOCK.framwayThemeAddAjaxMessageError">
+			<source>Something went wrong during Framway's theme addition :</source>
+			<target>Une erreur est survenue lors de l'ajout du thème au framway : </target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.BLOCK.enableDevModeAjaxMessageSuccess">
+			<source>"Development" mode has been activated</source>
+			<target>Le mode "développement" a bien été activé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.BLOCK.enableProdModeAjaxMessageSuccess">
+			<source>"Production" mode has been activated</source>
+			<target>Le mode "production" a bien été activé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.checkProdModeRootpageDomainMissing">
+			<source>No domain configured on root page "%s"</source>
+			<target>Pas de domaine configuré sur la page racine "%s"</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.checkProdModeRootpageLanguageMissing">
+			<source>No language configured on root page "%s"</source>
+			<target>Pas de langue configuré sur la page racine "%s"</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.checkProdModeRootpageSitemapMissing">
+			<source>No sitemap configured on root page "%s"</source>
+			<target>Pas de sitemap configuré sur la page racine "%s"</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.checkProdModeAdminEmailMissing">
+			<source>No administrator email configured</source>
+			<target>Aucune adresse email administrateur configurée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.checkProdModeHtaccessRedirectMissing">
+			<source>No https &amp; www redirection configured</source>
+			<target>Aucune redirection https &amp; www configurée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.checkProdModeButtonForceProdModeLabel">
+			<source>Force production mode</source>
+			<target>Forcer la mise en production</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.checkProdModeButtonForceProdModeConfirm">
+			<source>Do you really want to force production mode</source>
+			<target>Voulez-vous vraiment forcer le passage en mode production de Contao ?</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.checkProdModeButtonProdModeLabel">
+			<source>Enable production mode</source>
+			<target>Effectuer la mise en production</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.buttonProdModeLabel">
+			<source>Production mode</source>
+			<target>Mode production</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.buttonDevModeLabel">
+			<source>Development mode</source>
+			<target>Mode développement</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.buttonConfigurationLabel">
+			<source>COnfiguration</source>
+			<target>Configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.buttonResetLabel">
+			<source>Reinitialisation</source>
+			<target>Réinitialisation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.text">
+			<source>This is the dashboard !</source>
+			<target>Ceci est le dashboard !</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.version">
+			<source>Version : %s</source>
+			<target>Version : %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.mode">
+			<source>Mode : %s</source>
+			<target>Mode : %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.RESETSTEPMANAGER.buttonTerminateLabel">
+			<source>End reinitialisation</source>
+			<target>Terminer la réinitialisation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.RESETSTEPMANAGER.elementsToKeep">
+			<source>Elements to keep : </source>
+			<target>Liste des éléments a conserver :</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.RESETSTEPMANAGER.backupBeforeReset">
+			<source>Backup before reset :</source>
+			<target>Sauvegarde avant réinitialisation :</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.AJAX.COMMAND.messageCmdNotSpecified">
+			<source>Missing one arguments : cmd</source>
+			<target>L'argument "cmd" n'a pas été précisé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.AJAX.COMMAND.messageSuccess">
+			<source>Command "%s" has been successfully executed</source>
+			<target>La commande "%s" a été executée avec succès</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.AJAX.SUBBLOCK.messageParameterMissing">
+			<source>Missing one or several arguments : type/module/action</source>
+			<target>Un ou plusieurs arguments manquants : type/module/action</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MODAL.messageParameterTypeMissing">
+			<source>"type" parameter missing</source>
+			<target>Absence du paramètre "type"</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MODAL.messageParameterModuleMissing">
+			<source>"module" parameter missing</source>
+			<target>Absence du paramètre "module"</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MODAL.messageParameterFunctionMissing">
+			<source>"function" parameter missing</source>
+			<target>Absence du paramètre "function"</target>
+		</trans-unit>
+
+
+		<!-- ConfigurationStepManager -->
+		<trans-unit id="WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish">
+			<source>Finish configuration</source>
+			<target>Terminer la configuration</target>
+		</trans-unit>
+		<!-- StepManager -->
+		<trans-unit id="WEMSG.STEPMANAGER.BUTTONS.finish">
+			<source>Finish configuration</source>
+			<target>Terminer la configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STEPMANAGER.ERRORS.nextStepIsOutOfBounds">
+			<source>Next step is out of bounds</source>
+			<target>La prochaine étape est hors des bornes</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STEPMANAGER.ERRORS.previousStepIsOutOfBounds">
+			<source>Previous step is out of bounds</source>
+			<target>L'étape précédentes est hors des bornes</target>
+		</trans-unit>
+		<!-- ConfigurationManager -->
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.fileNotFound">
+			<source>Configuration file not found</source>
+			<target>Fichier de configuration non trouvé</target>
+		</trans-unit>
+		<!-- DirectoriesSynchronizer -->
+		<trans-unit id="WEMSG.DIRECTORIESSYNCHRONIZER.error">
+			<source>Error while copying from "%s" to "%s"</source>
+			<target>Erreur dans la copie de "%s" vers "%s"</target>
+		</trans-unit>
 
 		<!-- Backup manager -->
 		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.backupManagerBTTitle">
@@ -80,6 +779,188 @@
 			<source>New backup</source>
 			<target>Nouveau back-up</target>
 		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageNewBackUpDone">
+			<source>Backup "%s" done in %d seconds</source>
+			<target>Backup "%s" effectué en %d secondes</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageRestoreBackUpDone">
+			<source>Backup "%s" restored in %d seconds</source>
+			<target>Backup "%s" restauré en %d secondes</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageDeleteBackUpSuccess">
+			<source>Backup "%s" deleted</source>
+			<target>Backup "%s" supprimé</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageDeleteBackUpError">
+			<source>Backup "%s" not deleted</source>
+			<target>Backup "%s" non supprimé</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageRetrieveListError">
+			<source>An error occured while retrieving backups' list : %s</source>
+			<target>Une erreur est survenue lors de la récupération de la liste des backups : %s</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageRetrieveSingleError">
+			<source>The backup doesn't exists</source>
+			<target>Le backup n'existe pas</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageRestoreError">
+			<source>An error occured while restoring the backup : %s</source>
+			<target>Une erreur est survenue lors de la restauration du backup : %s</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageDeleteError">
+			<source>The specified backup can't be deleted as it doesn't exist (%s)</source>
+			<target>Le backup a supprimer n'existe pas (%s)</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageCreateError">
+			<source>An error occured while creating the backup : %s</source>
+			<target>Une erreur est survenue lors de la création du backup : %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.title">
+			<source>Backup Manager</source>
+			<target>Gestionnaire de sauvegardes</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.date">
+			<source>Date</source>
+			<target>Date</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.name">
+			<source>Name</source>
+			<target>Nom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.size">
+			<source>Size</source>
+			<target>Poids</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.source">
+			<source>Source</source>
+			<target>Source</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.sourceUi">
+			<source>UI</source>
+			<target>Interface utilisateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.sourceApi">
+			<source>API</source>
+			<target>API</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.sourceUpdate">
+			<source>Update</source>
+			<target>Mise à jour</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.sourceCommand">
+			<source>Command</source>
+			<target>Commande</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.sourceConfigurationreset">
+			<source>Smartgear's configuration reset</source>
+			<target>Réinitialisation de la configuration Smartgear</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.noItemsToDisplay">
+			<source>No backup to display</source>
+			<target>Pas de backup disponible</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.messageDeleteConfirm">
+			<source>Are you sure ?</source>
+			<target>Êtes vous sûr de vouloir supprimer ce backup ?</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.title">
+			<source>Backup restoration result :</source>
+			<target>Résultat de la restauration du backup :</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.filesDeletedCount">
+			<source>%s files deleted</source>
+			<target>%s fichiers supprimés</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.filesReplacedCount">
+			<source>%s files replaced</source>
+			<target>%s fichiers remplacés</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.filesAddedCount">
+			<source>%s files added</source>
+			<target>%s fichiers ajoutés</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.filesInErrorCount">
+			<source>%s files in error</source>
+			<target>%s fichiers en erreur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.filesDetails">
+			<source>Files details</source>
+			<target>Détails des fichiers</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.filesDetailsName">
+			<source>Name</source>
+			<target>Nom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.filesDetailsStatus">
+			<source>Status</source>
+			<target>Statut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.filesDetailsStatusDeleted">
+			<source>Deleted</source>
+			<target>Supprimé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.filesDetailsStatusReplaced">
+			<source>Replaced</source>
+			<target>Remplacé par la sauvegarde</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.filesDetailsStatusAdded">
+			<source>Added</source>
+			<target>Ajouté</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.filesDetailsStatusInError">
+			<source>In error</source>
+			<target>En erreur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.searchIndexRebuildLog">
+			<source>Search index rebuild log :</source>
+			<target>Détails de la reconstruction de l'index de recherche :</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BACKUPMANAGER.CREATERESULT.title">
+			<source>Backup creation result :</source>
+			<target>Résultat de la création du backup :</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.CREATERESULT.title">
+			<source>Backup creation result :</source>
+			<target>Résultat de la création du backup :</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.CREATERESULT.filesDetails">
+			<source>Files details</source>
+			<target>Détails des fichiers</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.CREATERESULT.filesDetailsName">
+			<source>Name</source>
+			<target>Nom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.CREATERESULT.filesDetailsStatus">
+			<source>Status</source>
+			<target>Statut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.CREATERESULT.filesDetailsStatusBackuped">
+			<source>Backuped</source>
+			<target>Sauvegardé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.CREATERESULT.filesDetailsStatusInError">
+			<source>In error</source>
+			<target>En erreur</target>
+		</trans-unit>
+
+		<!-- Backup API -->
+		<trans-unit id="WEMSG.BACKUPMANAGER.API.messageDeleteSuccess">
+			<source>The specified backup "%s" has been deleted</source>
+			<target>Le backup "%s" a bien été supprimé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.API.messageDeleteError">
+			<source>An error occured during the backup deletion "%s"</source>
+			<target>Une erreur est survenue lors de la suppression du backup "%s"</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.API.messageRestoreSuccess">
+			<source>The specified backup "%s" has been restored</source>
+			<target>Le backup "%s" a bien été restauré</target>
+		</trans-unit>
+
+
+
 
 		<!-- Update manager -->
 		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.updateManagerBTTitle">
@@ -97,6 +978,102 @@
 		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesBT">
 			<source>Play updates</source>
 			<target>Executer les mises à jour</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.messagePlayUpdatesDone">
+			<source>Updates played</source>
+			<target>Mises à jour effectuées</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.LIST.title">
+			<source>Update Manager</source>
+			<target>Gestionnaire de mises à jour</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.LIST.version">
+			<source>Version</source>
+			<target>Version</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.LIST.name">
+			<source>Name</source>
+			<target>Nom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.LIST.description">
+			<source>Description</source>
+			<target>Description</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.LIST.status">
+			<source>Status</source>
+			<target>Statut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.LIST.noItemsToDisplay">
+			<source>No update to display</source>
+			<target>Pas de mises à jour disponibles</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.success">
+			<source>Updates have been installed</source>
+			<target>Les mises à jour ont été installées</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.fail">
+			<source>Updatse haven't been installed</source>
+			<target>Les mises à jour n'ont pas été installées</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.backupInfo">
+			<source>The backup %s has been created</source>
+			<target>Le back-up %s a été effectué</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.version">
+			<source>Version</source>
+			<target>Version</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.name">
+			<source>Name</source>
+			<target>Nom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.description">
+			<source>Description</source>
+			<target>Description</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.status">
+			<source>Status</source>
+			<target>Statut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.logs">
+			<source>Logs</source>
+			<target>Logs</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsName">
+			<source>Name</source>
+			<target>Nom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsStatus">
+			<source>Status</source>
+			<target>Statut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsStatusBackuped">
+			<source>Backuped</source>
+			<target>Sauvegardé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsStatusInError">
+			<source>In error</source>
+			<target>En erreur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusNotexecutedyet">
+			<source>Not executed yet</source>
+			<target>Pas encore exécutée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusShouldrun">
+			<source>Should run</source>
+			<target>A executer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusSkipped">
+			<source>Skipped</source>
+			<target>Ignorée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusFail">
+			<source>Failure</source>
+			<target>Echec</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusSuccess">
+			<source>Success</source>
+			<target>Succès</target>
 		</trans-unit>
 
 		<!-- heimrichhannot/contao-backend-lost-password-bundle -->

@@ -14,11 +14,10 @@ declare(strict_types=1);
 
 namespace Classes;
 
-use Contao\TestCase\ContaoTestCase;
 use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 
-// class DirectoriesSynchronizerTest extends \Codeception\Test\Unit
-class DirectoriesSynchronizerTest extends ContaoTestCase
+require_once realpath(__DIR__.'/../Util/SmartgearTestCase.php');
+class DirectoriesSynchronizerTest extends \Util\SmartgearTestCase
 {
     /**
      * @var \UnitTester
@@ -49,7 +48,7 @@ class DirectoriesSynchronizerTest extends ContaoTestCase
         $this->toPath = codecept_data_dir().'synchronizer/to';
         $this->currentToPath = 'synchronizer/to_current';
 
-        $this->sut = new DirectoriesSynchronizer($this->fromPath, $this->currentToPath, $container->getParameter('kernel.project_dir'), true);
+        $this->sut = new DirectoriesSynchronizer($this->getTranslator(), $this->fromPath, $this->currentToPath, $container->getParameter('kernel.project_dir'), true);
         $this->resetFiles();
     }
 

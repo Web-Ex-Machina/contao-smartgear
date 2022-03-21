@@ -53,7 +53,7 @@ class UpdateCommand extends AbstractUpdateCommand
             $io->error('Updates not played');
         }
 
-        $io->success(sprintf('Backup : %s', $updateResult->getBackupResult()->getBackup()->basename));
+        $io->success(sprintf('Backup : %s', $updateResult->getBackupResult()->getBackup()->getFile()->basename));
 
         $io->table(['Version', 'Name', 'Description', 'Status', 'Logs'], $this->formatForTable($updateResult->getResults()));
 
@@ -81,8 +81,8 @@ class UpdateCommand extends AbstractUpdateCommand
         $json = [
             'status' => $updateResult->getStatus(),
             'backup' => [
-                'timestamp' => $updateResult->getBackupResult()->getBackup()->ctime,
-                'path' => $updateResult->getBackupResult()->getBackup()->basename,
+                'timestamp' => $updateResult->getBackupResult()->getBackup()->getFile()->ctime,
+                'path' => $updateResult->getBackupResult()->getBackup()->getFile()->basename,
             ],
             'updates' => [],
         ];

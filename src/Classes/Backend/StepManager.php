@@ -17,11 +17,14 @@ namespace WEM\SmartgearBundle\Classes\Backend;
 use Contao\FrontendTemplate;
 use Contao\System;
 use Exception;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\AbstractStep as Step;
 
 class StepManager
 {
     use Traits\ActionsTrait;
+    /** @var TranslatorInterface */
+    protected $translator;
     /** @var array */
     protected $steps = [];
     /** @var string */
@@ -34,11 +37,13 @@ class StepManager
     protected $strStepsTemplate = 'be_wem_sg_install_steps';
 
     public function __construct(
+        TranslatorInterface $translator,
         string $module,
         string $type,
         string $stepSessionKey,
         array $steps
     ) {
+        $this->translator = $translator;
         $this->module = $module;
         $this->type = $type;
         $this->steps = $steps;
@@ -91,7 +96,7 @@ class StepManager
         // do what the step does
         // go to next step
         if (!$this->getCurrentStep()->isStepValid()) {
-            throw new Exception('Formulaire invalide');
+            throw new Exception($this->translator->trans('WEM.SMARTGEAR.DEFAULT.InvalidForm', [], 'contao_default'));
         }
         $this->getCurrentStep()->do();
         $this->setCurrentStepIndex($this->getNextStepIndex());
@@ -105,7 +110,7 @@ class StepManager
     public function save(): void
     {
         if (!$this->getCurrentStep()->isStepValid()) {
-            throw new Exception('Formulaire invalide');
+            throw new Exception($this->translator->trans('WEM.SMARTGEAR.DEFAULT.InvalidForm', [], 'contao_default'));
         }
         $this->getCurrentStep()->do();
     }
@@ -144,7 +149,7 @@ class StepManager
         $index = $this->getCurrentStepIndex() + 1;
 
         if ($index > \count($this->steps) - 1 || 0 > $index) {
-            throw new Exception('Next step is out of bounds');
+            throw new Exception($this->translator->trans('WEMSG.STEPMANAGER.ERRORS.nextStepIsOutOfBounds', [], 'contao_default'));
         }
 
         return $index;
@@ -155,7 +160,7 @@ class StepManager
         $index = $this->getCurrentStepIndex() - 1;
 
         if ($index > \count($this->steps) - 1 || 0 > $index) {
-            throw new Exception('Previous step is out of bounds');
+            throw new Exception($this->translator->trans('WEMSG.STEPMANAGER.ERRORS.previousStepIsOutOfBounds', [], 'contao_default'));
         }
 
         return $index;
@@ -181,13 +186,13 @@ class StepManager
     protected function fillActions(): void
     {
         if (0 !== $this->getCurrentStepIndex()) {
-            $this->actions[] = ['action' => 'previous', 'label' => 'Précédent'];
+            $this->actions[] = ['action' => 'previous', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.PreviousStep', [], 'contao_default')];
         }
 
         if ($this->getCurrentStepIndex() < \count($this->steps) - 1) {
-            $this->actions[] = ['action' => 'next', 'label' => 'Suivant'];
+            $this->actions[] = ['action' => 'next', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NextStep', [], 'contao_default')];
         } else {
-            $this->actions[] = ['action' => 'finish', 'label' => 'Terminer'];
+            $this->actions[] = ['action' => 'finish', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.Finish', [], 'contao_default')];
         }
     }
 }

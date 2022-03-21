@@ -17,8 +17,8 @@ namespace WEM\SmartgearBundle\Backend\Module\Core\ConfigurationStep;
 use Contao\Input;
 use Exception;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
+use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
-use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\LocalConfig as LocalConfig;
 use WEM\SmartgearBundle\Config\Manager\LocalConfig as LocalConfigManager;
@@ -27,17 +27,21 @@ class General extends ConfigurationStep
 {
     /** @var ConfigurationManager */
     protected $configurationManager;
+    /** @var CommandUtil */
+    protected $commandUtil;
 
     public function __construct(
         string $module,
         string $type,
         ConfigurationManager $configurationManager,
-        LocalConfigManager $localConfigManager
+        LocalConfigManager $localConfigManager,
+        CommandUtil $commandUtil
     ) {
         parent::__construct($module, $type);
         $this->configurationManager = $configurationManager;
         $this->localConfigManager = $localConfigManager;
-        $this->title = 'Général';
+        $this->commandUtil = $commandUtil;
+        $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['Title'];
         try {
             /** @var CoreConfig */
             $config = $this->configurationManager->load();
@@ -46,59 +50,59 @@ class General extends ConfigurationStep
             $config = $this->configurationManager->new();
         }
 
-        $this->addTextField('sgWebsiteTitle', 'Titre du site web', $config->getSgWebsiteTitle(), true);
-        $this->addTextField('sgOwnerEmail', 'Adresse email de l\'administrateur', $config->getSgOwnerEmail(), true);
+        $this->addTextField('sgWebsiteTitle', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgWebsiteTitle'], $config->getSgWebsiteTitle(), true);
+        $this->addTextField('sgOwnerEmail', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgOwnerEmail'], $config->getSgOwnerEmail(), true);
 
         $sgAnalyticsOptions = [
             [
-                'label' => 'Aucun',
+                'label' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsLabelNone'],
                 'value' => CoreConfig::ANALYTICS_SYSTEM_NONE,
             ],
             [
-                'label' => 'Matomo',
+                'label' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsLabelMatomo'],
                 'value' => CoreConfig::ANALYTICS_SYSTEM_MATOMO,
             ],
             [
-                'label' => 'Google',
+                'label' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsLabelGoogle'],
                 'value' => CoreConfig::ANALYTICS_SYSTEM_GOOGLE,
             ],
         ];
 
-        $this->addSelectField('sgAnalytics', 'Solution statistiques', $sgAnalyticsOptions, $config->getSgAnalytics(), true);
-        $this->addTextField('sgAnalyticsGoogleId', 'Identifiant Google Analytics', $config->getSgAnalyticsGoogleId(), false);
-        $this->addTextField('sgAnalyticsMatomoId', 'Identifiant Matomo', $config->getSgAnalyticsMatomoId(), false);
-        $this->addTextField('sgAnalyticsMatomoHost', 'Host Matomo', $config->getSgAnalyticsMatomoHost(), false);
-        $this->addTextField('sgApiKey', 'Clef API', $config->getSgApiKey(), false);
+        $this->addSelectField('sgAnalytics', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalytics'], $sgAnalyticsOptions, $config->getSgAnalytics(), true);
+        $this->addTextField('sgAnalyticsGoogleId', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsGoogleId'], $config->getSgAnalyticsGoogleId(), false);
+        $this->addTextField('sgAnalyticsMatomoId', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsMatomoId'], $config->getSgAnalyticsMatomoId(), false);
+        $this->addTextField('sgAnalyticsMatomoHost', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsMatomoHost'], $config->getSgAnalyticsMatomoHost(), false);
+        $this->addTextField('sgApiKey', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgApiKey'], $config->getSgApiKey(), false);
     }
 
     public function isStepValid(): bool
     {
         // check if the step is correct
         if (empty(Input::post('sgWebsiteTitle'))) {
-            throw new Exception('Le titre du site web n\'est pas renseigné.');
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgWebsiteTitleMissing']);
         }
 
         if (empty(Input::post('sgOwnerEmail'))) {
-            throw new Exception('L\'adresse email de l\'administrateur n\'est pas renseignée.');
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgOwnerEmailMissing']);
         }
 
         if (CoreConfig::ANALYTICS_SYSTEM_MATOMO === Input::post('sgAnalytics')) {
             if (empty(Input::post('sgAnalyticsMatomoId'))) {
-                throw new Exception('L\'identifiant Matomo n\'est pas renseigné.');
+                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsMatomoIdMissing']);
             }
             if (empty(Input::post('sgAnalyticsMatomoHost'))) {
-                throw new Exception('Le Host Matomo n\'est pas renseigné.');
+                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsMatomoHostMissing']);
             }
         }
 
         if (CoreConfig::ANALYTICS_SYSTEM_GOOGLE === Input::post('sgAnalytics')) {
             if (empty(Input::post('sgAnalyticsGoogleId'))) {
-                throw new Exception('L\'identifiant Google Analytics n\'est pas renseigné.');
+                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsGoogleIdMissing']);
             }
         }
 
         if (empty(Input::post('sgApiKey'))) {
-            throw new Exception('La clef API n\'est pas renseignée.');
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgApiKeyMissing']);
         }
 
         return true;
@@ -109,7 +113,7 @@ class General extends ConfigurationStep
         // do what is meant to be done in this step
         $this->updateModuleConfiguration();
         $this->updateContaoConfiguration();
-        Util::executeCmdPHP('cache:clear');
+        $this->commandUtil->executeCmdPHP('cache:clear');
     }
 
     protected function updateModuleConfiguration(): void
@@ -157,6 +161,8 @@ class General extends ConfigurationStep
         ->setSgOwnerDomain(\Contao\Environment::get('base'))
         ->setSgOwnerHost(CoreConfig::DEFAULT_OWNER_HOST)
         ->setRejectLargeUploads(true)
+        ->setFileusageSkipReplaceInsertTags(true)
+        ->setFileusageSkipDatabase(true)
         ->setImageSizes([
             '_defaults' => [
                 'formats' => [

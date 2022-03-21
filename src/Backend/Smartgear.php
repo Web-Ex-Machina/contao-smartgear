@@ -23,7 +23,9 @@ use Contao\RequestToken;
 use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Backup\BackupManager;
+use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Exceptions\Backup\ManagerException;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Override\Controller;
 use WEM\SmartgearBundle\Update\UpdateManager;
@@ -62,6 +64,8 @@ class Smartgear extends \Contao\BackendModule
     protected $backupManager;
     /** @var UpdateManager */
     protected $updateManager;
+    /** @var CommandUtil */
+    protected $commandUtil;
 
     public function __construct($dc = null)
     {
@@ -69,6 +73,7 @@ class Smartgear extends \Contao\BackendModule
         $this->backupManager = System::getContainer()->get('smartgear.backup.backup_manager');
         $this->updateManager = System::getContainer()->get('smartgear.update.update_manager');
         $this->coreConfigurationManager = System::getContainer()->get('smartgear.config.manager.core');
+        $this->commandUtil = System::getContainer()->get('smartgear.classes.command.util');
         $this->objSession = System::getContainer()->get('session'); // Init session
     }
 
@@ -87,13 +92,13 @@ class Smartgear extends \Contao\BackendModule
                 switch (Input::post('action')) {
                     case 'executeCmd':
                         if (!Input::post('cmd')) {
-                            throw new Exception('Missing one arguments : cmd');
+                            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
 
                         try {
                             $arrResponse['status'] = 'success';
-                            $arrResponse['msg'] = sprintf('La commande %s a été executée avec succès', Input::post('cmd'));
-                            $arrResponse['output'] = Util::executeCmd(Input::post('cmd'));
+                            $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
+                            $arrResponse['output'] = $this->commandUtil->executeCmd(Input::post('cmd'));
                             // } catch (ProcessFailedException $e) {
                         } catch (Exception $e) {
                             throw $e;
@@ -101,13 +106,13 @@ class Smartgear extends \Contao\BackendModule
                         break;
                     case 'executeCmdPhp':
                         if (!Input::post('cmd')) {
-                            throw new Exception('Missing one arguments : cmd');
+                            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
 
                         try {
                             $arrResponse['status'] = 'success';
-                            $arrResponse['msg'] = sprintf('La commande %s a été executée avec succès', Input::post('cmd'));
-                            $arrResponse['output'] = Util::executeCmdPHP(Input::post('cmd'));
+                            $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
+                            $arrResponse['output'] = $this->commandUtil->executeCmdPHP(Input::post('cmd'));
                             // } catch (ProcessFailedException $e) {
                         } catch (Exception $e) {
                             throw $e;
@@ -115,12 +120,12 @@ class Smartgear extends \Contao\BackendModule
                         break;
                     case 'executeCmdLive':
                         if (!Input::post('cmd')) {
-                            throw new Exception('Missing one arguments : cmd');
+                            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
 
                         $arrResponse['status'] = 'success';
-                        $arrResponse['msg'] = sprintf('La commande %s a été executée avec succès', Input::post('cmd'));
-                        $res = Util::executeCmdLive(Input::post('cmd'));
+                        $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
+                        $res = $this->commandUtil->executeCmdLive(Input::post('cmd'));
                         $arrResponse['output'] = $res;
                         // exit();
                     break;
@@ -128,7 +133,7 @@ class Smartgear extends \Contao\BackendModule
                     default:
                         // Check if we get all the params we need first
                         if (!Input::post('type') || !Input::post('module') || !Input::post('action')) {
-                            throw new Exception('Missing one or several arguments : type/module/action');
+                            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterMissing']);
                         }
 
                         $objBlock = System::getContainer()->get('smartgear.backend.module.'.Input::post('module').'.block');
@@ -144,7 +149,7 @@ class Smartgear extends \Contao\BackendModule
             }
 
             // Add Request Token to JSON answer and return
-            $arrResponse['rt'] = \RequestToken::get();
+            $arrResponse['rt'] = RequestToken::get();
             echo json_encode($arrResponse);
             exit;
         }
@@ -181,13 +186,13 @@ class Smartgear extends \Contao\BackendModule
         if ('modal' === Input::get('act')) {
             // Catch Errors
             if (!Input::get('type')) {
-                throw new Exception('Absence du paramètre type');
+                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterTypeMissing']);
             }
             if (!Input::get('module')) {
-                throw new Exception('Absence du paramètre module');
+                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterModuleMissing']);
             }
             if (!Input::get('function')) {
-                throw new Exception('Absence du paramètre function');
+                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterFunctionMissing']);
             }
 
             // Load the good block
@@ -238,34 +243,49 @@ class Smartgear extends \Contao\BackendModule
     protected function getBackupManager(): void
     {
         $this->Template = new BackendTemplate('be_wem_sg_backupmanager');
-
         if ('new' === Input::get('act')) {
-            $result = $this->backupManager->new();
+            try {
+                set_time_limit(0);
+                $start = microtime(true);
+                $result = $this->backupManager->newFromUI();
+                $end = microtime(true);
 
-            $this->objSession->set('wem_sg_backup_create_result', $result);
+                $this->objSession->set('wem_sg_backup_create_result', $result);
 
-            // Add Message
-            Message::addConfirmation(sprintf('Backup "%s" effectué', $result->getBackup()->basename));
-
+                // Add Message
+                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageNewBackUpDone'], $result->getBackup()->getFile()->basename, ($end - $start)));
+            } catch (ManagerException $e) {
+                Message::addError($e->getMessage());
+            }
             // And redirect
             Controller::redirect(str_replace('&act=new', '', Environment::get('request')));
         } elseif ('restore' === Input::get('act')) {
-            $result = $this->backupManager->restore(Input::get('backup'));
+            try {
+                set_time_limit(0);
+                $start = microtime(true);
+                $result = $this->backupManager->restore(Input::get('backup'));
+                $end = microtime(true);
 
-            $this->objSession->set('wem_sg_backup_restore_result', $result);
+                $this->objSession->set('wem_sg_backup_restore_result', $result);
 
-            // Add Message
-            Message::addConfirmation(sprintf('Backup "%s" restauré', $result->getBackup()->basename));
-
+                // Add Message
+                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageRestoreBackUpDone'], $result->getBackup()->getFile()->basename, ($end - $start)));
+            } catch (ManagerException $e) {
+                Message::addError($e->getMessage());
+            }
             // And redirect
             Controller::redirect(str_replace('&act=restore&backup='.Input::get('backup'), '', Environment::get('request')));
         } elseif ('delete' === Input::get('act')) {
-            if ($this->backupManager->delete(Input::get('backup'))) {
-                // Add Message
-                Message::addConfirmation(sprintf('Backup "%s" supprimé', Input::get('backup')));
-            } else {
-                // Add Message
-                Message::addError(sprintf('Backup "%s" non supprimé', Input::get('backup')));
+            try {
+                if ($this->backupManager->delete(Input::get('backup'))) {
+                    // Add Message
+                    Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpSuccess'], Input::get('backup')));
+                } else {
+                    // Add Message
+                    Message::addError(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
+                }
+            } catch (ManagerException $e) {
+                Message::addError(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
             }
 
             // And redirect
@@ -322,12 +342,13 @@ class Smartgear extends \Contao\BackendModule
         $this->Template = new BackendTemplate('be_wem_sg_updatemanager');
 
         if ('play' === Input::get('act')) {
+            set_time_limit(0);
             $result = $this->updateManager->update();
 
             $this->objSession->set('wem_sg_update_update_result', $result);
 
             // Add Message
-            Message::addConfirmation('Mises à jour effectuées');
+            Message::addConfirmation($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['messagePlayUpdatesDone']);
 
             // And redirect
             Controller::redirect(str_replace('&act=play', '', Environment::get('request')));

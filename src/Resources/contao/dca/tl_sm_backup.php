@@ -46,11 +46,17 @@ $GLOBALS['TL_DCA']['tl_sm_backup'] = [
             'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
+        'source' => [
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
         'files' => [
             'search' => true,
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'tl_class' => 'w100'],
-            'sql' => "text NOT NULL default ''",
+            'sql' => "mediumtext NOT NULL default ''",
         ],
     ],
 ];

@@ -14,6 +14,9 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes;
 
+use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+
 /**
  * SMARTGEAR for Contao Open Source CMS
  * Copyright (c) 2015-2022 Web ex Machina.
@@ -27,77 +30,88 @@ namespace WEM\SmartgearBundle\Classes;
 class UtilFramway
 {
     public const SCRIPTS_PATH = './bundles/wemsmartgear/scripts/smartgear/module/core/';
+    /** @var ConfigurationManager */
+    protected $configurationManager;
+    /** @var CommandUtil */
+    protected $commandUtil;
 
-    public static function retrieve(string $framwayPath, bool $live = false)
+    public function __construct(
+        ConfigurationManager $configurationManager, CommandUtil $commandUtil)
+    {
+        $this->commandUtil = $commandUtil;
+        $this->configurationManager = $configurationManager;
+    }
+
+    public function retrieve(bool $live = false)
     {
         set_time_limit(0);
         if ($live) {
-            return Util::executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_retrieve.sh ./'.$framwayPath);
+            return $this->commandUtil->executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_retrieve.sh ./'.$this->getFramwayPath());
         }
 
-        return Util::executeCmd('sh '.self::SCRIPTS_PATH.'framway_retrieve.sh ./'.$framwayPath);
+        return $this->commandUtil->executeCmd('sh '.self::SCRIPTS_PATH.'framway_retrieve.sh ./'.$this->getFramwayPath());
     }
 
-    public static function install(string $framwayPath, bool $live = false)
-    {
-        set_time_limit(0);
-
-        if ($live) {
-            return Util::executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_install.sh ./'.$framwayPath);
-        }
-
-        return Util::executeCmd('sh '.self::SCRIPTS_PATH.'framway_install.sh ./'.$framwayPath);
-    }
-
-    public static function initialize(string $framwayPath, bool $live = false)
-    {
-        set_time_limit(0);
-
-        if ($live) {
-            return Util::executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_initialize.sh ./'.$framwayPath);
-        }
-
-        return Util::executeCmd('sh '.self::SCRIPTS_PATH.'framway_initialize.sh ./'.$framwayPath);
-    }
-
-    public static function build(string $framwayPath, bool $live = false)
+    public function install(bool $live = false)
     {
         set_time_limit(0);
 
         if ($live) {
-            return Util::executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_build.sh ./'.$framwayPath);
+            return $this->commandUtil->executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_install.sh ./'.$this->getFramwayPath());
         }
 
-        return Util::executeCmd('sh '.self::SCRIPTS_PATH.'framway_build.sh ./'.$framwayPath);
+        return $this->commandUtil->executeCmd('sh '.self::SCRIPTS_PATH.'framway_install.sh ./'.$this->getFramwayPath());
     }
 
-    public static function checkPresence(string $framwayPath)
+    public function initialize(bool $live = false)
     {
-        return file_exists($framwayPath.\DIRECTORY_SEPARATOR.'framway.config.js') && file_exists($framwayPath.\DIRECTORY_SEPARATOR.'build');
-    }
-
-    public static function addTheme(string $framwayPath, string $themeName, bool $live = false)
-    {
-        self::checkThemeName($themeName);
+        set_time_limit(0);
 
         if ($live) {
-            return Util::executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_theme_add.sh ./'.$framwayPath);
+            return $this->commandUtil->executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_initialize.sh ./'.$this->getFramwayPath());
         }
 
-        return Util::executeCmd('sh '.self::SCRIPTS_PATH.'framway_theme_add.sh ./'.$framwayPath.' '.$themeName);
+        return $this->commandUtil->executeCmd('sh '.self::SCRIPTS_PATH.'framway_initialize.sh ./'.$this->getFramwayPath());
     }
 
-    public static function checkThemeName(string $themeName): void
+    public function build(bool $live = false)
+    {
+        set_time_limit(0);
+
+        if ($live) {
+            return $this->commandUtil->executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_build.sh ./'.$this->getFramwayPath());
+        }
+
+        return $this->commandUtil->executeCmd('sh '.self::SCRIPTS_PATH.'framway_build.sh ./'.$this->getFramwayPath());
+    }
+
+    public function checkPresence()
+    {
+        return file_exists($this->getFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js') && file_exists($this->getFramwayPath().\DIRECTORY_SEPARATOR.'build');
+    }
+
+    public function addTheme(string $themeName, bool $live = false)
+    {
+        $this->checkThemeName($themeName);
+
+        if ($live) {
+            return $this->commandUtil->executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_theme_add.sh ./'.$this->getFramwayPath());
+        }
+
+        return $this->commandUtil->executeCmd('sh '.self::SCRIPTS_PATH.'framway_theme_add.sh ./'.$this->getFramwayPath().' '.$themeName);
+    }
+
+    public function checkThemeName(string $themeName): void
     {
         if (!preg_match('/^([A-Za-z0-9-_]+)$/', $themeName)) {
             throw new \InvalidArgumentException('Le nom du nouveau thème est invalide! Les caractères autorisés sont : lettres, chiffres, tirets ("-") et underscores ("_").');
         }
     }
 
-    public static function getThemes(string $framwayPath): array
+    public function getThemes(): array
     {
         $arrThemes = [];
-        if ($handle = opendir($framwayPath.\DIRECTORY_SEPARATOR.'src/themes')) {
+        if ($handle = opendir($this->getFramwayPath().\DIRECTORY_SEPARATOR.'src/themes')) {
             while (false !== ($entry = readdir($handle))) {
                 if ('.' !== $entry && '..' !== $entry) {
                     $arrThemes[] = ['label' => $entry, 'value' => $entry];
@@ -109,10 +123,10 @@ class UtilFramway
         return $arrThemes;
     }
 
-    public static function getComponents(string $framwayPath): array
+    public function getComponents(): array
     {
         $arrComponents = [];
-        if ($handle = opendir($framwayPath.\DIRECTORY_SEPARATOR.'src/components')) {
+        if ($handle = opendir($this->getFramwayPath().\DIRECTORY_SEPARATOR.'src/components')) {
             while (false !== ($entry = readdir($handle))) {
                 if ('.' !== $entry && '..' !== $entry) {
                     $arrComponents[] = ['label' => $entry, 'value' => $entry];
@@ -122,5 +136,10 @@ class UtilFramway
         }
 
         return $arrComponents;
+    }
+
+    protected function getFramwayPath(): string
+    {
+        return $this->configurationManager->load()->getSgFramwayPath();
     }
 }

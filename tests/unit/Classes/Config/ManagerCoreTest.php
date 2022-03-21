@@ -17,7 +17,9 @@ namespace Classes\Config;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as Manager;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 
-class ManagerCoreTest extends \Codeception\Test\Unit
+require_once realpath(__DIR__.'/../../Util/SmartgearTestCase.php');
+
+class ManagerCoreTest extends \Util\SmartgearTestCase
 {
     /**
      * @var \UnitTester
@@ -32,7 +34,7 @@ class ManagerCoreTest extends \Codeception\Test\Unit
     protected function setUp(): void
     {
         $this->configurationFilePath = codecept_data_dir().'/assets/smartgear/config_core.json';
-        $this->sut = new Manager(new CoreConfig(), $this->configurationFilePath);
+        $this->sut = new Manager($this->getTranslator(), new CoreConfig(), $this->configurationFilePath);
     }
 
     // tests

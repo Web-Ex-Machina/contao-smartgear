@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Api\Update\V1\Model\Mapper;
 
 use WEM\SmartgearBundle\Api\Update\V1\Model\UpdateResponse;
+use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Update\Results\UpdateResult;
 
 class UpdateResultToUpdateResponse
@@ -23,8 +24,13 @@ class UpdateResultToUpdateResponse
     {
         $updateResponse->setStatus($updateResult->getStatus());
         $updateResponse->setBackup([
-            'timestamp' => $updateResult->getBackupResult()->getBackup()->ctime,
-            'path' => $updateResult->getBackupResult()->getBackup()->basename,
+            'timestamp' => $updateResult->getBackupResult()->getBackup()->getFile()->ctime,
+            'path' => $updateResult->getBackupResult()->getBackup()->getFile()->basename,
+            'source' => $updateResult->getBackupResult()->getBackup()->getSource(),
+            'size' => [
+                'raw' => $updateResult->getBackupResult()->getBackup()->size,
+                'human_readable' => Util::humanReadableFilesize((int) $updateResult->getBackupResult()->getBackup()->size),
+            ],
         ]);
         foreach ($updateResult->getResults() as $item) {
             $updateResponse->addUpdate([

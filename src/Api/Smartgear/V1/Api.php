@@ -18,6 +18,7 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 use WEM\SmartgearBundle\Classes\Api\Security\ApiKey;
 use WEM\SmartgearBundle\Classes\Api\Security\Token;
+use WEM\SmartgearBundle\Classes\Util;
 
 class Api
 {
@@ -45,6 +46,9 @@ class Api
     {
         /** @var CoreConfig */
         $config = $this->coreConfigurationManager->load();
-        return json_encode(['version'=>$config->getSgVersion()]);
+        return json_encode([
+            'installed'=>$config->getSgVersion(),
+            'package'=>Util::getPackageVersion()
+        ]);
     }
 }

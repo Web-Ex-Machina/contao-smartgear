@@ -42,6 +42,8 @@ class FramwayConfiguration extends ConfigurationStep
     protected $tarteAuCitronSynchronizer;
     /** @var DirectoriesSynchronizer */
     protected $outdatedBrowserSynchronizer;
+    /** @var UtilFramway */
+    protected $framwayUtil;
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_configuration';
 
     public function __construct(
@@ -54,10 +56,11 @@ class FramwayConfiguration extends ConfigurationStep
         DirectoriesSynchronizer $templateGeneralSynchronizer,
         DirectoriesSynchronizer $tinyMCEPluginsSynchronizer,
         DirectoriesSynchronizer $tarteAuCitronSynchronizer,
-        DirectoriesSynchronizer $outdatedBrowserSynchronizer
+        DirectoriesSynchronizer $outdatedBrowserSynchronizer,
+        UtilFramway $framwayUtil
     ) {
         parent::__construct($module, $type);
-        $this->title = 'Framway | Configuration';
+        $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['Title'];
         $this->configurationManager = $configurationManager;
         $this->configurationManagerFramway = $configurationManagerFramway;
         $this->templateRSCESynchronizer = $templateRSCESynchronizer;
@@ -66,14 +69,15 @@ class FramwayConfiguration extends ConfigurationStep
         $this->tinyMCEPluginsSynchronizer = $tinyMCEPluginsSynchronizer;
         $this->tarteAuCitronSynchronizer = $tarteAuCitronSynchronizer;
         $this->outdatedBrowserSynchronizer = $outdatedBrowserSynchronizer;
+        $this->framwayUtil = $framwayUtil;
         try {
             /** @var CoreConfig */
             $config = $this->configurationManager->load();
             /** @var FramwayConfig */
             $framwayConfig = $this->configurationManagerFramway->load();
-            $this->addSelectField('themes[]', 'Thèmes', UtilFramway::getThemes($config->getSgFramwayPath()), $framwayConfig->getThemes(), true, true);
-            $this->addSelectField('components[]', 'Composants', UtilFramway::getComponents($config->getSgFramwayPath()), $framwayConfig->getComponents(), true, true);
-            $this->addTextField('new_theme', 'Nouveau thème', '', false, 'hidden', 'text');
+            $this->addSelectField('themes[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldThemes'], $this->framwayUtil->getThemes(), $framwayConfig->getThemes(), true, true);
+            $this->addSelectField('components[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldComponents'], $this->framwayUtil->getComponents(), $framwayConfig->getComponents(), true, true);
+            $this->addTextField('new_theme', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldNewTheme'], '', false, 'hidden', 'text');
         } catch (NotFound $e) {
         }
     }
@@ -99,7 +103,7 @@ class FramwayConfiguration extends ConfigurationStep
         $this->updateFramwayConfiguration(Input::post('themes') ?? [], Input::post('components'));
         $this->updateCoreConfiguration(Input::post('themes') ?? []);
 
-        UtilFramway::build($config->getSgFramwayPath());
+        $this->framwayUtil->build();
 
         $this->importRSCETemplates();
         $this->importSmartgearTemplates();
@@ -112,19 +116,16 @@ class FramwayConfiguration extends ConfigurationStep
     public function framwayThemeAdd()
     {
         if (empty(Input::post('new_theme'))) {
-            throw new \InvalidArgumentException('Le nom du nouveau thème est vide');
+            throw new \InvalidArgumentException($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldNewThemeEmpty']);
         }
 
         $theme = Input::post('new_theme');
 
         if (!preg_match('/^([A-Za-z0-9-_]+)$/', $theme)) {
-            throw new \InvalidArgumentException('Le nom du nouveau thème est invalide! Les caractères autorisés sont : lettres, chiffres, tirets ("-") et underscores ("_").');
+            throw new \InvalidArgumentException($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldNewThemeIncorrectFormat']);
         }
 
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
-
-        return UtilFramway::addTheme($config->getSgFramwayPath(), $theme);
+        return $this->framwayUtil->addTheme($theme);
     }
 
     /**
