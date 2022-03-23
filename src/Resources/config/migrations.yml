@@ -1,0 +1,13 @@
+services:
+
+  smartgear.migrations.v1_0_0.m202203231730.migration:
+    class: WEM\SmartgearBundle\Migrations\V1_0_0\M202203231730\Migration
+    arguments:
+      $connection: '@database_connection'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+    public: true
+
+  smartgear.migrations.v1_0_0.migration:
+    class: WEM\SmartgearBundle\Migrations\V1_0_0\Migration
+    public: true

@@ -39,6 +39,6 @@ class WEMSmartgearExtension extends Extension
         $loader->load('services.yml');
         $loader->load('commands.yml');
         $loader->load('controllers.yml');
-        // $loader->load('routing.yml');
+        $loader->load('migrations.yml');
     }
 }

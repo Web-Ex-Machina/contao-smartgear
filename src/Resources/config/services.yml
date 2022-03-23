@@ -303,15 +303,11 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
             $backupManager: '@smartgear.backup.backup_manager'
             $migrations: 
-                - '@smartgear.migrations.V1_0_0.migration'
+                - '@smartgear.migrations.v1_0_0.m202203231730.migration'
         public: true
 
     smartgear.model.backup:
         class: WEM\SmartgearBundle\Model\Backup
-        public: true
-
-    smartgear.migrations.V1_0_0.migration:
-        class: WEM\SmartgearBundle\Migrations\V1_0_0\Migration
         public: true
 
     ############ API SMARTGEAR V1 ############

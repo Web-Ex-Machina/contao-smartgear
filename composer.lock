@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cd5b6b83ea075a17fc4319f84afd5da7",
+    "content-hash": "ce9f7a813bb2c366ddb97c1eb74ccb93",
     "packages": [
         {
             "name": "ausi/slug-generator",
@@ -5266,6 +5266,88 @@
                 }
             ],
             "time": "2022-02-02T18:37:57+00:00"
+        },
+        {
+            "name": "oveleon/contao-component-style-manager",
+            "version": "2.6.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oveleon/contao-component-style-manager.git",
+                "reference": "202c1228313d0d23e182e1c915ed36192ae197c0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oveleon/contao-component-style-manager/zipball/202c1228313d0d23e182e1c915ed36192ae197c0",
+                "reference": "202c1228313d0d23e182e1c915ed36192ae197c0",
+                "shasum": ""
+            },
+            "require": {
+                "contao/core-bundle": "^4.4"
+            },
+            "conflict": {
+                "contao/core": "*",
+                "contao/core-bundle": "4.4.1",
+                "contao/manager-plugin": "<2.0 || >=3.0"
+            },
+            "require-dev": {
+                "contao/manager-plugin": "^2.0"
+            },
+            "type": "contao-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5.x-dev"
+                },
+                "contao-manager-plugin": "Oveleon\\ContaoComponentStyleManager\\ContaoManager\\Plugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Oveleon\\ContaoComponentStyleManager\\": "src/"
+                },
+                "classmap": [
+                    "src/Resources/contao/"
+                ],
+                "exclude-from-classmap": [
+                    "src/Resources/contao/config/",
+                    "src/Resources/contao/dca/",
+                    "src/Resources/contao/languages/",
+                    "src/Resources/contao/templates/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oveleon",
+                    "homepage": "https://oveleon.de/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Daniele Sciannimanica",
+                    "homepage": "https://github.com/doishub",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Style and CSS-Class Manager for Contao Open Source CMS",
+            "homepage": "https://www.oveleon.de/stylemanager.html",
+            "keywords": [
+                "contao",
+                "css",
+                "manager",
+                "styles"
+            ],
+            "support": {
+                "issues": "https://github.com/oveleon/contao-component-style-manager/issues",
+                "source": "https://github.com/oveleon/contao-component-style-manager/tree/2.6.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/oveleon",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-02-14T18:29:23+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",

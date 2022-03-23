@@ -25,6 +25,7 @@
 					<th class="tl_folder_tlist col_name"><?= $this->trans('WEMSG.UPDATEMANAGER.LIST.name'); ?></th>
 					<th class="tl_folder_tlist col_description"><?= $this->trans('WEMSG.UPDATEMANAGER.LIST.description'); ?></th>
 					<th class="tl_folder_tlist col_status"><?= $this->trans('WEMSG.UPDATEMANAGER.LIST.status'); ?></th>
+					<th class="tl_folder_tlist col_logs"><?= $this->trans('WEMSG.UPDATEMANAGER.LIST.logs'); ?></th>
 				</tr>
 				<?php foreach($this->updates->getResults() as $singleMigrationResult): ?>
 				<tr class="even click2edit toggle_select hover-row">
@@ -32,6 +33,7 @@
 					<td colspan="1" class="tl_file_list col_name"><?= $singleMigrationResult->getMigration()->getName() ?></td>
 					<td colspan="1" class="tl_file_list col_description"><?= $singleMigrationResult->getMigration()->getName() ?></td>
 					<td colspan="1" class="tl_file_list col_status"><?= $this->trans(sprintf('WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.status%s',ucfirst(str_replace(' ','',$singleMigrationResult->getResult()->getStatus())))); ?></td>
+					<td colspan="1" class="tl_file_list col_logs"><?= implode("<br />",$singleMigrationResult->getResult()->getLogs()) ?></td>
 				</tr>
 				<?php endforeach; ?>
 				<?php if($this->empty): ?>

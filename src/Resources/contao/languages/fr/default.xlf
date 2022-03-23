@@ -1003,6 +1003,10 @@
 			<source>Status</source>
 			<target>Statut</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.LIST.logs">
+			<source>Logs</source>
+			<target>Logs</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.UPDATEMANAGER.LIST.noItemsToDisplay">
 			<source>No update to display</source>
 			<target>Pas de mises à jour disponibles</target>
