@@ -738,6 +738,11 @@ class Util
         return round($size, $precision).['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'][$i];
     }
 
+    public static function log(string $message, ?string $filename = 'debug.log'): void
+    {
+        file_put_contents(\Contao\System::getContainer()->getParameter('kernel.project_dir').'/vendor/webexmachina/contao-smartgear/'.$filename, $message.\PHP_EOL, \FILE_APPEND);
+    }
+
     /**
      * Check if a permission can be added into.
      *

@@ -75,5 +75,7 @@ class MigrationAbstract extends BaseMigrationAbstract
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
             return $result;
         }
+
+        return $result;
     }
 }
