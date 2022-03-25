@@ -14,13 +14,29 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Migration;
 
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Version\Version;
 
 abstract class MigrationAbstract implements MigrationInterface
 {
+    /** @var TranslatorInterface */
+    protected $translator;
+    protected static $translation_key = '';
+
+    public function __construct(
+        TranslatorInterface $translator
+    ) {
+        $this->translator = $translator;
+    }
+
     public function getName(): string
     {
         return static::$name;
+    }
+
+    public function getTranslatedName(): string
+    {
+        return $this->translator->trans($this->buildTranslationKey('name'), [], 'contao_default');
     }
 
     public function getDescription(): string
@@ -28,12 +44,48 @@ abstract class MigrationAbstract implements MigrationInterface
         return static::$description;
     }
 
+    public function getTranslatedDescription(): string
+    {
+        return $this->translator->trans($this->buildTranslationKey('description'), [], 'contao_default');
+    }
+
     public function getVersion(): Version
     {
         return (new Version())->fromString(static::$version);
     }
 
+    public function getTranslationKey(): string
+    {
+        return static::$translation_key;
+    }
+
     abstract public function shouldRun(): Result;
 
     abstract public function do(): Result;
+
+    /**
+     * This methods build the translation key using the current class' ones, taking inheritance in account
+     * No need to duplicate this method to make it work.
+     *
+     * @param string $property The property to translate
+     *
+     * @return string The built translation key
+     */
+    protected function buildTranslationKey(string $property): string
+    {
+        return $this->getTranslationKey().'.'.$property;
+    }
+
+    /**
+     * This methods build the translation key using the current class' ones, without taking inheritance in account
+     * To make it work, duplicate this method in the desired class.
+     *
+     * @param string $property The property to translate
+     *
+     * @return string The built translation key
+     */
+    protected function buildTranslationKeyLocal(string $property): string
+    {
+        return self::$translation_key.'.'.$property;
+    }
 }

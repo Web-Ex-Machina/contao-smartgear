@@ -1079,6 +1079,117 @@
 			<source>Success</source>
 			<target>Succès</target>
 		</trans-unit>
+		<!-- style manager -->
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackground.title">
+			<source>Framway - Background</source>
+			<target>Framway - Background</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.title">
+			<source>Framway - Background - Color</source>
+			<target>Framway - Background - Color</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgPrimaryLabel">
+			<source>background primary color</source>
+			<target>fond couleur primaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgPrimaryDescription">
+			<source>Apply a background using primary color to the item</source>
+			<target>Ajoute à l'élément un background de couleur primaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSecondaryLabel">
+			<source>background secondary color</source>
+			<target>fond couleur secondaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSecondaryDescription">
+			<source>Apply a background using secondary color to the item</source>
+			<target>Ajoute à l'élément un background de couleur secondaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSuccessLabel">
+			<source>background success color</source>
+			<target>fond couleur succès</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSuccessDescription">
+			<source>Apply a background using color used to signal a success to the item</source>
+			<target>Ajoute à l'élément un background correspondant à la couleur utilisée pour signaler un succès</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgErrorLabel">
+			<source>background error color</source>
+			<target>fond couleur erreur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgErrorDescription">
+			<source>Apply a background using color used to signal an error to the item</source>
+			<target>Ajoute à l'élément un background correspondant à la couleur utilisée pour signaler une erreur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgWarningLabel">
+			<source>background warning color</source>
+			<target>fond couleur avertissement</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgWarningDescription">
+			<source>Apply a background using color used to signal a warning to the item</source>
+			<target>Ajoute à l'élément un background correspondant à la couleur utilisée pour signaler un problème</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgColorLabel">
+			<source>background color %s</source>
+			<target>fond couleur %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgColorDescription">
+			<source>Apply a background using the selected color to the item</source>
+			<target>Ajoute à l'élément un background correspondant à la couleur indiquée</target>
+		</trans-unit>
+
+		<!-- Migrations -->
+		<!-- General -->
+		<trans-unit id="WEMSG.MIGRATIONS.VERSIONCOMPARATOR.currentVersionHigher">
+			<source>Current version is higher than the migration's one (v%s &#155; v%s).</source>
+			<target>La version installée est plus récente que celle de la mise à jour (v%s &#155; v%s).</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.VERSIONCOMPARATOR.versionsEquals">
+			<source>Current version is equal to the migration's one (v%s == v%s).</source>
+			<target>La version installée est égale à celle de la mise à jour (v%s == v%s).</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.VERSIONCOMPARATOR.currentVersionLower">
+			<source>Current version is lower than the migration's one (v%s &#139; v%s).</source>
+			<target>La version installée est plus ancienne que celle de la mise à jour (v%s &#139; v%s).</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.shouldBeRun">
+			<source>Migration should be ran.</source>
+			<target>La mise à jour doit être appliquée.</target>
+		</trans-unit>
+		<!-- V1_0_0/M202203231730 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.name">
+			<source>Configures CSS classes</source>
+			<target>Configuration des classes CSS.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.description">
+			<source>Configures CSS classes available for contents.</source>
+			<target>Configuration des classes CSS pour les contenus.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.shouldRunStyleManagerPackageAbsent">
+			<source>Cannot execute this migration : "Style Manager" package seems absent.</source>
+			<target>La mise à jour ne peut être appliquée : le package "Style Manager" est absent.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.shouldRunCSSClassesAlreadyInDb">
+			<source>CSS classes already configured in database.</source>
+			<target>Les classes CSS sont déjà présentent en base de donnée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSMargins">
+			<source>Adding margins CSS classes in database.</source>
+			<target>Ajout des classes CSS de gestion des bordures.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSSeparators">
+			<source>Adding separators CSS classes in database.</source>
+			<target>Ajout des classes CSS de gestion des séparateurs.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSButtons">
+			<source>Adding buttons CSS classes in database.</source>
+			<target>Ajout des classes CSS de gestion des boutons.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSBackgrounds">
+			<source>Adding backgrounds CSS classes in database.</source>
+			<target>Ajout des classes CSS de gestion des fonds (background).</target>
+		</trans-unit>
+
+
 
 		<!-- heimrichhannot/contao-backend-lost-password-bundle -->
 		<trans-unit id="MSC.backendLostPassword.messageSubjectResetPassword">

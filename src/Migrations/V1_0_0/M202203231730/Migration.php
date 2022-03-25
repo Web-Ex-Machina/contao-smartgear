@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Migrations\V1_0_0\M202203231730;
 use Doctrine\DBAL\Connection;
 use Oveleon\ContaoComponentStyleManager\StyleManagerArchiveModel;
 use Oveleon\ContaoComponentStyleManager\StyleManagerModel;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Migration\Result;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
@@ -27,13 +28,15 @@ class Migration extends MigrationAbstract
     protected static $name = 'Configures CSS classes';
     protected static $description = 'Configures CSS classes available for contents';
     protected static $version = '1.0.0';
+    protected static $translation_key = 'WEMSG.MIGRATIONS.V1_0_0_M202203231730';
 
     public function __construct(
         Connection $connection,
+        TranslatorInterface $translator,
         CoreConfigurationManager $coreConfigurationManager,
         VersionComparator $versionComparator
     ) {
-        parent::__construct($connection, $coreConfigurationManager, $versionComparator);
+        parent::__construct($connection, $translator, $coreConfigurationManager, $versionComparator);
     }
 
     public function shouldRun(): Result
@@ -48,13 +51,43 @@ class Migration extends MigrationAbstract
         if (!$schemaManager->tablesExist(['tl_style_manager'])) {
             $result
                 ->setStatus(Result::STATUS_FAIL)
-                ->addLog('Cannot execute this migration : Style Manager package seems absent.')
+                ->addLog($this->translator->trans($this->buildTranslationKey('shouldRunStyleManagerPackageAbsent'), [], 'contao_default'))
             ;
 
             return $result;
         }
+        $objArchiveBackground = StyleManagerArchiveModel::findByIdentifier('fwbackground');
+        $objArchiveButton = StyleManagerArchiveModel::findByIdentifier('fwbutton');
+        $objArchiveSeparator = StyleManagerArchiveModel::findByIdentifier('fwseparator');
+        $objArchiveMargin = StyleManagerArchiveModel::findByIdentifier('fwmargin');
+        if (null !== $objArchiveBackground
+        && null !== $objArchiveButton
+        && null !== $objArchiveSeparator
+        && null !== $objArchiveMargin
+        ) {
+            if (null !== StyleManagerModel::findByAliasAndPid('fwbackgroundcolor', $objArchiveBackground->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonsize', $objArchiveButton->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonbackground', $objArchiveButton->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonborder', $objArchiveButton->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwseparatortop', $objArchiveSeparator->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwseparatorbottom', $objArchiveSeparator->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwseparatorleft', $objArchiveSeparator->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwseparatorright', $objArchiveSeparator->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwmargintop', $objArchiveMargin->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwmarginbottom', $objArchiveMargin->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwmarginleft', $objArchiveMargin->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwmarginright', $objArchiveMargin->id)
+            ) {
+                $result
+                ->setStatus(Result::STATUS_SKIPPED)
+                ->addLog($this->translator->trans($this->buildTranslationKey('shouldRunCSSClassesAlreadyInDb'), [], 'contao_default'))
+                ;
+
+                return $result;
+            }
+        }
         $result
-            ->addLog('Prerequisites met.')
+            ->addLog($this->translator->trans('WEMSG.MIGRATIONS.shouldBeRun', [], 'contao_default'))
         ;
 
         return $result;
@@ -68,13 +101,13 @@ class Migration extends MigrationAbstract
         }
         try {
             $this->manageMargins();
-            $result->addLog('Ajout des classes CSS de gestion des bordures');
+            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSMargins'), [], 'contao_default'));
             $this->manageSeparators();
-            $result->addLog('Ajout des classes CSS de gestion des séparateurs');
+            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSSeparators'), [], 'contao_default'));
             $this->manageButtons();
-            $result->addLog('Ajout des classes CSS de gestion des boutons');
+            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSButtons'), [], 'contao_default'));
             $this->manageBackgrounds();
-            $result->addLog('Ajout des classes CSS de gestion des backgrounds');
+            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSBackgrounds'), [], 'contao_default'));
         } catch (\Exception $e) {
             $result
                 ->setStatus(Result::STATUS_FAIL)
@@ -232,7 +265,7 @@ class Migration extends MigrationAbstract
         // separators - left
         $objStyle = StyleManagerModel::findByAliasAndPid('fwseparatorleft', $objArchive->id) ?? new StyleManagerModel();
         $objStyle->pid = $objArchive->id;
-        $objStyle->title = 'Framway - Separators - left';
+        $objStyle->title = 'Framway - Separators - Left';
         $objStyle->alias = 'fwseparatorleft';
         $objStyle->blankOption = true;
         $objStyle->chosen = true;

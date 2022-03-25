@@ -15,13 +15,14 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Migrations\V1_0_0;
 
 use Doctrine\DBAL\Connection;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Migration\MigrationAbstract as BaseMigrationAbstract;
 use WEM\SmartgearBundle\Classes\Migration\Result;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
 use WEM\SmartgearBundle\Classes\Version\Version;
 
-class MigrationAbstract extends BaseMigrationAbstract
+abstract class MigrationAbstract extends BaseMigrationAbstract
 {
     /** @var Connection */
     protected $connection;
@@ -29,12 +30,15 @@ class MigrationAbstract extends BaseMigrationAbstract
     protected $coreConfigurationManager;
     /** @var VersionComparator */
     protected $versionComparator;
+    protected static $translation_key = 'WEMSG.MIGRATIONS';
 
     public function __construct(
         Connection $connection,
+        TranslatorInterface $translator,
         CoreConfigurationManager $coreConfigurationManager,
         VersionComparator $versionComparator
     ) {
+        parent::__construct($translator);
         $this->connection = $connection;
         $this->coreConfigurationManager = $coreConfigurationManager;
         $this->versionComparator = $versionComparator;
@@ -49,20 +53,26 @@ class MigrationAbstract extends BaseMigrationAbstract
         switch ($this->versionComparator->compare($currentVersion, $migrationVersion)) {
             case VersionComparator::CURRENT_VERSION_HIGHER:
                 $result->setStatus(Result::STATUS_SKIPPED)
-                ->addLog(sprintf('Current version is higher than the migration\'s one (v%s -> v%s)', $currentVersion, $migrationVersion))
-                    ;
+                ->addLog(
+                    $this->translator->trans($this->buildTranslationKeyLocal('VERSIONCOMPARATOR.currentVersionHigher'), [$currentVersion, $migrationVersion], 'contao_default')
+                )
+                ;
             break;
             case VersionComparator::VERSIONS_EQUALS:
                 // $result->setStatus(Result::STATUS_SKIPPED)
                 $result->setStatus(Result::STATUS_SHOULD_RUN)
-                ->addLog(sprintf('Current version is equal to the migration\'s one (v%s <-> v%s)', $currentVersion, $migrationVersion))
-                    ;
+                ->addLog(
+                    $this->translator->trans($this->buildTranslationKeyLocal('VERSIONCOMPARATOR.versionsEquals'), [$currentVersion, $migrationVersion], 'contao_default')
+                )
+                ;
             break;
             case VersionComparator::CURRENT_VERSION_LOWER:
                 $result->setStatus(Result::STATUS_SHOULD_RUN)
-                ->addLog(sprintf('Current version is lower than the migration\'s one (v%s -> v%s)', $currentVersion, $migrationVersion))
-                ->addLog('Migration should be run')
-                    ;
+                ->addLog(
+                    $this->translator->trans($this->buildTranslationKeyLocal('VERSIONCOMPARATOR.currentVersionLower'), [$currentVersion, $migrationVersion], 'contao_default')
+                )
+                ->addLog($this->translator->trans('WEMSG.MIGRATIONS.shouldBeRun', [], 'contao_default'))
+                ;
             break;
         }
 
@@ -77,5 +87,10 @@ class MigrationAbstract extends BaseMigrationAbstract
         }
 
         return $result;
+    }
+
+    protected function buildTranslationKeyLocal(string $property): string
+    {
+        return self::$translation_key.'.'.$property;
     }
 }

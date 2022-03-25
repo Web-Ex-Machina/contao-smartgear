@@ -31,8 +31,8 @@ class SingleMigrationResult
 
     public function setMigration(MigrationInterface $migration): self
     {
-        $this->name = $migration->getName();
-        $this->description = $migration->getDescription();
+        $this->name = $migration->getTranslatedName();
+        $this->description = $migration->getTranslatedDescription();
         $this->version = $migration->getVersion();
 
         return $this;
