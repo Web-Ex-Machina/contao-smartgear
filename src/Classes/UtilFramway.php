@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Classes;
 
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Config\Manager\FramwayTheme as ConfigurationThemeManager;
 
 /**
  * SMARTGEAR for Contao Open Source CMS
@@ -32,14 +33,24 @@ class UtilFramway
     public const SCRIPTS_PATH = './bundles/wemsmartgear/scripts/smartgear/module/core/';
     /** @var ConfigurationManager */
     protected $configurationManager;
+    /** @var ConfigurationThemeManager */
+    protected $configurationThemeManager;
     /** @var CommandUtil */
     protected $commandUtil;
 
     public function __construct(
-        ConfigurationManager $configurationManager, CommandUtil $commandUtil)
-    {
+        ConfigurationManager $configurationManager,
+        CommandUtil $commandUtil,
+        ConfigurationThemeManager $configurationThemeManager
+    ) {
         $this->commandUtil = $commandUtil;
         $this->configurationManager = $configurationManager;
+        $this->configurationThemeManager = $configurationThemeManager;
+    }
+
+    public function getThemeColors(?string $themeName = null): array
+    {
+        return $this->configurationThemeManager->setThemeName($themeName)->load()->getColors();
     }
 
     public function retrieve(bool $live = false)
@@ -108,7 +119,7 @@ class UtilFramway
         }
     }
 
-    public function getThemes(): array
+    public function getAvailableThemes(): array
     {
         $arrThemes = [];
         if ($handle = opendir($this->getFramwayPath().\DIRECTORY_SEPARATOR.'src/themes')) {
@@ -123,7 +134,7 @@ class UtilFramway
         return $arrThemes;
     }
 
-    public function getComponents(): array
+    public function getAvailableComponents(): array
     {
         $arrComponents = [];
         if ($handle = opendir($this->getFramwayPath().\DIRECTORY_SEPARATOR.'src/components')) {

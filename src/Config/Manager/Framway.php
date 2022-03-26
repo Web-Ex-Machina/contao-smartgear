@@ -27,6 +27,8 @@ class Framway extends AbstractManager implements ManagerJsonInterface
     protected $configuration;
     /** @var ConfigurationManagerCore */
     protected $configurationManagerCore;
+    /** @var string */
+    protected $configurationFilePath;
 
     public function __construct(
         TranslatorInterface $translator,
@@ -36,6 +38,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         parent::__construct($translator);
         $this->configuration = $configuration;
         $this->configurationManagerCore = $configurationManagerCore;
+        $this->configurationFilePath = $this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js';
     }
 
     /**
@@ -59,8 +62,8 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         $notJsonCompliant = $this->retrieveConfigurationFromFile();
         $notJsonCompliant = str_replace('module.exports = ', '', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/\/\/(.*)/', '', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/([\w]*):/', '"$1":', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/\'/', '"', $notJsonCompliant);
+        $notJsonCompliant = $this->specificPregReplaceForNotJsonCompliantConfigurationImport($notJsonCompliant);
+
         $notJsonCompliant = preg_replace('/\t/', '', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/\n/', '', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/\s\s/', '', $notJsonCompliant);
@@ -83,15 +86,28 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         $json = preg_replace('/"(.*)":/', '$1:', $json);
         $json = preg_replace('/"(.*)"/', '\'$1\'', $json);
 
-        return false !== file_put_contents($this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js', 'module.exports = '.$json);
+        return false !== file_put_contents($this->getConfigurationFilePath(), 'module.exports = '.$json);
+    }
+
+    public function getConfigurationFilePath(): string
+    {
+        return $this->configurationFilePath;
+    }
+
+    protected function specificPregReplaceForNotJsonCompliantConfigurationImport(string $notJsonCompliant): string
+    {
+        $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):/', '"$2":', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/\'/', '"', $notJsonCompliant);
+
+        return preg_replace('/([\"]+)([A-Za-z_\-0-9$]+)([\"]+)/', '"$2"', $notJsonCompliant);
     }
 
     protected function retrieveConfigurationFromFile(): string
     {
-        if (!file_exists($this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js')) {
+        if (!file_exists($this->getConfigurationFilePath())) {
             throw new FileNotFoundException($this->translator->trans('WEMSG.CONFIGURATIONMANAGER.fileNotFound', [], 'contao_default'));
         }
 
-        return file_get_contents($this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js');
+        return file_get_contents($this->getConfigurationFilePath());
     }
 }

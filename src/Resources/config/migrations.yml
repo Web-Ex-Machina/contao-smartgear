@@ -7,4 +7,5 @@ services:
       $translator: '@contao.translation.translator'
       $coreConfigurationManager: '@smartgear.config.manager.core'
       $versionComparator: '@smartgear.classes.version.comparator'
+      $configurationThemeManager: '@smartgear.config.manager.framway_theme'
     public: true

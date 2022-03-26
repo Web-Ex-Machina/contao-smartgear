@@ -126,6 +126,7 @@ services:
         class: WEM\SmartgearBundle\Classes\UtilFramway
         arguments:
             $configurationManager: '@smartgear.config.manager.core'
+            $configurationThemeManager: '@smartgear.config.manager.framway_theme'
             $commandUtil: '@smartgear.classes.command.util'
         public: true
 
@@ -134,6 +135,14 @@ services:
         arguments:
             $translator: '@contao.translation.translator'
             $configuration: '@smartgear.config.framway'
+            $configurationManagerCore: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.config.manager.framway_theme:
+        class: WEM\SmartgearBundle\Config\Manager\FramwayTheme
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configuration: '@smartgear.config.framway_theme'
             $configurationManagerCore: '@smartgear.config.manager.core'
         public: true
 
@@ -159,6 +168,10 @@ services:
 
     smartgear.config.framway:
         class: WEM\SmartgearBundle\Config\Framway
+        public: true
+
+    smartgear.config.framway_theme:
+        class: WEM\SmartgearBundle\Config\FramwayTheme
         public: true
 
     smartgear.config.env_file:

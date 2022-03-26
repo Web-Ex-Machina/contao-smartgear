@@ -21,6 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Migration\Result;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
+use WEM\SmartgearBundle\Config\Manager\FramwayTheme as ConfigurationThemeManager;
 use WEM\SmartgearBundle\Migrations\V1_0_0\MigrationAbstract;
 
 class Migration extends MigrationAbstract
@@ -29,14 +30,18 @@ class Migration extends MigrationAbstract
     protected static $description = 'Configures CSS classes available for contents';
     protected static $version = '1.0.0';
     protected static $translation_key = 'WEMSG.MIGRATIONS.V1_0_0_M202203231730';
+    /** @var ConfigurationThemeManager */
+    protected $configurationThemeManager;
 
     public function __construct(
         Connection $connection,
         TranslatorInterface $translator,
         CoreConfigurationManager $coreConfigurationManager,
-        VersionComparator $versionComparator
+        VersionComparator $versionComparator,
+        ConfigurationThemeManager $configurationThemeManager
     ) {
         parent::__construct($connection, $translator, $coreConfigurationManager, $versionComparator);
+        $this->configurationThemeManager = $configurationThemeManager;
     }
 
     public function shouldRun(): Result
@@ -46,7 +51,6 @@ class Migration extends MigrationAbstract
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
             return $result;
         }
-
         $schemaManager = $this->connection->getSchemaManager();
         if (!$schemaManager->tablesExist(['tl_style_manager'])) {
             $result
@@ -65,7 +69,7 @@ class Migration extends MigrationAbstract
         && null !== $objArchiveSeparator
         && null !== $objArchiveMargin
         ) {
-            if (null !== StyleManagerModel::findByAliasAndPid('fwbackgroundcolor', $objArchiveBackground->id)
+            if (null === StyleManagerModel::findByAliasAndPid('fwbackgroundcolor', $objArchiveBackground->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwbuttonsize', $objArchiveButton->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwbuttonbackground', $objArchiveButton->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwbuttonborder', $objArchiveButton->id)
@@ -124,7 +128,7 @@ class Migration extends MigrationAbstract
         $contentElements = ['headline', 'text'];
         // Buttons
         $objArchive = StyleManagerArchiveModel::findByIdentifier('fwbackground') ?? new StyleManagerArchiveModel();
-        $objArchive->title = 'Framway - Background';
+        $objArchive->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwbackground.title', [], 'contao_default');
         $objArchive->description = '';
         $objArchive->identifier = 'fwbackground';
         $objArchive->groupAlias = 'Framway';
@@ -133,7 +137,7 @@ class Migration extends MigrationAbstract
         // Buttons - background
         $objStyle = StyleManagerModel::findByAliasAndPid('fwbackgroundcolor', $objArchive->id) ?? new StyleManagerModel();
         $objStyle->pid = $objArchive->id;
-        $objStyle->title = 'Framway - Background - Color';
+        $objStyle->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwbackgroundcolor.title', [], 'contao_default');
         $objStyle->alias = 'fwbackgroundcolor';
         $objStyle->blankOption = true;
         $objStyle->chosen = true;
@@ -141,14 +145,22 @@ class Migration extends MigrationAbstract
         $objStyle->contentElements = serialize($contentElements);
         $objStyle->extendContentElement = true;
 
-        /* @todo : make UtilFramway method to get colors */
-        $objStyle->cssClasses = serialize([
-            ['key' => 'bg-primary', 'value' => 'Ajoute à l\'élément un background de couleur primaire'],
-            ['key' => 'bg-secondary', 'value' => 'Ajoute à l\'élément un background de couleur secondaire'],
-            ['key' => 'bg-success', 'value' => 'Ajoute à l\'élément un background correspondant à la couleur utilisée pour signaler un succès'],
-            ['key' => 'bg-error', 'value' => 'Ajoute à l\'élément un background correspondant à la couleur utilisée pour signaler une erreur'],
-            ['key' => 'bg-warning', 'value' => 'Ajoute à l\'élément un background correspondant à la couleur utilisée pour signaler un problème'],
-        ]);
+        $cssClasses = [
+            ['key' => 'bg-primary', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbackgroundcolor.bgPrimaryLabel', [], 'contao_default')],
+            ['key' => 'bg-secondary', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSecondaryLabel', [], 'contao_default')],
+            ['key' => 'bg-success', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSuccessLabel', [], 'contao_default')],
+            ['key' => 'bg-error', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbackgroundcolor.bgErrorLabel', [], 'contao_default')],
+            ['key' => 'bg-warning', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbackgroundcolor.bgWarningLabel', [], 'contao_default')],
+        ];
+        $colors = $this->configurationThemeManager->load()->getColors();
+        foreach ($colors as $name => $hexa) {
+            $cssClasses[] = [
+                'key' => 'bg-'.$name,
+                'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbackgroundcolor.bgColorLabel', [
+                    $this->translator->trans('WEMSG.FRAMWAY.COLORS.'.$name, [], 'contao_default'),
+                ], 'contao_default'), ];
+        }
+        $objStyle->cssClasses = serialize($cssClasses);
         $objStyle->save();
     }
 
@@ -315,9 +327,9 @@ class Migration extends MigrationAbstract
         $objStyle->contentElements = serialize($contentElements);
         $objStyle->extendContentElement = true;
         $objStyle->cssClasses = serialize([
-            ['key' => 'm-top-0', 'value' => 'Applique une marge doublée en haut de l\'élément'],
+            ['key' => 'm-top-0', 'value' => 'Retire la marge en haut de l\'élément'],
             ['key' => 'm-top', 'value' => 'Applique une marge en haut de l\'élément'],
-            ['key' => 'm-top-x2', 'value' => 'Retire la marge en haut de l\'élément'],
+            ['key' => 'm-top-x2', 'value' => 'Applique une marge doublée en haut de l\'élément'],
         ]);
         $objStyle->save();
         // margins - bottom
@@ -331,9 +343,9 @@ class Migration extends MigrationAbstract
         $objStyle->contentElements = serialize($contentElements);
         $objStyle->extendContentElement = true;
         $objStyle->cssClasses = serialize([
-            ['key' => 'm-bottom-0', 'value' => 'Applique une marge doublée en bas de l\'élément'],
+            ['key' => 'm-bottom-0', 'value' => 'Retire la marge en bas de l\'élément'],
             ['key' => 'm-bottom', 'value' => 'Applique une marge en bas de l\'élément'],
-            ['key' => 'm-bottom-x2', 'value' => 'Retire la marge en bas de l\'élément'],
+            ['key' => 'm-bottom-x2', 'value' => 'Applique une marge doublée en bas de l\'élément'],
         ]);
         $objStyle->save();
         // margins - left
@@ -347,9 +359,9 @@ class Migration extends MigrationAbstract
         $objStyle->contentElements = serialize($contentElements);
         $objStyle->extendContentElement = true;
         $objStyle->cssClasses = serialize([
-            ['key' => 'm-left-0', 'value' => 'Applique une marge doublée à gauche de l\'élément'],
+            ['key' => 'm-left-0', 'value' => 'Retire la marge à gauche de l\'élément'],
             ['key' => 'm-left', 'value' => 'Applique une marge à gauche de l\'élément'],
-            ['key' => 'm-left-x2', 'value' => 'Retire la marge à gauche de l\'élément'],
+            ['key' => 'm-left-x2', 'value' => 'Applique une marge doublée à gauche de l\'élément'],
         ]);
         $objStyle->save();
         // margins - right
@@ -363,9 +375,9 @@ class Migration extends MigrationAbstract
         $objStyle->contentElements = serialize($contentElements);
         $objStyle->extendContentElement = true;
         $objStyle->cssClasses = serialize([
-            ['key' => 'm-right-0', 'value' => 'Applique une marge doublée à droite de l\'élément'],
+            ['key' => 'm-right-0', 'value' => 'Retire la marge à droite de l\'élément'],
             ['key' => 'm-right', 'value' => 'Applique une marge à droite de l\'élément'],
-            ['key' => 'm-right-x2', 'value' => 'Retire la marge à droite de l\'élément'],
+            ['key' => 'm-right-x2', 'value' => 'Applique une marge doublée à droite de l\'élément'],
         ]);
         $objStyle->save();
     }

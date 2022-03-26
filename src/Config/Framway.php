@@ -24,11 +24,14 @@ class Framway implements ConfigJsonInterface
     public const DEFAULT_USE_OUTDATED_BROWSER = true;
     public const DEFAULT_USE_TARTE_AU_CITRON = true;
     public const DEFAULT_DEBUG = false;
-
+    /** @var \stdClass */
+    protected $originalConfig;
     /** @var array [description] */
     protected $themes = [];
     /** @var array [description] */
     protected $components = [];
+    /** @var array [description] */
+    protected $colors = [];
     /** @var mixed string|bool */
     protected $useFA = self::DEFAULT_USE_FA;
     /** @var bool */
@@ -44,6 +47,7 @@ class Framway implements ConfigJsonInterface
     {
         $this->setThemes([])
             ->setComponents([])
+            ->setColors([])
             ->setUseFA(self::DEFAULT_USE_FA)
             ->setUseToastr(self::DEFAULT_USE_TOASTR)
             ->setUseOutdatebrowser(self::DEFAULT_USE_OUTDATED_BROWSER)
@@ -56,8 +60,10 @@ class Framway implements ConfigJsonInterface
 
     public function import(\stdClass $json): self
     {
-        $this->setThemes($json->themes ?? [])
+        $this->setOriginalConfig($json)
+            ->setThemes($json->themes ?? [])
             ->setComponents($json->components ?? [])
+            ->setColors($json->colors ?? [])
             ->setUseFA(self::DEFAULT_USE_FA)
             ->setUseToastr($json->useToastr ?? self::DEFAULT_USE_TOASTR)
             ->setUseOutdatebrowser($json->useOutdatebrowser ?? self::DEFAULT_USE_OUTDATED_BROWSER)
@@ -70,7 +76,7 @@ class Framway implements ConfigJsonInterface
 
     public function export(): string
     {
-        $json = new \stdClass();
+        $json = $this->getOriginalConfig();
 
         $json->themes = $this->getThemes();
         $json->components = $this->getComponents();
@@ -79,6 +85,7 @@ class Framway implements ConfigJsonInterface
         $json->useOutdatebrowser = $this->getUseOutdatebrowser();
         $json->useTarteaucitron = $this->getUseTarteaucitron();
         $json->debug = $this->getDebug();
+        $json->colors = $this->getColors();
 
         return json_encode($json, \JSON_PRETTY_PRINT);
     }
@@ -169,6 +176,30 @@ class Framway implements ConfigJsonInterface
     public function setUseTarteaucitron(bool $useTarteaucitron): self
     {
         $this->useTarteaucitron = $useTarteaucitron;
+
+        return $this;
+    }
+
+    public function getColors(): array
+    {
+        return $this->colors;
+    }
+
+    public function setColors(array $colors): self
+    {
+        $this->colors = $colors;
+
+        return $this;
+    }
+
+    public function getOriginalConfig(): \stdClass
+    {
+        return $this->originalConfig;
+    }
+
+    protected function setOriginalConfig(\stdClass $originalConfig): self
+    {
+        $this->originalConfig = $originalConfig;
 
         return $this;
     }

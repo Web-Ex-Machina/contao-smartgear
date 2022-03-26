@@ -1133,8 +1133,8 @@
 			<target>fond couleur %s</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgColorDescription">
-			<source>Apply a background using the selected color to the item</source>
-			<target>Ajoute à l'élément un background correspondant à la couleur indiquée</target>
+			<source>Apply a background using the "%s" color to the item</source>
+			<target>Ajoute à l'élément un background correspondant à la couleur "%s"</target>
 		</trans-unit>
 
 		<!-- Migrations -->
@@ -1189,7 +1189,63 @@
 			<target>Ajout des classes CSS de gestion des fonds (background).</target>
 		</trans-unit>
 
-
+		<!-- Framway colors -->
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.blue">
+			<source>blue</source>
+			<target>bleu</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.green">
+			<source>green</source>
+			<target>vert</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.red">
+			<source>red</source>
+			<target>rouge</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.yellow">
+			<source>yellow</source>
+			<target>jaune</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.black">
+			<source>black</source>
+			<target>noir</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.blacklight">
+			<source>blacklight</source>
+			<target>noir clair</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.blacklighter">
+			<source>blacklighter</source>
+			<target>noir plus clair</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.greystronger">
+			<source>greystronger</source>
+			<target>gris plus foncé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.greystrong">
+			<source>greystrong</source>
+			<target>gris foncé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.grey">
+			<source>grey</source>
+			<target>gris</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.greylight">
+			<source>greylight</source>
+			<target>gris clair</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.greylighter">
+			<source>greylighter</source>
+			<target>gris plus clair</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.white">
+			<source>white</source>
+			<target>blanc</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.none">
+			<source>none</source>
+			<target>aucune</target>
+		</trans-unit>
 
 		<!-- heimrichhannot/contao-backend-lost-password-bundle -->
 		<trans-unit id="MSC.backendLostPassword.messageSubjectResetPassword">

@@ -79,7 +79,7 @@ class Util
             /** @var CoreConfig */
             $coreConfig = self::loadSmartgearConfig();
 
-            if ('' === $strFWTheme && $coreConfig->getSgFramwayThemes()) {
+            if ('' !== $strFWTheme && $coreConfig->getSgFramwayThemes()) {
                 $strFWTheme = $coreConfig->getSgFramwayPath().'/src/themes/'.$coreConfig->getSgFramwayThemes()[0];
                 $strFramwayConfig = file_get_contents($strFWTheme.'/_'.$coreConfig->getSgFramwayThemes()[0].'.scss');
             } elseif ('' === $strFWTheme) {
