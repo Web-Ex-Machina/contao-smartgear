@@ -13,7 +13,7 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => ['Hero FW', 'Générez un élément stylisé composé d\'un texte sur une image'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
+    'label' => ['Bannière (seule)', 'Générez un élément stylisé composé d\'un texte sur une image'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
         'config_legend' => [
             'label' => ['Configuration du bloc'], 'inputType' => 'group',
         ], 'force_fullwidth' => [

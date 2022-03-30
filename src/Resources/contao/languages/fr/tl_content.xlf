@@ -1,0 +1,10 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/tl_content.php" source-language="en" target-language="fr">
+    <body>
+      <trans-unit id="tl_content.playerSRC.1">
+        <source>Here you can add the video/audio file or multiple files if you are using different codecs. If your video file is heavy, use Youtube instead</source>
+        <target>Ajouter le fichier vidéo/audio ou plusieurs fichiers si vous utilisez différents codecs. Si votre fichier vidéo est lourd, privilégiez un élément Youtube.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

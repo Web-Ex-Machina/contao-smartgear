@@ -6,6 +6,34 @@
 			<source>Cancel</source>
 			<target>Annuler</target>
 		</trans-unit>
+    <trans-unit id="CTE.table.0">
+      <source>Table</source>
+      <target>Tableau</target>
+    </trans-unit>
+    <trans-unit id="CTE.accordionStart.0">
+      <source>Wrapper start</source>
+      <target>Accordéon - Début</target>
+    </trans-unit>
+    <trans-unit id="CTE.accordionStop.0">
+      <source>Wrapper stop</source>
+      <target>Accordéon - Fin</target>
+    </trans-unit>
+    <trans-unit id="CTE.slider">
+      <source>Content slider</source>
+      <target>Slider</target>
+    </trans-unit>
+    <trans-unit id="CTE.sliderStart.0">
+      <source>Wrapper start</source>
+      <target>Slider - Début</target>
+    </trans-unit>
+    <trans-unit id="CTE.sliderStop.0">
+      <source>Wrapper stop</source>
+      <target>Slider - Fin</target>
+    </trans-unit>
+    <trans-unit id="CTE.hyperlink.0">
+      <source>Hyperlink</source>
+      <target>Lien</target>
+    </trans-unit>
 
 		<!-- Smartgear default -->
 		<trans-unit id="WEM.SMARTGEAR.DEFAULT.NotFilled">

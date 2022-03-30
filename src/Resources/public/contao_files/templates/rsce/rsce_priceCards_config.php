@@ -13,7 +13,7 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => ['Price cards', 'Générez une liste de price cards'],
+    'label' => ['Blocs de prix', 'Générez une liste de blocs de prix'],
     'contentCategory' => 'SMARTGEAR',
     'standardFields' => ['cssID'],
     'fields' => [

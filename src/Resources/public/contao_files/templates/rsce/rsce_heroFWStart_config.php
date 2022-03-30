@@ -13,7 +13,7 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => ['Hero FW -- Wrapper Start', 'Générez un élément stylisé composé d\'un texte sur une image'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
+    'label' => ['Bannière - Début', 'Générez un élément stylisé composé d\'un texte sur une image'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
         'config_legend' => [
             'label' => ['Configuration du bloc'], 'inputType' => 'group',
         ], 'force_fullwidth' => [

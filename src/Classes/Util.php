@@ -27,7 +27,6 @@ use Contao\UserGroupModel;
 use Exception;
 use InvalidArgumentException;
 use Psr\Log\LogLevel;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
 use WEM\UtilsBundle\Classes\StringUtil;
 
 /**
@@ -85,39 +84,6 @@ class Util
             foreach ($colors as $label => $hexa) {
                 $return[$label] = ['label' => trim($label), 'hexa' => trim(str_replace('#', '', $hexa))];
             }
-            // /** @var CoreConfig */
-            // $coreConfig = self::loadSmartgearConfig();
-
-            // if ('' !== $strFWTheme && $coreConfig->getSgFramwayThemes()) {
-            //     $strFWTheme = $coreConfig->getSgFramwayPath().'/src/themes/'.$coreConfig->getSgFramwayThemes()[0];
-            //     $strFramwayConfig = file_get_contents($strFWTheme.'/_'.$coreConfig->getSgFramwayThemes()[0].'.scss');
-            // } elseif ('' === $strFWTheme) {
-            //     $strFWTheme = $coreConfig->getSgFramwayPath().'/src/themes/smartgear';
-            //     $strFramwayConfig = file_get_contents($strFWTheme.'/_config.scss');
-            // }
-
-            // if (false === $strFramwayConfig) {
-            //     return [];
-            // }
-
-            // $startsAt = strpos($strFramwayConfig, "$colors: (") + \strlen("$colors: (");
-            // $endsAt = strpos($strFramwayConfig, ');', $startsAt);
-            // $result = trim(str_replace([' ', "\n"], '', substr($strFramwayConfig, $startsAt, $endsAt - $startsAt)));
-
-            // $return = [];
-            // $colors = explode(',', $result);
-
-            // foreach ($colors as $v) {
-            //     if ('' === $v) {
-            //         continue;
-            //     }
-
-            //     $color = explode(':', $v);
-            //     $name = trim(str_replace("'", '', $color[0]));
-            //     $hexa = trim(str_replace('#', '', $color[1]));
-
-            //     $return[$name] = ['label' => $name, 'hexa' => $hexa];
-            // }
 
             return $return;
         } catch (Exception $e) {
@@ -598,15 +564,15 @@ class Util
             if (null === $intGroup) {
                 $conf = self::loadSmartgearConfig();
 
-                if ($conf['sgInstallUserGroup']) {
-                    $objUserGroup = UserGroupModel::findByPk($conf['sgInstallUserGroup']);
-                }
+                // if ($conf['sgInstallUserGroup']) {
+                $objUserGroup = UserGroupModel::findOneByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName']);
+            // }
             } else {
                 $objUserGroup = UserGroupModel::findByPk($intGroup);
             }
 
             if ($objUserGroup) {
-                $arrPermissions = deserialize($objUserGroup->alexf);
+                $arrPermissions = deserialize($objUserGroup->alexf) ?? [];
             }
 
             // Add the permissions

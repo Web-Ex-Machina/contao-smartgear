@@ -33,6 +33,20 @@ class Migration extends MigrationAbstract
     /** @var ConfigurationThemeManager */
     protected $configurationThemeManager;
 
+    protected static $elements = [
+        'margin' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionStop', 'accordionSingle', 'sliderStart', 'sliderStop', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'grid-stop', 'rsce_accordionFW', 'rsce_block-img', 'rsce_counterFW', 'rsce_gridGallery', 'rsce_heroFWStart', 'rsce_heroFWStop', 'rsce_priceCards', 'rsce_sliderFW', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations'],
+        'button' => ['hyperlink'],
+        'background' => ['headline', 'text', 'rsce_quote'],
+        'separator' => ['headline'],
+        'table' => ['table'],
+        'accordion' => ['accordionStart', 'accordionStop', 'rsce_accordionFW'],
+        'slider' => ['sliderStart', 'sliderStop', 'rsce_sliderFW', 'rsce_testimonials'],
+        'image' => ['image', 'rsce_block-img'],
+        'hero' => ['rsce_heroFWStart', 'rsce_heroFWStop'],
+        'grid' => ['rsce_gridGallery'],
+        'priceCards' => ['rsce_priceCards'],
+    ];
+
     public function __construct(
         Connection $connection,
         TranslatorInterface $translator,
@@ -124,8 +138,7 @@ class Migration extends MigrationAbstract
 
     protected function manageBackgrounds(): void
     {
-        /** @todo : update those elements when they have been renamed ? */
-        $contentElements = ['headline', 'text'];
+        $contentElements = self::$elements['background'];
         // Buttons
         $objArchive = StyleManagerArchiveModel::findByIdentifier('fwbackground') ?? new StyleManagerArchiveModel();
         $objArchive->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwbackground.title', [], 'contao_default');
@@ -166,8 +179,7 @@ class Migration extends MigrationAbstract
 
     protected function manageButtons(): void
     {
-        /** @todo : update those elements when they have been renamed ? */
-        $contentElements = ['hyperlink'];
+        $contentElements = self::$elements['button'];
         // Buttons
         $objArchive = StyleManagerArchiveModel::findByIdentifier('fwbutton') ?? new StyleManagerArchiveModel();
         $objArchive->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwbutton.title', [], 'contao_default');
@@ -233,11 +245,11 @@ class Migration extends MigrationAbstract
         $objStyle->extendContentElement = true;
 
         $cssClasses = [
-            ['key' => 'btn-bd-primary', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonbackground.bdPrimaryLabel', [], 'contao_default')],
-            ['key' => 'btn-bd-secondary', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonbackground.bdSecondaryLabel', [], 'contao_default')],
-            ['key' => 'btn-bd-success', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonbackground.bdSuccessLabel', [], 'contao_default')],
-            ['key' => 'btn-bd-error', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonbackground.bdErrorLabel', [], 'contao_default')],
-            ['key' => 'btn-bd-warning', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonbackground.bdWarningLabel', [], 'contao_default')],
+            ['key' => 'btn-bd-primary', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonborder.bdPrimaryLabel', [], 'contao_default')],
+            ['key' => 'btn-bd-secondary', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonborder.bdSecondaryLabel', [], 'contao_default')],
+            ['key' => 'btn-bd-success', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonborder.bdSuccessLabel', [], 'contao_default')],
+            ['key' => 'btn-bd-error', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonborder.bdErrorLabel', [], 'contao_default')],
+            ['key' => 'btn-bd-warning', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonborder.bdWarningLabel', [], 'contao_default')],
         ];
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
@@ -252,8 +264,7 @@ class Migration extends MigrationAbstract
 
     protected function manageSeparators(): void
     {
-        /** @todo : update those elements when they have been renamed ? */
-        $contentElements = ['headline'];
+        $contentElements = self::$elements['separator'];
         // separators
         $objArchive = StyleManagerArchiveModel::findByIdentifier('fwseparator') ?? new StyleManagerArchiveModel();
         $objArchive->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwseparator.title', [], 'contao_default');
@@ -322,8 +333,7 @@ class Migration extends MigrationAbstract
 
     protected function manageMargins(): void
     {
-        /** @todo : update those elements when they have been renamed ? */
-        $contentElements = ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionStop', 'sliderStart', 'sliderStop', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'rsce_timeline', 'grid-start', 'grid-stop', 'rsce_accordionFW', 'rsce_block-img', 'rsce_counterFW', 'rsce_gridGallery', 'rsce_heroFWStart', 'rsce_heroFWStop', 'rsce_priceCards', 'rsce_sliderFW', 'rsce_tabs', 'rsce_testimonials'];
+        $contentElements = self::$elements['margin'];
         // margins
         $objArchive = StyleManagerArchiveModel::findByIdentifier('fwmargin') ?? new StyleManagerArchiveModel();
         $objArchive->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwmargin.title', [], 'contao_default');

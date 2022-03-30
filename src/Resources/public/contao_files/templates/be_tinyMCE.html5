@@ -36,10 +36,11 @@ setTimeout(function() {
     importcss_append: true,
     extended_valid_elements: 'q[cite|class|title],article,section,hgroup,figure,figcaption',
     menubar: 'file edit insert view format table',
-    toolbar: 'link unlink | image | formatselect | forecolor fontsizeselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | code',
+    toolbar: 'link unlink | formatselect | forecolor fontsizeselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent ',
     textcolor_map: <?=  \WEM\SmartgearBundle\Classes\Util::getSmartgearColors('tinymce') ?>,
     fontsize_formats: '- 8px 10px 12px 14px 16px 18px 20px 22px 24px 26px 28px 30px 32px 34px 36px'
   });
 }, 0);
 </script>
 <?php endif; ?>
+
