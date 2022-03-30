@@ -75,8 +75,8 @@ class FramwayConfiguration extends ConfigurationStep
             $config = $this->configurationManager->load();
             /** @var FramwayConfig */
             $framwayConfig = $this->configurationManagerFramway->load();
-            $this->addSelectField('themes[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldThemes'], $this->framwayUtil->getThemes(), $framwayConfig->getThemes(), true, true);
-            $this->addSelectField('components[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldComponents'], $this->framwayUtil->getComponents(), $framwayConfig->getComponents(), true, true);
+            $this->addSelectField('themes[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldThemes'], $this->framwayUtil->getAvailableThemes(), $framwayConfig->getThemes(), true, true);
+            $this->addSelectField('components[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldComponents'], $this->framwayUtil->getAvailableComponents(), $framwayConfig->getComponents(), true, true);
             $this->addTextField('new_theme', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldNewTheme'], '', false, 'hidden', 'text');
         } catch (NotFound $e) {
         }

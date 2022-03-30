@@ -76,39 +76,48 @@ class Util
     public static function getFramwayColors($strFWTheme = '')
     {
         try {
-            /** @var CoreConfig */
-            $coreConfig = self::loadSmartgearConfig();
+            /** @var UtilFramway */
+            $framwayUtil = System::getContainer()->get('smartgear.classes.util_framway');
 
-            if ('' === $strFWTheme && $coreConfig->getSgFramwayThemes()) {
-                $strFWTheme = $coreConfig->getSgFramwayPath().'/src/themes/'.$coreConfig->getSgFramwayThemes()[0];
-                $strFramwayConfig = file_get_contents($strFWTheme.'/_'.$coreConfig->getSgFramwayThemes()[0].'.scss');
-            } elseif ('' === $strFWTheme) {
-                $strFWTheme = $coreConfig->getSgFramwayPath().'/src/themes/smartgear';
-                $strFramwayConfig = file_get_contents($strFWTheme.'/_config.scss');
-            }
-
-            if (false === $strFramwayConfig) {
-                return [];
-            }
-
-            $startsAt = strpos($strFramwayConfig, "$colors: (") + \strlen("$colors: (");
-            $endsAt = strpos($strFramwayConfig, ');', $startsAt);
-            $result = trim(str_replace([' ', "\n"], '', substr($strFramwayConfig, $startsAt, $endsAt - $startsAt)));
-
+            $colors = $framwayUtil->getThemeColors($strFWTheme);
             $return = [];
-            $colors = explode(',', $result);
 
-            foreach ($colors as $v) {
-                if ('' === $v) {
-                    continue;
-                }
-
-                $color = explode(':', $v);
-                $name = trim(str_replace("'", '', $color[0]));
-                $hexa = trim(str_replace('#', '', $color[1]));
-
-                $return[$name] = ['label' => $name, 'hexa' => $hexa];
+            foreach ($colors as $label => $hexa) {
+                $return[$label] = ['label' => trim($label), 'hexa' => trim(str_replace('#', '', $hexa))];
             }
+            // /** @var CoreConfig */
+            // $coreConfig = self::loadSmartgearConfig();
+
+            // if ('' !== $strFWTheme && $coreConfig->getSgFramwayThemes()) {
+            //     $strFWTheme = $coreConfig->getSgFramwayPath().'/src/themes/'.$coreConfig->getSgFramwayThemes()[0];
+            //     $strFramwayConfig = file_get_contents($strFWTheme.'/_'.$coreConfig->getSgFramwayThemes()[0].'.scss');
+            // } elseif ('' === $strFWTheme) {
+            //     $strFWTheme = $coreConfig->getSgFramwayPath().'/src/themes/smartgear';
+            //     $strFramwayConfig = file_get_contents($strFWTheme.'/_config.scss');
+            // }
+
+            // if (false === $strFramwayConfig) {
+            //     return [];
+            // }
+
+            // $startsAt = strpos($strFramwayConfig, "$colors: (") + \strlen("$colors: (");
+            // $endsAt = strpos($strFramwayConfig, ');', $startsAt);
+            // $result = trim(str_replace([' ', "\n"], '', substr($strFramwayConfig, $startsAt, $endsAt - $startsAt)));
+
+            // $return = [];
+            // $colors = explode(',', $result);
+
+            // foreach ($colors as $v) {
+            //     if ('' === $v) {
+            //         continue;
+            //     }
+
+            //     $color = explode(':', $v);
+            //     $name = trim(str_replace("'", '', $color[0]));
+            //     $hexa = trim(str_replace('#', '', $color[1]));
+
+            //     $return[$name] = ['label' => $name, 'hexa' => $hexa];
+            // }
 
             return $return;
         } catch (Exception $e) {
@@ -736,6 +745,11 @@ class Util
         }
 
         return round($size, $precision).['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'][$i];
+    }
+
+    public static function log(string $message, ?string $filename = 'debug.log'): void
+    {
+        file_put_contents(\Contao\System::getContainer()->getParameter('kernel.project_dir').'/vendor/webexmachina/contao-smartgear/'.$filename, $message.\PHP_EOL, \FILE_APPEND);
     }
 
     /**

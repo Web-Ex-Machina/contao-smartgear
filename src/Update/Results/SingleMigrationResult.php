@@ -16,22 +16,24 @@ namespace WEM\SmartgearBundle\Update\Results;
 
 use WEM\SmartgearBundle\Classes\Migration\MigrationInterface;
 use WEM\SmartgearBundle\Classes\Migration\Result as MigrationResult;
+use WEM\SmartgearBundle\Classes\Version\Version;
 
 class SingleMigrationResult
 {
-    /** @var MigrationInterface */
-    protected $migration;
+    /** @var string */
+    protected $name;
+    /** @var string */
+    protected $description;
+    /** @var Version */
+    protected $version;
     /** @var MigrationResult */
     protected $result;
 
-    public function getMigration(): MigrationInterface
-    {
-        return $this->migration;
-    }
-
     public function setMigration(MigrationInterface $migration): self
     {
-        $this->migration = $migration;
+        $this->name = $migration->getTranslatedName();
+        $this->description = $migration->getTranslatedDescription();
+        $this->version = $migration->getVersion();
 
         return $this;
     }
@@ -46,5 +48,29 @@ class SingleMigrationResult
         $this->result = $result;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVersion(): Version
+    {
+        return $this->version;
     }
 }

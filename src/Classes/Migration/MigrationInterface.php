@@ -24,7 +24,13 @@ interface MigrationInterface
 
     public function getName(): string;
 
+    public function getTranslatedName(): string;
+
     public function getDescription(): string;
 
+    public function getTranslatedDescription(): string;
+
     public function getVersion(): Version;
+
+    public function getTranslationKey(): string;
 }

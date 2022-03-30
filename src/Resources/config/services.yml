@@ -126,6 +126,7 @@ services:
         class: WEM\SmartgearBundle\Classes\UtilFramway
         arguments:
             $configurationManager: '@smartgear.config.manager.core'
+            $configurationThemeManager: '@smartgear.config.manager.framway_theme'
             $commandUtil: '@smartgear.classes.command.util'
         public: true
 
@@ -134,6 +135,14 @@ services:
         arguments:
             $translator: '@contao.translation.translator'
             $configuration: '@smartgear.config.framway'
+            $configurationManagerCore: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.config.manager.framway_theme:
+        class: WEM\SmartgearBundle\Config\Manager\FramwayTheme
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configuration: '@smartgear.config.framway_theme'
             $configurationManagerCore: '@smartgear.config.manager.core'
         public: true
 
@@ -159,6 +168,10 @@ services:
 
     smartgear.config.framway:
         class: WEM\SmartgearBundle\Config\Framway
+        public: true
+
+    smartgear.config.framway_theme:
+        class: WEM\SmartgearBundle\Config\FramwayTheme
         public: true
 
     smartgear.config.env_file:
@@ -303,15 +316,11 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
             $backupManager: '@smartgear.backup.backup_manager'
             $migrations: 
-                - '@smartgear.migrations.V1_0_0.migration'
+                - '@smartgear.migrations.v1_0_0.m202203231730.migration'
         public: true
 
     smartgear.model.backup:
         class: WEM\SmartgearBundle\Model\Backup
-        public: true
-
-    smartgear.migrations.V1_0_0.migration:
-        class: WEM\SmartgearBundle\Migrations\V1_0_0\Migration
         public: true
 
     ############ API SMARTGEAR V1 ############

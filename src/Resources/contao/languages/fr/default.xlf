@@ -1003,6 +1003,10 @@
 			<source>Status</source>
 			<target>Statut</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.LIST.logs">
+			<source>Logs</source>
+			<target>Logs</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.UPDATEMANAGER.LIST.noItemsToDisplay">
 			<source>No update to display</source>
 			<target>Pas de mises à jour disponibles</target>
@@ -1074,6 +1078,477 @@
 		<trans-unit id="WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusSuccess">
 			<source>Success</source>
 			<target>Succès</target>
+		</trans-unit>
+		<!-- style manager -->
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackground.title">
+			<source>Framway - Background</source>
+			<target>Framway - Background</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.title">
+			<source>Framway - Background - Color</source>
+			<target>Framway - Background - Color</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgPrimaryLabel">
+			<source>background primary color</source>
+			<target>fond couleur primaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgPrimaryDescription">
+			<source>Apply a background using primary color to the item</source>
+			<target>Ajoute à l'élément un background de couleur primaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSecondaryLabel">
+			<source>background secondary color</source>
+			<target>fond couleur secondaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSecondaryDescription">
+			<source>Apply a background using secondary color to the item</source>
+			<target>Ajoute à l'élément un background de couleur secondaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSuccessLabel">
+			<source>background success color</source>
+			<target>fond couleur succès</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSuccessDescription">
+			<source>Apply a background using color used to signal a success to the item</source>
+			<target>Ajoute à l'élément un background correspondant à la couleur utilisée pour signaler un succès</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgErrorLabel">
+			<source>background error color</source>
+			<target>fond couleur erreur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgErrorDescription">
+			<source>Apply a background using color used to signal an error to the item</source>
+			<target>Ajoute à l'élément un background correspondant à la couleur utilisée pour signaler une erreur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgWarningLabel">
+			<source>background warning color</source>
+			<target>fond couleur avertissement</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgWarningDescription">
+			<source>Apply a background using color used to signal a warning to the item</source>
+			<target>Ajoute à l'élément un background correspondant à la couleur utilisée pour signaler un problème</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgColorLabel">
+			<source>background color %s</source>
+			<target>fond couleur %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgColorDescription">
+			<source>Apply a background using the "%s" color to the item</source>
+			<target>Ajoute à l'élément un background correspondant à la couleur "%s"</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbutton.title">
+			<source>Framway - Buttons</source>
+			<target>Framway - Buttons</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.title">
+			<source>Framway - Buttons - Background</source>
+			<target>Framway - Buttons - Background</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgPrimaryLabel">
+			<source>background primary color</source>
+			<target>bouton - fond couleur primaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgPrimaryDescription">
+			<source>Apply a background using primary color to the item</source>
+			<target>Transforme l'élément en bouton avec un background de couleur primaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgSecondaryLabel">
+			<source>background secondary color</source>
+			<target>bouton - fond couleur secondaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgSecondaryDescription">
+			<source>Apply a background using secondary color to the item</source>
+			<target>Transforme l'élément en bouton avec un background de couleur secondaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgSuccessLabel">
+			<source>background success color</source>
+			<target>bouton - fond couleur succès</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgSuccessDescription">
+			<source>Apply a background using color used to signal a success to the item</source>
+			<target>Transforme l'élément en bouton avec un background correspondant à la couleur utilisée pour signaler un succès</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgErrorLabel">
+			<source>background error color</source>
+			<target>bouton - fond couleur erreur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgErrorDescription">
+			<source>Apply a background using color used to signal an error to the item</source>
+			<target>Transforme l'élément en bouton avec un background correspondant à la couleur utilisée pour signaler une erreur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgWarningLabel">
+			<source>background warning color</source>
+			<target>bouton - fond couleur avertissement</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgWarningDescription">
+			<source>Apply a background using color used to signal a warning to the item</source>
+			<target>Transforme l'élément en bouton avec un background correspondant à la couleur utilisée pour signaler un problème</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgColorLabel">
+			<source>background color %s</source>
+			<target>bouton - fond couleur %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgColorDescription">
+			<source>Apply a background using the "%s" color to the item</source>
+			<target>Transforme l'élément en bouton avec un background correspondant à la couleur "%s"</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.title">
+			<source>Framway - Buttons - Background</source>
+			<target>Framway - Buttons - Background</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdPrimaryLabel">
+			<source>border primary color</source>
+			<target>bouton - bordures couleur primaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdPrimaryDescription">
+			<source>Apply a border using primary color to the item</source>
+			<target>Transforme l'élément en bouton avec une bordure de couleur primaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdSecondaryLabel">
+			<source>border secondary color</source>
+			<target>bouton - bordures couleur secondaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdSecondaryDescription">
+			<source>Apply a border using secondary color to the item</source>
+			<target>Transforme l'élément en bouton avec une bordure de couleur secondaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdSuccessLabel">
+			<source>border success color</source>
+			<target>bouton - bordures couleur succès</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdSuccessDescription">
+			<source>Apply a border using color used to signal a success to the item</source>
+			<target>Transforme l'élément en bouton avec une bordure correspondant à la couleur utilisée pour signaler un succès</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdErrorLabel">
+			<source>border error color</source>
+			<target>bouton - bordures couleur erreur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdErrorDescription">
+			<source>Apply a border using color used to signal an error to the item</source>
+			<target>Transforme l'élément en bouton avec une bordure correspondant à la couleur utilisée pour signaler une erreur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdWarningLabel">
+			<source>border warning color</source>
+			<target>bouton - bordures couleur avertissement</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdWarningDescription">
+			<source>Apply a border using color used to signal a warning to the item</source>
+			<target>Transforme l'élément en bouton avec une bordure correspondant à la couleur utilisée pour signaler un problème</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdColorLabel">
+			<source>border color %s</source>
+			<target>bouton - bordures couleur %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdColorDescription">
+			<source>Apply a border using the "%s" color to the item</source>
+			<target>Transforme l'élément en bouton avec une bordure correspondant à la couleur "%s"</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonsize.title">
+			<source>Framway - Buttons - Size</source>
+			<target>Framway - Buttons - Size</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonsize.sizeLabel">
+			<source>button - normal</source>
+			<target>bouton - normal</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonsize.sizeDescription">
+			<source>Make the element a button</source>
+			<target>Transforme l'élément en bouton</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonsize.sizeSmLabel">
+			<source>button - small</source>
+			<target>bouton - petit</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonsize.sizeSmDescription">
+			<source>Make the element a small button</source>
+			<target>Transforme l'élément en bouton de petite taille</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonsize.sizeLgLabel">
+			<source>button - large</source>
+			<target>bouton - grand</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonsize.sizeLgDescription">
+			<source>Make the element a large button</source>
+			<target>Transforme l'élément en bouton de grande taille</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwseparator.title">
+			<source>Framway - Separators</source>
+			<target>Framway - Separators</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatortop.title">
+			<source>Framway - Separators - Top</source>
+			<target>Framway - Separators - Top</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatortop.label">
+			<source>separator - top</source>
+			<target>séparateur - haut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatortop.description">
+			<source>Add a separator border on top of the element</source>
+			<target>Ajoute une bordure séparatrice en haut de l'élément</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatorbottom.title">
+			<source>Framway - Separators - Bottom</source>
+			<target>Framway - Separators - Bottom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatorbottom.label">
+			<source>separator - bottom</source>
+			<target>séparateur - bas</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatorbottom.description">
+			<source>Add a separator border at the bottom of the element</source>
+			<target>Ajoute une bordure séparatrice en bas de l'élément</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatorleft.title">
+			<source>Framway - Separators - Left</source>
+			<target>Framway - Separators - Left</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatorleft.label">
+			<source>separator - left</source>
+			<target>séparateur - gauche</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatorleft.description">
+			<source>Add a separator border on the left of the element</source>
+			<target>Ajoute une bordure séparatrice à gauche de l'élément</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatorright.title">
+			<source>Framway - Separators - Right</source>
+			<target>Framway - Separators - Right</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatorright.label">
+			<source>separator - right</source>
+			<target>séparateur - droite</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatorright.description">
+			<source>Add a separator border on the right of the element</source>
+			<target>Ajoute une bordure séparatrice à droite de l'élément</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmargin.title">
+			<source>Framway - Margins</source>
+			<target>Framway - Margins</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmargintop.title">
+			<source>Framway - Margins - Top</source>
+			<target>Framway - Margins - Top</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmargintop.label">
+			<source>margin - top</source>
+			<target>marge - haut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmargintop.description">
+			<source>Add a margin on top of the element</source>
+			<target>Ajoute une marge en haut de l'élément</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmargintop.noLabel">
+			<source>no margin - top</source>
+			<target>Pas de marge - haut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmargintop.noDescription">
+			<source>Remove margin on top of the element</source>
+			<target>Retire la marge en haut de l'élément</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmargintop.doubleLabel">
+			<source>double margin - top</source>
+			<target>marge double - haut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmargintop.doubleDescription">
+			<source>Add a double sized margin on top of the element</source>
+			<target>Ajoute une marge doublée en haut de l'élément</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginbottom.title">
+			<source>Framway - Margins - Bottom</source>
+			<target>Framway - Margins - Bottom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginbottom.label">
+			<source>margin - bottom</source>
+			<target>marge - bas</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginbottom.description">
+			<source>Add a margin at the bottom of the element</source>
+			<target>Ajoute une marge en bas de l'élément</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginbottom.noLabel">
+			<source>no margin - bottom</source>
+			<target>Pas de marge - bas</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginbottom.noDescription">
+			<source>Remove margin at the bottom of the element</source>
+			<target>Retire la marge en bas de l'élément</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginbottom.doubleLabel">
+			<source>double margin - bottom</source>
+			<target>marge double - bas</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginbottom.doubleDescription">
+			<source>Add a double sized margin at the bottom of the element</source>
+			<target>Ajoute une marge doublée en bas de l'élément</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginleft.title">
+			<source>Framway - Margins - Left</source>
+			<target>Framway - Margins - Left</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginleft.label">
+			<source>margin - left</source>
+			<target>marge - gauche</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginleft.description">
+			<source>Add a margin on the left of the element</source>
+			<target>Ajoute une marge à gauche de l'élément</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginleft.noLabel">
+			<source>no margin - left</source>
+			<target>Pas de marge - gauche</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginleft.noDescription">
+			<source>Remove margin on the left of the element</source>
+			<target>Retire la marge à gauche de l'élément</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginleft.doubleLabel">
+			<source>double margin - left</source>
+			<target>marge double - gauche</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginleft.doubleDescription">
+			<source>Add a double sized margin on the left of the element</source>
+			<target>Ajoute une marge doublée à gauche de l'élément</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginright.title">
+			<source>Framway - Margins - Right</source>
+			<target>Framway - Margins - Right</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginright.label">
+			<source>margin - right</source>
+			<target>marge - droite</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginright.description">
+			<source>Add a margin on the right of the element</source>
+			<target>Ajoute une marge à droite de l'élément</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginright.noLabel">
+			<source>no margin - right</source>
+			<target>Pas de marge - droite</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginright.noDescription">
+			<source>Remove margin on the right of the element</source>
+			<target>Retire la marge à droite de l'élément</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginright.doubleLabel">
+			<source>double margin - right</source>
+			<target>marge double - droite</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginright.doubleDescription">
+			<source>Add a double sized margin on the right of the element</source>
+			<target>Ajoute une marge doublée à droite de l'élément</target>
+		</trans-unit>
+
+		<!-- Migrations -->
+		<!-- General -->
+		<trans-unit id="WEMSG.MIGRATIONS.VERSIONCOMPARATOR.currentVersionHigher">
+			<source>Current version is higher than the migration's one (v%s &#155; v%s).</source>
+			<target>La version installée est plus récente que celle de la mise à jour (v%s &#155; v%s).</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.VERSIONCOMPARATOR.versionsEquals">
+			<source>Current version is equal to the migration's one (v%s == v%s).</source>
+			<target>La version installée est égale à celle de la mise à jour (v%s == v%s).</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.VERSIONCOMPARATOR.currentVersionLower">
+			<source>Current version is lower than the migration's one (v%s &#139; v%s).</source>
+			<target>La version installée est plus ancienne que celle de la mise à jour (v%s &#139; v%s).</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.shouldBeRun">
+			<source>Migration should be ran.</source>
+			<target>La mise à jour doit être appliquée.</target>
+		</trans-unit>
+		<!-- V1_0_0/M202203231730 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.name">
+			<source>Configures CSS classes</source>
+			<target>Configuration des classes CSS.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.description">
+			<source>Configures CSS classes available for contents.</source>
+			<target>Configuration des classes CSS pour les contenus.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.shouldRunStyleManagerPackageAbsent">
+			<source>Cannot execute this migration : "Style Manager" package seems absent.</source>
+			<target>La mise à jour ne peut être appliquée : le package "Style Manager" est absent.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.shouldRunCSSClassesAlreadyInDb">
+			<source>CSS classes already configured in database.</source>
+			<target>Les classes CSS sont déjà présentent en base de donnée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSMargins">
+			<source>Adding margins CSS classes in database.</source>
+			<target>Ajout des classes CSS de gestion des bordures.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSSeparators">
+			<source>Adding separators CSS classes in database.</source>
+			<target>Ajout des classes CSS de gestion des séparateurs.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSButtons">
+			<source>Adding buttons CSS classes in database.</source>
+			<target>Ajout des classes CSS de gestion des boutons.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSBackgrounds">
+			<source>Adding backgrounds CSS classes in database.</source>
+			<target>Ajout des classes CSS de gestion des fonds (background).</target>
+		</trans-unit>
+
+		<!-- Framway colors -->
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.blue">
+			<source>blue</source>
+			<target>bleu</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.green">
+			<source>green</source>
+			<target>vert</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.red">
+			<source>red</source>
+			<target>rouge</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.yellow">
+			<source>yellow</source>
+			<target>jaune</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.black">
+			<source>black</source>
+			<target>noir</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.blacklight">
+			<source>blacklight</source>
+			<target>noir clair</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.blacklighter">
+			<source>blacklighter</source>
+			<target>noir plus clair</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.greystronger">
+			<source>greystronger</source>
+			<target>gris plus foncé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.greystrong">
+			<source>greystrong</source>
+			<target>gris foncé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.grey">
+			<source>grey</source>
+			<target>gris</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.greylight">
+			<source>greylight</source>
+			<target>gris clair</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.greylighter">
+			<source>greylighter</source>
+			<target>gris plus clair</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.white">
+			<source>white</source>
+			<target>blanc</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.none">
+			<source>none</source>
+			<target>aucune</target>
 		</trans-unit>
 
 		<!-- heimrichhannot/contao-backend-lost-password-bundle -->
