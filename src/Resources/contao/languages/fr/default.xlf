@@ -1469,6 +1469,70 @@
 			<target>Ajoute une marge doublée à droite de l'élément</target>
 		</trans-unit>
 
+		<trans-unit id="WEMSG.STYLEMANAGER.fwtable.title">
+			<source>Framway - Table</source>
+			<target>Framway - Table</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwtablesm.title">
+			<source>Framway - Table - Small</source>
+			<target>Framway - Table - Réduit</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwtablesm.label">
+			<source>table - small</source>
+			<target>tableau - réduit</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwtablesm.description">
+			<source>Reduce spacing between columns and lines in order to reduce table global size</source>
+			<target>Réduit les espacements des colonnes et lignes afin de réduire la taille globale du tableau</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.STYLEMANAGER.fwtableborder.title">
+			<source>Framway - Table - Border</source>
+			<target>Framway - Table - Bordures</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwtableborder.borderedLabel">
+			<source>table - bordered</source>
+			<target>tableau - bordures</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwtableborder.borderedDescription">
+			<source>Add external borders to the table</source>
+			<target>Ajoute des bordures externes au tableau</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwtableborder.borderlessLabel">
+			<source>table - borderless</source>
+			<target>tableau - sans bordures</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwtableborder.borderlessDescription">
+			<source>Remove all table's borders</source>
+			<target>Retire toutes les bordures du tableau</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.STYLEMANAGER.fwtablestriped.title">
+			<source>Framway - Table - Striped</source>
+			<target>Framway - Table - Couleurs alternées</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwtablestriped.label">
+			<source>table - striped</source>
+			<target>tableau - couleurs alternées</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwtablestriped.description">
+			<source>Colors one line every two lines</source>
+			<target>Colore une ligne sur deux du tableau</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.STYLEMANAGER.fwtablehover.title">
+			<source>Framway - Table - Hover</source>
+			<target>Framway - Table - Survol</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwtablehover.label">
+			<source>table - hovered line</source>
+			<target>tableau - ligne colorée au survol</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwtablehover.description">
+			<source>Colors the hovered line</source>
+			<target>Met en valeur une ligne du tableau lorsqu’elle est survolée</target>
+		</trans-unit>
+
 		<!-- Migrations -->
 		<!-- General -->
 		<trans-unit id="WEMSG.MIGRATIONS.VERSIONCOMPARATOR.currentVersionHigher">
@@ -1520,6 +1584,12 @@
 			<source>Adding backgrounds CSS classes in database.</source>
 			<target>Ajout des classes CSS de gestion des fonds (background).</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSTables">
+			<source>Adding tablse CSS classes in database.</source>
+			<target>Ajout des classes CSS de gestion des tableaux.</target>
+		</trans-unit>
+
+
 
 		<!-- Framway colors -->
 		<trans-unit id="WEMSG.FRAMWAY.COLORS.blue">

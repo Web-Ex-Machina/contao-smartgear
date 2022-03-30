@@ -38,6 +38,7 @@ class Migration extends MigrationAbstract
         'button' => ['hyperlink'],
         'background' => ['headline', 'text', 'rsce_quote'],
         'separator' => ['headline'],
+        // no rules associated yet
         'table' => ['table'],
         'accordion' => ['accordionStart', 'accordionStop', 'rsce_accordionFW'],
         'slider' => ['sliderStart', 'sliderStop', 'rsce_sliderFW', 'rsce_testimonials'],
@@ -78,10 +79,12 @@ class Migration extends MigrationAbstract
         $objArchiveButton = StyleManagerArchiveModel::findByIdentifier('fwbutton');
         $objArchiveSeparator = StyleManagerArchiveModel::findByIdentifier('fwseparator');
         $objArchiveMargin = StyleManagerArchiveModel::findByIdentifier('fwmargin');
+        $objArchiveTable = StyleManagerArchiveModel::findByIdentifier('fwtable');
         if (null !== $objArchiveBackground
         && null !== $objArchiveButton
         && null !== $objArchiveSeparator
         && null !== $objArchiveMargin
+        && null !== $objArchiveTable
         ) {
             if (null !== StyleManagerModel::findByAliasAndPid('fwbackgroundcolor', $objArchiveBackground->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwbuttonsize', $objArchiveButton->id)
@@ -95,6 +98,10 @@ class Migration extends MigrationAbstract
             && null !== StyleManagerModel::findByAliasAndPid('fwmarginbottom', $objArchiveMargin->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwmarginleft', $objArchiveMargin->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwmarginright', $objArchiveMargin->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwtablesm', $objArchiveTable->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwtableborder', $objArchiveTable->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwtablestriped', $objArchiveTable->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwtablehover', $objArchiveTable->id)
             ) {
                 $result
                 ->setStatus(Result::STATUS_SKIPPED)
@@ -126,6 +133,8 @@ class Migration extends MigrationAbstract
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSButtons'), [], 'contao_default'));
             $this->manageBackgrounds();
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSBackgrounds'), [], 'contao_default'));
+            $this->manageTables();
+            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSTables'), [], 'contao_default'));
         } catch (\Exception $e) {
             $result
                 ->setStatus(Result::STATUS_FAIL)
@@ -136,10 +145,48 @@ class Migration extends MigrationAbstract
         return $result;
     }
 
+    protected function manageTables(): void
+    {
+        $contentElements = self::$elements['table'];
+        // Buttons
+        $objArchive = StyleManagerArchiveModel::findByIdentifier('fwtable') ?? new StyleManagerArchiveModel();
+        $objArchive->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwtable.title', [], 'contao_default');
+        $objArchive->description = '';
+        $objArchive->identifier = 'fwtable';
+        $objArchive->groupAlias = 'Framway';
+        $objArchive->tstamp = time();
+        $objArchive->save();
+        // Table - sm
+        $cssClasses = [
+            ['key' => 'table-sm', 'value' => 'WEMSG.STYLEMANAGER.fwtablesm.label'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwtablesm', 'WEMSG.STYLEMANAGER.fwtablesm.title', $contentElements, $cssClasses);
+        $objStyle->save();
+        // Table - border
+        $cssClasses = [
+            ['key' => 'table-bordered', 'value' => 'WEMSG.STYLEMANAGER.fwtableborder.borderedLabel'],
+            ['key' => 'table-borderless', 'value' => 'WEMSG.STYLEMANAGER.fwtableborder.borderlessLabel'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwtableborder', 'WEMSG.STYLEMANAGER.fwtableborder.title', $contentElements, $cssClasses);
+        $objStyle->save();
+        // Table - striped
+        $cssClasses = [
+            ['key' => 'table-striped', 'value' => 'WEMSG.STYLEMANAGER.fwtablestriped.label'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwtablestriped', 'WEMSG.STYLEMANAGER.fwtablestriped.title', $contentElements, $cssClasses);
+        $objStyle->save();
+        // Table - hover
+        $cssClasses = [
+            ['key' => 'table-hover', 'value' => 'WEMSG.STYLEMANAGER.fwtablehover.label'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwtablehover', 'WEMSG.STYLEMANAGER.fwtablehover.title', $contentElements, $cssClasses);
+        $objStyle->save();
+    }
+
     protected function manageBackgrounds(): void
     {
         $contentElements = self::$elements['background'];
-        // Buttons
+        // Background
         $objArchive = StyleManagerArchiveModel::findByIdentifier('fwbackground') ?? new StyleManagerArchiveModel();
         $objArchive->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwbackground.title', [], 'contao_default');
         $objArchive->description = '';
@@ -147,23 +194,13 @@ class Migration extends MigrationAbstract
         $objArchive->groupAlias = 'Framway';
         $objArchive->tstamp = time();
         $objArchive->save();
-        // Buttons - background
-        $objStyle = StyleManagerModel::findByAliasAndPid('fwbackgroundcolor', $objArchive->id) ?? new StyleManagerModel();
-        $objStyle->pid = $objArchive->id;
-        $objStyle->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwbackgroundcolor.title', [], 'contao_default');
-        $objStyle->alias = 'fwbackgroundcolor';
-        $objStyle->blankOption = true;
-        $objStyle->chosen = true;
-        $objStyle->tstamp = time();
-        $objStyle->contentElements = serialize($contentElements);
-        $objStyle->extendContentElement = true;
-
+        // Background - background
         $cssClasses = [
-            ['key' => 'bg-primary', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbackgroundcolor.bgPrimaryLabel', [], 'contao_default')],
-            ['key' => 'bg-secondary', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSecondaryLabel', [], 'contao_default')],
-            ['key' => 'bg-success', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSuccessLabel', [], 'contao_default')],
-            ['key' => 'bg-error', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbackgroundcolor.bgErrorLabel', [], 'contao_default')],
-            ['key' => 'bg-warning', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbackgroundcolor.bgWarningLabel', [], 'contao_default')],
+            ['key' => 'bg-primary', 'value' => 'WEMSG.STYLEMANAGER.fwbackgroundcolor.bgPrimaryLabel'],
+            ['key' => 'bg-secondary', 'value' => 'WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSecondaryLabel'],
+            ['key' => 'bg-success', 'value' => 'WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSuccessLabel'],
+            ['key' => 'bg-error', 'value' => 'WEMSG.STYLEMANAGER.fwbackgroundcolor.bgErrorLabel'],
+            ['key' => 'bg-warning', 'value' => 'WEMSG.STYLEMANAGER.fwbackgroundcolor.bgWarningLabel'],
         ];
         $colors = $this->configurationThemeManager->load()->getColors();
         foreach ($colors as $name => $hexa) {
@@ -171,9 +208,10 @@ class Migration extends MigrationAbstract
                 'key' => 'bg-'.$name,
                 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbackgroundcolor.bgColorLabel', [
                     $this->translator->trans('WEMSG.FRAMWAY.COLORS.'.$name, [], 'contao_default'),
-                ], 'contao_default'), ];
+                ], 'contao_default'),
+                'translated' => true, ];
         }
-        $objStyle->cssClasses = serialize($cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwbackgroundcolor', 'WEMSG.STYLEMANAGER.fwbackgroundcolor.title', $contentElements, $cssClasses);
         $objStyle->save();
     }
 
@@ -189,38 +227,20 @@ class Migration extends MigrationAbstract
         $objArchive->tstamp = time();
         $objArchive->save();
         // Buttons - size
-        $objStyle = StyleManagerModel::findByAliasAndPid('fwbuttonsize', $objArchive->id) ?? new StyleManagerModel();
-        $objStyle->pid = $objArchive->id;
-        $objStyle->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonsize.title', [], 'contao_default');
-        $objStyle->alias = 'fwbuttonsize';
-        $objStyle->blankOption = true;
-        $objStyle->chosen = true;
-        $objStyle->tstamp = time();
-        $objStyle->contentElements = serialize($contentElements);
-        $objStyle->extendContentElement = true;
-        $objStyle->cssClasses = serialize([
-            ['key' => 'btn', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonsize.sizeLabel', [], 'contao_default')],
-            ['key' => 'btn-sm', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonsize.sizeSmLabel', [], 'contao_default')],
-            ['key' => 'btn-lg', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonsize.sizeLgLabel', [], 'contao_default')],
-        ]);
+        $cssClasses = [
+            ['key' => 'btn', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonsize.sizeLabel'],
+            ['key' => 'btn-sm', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonsize.sizeSmLabel'],
+            ['key' => 'btn-lg', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonsize.sizeLgLabel'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonsize', 'WEMSG.STYLEMANAGER.fwbuttonsize.title', $contentElements, $cssClasses);
         $objStyle->save();
         // Buttons - background
-        $objStyle = StyleManagerModel::findByAliasAndPid('fwbuttonbackground', $objArchive->id) ?? new StyleManagerModel();
-        $objStyle->pid = $objArchive->id;
-        $objStyle->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonbackground.title', [], 'contao_default');
-        $objStyle->alias = 'fwbuttonbackground';
-        $objStyle->blankOption = true;
-        $objStyle->chosen = true;
-        $objStyle->tstamp = time();
-        $objStyle->contentElements = serialize($contentElements);
-        $objStyle->extendContentElement = true;
-
         $cssClasses = [
-            ['key' => 'btn-bg-primary', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonbackground.bgPrimaryLabel', [], 'contao_default')],
-            ['key' => 'btn-bg-secondary', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonbackground.bgSecondaryLabel', [], 'contao_default')],
-            ['key' => 'btn-bg-success', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonbackground.bgSuccessLabel', [], 'contao_default')],
-            ['key' => 'btn-bg-error', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonbackground.bgErrorLabel', [], 'contao_default')],
-            ['key' => 'btn-bg-warning', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonbackground.bgWarningLabel', [], 'contao_default')],
+            ['key' => 'btn-bg-primary', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonbackground.bgPrimaryLabel'],
+            ['key' => 'btn-bg-secondary', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonbackground.bgSecondaryLabel'],
+            ['key' => 'btn-bg-success', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonbackground.bgSuccessLabel'],
+            ['key' => 'btn-bg-error', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonbackground.bgErrorLabel'],
+            ['key' => 'btn-bg-warning', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonbackground.bgWarningLabel'],
         ];
 
         $colors = $this->configurationThemeManager->load()->getColors();
@@ -229,27 +249,18 @@ class Migration extends MigrationAbstract
                 'key' => 'btn-bg-'.$name,
                 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonbackground.bgColorLabel', [
                     $this->translator->trans('WEMSG.FRAMWAY.COLORS.'.$name, [], 'contao_default'),
-                ], 'contao_default'), ];
+                ], 'contao_default'),
+                'translated' => true, ];
         }
-        $objStyle->cssClasses = serialize($cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonbackground', 'WEMSG.STYLEMANAGER.fwbuttonbackground.title', $contentElements, $cssClasses);
         $objStyle->save();
         // Buttons - border
-        $objStyle = StyleManagerModel::findByAliasAndPid('fwbuttonborder', $objArchive->id) ?? new StyleManagerModel();
-        $objStyle->pid = $objArchive->id;
-        $objStyle->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonborder.title', [], 'contao_default');
-        $objStyle->alias = 'fwbuttonborder';
-        $objStyle->blankOption = true;
-        $objStyle->chosen = true;
-        $objStyle->tstamp = time();
-        $objStyle->contentElements = serialize($contentElements);
-        $objStyle->extendContentElement = true;
-
         $cssClasses = [
-            ['key' => 'btn-bd-primary', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonborder.bdPrimaryLabel', [], 'contao_default')],
-            ['key' => 'btn-bd-secondary', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonborder.bdSecondaryLabel', [], 'contao_default')],
-            ['key' => 'btn-bd-success', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonborder.bdSuccessLabel', [], 'contao_default')],
-            ['key' => 'btn-bd-error', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonborder.bdErrorLabel', [], 'contao_default')],
-            ['key' => 'btn-bd-warning', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonborder.bdWarningLabel', [], 'contao_default')],
+            ['key' => 'btn-bd-primary', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonborder.bdPrimaryLabel'],
+            ['key' => 'btn-bd-secondary', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonborder.bdSecondaryLabel'],
+            ['key' => 'btn-bd-success', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonborder.bdSuccessLabel'],
+            ['key' => 'btn-bd-error', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonborder.bdErrorLabel'],
+            ['key' => 'btn-bd-warning', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonborder.bdWarningLabel'],
         ];
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
@@ -258,7 +269,7 @@ class Migration extends MigrationAbstract
                     $this->translator->trans('WEMSG.FRAMWAY.COLORS.'.$name, [], 'contao_default'),
                 ], 'contao_default'), ];
         }
-        $objStyle->cssClasses = serialize($cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonborder', 'WEMSG.STYLEMANAGER.fwbuttonborder.title', $contentElements, $cssClasses);
         $objStyle->save();
     }
 
@@ -274,60 +285,28 @@ class Migration extends MigrationAbstract
         $objArchive->tstamp = time();
         $objArchive->save();
         // separators - top
-        $objStyle = StyleManagerModel::findByAliasAndPid('fwseparatortop', $objArchive->id) ?? new StyleManagerModel();
-        $objStyle->pid = $objArchive->id;
-        $objStyle->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwseparatortop.title', [], 'contao_default');
-        $objStyle->alias = 'fwseparatortop';
-        $objStyle->blankOption = true;
-        $objStyle->chosen = true;
-        $objStyle->tstamp = time();
-        $objStyle->contentElements = serialize($contentElements);
-        $objStyle->extendContentElement = true;
-        $objStyle->cssClasses = serialize([
-            ['key' => 'sep-top', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwseparatortop.label', [], 'contao_default')],
-        ]);
+        $cssClasses = [
+            ['key' => 'sep-top', 'value' => 'WEMSG.STYLEMANAGER.fwseparatortop.label'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatortop', 'WEMSG.STYLEMANAGER.fwseparatortop.title', $contentElements, $cssClasses);
         $objStyle->save();
         // separators - bottom
-        $objStyle = StyleManagerModel::findByAliasAndPid('fwseparatorbottom', $objArchive->id) ?? new StyleManagerModel();
-        $objStyle->pid = $objArchive->id;
-        $objStyle->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwseparatorbottom.title', [], 'contao_default');
-        $objStyle->alias = 'fwseparatorbottom';
-        $objStyle->blankOption = true;
-        $objStyle->chosen = true;
-        $objStyle->tstamp = time();
-        $objStyle->contentElements = serialize($contentElements);
-        $objStyle->extendContentElement = true;
-        $objStyle->cssClasses = serialize([
-            ['key' => 'sep-bottom', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwseparatorbottom.label', [], 'contao_default')],
-        ]);
+        $cssClasses = [
+            ['key' => 'sep-bottom', 'value' => 'WEMSG.STYLEMANAGER.fwseparatorbottom.label'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatorbottom', 'WEMSG.STYLEMANAGER.fwseparatorbottom.title', $contentElements, $cssClasses);
         $objStyle->save();
         // separators - left
-        $objStyle = StyleManagerModel::findByAliasAndPid('fwseparatorleft', $objArchive->id) ?? new StyleManagerModel();
-        $objStyle->pid = $objArchive->id;
-        $objStyle->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwseparatorleft.title', [], 'contao_default');
-        $objStyle->alias = 'fwseparatorleft';
-        $objStyle->blankOption = true;
-        $objStyle->chosen = true;
-        $objStyle->tstamp = time();
-        $objStyle->contentElements = serialize($contentElements);
-        $objStyle->extendContentElement = true;
-        $objStyle->cssClasses = serialize([
-            ['key' => 'sep-left', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwseparatorleft.label', [], 'contao_default')],
-        ]);
+        $cssClasses = [
+            ['key' => 'sep-left', 'value' => 'WEMSG.STYLEMANAGER.fwseparatorleft.label'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatorleft', 'WEMSG.STYLEMANAGER.fwseparatorleft.title', $contentElements, $cssClasses);
         $objStyle->save();
         // separators - right
-        $objStyle = StyleManagerModel::findByAliasAndPid('fwseparatorright', $objArchive->id) ?? new StyleManagerModel();
-        $objStyle->pid = $objArchive->id;
-        $objStyle->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwseparatorright.title', [], 'contao_default');
-        $objStyle->alias = 'fwseparatorright';
-        $objStyle->blankOption = true;
-        $objStyle->chosen = true;
-        $objStyle->tstamp = time();
-        $objStyle->contentElements = serialize($contentElements);
-        $objStyle->extendContentElement = true;
-        $objStyle->cssClasses = serialize([
-            ['key' => 'sep-right', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwseparatorright.label', [], 'contao_default')],
-        ]);
+        $cssClasses = [
+            ['key' => 'sep-right', 'value' => 'WEMSG.STYLEMANAGER.fwseparatorright.label'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatorright', 'WEMSG.STYLEMANAGER.fwseparatorright.title', $contentElements, $cssClasses);
         $objStyle->save();
     }
 
@@ -343,68 +322,60 @@ class Migration extends MigrationAbstract
         $objArchive->tstamp = time();
         $objArchive->save();
         // margins - top
-        $objStyle = StyleManagerModel::findByAliasAndPid('fwmargintop', $objArchive->id) ?? new StyleManagerModel();
-        $objStyle->pid = $objArchive->id;
-        $objStyle->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwmargintop.title', [], 'contao_default');
-        $objStyle->alias = 'fwmargintop';
-        $objStyle->blankOption = true;
-        $objStyle->chosen = true;
-        $objStyle->tstamp = time();
-        $objStyle->contentElements = serialize($contentElements);
-        $objStyle->extendContentElement = true;
-        $objStyle->cssClasses = serialize([
-            ['key' => 'm-top-0', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwmargintop.noLabel', [], 'contao_default')],
-            ['key' => 'm-top', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwmargintop.label', [], 'contao_default')],
-            ['key' => 'm-top-x2', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwmargintop.doubleLabel', [], 'contao_default')],
-        ]);
+        $cssClasses = [
+            ['key' => 'm-top-0', 'value' => 'WEMSG.STYLEMANAGER.fwmargintop.noLabel'],
+            ['key' => 'm-top', 'value' => 'WEMSG.STYLEMANAGER.fwmargintop.label'],
+            ['key' => 'm-top-x2', 'value' => 'WEMSG.STYLEMANAGER.fwmargintop.doubleLabel'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwmargintop', 'WEMSG.STYLEMANAGER.fwmargintop.title', $contentElements, $cssClasses);
         $objStyle->save();
         // margins - bottom
-        $objStyle = StyleManagerModel::findByAliasAndPid('fwmarginbottom', $objArchive->id) ?? new StyleManagerModel();
-        $objStyle->pid = $objArchive->id;
-        $objStyle->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwmarginbottom.title', [], 'contao_default');
-        $objStyle->alias = 'fwmarginbottom';
-        $objStyle->blankOption = true;
-        $objStyle->chosen = true;
-        $objStyle->tstamp = time();
-        $objStyle->contentElements = serialize($contentElements);
-        $objStyle->extendContentElement = true;
-        $objStyle->cssClasses = serialize([
-            ['key' => 'm-bottom-0', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwmarginbottom.noLabel', [], 'contao_default')],
-            ['key' => 'm-bottom', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwmarginbottom.label', [], 'contao_default')],
-            ['key' => 'm-bottom-x2', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwmarginbottom.doubleLabel', [], 'contao_default')],
-        ]);
+        $cssClasses = [
+            ['key' => 'm-bottom-0', 'value' => 'WEMSG.STYLEMANAGER.fwmarginbottom.noLabel'],
+            ['key' => 'm-bottom', 'value' => 'WEMSG.STYLEMANAGER.fwmarginbottom.label'],
+            ['key' => 'm-bottom-x2', 'value' => 'WEMSG.STYLEMANAGER.fwmarginbottom.doubleLabel'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwmarginbottom', 'WEMSG.STYLEMANAGER.fwmarginbottom.title', $contentElements, $cssClasses);
         $objStyle->save();
         // margins - left
-        $objStyle = StyleManagerModel::findByAliasAndPid('fwmarginleft', $objArchive->id) ?? new StyleManagerModel();
-        $objStyle->pid = $objArchive->id;
-        $objStyle->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwmarginleft.title', [], 'contao_default');
-        $objStyle->alias = 'fwmarginleft';
-        $objStyle->blankOption = true;
-        $objStyle->chosen = true;
-        $objStyle->tstamp = time();
-        $objStyle->contentElements = serialize($contentElements);
-        $objStyle->extendContentElement = true;
-        $objStyle->cssClasses = serialize([
-            ['key' => 'm-left-0', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwmarginleft.noLabel', [], 'contao_default')],
-            ['key' => 'm-left', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwmarginleft.label', [], 'contao_default')],
-            ['key' => 'm-left-x2', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwmarginleft.doubleLabel', [], 'contao_default')],
-        ]);
+        $cssClasses = [
+            ['key' => 'm-left-0', 'value' => 'WEMSG.STYLEMANAGER.fwmarginleft.noLabel'],
+            ['key' => 'm-left', 'value' => 'WEMSG.STYLEMANAGER.fwmarginleft.label'],
+            ['key' => 'm-left-x2', 'value' => 'WEMSG.STYLEMANAGER.fwmarginleft.doubleLabel'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwmarginleft', 'WEMSG.STYLEMANAGER.fwmarginleft.title', $contentElements, $cssClasses);
         $objStyle->save();
         // margins - right
-        $objStyle = StyleManagerModel::findByAliasAndPid('fwmarginright', $objArchive->id) ?? new StyleManagerModel();
-        $objStyle->pid = $objArchive->id;
-        $objStyle->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwmarginright.title', [], 'contao_default');
-        $objStyle->alias = 'fwmarginright';
+        $cssClasses = [
+            ['key' => 'm-right-0', 'value' => 'WEMSG.STYLEMANAGER.fwmarginright.noLabel'],
+            ['key' => 'm-right', 'value' => 'WEMSG.STYLEMANAGER.fwmarginright.label'],
+            ['key' => 'm-right-x2', 'value' => 'WEMSG.STYLEMANAGER.fwmarginright.doubleLabel'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwmarginright', 'WEMSG.STYLEMANAGER.fwmarginright.title', $contentElements, $cssClasses);
+        $objStyle->save();
+    }
+
+    private function fillObjStyle($pid, $alias, $titleKey, array $contentElements, array $cssClasses): StyleManagerModel
+    {
+        $objStyle = StyleManagerModel::findByAliasAndPid($alias, $pid) ?? new StyleManagerModel();
+        $objStyle->pid = $pid;
+        $objStyle->title = $this->translator->trans($titleKey, [], 'contao_default');
+        $objStyle->alias = $alias;
         $objStyle->blankOption = true;
         $objStyle->chosen = true;
         $objStyle->tstamp = time();
         $objStyle->contentElements = serialize($contentElements);
         $objStyle->extendContentElement = true;
-        $objStyle->cssClasses = serialize([
-            ['key' => 'm-right-0', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwmarginright.noLabel', [], 'contao_default')],
-            ['key' => 'm-right', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwmarginright.label', [], 'contao_default')],
-            ['key' => 'm-right-x2', 'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwmarginright.doubleLabel', [], 'contao_default')],
-        ]);
-        $objStyle->save();
+        $cssClasses = [
+            ['key' => 'table-sm', 'value' => $this->translator->trans($titleKey, [], 'contao_default')],
+        ];
+        foreach ($cssClasses as $index => $cssClass) {
+            if (!\array_key_exists('translated', $cssClass)) {
+                $cssClasses[$index] = ['key' => $cssClass['key'], 'value' => $this->translator->trans($cssClass['value'], [], 'contao_default')];
+            }
+        }
+        $objStyle->cssClasses = serialize($cssClasses);
+
+        return $objStyle;
     }
 }
