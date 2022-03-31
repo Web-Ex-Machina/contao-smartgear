@@ -54,6 +54,7 @@ function updatePaletteText(): void
 function updatePaletteTable(): void
 {
     PaletteManipulator::create()
+        ->removeField('headline')
         ->removeField('customTpl')
         ->removeField('guests')
         ->removeField('cssID')
@@ -65,6 +66,7 @@ function updatePaletteTable(): void
 function updatePaletteAccordion(): void
 {
     PaletteManipulator::create()
+        ->removeField('headline')
         ->removeField('customTpl')
         ->removeField('guests')
         ->removeField('cssID')
@@ -73,6 +75,7 @@ function updatePaletteAccordion(): void
         ->applyToPalette('accordionStart', 'tl_content')
     ;
     PaletteManipulator::create()
+        ->removeField('headline')
         ->removeField('customTpl')
         ->removeField('guests')
         ->removeField('cssID')
@@ -85,6 +88,7 @@ function updatePaletteAccordion(): void
 function updatePaletteSlider(): void
 {
     // PaletteManipulator::create()
+        // ->removeField('headline')
     //     ->removeField('customTpl')
     //     ->removeField('guests')
     //     ->removeField('cssID')
@@ -93,6 +97,7 @@ function updatePaletteSlider(): void
     //     ->applyToPalette('sliderStart', 'tl_content')
     // ;
     // PaletteManipulator::create()
+        // ->removeField('headline')
     //     ->removeField('customTpl')
     //     ->removeField('guests')
     //     ->removeField('cssID')
@@ -105,6 +110,7 @@ function updatePaletteSlider(): void
 function updatePaletteHyperlink(): void
 {
     PaletteManipulator::create()
+        ->removeField('headline')
         ->removeField('customTpl')
         ->removeField('guests')
         ->removeField('cssID')
@@ -118,6 +124,7 @@ function updatePaletteHyperlink(): void
 function updatePaletteImage(): void
 {
     PaletteManipulator::create()
+        ->removeField('headline')
         ->removeField('customTpl')
         ->removeField('guests')
         ->removeField('cssID')
@@ -129,6 +136,7 @@ function updatePaletteImage(): void
 function updatePalettePlayer(): void
 {
     // PaletteManipulator::create()
+        // ->removeField('headline')
     //     ->removeField('customTpl')
     //     ->removeField('guests')
     //     ->removeField('cssID')
