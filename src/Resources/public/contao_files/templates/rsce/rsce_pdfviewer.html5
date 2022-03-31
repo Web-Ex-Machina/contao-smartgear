@@ -1,7 +1,8 @@
+<?php $objFile = FilesModel::findByUuid($this->source); ?>
 <div class="<?= $this->class ?>"<?= $this->cssID ?>>
-	<iframe src="<?= $this->source->path; ?>" />
-	<?php if($this->downloadable): ?>
-	<a href="<?= $this->source->path; ?>" title="<?= $this->download_button_title; ?>" class="btn <?= $this->download_button_type; ?>">
+	<iframe src="<?= $objFile->path; ?>"></iframe>
+	<?php if((bool)$this->downloadable): ?>
+	<a href="<?= $objFile->path; ?>" title="<?= $this->download_button_title; ?>" class="btn <?= $this->download_button_type; ?>">
 		<?= $this->download_button_text; ?>
 	</a>
 	<?php endif; ?>

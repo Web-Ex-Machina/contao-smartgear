@@ -15,7 +15,7 @@ declare(strict_types=1);
 return [
     'label' => ['Affichage PDF', 'Bloc d\'affichage de PDF'],
     'contentCategory' => 'SMARTGEAR',
-    'standardFields' => ['cssID', 'headline'],
+    'standardFields' => ['cssID'],
     'fields' => [
         'source' => [
             'label' => ['Fichier PDF', 'Sélectionnez le fichier PDF à afficher'],
@@ -25,21 +25,23 @@ return [
         'downloadable' => [
             'label' => ['Fichier téléchargeable', 'Définissez si le PDF peut être téléchargé'],
             'inputType' => 'radio',
+            'options' => ['true'],
             'eval' => ['tl_class' => 'w50 clr'],
         ],
         'download_button_type' => [
-            'label' => ['Type de bouton', 'Définissez si le type de bouton'],
-            'eval' => ['tl_class' => 'w50'],
+            'label' => ['Type de bouton', 'Définissez le type de bouton'],
+            'inputType' => 'text',
+            'eval' => ['tl_class' => 'w50 clr'],
         ],
         'download_button_text' => [
-            'label' => ['Texte du bouton', 'Définissez si le texte du bouton'],
+            'label' => ['Texte du bouton', 'Définissez le texte du bouton'],
             'inputType' => 'text',
             'eval' => ['tl_class' => 'w50'],
         ],
         'download_button_title' => [
-            'label' => ['Titre du bouton', 'Définissez si le texte affiché au survol du bouton'],
+            'label' => ['Titre du bouton', 'Définissez le texte affiché au survol du bouton'],
             'inputType' => 'text',
-            'eval' => ['tl_class' => 'w100'],
+            'eval' => ['tl_class' => 'w100 clr'],
         ],
         // 'noteMax' => [
         //     'label' => ['Note maximale', 'Définissez la note maximale possible.'],

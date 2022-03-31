@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2020 Web ex Machina
+ * Copyright (c) 2015-2022 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -34,6 +34,7 @@ TemplateLoader::addFiles(
         'rsce_tabs' => 'templates/rsce',
         'rsce_testimonials' => 'templates/rsce',
         'rsce_timeline' => 'templates/rsce',
+        'rsce_pdfviewer' => 'templates/rsce',
 
         // Backend Templates
         'be_wem_sg_install' => 'system/modules/wem-contao-smartgear/templates/backend',
