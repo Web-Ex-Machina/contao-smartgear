@@ -17,9 +17,9 @@ return [
     'contentCategory' => 'SMARTGEAR',
     'standardFields' => ['cssID'],
     'fields' => [
-        'headline' => [
-            'inputType' => 'standardField', 'eval' => ['tl_class' => 'w100'],
-        ],
+        // 'headline' => [
+        //     'inputType' => 'standardField', 'eval' => ['tl_class' => 'w100'],
+        // ],
         'nbCols_default' => [
             'label' => ['Nombre de colonnes', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'],
             'inputType' => 'text',

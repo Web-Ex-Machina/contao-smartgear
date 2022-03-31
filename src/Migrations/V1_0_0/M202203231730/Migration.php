@@ -88,7 +88,7 @@ class Migration extends MigrationAbstract
         $objArchiveGridItem = StyleManagerArchiveModel::findByIdentifier('fwgriditem');
         $objArchivePriceCard = StyleManagerArchiveModel::findByIdentifier('fwpricecard');
 
-        if (null !== $objArchiveBackground
+        if (null === $objArchiveBackground
         && null !== $objArchiveButton
         && null !== $objArchiveSeparator
         && null !== $objArchiveMargin
@@ -241,6 +241,7 @@ class Migration extends MigrationAbstract
         $objArchive->save();
 
         // Price card - text color
+        $cssClasses = [];
         $colors = $this->configurationThemeManager->load()->getColors();
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
@@ -254,6 +255,7 @@ class Migration extends MigrationAbstract
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardft', 'WEMSG.STYLEMANAGER.fwpricecardft.title', $contentElements, $cssClasses);
         $objStyle->save();
         // Price card - bg color
+        $cssClasses = [];
         $colors = $this->configurationThemeManager->load()->getColors();
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
@@ -267,6 +269,7 @@ class Migration extends MigrationAbstract
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardbg', 'WEMSG.STYLEMANAGER.fwpricecardbg.title', $contentElements, $cssClasses);
         $objStyle->save();
         // Price card - content color
+        $cssClasses = [];
         $colors = $this->configurationThemeManager->load()->getColors();
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
@@ -865,7 +868,7 @@ class Migration extends MigrationAbstract
         // Hero - contenthorizontal
         $cssClasses = [
             ['key' => 'content--h--left', 'value' => 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.leftLabel'],
-            ['key' => 'content--h--ce,ter', 'value' => 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.centerLabel'],
+            ['key' => 'content--h--center', 'value' => 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.centerLabel'],
             ['key' => 'content--h--right', 'value' => 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.rightLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwherocontenthorizontal', 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.title', $contentElements, $cssClasses);
@@ -880,6 +883,7 @@ class Migration extends MigrationAbstract
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwherotitle', 'WEMSG.STYLEMANAGER.fwherotitle.title', $contentElements, $cssClasses);
         $objStyle->save();
         // Hero - text color
+        $cssClasses = [];
         $colors = $this->configurationThemeManager->load()->getColors();
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
@@ -893,6 +897,7 @@ class Migration extends MigrationAbstract
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwheroft', 'WEMSG.STYLEMANAGER.fwheroft.title', $contentElements, $cssClasses);
         $objStyle->save();
         // Hero - bg color
+        $cssClasses = [];
         $colors = $this->configurationThemeManager->load()->getColors();
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
@@ -1009,7 +1014,7 @@ class Migration extends MigrationAbstract
         // Slider - contenthorizontal
         $cssClasses = [
             ['key' => 'content--h--left', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.leftLabel'],
-            ['key' => 'content--h--ce,ter', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.centerLabel'],
+            ['key' => 'content--h--center', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.centerLabel'],
             ['key' => 'content--h--right', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.rightLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwslidercontenthorizontal', 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.title', $contentElements, $cssClasses);
@@ -1024,6 +1029,7 @@ class Migration extends MigrationAbstract
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwslidertitle', 'WEMSG.STYLEMANAGER.fwslidertitle.title', $contentElements, $cssClasses);
         $objStyle->save();
         // Slider - text color
+        $cssClasses = [];
         $colors = $this->configurationThemeManager->load()->getColors();
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
@@ -1037,6 +1043,7 @@ class Migration extends MigrationAbstract
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwsliderft', 'WEMSG.STYLEMANAGER.fwsliderft.title', $contentElements, $cssClasses);
         $objStyle->save();
         // Slider - bg color
+        $cssClasses = [];
         $colors = $this->configurationThemeManager->load()->getColors();
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [

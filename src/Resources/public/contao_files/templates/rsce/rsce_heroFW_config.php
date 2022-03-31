@@ -83,10 +83,10 @@ return [
             'label' => ['Contenu'],
             'inputType' => 'group',
         ],
-        'headline' => [
-            'inputType' => 'standardField',
-            'eval' => ['mandatory' => false],
-        ],
+        // 'headline' => [
+        //     'inputType' => 'standardField',
+        //     'eval' => ['mandatory' => false],
+        // ],
         'title_modifier' => [
             'label' => ['Variante titre', 'Ajoute un style particulier au titre'],
             'inputType' => 'select',

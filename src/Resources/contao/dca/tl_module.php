@@ -27,6 +27,7 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 /*
  * Add fields for header component
  */
+
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_header_content';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_navigation';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['wem_sg_header'] = '
@@ -141,26 +142,42 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['wem_sg_number_of_characters'] = [
     'sql' => 'int NOT NULL default 0',
 ];
 
-PaletteManipulator::create()
+$paletteManipulator = PaletteManipulator::create()
     ->addField('wem_sg_display_share_buttons', 'config_legend')
-    ->applyToPalette('newsreader', 'tl_module')
-    ->applyToPalette('eventreader', 'tl_module')
-    ->applyToPalette('faqpage', 'tl_module')
-    ->applyToPalette('faqreader', 'tl_module')
-    ->applyToPalette('newsletterreader', 'tl_module')
 ;
-PaletteManipulator::create()
-    ->addField('wem_sg_number_of_characters', 'config_legend')
-    ->applyToPalette('newsreader', 'tl_module')
-    ->applyToPalette('newslist', 'tl_module')
-    ->applyToPalette('eventreader', 'tl_module')
-    ->applyToPalette('eventlist', 'tl_module')
-    ->applyToPalette('faqpage', 'tl_module')
-    ->applyToPalette('faqreader', 'tl_module')
-    ->applyToPalette('newsletterreader', 'tl_module')
-;
+$palettesToUpdate = [
+    'newsreader',
+    'eventreader',
+    'faqpage',
+    'faqreader',
+    'newsletterreader',
+];
 
-class tl_module extends tl_module
+foreach ($palettesToUpdate as $paletteName) {
+    if (\array_key_exists($paletteName, $GLOBALS['TL_DCA']['tl_module']['palettes'])) {
+        $paletteManipulator->applyToPalette($paletteName, 'tl_module');
+    }
+}
+
+$paletteManipulator = PaletteManipulator::create()
+    ->addField('wem_sg_number_of_characters', 'config_legend')
+;
+$palettesToUpdate = [
+    'newsreader',
+    'newslist',
+    'eventreader',
+    'eventlist',
+    'faqpage',
+    'faqreader',
+    'newsletterreader',
+];
+foreach ($palettesToUpdate as $paletteName) {
+    if (\array_key_exists($paletteName, $GLOBALS['TL_DCA']['tl_module']['palettes'])) {
+        $paletteManipulator->applyToPalette($paletteName, 'tl_module');
+    }
+}
+
+class tl_wem_sg_module extends tl_module
 {
     /**
      * Return the edit module wizard.

@@ -57,11 +57,11 @@ return [
         ],
         'listItems' => [
             'label' => ['Price Cards', 'Editez les cards'], 'elementLabel' => '%s. price card', 'inputType' => 'list', 'fields' => [
-                'title' => [
-                    'label' => &$GLOBALS['TL_LANG']['tl_content']['headline'],
-                    'inputType' => 'text',
-                    'eval' => ['mandatory' => false],
-                ],
+                // 'title' => [
+                //     'label' => &$GLOBALS['TL_LANG']['tl_content']['headline'],
+                //     'inputType' => 'text',
+                //     'eval' => ['mandatory' => false],
+                // ],
                 'price_legend' => [
                     'label' => ['Prix'], 'inputType' => 'group',
                 ],
