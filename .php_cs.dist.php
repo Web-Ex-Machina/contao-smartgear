@@ -32,6 +32,7 @@ $config = new PhpCsFixer\Config();
 return $config->setRules([
     '@Symfony' => true,
     '@Symfony:risky' => true,
+    'psr_autoloading'=>false, //this forces classes to match their filename, which isn't not desired for dca overrides, so it is disabled (part of @Symfony:risky)
     '@PHP71Migration' => true,
     '@PHP71Migration:risky' => true,
     '@PHPUnit60Migration:risky' => true,
