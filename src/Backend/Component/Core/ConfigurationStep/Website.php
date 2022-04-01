@@ -19,6 +19,7 @@ use Contao\ContentModel;
 use Contao\File;
 use Contao\Files;
 use Contao\FilesModel;
+use Contao\Folder;
 use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\LayoutModel;
@@ -632,8 +633,11 @@ class Website extends ConfigurationStep
     protected function uploadLogo(): File
     {
         $fm = Files::getInstance();
-        $fm->move_uploaded_file($_FILES['sgWebsiteLogo']['tmp_name'], 'files/'.$_FILES['sgWebsiteLogo']['name']);
-        $objFile = new File('files/'.$_FILES['sgWebsiteLogo']['name']);
+        $logoFolder = new Folder('files/media/logos');
+        if (!$fm->move_uploaded_file($_FILES['sgWebsiteLogo']['tmp_name'], 'files/media/logos/'.$_FILES['sgWebsiteLogo']['name'])) {
+            throw new Exception(sprintf('Unable to upload logo to "%s".', 'files/media/logos/'.$_FILES['sgWebsiteLogo']['name']));
+        }
+        $objFile = new File('files/media/logos/'.$_FILES['sgWebsiteLogo']['name']);
 
         return $objFile;
     }
