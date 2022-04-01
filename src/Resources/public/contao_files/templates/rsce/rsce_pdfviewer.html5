@@ -1,14 +1,10 @@
 <?php 
-	$objFile = new File(FilesModel::findByUuid($this->source)->path); 
-	$strFile = sprintf(
-            'data:application/%s;base64,%s',
-            $objFile->extension,
-            base64_encode($objFile->getContent())
-        );
-
+	$objFile = FilesModel::findByUuid($this->source); 
 ?>
 <div class="<?= $this->class ?>"<?= $this->cssID ?>>
-	<iframe src="<?= $strFile; ?>"></iframe>
+	<div class="pdfviewer__iframe">
+		<iframe src="<?= $objFile->path; ?>" title="<?= $objFile->name; ?>"></iframe>
+	</div>
 	<?php if((bool)$this->downloadable): ?>
 	<a href="<?= $objFile->path; ?>" title="<?= $this->download_button_title; ?>" class="btn <?= $this->download_button_type; ?>" target="_blank">
 		<?= $this->download_button_text; ?>
