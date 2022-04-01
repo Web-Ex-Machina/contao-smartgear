@@ -1,8 +1,16 @@
-<?php $objFile = FilesModel::findByUuid($this->source); ?>
+<?php 
+	$objFile = new File(FilesModel::findByUuid($this->source)->path); 
+	$strFile = sprintf(
+            'data:application/%s;base64,%s',
+            $objFile->extension,
+            base64_encode($objFile->getContent())
+        );
+
+?>
 <div class="<?= $this->class ?>"<?= $this->cssID ?>>
-	<iframe src="<?= $objFile->path; ?>"></iframe>
+	<iframe src="<?= $strFile; ?>"></iframe>
 	<?php if((bool)$this->downloadable): ?>
-	<a href="<?= $objFile->path; ?>" title="<?= $this->download_button_title; ?>" class="btn <?= $this->download_button_type; ?>">
+	<a href="<?= $objFile->path; ?>" title="<?= $this->download_button_title; ?>" class="btn <?= $this->download_button_type; ?>" target="_blank">
 		<?= $this->download_button_text; ?>
 	</a>
 	<?php endif; ?>
