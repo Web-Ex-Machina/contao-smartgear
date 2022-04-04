@@ -246,10 +246,7 @@ class Migration extends MigrationAbstract
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
                 'key' => 'ft-'.$name,
-                'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwpricecardft.colorLabel', [
-                    $this->translator->trans('WEMSG.FRAMWAY.COLORS.'.$name, [], 'contao_default'),
-                ], 'contao_default'),
-                'translated' => true,
+                'value' => sprintf('WEMSG.STYLEMANAGER.fwpricecardft.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardft', 'WEMSG.STYLEMANAGER.fwpricecardft.title', $contentElements, $cssClasses);
@@ -260,10 +257,7 @@ class Migration extends MigrationAbstract
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
                 'key' => 'bg--'.$name,
-                'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwpricecardbg.colorLabel', [
-                    $this->translator->trans('WEMSG.FRAMWAY.COLORS.'.$name, [], 'contao_default'),
-                ], 'contao_default'),
-                'translated' => true,
+                'value' => sprintf('WEMSG.STYLEMANAGER.fwpricecardbg.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardbg', 'WEMSG.STYLEMANAGER.fwpricecardbg.title', $contentElements, $cssClasses);
@@ -274,10 +268,7 @@ class Migration extends MigrationAbstract
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
                 'key' => 'content--'.$name,
-                'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwpricecardcontent.colorLabel', [
-                    $this->translator->trans('WEMSG.FRAMWAY.COLORS.'.$name, [], 'contao_default'),
-                ], 'contao_default'),
-                'translated' => true,
+                'value' => sprintf('WEMSG.STYLEMANAGER.fwpricecardcontent.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardcontent', 'WEMSG.STYLEMANAGER.fwpricecardcontent.title', $contentElements, $cssClasses);
@@ -888,10 +879,7 @@ class Migration extends MigrationAbstract
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
                 'key' => 'ft-'.$name,
-                'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwheroft.colorLabel', [
-                    $this->translator->trans('WEMSG.FRAMWAY.COLORS.'.$name, [], 'contao_default'),
-                ], 'contao_default'),
-                'translated' => true,
+                'value' => sprintf('WEMSG.STYLEMANAGER.fwheroft.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwheroft', 'WEMSG.STYLEMANAGER.fwheroft.title', $contentElements, $cssClasses);
@@ -902,10 +890,7 @@ class Migration extends MigrationAbstract
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
                 'key' => 'content_bg--'.$name,
-                'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwherocontentbg.colorLabel', [
-                    $this->translator->trans('WEMSG.FRAMWAY.COLORS.'.$name, [], 'contao_default'),
-                ], 'contao_default'),
-                'translated' => true,
+                'value' => sprintf('WEMSG.STYLEMANAGER.fwherocontentbg.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwherocontentbg', 'WEMSG.STYLEMANAGER.fwherocontentbg.title', $contentElements, $cssClasses);
@@ -1034,10 +1019,7 @@ class Migration extends MigrationAbstract
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
                 'key' => 'ft-'.$name,
-                'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwsliderft.colorLabel', [
-                    $this->translator->trans('WEMSG.FRAMWAY.COLORS.'.$name, [], 'contao_default'),
-                ], 'contao_default'),
-                'translated' => true,
+                'value' => sprintf('WEMSG.STYLEMANAGER.fwsliderft.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwsliderft', 'WEMSG.STYLEMANAGER.fwsliderft.title', $contentElements, $cssClasses);
@@ -1048,10 +1030,7 @@ class Migration extends MigrationAbstract
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
                 'key' => 'content_bg--'.$name,
-                'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwslidercontentbg.colorLabel', [
-                    $this->translator->trans('WEMSG.FRAMWAY.COLORS.'.$name, [], 'contao_default'),
-                ], 'contao_default'),
-                'translated' => true,
+                'value' => sprintf('WEMSG.STYLEMANAGER.fwslidercontentbg.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwslidercontentbg', 'WEMSG.STYLEMANAGER.fwslidercontentbg.title', $contentElements, $cssClasses);
@@ -1126,12 +1105,6 @@ class Migration extends MigrationAbstract
     {
         $contentElements = self::$elements['table'];
         // Table
-        // $objArchive = StyleManagerArchiveModel::findByIdentifier('fwtable') ?? new StyleManagerArchiveModel();
-        // $objArchive->title = $this->translator->trans('WEMSG.STYLEMANAGER.fwtable.title', [], 'contao_default');
-        // $objArchive->description = '';
-        // $objArchive->identifier = 'fwtable';
-        // $objArchive->groupAlias = 'Framway';
-        // $objArchive->tstamp = time();
         $objArchive = $this->fillObjArchive('fwtable', 'WEMSG.STYLEMANAGER.fwtable.title');
         $objArchive->save();
         // Table - sm
@@ -1179,10 +1152,8 @@ class Migration extends MigrationAbstract
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
                 'key' => 'bg-'.$name,
-                'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbackgroundcolor.bgColorLabel', [
-                    $this->translator->trans('WEMSG.FRAMWAY.COLORS.'.$name, [], 'contao_default'),
-                ], 'contao_default'),
-                'translated' => true, ];
+                'value' => sprintf('WEMSG.STYLEMANAGER.fwbackgroundcolor.bgColorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
+            ];
         }
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwbackgroundcolor', 'WEMSG.STYLEMANAGER.fwbackgroundcolor.title', $contentElements, $cssClasses);
         $objStyle->save();
@@ -1215,10 +1186,8 @@ class Migration extends MigrationAbstract
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
                 'key' => 'btn-bg-'.$name,
-                'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonbackground.bgColorLabel', [
-                    $this->translator->trans('WEMSG.FRAMWAY.COLORS.'.$name, [], 'contao_default'),
-                ], 'contao_default'),
-                'translated' => true, ];
+                'value' => sprintf('WEMSG.STYLEMANAGER.fwbuttonbackground.bgColorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
+            ];
         }
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonbackground', 'WEMSG.STYLEMANAGER.fwbuttonbackground.title', $contentElements, $cssClasses);
         $objStyle->save();
@@ -1233,9 +1202,8 @@ class Migration extends MigrationAbstract
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
                 'key' => 'btn-bd-'.$name,
-                'value' => $this->translator->trans('WEMSG.STYLEMANAGER.fwbuttonborder.bdColorLabel', [
-                    $this->translator->trans('WEMSG.FRAMWAY.COLORS.'.$name, [], 'contao_default'),
-                ], 'contao_default'), ];
+                'value' => sprintf('WEMSG.STYLEMANAGER.fwbuttonborder.bdColorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
+            ];
         }
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonborder', 'WEMSG.STYLEMANAGER.fwbuttonborder.title', $contentElements, $cssClasses);
         $objStyle->save();
@@ -1324,11 +1292,6 @@ class Migration extends MigrationAbstract
         $objStyle->tstamp = time();
         $objStyle->contentElements = serialize($contentElements);
         $objStyle->extendContentElement = true;
-        foreach ($cssClasses as $index => $cssClass) {
-            if (!\array_key_exists('translated', $cssClass)) {
-                $cssClasses[$index] = ['key' => $cssClass['key'], 'value' => $this->translator->trans($cssClass['value'], [], 'contao_default')];
-            }
-        }
         $objStyle->cssClasses = serialize($cssClasses);
 
         return $objStyle;

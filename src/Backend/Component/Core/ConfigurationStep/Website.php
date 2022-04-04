@@ -153,6 +153,7 @@ class Website extends ConfigurationStep
     {
         // do what is meant to be done in this step
         $this->updateModuleConfiguration();
+        $this->createClientFilesFolders();
         if (!empty($_FILES)) {
             $objFileLogo = $this->uploadLogo();
             $this->updateModuleConfigurationLogo($objFileLogo);
@@ -168,6 +169,12 @@ class Website extends ConfigurationStep
         $pages = $this->createPages($layouts, $groups, $users, $modules);
         $modules = array_merge($this->createModules2($themeId, $pages), $modules);
         $this->createNotificationGateways();
+    }
+
+    protected function createClientFilesFolders(): void
+    {
+        $clientFilesFolder = new Folder(CoreConfig::DEFAULT_CLIENT_FILES_FOLDER);
+        $clientLogosFolder = new Folder(CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER);
     }
 
     protected function createTheme()
@@ -633,11 +640,11 @@ class Website extends ConfigurationStep
     protected function uploadLogo(): File
     {
         $fm = Files::getInstance();
-        $logoFolder = new Folder('files/media/logos');
-        if (!$fm->move_uploaded_file($_FILES['sgWebsiteLogo']['tmp_name'], 'files/media/logos/'.$_FILES['sgWebsiteLogo']['name'])) {
-            throw new Exception(sprintf('Unable to upload logo to "%s".', 'files/media/logos/'.$_FILES['sgWebsiteLogo']['name']));
+        $logoFolder = new Folder(CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER);
+        if (!$fm->move_uploaded_file($_FILES['sgWebsiteLogo']['tmp_name'], CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.$_FILES['sgWebsiteLogo']['name'])) {
+            throw new Exception(sprintf('Unable to upload logo to "%s".', CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.$_FILES['sgWebsiteLogo']['name']));
         }
-        $objFile = new File('files/media/logos/'.$_FILES['sgWebsiteLogo']['name']);
+        $objFile = new File(CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.$_FILES['sgWebsiteLogo']['name']);
 
         return $objFile;
     }
