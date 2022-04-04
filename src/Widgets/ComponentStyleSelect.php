@@ -19,37 +19,19 @@ class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\Componen
     public function generate()
     {
         $content = parent::generate();
-
-        // normal translation keys, selected
+        // normal translation keys
         $content = preg_replace_callback(
-            '/<option value="([^\"]*)"([\s]*)(selected)>([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+)<\/option>/',
+            '/>([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)</',
             function ($match) {
-                return sprintf('<option value="%s" selected>%s</option>', $match[1], $GLOBALS['TL_LANG'][$match[4]][$match[5]][$match[6]][$match[7]]);
+                return sprintf('>%s<', $GLOBALS['TL_LANG'][$match[1]][$match[2]][$match[3]][$match[4]]);
             },
             $content
         );
-        // normal translation keys, not selected
-        $content = preg_replace_callback(
-            '/<option value="([^\"]*)"?>([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+)<\/option>/',
-            function ($match) {
-                return sprintf('<option value="%s" selected>%s</option>', $match[1], $GLOBALS['TL_LANG'][$match[2]][$match[3]][$match[4]][$match[5]]);
-            },
-            $content
-        );
-
-        // combined translation keys (with color), selected
-        $content = preg_replace_callback(
-            '/<option value="([^\"]*)"([\s]*)(selected)>([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+) \(([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+)\)<\/option>/',
-            function ($match) {
-                return sprintf('<option value="%s" selected>%s</option>', $match[1], sprintf($GLOBALS['TL_LANG'][$match[4]][$match[5]][$match[6]][$match[7]], $GLOBALS['TL_LANG'][$match[8]][$match[9]][$match[10]][$match[11]]));
-            },
-            $content
-        );
-        // combined translation keys (with color), not selected
+        // combined translation keys (with color)
         return preg_replace_callback(
-            '/<option value="([^\"]*)"?>([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+) \(([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+).([A-Za-z0-9\_\-]+)\)<\/option>/',
+            '/>([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+) \(([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\)</',
             function ($match) {
-                return sprintf('<option value="%s" selected>%s</option>', $match[1], sprintf($GLOBALS['TL_LANG'][$match[2]][$match[3]][$match[4]][$match[5]], $GLOBALS['TL_LANG'][$match[6]][$match[7]][$match[8]][$match[9]]));
+                return sprintf('>%s<', sprintf($GLOBALS['TL_LANG'][$match[1]][$match[2]][$match[3]][$match[4]], $GLOBALS['TL_LANG'][$match[5]][$match[6]][$match[7]][$match[8]]));
             },
             $content
         );

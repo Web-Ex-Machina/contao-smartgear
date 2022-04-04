@@ -1285,7 +1285,7 @@ class Migration extends MigrationAbstract
     {
         $objStyle = StyleManagerModel::findByAliasAndPid($alias, $pid) ?? new StyleManagerModel();
         $objStyle->pid = $pid;
-        $objStyle->title = $this->translator->trans($titleKey, [], 'contao_default');
+        $objStyle->title = $titleKey;
         $objStyle->alias = $alias;
         $objStyle->blankOption = true;
         $objStyle->chosen = true;
@@ -1306,8 +1306,7 @@ class Migration extends MigrationAbstract
             $objArchive = $objArchive->first()->current();
         }
 
-        $objArchive->title = $this->translator->trans($titleKey, [], 'contao_default');
-        $objArchive->description = '';
+        $objArchive->title = $titleKey;
         $objArchive->identifier = $alias;
         $objArchive->groupAlias = 'Framway';
         $objArchive->tstamp = time();
