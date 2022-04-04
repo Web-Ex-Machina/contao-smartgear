@@ -16,6 +16,7 @@
   $arrItems = [];
   if($this->listItems){
     foreach($this->listItems as $item){
+      dump($item);
       if ($item->img_src) {
         $arrCrop = deserialize($item->img_size);
         $objFile = FilesModel::findByUuid($item->img_src);
@@ -26,7 +27,7 @@
         ];
       }
 
-      $arrItem['classes'] = $item->classes ? $item->classes : '';
+      $arrItem['classes'] = $item->class ? implode(' ', $item->class) : '';
       if($item->span_cols)
         $arrItem['classes'] .= ' cols-span-'.$item->span_cols;
       if($item->span_rows)

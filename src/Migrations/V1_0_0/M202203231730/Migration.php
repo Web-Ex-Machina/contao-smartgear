@@ -34,18 +34,25 @@ class Migration extends MigrationAbstract
     protected $configurationThemeManager;
 
     protected static $elements = [
-        'margin' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionStop', 'accordionSingle', 'sliderStart', 'sliderStop', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'grid-stop', 'rsce_accordionFW', 'rsce_block-img', 'rsce_counterFW', 'rsce_gridGallery', 'rsce_heroFWStart', 'rsce_heroFWStop', 'rsce_priceCards', 'rsce_sliderFW', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations'],
-        'button' => ['hyperlink'],
+        'margin' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionStop', 'accordionSingle', 'sliderStart', 'sliderStop', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'grid-stop', 'rsce_accordionFW', 'rsce_counterFW', 'rsce_gridGallery', 'rsce_heroFWStart', 'rsce_heroFWStop', 'rsce_priceCards', 'rsce_sliderFW', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations'],
+        'button' => ['headline', 'hyperlink'],
+        // 'button' => ['hyperlink'],
         'background' => ['headline', 'text', 'rsce_quote'],
         'separator' => ['headline'],
-        // no rules associated yet
-        'table' => ['table'],
-        'accordion' => ['accordionStart', 'accordionStop', 'rsce_accordionFW'],
-        'slider' => ['sliderStart', 'sliderStop', 'rsce_sliderFW', 'rsce_testimonials'],
-        'image' => ['image', 'rsce_block-img'],
-        'hero' => ['rsce_heroFWStart', 'rsce_heroFWStop'],
-        'grid' => ['rsce_gridGallery'],
-        'priceCards' => ['rsce_priceCards'],
+        'table' => ['headline', 'table'],
+        // 'table' => ['table'],
+        'accordion' => ['headline', 'accordionStart', 'accordionStop', 'rsce_accordionFW'],
+        // 'accordion' => ['accordionStart', 'accordionStop', 'rsce_accordionFW'],
+        'slider' => ['headline', 'sliderStart', 'sliderStop', 'rsce_sliderFW', 'rsce_testimonials'],
+        // 'slider' => ['sliderStart', 'sliderStop', 'rsce_sliderFW', 'rsce_testimonials'],
+        'image' => ['headline', 'image'],
+        // 'image' => ['image'],
+        'hero' => ['headline', 'rsce_heroFWStart', 'rsce_heroFWStop'],
+        // 'hero' => ['rsce_heroFWStart', 'rsce_heroFWStop'],
+        'grid' => ['headline', 'rsce_gridGallery'],
+        // 'grid' => ['rsce_gridGallery'],
+        'priceCards' => ['headline', 'rsce_priceCards'],
+        // 'priceCards' => ['rsce_priceCards'],
     ];
 
     public function __construct(
@@ -82,10 +89,34 @@ class Migration extends MigrationAbstract
         $objArchiveMargin = StyleManagerArchiveModel::findByIdentifier('fwmargin');
         $objArchiveTable = StyleManagerArchiveModel::findByIdentifier('fwtable');
         $objArchiveImage = StyleManagerArchiveModel::findByIdentifier('fwimage');
+        $objArchiveImageRatio = StyleManagerArchiveModel::findByIdentifier('fwimageratio');
         $objArchiveSlider = StyleManagerArchiveModel::findByIdentifier('fwslider');
+        $objArchiveSliderNav = StyleManagerArchiveModel::findByIdentifier('fwslidernav');
+        $objArchiveSliderImg = StyleManagerArchiveModel::findByIdentifier('fwsliderimg');
+        $objArchiveSliderContent = StyleManagerArchiveModel::findByIdentifier('fwslidercontent');
+        $objArchiveSliderTitle = StyleManagerArchiveModel::findByIdentifier('fwslidertitle');
+
         $objArchiveHero = StyleManagerArchiveModel::findByIdentifier('fwhero');
+        $objArchiveHeroImg = StyleManagerArchiveModel::findByIdentifier('fwheroimg');
+        $objArchiveHeroContent = StyleManagerArchiveModel::findByIdentifier('fwherocontent');
+        $objArchiveHeroTitle = StyleManagerArchiveModel::findByIdentifier('fwherotitle');
+
         $objArchiveGrid = StyleManagerArchiveModel::findByIdentifier('fwgrid');
+        $objArchiveGridXL = StyleManagerArchiveModel::findByIdentifier('fwgridxl');
+        $objArchiveGridLG = StyleManagerArchiveModel::findByIdentifier('fwgridlg');
+        $objArchiveGridMD = StyleManagerArchiveModel::findByIdentifier('fwgridmd');
+        $objArchiveGridSM = StyleManagerArchiveModel::findByIdentifier('fwgridsm');
+        $objArchiveGridXS = StyleManagerArchiveModel::findByIdentifier('fwgridxs');
+        $objArchiveGridXXS = StyleManagerArchiveModel::findByIdentifier('fwgridxxs');
+
         $objArchiveGridItem = StyleManagerArchiveModel::findByIdentifier('fwgriditem');
+        $objArchiveGridItemXL = StyleManagerArchiveModel::findByIdentifier('fwgriditemxl');
+        $objArchiveGridItemLG = StyleManagerArchiveModel::findByIdentifier('fwgriditemlg');
+        $objArchiveGridItemMD = StyleManagerArchiveModel::findByIdentifier('fwgriditemmd');
+        $objArchiveGridItemSM = StyleManagerArchiveModel::findByIdentifier('fwgriditemsm');
+        $objArchiveGridItemXS = StyleManagerArchiveModel::findByIdentifier('fwgriditemxs');
+        $objArchiveGridItemXXS = StyleManagerArchiveModel::findByIdentifier('fwgriditemxxs');
+
         $objArchivePriceCard = StyleManagerArchiveModel::findByIdentifier('fwpricecard');
 
         if (null === $objArchiveBackground
@@ -94,10 +125,30 @@ class Migration extends MigrationAbstract
         && null !== $objArchiveMargin
         && null !== $objArchiveTable
         && null !== $objArchiveImage
+        && null !== $objArchiveImageRatio
         && null !== $objArchiveSlider
+        && null !== $objArchiveSliderNav
+        && null !== $objArchiveSliderImg
+        && null !== $objArchiveSliderContent
+        && null !== $objArchiveSliderTitle
         && null !== $objArchiveHero
+        && null !== $objArchiveHeroImg
+        && null !== $objArchiveHeroContent
+        && null !== $objArchiveHeroTitle
         && null !== $objArchiveGrid
+        && null !== $objArchiveGridXL
+        && null !== $objArchiveGridLG
+        && null !== $objArchiveGridMD
+        && null !== $objArchiveGridSM
+        && null !== $objArchiveGridXS
+        && null !== $objArchiveGridXXS
         && null !== $objArchiveGridItem
+        && null !== $objArchiveGridItemXL
+        && null !== $objArchiveGridItemLG
+        && null !== $objArchiveGridItemMD
+        && null !== $objArchiveGridItemSM
+        && null !== $objArchiveGridItemXS
+        && null !== $objArchiveGridItemXXS
         && null !== $objArchivePriceCard
         ) {
             if (null !== StyleManagerModel::findByAliasAndPid('fwbackgroundcolor', $objArchiveBackground->id)
@@ -121,63 +172,61 @@ class Migration extends MigrationAbstract
             && null !== StyleManagerModel::findByAliasAndPid('fwpricecardmain', $objArchivePriceCard->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspan', $objArchiveGridItem->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspan', $objArchiveGridItem->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspanxl', $objArchiveGridItem->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspanxl', $objArchiveGridItem->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspanlg', $objArchiveGridItem->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspanlg', $objArchiveGridItem->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspanmd', $objArchiveGridItem->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspanmd', $objArchiveGridItem->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspansm', $objArchiveGridItem->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspansm', $objArchiveGridItem->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspanxs', $objArchiveGridItem->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspanxs', $objArchiveGridItem->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspanxxs', $objArchiveGridItem->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspanxxs', $objArchiveGridItem->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspanxl', $objArchiveGridItemXL->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspanxl', $objArchiveGridItemXL->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspanlg', $objArchiveGridItemLG->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspanlg', $objArchiveGridItemLG->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspanmd', $objArchiveGridItemMD->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspanmd', $objArchiveGridItemMD->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspansm', $objArchiveGridItemSM->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspansm', $objArchiveGridItemSM->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspanxs', $objArchiveGridItemXS->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspanxs', $objArchiveGridItemXS->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspanxxs', $objArchiveGridItemXXS->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspanxxs', $objArchiveGridItemXXS->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwgridgap', $objArchiveGrid->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwgridcols', $objArchiveGrid->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwgridrows', $objArchiveGrid->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsxl', $objArchiveGrid->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowsxl', $objArchiveGrid->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolslg', $objArchiveGrid->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowslg', $objArchiveGrid->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsmd', $objArchiveGrid->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowsmd', $objArchiveGrid->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolssm', $objArchiveGrid->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowssm', $objArchiveGrid->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsxs', $objArchiveGrid->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowsxs', $objArchiveGrid->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsxxs', $objArchiveGrid->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowsxxs', $objArchiveGrid->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwheroimgvertical', $objArchiveHero->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwheroimghorizontal', $objArchiveHero->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherofigureopacity', $objArchiveHero->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentvertical', $objArchiveHero->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherocontenthorizontal', $objArchiveHero->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherotitle', $objArchiveHero->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwheroft', $objArchiveHero->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentbg', $objArchiveHero->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentbgopacity', $objArchiveHero->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsxl', $objArchiveGridXL->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowsxl', $objArchiveGridXL->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolslg', $objArchiveGridLG->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowslg', $objArchiveGridLG->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsmd', $objArchiveGridMD->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowsmd', $objArchiveGridMD->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolssm', $objArchiveGridSM->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowssm', $objArchiveGridSM->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsxs', $objArchiveGridXS->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowsxs', $objArchiveGridXS->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsxxs', $objArchiveGridXXS->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowsxxs', $objArchiveGridXXS->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwheroimgvertical', $objArchiveHeroImg->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwheroimghorizontal', $objArchiveHeroImg->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwherofigureopacity', $objArchiveHeroImg->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentvertical', $objArchiveHeroContent->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwherocontenthorizontal', $objArchiveHeroContent->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwherotitle', $objArchiveHeroTitle->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwheroft', $objArchiveHeroTitle->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentbg', $objArchiveHeroContent->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentbgopacity', $objArchiveHeroContent->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwherowfull', $objArchiveHero->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwheroheightcontent', $objArchiveHero->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherowidthcontent', $objArchiveHero->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwslidernav', $objArchiveSlider->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwslidernavvertical', $objArchiveSlider->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwslidernavhorizontal', $objArchiveSlider->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwsliderimgvertical', $objArchiveSlider->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwsliderimghorizontal', $objArchiveSlider->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwsliderimgopacity', $objArchiveSlider->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwslidercontentvertical', $objArchiveSlider->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwslidercontenthorizontal', $objArchiveSlider->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwslidertitle', $objArchiveSlider->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwsliderft', $objArchiveSlider->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwslidercontentbg', $objArchiveSlider->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwslidercontentbgopacity', $objArchiveSlider->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwheroheightcontent', $objArchiveHeroContent->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwherowidthcontent', $objArchiveHeroContent->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwslidernav', $objArchiveSliderNav->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwslidernavvertical', $objArchiveSliderNav->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwslidernavhorizontal', $objArchiveSliderNav->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwsliderimgvertical', $objArchiveSliderImg->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwsliderimghorizontal', $objArchiveSliderImg->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwsliderimgopacity', $objArchiveSliderImg->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwslidercontentvertical', $objArchiveSliderContent->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwslidercontenthorizontal', $objArchiveSliderContent->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwslidertitle', $objArchiveSliderTitle->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwsliderft', $objArchiveSliderTitle->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwslidercontentbg', $objArchiveSliderContent->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwslidercontentbgopacity', $objArchiveSliderContent->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwsliderwfull', $objArchiveSlider->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwimageratio', $objArchiveImage->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwimagezoomin', $objArchiveImage->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwimagezoomout', $objArchiveImage->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwimagefadetocolor', $objArchiveImage->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwimagefadetogrey', $objArchiveImage->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwimageratio', $objArchiveImageRatio->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwimagezoom', $objArchiveImage->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwimagefade', $objArchiveImage->id)
             ) {
                 $result
                 ->setStatus(Result::STATUS_SKIPPED)
@@ -237,7 +286,7 @@ class Migration extends MigrationAbstract
     {
         $contentElements = self::$elements['priceCards'];
         // Price card
-        $objArchive = $this->fillObjArchive('fwpricecard', 'WEMSG.STYLEMANAGER.fwpricecard.title');
+        $objArchive = $this->fillObjArchive('fwpricecard', 'WEMSG.STYLEMANAGER.fwpricecard.tabTitle', 'FramwayPriceCard');
         $objArchive->save();
 
         // Price card - text color
@@ -249,7 +298,7 @@ class Migration extends MigrationAbstract
                 'value' => sprintf('WEMSG.STYLEMANAGER.fwpricecardft.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardft', 'WEMSG.STYLEMANAGER.fwpricecardft.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardft', 'WEMSG.STYLEMANAGER.fwpricecardft.title', 'WEMSG.STYLEMANAGER.fwpricecardft.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Price card - bg color
         $cssClasses = [];
@@ -260,7 +309,7 @@ class Migration extends MigrationAbstract
                 'value' => sprintf('WEMSG.STYLEMANAGER.fwpricecardbg.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardbg', 'WEMSG.STYLEMANAGER.fwpricecardbg.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardbg', 'WEMSG.STYLEMANAGER.fwpricecardbg.title', 'WEMSG.STYLEMANAGER.fwpricecardbg.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Price card - content color
         $cssClasses = [];
@@ -271,13 +320,13 @@ class Migration extends MigrationAbstract
                 'value' => sprintf('WEMSG.STYLEMANAGER.fwpricecardcontent.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardcontent', 'WEMSG.STYLEMANAGER.fwpricecardcontent.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardcontent', 'WEMSG.STYLEMANAGER.fwpricecardcontent.title', 'WEMSG.STYLEMANAGER.fwpricecardcontent.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Price card - main
         $cssClasses = [
             ['key' => 'main', 'value' => 'WEMSG.STYLEMANAGER.fwpricecardmain.label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardmain', 'WEMSG.STYLEMANAGER.fwpricecardmain.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardmain', 'WEMSG.STYLEMANAGER.fwpricecardmain.title', 'WEMSG.STYLEMANAGER.fwpricecardmain.description', $contentElements, $cssClasses);
         $objStyle->save();
     }
 
@@ -285,8 +334,20 @@ class Migration extends MigrationAbstract
     {
         $contentElements = self::$elements['grid'];
         // Grid Items
-        $objArchive = $this->fillObjArchive('fwgriditem', 'WEMSG.STYLEMANAGER.fwgriditem.title');
+        $objArchive = $this->fillObjArchive('fwgriditem', 'WEMSG.STYLEMANAGER.fwgriditem.tabTitle', 'FramwayGridItem');
         $objArchive->save();
+        $objArchiveXL = $this->fillObjArchive('fwgriditemxl', 'WEMSG.STYLEMANAGER.fwgriditemxl.tabTitle', 'FramwayGridItem');
+        $objArchiveXL->save();
+        $objArchiveLG = $this->fillObjArchive('fwgriditemlg', 'WEMSG.STYLEMANAGER.fwgriditemlg.tabTitle', 'FramwayGridItem');
+        $objArchiveLG->save();
+        $objArchiveMD = $this->fillObjArchive('fwgriditemmd', 'WEMSG.STYLEMANAGER.fwgriditemmd.tabTitle', 'FramwayGridItem');
+        $objArchiveMD->save();
+        $objArchiveSM = $this->fillObjArchive('fwgriditemsm', 'WEMSG.STYLEMANAGER.fwgriditemsm.tabTitle', 'FramwayGridItem');
+        $objArchiveSM->save();
+        $objArchiveXS = $this->fillObjArchive('fwgriditemxs', 'WEMSG.STYLEMANAGER.fwgriditemxs.tabTitle', 'FramwayGridItem');
+        $objArchiveXS->save();
+        $objArchiveXXS = $this->fillObjArchive('fwgriditemxxs', 'WEMSG.STYLEMANAGER.fwgriditemxxs.tabTitle', 'FramwayGridItem');
+        $objArchiveXXS->save();
 
         // Grid item - cols
         $cssClasses = [
@@ -303,7 +364,7 @@ class Migration extends MigrationAbstract
             ['key' => 'cols-span-11', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemcolsspan.11Label'],
             ['key' => 'cols-span-12', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemcolsspan.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemcolsspan', 'WEMSG.STYLEMANAGER.fwgriditemcolsspan.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemcolsspan', 'WEMSG.STYLEMANAGER.fwgriditemcolsspan.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspan.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Grid item - rows
         $cssClasses = [
@@ -320,7 +381,7 @@ class Migration extends MigrationAbstract
             ['key' => 'rows-span-11', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemrowsspan.11Label'],
             ['key' => 'rows-span-12', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemrowsspan.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemrowsspan', 'WEMSG.STYLEMANAGER.fwgriditemrowsspan.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemrowsspan', 'WEMSG.STYLEMANAGER.fwgriditemrowsspan.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspan.description', $contentElements, $cssClasses);
         $objStyle->save();
 
         // Grid item - colsspanxl
@@ -338,7 +399,7 @@ class Migration extends MigrationAbstract
             ['key' => 'cols-span-xl-11', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.11Label'],
             ['key' => 'cols-span-xl-12', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemcolsspanxl', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveXL->id, 'fwgriditemcolsspanxl', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Grid item - rowsspanxl
         $cssClasses = [
@@ -355,7 +416,7 @@ class Migration extends MigrationAbstract
             ['key' => 'rows-span-xl-11', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.11Label'],
             ['key' => 'rows-span-xl-12', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemrowsspanxl', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveXL->id, 'fwgriditemrowsspanxl', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.description', $contentElements, $cssClasses);
         $objStyle->save();
 
         // Grid item - colsspanlg
@@ -373,7 +434,7 @@ class Migration extends MigrationAbstract
             ['key' => 'cols-span-lg-11', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.11Label'],
             ['key' => 'cols-span-lg-12', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemcolsspanlg', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveLG->id, 'fwgriditemcolsspanlg', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Grid item - rowsspanlg
         $cssClasses = [
@@ -390,7 +451,7 @@ class Migration extends MigrationAbstract
             ['key' => 'rows-span-lg-11', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.11Label'],
             ['key' => 'rows-span-lg-12', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemrowsspanlg', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveLG->id, 'fwgriditemrowsspanlg', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.description', $contentElements, $cssClasses);
         $objStyle->save();
 
         // Grid item - colsspanmd
@@ -408,7 +469,7 @@ class Migration extends MigrationAbstract
             ['key' => 'cols-span-md-11', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.11Label'],
             ['key' => 'cols-span-md-12', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemcolsspanmd', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveMD->id, 'fwgriditemcolsspanmd', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Grid item - rowsspanmd
         $cssClasses = [
@@ -425,7 +486,7 @@ class Migration extends MigrationAbstract
             ['key' => 'rows-span-md-11', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.11Label'],
             ['key' => 'rows-span-md-12', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemrowsspanmd', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveMD->id, 'fwgriditemrowsspanmd', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.description', $contentElements, $cssClasses);
         $objStyle->save();
 
         // Grid item - colsspansm
@@ -443,7 +504,7 @@ class Migration extends MigrationAbstract
             ['key' => 'cols-span-sm-11', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemcolsspansm.11Label'],
             ['key' => 'cols-span-sm-12', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemcolsspansm.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemcolsspansm', 'WEMSG.STYLEMANAGER.fwgriditemcolsspansm.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveSM->id, 'fwgriditemcolsspansm', 'WEMSG.STYLEMANAGER.fwgriditemcolsspansm.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspansm.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Grid item - rowsspansm
         $cssClasses = [
@@ -460,7 +521,7 @@ class Migration extends MigrationAbstract
             ['key' => 'rows-span-sm-11', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemrowsspansm.11Label'],
             ['key' => 'rows-span-sm-12', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemrowsspansm.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemrowsspansm', 'WEMSG.STYLEMANAGER.fwgriditemrowsspansm.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveSM->id, 'fwgriditemrowsspansm', 'WEMSG.STYLEMANAGER.fwgriditemrowsspansm.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspansm.description', $contentElements, $cssClasses);
         $objStyle->save();
 
         // Grid item - colsspanxs
@@ -478,7 +539,7 @@ class Migration extends MigrationAbstract
             ['key' => 'cols-span-xs-11', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.11Label'],
             ['key' => 'cols-span-xs-12', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemcolsspanxs', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveXS->id, 'fwgriditemcolsspanxs', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Grid item - rowsspanxs
         $cssClasses = [
@@ -495,7 +556,7 @@ class Migration extends MigrationAbstract
             ['key' => 'rows-span-xs-11', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.11Label'],
             ['key' => 'rows-span-xs-12', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemrowsspanxs', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveXS->id, 'fwgriditemrowsspanxs', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.description', $contentElements, $cssClasses);
         $objStyle->save();
 
         // Grid item - colsspanxxs
@@ -513,7 +574,7 @@ class Migration extends MigrationAbstract
             ['key' => 'cols-span-xxs-11', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.11Label'],
             ['key' => 'cols-span-xxs-12', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemcolsspanxxs', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveXXS->id, 'fwgriditemcolsspanxxs', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Grid item - rowsspanxxs
         $cssClasses = [
@@ -530,7 +591,7 @@ class Migration extends MigrationAbstract
             ['key' => 'rows-span-xxs-11', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.11Label'],
             ['key' => 'rows-span-xxs-12', 'value' => 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemrowsspanxxs', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveXXS->id, 'fwgriditemrowsspanxxs', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.description', $contentElements, $cssClasses);
         $objStyle->save();
     }
 
@@ -538,8 +599,20 @@ class Migration extends MigrationAbstract
     {
         $contentElements = self::$elements['grid'];
         // Grid
-        $objArchive = $this->fillObjArchive('fwgrid', 'WEMSG.STYLEMANAGER.fwgrid.title');
+        $objArchive = $this->fillObjArchive('fwgrid', 'WEMSG.STYLEMANAGER.fwgrid.tabTitle', 'FramwayGrid');
         $objArchive->save();
+        $objArchiveXL = $this->fillObjArchive('fwgridxl', 'WEMSG.STYLEMANAGER.fwgridxl.tabTitle', 'FramwayGrid');
+        $objArchiveXL->save();
+        $objArchiveLG = $this->fillObjArchive('fwgridlg', 'WEMSG.STYLEMANAGER.fwgridlg.tabTitle', 'FramwayGrid');
+        $objArchiveLG->save();
+        $objArchiveMD = $this->fillObjArchive('fwgridmd', 'WEMSG.STYLEMANAGER.fwgridmd.tabTitle', 'FramwayGrid');
+        $objArchiveMD->save();
+        $objArchiveSM = $this->fillObjArchive('fwgridsm', 'WEMSG.STYLEMANAGER.fwgridsm.tabTitle', 'FramwayGrid');
+        $objArchiveSM->save();
+        $objArchiveXS = $this->fillObjArchive('fwgridxs', 'WEMSG.STYLEMANAGER.fwgridxs.tabTitle', 'FramwayGrid');
+        $objArchiveXS->save();
+        $objArchiveXXS = $this->fillObjArchive('fwgridxxs', 'WEMSG.STYLEMANAGER.fwgridxxs.tabTitle', 'FramwayGrid');
+        $objArchiveXXS->save();
         // Grid - gap
         $cssClasses = [
             ['key' => 'gap-0', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.0Label'],
@@ -564,7 +637,7 @@ class Migration extends MigrationAbstract
             ['key' => 'gap-6-em', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.6emLabel'],
             ['key' => 'gap-6-rem', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.6remLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridgap', 'WEMSG.STYLEMANAGER.fwgridgap.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridgap', 'WEMSG.STYLEMANAGER.fwgridgap.title', 'WEMSG.STYLEMANAGER.fwgridgap.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Grid - cols
         $cssClasses = [
@@ -581,7 +654,7 @@ class Migration extends MigrationAbstract
             ['key' => 'cols-11', 'value' => 'WEMSG.STYLEMANAGER.fwgridcols.11Label'],
             ['key' => 'cols-12', 'value' => 'WEMSG.STYLEMANAGER.fwgridcols.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcols', 'WEMSG.STYLEMANAGER.fwgridcols.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcols', 'WEMSG.STYLEMANAGER.fwgridcols.title', 'WEMSG.STYLEMANAGER.fwgridcols.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Grid - rows
         $cssClasses = [
@@ -598,7 +671,7 @@ class Migration extends MigrationAbstract
             ['key' => 'rows-11', 'value' => 'WEMSG.STYLEMANAGER.fwgridrows.11Label'],
             ['key' => 'rows-12', 'value' => 'WEMSG.STYLEMANAGER.fwgridrows.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridrows', 'WEMSG.STYLEMANAGER.fwgridrows.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridrows', 'WEMSG.STYLEMANAGER.fwgridrows.title', 'WEMSG.STYLEMANAGER.fwgridrows.description', $contentElements, $cssClasses);
         $objStyle->save();
 
         // Grid - colsxl
@@ -616,7 +689,7 @@ class Migration extends MigrationAbstract
             ['key' => 'cols-xl-11', 'value' => 'WEMSG.STYLEMANAGER.fwgridcolsxl.11Label'],
             ['key' => 'cols-xl-12', 'value' => 'WEMSG.STYLEMANAGER.fwgridcolsxl.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcolsxl', 'WEMSG.STYLEMANAGER.fwgridcolsxl.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveXL->id, 'fwgridcolsxl', 'WEMSG.STYLEMANAGER.fwgridcolsxl.title', 'WEMSG.STYLEMANAGER.fwgridcolsxl.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Grid - rowsxl
         $cssClasses = [
@@ -633,7 +706,7 @@ class Migration extends MigrationAbstract
             ['key' => 'rows-xl-11', 'value' => 'WEMSG.STYLEMANAGER.fwgridrowsxl.11Label'],
             ['key' => 'rows-xl-12', 'value' => 'WEMSG.STYLEMANAGER.fwgridrowsxl.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridrowsxl', 'WEMSG.STYLEMANAGER.fwgridrowsxl.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveXL->id, 'fwgridrowsxl', 'WEMSG.STYLEMANAGER.fwgridrowsxl.title', 'WEMSG.STYLEMANAGER.fwgridrowsxl.description', $contentElements, $cssClasses);
         $objStyle->save();
 
         // Grid - colslg
@@ -651,7 +724,7 @@ class Migration extends MigrationAbstract
             ['key' => 'cols-lg-11', 'value' => 'WEMSG.STYLEMANAGER.fwgridcolslg.11Label'],
             ['key' => 'cols-lg-12', 'value' => 'WEMSG.STYLEMANAGER.fwgridcolslg.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcolslg', 'WEMSG.STYLEMANAGER.fwgridcolslg.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveLG->id, 'fwgridcolslg', 'WEMSG.STYLEMANAGER.fwgridcolslg.title', 'WEMSG.STYLEMANAGER.fwgridcolslg.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Grid - rowslg
         $cssClasses = [
@@ -668,7 +741,7 @@ class Migration extends MigrationAbstract
             ['key' => 'rows-lg-11', 'value' => 'WEMSG.STYLEMANAGER.fwgridrowslg.11Label'],
             ['key' => 'rows-lg-12', 'value' => 'WEMSG.STYLEMANAGER.fwgridrowslg.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridrowslg', 'WEMSG.STYLEMANAGER.fwgridrowslg.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveLG->id, 'fwgridrowslg', 'WEMSG.STYLEMANAGER.fwgridrowslg.title', 'WEMSG.STYLEMANAGER.fwgridrowslg.description', $contentElements, $cssClasses);
         $objStyle->save();
 
         // Grid - colsmd
@@ -686,7 +759,7 @@ class Migration extends MigrationAbstract
             ['key' => 'cols-md-11', 'value' => 'WEMSG.STYLEMANAGER.fwgridcolsmd.11Label'],
             ['key' => 'cols-md-12', 'value' => 'WEMSG.STYLEMANAGER.fwgridcolsmd.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcolsmd', 'WEMSG.STYLEMANAGER.fwgridcolsmd.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveMD->id, 'fwgridcolsmd', 'WEMSG.STYLEMANAGER.fwgridcolsmd.title', 'WEMSG.STYLEMANAGER.fwgridcolsmd.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Grid - rowsmd
         $cssClasses = [
@@ -703,7 +776,7 @@ class Migration extends MigrationAbstract
             ['key' => 'rows-md-11', 'value' => 'WEMSG.STYLEMANAGER.fwgridrowsmd.11Label'],
             ['key' => 'rows-md-12', 'value' => 'WEMSG.STYLEMANAGER.fwgridrowsmd.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridrowsmd', 'WEMSG.STYLEMANAGER.fwgridrowsmd.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveMD->id, 'fwgridrowsmd', 'WEMSG.STYLEMANAGER.fwgridrowsmd.title', 'WEMSG.STYLEMANAGER.fwgridrowsmd.description', $contentElements, $cssClasses);
         $objStyle->save();
 
         // Grid - colssm
@@ -721,7 +794,7 @@ class Migration extends MigrationAbstract
             ['key' => 'cols-sm-11', 'value' => 'WEMSG.STYLEMANAGER.fwgridcolssm.11Label'],
             ['key' => 'cols-sm-12', 'value' => 'WEMSG.STYLEMANAGER.fwgridcolssm.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcolssm', 'WEMSG.STYLEMANAGER.fwgridcolssm.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveSM->id, 'fwgridcolssm', 'WEMSG.STYLEMANAGER.fwgridcolssm.title', 'WEMSG.STYLEMANAGER.fwgridcolssm.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Grid - rowssm
         $cssClasses = [
@@ -738,7 +811,7 @@ class Migration extends MigrationAbstract
             ['key' => 'rows-sm-11', 'value' => 'WEMSG.STYLEMANAGER.fwgridrowssm.11Label'],
             ['key' => 'rows-sm-12', 'value' => 'WEMSG.STYLEMANAGER.fwgridrowssm.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridrowssm', 'WEMSG.STYLEMANAGER.fwgridrowssm.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveSM->id, 'fwgridrowssm', 'WEMSG.STYLEMANAGER.fwgridrowssm.title', 'WEMSG.STYLEMANAGER.fwgridrowssm.description', $contentElements, $cssClasses);
         $objStyle->save();
 
         // Grid - colsxs
@@ -756,7 +829,7 @@ class Migration extends MigrationAbstract
             ['key' => 'cols-xs-11', 'value' => 'WEMSG.STYLEMANAGER.fwgridcolsxs.11Label'],
             ['key' => 'cols-xs-12', 'value' => 'WEMSG.STYLEMANAGER.fwgridcolsxs.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcolsxs', 'WEMSG.STYLEMANAGER.fwgridcolsxs.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveXS->id, 'fwgridcolsxs', 'WEMSG.STYLEMANAGER.fwgridcolsxs.title', 'WEMSG.STYLEMANAGER.fwgridcolsxs.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Grid - rowsxs
         $cssClasses = [
@@ -773,7 +846,7 @@ class Migration extends MigrationAbstract
             ['key' => 'rows-xs-11', 'value' => 'WEMSG.STYLEMANAGER.fwgridrowsxs.11Label'],
             ['key' => 'rows-xs-12', 'value' => 'WEMSG.STYLEMANAGER.fwgridrowsxs.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridrowsxs', 'WEMSG.STYLEMANAGER.fwgridrowsxs.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveXS->id, 'fwgridrowsxs', 'WEMSG.STYLEMANAGER.fwgridrowsxs.title', 'WEMSG.STYLEMANAGER.fwgridrowsxs.description', $contentElements, $cssClasses);
         $objStyle->save();
 
         // Grid - colsxxs
@@ -791,7 +864,7 @@ class Migration extends MigrationAbstract
             ['key' => 'cols-xxs-11', 'value' => 'WEMSG.STYLEMANAGER.fwgridcolsxxs.11Label'],
             ['key' => 'cols-xxs-12', 'value' => 'WEMSG.STYLEMANAGER.fwgridcolsxxs.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcolsxxs', 'WEMSG.STYLEMANAGER.fwgridcolsxxs.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveXXS->id, 'fwgridcolsxxs', 'WEMSG.STYLEMANAGER.fwgridcolsxxs.title', 'WEMSG.STYLEMANAGER.fwgridcolsxxs.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Grid - rowsxxs
         $cssClasses = [
@@ -808,7 +881,7 @@ class Migration extends MigrationAbstract
             ['key' => 'rows-xxs-11', 'value' => 'WEMSG.STYLEMANAGER.fwgridrowsxxs.11Label'],
             ['key' => 'rows-xxs-12', 'value' => 'WEMSG.STYLEMANAGER.fwgridrowsxxs.12Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridrowsxxs', 'WEMSG.STYLEMANAGER.fwgridrowsxxs.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveXXS->id, 'fwgridrowsxxs', 'WEMSG.STYLEMANAGER.fwgridrowsxxs.title', 'WEMSG.STYLEMANAGER.fwgridrowsxxs.description', $contentElements, $cssClasses);
         $objStyle->save();
     }
 
@@ -816,21 +889,27 @@ class Migration extends MigrationAbstract
     {
         $contentElements = self::$elements['hero'];
         // Hero
-        $objArchive = $this->fillObjArchive('fwhero', 'WEMSG.STYLEMANAGER.fwhero.title');
+        $objArchive = $this->fillObjArchive('fwhero', 'WEMSG.STYLEMANAGER.fwhero.tabTitle', 'FramwayHero');
         $objArchive->save();
+        $objArchiveImg = $this->fillObjArchive('fwheroimg', 'WEMSG.STYLEMANAGER.fwheroimg.tabTitle', 'FramwayHero');
+        $objArchiveImg->save();
+        $objArchiveContent = $this->fillObjArchive('fwherocontent', 'WEMSG.STYLEMANAGER.fwherocontent.tabTitle', 'FramwayHero');
+        $objArchiveContent->save();
+        $objArchiveTitle = $this->fillObjArchive('fwherotitle', 'WEMSG.STYLEMANAGER.fwherotitle.tabTitle', 'FramwayHero');
+        $objArchiveTitle->save();
         // Hero - imgvertical
         $cssClasses = [
             ['key' => 'img--top', 'value' => 'WEMSG.STYLEMANAGER.fwheroimgvertical.topLabel'],
             ['key' => 'img--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwheroimgvertical.bottomLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwheroimgvertical', 'WEMSG.STYLEMANAGER.fwheroimgvertical.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwheroimgvertical', 'WEMSG.STYLEMANAGER.fwheroimgvertical.title', 'WEMSG.STYLEMANAGER.fwheroimgvertical.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Hero - imghorizontal
         $cssClasses = [
             ['key' => 'img--left', 'value' => 'WEMSG.STYLEMANAGER.fwheroimghorizontal.leftLabel'],
             ['key' => 'img--right', 'value' => 'WEMSG.STYLEMANAGER.fwheroimghorizontal.rightLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwheroimghorizontal', 'WEMSG.STYLEMANAGER.fwheroimghorizontal.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwheroimghorizontal', 'WEMSG.STYLEMANAGER.fwheroimghorizontal.title', 'WEMSG.STYLEMANAGER.fwheroimghorizontal.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Hero - figureopacity
         $cssClasses = [
@@ -846,7 +925,7 @@ class Migration extends MigrationAbstract
             ['key' => 'figure_opacity--9', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.9Label'],
             ['key' => 'figure_opacity--10', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.10Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherofigureopacity', 'WEMSG.STYLEMANAGER.fwherofigureopacity.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwherofigureopacity', 'WEMSG.STYLEMANAGER.fwherofigureopacity.title', 'WEMSG.STYLEMANAGER.fwherofigureopacity.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Hero - contentvertical
         $cssClasses = [
@@ -854,7 +933,7 @@ class Migration extends MigrationAbstract
             ['key' => 'content--v--center', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentvertical.centerLabel'],
             ['key' => 'content--v--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentvertical.bottomLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherocontentvertical', 'WEMSG.STYLEMANAGER.fwherocontentvertical.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherocontentvertical', 'WEMSG.STYLEMANAGER.fwherocontentvertical.title', 'WEMSG.STYLEMANAGER.fwherocontentvertical.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Hero - contenthorizontal
         $cssClasses = [
@@ -862,7 +941,7 @@ class Migration extends MigrationAbstract
             ['key' => 'content--h--center', 'value' => 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.centerLabel'],
             ['key' => 'content--h--right', 'value' => 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.rightLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherocontenthorizontal', 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherocontenthorizontal', 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.title', 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Hero - title
         $cssClasses = [
@@ -871,7 +950,7 @@ class Migration extends MigrationAbstract
             ['key' => 'title--3', 'value' => 'WEMSG.STYLEMANAGER.fwherotitle.3Label'],
             ['key' => 'title--4', 'value' => 'WEMSG.STYLEMANAGER.fwherotitle.4Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherotitle', 'WEMSG.STYLEMANAGER.fwherotitle.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveTitle->id, 'fwherotitle', 'WEMSG.STYLEMANAGER.fwherotitle.title', 'WEMSG.STYLEMANAGER.fwherotitle.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Hero - text color
         $cssClasses = [];
@@ -882,7 +961,7 @@ class Migration extends MigrationAbstract
                 'value' => sprintf('WEMSG.STYLEMANAGER.fwheroft.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwheroft', 'WEMSG.STYLEMANAGER.fwheroft.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveTitle->id, 'fwheroft', 'WEMSG.STYLEMANAGER.fwheroft.title', 'WEMSG.STYLEMANAGER.fwheroft.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Hero - bg color
         $cssClasses = [];
@@ -893,7 +972,7 @@ class Migration extends MigrationAbstract
                 'value' => sprintf('WEMSG.STYLEMANAGER.fwherocontentbg.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherocontentbg', 'WEMSG.STYLEMANAGER.fwherocontentbg.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherocontentbg', 'WEMSG.STYLEMANAGER.fwherocontentbg.title', 'WEMSG.STYLEMANAGER.fwherocontentbg.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Hero - bgopacity
         $cssClasses = [
@@ -909,25 +988,25 @@ class Migration extends MigrationAbstract
             ['key' => 'content_bg_opacity--9', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.9Label'],
             ['key' => 'content_bg_opacity--10', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.10Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherocontentbgopacity', 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherocontentbgopacity', 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.title', 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Hero - wfull
         $cssClasses = [
             ['key' => 'w-full', 'value' => 'WEMSG.STYLEMANAGER.fwherowfull.label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherowfull', 'WEMSG.STYLEMANAGER.fwherowfull.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherowfull', 'WEMSG.STYLEMANAGER.fwherowfull.title', 'WEMSG.STYLEMANAGER.fwherowfull.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Hero - heightcontent
         $cssClasses = [
             ['key' => 'height--content', 'value' => 'WEMSG.STYLEMANAGER.fwheroheightcontent.label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwheroheightcontent', 'WEMSG.STYLEMANAGER.fwheroheightcontent.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwheroheightcontent', 'WEMSG.STYLEMANAGER.fwheroheightcontent.title', 'WEMSG.STYLEMANAGER.fwheroheightcontent.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Hero - widthcontent
         $cssClasses = [
             ['key' => 'width--content', 'value' => 'WEMSG.STYLEMANAGER.fwherowidthcontent.label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherowidthcontent', 'WEMSG.STYLEMANAGER.fwherowidthcontent.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherowidthcontent', 'WEMSG.STYLEMANAGER.fwherowidthcontent.title', 'WEMSG.STYLEMANAGER.fwherowidthcontent.description', $contentElements, $cssClasses);
         $objStyle->save();
     }
 
@@ -935,42 +1014,50 @@ class Migration extends MigrationAbstract
     {
         $contentElements = self::$elements['slider'];
         // Slider
-        $objArchive = $this->fillObjArchive('fwslider', 'WEMSG.STYLEMANAGER.fwslider.title');
+        $objArchive = $this->fillObjArchive('fwslider', 'WEMSG.STYLEMANAGER.fwslider.tabTitle', 'FramwaySlider');
         $objArchive->save();
+        $objArchiveNav = $this->fillObjArchive('fwslidernav', 'WEMSG.STYLEMANAGER.fwslidernav.tabTitle', 'FramwaySlider');
+        $objArchiveNav->save();
+        $objArchiveImg = $this->fillObjArchive('fwsliderimg', 'WEMSG.STYLEMANAGER.fwsliderimg.tabTitle', 'FramwaySlider');
+        $objArchiveImg->save();
+        $objArchiveContent = $this->fillObjArchive('fwslidercontent', 'WEMSG.STYLEMANAGER.fwslidercontent.tabTitle', 'FramwaySlider');
+        $objArchiveContent->save();
+        $objArchiveTitle = $this->fillObjArchive('fwslidertitle', 'WEMSG.STYLEMANAGER.fwslidertitle.tabTitle', 'FramwaySlider');
+        $objArchiveTitle->save();
         // Slider - nav
         $cssClasses = [
             ['key' => 'nav--below', 'value' => 'WEMSG.STYLEMANAGER.fwslidernav.belowLabel'],
             ['key' => 'nav--hidden', 'value' => 'WEMSG.STYLEMANAGER.fwslidernav.hiddenLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwslidernav', 'WEMSG.STYLEMANAGER.fwslidernav.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveNav->id, 'fwslidernav', 'WEMSG.STYLEMANAGER.fwslidernav.title', 'WEMSG.STYLEMANAGER.fwslidernav.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Slider - navvertical
         $cssClasses = [
             ['key' => 'nav--top', 'value' => 'WEMSG.STYLEMANAGER.fwslidernavvertical.topLabel'],
             ['key' => 'nav--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwslidernavvertical.bottomLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwslidernavvertical', 'WEMSG.STYLEMANAGER.fwslidernavvertical.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveNav->id, 'fwslidernavvertical', 'WEMSG.STYLEMANAGER.fwslidernavvertical.title', 'WEMSG.STYLEMANAGER.fwslidernavvertical.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Slider - navhorizontal
         $cssClasses = [
             ['key' => 'nav--left', 'value' => 'WEMSG.STYLEMANAGER.fwslidernavhorizontal.leftLabel'],
             ['key' => 'nav--right', 'value' => 'WEMSG.STYLEMANAGER.fwslidernavhorizontal.rightLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwslidernavhorizontal', 'WEMSG.STYLEMANAGER.fwslidernavhorizontal.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveNav->id, 'fwslidernavhorizontal', 'WEMSG.STYLEMANAGER.fwslidernavhorizontal.title', 'WEMSG.STYLEMANAGER.fwslidernavhorizontal.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Slider - imgvertical
         $cssClasses = [
             ['key' => 'img--top', 'value' => 'WEMSG.STYLEMANAGER.fwsliderimgvertical.topLabel'],
             ['key' => 'img--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwsliderimgvertical.bottomLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwsliderimgvertical', 'WEMSG.STYLEMANAGER.fwsliderimgvertical.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwsliderimgvertical', 'WEMSG.STYLEMANAGER.fwsliderimgvertical.title', 'WEMSG.STYLEMANAGER.fwsliderimgvertical.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Slider - imghorizontal
         $cssClasses = [
             ['key' => 'img--left', 'value' => 'WEMSG.STYLEMANAGER.fwsliderimghorizontal.leftLabel'],
             ['key' => 'img--right', 'value' => 'WEMSG.STYLEMANAGER.fwsliderimghorizontal.rightLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwsliderimghorizontal', 'WEMSG.STYLEMANAGER.fwsliderimghorizontal.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwsliderimghorizontal', 'WEMSG.STYLEMANAGER.fwsliderimghorizontal.title', 'WEMSG.STYLEMANAGER.fwsliderimghorizontal.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Slider - imgopacity
         $cssClasses = [
@@ -986,7 +1073,7 @@ class Migration extends MigrationAbstract
             ['key' => 'img_opacity--9', 'value' => 'WEMSG.STYLEMANAGER.fwsliderimgopacity.9Label'],
             ['key' => 'img_opacity--10', 'value' => 'WEMSG.STYLEMANAGER.fwsliderimgopacity.10Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwsliderimgopacity', 'WEMSG.STYLEMANAGER.fwsliderimgopacity.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwsliderimgopacity', 'WEMSG.STYLEMANAGER.fwsliderimgopacity.title', 'WEMSG.STYLEMANAGER.fwsliderimgopacity.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Slider - contentvertical
         $cssClasses = [
@@ -994,7 +1081,7 @@ class Migration extends MigrationAbstract
             ['key' => 'content--v--center', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentvertical.centerLabel'],
             ['key' => 'content--v--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentvertical.bottomLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwslidercontentvertical', 'WEMSG.STYLEMANAGER.fwslidercontentvertical.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwslidercontentvertical', 'WEMSG.STYLEMANAGER.fwslidercontentvertical.title', 'WEMSG.STYLEMANAGER.fwslidercontentvertical.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Slider - contenthorizontal
         $cssClasses = [
@@ -1002,7 +1089,7 @@ class Migration extends MigrationAbstract
             ['key' => 'content--h--center', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.centerLabel'],
             ['key' => 'content--h--right', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.rightLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwslidercontenthorizontal', 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwslidercontenthorizontal', 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.title', 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Slider - title
         $cssClasses = [
@@ -1011,7 +1098,7 @@ class Migration extends MigrationAbstract
             ['key' => 'title--3', 'value' => 'WEMSG.STYLEMANAGER.fwslidertitle.3Label'],
             ['key' => 'title--4', 'value' => 'WEMSG.STYLEMANAGER.fwslidertitle.4Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwslidertitle', 'WEMSG.STYLEMANAGER.fwslidertitle.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveTitle->id, 'fwslidertitle', 'WEMSG.STYLEMANAGER.fwslidertitle.title', 'WEMSG.STYLEMANAGER.fwslidertitle.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Slider - text color
         $cssClasses = [];
@@ -1022,7 +1109,7 @@ class Migration extends MigrationAbstract
                 'value' => sprintf('WEMSG.STYLEMANAGER.fwsliderft.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwsliderft', 'WEMSG.STYLEMANAGER.fwsliderft.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveTitle->id, 'fwsliderft', 'WEMSG.STYLEMANAGER.fwsliderft.title', 'WEMSG.STYLEMANAGER.fwsliderft.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Slider - bg color
         $cssClasses = [];
@@ -1033,7 +1120,7 @@ class Migration extends MigrationAbstract
                 'value' => sprintf('WEMSG.STYLEMANAGER.fwslidercontentbg.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwslidercontentbg', 'WEMSG.STYLEMANAGER.fwslidercontentbg.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwslidercontentbg', 'WEMSG.STYLEMANAGER.fwslidercontentbg.title', 'WEMSG.STYLEMANAGER.fwslidercontentbg.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Slider - bgopacity
         $cssClasses = [
@@ -1049,13 +1136,13 @@ class Migration extends MigrationAbstract
             ['key' => 'content_bg_opacity--9', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.9Label'],
             ['key' => 'content_bg_opacity--10', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.10Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwslidercontentbgopacity', 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwslidercontentbgopacity', 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.title', 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Slider - wfull
         $cssClasses = [
             ['key' => 'w-full', 'value' => 'WEMSG.STYLEMANAGER.fwsliderwfull.label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwsliderwfull', 'WEMSG.STYLEMANAGER.fwsliderwfull.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwsliderwfull', 'WEMSG.STYLEMANAGER.fwsliderwfull.title', 'WEMSG.STYLEMANAGER.fwsliderwfull.description', $contentElements, $cssClasses);
         $objStyle->save();
     }
 
@@ -1063,7 +1150,9 @@ class Migration extends MigrationAbstract
     {
         $contentElements = self::$elements['image'];
         // Image
-        $objArchive = $this->fillObjArchive('fwimage', 'WEMSG.STYLEMANAGER.fwimage.title');
+        $objArchiveRatio = $this->fillObjArchive('fwimageratio', 'WEMSG.STYLEMANAGER.fwimageratio.tabTitle', 'FramwayImage');
+        $objArchiveRatio->save();
+        $objArchive = $this->fillObjArchive('fwimage', 'WEMSG.STYLEMANAGER.fwimage.tabTitle', 'FramwayImage');
         $objArchive->save();
         // Image - ratio
         $cssClasses = [
@@ -1073,31 +1162,21 @@ class Migration extends MigrationAbstract
             ['key' => 'r_1-2', 'value' => 'WEMSG.STYLEMANAGER.fwimageratio.r12Label'],
             ['key' => 'r_4-3', 'value' => 'WEMSG.STYLEMANAGER.fwimageratio.r43Label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwimageratio', 'WEMSG.STYLEMANAGER.fwimageratio.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchiveRatio->id, 'fwimageratio', 'WEMSG.STYLEMANAGER.fwimageratio.title', 'WEMSG.STYLEMANAGER.fwimageratio.description', $contentElements, $cssClasses);
         $objStyle->save();
-        // Image - zoomin
+        // Image - zoom
         $cssClasses = [
-            ['key' => 'zoomin', 'value' => 'WEMSG.STYLEMANAGER.fwimagezoomin.label'],
+            ['key' => 'zoomin', 'value' => 'WEMSG.STYLEMANAGER.fwimagezoom.inLabel'],
+            ['key' => 'zoomout', 'value' => 'WEMSG.STYLEMANAGER.fwimagezoom.outLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwimagezoomin', 'WEMSG.STYLEMANAGER.fwimagezoomin.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwimagezoom', 'WEMSG.STYLEMANAGER.fwimagezoom.title', 'WEMSG.STYLEMANAGER.fwimagezoom.description', $contentElements, $cssClasses);
         $objStyle->save();
-        // Image - zoomout
+        // Image - fade
         $cssClasses = [
-            ['key' => 'zoomout', 'value' => 'WEMSG.STYLEMANAGER.fwimagezoomout.label'],
+            ['key' => 'fadetocolor', 'value' => 'WEMSG.STYLEMANAGER.fwimagefade.colorLabel'],
+            ['key' => 'fadetogrey', 'value' => 'WEMSG.STYLEMANAGER.fwimagefade.greyLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwimagezoomout', 'WEMSG.STYLEMANAGER.fwimagezoomout.title', $contentElements, $cssClasses);
-        $objStyle->save();
-        // Image - fadetocolor
-        $cssClasses = [
-            ['key' => 'fadetocolor', 'value' => 'WEMSG.STYLEMANAGER.fwimagefadetocolor.label'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwimagefadetocolor', 'WEMSG.STYLEMANAGER.fwimagefadetocolor.title', $contentElements, $cssClasses);
-        $objStyle->save();
-        // Image - fadetogrey
-        $cssClasses = [
-            ['key' => 'fadetogrey', 'value' => 'WEMSG.STYLEMANAGER.fwimagefadetogrey.label'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwimagefadetogrey', 'WEMSG.STYLEMANAGER.fwimagefadetogrey.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwimagefade', 'WEMSG.STYLEMANAGER.fwimagefade.title', 'WEMSG.STYLEMANAGER.fwimagefade.description', $contentElements, $cssClasses);
         $objStyle->save();
     }
 
@@ -1105,32 +1184,32 @@ class Migration extends MigrationAbstract
     {
         $contentElements = self::$elements['table'];
         // Table
-        $objArchive = $this->fillObjArchive('fwtable', 'WEMSG.STYLEMANAGER.fwtable.title');
+        $objArchive = $this->fillObjArchive('fwtable', 'WEMSG.STYLEMANAGER.fwtable.tabTitle', 'FramwayTable');
         $objArchive->save();
         // Table - sm
         $cssClasses = [
             ['key' => 'table-sm', 'value' => 'WEMSG.STYLEMANAGER.fwtablesm.label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwtablesm', 'WEMSG.STYLEMANAGER.fwtablesm.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwtablesm', 'WEMSG.STYLEMANAGER.fwtablesm.title', 'WEMSG.STYLEMANAGER.fwtablesm.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Table - border
         $cssClasses = [
             ['key' => 'table-bordered', 'value' => 'WEMSG.STYLEMANAGER.fwtableborder.borderedLabel'],
             ['key' => 'table-borderless', 'value' => 'WEMSG.STYLEMANAGER.fwtableborder.borderlessLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwtableborder', 'WEMSG.STYLEMANAGER.fwtableborder.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwtableborder', 'WEMSG.STYLEMANAGER.fwtableborder.title', 'WEMSG.STYLEMANAGER.fwtableborder.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Table - striped
         $cssClasses = [
             ['key' => 'table-striped', 'value' => 'WEMSG.STYLEMANAGER.fwtablestriped.label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwtablestriped', 'WEMSG.STYLEMANAGER.fwtablestriped.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwtablestriped', 'WEMSG.STYLEMANAGER.fwtablestriped.title', 'WEMSG.STYLEMANAGER.fwtablestriped.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Table - hover
         $cssClasses = [
             ['key' => 'table-hover', 'value' => 'WEMSG.STYLEMANAGER.fwtablehover.label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwtablehover', 'WEMSG.STYLEMANAGER.fwtablehover.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwtablehover', 'WEMSG.STYLEMANAGER.fwtablehover.title', 'WEMSG.STYLEMANAGER.fwtablehover.description', $contentElements, $cssClasses);
         $objStyle->save();
     }
 
@@ -1138,7 +1217,7 @@ class Migration extends MigrationAbstract
     {
         $contentElements = self::$elements['background'];
         // Background
-        $objArchive = $this->fillObjArchive('fwbackground', 'WEMSG.STYLEMANAGER.fwbackground.title');
+        $objArchive = $this->fillObjArchive('fwbackground', 'WEMSG.STYLEMANAGER.fwbackground.tabTitle', 'FramwayBackground');
         $objArchive->save();
         // Background - background
         $cssClasses = [
@@ -1155,7 +1234,7 @@ class Migration extends MigrationAbstract
                 'value' => sprintf('WEMSG.STYLEMANAGER.fwbackgroundcolor.bgColorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwbackgroundcolor', 'WEMSG.STYLEMANAGER.fwbackgroundcolor.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwbackgroundcolor', 'WEMSG.STYLEMANAGER.fwbackgroundcolor.title', 'WEMSG.STYLEMANAGER.fwbackgroundcolor.description', $contentElements, $cssClasses);
         $objStyle->save();
     }
 
@@ -1163,7 +1242,7 @@ class Migration extends MigrationAbstract
     {
         $contentElements = self::$elements['button'];
         // Buttons
-        $objArchive = $this->fillObjArchive('fwbutton', 'WEMSG.STYLEMANAGER.fwbutton.title');
+        $objArchive = $this->fillObjArchive('fwbutton', 'WEMSG.STYLEMANAGER.fwbutton.tabTitle', 'FramwayButton');
         $objArchive->save();
         // Buttons - size
         $cssClasses = [
@@ -1171,7 +1250,7 @@ class Migration extends MigrationAbstract
             ['key' => 'btn-sm', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonsize.sizeSmLabel'],
             ['key' => 'btn-lg', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonsize.sizeLgLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonsize', 'WEMSG.STYLEMANAGER.fwbuttonsize.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonsize', 'WEMSG.STYLEMANAGER.fwbuttonsize.title', 'WEMSG.STYLEMANAGER.fwbuttonsize.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Buttons - background
         $cssClasses = [
@@ -1189,7 +1268,7 @@ class Migration extends MigrationAbstract
                 'value' => sprintf('WEMSG.STYLEMANAGER.fwbuttonbackground.bgColorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonbackground', 'WEMSG.STYLEMANAGER.fwbuttonbackground.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonbackground', 'WEMSG.STYLEMANAGER.fwbuttonbackground.title', 'WEMSG.STYLEMANAGER.fwbuttonbackground.description', $contentElements, $cssClasses);
         $objStyle->save();
         // Buttons - border
         $cssClasses = [
@@ -1205,7 +1284,7 @@ class Migration extends MigrationAbstract
                 'value' => sprintf('WEMSG.STYLEMANAGER.fwbuttonborder.bdColorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonborder', 'WEMSG.STYLEMANAGER.fwbuttonborder.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonborder', 'WEMSG.STYLEMANAGER.fwbuttonborder.title', 'WEMSG.STYLEMANAGER.fwbuttonborder.description', $contentElements, $cssClasses);
         $objStyle->save();
     }
 
@@ -1213,31 +1292,31 @@ class Migration extends MigrationAbstract
     {
         $contentElements = self::$elements['separator'];
         // separators
-        $objArchive = $this->fillObjArchive('fwseparator', 'WEMSG.STYLEMANAGER.fwseparator.title');
+        $objArchive = $this->fillObjArchive('fwseparator', 'WEMSG.STYLEMANAGER.fwseparator.tabTitle', 'FramwaySeparator');
         $objArchive->save();
         // separators - top
         $cssClasses = [
             ['key' => 'sep-top', 'value' => 'WEMSG.STYLEMANAGER.fwseparatortop.label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatortop', 'WEMSG.STYLEMANAGER.fwseparatortop.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatortop', 'WEMSG.STYLEMANAGER.fwseparatortop.title', 'WEMSG.STYLEMANAGER.fwseparatortop.description', $contentElements, $cssClasses);
         $objStyle->save();
         // separators - bottom
         $cssClasses = [
             ['key' => 'sep-bottom', 'value' => 'WEMSG.STYLEMANAGER.fwseparatorbottom.label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatorbottom', 'WEMSG.STYLEMANAGER.fwseparatorbottom.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatorbottom', 'WEMSG.STYLEMANAGER.fwseparatorbottom.title', 'WEMSG.STYLEMANAGER.fwseparatorbottom.description', $contentElements, $cssClasses);
         $objStyle->save();
         // separators - left
         $cssClasses = [
             ['key' => 'sep-left', 'value' => 'WEMSG.STYLEMANAGER.fwseparatorleft.label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatorleft', 'WEMSG.STYLEMANAGER.fwseparatorleft.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatorleft', 'WEMSG.STYLEMANAGER.fwseparatorleft.title', 'WEMSG.STYLEMANAGER.fwseparatorleft.description', $contentElements, $cssClasses);
         $objStyle->save();
         // separators - right
         $cssClasses = [
             ['key' => 'sep-right', 'value' => 'WEMSG.STYLEMANAGER.fwseparatorright.label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatorright', 'WEMSG.STYLEMANAGER.fwseparatorright.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatorright', 'WEMSG.STYLEMANAGER.fwseparatorright.title', 'WEMSG.STYLEMANAGER.fwseparatorright.description', $contentElements, $cssClasses);
         $objStyle->save();
     }
 
@@ -1245,7 +1324,7 @@ class Migration extends MigrationAbstract
     {
         $contentElements = self::$elements['margin'];
         // margins
-        $objArchive = $this->fillObjArchive('fwmargin', 'WEMSG.STYLEMANAGER.fwmargin.title');
+        $objArchive = $this->fillObjArchive('fwmargin', 'WEMSG.STYLEMANAGER.fwmargin.tabTitle', 'FramwayMargin');
         $objArchive->save();
         // margins - top
         $cssClasses = [
@@ -1253,7 +1332,7 @@ class Migration extends MigrationAbstract
             ['key' => 'm-top', 'value' => 'WEMSG.STYLEMANAGER.fwmargintop.label'],
             ['key' => 'm-top-x2', 'value' => 'WEMSG.STYLEMANAGER.fwmargintop.doubleLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwmargintop', 'WEMSG.STYLEMANAGER.fwmargintop.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwmargintop', 'WEMSG.STYLEMANAGER.fwmargintop.title', 'WEMSG.STYLEMANAGER.fwmargintop.description', $contentElements, $cssClasses);
         $objStyle->save();
         // margins - bottom
         $cssClasses = [
@@ -1261,7 +1340,7 @@ class Migration extends MigrationAbstract
             ['key' => 'm-bottom', 'value' => 'WEMSG.STYLEMANAGER.fwmarginbottom.label'],
             ['key' => 'm-bottom-x2', 'value' => 'WEMSG.STYLEMANAGER.fwmarginbottom.doubleLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwmarginbottom', 'WEMSG.STYLEMANAGER.fwmarginbottom.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwmarginbottom', 'WEMSG.STYLEMANAGER.fwmarginbottom.title', 'WEMSG.STYLEMANAGER.fwmarginbottom.description', $contentElements, $cssClasses);
         $objStyle->save();
         // margins - left
         $cssClasses = [
@@ -1269,7 +1348,7 @@ class Migration extends MigrationAbstract
             ['key' => 'm-left', 'value' => 'WEMSG.STYLEMANAGER.fwmarginleft.label'],
             ['key' => 'm-left-x2', 'value' => 'WEMSG.STYLEMANAGER.fwmarginleft.doubleLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwmarginleft', 'WEMSG.STYLEMANAGER.fwmarginleft.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwmarginleft', 'WEMSG.STYLEMANAGER.fwmarginleft.title', 'WEMSG.STYLEMANAGER.fwmarginleft.description', $contentElements, $cssClasses);
         $objStyle->save();
         // margins - right
         $cssClasses = [
@@ -1277,11 +1356,11 @@ class Migration extends MigrationAbstract
             ['key' => 'm-right', 'value' => 'WEMSG.STYLEMANAGER.fwmarginright.label'],
             ['key' => 'm-right-x2', 'value' => 'WEMSG.STYLEMANAGER.fwmarginright.doubleLabel'],
         ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwmarginright', 'WEMSG.STYLEMANAGER.fwmarginright.title', $contentElements, $cssClasses);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwmarginright', 'WEMSG.STYLEMANAGER.fwmarginright.title', 'WEMSG.STYLEMANAGER.fwmarginright.description', $contentElements, $cssClasses);
         $objStyle->save();
     }
 
-    private function fillObjStyle($pid, $alias, $titleKey, array $contentElements, array $cssClasses): StyleManagerModel
+    private function fillObjStyle($pid, $alias, $titleKey, string $descriptioneKey, array $contentElements, array $cssClasses): StyleManagerModel
     {
         $objStyle = StyleManagerModel::findByAliasAndPid($alias, $pid) ?? new StyleManagerModel();
         $objStyle->pid = $pid;
@@ -1292,12 +1371,13 @@ class Migration extends MigrationAbstract
         $objStyle->tstamp = time();
         $objStyle->contentElements = serialize($contentElements);
         $objStyle->extendContentElement = true;
+        $objStyle->description = $descriptioneKey;
         $objStyle->cssClasses = serialize($cssClasses);
 
         return $objStyle;
     }
 
-    private function fillObjArchive(string $alias, string $titleKey): StyleManagerArchiveModel
+    private function fillObjArchive(string $alias, string $titleKey, ?string $groupAlias = 'Framway'): StyleManagerArchiveModel
     {
         $objArchive = StyleManagerArchiveModel::findByIdentifier($alias);
         if (!$objArchive) {
@@ -1308,7 +1388,7 @@ class Migration extends MigrationAbstract
 
         $objArchive->title = $titleKey;
         $objArchive->identifier = $alias;
-        $objArchive->groupAlias = 'Framway';
+        $objArchive->groupAlias = $groupAlias;
         $objArchive->tstamp = time();
 
         return $objArchive;

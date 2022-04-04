@@ -71,7 +71,11 @@ return [
             'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50', 'min' => 1, 'max' => 12],
         ],
         'listItems' => [
-            'label' => ['Images', 'Editez les images'], 'elementLabel' => '%s. image', 'inputType' => 'list', 'fields' => [
+            'label' => ['Images', 'Editez les images'], 'elementLabel' => '%s. image', 'inputType' => 'list',
+            'fields' => [
+                // 'classes' => [
+                //     'inputType' => 'stylemanager', 'eval' => ['tl_class' => 'clr stylemanager'],
+                // ],
                 'img_legend' => [
                     'label' => ['Configuration de l\'image'], 'inputType' => 'group',
                 ],
@@ -123,9 +127,9 @@ return [
                     'inputType' => 'text',
                     'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50', 'min' => 1, 'max' => 12],
                 ],
-                'classes' => [
-                    'label' => ['Classes supplémentaires', 'Indiquez, si souhaité, la ou les classes css à ajouter a l\'image'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr'],
-                ],
+                // 'classes' => [
+                //     'label' => ['Classes supplémentaires', 'Indiquez, si souhaité, la ou les classes css à ajouter a l\'image'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr'],
+                // ],
             ],
         ],
     ],
