@@ -998,7 +998,7 @@ class Migration extends MigrationAbstract
         $colors = $this->configurationThemeManager->load()->getColors();
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
-                'key' => 'content_bg--'.$name,
+                'key' => 'content__bg--'.$name,
                 'value' => sprintf('WEMSG.STYLEMANAGER.fwherocontentbg.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
@@ -1006,17 +1006,17 @@ class Migration extends MigrationAbstract
         $objStyle->save();
         // Hero - bgopacity
         $cssClasses = [
-            ['key' => 'content_bg_opacity--0', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.0Label'],
-            ['key' => 'content_bg_opacity--1', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.1Label'],
-            ['key' => 'content_bg_opacity--2', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.2Label'],
-            ['key' => 'content_bg_opacity--3', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.3Label'],
-            ['key' => 'content_bg_opacity--4', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.4Label'],
-            ['key' => 'content_bg_opacity--5', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.5Label'],
-            ['key' => 'content_bg_opacity--6', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.6Label'],
-            ['key' => 'content_bg_opacity--7', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.7Label'],
-            ['key' => 'content_bg_opacity--8', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.8Label'],
-            ['key' => 'content_bg_opacity--9', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.9Label'],
-            ['key' => 'content_bg_opacity--10', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.10Label'],
+            ['key' => 'content__bg__opacity--0', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.0Label'],
+            ['key' => 'content__bg__opacity--1', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.1Label'],
+            ['key' => 'content__bg__opacity--2', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.2Label'],
+            ['key' => 'content__bg__opacity--3', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.3Label'],
+            ['key' => 'content__bg__opacity--4', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.4Label'],
+            ['key' => 'content__bg__opacity--5', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.5Label'],
+            ['key' => 'content__bg__opacity--6', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.6Label'],
+            ['key' => 'content__bg__opacity--7', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.7Label'],
+            ['key' => 'content__bg__opacity--8', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.8Label'],
+            ['key' => 'content__bg__opacity--9', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.9Label'],
+            ['key' => 'content__bg__opacity--10', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.10Label'],
         ];
         $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherocontentbgopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.title', 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
@@ -1146,7 +1146,7 @@ class Migration extends MigrationAbstract
         $colors = $this->configurationThemeManager->load()->getColors();
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
-                'key' => 'content_bg--'.$name,
+                'key' => 'content__bg--'.$name,
                 'value' => sprintf('WEMSG.STYLEMANAGER.fwslidercontentbg.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $name),
             ];
         }
@@ -1154,17 +1154,17 @@ class Migration extends MigrationAbstract
         $objStyle->save();
         // Slider - bgopacity
         $cssClasses = [
-            ['key' => 'content_bg_opacity--0', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.0Label'],
-            ['key' => 'content_bg_opacity--1', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.1Label'],
-            ['key' => 'content_bg_opacity--2', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.2Label'],
-            ['key' => 'content_bg_opacity--3', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.3Label'],
-            ['key' => 'content_bg_opacity--4', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.4Label'],
-            ['key' => 'content_bg_opacity--5', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.5Label'],
-            ['key' => 'content_bg_opacity--6', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.6Label'],
-            ['key' => 'content_bg_opacity--7', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.7Label'],
-            ['key' => 'content_bg_opacity--8', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.8Label'],
-            ['key' => 'content_bg_opacity--9', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.9Label'],
-            ['key' => 'content_bg_opacity--10', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.10Label'],
+            ['key' => 'content__bg__opacity--0', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.0Label'],
+            ['key' => 'content__bg__opacity--1', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.1Label'],
+            ['key' => 'content__bg__opacity--2', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.2Label'],
+            ['key' => 'content__bg__opacity--3', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.3Label'],
+            ['key' => 'content__bg__opacity--4', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.4Label'],
+            ['key' => 'content__bg__opacity--5', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.5Label'],
+            ['key' => 'content__bg__opacity--6', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.6Label'],
+            ['key' => 'content__bg__opacity--7', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.7Label'],
+            ['key' => 'content__bg__opacity--8', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.8Label'],
+            ['key' => 'content__bg__opacity--9', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.9Label'],
+            ['key' => 'content__bg__opacity--10', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.10Label'],
         ];
         $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwslidercontentbgopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.title', 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
