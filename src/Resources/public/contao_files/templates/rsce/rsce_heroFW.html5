@@ -5,6 +5,7 @@
   $strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
 
   // Prepare the main block classes
+  /*
   $arrClasses = [];
   if($this->force_fullwidth)
     $arrClasses[] = 'force-full';
@@ -28,12 +29,12 @@
     $arrClasses[] = $this->title_modifier;
 
 
+  */
   $height = '';
   if($this->block_height)
     $height = $this->block_height;
   if($this->force_fullheight)
     $height = 'viewport';
-
 ?>
 <div class="heroFW <?= implode(' ', $arrClasses) ?> <?= $this->class ?>"<?= $this->cssID ?> data-height="<?= $height ?>" <?= ($height!="viewport") ? 'style="height:'.$height.';"' : 'style="height:80vh;"' ?>>
   <div class="heroFW__wrapper">

@@ -34,7 +34,7 @@ class Migration extends MigrationAbstract
     protected $configurationThemeManager;
 
     protected static $elements = [
-        'margin' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionStop', 'accordionSingle', 'sliderStart', 'sliderStop', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'grid-stop', 'rsce_accordionFW', 'rsce_counterFW', 'rsce_gridGallery', 'rsce_heroFWStart', 'rsce_heroFWStop', 'rsce_priceCards', 'rsce_sliderFW', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations'],
+        'margin' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionStop', 'accordionSingle', 'sliderStart', 'sliderStop', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'grid-stop', 'rsce_accordionFW', 'rsce_counterFW', 'rsce_gridGallery', 'rsce_heroFW', 'rsce_heroFWStart', 'rsce_heroFWStop', 'rsce_priceCards', 'rsce_sliderFW', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations'],
         'button' => ['hyperlink'],
         'background' => ['headline', 'text', 'rsce_quote'],
         'separator' => ['headline'],
@@ -44,11 +44,15 @@ class Migration extends MigrationAbstract
         'image_other' => ['image'],
         'image_ratio' => ['image'],
         'image_ratio_manual' => ['rsce_gridGallery'],
-        'hero' => ['rsce_heroFWStart', 'rsce_heroFWStop'],
+        'hero' => ['rsce_heroFW', 'rsce_heroFWStart', 'rsce_heroFWStop'],
         'grid_manual' => ['rsce_gridGallery'],
         'griditems_manual' => ['rsce_gridGallery'],
         'priceCards' => ['rsce_priceCards'],
     ];
+    /** @var array */
+    private $archiveIdentifierToKeep = [];
+    /** @var array */
+    private $styleAliasToKeep = [];
 
     public function __construct(
         Connection $connection,
@@ -246,7 +250,6 @@ class Migration extends MigrationAbstract
             return $result;
         }
         try {
-            $this->cleanBeforeInserts();
             $this->manageMargins();
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSMargins'), [], 'contao_default'));
             $this->manageSeparators();
@@ -271,6 +274,8 @@ class Migration extends MigrationAbstract
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSGridItems'), [], 'contao_default'));
             $this->managePriceCards();
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSPriceCards'), [], 'contao_default'));
+            $this->deleteUnusedStyles();
+            $this->deleteUnusedArchives();
         } catch (\Exception $e) {
             $result
                 ->setStatus(Result::STATUS_FAIL)
@@ -281,22 +286,26 @@ class Migration extends MigrationAbstract
         return $result;
     }
 
-    protected function cleanBeforeInserts(): void
+    protected function deleteUnusedStyles(): void
     {
         $styles = StyleManagerModel::findAll();
-        $archives = StyleManagerArchiveModel::findAll();
 
         if ($styles) {
             foreach ($styles as $style) {
-                if ('fw' === substr($style->alias, 0, 2)) {
+                if ('fw' === substr($style->alias, 0, 2) && !\in_array($style->alias, $this->styleAliasToKeep, true)) {
                     $style->delete();
                 }
             }
         }
+    }
+
+    protected function deleteUnusedArchives(): void
+    {
+        $archives = StyleManagerArchiveModel::findAll();
 
         if ($archives) {
             foreach ($archives as $archive) {
-                if ('fw' === substr($archive->identifier, 0, 2)) {
+                if ('fw' === substr($archive->identifier, 0, 2) && !\in_array($archive->identifier, $this->archiveIdentifierToKeep, true)) {
                     $archive->delete();
                 }
             }
@@ -1402,12 +1411,14 @@ class Migration extends MigrationAbstract
         $objStyle->cssClasses = serialize($cssClasses);
         $objStyle->passToTemplate = $passToTemplate;
 
+        $this->styleAliasToKeep[] = $alias;
+
         return $objStyle;
     }
 
-    private function fillObjArchive(string $alias, string $titleKey, ?string $groupAlias = 'Framway'): StyleManagerArchiveModel
+    private function fillObjArchive(string $identifier, string $titleKey, ?string $groupAlias = 'Framway'): StyleManagerArchiveModel
     {
-        $objArchive = StyleManagerArchiveModel::findByIdentifier($alias);
+        $objArchive = StyleManagerArchiveModel::findByIdentifier($identifier);
         if (!$objArchive) {
             $objArchive = new StyleManagerArchiveModel();
         } elseif (\Contao\Model\Collection::class === \get_class($objArchive)) {
@@ -1415,9 +1426,11 @@ class Migration extends MigrationAbstract
         }
 
         $objArchive->title = $titleKey;
-        $objArchive->identifier = $alias;
+        $objArchive->identifier = $identifier;
         $objArchive->groupAlias = $groupAlias;
         $objArchive->tstamp = time();
+
+        $this->archiveIdentifierToKeep[] = $identifier;
 
         return $objArchive;
     }
