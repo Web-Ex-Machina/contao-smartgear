@@ -943,17 +943,17 @@ class Migration extends MigrationAbstract
         $objStyle->save();
         // Hero - figureopacity
         $cssClasses = [
-            ['key' => 'figure_opacity--0', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.0Label'],
-            ['key' => 'figure_opacity--1', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.1Label'],
-            ['key' => 'figure_opacity--2', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.2Label'],
-            ['key' => 'figure_opacity--3', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.3Label'],
-            ['key' => 'figure_opacity--4', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.4Label'],
-            ['key' => 'figure_opacity--5', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.5Label'],
-            ['key' => 'figure_opacity--6', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.6Label'],
-            ['key' => 'figure_opacity--7', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.7Label'],
-            ['key' => 'figure_opacity--8', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.8Label'],
-            ['key' => 'figure_opacity--9', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.9Label'],
-            ['key' => 'figure_opacity--10', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.10Label'],
+            ['key' => 'figure__opacity--0', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.0Label'],
+            ['key' => 'figure__opacity--1', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.1Label'],
+            ['key' => 'figure__opacity--2', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.2Label'],
+            ['key' => 'figure__opacity--3', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.3Label'],
+            ['key' => 'figure__opacity--4', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.4Label'],
+            ['key' => 'figure__opacity--5', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.5Label'],
+            ['key' => 'figure__opacity--6', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.6Label'],
+            ['key' => 'figure__opacity--7', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.7Label'],
+            ['key' => 'figure__opacity--8', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.8Label'],
+            ['key' => 'figure__opacity--9', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.9Label'],
+            ['key' => 'figure__opacity--10', 'value' => 'WEMSG.STYLEMANAGER.fwherofigureopacity.10Label'],
         ];
         $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwherofigureopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwherofigureopacity.title', 'WEMSG.STYLEMANAGER.fwherofigureopacity.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
