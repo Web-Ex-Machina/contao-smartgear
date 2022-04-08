@@ -1,4 +1,16 @@
 <?php
+  $gridClasses=$this->styleManager->get('fwgrid_manual'). ' ';
+  $gridClasses.=$this->styleManager->get('fwgriditemxl_manual'). ' ';
+  $gridClasses.=$this->styleManager->get('fwgriditemlg_manual'). ' ';
+  $gridClasses.=$this->styleManager->get('fwgriditemmd_manual'). ' ';
+  $gridClasses.=$this->styleManager->get('fwgriditemsm_manual'). ' ';
+  $gridClasses.=$this->styleManager->get('fwgriditemxs_manual'). ' ';
+  $gridClasses.=$this->styleManager->get('fwgriditemxxs_manual'). ' ';
+
+  $priceCardClasses =$this->styleManager->get('fwpricecard_manual');
+
+
+  /*
   $responsiveClasses = '';
   if($this->nbCols_xl)
     $responsiveClasses .= ' cols-xl-'.$this->nbCols_xl;
@@ -12,11 +24,13 @@
     $responsiveClasses .= ' cols-xs-'.$this->nbCols_xs;
   if($this->nbCols_xxs)
     $responsiveClasses .= ' cols-xxs-'.$this->nbCols_xxs;
+  */
 ?>
 <div class="<?= $this->class ?>"<?= $this->cssID ?>>
-<div class="d-grid cols-<?= $this->nbCols_default ?><?= $responsiveClasses ?>">
+<div class="d-grid <?= $gridClasses ?>">
   <?php foreach($this->listItems as $item): ?>
     <?php
+      /*
       $itemClasses = '';
       if ($item->font_color != '')
         $itemClasses.='ft-'.$item->font_color.' ';
@@ -26,8 +40,9 @@
         $itemClasses.='content--'.$item->content_color.' ';
       if ($item->isMain != '')
         $itemClasses.='main ';
+        */
     ?>
-    <div class="priceCard <?= $itemClasses ?>">
+    <div class="priceCard <?= $priceCardClasses ?>">
       <div class="priceCard__wrapper">
         <?php if ($item->title): ?>
           <div class="priceCard__title"><?= $item->title ?></div>

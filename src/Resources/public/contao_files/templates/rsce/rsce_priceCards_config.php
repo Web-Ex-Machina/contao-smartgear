@@ -17,44 +17,44 @@ return [
     'contentCategory' => 'SMARTGEAR',
     'standardFields' => ['cssID'],
     'fields' => [
-        'nbCols_default' => [
-            'label' => ['Nombre de colonnes', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'],
-            'inputType' => 'text',
-            'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min' => 1, 'max' => 12, 'mandatory' => true],
-        ],
-        'responsive_legend' => [
-            'label' => ['Configuration responsive'], 'inputType' => 'group',
-        ],
-        'nbCols_xl' => [
-            'label' => ['Nombre de colonnes < 1400px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'],
-            'inputType' => 'text',
-            'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min' => 1, 'max' => 12],
-        ],
-        'nbCols_lg' => [
-            'label' => ['Nombre de colonnes < 1200px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'],
-            'inputType' => 'text',
-            'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min' => 1, 'max' => 12],
-        ],
-        'nbCols_md' => [
-            'label' => ['Nombre de colonnes < 992px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'],
-            'inputType' => 'text',
-            'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min' => 1, 'max' => 12],
-        ],
-        'nbCols_sm' => [
-            'label' => ['Nombre de colonnes < 768px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'],
-            'inputType' => 'text',
-            'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min' => 1, 'max' => 12],
-        ],
-        'nbCols_xs' => [
-            'label' => ['Nombre de colonnes < 620px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'],
-            'inputType' => 'text',
-            'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min' => 1, 'max' => 12],
-        ],
-        'nbCols_xxs' => [
-            'label' => ['Nombre de colonnes < 520px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'],
-            'inputType' => 'text',
-            'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min' => 1, 'max' => 12],
-        ],
+        // 'nbCols_default' => [
+        //     'label' => ['Nombre de colonnes', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'],
+        //     'inputType' => 'text',
+        //     'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min' => 1, 'max' => 12, 'mandatory' => true],
+        // ],
+        // 'responsive_legend' => [
+        //     'label' => ['Configuration responsive'], 'inputType' => 'group',
+        // ],
+        // 'nbCols_xl' => [
+        //     'label' => ['Nombre de colonnes < 1400px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'],
+        //     'inputType' => 'text',
+        //     'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min' => 1, 'max' => 12],
+        // ],
+        // 'nbCols_lg' => [
+        //     'label' => ['Nombre de colonnes < 1200px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'],
+        //     'inputType' => 'text',
+        //     'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min' => 1, 'max' => 12],
+        // ],
+        // 'nbCols_md' => [
+        //     'label' => ['Nombre de colonnes < 992px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'],
+        //     'inputType' => 'text',
+        //     'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min' => 1, 'max' => 12],
+        // ],
+        // 'nbCols_sm' => [
+        //     'label' => ['Nombre de colonnes < 768px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'],
+        //     'inputType' => 'text',
+        //     'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min' => 1, 'max' => 12],
+        // ],
+        // 'nbCols_xs' => [
+        //     'label' => ['Nombre de colonnes < 620px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'],
+        //     'inputType' => 'text',
+        //     'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min' => 1, 'max' => 12],
+        // ],
+        // 'nbCols_xxs' => [
+        //     'label' => ['Nombre de colonnes < 520px', 'Indiquez le nombre de colonnes souhaité (entre 1 et 12)'],
+        //     'inputType' => 'text',
+        //     'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50 clr', 'min' => 1, 'max' => 12],
+        // ],
         'listItems' => [
             'label' => ['Price Cards', 'Editez les cards'], 'elementLabel' => '%s. price card', 'inputType' => 'list', 'fields' => [
                 // 'title' => [
@@ -98,24 +98,24 @@ return [
                 'style_legend' => [
                     'label' => ['Apparence'], 'inputType' => 'group',
                 ],
-                'font_color' => [
-                    'label' => ['Couleur du texte', 'Si souhaité, ajustez la couleur du contenu'],
-                    'inputType' => 'select',
-                    'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
-                    'eval' => ['tl_class' => 'w50'],
-                ],
-                'bg_color' => [
-                    'label' => ['Couleur du fond', 'Si souhaité, ajustez la couleur de fond du bloc'],
-                    'inputType' => 'select',
-                    'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
-                    'eval' => ['tl_class' => 'w50'],
-                ],
-                'content_color' => [
-                    'label' => ['Couleur du titre et du prix', 'Si souhaité, ajustez la couleur du titre et du prix'],
-                    'inputType' => 'select',
-                    'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
-                    'eval' => ['tl_class' => 'w50'],
-                ],
+                // 'font_color' => [
+                //     'label' => ['Couleur du texte', 'Si souhaité, ajustez la couleur du contenu'],
+                //     'inputType' => 'select',
+                //     'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
+                //     'eval' => ['tl_class' => 'w50'],
+                // ],
+                // 'bg_color' => [
+                //     'label' => ['Couleur du fond', 'Si souhaité, ajustez la couleur de fond du bloc'],
+                //     'inputType' => 'select',
+                //     'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
+                //     'eval' => ['tl_class' => 'w50'],
+                // ],
+                // 'content_color' => [
+                //     'label' => ['Couleur du titre et du prix', 'Si souhaité, ajustez la couleur du titre et du prix'],
+                //     'inputType' => 'select',
+                //     'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
+                //     'eval' => ['tl_class' => 'w50'],
+                // ],
                 'isMain' => [
                     'label' => ['Vedette', 'Met en valeur le bloc'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50'],
                 ],
