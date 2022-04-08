@@ -34,8 +34,9 @@ class Migration extends MigrationAbstract
     protected $configurationThemeManager;
 
     protected static $elements = [
-        'margin' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordionFW', 'rsce_counterFW', 'rsce_gridGallery', 'rsce_heroFW', 'rsce_heroFWStart', 'rsce_priceCards', 'rsce_sliderFW', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations'], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroFWStop'
+        'margin' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordionFW', 'rsce_counterFW', 'rsce_gridGallery', 'rsce_heroFW', 'rsce_heroFWStart', 'rsce_priceCards', 'rsce_sliderFW', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations', 'rsce_pdfViewerFW'], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroFWStop'
         'button' => ['hyperlink'],
+        'button_manual' => ['rsce_pdfViewerFW'],
         'background' => ['headline', 'text', 'rsce_quote'],
         'separator' => ['headline'],
         'table' => ['table'],
@@ -84,6 +85,7 @@ class Migration extends MigrationAbstract
 
         $objArchiveBackground = StyleManagerArchiveModel::findByIdentifier('fwbackground');
         $objArchiveButton = StyleManagerArchiveModel::findByIdentifier('fwbutton');
+        $objArchiveButtonManual = StyleManagerArchiveModel::findByIdentifier('fwbutton_manual');
         $objArchiveSeparator = StyleManagerArchiveModel::findByIdentifier('fwseparator');
         $objArchiveMargin = StyleManagerArchiveModel::findByIdentifier('fwmargin');
         $objArchiveTable = StyleManagerArchiveModel::findByIdentifier('fwtable');
@@ -121,6 +123,7 @@ class Migration extends MigrationAbstract
 
         if (null === $objArchiveBackground
         && null !== $objArchiveButton
+        && null !== $objArchiveButtonManual
         && null !== $objArchiveSeparator
         && null !== $objArchiveMargin
         && null !== $objArchiveTable
@@ -155,6 +158,9 @@ class Migration extends MigrationAbstract
             && null !== StyleManagerModel::findByAliasAndPid('fwbuttonsize', $objArchiveButton->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwbuttonbackground', $objArchiveButton->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwbuttonborder', $objArchiveButton->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonsize', $objArchiveButtonManual->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonbackground', $objArchiveButtonManual->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonborder', $objArchiveButtonManual->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwseparatortop', $objArchiveSeparator->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwseparatorbottom', $objArchiveSeparator->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwseparatorleft', $objArchiveSeparator->id)
@@ -255,6 +261,7 @@ class Migration extends MigrationAbstract
             $this->manageSeparators();
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSSeparators'), [], 'contao_default'));
             $this->manageButtons();
+            $this->manageButtons('_manual', true);
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSButtons'), [], 'contao_default'));
             $this->manageBackgrounds();
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSBackgrounds'), [], 'contao_default'));

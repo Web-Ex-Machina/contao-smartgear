@@ -34,7 +34,7 @@ TemplateLoader::addFiles(
         'rsce_tabs' => 'templates/rsce',
         'rsce_testimonials' => 'templates/rsce',
         'rsce_timeline' => 'templates/rsce',
-        'rsce_pdfviewer' => 'templates/rsce',
+        'rsce_pdfViewerFW' => 'templates/rsce',
 
         // Backend Templates
         'be_wem_sg_install' => 'system/modules/wem-contao-smartgear/templates/backend',

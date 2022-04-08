@@ -1221,8 +1221,8 @@
 			<target>Transforme l'élément en bouton avec un background correspondant à la couleur "%s"</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.title">
-			<source>Framway - Buttons - Background</source>
-			<target>Framway - Buttons - Background</target>
+			<source>Framway - Buttons - Borders</source>
+			<target>Framway - Buttons - Bordures</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdPrimaryLabel">
 			<source>border primary color</source>
