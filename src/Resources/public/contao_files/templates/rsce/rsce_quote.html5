@@ -6,6 +6,7 @@
 
   // Prepare the main block classes
   $arrClasses = [];
+  /*
   if($this->imagesize_ratio)
     $arrClasses[] = $this->imagesize_ratio;
   if($this->imagesize_horizontal)
@@ -14,7 +15,7 @@
     $arrClasses[] = 'img--'.$this->imagesize_vertical;
   if($this->bg_color)
     $arrClasses[] = 'bg-'.$this->bg_color;
-
+    */
 ?>
 <div class="<?= implode(' ', $arrClasses) ?> <?= $this->class ?> d-grid gap-0 cols-3 cols-sm-1 block-std p-0">
   <?php if ($strFile && $this->image_pos == 'before'): ?>

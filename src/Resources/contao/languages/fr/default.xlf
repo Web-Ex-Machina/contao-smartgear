@@ -1648,6 +1648,11 @@
 			<target>Framway - Carte de prix</target>
 		</trans-unit>
 
+		<trans-unit id="WEMSG.STYLEMANAGER.fwquote.tabTitle">
+			<source>Framway - Quotes</source>
+			<target>Framway - Citations</target>
+		</trans-unit>
+
 
 <trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.tabTitle"><source>Image - Ratio</source><target>Image - Ratio</target></trans-unit>
 <trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.title"><source>fwimageratio</source><target>fwimageratio</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.description"><source>fwimageratio description</source><target>fwimageratio description</target></trans-unit>
@@ -2627,6 +2632,15 @@
 <trans-unit id="WEMSG.STYLEMANAGER.fwpricecardmain.title"><source>fwpricecardmain</source><target>fwpricecardmain</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwpricecardmain.description"><source>fwpricecardmain description</source><target>fwpricecardmain description</target></trans-unit>
 <trans-unit id="WEMSG.STYLEMANAGER.fwpricecardmain.label"><source>fwpricecardmain - label</source><target>fwpricecardmain - label</target></trans-unit>
 
+<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.title"><source>fwquoteimgh</source><target>fwquoteimgh</target></trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.description"><source>fwquoteimgh description</source><target>fwquoteimgh description</target></trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.leftLabel"><source>fwquoteimgh - left</source><target>fwquoteimgh - left</target></trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.rightLabel"><source>fwquoteimgh - right</source><target>fwquoteimgh - right</target></trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.title"><source>fwquoteimgv</source><target>fwquoteimgv</target></trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.description"><source>fwquoteimgv description</source><target>fwquoteimgv description</target></trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.topLabel"><source>fwquoteimgv - top</source><target>fwquoteimgv - top</target></trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.bottomLabel"><source>fwquoteimgv - bottom</source><target>fwquoteimgv - bottom</target></trans-unit>
+
 
 		<!-- Migrations -->
 		<!-- General -->
@@ -2707,6 +2721,11 @@
 			<source>Adding price cards CSS classes in database.</source>
 			<target>Ajout des classes CSS de gestion des éléments de cartes de prix.</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSQuotes">
+			<source>Adding quotes CSS classes in database.</source>
+			<target>Ajout des classes CSS de gestion des éléments de citations.</target>
+		</trans-unit>
+
 
 
 
