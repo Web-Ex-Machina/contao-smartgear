@@ -34,17 +34,17 @@ class Migration extends MigrationAbstract
     protected $configurationThemeManager;
 
     protected static $elements = [
-        'margin' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionStop', 'accordionSingle', 'sliderStart', 'sliderStop', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'grid-stop', 'rsce_accordionFW', 'rsce_counterFW', 'rsce_gridGallery', 'rsce_heroFW', 'rsce_heroFWStart', 'rsce_heroFWStop', 'rsce_priceCards', 'rsce_sliderFW', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations'],
+        'margin' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordionFW', 'rsce_counterFW', 'rsce_gridGallery', 'rsce_heroFW', 'rsce_heroFWStart', 'rsce_priceCards', 'rsce_sliderFW', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations'], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroFWStop'
         'button' => ['hyperlink'],
         'background' => ['headline', 'text', 'rsce_quote'],
         'separator' => ['headline'],
         'table' => ['table'],
-        'accordion' => ['accordionStart', 'accordionStop', 'rsce_accordionFW'],
-        'slider' => ['sliderStart', 'sliderStop', 'rsce_sliderFW', 'rsce_testimonials'],
+        'accordion' => ['accordionStart', 'rsce_accordionFW'], //, 'accordionStop'
+        'slider' => ['sliderStart', 'rsce_sliderFW', 'rsce_testimonials'], //, 'sliderStop'
         'image_other' => ['image'],
         'image_ratio' => ['image'],
         'image_ratio_manual' => ['rsce_gridGallery'],
-        'hero' => ['rsce_heroFW', 'rsce_heroFWStart', 'rsce_heroFWStop'],
+        'hero' => ['rsce_heroFW', 'rsce_heroFWStart'], //'rsce_heroFWStop'
         'grid_manual' => ['rsce_gridGallery'],
         'griditems_manual' => ['rsce_gridGallery'],
         'priceCards' => ['rsce_priceCards'],

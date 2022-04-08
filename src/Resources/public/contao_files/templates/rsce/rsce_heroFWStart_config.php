@@ -16,11 +16,12 @@ return [
     'label' => ['Bannière - Début', 'Générez un élément stylisé composé d\'un texte sur une image'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
         'config_legend' => [
             'label' => ['Configuration du bloc'], 'inputType' => 'group',
-        ], 'force_fullwidth' => [
-            'label' => ['Toute la largeur', "Cochez pour forcer le bloc à prendre toute la largeur de l'écran"],
-            'inputType' => 'checkbox',
-            'eval' => ['tl_class' => 'w50'],
         ],
+        // 'force_fullwidth' => [
+        //     'label' => ['Toute la largeur', "Cochez pour forcer le bloc à prendre toute la largeur de l'écran"],
+        //     'inputType' => 'checkbox',
+        //     'eval' => ['tl_class' => 'w50'],
+        // ],
         'force_fullheight' => [
             'label' => ['Toute la hauteur', "Cochez pour forcer le bloc à prendre toute la hauteur de l'écran"],
             'inputType' => 'checkbox',
@@ -48,71 +49,71 @@ return [
                 return System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance());
             },
         ],
-        'image_opacity' => [
-            'label' => ['Opacité', 'Ajustez, si souhaité, l\'opacité de l\'image (Valeur entre 0 et 10)'],
-            'inputType' => 'text',
-            'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50', 'min' => 0, 'max' => 10],
-        ],
+        // 'image_opacity' => [
+        //     'label' => ['Opacité', 'Ajustez, si souhaité, l\'opacité de l\'image (Valeur entre 0 et 10)'],
+        //     'inputType' => 'text',
+        //     'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50', 'min' => 0, 'max' => 10],
+        // ],
 
-        'imagesize_legend' => [
-            'label' => ['Image - Positionnement'],
-            'inputType' => 'group',
-        ],
-        'imagesize_horizontal' => [
-            'label' => ['Alignement Horizontal', 'Si souhaité, ajustez la position horizontale de l\'image'],
-            'inputType' => 'select',
-            'options' => [
-                '' => 'Aucun',
-                'left' => 'Gauche',
-                'right' => 'Droite',
-            ],
-            'eval' => ['tl_class' => 'w50 clr'],
-        ],
-        'imagesize_vertical' => [
-            'label' => ['Alignement vertical', 'Si souhaité, ajustez la position verticale de l\'image'],
-            'inputType' => 'select',
-            'options' => [
-                '' => 'Aucun',
-                'top' => 'Haut',
-                'bottom' => 'Bas',
-            ],
-            'eval' => ['tl_class' => 'w50'],
-        ],
+        // 'imagesize_legend' => [
+        //     'label' => ['Image - Positionnement'],
+        //     'inputType' => 'group',
+        // ],
+        // 'imagesize_horizontal' => [
+        //     'label' => ['Alignement Horizontal', 'Si souhaité, ajustez la position horizontale de l\'image'],
+        //     'inputType' => 'select',
+        //     'options' => [
+        //         '' => 'Aucun',
+        //         'left' => 'Gauche',
+        //         'right' => 'Droite',
+        //     ],
+        //     'eval' => ['tl_class' => 'w50 clr'],
+        // ],
+        // 'imagesize_vertical' => [
+        //     'label' => ['Alignement vertical', 'Si souhaité, ajustez la position verticale de l\'image'],
+        //     'inputType' => 'select',
+        //     'options' => [
+        //         '' => 'Aucun',
+        //         'top' => 'Haut',
+        //         'bottom' => 'Bas',
+        //     ],
+        //     'eval' => ['tl_class' => 'w50'],
+        // ],
 
-        'contentstyle_legend' => [
-            'label' => ['Style du contenu'],
-            'inputType' => 'group',
-        ],
-        'content_horizontal' => [
-            'label' => ['Alignement Horizontal', 'Si souhaité, ajustez la position horizontale du contenu'],
-            'inputType' => 'select',
-            'options' => [
-                'center' => 'Centré',
-                'left' => 'Gauche',
-                'right' => 'Droite',
-            ],
-            'eval' => ['tl_class' => 'w50'],
-        ],
-        'content_vertical' => [
-            'label' => ['Alignement vertical', 'Si souhaité, ajustez la position verticale du contenu'],
-            'inputType' => 'select',
-            'options' => [
-                'center' => 'Centré',
-                'top' => 'Haut',
-                'bottom' => 'Bas',
-            ],
-            'eval' => ['tl_class' => 'w50'],
-        ],
-        'content_background' => [
-            'label' => ['Fond du texte', 'Si souhaité, ajustez le fond du contenu'],
-            'inputType' => 'select',
-            'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
-            'eval' => ['tl_class' => 'w50 clr'],
-        ],
-        'content_background_opacity' => [
-            'label' => ['Opacité', 'Ajustez, si souhaité, l\'opacité du fond (Valeur entre 0 et 10)'],
-            'inputType' => 'text',
-            'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50', 'min' => 0, 'max' => 10],
-        ],
+        // 'contentstyle_legend' => [
+        //     'label' => ['Style du contenu'],
+        //     'inputType' => 'group',
+        // ],
+        // 'content_horizontal' => [
+        //     'label' => ['Alignement Horizontal', 'Si souhaité, ajustez la position horizontale du contenu'],
+        //     'inputType' => 'select',
+        //     'options' => [
+        //         'center' => 'Centré',
+        //         'left' => 'Gauche',
+        //         'right' => 'Droite',
+        //     ],
+        //     'eval' => ['tl_class' => 'w50'],
+        // ],
+        // 'content_vertical' => [
+        //     'label' => ['Alignement vertical', 'Si souhaité, ajustez la position verticale du contenu'],
+        //     'inputType' => 'select',
+        //     'options' => [
+        //         'center' => 'Centré',
+        //         'top' => 'Haut',
+        //         'bottom' => 'Bas',
+        //     ],
+        //     'eval' => ['tl_class' => 'w50'],
+        // ],
+        // 'content_background' => [
+        //     'label' => ['Fond du texte', 'Si souhaité, ajustez le fond du contenu'],
+        //     'inputType' => 'select',
+        //     'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
+        //     'eval' => ['tl_class' => 'w50 clr'],
+        // ],
+        // 'content_background_opacity' => [
+        //     'label' => ['Opacité', 'Ajustez, si souhaité, l\'opacité du fond (Valeur entre 0 et 10)'],
+        //     'inputType' => 'text',
+        //     'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50', 'min' => 0, 'max' => 10],
+        // ],
     ],
 ];
