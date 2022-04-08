@@ -5,8 +5,8 @@
   $strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
 
   // Prepare the main block classes
-  /*
   $arrClasses = [];
+  /*
   if($this->force_fullwidth)
     $arrClasses[] = 'force-full';
   if($this->image_opacity)
@@ -27,9 +27,12 @@
     $arrClasses[] = 'content__bg__opacity--'.intval($this->content_background_opacity);
   if($this->title_modifier)
     $arrClasses[] = $this->title_modifier;
-
-
+  if($this->height_content)
+    $arrClasses[] = 'height--content';
+  if($this->width_content)
+    $arrClasses[] = 'width--content';
   */
+
   $height = '';
   if($this->block_height)
     $height = $this->block_height;

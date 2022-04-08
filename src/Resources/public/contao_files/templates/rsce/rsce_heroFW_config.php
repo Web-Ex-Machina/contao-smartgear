@@ -32,6 +32,16 @@ return [
             'inputType' => 'text',
             'eval' => ['tl_class' => 'w50'],
         ],
+        // 'height_content' => [
+        //     'label' => ['Hauteur relative au contenu', 'Cochez pour forcer le bloc à prendre une hauteur égale à celle de son contenu'],
+        //     'inputType' => 'checkbox',
+        //     'eval' => ['tl_class' => 'w50'],
+        // ],
+        // 'width_content' => [
+        //     'label' => ['Largeur relative au contenu', 'Cochez pour forcer le bloc à prendre une largeur égale à celle de son contenu'],
+        //     'inputType' => 'checkbox',
+        //     'eval' => ['tl_class' => 'w50'],
+        // ],
 
         'image_legend' => [
             'label' => ['Image'],
@@ -55,10 +65,10 @@ return [
         //     'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50', 'min' => 0, 'max' => 10],
         // ],
 
-        'imagesize_legend' => [
-            'label' => ['Image - Positionnement'],
-            'inputType' => 'group',
-        ],
+        // 'imagesize_legend' => [
+        //     'label' => ['Image - Positionnement'],
+        //     'inputType' => 'group',
+        // ],
         // 'imagesize_horizontal' => [
         //     'label' => ['Alignement Horizontal', 'Si souhaité, ajustez la position horizontale de l\'image'],
         //     'inputType' => 'select',
