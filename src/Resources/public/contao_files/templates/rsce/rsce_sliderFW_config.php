@@ -16,11 +16,13 @@ return [
     'label' => ['Slider (seul)', 'Générez un slider et configurez vos images'], 'contentCategory' => 'slider', 'standardFields' => ['cssID'], 'fields' => [
         'config_legend' => [
             'label' => ['Configuration du slider'], 'inputType' => 'group',
-        ], 'force_fullwidth' => [
-            'label' => ['Toute la largeur', "Cochez pour forcer le bloc à prendre toute la largeur de l'écran"],
-            'inputType' => 'checkbox',
-            'eval' => ['tl_class' => 'w50 m12'],
-        ], 'slide_height' => [
+        ],
+        // 'force_fullwidth' => [
+        //     'label' => ['Toute la largeur', "Cochez pour forcer le bloc à prendre toute la largeur de l'écran"],
+        //     'inputType' => 'checkbox',
+        //     'eval' => ['tl_class' => 'w50 m12'],
+        // ],
+        'slide_height' => [
             'label' => ['Hauteur du slider', 'Configurez la hauteur du slider'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
         ], 'slide_autoplay' => [
             'label' => ['Démarrage automatique', 'Cochez pour faire en sorte que le slider se lance automatiquement'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50 m12'],
@@ -28,29 +30,38 @@ return [
             'label' => ['Répétition', 'Cochez pour faire en sorte que le slider se relance une fois fini'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50 m12'],
         ], 'slider_transition' => [
             'label' => ['Transition', 'Sélectionner le type de transition souhaitée entre les slides'], 'inputType' => 'select', 'options' => ['translate' => 'Translation', 'fade' => 'Fading', 'none' => 'Aucune'], 'eval' => ['tl_class' => 'w50'],
-        ], 'config_nav_legend' => [
+        ],
+        'config_nav_legend' => [
             'label' => ['Configuration de la navigation'], 'inputType' => 'group',
-        ], 'nav_display' => [
-            'label' => ['Affichage de la navigation', 'Si souhaité, ajustez la position des boutons de navigation du slider'], 'inputType' => 'select', 'options' => ['' => 'Après', 'inner' => 'A l\'intérieur', 'hidden' => 'Caché'], 'eval' => ['tl_class' => 'w50'],
-        ], 'nav_horizontal' => [
-            'label' => ['Position horizontale', 'Si souhaité, ajustez la position horizontale de la navigation'], 'inputType' => 'select', 'options' => ['' => 'Aucun', 'left' => 'A gauche', 'right' => 'A droite'], 'eval' => ['tl_class' => 'clr w50'],
-        ], 'nav_vertical' => [
-            'label' => ['Position verticale', 'Si souhaité, ajustez la position verticale de la navigation'], 'inputType' => 'select', 'options' => ['' => 'Aucun', 'top' => 'En Haut', 'bottom' => 'En Bas'], 'eval' => ['tl_class' => 'w50'],
-        ], 'nav_arrows' => [
+        ],
+        // 'nav_display' => [
+        //     'label' => ['Affichage de la navigation', 'Si souhaité, ajustez la position des boutons de navigation du slider'], 'inputType' => 'select', 'options' => ['' => 'Après', 'inner' => 'A l\'intérieur', 'hidden' => 'Caché'], 'eval' => ['tl_class' => 'w50'],
+        // ],
+        // 'nav_horizontal' => [
+        //     'label' => ['Position horizontale', 'Si souhaité, ajustez la position horizontale de la navigation'], 'inputType' => 'select', 'options' => ['' => 'Aucun', 'left' => 'A gauche', 'right' => 'A droite'], 'eval' => ['tl_class' => 'clr w50'],
+        // ],
+        // 'nav_vertical' => [
+        //     'label' => ['Position verticale', 'Si souhaité, ajustez la position verticale de la navigation'], 'inputType' => 'select', 'options' => ['' => 'Aucun', 'top' => 'En Haut', 'bottom' => 'En Bas'], 'eval' => ['tl_class' => 'w50'],
+        // ],
+        'nav_arrows' => [
             'label' => ['Navigation fléchée', 'Cochez pour activer la navigation fléchée (désactive la navigation classique)'],
             'inputType' => 'checkbox',
             'eval' => ['tl_class' => 'w50 m12'],
-        ], 'disable_swipe' => [
+        ],
+        'disable_swipe' => [
             'label' => ['Désactiver swipe', 'Cochez pour désactiver la navigation par swipe'],
             'inputType' => 'checkbox',
             'eval' => ['tl_class' => 'w50 m12'],
         ], 'config_content_legend' => [
             'label' => ['Configuration des contenus'], 'inputType' => 'group',
-        ], 'content_horizontal' => [
-            'label' => ['Alignement Horizontal', 'Si souhaité, ajustez la position horizontale du contenu'], 'inputType' => 'select', 'options' => ['' => 'Aucun', 'right' => 'Droite', 'center' => 'Center'], 'eval' => ['tl_class' => 'w50'],
-        ], 'content_vertical' => [
-            'label' => ['Alignement vertical', 'Si souhaité, ajustez la position verticale du contenu'], 'inputType' => 'select', 'options' => ['' => 'Aucun', 'top' => 'Haut', 'center' => 'Centre'], 'eval' => ['tl_class' => 'w50'],
-        ], 'content_noblur' => [
+        ],
+        // 'content_horizontal' => [
+        //     'label' => ['Alignement Horizontal', 'Si souhaité, ajustez la position horizontale du contenu'], 'inputType' => 'select', 'options' => ['' => 'Aucun', 'right' => 'Droite', 'center' => 'Center'], 'eval' => ['tl_class' => 'w50'],
+        // ],
+        // 'content_vertical' => [
+        //     'label' => ['Alignement vertical', 'Si souhaité, ajustez la position verticale du contenu'], 'inputType' => 'select', 'options' => ['' => 'Aucun', 'top' => 'Haut', 'center' => 'Centre'], 'eval' => ['tl_class' => 'w50'],
+        // ],
+        'content_noblur' => [
             'label' => ['Pas de flou', "Cochez pour désactiver l'effet de flou derrière le contenu"], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50 m12'],
         ]
 
@@ -66,28 +77,30 @@ return [
                     },
                 ], 'slide_img_alt' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['alt'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
-                ], 'imagesize_horizontal' => [
-                    'label' => ['Alignement Horizontal', 'Si souhaité, ajustez la position horizontale de l\'image'],
-                    'inputType' => 'select',
-                    'options' => [
-                        '' => 'Aucun',
-                        'left' => 'Gauche',
-                        'right' => 'Droite',
-                    ],
-                    'eval' => ['tl_class' => 'w50 clr'],
-                ], 'imagesize_vertical' => [
-                    'label' => ['Alignement vertical', 'Si souhaité, ajustez la position verticale de l\'image'],
-                    'inputType' => 'select',
-                    'options' => [
-                        '' => 'Aucun',
-                        'top' => 'Haut',
-                        'bottom' => 'Bas',
-                    ],
-                    'eval' => ['tl_class' => 'w50'],
-                ]
+                ],
+                // 'imagesize_horizontal' => [
+                //     'label' => ['Alignement Horizontal', 'Si souhaité, ajustez la position horizontale de l\'image'],
+                //     'inputType' => 'select',
+                //     'options' => [
+                //         '' => 'Aucun',
+                //         'left' => 'Gauche',
+                //         'right' => 'Droite',
+                //     ],
+                //     'eval' => ['tl_class' => 'w50 clr'],
+                // ],
+                // 'imagesize_vertical' => [
+                //     'label' => ['Alignement vertical', 'Si souhaité, ajustez la position verticale de l\'image'],
+                //     'inputType' => 'select',
+                //     'options' => [
+                //         '' => 'Aucun',
+                //         'top' => 'Haut',
+                //         'bottom' => 'Bas',
+                //     ],
+                //     'eval' => ['tl_class' => 'w50'],
+                // ],
 
                 // Content
-                , 'slide_content' => [
+                'slide_content' => [
                     'label' => ['Contenu', 'Saisissez le contenu textuel de la slide'], 'inputType' => 'textarea', 'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
                 ]
 

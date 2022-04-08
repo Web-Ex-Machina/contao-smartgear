@@ -18,6 +18,7 @@
 
   // Prepare the main block classes
   $arrClasses = [];
+  /*
   if($this->force_fullwidth)
     $arrClasses[] = 'w-full';
   if($this->nav_display)
@@ -26,11 +27,11 @@
     $arrClasses[] = 'nav--'.$this->nav_horizontal;
   if($this->nav_vertical)
     $arrClasses[] = 'nav--'.$this->nav_vertical;
-
   if($this->content_horizontal)
     $arrClasses[] = 'content--'.$this->content_horizontal;
   if($this->content_vertical)
     $arrClasses[] = 'content__text--'.$this->content_vertical;
+  */
   if($this->content_noblur)
     $arrClasses[] = 'content--noblur';
 
@@ -46,11 +47,16 @@
         ,"alt"=>$slide->slide_img_alt
       ];
       $arrSlide['imgClasses'] = [];
+      $arrSlide['imgClasses'][] = $this->styleManager->get('fwsliderimgvertical_manual');
+      $arrSlide['imgClasses'][] = $this->styleManager->get('fwsliderimghorizontal_manual');
+      $arrSlide['imgClasses'][] = $this->styleManager->get('fwsliderimgopacity_manual');
+      $arrSlide['imgClasses'][] = 'img-container r_';
+      /*
       if($slide->imagesize_horizontal)
         $arrSlide['imgClasses'][] = 'img-container r_ img--'.$slide->imagesize_horizontal;
       if($slide->imagesize_vertical)
         $arrSlide['imgClasses'][] = 'img-container r_ img--'.$slide->imagesize_vertical;
-
+      */
       $arrSlide["content"] = '';
 
       if($slide->slide_content)
