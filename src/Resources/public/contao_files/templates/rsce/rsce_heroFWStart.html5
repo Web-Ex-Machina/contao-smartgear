@@ -31,6 +31,7 @@
     $height = 'viewport';
 
 ?>
+<?php if (TL_MODE === 'FE'): ?>
 <div class="heroFW <?= implode(' ', $arrClasses) ?> <?= $this->class ?>"<?= $this->cssID ?> data-height="<?= $height ?>" <?= ($height!="viewport") ? 'style="height:'.$height.';"' : 'style="height:80vh;"' ?>>
   <div class="heroFW__wrapper">
     <div class="heroFW__figure">
@@ -38,4 +39,4 @@
     </div>
     <div class="heroFW__content">
       <div class="heroFW__content__wrapper">
-        
+<?php endif; ?>
