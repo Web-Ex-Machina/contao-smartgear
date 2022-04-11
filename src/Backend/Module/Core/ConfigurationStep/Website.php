@@ -655,7 +655,7 @@ class Website extends ConfigurationStep
 
         $formattedModules = [];
         foreach ($modules as $key => $objModule) {
-            $formattedModules[] = [$objModule->type => $objModule->id];
+            $formattedModules[] = ['type' => $objModule->type, 'id' => $objModule->id];
         }
 
         $config->setSgModules($formattedModules);

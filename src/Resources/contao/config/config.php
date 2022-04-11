@@ -106,4 +106,5 @@ if ('FE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['generateFrontendUrl'][] = ['\WEM\SmartgearBundle\Hooks\GenerateFrontendUrlHook', 'generateFrontendUrl'];
     $GLOBALS['TL_HOOKS']['generateBreadcrumb'][] = ['\WEM\SmartgearBundle\Hooks\GenerateBreadcrumbHook', 'updateRootItem'];
     $GLOBALS['TL_HOOKS']['parseTemplate'][] = ['\WEM\SmartgearBundle\Hooks\ParseTemplateHook', 'overrideDefaultTemplate'];
+    $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['smartgear.listener.replace_insert_tags', 'onReplaceInsertTags'];
 }

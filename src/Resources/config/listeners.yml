@@ -1,0 +1,6 @@
+services:
+    smartgear.listener.replace_insert_tags:
+        class: WEM\SmartgearBundle\EventListener\ReplaceInsertTagsListener
+        arguments:
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+        public: true
