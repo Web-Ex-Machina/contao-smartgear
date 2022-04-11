@@ -760,6 +760,44 @@
 			<target>Absence du paramètre "function"</target>
 		</trans-unit>
 
+		<!-- Blog -->
+		<trans-unit id="WEMSG.BLOG.INSTALL.title">
+			<source>Installation</source>
+			<target>Installation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.newsConfig">
+			<source>Available configuration(s)</source>
+			<target>Configuration(s) disponible(s)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.newsConfigAddButton">
+			<source>New configuration</source>
+			<target>Nouvelle archive</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.newsFolder">
+			<source>Files folder</source>
+			<target>Dossier</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.newsArchiveTitle">
+			<source>News feed title</source>
+			<target>Titre du flux d'actualités</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.newsListPerPage">
+			<source>News per page</source>
+			<target>Actualités par page</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.pageTitle">
+			<source>News' page title</source>
+			<target>Titre de la page d'actualités</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.expertMode">
+			<source>Expert mode</source>
+			<target>Mode expert</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.DASHBOARD.mode">
+			<source>Mode : %s</source>
+			<target>Mode : %s</target>
+		</trans-unit>
+
 
 		<!-- ConfigurationStepManager -->
 		<trans-unit id="WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish">

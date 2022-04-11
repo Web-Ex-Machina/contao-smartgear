@@ -1,0 +1,111 @@
+<form action="<?= $this->request ?>" class="tl_form" method="post">
+	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
+	<div class="widget">
+		<div class="widget <?= $this->fields['newsConfig']['class'] ?>">
+			<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['newsConfig']]); ?>
+			<br>
+		</div>
+	</div>
+
+	<div class="widget">
+		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-blog-new-config" 
+		title="<?= $this->trans('WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeAddTitle'); ?>"><?= $this->trans('WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeAdd'); ?></button>
+		<br>
+	</div>
+
+	<div class="widget <?= $this->fields['new_config']['class'] ?>" id="widget-<?= $this->type ?>-<?= $this->module ?>-blog-new-config">
+		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['new_config']]); ?>
+		<br>
+		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-blog-new-config-validation" 
+		title="<?= $this->trans('WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeValidateTitle'); ?>">
+			<?= $this->trans('WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeValidate'); ?>
+		</button>
+		<pre id="block-<?= $this->type ?>-<?= $this->module ?>-blog-new-config-result" style="height:100px;overflow-y:scroll;" class="hidden result">
+	</div>
+
+	<div class="widget">
+		<div class="widget <?= $this->fields['newsArchiveTitle']['class'] ?>">
+			<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['newsArchiveTitle']]); ?>
+			<br>
+		</div>
+	</div>
+
+	<div class="widget">
+		<div class="widget <?= $this->fields['newsListPerPage']['class'] ?>">
+			<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['newsListPerPage']]); ?>
+			<br>
+		</div>
+	</div>
+
+	<div class="widget">
+		<div class="widget <?= $this->fields['pageTitle']['class'] ?>">
+			<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['pageTitle']]); ?>
+			<br>
+		</div>
+	</div>
+
+	<div class="widget">
+		<div class="widget <?= $this->fields['expertMode']['class'] ?>">
+			<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['expertMode']]); ?>
+			<br>
+		</div>
+	</div>
+
+	<div class="tl_submit_container">
+		<?= implode(' ', $this->actions) ?>
+	</div>
+</form>
+<!-- Scripts -->
+<script type="text/javascript">
+	var j = jQuery.noConflict();
+
+	// Toastr Options
+	toastr.options.closeButton = true;
+	toastr.options.timeOut = 5000;
+	toastr.options.extendedTimeOut = 0;
+
+	/**
+	 * Handle command buttons
+	 */
+	j('button#button-<?= $this->type ?>-<?= $this->module ?>-blog-new-config').on('click', function(e){
+		e.preventDefault();
+		j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-new-config').removeClass('hidden');
+	});
+
+	j('button#button-<?= $this->type ?>-<?= $this->module ?>-blog-new-config-validation').on('click', function(e){
+		e.preventDefault();
+		blogNewConfig()
+		.catch(function(e) {
+			toastr.error(e, "Une erreur est survenue :");
+		});
+	});
+
+	function blogNewConfig(type, module){
+		var ctn = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-new-config');
+		var field = ctn.find('.tl_text');
+		var selectNewsConfigsField = j('select[name="newsConfig"]')
+		ctn.find('.loader').addClass("active");
+		ctn.find('.result').removeClass("hidden").html('');
+		return executeCmdLive(
+			"<?= $this->type ?>",
+			"<?= $this->module ?>",
+			'blogNewConfig',
+			"block-<?= $this->type ?>-<?= $this->module ?>-blog-new-config-result",
+			{'new_config':field.val()}
+		).then(function(r) {
+			toastr[r["status"]](r["msg"]);
+			ctn.find('.result').html(ctn.find('.result').html().concat(r["msg"]));
+			ctn.find('.loader').removeClass("active");
+			selectNewsConfigsField.append(j('<option>', {
+			    value: field.val(),
+			    text: field.val(),
+			    selected: ''
+			}));
+			field.val('');
+		}).catch(function(e, output) {
+			ctn.find('.loader').removeClass("active");
+			ctn.find('.result').html(e);
+			throw new Error(e);
+		});
+	}
+</script>

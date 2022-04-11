@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Config;
 
 use WEM\SmartgearBundle\Classes\Config\ConfigModuleInterface;
+use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 
 class Core implements ConfigModuleInterface
 {
@@ -105,6 +106,8 @@ class Core implements ConfigModuleInterface
     protected $sgModules = [];
     /** @var string */
     protected $sgApiKey = self::DEFAULT_API_KEY;
+    /** @var BlogConfig */
+    protected $sgBlog;
 
     public function reset(): self
     {
@@ -137,6 +140,7 @@ class Core implements ConfigModuleInterface
             ->setSgOwnerDpoEmail('')
             ->setSgGoogleFonts(self::DEFAULT_GOOGLE_FONTS)
             ->setSgApiKey(self::DEFAULT_API_KEY)
+            ->setSgBlog((new BlogConfig())->reset())
         ;
 
         return $this;
@@ -173,6 +177,11 @@ class Core implements ConfigModuleInterface
             ->setSgOwnerDpoEmail($json->owner->dpo->email ?? '')
             ->setSgGoogleFonts($json->googleFonts ?? self::DEFAULT_GOOGLE_FONTS)
             ->setSgApiKey($json->api->key ?? self::DEFAULT_API_KEY)
+            ->setSgBlog(
+                $json->blog
+                ? (new BlogConfig())->import($json->blog)
+                : (new BlogConfig())->reset()
+            )
         ;
 
         return $this;
@@ -222,6 +231,8 @@ class Core implements ConfigModuleInterface
 
         $json->api = new \stdClass();
         $json->api->key = $this->getSgApiKey();
+
+        $json->blog = $this->getSgBlog()->export();
 
         return json_encode($json, \JSON_PRETTY_PRINT);
     }
@@ -582,17 +593,26 @@ class Core implements ConfigModuleInterface
         return $this;
     }
 
-    public function getSgDefaultClientFilesFolder()
+    public function getSgDefaultClientFilesFolder(): string
     {
         return $this->sgDefaultClientFilesFolder;
     }
 
-    /**
-     * @return self
-     */
-    public function setSgDefaultClientFilesFolder(mixed $sgDefaultClientFilesFolder)
+    public function setSgDefaultClientFilesFolder(string $sgDefaultClientFilesFolder): self
     {
         $this->sgDefaultClientFilesFolder = $sgDefaultClientFilesFolder;
+
+        return $this;
+    }
+
+    public function getSgBlog(): BlogConfig
+    {
+        return $this->blog;
+    }
+
+    public function setSgBlog(BlogConfig $blog): self
+    {
+        $this->blog = $blog;
 
         return $this;
     }

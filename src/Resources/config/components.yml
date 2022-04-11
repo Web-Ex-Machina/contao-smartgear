@@ -1,0 +1,42 @@
+services:
+
+    smartgear.backend.component.blog.block:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\Block
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+            $configurationStepManager: '@smartgear.backend.component.blog.configuration_step_manager'
+            # $resetStepManager: '@smartgear.backend.module.core.reset_step_manager'
+            $dashboard: '@smartgear.backend.component.blog.dashboard'
+        public: true
+
+    smartgear.backend.component.blog.configuration_step_manager:
+        class: WEM\SmartgearBundle\Classes\Backend\ConfigurationStepManager
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'blog'
+            $type: 'component'
+            $stepSessionKey: 'sg_blog_install_step'
+            $steps: 
+                - '@smartgear.backend.component.blog.configuration_step.general'
+        public: true
+
+    smartgear.backend.component.blog.configuration_step.general:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\ConfigurationStep\General
+        arguments:
+            $module: 'blog'
+            $type: 'component'
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+            $commandUtil: '@smartgear.classes.command.util'
+        public: true
+
+    smartgear.backend.component.blog.dashboard:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\Dashboard
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'blog'
+            $type: 'component'
+        public: true

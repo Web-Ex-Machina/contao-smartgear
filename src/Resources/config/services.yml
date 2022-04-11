@@ -166,6 +166,10 @@ services:
         class: WEM\SmartgearBundle\Config\Core
         public: true
 
+    smartgear.config.blog:
+        class: WEM\SmartgearBundle\Config\Blog
+        public: true
+
     smartgear.config.framway:
         class: WEM\SmartgearBundle\Config\Framway
         public: true

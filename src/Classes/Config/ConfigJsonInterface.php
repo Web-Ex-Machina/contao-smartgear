@@ -26,5 +26,5 @@ interface ConfigJsonInterface extends ConfigInterface
     /**
      * Export a configuration.
      */
-    public function export(): string;
+    public function export(); //: string;
 }
