@@ -16,19 +16,6 @@
 
   // Prepare the main block classes
   $arrClasses = [];
-  /*
-  if($this->nav_display)
-    $arrClasses[] = 'nav--'.$this->nav_display;
-  if($this->nav_horizontal)
-    $arrClasses[] = 'nav--'.$this->nav_horizontal;
-  if($this->nav_vertical)
-    $arrClasses[] = 'nav--'.$this->nav_vertical;
-
-  if($this->content_horizontal)
-    $arrClasses[] = 'content--'.$this->content_horizontal;
-  if($this->content_vertical)
-    $arrClasses[] = 'content__text--'.$this->content_vertical;
-    */
   if($this->content_noblur)
     $arrClasses[] = 'content--noblur';
 

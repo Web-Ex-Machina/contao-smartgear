@@ -4,42 +4,13 @@
   $objFile = FilesModel::findByUuid($this->singleSRC);
   $strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
 
-  // Prepare the main block classes
-  $arrClasses = [];
-  /*
-  if($this->force_fullwidth)
-    $arrClasses[] = 'force-full';
-  if($this->image_opacity)
-    $arrClasses[] = 'figure__opacity--'.intval($this->image_opacity);
-  if($this->imagesize_horizontal)
-    $arrClasses[] = 'img--'.$this->imagesize_horizontal;
-  if($this->imagesize_vertical)
-    $arrClasses[] = 'img--'.$this->imagesize_vertical;
-  if($this->content_horizontal || $this->content_vertical)
-    $arrClasses[] = 'content--h--'.$this->content_horizontal;
-  if($this->content_vertical)
-    $arrClasses[] = 'content--v--'.$this->content_vertical;
-  if($this->content_color)
-    $arrClasses[] = $this->content_color;
-  if($this->content_background)
-    $arrClasses[] = 'content__bg--'.$this->content_background;
-  if($this->content_background_opacity)
-    $arrClasses[] = 'content__bg__opacity--'.intval($this->content_background_opacity);
-  if($this->title_modifier)
-    $arrClasses[] = $this->title_modifier;
-  if($this->height_content)
-    $arrClasses[] = 'height--content';
-  if($this->width_content)
-    $arrClasses[] = 'width--content';
-  */
-
   $height = '';
   if($this->block_height)
     $height = $this->block_height;
   if($this->force_fullheight)
     $height = 'viewport';
 ?>
-<div class="heroFW <?= implode(' ', $arrClasses) ?> <?= $this->class ?>"<?= $this->cssID ?> data-height="<?= $height ?>" <?= ($height!="viewport") ? 'style="height:'.$height.';"' : 'style="height:80vh;"' ?>>
+<div class="heroFW <?= $this->class ?>"<?= $this->cssID ?> data-height="<?= $height ?>" <?= ($height!="viewport") ? 'style="height:'.$height.';"' : 'style="height:80vh;"' ?>>
   <div class="heroFW__wrapper">
     <div class="heroFW__figure">
       <img src="<?= $strFile ?>" alt="<?= $this->alt ?>">

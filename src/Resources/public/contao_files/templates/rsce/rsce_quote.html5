@@ -3,21 +3,8 @@
   $arrCrop = deserialize($this->size);
   $objFile = FilesModel::findByUuid($this->singleSRC);
   $strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
-
-  // Prepare the main block classes
-  $arrClasses = [];
-  /*
-  if($this->imagesize_ratio)
-    $arrClasses[] = $this->imagesize_ratio;
-  if($this->imagesize_horizontal)
-    $arrClasses[] = 'img--'.$this->imagesize_horizontal;
-  if($this->imagesize_vertical)
-    $arrClasses[] = 'img--'.$this->imagesize_vertical;
-  if($this->bg_color)
-    $arrClasses[] = 'bg-'.$this->bg_color;
-    */
 ?>
-<div class="<?= implode(' ', $arrClasses) ?> <?= $this->class ?> d-grid gap-0 cols-3 cols-sm-1 block-std p-0">
+<div class="<?= $this->class ?> d-grid gap-0 cols-3 cols-sm-1 block-std p-0">
   <?php if ($strFile && $this->image_pos == 'before'): ?>
     <div class="img-container">
       <img src="<?= $strFile ?>" alt="<?= $this->alt ?>">

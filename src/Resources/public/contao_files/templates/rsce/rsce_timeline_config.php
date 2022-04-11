@@ -22,10 +22,6 @@ return [
     'contentCategory' => 'includes',
     'standardFields' => ['cssID'],
     'fields' => [
-        // 'headline' => array(
-        //     'inputType' => 'standardField'
-        //     ,'eval' => array('tl_class' => 'w50','allowHtml'=>true)
-        // ),
         'timeline_style' => [
             'label' => ['Style', 'Choisissez un style à appliquer à la timeline'],
             'inputType' => 'select',

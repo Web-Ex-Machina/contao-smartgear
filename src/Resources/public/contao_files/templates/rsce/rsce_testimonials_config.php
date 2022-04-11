@@ -26,15 +26,6 @@ return [
         'config_nav_legend' => [
             'label' => ['Configuration de la navigation'], 'inputType' => 'group',
         ],
-        // 'nav_display' => [
-        //     'label' => ['Affichage de la navigation', 'Si souhaité, ajustez la position des boutons de navigation du slider'], 'inputType' => 'select', 'options' => ['' => 'Après', 'inner' => 'A l\'intérieur', 'hidden' => 'Caché'], 'eval' => ['tl_class' => 'w50'],
-        // ],
-        // 'nav_horizontal' => [
-        //     'label' => ['Position horizontale', 'Si souhaité, ajustez la position horizontale du contenu'], 'inputType' => 'select', 'options' => ['' => 'Aucun', 'left' => 'A gauche', 'right' => 'A droite'], 'eval' => ['tl_class' => 'w50'],
-        // ],
-        // 'nav_vertical' => [
-        //     'label' => ['Position verticale', 'Si souhaité, ajustez la position verticale du contenu'], 'inputType' => 'select', 'options' => ['' => 'Aucun', 'top' => 'En Haut', 'bottom' => 'En Bas'], 'eval' => ['tl_class' => 'w50'],
-        // ],
         'nav_arrows' => [
             'label' => ['Navigation fléchée', 'Cochez pour remplacer la navigation par des flèches latérales'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50 clr'],
         ]

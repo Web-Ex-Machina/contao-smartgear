@@ -8,21 +8,7 @@
   $gridClasses.=$this->styleManager->get('fwgriditemxs_manual'). ' ';
   $gridClasses.=$this->styleManager->get('fwgriditemxxs_manual'). ' ';
   $imageClasses=$this->styleManager->get('fwimageratio_manual'). ' ';
-  /*
-  $responsiveClasses = '';
-  if($this->nbCols_xl)
-    $responsiveClasses .= ' cols-xl-'.$this->nbCols_xl;
-  if($this->nbCols_lg)
-    $responsiveClasses .= ' cols-lg-'.$this->nbCols_lg;
-  if($this->nbCols_md)
-    $responsiveClasses .= ' cols-md-'.$this->nbCols_md;
-  if($this->nbCols_sm)
-    $responsiveClasses .= ' cols-sm-'.$this->nbCols_sm;
-  if($this->nbCols_xs)
-    $responsiveClasses .= ' cols-xs-'.$this->nbCols_xs;
-  if($this->nbCols_xxs)
-    $responsiveClasses .= ' cols-xxs-'.$this->nbCols_xxs;
-  */
+  
   $arrItems = [];
   if($this->listItems){
     foreach($this->listItems as $item){
@@ -36,14 +22,7 @@
         ];
       }
       $arrItem['classes'] = '';
-      /*
-      $arrItem['classes'] = $item->class ? implode(' ', $item->class) : '';
-      if($item->span_cols)
-        $arrItem['classes'] .= ' cols-span-'.$item->span_cols;
-      if($item->span_rows)
-        $arrItem['classes'] .= ' rows-span-'.$item->span_rows;
-      $arrItem['classes'] .= $item->ratio ?:$this->ratio?:'';
-      */
+     
       if ($item->href){
         $arrItem["url"]   = 1;
         $arrItem["href"]  = $item->href;
@@ -59,7 +38,6 @@
 ?>
 <div class="<?= $this->class ?>">
   <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
-  <!-- <div class="d-grid cols-<?= $this->nbCols_default ?><?= $responsiveClasses ?>"> -->
   <div class="d-grid <?= $gridClasses ?>">
     <?php foreach($arrItems as $item): ?>
       <?php if ($item['url']): ?>

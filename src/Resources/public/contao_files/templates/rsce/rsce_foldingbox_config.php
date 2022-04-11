@@ -16,13 +16,7 @@ return [
     'label' => ['Folding Box', 'Générez un ensemble de panels ouvrants'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
         'config_legend' => [
             'label' => ["Configuration de l'élément"], 'inputType' => 'group',
-        ]
-        // ,'headline' => array(
-        //     'label' => array('Titre', 'Saisissez le titre de l\'élément')
-        //     ,'inputType' => 'textarea'
-        //     ,'eval' => array('rte' => 'tinyMCE', 'tl_class' => 'clr')
-        // )
-        , 'height' => [
+        ], 'height' => [
             'label' => ['Hauteur du slider', 'Configurez la hauteur de l\'élément'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
         ], 'break' => [
             'label' => ['Responsive', 'Si souhaité, ajustez le moment où les éléments passent les uns en dessous des autres'], 'inputType' => 'select', 'options' => ['' => 'Par défaut', 'xxs' => 'XXS / 520px', 'xs' => 'XS / 620px', 'sm' => 'SM / 768px', 'md' => 'MD / 992px', 'lg' => 'LG / 1200px', 'xl' => 'XL / 1400px'], 'eval' => ['tl_class' => 'w50'],
