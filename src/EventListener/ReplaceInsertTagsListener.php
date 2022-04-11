@@ -59,88 +59,88 @@ class ReplaceInsertTagsListener
             $config = $this->coreConfigurationManager->load();
 
             switch ($elements[1]) {
-                case 'InstallComplete':
+                case 'installComplete':
                     return $config->getSgInstallComplete() ? '1' : '0';
                 break;
-                case 'Version':
+                case 'version':
                     return $config->getSgVersion();
                 break;
-                case 'FramwayPath':
+                case 'framwayPath':
                     return $config->getSgFramwayPath();
                 break;
-                case 'FramwayThemes':
+                case 'framwayThemes':
                     return implode(', ', $config->getSgFramwayThemes());
                 break;
-                case 'GoogleFonts':
+                case 'googleFonts':
                     return implode(', ', $config->getSgGoogleFonts());
                 break;
-                case 'SelectedModules':
+                case 'selectedModules':
                     return implode(', ', $config->getSgSelectedModules());
                 break;
-                case 'Mode':
+                case 'mode':
                     return $config->getSgMode();
                 break;
-                case 'WebsiteTitle':
+                case 'websiteTitle':
                     return $config->getSgWebsiteTitle();
                 break;
-                case 'OwnerEmail':
+                case 'ownerEmail':
                     return $config->getSgOwnerEmail();
                 break;
-                case 'Analytics':
+                case 'analytics':
                     return $config->getSgAnalytics();
                 break;
-                case 'AnalyticsGoogleId':
+                case 'analyticsGoogleId':
                     return $config->getSgAnalyticsGoogleId();
                 break;
-                case 'AnalyticsMatomoHost':
+                case 'analyticsMatomoHost':
                     return $config->getSgAnalyticsMatomoHost();
                 break;
-                case 'AnalyticsMatomoId':
+                case 'analyticsMatomoId':
                     return $config->getSgAnalyticsMatomoId();
                 break;
-                case 'OwnerName':
+                case 'ownerName':
                     return $config->getSgOwnerName();
                 break;
-                case 'OwnerDomain':
+                case 'ownerDomain':
                     return $config->getSgOwnerDomain();
                 break;
-                case 'OwnerHost':
+                case 'ownerHost':
                     return $config->getSgOwnerHost();
                 break;
-                case 'OwnerLogo':
+                case 'ownerLogo':
                     return $config->getSgOwnerLogo();
                 break;
-                case 'OwnerStatus':
+                case 'ownerStatus':
                     return $config->getSgOwnerStatus();
                 break;
-                case 'OwnerStreet':
+                case 'ownerStreet':
                     return $config->getSgOwnerStreet();
                 break;
-                case 'OwnerPostal':
+                case 'ownerPostal':
                     return $config->getSgOwnerPostal();
                 break;
-                case 'OwnerCity':
+                case 'ownerCity':
                     return $config->getSgOwnerCity();
                 break;
-                case 'OwnerRegion':
+                case 'ownerRegion':
                     return $config->getSgOwnerRegion();
                 break;
-                case 'OwnerCountry':
+                case 'ownerCountry':
                     return $config->getSgOwnerCountry();
                 break;
-                case 'OwnerSiret':
+                case 'ownerSiret':
                     return $config->getSgOwnerSiret();
                 break;
-                case 'OwnerDpoName':
+                case 'ownerDpoName':
                     return $config->getSgOwnerDpoName();
                 break;
-                case 'OwnerDpoEmail':
+                case 'ownerDpoEmail':
                     return $config->getSgOwnerDpoEmail();
                 break;
-                case 'Theme':
+                case 'theme':
                     return $config->getSgTheme();
                 break;
-                case 'Modules':
+                case 'modules':
                     $modules = $config->getSgModules();
                     $arrModules = [];
                     foreach ($modules as $module) {
@@ -149,7 +149,7 @@ class ReplaceInsertTagsListener
 
                     return implode(', ', $arrModules);
                 break;
-                case 'ApiKey':
+                case 'apiKey':
                     return $config->getSgApiKey();
                 break;
                 default:
