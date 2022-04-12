@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\EventListener;
 
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Config\Core as CoreConfig;
 
 class ReplaceInsertTagsListener
 {
@@ -56,6 +57,7 @@ class ReplaceInsertTagsListener
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
         if ('sg' === $key) {
+            /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
 
             switch ($elements[1]) {
@@ -138,7 +140,10 @@ class ReplaceInsertTagsListener
                     return $config->getSgOwnerDpoEmail();
                 break;
                 case 'theme':
-                    return $config->getSgTheme();
+                    return (string) $config->getSgTheme();
+                break;
+                case 'rootPage':
+                    return (string) $config->getSgRootPage();
                 break;
                 case 'modules':
                     $modules = $config->getSgModules();

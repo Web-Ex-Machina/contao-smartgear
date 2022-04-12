@@ -100,8 +100,10 @@ class Core implements ConfigModuleInterface
     protected $sgOwnerDpoName = '';
     /** @var string */
     protected $sgOwnerDpoEmail = '';
-    /** @var string */
-    protected $sgTheme = '';
+    /** @var int */
+    protected $sgTheme;
+    /** @var int */
+    protected $sgRootPage;
     /** @var array */
     protected $sgModules = [];
     /** @var string */
@@ -113,7 +115,8 @@ class Core implements ConfigModuleInterface
     {
         $this->setSgInstallComplete(false)
             ->setSgVersion(static::DEFAULT_VERSION)
-            ->setSgTheme('')
+            ->setSgTheme(null)
+            ->setSgRootPage(null)
             ->setSgModules([])
             ->setSgSelectedModules([])
             ->setSgMode(static::DEFAULT_MODE)
@@ -150,7 +153,8 @@ class Core implements ConfigModuleInterface
     {
         $this->setSgInstallComplete($json->installComplete ?? false)
             ->setSgVersion($json->version ?? static::DEFAULT_VERSION)
-            ->setSgTheme($json->theme ?? '')
+            ->setSgTheme((int) $json->theme ?? null)
+            ->setSgRootPage($json->rootPage ?? null)
             ->setSgModules($json->modules ?? [])
             ->setSgSelectedModules($json->selectedModules ?? [])
             ->setSgMode($json->mode ?? static::DEFAULT_MODE)
@@ -193,6 +197,7 @@ class Core implements ConfigModuleInterface
         $json->installComplete = $this->getSgInstallComplete();
         $json->version = $this->getSgVersion();
         $json->theme = $this->getSgTheme();
+        $json->rootPage = $this->getSgRootPage();
         $json->version = $this->getSgVersion();
         $json->selectedModules = $this->getSgSelectedModules();
         $json->modules = $this->getSgModules();
@@ -533,12 +538,12 @@ class Core implements ConfigModuleInterface
         return $this;
     }
 
-    public function getSgTheme(): string
+    public function getSgTheme(): ?int
     {
         return $this->sgTheme;
     }
 
-    public function setSgTheme(string $sgTheme): self
+    public function setSgTheme(?int $sgTheme = null): self
     {
         $this->sgTheme = $sgTheme;
 
@@ -613,6 +618,18 @@ class Core implements ConfigModuleInterface
     public function setSgBlog(BlogConfig $blog): self
     {
         $this->blog = $blog;
+
+        return $this;
+    }
+
+    public function getSgRootPage(): ?int
+    {
+        return $this->sgRootPage;
+    }
+
+    public function setSgRootPage(?int $sgRootPage = null): self
+    {
+        $this->sgRootPage = $sgRootPage;
 
         return $this;
     }

@@ -167,6 +167,7 @@ class Website extends ConfigurationStep
         $groups = $this->createUserGroups();
         $users = $this->createUsers($groups);
         $pages = $this->createPages($layouts, $groups, $users, $modules);
+        $this->updateModuleConfigurationRootPage((int) $pages['root']->id);
         $modules = array_merge($this->createModules2($themeId, $pages), $modules);
         $this->createNotificationGateways();
     }
@@ -414,7 +415,11 @@ class Website extends ConfigurationStep
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
-        $page = PageModel::findOneBy('title', $config->getSgwebsiteTitle());
+        if (null !== $config->getSgRootPage()) {
+            $page = PageModel::findById($config->getSgRootPage());
+        } else {
+            $page = PageModel::findOneBy('title', $config->getSgwebsiteTitle());
+        }
 
         return Util::createPage($config->getSgwebsiteTitle(), 0, array_merge([
             'sorting' => 128,
@@ -691,7 +696,7 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        $config->setSgTheme((string) $themeId);
+        $config->setSgTheme($themeId);
 
         $this->configurationManager->save($config);
     }
@@ -876,5 +881,15 @@ class Website extends ConfigurationStep
             154 => 'tl_user::stop',
             155 => 'tl_user::session',
         ];
+    }
+
+    protected function updateModuleConfigurationRootPage(int $rootPageId): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $config->setSgRootPage($rootPageId);
+
+        $this->configurationManager->save($config);
     }
 }
