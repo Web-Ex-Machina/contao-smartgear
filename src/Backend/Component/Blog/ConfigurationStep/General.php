@@ -102,12 +102,17 @@ class General extends ConfigurationStep
             throw new \InvalidArgumentException($this->translator->trans('WEMSG.BLOG.INSTALL.fieldNewsConfigNameIncorrectFormat', [], 'contao_default'));
         }
 
+        // here we add a new tl_news_archive
+        $objNewsArchive = new \Contao\NewsArchiveModel();
+        $objNewsArchive->title = $newsConfigTitle;
+        $objNewsArchive->save();
+
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
         /** @var NewsArchiveConfig */
         $newsArchiveConfig = new NewsArchiveConfig();
         $newsArchiveConfig->setSgNewsArchiveTitle($newsConfigTitle);
-
+        $newsArchiveConfig->setSgNewsArchive((int) $objNewsArchive->id);
         $config->getSgBlog()->addOrUpdateNewsArchive($newsArchiveConfig);
 
         return $this->configurationManager->save($config);

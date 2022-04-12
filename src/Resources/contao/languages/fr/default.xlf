@@ -769,9 +769,25 @@
 			<source>Available configuration(s)</source>
 			<target>Configuration(s) disponible(s)</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.newsConfigAddButton">
+		<trans-unit id="WEMSG.BLOG.INSTALL.newConfigTitle">
+			<source>New configuration name</source>
+			<target>Nom de la nouvelle configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewConfigTitle">
+			<source>Add a new configuration</source>
+			<target>Ajoute une nouvelle configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewConfig">
 			<source>New configuration</source>
-			<target>Nouvelle archive</target>
+			<target>Nouvelle configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewConfigValidateTitle">
+			<source>Validate the new configuration</source>
+			<target>Valider la nouvelle configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewConfigValidate">
+			<source>Validate</source>
+			<target>Valider</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.BLOG.INSTALL.newsFolder">
 			<source>Files folder</source>
@@ -793,6 +809,25 @@
 			<source>Expert mode</source>
 			<target>Mode expert</target>
 		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.BLOCK.blogNewsConfigAddAjaxMessageSuccess">
+			<source>New configuration added</source>
+			<target>Nouvelle configuration ajoutée</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.BLOCK.blogNewsConfigAddAjaxMessageError">
+			<source>An error occured while adding a new configuration</source>
+			<target>Une serreur est survenue lors de l'ajout de la nouvelle configuration</target>
+		</trans-unit>
+
+
+
+		
+
+
+
+
+
 		<trans-unit id="WEMSG.BLOG.DASHBOARD.mode">
 			<source>Mode : %s</source>
 			<target>Mode : %s</target>
