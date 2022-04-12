@@ -789,6 +789,15 @@
 			<source>Validate</source>
 			<target>Valider</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewConfigCancelTitle">
+			<source>Cancel the new configuration creation</source>
+			<target>Annuler l'ajout d'une nouvelle configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewConfigCancel">
+			<source>Cancel</source>
+			<target>Annuler</target>
+		</trans-unit>
+
 		<trans-unit id="WEMSG.BLOG.INSTALL.newsFolder">
 			<source>Files folder</source>
 			<target>Dossier</target>
@@ -810,6 +819,32 @@
 			<target>Mode expert</target>
 		</trans-unit>
 
+
+		<trans-unit id="WEMSG.BLOG.INSTALL.newsConfigMissing">
+			<source>News configuration is missing</source>
+			<target>La configuration n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.newsArchiveTitleMissing">
+			<source>News feed's title is missing</source>
+			<target>Le titre du flux d'actualités n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.newsListPerPageMissing">
+			<source>Number of news per page is missing</source>
+			<target>Le nombre d'actualités par page n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.newsListPerPageTooLow">
+			<source>Number of news per page is too low</source>
+			<target>Le nombre d'actualités par page est trop faible</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.pageTitleMissing">
+			<source>News' page title is missing</source>
+			<target>Le titre de la page d'actualités n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.newsFolderMissing">
+			<source>Files folder is missing</source>
+			<target>Le dossier n'est pas renseigné</target>
+		</trans-unit>
+
 		<trans-unit id="WEMSG.BLOG.BLOCK.blogNewsConfigAddAjaxMessageSuccess">
 			<source>New configuration added</source>
 			<target>Nouvelle configuration ajoutée</target>
@@ -820,10 +855,15 @@
 			<target>Une serreur est survenue lors de l'ajout de la nouvelle configuration</target>
 		</trans-unit>
 
+		<trans-unit id="WEMSG.BLOG.BLOCK.blogNewsConfigGetAjaxMessageSuccess">
+			<source>Configuration retrieved</source>
+			<target>Configuration récupérée</target>
+		</trans-unit>
 
-
-		
-
+		<trans-unit id="WEMSG.BLOG.BLOCK.blogNewsConfigGetAjaxMessageError">
+			<source>An error occured while retrieving the configuration</source>
+			<target>Une serreur est survenue lors de la récupération de la configuration</target>
+		</trans-unit>
 
 
 

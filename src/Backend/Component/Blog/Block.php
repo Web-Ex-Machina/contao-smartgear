@@ -50,7 +50,7 @@ class Block extends BackendBlock
     {
         try {
             switch (Input::post('action')) {
-                case 'blogNewConfig':
+                case 'blogConfigAdd':
                     try {
                         $generalConfigurationStep = System::getContainer()->get('smartgear.backend.component.blog.configuration_step.general');
                         $res = $generalConfigurationStep->newsConfigAdd();
@@ -61,6 +61,19 @@ class Block extends BackendBlock
                         $arrResponse['status'] = 'error';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigAddAjaxMessageError'].$e->getMessage();
                         $arrResponse['output'] = $e->getMessage();
+                    }
+                break;
+                case 'blogConfigGet':
+                    try {
+                        $generalConfigurationStep = System::getContainer()->get('smartgear.backend.component.blog.configuration_step.general');
+                        $config = $generalConfigurationStep->newsConfigGet((int) Input::post('id'));
+                        $arrResponse['status'] = 'success';
+                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigGetAjaxMessageSuccess'];
+                        $arrResponse['config'] = null !== $config ? $config->export() : null;
+                    } catch (Exception $e) {
+                        $arrResponse['status'] = 'error';
+                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigGetAjaxMessageError'].$e->getMessage();
+                        // $arrResponse['output'] = $e->getMessage();
                     }
                 break;
                 case 'dev_mode':

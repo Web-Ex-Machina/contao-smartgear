@@ -21,6 +21,9 @@
 <?php elseif("file" === $this->field['type']): ?>
 	<h3><label for="ctrl_<?= $this->field['name'] ?>"><?= $this->field['label'] ?></label></h3>
 	<input name="<?= $this->field['name'] ?>" id="ctrl_<?= $this->field['name'] ?>" class="tl_text" <?= $this->field['accept'] ? ' accept="'.$this->field['accept'].'"' : '' ?> <?= $this->field['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()" type="file">
+<?php elseif("widget" === $this->field['type']): ?>
+	<h3><label for="ctrl_<?= $this->field['name'] ?>"><?= $this->field['label'] ?></label></h3>
+	<?= $this->field['objField']->generate(); ?>
 <?php else: ?>
 	<h3><label for="ctrl_<?= $this->field['name'] ?>"><?= $this->field['label'] ?></label></h3>
 	<input name="<?= $this->field['name'] ?>" id="ctrl_<?= $this->field['name'] ?>" class="tl_text" value="<?= $this->field['value'] ?>"<?= $this->field['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()" type="text">

@@ -125,4 +125,22 @@ class Blog implements ConfigModuleInterface
 
         return $this;
     }
+
+    /**
+     * Retrieve a news configuration by its id.
+     *
+     * @param int $id [description]
+     *
+     * @return NewsArchive|null return null if no matching configuration found
+     */
+    public function getNewsArchiveById(int $id): ?NewsArchive
+    {
+        foreach ($this->sgNewsArchives as $newsArchive) {
+            if ($id === $newsArchive->getSgNewsArchive()) {
+                return $newsArchive;
+            }
+        }
+
+        return null;
+    }
 }

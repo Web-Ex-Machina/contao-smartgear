@@ -6,22 +6,33 @@
 		</div>
 
 	<div class="widget">
-		<button type="button" class="btn btn-bg-green" id="button-<?= $this->type ?>-<?= $this->module ?>-blog-new-config" 
+		<button type="button" class="btn btn-bg-green" id="button-<?= $this->type ?>-<?= $this->module ?>-blog-config-add" 
 		title="<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewConfigTitle'); ?>"><?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewConfig'); ?></button>
 		<br>
 	</div>
 
-	<div class="widget <?= $this->fields['new_config']['class'] ?> hidden" id="widget-<?= $this->type ?>-<?= $this->module ?>-blog-new-config">
+	<div class="widget <?= $this->fields['new_config']['class'] ?> hidden" id="widget-<?= $this->type ?>-<?= $this->module ?>-blog-config-add">
 		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['new_config']]); ?>
 		<br>
-		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-blog-new-config-validation" 
+		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-blog-config-add-validation" 
 		title="<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewConfigValidateTitle'); ?>">
 			<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewConfigValidate'); ?>
 		</button>
-		<pre id="block-<?= $this->type ?>-<?= $this->module ?>-blog-new-config-result" style="height:100px;overflow-y:scroll;" class="hidden result">
+		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-blog-config-add-cancel" 
+		title="<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewConfigCancelTitle'); ?>">
+			<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewConfigCancel'); ?>
+		</button>
+		<pre id="block-<?= $this->type ?>-<?= $this->module ?>-blog-config-add-result" style="height:100px;overflow-y:scroll;" class="hidden result">
 	</div>
 
-	<div id="widget-<?= $this->type ?>-<?= $this->module ?>-blog-config"> 
+	<div id="widget-<?= $this->type ?>-<?= $this->module ?>-blog-config">
+		<div class="loader"><i class="fas fa-spinner fa-4x fa-spin"></i></div>
+
+		<div class="widget <?= $this->fields['newsFolder']['class'] ?>">
+			<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['newsFolder']]); ?>
+			<br>
+		</div>
+
 		<div class="widget <?= $this->fields['newsArchiveTitle']['class'] ?>">
 			<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['newsArchiveTitle']]); ?>
 			<br>
@@ -36,7 +47,6 @@
 			<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['pageTitle']]); ?>
 			<br>
 		</div>
-
 
 		<div class="widget <?= $this->fields['expertMode']['class'] ?>">
 			<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['expertMode']]); ?>
@@ -61,22 +71,34 @@
 	/**
 	 * Handle command buttons
 	 */
-	j('button#button-<?= $this->type ?>-<?= $this->module ?>-blog-new-config').on('click', function(e){
+	j('button#button-<?= $this->type ?>-<?= $this->module ?>-blog-config-add').on('click', function(e){
 		e.preventDefault();
-		j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-new-config').removeClass('hidden');
+		j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-config-add').removeClass('hidden');
 		j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-config').addClass('hidden');
 	});
-
-	j('button#button-<?= $this->type ?>-<?= $this->module ?>-blog-new-config-validation').on('click', function(e){
+	j('button#button-<?= $this->type ?>-<?= $this->module ?>-blog-config-add-cancel').on('click', function(e){
 		e.preventDefault();
-		blogNewConfig()
+		j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-config-add').addClass('hidden');
+		j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-config').removeClass('hidden');
+	});
+
+	j('button#button-<?= $this->type ?>-<?= $this->module ?>-blog-config-add-validation').on('click', function(e){
+		e.preventDefault();
+		blogConfigAdd()
+		.catch(function(e) {
+			toastr.error(e, "Une erreur est survenue :");
+		});
+	});
+	j('select[name="newsConfig"]').on('change', function(e){
+		e.preventDefault();
+		blogConfigGet()
 		.catch(function(e) {
 			toastr.error(e, "Une erreur est survenue :");
 		});
 	});
 
-	function blogNewConfig(type, module){
-		var ctn = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-new-config');
+	function blogConfigAdd(type, module){
+		var ctn = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-config-add');
 		var ctnConfig = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-config');
 		var field = ctn.find('.tl_text');
 		var selectNewsConfigsField = j('select[name="newsConfig"]')
@@ -85,8 +107,8 @@
 		return executeCmdLive(
 			"<?= $this->type ?>",
 			"<?= $this->module ?>",
-			'blogNewConfig',
-			"block-<?= $this->type ?>-<?= $this->module ?>-blog-new-config-result",
+			'blogConfigAdd',
+			"block-<?= $this->type ?>-<?= $this->module ?>-blog-config-add-result",
 			{'new_config':field.val()}
 		).then(function(r) {
 			toastr[r["status"]](r["msg"]);
@@ -104,6 +126,66 @@
 			ctn.find('.loader').removeClass("active");
 			ctn.find('.result').html(e);
 			throw new Error(e);
+		});
+	}
+
+	function blogConfigGet(type, module){
+		return new Promise((resolve, reject) => {
+			blogConfigGetPromise().then(function(r) {
+				console.log(r.config);
+				var ctnConfig = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-config');
+				ctnConfig.find('[name="newsArchiveTitle"]').val(r.config.archive_title);
+				ctnConfig.find('[name="newsListPerPage"]').val(r.config.list_per_page);
+				ctnConfig.find('[name="pageTitle"]').val(r.config.page_title);
+				ctnConfig.find('[name="newsFolder"]').val(r.config.folder);
+				ctnConfig.find('#ctrl_newsFolder_result').html(r.config.folder);
+				resolve(r);
+			}).catch(function(e, output) {
+				reject(e);
+			});
+		});
+	}
+
+	function blogConfigGetPromise(type, module){
+		var selectNewsConfigsField = j('select[name="newsConfig"]');
+		var ctnConfig = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-config');
+		ctnConfig.find('.loader').addClass("active");
+		return new Promise((resolve, reject) => {
+			var objFields = {
+				'TL_WEM_AJAX':1
+				,'REQUEST_TOKEN':"<?= $this->token; ?>"
+				,'wem_module':'be_smartgear'
+				,'action':'blogConfigGet'
+				,'type':"<?= $this->type ?>"
+				,'module':"<?= $this->module ?>"
+				,'id':selectNewsConfigsField.val()
+			};
+			j.ajax({
+				method: "POST"
+				,data: objFields
+			})
+			.done(function(msg){
+				ctnConfig.find('.loader').removeClass("active");
+				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+				try{
+					var results = j.parseJSON(msg);
+
+					// Handle actions errors
+					if("error" === results["status"]) {
+						reject(results["msg"]);
+					}
+
+					// Notify everything goes well
+					resolve(results);
+				}
+				catch(err){
+	       			reject(err); 
+				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				ctnConfig.find('.loader').removeClass("active");
+				reject(jqXHR, textStatus, errorThrown); 
+			});
 		});
 	}
 </script>
