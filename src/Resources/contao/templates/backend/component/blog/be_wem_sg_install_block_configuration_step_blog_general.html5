@@ -6,26 +6,26 @@
 		</div>
 
 	<div class="widget">
-		<button type="button" class="btn btn-bg-green" id="button-<?= $this->type ?>-<?= $this->module ?>-blog-config-add" 
-		title="<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewConfigTitle'); ?>"><?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewConfig'); ?></button>
+		<button type="button" class="btn btn-bg-green" id="button-<?= $this->type ?>-<?= $this->module ?>-blog-preset-add" 
+		title="<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewPresetTitle'); ?>"><?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewPreset'); ?></button>
 		<br>
 	</div>
 
-	<div class="widget <?= $this->fields['new_config']['class'] ?> hidden" id="widget-<?= $this->type ?>-<?= $this->module ?>-blog-config-add">
+	<div class="widget <?= $this->fields['new_config']['class'] ?> hidden" id="widget-<?= $this->type ?>-<?= $this->module ?>-blog-preset-add">
 		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['new_config']]); ?>
 		<br>
-		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-blog-config-add-validation" 
-		title="<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewConfigValidateTitle'); ?>">
-			<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewConfigValidate'); ?>
+		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-blog-preset-add-validation" 
+		title="<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewPresetValidateTitle'); ?>">
+			<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewPresetValidate'); ?>
 		</button>
-		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-blog-config-add-cancel" 
-		title="<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewConfigCancelTitle'); ?>">
-			<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewConfigCancel'); ?>
+		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-blog-preset-add-cancel" 
+		title="<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewPresetCancelTitle'); ?>">
+			<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewPresetCancel'); ?>
 		</button>
-		<pre id="block-<?= $this->type ?>-<?= $this->module ?>-blog-config-add-result" style="height:100px;overflow-y:scroll;" class="hidden result">
+		<pre id="block-<?= $this->type ?>-<?= $this->module ?>-blog-preset-add-result" style="height:100px;overflow-y:scroll;" class="hidden result">
 	</div>
 
-	<div id="widget-<?= $this->type ?>-<?= $this->module ?>-blog-config">
+	<div id="widget-<?= $this->type ?>-<?= $this->module ?>-blog-preset">
 		<div class="loader"><i class="fas fa-spinner fa-4x fa-spin"></i></div>
 
 		<div class="widget <?= $this->fields['newsFolder']['class'] ?>">
@@ -71,35 +71,35 @@
 	/**
 	 * Handle command buttons
 	 */
-	j('button#button-<?= $this->type ?>-<?= $this->module ?>-blog-config-add').on('click', function(e){
+	j('button#button-<?= $this->type ?>-<?= $this->module ?>-blog-preset-add').on('click', function(e){
 		e.preventDefault();
-		j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-config-add').removeClass('hidden');
-		j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-config').addClass('hidden');
+		j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-preset-add').removeClass('hidden');
+		j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-preset').addClass('hidden');
 	});
-	j('button#button-<?= $this->type ?>-<?= $this->module ?>-blog-config-add-cancel').on('click', function(e){
+	j('button#button-<?= $this->type ?>-<?= $this->module ?>-blog-preset-add-cancel').on('click', function(e){
 		e.preventDefault();
-		j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-config-add').addClass('hidden');
-		j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-config').removeClass('hidden');
+		j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-preset-add').addClass('hidden');
+		j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-preset').removeClass('hidden');
 	});
 
-	j('button#button-<?= $this->type ?>-<?= $this->module ?>-blog-config-add-validation').on('click', function(e){
+	j('button#button-<?= $this->type ?>-<?= $this->module ?>-blog-preset-add-validation').on('click', function(e){
 		e.preventDefault();
-		blogConfigAdd()
+		blogPresetAdd()
 		.catch(function(e) {
 			toastr.error(e, "Une erreur est survenue :");
 		});
 	});
 	j('select[name="newsConfig"]').on('change', function(e){
 		e.preventDefault();
-		blogConfigGet()
+		blogPresetGet()
 		.catch(function(e) {
 			toastr.error(e, "Une erreur est survenue :");
 		});
 	});
 
-	function blogConfigAdd(type, module){
-		var ctn = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-config-add');
-		var ctnConfig = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-config');
+	function blogPresetAdd(type, module){
+		var ctn = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-preset-add');
+		var ctnConfig = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-preset');
 		var field = ctn.find('.tl_text');
 		var selectNewsConfigsField = j('select[name="newsConfig"]')
 		ctn.find('.loader').addClass("active");
@@ -107,8 +107,8 @@
 		return executeCmdLive(
 			"<?= $this->type ?>",
 			"<?= $this->module ?>",
-			'blogConfigAdd',
-			"block-<?= $this->type ?>-<?= $this->module ?>-blog-config-add-result",
+			'blogPresetAdd',
+			"block-<?= $this->type ?>-<?= $this->module ?>-blog-preset-add-result",
 			{'new_config':field.val()}
 		).then(function(r) {
 			toastr[r["status"]](r["msg"]);
@@ -129,11 +129,11 @@
 		});
 	}
 
-	function blogConfigGet(type, module){
+	function blogPresetGet(type, module){
 		return new Promise((resolve, reject) => {
 			blogConfigGetPromise().then(function(r) {
 				console.log(r.config);
-				var ctnConfig = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-config');
+				var ctnConfig = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-preset');
 				ctnConfig.find('[name="newsArchiveTitle"]').val(r.config.archive_title);
 				ctnConfig.find('[name="newsListPerPage"]').val(r.config.list_per_page);
 				ctnConfig.find('[name="pageTitle"]').val(r.config.page_title);
@@ -148,14 +148,14 @@
 
 	function blogConfigGetPromise(type, module){
 		var selectNewsConfigsField = j('select[name="newsConfig"]');
-		var ctnConfig = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-config');
+		var ctnConfig = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-blog-preset');
 		ctnConfig.find('.loader').addClass("active");
 		return new Promise((resolve, reject) => {
 			var objFields = {
 				'TL_WEM_AJAX':1
 				,'REQUEST_TOKEN':"<?= $this->token; ?>"
 				,'wem_module':'be_smartgear'
-				,'action':'blogConfigGet'
+				,'action':'blogPresetGet'
 				,'type':"<?= $this->type ?>"
 				,'module':"<?= $this->module ?>"
 				,'id':selectNewsConfigsField.val()

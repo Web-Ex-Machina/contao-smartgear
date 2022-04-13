@@ -242,6 +242,8 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
             $localConfigManager: '@smartgear.config.manager.local_config'
             $commandUtil: '@smartgear.classes.command.util'
+            $foldersToCreate: 
+                - 'files/vendor'
         public: true
 
     smartgear.backend.component.core.configuration_step.framway_retrieval:

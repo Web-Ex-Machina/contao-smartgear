@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Config\Component\Blog;
 
+use InvalidArgumentException;
 use WEM\SmartgearBundle\Classes\Config\ConfigModuleInterface;
 
 class Blog implements ConfigModuleInterface
@@ -24,20 +25,35 @@ class Blog implements ConfigModuleInterface
         self::MODE_SIMPLE,
         self::MODE_EXPERT,
     ];
-
     public const DEFAULT_MODE = self::MODE_SIMPLE;
+
     /** @var bool */
     protected $sgInstallComplete = false;
     /** @var string */
     protected $sgMode = self::DEFAULT_MODE;
+    /** @var int */
+    protected $sgNewsArchive;
+    /** @var int */
+    protected $sgPage;
+    /** @var int */
+    protected $sgModuleReader;
+    /** @var int */
+    protected $sgModuleList;
     /** @var array */
-    protected $sgNewsArchives = [];
+    protected $sgPresets = [];
+    /** @var int */
+    protected $sgCurrentPresetIndex;
 
     public function reset(): self
     {
         $this->setSgInstallComplete(false)
             ->setSgMode(static::DEFAULT_MODE)
-            ->setSgNewsArchives([])
+            ->setSgPage(null)
+            ->setSgModuleReader(null)
+            ->setSgModuleList(null)
+            ->setSgNewsArchive(null)
+            ->setSgPresets([])
+            ->setSgCurrentPresetIndex(null)
         ;
 
         return $this;
@@ -47,11 +63,17 @@ class Blog implements ConfigModuleInterface
     {
         $this->setSgInstallComplete($json->installComplete ?? false)
             ->setSgMode($json->mode ?? static::DEFAULT_MODE)
+            ->setSgPage($json->page ?? null)
+            ->setSgModuleReader($json->moduleReader ?? null)
+            ->setSgModuleList($json->moduleList ?? null)
+            ->setSgNewsArchive($json->archive ?? null)
         ;
 
-        foreach ($json->news_archives as $newsArchiveJson) {
-            $this->addOrUpdateNewsArchive((new NewsArchive())->import($newsArchiveJson));
+        foreach ($json->presets as $presetJson) {
+            $this->addOrUpdatePreset((new Preset())->import($presetJson));
         }
+
+        $this->setSgCurrentPresetIndex($json->currentPresetIndex ?? null);
 
         return $this;
     }
@@ -61,12 +83,29 @@ class Blog implements ConfigModuleInterface
         $json = new \stdClass();
         $json->installComplete = $this->getSgInstallComplete();
         $json->mode = $this->getSgMode();
-        $json->news_archives = [];
-        foreach ($this->getSgNewsArchives() as $newsArchiveConfig) {
-            $json->news_archives[] = $newsArchiveConfig->export();
+        $json->page = $this->getSgPage();
+        $json->moduleReader = $this->getSgModuleReader();
+        $json->moduleList = $this->getSgModuleList();
+        $json->archive = $this->getSgNewsArchive();
+        $json->currentPresetIndex = $this->getSgCurrentPresetIndex();
+        $json->presets = [];
+        foreach ($this->getSgPresets() as $presetConfig) {
+            $json->presets[] = $presetConfig->export();
         }
 
         return $json;
+    }
+
+    public function getSgInstallComplete(): bool
+    {
+        return $this->sgInstallComplete;
+    }
+
+    public function setSgInstallComplete(bool $sgInstallComplete): self
+    {
+        $this->sgInstallComplete = $sgInstallComplete;
+
+        return $this;
     }
 
     public function getSgMode(): string
@@ -85,42 +124,56 @@ class Blog implements ConfigModuleInterface
         return $this;
     }
 
-    public function getSgInstallComplete(): bool
+    public function getSgNewsArchive(): ?int
     {
-        return $this->sgInstallComplete;
+        return $this->sgNewsArchive;
     }
 
-    public function setSgInstallComplete(bool $sgInstallComplete): self
+    public function setSgNewsArchive(?int $sgNewsArchive): self
     {
-        $this->sgInstallComplete = $sgInstallComplete;
+        $this->sgNewsArchive = $sgNewsArchive;
 
         return $this;
     }
 
-    public function getSgNewsArchives(): array
+    /**
+     * @return mixed
+     */
+    public function getSgPage(): ?int
     {
-        return $this->sgNewsArchives;
+        return $this->sgPage;
     }
 
-    public function setSgNewsArchives(array $sgNewsArchives): self
+    /**
+     * @param mixed $sgPage
+     */
+    public function setSgPage(?int $sgPage): self
     {
-        $this->sgNewsArchives = $sgNewsArchives;
+        $this->sgPage = $sgPage;
 
         return $this;
     }
 
-    public function addOrUpdateNewsArchive(NewsArchive $newsArchive): self
+    public function getSgPresets(): array
+    {
+        return $this->sgPresets;
+    }
+
+    public function setSgPresets(array $sgPresets): self
+    {
+        $this->sgPresets = $sgPresets;
+
+        return $this;
+    }
+
+    public function addOrUpdatePreset(Preset $preset, ?int $index = null): self
     {
         $found = false;
-        /* @var NewsArchive */
-        foreach ($this->sgNewsArchives as $index => $existingNewsArchive) {
-            if ($existingNewsArchive->getSgNewsArchive() === $newsArchive->getSgNewsArchive()) {
-                $this->sgNewsArchives[$index] = $newsArchive;
-                $found = true;
-            }
-        }
-        if (!$found) {
-            $this->sgNewsArchives[] = $newsArchive;
+
+        if ($index) {
+            $this->sgPresets[$index] = $preset;
+        } else {
+            $this->sgPresets[] = $preset;
         }
 
         return $this;
@@ -129,18 +182,57 @@ class Blog implements ConfigModuleInterface
     /**
      * Retrieve a news configuration by its id.
      *
-     * @param int $id [description]
-     *
-     * @return NewsArchive|null return null if no matching configuration found
+     * @return Preset|null return null if no matching configuration found
      */
-    public function getNewsArchiveById(int $id): ?NewsArchive
+    public function getPresetByIndex(int $index): ?Preset
     {
-        foreach ($this->sgNewsArchives as $newsArchive) {
-            if ($id === $newsArchive->getSgNewsArchive()) {
-                return $newsArchive;
-            }
-        }
+        return $this->sgPresets[$index] ?? null;
+    }
 
-        return null;
+    public function getSgCurrentPresetIndex(): ?int
+    {
+        return $this->sgCurrentPresetIndex;
+    }
+
+    public function setSgCurrentPresetIndex(?int $sgCurrentPresetIndex): self
+    {
+        if (null !== $sgCurrentPresetIndex
+        && null === $this->getPresetByIndex($sgCurrentPresetIndex)) {
+            dump($sgCurrentPresetIndex);
+            dump($this->sgPresets);
+            throw new InvalidArgumentException('The provided preset ID does not refer to any known preset configuration.');
+        }
+        $this->sgCurrentPresetIndex = $sgCurrentPresetIndex;
+
+        return $this;
+    }
+
+    public function getCurrentPreset(): ?Preset
+    {
+        return $this->getPresetByIndex($this->getSgCurrentPresetIndex());
+    }
+
+    public function getSgModuleReader(): ?int
+    {
+        return $this->sgModuleReader;
+    }
+
+    public function setSgModuleReader(?int $sgModuleReader): self
+    {
+        $this->sgModuleReader = $sgModuleReader;
+
+        return $this;
+    }
+
+    public function getSgModuleList(): ?int
+    {
+        return $this->sgModuleList;
+    }
+
+    public function setSgModuleList(?int $sgModuleList): self
+    {
+        $this->sgModuleList = $sgModuleList;
+
+        return $this;
     }
 }

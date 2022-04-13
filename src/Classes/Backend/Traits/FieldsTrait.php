@@ -116,7 +116,6 @@ trait FieldsTrait
             'strId' => $strName,
             'strLabel' => $strLabel,
             // 'varValue' => null !== $item ? $item->uuid : $strValue,
-            // 'value' => $strValue,
             'varValue' => $strValue,
             'required' => $blnRequired,
             'multiple' => $blnMultiple,

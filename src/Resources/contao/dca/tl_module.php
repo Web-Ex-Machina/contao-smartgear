@@ -17,6 +17,8 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 /*
  * SMARTGEAR for Contao Open Source CMS
  * Copyright (c) 2015-2022 Web ex Machina
+=======
+>>>>>>> issue #64 : blog install WIP
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -30,6 +32,8 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_header_content';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_navigation';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_display_share_buttons';
+
 $GLOBALS['TL_DCA']['tl_module']['palettes']['wem_sg_header'] = '
 	{title_legend},name,type;
 	{config_legend},wem_sg_header_preset,wem_sg_header_above,wem_sg_header_sticky;
@@ -138,8 +142,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['wem_sg_number_of_characters'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_number_of_characters'],
     'exclude' => true,
     'inputType' => 'text',
-    'eval' => ['maxlength' => 10, 'tl_class' => 'w50'],
-    'sql' => 'int NOT NULL default 0',
+    'eval' => ['maxlength' => 4, 'tl_class' => 'w50'],
+    'sql' => "int(10) unsigned NOT NULL default '0'",
 ];
 
 $paletteManipulator = PaletteManipulator::create()

@@ -16,7 +16,7 @@ namespace WEM\SmartgearBundle\Config\Component\Blog;
 
 use WEM\SmartgearBundle\Classes\Config\ConfigJsonInterface;
 
-class NewsArchive implements ConfigJsonInterface
+class Preset implements ConfigJsonInterface
 {
     public const ARCHIVE_MODE_EMPTY = '';
     public const ARCHIVE_MODE_ARCHIVE = 'archive';
@@ -32,8 +32,6 @@ class NewsArchive implements ConfigJsonInterface
     public const DEFAULT_NEWS_PER_PAGE = 15;
     public const DEFAULT_PAGE_TITLE = 'Blog';
     public const DEFAULT_ARCHIVE_MODE = self::ARCHIVE_MODE_EMPTY;
-    /** @var int */
-    protected $sgNewsArchive = 0;
     /** @var string */
     protected $sgNewsFolder = self::DEFAULT_FOLDER_PATH;
     /** @var string */
@@ -52,7 +50,6 @@ class NewsArchive implements ConfigJsonInterface
     public function reset(): self
     {
         $this
-            ->setSgNewsArchive(0)
             ->setSgNewsFolder(self::DEFAULT_FOLDER_PATH)
             ->setSgNewsArchiveTitle('')
             ->setSgNewsListPerPage(self::DEFAULT_NEWS_PER_PAGE)
@@ -68,7 +65,6 @@ class NewsArchive implements ConfigJsonInterface
     public function import(\stdClass $json): self
     {
         $this
-            ->setSgNewsArchive($json->archive ?? 0)
             ->setSgNewsFolder($json->folder ?? self::DEFAULT_FOLDER_PATH)
             ->setSgNewsArchiveTitle($json->archive_title ?? '')
             ->setSgNewsListPerPage($json->list_per_page ?? self::DEFAULT_NEWS_PER_PAGE)
@@ -84,7 +80,6 @@ class NewsArchive implements ConfigJsonInterface
     public function export(): \stdClass
     {
         $json = new \stdClass();
-        $json->archive = $this->getSgNewsArchive();
         $json->folder = $this->getSgNewsFolder();
         $json->archive_title = $this->getSgNewsArchiveTitle();
         $json->list_per_page = $this->getSgNewsListPerPage();
@@ -110,10 +105,7 @@ class NewsArchive implements ConfigJsonInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSgNewsArchiveTitle()
+    public function getSgNewsArchiveTitle(): string
     {
         return $this->sgNewsArchiveTitle;
     }
@@ -151,18 +143,6 @@ class NewsArchive implements ConfigJsonInterface
     public function setSgPageTitle(string $sgPageTitle): self
     {
         $this->sgPageTitle = $sgPageTitle;
-
-        return $this;
-    }
-
-    public function getSgNewsArchive(): int
-    {
-        return $this->sgNewsArchive;
-    }
-
-    public function setSgNewsArchive(int $sgNewsArchive): self
-    {
-        $this->sgNewsArchive = $sgNewsArchive;
 
         return $this;
     }

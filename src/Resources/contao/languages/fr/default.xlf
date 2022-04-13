@@ -771,7 +771,7 @@
 			<source>Expert</source>
 			<target>Expert</target>
 		</trans-unit>
-		
+
 		<trans-unit id="WEMSG.BLOG.INSTALL.title">
 			<source>Installation</source>
 			<target>Installation</target>
@@ -780,31 +780,31 @@
 			<source>Available configuration(s)</source>
 			<target>Configuration(s) disponible(s)</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.newConfigTitle">
+		<trans-unit id="WEMSG.BLOG.INSTALL.newPresetTitle">
 			<source>New configuration name</source>
 			<target>Nom de la nouvelle configuration</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewConfigTitle">
+		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewPresetTitle">
 			<source>Add a new configuration</source>
 			<target>Ajoute une nouvelle configuration</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewConfig">
+		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewPreset">
 			<source>New configuration</source>
 			<target>Nouvelle configuration</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewConfigValidateTitle">
+		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewPresetValidateTitle">
 			<source>Validate the new configuration</source>
 			<target>Valider la nouvelle configuration</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewConfigValidate">
+		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewPresetValidate">
 			<source>Validate</source>
 			<target>Valider</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewConfigCancelTitle">
+		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewPresetCancelTitle">
 			<source>Cancel the new configuration creation</source>
 			<target>Annuler l'ajout d'une nouvelle configuration</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewConfigCancel">
+		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewPresetCancel">
 			<source>Cancel</source>
 			<target>Annuler</target>
 		</trans-unit>
@@ -813,6 +813,13 @@
 			<source>Files folder</source>
 			<target>Dossier</target>
 		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.INSTALL.newsFolderHelp">
+			<source>Choose the folder where news' files/images are going to be stored</source>
+			<target>Choisissez le dossier dans lequel les fichiers/images associées  aux actualités seront stockées</target>
+		</trans-unit>
+
+
 		<trans-unit id="WEMSG.BLOG.INSTALL.newsArchiveTitle">
 			<source>News feed title</source>
 			<target>Titre du flux d'actualités</target>
@@ -830,7 +837,14 @@
 			<target>Mode expert</target>
 		</trans-unit>
 
-
+		<trans-unit id="WEMSG.BLOG.INSTALL.fieldNewsPresetNameEmpty">
+			<source>News configuration preset name is missing</source>
+			<target>Le nom de la configuration n'est pas renseignée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.fieldNewsPresetNameIncorrectFormat">
+			<source>News configuration preset name has an incorrect format</source>
+			<target>Le nom de la configuration a un format incorrect</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.BLOG.INSTALL.newsConfigMissing">
 			<source>News configuration is missing</source>
 			<target>La configuration n'est pas renseigné</target>
@@ -855,6 +869,12 @@
 			<source>Files folder is missing</source>
 			<target>Le dossier n'est pas renseigné</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL.pageDescription">
+			<source>%s of %s's website</source>
+			<target>%s du site %s</target>
+		</trans-unit>
+
+
 
 		<trans-unit id="WEMSG.BLOG.BLOCK.blogNewsConfigAddAjaxMessageSuccess">
 			<source>New configuration added</source>

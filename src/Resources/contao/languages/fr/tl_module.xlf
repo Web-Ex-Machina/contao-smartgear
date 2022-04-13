@@ -106,6 +106,27 @@
 			<source>Pick the module who's used as main navigation</source>
 			<target>Sélectionnez le menu utilisé comme navigation principale.</target>
 		</trans-unit>
+
+		<trans-unit id="tl_module.wem_sg_display_share_buttons.0">
+			<source>Display share buttons</source>
+			<target>Affichage des boutons de partage</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_display_share_buttons.1">
+			<source>Check if you want share buttons to be displayed</source>
+			<target>Cochez la case pour afficher les boutons de partages</target>
+		</trans-unit>
+
+		<trans-unit id="tl_module.wem_sg_number_of_characters.0">
+			<source>Number of character</source>
+			<target>Nombre de caractères</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_number_of_characters.1">
+			<source>Fill the number of characters</source>
+			<target>Renseignez le nombre de caractères</target>
+		</trans-unit>
+
+
+
     </body>
   </file>
 </xliff>

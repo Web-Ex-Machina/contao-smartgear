@@ -49,10 +49,10 @@ class Block extends BackendBlock
     {
         try {
             switch (Input::post('action')) {
-                case 'blogConfigAdd':
+                case 'blogPresetAdd':
                     try {
                         $generalConfigurationStep = System::getContainer()->get('smartgear.backend.component.blog.configuration_step.general');
-                        $res = $generalConfigurationStep->newsConfigAdd();
+                        $res = $generalConfigurationStep->presetAdd();
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigAddAjaxMessageSuccess'];
                         $arrResponse['output'] = $res;
@@ -62,10 +62,10 @@ class Block extends BackendBlock
                         $arrResponse['output'] = $e->getMessage();
                     }
                 break;
-                case 'blogConfigGet':
+                case 'blogPresetGet':
                     try {
                         $generalConfigurationStep = System::getContainer()->get('smartgear.backend.component.blog.configuration_step.general');
-                        $config = $generalConfigurationStep->newsConfigGet((int) Input::post('id'));
+                        $config = $generalConfigurationStep->presetGet((int) Input::post('id'));
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigGetAjaxMessageSuccess'];
                         $arrResponse['config'] = null !== $config ? $config->export() : null;
