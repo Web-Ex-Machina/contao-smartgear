@@ -11,7 +11,7 @@ services:
         public: true
 
     smartgear.backend.component.blog.configuration_step_manager:
-        class: WEM\SmartgearBundle\Classes\Backend\ConfigurationStepManager
+        class: WEM\SmartgearBundle\Backend\Component\Blog\ConfigurationStepManager
         arguments:
             $configurationManager: '@smartgear.config.manager.core'
             $translator: '@contao.translation.translator'

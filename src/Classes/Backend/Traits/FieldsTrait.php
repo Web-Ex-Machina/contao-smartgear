@@ -108,10 +108,15 @@ trait FieldsTrait
 
     protected function addSimpleFileTree(string $strName, string $strLabel, ?string $strValue = null, ?bool $blnRequired = false, ?bool $blnMultiple = false, ?string $strClass = '', ?string $strHelp = '', ?array $arrAttributes = []): void
     {
+        // okay, we'd need to pass the file/folder UUID as varValue ...
+        // $item = \Contao\FilesModel::findByPath($strValue);
+        // dump($item);
         $config = [
             'strName' => $strName,
             'strId' => $strName,
             'strLabel' => $strLabel,
+            // 'varValue' => null !== $item ? $item->uuid : $strValue,
+            // 'value' => $strValue,
             'varValue' => $strValue,
             'required' => $blnRequired,
             'multiple' => $blnMultiple,

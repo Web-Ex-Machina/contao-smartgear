@@ -67,6 +67,7 @@ class General extends ConfigurationStep
             $this->addTextField('newsArchiveTitle', $this->translator->trans('WEMSG.BLOG.INSTALL.newsArchiveTitle', [], 'contao_default'), $sgNewsArchiveConfig->getSgNewsArchiveTitle(), true);
 
             $this->addTextField('newsListPerPage', $this->translator->trans('WEMSG.BLOG.INSTALL.newsListPerPage', [], 'contao_default'), (string) $sgNewsArchiveConfig->getSgNewsListPerPage(), false, '', 'number');
+
             $this->addTextField('pageTitle', $this->translator->trans('WEMSG.BLOG.INSTALL.pageTitle', [], 'contao_default'), $sgNewsArchiveConfig->getSgPageTitle(), true);
 
             $this->addSimpleFileTree('newsFolder', $this->translator->trans('WEMSG.BLOG.INSTALL.newsFolder', [], 'contao_default'), $sgNewsArchiveConfig->getSgNewsFolder(), true, false, '', 'ffgddfg', ['multiple' => false, 'isGallery' => false,

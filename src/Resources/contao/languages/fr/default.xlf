@@ -761,6 +761,17 @@
 		</trans-unit>
 
 		<!-- Blog -->
+
+		<trans-unit id="WEMSG.BLOG.MODE.simple">
+			<source>Simple</source>
+			<target>Simple</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.MODE.expert">
+			<source>Expert</source>
+			<target>Expert</target>
+		</trans-unit>
+		
 		<trans-unit id="WEMSG.BLOG.INSTALL.title">
 			<source>Installation</source>
 			<target>Installation</target>
@@ -864,9 +875,6 @@
 			<source>An error occured while retrieving the configuration</source>
 			<target>Une serreur est survenue lors de la récupération de la configuration</target>
 		</trans-unit>
-
-
-
 
 		<trans-unit id="WEMSG.BLOG.DASHBOARD.mode">
 			<source>Mode : %s</source>

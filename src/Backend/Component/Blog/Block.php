@@ -26,7 +26,6 @@ use WEM\SmartgearBundle\Classes\Util;
 
 class Block extends BackendBlock
 {
-    public const MODE_CHECK_PROD = 'check_prod';
     public const MODE_RESET = 'check_reset';
     protected $type = 'component';
     protected $module = 'blog';
@@ -76,14 +75,14 @@ class Block extends BackendBlock
                         // $arrResponse['output'] = $e->getMessage();
                     }
                 break;
-                case 'dev_mode':
-                    $this->dashboard->enableDevMode();
-                    $arrResponse = ['status' => 'success', 'msg' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['enableDevModeAjaxMessageSuccess'], 'callbacks' => [$this->callback('refreshBlock')]];
-                break;
-                case 'prod_mode':
-                    $this->dashboard->enableProdMode();
-                    $arrResponse = ['status' => 'success', 'msg' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['enableProdModeAjaxMessageSuccess'], 'callbacks' => [$this->callback('refreshBlock')]];
-                break;
+                // case 'dev_mode':
+                //     $this->dashboard->enableDevMode();
+                //     $arrResponse = ['status' => 'success', 'msg' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['enableDevModeAjaxMessageSuccess'], 'callbacks' => [$this->callback('refreshBlock')]];
+                // break;
+                // case 'prod_mode':
+                //     $this->dashboard->enableProdMode();
+                //     $arrResponse = ['status' => 'success', 'msg' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['enableProdModeAjaxMessageSuccess'], 'callbacks' => [$this->callback('refreshBlock')]];
+                // break;
                 case 'reset_mode':
                     $this->setMode(self::MODE_RESET);
                     $this->resetStepManager->goToStep(0);
@@ -106,12 +105,7 @@ class Block extends BackendBlock
 
     public function isInstalled(): bool
     {
-        try {
-            $config = $this->configurationManager->load();
-        } catch (FileNotFoundException $e) {
-            $config = $this->configurationManager->new();
-            $this->configurationManager->save($config);
-        }
+        $config = $this->configurationManager->load();
 
         return (bool) $config->getSgBlog()->getSgInstallComplete();
     }
@@ -119,12 +113,6 @@ class Block extends BackendBlock
     protected function parseDependingOnMode(FrontendTemplate $objTemplate): FrontendTemplate
     {
         switch ($this->getMode()) {
-            case self::MODE_CHECK_PROD:
-                $objTemplate->content = $this->dashboard->checkProdMode();
-                $objTemplate->logs = $this->dashboard->getLogs();
-                $objTemplate->messages = $this->dashboard->getMessages();
-                $objTemplate->actions = $this->formatActions($this->dashboard->getActions());
-            break;
             case self::MODE_RESET:
                 $objTemplate->steps = $this->resetStepManager->parseSteps();
                 $objTemplate->content = $this->resetStepManager->parse();

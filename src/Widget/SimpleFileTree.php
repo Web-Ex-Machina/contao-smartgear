@@ -22,8 +22,8 @@ class SimpleFileTree extends \Contao\FileTree
 
         $str = preg_replace('/\.post\({(.*)}\);/', '', $str);
 
-        $str = preg_replace('/"callback": function\(table, value\) {([\S\s]*)}([\S\s]*)}\);([\S\s]*)}\);/', '"callback": function(table, value) {document.getElementById("ctrl_'.$this->strId.'").value = value;document.getElementById("ctrl_'.$this->strId.'_result").innerHTML = value;} }); });', $str);
-
+        $str = preg_replace('/"callback": function\(table, value\) {([\S\s]*)}([\S\s]*)}\);([\S\s]*)}\);/', '"callback": function(table, value) {document.getElementById("ctrl_'.$this->strId.'").value = value;document.getElementById("ctrl_'.$this->strId.'_result").innerHTML = value;} }); }); document.getElementById("ctrl_'.$this->strId.'").value = "'.$this->varValue.'";document.getElementById("ctrl_'.$this->strId.'_result").innerHTML = "'.$this->varValue.'"; ', $str);
+        // return preg_replace('/"callback": function\(table, value\) {([\S\s]*)}([\S\s]*)}\);([\S\s]*)}\);/', '"callback": function(table, value) {document.getElementById("ctrl_'.$this->strId.'").value = value;} }); });', $str);
         return preg_replace('/<\/a>([\S\s]*)<\/p>/', '</a><span id="ctrl_'.$this->strId.'_result">'.$this->varValue.'</span></p>', $str);
     }
 }
