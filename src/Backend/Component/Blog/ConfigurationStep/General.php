@@ -133,11 +133,6 @@ class General extends ConfigurationStep
             throw new \InvalidArgumentException($this->translator->trans('WEMSG.BLOG.INSTALL.fieldNewsPresetNameIncorrectFormat', [], 'contao_default'));
         }
 
-        // // here we add a new tl_news_archive
-        // $objNewsArchive = new \Contao\NewsArchiveModel();
-        // $objNewsArchive->title = $newsConfigTitle;
-        // $objNewsArchive->save();
-
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
         /** @var BlogPresetConfig */
@@ -247,25 +242,46 @@ class General extends ConfigurationStep
         $blogConfig = $config->getSgBlog();
         $presetConfig = $blogConfig->getCurrentPreset();
 
-        $moduleReader = ModuleModel::findById($blogConfig->getSgModuleReader()) ?? new ModuleModel();
-        $moduleList = ModuleModel::findById($blogConfig->getSgModuleList()) ?? new ModuleModel();
+        $moduleReader = new ModuleModel();
+        $moduleList = new ModuleModel();
 
+        if (null !== $blogConfig->getSgModuleReader()) {
+            $moduleReaderOld = ModuleModel::findById($blogConfig->getSgModuleReader());
+            if ($moduleReaderOld) {
+                $moduleReaderOld->delete();
+            }
+            $moduleReader->id = $blogConfig->getSgModuleReader();
+        }
         $moduleReader->name = $page->title.' - Reader';
+        $moduleReader->pid = $config->getSgTheme();
         $moduleReader->type = 'newsreader';
-        $moduleReader->news_archives = serialize([0 => $newsArchive->id]);
-        $moduleReader->news_metaFields = serialize([0 => 'date']);
-        $moduleReader->imgSize = 'a:3:{i:0;s:4:"1200";i:1;s:0:"";i:2;s:12:"proportional";}';
+        $moduleReader->news_archives = serialize([$newsArchive->id]);
+        $moduleReader->news_metaFields = serialize(['date']);
+        $moduleReader->imgSize = serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]); //'a:3:{i:0;s:4:"1200";i:1;s:0:"";i:2;s:12:"proportional";}';
+        $moduleReader->news_template = 'news_full';
         $moduleReader->wem_sg_display_share_buttons = '1';
         $moduleReader->save();
 
+        if (null !== $blogConfig->getSgModuleList()) {
+            $moduleListOld = ModuleModel::findById($blogConfig->getSgModuleList());
+            if ($moduleListOld) {
+                $moduleListOld->delete();
+            }
+            $moduleList->id = $blogConfig->getSgModuleList();
+        }
         $moduleList->name = $page->title.' - List';
+        $moduleList->pid = $config->getSgTheme();
         $moduleList->type = 'newslist';
-        $moduleList->news_archives = serialize([0 => $newsArchive->id]);
+        $moduleList->news_archives = serialize([$newsArchive->id]);
         $moduleList->numberOfItems = 0;
         $moduleList->news_readerModule = $moduleReader->id;
         $moduleList->news_order = 'order_date_desc';
         $moduleList->perPage = $presetConfig->getSgNewsListPerPage();
-        $moduleList->imgSize = 'a:3:{i:0;s:3:"480";i:1;s:0:"";i:2;s:12:"proportional";}';
+        $moduleList->imgSize = serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]); //'a:3:{i:0;s:3:"480";i:1;s:0:"";i:2;s:12:"proportional";}';
+        $moduleList->news_featured = 'all_items';
+        $moduleList->news_template = 'news_latest';
+        $moduleList->skipFirst = 0;
+        $moduleList->news_metaFields = serialize([0 => 'date']);
 
         $moduleList->wem_sg_number_of_characters = 200;
         $moduleList->save();
@@ -276,9 +292,7 @@ class General extends ConfigurationStep
     protected function fillArticle(PageModel $page, ArticleModel $article, array $modules): void
     {
         $headline = ContentModel::findOneBy(['pid = ?', 'ptable = ?', 'type = ?'], [$article->id, 'tl_article', 'headline']) ?? new ContentModel();
-        // $reader = ContentModel::findOneBy(['pid' => $article->id, 'ptable' => 'tl_article', 'type' => 'module', 'module' => $modules['reader']->id]) ?? new ContentModel();
         $reader = ContentModel::findOneBy(['pid = ?', 'ptable = ?', 'type = ?', 'module = ?'], [$article->id, 'tl_article', 'module', $modules['reader']->id]) ?? new ContentModel();
-        // $list = ContentModel::findOneBy(['pid' => $article->id, 'ptable' => 'tl_article', 'type' => 'module', 'module' => $modules['list']->id]) ?? new ContentModel();
         $list = ContentModel::findOneBy(['pid = ?', 'ptable = ?', 'type = ?', 'module = ?'], [$article->id, 'tl_article', 'module', $modules['list']->id]) ?? new ContentModel();
 
         $headline->type = 'headline';
