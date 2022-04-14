@@ -168,15 +168,29 @@ class Blog implements ConfigModuleInterface
 
     public function addOrUpdatePreset(Preset $preset, ?int $index = null): self
     {
-        $found = false;
-
-        if ($index) {
-            $this->sgPresets[$index] = $preset;
-        } else {
+        if (null === $index) {
             $this->sgPresets[] = $preset;
+        } else {
+            $this->sgPresets[$index] = $preset;
+        }
+
+        if (1 === count($this->sgPresets)
+        && null === $this->sgCurrentPresetIndex
+        ) {
+            $this->sgCurrentPresetIndex = 0;
         }
 
         return $this;
+    }
+
+    public function getPresetIndex(Preset $presetToFind): ?int
+    {
+        foreach ($this->getSgPresets() as $index => $preset) {
+            if ($preset === $presetToFind) {
+                return $index;
+            }
+        }
+        return null;
     }
 
     /**

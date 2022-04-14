@@ -52,10 +52,10 @@ class Block extends BackendBlock
                 case 'blogPresetAdd':
                     try {
                         $generalConfigurationStep = System::getContainer()->get('smartgear.backend.component.blog.configuration_step.general');
-                        $res = $generalConfigurationStep->presetAdd();
+                        $newPresetIndex = $generalConfigurationStep->presetAdd();
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigAddAjaxMessageSuccess'];
-                        $arrResponse['output'] = $res;
+                        $arrResponse['index'] = $newPresetIndex;
                     } catch (Exception $e) {
                         $arrResponse['status'] = 'error';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigAddAjaxMessageError'].$e->getMessage();

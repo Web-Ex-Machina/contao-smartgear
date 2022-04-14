@@ -65,41 +65,40 @@ class General extends ConfigurationStep
         $this->addSelectField('newsConfig', $this->translator->trans('WEMSG.BLOG.INSTALL.newsConfig', [], 'contao_default'), $sgNewsConfigOptions, $config->getSgCurrentPresetIndex(), true);
         $this->addTextField('new_config', $this->translator->trans('WEMSG.BLOG.INSTALL.newPresetTitle', [], 'contao_default'), '', false);
 
-        if (\count($config->getSgPresets()) > 0) {
-            // $sgNewsArchiveConfig = $config->getSgPresets()[0];
-            $sgNewsArchiveConfig = $config->getPresetByIndex($config->getSgCurrentPresetIndex());
-            $this->addTextField('newsArchiveTitle', $this->translator->trans('WEMSG.BLOG.INSTALL.newsArchiveTitle', [], 'contao_default'), $sgNewsArchiveConfig->getSgNewsArchiveTitle(), true);
+        $sgNewsArchiveConfig = \count($config->getSgPresets()) > 0 ? $config->getCurrentPreset() : null;
 
-            $this->addTextField('newsListPerPage', $this->translator->trans('WEMSG.BLOG.INSTALL.newsListPerPage', [], 'contao_default'), (string) $sgNewsArchiveConfig->getSgNewsListPerPage(), false, '', 'number');
+        $this->addTextField('newsArchiveTitle', $this->translator->trans('WEMSG.BLOG.INSTALL.newsArchiveTitle', [], 'contao_default'), null === $sgNewsArchiveConfig ? null : $sgNewsArchiveConfig->getSgNewsArchiveTitle(), true);
 
-            $this->addTextField('pageTitle', $this->translator->trans('WEMSG.BLOG.INSTALL.pageTitle', [], 'contao_default'), $sgNewsArchiveConfig->getSgPageTitle(), true);
+        $this->addTextField('newsListPerPage', $this->translator->trans('WEMSG.BLOG.INSTALL.newsListPerPage', [], 'contao_default'), null === $sgNewsArchiveConfig ? null : (string) $sgNewsArchiveConfig->getSgNewsListPerPage(), false, '', 'number');
 
-            $this->addSimpleFileTree('newsFolder', $this->translator->trans('WEMSG.BLOG.INSTALL.newsFolder', [], 'contao_default'), $sgNewsArchiveConfig->getSgNewsFolder(), true, false, '', $this->translator->trans('WEMSG.BLOG.INSTALL.newsFolderHelp', [], 'contao_default'), ['multiple' => false, 'isGallery' => false,
-                'isDownloads' => false,
-                'files' => false, ]);
-        }
+        $this->addTextField('pageTitle', $this->translator->trans('WEMSG.BLOG.INSTALL.pageTitle', [], 'contao_default'), null === $sgNewsArchiveConfig ? null : $sgNewsArchiveConfig->getSgPageTitle(), true);
+
+        $this->addSimpleFileTree('newsFolder', $this->translator->trans('WEMSG.BLOG.INSTALL.newsFolder', [], 'contao_default'), null === $sgNewsArchiveConfig ? null : $sgNewsArchiveConfig->getSgNewsFolder(), true, false, '', $this->translator->trans('WEMSG.BLOG.INSTALL.newsFolderHelp', [], 'contao_default'), ['multiple' => false, 'isGallery' => false,
+            'isDownloads' => false,
+            'files' => false, ]);
+
         $this->addCheckboxField('expertMode', $this->translator->trans('WEMSG.BLOG.INSTALL.expertMode', [], 'contao_default'), '1', BlogConfig::MODE_EXPERT === $config->getSgMode());
     }
 
     public function isStepValid(): bool
     {
         // check if the step is correct
-        if (empty(Input::post('newsConfig'))) {
+        if (null === Input::post('newsConfig', null)) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL.newsConfigMissing', [], 'contao_default'));
         }
-        if (empty(Input::post('newsArchiveTitle'))) {
+        if (null === Input::post('newsArchiveTitle', null)) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL.newsArchiveTitleMissing', [], 'contao_default'));
         }
-        if (empty(Input::post('newsListPerPage'))) {
+        if (null === Input::post('newsListPerPage', null)) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL.newsListPerPageMissing', [], 'contao_default'));
         }
         if (0 > (int) Input::post('newsListPerPage')) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL.newsListPerPageTooLow', [], 'contao_default'));
         }
-        if (empty(Input::post('pageTitle'))) {
+        if (null === Input::post('pageTitle', null)) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL.pageTitleMissing', [], 'contao_default'));
         }
-        if (empty(Input::post('newsFolder'))) {
+        if (null === Input::post('newsFolder', null)) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL.newsFolderMissing', [], 'contao_default'));
         }
 
@@ -136,11 +135,13 @@ class General extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
         /** @var BlogPresetConfig */
-        $newsArchiveConfig = new BlogPresetConfig();
-        $newsArchiveConfig->setSgNewsArchiveTitle($newsConfigTitle);
-        $config->getSgBlog()->addOrUpdatePreset($newsArchiveConfig);
+        $presetConfig = new BlogPresetConfig();
+        $presetConfig->setSgNewsArchiveTitle($newsConfigTitle);
+        $config->getSgBlog()->addOrUpdatePreset($presetConfig);
 
-        return $this->configurationManager->save($config);
+        $this->configurationManager->save($config);
+
+        return $config->getSgBlog()->getPresetIndex($presetConfig);
     }
 
     public function presetGet(int $id)
