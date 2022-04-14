@@ -29,6 +29,8 @@ class General extends AbstractStep
     /** @var ConfigurationManager */
     protected $configurationManager;
 
+    protected $strTemplate = 'be_wem_sg_install_block_reset_step_blog_general';
+
     public function __construct(
         string $module,
         string $type,
@@ -56,7 +58,7 @@ class General extends AbstractStep
             ]
         ];
 
-        $this->addSelectField('deleteMode', $this->translator->trans('WEMSG.BLOG.RESET.deleteModeLabel', [], 'contao_default'), $resetOptions, BlogConfig::ARCHIVE_MODE_ARCHIVE, true, false, '', 'select', $this->translator->trans('WEMSG.BLOG.RESET.deleteModeHelp', [], 'contao_default'));
+        $this->addSelectField('deleteMode', $this->translator->trans('WEMSG.BLOG.RESET.deleteModeLabel', [], 'contao_default'), $resetOptions, BlogConfig::ARCHIVE_MODE_ARCHIVE, true);
     }
 
     public function isStepValid(): bool
@@ -105,8 +107,6 @@ class General extends AbstractStep
 
                 $objFolder->delete();
                 $objNewsArchive->delete();
-
-                // maybe unpublish/delete all blog pages ?
             break;
             default:
                 throw new \InvalidArgumentException($this->translator->trans('WEMSG.BLOG.RESET.deleteModeUnknown', [], 'contao_default'));

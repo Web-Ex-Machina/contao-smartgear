@@ -874,7 +874,52 @@
 			<target>%s du site %s</target>
 		</trans-unit>
 
+		<trans-unit id="WEMSG.BLOG.RESET.title">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
+		</trans-unit>
 
+		<trans-unit id="WEMSG.BLOG.RESET.deleteModeLabel">
+			<source>Uninstall mode</source>
+			<target>Mode de désinstallation</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.RESET.deleteModeArchiveLabel">
+			<source>Archive</source>
+			<target>Archiver</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.RESET.deleteModeArchiveDescription">
+			<source>Files folder will be moved to `files/archives/news-{timestamp}` and news archive's name suffixed with " (Archive-{timestamp})".</source>
+			<target>Le dossier de fichiers associé au blog sera déplacé vers `files/archives/news-{timestamp}` et le nom de l'archive d'actualité sera suffixé par " (Archive-{timestamp})".</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.RESET.deleteModeKeepLabel">
+			<source>Keep</source>
+			<target>Conserver</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.RESET.deleteModeKeepDescription">
+			<source>All data will be kept in place.</source>
+			<target>Toutes les données seront conservées et ne seront pas déplacées.</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.RESET.deleteModeDeleteLabel">
+			<source>Delete</source>
+			<target>Supprimer</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.RESET.deleteModeDeleteDescription">
+			<source>Files and News Archive will be deleted.</source>
+			<target>Les fichiers ainsi que l'archive d'actualités seront supprimés.</target>
+		</trans-unit>
+
+
+
+		<trans-unit id="WEMSG.BLOG.RESET.deleteModeUnknown">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
+		</trans-unit>
 
 		<trans-unit id="WEMSG.BLOG.BLOCK.blogNewsConfigAddAjaxMessageSuccess">
 			<source>New configuration added</source>
