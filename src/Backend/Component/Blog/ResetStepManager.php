@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Backend\Component\Core;
+namespace WEM\SmartgearBundle\Backend\Component\Blog;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\StepManager;
@@ -44,7 +44,9 @@ class ResetStepManager extends StepManager
     public function setInstallAsIncomplete(): void
     {
         $config = $this->configurationManager->load();
-        $config->setSgInstallComplete(false);
+        $blogConfig = $config->getSgBlog();
+        $blogConfig->setSgInstallComplete(false);
+        $config->setSgBlog($blogConfig);
         $this->configurationManager->save($config);
     }
 

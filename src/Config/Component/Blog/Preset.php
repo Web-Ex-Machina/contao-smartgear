@@ -18,45 +18,25 @@ use WEM\SmartgearBundle\Classes\Config\ConfigJsonInterface;
 
 class Preset implements ConfigJsonInterface
 {
-    public const ARCHIVE_MODE_EMPTY = '';
-    public const ARCHIVE_MODE_ARCHIVE = 'archive';
-    public const ARCHIVE_MODE_KEEP = 'keep';
-    public const ARCHIVE_MODE_DELETE = 'delete';
-    public const ARCHIVE_MODES_ALLOWED = [
-        self::ARCHIVE_MODE_EMPTY,
-        self::ARCHIVE_MODE_ARCHIVE,
-        self::ARCHIVE_MODE_KEEP,
-        self::ARCHIVE_MODE_DELETE,
-    ];
     public const DEFAULT_FOLDER_PATH = 'files/news';
     public const DEFAULT_NEWS_PER_PAGE = 15;
     public const DEFAULT_PAGE_TITLE = 'Blog';
-    public const DEFAULT_ARCHIVE_MODE = self::ARCHIVE_MODE_EMPTY;
+    public const DEFAULT_ARCHIVE_TITLE = 'Blog';
     /** @var string */
     protected $sgNewsFolder = self::DEFAULT_FOLDER_PATH;
     /** @var string */
-    protected $sgNewsArchiveTitle = '';
+    protected $sgNewsArchiveTitle = self::DEFAULT_ARCHIVE_TITLE;
     /** @var int */
     protected $sgNewsListPerPage = self::DEFAULT_NEWS_PER_PAGE;
     /** @var string */
     protected $sgPageTitle = self::DEFAULT_PAGE_TITLE;
-    /** @var bool */
-    protected $sgArchived = false;
-    /** @var int */
-    protected $sgArchivedAt = 0;
-    /** @var string */
-    protected $sgArchivedMode = self::DEFAULT_ARCHIVE_MODE;
-
     public function reset(): self
     {
         $this
             ->setSgNewsFolder(self::DEFAULT_FOLDER_PATH)
-            ->setSgNewsArchiveTitle('')
+            ->setSgNewsArchiveTitle(self::DEFAULT_ARCHIVE_TITLE)
             ->setSgNewsListPerPage(self::DEFAULT_NEWS_PER_PAGE)
             ->setSgPageTitle(self::DEFAULT_PAGE_TITLE)
-            ->setSgArchived(false)
-            ->setSgArchivedAt(0)
-            ->setSgArchivedMode(self::DEFAULT_ARCHIVE_MODE)
         ;
 
         return $this;
@@ -66,12 +46,9 @@ class Preset implements ConfigJsonInterface
     {
         $this
             ->setSgNewsFolder($json->folder ?? self::DEFAULT_FOLDER_PATH)
-            ->setSgNewsArchiveTitle($json->archive_title ?? '')
+            ->setSgNewsArchiveTitle($json->archive_title ?? self::DEFAULT_ARCHIVE_TITLE)
             ->setSgNewsListPerPage($json->list_per_page ?? self::DEFAULT_NEWS_PER_PAGE)
             ->setSgPageTitle($json->page_title ?? self::DEFAULT_PAGE_TITLE)
-            ->setSgArchived($json->archived->status ?? false)
-            ->setSgArchivedAt($json->archived->at ?? 0)
-            ->setSgArchivedMode($json->archived->mode ?? self::DEFAULT_ARCHIVE_MODE)
         ;
 
         return $this;
@@ -84,11 +61,6 @@ class Preset implements ConfigJsonInterface
         $json->archive_title = $this->getSgNewsArchiveTitle();
         $json->list_per_page = $this->getSgNewsListPerPage();
         $json->page_title = $this->getSgPageTitle();
-
-        $json->archived = new \stdClass();
-        $json->archived->status = $this->getSgArchived();
-        $json->archived->at = $this->getSgArchivedAt();
-        $json->archived->mode = $this->getSgArchivedMode();
 
         return $json;
     }
@@ -143,45 +115,6 @@ class Preset implements ConfigJsonInterface
     public function setSgPageTitle(string $sgPageTitle): self
     {
         $this->sgPageTitle = $sgPageTitle;
-
-        return $this;
-    }
-
-    public function getSgArchived(): bool
-    {
-        return $this->sgArchived;
-    }
-
-    public function setSgArchived(bool $sgArchived): self
-    {
-        $this->sgArchived = $sgArchived;
-
-        return $this;
-    }
-
-    public function getSgArchivedAt(): int
-    {
-        return $this->sgArchivedAt;
-    }
-
-    public function setSgArchivedAt(int $sgArchivedAt): self
-    {
-        $this->sgArchivedAt = $sgArchivedAt;
-
-        return $this;
-    }
-
-    public function getSgArchivedMode(): string
-    {
-        return $this->sgArchivedMode;
-    }
-
-    public function setSgArchivedMode(string $sgArchivedMode): self
-    {
-        if (!\in_array($sgArchivedMode, static::ARCHIVE_MODES_ALLOWED, true)) {
-            throw new \InvalidArgumentException(sprintf('Invalid archive mode "%s" given', $sgArchivedMode));
-        }
-        $this->sgArchivedMode = $sgArchivedMode;
 
         return $this;
     }

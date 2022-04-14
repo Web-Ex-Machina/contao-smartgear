@@ -160,6 +160,9 @@ class General extends ConfigurationStep
         $blogConfig
             ->setSgMode(Input::post('expertMode') ? BlogConfig::MODE_EXPERT : BlogConfig::MODE_SIMPLE)
             ->setSgCurrentPresetIndex((int) Input::post('newsConfig'))
+            ->setSgArchived(false)
+            ->setSgArchivedMode(BlogConfig::ARCHIVE_MODE_EMPTY)
+            ->setSgArchivedAt(0)
         ;
 
         $newsArchiveConfig = $blogConfig
@@ -194,6 +197,7 @@ class General extends ConfigurationStep
             'title' => $presetConfig->getSgPageTitle(),
             'robots' => 'index,follow',
             'type' => 'regular',
+            'published'=>1,
             'description' => $this->translator->trans('WEMSG.BLOG.INSTALL.pageDescription', [$presetConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
         ], null !== $page ? ['id' => $page->id] : []));
     }

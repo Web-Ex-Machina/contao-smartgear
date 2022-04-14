@@ -38,11 +38,11 @@ class Block extends BackendBlock
         TranslatorInterface $translator,
         ConfigurationManager $configurationManager,
         ConfigurationStepManager $configurationStepManager,
-        // ResetStepManager $resetStepManager,
+        ResetStepManager $resetStepManager,
         Dashboard $dashboard
     ) {
         parent::__construct($configurationManager, $configurationStepManager, $dashboard, $translator);
-        // $this->resetStepManager = $resetStepManager;
+        $this->resetStepManager = $resetStepManager;
     }
 
     public function processAjaxRequest(): void
@@ -87,6 +87,11 @@ class Block extends BackendBlock
                     $this->setMode(self::MODE_RESET);
                     $this->resetStepManager->goToStep(0);
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
+                break;
+                case 'reset_mode_check_cancel':
+                    $this->setMode(self::MODE_DASHBOARD);
+                    $content = $this->parse();
+                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('replaceBlockContent', [$content])]];
                 break;
                 default:
                     parent::processAjaxRequest();

@@ -25,7 +25,18 @@ class Blog implements ConfigModuleInterface
         self::MODE_SIMPLE,
         self::MODE_EXPERT,
     ];
+    public const ARCHIVE_MODE_EMPTY = '';
+    public const ARCHIVE_MODE_ARCHIVE = 'archive';
+    public const ARCHIVE_MODE_KEEP = 'keep';
+    public const ARCHIVE_MODE_DELETE = 'delete';
+    public const ARCHIVE_MODES_ALLOWED = [
+        self::ARCHIVE_MODE_EMPTY,
+        self::ARCHIVE_MODE_ARCHIVE,
+        self::ARCHIVE_MODE_KEEP,
+        self::ARCHIVE_MODE_DELETE,
+    ];
     public const DEFAULT_MODE = self::MODE_SIMPLE;
+    public const DEFAULT_ARCHIVE_MODE = self::ARCHIVE_MODE_EMPTY;
 
     /** @var bool */
     protected $sgInstallComplete = false;
@@ -43,6 +54,13 @@ class Blog implements ConfigModuleInterface
     protected $sgPresets = [];
     /** @var int */
     protected $sgCurrentPresetIndex;
+    /** @var bool */
+    protected $sgArchived = false;
+    /** @var int */
+    protected $sgArchivedAt = 0;
+    /** @var string */
+    protected $sgArchivedMode = self::DEFAULT_ARCHIVE_MODE;
+
 
     public function reset(): self
     {
@@ -54,6 +72,9 @@ class Blog implements ConfigModuleInterface
             ->setSgNewsArchive(null)
             ->setSgPresets([])
             ->setSgCurrentPresetIndex(null)
+            ->setSgArchived(false)
+            ->setSgArchivedAt(0)
+            ->setSgArchivedMode(self::DEFAULT_ARCHIVE_MODE)
         ;
 
         return $this;
@@ -67,6 +88,9 @@ class Blog implements ConfigModuleInterface
             ->setSgModuleReader($json->moduleReader ?? null)
             ->setSgModuleList($json->moduleList ?? null)
             ->setSgNewsArchive($json->archive ?? null)
+            ->setSgArchived($json->archived->status ?? false)
+            ->setSgArchivedAt($json->archived->at ?? 0)
+            ->setSgArchivedMode($json->archived->mode ?? self::DEFAULT_ARCHIVE_MODE)
         ;
 
         foreach ($json->presets as $presetJson) {
@@ -92,6 +116,12 @@ class Blog implements ConfigModuleInterface
         foreach ($this->getSgPresets() as $presetConfig) {
             $json->presets[] = $presetConfig->export();
         }
+
+
+        $json->archived = new \stdClass();
+        $json->archived->status = $this->getSgArchived();
+        $json->archived->at = $this->getSgArchivedAt();
+        $json->archived->mode = $this->getSgArchivedMode();
 
         return $json;
     }
@@ -246,6 +276,45 @@ class Blog implements ConfigModuleInterface
     public function setSgModuleList(?int $sgModuleList): self
     {
         $this->sgModuleList = $sgModuleList;
+
+        return $this;
+    }
+
+    public function getSgArchived(): bool
+    {
+        return $this->sgArchived;
+    }
+
+    public function setSgArchived(bool $sgArchived): self
+    {
+        $this->sgArchived = $sgArchived;
+
+        return $this;
+    }
+
+    public function getSgArchivedAt(): int
+    {
+        return $this->sgArchivedAt;
+    }
+
+    public function setSgArchivedAt(int $sgArchivedAt): self
+    {
+        $this->sgArchivedAt = $sgArchivedAt;
+
+        return $this;
+    }
+
+    public function getSgArchivedMode(): string
+    {
+        return $this->sgArchivedMode;
+    }
+
+    public function setSgArchivedMode(string $sgArchivedMode): self
+    {
+        if (!\in_array($sgArchivedMode, static::ARCHIVE_MODES_ALLOWED, true)) {
+            throw new \InvalidArgumentException(sprintf('Invalid archive mode "%s" given', $sgArchivedMode));
+        }
+        $this->sgArchivedMode = $sgArchivedMode;
 
         return $this;
     }

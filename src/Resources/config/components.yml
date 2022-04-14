@@ -6,7 +6,7 @@ services:
             $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
             $configurationStepManager: '@smartgear.backend.component.blog.configuration_step_manager'
-            # $resetStepManager: '@smartgear.backend.module.core.reset_step_manager'
+            $resetStepManager: '@smartgear.backend.component.blog.reset_step_manager'
             $dashboard: '@smartgear.backend.component.blog.dashboard'
         public: true
 
@@ -39,4 +39,25 @@ services:
             $translator: '@contao.translation.translator'
             $module: 'blog'
             $type: 'component'
+        public: true
+
+    smartgear.backend.component.blog.reset_step_manager:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\ResetStepManager
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'blog'
+            $type: 'component'
+            $stepSessionKey: 'sg_core_reset_step'
+            $steps: 
+                - '@smartgear.backend.component.blog.reset_step.general'
+        public: true
+
+    smartgear.backend.component.blog.reset_step.general:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\ResetStep\General
+        arguments:
+            $module: 'blog'
+            $type: 'component'
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
         public: true

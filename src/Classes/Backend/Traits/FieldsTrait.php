@@ -78,19 +78,12 @@ trait FieldsTrait
      */
     protected function addSelectField(string $strName, string $strLabel, array $arrOptions, $strValue = '', ?bool $blnRequired = false, ?bool $blnMultiple = false, ?string $strClass = '', ?string $strType = 'select', ?string $strHelp = ''): void
     {
-        if (\is_array($strValue)) {
-            foreach ($arrOptions as &$o) {
-                $o['selected'] = false;
-                if (\in_array($o['value'], $strValue, true)) {
-                    $o['selected'] = true;
-                }
-            }
-        } else {
-            foreach ($arrOptions as &$o) {
-                $o['selected'] = false;
-                if ($strValue === $o['value']) {
-                    $o['selected'] = true;
-                }
+        $values = \is_array($strValue) ? $strValue : [$strValue];
+
+        foreach ($arrOptions as &$o) {
+            $o['selected'] = false;
+            if (\in_array($o['value'], $values, true)) {
+                $o['selected'] = true;
             }
         }
 
