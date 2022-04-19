@@ -86,7 +86,7 @@ array_insert($GLOBALS['FE_MOD'], 2, [
         'wem_sg_header' => '\WEM\SmartgearBundle\Module\Header',
     ],
 ]);
-
+$GLOBALS['FE_MOD']['news']['newsreader'] = \WEM\SmartgearBundle\Override\ModuleNewsReader::class;
 /*
  * Models
  */

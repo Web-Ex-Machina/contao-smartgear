@@ -9,3 +9,6 @@ services:
         arguments:
             $coreConfigurationManager: '@smartgear.config.manager.core'
         public: true
+
+
+        
