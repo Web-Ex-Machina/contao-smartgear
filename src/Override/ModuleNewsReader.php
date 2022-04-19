@@ -29,21 +29,21 @@ class ModuleNewsReader extends \Contao\ModuleNewsReader
             $htmlDecoder = \Contao\System::getContainer()->get('contao.string.html_decoder');
 
             if ($objArticle->pageTitle) {
-                $GLOBALS['TL_HEAD'][] = sprintf('<meta name="og:title" content="%s">', $objArticle->pageTitle); // Already stored decoded
+                $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:title" content="%s">', $objArticle->pageTitle); // Already stored decoded
             } elseif ($objArticle->headline) {
-                $GLOBALS['TL_HEAD'][] = sprintf('<meta name="og:title" content="%s">', $htmlDecoder->inputEncodedToPlainText($objArticle->headline));
+                $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:title" content="%s">', $htmlDecoder->inputEncodedToPlainText($objArticle->headline));
             }
 
             if ($objArticle->description) {
-                $GLOBALS['TL_HEAD'][] = sprintf('<meta name="og:description" content="%s">', $htmlDecoder->inputEncodedToPlainText($objArticle->description));
+                $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:description" content="%s">', $htmlDecoder->inputEncodedToPlainText($objArticle->description));
             } elseif ($objArticle->teaser) {
-                $GLOBALS['TL_HEAD'][] = sprintf('<meta name="og:description" content="%s">', $htmlDecoder->htmlToPlainText($objArticle->teaser));
+                $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:description" content="%s">', $htmlDecoder->htmlToPlainText($objArticle->teaser));
             }
 
             if ($objArticle->addImage) {
                 $objImage = \Contao\FilesModel::findByUuid($objArticle->singleSRC);
                 if ($objImage) {
-                    $GLOBALS['TL_HEAD'][] = sprintf('<meta name="og:image" content="%s">', \Contao\Environment::get('base').$objImage->path);
+                    $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:image" content="%s">', \Contao\Environment::get('base').$objImage->path);
                 }
             }
         }

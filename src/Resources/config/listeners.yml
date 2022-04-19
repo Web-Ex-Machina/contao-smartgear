@@ -9,6 +9,11 @@ services:
         arguments:
             $coreConfigurationManager: '@smartgear.config.manager.core'
         public: true
+    smartgear.listener.generate_breadcrumb:
+        class: WEM\SmartgearBundle\EventListener\GenerateBreadcrumbListener
+        arguments:
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+        public: true
 
 
         
