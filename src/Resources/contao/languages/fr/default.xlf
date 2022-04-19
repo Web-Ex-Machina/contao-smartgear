@@ -946,6 +946,21 @@
 			<target>Mode : %s</target>
 		</trans-unit>
 
+		<trans-unit id="WEMSG.BLOG.FORM.fieldTeaserLabel">
+			<source>Content</source>
+			<target>Contenu</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.FORM.fieldTeaserHelp">
+			<source>Type news content here</source>
+			<target>Saisir le contenu de votre actualité</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.FORM.paletteTeaserLabel">
+			<source>Content</source>
+			<target>Contenu</target>
+		</trans-unit>
+
 
 		<!-- ConfigurationStepManager -->
 		<trans-unit id="WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish">
