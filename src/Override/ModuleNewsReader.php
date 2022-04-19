@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Override;
 
+use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFound;
+
 class ModuleNewsReader extends \Contao\ModuleNewsReader
 {
     /**
@@ -46,6 +48,16 @@ class ModuleNewsReader extends \Contao\ModuleNewsReader
                     $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:image" content="%s">', \Contao\Environment::get('base').$objImage->path);
                 }
             }
+        }
+        $configManager = \Contao\System::getContainer()->get('smartgear.config.manager.core');
+        try {
+            $blogConfig = $configManager->load()->getSgBlog();
+            if ($blogConfig->getSgInstallComplete()) {
+                $objPage = \Contao\PageModel::findByPk($blogConfig->getSgPage());
+                $this->Template->referer = $objPage->getFrontendUrl();
+            }
+        } catch (FileNotFound $e) {
+            // nothing
         }
     }
 }

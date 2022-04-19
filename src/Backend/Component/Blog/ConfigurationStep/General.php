@@ -197,7 +197,7 @@ class General extends ConfigurationStep
             'title' => $presetConfig->getSgPageTitle(),
             'robots' => 'index,follow',
             'type' => 'regular',
-            'published'=>1,
+            'published' => 1,
             'description' => $this->translator->trans('WEMSG.BLOG.INSTALL.pageDescription', [$presetConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
         ], null !== $page ? ['id' => $page->id] : []));
     }
@@ -297,7 +297,9 @@ class General extends ConfigurationStep
     protected function fillArticle(PageModel $page, ArticleModel $article, array $modules): void
     {
         $headline = ContentModel::findOneBy(['pid = ?', 'ptable = ?', 'type = ?'], [$article->id, 'tl_article', 'headline']) ?? new ContentModel();
-        $reader = ContentModel::findOneBy(['pid = ?', 'ptable = ?', 'type = ?', 'module = ?'], [$article->id, 'tl_article', 'module', $modules['reader']->id]) ?? new ContentModel();
+
+        // $reader = ContentModel::findOneBy(['pid = ?', 'ptable = ?', 'type = ?', 'module = ?'], [$article->id, 'tl_article', 'module', $modules['reader']->id]) ?? new ContentModel();
+
         $list = ContentModel::findOneBy(['pid = ?', 'ptable = ?', 'type = ?', 'module = ?'], [$article->id, 'tl_article', 'module', $modules['list']->id]) ?? new ContentModel();
 
         $headline->type = 'headline';
@@ -306,12 +308,12 @@ class General extends ConfigurationStep
         $headline->headline = serialize(['unit' => 'h1', 'value' => $page->title]);
         $headline->cssID = 'sep-bottom';
         $headline->save();
-
-        $reader->type = 'module';
-        $reader->pid = $article->id;
-        $reader->ptable = 'tl_article';
-        $reader->module = $modules['reader']->id;
-        $reader->save();
+        // module list automatically enables reader when a single news is selected
+        // $reader->type = 'module';
+        // $reader->pid = $article->id;
+        // $reader->ptable = 'tl_article';
+        // $reader->module = $modules['reader']->id;
+        // $reader->save();
 
         $list->type = 'module';
         $list->pid = $article->id;
