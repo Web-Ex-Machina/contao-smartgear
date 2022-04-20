@@ -20,6 +20,7 @@ services:
             $stepSessionKey: 'sg_blog_install_step'
             $steps: 
                 - '@smartgear.backend.component.blog.configuration_step.general'
+                - '@smartgear.backend.component.blog.configuration_step.dataset'
         public: true
 
     smartgear.backend.component.blog.configuration_step.general:
@@ -31,6 +32,17 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
             $commandUtil: '@smartgear.classes.command.util'
             $jsSocialsSynchronizer: '@smartgear.classes.directories_synchronizer.js_socials'
+        public: true
+
+    smartgear.backend.component.blog.configuration_step.dataset:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\ConfigurationStep\Dataset
+        arguments:
+            $module: 'blog'
+            $type: 'component'
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+            $commandUtil: '@smartgear.classes.command.util'
+            $sourceDirectory: 'public/bundles/wemsmartgear/examples/blog'
         public: true
 
     smartgear.backend.component.blog.dashboard:

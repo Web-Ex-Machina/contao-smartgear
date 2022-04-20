@@ -772,106 +772,134 @@
 			<target>Expert</target>
 		</trans-unit>
 
-		<trans-unit id="WEMSG.BLOG.INSTALL.title">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.title">
 			<source>Installation</source>
 			<target>Installation</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.newsConfig">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsConfig">
 			<source>Available configuration(s)</source>
 			<target>Configuration(s) disponible(s)</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.newPresetTitle">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newPresetTitle">
 			<source>New configuration name</source>
 			<target>Nom de la nouvelle configuration</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewPresetTitle">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPresetTitle">
 			<source>Add a new configuration</source>
 			<target>Ajoute une nouvelle configuration</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewPreset">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPreset">
 			<source>New configuration</source>
 			<target>Nouvelle configuration</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewPresetValidateTitle">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPresetValidateTitle">
 			<source>Validate the new configuration</source>
 			<target>Valider la nouvelle configuration</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewPresetValidate">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPresetValidate">
 			<source>Validate</source>
 			<target>Valider</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewPresetCancelTitle">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPresetCancelTitle">
 			<source>Cancel the new configuration creation</source>
 			<target>Annuler l'ajout d'une nouvelle configuration</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.ButtonNewPresetCancel">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPresetCancel">
 			<source>Cancel</source>
 			<target>Annuler</target>
 		</trans-unit>
 
-		<trans-unit id="WEMSG.BLOG.INSTALL.newsFolder">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsFolder">
 			<source>Files folder</source>
 			<target>Dossier</target>
 		</trans-unit>
 
-		<trans-unit id="WEMSG.BLOG.INSTALL.newsFolderHelp">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsFolderHelp">
 			<source>Choose the folder where news' files/images are going to be stored</source>
 			<target>Choisissez le dossier dans lequel les fichiers/images associées  aux actualités seront stockées</target>
 		</trans-unit>
 
 
-		<trans-unit id="WEMSG.BLOG.INSTALL.newsArchiveTitle">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsArchiveTitle">
 			<source>News feed title</source>
 			<target>Titre du flux d'actualités</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.newsListPerPage">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsListPerPage">
 			<source>News per page</source>
 			<target>Actualités par page</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.pageTitle">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.pageTitle">
 			<source>News' page title</source>
 			<target>Titre de la page d'actualités</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.expertMode">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.expertMode">
 			<source>Expert mode</source>
 			<target>Mode expert</target>
 		</trans-unit>
 
-		<trans-unit id="WEMSG.BLOG.INSTALL.fieldNewsPresetNameEmpty">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.fieldNewsPresetNameEmpty">
 			<source>News configuration preset name is missing</source>
 			<target>Le nom de la configuration n'est pas renseignée</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.fieldNewsPresetNameIncorrectFormat">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.fieldNewsPresetNameIncorrectFormat">
 			<source>News configuration preset name has an incorrect format</source>
 			<target>Le nom de la configuration a un format incorrect</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.newsConfigMissing">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsConfigMissing">
 			<source>News configuration is missing</source>
 			<target>La configuration n'est pas renseigné</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.newsArchiveTitleMissing">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsArchiveTitleMissing">
 			<source>News feed's title is missing</source>
 			<target>Le titre du flux d'actualités n'est pas renseigné</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.newsListPerPageMissing">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsListPerPageMissing">
 			<source>Number of news per page is missing</source>
 			<target>Le nombre d'actualités par page n'est pas renseigné</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.newsListPerPageTooLow">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsListPerPageTooLow">
 			<source>Number of news per page is too low</source>
 			<target>Le nombre d'actualités par page est trop faible</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.pageTitleMissing">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.pageTitleMissing">
 			<source>News' page title is missing</source>
 			<target>Le titre de la page d'actualités n'est pas renseigné</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.newsFolderMissing">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsFolderMissing">
 			<source>Files folder is missing</source>
 			<target>Le dossier n'est pas renseigné</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.BLOG.INSTALL.pageDescription">
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.pageDescription">
 			<source>%s of %s's website</source>
 			<target>%s du site %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_DATASET.title">
+			<source>Dataset</source>
+			<target>Jeu de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_DATASET.datasetOptionNone">
+			<source>Aucun</source>
+			<target>Aucun</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_DATASET.datasetOptionA">
+			<source>A - simple - 3 news</source>
+			<target>A - simple - 3 actualités</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_DATASET.datasetOptionB">
+			<source>B - complete - 18 news</source>
+			<target>B - complet - 18 actualités</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_DATASET.dataset">
+			<source>Dataset</source>
+			<target>Jeu de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_DATASET.datasetHelp">
+			<source>Dataset to install</source>
+			<target>Jeu de données à installer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_DATASET.datasetMissing">
+			<source>No dataset specified</source>
+			<target>Aucun jeu de donnée sélectionné</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.BLOG.RESET.title">

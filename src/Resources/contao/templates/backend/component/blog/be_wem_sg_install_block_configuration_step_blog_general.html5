@@ -7,7 +7,7 @@
 
 	<div class="widget">
 		<button type="button" class="btn btn-bg-green" id="button-<?= $this->type ?>-<?= $this->module ?>-blog-preset-add" 
-		title="<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewPresetTitle'); ?>"><?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewPreset'); ?></button>
+		title="<?= $this->trans('WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPresetTitle'); ?>"><?= $this->trans('WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPreset'); ?></button>
 		<br>
 	</div>
 
@@ -15,12 +15,12 @@
 		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['new_config']]); ?>
 		<br>
 		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-blog-preset-add-validation" 
-		title="<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewPresetValidateTitle'); ?>">
-			<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewPresetValidate'); ?>
+		title="<?= $this->trans('WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPresetValidateTitle'); ?>">
+			<?= $this->trans('WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPresetValidate'); ?>
 		</button>
 		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-blog-preset-add-cancel" 
-		title="<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewPresetCancelTitle'); ?>">
-			<?= $this->trans('WEMSG.BLOG.INSTALL.ButtonNewPresetCancel'); ?>
+		title="<?= $this->trans('WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPresetCancelTitle'); ?>">
+			<?= $this->trans('WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPresetCancel'); ?>
 		</button>
 		<pre id="block-<?= $this->type ?>-<?= $this->module ?>-blog-preset-add-result" style="height:100px;overflow-y:scroll;" class="hidden result">
 	</div>
