@@ -81,6 +81,16 @@ services:
             $manageSubfolders: true
         public: true
 
+    smartgear.classes.directories_synchronizer.js_socials:
+        class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
+        arguments:
+            $translator: '@contao.translation.translator'
+            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/assets/jssocials'
+            $destinationDirectory: 'assets/jssocials'
+            $rootDir: '%kernel.project_dir%'
+            $manageSubfolders: true
+        public: true
+
     smartgear.config.manager.core:
         class: WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson
         arguments:

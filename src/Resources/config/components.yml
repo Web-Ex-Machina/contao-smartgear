@@ -30,6 +30,7 @@ services:
             $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
             $commandUtil: '@smartgear.classes.command.util'
+            $jsSocialsSynchronizer: '@smartgear.classes.directories_synchronizer.js_socials'
         public: true
 
     smartgear.backend.component.blog.dashboard:

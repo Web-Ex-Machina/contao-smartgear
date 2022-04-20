@@ -25,6 +25,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Blog\Preset as BlogPresetConfig;
@@ -38,6 +39,8 @@ class General extends ConfigurationStep
     protected $configurationManager;
     /** @var CommandUtil */
     protected $commandUtil;
+    /** @var DirectoriesSynchronizer */
+    protected $jsSocialsSynchronizer;
 
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_blog_general';
 
@@ -46,12 +49,15 @@ class General extends ConfigurationStep
         string $type,
         TranslatorInterface $translator,
         ConfigurationManager $configurationManager,
-        CommandUtil $commandUtil
+        CommandUtil $commandUtil,
+        DirectoriesSynchronizer $jsSocialsSynchronizer
     ) {
         parent::__construct($module, $type);
         $this->configurationManager = $configurationManager;
         $this->commandUtil = $commandUtil;
         $this->translator = $translator;
+        $this->jsSocialsSynchronizer = $jsSocialsSynchronizer;
+
         $this->title = $this->translator->trans('WEMSG.BLOG.INSTALL.title', [], 'contao_default');
         /** @var BlogConfig */
         $config = $this->configurationManager->load()->getSgBlog();
@@ -117,6 +123,7 @@ class General extends ConfigurationStep
         $this->fillArticle($page, $article, $modules);
 
         $this->updateModuleConfigurationAfterGenerations($page, $newsArchive, $modules);
+        $this->importJsSocials();
         $this->commandUtil->executeCmdPHP('cache:clear');
     }
 
@@ -339,5 +346,10 @@ class General extends ConfigurationStep
         $config->setSgBlog($blogConfig);
 
         $this->configurationManager->save($config);
+    }
+
+    protected function importJsSocials(): void
+    {
+        $this->jsSocialsSynchronizer->synchronize(true);
     }
 }
