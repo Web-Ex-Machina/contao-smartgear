@@ -13,21 +13,21 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => ['Folding Box', 'Générez un ensemble de panels ouvrants'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_foldingboxfw'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
         'config_legend' => [
-            'label' => ["Configuration de l'élément"], 'inputType' => 'group',
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_foldingboxfw']['config_legend']], 'inputType' => 'group',
         ], 'height' => [
-            'label' => ['Hauteur du slider', 'Configurez la hauteur de l\'élément'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_foldingboxfw']['height'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
         ], 'break' => [
-            'label' => ['Responsive', 'Si souhaité, ajustez le moment où les éléments passent les uns en dessous des autres'], 'inputType' => 'select', 'options' => ['' => 'Par défaut', 'xxs' => 'XXS / 520px', 'xs' => 'XS / 620px', 'sm' => 'SM / 768px', 'md' => 'MD / 992px', 'lg' => 'LG / 1200px', 'xl' => 'XL / 1400px'], 'eval' => ['tl_class' => 'w50'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_foldingboxfw']['break'], 'inputType' => 'select', 'options' => ['' => 'Par défaut', 'xxs' => 'XXS / 520px', 'xs' => 'XS / 620px', 'sm' => 'SM / 768px', 'md' => 'MD / 992px', 'lg' => 'LG / 1200px', 'xl' => 'XL / 1400px'], 'eval' => ['tl_class' => 'w50'],
         ]
 
         // Items
         , 'items' => [
-            'label' => ['Panels', 'Editez les panels'], 'elementLabel' => '%s. Panel', 'inputType' => 'list', 'fields' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_foldingboxfw']['items_legend'], 'elementLabel' => &$GLOBALS['TL_LANG']['tl_content']['rsce_foldingboxfw']['item_legend'], 'inputType' => 'list', 'fields' => [
                 // Background
                 'img_src' => [
-                    'label' => ['Image de fond', 'Insérez une image qui sera utilisé comme fond de cet item'], 'inputType' => 'fileTree', 'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => Config::get('validImageTypes')],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_foldingboxfw']['img_src'], 'inputType' => 'fileTree', 'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => Config::get('validImageTypes')],
                 ], 'img_size' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['size'], 'inputType' => 'imageSize', 'reference' => &$GLOBALS['TL_LANG']['MSC'], 'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50'], 'options_callback' => function () {
                         return System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance());
@@ -38,7 +38,7 @@ return [
 
                 // Content
                 , 'content' => [
-                    'label' => ['Contenu', 'Saisissez le contenu textuel de l\'élément'], 'inputType' => 'textarea', 'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_foldingboxfw']['content'], 'inputType' => 'textarea', 'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
                 ]
 
                 // Link

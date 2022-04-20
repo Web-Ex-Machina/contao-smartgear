@@ -157,12 +157,69 @@
         <source>Define a short text which will be displayed under the counter</source>
         <target>Définissez un court texte qui sera affiché en dessous du compteur</target>
       </trans-unit>
-      
-      <trans-unit id="tl_content.rsce_counterfw.xxxx.0">
+  
+      <trans-unit id="tl_content.rsce_foldingboxfw.0">
+        <source>Folding Box</source>
+        <target>Folding Box</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_foldingboxfw.1">
+        <source>Generate multiple deploying/collapsing panels</source>
+        <target>Générez un ensemble de panels ouvrants</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_foldingboxfw.config_legend">
+        <source>Element configuration</source>
+        <target>Configuration de l'élément</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_foldingboxfw.height.0">
+        <source>Slider height</source>
+        <target>Hauteur du slider</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_foldingboxfw.height.1">
+        <source>Configure element heights</source>
+        <target>Configurez la hauteur de l'élément</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_foldingboxfw.break.0">
+        <source>Responsive</source>
+        <target>Responsive</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_foldingboxfw.break.1">
+        <source>If desired, adjust the moment where elements goes under each others</source>
+        <target>Si souhaité, ajustez le moment où les éléments passent les uns en dessous des autres</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_foldingboxfw.items_legend.0">
+        <source>Panels</source>
+        <target>Panels</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_foldingboxfw.items_legend.1">
+        <source>Edit panels</source>
+        <target>Editez les panneaux</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_foldingboxfw.item_legend">
+        <source>%s. Panel</source>
+        <target>%s. Panel</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_foldingboxfw.img_src.0">
+        <source>Background image</source>
+        <target>Image de fond</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_foldingboxfw.img_src.1">
+        <source>Insert an image which will be used as background for this item</source>
+        <target>Insérez une image qui sera utilisé comme fond de cet élément</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_foldingboxfw.content.0">
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_foldingboxfw.content.1">
+        <source>Type the element's text content</source>
+        <target>Saisissez le contenu textuel de l'élément</target>
+      </trans-unit>
+
+      <trans-unit id="tl_content.rsce_foldingboxfw.xxxx.0">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_counterfw.xxxx.1">
+      <trans-unit id="tl_content.rsce_foldingboxfw.xxxx.1">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>
