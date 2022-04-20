@@ -5,6 +5,99 @@
         <source>Here you can add the video/audio file or multiple files if you are using different codecs. If your video file is heavy, use Youtube instead</source>
         <target>Ajouter le fichier vidéo/audio ou plusieurs fichiers si vous utilisez différents codecs. Si votre fichier vidéo est lourd, privilégiez un élément Youtube.</target>
       </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.0">
+        <source>Accordion (alone)</source>
+        <target>Accordéon (seul)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.1">
+        <source>Generate an accordion and configure its elements</source>
+        <target>Générez un accordéon et configurez les éléments</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.config_legend">
+        <source>Accordion configuration</source>
+        <target>Configuration de l'accordéon</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.deploy_all.0">
+        <source>Deploy all</source>
+        <target>Tout déployer</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.deploy_all.1">
+        <source>Tick to automatically deploy all elements</source>
+        <target>Cochez pour déployer automatiquement tous les éléments</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.disable_collapse.0">
+        <source>Disable deploy/collapse</source>
+        <target>Désactiver déployer/replier</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.disable_collapse.1">
+        <source>Tick to disable deploy/collapse actions (automatically deploy all elements)</source>
+        <target>Cochez pour désactiver les actions déployer/replier (déploie automatiquement tous les éléments)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.auto_collapse.0">
+        <source>Auto collapse</source>
+        <target>Auto repliage</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.auto_collapse.1">
+        <source>Tick to automatically collapse other elements when one is deployed</source>
+        <target>Cochez pour replier automatiquement les éléments lors du déploiement de l'un d'eux</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.items_legend.0">
+        <source>Elements</source>
+        <target>Eléments</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.items_legend.1">
+        <source>Edit elements</source>
+        <target>Editez les éléments</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.item_legend">
+        <source>%s. element</source>
+        <target>%s. élément</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.hl_title.0">
+        <source>Title format</source>
+        <target>Format titre</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.hl_title.1">
+        <source>Select a title format</source>
+        <target>Selectionner un format de titre a appliquer</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.hl_title.option_none">
+        <source>None</source>
+        <target>Aucun</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.content.0">
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.content.1">
+        <source>Type the element's text content</source>
+        <target>Saisissez le contenu textuel de l'élément</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.lock.0">
+        <source>Lock</source>
+        <target>Verrouillé</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.lock.1">
+        <source>Tick to make the element always visible (disable deploy/collapse actions)</source>
+        <target>Cochez pour que l'élément soit toujours visible (désactive les actions déployer/replier)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.active.0">
+        <source>Active</source>
+        <target>Actif</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.active.1">
+        <source>Tick to make the element automatically deployed on page load</source>
+        <target>Cochez pour que l'élément soit déployé automatiquement au chargement de la page</target>
+      </trans-unit>
+
+      <trans-unit id="tl_content.rsce_accordionfw.xxxx.0">
+        <source>aaa</source>
+        <target>bbb</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordionfw.xxxx.1">
+        <source>aaa</source>
+        <target>bbb</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
