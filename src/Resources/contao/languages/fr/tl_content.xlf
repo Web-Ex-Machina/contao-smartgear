@@ -89,12 +89,80 @@
         <source>Tick to make the element automatically deployed on page load</source>
         <target>Cochez pour que l'élément soit déployé automatiquement au chargement de la page</target>
       </trans-unit>
-
-      <trans-unit id="tl_content.rsce_accordionfw.xxxx.0">
+      <trans-unit id="tl_content.rsce_counterfw.0">
+        <source>Animated counter</source>
+        <target>Compteur animé</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counterfw.1">
+        <source>Generate an animated counter</source>
+        <target>Générez un compteur animé</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counterfw.config_legend">
+        <source>Counter configuration</source>
+        <target>Configuration du compteur</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counterfw.startVal.0">
+        <source>Start value</source>
+        <target>Valeur de départ</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counterfw.startVal.1">
+        <source>Define the counter' start value</source>
+        <target>Définissez la valeur de départ du compteur</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counterfw.endVal.0">
+        <source>End value</source>
+        <target>Valeur de fin</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counterfw.endVal.1">
+        <source>Define the counter's end value</source>
+        <target>Définissez la valeur de fin du compteur</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counterfw.decimals.0">
+        <source>Decimal numbers</source>
+        <target>Nombre de décimales</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counterfw.decimals.1">
+        <source>Definez the number of decimals for the counter (0 by default)</source>
+        <target>Définissez le nombre de décimales du compteur (0 par défaut)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counterfw.duration.0">
+        <source>Duration</source>
+        <target>Durée</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counterfw.duration.1">
+        <source>Define animation duration in seconds (2 by default)</source>
+        <target>Définissez durée d'animation en seconde du compteur (2 par défaut)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counterfw.delay.0">
+        <source>Delay</source>
+        <target>Délai</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counterfw.delay.1">
+        <source>Define a delay before the counter animation starts in seconds (0 by default)</source>
+        <target>Définissez un temps d'attente en seconde avant déclenchement de l'animation du compteur (0 par défaut)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counterfw.unit.0">
+        <source>Unit</source>
+        <target>Unité</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counterfw.unit.1">
+        <source>Define the unit which will be display aside the counter (example: m²)</source>
+        <target>Définissez une unité qui sera affichée à côté du compteur (exemple: m²)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counterfw.label.0">
+        <source>Label</source>
+        <target>Label</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counterfw.label.1">
+        <source>Define a short text which will be displayed under the counter</source>
+        <target>Définissez un court texte qui sera affiché en dessous du compteur</target>
+      </trans-unit>
+      
+      <trans-unit id="tl_content.rsce_counterfw.xxxx.0">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_accordionfw.xxxx.1">
+      <trans-unit id="tl_content.rsce_counterfw.xxxx.1">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>

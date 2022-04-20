@@ -13,23 +13,23 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => ['Compteur animé', 'Générez un compteur animé'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_counterfw'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
         'config_legend' => [
-            'label' => ['Configuration du compteur'], 'inputType' => 'group',
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_counterfw']['config_legend']], 'inputType' => 'group',
         ], 'startVal' => [
-            'label' => ['Valeur de départ', 'Définissez la valeur de départ du compteur'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50', 'rgxp' => 'digit', 'mandatory' => true],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_counterfw']['startVal'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50', 'rgxp' => 'digit', 'mandatory' => true],
         ], 'endVal' => [
-            'label' => ['Valeur de fin', 'Définissez la valeur de fin du compteur'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50', 'rgxp' => 'digit', 'mandatory' => true],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_counterfw']['startVal'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50', 'rgxp' => 'digit', 'mandatory' => true],
         ], 'decimals' => [
-            'label' => ['Nombre de décimales', 'Définissez le nombre de décimales du compteur (0 par défaut)'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50', 'rgxp' => 'digit', 'minval' => 0],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_counterfw']['decimals'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50', 'rgxp' => 'digit', 'minval' => 0],
         ], 'duration' => [
-            'label' => ['Durée', 'Définissez durée d\'animation en seconde du compteur (2 par défaut)'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50', 'rgxp' => 'digit', 'minval' => 0],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_counterfw']['duration'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50', 'rgxp' => 'digit', 'minval' => 0],
         ], 'delay' => [
-            'label' => ['Délai', 'Définissez un temps d\'attente en seconde avant déclenchement de l\'animation du compteur (0 par défaut)'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50', 'rgxp' => 'digit', 'minval' => 0],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_counterfw']['delay'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50', 'rgxp' => 'digit', 'minval' => 0],
         ], 'unit' => [
-            'label' => ['Unité', 'Définissez une unité qui sera affichée à côté du compteur (exemple: m²)'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_counterfw']['unit'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
         ], 'label' => [
-            'label' => ['Label', 'Définissez un court texte qui sera affiché en dessous du compteur'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_counterfw']['label'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
         ],
     ],
 ];
