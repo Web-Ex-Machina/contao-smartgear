@@ -34,7 +34,6 @@ abstract class AbstractManager implements ManagerInterface
     protected function retrieveConfigurationFromFile(): string
     {
         if (!file_exists($this->configurationFilePath)) {
-            dump(debug_print_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 10));
             throw new FileNotFoundException($this->translator->trans('WEMSG.CONFIGURATIONMANAGER.fileNotFound', [], 'contao_default'));
         }
 
