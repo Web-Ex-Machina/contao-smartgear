@@ -5,6 +5,14 @@
         <source>Here you can add the video/audio file or multiple files if you are using different codecs. If your video file is heavy, use Youtube instead</source>
         <target>Ajouter le fichier vidéo/audio ou plusieurs fichiers si vous utilisez différents codecs. Si votre fichier vidéo est lourd, privilégiez un élément Youtube.</target>
       </trans-unit>
+      <trans-unit id="tl_content.size.0">
+        <source>Picture size</source>
+        <target>Taille de l'image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.size.1">
+        <source>Set the picture size</source>
+        <target>Choisissez les dimensions de l'image</target>
+      </trans-unit>
       <trans-unit id="tl_content.rsce_accordionfw.0">
         <source>Accordion (alone)</source>
         <target>Accordéon (seul)</target>
@@ -214,12 +222,40 @@
         <source>Type the element's text content</source>
         <target>Saisissez le contenu textuel de l'élément</target>
       </trans-unit>
+      <trans-unit id="tl_content.rsce_gridgallery.0">
+        <source>Image gallery</source>
+        <target>Galerie d'images</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_gridgallery.1">
+        <source>Generate an image gallery using a responsive grid</source>
+        <target>Générez une galerie d'images personnalisée utilisant une grille responsive</target>
+      </trans-unit>
 
-      <trans-unit id="tl_content.rsce_foldingboxfw.xxxx.0">
+      <trans-unit id="tl_content.rsce_gridgallery.items_legend.0">
+        <source>Pictures</source>
+        <target>Images</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_gridgallery.items_legend.1">
+        <source>Edit pictures</source>
+        <target>Editez les images</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_gridgallery.item_legend">
+        <source>%s. picture</source>
+        <target>%s. image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_gridgallery.img_legend">
+        <source>Picture settings</source>
+        <target>Configuration de l'image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_gridgallery.link_legend">
+        <source>Link settings</source>
+        <target>Configuration du lien</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_gridgallery.xxxx.0">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_foldingboxfw.xxxx.1">
+      <trans-unit id="tl_content.rsce_gridgallery.xxxx.1">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>

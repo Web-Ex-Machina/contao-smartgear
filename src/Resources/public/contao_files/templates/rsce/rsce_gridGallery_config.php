@@ -13,15 +13,15 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => ['Galerie d\'images', 'Générez une galerie d\'images personnalisée utilisant une grille responsive'],
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_gridgallery'],
     'contentCategory' => 'SMARTGEAR',
     'standardFields' => ['cssID'],
     'fields' => [
         'listItems' => [
-            'label' => ['Images', 'Editez les images'], 'elementLabel' => '%s. image', 'inputType' => 'list',
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_gridgallery']['items_legend'], 'elementLabel' => &$GLOBALS['TL_LANG']['tl_content']['rsce_gridgallery']['item_legend'], 'inputType' => 'list',
             'fields' => [
                 'img_legend' => [
-                    'label' => ['Configuration de l\'image'], 'inputType' => 'group',
+                    'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_gridgallery']['img_legend']], 'inputType' => 'group',
                 ],
                 'img_src' => [
                     'label' => ['Image', 'Sélectionnez une image'], 'inputType' => 'fileTree', 'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => Config::get('validImageTypes'), 'mandatory' => true],
@@ -36,7 +36,7 @@ return [
                 ],
 
                 'link_legend' => [
-                    'label' => ['Configuration du lien'], 'inputType' => 'group',
+                    'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_gridgallery']['link_legend']], 'inputType' => 'group',
                 ],
                 'href' => [
                     'label' => &$GLOBALS['TL_LANG']['MSC']['url'], 'inputType' => 'text', 'eval' => ['rgxp' => 'url', 'tl_class' => 'w50 wizard '], 'wizard' => [['tl_content', 'pagePicker']],
@@ -46,9 +46,6 @@ return [
                 ],
                 'target' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['fullsize'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50'],
-                ],
-                'misc_legend' => [
-                    'label' => ['Configuration avancée'], 'inputType' => 'group',
                 ],
             ],
         ],
