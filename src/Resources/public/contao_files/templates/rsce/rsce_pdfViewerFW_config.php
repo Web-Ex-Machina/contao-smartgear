@@ -13,28 +13,28 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => ['Affichage PDF', 'Bloc d\'affichage de PDF'],
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewerfw'],
     'contentCategory' => 'SMARTGEAR',
     'standardFields' => ['cssID'],
     'fields' => [
         'source' => [
-            'label' => ['Fichier PDF', 'Sélectionnez le fichier PDF à afficher'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewerfw']['source'],
             'inputType' => 'fileTree',
             'eval' => ['filesOnly' => true, 'fieldType' => 'radio'],
         ],
         'downloadable' => [
-            'label' => ['Fichier téléchargeable', 'Définissez si le PDF peut être téléchargé'],
-            'inputType' => 'radio',
-            'options' => ['true'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewerfw']['downloadable'],
+            'inputType' => 'checkbox',
+            // 'options' => ['true'],
             'eval' => ['tl_class' => 'w50 clr'],
         ],
         'download_button_text' => [
-            'label' => ['Texte du bouton', 'Définissez le texte du bouton'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewerfw']['download_button_text'],
             'inputType' => 'text',
             'eval' => ['tl_class' => 'w50'],
         ],
         'download_button_title' => [
-            'label' => ['Titre du bouton', 'Définissez le texte affiché au survol du bouton'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewerfw']['download_button_title'],
             'inputType' => 'text',
             'eval' => ['tl_class' => 'w100 clr'],
         ],

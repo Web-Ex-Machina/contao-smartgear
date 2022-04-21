@@ -404,13 +404,55 @@
         <source>Type a short text to be displayed after the ratings</source>
         <target>Saisissez un court texte placé après les notes</target>
       </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewerfw.0">
+        <source>PDF Viewer</source>
+        <target>Affichage PDF</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewerfw.1">
+        <source>PDF Viewer block</source>
+        <target>Bloc d'affichage de PDF</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewerfw.source.0">
+        <source>PDF file</source>
+        <target>Fichier PDF</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewerfw.source.1">
+        <source>Select the PDF file to display</source>
+        <target>Sélectionnez le fichier PDF à afficher</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewerfw.downloadable.0">
+        <source>File can be downloaded</source>
+        <target>Fichier téléchargeable</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewerfw.downloadable.1">
+        <source>Define if the file can be downloaded</source>
+        <target>Définissez si le PDF peut être téléchargé</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewerfw.download_button_text.0">
+        <source>Button text</source>
+        <target>Texte du bouton</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewerfw.download_button_text.1">
+        <source>Type the button's text</source>
+        <target>Définissez le texte du bouton</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewerfw.download_button_title.0">
+        <source>Button title</source>
+        <target>Titre du bouton</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewerfw.download_button_title.1">
+        <source>Type the button's hover text</source>
+        <target>Définissez le texte affiché au survol du bouton</target>
+      </trans-unit>
       
+
+
       <!-- base -->
-      <trans-unit id="tl_content.rsce_notations.xxxx.0">
+      <trans-unit id="tl_content.rsce_pdfviewerfw.xxxx.0">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_notations.xxxx.1">
+      <trans-unit id="tl_content.rsce_pdfviewerfw.xxxx.1">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>
