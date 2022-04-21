@@ -560,13 +560,137 @@
         <source>If desired, enter the quote's author</source>
         <target>Si souhaité, indiquez l'auteur de la citation</target>
       </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.0">
+        <source>Slider (alone)</source>
+        <target>Slider (seul)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.1">
+        <source>Generate a slider and configure your pictures</source>
+        <target>Générez un slider et configurez vos images</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.config_label">
+        <source>Slider configuration</source>
+        <target>Configuration du slider</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slide_height.0">
+        <source>Slider height</source>
+        <target>Hauteur du slider</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slide_height.1">
+        <source>Configure the slider height</source>
+        <target>Configurez la hauteur du slider</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slide_autoplay.0">
+        <source>Autostart</source>
+        <target>Démarrage automatique</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slide_autoplay.1">
+        <source>Tick to make the slider starts automatically</source>
+        <target>Cochez pour faire en sorte que le slider se lance automatiquement</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slider_loop.0">
+        <source>Loop</source>
+        <target>Répétition</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slider_loop.1">
+        <source>Tick to make the slider start over when finished</source>
+        <target>Cochez pour faire en sorte que le slider se relance une fois fini</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slider_transition.0">
+        <source>Transition</source>
+        <target>Transition</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slider_transition.1">
+        <source>Choose the desired transition type between slides</source>
+        <target>Sélectionner le type de transition souhaitée entre les slides</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slider_transition.optionTranslate">
+        <source>Translation</source>
+        <target>Translation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slider_transition.optionFade">
+        <source>Fading</source>
+        <target>Fondu</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slider_transition.optionNone">
+        <source>None</source>
+        <target>Aucune</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.config_nav_legend">
+        <source>Navigation configuration</source>
+        <target>Configuration de la navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.nav_arrows.0">
+        <source>Use arrows to navigate</source>
+        <target>Navigation fléchée</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.nav_arrows.1">
+        <source>Tick to activate navigation throught arrows (disable classic navigation)</source>
+        <target>Cochez pour activer la navigation fléchée (désactive la navigation classique)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.disable_swipe.0">
+        <source>Disable swipe</source>
+        <target>Désactiver swipe</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.disable_swipe.1">
+        <source>Tick to disable navigation throught swipe</source>
+        <target>Cochez pour désactiver la navigation par swipe</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.config_content_legend">
+        <source>Content configuration</source>
+        <target>Configuration des contenus</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.content_noblur.0">
+        <source>No blur</source>
+        <target>Pas de flou</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.content_noblur.1">
+        <source>Tick to disable the blur effect behind the content</source>
+        <target>Cochez pour désactiver l'effet de flou derrière le contenu</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.items_legend.0">
+        <source>Slides</source>
+        <target>Slides</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.items_legend.1">
+        <source>Edit the slides</source>
+        <target>Editez les slides</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.item_legend">
+        <source>%s. slide</source>
+        <target>%s. slide</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slide_img_src.0">
+        <source>Background</source>
+        <target>Fond</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slide_img_src.1">
+        <source>Insert thhe background image for this item</source>
+        <target>Insérez une image qui sera utilisé comme fond de cet item</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slide_content.0">
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slide_content.1">
+        <source>Type the slide's textual content</source>
+        <target>Saisissez le contenu textuel de la slide</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slide_link_classes.0">
+        <source>Link's CSS classes</source>
+        <target>Classe(s) css du lien</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_sliderfw.slide_link_classes.1">
+        <source>Type one or more CSS classes to add to the link (separated by space)</source>
+        <target>Saisissez une ou plusieurs classes css à appliquer au lien (séparées par un espace)</target>
+      </trans-unit>
 
       <!-- base -->
-      <trans-unit id="tl_content.rsce_quote.xxxx.0">
+      <trans-unit id="tl_content.rsce_sliderfw.xxxx.0">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_quote.xxxx.1">
+      <trans-unit id="tl_content.rsce_sliderfw.xxxx.1">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>

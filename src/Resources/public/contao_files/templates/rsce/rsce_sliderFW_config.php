@@ -13,44 +13,48 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => ['Slider (seul)', 'Générez un slider et configurez vos images'], 'contentCategory' => 'slider', 'standardFields' => ['cssID'], 'fields' => [
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw'], 'contentCategory' => 'slider', 'standardFields' => ['cssID'], 'fields' => [
         'config_legend' => [
-            'label' => ['Configuration du slider'], 'inputType' => 'group',
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['config_label']], 'inputType' => 'group',
         ],
         'slide_height' => [
-            'label' => ['Hauteur du slider', 'Configurez la hauteur du slider'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['slide_height'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
         ], 'slide_autoplay' => [
-            'label' => ['Démarrage automatique', 'Cochez pour faire en sorte que le slider se lance automatiquement'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50 m12'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['slide_autoplay'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50 m12'],
         ], 'slider_loop' => [
-            'label' => ['Répétition', 'Cochez pour faire en sorte que le slider se relance une fois fini'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50 m12'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['slider_loop'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50 m12'],
         ], 'slider_transition' => [
-            'label' => ['Transition', 'Sélectionner le type de transition souhaitée entre les slides'], 'inputType' => 'select', 'options' => ['translate' => 'Translation', 'fade' => 'Fading', 'none' => 'Aucune'], 'eval' => ['tl_class' => 'w50'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['slider_transition'], 'inputType' => 'select', 'options' => [
+                'translate' => &$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['slider_transition']['optionTranslate'],
+                'fade' => &$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['slider_transition']['optionFade'],
+                'none' => &$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['slider_transition']['optionNone'],
+            ], 'eval' => ['tl_class' => 'w50'],
         ],
         'config_nav_legend' => [
-            'label' => ['Configuration de la navigation'], 'inputType' => 'group',
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['config_nav_legend']], 'inputType' => 'group',
         ],
         'nav_arrows' => [
-            'label' => ['Navigation fléchée', 'Cochez pour activer la navigation fléchée (désactive la navigation classique)'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['nav_arrows'],
             'inputType' => 'checkbox',
             'eval' => ['tl_class' => 'w50 m12'],
         ],
         'disable_swipe' => [
-            'label' => ['Désactiver swipe', 'Cochez pour désactiver la navigation par swipe'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['disable_swipe'],
             'inputType' => 'checkbox',
             'eval' => ['tl_class' => 'w50 m12'],
         ], 'config_content_legend' => [
-            'label' => ['Configuration des contenus'], 'inputType' => 'group',
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['config_content_legend']], 'inputType' => 'group',
         ],
         'content_noblur' => [
-            'label' => ['Pas de flou', "Cochez pour désactiver l'effet de flou derrière le contenu"], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50 m12'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['content_noblur'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50 m12'],
         ]
 
         // Items
         , 'items' => [
-            'label' => ['Slides', 'Editez les slides'], 'elementLabel' => '%s. slide', 'inputType' => 'list', 'fields' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['items_legend'], 'elementLabel' => &$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['item_legend'], 'inputType' => 'list', 'fields' => [
                 // Background
                 'slide_img_src' => [
-                    'label' => ['Fond', 'Insérez une image qui sera utilisé comme fond de cet item'], 'inputType' => 'fileTree', 'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => Config::get('validImageTypes')],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['slide_img_src'], 'inputType' => 'fileTree', 'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => Config::get('validImageTypes')],
                 ], 'slide_img_size' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['size'], 'inputType' => 'imageSize', 'reference' => &$GLOBALS['TL_LANG']['MSC'], 'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50 clr'], 'options_callback' => function () {
                         return System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance());
@@ -61,7 +65,7 @@ return [
 
                 // Content
                 'slide_content' => [
-                    'label' => ['Contenu', 'Saisissez le contenu textuel de la slide'], 'inputType' => 'textarea', 'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['slide_content'], 'inputType' => 'textarea', 'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
                 ]
 
                 // Link
@@ -72,7 +76,7 @@ return [
                 ], 'slide_link_title' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['titleText'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
                 ], 'slide_link_classes' => [
-                    'label' => ['Classe(s) css du lien', 'Saisissez une ou plusieurs classes css à appliquer au lien (séparées par un espace)'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_sliderfw']['slide_link_classes'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
                 ], 'slide_link_target' => [
                     'label' => &$GLOBALS['TL_LANG']['MSC']['target'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50'],
                 ],
