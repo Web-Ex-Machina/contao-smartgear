@@ -590,7 +590,7 @@
       </trans-unit>
       <trans-unit id="tl_content.rsce_sliderfw.slider_loop.0">
         <source>Loop</source>
-        <target>Répétition</target>
+        <target>En boucle</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_sliderfw.slider_loop.1">
         <source>Tick to make the slider start over when finished</source>
@@ -712,13 +712,105 @@
         <source>Type the tab's textual content</source>
         <target>Saisissez le contenu textuel de la slide</target>
       </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.0">
+        <source>Testimonials</source>
+        <target>Témoignages</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.1">
+        <source>Generate a slider to show testimonials/quotes</source>
+        <target>Générez un slider affichant des témoignages/citations</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.config_legend">
+        <source>Slider configuration</source>
+        <target>Configuration du slider</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_height.0">
+        <source>Slider height</source>
+        <target>Hauteur du slider</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_height.1">
+        <source>Set the slider's heigth</source>
+        <target>Configurez la hauteur du slider</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_autoplay.0">
+        <source>Autostart</source>
+        <target>Démarrage automatique</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_autoplay.1">
+        <source>Tick to make the contents slide automatically</source>
+        <target>Cochez pour que les contenus défilent automatiquement</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slider_loop.0">
+        <source>Loop</source>
+        <target>En boucle</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slider_loop.1">
+        <source>Tick to make content loop</source>
+        <target>Cochez pour visualiser les contenus en boucle</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.config_nav_legend">
+        <source>Navigation configuration</source>
+        <target>Configuration de la navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.nav_arrows.0">
+        <source>Navigation throught arrows</source>
+        <target>Navigation fléchée</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.nav_arrows.1">
+        <source>Tick to replace navigation by lateral arrows</source>
+        <target>Cochez pour remplacer la navigation par des flèches latérales</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.items_legend.0">
+        <source>Testimonials</source>
+        <target>Témoignages/citations</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.items_legend.1">
+        <source>Edit testimonials</source>
+        <target>Editez les témoignages/citations</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.item_legend">
+        <source>%s. testimonials</source>
+        <target>%s. témoignage/citation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_img_src.0">
+        <source>Background</source>
+        <target>Fond</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_img_src.1">
+        <source>Insert a background image for this element</source>
+        <target>Insérez une image qui sera utilisé comme fond de cet élément</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_content.0">
+        <source>Testimonial</source>
+        <target>Témoignage/citation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_content.1">
+        <source>Type this element's text</source>
+        <target>Saisissez le texte de cet élément</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_author.0">
+        <source>Author</source>
+        <target>Auteur</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_author.1">
+        <source>Type the element's author</source>
+        <target>Saisissez l'auteur de cet élément</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.author_classes.0">
+        <source>Additionnal author CSS classes</source>
+        <target>Classes supplémentaires auteur</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.author_classes.1">
+        <source>If desired, add one or more CSS classes to add to the author's block</source>
+        <target>Indiquez, si souhaité, la ou les classes css à ajouter au bloc de l'auteur</target>
+      </trans-unit>
 
       <!-- base -->
-      <trans-unit id="tl_content.rsce_tabs.xxxx.0">
+      <trans-unit id="tl_content.rsce_testimonials.xxxx.0">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_tabs.xxxx.1">
+      <trans-unit id="tl_content.rsce_testimonials.xxxx.1">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>

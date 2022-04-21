@@ -13,29 +13,29 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => ['Témoignages', 'Générez un slider affichant des témoignages/citations'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
         'config_legend' => [
-            'label' => ['Configuration du slider'], 'inputType' => 'group',
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['config_legend']], 'inputType' => 'group',
         ], 'slide_height' => [
-            'label' => ['Hauteur du slider', 'Configurez la hauteur du slider'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['slide_height'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
         ], 'slide_autoplay' => [
-            'label' => ['Démarrage automatique', 'Cochez pour que les contenus défilent automatiquement'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50 clr'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['slide_autoplay'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50 clr'],
         ], 'slider_loop' => [
-            'label' => ['Loop', 'Cochez pour visualiser les contenus en boucle'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['slider_loop'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50'],
         ],
         'config_nav_legend' => [
-            'label' => ['Configuration de la navigation'], 'inputType' => 'group',
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['config_nav_legend']], 'inputType' => 'group',
         ],
         'nav_arrows' => [
-            'label' => ['Navigation fléchée', 'Cochez pour remplacer la navigation par des flèches latérales'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50 clr'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['nav_arrows'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50 clr'],
         ]
 
         // Items
         , 'items' => [
-            'label' => ['Témoignages/citations', 'Editez les témoignages/citations'], 'elementLabel' => '%s. témoignage/citation', 'inputType' => 'list', 'fields' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['items_legend'], 'elementLabel' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['item_legend'], 'inputType' => 'list', 'fields' => [
                 // Background
                 'slide_img_src' => [
-                    'label' => ['Fond', 'Insérez une image qui sera utilisé comme fond de cet élément'], 'inputType' => 'fileTree', 'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => Config::get('validImageTypes')],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['slide_img_src'], 'inputType' => 'fileTree', 'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => Config::get('validImageTypes')],
                 ], 'slide_img_size' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['size'], 'inputType' => 'imageSize', 'reference' => &$GLOBALS['TL_LANG']['MSC'], 'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50 clr'], 'options_callback' => function () {
                         return System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance());
@@ -46,11 +46,11 @@ return [
 
                 // Content
                 , 'slide_content' => [
-                    'label' => ['Témoignage/citation', 'Saisissez le texte de cet élément'], 'inputType' => 'textarea', 'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['slide_content'], 'inputType' => 'textarea', 'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
                 ], 'slide_author' => [
-                    'label' => ['Auteur', 'Saisissez l\'auteur de cet élément'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50', 'tl_class' => 'clr'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['slide_author'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50', 'tl_class' => 'clr'],
                 ], 'author_classes' => [
-                    'label' => ['Classes supplémentaires auteur', 'Indiquez, si souhaité, la ou les classes css à ajouter au bloc de l\'auteur'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['author_classes'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr'],
                 ],
             ],
         ],
