@@ -13,5 +13,5 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => ['Bannière - Fin', 'Générez un élément stylisé composé d\'un texte sur une image'], 'contentCategory' => 'SMARTGEAR',
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_herofw_stop'], 'contentCategory' => 'SMARTGEAR',
 ];
