@@ -356,13 +356,61 @@
         <source>If desired, add one or more CSS classes to the item</source>
         <target>Indiquez, si souhaité, la ou les classes CSS à ajouter à l'item</target>
       </trans-unit>
+      <trans-unit id="tl_content.rsce_notations.0">
+        <source>Notes</source>
+        <target>Notes</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_notations.1">
+        <source>Generate a star rating list</source>
+        <target>Générez une liste notations sous forme d'étoiles</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_notations.note_max.0">
+        <source>Maximal note</source>
+        <target>Note maximale</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_notations.note_max.1">
+        <source>Define the highest rating possible</source>
+        <target>Définissez la note maximale possible.</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_notations.notations.0">
+        <source>Ratings</source>
+        <target>Notes</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_notations.notations.1">
+        <source>Edit the ratings</source>
+        <target>Editez les notes</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_notations.label.0">
+        <source>Label</source>
+        <target>Label</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_notations.label.1">
+        <source>Type the rating's label</source>
+        <target>Saisissez le label de la note</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_notations.note.0">
+        <source>Note</source>
+        <target>Note</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_notations.note.1">
+        <source>Type the rating</source>
+        <target>Saisissez la note</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_notations.text.0">
+        <source>Additionnal text</source>
+        <target>Texte supplémentaire</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_notations.text.1">
+        <source>Type a short text to be displayed after the ratings</source>
+        <target>Saisissez un court texte placé après les notes</target>
+      </trans-unit>
       
       <!-- base -->
-      <trans-unit id="tl_content.rsce_listicons.xxxx.0">
+      <trans-unit id="tl_content.rsce_notations.xxxx.0">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_listicons.xxxx.1">
+      <trans-unit id="tl_content.rsce_notations.xxxx.1">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>

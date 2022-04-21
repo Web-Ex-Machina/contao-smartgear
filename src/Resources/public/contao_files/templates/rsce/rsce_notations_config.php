@@ -13,35 +13,35 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => ['Notes', 'Générez une liste notations sous forme d\'étoiles'],
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_notations'],
     'contentCategory' => 'SMARTGEAR',
     'standardFields' => ['cssID'/*,'headline'*/],
     'fields' => [
         'noteMax' => [
-            'label' => ['Note maximale', 'Définissez la note maximale possible.'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_notations']['note_max'],
             'inputType' => 'text',
             'default' => 5,
             'eval' => ['tl_class' => 'w50 clr', 'rgxp' => 'digit'],
         ],
         'notations' => [
-            'label' => ['Notes', 'Editez les notes'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_notations']['notations'],
             'elementLabel' => '%s. note',
             'inputType' => 'list',
             'fields' => [
                 'label' => [
-                    'label' => ['Label', 'Saisissez le label de la note'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_notations']['label'],
                     'inputType' => 'text',
                     'eval' => ['tl_class' => 'clr w50', 'mandatory' => true],
                 ],
                 'note' => [
-                    'label' => ['Note', 'Saisissez la note'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_notations']['note'],
                     'inputType' => 'text',
                     'eval' => ['tl_class' => 'w50', 'rgxp' => 'digit', 'mandatory' => true],
                 ],
             ],
         ],
         'text' => [
-            'label' => ['Texte supplémentaire', 'Saisissez un court texte placé après les notes'], 'inputType' => 'textarea', 'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_notations']['text'], 'inputType' => 'textarea', 'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
         ],
     ],
 ];
