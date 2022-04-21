@@ -444,15 +444,93 @@
         <source>Type the button's hover text</source>
         <target>Définissez le texte affiché au survol du bouton</target>
       </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.0">
+        <source>Price cards</source>
+        <target>Blocs de prix</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.1">
+        <source>Generate a list of price cards</source>
+        <target>Générez une liste de blocs de prix</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.list_items.0">
+        <source>Price Cards</source>
+        <target>Blocs de prix</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.list_items.1">
+        <source>Edit cards</source>
+        <target>Editez les cards</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.list_item">
+        <source>%s. price card</source>
+        <target>%s. price card</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.price_legend">
+        <source>Price</source>
+        <target>Prix</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.amount.0">
+        <source>Price</source>
+        <target>Prix</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.amount.1">
+        <source>Type the price/amount</source>
+        <target>Saisissez le prix/nombre</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.currency.0">
+        <source>Currency</source>
+        <target>Devise</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.currency.1">
+        <source>Type the currency/unit (€,$,£,...)</source>
+        <target>Saisissez la devise/unité (€,$,£,...)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.period.0">
+        <source>Periodicity</source>
+        <target>Récurrence</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.period.1">
+        <source>Type the periodicity (by month, day, ...)</source>
+        <target>Saisissez la récurrence (par mois, par jour,...)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.content_legend">
+        <source>Content</source>
+        <target>Contenus</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.lines.0">
+        <source>Lines</source>
+        <target>Lignes</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.lines.1">
+        <source>Add multiple content lines (html authorized)</source>
+        <target>Ajouter x lignes de contenus (html autorisé)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.cta_classes.0">
+        <source>Additionnal classes</source>
+        <target>Classes supplémentaires</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.cta_classes.1">
+        <source>If desired, add one or more CSS classes to the button</source>
+        <target>Indiquez, si souhaité, la ou les classes css à ajouter au bouton</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.style_legend">
+        <source>Appearance</source>
+        <target>Apparence</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.isMain.0">
+        <source>Is main</source>
+        <target>Vedette</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.isMain.1">
+        <source>Set the blck as a main block</source>
+        <target>Met en valeur le bloc</target>
+      </trans-unit>
       
-
-
       <!-- base -->
-      <trans-unit id="tl_content.rsce_pdfviewerfw.xxxx.0">
+      <trans-unit id="tl_content.rsce_pricecards.xxxx.0">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_pdfviewerfw.xxxx.1">
+      <trans-unit id="tl_content.rsce_pricecards.xxxx.1">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>

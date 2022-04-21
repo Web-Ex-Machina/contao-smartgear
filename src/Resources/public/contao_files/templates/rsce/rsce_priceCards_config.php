@@ -13,29 +13,29 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => ['Blocs de prix', 'Générez une liste de blocs de prix'],
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecards'],
     'contentCategory' => 'SMARTGEAR',
     'standardFields' => ['cssID'],
     'fields' => [
         'listItems' => [
-            'label' => ['Price Cards', 'Editez les cards'], 'elementLabel' => '%s. price card', 'inputType' => 'list', 'fields' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecards']['list_items'], 'elementLabel' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecards']['list_item'], 'inputType' => 'list', 'fields' => [
                 'price_legend' => [
-                    'label' => ['Prix'], 'inputType' => 'group',
+                    'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_pricecards']['price_legend']], 'inputType' => 'group',
                 ],
                 'amount' => [
-                    'label' => ['Prix', 'Saisissez le prix/nombre'], 'inputType' => 'text', 'eval' => ['tl_class' => 'clr w50'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecards']['amount'], 'inputType' => 'text', 'eval' => ['tl_class' => 'clr w50'],
                 ],
                 'currency' => [
-                    'label' => ['Devise', 'Saisissez la devise/unité (€,$,£,...)'], 'inputType' => 'text', 'eval' => ['tl_class' => 'clr w50'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecards']['currency'], 'inputType' => 'text', 'eval' => ['tl_class' => 'clr w50'],
                 ],
                 'period' => [
-                    'label' => ['Récurrence', 'Saisissez la récurrence (par mois, par jour,...)'], 'inputType' => 'text', 'eval' => ['tl_class' => 'clr w50'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecards']['period'], 'inputType' => 'text', 'eval' => ['tl_class' => 'clr w50'],
                 ],
                 'content_legend' => [
-                    'label' => ['Contenus'], 'inputType' => 'group',
+                    'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_pricecards']['content_legend']], 'inputType' => 'group',
                 ],
                 'lines' => [
-                    'label' => ['Lignes', 'Ajouter x lignes de contenus (html autorisé)'], 'inputType' => 'listWizard', 'eval' => ['tl_class' => 'clr w50', 'allowHtml' => true],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecards']['lines'], 'inputType' => 'listWizard', 'eval' => ['tl_class' => 'clr w50', 'allowHtml' => true],
                 ],
                 'cta_text' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['linkTitle'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr', 'mandatory' => false],
@@ -50,13 +50,13 @@ return [
                     'label' => &$GLOBALS['TL_LANG']['MSC']['target'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50'],
                 ],
                 'cta_classes' => [
-                    'label' => ['Classes supplémentaires', 'Indiquez, si souhaité, la ou les classes css à ajouter au bouton'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecards']['cta_classes'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr'],
                 ],
                 'style_legend' => [
-                    'label' => ['Apparence'], 'inputType' => 'group',
+                    'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_pricecards']['style_legend']], 'inputType' => 'group',
                 ],
                 'isMain' => [
-                    'label' => ['Vedette', 'Met en valeur le bloc'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecards']['isMain'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50'],
                 ],
             ],
         ],
