@@ -684,13 +684,41 @@
         <source>Type one or more CSS classes to add to the link (separated by space)</source>
         <target>Saisissez une ou plusieurs classes css à appliquer au lien (séparées par un espace)</target>
       </trans-unit>
+      <trans-unit id="tl_content.rsce_tabs.0">
+        <source>Tabs</source>
+        <target>Onglets / Tabs</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_tabs.1">
+        <source>Generate a group of deployable tabs</source>
+        <target>Générez un ensemble d'onglets ouvrants</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_tabs.items_legend.0">
+        <source>Tabs</source>
+        <target>Tabs</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_tabs.items_legend.1">
+        <source>Edit tabs</source>
+        <target>Editez les onglets</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_tabs.item_legend">
+        <source>%s. Tab</source>
+        <target>%s. Onglet</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_tabs.content.0">
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_tabs.content.1">
+        <source>Type the tab's textual content</source>
+        <target>Saisissez le contenu textuel de la slide</target>
+      </trans-unit>
 
       <!-- base -->
-      <trans-unit id="tl_content.rsce_sliderfw.xxxx.0">
+      <trans-unit id="tl_content.rsce_tabs.xxxx.0">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_sliderfw.xxxx.1">
+      <trans-unit id="tl_content.rsce_tabs.xxxx.1">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>

@@ -13,15 +13,15 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => ['Onglets / Tabs', 'Générez un ensemble d\'onglets ouvrants'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_tabs'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
         // Items
         'items' => [
-            'label' => ['Tabs', 'Editez les onglets'], 'elementLabel' => '%s. Onglet', 'inputType' => 'list', 'fields' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_tabs']['items_legend'], 'elementLabel' => &$GLOBALS['TL_LANG']['tl_content']['rsce_tabs']['item_legend'], 'inputType' => 'list', 'fields' => [
                 // Content
                 'title' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['headline'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w100 long'],
                 ], 'content' => [
-                    'label' => ['Contenu', 'Saisissez le contenu textuel de la slide'], 'inputType' => 'textarea', 'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_tabs']['content'], 'inputType' => 'textarea', 'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
                 ],
             ],
         ],
