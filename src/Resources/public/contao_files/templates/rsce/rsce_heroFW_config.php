@@ -15,7 +15,7 @@ declare(strict_types=1);
 return [
     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_herofw'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
         'config_legend' => [
-            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_herofw']['config_legend']], 'inputType' => 'group',
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['config_legend']], 'inputType' => 'group',
         ],
         'force_fullheight' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['force_fullheight'],
@@ -28,7 +28,7 @@ return [
             'eval' => ['tl_class' => 'w50'],
         ],
         'image_legend' => [
-            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_herofw']['image_legend']],
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['image_legend']],
             'inputType' => 'group',
         ],
         'singleSRC' => [

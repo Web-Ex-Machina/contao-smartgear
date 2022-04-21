@@ -29,6 +29,14 @@
         <source>Set the desired element's height</source>
         <target>Indiquez la hauteur voulue de l'élément</target>
       </trans-unit>
+      <trans-unit id="tl_content.config_legend">
+        <source>Block settings</source>
+        <target>Configuration du bloc</target>
+      </trans-unit>
+      <trans-unit id="tl_content.image_legend">
+        <source>Picture</source>
+        <target>Image</target>
+      </trans-unit>
 
       <trans-unit id="tl_content.rsce_accordionfw.0">
         <source>Accordion (alone)</source>
@@ -276,19 +284,18 @@
         <source>Generate an element composed of a text over an image</source>
         <target>Générez un élément stylisé composé d'un texte sur une image</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_herofw.config_legend">
-        <source>Block settings</source>
-        <target>Configuration du bloc</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_herofw.image_legend">
-        <source>Picture</source>
-        <target>Image</target>
-      </trans-unit>
       <trans-unit id="tl_content.rsce_herofw.content_legend">
         <source>Content</source>
         <target>Contenu</target>
       </trans-unit>
-
+      <trans-unit id="tl_content.rsce_herofw_start.0">
+        <source>Hero - Start</source>
+        <target>Bannière - Début</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_herofw_start.1">
+        <source>Generate an element composed of a text over an image</source>
+        <target>Générez un élément stylisé composé d'un texte sur une image</target>
+      </trans-unit>
       <trans-unit id="tl_content.rsce_herofw.xxxx.0">
         <source>aaa</source>
         <target>bbb</target>
