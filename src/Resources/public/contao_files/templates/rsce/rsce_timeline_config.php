@@ -12,80 +12,78 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-$arrColors = [
-    '' => 'Par défaut', 'red' => 'red', 'grey' => 'grey', 'yellow' => 'yellow', 'blue' => 'blue', 'green' => 'green', 'orange' => 'orange', 'darkblue' => 'darkblue', 'gold' => 'gold', 'black' => 'black', 'blacklight' => 'blacklight', 'blacklighter' => 'blacklighter', 'greystronger' => 'greystronger', 'greystrong' => 'greystrong', 'greylight' => 'greylight', 'greylighter' => 'greylighter', 'white' => 'white', 'none' => 'none',
-];
+$arrColors = \WEM\SmartgearBundle\Classes\Util::getSmartgearColors('rsce');
 
 return [
-    'label' => ['Timeline', 'Générez une timeline'],
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline'],
     'types' => ['content'],
     'contentCategory' => 'includes',
     'standardFields' => ['cssID'],
     'fields' => [
         'timeline_style' => [
-            'label' => ['Style', 'Choisissez un style à appliquer à la timeline'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['timeline_style'],
             'inputType' => 'select',
             'options' => [
-                '' => 'Par défaut',
-                'condensed' => 'Condensé',
+                '' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['timeline_style']['optionDefault'],
+                'condensed' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['timeline_style']['optionCondensed'],
             ],
             'eval' => ['tl_class' => 'w50 clr'],
         ],
         'timeline_color' => [
-            'label' => ['Couleur timeline', 'Change la couleur de la timeline'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['timeline_color'],
             'inputType' => 'select',
             'options' => $arrColors,
             'eval' => ['tl_class' => 'w50 clr'],
         ],
         'title_color' => [
-            'label' => ['Couleur titres', 'Change la couleur des titres et années'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['title_color'],
             'inputType' => 'select',
             'options' => $arrColors,
             'eval' => ['tl_class' => 'w50'],
         ],
         'image_legend' => [
-            'label' => ['Image'],
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['image_legend']],
             'inputType' => 'group',
         ],
         'image' => [
-            'label' => ['Image', 'Insérez une image qui sera utilisée pour illustrer votre timeline'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['image'],
             'inputType' => 'fileTree',
             'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => Config::get('validImageTypes')],
         ],
         'imageCrop' => [
-            'label' => ['Redimensionnement', 'Ajustez si souhaité votre illustration'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['imageCrop'],
             'inputType' => 'imageSize',
             'options' => System::getImageSizes(),
             'reference' => &$GLOBALS['TL_LANG']['MSC'],
             'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50'],
         ],
         'imagePos' => [
-            'label' => ['Position', 'Sélectionnez la position de votre illustration, à droite ou à gauche de la timeline'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['imagePos'],
             'inputType' => 'select',
             'options' => ['left' => 'Gauche', 'right' => 'Droite'],
             'eval' => ['tl_class' => ' w50'],
         ],
         // Items
         'items' => [
-            'label' => ['Items', 'Editez les items de votre Timeline'],
-            'elementLabel' => '%s. item',
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['items_legend'],
+            'elementLabel' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['item_legend'],
             'inputType' => 'list',
             'fields' => [
                 // year, icon, title , texte
                 // Content
                 'year' => [
-                    'label' => ['Année', 'Saisissez l\'année a afficher'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['item_year'],
                     'inputType' => 'text',
                     'eval' => ['tl_class' => 'w50', 'mandatory' => false],
                 ],
                 'headline' => [
-                    'label' => ['Titre', 'Saisissez, si souhaité, un titre pour cette date'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['item_headline'],
                     'inputType' => 'inputUnit',
                     'options' => ['h2', 'h3', 'h4', 'h5', 'h6'],
                     'eval' => ['tl_class' => 'w100 long m12 clr', 'allowHtml' => true],
                 ],
                 'text' => [
-                    'label' => ['Contenu', 'Saisissez le texte a afficher pour cette date'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['item_text'],
                     'inputType' => 'textarea',
                     'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr', 'mandatory' => false],
                 ],

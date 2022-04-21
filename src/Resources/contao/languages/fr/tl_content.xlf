@@ -804,15 +804,105 @@
         <source>If desired, add one or more CSS classes to add to the author's block</source>
         <target>Indiquez, si souhaité, la ou les classes css à ajouter au bloc de l'auteur</target>
       </trans-unit>
-
-      <!-- base -->
-      <trans-unit id="tl_content.rsce_testimonials.xxxx.0">
-        <source>aaa</source>
-        <target>bbb</target>
+      <trans-unit id="tl_content.rsce_timeline.0">
+        <source>Timeline</source>
+        <target>Timeline</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_testimonials.xxxx.1">
-        <source>aaa</source>
-        <target>bbb</target>
+      <trans-unit id="tl_content.rsce_timeline.1">
+        <source>Generate a timeline</source>
+        <target>Générez une timeline</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.timeline_style.0">
+        <source>Style</source>
+        <target>Style</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.timeline_style.1">
+        <source>Choose a style to apply to the timeline</source>
+        <target>Choisissez un style à appliquer à la timeline</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.timeline_style.optionDefault">
+        <source>By default</source>
+        <target>Par défaut</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.timeline_style.optionCondensed">
+        <source>Condensed</source>
+        <target>Condensé</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.timeline_color.0">
+        <source>Timeline color</source>
+        <target>Couleur timeline</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.timeline_color.1">
+        <source>Change the timeline's color</source>
+        <target>Change la couleur de la timeline</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.title_color.0">
+        <source>Titles color</source>
+        <target>Couleur titres</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.title_color.1">
+        <source>Change the titles and years colors</source>
+        <target>Change la couleur des titres et années</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.image.0">
+        <source>Picture</source>
+        <target>Image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.image.1">
+        <source>Insert an image to illustrate your timeline</source>
+        <target>Insérez une image qui sera utilisée pour illustrer votre timeline</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.imageCrop.0">
+        <source>Resizing</source>
+        <target>Redimensionnement</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.imageCrop.1">
+        <source>If desired, adjust your illustration</source>
+        <target>Ajustez si souhaité votre illustration</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.imagePos.0">
+        <source>Position</source>
+        <target>Position</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.imagePos.1">
+        <source>Select the illustration position, on the timeline's right or left</source>
+        <target>Sélectionnez la position de votre illustration, à droite ou à gauche de la timeline</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.items_legend.0">
+        <source>Items</source>
+        <target>Eléments</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.items_legend.1">
+        <source>Edit your timeline's items</source>
+        <target>Editez les éléments de votre Timeline</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.item_legend">
+        <source>%s. item</source>
+        <target>%s. élément</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.item_year.0">
+        <source>Year</source>
+        <target>Année</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.item_year.1">
+        <source>Type the year to display</source>
+        <target>Saisissez l'année a afficher</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.item_headline.0">
+        <source>Title</source>
+        <target>Titre</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.item_headline.1">
+        <source>If desired, type a title for this date</source>
+        <target>Saisissez, si souhaité, un titre pour cette date</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.item_text.0">
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.item_text.1">
+        <source>Type the text to display for this date</source>
+        <target>Saisissez le texte a afficher pour cette date</target>
       </trans-unit>
     </body>
   </file>

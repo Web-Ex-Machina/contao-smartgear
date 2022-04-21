@@ -127,7 +127,10 @@ class Util
                         }
 
                         $colors[] = $c['hexa'];
-                        $colors[] = $c['label'];
+                        $colors[] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
+                        ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
+                        : $c['label']
+                        ;
                     }
                     $colors = json_encode($colors);
                     break;
@@ -135,9 +138,15 @@ class Util
                 case 'rsce-ft':
                     foreach ($arrColors as $k => $c) {
                         if ('' === $k) {
-                            $colors[$k] = $c['label'];
+                            $colors[$k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
+                        ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
+                        : $c['label']
+                        ;
                         } else {
-                            $colors['ft-'.$k] = $c['label'];
+                            $colors['ft-'.$k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
+                        ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
+                        : $c['label']
+                        ;
                         }
                     }
                     break;
@@ -145,7 +154,10 @@ class Util
                 case 'rsce':
                 default:
                     foreach ($arrColors as $k => $c) {
-                        $colors[$k] = $c['label'];
+                        $colors[$k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
+                        ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
+                        : $c['label']
+                        ;
                     }
             }
 
