@@ -13,6 +13,23 @@
         <source>Set the picture size</source>
         <target>Choisissez les dimensions de l'image</target>
       </trans-unit>
+      <trans-unit id="tl_content.force_fullheight.0">
+        <source>Full height</source>
+        <target>Toute la hauteur</target>
+      </trans-unit>
+      <trans-unit id="tl_content.force_fullheight.1">
+        <source>Tick to force the element to take all screen height</source>
+        <target>Cochez pour forcer le bloc à prendre toute la hauteur de l'écran</target>
+      </trans-unit>
+      <trans-unit id="tl_content.block_height.0">
+        <source>Element height</source>
+        <target>Hauteur de l'élément</target>
+      </trans-unit>
+      <trans-unit id="tl_content.block_height.1">
+        <source>Set the desired element's height</source>
+        <target>Indiquez la hauteur voulue de l'élément</target>
+      </trans-unit>
+
       <trans-unit id="tl_content.rsce_accordionfw.0">
         <source>Accordion (alone)</source>
         <target>Accordéon (seul)</target>
@@ -251,11 +268,32 @@
         <source>Link settings</source>
         <target>Configuration du lien</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_gridgallery.xxxx.0">
+      <trans-unit id="tl_content.rsce_herofw.0">
+        <source>Hero (alone)</source>
+        <target>Bannière (seule)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_herofw.1">
+        <source>Generate an element composed of a text over an image</source>
+        <target>Générez un élément stylisé composé d'un texte sur une image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_herofw.config_legend">
+        <source>Block settings</source>
+        <target>Configuration du bloc</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_herofw.image_legend">
+        <source>Picture</source>
+        <target>Image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_herofw.content_legend">
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
+
+      <trans-unit id="tl_content.rsce_herofw.xxxx.0">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_gridgallery.xxxx.1">
+      <trans-unit id="tl_content.rsce_herofw.xxxx.1">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>

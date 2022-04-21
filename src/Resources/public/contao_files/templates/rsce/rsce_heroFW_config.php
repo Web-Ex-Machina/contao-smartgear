@@ -13,22 +13,22 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => ['Bannière (seule)', 'Générez un élément stylisé composé d\'un texte sur une image'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_herofw'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
         'config_legend' => [
-            'label' => ['Configuration du bloc'], 'inputType' => 'group',
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_herofw']['config_legend']], 'inputType' => 'group',
         ],
         'force_fullheight' => [
-            'label' => ['Toute la hauteur', "Cochez pour forcer le bloc à prendre toute la hauteur de l'écran"],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['force_fullheight'],
             'inputType' => 'checkbox',
             'eval' => ['tl_class' => 'w50'],
         ],
         'block_height' => [
-            'label' => ["Hauteur de l'élément", "Indiquez la hauteur voulue de l'élément"],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['block_height'],
             'inputType' => 'text',
             'eval' => ['tl_class' => 'w50'],
         ],
         'image_legend' => [
-            'label' => ['Image'],
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_herofw']['image_legend']],
             'inputType' => 'group',
         ],
         'singleSRC' => [
@@ -44,7 +44,7 @@ return [
             },
         ],
         'content_legend' => [
-            'label' => ['Contenu'],
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_herofw']['content_legend']],
             'inputType' => 'group',
         ],
         'text' => [
