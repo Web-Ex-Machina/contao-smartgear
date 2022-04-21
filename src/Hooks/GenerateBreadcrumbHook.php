@@ -39,8 +39,6 @@ class GenerateBreadcrumbHook
             if ($objHomePage->id === $objPage->id) {
                 return [];
             }
-            // remove first element
-            unset($arrSourceItems[0]);
 
             return $arrSourceItems;
         } catch (\Exception $e) {
