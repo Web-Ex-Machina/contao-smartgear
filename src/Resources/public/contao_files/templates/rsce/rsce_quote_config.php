@@ -13,13 +13,13 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => ['Citation', 'Générez un block citation, avec ou sans photo'],
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote'],
     'types' => ['content'],
     'contentCategory' => 'texts',
     'standardFields' => ['cssID'],
     'fields' => [
         'image_legend' => [
-            'label' => ['Image'],
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['image_legend']],
             'inputType' => 'group',
         ],
         'singleSRC' => [
@@ -34,16 +34,16 @@ return [
             'inputType' => 'standardField',
         ],
         'image_pos' => [
-            'label' => ['Positionnement', 'Sélectionnez la position de l\'image (gauche ou droite de la citation)'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['image_pos'],
             'inputType' => 'select',
             'options' => [
-                'before' => 'Gauche',
-                'after' => 'Droite',
+                'before' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['image_pos']['optionBefore'],
+                'after' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['image_pos']['optionAfter'],
             ],
             'eval' => ['tl_class' => 'w50'],
         ],
         'content_legend' => [
-            'label' => ['Contenu'],
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['content_legend']],
             'inputType' => 'group',
         ],
         'text' => [
@@ -51,7 +51,7 @@ return [
             'eval' => ['mandatory' => false, 'tl_class' => 'clr'],
         ],
         'author' => [
-            'label' => ['Auteur', 'Si souhaité, indiquez l\'auteur de la citation'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr', 'mandatory' => false],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['author'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr', 'mandatory' => false],
         ],
     ],
 ];

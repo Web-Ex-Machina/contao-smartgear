@@ -524,13 +524,49 @@
         <source>Set the blck as a main block</source>
         <target>Met en valeur le bloc</target>
       </trans-unit>
-      
+      <trans-unit id="tl_content.rsce_quote.0">
+        <source>Quote</source>
+        <target>Citation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.1">
+        <source>Generate a quote block, with or without picture</source>
+        <target>Générez un block citation, avec ou sans photo</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.image_pos.0">
+        <source>Position</source>
+        <target>Positionnement</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.image_pos.1">
+        <source>Choose the picture position (on the left/right side of the quote)</source>
+        <target>Sélectionnez la position de l'image (gauche ou droite de la citation)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.image_pos.optionBefore">
+        <source>Left</source>
+        <target>Gauche</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.image_pos.optionAfter">
+        <source>Right</source>
+        <target>Droite</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.content_legend">
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.author.0">
+        <source>Author</source>
+        <target>Auteur</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.author.1">
+        <source>If desired, enter the quote's author</source>
+        <target>Si souhaité, indiquez l'auteur de la citation</target>
+      </trans-unit>
+
       <!-- base -->
-      <trans-unit id="tl_content.rsce_pricecards.xxxx.0">
+      <trans-unit id="tl_content.rsce_quote.xxxx.0">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecards.xxxx.1">
+      <trans-unit id="tl_content.rsce_quote.xxxx.1">
         <source>aaa</source>
         <target>bbb</target>
       </trans-unit>
