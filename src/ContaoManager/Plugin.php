@@ -37,7 +37,10 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface
     {
         return [
             BundleConfig::create(WEMSmartgearBundle::class)
-                ->setLoadAfter([ContaoCoreBundle::class])
+                ->setLoadAfter([
+                    ContaoCoreBundle::class,
+                    \Oveleon\ContaoComponentStyleManager\ContaoComponentStyleManager::class,
+                ])
                 ->setReplace(['wem-smartgear']),
         ];
     }

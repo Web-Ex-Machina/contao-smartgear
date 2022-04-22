@@ -2,6 +2,8 @@
 if test -d $1/.git; then
     echo "Framway déjà existant, mise à jour en cours".
     cd .$1
+    rm package.json
+    rm package-lock.json
     git stash
     git pull --rebase
 else

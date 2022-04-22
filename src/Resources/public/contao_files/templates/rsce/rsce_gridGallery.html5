@@ -1,18 +1,14 @@
 <?php
-  $responsiveClasses = '';
-  if($this->nbCols_xl)
-    $responsiveClasses .= ' cols-xl-'.$this->nbCols_xl;
-  if($this->nbCols_lg)
-    $responsiveClasses .= ' cols-lg-'.$this->nbCols_lg;
-  if($this->nbCols_md)
-    $responsiveClasses .= ' cols-md-'.$this->nbCols_md;
-  if($this->nbCols_sm)
-    $responsiveClasses .= ' cols-sm-'.$this->nbCols_sm;
-  if($this->nbCols_xs)
-    $responsiveClasses .= ' cols-xs-'.$this->nbCols_xs;
-  if($this->nbCols_xxs)
-    $responsiveClasses .= ' cols-xxs-'.$this->nbCols_xxs;
-
+  $containerClasses=$this->class;
+  $gridClasses=$this->styleManager->get('fwgrid_manual'). ' ';
+  $gridClasses.=$this->styleManager->get('fwgriditemxl_manual'). ' ';
+  $gridClasses.=$this->styleManager->get('fwgriditemlg_manual'). ' ';
+  $gridClasses.=$this->styleManager->get('fwgriditemmd_manual'). ' ';
+  $gridClasses.=$this->styleManager->get('fwgriditemsm_manual'). ' ';
+  $gridClasses.=$this->styleManager->get('fwgriditemxs_manual'). ' ';
+  $gridClasses.=$this->styleManager->get('fwgriditemxxs_manual'). ' ';
+  $imageClasses=$this->styleManager->get('fwimageratio_manual'). ' ';
+  
   $arrItems = [];
   if($this->listItems){
     foreach($this->listItems as $item){
@@ -25,14 +21,8 @@
           "alt"=>($item->img_alt) ? $item->img_alt : $objFile->name
         ];
       }
-
-      $arrItem['classes'] = $item->classes ? $item->classes : '';
-      if($item->span_cols)
-        $arrItem['classes'] .= ' cols-span-'.$item->span_cols;
-      if($item->span_rows)
-        $arrItem['classes'] .= ' rows-span-'.$item->span_rows;
-      $arrItem['classes'] .= $item->ratio ?:$this->ratio?:'';
-
+      $arrItem['classes'] = '';
+     
       if ($item->href){
         $arrItem["url"]   = 1;
         $arrItem["href"]  = $item->href;
@@ -48,14 +38,14 @@
 ?>
 <div class="<?= $this->class ?>">
   <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
-  <div class="d-grid cols-<?= $this->nbCols_default ?><?= $responsiveClasses ?>">
+  <div class="d-grid <?= $gridClasses ?>">
     <?php foreach($arrItems as $item): ?>
       <?php if ($item['url']): ?>
-        <a class="img-container <?= $item['classes']?>" href="<?= $item['href'] ?>" title="<?= $item['title'] ?>" <?= ($item['target']) ? 'target="_blank"':'' ?>>
+        <a class="img-container <?= $item['classes']?> <?= $imageClasses?>" href="<?= $item['href'] ?>" title="<?= $item['title'] ?>" <?= ($item['target']) ? 'target="_blank"':'' ?>>
       <?php elseif($item['target']): ?>
-        <a class="img-container <?= $item['classes']?>" href="<?= $item['href'] ?>" title="<?= $item['alt'] ?>" data-modal="modalGallery_<?= uniqid() ?>">
+        <a class="img-container <?= $item['classes']?> <?= $imageClasses?>" href="<?= $item['href'] ?>" title="<?= $item['alt'] ?>" data-modal="modalGallery_<?= uniqid() ?>">
       <?php else: ?>
-        <figure class="img-container <?= $item['classes']?>">
+        <figure class="img-container <?= $item['classes']?> <?= $imageClasses?>">
       <?php endif ?>
         <img src="<?= $item['src'] ?>" alt="<?= $item['alt'] ?>">
       <?php if ($item['href'] || $item['target']): ?>

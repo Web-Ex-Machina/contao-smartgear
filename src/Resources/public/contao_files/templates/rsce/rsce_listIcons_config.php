@@ -1,52 +1,47 @@
 <?php
-return array(
-    'label' => array('Liste icones', 'Générez une liste d\'icones accompagnées de texte.'),
-    'types' => array('content'),
+
+declare(strict_types=1);
+
+/**
+ * SMARTGEAR for Contao Open Source CMS
+ * Copyright (c) 2015-2022 Web ex Machina
+ *
+ * @category ContaoBundle
+ * @package  Web-Ex-Machina/contao-smartgear
+ * @author   Web ex Machina <contact@webexmachina.fr>
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
+ */
+
+return [
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_listicons'],
+    'types' => ['content'],
     'contentCategory' => 'texts',
-    'standardFields' => array('cssID'),
-    'fields' => array(
-        'listItems' => array(
-            'label' => array('Vignettes', 'Editez les vignettes')
-            ,'elementLabel' => '%s. vignette'
-            ,'inputType' => 'list'
-            ,'fields' => array(
-                'img_src' => array(
-                    'label' => array('Image', 'Sélectionnez une icone')
-                    ,'inputType' => 'fileTree'
-                    ,'eval' => array('filesOnly'=>true, 'fieldType'=>'radio', 'extensions'=>Config::get('validImageTypes'),'tl_class'=>'w50')
-                ),
-                'img_text' => array(
-                    'label' => array('Icone font-awesome (désactive l\'image sélectionnée)', 'Indiquez le code html de l\'icone désirée (exemple: &lt;i class="fas fa-paper-plane"&gt;&lt;/i&gt;) voir site <a href="https://fontawesome.com/icons?d=gallery" target="_blank">Font Awesome =></a>')
-                    ,'inputType' => 'text'
-                    ,'eval' => array('tl_class'=>'clr','allowHtml'=>true)
-                ),
-                'text' => array(
-                    'label' => array('Texte', 'Saisissez le texte affiché en dessous de l\'icone')
-                    ,'inputType' => 'textarea'
-                    ,'eval' => array('rte' => 'tinyMCE', 'tl_class' => 'clr','mandatory'=>true)
-                ),
-                'href' => array(
-                    'label' => &$GLOBALS['TL_LANG']['MSC']['url']
-                    ,'inputType' => 'text'
-                    ,'eval' => array('rgxp'=>'url', 'tl_class' => 'w50 wizard clr')
-                    ,'wizard' => array(array('tl_content', 'pagePicker'))
-                ),
-                'title' => array(
-                    'label' => &$GLOBALS['TL_LANG']['tl_content']['titleText']
-                    ,'inputType' => 'text'
-                    ,'eval' => array('tl_class'=>'w50')
-                ),
-                'target' => array(
-                    'label' => &$GLOBALS['TL_LANG']['MSC']['target']
-                    ,'inputType' => 'checkbox'
-                    ,'eval' => array('tl_class'=>'w50')
-                ),
-                'classes' => array(
-                    'label' => array('Classes supplémentaires', 'Indiquez, si souhaité, la ou les classes css à ajouter à l\'item')
-                    ,'inputType' => 'text'
-                    ,'eval' => array('tl_class'=>'w50 clr')
-                )
-            )
-        ),
-    ),
-);
+    'standardFields' => ['cssID'],
+    'fields' => [
+        'listItems' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_listicons']['items_legend'], 'elementLabel' => &$GLOBALS['TL_LANG']['tl_content']['rsce_listicons']['item_legend'], 'inputType' => 'list', 'fields' => [
+                'img_src' => [
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_listicons']['img_src'], 'inputType' => 'fileTree', 'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => Config::get('validImageTypes'), 'tl_class' => 'w50'],
+                ],
+                'img_text' => [
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_listicons']['img_text'], 'inputType' => 'text', 'eval' => ['tl_class' => 'clr', 'allowHtml' => true],
+                ],
+                'text' => [
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_listicons']['text'], 'inputType' => 'textarea', 'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr', 'mandatory' => true],
+                ],
+                'href' => [
+                    'label' => &$GLOBALS['TL_LANG']['MSC']['url'], 'inputType' => 'text', 'eval' => ['rgxp' => 'url', 'tl_class' => 'w50 wizard clr'], 'wizard' => [['tl_content', 'pagePicker']],
+                ],
+                'title' => [
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['titleText'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
+                ],
+                'target' => [
+                    'label' => &$GLOBALS['TL_LANG']['MSC']['target'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50'],
+                ],
+                'classes' => [
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_listicons']['classes'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr'],
+                ],
+            ],
+        ],
+    ],
+];

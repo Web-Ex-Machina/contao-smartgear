@@ -6,9 +6,6 @@
   }
 ?>
 <div class="<?= $this->class ?> <?= $this->timeline_style?><?= $this->timeline_color ? ' timeline__color--'.$this->timeline_color:'' ?><?= ($this->image) ? ' hasImg':'' ?>">
-  <?php if($this->headline): ?>
-    <<?= $this->hl ?> class="timeline__title"><?= $this->headline ?></<?= $this->hl ?>>
-  <?php endif; ?>
   <div class="timeline__wrapper">
     <?php if ($objFile && $this->imagePos == 'left'): ?>
       <div class="timeline__img">

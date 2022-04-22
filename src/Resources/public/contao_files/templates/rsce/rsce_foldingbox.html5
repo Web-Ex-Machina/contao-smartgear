@@ -43,11 +43,6 @@
 ?>
 
 <div class="foldingbox <?= $this->class ?>"<?= $this->cssID ?> data-height="<?= $intHeight ?>" data-break="<?= $strBreak ?>" >
-  <?php if($this->headline): ?>
-  <div class="foldingbox__title">
-    <?= $this->headline ?>
-  </div>
-  <?php endif; ?>
   <div class="foldingbox__container">
     <?php if(!empty($arrItems)): ?>
       <?php foreach($arrItems as $item): ?>

@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SMARTGEAR for Contao Open Source CMS
- *
- * Copyright (c) 2015-2019 Web ex Machina
+ * Copyright (c) 2015-2022 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -14,30 +15,32 @@
 namespace WEM\SmartgearBundle\Hooks;
 
 /**
- * Class GenerateBreadcrumbHook
+ * Class GenerateBreadcrumbHook.
  *
  * Handle Smartgear generateBreadcrumb hooks
  */
 class GenerateBreadcrumbHook
 {
     /**
-     * Catch requests from external websites
+     * Catch requests from external websites.
      *
-     * @return mixed|string
+     * @return array
      */
-    public function updateRootItem($arrItems, \Module $objModule)
+    public function updateRootItem(array $arrItems, \Contao\Module $objModule)
     {
         $arrSourceItems = $arrItems;
 
         try {
             // Determine if we are at the root of the website
             global $objPage;
-            $objHomePage = \PageModel::findFirstPublishedRegularByPid($objPage->rootId);
-            
+            $objHomePage = \Contao\PageModel::findFirstPublishedRegularByPid($objPage->rootId);
+
             // If we are, remove breadcrumb
             if ($objHomePage->id === $objPage->id) {
                 return [];
             }
+
+            return $arrSourceItems;
         } catch (\Exception $e) {
             return $arrSourceItems;
         }

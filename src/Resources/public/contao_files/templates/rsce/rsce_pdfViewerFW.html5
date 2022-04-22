@@ -1,0 +1,14 @@
+<?php 
+	$objFile = FilesModel::findByUuid($this->source); 
+	$buttonClasses=$this->styleManager->get('fwbutton_manual');
+?>
+<div class="<?= $this->class ?>"<?= $this->cssID ?>>
+	<div class="pdfviewer__iframe">
+		<iframe src="<?= $objFile->path; ?>" title="<?= $objFile->name; ?>"></iframe>
+	</div>
+	<?php if((bool)$this->downloadable): ?>
+	<a href="<?= $objFile->path; ?>" title="<?= $this->download_button_title; ?>" class="<?= $buttonClasses; ?>" target="_blank">
+		<?= $this->download_button_text; ?>
+	</a>
+	<?php endif; ?>
+</div>

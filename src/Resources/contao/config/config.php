@@ -67,6 +67,8 @@ if (isset($bundles['VerstaerkerI18nl10nBundle'])) {
     unset($GLOBALS['BE_MOD']['design']['i18nl10n']);
 }
 
+// ComponentStyleSelect override
+$GLOBALS['BE_FFL']['stylemanager'] = WEM\SmartgearBundle\Widgets\ComponentStyleSelect::class;
 /*
  * Backend modules
  */
