@@ -204,7 +204,7 @@ class Smartgear extends \Contao\BackendModule
 
         // If there is nothing setup, trigger Smartgear Install
         if (!$coreConfig->getSgInstallComplete()) {
-            $coreBlock = System::getContainer()->get('smartgear.backend.module.core.block');
+            $coreBlock = System::getContainer()->get('smartgear.backend.component.core.block');
             $arrBlocks[$coreBlock->getType()][] = $coreBlock->parse();
         } else {
             // Retrieve number of updates to play if session key is undefined

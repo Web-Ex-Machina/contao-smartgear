@@ -182,7 +182,7 @@ services:
         class: WEM\SmartgearBundle\Config\LocalConfig
         public: true
 
-    smartgear.backend.module.core.dashboard:
+    smartgear.backend.component.core.dashboard:
         class: WEM\SmartgearBundle\Backend\Component\Core\Dashboard
         arguments:
             $configurationManager: '@smartgear.config.manager.core'
@@ -193,17 +193,17 @@ services:
             $htaccessAnalyzer: '@smartgear.classes.analyzer.htaccess'
         public: true
 
-    smartgear.backend.module.core.block:
+    smartgear.backend.component.core.block:
         class: WEM\SmartgearBundle\Backend\Component\Core\Block
         arguments:
             $configurationManager: '@smartgear.config.manager.core'
-            $configurationStepManager: '@smartgear.backend.module.core.configuration_step_manager'
-            $resetStepManager: '@smartgear.backend.module.core.reset_step_manager'
-            $dashboard: '@smartgear.backend.module.core.dashboard'
+            $configurationStepManager: '@smartgear.backend.component.core.configuration_step_manager'
+            $resetStepManager: '@smartgear.backend.component.core.reset_step_manager'
+            $dashboard: '@smartgear.backend.component.core.dashboard'
             $translator: '@contao.translation.translator'
         public: true
 
-    smartgear.backend.module.core.configuration_step_manager:
+    smartgear.backend.component.core.configuration_step_manager:
         class: WEM\SmartgearBundle\Classes\Backend\ConfigurationStepManager
         arguments:
             $configurationManager: '@smartgear.config.manager.core'
@@ -212,13 +212,13 @@ services:
             $type: 'component'
             $stepSessionKey: 'sg_core_install_step'
             $steps: 
-                - '@smartgear.backend.module.core.configuration_step.general'
-                - '@smartgear.backend.module.core.configuration_step.framway_retrieval'
-                - '@smartgear.backend.module.core.configuration_step.framway_configuration'
-                - '@smartgear.backend.module.core.configuration_step.website'
+                - '@smartgear.backend.component.core.configuration_step.general'
+                - '@smartgear.backend.component.core.configuration_step.framway_retrieval'
+                - '@smartgear.backend.component.core.configuration_step.framway_configuration'
+                - '@smartgear.backend.component.core.configuration_step.website'
         public: true
 
-    smartgear.backend.module.core.reset_step_manager:
+    smartgear.backend.component.core.reset_step_manager:
         class: WEM\SmartgearBundle\Backend\Component\Core\ResetStepManager
         arguments:
             $configurationManager: '@smartgear.config.manager.core'
@@ -227,10 +227,10 @@ services:
             $type: 'component'
             $stepSessionKey: 'sg_core_reset_step'
             $steps: 
-                - '@smartgear.backend.module.core.reset_step.general'
+                - '@smartgear.backend.component.core.reset_step.general'
         public: true
 
-    smartgear.backend.module.core.configuration_step.general:
+    smartgear.backend.component.core.configuration_step.general:
         class: WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep\General
         arguments:
             $module: 'core'
@@ -240,7 +240,7 @@ services:
             $commandUtil: '@smartgear.classes.command.util'
         public: true
 
-    smartgear.backend.module.core.configuration_step.framway_retrieval:
+    smartgear.backend.component.core.configuration_step.framway_retrieval:
         class: WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep\FramwayRetrieval
         arguments:
             $module: 'core'
@@ -249,7 +249,7 @@ services:
             $framwayUtil: '@smartgear.classes.util_framway'
         public: true
 
-    smartgear.backend.module.core.configuration_step.framway_configuration:
+    smartgear.backend.component.core.configuration_step.framway_configuration:
         class: WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep\FramwayConfiguration
         arguments:
             $module: 'core'
@@ -265,7 +265,7 @@ services:
             $framwayUtil: '@smartgear.classes.util_framway'
         public: true
 
-    smartgear.backend.module.core.configuration_step.website:
+    smartgear.backend.component.core.configuration_step.website:
         class: WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep\Website
         arguments:
             $module: 'core'
@@ -273,7 +273,7 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
         public: true
 
-    smartgear.backend.module.core.reset_step.general:
+    smartgear.backend.component.core.reset_step.general:
         class: WEM\SmartgearBundle\Backend\Component\Core\ResetStep\General
         arguments:
             $module: 'core'

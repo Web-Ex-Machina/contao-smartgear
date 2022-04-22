@@ -38,7 +38,6 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         parent::__construct($translator);
         $this->configuration = $configuration;
         $this->configurationManagerCore = $configurationManagerCore;
-        $this->configurationFilePath = $this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js';
     }
 
     /**
@@ -54,6 +53,8 @@ class Framway extends AbstractManager implements ManagerJsonInterface
      */
     public function load(): ConfigInterface
     {
+        $this->assignConfigurationFilePathIfNotDefined();
+
         return $this->configuration->import($this->retrieveConfigurationAsImportableFormatFromFile());
     }
 
@@ -85,6 +86,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
 
         $json = preg_replace('/"(.*)":/', '$1:', $json);
         $json = preg_replace('/"(.*)"/', '\'$1\'', $json);
+        $this->assignConfigurationFilePathIfNotDefined();
 
         return false !== file_put_contents($this->getConfigurationFilePath(), 'module.exports = '.$json);
     }
@@ -104,10 +106,24 @@ class Framway extends AbstractManager implements ManagerJsonInterface
 
     protected function retrieveConfigurationFromFile(): string
     {
+        $this->assignConfigurationFilePathIfNotDefined();
         if (!file_exists($this->getConfigurationFilePath())) {
             throw new FileNotFoundException($this->translator->trans('WEMSG.CONFIGURATIONMANAGER.fileNotFound', [], 'contao_default'));
         }
 
         return file_get_contents($this->getConfigurationFilePath());
+    }
+
+    protected function assignConfigurationFilePathIfNotDefined(): void
+    {
+        if (null === $this->configurationFilePath) {
+            $this->assignConfigurationFilePath();
+        }
+    }
+
+    protected function assignConfigurationFilePath(): void
+    {
+        $config = $this->configurationManagerCore->load();
+        $this->configurationFilePath = $config->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js';
     }
 }

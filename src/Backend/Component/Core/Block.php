@@ -51,7 +51,7 @@ class Block extends BackendBlock
         try {
             switch (Input::post('action')) {
                 case 'framwayRetrieval':
-                    $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_retrieval');
+                    $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.component.core.configuration_step.framway_retrieval');
                     $res = $framwayRetrievalStep->framwayRetrieve();
                     $arrResponse['status'] = 'success';
                     $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayRetrievalAjaxMessageSuccess'];
@@ -59,7 +59,7 @@ class Block extends BackendBlock
                 break;
                 case 'framwayInstall':
                     try {
-                        $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_retrieval');
+                        $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.component.core.configuration_step.framway_retrieval');
                         $res = $framwayRetrievalStep->framwayInstall();
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayInstallAjaxMessageSuccess'];
@@ -72,7 +72,7 @@ class Block extends BackendBlock
                 break;
                 case 'framwayInitialize':
                     try {
-                        $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_retrieval');
+                        $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.component.core.configuration_step.framway_retrieval');
                         $res = $framwayRetrievalStep->framwayInitialize();
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayInitialiazeAjaxMessageSuccess'];
@@ -85,7 +85,7 @@ class Block extends BackendBlock
                 break;
                 case 'framwayBuild':
                     try {
-                        $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_retrieval');
+                        $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.component.core.configuration_step.framway_retrieval');
                         $res = $framwayRetrievalStep->framwayBuild();
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayBuildAjaxMessageSuccess'];
@@ -98,7 +98,7 @@ class Block extends BackendBlock
                 break;
                 case 'framwayThemeAdd':
                     try {
-                        $framwayConfigurationStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_configuration');
+                        $framwayConfigurationStep = System::getContainer()->get('smartgear.backend.component.core.configuration_step.framway_configuration');
                         $res = $framwayConfigurationStep->framwayThemeAdd();
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayThemeAddAjaxMessageSuccess'];

@@ -21,6 +21,7 @@ use WEM\SmartgearBundle\Classes\Migration\MigrationAbstract as BaseMigrationAbst
 use WEM\SmartgearBundle\Classes\Migration\Result;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
 use WEM\SmartgearBundle\Classes\Version\Version;
+use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 abstract class MigrationAbstract extends BaseMigrationAbstract
 {
@@ -47,8 +48,17 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
     public function shouldRun(): Result
     {
         $result = new Result();
+        try {
+            $config = $this->coreConfigurationManager->load();
+        } catch (FileNotFoundException $e) {
+            $result->setStatus(Result::STATUS_SKIPPED)
+            ->addLog(
+                $this->translator->trans($this->buildTranslationKeyLocal('WEMSG.MIGRATIONS.skippedBecauseSmartgearNotInstalled'), [], 'contao_default')
+            )
+            ;
+        }
 
-        $currentVersion = (new Version())->fromString($this->coreConfigurationManager->load()->getSgVersion());
+        $currentVersion = (new Version())->fromString($config->getSgVersion());
         $migrationVersion = $this->getVersion();
         switch ($this->versionComparator->compare($currentVersion, $migrationVersion)) {
             case VersionComparator::CURRENT_VERSION_HIGHER:
