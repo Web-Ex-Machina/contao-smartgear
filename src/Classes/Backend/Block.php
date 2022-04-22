@@ -132,7 +132,7 @@ class Block extends Controller
         // Check if we need other modules and if yes, check if it's okay
         $blnCanManage = true;
 
-        $blnCanManage = $this->checkRequierments();
+        $blnCanManage = $this->checkRequirements();
 
         // Always add messages
         $objTemplate->messages = $this->messages;
@@ -283,7 +283,7 @@ class Block extends Controller
         return $mode;
     }
 
-    protected function checkRequierments(): bool
+    protected function checkRequirements(): bool
     {
         $requiermentsMet = true;
         if ($this->require) {
