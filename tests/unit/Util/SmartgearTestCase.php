@@ -29,11 +29,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SmartgearTestCase extends ContaoTestCase
 {
-    public function testCoucouc(): void
-    {
-        $this->assertTrue(true);
-    }
-
     protected function getTranslator(): TranslatorInterface
     {
         $translator = $this->createMock(TranslatorInterface::class);

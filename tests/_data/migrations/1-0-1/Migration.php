@@ -51,6 +51,21 @@ class Migration implements MigrationInterface
         return 'This migration doesn\'t do anything apart from testing if it should run or not';
     }
 
+    public function getTranslatedName(): string
+    {
+        return $this->getName().' but translated';
+    }
+
+    public function getTranslatedDescription(): string
+    {
+        return $this->getDescription().' but translated';
+    }
+
+    public function getTranslationKey(): string
+    {
+        return 'fake_translation_key';
+    }
+
     public function shouldRun(): Result
     {
         $result = new Result();

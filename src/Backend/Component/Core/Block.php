@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Backend\Module\Core;
+namespace WEM\SmartgearBundle\Backend\Component\Core;
 
 use Contao\FrontendTemplate;
 use Contao\Input;
@@ -28,7 +28,7 @@ class Block extends BackendBlock
 {
     public const MODE_CHECK_PROD = 'check_prod';
     public const MODE_RESET = 'check_reset';
-    protected $type = 'core';
+    protected $type = 'component';
     protected $module = 'core';
     protected $icon = 'exclamation-triangle';
     protected $title = 'Core';
@@ -51,7 +51,7 @@ class Block extends BackendBlock
         try {
             switch (Input::post('action')) {
                 case 'framwayRetrieval':
-                    $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_retrieval');
+                    $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.component.core.configuration_step.framway_retrieval');
                     $res = $framwayRetrievalStep->framwayRetrieve();
                     $arrResponse['status'] = 'success';
                     $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayRetrievalAjaxMessageSuccess'];
@@ -59,7 +59,7 @@ class Block extends BackendBlock
                 break;
                 case 'framwayInstall':
                     try {
-                        $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_retrieval');
+                        $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.component.core.configuration_step.framway_retrieval');
                         $res = $framwayRetrievalStep->framwayInstall();
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayInstallAjaxMessageSuccess'];
@@ -72,7 +72,7 @@ class Block extends BackendBlock
                 break;
                 case 'framwayInitialize':
                     try {
-                        $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_retrieval');
+                        $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.component.core.configuration_step.framway_retrieval');
                         $res = $framwayRetrievalStep->framwayInitialize();
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayInitialiazeAjaxMessageSuccess'];
@@ -85,7 +85,7 @@ class Block extends BackendBlock
                 break;
                 case 'framwayBuild':
                     try {
-                        $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_retrieval');
+                        $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.component.core.configuration_step.framway_retrieval');
                         $res = $framwayRetrievalStep->framwayBuild();
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayBuildAjaxMessageSuccess'];
@@ -98,7 +98,7 @@ class Block extends BackendBlock
                 break;
                 case 'framwayThemeAdd':
                     try {
-                        $framwayConfigurationStep = System::getContainer()->get('smartgear.backend.module.core.configuration_step.framway_configuration');
+                        $framwayConfigurationStep = System::getContainer()->get('smartgear.backend.component.core.configuration_step.framway_configuration');
                         $res = $framwayConfigurationStep->framwayThemeAdd();
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayThemeAddAjaxMessageSuccess'];

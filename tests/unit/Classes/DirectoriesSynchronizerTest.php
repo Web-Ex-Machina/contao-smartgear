@@ -64,6 +64,7 @@ class DirectoriesSynchronizerTest extends \Util\SmartgearTestCase
         $this->assertArrayHasKey('/A.txt', $filesToUpdate);
         $this->assertArrayHasKey('/C.txt', $filesToDelete);
         $this->assertArrayHasKey('/D/E.txt', $filesToDelete);
+        $this->resetFiles();
     }
 
     private function resetFiles(): void
