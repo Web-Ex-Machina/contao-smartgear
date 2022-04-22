@@ -106,6 +106,13 @@ services:
                 - 'templates/smartgear'
         public: true
 
+        
+    smartgear.backend.component.core.listener.replace_insert_tags:
+        class: WEM\SmartgearBundle\Backend\Component\Core\EventListener\ReplaceInsertTagsListener
+        arguments:
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+        public: true
+
     ############ BLOG ############
     
     smartgear.backend.component.blog.block:
@@ -181,4 +188,10 @@ services:
             $type: 'component'
             $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.backend.component.blog.listener.replace_insert_tags:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\EventListener\ReplaceInsertTagsListener
+        arguments:
+            $coreConfigurationManager: '@smartgear.config.manager.core'
         public: true

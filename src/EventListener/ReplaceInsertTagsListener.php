@@ -14,18 +14,17 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
-use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Classes\Backend\Component\EventListener\ReplaceInsertTagsListener as AbstractReplaceInsertTagsListener;
 
 class ReplaceInsertTagsListener
 {
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
+    /** @var array */
+    protected $listeners;
 
     public function __construct(
-        CoreConfigurationManager $coreConfigurationManager
+        array $listeners
     ) {
-        $this->coreConfigurationManager = $coreConfigurationManager;
+        $this->listeners = $listeners;
     }
 
     /**
@@ -57,108 +56,11 @@ class ReplaceInsertTagsListener
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
         if ('sg' === $key) {
-            /** @var CoreConfig */
-            $config = $this->coreConfigurationManager->load();
-
-            switch ($elements[1]) {
-                case 'installComplete':
-                    return $config->getSgInstallComplete() ? '1' : '0';
-                break;
-                case 'version':
-                    return $config->getSgVersion();
-                break;
-                case 'framwayPath':
-                    return $config->getSgFramwayPath();
-                break;
-                case 'framwayThemes':
-                    return implode(', ', $config->getSgFramwayThemes());
-                break;
-                case 'googleFonts':
-                    return implode(', ', $config->getSgGoogleFonts());
-                break;
-                case 'selectedModules':
-                    return implode(', ', $config->getSgSelectedModules());
-                break;
-                case 'mode':
-                    return $config->getSgMode();
-                break;
-                case 'websiteTitle':
-                    return $config->getSgWebsiteTitle();
-                break;
-                case 'ownerEmail':
-                    return $config->getSgOwnerEmail();
-                break;
-                case 'analytics':
-                    return $config->getSgAnalytics();
-                break;
-                case 'analyticsGoogleId':
-                    return $config->getSgAnalyticsGoogleId();
-                break;
-                case 'analyticsMatomoHost':
-                    return $config->getSgAnalyticsMatomoHost();
-                break;
-                case 'analyticsMatomoId':
-                    return $config->getSgAnalyticsMatomoId();
-                break;
-                case 'ownerName':
-                    return $config->getSgOwnerName();
-                break;
-                case 'ownerDomain':
-                    return $config->getSgOwnerDomain();
-                break;
-                case 'ownerHost':
-                    return $config->getSgOwnerHost();
-                break;
-                case 'ownerLogo':
-                    return $config->getSgOwnerLogo();
-                break;
-                case 'ownerStatus':
-                    return $config->getSgOwnerStatus();
-                break;
-                case 'ownerStreet':
-                    return $config->getSgOwnerStreet();
-                break;
-                case 'ownerPostal':
-                    return $config->getSgOwnerPostal();
-                break;
-                case 'ownerCity':
-                    return $config->getSgOwnerCity();
-                break;
-                case 'ownerRegion':
-                    return $config->getSgOwnerRegion();
-                break;
-                case 'ownerCountry':
-                    return $config->getSgOwnerCountry();
-                break;
-                case 'ownerSiret':
-                    return $config->getSgOwnerSiret();
-                break;
-                case 'ownerDpoName':
-                    return $config->getSgOwnerDpoName();
-                break;
-                case 'ownerDpoEmail':
-                    return $config->getSgOwnerDpoEmail();
-                break;
-                case 'theme':
-                    return (string) $config->getSgTheme();
-                break;
-                case 'rootPage':
-                    return (string) $config->getSgRootPage();
-                break;
-                case 'modules':
-                    $modules = $config->getSgModules();
-                    $arrModules = [];
-                    foreach ($modules as $module) {
-                        $arrModules[] = $module->type;
-                    }
-
-                    return implode(', ', $arrModules);
-                break;
-                case 'apiKey':
-                    return $config->getSgApiKey();
-                break;
-                default:
-                return false;
+            foreach ($this->listeners as $listener) {
+                $returnValue = $listener->onReplaceInsertTags($insertTag, $useCache, $cachedValue, $flags, $tags, $cache, $_rit, $_cnt);
+                if (AbstractReplaceInsertTagsListener::NOT_HANDLED !== $returnValue) {
+                    return $returnValue;
+                }
             }
         }
 
