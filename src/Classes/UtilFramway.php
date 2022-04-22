@@ -30,7 +30,7 @@ use WEM\SmartgearBundle\Config\Manager\FramwayTheme as ConfigurationThemeManager
  */
 class UtilFramway
 {
-    public const SCRIPTS_PATH = './bundles/wemsmartgear/scripts/smartgear/module/core/';
+    public const SCRIPTS_PATH = './bundles/wemsmartgear/scripts/smartgear/Component/Core/';
     /** @var ConfigurationManager */
     protected $configurationManager;
     /** @var ConfigurationThemeManager */

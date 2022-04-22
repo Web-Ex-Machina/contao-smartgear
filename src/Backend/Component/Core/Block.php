@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Backend\Module\Core;
+namespace WEM\SmartgearBundle\Backend\Component\Core;
 
 use Contao\FrontendTemplate;
 use Contao\Input;
@@ -28,7 +28,7 @@ class Block extends BackendBlock
 {
     public const MODE_CHECK_PROD = 'check_prod';
     public const MODE_RESET = 'check_reset';
-    protected $type = 'core';
+    protected $type = 'component';
     protected $module = 'core';
     protected $icon = 'exclamation-triangle';
     protected $title = 'Core';

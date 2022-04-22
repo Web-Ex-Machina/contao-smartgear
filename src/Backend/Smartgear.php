@@ -59,7 +59,7 @@ class Smartgear extends \Contao\BackendModule
      */
     protected $strBasePath = 'bundles/wemsmartgear';
 
-    protected $modules = ['module' => ['core']];
+    protected $modules = ['component' => ['core']];
     /** @var BackupManager */
     protected $backupManager;
     /** @var UpdateManager */
@@ -136,7 +136,7 @@ class Smartgear extends \Contao\BackendModule
                             throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterMissing']);
                         }
 
-                        $objBlock = System::getContainer()->get('smartgear.backend.module.'.Input::post('module').'.block');
+                        $objBlock = System::getContainer()->get('smartgear.backend.'.Input::post('type').'.'.Input::post('module').'.block');
                         if ('parse' === Input::post('action')) {
                             echo $objBlock->processAjaxRequest();
                             exit();
