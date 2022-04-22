@@ -146,7 +146,9 @@ class Dataset extends ConfigurationStep
         $fileNamesToDelete = ['fileA.png', 'fileB.png', 'fileC.png', 'fileD.png', 'fileE.png', 'fileF.png', 'fileG.png', 'fileH.png', 'fileI.png', 'fileJ.png', 'fileK.png', 'fileL.png', 'fileM.png', 'fileN.png'];
         foreach ($fileNamesToDelete as $filenameToDelete) {
             $objFile = new \Contao\File($directory.\DIRECTORY_SEPARATOR.$filenameToDelete);
-            $objFile->delete();
+            if ($objFile->exists()) {
+                $objFile->delete();
+            }
         }
 
         $newsAliasesToDelete = ['news-test-a', 'news-test-b', 'actualité-c'];
