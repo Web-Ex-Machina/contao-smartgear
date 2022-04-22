@@ -14,66 +14,21 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
-use Contao\CoreBundle\DataContainer\PaletteManipulator;
-use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
-use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
-use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
-
 class LoadDataContainerListener
 {
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
+    /** @var array */
+    protected $listeners;
 
     public function __construct(
-        CoreConfigurationManager $coreConfigurationManager
+        array $listeners
     ) {
-        $this->coreConfigurationManager = $coreConfigurationManager;
+        $this->listeners = $listeners;
     }
 
     public function __invoke(string $table): void
     {
-        try {
-            /** @var CoreConfig */
-            $config = $this->coreConfigurationManager->load();
-            switch ($table) {
-                case 'tl_news':
-                    $blogConfig = $config->getSgBlog();
-                    // limiting singleSRC fierld to the blog folder
-                    $GLOBALS['TL_DCA'][$table]['fields']['singleSRC']['eval']['path'] = $blogConfig->getCurrentPreset()->getSgNewsFolder();
-                    if (BlogConfig::MODE_SIMPLE === $blogConfig->getSgMode()) {
-                        //get rid of all unnecessary actions.
-                        unset($GLOBALS['TL_DCA'][$table]['list']['operations']['edit']);
-                        //get rid of all unnecessary fields
-                        $fieldsKeyToKeep = ['headline', 'title', 'alias', 'author', 'date', 'time', 'jumpTo', 'pageTitle', 'description', 'teaser', 'addImage', 'singleSRC', 'published', 'start', 'stop'];
-                        $fieldsKeyToRemove = array_diff(array_keys($GLOBALS['TL_DCA'][$table]['fields']), $fieldsKeyToKeep);
-                        $palettesNames = array_keys($GLOBALS['TL_DCA'][$table]['palettes']);
-                        $subpalettesNames = array_keys($GLOBALS['TL_DCA'][$table]['subpalettes']);
-                        $pm = PaletteManipulator::create();
-                        foreach ($fieldsKeyToRemove as $field) {
-                            $pm->removeField($field);
-                        }
-                        foreach ($palettesNames as $paletteName) {
-                            if (!\is_array($GLOBALS['TL_DCA'][$table]['palettes'][$paletteName])) {
-                                $pm->applyToPalette($paletteName, $table);
-                            }
-                        }
-                        foreach ($subpalettesNames as $subpaletteName) {
-                            if (!\is_array($GLOBALS['TL_DCA'][$table]['subpalettes'][$subpaletteName])) {
-                                $pm->applyToSubpalette($subpaletteName, $table);
-                            }
-                        }
-
-                        // update fields
-                        $GLOBALS['TL_LANG'][$table]['teaser_legend'] = &$GLOBALS['TL_LANG']['WEMSG']['BLOG']['FORM']['paletteTeaserLabel'];
-                        $GLOBALS['TL_LANG'][$table]['teaser'][0] = &$GLOBALS['TL_LANG']['WEMSG']['BLOG']['FORM']['fieldTeaserLabel'];
-                        $GLOBALS['TL_LANG'][$table]['teaser'][1] = &$GLOBALS['TL_LANG']['WEMSG']['BLOG']['FORM']['fieldTeaserHelp'];
-                        $GLOBALS['TL_DCA'][$table]['fields']['alias']['eval']['readonly'] = true;
-                    }
-                break;
-            }
-        } catch (FileNotFoundException $e) {
-            //nothing
+        foreach ($this->listeners as $listener) {
+            $listener->__invoke($table);
         }
     }
 }

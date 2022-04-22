@@ -116,6 +116,7 @@ class General extends ConfigurationStep
         // do what is meant to be done in this step
         $this->updateModuleConfiguration();
 
+        $this->createFolder();
         $page = $this->createPage();
         $article = $this->createArticle($page);
         $newsArchive = $this->createNewsArchive($page);
@@ -185,6 +186,11 @@ class General extends ConfigurationStep
         $this->configurationManager->save($config);
     }
 
+    protected function createFolder(): void
+    {
+        $objFolder = new \Contao\Folder(Input::post('newsFolder', null));
+    }
+
     protected function createPage(): PageModel
     {
         /** @var CoreConfig */
@@ -224,6 +230,7 @@ class General extends ConfigurationStep
         $article->alias = $page->alias;
         $article->author = 1;
         $article->inColumn = 'main';
+        $article->published = 1;
 
         $article->save();
 
@@ -327,6 +334,8 @@ class General extends ConfigurationStep
         $list->ptable = 'tl_article';
         $list->module = $modules['list']->id;
         $list->save();
+
+        $article->save();
     }
 
     protected function updateModuleConfigurationAfterGenerations(PageModel $page, NewsArchiveModel $newsArchive, array $modules): void
