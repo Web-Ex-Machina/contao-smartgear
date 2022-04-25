@@ -15,19 +15,25 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Component\Blog\EventListener;
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Symfony\Component\Security\Core\Security;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
+use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class LoadDataContainerListener
 {
+    /** @var Security */
+    protected $security;
     /** @var CoreConfigurationManager */
     protected $coreConfigurationManager;
 
     public function __construct(
+        Security $security,
         CoreConfigurationManager $coreConfigurationManager
     ) {
+        $this->security = $security;
         $this->coreConfigurationManager = $coreConfigurationManager;
     }
 
@@ -42,11 +48,13 @@ class LoadDataContainerListener
                     // limiting singleSRC fierld to the blog folder
                     $GLOBALS['TL_DCA'][$table]['fields']['singleSRC']['eval']['path'] = $blogConfig->getCurrentPreset()->getSgNewsFolder();
 
-                    if (BlogConfig::MODE_SIMPLE === $blogConfig->getSgMode()) {
+                    // if (BlogConfig::MODE_SIMPLE === $blogConfig->getSgMode()) {
+                    if (!$this->security->isGranted(SmartgearPermissions::BLOG_EXPERT)) {
                         //get rid of all unnecessary actions.
                         unset($GLOBALS['TL_DCA'][$table]['list']['operations']['edit']);
                         //get rid of all unnecessary fields
                         $fieldsKeyToKeep = ['headline', 'title', 'alias', 'author', 'date', 'time', 'jumpTo', 'pageTitle', 'description', 'teaser', 'addImage', 'singleSRC', 'published', 'start', 'stop'];
+
                         $fieldsKeyToRemove = array_diff(array_keys($GLOBALS['TL_DCA'][$table]['fields']), $fieldsKeyToKeep);
                         $palettesNames = array_keys($GLOBALS['TL_DCA'][$table]['palettes']);
                         $subpalettesNames = array_keys($GLOBALS['TL_DCA'][$table]['subpalettes']);

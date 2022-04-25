@@ -112,3 +112,8 @@ if ('FE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['parseTemplate'][] = ['\WEM\SmartgearBundle\Hooks\ParseTemplateHook', 'overrideDefaultTemplate'];
     $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['smartgear.listener.replace_insert_tags', 'onReplaceInsertTags'];
 }
+
+/*
+ * Add custom rights
+ */
+$GLOBALS['TL_PERMISSIONS'][] = 'smartgear';

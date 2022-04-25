@@ -329,8 +329,8 @@ class Website extends ConfigurationStep
         // $objUserGroup->pagemounts = '';
         // $objUserGroup->alpty = 'a:3:{i:0;s:7:"regular";i:1;s:7:"forward";i:2;s:8:"redirect";}';
         // $objUserGroup->filemounts = 'a:1:{i:0;s:16:"'.$objMediaFolder->getModel()->uuid.'";}';
-        // $objUserGroup->fop = 'a:4:{i:0;s:2:"f1";i:1;s:2:"f2";i:2;s:2:"f3";i:3;s:2:"f4";}';
-        // $objUserGroup->imageSizes = 'a:3:{i:0;s:12:"proportional";i:1;s:3:"box";i:2;s:4:"crop";}';
+        $objUserGroup->fop = serialize(['f1', 'f2', 'f3', 'f4']);
+        $objUserGroup->imageSizes = serialize(['proportional']);
         $objUserGroup->alexf = Util::addPermissions($this->getCorePermissions());
         $objUserGroup->elements = serialize([
             'headline',
@@ -374,8 +374,46 @@ class Website extends ConfigurationStep
         $objUserGroup = UserGroupModel::findOneByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName']) ?? new UserGroupModel();
         $objUserGroup->tstamp = time();
         $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName'];
-        $objUserGroup->modules = 'a:2:{i:0;s:4:"article";i:1;s:5:"files";}';
         $objUserGroup->modules = serialize(['article', 'files']);
+        $objUserGroup->alexf = Util::addPermissions($this->getCorePermissions());
+        $objUserGroup->imageSizes = serialize(['proportional']);
+        $objUserGroup->fop = serialize(['f1', 'f2', 'f3', 'f4']);
+        $objUserGroup->elements = serialize([
+            'headline',
+            'text',
+            'html',
+            'table',
+            'rsce_listIcons',
+            'rsce_quote',
+            'accordionStart',
+            'accordionStop',
+            'sliderStart',
+            'sliderStop',
+            'hyperlink',
+            'image',
+            'player',
+            'youtube',
+            'vimeo',
+            'downloads',
+            'module',
+            'template',
+            'rsce_timeline',
+            'grid-start',
+            'grid-stop',
+            'rsce_accordionFW',
+            'rsce_block-img',
+            'rsce_counterFW',
+            'rsce_foldingbox',
+            'rsce_gridGallery',
+            'rsce_heroFW',
+            'rsce_heroFWStart',
+            'rsce_heroFWStop',
+            'rsce_notations',
+            'rsce_priceCards',
+            'rsce_sliderFW',
+            'rsce_tabs',
+            'rsce_testimonials',
+        ]);
         $objUserGroup->save();
         $userGroups['redactors'] = $objUserGroup;
 

@@ -3021,6 +3021,24 @@
 			<target>aucune</target>
 		</trans-unit>
 
+		<!-- Security -->
+		<trans-unit id="WEMSG.SECURITY.CORE.expert">
+			<source>Smartgear global - expert mode</source>
+			<target>Smartgear global - mode expert</target>
+		</trans-unit>
+		<!-- <trans-unit id="WEMSG.SECURITY.CORE.simple">
+			<source>Smartgear global - simplified mode</source>
+			<target>Smartgear global - mode simplifié</target>
+		</trans-unit> -->
+		<trans-unit id="WEMSG.SECURITY.BLOG.expert">
+			<source>Smartgear blog - expert mode</source>
+			<target>Smartgear blog - mode expert</target>
+		</trans-unit>
+		<!-- <trans-unit id="WEMSG.SECURITY.BLOG.simple">
+			<source>Smartgear blog - simplified mode</source>
+			<target>Smartgear blog - mode simplifié</target>
+		</trans-unit> -->
+
 		<!-- heimrichhannot/contao-backend-lost-password-bundle -->
 		<trans-unit id="MSC.backendLostPassword.messageSubjectResetPassword">
 			<target>Réinitialisation de votre mot de passe Contao</target>

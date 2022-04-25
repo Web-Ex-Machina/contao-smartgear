@@ -16,10 +16,12 @@ namespace WEM\SmartgearBundle\Backend\Component\Blog\ConfigurationStep;
 
 use Contao\ArticleModel;
 use Contao\ContentModel;
+use Contao\FilesModel;
 use Contao\Input;
 use Contao\ModuleModel;
 use Contao\NewsArchiveModel;
 use Contao\PageModel;
+use Contao\UserGroupModel;
 use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
@@ -29,6 +31,7 @@ use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Blog\Preset as BlogPresetConfig;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class General extends ConfigurationStep
 {
@@ -120,6 +123,7 @@ class General extends ConfigurationStep
         $this->fillArticle($page, $article, $modules);
 
         $this->updateModuleConfigurationAfterGenerations($page, $newsArchive, $modules);
+        $this->updateUserGroups((bool) Input::post('expertMode', false));
         $this->commandUtil->executeCmdPHP('cache:clear');
     }
 
@@ -240,9 +244,13 @@ class General extends ConfigurationStep
         $blogConfig = $config->getSgBlog();
         $presetConfig = $blogConfig->getCurrentPreset();
 
+        $objUserGroupAdministrators = UserGroupModel::findByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName']);
+        $objUserGroupRedactors = UserGroupModel::findByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName']);
+
         $newsArchive = NewsArchiveModel::findById($blogConfig->getSgNewsArchive()) ?? new NewsArchiveModel();
         $newsArchive->title = $presetConfig->getSgNewsArchiveTitle();
         $newsArchive->jumpTo = $page->id;
+        $newsArchive->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupRedactors->id]);
         $newsArchive->save();
 
         return $newsArchive;
@@ -350,5 +358,147 @@ class General extends ConfigurationStep
         $config->setSgBlog($blogConfig);
 
         $this->configurationManager->save($config);
+    }
+
+    protected function updateUserGroups(bool $expertMode): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        /** @var BlogConfig */
+        $blogConfig = $config->getSgBlog();
+
+        // retrieve the webmaster's group and update the permissions
+        $objUserGroup = UserGroupModel::findByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName']);
+        if (!$objUserGroup) {
+            throw new Exception(sprintf('Unable to find the user group "%s"', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName']));
+        }
+        $objUserGroup = $this->updateUserGroupSmartgearPermissions($objUserGroup, $expertMode);
+        $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
+        $objUserGroup = $this->updateUserGroupAllowedNewsArchive($objUserGroup, $blogConfig);
+        $objUserGroup = $this->updateUserGroupAllowedDirectory($objUserGroup, $blogConfig);
+        $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
+        $objUserGroup->save();
+
+        $objUserGroup = UserGroupModel::findByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName']);
+        if (!$objUserGroup) {
+            throw new Exception(sprintf('Unable to find the user group "%s"', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName']));
+        }
+        $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
+        $objUserGroup = $this->updateUserGroupAllowedNewsArchive($objUserGroup, $blogConfig);
+        $objUserGroup = $this->updateUserGroupAllowedDirectory($objUserGroup, $blogConfig);
+        $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
+        $objUserGroup->save();
+    }
+
+    protected function updateUserGroupSmartgearPermissions(UserGroupModel $objUserGroup, bool $expertMode): UserGroupModel
+    {
+        // update permissions
+        $permissions = null !== $objUserGroup->smartgear_permissions ? unserialize($objUserGroup->smartgear_permissions) : [];
+
+        $blogExpertPermissionIndex = array_search(SmartgearPermissions::BLOG_EXPERT, $permissions, true);
+        if (false !== $blogExpertPermissionIndex) {
+            unset($permissions[$blogExpertPermissionIndex]);
+        }
+
+        if ($expertMode) {
+            $permissions[] = SmartgearPermissions::BLOG_EXPERT;
+        }
+        $objUserGroup->smartgear_permissions = serialize($permissions);
+
+        return $objUserGroup;
+    }
+
+    protected function updateUserGroupAllowedModules(UserGroupModel $objUserGroup): UserGroupModel
+    {
+        // update allowed modules
+        $allowedModules = unserialize($objUserGroup->modules);
+        $blogModuleIndex = array_search('news', $allowedModules, true);
+        if (false === $blogModuleIndex) {
+            $allowedModules[] = 'news';
+        }
+        $objUserGroup->modules = serialize($allowedModules);
+
+        return $objUserGroup;
+    }
+
+    protected function updateUserGroupAllowedNewsArchive(UserGroupModel $objUserGroup, BlogConfig $blogConfig): UserGroupModel
+    {
+        // update allowed news archives
+        $allowedNewsArchives = null !== $objUserGroup->news ? unserialize($objUserGroup->news) : [];
+        $blogNewsArchiveIndex = array_search((string) $blogConfig->getSgNewsArchive(), $allowedNewsArchives, true);
+        if (false === $blogNewsArchiveIndex) {
+            $allowedNewsArchives[] = (string) $blogConfig->getSgNewsArchive();
+        }
+        $objUserGroup->news = serialize($allowedNewsArchives);
+        $objUserGroup->newp = serialize(['create', 'delete']);
+
+        return $objUserGroup;
+    }
+
+    protected function updateUserGroupAllowedDirectory(UserGroupModel $objUserGroup, BlogConfig $blogConfig): UserGroupModel
+    {
+        // add allowed directory
+        $objFolder = FilesModel::findByPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
+        if (!$objFolder) {
+            throw new Exception('Unable to find the folder');
+        }
+        $allowedFolders = null !== $objUserGroup->filemounts ? unserialize($objUserGroup->filemounts) : [];
+        $blogFolderIndex = array_search($objFolder->uuid, $allowedFolders, true);
+        if (false === $blogFolderIndex) {
+            $allowedFolders[] = $objFolder->uuid;
+        }
+        $objUserGroup->filemounts = serialize($allowedFolders);
+
+        return $objUserGroup;
+    }
+
+    protected function updateUserGroupAllowedFields(UserGroupModel $objUserGroup): UserGroupModel
+    {
+        // tl_news::
+        $alexf = unserialize($objUserGroup->alexf);
+
+        $alexf = array_merge($alexf, [
+            'tl_news::headline',
+            'tl_news::featured',
+            'tl_news::alias',
+            'tl_news::author',
+            'tl_news::date',
+            'tl_news::time',
+            'tl_news::pageTitle',
+            'tl_news::robots',
+            'tl_news::description',
+            'tl_news::serpPreview',
+            'tl_news::subheadline',
+            'tl_news::teaser',
+            'tl_news::addImage',
+            'tl_news::overwriteMeta',
+            'tl_news::singleSRC',
+            'tl_news::alt',
+            'tl_news::imageTitle',
+            'tl_news::size',
+            'tl_news::imagemargin',
+            'tl_news::imageUrl',
+            'tl_news::fullsize',
+            'tl_news::caption',
+            'tl_news::floating',
+            'tl_news::addEnclosure',
+            'tl_news::enclosure',
+            'tl_news::source',
+            'tl_news::jumpTo',
+            'tl_news::articleId',
+            'tl_news::url',
+            'tl_news::target',
+            'tl_news::cssClass',
+            'tl_news::noComments',
+            'tl_news::published',
+            'tl_news::start',
+            'tl_news::stop',
+            'tl_news::styleManager',
+            'tl_news::languageMain',
+        ]);
+
+        $objUserGroup->alexf = serialize($alexf);
+
+        return $objUserGroup;
     }
 }
