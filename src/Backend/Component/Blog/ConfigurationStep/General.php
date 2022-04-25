@@ -384,6 +384,7 @@ class General extends ConfigurationStep
         if (!$objUserGroup) {
             throw new Exception(sprintf('Unable to find the user group "%s"', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName']));
         }
+        $objUserGroup = $this->updateUserGroupSmartgearPermissions($objUserGroup, true);
         $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
         $objUserGroup = $this->updateUserGroupAllowedNewsArchive($objUserGroup, $blogConfig);
         $objUserGroup = $this->updateUserGroupAllowedDirectory($objUserGroup, $blogConfig);
@@ -422,46 +423,6 @@ class General extends ConfigurationStep
 
     protected function updateUserGroupAllowedFields(UserGroupModel $objUserGroup): UserGroupModel
     {
-        $allowedFields = [
-            'tl_news::headline',
-            'tl_news::featured',
-            'tl_news::alias',
-            'tl_news::author',
-            'tl_news::date',
-            'tl_news::time',
-            'tl_news::pageTitle',
-            'tl_news::robots',
-            'tl_news::description',
-            'tl_news::serpPreview',
-            'tl_news::subheadline',
-            'tl_news::teaser',
-            'tl_news::addImage',
-            'tl_news::overwriteMeta',
-            'tl_news::singleSRC',
-            'tl_news::alt',
-            'tl_news::imageTitle',
-            'tl_news::size',
-            'tl_news::imagemargin',
-            'tl_news::imageUrl',
-            'tl_news::fullsize',
-            'tl_news::caption',
-            'tl_news::floating',
-            'tl_news::addEnclosure',
-            'tl_news::enclosure',
-            'tl_news::source',
-            'tl_news::jumpTo',
-            'tl_news::articleId',
-            'tl_news::url',
-            'tl_news::target',
-            'tl_news::cssClass',
-            'tl_news::noComments',
-            'tl_news::published',
-            'tl_news::start',
-            'tl_news::stop',
-            'tl_news::styleManager',
-            'tl_news::languageMain',
-        ];
-
-        return UserGroupModelUtil::addAllowedFields($objUserGroup, $allowedFields);
+        return UserGroupModelUtil::addAllowedFieldsByTables($objUserGroup, ['tl_news']);
     }
 }
