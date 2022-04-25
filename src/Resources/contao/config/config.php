@@ -75,6 +75,7 @@ $GLOBALS['BE_FFL']['stylemanager'] = WEM\SmartgearBundle\Widgets\ComponentStyleS
 array_insert($GLOBALS['BE_MOD']['system'], 0, [
     'smartgear' => [
         'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
+        'tables' => ['tl_news'],
     ],
 ]);
 

@@ -56,7 +56,6 @@ class General extends ConfigurationStep
         $this->configurationManager = $configurationManager;
         $this->commandUtil = $commandUtil;
         $this->translator = $translator;
-        $this->jsSocialsSynchronizer = $jsSocialsSynchronizer;
 
         $this->title = $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.title', [], 'contao_default');
         /** @var BlogConfig */
@@ -189,6 +188,7 @@ class General extends ConfigurationStep
     protected function createFolder(): void
     {
         $objFolder = new \Contao\Folder(Input::post('newsFolder', null));
+        $objFolder->unprotect();
     }
 
     protected function createPage(): PageModel
@@ -231,6 +231,7 @@ class General extends ConfigurationStep
         $article->author = 1;
         $article->inColumn = 'main';
         $article->published = 1;
+        $article->tstamp = time();
 
         $article->save();
 
@@ -252,6 +253,7 @@ class General extends ConfigurationStep
         $newsArchive->title = $presetConfig->getSgNewsArchiveTitle();
         $newsArchive->jumpTo = $page->id;
         $newsArchive->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupRedactors->id]);
+        $newsArchive->tstamp = time();
         $newsArchive->save();
 
         return $newsArchive;
@@ -283,6 +285,7 @@ class General extends ConfigurationStep
         $moduleReader->imgSize = serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]); //'a:3:{i:0;s:4:"1200";i:1;s:0:"";i:2;s:12:"proportional";}';
         $moduleReader->news_template = 'news_full';
         $moduleReader->wem_sg_display_share_buttons = '1';
+        $moduleReader->tstamp = time();
         $moduleReader->save();
 
         if (null !== $blogConfig->getSgModuleList()) {
@@ -305,6 +308,7 @@ class General extends ConfigurationStep
         $moduleList->news_template = 'news_latest';
         $moduleList->skipFirst = 0;
         $moduleList->news_metaFields = serialize([0 => 'date']);
+        $moduleList->tstamp = time();
 
         $moduleList->wem_sg_number_of_characters = 200;
         $moduleList->save();
@@ -325,6 +329,7 @@ class General extends ConfigurationStep
         $headline->ptable = 'tl_article';
         $headline->headline = serialize(['unit' => 'h1', 'value' => $page->title]);
         $headline->cssID = 'sep-bottom';
+        $headline->tstamp = time();
         $headline->save();
         // module list automatically enables reader when a single news is selected
         // $reader->type = 'module';
@@ -337,6 +342,7 @@ class General extends ConfigurationStep
         $list->pid = $article->id;
         $list->ptable = 'tl_article';
         $list->module = $modules['list']->id;
+        $list->tstamp = time();
         $list->save();
 
         $article->save();

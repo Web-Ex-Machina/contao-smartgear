@@ -175,7 +175,9 @@ class Website extends ConfigurationStep
     protected function createClientFilesFolders(): void
     {
         $clientFilesFolder = new Folder(CoreConfig::DEFAULT_CLIENT_FILES_FOLDER);
+        $clientFilesFolder->unprotect();
         $clientLogosFolder = new Folder(CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER);
+        $clientLogosFolder->unprotect();
     }
 
     protected function createTheme()
@@ -355,7 +357,6 @@ class Website extends ConfigurationStep
             'grid-start',
             'grid-stop',
             'rsce_accordionFW',
-            'rsce_block-img',
             'rsce_counterFW',
             'rsce_foldingbox',
             'rsce_gridGallery',
@@ -367,6 +368,7 @@ class Website extends ConfigurationStep
             'rsce_sliderFW',
             'rsce_tabs',
             'rsce_testimonials',
+            'rsce_pdfViewerFW',
         ]);
         $objUserGroup->save();
         $userGroups['administrators'] = $objUserGroup;
@@ -401,7 +403,6 @@ class Website extends ConfigurationStep
             'grid-start',
             'grid-stop',
             'rsce_accordionFW',
-            'rsce_block-img',
             'rsce_counterFW',
             'rsce_foldingbox',
             'rsce_gridGallery',
@@ -413,6 +414,7 @@ class Website extends ConfigurationStep
             'rsce_sliderFW',
             'rsce_tabs',
             'rsce_testimonials',
+            'rsce_pdfViewerFW',
         ]);
         $objUserGroup->save();
         $userGroups['redactors'] = $objUserGroup;

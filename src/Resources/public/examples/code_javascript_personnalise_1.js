@@ -1,4 +1,4 @@
-<script src="files/vendor/outdatedbrowser/outdatedbrowser.min.js"></script>
+<script src="assets/outdatedbrowser/outdatedbrowser.min.js"></script>
 <script src="{{config.framway.path}}/build/js/vendor.js"></script>
 <script src="{{config.framway.path}}/build/js/framway.js"></script>
 <div id="outdated">
@@ -29,7 +29,7 @@ addLoadEvent(function () {
         bgColor: '#f25648',
         color: '#ffffff',
         lowerThan: 'object-fit',
-        languagePath: 'files/vendor/outdatedbrowser/lang/{{page::language}}.html'
+        languagePath: 'assets/outdatedbrowser/lang/{{page::language}}.html'
     })
 });
 

@@ -242,7 +242,11 @@ class UserGroupModelUtil
     {
         $allowedFields = [];
         foreach ($tables as $table) {
-            $allowedFieldsWithoutPrefix = array_keys($GLOBALS['TL_DCA'][$table]['fields']);
+            if (!\array_key_exists($table, $GLOBALS['TL_DCA'] ?? [])) {
+                $loader = new \Contao\DcaLoader($table);
+                $loader->load();
+            }
+            $allowedFieldsWithoutPrefix = array_keys($GLOBALS['TL_DCA'][$table]['fields'] ?? []);
             foreach ($allowedFieldsWithoutPrefix as $allowedFieldWithoutPrefix) {
                 $allowedFields[] = $table.'::'.$allowedFieldWithoutPrefix;
             }
