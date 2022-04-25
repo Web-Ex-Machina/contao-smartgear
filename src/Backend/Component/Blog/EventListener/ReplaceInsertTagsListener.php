@@ -62,6 +62,10 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
             $config = $this->coreConfigurationManager->load();
             $blogConfig = $config->getSgBlog();
 
+            if (!$blogConfig->getSgInstallComplete()) {
+                return static::NOT_HANDLED;
+            }
+
             switch ($elements[1]) {
                 case 'blog_installComplete':
                     return $blogConfig->getSgInstallComplete() ? '1' : '0';

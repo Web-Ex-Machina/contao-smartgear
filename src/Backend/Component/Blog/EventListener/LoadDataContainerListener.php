@@ -45,6 +45,9 @@ class LoadDataContainerListener
             switch ($table) {
                 case 'tl_news':
                     $blogConfig = $config->getSgBlog();
+                    if (!$blogConfig->getSgInstallComplete()) {
+                        return;
+                    }
                     // limiting singleSRC fierld to the blog folder
                     $GLOBALS['TL_DCA'][$table]['fields']['singleSRC']['eval']['path'] = $blogConfig->getCurrentPreset()->getSgNewsFolder();
 

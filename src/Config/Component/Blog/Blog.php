@@ -61,7 +61,6 @@ class Blog implements ConfigModuleInterface
     /** @var string */
     protected $sgArchivedMode = self::DEFAULT_ARCHIVE_MODE;
 
-
     public function reset(): self
     {
         $this->setSgInstallComplete(false)
@@ -116,7 +115,6 @@ class Blog implements ConfigModuleInterface
         foreach ($this->getSgPresets() as $presetConfig) {
             $json->presets[] = $presetConfig->export();
         }
-
 
         $json->archived = new \stdClass();
         $json->archived->status = $this->getSgArchived();
@@ -204,7 +202,7 @@ class Blog implements ConfigModuleInterface
             $this->sgPresets[$index] = $preset;
         }
 
-        if (1 === count($this->sgPresets)
+        if (1 === \count($this->sgPresets)
         && null === $this->sgCurrentPresetIndex
         ) {
             $this->sgCurrentPresetIndex = 0;
@@ -220,6 +218,7 @@ class Blog implements ConfigModuleInterface
                 return $index;
             }
         }
+
         return null;
     }
 
@@ -253,7 +252,9 @@ class Blog implements ConfigModuleInterface
 
     public function getCurrentPreset(): ?Preset
     {
-        return $this->getPresetByIndex($this->getSgCurrentPresetIndex());
+        $presetIndex = $this->getSgCurrentPresetIndex();
+
+        return null !== $presetIndex ? $this->getPresetByIndex($presetIndex) : null;
     }
 
     public function getSgModuleReader(): ?int
