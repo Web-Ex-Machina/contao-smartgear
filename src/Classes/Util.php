@@ -300,7 +300,7 @@ class Util
     /**
      * Shortcut for page creation.
      */
-    public static function createPage($strTitle, $intPid = 0, $arrData = [])
+    public static function createPage($strTitle, $intPid = 0, $arrData = []): PageModel
     {
         // Create the page
         if (\array_key_exists('id', $arrData)) {
@@ -338,7 +338,7 @@ class Util
     /**
      * Shortcut for article creation.
      */
-    public static function createArticle($objPage, $arrData = [])
+    public static function createArticle($objPage, $arrData = []): ArticleModel
     {
         // Create the article
         $objArticle = new ArticleModel();
@@ -367,7 +367,7 @@ class Util
     /**
      * Shortcut for content creation.
      */
-    public static function createContent($objArticle, $arrData = [])
+    public static function createContent($objArticle, $arrData = []): ContentModel
     {
         // Dynamic ptable support
         if (!$arrData['ptable']) {

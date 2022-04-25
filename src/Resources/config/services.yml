@@ -81,6 +81,16 @@ services:
             $manageSubfolders: true
         public: true
 
+    smartgear.classes.directories_synchronizer.js_socials:
+        class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
+        arguments:
+            $translator: '@contao.translation.translator'
+            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/assets/jssocials'
+            $destinationDirectory: 'assets/jssocials'
+            $rootDir: '%kernel.project_dir%'
+            $manageSubfolders: true
+        public: true
+
     smartgear.config.manager.core:
         class: WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson
         arguments:
@@ -166,6 +176,10 @@ services:
         class: WEM\SmartgearBundle\Config\Core
         public: true
 
+    smartgear.config.blog:
+        class: WEM\SmartgearBundle\Config\Blog
+        public: true
+
     smartgear.config.framway:
         class: WEM\SmartgearBundle\Config\Framway
         public: true
@@ -180,110 +194,6 @@ services:
 
     smartgear.config.local_config:
         class: WEM\SmartgearBundle\Config\LocalConfig
-        public: true
-
-    smartgear.backend.component.core.dashboard:
-        class: WEM\SmartgearBundle\Backend\Component\Core\Dashboard
-        arguments:
-            $configurationManager: '@smartgear.config.manager.core'
-            $translator: '@contao.translation.translator'
-            $module: 'core'
-            $type: 'component'
-            $configurationEnvFileManager: '@smartgear.config.manager.env_file.local'
-            $htaccessAnalyzer: '@smartgear.classes.analyzer.htaccess'
-        public: true
-
-    smartgear.backend.component.core.block:
-        class: WEM\SmartgearBundle\Backend\Component\Core\Block
-        arguments:
-            $configurationManager: '@smartgear.config.manager.core'
-            $configurationStepManager: '@smartgear.backend.component.core.configuration_step_manager'
-            $resetStepManager: '@smartgear.backend.component.core.reset_step_manager'
-            $dashboard: '@smartgear.backend.component.core.dashboard'
-            $translator: '@contao.translation.translator'
-        public: true
-
-    smartgear.backend.component.core.configuration_step_manager:
-        class: WEM\SmartgearBundle\Classes\Backend\ConfigurationStepManager
-        arguments:
-            $configurationManager: '@smartgear.config.manager.core'
-            $translator: '@contao.translation.translator'
-            $module: 'core'
-            $type: 'component'
-            $stepSessionKey: 'sg_core_install_step'
-            $steps: 
-                - '@smartgear.backend.component.core.configuration_step.general'
-                - '@smartgear.backend.component.core.configuration_step.framway_retrieval'
-                - '@smartgear.backend.component.core.configuration_step.framway_configuration'
-                - '@smartgear.backend.component.core.configuration_step.website'
-        public: true
-
-    smartgear.backend.component.core.reset_step_manager:
-        class: WEM\SmartgearBundle\Backend\Component\Core\ResetStepManager
-        arguments:
-            $configurationManager: '@smartgear.config.manager.core'
-            $translator: '@contao.translation.translator'
-            $module: 'core'
-            $type: 'component'
-            $stepSessionKey: 'sg_core_reset_step'
-            $steps: 
-                - '@smartgear.backend.component.core.reset_step.general'
-        public: true
-
-    smartgear.backend.component.core.configuration_step.general:
-        class: WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep\General
-        arguments:
-            $module: 'core'
-            $type: 'component'
-            $configurationManager: '@smartgear.config.manager.core'
-            $localConfigManager: '@smartgear.config.manager.local_config'
-            $commandUtil: '@smartgear.classes.command.util'
-        public: true
-
-    smartgear.backend.component.core.configuration_step.framway_retrieval:
-        class: WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep\FramwayRetrieval
-        arguments:
-            $module: 'core'
-            $type: 'component'
-            $configurationManager: '@smartgear.config.manager.core'
-            $framwayUtil: '@smartgear.classes.util_framway'
-        public: true
-
-    smartgear.backend.component.core.configuration_step.framway_configuration:
-        class: WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep\FramwayConfiguration
-        arguments:
-            $module: 'core'
-            $type: 'component'
-            $configurationManager: '@smartgear.config.manager.core'
-            $configurationManagerFramway: '@smartgear.config.manager.framway'
-            $templateRSCESynchronizer: '@smartgear.classes.directories_synchronizer.templates.rsce'
-            $templateSmartgearSynchronizer: '@smartgear.classes.directories_synchronizer.templates.smartgear'
-            $templateGeneralSynchronizer: '@smartgear.classes.directories_synchronizer.templates.general'
-            $tinyMCEPluginsSynchronizer: '@smartgear.classes.directories_synchronizer.tiny_mce.plugins'
-            $tarteAuCitronSynchronizer: '@smartgear.classes.directories_synchronizer.tarte_au_citron'
-            $outdatedBrowserSynchronizer: '@smartgear.classes.directories_synchronizer.outdated_browser'
-            $framwayUtil: '@smartgear.classes.util_framway'
-        public: true
-
-    smartgear.backend.component.core.configuration_step.website:
-        class: WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep\Website
-        arguments:
-            $module: 'core'
-            $type: 'component'
-            $configurationManager: '@smartgear.config.manager.core'
-        public: true
-
-    smartgear.backend.component.core.reset_step.general:
-        class: WEM\SmartgearBundle\Backend\Component\Core\ResetStep\General
-        arguments:
-            $module: 'core'
-            $type: 'component'
-            $configurationManager: '@smartgear.config.manager.core'
-            $localConfigManager: '@smartgear.config.manager.local_config'
-            $backupManager: '@smartgear.backup.backup_manager'
-            $templatesDirs: 
-                - 'templates/rsce'
-                - 'templates/smartgear'
         public: true
 
     smartgear.backup.backup_manager:

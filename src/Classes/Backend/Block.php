@@ -131,24 +131,8 @@ class Block extends Controller
         // return $objTemplate->parse();
         // Check if we need other modules and if yes, check if it's okay
         $blnCanManage = true;
-        if ($this->require) {
-            $arrMissingModules = [];
-            foreach ($this->require as $strModule) {
-                $objModule = System::getContainer()->get('smartgear.backend.module.'.$strModule.'.block');
 
-                if (!$objModule->isInstalled()) {
-                    $arrMissingModules[] = $strModule;
-                }
-
-                if (!empty($arrMissingModules)) {
-                    $this->messages = [];
-                    $this->messages[] = [
-                        'class' => 'tl_error', 'text' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.MissingDependencies', [implode(', ', $arrMissingModules)], 'contao_default'),
-                    ];
-                    $blnCanManage = false;
-                }
-            }
-        }
+        $blnCanManage = $this->checkRequirements();
 
         // Always add messages
         $objTemplate->messages = $this->messages;
@@ -297,6 +281,31 @@ class Block extends Controller
         $this->setMode($mode);
 
         return $mode;
+    }
+
+    protected function checkRequirements(): bool
+    {
+        $requiermentsMet = true;
+        if ($this->require) {
+            $arrMissingModules = [];
+            foreach ($this->require as $type => $block) {
+                $objModule = System::getContainer()->get('smartgear.backend.'.$type.'.'.$block.'.block');
+
+                if (!$objModule->isInstalled()) {
+                    $arrMissingModules[] = $block;
+                }
+
+                if (!empty($arrMissingModules)) {
+                    $this->messages = [];
+                    $this->messages[] = [
+                        'class' => 'tl_error', 'text' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.MissingDependencies', [implode(', ', $arrMissingModules)], 'contao_default'),
+                    ];
+                    $requiermentsMet = false;
+                }
+            }
+        }
+
+        return $requiermentsMet;
     }
 
     protected function goToNextStep(): void

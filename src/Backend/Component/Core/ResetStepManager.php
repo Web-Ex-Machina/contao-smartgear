@@ -53,11 +53,11 @@ class ResetStepManager extends StepManager
         $this->actions[] = ['action' => 'reset_mode_check_cancel', 'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['Cancel']];
 
         if (0 !== $this->getCurrentStepIndex()) {
-            $this->actions[] = ['action' => 'previous', 'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['Cancel']];
+            $this->actions[] = ['action' => 'previous', 'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['PreviousStep']];
         }
 
         if ($this->getCurrentStepIndex() < \count($this->steps) - 1) {
-            $this->actions[] = ['action' => 'next', 'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['Cancel']];
+            $this->actions[] = ['action' => 'next', 'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NextStep']];
         } else {
             $this->actions[] = ['action' => 'finish', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['RESETSTEPMANAGER']['buttonTerminateLabel']];
         }

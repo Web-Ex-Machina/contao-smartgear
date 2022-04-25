@@ -19,6 +19,7 @@ use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\ManagerPlugin\Routing\RoutingPluginInterface;
+use Contao\NewsBundle\ContaoNewsBundle;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use WEM\SmartgearBundle\WEMSmartgearBundle;
@@ -40,6 +41,7 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface
                 ->setLoadAfter([
                     ContaoCoreBundle::class,
                     \Oveleon\ContaoComponentStyleManager\ContaoComponentStyleManager::class,
+                    ContaoNewsBundle::class,
                 ])
                 ->setReplace(['wem-smartgear']),
         ];

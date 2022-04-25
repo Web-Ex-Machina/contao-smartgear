@@ -86,7 +86,7 @@ array_insert($GLOBALS['FE_MOD'], 2, [
         'wem_sg_header' => '\WEM\SmartgearBundle\Module\Header',
     ],
 ]);
-
+$GLOBALS['FE_MOD']['news']['newsreader'] = \WEM\SmartgearBundle\Override\ModuleNewsReader::class;
 /*
  * Models
  */
@@ -97,6 +97,7 @@ $GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\Backup::getTable()] = WEM\Smartg
  */
 if ('BE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Backend\Smartgear', 'processAjaxRequest'];
+    $GLOBALS['TL_HOOKS']['loadDataContainer'][] = ['smartgear.listener.load_data_container', '__invoke'];
 }
 
 /*
@@ -106,7 +107,13 @@ if ('FE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['getPageLayout'][] = ['\WEM\SmartgearBundle\Hooks\GetPageLayoutHook', 'generateApiToken'];
     $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Hooks\ExecutePreActionsHook', 'catchApiRequests'];
     $GLOBALS['TL_HOOKS']['generateFrontendUrl'][] = ['\WEM\SmartgearBundle\Hooks\GenerateFrontendUrlHook', 'generateFrontendUrl'];
-    $GLOBALS['TL_HOOKS']['generateBreadcrumb'][] = ['\WEM\SmartgearBundle\Hooks\GenerateBreadcrumbHook', 'updateRootItem'];
+    // $GLOBALS['TL_HOOKS']['generateBreadcrumb'][] = ['\WEM\SmartgearBundle\Hooks\GenerateBreadcrumbHook', 'updateRootItem'];
+    $GLOBALS['TL_HOOKS']['generateBreadcrumb'][] = ['smartgear.listener.generate_breadcrumb', '__invoke'];
     $GLOBALS['TL_HOOKS']['parseTemplate'][] = ['\WEM\SmartgearBundle\Hooks\ParseTemplateHook', 'overrideDefaultTemplate'];
     $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['smartgear.listener.replace_insert_tags', 'onReplaceInsertTags'];
 }
+
+/*
+ * Add custom rights
+ */
+$GLOBALS['TL_PERMISSIONS'][] = 'smartgear';

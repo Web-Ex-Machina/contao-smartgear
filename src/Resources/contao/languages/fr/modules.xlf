@@ -43,6 +43,10 @@
 			<source>Manage subscriptions and send newsletters</source>
 			<target>Gérer les abonnements et envoyer des newsletters.</target>
 		</trans-unit>
+      <trans-unit id="MOD.news.0">
+        <source>News</source>
+        <target>Blog</target>
+      </trans-unit>
 
 		<trans-unit id="MOD.smartgear.0">
 			<source>Smartgear</source>

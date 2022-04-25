@@ -8,6 +8,10 @@
   <p class="back"><a href="<?= $this->referer ?>" title="<?= $this->back ?>" class="btn"><?= $this->back ?></a></p>
   <!-- indexer::continue -->
 
+  <!-- indexer::stop -->
+  <div class="share-buttons__container"></div>
+  <!-- indexer::continue -->
+
   <?php if ($this->allowComments): ?>
     <div class="ce_comments block">
       <<?= $this->hlc ?>><?= $this->hlcText ?></<?= $this->hlc ?>>
@@ -17,5 +21,4 @@
       <?php $this->insert('mod_comment_form', $this->arrData); ?>
     </div>
   <?php endif; ?>
-
 <?php $this->endblock(); ?>

@@ -20,6 +20,12 @@
     {
         "php": ">=7.4",
         "contao/core-bundle": "~4.13",
+        "contao/news-bundle": "^4.13",
+        "contao/calendar-bundle": "^4.13",
+        "contao/faq-bundle": "^4.13",
+        "contao/comments-bundle": "^4.13",
+        "contao/newsletter-bundle": "^4.13",
+        "contao/listing-bundle": "^4.13",
         "madeyourday/contao-rocksolid-custom-elements": "^2.3",
         "heimrichhannot/contao-backend-lost-password-bundle": "^1.5",
         "heimrichhannot/contao-filename-sanitizer-bundle": "^2.4",

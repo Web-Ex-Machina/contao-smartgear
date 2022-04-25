@@ -29,18 +29,22 @@ class General extends ConfigurationStep
     protected $configurationManager;
     /** @var CommandUtil */
     protected $commandUtil;
+    /** @var array */
+    protected $foldersToCreate;
 
     public function __construct(
         string $module,
         string $type,
         ConfigurationManager $configurationManager,
         LocalConfigManager $localConfigManager,
-        CommandUtil $commandUtil
+        CommandUtil $commandUtil,
+        array $foldersToCreate
     ) {
         parent::__construct($module, $type);
         $this->configurationManager = $configurationManager;
         $this->localConfigManager = $localConfigManager;
         $this->commandUtil = $commandUtil;
+        $this->foldersToCreate = $foldersToCreate;
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['Title'];
         try {
             /** @var CoreConfig */
@@ -113,7 +117,16 @@ class General extends ConfigurationStep
         // do what is meant to be done in this step
         $this->updateModuleConfiguration();
         $this->updateContaoConfiguration();
+        $this->createPublicFolders();
         $this->commandUtil->executeCmdPHP('cache:clear');
+    }
+
+    protected function createPublicFolders(): void
+    {
+        foreach ($this->foldersToCreate as $folderToCreate) {
+            $folder = new \Contao\Folder($folderToCreate);
+            $folder->unprotect();
+        }
     }
 
     protected function updateModuleConfiguration(): void

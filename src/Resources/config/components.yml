@@ -1,0 +1,203 @@
+services:
+    ############ CORE ############
+    smartgear.backend.component.core.dashboard:
+        class: WEM\SmartgearBundle\Backend\Component\Core\Dashboard
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'core'
+            $type: 'component'
+            $configurationEnvFileManager: '@smartgear.config.manager.env_file.local'
+            $htaccessAnalyzer: '@smartgear.classes.analyzer.htaccess'
+        public: true
+
+    smartgear.backend.component.core.block:
+        class: WEM\SmartgearBundle\Backend\Component\Core\Block
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $configurationStepManager: '@smartgear.backend.component.core.configuration_step_manager'
+            $resetStepManager: '@smartgear.backend.component.core.reset_step_manager'
+            $dashboard: '@smartgear.backend.component.core.dashboard'
+            $translator: '@contao.translation.translator'
+        public: true
+
+    smartgear.backend.component.core.configuration_step_manager:
+        class: WEM\SmartgearBundle\Classes\Backend\ConfigurationStepManager
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'core'
+            $type: 'component'
+            $stepSessionKey: 'sg_core_install_step'
+            $steps: 
+                - '@smartgear.backend.component.core.configuration_step.general'
+                - '@smartgear.backend.component.core.configuration_step.framway_retrieval'
+                - '@smartgear.backend.component.core.configuration_step.framway_configuration'
+                - '@smartgear.backend.component.core.configuration_step.website'
+        public: true
+
+    smartgear.backend.component.core.reset_step_manager:
+        class: WEM\SmartgearBundle\Backend\Component\Core\ResetStepManager
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'core'
+            $type: 'component'
+            $stepSessionKey: 'sg_core_reset_step'
+            $steps: 
+                - '@smartgear.backend.component.core.reset_step.general'
+        public: true
+
+    smartgear.backend.component.core.configuration_step.general:
+        class: WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep\General
+        arguments:
+            $module: 'core'
+            $type: 'component'
+            $configurationManager: '@smartgear.config.manager.core'
+            $localConfigManager: '@smartgear.config.manager.local_config'
+            $commandUtil: '@smartgear.classes.command.util'
+            $foldersToCreate: 
+                - 'files/vendor'
+        public: true
+
+    smartgear.backend.component.core.configuration_step.framway_retrieval:
+        class: WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep\FramwayRetrieval
+        arguments:
+            $module: 'core'
+            $type: 'component'
+            $configurationManager: '@smartgear.config.manager.core'
+            $framwayUtil: '@smartgear.classes.util_framway'
+        public: true
+
+    smartgear.backend.component.core.configuration_step.framway_configuration:
+        class: WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep\FramwayConfiguration
+        arguments:
+            $module: 'core'
+            $type: 'component'
+            $configurationManager: '@smartgear.config.manager.core'
+            $configurationManagerFramway: '@smartgear.config.manager.framway'
+            $templateRSCESynchronizer: '@smartgear.classes.directories_synchronizer.templates.rsce'
+            $templateSmartgearSynchronizer: '@smartgear.classes.directories_synchronizer.templates.smartgear'
+            $templateGeneralSynchronizer: '@smartgear.classes.directories_synchronizer.templates.general'
+            $tinyMCEPluginsSynchronizer: '@smartgear.classes.directories_synchronizer.tiny_mce.plugins'
+            $tarteAuCitronSynchronizer: '@smartgear.classes.directories_synchronizer.tarte_au_citron'
+            $outdatedBrowserSynchronizer: '@smartgear.classes.directories_synchronizer.outdated_browser'
+            $framwayUtil: '@smartgear.classes.util_framway'
+        public: true
+
+    smartgear.backend.component.core.configuration_step.website:
+        class: WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep\Website
+        arguments:
+            $module: 'core'
+            $type: 'component'
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.backend.component.core.reset_step.general:
+        class: WEM\SmartgearBundle\Backend\Component\Core\ResetStep\General
+        arguments:
+            $module: 'core'
+            $type: 'component'
+            $configurationManager: '@smartgear.config.manager.core'
+            $localConfigManager: '@smartgear.config.manager.local_config'
+            $backupManager: '@smartgear.backup.backup_manager'
+            $templatesDirs: 
+                - 'templates/rsce'
+                - 'templates/smartgear'
+        public: true
+
+        
+    smartgear.backend.component.core.listener.replace_insert_tags:
+        class: WEM\SmartgearBundle\Backend\Component\Core\EventListener\ReplaceInsertTagsListener
+        arguments:
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+        public: true
+
+    ############ BLOG ############
+    
+    smartgear.backend.component.blog.block:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\Block
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+            $configurationStepManager: '@smartgear.backend.component.blog.configuration_step_manager'
+            $resetStepManager: '@smartgear.backend.component.blog.reset_step_manager'
+            $dashboard: '@smartgear.backend.component.blog.dashboard'
+        public: true
+
+    smartgear.backend.component.blog.configuration_step_manager:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\ConfigurationStepManager
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'blog'
+            $type: 'component'
+            $stepSessionKey: 'sg_blog_install_step'
+            $steps: 
+                - '@smartgear.backend.component.blog.configuration_step.general'
+                - '@smartgear.backend.component.blog.configuration_step.dataset'
+        public: true
+
+    smartgear.backend.component.blog.configuration_step.general:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\ConfigurationStep\General
+        arguments:
+            $module: 'blog'
+            $type: 'component'
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+            $commandUtil: '@smartgear.classes.command.util'
+        public: true
+
+    smartgear.backend.component.blog.configuration_step.dataset:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\ConfigurationStep\Dataset
+        arguments:
+            $module: 'blog'
+            $type: 'component'
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+            $commandUtil: '@smartgear.classes.command.util'
+            $sourceDirectory: 'public/bundles/wemsmartgear/examples/blog'
+        public: true
+
+    smartgear.backend.component.blog.dashboard:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\Dashboard
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'blog'
+            $type: 'component'
+        public: true
+
+    smartgear.backend.component.blog.reset_step_manager:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\ResetStepManager
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'blog'
+            $type: 'component'
+            $stepSessionKey: 'sg_core_reset_step'
+            $steps: 
+                - '@smartgear.backend.component.blog.reset_step.general'
+        public: true
+
+    smartgear.backend.component.blog.reset_step.general:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\ResetStep\General
+        arguments:
+            $module: 'blog'
+            $type: 'component'
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.backend.component.blog.listener.replace_insert_tags:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\EventListener\ReplaceInsertTagsListener
+        arguments:
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.backend.component.blog.listener.load_data_container:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\EventListener\LoadDataContainerListener
+        arguments:
+            $security: '@security.helper'
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+        public: true

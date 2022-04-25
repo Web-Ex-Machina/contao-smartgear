@@ -760,6 +760,235 @@
 			<target>Absence du paramètre "function"</target>
 		</trans-unit>
 
+		<!-- Blog -->
+
+		<trans-unit id="WEMSG.BLOG.MODE.simple">
+			<source>Simple</source>
+			<target>Simple</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.MODE.expert">
+			<source>Expert</source>
+			<target>Expert</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.title">
+			<source>Installation</source>
+			<target>Installation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsConfig">
+			<source>Available configuration(s)</source>
+			<target>Configuration(s) disponible(s)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newPresetTitle">
+			<source>New configuration name</source>
+			<target>Nom de la nouvelle configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPresetTitle">
+			<source>Add a new configuration</source>
+			<target>Ajoute une nouvelle configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPreset">
+			<source>New configuration</source>
+			<target>Nouvelle configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPresetValidateTitle">
+			<source>Validate the new configuration</source>
+			<target>Valider la nouvelle configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPresetValidate">
+			<source>Validate</source>
+			<target>Valider</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPresetCancelTitle">
+			<source>Cancel the new configuration creation</source>
+			<target>Annuler l'ajout d'une nouvelle configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.ButtonNewPresetCancel">
+			<source>Cancel</source>
+			<target>Annuler</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsFolder">
+			<source>Files folder</source>
+			<target>Dossier</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsFolderHelp">
+			<source>Choose the folder where news' files/images are going to be stored</source>
+			<target>Choisissez le dossier dans lequel les fichiers/images associées  aux actualités seront stockées</target>
+		</trans-unit>
+
+
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsArchiveTitle">
+			<source>News feed title</source>
+			<target>Titre du flux d'actualités</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsListPerPage">
+			<source>News per page</source>
+			<target>Actualités par page</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.pageTitle">
+			<source>News' page title</source>
+			<target>Titre de la page d'actualités</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.expertMode">
+			<source>Expert mode</source>
+			<target>Mode expert</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.fieldNewsPresetNameEmpty">
+			<source>News configuration preset name is missing</source>
+			<target>Le nom de la configuration n'est pas renseignée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.fieldNewsPresetNameIncorrectFormat">
+			<source>News configuration preset name has an incorrect format</source>
+			<target>Le nom de la configuration a un format incorrect</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsConfigMissing">
+			<source>News configuration is missing</source>
+			<target>La configuration n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsArchiveTitleMissing">
+			<source>News feed's title is missing</source>
+			<target>Le titre du flux d'actualités n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsListPerPageMissing">
+			<source>Number of news per page is missing</source>
+			<target>Le nombre d'actualités par page n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsListPerPageTooLow">
+			<source>Number of news per page is too low</source>
+			<target>Le nombre d'actualités par page est trop faible</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.pageTitleMissing">
+			<source>News' page title is missing</source>
+			<target>Le titre de la page d'actualités n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsFolderMissing">
+			<source>Files folder is missing</source>
+			<target>Le dossier n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.pageDescription">
+			<source>%s of %s's website</source>
+			<target>%s du site %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_DATASET.title">
+			<source>Dataset</source>
+			<target>Jeu de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_DATASET.datasetOptionNone">
+			<source>Aucun</source>
+			<target>Aucun</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_DATASET.datasetOptionA">
+			<source>A - simple - 3 news</source>
+			<target>A - simple - 3 actualités</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_DATASET.datasetOptionB">
+			<source>B - complete - 18 news</source>
+			<target>B - complet - 18 actualités</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_DATASET.dataset">
+			<source>Dataset</source>
+			<target>Jeu de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_DATASET.datasetHelp">
+			<source>Dataset to install</source>
+			<target>Jeu de données à installer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BLOG.INSTALL_DATASET.datasetMissing">
+			<source>No dataset specified</source>
+			<target>Aucun jeu de donnée sélectionné</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.RESET.title">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.RESET.deleteModeLabel">
+			<source>Uninstall mode</source>
+			<target>Mode de désinstallation</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.RESET.deleteModeArchiveLabel">
+			<source>Archive</source>
+			<target>Archiver</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.RESET.deleteModeArchiveDescription">
+			<source>Files folder will be moved to `files/archives/news-{timestamp}` and news archive's name suffixed with " (Archive-{timestamp})".</source>
+			<target>Le dossier de fichiers associé au blog sera déplacé vers `files/archives/news-{timestamp}` et le nom de l'archive d'actualité sera suffixé par " (Archive-{timestamp})".</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.RESET.deleteModeKeepLabel">
+			<source>Keep</source>
+			<target>Conserver</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.RESET.deleteModeKeepDescription">
+			<source>All data will be kept in place.</source>
+			<target>Toutes les données seront conservées et ne seront pas déplacées.</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.RESET.deleteModeDeleteLabel">
+			<source>Delete</source>
+			<target>Supprimer</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.RESET.deleteModeDeleteDescription">
+			<source>Files and News Archive will be deleted.</source>
+			<target>Les fichiers ainsi que l'archive d'actualités seront supprimés.</target>
+		</trans-unit>
+
+
+
+		<trans-unit id="WEMSG.BLOG.RESET.deleteModeUnknown">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.BLOCK.blogNewsConfigAddAjaxMessageSuccess">
+			<source>New configuration added</source>
+			<target>Nouvelle configuration ajoutée</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.BLOCK.blogNewsConfigAddAjaxMessageError">
+			<source>An error occured while adding a new configuration</source>
+			<target>Une serreur est survenue lors de l'ajout de la nouvelle configuration</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.BLOCK.blogNewsConfigGetAjaxMessageSuccess">
+			<source>Configuration retrieved</source>
+			<target>Configuration récupérée</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.BLOCK.blogNewsConfigGetAjaxMessageError">
+			<source>An error occured while retrieving the configuration</source>
+			<target>Une serreur est survenue lors de la récupération de la configuration</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.DASHBOARD.mode">
+			<source>Mode : %s</source>
+			<target>Mode : %s</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.FORM.fieldTeaserLabel">
+			<source>Content</source>
+			<target>Contenu</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.FORM.fieldTeaserHelp">
+			<source>Type news content here</source>
+			<target>Saisir le contenu de votre actualité</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.BLOG.FORM.paletteTeaserLabel">
+			<source>Content</source>
+			<target>Contenu</target>
+		</trans-unit>
+
 
 		<!-- ConfigurationStepManager -->
 		<trans-unit id="WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish">
@@ -2791,6 +3020,24 @@
 			<source>none</source>
 			<target>aucune</target>
 		</trans-unit>
+
+		<!-- Security -->
+		<trans-unit id="WEMSG.SECURITY.CORE.expert">
+			<source>Smartgear global - expert mode</source>
+			<target>Smartgear global - mode expert</target>
+		</trans-unit>
+		<!-- <trans-unit id="WEMSG.SECURITY.CORE.simple">
+			<source>Smartgear global - simplified mode</source>
+			<target>Smartgear global - mode simplifié</target>
+		</trans-unit> -->
+		<trans-unit id="WEMSG.SECURITY.BLOG.expert">
+			<source>Smartgear blog - expert mode</source>
+			<target>Smartgear blog - mode expert</target>
+		</trans-unit>
+		<!-- <trans-unit id="WEMSG.SECURITY.BLOG.simple">
+			<source>Smartgear blog - simplified mode</source>
+			<target>Smartgear blog - mode simplifié</target>
+		</trans-unit> -->
 
 		<!-- heimrichhannot/contao-backend-lost-password-bundle -->
 		<trans-unit id="MSC.backendLostPassword.messageSubjectResetPassword">

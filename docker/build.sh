@@ -310,7 +310,12 @@ function verify_parameters(){
         then
             echo -e ""
             echo -e "[${fg_cyan}INFO${normal}] To reproduce this behaviour without manually re-entering parameters, use :"
-            echo -e "\t $0 --type ${type} --mode ${mode} --image_php ${image_php} --image_webserver ${image_webserver} --image_db ${image_db} --contao_version ${contao_version} --cache ${cache}"
+            if [[ "dev" = "$type" ]]
+            then
+                echo -e "\t $0 --type ${type} --mode ${mode} --image_php ${image_php} --image_webserver ${image_webserver} --image_db ${image_db} --contao_version ${contao_version} --cache ${cache}"
+            else
+                echo -e "\t $0 --type ${type} --mode ${mode} --image_php ${image_php} --image_webserver ${image_webserver} --image_db ${image_db} --cache ${cache}"
+            fi
             echo -e ""
         fi
     elif [[ "$mode" = "down" ]]

@@ -167,6 +167,7 @@ class Website extends ConfigurationStep
         $groups = $this->createUserGroups();
         $users = $this->createUsers($groups);
         $pages = $this->createPages($layouts, $groups, $users, $modules);
+        $this->updateModuleConfigurationRootPage((int) $pages['root']->id);
         $modules = array_merge($this->createModules2($themeId, $pages), $modules);
         $this->createNotificationGateways();
     }
@@ -328,8 +329,8 @@ class Website extends ConfigurationStep
         // $objUserGroup->pagemounts = '';
         // $objUserGroup->alpty = 'a:3:{i:0;s:7:"regular";i:1;s:7:"forward";i:2;s:8:"redirect";}';
         // $objUserGroup->filemounts = 'a:1:{i:0;s:16:"'.$objMediaFolder->getModel()->uuid.'";}';
-        // $objUserGroup->fop = 'a:4:{i:0;s:2:"f1";i:1;s:2:"f2";i:2;s:2:"f3";i:3;s:2:"f4";}';
-        // $objUserGroup->imageSizes = 'a:3:{i:0;s:12:"proportional";i:1;s:3:"box";i:2;s:4:"crop";}';
+        $objUserGroup->fop = serialize(['f1', 'f2', 'f3', 'f4']);
+        $objUserGroup->imageSizes = serialize(['proportional']);
         $objUserGroup->alexf = Util::addPermissions($this->getCorePermissions());
         $objUserGroup->elements = serialize([
             'headline',
@@ -373,8 +374,46 @@ class Website extends ConfigurationStep
         $objUserGroup = UserGroupModel::findOneByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName']) ?? new UserGroupModel();
         $objUserGroup->tstamp = time();
         $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName'];
-        $objUserGroup->modules = 'a:2:{i:0;s:4:"article";i:1;s:5:"files";}';
         $objUserGroup->modules = serialize(['article', 'files']);
+        $objUserGroup->alexf = Util::addPermissions($this->getCorePermissions());
+        $objUserGroup->imageSizes = serialize(['proportional']);
+        $objUserGroup->fop = serialize(['f1', 'f2', 'f3', 'f4']);
+        $objUserGroup->elements = serialize([
+            'headline',
+            'text',
+            'html',
+            'table',
+            'rsce_listIcons',
+            'rsce_quote',
+            'accordionStart',
+            'accordionStop',
+            'sliderStart',
+            'sliderStop',
+            'hyperlink',
+            'image',
+            'player',
+            'youtube',
+            'vimeo',
+            'downloads',
+            'module',
+            'template',
+            'rsce_timeline',
+            'grid-start',
+            'grid-stop',
+            'rsce_accordionFW',
+            'rsce_block-img',
+            'rsce_counterFW',
+            'rsce_foldingbox',
+            'rsce_gridGallery',
+            'rsce_heroFW',
+            'rsce_heroFWStart',
+            'rsce_heroFWStop',
+            'rsce_notations',
+            'rsce_priceCards',
+            'rsce_sliderFW',
+            'rsce_tabs',
+            'rsce_testimonials',
+        ]);
         $objUserGroup->save();
         $userGroups['redactors'] = $objUserGroup;
 
@@ -414,7 +453,11 @@ class Website extends ConfigurationStep
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
-        $page = PageModel::findOneBy('title', $config->getSgwebsiteTitle());
+        if (null !== $config->getSgRootPage()) {
+            $page = PageModel::findById($config->getSgRootPage());
+        } else {
+            $page = PageModel::findOneBy('title', $config->getSgwebsiteTitle());
+        }
 
         return Util::createPage($config->getSgwebsiteTitle(), 0, array_merge([
             'sorting' => 128,
@@ -691,7 +734,7 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        $config->setSgTheme((string) $themeId);
+        $config->setSgTheme($themeId);
 
         $this->configurationManager->save($config);
     }
@@ -876,5 +919,15 @@ class Website extends ConfigurationStep
             154 => 'tl_user::stop',
             155 => 'tl_user::session',
         ];
+    }
+
+    protected function updateModuleConfigurationRootPage(int $rootPageId): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $config->setSgRootPage($rootPageId);
+
+        $this->configurationManager->save($config);
     }
 }

@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Backend\Traits;
 
+use WEM\SmartgearBundle\Widget\SimpleFileTree;
+
 trait FieldsTrait
 {
     /** @var array */
@@ -76,19 +78,12 @@ trait FieldsTrait
      */
     protected function addSelectField(string $strName, string $strLabel, array $arrOptions, $strValue = '', ?bool $blnRequired = false, ?bool $blnMultiple = false, ?string $strClass = '', ?string $strType = 'select', ?string $strHelp = ''): void
     {
-        if (\is_array($strValue)) {
-            foreach ($arrOptions as &$o) {
-                $o['selected'] = false;
-                if (\in_array($o['value'], $strValue, true)) {
-                    $o['selected'] = true;
-                }
-            }
-        } else {
-            foreach ($arrOptions as &$o) {
-                $o['selected'] = false;
-                if ($strValue === $o['value']) {
-                    $o['selected'] = true;
-                }
+        $values = \is_array($strValue) ? $strValue : [$strValue];
+
+        foreach ($arrOptions as &$o) {
+            $o['selected'] = false;
+            if (\in_array($o['value'], $values, true)) {
+                $o['selected'] = true;
             }
         }
 
@@ -101,6 +96,37 @@ trait FieldsTrait
             'multiple' => $blnMultiple,
             'class' => $strClass,
             'help' => $strHelp,
+        ];
+    }
+
+    protected function addSimpleFileTree(string $strName, string $strLabel, ?string $strValue = null, ?bool $blnRequired = false, ?bool $blnMultiple = false, ?string $strClass = '', ?string $strHelp = '', ?array $arrAttributes = []): void
+    {
+        // okay, we'd need to pass the file/folder UUID as varValue ...
+        // $item = \Contao\FilesModel::findByPath($strValue);
+        // dump($item);
+        $config = [
+            'strName' => $strName,
+            'strId' => $strName,
+            'strLabel' => $strLabel,
+            // 'varValue' => null !== $item ? $item->uuid : $strValue,
+            'varValue' => $strValue,
+            'required' => $blnRequired,
+            'multiple' => $blnMultiple,
+        ];
+        if (!empty($strClass)) {
+            $config['strClass'] = $strClass;
+        }
+        $field = new SimpleFileTree(array_merge($arrAttributes, $config));
+
+        $this->fields[$strName] = [
+            'type' => 'widget',
+            'name' => $strName,
+            'label' => $strLabel,
+            'required' => $blnRequired,
+            // 'multiple' => $blnMultiple,
+            'class' => $strClass,
+            'help' => $strHelp,
+            'objField' => $field,
         ];
     }
 }
