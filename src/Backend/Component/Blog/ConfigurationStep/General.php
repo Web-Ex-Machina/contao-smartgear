@@ -27,6 +27,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Blog\Preset as BlogPresetConfig;
@@ -392,44 +393,17 @@ class General extends ConfigurationStep
 
     protected function updateUserGroupSmartgearPermissions(UserGroupModel $objUserGroup, bool $expertMode): UserGroupModel
     {
-        // update permissions
-        $permissions = null !== $objUserGroup->smartgear_permissions ? unserialize($objUserGroup->smartgear_permissions) : [];
-
-        $blogExpertPermissionIndex = array_search(SmartgearPermissions::BLOG_EXPERT, $permissions, true);
-        if (false !== $blogExpertPermissionIndex) {
-            unset($permissions[$blogExpertPermissionIndex]);
-        }
-
-        if ($expertMode) {
-            $permissions[] = SmartgearPermissions::BLOG_EXPERT;
-        }
-        $objUserGroup->smartgear_permissions = serialize($permissions);
-
-        return $objUserGroup;
+        return UserGroupModelUtil::addSmartgearPermissions($objUserGroup, [SmartgearPermissions::BLOG_EXPERT]);
     }
 
     protected function updateUserGroupAllowedModules(UserGroupModel $objUserGroup): UserGroupModel
     {
-        // update allowed modules
-        $allowedModules = unserialize($objUserGroup->modules);
-        $blogModuleIndex = array_search('news', $allowedModules, true);
-        if (false === $blogModuleIndex) {
-            $allowedModules[] = 'news';
-        }
-        $objUserGroup->modules = serialize($allowedModules);
-
-        return $objUserGroup;
+        return UserGroupModelUtil::addAllowedModules($objUserGroup, ['news']);
     }
 
     protected function updateUserGroupAllowedNewsArchive(UserGroupModel $objUserGroup, BlogConfig $blogConfig): UserGroupModel
     {
-        // update allowed news archives
-        $allowedNewsArchives = null !== $objUserGroup->news ? unserialize($objUserGroup->news) : [];
-        $blogNewsArchiveIndex = array_search((string) $blogConfig->getSgNewsArchive(), $allowedNewsArchives, true);
-        if (false === $blogNewsArchiveIndex) {
-            $allowedNewsArchives[] = (string) $blogConfig->getSgNewsArchive();
-        }
-        $objUserGroup->news = serialize($allowedNewsArchives);
+        $objUserGroup = UserGroupModelUtil::addAllowedNewsArchive($objUserGroup, [$blogConfig->getSgNewsArchive()]);
         $objUserGroup->newp = serialize(['create', 'delete']);
 
         return $objUserGroup;
@@ -442,22 +416,13 @@ class General extends ConfigurationStep
         if (!$objFolder) {
             throw new Exception('Unable to find the folder');
         }
-        $allowedFolders = null !== $objUserGroup->filemounts ? unserialize($objUserGroup->filemounts) : [];
-        $blogFolderIndex = array_search($objFolder->uuid, $allowedFolders, true);
-        if (false === $blogFolderIndex) {
-            $allowedFolders[] = $objFolder->uuid;
-        }
-        $objUserGroup->filemounts = serialize($allowedFolders);
 
-        return $objUserGroup;
+        return UserGroupModelUtil::addAllowedFilemounts($objUserGroup, [$objFolder->uuid]);
     }
 
     protected function updateUserGroupAllowedFields(UserGroupModel $objUserGroup): UserGroupModel
     {
-        // tl_news::
-        $alexf = unserialize($objUserGroup->alexf);
-
-        $alexf = array_merge($alexf, [
+        $allowedFields = [
             'tl_news::headline',
             'tl_news::featured',
             'tl_news::alias',
@@ -495,10 +460,8 @@ class General extends ConfigurationStep
             'tl_news::stop',
             'tl_news::styleManager',
             'tl_news::languageMain',
-        ]);
+        ];
 
-        $objUserGroup->alexf = serialize($alexf);
-
-        return $objUserGroup;
+        return UserGroupModelUtil::addAllowedFields($objUserGroup, $allowedFields);
     }
 }
