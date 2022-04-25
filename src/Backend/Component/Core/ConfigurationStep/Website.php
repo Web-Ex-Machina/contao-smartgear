@@ -166,6 +166,7 @@ class Website extends ConfigurationStep
         $layouts = $this->createLayouts($themeId, $modules);
         $groups = $this->createUserGroups();
         $users = $this->createUsers($groups);
+        $this->updateModuleConfigurationUserAndGroups($users, $groups);
         $pages = $this->createPages($layouts, $groups, $users, $modules);
         $this->updateModuleConfigurationRootPage((int) $pages['root']->id);
         $modules = array_merge($this->createModules2($themeId, $pages), $modules);
@@ -322,9 +323,15 @@ class Website extends ConfigurationStep
 
     protected function createUserGroups(): array
     {
-        $userGroups = [];
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
 
-        $objUserGroup = UserGroupModel::findOneByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName']) ?? new UserGroupModel();
+        $userGroups = [];
+        if (null !== $config->getSgUserGroupAdministrators()) {
+            $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators()) ?? new UserGroupModel();
+        } else {
+            $objUserGroup = new UserGroupModel();
+        }
         $objUserGroup->tstamp = time();
         $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName'];
         $objUserGroup->modules = serialize(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance']);
@@ -373,9 +380,13 @@ class Website extends ConfigurationStep
         $objUserGroup->save();
         $userGroups['administrators'] = $objUserGroup;
 
-        $objUserGroup = UserGroupModel::findOneByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName']) ?? new UserGroupModel();
+        if (null !== $config->getSgUserGroupAdministrators()) {
+            $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupWebmasters()) ?? new UserGroupModel();
+        } else {
+            $objUserGroup = new UserGroupModel();
+        }
         $objUserGroup->tstamp = time();
-        $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName'];
+        $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupWebmastersName'];
         $objUserGroup->modules = serialize(['article', 'files']);
         $objUserGroup->alexf = Util::addPermissions($this->getCorePermissions());
         $objUserGroup->imageSizes = serialize(['proportional']);
@@ -417,7 +428,7 @@ class Website extends ConfigurationStep
             'rsce_pdfViewerFW',
         ]);
         $objUserGroup->save();
-        $userGroups['redactors'] = $objUserGroup;
+        $userGroups['webmasters'] = $objUserGroup;
 
         return $userGroups;
     }
@@ -752,6 +763,18 @@ class Website extends ConfigurationStep
         }
 
         $config->setSgModules($formattedModules);
+
+        $this->configurationManager->save($config);
+    }
+
+    protected function updateModuleConfigurationUserAndGroups(array $users, array $groups): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $config->setSgUserWebmaster((int) $users['webmaster']->id);
+        $config->setSgUserGroupWebmasters((int) $groups['webmasters']->id);
+        $config->setSgUserGroupAdministrators((int) $groups['administrators']->id);
 
         $this->configurationManager->save($config);
     }

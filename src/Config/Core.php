@@ -104,6 +104,12 @@ class Core implements ConfigModuleInterface
     protected $sgTheme;
     /** @var int */
     protected $sgRootPage;
+    /** @var int */
+    protected $sgUserWebmaster;
+    /** @var int */
+    protected $sgUserGroupWebmasters;
+    /** @var int */
+    protected $sgUserGroupAdministrators;
     /** @var array */
     protected $sgModules = [];
     /** @var string */
@@ -117,6 +123,9 @@ class Core implements ConfigModuleInterface
             ->setSgVersion(static::DEFAULT_VERSION)
             ->setSgTheme(null)
             ->setSgRootPage(null)
+            ->setSgUserWebmaster(null)
+            ->setSgUserGroupWebmasters(null)
+            ->setSgUserGroupAdministrators(null)
             ->setSgModules([])
             ->setSgSelectedModules([])
             ->setSgMode(static::DEFAULT_MODE)
@@ -155,6 +164,9 @@ class Core implements ConfigModuleInterface
             ->setSgVersion($json->version ?? static::DEFAULT_VERSION)
             ->setSgTheme((int) $json->theme ?? null)
             ->setSgRootPage($json->rootPage ?? null)
+            ->setSgUserWebmaster($json->userWebmaster ?? null)
+            ->setSgUserGroupWebmasters($json->userGroupWebmasters ?? null)
+            ->setSgUserGroupAdministrators($json->userGroupAdministrators ?? null)
             ->setSgModules($json->modules ?? [])
             ->setSgSelectedModules($json->selectedModules ?? [])
             ->setSgMode($json->mode ?? static::DEFAULT_MODE)
@@ -198,6 +210,9 @@ class Core implements ConfigModuleInterface
         $json->version = $this->getSgVersion();
         $json->theme = $this->getSgTheme();
         $json->rootPage = $this->getSgRootPage();
+        $json->userWebmaster = $this->getSgUserWebmaster();
+        $json->userGroupWebmasters = $this->getSgUserGroupWebmasters();
+        $json->userGroupAdministrators = $this->getSgUserGroupAdministrators();
         $json->version = $this->getSgVersion();
         $json->selectedModules = $this->getSgSelectedModules();
         $json->modules = $this->getSgModules();
@@ -630,6 +645,42 @@ class Core implements ConfigModuleInterface
     public function setSgRootPage(?int $sgRootPage = null): self
     {
         $this->sgRootPage = $sgRootPage;
+
+        return $this;
+    }
+
+    public function getSgUserGroupAdministrators(): ?int
+    {
+        return $this->sgUserGroupAdministrators;
+    }
+
+    public function setSgUserGroupAdministrators(?int $sgUserGroupAdministrators): self
+    {
+        $this->sgUserGroupAdministrators = $sgUserGroupAdministrators;
+
+        return $this;
+    }
+
+    public function getSgUserGroupWebmasters(): ?int
+    {
+        return $this->sgUserGroupWebmasters;
+    }
+
+    public function setSgUserGroupWebmasters(?int $sgUserGroupWebmasters): self
+    {
+        $this->sgUserGroupWebmasters = $sgUserGroupWebmasters;
+
+        return $this;
+    }
+
+    public function getSgUserWebmaster(): ?int
+    {
+        return $this->sgUserWebmaster;
+    }
+
+    public function setSgUserWebmaster(?int $sgUserWebmaster): self
+    {
+        $this->sgUserWebmaster = $sgUserWebmaster;
 
         return $this;
     }

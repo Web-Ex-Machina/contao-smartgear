@@ -442,9 +442,9 @@
 			<source>Administrators</source>
 			<target>Administrateurs</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.INSTALL.WEBSITE.UsergroupRedactorsName">
-			<source>Redactors</source>
-			<target>Redacteurs</target>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.UsergroupWebmastersName">
+			<source>Webmasters</source>
+			<target>Webmasters</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.UserWebmasterName">
 			<source>Webmaster</source>

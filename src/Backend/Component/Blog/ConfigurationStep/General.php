@@ -246,13 +246,13 @@ class General extends ConfigurationStep
         $blogConfig = $config->getSgBlog();
         $presetConfig = $blogConfig->getCurrentPreset();
 
-        $objUserGroupAdministrators = UserGroupModel::findByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName']);
-        $objUserGroupRedactors = UserGroupModel::findByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName']);
+        $objUserGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
+        $objUserGroupWebmasters = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
 
         $newsArchive = NewsArchiveModel::findById($blogConfig->getSgNewsArchive()) ?? new NewsArchiveModel();
         $newsArchive->title = $presetConfig->getSgNewsArchiveTitle();
         $newsArchive->jumpTo = $page->id;
-        $newsArchive->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupRedactors->id]);
+        $newsArchive->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupWebmasters->id]);
         $newsArchive->tstamp = time();
         $newsArchive->save();
 
@@ -375,10 +375,8 @@ class General extends ConfigurationStep
         $blogConfig = $config->getSgBlog();
 
         // retrieve the webmaster's group and update the permissions
-        $objUserGroup = UserGroupModel::findByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName']);
-        if (!$objUserGroup) {
-            throw new Exception(sprintf('Unable to find the user group "%s"', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName']));
-        }
+
+        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
         $objUserGroup = $this->updateUserGroupSmartgearPermissions($objUserGroup, $expertMode);
         $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
         $objUserGroup = $this->updateUserGroupAllowedNewsArchive($objUserGroup, $blogConfig);
@@ -386,10 +384,7 @@ class General extends ConfigurationStep
         $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
         $objUserGroup->save();
 
-        $objUserGroup = UserGroupModel::findByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName']);
-        if (!$objUserGroup) {
-            throw new Exception(sprintf('Unable to find the user group "%s"', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName']));
-        }
+        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
         $objUserGroup = $this->updateUserGroupSmartgearPermissions($objUserGroup, true);
         $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
         $objUserGroup = $this->updateUserGroupAllowedNewsArchive($objUserGroup, $blogConfig);

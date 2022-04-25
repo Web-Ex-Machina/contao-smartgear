@@ -132,8 +132,8 @@ class Dashboard extends BackendDashboard
             $rootPage->clientCache = 84600;
             $rootPage->cache = 84600;
             $rootPage->includeChmod = 1;
-            $rootPage->cuser = UserModel::findOneByUsername($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UserWebmasterName'])->id;
-            $rootPage->cgroup = UserGroupModel::findOneByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName'])->id;
+            $rootPage->cuser = UserModel::findOneById($config->getSgUserWebmaster())->id;
+            $rootPage->cgroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators())->id;
             $rootPage->chmod = CoreConfig::DEFAULT_ROOTPAGE_CHMOD;
             $rootPage->save();
         }

@@ -139,9 +139,9 @@ class General extends AbstractStep
         /** @var BlogConfig */
         $blogConfig = $config->getSgBlog();
 
-        $objUserGroup = UserGroupModel::findByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName']);
+        $objUserGroup = UserGroupModel::findByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupWebmastersName']);
         if (!$objUserGroup) {
-            throw new Exception(sprintf('Unable to find the user group "%s"', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName']));
+            throw new Exception(sprintf('Unable to find the user group "%s"', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupWebmastersName']));
         }
         $objUserGroup = $this->resetUserGroupSmartgearPermissions($objUserGroup);
         $objUserGroup = $this->resetUserGroupAllowedModules($objUserGroup);
