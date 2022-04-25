@@ -4,13 +4,9 @@
 
   <?= $this->articles ?>
 
-  <div>
-    <!-- indexer::stop -->
-    <p class="back fl-left"><a href="<?= $this->referer ?>" title="<?= $this->back ?>" class="btn"><?= $this->back ?></a></p>
-    <!-- indexer::continue -->
-    <div id="share" class="fl-right"></div>
-    <div class="clear"></div>
-  </div>
+  <!-- indexer::stop -->
+  <p class="back"><a href="<?= $this->referer ?>" title="<?= $this->back ?>" class="btn"><?= $this->back ?></a></p>
+  <!-- indexer::continue -->
 
   <?php if ($this->allowComments): ?>
     <div class="ce_comments block">
@@ -21,23 +17,4 @@
       <?php $this->insert('mod_comment_form', $this->arrData); ?>
     </div>
   <?php endif; ?>
-
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="assets/jssocials/css/jssocials.css" />
-<link rel="stylesheet" type="text/css" href="assets/jssocials/css/jssocials-theme-flat.css" />
-<script
-        src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-        crossorigin="anonymous"></script>
- <script src="assets/jssocials/js/jssocials.min.js"></script>
- <script src="assets/jssocials/js/jssocials.override.fav5.js"></script>
-<script>
-  $("#share").jsSocials({
-      shares: ["email", "twitter", "facebook", "linkedin","whatsapp"],
-      showLabel : false,
-      showCount: false,
-      shareIn: "popup"
-  });
-</script>
 <?php $this->endblock(); ?>
