@@ -19,6 +19,7 @@ use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 
 class Core implements ConfigModuleInterface
 {
+    public const FORBIDDEN_WEBSITE_TITLES = ['rsce', 'smartgear'];
     public const ANALYTICS_SYSTEM_NONE = 'none';
     public const ANALYTICS_SYSTEM_GOOGLE = 'google';
     public const ANALYTICS_SYSTEM_MATOMO = 'matomo';

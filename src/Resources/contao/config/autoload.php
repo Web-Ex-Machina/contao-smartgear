@@ -15,6 +15,7 @@ declare(strict_types=1);
 /*
  * Register the templates.
  */
+$templateFinder = \Contao\System::getContainer()->get('smartgear.classes.template_finder');
 Contao\TemplateLoader::addFiles(
     [
         // RSCE Templates
@@ -50,21 +51,4 @@ Contao\TemplateLoader::addFiles(
         'be_wem_sg_install_modal_blog_configure' => 'system/modules/wem-contao-smartgear/templates/backend/modals',
     ]
 );
-Contao\TemplateLoader::addFiles(addRsceTemplates());
-
-function addRsceTemplates(): array
-{
-    $templates = [];
-    $dirName = 'templates/rsce';
-    if (is_dir($dirName)) {
-        $files = scandir($dirName);
-        foreach ($files as $filename) {
-            if (\strlen($filename) > 6
-            && '.html5' === substr($filename, -6, 6)) {
-                $templates[str_replace('.html5', '', $filename)] = $dirName;
-            }
-        }
-    }
-
-    return $templates;
-}
+Contao\TemplateLoader::addFiles($templateFinder->buildList());

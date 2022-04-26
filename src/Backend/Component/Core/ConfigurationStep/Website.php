@@ -154,6 +154,7 @@ class Website extends ConfigurationStep
         // do what is meant to be done in this step
         $this->updateModuleConfiguration();
         $this->createClientFilesFolders();
+        $this->createClientTemplatesFolder();
         if (!empty($_FILES)) {
             $objFileLogo = $this->uploadLogo();
             $this->updateModuleConfigurationLogo($objFileLogo);
@@ -179,6 +180,13 @@ class Website extends ConfigurationStep
         $clientFilesFolder->unprotect();
         $clientLogosFolder = new Folder(CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER);
         $clientLogosFolder->unprotect();
+    }
+
+    protected function createClientTemplatesFolder(): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        $clientTemplatesFolder = new Folder('templates'.\DIRECTORY_SEPARATOR.WEMStringUtil::generateAlias($config->getSgWebsiteTitle()));
     }
 
     protected function createTheme()

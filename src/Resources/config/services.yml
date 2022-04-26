@@ -130,6 +130,14 @@ services:
             $commandUtil: '@smartgear.classes.command.util'
         public: true
 
+    smartgear.classes.template_finder:
+        class: WEM\SmartgearBundle\Classes\TemplateFinder
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+            # $resourceFinder: '@contao.resource_finder'
+            $configurationManager : '@smartgear.config.manager.core'
+        public: true
+
     smartgear.config.manager.framway:
         class: WEM\SmartgearBundle\Config\Manager\Framway
         arguments:
