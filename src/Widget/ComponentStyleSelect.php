@@ -12,11 +12,11 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Widgets;
+namespace WEM\SmartgearBundle\Widget;
 
 class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\ComponentStyleSelect
 {
-    public function generate()
+    public function generate(): string
     {
         $content = parent::generate();
         // normal translation keys
@@ -28,12 +28,24 @@ class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\Componen
             $content
         );
         // combined translation keys (with color)
-        return preg_replace_callback(
+        $content = preg_replace_callback(
             '/>([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+) \(([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\)</',
             function ($match) {
                 return sprintf('>%s<', sprintf($GLOBALS['TL_LANG'][$match[1]][$match[2]][$match[3]][$match[4]], $GLOBALS['TL_LANG'][$match[5]][$match[6]][$match[7]][$match[8]]));
             },
             $content
         );
+        dump($this);
+        $content = preg_replace_callback(
+            '</label>',
+            function ($match) {
+                return 'a href="contao/help.php?table='.$this->arrConfiguration['strTable'].'&amp;field='.$this->arrConfiguration['strField'].'" title="'.\Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['helpWizard']).'" onclick="Backend.openModalIframe({\'title\':\'xxxxxx\',\'url\':this.href});return false">'.\Contao\Image::getHtml('about.svg', $GLOBALS['TL_LANG']['MSC']['helpWizard']).'</a></label';
+            },
+            $content
+        );
+
+        $content .= '';
+
+        return $content;
     }
 }

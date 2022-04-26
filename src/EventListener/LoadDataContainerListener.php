@@ -30,5 +30,18 @@ class LoadDataContainerListener
         foreach ($this->listeners as $listener) {
             $listener->__invoke($table);
         }
+
+        // here add "explanation"/"reference" to styleManager fields ?
+        if (\array_key_exists('styleManager', $GLOBALS['TL_DCA'][$table]['fields'])) {
+            // $GLOBALS['TL_DCA'][$table]['fields']['styleManager']['explanation'] = 'dateFormat';
+            $GLOBALS['TL_DCA'][$table]['fields']['styleManager']['reference'] = [
+                'header_1' => 'h1',
+                'row_1' => ['left_val', 'right_val'],
+                'row_2' => ['left_val', 'right_val'],
+                'row_3' => ['left_val', 'right_val'],
+                'header_2' => 'h2',
+                'row_4' => ['left_val', 'right_val'],
+            ];
+        }
     }
 }
