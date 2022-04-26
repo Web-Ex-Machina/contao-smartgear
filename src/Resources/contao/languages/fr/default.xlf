@@ -1349,51 +1349,51 @@
 			<source>Framway - Background - Color</source>
 			<target>Framway - Background - Color</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgPrimaryLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.primaryLabel">
 			<source>background primary color</source>
 			<target>fond couleur primaire</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgPrimaryDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.primaryDescription">
 			<source>Apply a background using primary color to the item</source>
 			<target>Ajoute à l'élément un background de couleur primaire</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSecondaryLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.secondaryLabel">
 			<source>background secondary color</source>
 			<target>fond couleur secondaire</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSecondaryDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.secondaryDescription">
 			<source>Apply a background using secondary color to the item</source>
 			<target>Ajoute à l'élément un background de couleur secondaire</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSuccessLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.successLabel">
 			<source>background success color</source>
 			<target>fond couleur succès</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgSuccessDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.successDescription">
 			<source>Apply a background using color used to signal a success to the item</source>
 			<target>Ajoute à l'élément un background correspondant à la couleur utilisée pour signaler un succès</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgErrorLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.errorLabel">
 			<source>background error color</source>
 			<target>fond couleur erreur</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgErrorDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.errorDescription">
 			<source>Apply a background using color used to signal an error to the item</source>
 			<target>Ajoute à l'élément un background correspondant à la couleur utilisée pour signaler une erreur</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgWarningLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.warningLabel">
 			<source>background warning color</source>
 			<target>fond couleur avertissement</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgWarningDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.warningDescription">
 			<source>Apply a background using color used to signal a warning to the item</source>
 			<target>Ajoute à l'élément un background correspondant à la couleur utilisée pour signaler un problème</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgColorLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.colorLabel">
 			<source>background color %s</source>
 			<target>fond couleur %s</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.bgColorDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.description">
 			<source>Apply a background using the "%s" color to the item</source>
 			<target>Ajoute à l'élément un background correspondant à la couleur "%s"</target>
 		</trans-unit>
@@ -1405,51 +1405,51 @@
 			<source>Framway - Buttons - Background</source>
 			<target>Framway - Buttons - Background</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgPrimaryLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.primaryLabel">
 			<source>background primary color</source>
 			<target>bouton - fond couleur primaire</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgPrimaryDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.primaryDescription">
 			<source>Apply a background using primary color to the item</source>
 			<target>Transforme l'élément en bouton avec un background de couleur primaire</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgSecondaryLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.secondaryLabel">
 			<source>background secondary color</source>
 			<target>bouton - fond couleur secondaire</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgSecondaryDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.secondaryDescription">
 			<source>Apply a background using secondary color to the item</source>
 			<target>Transforme l'élément en bouton avec un background de couleur secondaire</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgSuccessLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.successLabel">
 			<source>background success color</source>
 			<target>bouton - fond couleur succès</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgSuccessDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.successDescription">
 			<source>Apply a background using color used to signal a success to the item</source>
 			<target>Transforme l'élément en bouton avec un background correspondant à la couleur utilisée pour signaler un succès</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgErrorLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.errorLabel">
 			<source>background error color</source>
 			<target>bouton - fond couleur erreur</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgErrorDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.errorDescription">
 			<source>Apply a background using color used to signal an error to the item</source>
 			<target>Transforme l'élément en bouton avec un background correspondant à la couleur utilisée pour signaler une erreur</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgWarningLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.warningLabel">
 			<source>background warning color</source>
 			<target>bouton - fond couleur avertissement</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgWarningDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.warningDescription">
 			<source>Apply a background using color used to signal a warning to the item</source>
 			<target>Transforme l'élément en bouton avec un background correspondant à la couleur utilisée pour signaler un problème</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgColorLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.colorLabel">
 			<source>background color %s</source>
 			<target>bouton - fond couleur %s</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.bgColorDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.description">
 			<source>Apply a background using the "%s" color to the item</source>
 			<target>Transforme l'élément en bouton avec un background correspondant à la couleur "%s"</target>
 		</trans-unit>
@@ -1457,51 +1457,51 @@
 			<source>Framway - Buttons - Borders</source>
 			<target>Framway - Buttons - Bordures</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdPrimaryLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.primaryLabel">
 			<source>border primary color</source>
 			<target>bouton - bordures couleur primaire</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdPrimaryDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.primaryDescription">
 			<source>Apply a border using primary color to the item</source>
 			<target>Transforme l'élément en bouton avec une bordure de couleur primaire</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdSecondaryLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.secondaryLabel">
 			<source>border secondary color</source>
 			<target>bouton - bordures couleur secondaire</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdSecondaryDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.secondaryDescription">
 			<source>Apply a border using secondary color to the item</source>
 			<target>Transforme l'élément en bouton avec une bordure de couleur secondaire</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdSuccessLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.successLabel">
 			<source>border success color</source>
 			<target>bouton - bordures couleur succès</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdSuccessDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.successDescription">
 			<source>Apply a border using color used to signal a success to the item</source>
 			<target>Transforme l'élément en bouton avec une bordure correspondant à la couleur utilisée pour signaler un succès</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdErrorLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.errorLabel">
 			<source>border error color</source>
 			<target>bouton - bordures couleur erreur</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdErrorDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.errorDescription">
 			<source>Apply a border using color used to signal an error to the item</source>
 			<target>Transforme l'élément en bouton avec une bordure correspondant à la couleur utilisée pour signaler une erreur</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdWarningLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.warningLabel">
 			<source>border warning color</source>
 			<target>bouton - bordures couleur avertissement</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdWarningDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.warningDescription">
 			<source>Apply a border using color used to signal a warning to the item</source>
 			<target>Transforme l'élément en bouton avec une bordure correspondant à la couleur utilisée pour signaler un problème</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdColorLabel">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.colorLabel">
 			<source>border color %s</source>
 			<target>bouton - bordures couleur %s</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.bdColorDescription">
+		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.description">
 			<source>Apply a border using the "%s" color to the item</source>
 			<target>Transforme l'élément en bouton avec une bordure correspondant à la couleur "%s"</target>
 		</trans-unit>
@@ -1887,992 +1887,2753 @@
 		</trans-unit>
 
 
-<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.tabTitle"><source>Image - Ratio</source><target>Image - Ratio</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.title"><source>fwimageratio</source><target>fwimageratio</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.description"><source>fwimageratio description</source><target>fwimageratio description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r169Label"><source>fwimageratio - r169</source><target>fwimageratio - r169</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r21Label"><source>fwimageratio - r21</source><target>fwimageratio - r21</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r11Label"><source>fwimageratio - r11</source><target>fwimageratio - r11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r12Label"><source>fwimageratio - r12</source><target>fwimageratio - r12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r43Label"><source>fwimageratio - r43</source><target>fwimageratio - r43</target></trans-unit>
-
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.title"><source>fwimagezoom</source><target>fwimagezoom</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.description"><source>fwimagezoom description</source><target>fwimagezoom description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.inLabel"><source>fwimagezoom - in</source><target>fwimagezoom - in</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.outLabel"><source>fwimagezoom - out</source><target>fwimagezoom - out</target></trans-unit>
-
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.title"><source>fwimagefade</source><target>fwimagefade</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.description"><source>fwimagefade description</source><target>fwimagefade description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.colorLabel"><source>fwimagefade - color</source><target>fwimagefade - color</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.greyLabel"><source>fwimagefade - grey</source><target>fwimagefade - grey</target></trans-unit>
-
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernav.title"><source>fwslidernav</source><target>fwslidernav</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidernav.description"><source>fwslidernav description</source><target>fwslidernav description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernav.belowLabel"><source>fwslidernav - below</source><target>fwslidernav - below</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernav.hiddenLabel"><source>fwslidernav - hidden</source><target>fwslidernav - hidden</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavvertical.title"><source>fwslidernavvertical</source><target>fwslidernavvertical</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidernavvertical.description"><source>fwslidernavvertical description</source><target>fwslidernavvertical description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavvertical.topLabel"><source>fwslidernavvertical - top</source><target>fwslidernavvertical - top</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavvertical.bottomLabel"><source>fwslidernavvertical - bottom</source><target>fwslidernavvertical - bottom</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavhorizontal.title"><source>fwslidernavhorizontal</source><target>fwslidernavhorizontal</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidernavhorizontal.description"><source>fwslidernavhorizontal description</source><target>fwslidernavhorizontal description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavhorizontal.leftLabel"><source>fwslidernavhorizontal - left</source><target>fwslidernavhorizontal - left</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavhorizontal.rightLabel"><source>fwslidernavhorizontal - right</source><target>fwslidernavhorizontal - right</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgvertical.title"><source>fwsliderimgvertical</source><target>fwsliderimgvertical</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgvertical.description"><source>fwsliderimgvertical description</source><target>fwsliderimgvertical description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgvertical.topLabel"><source>fwsliderimgvertical - top</source><target>fwsliderimgvertical - top</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgvertical.bottomLabel"><source>fwsliderimgvertical - bottom</source><target>fwsliderimgvertical - bottom</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimghorizontal.title"><source>fwsliderimghorizontal</source><target>fwsliderimghorizontal</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwsliderimghorizontal.description"><source>fwsliderimghorizontal description</source><target>fwsliderimghorizontal description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimghorizontal.leftLabel"><source>fwsliderimghorizontal - left</source><target>fwsliderimghorizontal - left</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimghorizontal.rightLabel"><source>fwsliderimghorizontal - right</source><target>fwsliderimghorizontal - right</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.title"><source>fwsliderimgopacity</source><target>fwsliderimgopacity</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.description"><source>fwsliderimgopacity description</source><target>fwsliderimgopacity description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.0Label"><source>fwsliderimgopacity - 0</source><target>fwsliderimgopacity - 0</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.1Label"><source>fwsliderimgopacity - 1</source><target>fwsliderimgopacity - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.2Label"><source>fwsliderimgopacity - 2</source><target>fwsliderimgopacity - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.3Label"><source>fwsliderimgopacity - 3</source><target>fwsliderimgopacity - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.4Label"><source>fwsliderimgopacity - 4</source><target>fwsliderimgopacity - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.5Label"><source>fwsliderimgopacity - 5</source><target>fwsliderimgopacity - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.6Label"><source>fwsliderimgopacity - 6</source><target>fwsliderimgopacity - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.7Label"><source>fwsliderimgopacity - 7</source><target>fwsliderimgopacity - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.8Label"><source>fwsliderimgopacity - 8</source><target>fwsliderimgopacity - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.9Label"><source>fwsliderimgopacity - 9</source><target>fwsliderimgopacity - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.10Label"><source>fwsliderimgopacity - 10</source><target>fwsliderimgopacity - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentvertical.title"><source>fwslidercontentvertical</source><target>fwslidercontentvertical</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentvertical.description"><source>fwslidercontentvertical description</source><target>fwslidercontentvertical description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentvertical.topLabel"><source>fwslidercontentvertical - top</source><target>fwslidercontentvertical - top</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentvertical.centerLabel"><source>fwslidercontentvertical - center</source><target>fwslidercontentvertical - center</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentvertical.bottomLabel"><source>fwslidercontentvertical - bottom</source><target>fwslidercontentvertical - bottom</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontenthorizontal.title"><source>fwslidercontenthorizontal</source><target>fwslidercontenthorizontal</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidercontenthorizontal.description"><source>fwslidercontenthorizontal description</source><target>fwslidercontenthorizontal description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontenthorizontal.leftLabel"><source>fwslidercontenthorizontal - left</source><target>fwslidercontenthorizontal - left</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontenthorizontal.centerLabel"><source>fwslidercontenthorizontal - center</source><target>fwslidercontenthorizontal - center</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontenthorizontal.rightLabel"><source>fwslidercontenthorizontal - right</source><target>fwslidercontenthorizontal - right</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.title"><source>fwslidertitle</source><target>fwslidertitle</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.description"><source>fwslidertitle description</source><target>fwslidertitle description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.1Label"><source>fwslidertitle - 1</source><target>fwslidertitle - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.2Label"><source>fwslidertitle - 2</source><target>fwslidertitle - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.3Label"><source>fwslidertitle - 3</source><target>fwslidertitle - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.4Label"><source>fwslidertitle - 4</source><target>fwslidertitle - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderft.title"><source>fwsliderft</source><target>fwsliderft</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwsliderft.description"><source>fwsliderft description</source><target>fwsliderft description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderft.colorLabel"><source>fwsliderft - color %s</source><target>fwsliderft - color %s</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbg.title"><source>fwslidercontentbg</source><target>fwslidercontentbg</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbg.description"><source>fwslidercontentbg description</source><target>fwslidercontentbg description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbg.colorLabel"><source>fwslidercontentbg - color %s</source><target>fwslidercontentbg - color %s</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.title"><source>fwslidercontentbgopacity</source><target>fwslidercontentbgopacity</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.description"><source>fwslidercontentbgopacity description</source><target>fwslidercontentbgopacity description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.0Label"><source>fwslidercontentbgopacity - 0</source><target>fwslidercontentbgopacity - 0</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.1Label"><source>fwslidercontentbgopacity - 1</source><target>fwslidercontentbgopacity - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.2Label"><source>fwslidercontentbgopacity - 2</source><target>fwslidercontentbgopacity - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.3Label"><source>fwslidercontentbgopacity - 3</source><target>fwslidercontentbgopacity - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.4Label"><source>fwslidercontentbgopacity - 4</source><target>fwslidercontentbgopacity - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.5Label"><source>fwslidercontentbgopacity - 5</source><target>fwslidercontentbgopacity - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.6Label"><source>fwslidercontentbgopacity - 6</source><target>fwslidercontentbgopacity - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.7Label"><source>fwslidercontentbgopacity - 7</source><target>fwslidercontentbgopacity - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.8Label"><source>fwslidercontentbgopacity - 8</source><target>fwslidercontentbgopacity - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.9Label"><source>fwslidercontentbgopacity - 9</source><target>fwslidercontentbgopacity - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.10Label"><source>fwslidercontentbgopacity - 10</source><target>fwslidercontentbgopacity - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderwfull.title"><source>fwsliderwfull</source><target>fwsliderwfull</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwsliderwfull.description"><source>fwsliderwfull description</source><target>fwsliderwfull description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderwfull.label"><source>fwsliderwfull - label</source><target>fwsliderwfull - label</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.title"><source>fwheroimgvertical</source><target>fwheroimgvertical</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.description"><source>fwheroimgvertical description</source><target>fwheroimgvertical description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.topLabel"><source>fwheroimgvertical - top</source><target>fwheroimgvertical - top</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.bottomLabel"><source>fwheroimgvertical - bottom</source><target>fwheroimgvertical - bottom</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.title"><source>fwheroimghorizontal</source><target>fwheroimghorizontal</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.description"><source>fwheroimghorizontal description</source><target>fwheroimghorizontal description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.leftLabel"><source>fwheroimghorizontal - left</source><target>fwheroimghorizontal - left</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.rightLabel"><source>fwheroimghorizontal - right</source><target>fwheroimghorizontal - right</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.title"><source>fwherofigureopacity</source><target>fwherofigureopacity</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.description"><source>fwherofigureopacity description</source><target>fwherofigureopacity description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.0Label"><source>fwherofigureopacity - 0</source><target>fwherofigureopacity - 0</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.1Label"><source>fwherofigureopacity - 1</source><target>fwherofigureopacity - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.2Label"><source>fwherofigureopacity - 2</source><target>fwherofigureopacity - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.3Label"><source>fwherofigureopacity - 3</source><target>fwherofigureopacity - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.4Label"><source>fwherofigureopacity - 4</source><target>fwherofigureopacity - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.5Label"><source>fwherofigureopacity - 5</source><target>fwherofigureopacity - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.6Label"><source>fwherofigureopacity - 6</source><target>fwherofigureopacity - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.7Label"><source>fwherofigureopacity - 7</source><target>fwherofigureopacity - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.8Label"><source>fwherofigureopacity - 8</source><target>fwherofigureopacity - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.9Label"><source>fwherofigureopacity - 9</source><target>fwherofigureopacity - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.10Label"><source>fwherofigureopacity - 10</source><target>fwherofigureopacity - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentvertical.title"><source>fwherocontentvertical</source><target>fwherocontentvertical</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherocontentvertical.description"><source>fwherocontentvertical description</source><target>fwherocontentvertical description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentvertical.topLabel"><source>fwherocontentvertical - top</source><target>fwherocontentvertical - top</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentvertical.centerLabel"><source>fwherocontentvertical - center</source><target>fwherocontentvertical - center</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentvertical.bottomLabel"><source>fwherocontentvertical - bottom</source><target>fwherocontentvertical - bottom</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontenthorizontal.title"><source>fwherocontenthorizontal</source><target>fwherocontenthorizontal</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherocontenthorizontal.description"><source>fwherocontenthorizontal description</source><target>fwherocontenthorizontal description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontenthorizontal.leftLabel"><source>fwherocontenthorizontal - left</source><target>fwherocontenthorizontal - left</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontenthorizontal.centerLabel"><source>fwherocontenthorizontal - center</source><target>fwherocontenthorizontal - center</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontenthorizontal.rightLabel"><source>fwherocontenthorizontal - right</source><target>fwherocontenthorizontal - right</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.title"><source>fwherotitle</source><target>fwherotitle</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.description"><source>fwherotitle description</source><target>fwherotitle description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.1Label"><source>fwherotitle - 1</source><target>fwherotitle - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.2Label"><source>fwherotitle - 2</source><target>fwherotitle - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.3Label"><source>fwherotitle - 3</source><target>fwherotitle - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.4Label"><source>fwherotitle - 4</source><target>fwherotitle - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroft.title"><source>fwheroft</source><target>fwheroft</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwheroft.description"><source>fwheroft description</source><target>fwheroft description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroft.colorLabel"><source>fwheroft - color %s</source><target>fwheroft - color %s</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbg.title"><source>fwherocontentbg</source><target>fwherocontentbg</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbg.description"><source>fwherocontentbg description</source><target>fwherocontentbg description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbg.colorLabel"><source>fwherocontentbg - color %s</source><target>fwherocontentbg - color %s</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.title"><source>fwherocontentbgopacity</source><target>fwherocontentbgopacity</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.description"><source>fwherocontentbgopacity description</source><target>fwherocontentbgopacity description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.0Label"><source>fwherocontentbgopacity - 0</source><target>fwherocontentbgopacity - 0</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.1Label"><source>fwherocontentbgopacity - 1</source><target>fwherocontentbgopacity - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.2Label"><source>fwherocontentbgopacity - 2</source><target>fwherocontentbgopacity - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.3Label"><source>fwherocontentbgopacity - 3</source><target>fwherocontentbgopacity - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.4Label"><source>fwherocontentbgopacity - 4</source><target>fwherocontentbgopacity - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.5Label"><source>fwherocontentbgopacity - 5</source><target>fwherocontentbgopacity - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.6Label"><source>fwherocontentbgopacity - 6</source><target>fwherocontentbgopacity - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.7Label"><source>fwherocontentbgopacity - 7</source><target>fwherocontentbgopacity - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.8Label"><source>fwherocontentbgopacity - 8</source><target>fwherocontentbgopacity - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.9Label"><source>fwherocontentbgopacity - 9</source><target>fwherocontentbgopacity - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.10Label"><source>fwherocontentbgopacity - 10</source><target>fwherocontentbgopacity - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherowfull.title"><source>fwherowfull</source><target>fwherowfull</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherowfull.description"><source>fwherowfull description</source><target>fwherowfull description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherowfull.label"><source>fwherowfull - label</source><target>fwherowfull - label</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroheightcontent.title"><source>fwheroheightcontent</source><target>fwheroheightcontent</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwheroheightcontent.description"><source>fwheroheightcontent description</source><target>fwheroheightcontent description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroheightcontent.label"><source>fwheroheightcontent - label</source><target>fwheroheightcontent - label</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherowidthcontent.title"><source>fwherowidthcontent</source><target>fwherowidthcontent</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherowidthcontent.description"><source>fwherowidthcontent description</source><target>fwherowidthcontent description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherowidthcontent.label"><source>fwherowidthcontent - label</source><target>fwherowidthcontent - label</target></trans-unit>
-
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.title"><source>fwgridgap</source><target>fwgridgap</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.description"><source>fwgridgap description</source><target>fwgridgap description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.0Label"><source>fwgridgap - 0</source><target>fwgridgap - 0</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.0emLabel"><source>fwgridgap - 0em</source><target>fwgridgap - 0em</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.0remLabel"><source>fwgridgap - 0rem</source><target>fwgridgap - 0rem</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.1Label"><source>fwgridgap - 1</source><target>fwgridgap - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.1emLabel"><source>fwgridgap - 1em</source><target>fwgridgap - 1em</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.1remLabel"><source>fwgridgap - 1rem</source><target>fwgridgap - 1rem</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.2Label"><source>fwgridgap - 2</source><target>fwgridgap - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.2emLabel"><source>fwgridgap - 2em</source><target>fwgridgap - 2em</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.2remLabel"><source>fwgridgap - 2rem</source><target>fwgridgap - 2rem</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.3Label"><source>fwgridgap - 3</source><target>fwgridgap - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.3emLabel"><source>fwgridgap - 3em</source><target>fwgridgap - 3em</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.3remLabel"><source>fwgridgap - 3rem</source><target>fwgridgap - 3rem</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.4Label"><source>fwgridgap - 4</source><target>fwgridgap - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.4emLabel"><source>fwgridgap - 4em</source><target>fwgridgap - 4em</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.4remLabel"><source>fwgridgap - 4rem</source><target>fwgridgap - 4rem</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.5Label"><source>fwgridgap - 5</source><target>fwgridgap - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.5emLabel"><source>fwgridgap - 5em</source><target>fwgridgap - 5em</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.5remLabel"><source>fwgridgap - 5rem</source><target>fwgridgap - 5rem</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.6Label"><source>fwgridgap - 6</source><target>fwgridgap - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.6emLabel"><source>fwgridgap - 6em</source><target>fwgridgap - 6em</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.6remLabel"><source>fwgridgap - 6rem</source><target>fwgridgap - 6rem</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.title"><source>fwgridcols</source><target>fwgridcols</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.description"><source>fwgridcols description</source><target>fwgridcols description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.1Label"><source>fwgridcols - 1</source><target>fwgridcols - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.2Label"><source>fwgridcols - 2</source><target>fwgridcols - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.3Label"><source>fwgridcols - 3</source><target>fwgridcols - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.4Label"><source>fwgridcols - 4</source><target>fwgridcols - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.5Label"><source>fwgridcols - 5</source><target>fwgridcols - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.6Label"><source>fwgridcols - 6</source><target>fwgridcols - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.7Label"><source>fwgridcols - 7</source><target>fwgridcols - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.8Label"><source>fwgridcols - 8</source><target>fwgridcols - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.9Label"><source>fwgridcols - 9</source><target>fwgridcols - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.10Label"><source>fwgridcols - 10</source><target>fwgridcols - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.11Label"><source>fwgridcols - 11</source><target>fwgridcols - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.12Label"><source>fwgridcols - 12</source><target>fwgridcols - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.title"><source>fwgridrows</source><target>fwgridrows</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.description"><source>fwgridrows description</source><target>fwgridrows description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.1Label"><source>fwgridrows - 1</source><target>fwgridrows - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.2Label"><source>fwgridrows - 2</source><target>fwgridrows - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.3Label"><source>fwgridrows - 3</source><target>fwgridrows - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.4Label"><source>fwgridrows - 4</source><target>fwgridrows - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.5Label"><source>fwgridrows - 5</source><target>fwgridrows - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.6Label"><source>fwgridrows - 6</source><target>fwgridrows - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.7Label"><source>fwgridrows - 7</source><target>fwgridrows - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.8Label"><source>fwgridrows - 8</source><target>fwgridrows - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.9Label"><source>fwgridrows - 9</source><target>fwgridrows - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.10Label"><source>fwgridrows - 10</source><target>fwgridrows - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.11Label"><source>fwgridrows - 11</source><target>fwgridrows - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.12Label"><source>fwgridrows - 12</source><target>fwgridrows - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.title"><source>fwgridcolsxl</source><target>fwgridcolsxl</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.description"><source>fwgridcolsxl description</source><target>fwgridcolsxl description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.1Label"><source>fwgridcolsxl - 1</source><target>fwgridcolsxl - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.2Label"><source>fwgridcolsxl - 2</source><target>fwgridcolsxl - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.3Label"><source>fwgridcolsxl - 3</source><target>fwgridcolsxl - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.4Label"><source>fwgridcolsxl - 4</source><target>fwgridcolsxl - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.5Label"><source>fwgridcolsxl - 5</source><target>fwgridcolsxl - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.6Label"><source>fwgridcolsxl - 6</source><target>fwgridcolsxl - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.7Label"><source>fwgridcolsxl - 7</source><target>fwgridcolsxl - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.8Label"><source>fwgridcolsxl - 8</source><target>fwgridcolsxl - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.9Label"><source>fwgridcolsxl - 9</source><target>fwgridcolsxl - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.10Label"><source>fwgridcolsxl - 10</source><target>fwgridcolsxl - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.11Label"><source>fwgridcolsxl - 11</source><target>fwgridcolsxl - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.12Label"><source>fwgridcolsxl - 12</source><target>fwgridcolsxl - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.title"><source>fwgridrowsxl</source><target>fwgridrowsxl</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.description"><source>fwgridrowsxl description</source><target>fwgridrowsxl description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.1Label"><source>fwgridrowsxl - 1</source><target>fwgridrowsxl - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.2Label"><source>fwgridrowsxl - 2</source><target>fwgridrowsxl - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.3Label"><source>fwgridrowsxl - 3</source><target>fwgridrowsxl - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.4Label"><source>fwgridrowsxl - 4</source><target>fwgridrowsxl - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.5Label"><source>fwgridrowsxl - 5</source><target>fwgridrowsxl - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.6Label"><source>fwgridrowsxl - 6</source><target>fwgridrowsxl - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.7Label"><source>fwgridrowsxl - 7</source><target>fwgridrowsxl - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.8Label"><source>fwgridrowsxl - 8</source><target>fwgridrowsxl - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.9Label"><source>fwgridrowsxl - 9</source><target>fwgridrowsxl - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.10Label"><source>fwgridrowsxl - 10</source><target>fwgridrowsxl - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.11Label"><source>fwgridrowsxl - 11</source><target>fwgridrowsxl - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.12Label"><source>fwgridrowsxl - 12</source><target>fwgridrowsxl - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.title"><source>fwgridcolslg</source><target>fwgridcolslg</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.description"><source>fwgridcolslg description</source><target>fwgridcolslg description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.1Label"><source>fwgridcolslg - 1</source><target>fwgridcolslg - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.2Label"><source>fwgridcolslg - 2</source><target>fwgridcolslg - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.3Label"><source>fwgridcolslg - 3</source><target>fwgridcolslg - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.4Label"><source>fwgridcolslg - 4</source><target>fwgridcolslg - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.5Label"><source>fwgridcolslg - 5</source><target>fwgridcolslg - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.6Label"><source>fwgridcolslg - 6</source><target>fwgridcolslg - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.7Label"><source>fwgridcolslg - 7</source><target>fwgridcolslg - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.8Label"><source>fwgridcolslg - 8</source><target>fwgridcolslg - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.9Label"><source>fwgridcolslg - 9</source><target>fwgridcolslg - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.10Label"><source>fwgridcolslg - 10</source><target>fwgridcolslg - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.11Label"><source>fwgridcolslg - 11</source><target>fwgridcolslg - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.12Label"><source>fwgridcolslg - 12</source><target>fwgridcolslg - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.title"><source>fwgridrowslg</source><target>fwgridrowslg</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.description"><source>fwgridrowslg description</source><target>fwgridrowslg description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.1Label"><source>fwgridrowslg - 1</source><target>fwgridrowslg - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.2Label"><source>fwgridrowslg - 2</source><target>fwgridrowslg - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.3Label"><source>fwgridrowslg - 3</source><target>fwgridrowslg - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.4Label"><source>fwgridrowslg - 4</source><target>fwgridrowslg - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.5Label"><source>fwgridrowslg - 5</source><target>fwgridrowslg - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.6Label"><source>fwgridrowslg - 6</source><target>fwgridrowslg - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.7Label"><source>fwgridrowslg - 7</source><target>fwgridrowslg - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.8Label"><source>fwgridrowslg - 8</source><target>fwgridrowslg - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.9Label"><source>fwgridrowslg - 9</source><target>fwgridrowslg - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.10Label"><source>fwgridrowslg - 10</source><target>fwgridrowslg - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.11Label"><source>fwgridrowslg - 11</source><target>fwgridrowslg - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.12Label"><source>fwgridrowslg - 12</source><target>fwgridrowslg - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.title"><source>fwgridcolsmd</source><target>fwgridcolsmd</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.description"><source>fwgridcolsmd description</source><target>fwgridcolsmd description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.1Label"><source>fwgridcolsmd - 1</source><target>fwgridcolsmd - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.2Label"><source>fwgridcolsmd - 2</source><target>fwgridcolsmd - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.3Label"><source>fwgridcolsmd - 3</source><target>fwgridcolsmd - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.4Label"><source>fwgridcolsmd - 4</source><target>fwgridcolsmd - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.5Label"><source>fwgridcolsmd - 5</source><target>fwgridcolsmd - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.6Label"><source>fwgridcolsmd - 6</source><target>fwgridcolsmd - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.7Label"><source>fwgridcolsmd - 7</source><target>fwgridcolsmd - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.8Label"><source>fwgridcolsmd - 8</source><target>fwgridcolsmd - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.9Label"><source>fwgridcolsmd - 9</source><target>fwgridcolsmd - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.10Label"><source>fwgridcolsmd - 10</source><target>fwgridcolsmd - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.11Label"><source>fwgridcolsmd - 11</source><target>fwgridcolsmd - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.12Label"><source>fwgridcolsmd - 12</source><target>fwgridcolsmd - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.title"><source>fwgridrowsmd</source><target>fwgridrowsmd</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.description"><source>fwgridrowsmd description</source><target>fwgridrowsmd description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.1Label"><source>fwgridrowsmd - 1</source><target>fwgridrowsmd - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.2Label"><source>fwgridrowsmd - 2</source><target>fwgridrowsmd - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.3Label"><source>fwgridrowsmd - 3</source><target>fwgridrowsmd - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.4Label"><source>fwgridrowsmd - 4</source><target>fwgridrowsmd - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.5Label"><source>fwgridrowsmd - 5</source><target>fwgridrowsmd - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.6Label"><source>fwgridrowsmd - 6</source><target>fwgridrowsmd - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.7Label"><source>fwgridrowsmd - 7</source><target>fwgridrowsmd - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.8Label"><source>fwgridrowsmd - 8</source><target>fwgridrowsmd - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.9Label"><source>fwgridrowsmd - 9</source><target>fwgridrowsmd - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.10Label"><source>fwgridrowsmd - 10</source><target>fwgridrowsmd - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.11Label"><source>fwgridrowsmd - 11</source><target>fwgridrowsmd - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.12Label"><source>fwgridrowsmd - 12</source><target>fwgridrowsmd - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.title"><source>fwgridcolssm</source><target>fwgridcolssm</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.description"><source>fwgridcolssm description</source><target>fwgridcolssm description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.1Label"><source>fwgridcolssm - 1</source><target>fwgridcolssm - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.2Label"><source>fwgridcolssm - 2</source><target>fwgridcolssm - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.3Label"><source>fwgridcolssm - 3</source><target>fwgridcolssm - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.4Label"><source>fwgridcolssm - 4</source><target>fwgridcolssm - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.5Label"><source>fwgridcolssm - 5</source><target>fwgridcolssm - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.6Label"><source>fwgridcolssm - 6</source><target>fwgridcolssm - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.7Label"><source>fwgridcolssm - 7</source><target>fwgridcolssm - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.8Label"><source>fwgridcolssm - 8</source><target>fwgridcolssm - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.9Label"><source>fwgridcolssm - 9</source><target>fwgridcolssm - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.10Label"><source>fwgridcolssm - 10</source><target>fwgridcolssm - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.11Label"><source>fwgridcolssm - 11</source><target>fwgridcolssm - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.12Label"><source>fwgridcolssm - 12</source><target>fwgridcolssm - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.title"><source>fwgridrowssm</source><target>fwgridrowssm</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.description"><source>fwgridrowssm description</source><target>fwgridrowssm description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.1Label"><source>fwgridrowssm - 1</source><target>fwgridrowssm - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.2Label"><source>fwgridrowssm - 2</source><target>fwgridrowssm - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.3Label"><source>fwgridrowssm - 3</source><target>fwgridrowssm - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.4Label"><source>fwgridrowssm - 4</source><target>fwgridrowssm - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.5Label"><source>fwgridrowssm - 5</source><target>fwgridrowssm - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.6Label"><source>fwgridrowssm - 6</source><target>fwgridrowssm - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.7Label"><source>fwgridrowssm - 7</source><target>fwgridrowssm - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.8Label"><source>fwgridrowssm - 8</source><target>fwgridrowssm - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.9Label"><source>fwgridrowssm - 9</source><target>fwgridrowssm - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.10Label"><source>fwgridrowssm - 10</source><target>fwgridrowssm - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.11Label"><source>fwgridrowssm - 11</source><target>fwgridrowssm - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.12Label"><source>fwgridrowssm - 12</source><target>fwgridrowssm - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.title"><source>fwgridcolsxs</source><target>fwgridcolsxs</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.description"><source>fwgridcolsxs description</source><target>fwgridcolsxs description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.1Label"><source>fwgridcolsxs - 1</source><target>fwgridcolsxs - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.2Label"><source>fwgridcolsxs - 2</source><target>fwgridcolsxs - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.3Label"><source>fwgridcolsxs - 3</source><target>fwgridcolsxs - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.4Label"><source>fwgridcolsxs - 4</source><target>fwgridcolsxs - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.5Label"><source>fwgridcolsxs - 5</source><target>fwgridcolsxs - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.6Label"><source>fwgridcolsxs - 6</source><target>fwgridcolsxs - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.7Label"><source>fwgridcolsxs - 7</source><target>fwgridcolsxs - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.8Label"><source>fwgridcolsxs - 8</source><target>fwgridcolsxs - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.9Label"><source>fwgridcolsxs - 9</source><target>fwgridcolsxs - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.10Label"><source>fwgridcolsxs - 10</source><target>fwgridcolsxs - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.11Label"><source>fwgridcolsxs - 11</source><target>fwgridcolsxs - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.12Label"><source>fwgridcolsxs - 12</source><target>fwgridcolsxs - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.title"><source>fwgridrowsxs</source><target>fwgridrowsxs</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.description"><source>fwgridrowsxs description</source><target>fwgridrowsxs description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.1Label"><source>fwgridrowsxs - 1</source><target>fwgridrowsxs - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.2Label"><source>fwgridrowsxs - 2</source><target>fwgridrowsxs - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.3Label"><source>fwgridrowsxs - 3</source><target>fwgridrowsxs - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.4Label"><source>fwgridrowsxs - 4</source><target>fwgridrowsxs - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.5Label"><source>fwgridrowsxs - 5</source><target>fwgridrowsxs - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.6Label"><source>fwgridrowsxs - 6</source><target>fwgridrowsxs - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.7Label"><source>fwgridrowsxs - 7</source><target>fwgridrowsxs - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.8Label"><source>fwgridrowsxs - 8</source><target>fwgridrowsxs - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.9Label"><source>fwgridrowsxs - 9</source><target>fwgridrowsxs - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.10Label"><source>fwgridrowsxs - 10</source><target>fwgridrowsxs - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.11Label"><source>fwgridrowsxs - 11</source><target>fwgridrowsxs - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.12Label"><source>fwgridrowsxs - 12</source><target>fwgridrowsxs - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.title"><source>fwgridcolsxxs</source><target>fwgridcolsxxs</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.description"><source>fwgridcolsxxs description</source><target>fwgridcolsxxs description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.1Label"><source>fwgridcolsxxs - 1</source><target>fwgridcolsxxs - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.2Label"><source>fwgridcolsxxs - 2</source><target>fwgridcolsxxs - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.3Label"><source>fwgridcolsxxs - 3</source><target>fwgridcolsxxs - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.4Label"><source>fwgridcolsxxs - 4</source><target>fwgridcolsxxs - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.5Label"><source>fwgridcolsxxs - 5</source><target>fwgridcolsxxs - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.6Label"><source>fwgridcolsxxs - 6</source><target>fwgridcolsxxs - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.7Label"><source>fwgridcolsxxs - 7</source><target>fwgridcolsxxs - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.8Label"><source>fwgridcolsxxs - 8</source><target>fwgridcolsxxs - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.9Label"><source>fwgridcolsxxs - 9</source><target>fwgridcolsxxs - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.10Label"><source>fwgridcolsxxs - 10</source><target>fwgridcolsxxs - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.11Label"><source>fwgridcolsxxs - 11</source><target>fwgridcolsxxs - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.12Label"><source>fwgridcolsxxs - 12</source><target>fwgridcolsxxs - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.title"><source>fwgridrowsxxs</source><target>fwgridrowsxxs</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.description"><source>fwgridrowsxxs description</source><target>fwgridrowsxxs description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.1Label"><source>fwgridrowsxxs - 1</source><target>fwgridrowsxxs - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.2Label"><source>fwgridrowsxxs - 2</source><target>fwgridrowsxxs - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.3Label"><source>fwgridrowsxxs - 3</source><target>fwgridrowsxxs - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.4Label"><source>fwgridrowsxxs - 4</source><target>fwgridrowsxxs - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.5Label"><source>fwgridrowsxxs - 5</source><target>fwgridrowsxxs - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.6Label"><source>fwgridrowsxxs - 6</source><target>fwgridrowsxxs - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.7Label"><source>fwgridrowsxxs - 7</source><target>fwgridrowsxxs - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.8Label"><source>fwgridrowsxxs - 8</source><target>fwgridrowsxxs - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.9Label"><source>fwgridrowsxxs - 9</source><target>fwgridrowsxxs - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.10Label"><source>fwgridrowsxxs - 10</source><target>fwgridrowsxxs - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.11Label"><source>fwgridrowsxxs - 11</source><target>fwgridrowsxxs - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.12Label"><source>fwgridrowsxxs - 12</source><target>fwgridrowsxxs - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.title"><source>fwgriditemcolsspan</source><target>fwgriditemcolsspan</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.description"><source>fwgriditemcolsspan description</source><target>fwgriditemcolsspan description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.1Label"><source>fwgriditemcolsspan - 1</source><target>fwgriditemcolsspan - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.2Label"><source>fwgriditemcolsspan - 2</source><target>fwgriditemcolsspan - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.3Label"><source>fwgriditemcolsspan - 3</source><target>fwgriditemcolsspan - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.4Label"><source>fwgriditemcolsspan - 4</source><target>fwgriditemcolsspan - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.5Label"><source>fwgriditemcolsspan - 5</source><target>fwgriditemcolsspan - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.6Label"><source>fwgriditemcolsspan - 6</source><target>fwgriditemcolsspan - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.7Label"><source>fwgriditemcolsspan - 7</source><target>fwgriditemcolsspan - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.8Label"><source>fwgriditemcolsspan - 8</source><target>fwgriditemcolsspan - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.9Label"><source>fwgriditemcolsspan - 9</source><target>fwgriditemcolsspan - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.10Label"><source>fwgriditemcolsspan - 10</source><target>fwgriditemcolsspan - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.11Label"><source>fwgriditemcolsspan - 11</source><target>fwgriditemcolsspan - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.12Label"><source>fwgriditemcolsspan - 12</source><target>fwgriditemcolsspan - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.title"><source>fwgriditemrowsspan</source><target>fwgriditemrowsspan</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.description"><source>fwgriditemrowsspan description</source><target>fwgriditemrowsspan description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.1Label"><source>fwgriditemrowsspan - 1</source><target>fwgriditemrowsspan - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.2Label"><source>fwgriditemrowsspan - 2</source><target>fwgriditemrowsspan - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.3Label"><source>fwgriditemrowsspan - 3</source><target>fwgriditemrowsspan - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.4Label"><source>fwgriditemrowsspan - 4</source><target>fwgriditemrowsspan - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.5Label"><source>fwgriditemrowsspan - 5</source><target>fwgriditemrowsspan - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.6Label"><source>fwgriditemrowsspan - 6</source><target>fwgriditemrowsspan - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.7Label"><source>fwgriditemrowsspan - 7</source><target>fwgriditemrowsspan - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.8Label"><source>fwgriditemrowsspan - 8</source><target>fwgriditemrowsspan - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.9Label"><source>fwgriditemrowsspan - 9</source><target>fwgriditemrowsspan - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.10Label"><source>fwgriditemrowsspan - 10</source><target>fwgriditemrowsspan - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.11Label"><source>fwgriditemrowsspan - 11</source><target>fwgriditemrowsspan - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.12Label"><source>fwgriditemrowsspan - 12</source><target>fwgriditemrowsspan - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.title"><source>fwgriditemcolsspanxl</source><target>fwgriditemcolsspanxl</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.description"><source>fwgriditemcolsspanxl description</source><target>fwgriditemcolsspanxl description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.1Label"><source>fwgriditemcolsspanxl - 1</source><target>fwgriditemcolsspanxl - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.2Label"><source>fwgriditemcolsspanxl - 2</source><target>fwgriditemcolsspanxl - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.3Label"><source>fwgriditemcolsspanxl - 3</source><target>fwgriditemcolsspanxl - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.4Label"><source>fwgriditemcolsspanxl - 4</source><target>fwgriditemcolsspanxl - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.5Label"><source>fwgriditemcolsspanxl - 5</source><target>fwgriditemcolsspanxl - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.6Label"><source>fwgriditemcolsspanxl - 6</source><target>fwgriditemcolsspanxl - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.7Label"><source>fwgriditemcolsspanxl - 7</source><target>fwgriditemcolsspanxl - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.8Label"><source>fwgriditemcolsspanxl - 8</source><target>fwgriditemcolsspanxl - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.9Label"><source>fwgriditemcolsspanxl - 9</source><target>fwgriditemcolsspanxl - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.10Label"><source>fwgriditemcolsspanxl - 10</source><target>fwgriditemcolsspanxl - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.11Label"><source>fwgriditemcolsspanxl - 11</source><target>fwgriditemcolsspanxl - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.12Label"><source>fwgriditemcolsspanxl - 12</source><target>fwgriditemcolsspanxl - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.title"><source>fwgriditemrowsspanxl</source><target>fwgriditemrowsspanxl</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.description"><source>fwgriditemrowsspanxl description</source><target>fwgriditemrowsspanxl description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.1Label"><source>fwgriditemrowsspanxl - 1</source><target>fwgriditemrowsspanxl - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.2Label"><source>fwgriditemrowsspanxl - 2</source><target>fwgriditemrowsspanxl - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.3Label"><source>fwgriditemrowsspanxl - 3</source><target>fwgriditemrowsspanxl - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.4Label"><source>fwgriditemrowsspanxl - 4</source><target>fwgriditemrowsspanxl - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.5Label"><source>fwgriditemrowsspanxl - 5</source><target>fwgriditemrowsspanxl - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.6Label"><source>fwgriditemrowsspanxl - 6</source><target>fwgriditemrowsspanxl - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.7Label"><source>fwgriditemrowsspanxl - 7</source><target>fwgriditemrowsspanxl - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.8Label"><source>fwgriditemrowsspanxl - 8</source><target>fwgriditemrowsspanxl - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.9Label"><source>fwgriditemrowsspanxl - 9</source><target>fwgriditemrowsspanxl - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.10Label"><source>fwgriditemrowsspanxl - 10</source><target>fwgriditemrowsspanxl - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.11Label"><source>fwgriditemrowsspanxl - 11</source><target>fwgriditemrowsspanxl - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.12Label"><source>fwgriditemrowsspanxl - 12</source><target>fwgriditemrowsspanxl - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.title"><source>fwgriditemcolsspanlg</source><target>fwgriditemcolsspanlg</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.description"><source>fwgriditemcolsspanlg description</source><target>fwgriditemcolsspanlg description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.1Label"><source>fwgriditemcolsspanlg - 1</source><target>fwgriditemcolsspanlg - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.2Label"><source>fwgriditemcolsspanlg - 2</source><target>fwgriditemcolsspanlg - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.3Label"><source>fwgriditemcolsspanlg - 3</source><target>fwgriditemcolsspanlg - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.4Label"><source>fwgriditemcolsspanlg - 4</source><target>fwgriditemcolsspanlg - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.5Label"><source>fwgriditemcolsspanlg - 5</source><target>fwgriditemcolsspanlg - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.6Label"><source>fwgriditemcolsspanlg - 6</source><target>fwgriditemcolsspanlg - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.7Label"><source>fwgriditemcolsspanlg - 7</source><target>fwgriditemcolsspanlg - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.8Label"><source>fwgriditemcolsspanlg - 8</source><target>fwgriditemcolsspanlg - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.9Label"><source>fwgriditemcolsspanlg - 9</source><target>fwgriditemcolsspanlg - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.10Label"><source>fwgriditemcolsspanlg - 10</source><target>fwgriditemcolsspanlg - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.11Label"><source>fwgriditemcolsspanlg - 11</source><target>fwgriditemcolsspanlg - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.12Label"><source>fwgriditemcolsspanlg - 12</source><target>fwgriditemcolsspanlg - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.title"><source>fwgriditemrowsspanlg</source><target>fwgriditemrowsspanlg</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.description"><source>fwgriditemrowsspanlg description</source><target>fwgriditemrowsspanlg description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.1Label"><source>fwgriditemrowsspanlg - 1</source><target>fwgriditemrowsspanlg - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.2Label"><source>fwgriditemrowsspanlg - 2</source><target>fwgriditemrowsspanlg - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.3Label"><source>fwgriditemrowsspanlg - 3</source><target>fwgriditemrowsspanlg - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.4Label"><source>fwgriditemrowsspanlg - 4</source><target>fwgriditemrowsspanlg - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.5Label"><source>fwgriditemrowsspanlg - 5</source><target>fwgriditemrowsspanlg - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.6Label"><source>fwgriditemrowsspanlg - 6</source><target>fwgriditemrowsspanlg - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.7Label"><source>fwgriditemrowsspanlg - 7</source><target>fwgriditemrowsspanlg - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.8Label"><source>fwgriditemrowsspanlg - 8</source><target>fwgriditemrowsspanlg - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.9Label"><source>fwgriditemrowsspanlg - 9</source><target>fwgriditemrowsspanlg - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.10Label"><source>fwgriditemrowsspanlg - 10</source><target>fwgriditemrowsspanlg - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.11Label"><source>fwgriditemrowsspanlg - 11</source><target>fwgriditemrowsspanlg - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.12Label"><source>fwgriditemrowsspanlg - 12</source><target>fwgriditemrowsspanlg - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.title"><source>fwgriditemcolsspanmd</source><target>fwgriditemcolsspanmd</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.description"><source>fwgriditemcolsspanmd description</source><target>fwgriditemcolsspanmd description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.1Label"><source>fwgriditemcolsspanmd - 1</source><target>fwgriditemcolsspanmd - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.2Label"><source>fwgriditemcolsspanmd - 2</source><target>fwgriditemcolsspanmd - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.3Label"><source>fwgriditemcolsspanmd - 3</source><target>fwgriditemcolsspanmd - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.4Label"><source>fwgriditemcolsspanmd - 4</source><target>fwgriditemcolsspanmd - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.5Label"><source>fwgriditemcolsspanmd - 5</source><target>fwgriditemcolsspanmd - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.6Label"><source>fwgriditemcolsspanmd - 6</source><target>fwgriditemcolsspanmd - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.7Label"><source>fwgriditemcolsspanmd - 7</source><target>fwgriditemcolsspanmd - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.8Label"><source>fwgriditemcolsspanmd - 8</source><target>fwgriditemcolsspanmd - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.9Label"><source>fwgriditemcolsspanmd - 9</source><target>fwgriditemcolsspanmd - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.10Label"><source>fwgriditemcolsspanmd - 10</source><target>fwgriditemcolsspanmd - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.11Label"><source>fwgriditemcolsspanmd - 11</source><target>fwgriditemcolsspanmd - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.12Label"><source>fwgriditemcolsspanmd - 12</source><target>fwgriditemcolsspanmd - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.title"><source>fwgriditemrowsspanmd</source><target>fwgriditemrowsspanmd</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.description"><source>fwgriditemrowsspanmd description</source><target>fwgriditemrowsspanmd description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.1Label"><source>fwgriditemrowsspanmd - 1</source><target>fwgriditemrowsspanmd - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.2Label"><source>fwgriditemrowsspanmd - 2</source><target>fwgriditemrowsspanmd - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.3Label"><source>fwgriditemrowsspanmd - 3</source><target>fwgriditemrowsspanmd - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.4Label"><source>fwgriditemrowsspanmd - 4</source><target>fwgriditemrowsspanmd - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.5Label"><source>fwgriditemrowsspanmd - 5</source><target>fwgriditemrowsspanmd - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.6Label"><source>fwgriditemrowsspanmd - 6</source><target>fwgriditemrowsspanmd - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.7Label"><source>fwgriditemrowsspanmd - 7</source><target>fwgriditemrowsspanmd - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.8Label"><source>fwgriditemrowsspanmd - 8</source><target>fwgriditemrowsspanmd - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.9Label"><source>fwgriditemrowsspanmd - 9</source><target>fwgriditemrowsspanmd - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.10Label"><source>fwgriditemrowsspanmd - 10</source><target>fwgriditemrowsspanmd - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.11Label"><source>fwgriditemrowsspanmd - 11</source><target>fwgriditemrowsspanmd - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.12Label"><source>fwgriditemrowsspanmd - 12</source><target>fwgriditemrowsspanmd - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.title"><source>fwgriditemcolsspansm</source><target>fwgriditemcolsspansm</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.description"><source>fwgriditemcolsspansm description</source><target>fwgriditemcolsspansm description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.1Label"><source>fwgriditemcolsspansm - 1</source><target>fwgriditemcolsspansm - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.2Label"><source>fwgriditemcolsspansm - 2</source><target>fwgriditemcolsspansm - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.3Label"><source>fwgriditemcolsspansm - 3</source><target>fwgriditemcolsspansm - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.4Label"><source>fwgriditemcolsspansm - 4</source><target>fwgriditemcolsspansm - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.5Label"><source>fwgriditemcolsspansm - 5</source><target>fwgriditemcolsspansm - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.6Label"><source>fwgriditemcolsspansm - 6</source><target>fwgriditemcolsspansm - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.7Label"><source>fwgriditemcolsspansm - 7</source><target>fwgriditemcolsspansm - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.8Label"><source>fwgriditemcolsspansm - 8</source><target>fwgriditemcolsspansm - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.9Label"><source>fwgriditemcolsspansm - 9</source><target>fwgriditemcolsspansm - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.10Label"><source>fwgriditemcolsspansm - 10</source><target>fwgriditemcolsspansm - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.11Label"><source>fwgriditemcolsspansm - 11</source><target>fwgriditemcolsspansm - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.12Label"><source>fwgriditemcolsspansm - 12</source><target>fwgriditemcolsspansm - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.title"><source>fwgriditemrowsspansm</source><target>fwgriditemrowsspansm</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.description"><source>fwgriditemrowsspansm description</source><target>fwgriditemrowsspansm description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.1Label"><source>fwgriditemrowsspansm - 1</source><target>fwgriditemrowsspansm - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.2Label"><source>fwgriditemrowsspansm - 2</source><target>fwgriditemrowsspansm - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.3Label"><source>fwgriditemrowsspansm - 3</source><target>fwgriditemrowsspansm - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.4Label"><source>fwgriditemrowsspansm - 4</source><target>fwgriditemrowsspansm - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.5Label"><source>fwgriditemrowsspansm - 5</source><target>fwgriditemrowsspansm - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.6Label"><source>fwgriditemrowsspansm - 6</source><target>fwgriditemrowsspansm - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.7Label"><source>fwgriditemrowsspansm - 7</source><target>fwgriditemrowsspansm - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.8Label"><source>fwgriditemrowsspansm - 8</source><target>fwgriditemrowsspansm - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.9Label"><source>fwgriditemrowsspansm - 9</source><target>fwgriditemrowsspansm - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.10Label"><source>fwgriditemrowsspansm - 10</source><target>fwgriditemrowsspansm - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.11Label"><source>fwgriditemrowsspansm - 11</source><target>fwgriditemrowsspansm - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.12Label"><source>fwgriditemrowsspansm - 12</source><target>fwgriditemrowsspansm - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.title"><source>fwgriditemcolsspanxs</source><target>fwgriditemcolsspanxs</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.description"><source>fwgriditemcolsspanxs description</source><target>fwgriditemcolsspanxs description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.1Label"><source>fwgriditemcolsspanxs - 1</source><target>fwgriditemcolsspanxs - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.2Label"><source>fwgriditemcolsspanxs - 2</source><target>fwgriditemcolsspanxs - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.3Label"><source>fwgriditemcolsspanxs - 3</source><target>fwgriditemcolsspanxs - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.4Label"><source>fwgriditemcolsspanxs - 4</source><target>fwgriditemcolsspanxs - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.5Label"><source>fwgriditemcolsspanxs - 5</source><target>fwgriditemcolsspanxs - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.6Label"><source>fwgriditemcolsspanxs - 6</source><target>fwgriditemcolsspanxs - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.7Label"><source>fwgriditemcolsspanxs - 7</source><target>fwgriditemcolsspanxs - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.8Label"><source>fwgriditemcolsspanxs - 8</source><target>fwgriditemcolsspanxs - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.9Label"><source>fwgriditemcolsspanxs - 9</source><target>fwgriditemcolsspanxs - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.10Label"><source>fwgriditemcolsspanxs - 10</source><target>fwgriditemcolsspanxs - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.11Label"><source>fwgriditemcolsspanxs - 11</source><target>fwgriditemcolsspanxs - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.12Label"><source>fwgriditemcolsspanxs - 12</source><target>fwgriditemcolsspanxs - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.title"><source>fwgriditemrowsspanxs</source><target>fwgriditemrowsspanxs</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.description"><source>fwgriditemrowsspanxs description</source><target>fwgriditemrowsspanxs description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.1Label"><source>fwgriditemrowsspanxs - 1</source><target>fwgriditemrowsspanxs - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.2Label"><source>fwgriditemrowsspanxs - 2</source><target>fwgriditemrowsspanxs - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.3Label"><source>fwgriditemrowsspanxs - 3</source><target>fwgriditemrowsspanxs - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.4Label"><source>fwgriditemrowsspanxs - 4</source><target>fwgriditemrowsspanxs - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.5Label"><source>fwgriditemrowsspanxs - 5</source><target>fwgriditemrowsspanxs - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.6Label"><source>fwgriditemrowsspanxs - 6</source><target>fwgriditemrowsspanxs - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.7Label"><source>fwgriditemrowsspanxs - 7</source><target>fwgriditemrowsspanxs - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.8Label"><source>fwgriditemrowsspanxs - 8</source><target>fwgriditemrowsspanxs - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.9Label"><source>fwgriditemrowsspanxs - 9</source><target>fwgriditemrowsspanxs - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.10Label"><source>fwgriditemrowsspanxs - 10</source><target>fwgriditemrowsspanxs - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.11Label"><source>fwgriditemrowsspanxs - 11</source><target>fwgriditemrowsspanxs - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.12Label"><source>fwgriditemrowsspanxs - 12</source><target>fwgriditemrowsspanxs - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.title"><source>fwgriditemcolsspanxxs</source><target>fwgriditemcolsspanxxs</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.description"><source>fwgriditemcolsspanxxs description</source><target>fwgriditemcolsspanxxs description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.1Label"><source>fwgriditemcolsspanxxs - 1</source><target>fwgriditemcolsspanxxs - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.2Label"><source>fwgriditemcolsspanxxs - 2</source><target>fwgriditemcolsspanxxs - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.3Label"><source>fwgriditemcolsspanxxs - 3</source><target>fwgriditemcolsspanxxs - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.4Label"><source>fwgriditemcolsspanxxs - 4</source><target>fwgriditemcolsspanxxs - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.5Label"><source>fwgriditemcolsspanxxs - 5</source><target>fwgriditemcolsspanxxs - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.6Label"><source>fwgriditemcolsspanxxs - 6</source><target>fwgriditemcolsspanxxs - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.7Label"><source>fwgriditemcolsspanxxs - 7</source><target>fwgriditemcolsspanxxs - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.8Label"><source>fwgriditemcolsspanxxs - 8</source><target>fwgriditemcolsspanxxs - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.9Label"><source>fwgriditemcolsspanxxs - 9</source><target>fwgriditemcolsspanxxs - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.10Label"><source>fwgriditemcolsspanxxs - 10</source><target>fwgriditemcolsspanxxs - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.11Label"><source>fwgriditemcolsspanxxs - 11</source><target>fwgriditemcolsspanxxs - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.12Label"><source>fwgriditemcolsspanxxs - 12</source><target>fwgriditemcolsspanxxs - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.title"><source>fwgriditemrowsspanxxs</source><target>fwgriditemrowsspanxxs</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.description"><source>fwgriditemrowsspanxxs description</source><target>fwgriditemrowsspanxxs description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.1Label"><source>fwgriditemrowsspanxxs - 1</source><target>fwgriditemrowsspanxxs - 1</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.2Label"><source>fwgriditemrowsspanxxs - 2</source><target>fwgriditemrowsspanxxs - 2</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.3Label"><source>fwgriditemrowsspanxxs - 3</source><target>fwgriditemrowsspanxxs - 3</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.4Label"><source>fwgriditemrowsspanxxs - 4</source><target>fwgriditemrowsspanxxs - 4</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.5Label"><source>fwgriditemrowsspanxxs - 5</source><target>fwgriditemrowsspanxxs - 5</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.6Label"><source>fwgriditemrowsspanxxs - 6</source><target>fwgriditemrowsspanxxs - 6</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.7Label"><source>fwgriditemrowsspanxxs - 7</source><target>fwgriditemrowsspanxxs - 7</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.8Label"><source>fwgriditemrowsspanxxs - 8</source><target>fwgriditemrowsspanxxs - 8</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.9Label"><source>fwgriditemrowsspanxxs - 9</source><target>fwgriditemrowsspanxxs - 9</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.10Label"><source>fwgriditemrowsspanxxs - 10</source><target>fwgriditemrowsspanxxs - 10</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.11Label"><source>fwgriditemrowsspanxxs - 11</source><target>fwgriditemrowsspanxxs - 11</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.12Label"><source>fwgriditemrowsspanxxs - 12</source><target>fwgriditemrowsspanxxs - 12</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwpricecardft.title"><source>fwpricecardft</source><target>fwpricecardft</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwpricecardft.description"><source>fwpricecardft description</source><target>fwpricecardft description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwpricecardft.colorLabel"><source>fwpricecardft - color %s</source><target>fwpricecardft - color %s</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwpricecardbg.title"><source>fwpricecardbg</source><target>fwpricecardbg</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwpricecardbg.description"><source>fwpricecardbg description</source><target>fwpricecardbg description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwpricecardbg.colorLabel"><source>fwpricecardbg - color %s</source><target>fwpricecardbg - color %s</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwpricecardcontent.title"><source>fwpricecardcontent</source><target>fwpricecardcontent</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwpricecardcontent.description"><source>fwpricecardcontent description</source><target>fwpricecardcontent description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwpricecardcontent.colorLabel"><source>fwpricecardcontent - color %s</source><target>fwpricecardcontent - color %s</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwpricecardmain.title"><source>fwpricecardmain</source><target>fwpricecardmain</target></trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwpricecardmain.description"><source>fwpricecardmain description</source><target>fwpricecardmain description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwpricecardmain.label"><source>fwpricecardmain - label</source><target>fwpricecardmain - label</target></trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.title"><source>fwquoteimgh</source><target>fwquoteimgh</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.description"><source>fwquoteimgh description</source><target>fwquoteimgh description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.leftLabel"><source>fwquoteimgh - left</source><target>fwquoteimgh - left</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.rightLabel"><source>fwquoteimgh - right</source><target>fwquoteimgh - right</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.title"><source>fwquoteimgv</source><target>fwquoteimgv</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.description"><source>fwquoteimgv description</source><target>fwquoteimgv description</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.topLabel"><source>fwquoteimgv - top</source><target>fwquoteimgv - top</target></trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.bottomLabel"><source>fwquoteimgv - bottom</source><target>fwquoteimgv - bottom</target></trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.tabTitle">
+		<source>Image - Ratio</source>
+<target>Image - Ratio</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.title">
+		<source>fwimageratio</source>
+<target>fwimageratio</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.description">
+	<source>fwimageratio description</source>
+<target>fwimageratio description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r169Label">
+		<source>fwimageratio - r169</source>
+<target>fwimageratio - r169</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r21Label">
+		<source>fwimageratio - r21</source>
+<target>fwimageratio - r21</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r11Label">
+		<source>fwimageratio - r11</source>
+<target>fwimageratio - r11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r12Label">
+		<source>fwimageratio - r12</source>
+<target>fwimageratio - r12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r43Label">
+		<source>fwimageratio - r43</source>
+<target>fwimageratio - r43</target>
+</trans-unit>
+
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.title">
+		<source>fwimagezoom</source>
+<target>fwimagezoom</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.description">
+	<source>fwimagezoom description</source>
+<target>fwimagezoom description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.inLabel">
+		<source>fwimagezoom - in</source>
+<target>fwimagezoom - in</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.outLabel">
+		<source>fwimagezoom - out</source>
+<target>fwimagezoom - out</target>
+</trans-unit>
+
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.title">
+		<source>fwimagefade</source>
+<target>fwimagefade</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.description">
+	<source>fwimagefade description</source>
+<target>fwimagefade description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.colorLabel">
+		<source>fwimagefade - color</source>
+<target>fwimagefade - color</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.greyLabel">
+		<source>fwimagefade - grey</source>
+<target>fwimagefade - grey</target>
+</trans-unit>
+
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidernav.title">
+		<source>fwslidernav</source>
+<target>fwslidernav</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidernav.description">
+	<source>fwslidernav description</source>
+<target>fwslidernav description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidernav.belowLabel">
+		<source>fwslidernav - below</source>
+<target>fwslidernav - below</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidernav.hiddenLabel">
+		<source>fwslidernav - hidden</source>
+<target>fwslidernav - hidden</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavvertical.title">
+		<source>fwslidernavvertical</source>
+<target>fwslidernavvertical</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidernavvertical.description">
+	<source>fwslidernavvertical description</source>
+<target>fwslidernavvertical description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavvertical.topLabel">
+		<source>fwslidernavvertical - top</source>
+<target>fwslidernavvertical - top</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavvertical.bottomLabel">
+		<source>fwslidernavvertical - bottom</source>
+<target>fwslidernavvertical - bottom</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavhorizontal.title">
+		<source>fwslidernavhorizontal</source>
+<target>fwslidernavhorizontal</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidernavhorizontal.description">
+	<source>fwslidernavhorizontal description</source>
+<target>fwslidernavhorizontal description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavhorizontal.leftLabel">
+		<source>fwslidernavhorizontal - left</source>
+<target>fwslidernavhorizontal - left</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavhorizontal.rightLabel">
+		<source>fwslidernavhorizontal - right</source>
+<target>fwslidernavhorizontal - right</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgvertical.title">
+		<source>fwsliderimgvertical</source>
+<target>fwsliderimgvertical</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgvertical.description">
+	<source>fwsliderimgvertical description</source>
+<target>fwsliderimgvertical description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgvertical.topLabel">
+		<source>fwsliderimgvertical - top</source>
+<target>fwsliderimgvertical - top</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgvertical.bottomLabel">
+		<source>fwsliderimgvertical - bottom</source>
+<target>fwsliderimgvertical - bottom</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimghorizontal.title">
+		<source>fwsliderimghorizontal</source>
+<target>fwsliderimghorizontal</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwsliderimghorizontal.description">
+	<source>fwsliderimghorizontal description</source>
+<target>fwsliderimghorizontal description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimghorizontal.leftLabel">
+		<source>fwsliderimghorizontal - left</source>
+<target>fwsliderimghorizontal - left</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimghorizontal.rightLabel">
+		<source>fwsliderimghorizontal - right</source>
+<target>fwsliderimghorizontal - right</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.title">
+		<source>fwsliderimgopacity</source>
+<target>fwsliderimgopacity</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.description">
+	<source>fwsliderimgopacity description</source>
+<target>fwsliderimgopacity description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.0Label">
+		<source>fwsliderimgopacity - 0</source>
+<target>fwsliderimgopacity - 0</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.1Label">
+		<source>fwsliderimgopacity - 1</source>
+<target>fwsliderimgopacity - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.2Label">
+		<source>fwsliderimgopacity - 2</source>
+<target>fwsliderimgopacity - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.3Label">
+		<source>fwsliderimgopacity - 3</source>
+<target>fwsliderimgopacity - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.4Label">
+		<source>fwsliderimgopacity - 4</source>
+<target>fwsliderimgopacity - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.5Label">
+		<source>fwsliderimgopacity - 5</source>
+<target>fwsliderimgopacity - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.6Label">
+		<source>fwsliderimgopacity - 6</source>
+<target>fwsliderimgopacity - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.7Label">
+		<source>fwsliderimgopacity - 7</source>
+<target>fwsliderimgopacity - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.8Label">
+		<source>fwsliderimgopacity - 8</source>
+<target>fwsliderimgopacity - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.9Label">
+		<source>fwsliderimgopacity - 9</source>
+<target>fwsliderimgopacity - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.10Label">
+		<source>fwsliderimgopacity - 10</source>
+<target>fwsliderimgopacity - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentvertical.title">
+		<source>fwslidercontentvertical</source>
+<target>fwslidercontentvertical</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentvertical.description">
+	<source>fwslidercontentvertical description</source>
+<target>fwslidercontentvertical description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentvertical.topLabel">
+		<source>fwslidercontentvertical - top</source>
+<target>fwslidercontentvertical - top</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentvertical.centerLabel">
+		<source>fwslidercontentvertical - center</source>
+<target>fwslidercontentvertical - center</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentvertical.bottomLabel">
+		<source>fwslidercontentvertical - bottom</source>
+<target>fwslidercontentvertical - bottom</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontenthorizontal.title">
+		<source>fwslidercontenthorizontal</source>
+<target>fwslidercontenthorizontal</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidercontenthorizontal.description">
+	<source>fwslidercontenthorizontal description</source>
+<target>fwslidercontenthorizontal description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontenthorizontal.leftLabel">
+		<source>fwslidercontenthorizontal - left</source>
+<target>fwslidercontenthorizontal - left</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontenthorizontal.centerLabel">
+		<source>fwslidercontenthorizontal - center</source>
+<target>fwslidercontenthorizontal - center</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontenthorizontal.rightLabel">
+		<source>fwslidercontenthorizontal - right</source>
+<target>fwslidercontenthorizontal - right</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.title">
+		<source>fwslidertitle</source>
+<target>fwslidertitle</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.description">
+	<source>fwslidertitle description</source>
+<target>fwslidertitle description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.1Label">
+		<source>fwslidertitle - 1</source>
+<target>fwslidertitle - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.2Label">
+		<source>fwslidertitle - 2</source>
+<target>fwslidertitle - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.3Label">
+		<source>fwslidertitle - 3</source>
+<target>fwslidertitle - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.4Label">
+		<source>fwslidertitle - 4</source>
+<target>fwslidertitle - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderft.title">
+		<source>fwsliderft</source>
+<target>fwsliderft</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwsliderft.description">
+	<source>fwsliderft description</source>
+<target>fwsliderft description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderft.colorLabel">
+		<source>fwsliderft - color %s</source>
+<target>fwsliderft - color %s</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbg.title">
+		<source>fwslidercontentbg</source>
+<target>fwslidercontentbg</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbg.description">
+	<source>fwslidercontentbg description</source>
+<target>fwslidercontentbg description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbg.colorLabel">
+		<source>fwslidercontentbg - color %s</source>
+<target>fwslidercontentbg - color %s</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.title">
+		<source>fwslidercontentbgopacity</source>
+<target>fwslidercontentbgopacity</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.description">
+	<source>fwslidercontentbgopacity description</source>
+<target>fwslidercontentbgopacity description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.0Label">
+		<source>fwslidercontentbgopacity - 0</source>
+<target>fwslidercontentbgopacity - 0</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.1Label">
+		<source>fwslidercontentbgopacity - 1</source>
+<target>fwslidercontentbgopacity - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.2Label">
+		<source>fwslidercontentbgopacity - 2</source>
+<target>fwslidercontentbgopacity - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.3Label">
+		<source>fwslidercontentbgopacity - 3</source>
+<target>fwslidercontentbgopacity - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.4Label">
+		<source>fwslidercontentbgopacity - 4</source>
+<target>fwslidercontentbgopacity - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.5Label">
+		<source>fwslidercontentbgopacity - 5</source>
+<target>fwslidercontentbgopacity - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.6Label">
+		<source>fwslidercontentbgopacity - 6</source>
+<target>fwslidercontentbgopacity - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.7Label">
+		<source>fwslidercontentbgopacity - 7</source>
+<target>fwslidercontentbgopacity - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.8Label">
+		<source>fwslidercontentbgopacity - 8</source>
+<target>fwslidercontentbgopacity - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.9Label">
+		<source>fwslidercontentbgopacity - 9</source>
+<target>fwslidercontentbgopacity - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.10Label">
+		<source>fwslidercontentbgopacity - 10</source>
+<target>fwslidercontentbgopacity - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderwfull.title">
+		<source>fwsliderwfull</source>
+<target>fwsliderwfull</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwsliderwfull.description">
+	<source>fwsliderwfull description</source>
+<target>fwsliderwfull description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwsliderwfull.label">
+		<source>fwsliderwfull - label</source>
+<target>fwsliderwfull - label</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.title">
+		<source>fwheroimgvertical</source>
+<target>fwheroimgvertical</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.description">
+	<source>fwheroimgvertical description</source>
+<target>fwheroimgvertical description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.topLabel">
+		<source>fwheroimgvertical - top</source>
+<target>fwheroimgvertical - top</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.bottomLabel">
+		<source>fwheroimgvertical - bottom</source>
+<target>fwheroimgvertical - bottom</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.title">
+		<source>fwheroimghorizontal</source>
+<target>fwheroimghorizontal</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.description">
+	<source>fwheroimghorizontal description</source>
+<target>fwheroimghorizontal description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.leftLabel">
+		<source>fwheroimghorizontal - left</source>
+<target>fwheroimghorizontal - left</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.rightLabel">
+		<source>fwheroimghorizontal - right</source>
+<target>fwheroimghorizontal - right</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.title">
+		<source>fwherofigureopacity</source>
+<target>fwherofigureopacity</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.description">
+	<source>fwherofigureopacity description</source>
+<target>fwherofigureopacity description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.0Label">
+		<source>fwherofigureopacity - 0</source>
+<target>fwherofigureopacity - 0</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.1Label">
+		<source>fwherofigureopacity - 1</source>
+<target>fwherofigureopacity - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.2Label">
+		<source>fwherofigureopacity - 2</source>
+<target>fwherofigureopacity - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.3Label">
+		<source>fwherofigureopacity - 3</source>
+<target>fwherofigureopacity - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.4Label">
+		<source>fwherofigureopacity - 4</source>
+<target>fwherofigureopacity - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.5Label">
+		<source>fwherofigureopacity - 5</source>
+<target>fwherofigureopacity - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.6Label">
+		<source>fwherofigureopacity - 6</source>
+<target>fwherofigureopacity - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.7Label">
+		<source>fwherofigureopacity - 7</source>
+<target>fwherofigureopacity - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.8Label">
+		<source>fwherofigureopacity - 8</source>
+<target>fwherofigureopacity - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.9Label">
+		<source>fwherofigureopacity - 9</source>
+<target>fwherofigureopacity - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.10Label">
+		<source>fwherofigureopacity - 10</source>
+<target>fwherofigureopacity - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentvertical.title">
+		<source>fwherocontentvertical</source>
+<target>fwherocontentvertical</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherocontentvertical.description">
+	<source>fwherocontentvertical description</source>
+<target>fwherocontentvertical description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentvertical.topLabel">
+		<source>fwherocontentvertical - top</source>
+<target>fwherocontentvertical - top</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentvertical.centerLabel">
+		<source>fwherocontentvertical - center</source>
+<target>fwherocontentvertical - center</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentvertical.bottomLabel">
+		<source>fwherocontentvertical - bottom</source>
+<target>fwherocontentvertical - bottom</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontenthorizontal.title">
+		<source>fwherocontenthorizontal</source>
+<target>fwherocontenthorizontal</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherocontenthorizontal.description">
+	<source>fwherocontenthorizontal description</source>
+<target>fwherocontenthorizontal description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontenthorizontal.leftLabel">
+		<source>fwherocontenthorizontal - left</source>
+<target>fwherocontenthorizontal - left</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontenthorizontal.centerLabel">
+		<source>fwherocontenthorizontal - center</source>
+<target>fwherocontenthorizontal - center</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontenthorizontal.rightLabel">
+		<source>fwherocontenthorizontal - right</source>
+<target>fwherocontenthorizontal - right</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.title">
+		<source>fwherotitle</source>
+<target>fwherotitle</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.description">
+	<source>fwherotitle description</source>
+<target>fwherotitle description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.1Label">
+		<source>fwherotitle - 1</source>
+<target>fwherotitle - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.2Label">
+		<source>fwherotitle - 2</source>
+<target>fwherotitle - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.3Label">
+		<source>fwherotitle - 3</source>
+<target>fwherotitle - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.4Label">
+		<source>fwherotitle - 4</source>
+<target>fwherotitle - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwheroft.title">
+		<source>fwheroft</source>
+<target>fwheroft</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwheroft.description">
+	<source>fwheroft description</source>
+<target>fwheroft description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwheroft.colorLabel">
+		<source>fwheroft - color %s</source>
+<target>fwheroft - color %s</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbg.title">
+		<source>fwherocontentbg</source>
+<target>fwherocontentbg</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbg.description">
+	<source>fwherocontentbg description</source>
+<target>fwherocontentbg description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbg.colorLabel">
+		<source>fwherocontentbg - color %s</source>
+<target>fwherocontentbg - color %s</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.title">
+		<source>fwherocontentbgopacity</source>
+<target>fwherocontentbgopacity</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.description">
+	<source>fwherocontentbgopacity description</source>
+<target>fwherocontentbgopacity description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.0Label">
+		<source>fwherocontentbgopacity - 0</source>
+<target>fwherocontentbgopacity - 0</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.1Label">
+		<source>fwherocontentbgopacity - 1</source>
+<target>fwherocontentbgopacity - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.2Label">
+		<source>fwherocontentbgopacity - 2</source>
+<target>fwherocontentbgopacity - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.3Label">
+		<source>fwherocontentbgopacity - 3</source>
+<target>fwherocontentbgopacity - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.4Label">
+		<source>fwherocontentbgopacity - 4</source>
+<target>fwherocontentbgopacity - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.5Label">
+		<source>fwherocontentbgopacity - 5</source>
+<target>fwherocontentbgopacity - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.6Label">
+		<source>fwherocontentbgopacity - 6</source>
+<target>fwherocontentbgopacity - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.7Label">
+		<source>fwherocontentbgopacity - 7</source>
+<target>fwherocontentbgopacity - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.8Label">
+		<source>fwherocontentbgopacity - 8</source>
+<target>fwherocontentbgopacity - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.9Label">
+		<source>fwherocontentbgopacity - 9</source>
+<target>fwherocontentbgopacity - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.10Label">
+		<source>fwherocontentbgopacity - 10</source>
+<target>fwherocontentbgopacity - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherowfull.title">
+		<source>fwherowfull</source>
+<target>fwherowfull</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherowfull.description">
+	<source>fwherowfull description</source>
+<target>fwherowfull description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwherowfull.label">
+		<source>fwherowfull - label</source>
+<target>fwherowfull - label</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwheroheightcontent.title">
+		<source>fwheroheightcontent</source>
+<target>fwheroheightcontent</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwheroheightcontent.description">
+	<source>fwheroheightcontent description</source>
+<target>fwheroheightcontent description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwheroheightcontent.label">
+		<source>fwheroheightcontent - label</source>
+<target>fwheroheightcontent - label</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwherowidthcontent.title">
+		<source>fwherowidthcontent</source>
+<target>fwherowidthcontent</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherowidthcontent.description">
+	<source>fwherowidthcontent description</source>
+<target>fwherowidthcontent description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwherowidthcontent.label">
+		<source>fwherowidthcontent - label</source>
+<target>fwherowidthcontent - label</target>
+</trans-unit>
+
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.title">
+		<source>fwgridgap</source>
+<target>fwgridgap</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.description">
+	<source>fwgridgap description</source>
+<target>fwgridgap description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.0Label">
+		<source>fwgridgap - 0</source>
+<target>fwgridgap - 0</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.0emLabel">
+		<source>fwgridgap - 0em</source>
+<target>fwgridgap - 0em</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.0remLabel">
+		<source>fwgridgap - 0rem</source>
+<target>fwgridgap - 0rem</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.1Label">
+		<source>fwgridgap - 1</source>
+<target>fwgridgap - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.1emLabel">
+		<source>fwgridgap - 1em</source>
+<target>fwgridgap - 1em</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.1remLabel">
+		<source>fwgridgap - 1rem</source>
+<target>fwgridgap - 1rem</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.2Label">
+		<source>fwgridgap - 2</source>
+<target>fwgridgap - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.2emLabel">
+		<source>fwgridgap - 2em</source>
+<target>fwgridgap - 2em</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.2remLabel">
+		<source>fwgridgap - 2rem</source>
+<target>fwgridgap - 2rem</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.3Label">
+		<source>fwgridgap - 3</source>
+<target>fwgridgap - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.3emLabel">
+		<source>fwgridgap - 3em</source>
+<target>fwgridgap - 3em</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.3remLabel">
+		<source>fwgridgap - 3rem</source>
+<target>fwgridgap - 3rem</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.4Label">
+		<source>fwgridgap - 4</source>
+<target>fwgridgap - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.4emLabel">
+		<source>fwgridgap - 4em</source>
+<target>fwgridgap - 4em</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.4remLabel">
+		<source>fwgridgap - 4rem</source>
+<target>fwgridgap - 4rem</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.5Label">
+		<source>fwgridgap - 5</source>
+<target>fwgridgap - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.5emLabel">
+		<source>fwgridgap - 5em</source>
+<target>fwgridgap - 5em</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.5remLabel">
+		<source>fwgridgap - 5rem</source>
+<target>fwgridgap - 5rem</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.6Label">
+		<source>fwgridgap - 6</source>
+<target>fwgridgap - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.6emLabel">
+		<source>fwgridgap - 6em</source>
+<target>fwgridgap - 6em</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.6remLabel">
+		<source>fwgridgap - 6rem</source>
+<target>fwgridgap - 6rem</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.title">
+		<source>fwgridcols</source>
+<target>fwgridcols</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.description">
+	<source>fwgridcols description</source>
+<target>fwgridcols description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.1Label">
+		<source>fwgridcols - 1</source>
+<target>fwgridcols - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.2Label">
+		<source>fwgridcols - 2</source>
+<target>fwgridcols - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.3Label">
+		<source>fwgridcols - 3</source>
+<target>fwgridcols - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.4Label">
+		<source>fwgridcols - 4</source>
+<target>fwgridcols - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.5Label">
+		<source>fwgridcols - 5</source>
+<target>fwgridcols - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.6Label">
+		<source>fwgridcols - 6</source>
+<target>fwgridcols - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.7Label">
+		<source>fwgridcols - 7</source>
+<target>fwgridcols - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.8Label">
+		<source>fwgridcols - 8</source>
+<target>fwgridcols - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.9Label">
+		<source>fwgridcols - 9</source>
+<target>fwgridcols - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.10Label">
+		<source>fwgridcols - 10</source>
+<target>fwgridcols - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.11Label">
+		<source>fwgridcols - 11</source>
+<target>fwgridcols - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcols.12Label">
+		<source>fwgridcols - 12</source>
+<target>fwgridcols - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.title">
+		<source>fwgridrows</source>
+<target>fwgridrows</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.description">
+	<source>fwgridrows description</source>
+<target>fwgridrows description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.1Label">
+		<source>fwgridrows - 1</source>
+<target>fwgridrows - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.2Label">
+		<source>fwgridrows - 2</source>
+<target>fwgridrows - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.3Label">
+		<source>fwgridrows - 3</source>
+<target>fwgridrows - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.4Label">
+		<source>fwgridrows - 4</source>
+<target>fwgridrows - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.5Label">
+		<source>fwgridrows - 5</source>
+<target>fwgridrows - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.6Label">
+		<source>fwgridrows - 6</source>
+<target>fwgridrows - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.7Label">
+		<source>fwgridrows - 7</source>
+<target>fwgridrows - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.8Label">
+		<source>fwgridrows - 8</source>
+<target>fwgridrows - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.9Label">
+		<source>fwgridrows - 9</source>
+<target>fwgridrows - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.10Label">
+		<source>fwgridrows - 10</source>
+<target>fwgridrows - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.11Label">
+		<source>fwgridrows - 11</source>
+<target>fwgridrows - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrows.12Label">
+		<source>fwgridrows - 12</source>
+<target>fwgridrows - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.title">
+		<source>fwgridcolsxl</source>
+<target>fwgridcolsxl</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.description">
+	<source>fwgridcolsxl description</source>
+<target>fwgridcolsxl description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.1Label">
+		<source>fwgridcolsxl - 1</source>
+<target>fwgridcolsxl - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.2Label">
+		<source>fwgridcolsxl - 2</source>
+<target>fwgridcolsxl - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.3Label">
+		<source>fwgridcolsxl - 3</source>
+<target>fwgridcolsxl - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.4Label">
+		<source>fwgridcolsxl - 4</source>
+<target>fwgridcolsxl - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.5Label">
+		<source>fwgridcolsxl - 5</source>
+<target>fwgridcolsxl - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.6Label">
+		<source>fwgridcolsxl - 6</source>
+<target>fwgridcolsxl - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.7Label">
+		<source>fwgridcolsxl - 7</source>
+<target>fwgridcolsxl - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.8Label">
+		<source>fwgridcolsxl - 8</source>
+<target>fwgridcolsxl - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.9Label">
+		<source>fwgridcolsxl - 9</source>
+<target>fwgridcolsxl - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.10Label">
+		<source>fwgridcolsxl - 10</source>
+<target>fwgridcolsxl - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.11Label">
+		<source>fwgridcolsxl - 11</source>
+<target>fwgridcolsxl - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxl.12Label">
+		<source>fwgridcolsxl - 12</source>
+<target>fwgridcolsxl - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.title">
+		<source>fwgridrowsxl</source>
+<target>fwgridrowsxl</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.description">
+	<source>fwgridrowsxl description</source>
+<target>fwgridrowsxl description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.1Label">
+		<source>fwgridrowsxl - 1</source>
+<target>fwgridrowsxl - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.2Label">
+		<source>fwgridrowsxl - 2</source>
+<target>fwgridrowsxl - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.3Label">
+		<source>fwgridrowsxl - 3</source>
+<target>fwgridrowsxl - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.4Label">
+		<source>fwgridrowsxl - 4</source>
+<target>fwgridrowsxl - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.5Label">
+		<source>fwgridrowsxl - 5</source>
+<target>fwgridrowsxl - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.6Label">
+		<source>fwgridrowsxl - 6</source>
+<target>fwgridrowsxl - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.7Label">
+		<source>fwgridrowsxl - 7</source>
+<target>fwgridrowsxl - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.8Label">
+		<source>fwgridrowsxl - 8</source>
+<target>fwgridrowsxl - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.9Label">
+		<source>fwgridrowsxl - 9</source>
+<target>fwgridrowsxl - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.10Label">
+		<source>fwgridrowsxl - 10</source>
+<target>fwgridrowsxl - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.11Label">
+		<source>fwgridrowsxl - 11</source>
+<target>fwgridrowsxl - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxl.12Label">
+		<source>fwgridrowsxl - 12</source>
+<target>fwgridrowsxl - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.title">
+		<source>fwgridcolslg</source>
+<target>fwgridcolslg</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.description">
+	<source>fwgridcolslg description</source>
+<target>fwgridcolslg description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.1Label">
+		<source>fwgridcolslg - 1</source>
+<target>fwgridcolslg - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.2Label">
+		<source>fwgridcolslg - 2</source>
+<target>fwgridcolslg - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.3Label">
+		<source>fwgridcolslg - 3</source>
+<target>fwgridcolslg - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.4Label">
+		<source>fwgridcolslg - 4</source>
+<target>fwgridcolslg - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.5Label">
+		<source>fwgridcolslg - 5</source>
+<target>fwgridcolslg - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.6Label">
+		<source>fwgridcolslg - 6</source>
+<target>fwgridcolslg - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.7Label">
+		<source>fwgridcolslg - 7</source>
+<target>fwgridcolslg - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.8Label">
+		<source>fwgridcolslg - 8</source>
+<target>fwgridcolslg - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.9Label">
+		<source>fwgridcolslg - 9</source>
+<target>fwgridcolslg - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.10Label">
+		<source>fwgridcolslg - 10</source>
+<target>fwgridcolslg - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.11Label">
+		<source>fwgridcolslg - 11</source>
+<target>fwgridcolslg - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolslg.12Label">
+		<source>fwgridcolslg - 12</source>
+<target>fwgridcolslg - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.title">
+		<source>fwgridrowslg</source>
+<target>fwgridrowslg</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.description">
+	<source>fwgridrowslg description</source>
+<target>fwgridrowslg description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.1Label">
+		<source>fwgridrowslg - 1</source>
+<target>fwgridrowslg - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.2Label">
+		<source>fwgridrowslg - 2</source>
+<target>fwgridrowslg - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.3Label">
+		<source>fwgridrowslg - 3</source>
+<target>fwgridrowslg - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.4Label">
+		<source>fwgridrowslg - 4</source>
+<target>fwgridrowslg - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.5Label">
+		<source>fwgridrowslg - 5</source>
+<target>fwgridrowslg - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.6Label">
+		<source>fwgridrowslg - 6</source>
+<target>fwgridrowslg - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.7Label">
+		<source>fwgridrowslg - 7</source>
+<target>fwgridrowslg - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.8Label">
+		<source>fwgridrowslg - 8</source>
+<target>fwgridrowslg - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.9Label">
+		<source>fwgridrowslg - 9</source>
+<target>fwgridrowslg - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.10Label">
+		<source>fwgridrowslg - 10</source>
+<target>fwgridrowslg - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.11Label">
+		<source>fwgridrowslg - 11</source>
+<target>fwgridrowslg - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowslg.12Label">
+		<source>fwgridrowslg - 12</source>
+<target>fwgridrowslg - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.title">
+		<source>fwgridcolsmd</source>
+<target>fwgridcolsmd</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.description">
+	<source>fwgridcolsmd description</source>
+<target>fwgridcolsmd description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.1Label">
+		<source>fwgridcolsmd - 1</source>
+<target>fwgridcolsmd - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.2Label">
+		<source>fwgridcolsmd - 2</source>
+<target>fwgridcolsmd - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.3Label">
+		<source>fwgridcolsmd - 3</source>
+<target>fwgridcolsmd - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.4Label">
+		<source>fwgridcolsmd - 4</source>
+<target>fwgridcolsmd - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.5Label">
+		<source>fwgridcolsmd - 5</source>
+<target>fwgridcolsmd - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.6Label">
+		<source>fwgridcolsmd - 6</source>
+<target>fwgridcolsmd - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.7Label">
+		<source>fwgridcolsmd - 7</source>
+<target>fwgridcolsmd - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.8Label">
+		<source>fwgridcolsmd - 8</source>
+<target>fwgridcolsmd - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.9Label">
+		<source>fwgridcolsmd - 9</source>
+<target>fwgridcolsmd - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.10Label">
+		<source>fwgridcolsmd - 10</source>
+<target>fwgridcolsmd - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.11Label">
+		<source>fwgridcolsmd - 11</source>
+<target>fwgridcolsmd - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsmd.12Label">
+		<source>fwgridcolsmd - 12</source>
+<target>fwgridcolsmd - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.title">
+		<source>fwgridrowsmd</source>
+<target>fwgridrowsmd</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.description">
+	<source>fwgridrowsmd description</source>
+<target>fwgridrowsmd description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.1Label">
+		<source>fwgridrowsmd - 1</source>
+<target>fwgridrowsmd - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.2Label">
+		<source>fwgridrowsmd - 2</source>
+<target>fwgridrowsmd - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.3Label">
+		<source>fwgridrowsmd - 3</source>
+<target>fwgridrowsmd - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.4Label">
+		<source>fwgridrowsmd - 4</source>
+<target>fwgridrowsmd - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.5Label">
+		<source>fwgridrowsmd - 5</source>
+<target>fwgridrowsmd - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.6Label">
+		<source>fwgridrowsmd - 6</source>
+<target>fwgridrowsmd - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.7Label">
+		<source>fwgridrowsmd - 7</source>
+<target>fwgridrowsmd - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.8Label">
+		<source>fwgridrowsmd - 8</source>
+<target>fwgridrowsmd - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.9Label">
+		<source>fwgridrowsmd - 9</source>
+<target>fwgridrowsmd - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.10Label">
+		<source>fwgridrowsmd - 10</source>
+<target>fwgridrowsmd - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.11Label">
+		<source>fwgridrowsmd - 11</source>
+<target>fwgridrowsmd - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsmd.12Label">
+		<source>fwgridrowsmd - 12</source>
+<target>fwgridrowsmd - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.title">
+		<source>fwgridcolssm</source>
+<target>fwgridcolssm</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.description">
+	<source>fwgridcolssm description</source>
+<target>fwgridcolssm description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.1Label">
+		<source>fwgridcolssm - 1</source>
+<target>fwgridcolssm - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.2Label">
+		<source>fwgridcolssm - 2</source>
+<target>fwgridcolssm - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.3Label">
+		<source>fwgridcolssm - 3</source>
+<target>fwgridcolssm - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.4Label">
+		<source>fwgridcolssm - 4</source>
+<target>fwgridcolssm - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.5Label">
+		<source>fwgridcolssm - 5</source>
+<target>fwgridcolssm - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.6Label">
+		<source>fwgridcolssm - 6</source>
+<target>fwgridcolssm - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.7Label">
+		<source>fwgridcolssm - 7</source>
+<target>fwgridcolssm - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.8Label">
+		<source>fwgridcolssm - 8</source>
+<target>fwgridcolssm - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.9Label">
+		<source>fwgridcolssm - 9</source>
+<target>fwgridcolssm - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.10Label">
+		<source>fwgridcolssm - 10</source>
+<target>fwgridcolssm - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.11Label">
+		<source>fwgridcolssm - 11</source>
+<target>fwgridcolssm - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolssm.12Label">
+		<source>fwgridcolssm - 12</source>
+<target>fwgridcolssm - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.title">
+		<source>fwgridrowssm</source>
+<target>fwgridrowssm</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.description">
+	<source>fwgridrowssm description</source>
+<target>fwgridrowssm description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.1Label">
+		<source>fwgridrowssm - 1</source>
+<target>fwgridrowssm - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.2Label">
+		<source>fwgridrowssm - 2</source>
+<target>fwgridrowssm - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.3Label">
+		<source>fwgridrowssm - 3</source>
+<target>fwgridrowssm - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.4Label">
+		<source>fwgridrowssm - 4</source>
+<target>fwgridrowssm - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.5Label">
+		<source>fwgridrowssm - 5</source>
+<target>fwgridrowssm - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.6Label">
+		<source>fwgridrowssm - 6</source>
+<target>fwgridrowssm - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.7Label">
+		<source>fwgridrowssm - 7</source>
+<target>fwgridrowssm - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.8Label">
+		<source>fwgridrowssm - 8</source>
+<target>fwgridrowssm - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.9Label">
+		<source>fwgridrowssm - 9</source>
+<target>fwgridrowssm - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.10Label">
+		<source>fwgridrowssm - 10</source>
+<target>fwgridrowssm - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.11Label">
+		<source>fwgridrowssm - 11</source>
+<target>fwgridrowssm - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowssm.12Label">
+		<source>fwgridrowssm - 12</source>
+<target>fwgridrowssm - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.title">
+		<source>fwgridcolsxs</source>
+<target>fwgridcolsxs</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.description">
+	<source>fwgridcolsxs description</source>
+<target>fwgridcolsxs description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.1Label">
+		<source>fwgridcolsxs - 1</source>
+<target>fwgridcolsxs - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.2Label">
+		<source>fwgridcolsxs - 2</source>
+<target>fwgridcolsxs - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.3Label">
+		<source>fwgridcolsxs - 3</source>
+<target>fwgridcolsxs - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.4Label">
+		<source>fwgridcolsxs - 4</source>
+<target>fwgridcolsxs - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.5Label">
+		<source>fwgridcolsxs - 5</source>
+<target>fwgridcolsxs - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.6Label">
+		<source>fwgridcolsxs - 6</source>
+<target>fwgridcolsxs - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.7Label">
+		<source>fwgridcolsxs - 7</source>
+<target>fwgridcolsxs - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.8Label">
+		<source>fwgridcolsxs - 8</source>
+<target>fwgridcolsxs - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.9Label">
+		<source>fwgridcolsxs - 9</source>
+<target>fwgridcolsxs - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.10Label">
+		<source>fwgridcolsxs - 10</source>
+<target>fwgridcolsxs - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.11Label">
+		<source>fwgridcolsxs - 11</source>
+<target>fwgridcolsxs - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxs.12Label">
+		<source>fwgridcolsxs - 12</source>
+<target>fwgridcolsxs - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.title">
+		<source>fwgridrowsxs</source>
+<target>fwgridrowsxs</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.description">
+	<source>fwgridrowsxs description</source>
+<target>fwgridrowsxs description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.1Label">
+		<source>fwgridrowsxs - 1</source>
+<target>fwgridrowsxs - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.2Label">
+		<source>fwgridrowsxs - 2</source>
+<target>fwgridrowsxs - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.3Label">
+		<source>fwgridrowsxs - 3</source>
+<target>fwgridrowsxs - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.4Label">
+		<source>fwgridrowsxs - 4</source>
+<target>fwgridrowsxs - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.5Label">
+		<source>fwgridrowsxs - 5</source>
+<target>fwgridrowsxs - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.6Label">
+		<source>fwgridrowsxs - 6</source>
+<target>fwgridrowsxs - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.7Label">
+		<source>fwgridrowsxs - 7</source>
+<target>fwgridrowsxs - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.8Label">
+		<source>fwgridrowsxs - 8</source>
+<target>fwgridrowsxs - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.9Label">
+		<source>fwgridrowsxs - 9</source>
+<target>fwgridrowsxs - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.10Label">
+		<source>fwgridrowsxs - 10</source>
+<target>fwgridrowsxs - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.11Label">
+		<source>fwgridrowsxs - 11</source>
+<target>fwgridrowsxs - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxs.12Label">
+		<source>fwgridrowsxs - 12</source>
+<target>fwgridrowsxs - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.title">
+		<source>fwgridcolsxxs</source>
+<target>fwgridcolsxxs</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.description">
+	<source>fwgridcolsxxs description</source>
+<target>fwgridcolsxxs description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.1Label">
+		<source>fwgridcolsxxs - 1</source>
+<target>fwgridcolsxxs - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.2Label">
+		<source>fwgridcolsxxs - 2</source>
+<target>fwgridcolsxxs - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.3Label">
+		<source>fwgridcolsxxs - 3</source>
+<target>fwgridcolsxxs - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.4Label">
+		<source>fwgridcolsxxs - 4</source>
+<target>fwgridcolsxxs - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.5Label">
+		<source>fwgridcolsxxs - 5</source>
+<target>fwgridcolsxxs - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.6Label">
+		<source>fwgridcolsxxs - 6</source>
+<target>fwgridcolsxxs - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.7Label">
+		<source>fwgridcolsxxs - 7</source>
+<target>fwgridcolsxxs - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.8Label">
+		<source>fwgridcolsxxs - 8</source>
+<target>fwgridcolsxxs - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.9Label">
+		<source>fwgridcolsxxs - 9</source>
+<target>fwgridcolsxxs - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.10Label">
+		<source>fwgridcolsxxs - 10</source>
+<target>fwgridcolsxxs - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.11Label">
+		<source>fwgridcolsxxs - 11</source>
+<target>fwgridcolsxxs - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsxxs.12Label">
+		<source>fwgridcolsxxs - 12</source>
+<target>fwgridcolsxxs - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.title">
+		<source>fwgridrowsxxs</source>
+<target>fwgridrowsxxs</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.description">
+	<source>fwgridrowsxxs description</source>
+<target>fwgridrowsxxs description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.1Label">
+		<source>fwgridrowsxxs - 1</source>
+<target>fwgridrowsxxs - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.2Label">
+		<source>fwgridrowsxxs - 2</source>
+<target>fwgridrowsxxs - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.3Label">
+		<source>fwgridrowsxxs - 3</source>
+<target>fwgridrowsxxs - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.4Label">
+		<source>fwgridrowsxxs - 4</source>
+<target>fwgridrowsxxs - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.5Label">
+		<source>fwgridrowsxxs - 5</source>
+<target>fwgridrowsxxs - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.6Label">
+		<source>fwgridrowsxxs - 6</source>
+<target>fwgridrowsxxs - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.7Label">
+		<source>fwgridrowsxxs - 7</source>
+<target>fwgridrowsxxs - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.8Label">
+		<source>fwgridrowsxxs - 8</source>
+<target>fwgridrowsxxs - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.9Label">
+		<source>fwgridrowsxxs - 9</source>
+<target>fwgridrowsxxs - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.10Label">
+		<source>fwgridrowsxxs - 10</source>
+<target>fwgridrowsxxs - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.11Label">
+		<source>fwgridrowsxxs - 11</source>
+<target>fwgridrowsxxs - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgridrowsxxs.12Label">
+		<source>fwgridrowsxxs - 12</source>
+<target>fwgridrowsxxs - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.title">
+		<source>fwgriditemcolsspan</source>
+<target>fwgriditemcolsspan</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.description">
+	<source>fwgriditemcolsspan description</source>
+<target>fwgriditemcolsspan description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.1Label">
+		<source>fwgriditemcolsspan - 1</source>
+<target>fwgriditemcolsspan - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.2Label">
+		<source>fwgriditemcolsspan - 2</source>
+<target>fwgriditemcolsspan - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.3Label">
+		<source>fwgriditemcolsspan - 3</source>
+<target>fwgriditemcolsspan - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.4Label">
+		<source>fwgriditemcolsspan - 4</source>
+<target>fwgriditemcolsspan - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.5Label">
+		<source>fwgriditemcolsspan - 5</source>
+<target>fwgriditemcolsspan - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.6Label">
+		<source>fwgriditemcolsspan - 6</source>
+<target>fwgriditemcolsspan - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.7Label">
+		<source>fwgriditemcolsspan - 7</source>
+<target>fwgriditemcolsspan - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.8Label">
+		<source>fwgriditemcolsspan - 8</source>
+<target>fwgriditemcolsspan - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.9Label">
+		<source>fwgriditemcolsspan - 9</source>
+<target>fwgriditemcolsspan - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.10Label">
+		<source>fwgriditemcolsspan - 10</source>
+<target>fwgriditemcolsspan - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.11Label">
+		<source>fwgriditemcolsspan - 11</source>
+<target>fwgriditemcolsspan - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspan.12Label">
+		<source>fwgriditemcolsspan - 12</source>
+<target>fwgriditemcolsspan - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.title">
+		<source>fwgriditemrowsspan</source>
+<target>fwgriditemrowsspan</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.description">
+	<source>fwgriditemrowsspan description</source>
+<target>fwgriditemrowsspan description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.1Label">
+		<source>fwgriditemrowsspan - 1</source>
+<target>fwgriditemrowsspan - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.2Label">
+		<source>fwgriditemrowsspan - 2</source>
+<target>fwgriditemrowsspan - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.3Label">
+		<source>fwgriditemrowsspan - 3</source>
+<target>fwgriditemrowsspan - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.4Label">
+		<source>fwgriditemrowsspan - 4</source>
+<target>fwgriditemrowsspan - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.5Label">
+		<source>fwgriditemrowsspan - 5</source>
+<target>fwgriditemrowsspan - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.6Label">
+		<source>fwgriditemrowsspan - 6</source>
+<target>fwgriditemrowsspan - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.7Label">
+		<source>fwgriditemrowsspan - 7</source>
+<target>fwgriditemrowsspan - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.8Label">
+		<source>fwgriditemrowsspan - 8</source>
+<target>fwgriditemrowsspan - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.9Label">
+		<source>fwgriditemrowsspan - 9</source>
+<target>fwgriditemrowsspan - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.10Label">
+		<source>fwgriditemrowsspan - 10</source>
+<target>fwgriditemrowsspan - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.11Label">
+		<source>fwgriditemrowsspan - 11</source>
+<target>fwgriditemrowsspan - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspan.12Label">
+		<source>fwgriditemrowsspan - 12</source>
+<target>fwgriditemrowsspan - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.title">
+		<source>fwgriditemcolsspanxl</source>
+<target>fwgriditemcolsspanxl</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.description">
+	<source>fwgriditemcolsspanxl description</source>
+<target>fwgriditemcolsspanxl description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.1Label">
+		<source>fwgriditemcolsspanxl - 1</source>
+<target>fwgriditemcolsspanxl - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.2Label">
+		<source>fwgriditemcolsspanxl - 2</source>
+<target>fwgriditemcolsspanxl - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.3Label">
+		<source>fwgriditemcolsspanxl - 3</source>
+<target>fwgriditemcolsspanxl - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.4Label">
+		<source>fwgriditemcolsspanxl - 4</source>
+<target>fwgriditemcolsspanxl - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.5Label">
+		<source>fwgriditemcolsspanxl - 5</source>
+<target>fwgriditemcolsspanxl - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.6Label">
+		<source>fwgriditemcolsspanxl - 6</source>
+<target>fwgriditemcolsspanxl - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.7Label">
+		<source>fwgriditemcolsspanxl - 7</source>
+<target>fwgriditemcolsspanxl - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.8Label">
+		<source>fwgriditemcolsspanxl - 8</source>
+<target>fwgriditemcolsspanxl - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.9Label">
+		<source>fwgriditemcolsspanxl - 9</source>
+<target>fwgriditemcolsspanxl - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.10Label">
+		<source>fwgriditemcolsspanxl - 10</source>
+<target>fwgriditemcolsspanxl - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.11Label">
+		<source>fwgriditemcolsspanxl - 11</source>
+<target>fwgriditemcolsspanxl - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.12Label">
+		<source>fwgriditemcolsspanxl - 12</source>
+<target>fwgriditemcolsspanxl - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.title">
+		<source>fwgriditemrowsspanxl</source>
+<target>fwgriditemrowsspanxl</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.description">
+	<source>fwgriditemrowsspanxl description</source>
+<target>fwgriditemrowsspanxl description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.1Label">
+		<source>fwgriditemrowsspanxl - 1</source>
+<target>fwgriditemrowsspanxl - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.2Label">
+		<source>fwgriditemrowsspanxl - 2</source>
+<target>fwgriditemrowsspanxl - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.3Label">
+		<source>fwgriditemrowsspanxl - 3</source>
+<target>fwgriditemrowsspanxl - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.4Label">
+		<source>fwgriditemrowsspanxl - 4</source>
+<target>fwgriditemrowsspanxl - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.5Label">
+		<source>fwgriditemrowsspanxl - 5</source>
+<target>fwgriditemrowsspanxl - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.6Label">
+		<source>fwgriditemrowsspanxl - 6</source>
+<target>fwgriditemrowsspanxl - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.7Label">
+		<source>fwgriditemrowsspanxl - 7</source>
+<target>fwgriditemrowsspanxl - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.8Label">
+		<source>fwgriditemrowsspanxl - 8</source>
+<target>fwgriditemrowsspanxl - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.9Label">
+		<source>fwgriditemrowsspanxl - 9</source>
+<target>fwgriditemrowsspanxl - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.10Label">
+		<source>fwgriditemrowsspanxl - 10</source>
+<target>fwgriditemrowsspanxl - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.11Label">
+		<source>fwgriditemrowsspanxl - 11</source>
+<target>fwgriditemrowsspanxl - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.12Label">
+		<source>fwgriditemrowsspanxl - 12</source>
+<target>fwgriditemrowsspanxl - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.title">
+		<source>fwgriditemcolsspanlg</source>
+<target>fwgriditemcolsspanlg</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.description">
+	<source>fwgriditemcolsspanlg description</source>
+<target>fwgriditemcolsspanlg description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.1Label">
+		<source>fwgriditemcolsspanlg - 1</source>
+<target>fwgriditemcolsspanlg - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.2Label">
+		<source>fwgriditemcolsspanlg - 2</source>
+<target>fwgriditemcolsspanlg - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.3Label">
+		<source>fwgriditemcolsspanlg - 3</source>
+<target>fwgriditemcolsspanlg - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.4Label">
+		<source>fwgriditemcolsspanlg - 4</source>
+<target>fwgriditemcolsspanlg - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.5Label">
+		<source>fwgriditemcolsspanlg - 5</source>
+<target>fwgriditemcolsspanlg - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.6Label">
+		<source>fwgriditemcolsspanlg - 6</source>
+<target>fwgriditemcolsspanlg - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.7Label">
+		<source>fwgriditemcolsspanlg - 7</source>
+<target>fwgriditemcolsspanlg - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.8Label">
+		<source>fwgriditemcolsspanlg - 8</source>
+<target>fwgriditemcolsspanlg - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.9Label">
+		<source>fwgriditemcolsspanlg - 9</source>
+<target>fwgriditemcolsspanlg - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.10Label">
+		<source>fwgriditemcolsspanlg - 10</source>
+<target>fwgriditemcolsspanlg - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.11Label">
+		<source>fwgriditemcolsspanlg - 11</source>
+<target>fwgriditemcolsspanlg - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.12Label">
+		<source>fwgriditemcolsspanlg - 12</source>
+<target>fwgriditemcolsspanlg - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.title">
+		<source>fwgriditemrowsspanlg</source>
+<target>fwgriditemrowsspanlg</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.description">
+	<source>fwgriditemrowsspanlg description</source>
+<target>fwgriditemrowsspanlg description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.1Label">
+		<source>fwgriditemrowsspanlg - 1</source>
+<target>fwgriditemrowsspanlg - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.2Label">
+		<source>fwgriditemrowsspanlg - 2</source>
+<target>fwgriditemrowsspanlg - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.3Label">
+		<source>fwgriditemrowsspanlg - 3</source>
+<target>fwgriditemrowsspanlg - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.4Label">
+		<source>fwgriditemrowsspanlg - 4</source>
+<target>fwgriditemrowsspanlg - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.5Label">
+		<source>fwgriditemrowsspanlg - 5</source>
+<target>fwgriditemrowsspanlg - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.6Label">
+		<source>fwgriditemrowsspanlg - 6</source>
+<target>fwgriditemrowsspanlg - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.7Label">
+		<source>fwgriditemrowsspanlg - 7</source>
+<target>fwgriditemrowsspanlg - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.8Label">
+		<source>fwgriditemrowsspanlg - 8</source>
+<target>fwgriditemrowsspanlg - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.9Label">
+		<source>fwgriditemrowsspanlg - 9</source>
+<target>fwgriditemrowsspanlg - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.10Label">
+		<source>fwgriditemrowsspanlg - 10</source>
+<target>fwgriditemrowsspanlg - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.11Label">
+		<source>fwgriditemrowsspanlg - 11</source>
+<target>fwgriditemrowsspanlg - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.12Label">
+		<source>fwgriditemrowsspanlg - 12</source>
+<target>fwgriditemrowsspanlg - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.title">
+		<source>fwgriditemcolsspanmd</source>
+<target>fwgriditemcolsspanmd</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.description">
+	<source>fwgriditemcolsspanmd description</source>
+<target>fwgriditemcolsspanmd description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.1Label">
+		<source>fwgriditemcolsspanmd - 1</source>
+<target>fwgriditemcolsspanmd - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.2Label">
+		<source>fwgriditemcolsspanmd - 2</source>
+<target>fwgriditemcolsspanmd - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.3Label">
+		<source>fwgriditemcolsspanmd - 3</source>
+<target>fwgriditemcolsspanmd - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.4Label">
+		<source>fwgriditemcolsspanmd - 4</source>
+<target>fwgriditemcolsspanmd - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.5Label">
+		<source>fwgriditemcolsspanmd - 5</source>
+<target>fwgriditemcolsspanmd - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.6Label">
+		<source>fwgriditemcolsspanmd - 6</source>
+<target>fwgriditemcolsspanmd - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.7Label">
+		<source>fwgriditemcolsspanmd - 7</source>
+<target>fwgriditemcolsspanmd - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.8Label">
+		<source>fwgriditemcolsspanmd - 8</source>
+<target>fwgriditemcolsspanmd - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.9Label">
+		<source>fwgriditemcolsspanmd - 9</source>
+<target>fwgriditemcolsspanmd - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.10Label">
+		<source>fwgriditemcolsspanmd - 10</source>
+<target>fwgriditemcolsspanmd - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.11Label">
+		<source>fwgriditemcolsspanmd - 11</source>
+<target>fwgriditemcolsspanmd - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.12Label">
+		<source>fwgriditemcolsspanmd - 12</source>
+<target>fwgriditemcolsspanmd - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.title">
+		<source>fwgriditemrowsspanmd</source>
+<target>fwgriditemrowsspanmd</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.description">
+	<source>fwgriditemrowsspanmd description</source>
+<target>fwgriditemrowsspanmd description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.1Label">
+		<source>fwgriditemrowsspanmd - 1</source>
+<target>fwgriditemrowsspanmd - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.2Label">
+		<source>fwgriditemrowsspanmd - 2</source>
+<target>fwgriditemrowsspanmd - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.3Label">
+		<source>fwgriditemrowsspanmd - 3</source>
+<target>fwgriditemrowsspanmd - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.4Label">
+		<source>fwgriditemrowsspanmd - 4</source>
+<target>fwgriditemrowsspanmd - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.5Label">
+		<source>fwgriditemrowsspanmd - 5</source>
+<target>fwgriditemrowsspanmd - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.6Label">
+		<source>fwgriditemrowsspanmd - 6</source>
+<target>fwgriditemrowsspanmd - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.7Label">
+		<source>fwgriditemrowsspanmd - 7</source>
+<target>fwgriditemrowsspanmd - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.8Label">
+		<source>fwgriditemrowsspanmd - 8</source>
+<target>fwgriditemrowsspanmd - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.9Label">
+		<source>fwgriditemrowsspanmd - 9</source>
+<target>fwgriditemrowsspanmd - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.10Label">
+		<source>fwgriditemrowsspanmd - 10</source>
+<target>fwgriditemrowsspanmd - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.11Label">
+		<source>fwgriditemrowsspanmd - 11</source>
+<target>fwgriditemrowsspanmd - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.12Label">
+		<source>fwgriditemrowsspanmd - 12</source>
+<target>fwgriditemrowsspanmd - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.title">
+		<source>fwgriditemcolsspansm</source>
+<target>fwgriditemcolsspansm</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.description">
+	<source>fwgriditemcolsspansm description</source>
+<target>fwgriditemcolsspansm description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.1Label">
+		<source>fwgriditemcolsspansm - 1</source>
+<target>fwgriditemcolsspansm - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.2Label">
+		<source>fwgriditemcolsspansm - 2</source>
+<target>fwgriditemcolsspansm - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.3Label">
+		<source>fwgriditemcolsspansm - 3</source>
+<target>fwgriditemcolsspansm - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.4Label">
+		<source>fwgriditemcolsspansm - 4</source>
+<target>fwgriditemcolsspansm - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.5Label">
+		<source>fwgriditemcolsspansm - 5</source>
+<target>fwgriditemcolsspansm - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.6Label">
+		<source>fwgriditemcolsspansm - 6</source>
+<target>fwgriditemcolsspansm - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.7Label">
+		<source>fwgriditemcolsspansm - 7</source>
+<target>fwgriditemcolsspansm - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.8Label">
+		<source>fwgriditemcolsspansm - 8</source>
+<target>fwgriditemcolsspansm - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.9Label">
+		<source>fwgriditemcolsspansm - 9</source>
+<target>fwgriditemcolsspansm - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.10Label">
+		<source>fwgriditemcolsspansm - 10</source>
+<target>fwgriditemcolsspansm - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.11Label">
+		<source>fwgriditemcolsspansm - 11</source>
+<target>fwgriditemcolsspansm - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspansm.12Label">
+		<source>fwgriditemcolsspansm - 12</source>
+<target>fwgriditemcolsspansm - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.title">
+		<source>fwgriditemrowsspansm</source>
+<target>fwgriditemrowsspansm</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.description">
+	<source>fwgriditemrowsspansm description</source>
+<target>fwgriditemrowsspansm description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.1Label">
+		<source>fwgriditemrowsspansm - 1</source>
+<target>fwgriditemrowsspansm - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.2Label">
+		<source>fwgriditemrowsspansm - 2</source>
+<target>fwgriditemrowsspansm - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.3Label">
+		<source>fwgriditemrowsspansm - 3</source>
+<target>fwgriditemrowsspansm - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.4Label">
+		<source>fwgriditemrowsspansm - 4</source>
+<target>fwgriditemrowsspansm - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.5Label">
+		<source>fwgriditemrowsspansm - 5</source>
+<target>fwgriditemrowsspansm - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.6Label">
+		<source>fwgriditemrowsspansm - 6</source>
+<target>fwgriditemrowsspansm - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.7Label">
+		<source>fwgriditemrowsspansm - 7</source>
+<target>fwgriditemrowsspansm - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.8Label">
+		<source>fwgriditemrowsspansm - 8</source>
+<target>fwgriditemrowsspansm - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.9Label">
+		<source>fwgriditemrowsspansm - 9</source>
+<target>fwgriditemrowsspansm - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.10Label">
+		<source>fwgriditemrowsspansm - 10</source>
+<target>fwgriditemrowsspansm - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.11Label">
+		<source>fwgriditemrowsspansm - 11</source>
+<target>fwgriditemrowsspansm - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspansm.12Label">
+		<source>fwgriditemrowsspansm - 12</source>
+<target>fwgriditemrowsspansm - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.title">
+		<source>fwgriditemcolsspanxs</source>
+<target>fwgriditemcolsspanxs</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.description">
+	<source>fwgriditemcolsspanxs description</source>
+<target>fwgriditemcolsspanxs description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.1Label">
+		<source>fwgriditemcolsspanxs - 1</source>
+<target>fwgriditemcolsspanxs - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.2Label">
+		<source>fwgriditemcolsspanxs - 2</source>
+<target>fwgriditemcolsspanxs - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.3Label">
+		<source>fwgriditemcolsspanxs - 3</source>
+<target>fwgriditemcolsspanxs - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.4Label">
+		<source>fwgriditemcolsspanxs - 4</source>
+<target>fwgriditemcolsspanxs - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.5Label">
+		<source>fwgriditemcolsspanxs - 5</source>
+<target>fwgriditemcolsspanxs - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.6Label">
+		<source>fwgriditemcolsspanxs - 6</source>
+<target>fwgriditemcolsspanxs - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.7Label">
+		<source>fwgriditemcolsspanxs - 7</source>
+<target>fwgriditemcolsspanxs - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.8Label">
+		<source>fwgriditemcolsspanxs - 8</source>
+<target>fwgriditemcolsspanxs - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.9Label">
+		<source>fwgriditemcolsspanxs - 9</source>
+<target>fwgriditemcolsspanxs - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.10Label">
+		<source>fwgriditemcolsspanxs - 10</source>
+<target>fwgriditemcolsspanxs - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.11Label">
+		<source>fwgriditemcolsspanxs - 11</source>
+<target>fwgriditemcolsspanxs - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.12Label">
+		<source>fwgriditemcolsspanxs - 12</source>
+<target>fwgriditemcolsspanxs - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.title">
+		<source>fwgriditemrowsspanxs</source>
+<target>fwgriditemrowsspanxs</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.description">
+	<source>fwgriditemrowsspanxs description</source>
+<target>fwgriditemrowsspanxs description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.1Label">
+		<source>fwgriditemrowsspanxs - 1</source>
+<target>fwgriditemrowsspanxs - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.2Label">
+		<source>fwgriditemrowsspanxs - 2</source>
+<target>fwgriditemrowsspanxs - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.3Label">
+		<source>fwgriditemrowsspanxs - 3</source>
+<target>fwgriditemrowsspanxs - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.4Label">
+		<source>fwgriditemrowsspanxs - 4</source>
+<target>fwgriditemrowsspanxs - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.5Label">
+		<source>fwgriditemrowsspanxs - 5</source>
+<target>fwgriditemrowsspanxs - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.6Label">
+		<source>fwgriditemrowsspanxs - 6</source>
+<target>fwgriditemrowsspanxs - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.7Label">
+		<source>fwgriditemrowsspanxs - 7</source>
+<target>fwgriditemrowsspanxs - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.8Label">
+		<source>fwgriditemrowsspanxs - 8</source>
+<target>fwgriditemrowsspanxs - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.9Label">
+		<source>fwgriditemrowsspanxs - 9</source>
+<target>fwgriditemrowsspanxs - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.10Label">
+		<source>fwgriditemrowsspanxs - 10</source>
+<target>fwgriditemrowsspanxs - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.11Label">
+		<source>fwgriditemrowsspanxs - 11</source>
+<target>fwgriditemrowsspanxs - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.12Label">
+		<source>fwgriditemrowsspanxs - 12</source>
+<target>fwgriditemrowsspanxs - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.title">
+		<source>fwgriditemcolsspanxxs</source>
+<target>fwgriditemcolsspanxxs</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.description">
+	<source>fwgriditemcolsspanxxs description</source>
+<target>fwgriditemcolsspanxxs description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.1Label">
+		<source>fwgriditemcolsspanxxs - 1</source>
+<target>fwgriditemcolsspanxxs - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.2Label">
+		<source>fwgriditemcolsspanxxs - 2</source>
+<target>fwgriditemcolsspanxxs - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.3Label">
+		<source>fwgriditemcolsspanxxs - 3</source>
+<target>fwgriditemcolsspanxxs - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.4Label">
+		<source>fwgriditemcolsspanxxs - 4</source>
+<target>fwgriditemcolsspanxxs - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.5Label">
+		<source>fwgriditemcolsspanxxs - 5</source>
+<target>fwgriditemcolsspanxxs - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.6Label">
+		<source>fwgriditemcolsspanxxs - 6</source>
+<target>fwgriditemcolsspanxxs - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.7Label">
+		<source>fwgriditemcolsspanxxs - 7</source>
+<target>fwgriditemcolsspanxxs - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.8Label">
+		<source>fwgriditemcolsspanxxs - 8</source>
+<target>fwgriditemcolsspanxxs - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.9Label">
+		<source>fwgriditemcolsspanxxs - 9</source>
+<target>fwgriditemcolsspanxxs - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.10Label">
+		<source>fwgriditemcolsspanxxs - 10</source>
+<target>fwgriditemcolsspanxxs - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.11Label">
+		<source>fwgriditemcolsspanxxs - 11</source>
+<target>fwgriditemcolsspanxxs - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.12Label">
+		<source>fwgriditemcolsspanxxs - 12</source>
+<target>fwgriditemcolsspanxxs - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.title">
+		<source>fwgriditemrowsspanxxs</source>
+<target>fwgriditemrowsspanxxs</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.description">
+	<source>fwgriditemrowsspanxxs description</source>
+<target>fwgriditemrowsspanxxs description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.1Label">
+		<source>fwgriditemrowsspanxxs - 1</source>
+<target>fwgriditemrowsspanxxs - 1</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.2Label">
+		<source>fwgriditemrowsspanxxs - 2</source>
+<target>fwgriditemrowsspanxxs - 2</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.3Label">
+		<source>fwgriditemrowsspanxxs - 3</source>
+<target>fwgriditemrowsspanxxs - 3</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.4Label">
+		<source>fwgriditemrowsspanxxs - 4</source>
+<target>fwgriditemrowsspanxxs - 4</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.5Label">
+		<source>fwgriditemrowsspanxxs - 5</source>
+<target>fwgriditemrowsspanxxs - 5</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.6Label">
+		<source>fwgriditemrowsspanxxs - 6</source>
+<target>fwgriditemrowsspanxxs - 6</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.7Label">
+		<source>fwgriditemrowsspanxxs - 7</source>
+<target>fwgriditemrowsspanxxs - 7</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.8Label">
+		<source>fwgriditemrowsspanxxs - 8</source>
+<target>fwgriditemrowsspanxxs - 8</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.9Label">
+		<source>fwgriditemrowsspanxxs - 9</source>
+<target>fwgriditemrowsspanxxs - 9</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.10Label">
+		<source>fwgriditemrowsspanxxs - 10</source>
+<target>fwgriditemrowsspanxxs - 10</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.11Label">
+		<source>fwgriditemrowsspanxxs - 11</source>
+<target>fwgriditemrowsspanxxs - 11</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.12Label">
+		<source>fwgriditemrowsspanxxs - 12</source>
+<target>fwgriditemrowsspanxxs - 12</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwpricecardft.title">
+		<source>fwpricecardft</source>
+<target>fwpricecardft</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwpricecardft.description">
+	<source>fwpricecardft description</source>
+<target>fwpricecardft description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwpricecardft.colorLabel">
+		<source>fwpricecardft - color %s</source>
+<target>fwpricecardft - color %s</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwpricecardbg.title">
+		<source>fwpricecardbg</source>
+<target>fwpricecardbg</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwpricecardbg.description">
+	<source>fwpricecardbg description</source>
+<target>fwpricecardbg description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwpricecardbg.colorLabel">
+		<source>fwpricecardbg - color %s</source>
+<target>fwpricecardbg - color %s</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwpricecardcontent.title">
+		<source>fwpricecardcontent</source>
+<target>fwpricecardcontent</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwpricecardcontent.description">
+	<source>fwpricecardcontent description</source>
+<target>fwpricecardcontent description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwpricecardcontent.colorLabel">
+		<source>fwpricecardcontent - color %s</source>
+<target>fwpricecardcontent - color %s</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwpricecardmain.title">
+		<source>fwpricecardmain</source>
+<target>fwpricecardmain</target>
+</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwpricecardmain.description">
+	<source>fwpricecardmain description</source>
+<target>fwpricecardmain description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwpricecardmain.label">
+		<source>fwpricecardmain - label</source>
+<target>fwpricecardmain - label</target>
+</trans-unit>
+
+<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.title">
+		<source>fwquoteimgh</source>
+<target>fwquoteimgh</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.description">
+		<source>fwquoteimgh description</source>
+<target>fwquoteimgh description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.leftLabel">
+		<source>fwquoteimgh - left</source>
+<target>fwquoteimgh - left</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.rightLabel">
+		<source>fwquoteimgh - right</source>
+<target>fwquoteimgh - right</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.title">
+		<source>fwquoteimgv</source>
+<target>fwquoteimgv</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.description">
+		<source>fwquoteimgv description</source>
+<target>fwquoteimgv description</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.topLabel">
+		<source>fwquoteimgv - top</source>
+<target>fwquoteimgv - top</target>
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.bottomLabel">
+		<source>fwquoteimgv - bottom</source>
+<target>fwquoteimgv - bottom</target>
+</trans-unit>
 
 
 		<!-- Migrations -->

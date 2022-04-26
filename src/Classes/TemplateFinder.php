@@ -75,7 +75,7 @@ class TemplateFinder
     protected function getTemplatesFromFolder(string $folderPath): array
     {
         $templates = [];
-        foreach ((new \Contao\CoreBundle\Config\ResourceFinder([$folderPath]))->find()->files()->name('*.html5') as $filePath => $fileInfo) {
+        foreach ((new \Contao\CoreBundle\Config\ResourceFinder([$folderPath]))->find()->files()->depth('==0')->name('*.html5') as $filePath => $fileInfo) {
             $templates[str_replace('.html5', '', $fileInfo->getFilename())] = str_replace($this->projectDir.\DIRECTORY_SEPARATOR, '', $folderPath);
         }
 
