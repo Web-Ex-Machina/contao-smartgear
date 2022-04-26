@@ -269,6 +269,10 @@
 			<source>Website's title is missing</source>
 			<target>Le titre du site web n'est pas renseigné.</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgWebsiteTitleForbidden">
+			<source>Website's title is using a forbidden value</source>
+			<target>Le titre du site web n'est pas valide (valeur interdite).</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.GENERAL.sgOwnerEmailEmpty">
 			<source>Website's title is missing</source>
 			<target>L'adresse email de l'administrateur n'est pas renseignée.</target>
@@ -442,9 +446,9 @@
 			<source>Administrators</source>
 			<target>Administrateurs</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.INSTALL.WEBSITE.UsergroupRedactorsName">
-			<source>Redactors</source>
-			<target>Redacteurs</target>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.UsergroupWebmastersName">
+			<source>Webmasters</source>
+			<target>Webmasters</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.UserWebmasterName">
 			<source>Webmaster</source>

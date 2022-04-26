@@ -66,7 +66,7 @@ services:
         arguments:
             $translator: '@contao.translation.translator'
             $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/files/vendor/outdatedbrowser'
-            $destinationDirectory: 'files/vendor/outdatedbrowser'
+            $destinationDirectory: 'assets/outdatedbrowser'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: true
         public: true
@@ -76,17 +76,7 @@ services:
         arguments:
             $translator: '@contao.translation.translator'
             $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/files/vendor/tarteaucitron'
-            $destinationDirectory: 'files/vendor/tarteaucitron'
-            $rootDir: '%kernel.project_dir%'
-            $manageSubfolders: true
-        public: true
-
-    smartgear.classes.directories_synchronizer.js_socials:
-        class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
-        arguments:
-            $translator: '@contao.translation.translator'
-            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/assets/jssocials'
-            $destinationDirectory: 'assets/jssocials'
+            $destinationDirectory: 'assets/tarteaucitron'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: true
         public: true
@@ -138,6 +128,13 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
             $configurationThemeManager: '@smartgear.config.manager.framway_theme'
             $commandUtil: '@smartgear.classes.command.util'
+        public: true
+
+    smartgear.classes.template_finder:
+        class: WEM\SmartgearBundle\Classes\TemplateFinder
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+            $configurationManager : '@smartgear.config.manager.core'
         public: true
 
     smartgear.config.manager.framway:

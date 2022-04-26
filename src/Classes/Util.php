@@ -27,6 +27,7 @@ use Contao\UserGroupModel;
 use Exception;
 use InvalidArgumentException;
 use Psr\Log\LogLevel;
+use WEM\SmartgearBundle\Config\Core as CoreConfig;
 use WEM\UtilsBundle\Classes\StringUtil;
 
 /**
@@ -207,7 +208,7 @@ class Util
      *
      * @return [Mixed] [Config value]
      */
-    public static function loadSmartgearConfig()
+    public static function loadSmartgearConfig(): CoreConfig
     {
         try {
             // $objFiles = \Files::getInstance();
@@ -574,10 +575,11 @@ class Util
             // Retrieve usergroup existing permissions
             $arrPermissions = [];
             if (null === $intGroup) {
+                /** @var CoreConfig */
                 $conf = self::loadSmartgearConfig();
 
                 // if ($conf['sgInstallUserGroup']) {
-                $objUserGroup = UserGroupModel::findOneByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName']);
+                $objUserGroup = UserGroupModel::findOneById($conf->getSgUserGroupWebmasters());
             // }
             } else {
                 $objUserGroup = UserGroupModel::findByPk($intGroup);
@@ -620,10 +622,11 @@ class Util
             // Retrieve usergroup existing permissions
             $arrPermissions = [];
             if (null === $intGroup) {
+                /** @var CoreConfig */
                 $conf = self::loadSmartgearConfig();
 
                 if ($conf['sgInstallUserGroup']) {
-                    $objUserGroup = UserGroupModel::findByPk($conf['sgInstallUserGroup']);
+                    $objUserGroup = UserGroupModel::findByPk($conf->getSgUserGroupWebmasters());
                 }
             } else {
                 $objUserGroup = UserGroupModel::findByPk($intGroup);

@@ -83,30 +83,34 @@ class General extends ConfigurationStep
     {
         // check if the step is correct
         if (empty(Input::post('sgWebsiteTitle'))) {
-            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgWebsiteTitleMissing']);
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgWebsiteTitleEmpty']);
+        }
+
+        if (\in_array(Input::post('sgWebsiteTitle'), CoreConfig::FORBIDDEN_WEBSITE_TITLES, true)) {
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgWebsiteTitleForbidden']);
         }
 
         if (empty(Input::post('sgOwnerEmail'))) {
-            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgOwnerEmailMissing']);
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgOwnerEmailEmpty']);
         }
 
         if (CoreConfig::ANALYTICS_SYSTEM_MATOMO === Input::post('sgAnalytics')) {
             if (empty(Input::post('sgAnalyticsMatomoId'))) {
-                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsMatomoIdMissing']);
+                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsMatomoIdEmpty']);
             }
             if (empty(Input::post('sgAnalyticsMatomoHost'))) {
-                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsMatomoHostMissing']);
+                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsMatomoHostEmpty']);
             }
         }
 
         if (CoreConfig::ANALYTICS_SYSTEM_GOOGLE === Input::post('sgAnalytics')) {
             if (empty(Input::post('sgAnalyticsGoogleId'))) {
-                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsGoogleIdMissing']);
+                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsGoogleIdEmpty']);
             }
         }
 
         if (empty(Input::post('sgApiKey'))) {
-            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgApiKeyMissing']);
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgApiKeyEmpty']);
         }
 
         return true;
