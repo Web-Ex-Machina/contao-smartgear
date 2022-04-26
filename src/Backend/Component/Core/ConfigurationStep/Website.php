@@ -195,7 +195,7 @@ class Website extends ConfigurationStep
         $config = $this->configurationManager->load();
 
         // Create the Smartgear main theme
-        $objTheme = ModuleModel::findOneByName('Smartgear '.$config->getSgWebsiteTitle()) ?? new ThemeModel();
+        $objTheme = ThemeModel::findOneByName('Smartgear '.$config->getSgWebsiteTitle()) ?? new ThemeModel();
         $objTheme->tstamp = time();
         $objTheme->name = 'Smartgear '.$config->getSgWebsiteTitle();
         $objTheme->author = 'Web ex Machina';

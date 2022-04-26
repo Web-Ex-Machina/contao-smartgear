@@ -14,36 +14,24 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes;
 
-// use Contao\CoreBundle\Config\ResourceFinder;
-use Contao\StringUtil;
 use Contao\ThemeModel;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
-use WEM\UtilsBundle\Classes\StringUtil as WEMStringUtil;
 
 class TemplateFinder
 {
     /** @var string */
     protected $projectDir;
-    /** @var ResourceFinder */
-    // protected $resourceFinder;
     /** @var CoreConfigurationManager */
     protected $configurationManager;
 
     public function __construct(
         string $projectDir,
-        // ResourceFinder $resourceFinder,
         CoreConfigurationManager $configurationManager
     ) {
         $this->projectDir = $projectDir;
-        // $this->resourceFinder = $resourceFinder;
         $this->configurationManager = $configurationManager;
-    }
-
-    public function coucou(): string
-    {
-        return 'coucou';
     }
 
     public function buildList(): array
@@ -79,25 +67,16 @@ class TemplateFinder
             return [];
         }
 
-        $uselessVarToMakeItWork = StringUtil::ampersand('ok');
-        // $objTheme = ThemeModel::findById($config->getSgTheme());
+        $objTheme = ThemeModel::findById($config->getSgTheme());
 
-        // return $this->getTemplatesFromFolder($this->projectDir.\DIRECTORY_SEPARATOR.$objTheme->templates);
-
-        return $this->getTemplatesFromFolder($this->projectDir.\DIRECTORY_SEPARATOR.'templates'.\DIRECTORY_SEPARATOR.WEMStringUtil::generateAlias($config->getSgWebsiteTitle()));
+        return $this->getTemplatesFromFolder($this->projectDir.\DIRECTORY_SEPARATOR.$objTheme->templates);
     }
 
     protected function getTemplatesFromFolder(string $folderPath): array
     {
         $templates = [];
-        if (is_dir($folderPath)) {
-            $files = scandir($folderPath);
-            foreach ($files as $filename) {
-                if (\strlen($filename) > 6
-                && '.html5' === substr($filename, -6, 6)) {
-                    $templates[str_replace('.html5', '', $filename)] = str_replace($this->projectDir.\DIRECTORY_SEPARATOR, '', $folderPath);
-                }
-            }
+        foreach ((new \Contao\CoreBundle\Config\ResourceFinder([$folderPath]))->find()->files()->name('*.html5') as $filePath => $fileInfo) {
+            $templates[str_replace('.html5', '', $fileInfo->getFilename())] = str_replace($this->projectDir.\DIRECTORY_SEPARATOR, '', $folderPath);
         }
 
         return $templates;

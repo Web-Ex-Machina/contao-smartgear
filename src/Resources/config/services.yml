@@ -134,7 +134,6 @@ services:
         class: WEM\SmartgearBundle\Classes\TemplateFinder
         arguments:
             $projectDir: '%kernel.project_dir%'
-            # $resourceFinder: '@contao.resource_finder'
             $configurationManager : '@smartgear.config.manager.core'
         public: true
 

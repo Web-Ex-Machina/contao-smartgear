@@ -15,28 +15,8 @@ declare(strict_types=1);
 /*
  * Register the templates.
  */
-$templateFinder = \Contao\System::getContainer()->get('smartgear.classes.template_finder');
 Contao\TemplateLoader::addFiles(
     [
-        // RSCE Templates
-        // 'rsce_accordionFW' => 'templates/rsce',
-        // 'rsce_block-img' => 'templates/rsce',
-        // 'rsce_counterFW' => 'templates/rsce',
-        // 'rsce_foldingbox' => 'templates/rsce',
-        // 'rsce_gridGallery' => 'templates/rsce',
-        // 'rsce_heroFW' => 'templates/rsce',
-        // 'rsce_heroFWStart' => 'templates/rsce',
-        // 'rsce_heroFWStop' => 'templates/rsce',
-        // 'rsce_listIcons' => 'templates/rsce',
-        // 'rsce_notations' => 'templates/rsce',
-        // 'rsce_priceCards' => 'templates/rsce',
-        // 'rsce_quote' => 'templates/rsce',
-        // 'rsce_sliderFW' => 'templates/rsce',
-        // 'rsce_tabs' => 'templates/rsce',
-        // 'rsce_testimonials' => 'templates/rsce',
-        // 'rsce_timeline' => 'templates/rsce',
-        // 'rsce_pdfViewerFW' => 'templates/rsce',
-
         // Backend Templates
         'be_wem_sg_install' => 'system/modules/wem-contao-smartgear/templates/backend',
         'be_wem_sg_install_block_default' => 'system/modules/wem-contao-smartgear/templates/backend',
@@ -51,4 +31,3 @@ Contao\TemplateLoader::addFiles(
         'be_wem_sg_install_modal_blog_configure' => 'system/modules/wem-contao-smartgear/templates/backend/modals',
     ]
 );
-Contao\TemplateLoader::addFiles($templateFinder->buildList());
