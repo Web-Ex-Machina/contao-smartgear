@@ -1349,46 +1349,6 @@
 			<source>Framway - Background - Color</source>
 			<target>Framway - Background - Color</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.primaryLabel">
-			<source>background primary color</source>
-			<target>fond couleur primaire</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.primaryDescription">
-			<source>Apply a background using primary color to the item</source>
-			<target>Ajoute à l'élément un background de couleur primaire</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.secondaryLabel">
-			<source>background secondary color</source>
-			<target>fond couleur secondaire</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.secondaryDescription">
-			<source>Apply a background using secondary color to the item</source>
-			<target>Ajoute à l'élément un background de couleur secondaire</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.successLabel">
-			<source>background success color</source>
-			<target>fond couleur succès</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.successDescription">
-			<source>Apply a background using color used to signal a success to the item</source>
-			<target>Ajoute à l'élément un background correspondant à la couleur utilisée pour signaler un succès</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.errorLabel">
-			<source>background error color</source>
-			<target>fond couleur erreur</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.errorDescription">
-			<source>Apply a background using color used to signal an error to the item</source>
-			<target>Ajoute à l'élément un background correspondant à la couleur utilisée pour signaler une erreur</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.warningLabel">
-			<source>background warning color</source>
-			<target>fond couleur avertissement</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.warningDescription">
-			<source>Apply a background using color used to signal a warning to the item</source>
-			<target>Ajoute à l'élément un background correspondant à la couleur utilisée pour signaler un problème</target>
-		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.colorLabel">
 			<source>background color %s</source>
 			<target>fond couleur %s</target>
@@ -1405,46 +1365,6 @@
 			<source>Framway - Buttons - Background</source>
 			<target>Framway - Buttons - Background</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.primaryLabel">
-			<source>background primary color</source>
-			<target>bouton - fond couleur primaire</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.primaryDescription">
-			<source>Apply a background using primary color to the item</source>
-			<target>Transforme l'élément en bouton avec un background de couleur primaire</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.secondaryLabel">
-			<source>background secondary color</source>
-			<target>bouton - fond couleur secondaire</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.secondaryDescription">
-			<source>Apply a background using secondary color to the item</source>
-			<target>Transforme l'élément en bouton avec un background de couleur secondaire</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.successLabel">
-			<source>background success color</source>
-			<target>bouton - fond couleur succès</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.successDescription">
-			<source>Apply a background using color used to signal a success to the item</source>
-			<target>Transforme l'élément en bouton avec un background correspondant à la couleur utilisée pour signaler un succès</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.errorLabel">
-			<source>background error color</source>
-			<target>bouton - fond couleur erreur</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.errorDescription">
-			<source>Apply a background using color used to signal an error to the item</source>
-			<target>Transforme l'élément en bouton avec un background correspondant à la couleur utilisée pour signaler une erreur</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.warningLabel">
-			<source>background warning color</source>
-			<target>bouton - fond couleur avertissement</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.warningDescription">
-			<source>Apply a background using color used to signal a warning to the item</source>
-			<target>Transforme l'élément en bouton avec un background correspondant à la couleur utilisée pour signaler un problème</target>
-		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.colorLabel">
 			<source>background color %s</source>
 			<target>bouton - fond couleur %s</target>
@@ -1456,46 +1376,6 @@
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.title">
 			<source>Framway - Buttons - Borders</source>
 			<target>Framway - Buttons - Bordures</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.primaryLabel">
-			<source>border primary color</source>
-			<target>bouton - bordures couleur primaire</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.primaryDescription">
-			<source>Apply a border using primary color to the item</source>
-			<target>Transforme l'élément en bouton avec une bordure de couleur primaire</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.secondaryLabel">
-			<source>border secondary color</source>
-			<target>bouton - bordures couleur secondaire</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.secondaryDescription">
-			<source>Apply a border using secondary color to the item</source>
-			<target>Transforme l'élément en bouton avec une bordure de couleur secondaire</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.successLabel">
-			<source>border success color</source>
-			<target>bouton - bordures couleur succès</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.successDescription">
-			<source>Apply a border using color used to signal a success to the item</source>
-			<target>Transforme l'élément en bouton avec une bordure correspondant à la couleur utilisée pour signaler un succès</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.errorLabel">
-			<source>border error color</source>
-			<target>bouton - bordures couleur erreur</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.errorDescription">
-			<source>Apply a border using color used to signal an error to the item</source>
-			<target>Transforme l'élément en bouton avec une bordure correspondant à la couleur utilisée pour signaler une erreur</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.warningLabel">
-			<source>border warning color</source>
-			<target>bouton - bordures couleur avertissement</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.warningDescription">
-			<source>Apply a border using color used to signal a warning to the item</source>
-			<target>Transforme l'élément en bouton avec une bordure correspondant à la couleur utilisée pour signaler un problème</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.colorLabel">
 			<source>border color %s</source>
@@ -4724,11 +4604,43 @@
 			<target>Ajout des classes CSS de gestion des éléments de citations.</target>
 		</trans-unit>
 
-
-
-
-
 		<!-- Framway colors -->
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.meaningfulLabel">
+			<source>Contextual colors</source>
+			<target>Couleurs contextuelles</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.rawLabel">
+			<source>Raw colors</source>
+			<target>Couleurs brutes</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.primary">
+			<source>primary</source>
+			<target>primaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.secondary">
+			<source>secondary</source>
+			<target>secondaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.tertiary">
+			<source>tertiary</source>
+			<target>tertiaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.success">
+			<source>success</source>
+			<target>succès</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.info">
+			<source>info</source>
+			<target>info</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.warning">
+			<source>warning</source>
+			<target>avertissement</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.error">
+			<source>error</source>
+			<target>erreur</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.FRAMWAY.COLORS.blue">
 			<source>blue</source>
 			<target>bleu</target>
@@ -4784,6 +4696,10 @@
 		<trans-unit id="WEMSG.FRAMWAY.COLORS.none">
 			<source>none</source>
 			<target>aucune</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FRAMWAY.COLORS.helpWizardTitle">
+			<source>Colors</source>
+			<target>Couleurs</target>
 		</trans-unit>
 
 		<!-- Security -->

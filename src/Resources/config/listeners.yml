@@ -10,6 +10,9 @@ services:
     smartgear.listener.load_data_container:
         class: WEM\SmartgearBundle\EventListener\LoadDataContainerListener
         arguments:
+            $translator: '@contao.translation.translator'
+            $framwayConfigurationManager: '@smartgear.config.manager.framway'
+            $framwayThemeConfigurationManager: '@smartgear.config.manager.framway_theme'
             $listeners:
                 - '@smartgear.backend.component.blog.listener.load_data_container'
         public: true

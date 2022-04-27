@@ -18,8 +18,6 @@ class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\Componen
 {
     public function generate(): string
     {
-        // dump($this);
-
         $content = parent::generate();
         // normal translation keys
         $content = preg_replace_callback(
@@ -40,12 +38,13 @@ class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\Componen
         $content = preg_replace_callback(
             '|</h3><select([^>]*)>(.*)</select>|U',
             function ($match): string {
-                dump($match);
                 // $match[0] => full match
 
                 // look in the options if we have something color related ?
-                if (preg_match('|<option value="(.*)-primary">|', $match[2])) {
-                    $helpA = '<a href="contao/help.php?table='.$this->arrConfiguration['strTable'].'&amp;field='.$this->arrConfiguration['strField'].'" title="'.\Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['helpWizard']).'" onclick="Backend.openModalIframe({\'title\':\'xxxxxx\',\'url\':this.href});return false">'.\Contao\Image::getHtml('about.svg', $GLOBALS['TL_LANG']['MSC']['helpWizard']).'</a>';
+                if (preg_match('|<option value="(.*)-primary"|', $match[2])
+                || preg_match('|<option value="(.*)-red"|', $match[2])
+                ) {
+                    $helpA = '<a href="contao/help.php?table='.$this->arrConfiguration['strTable'].'&amp;field='.$this->arrConfiguration['strField'].'" title="'.\Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['helpWizard']).'" onclick="Backend.openModalIframe({\'title\':\''.\Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['helpWizardTitle']).'\',\'url\':this.href});return false">'.\Contao\Image::getHtml('about.svg', $GLOBALS['TL_LANG']['MSC']['helpWizard']).'</a>';
 
                     return $helpA.'</h3><select'.$match[1].'>'.$match[2].'</select>';
                 }

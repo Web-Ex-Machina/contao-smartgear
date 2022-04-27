@@ -360,15 +360,19 @@ class Migration extends MigrationAbstract
         $objArchive->save();
 
         // Price card - text color
-        $cssClasses = $this->buildRawColorsCssClasses('ft-%s', 'fwpricecardft');
+
+        $cssClasses = $this->buildMeaningfulColorsCssClasses('ft-%s', 'fwpricecardft');
+        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('ft-%s', 'fwpricecardft'));
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardft'.$suffix, 'WEMSG.STYLEMANAGER.fwpricecardft.title', 'WEMSG.STYLEMANAGER.fwpricecardft.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
         // Price card - bg color
-        $cssClasses = $this->buildRawColorsCssClasses('bg--%s', 'fwpricecardbg');
+        $cssClasses = $this->buildMeaningfulColorsCssClasses('bg--%s', 'fwpricecardbg');
+        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('bg--%s', 'fwpricecardbg'));
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardbg'.$suffix, 'WEMSG.STYLEMANAGER.fwpricecardbg.title', 'WEMSG.STYLEMANAGER.fwpricecardbg.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
         // Price card - content color
-        $cssClasses = $this->buildRawColorsCssClasses('content--%s', 'fwpricecardcontent');
+        $cssClasses = $this->buildMeaningfulColorsCssClasses('content--%s', 'fwpricecardcontent');
+        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('content--%s', 'fwpricecardcontent'));
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardcontent'.$suffix, 'WEMSG.STYLEMANAGER.fwpricecardcontent.title', 'WEMSG.STYLEMANAGER.fwpricecardcontent.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
         // Price card - main
@@ -621,11 +625,13 @@ class Migration extends MigrationAbstract
         $objStyle = $this->fillObjStyle($objArchiveTitle->id, 'fwherotitle'.$suffix, 'WEMSG.STYLEMANAGER.fwherotitle.title', 'WEMSG.STYLEMANAGER.fwherotitle.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
         // Hero - text color
-        $cssClasses = $this->buildRawColorsCssClasses('ft-%s', 'fwheroft');
+        $cssClasses = $this->buildMeaningfulColorsCssClasses('ft-%s', 'fwheroft');
+        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('ft-%s', 'fwheroft'));
         $objStyle = $this->fillObjStyle($objArchiveTitle->id, 'fwheroft'.$suffix, 'WEMSG.STYLEMANAGER.fwheroft.title', 'WEMSG.STYLEMANAGER.fwheroft.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
         // Hero - bg color
-        $cssClasses = $this->buildRawColorsCssClasses('content__bg--%s', 'fwherocontentbg');
+        $cssClasses = $this->buildMeaningfulColorsCssClasses('content__bg--%s', 'fwherocontentbg');
+        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('content__bg--%s', 'fwherocontentbg'));
         $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherocontentbg'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontentbg.title', 'WEMSG.STYLEMANAGER.fwherocontentbg.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
         // Hero - bgopacity
@@ -732,11 +738,13 @@ class Migration extends MigrationAbstract
         $objStyle = $this->fillObjStyle($objArchiveTitle->id, 'fwslidertitle'.$suffix, 'WEMSG.STYLEMANAGER.fwslidertitle.title', 'WEMSG.STYLEMANAGER.fwslidertitle.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
         // Slider - text color
-        $cssClasses = $this->buildRawColorsCssClasses('ft-%s', 'fwsliderft');
+        $cssClasses = $this->buildMeaningfulColorsCssClasses('ft-%s', 'fwsliderft');
+        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('ft-%s', 'fwsliderft'));
         $objStyle = $this->fillObjStyle($objArchiveTitle->id, 'fwsliderft'.$suffix, 'WEMSG.STYLEMANAGER.fwsliderft.title', 'WEMSG.STYLEMANAGER.fwsliderft.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
         // Slider - bg color
-        $cssClasses = $this->buildRawColorsCssClasses('content__bg--%s', 'fwslidercontentbg');
+        $cssClasses = $this->buildMeaningfulColorsCssClasses('content__bg--%s', 'fwslidercontentbg');
+        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('content__bg--%s', 'fwslidercontentbg'));
         $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwslidercontentbg'.$suffix, 'WEMSG.STYLEMANAGER.fwslidercontentbg.title', 'WEMSG.STYLEMANAGER.fwslidercontentbg.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
         // Slider - bgopacity
@@ -952,11 +960,11 @@ class Migration extends MigrationAbstract
     private function buildMeaningfulColorsCssClasses(string $keyPattern, string $translationKeyPart): array
     {
         return [
-            ['key' => sprintf($keyPattern, 'primary'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.primaryLabel', $translationKeyPart)],
-            ['key' => sprintf($keyPattern, 'secondary'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.secondaryLabel', $translationKeyPart)],
-            ['key' => sprintf($keyPattern, 'success'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.successLabel', $translationKeyPart)],
-            ['key' => sprintf($keyPattern, 'error'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.errorLabel', $translationKeyPart)],
-            ['key' => sprintf($keyPattern, 'warning'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.warningLabel', $translationKeyPart)],
+            ['key' => sprintf($keyPattern, 'primary'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'primary')],
+            ['key' => sprintf($keyPattern, 'secondary'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'secondary')],
+            ['key' => sprintf($keyPattern, 'success'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'success')],
+            ['key' => sprintf($keyPattern, 'error'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'error')],
+            ['key' => sprintf($keyPattern, 'warning'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'warning')],
         ];
     }
 
