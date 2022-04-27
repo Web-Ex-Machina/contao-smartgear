@@ -36,7 +36,7 @@ class LoadDataContainerListener
             // $GLOBALS['TL_DCA'][$table]['fields']['styleManager']['explanation'] = 'dateFormat';
             $GLOBALS['TL_DCA'][$table]['fields']['styleManager']['reference'] = [
                 'header_1' => 'h1',
-                'row_1' => ['left_val', 'right_val'],
+                'row_1' => ['left_val', '<span style="color:red">right_val</span>'],
                 'row_2' => ['left_val', 'right_val'],
                 'row_3' => ['left_val', 'right_val'],
                 'header_2' => 'h2',
