@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Classes;
 
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Config\Manager\FramwayCombined as ConfigurationCombinedManager;
 use WEM\SmartgearBundle\Config\Manager\FramwayTheme as ConfigurationThemeManager;
 
 /**
@@ -35,22 +36,31 @@ class UtilFramway
     protected $configurationManager;
     /** @var ConfigurationThemeManager */
     protected $configurationThemeManager;
+    /** @var ConfigurationCombinedManager */
+    protected $configurationCombinedManager;
     /** @var CommandUtil */
     protected $commandUtil;
 
     public function __construct(
         ConfigurationManager $configurationManager,
         CommandUtil $commandUtil,
-        ConfigurationThemeManager $configurationThemeManager
+        ConfigurationThemeManager $configurationThemeManager,
+        ConfigurationCombinedManager $configurationCombinedManager
     ) {
         $this->commandUtil = $commandUtil;
         $this->configurationManager = $configurationManager;
         $this->configurationThemeManager = $configurationThemeManager;
+        $this->configurationCombinedManager = $configurationCombinedManager;
     }
 
     public function getThemeColors(?string $themeName = null): array
     {
         return $this->configurationThemeManager->setThemeName($themeName)->load()->getColors();
+    }
+
+    public function getCombinedColors(): array
+    {
+        return $this->configurationCombinedManager->load()->getColors();
     }
 
     public function retrieve(bool $live = false)

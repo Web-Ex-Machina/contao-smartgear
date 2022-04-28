@@ -21,7 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Migration\Result;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
-use WEM\SmartgearBundle\Config\Manager\FramwayTheme as ConfigurationThemeManager;
+use WEM\SmartgearBundle\Config\Manager\FramwayCombined as configurationFramwayCombinedManager;
 use WEM\SmartgearBundle\Migrations\V1_0_0\MigrationAbstract;
 
 class Migration extends MigrationAbstract
@@ -30,8 +30,8 @@ class Migration extends MigrationAbstract
     protected static $description = 'Configures CSS classes available for contents';
     protected static $version = '1.0.0';
     protected static $translation_key = 'WEMSG.MIGRATIONS.V1_0_0_M202203231730';
-    /** @var ConfigurationThemeManager */
-    protected $configurationThemeManager;
+    /** @var configurationFramwayCombinedManager */
+    protected $configurationFramwayCombinedManager;
 
     protected static $elements = [
         'margin' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordionFW', 'rsce_counterFW', 'rsce_gridGallery', 'rsce_heroFW', 'rsce_heroFWStart', 'rsce_priceCards', 'rsce_sliderFW', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations', 'rsce_pdfViewerFW'], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroFWStop'
@@ -62,10 +62,10 @@ class Migration extends MigrationAbstract
         TranslatorInterface $translator,
         CoreConfigurationManager $coreConfigurationManager,
         VersionComparator $versionComparator,
-        ConfigurationThemeManager $configurationThemeManager
+        configurationFramwayCombinedManager $configurationFramwayCombinedManager
     ) {
         parent::__construct($connection, $translator, $coreConfigurationManager, $versionComparator);
-        $this->configurationThemeManager = $configurationThemeManager;
+        $this->configurationFramwayCombinedManager = $configurationFramwayCombinedManager;
     }
 
     public function shouldRun(): Result
@@ -949,7 +949,7 @@ class Migration extends MigrationAbstract
     private function buildRawColorsCssClasses(string $keyPattern, string $translationKeyPart): array
     {
         $cssClasses = [];
-        $colors = $this->configurationThemeManager->load()->getColors();
+        $colors = $this->configurationFramwayCombinedManager->load()->getColors();
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
                 'key' => sprintf($keyPattern, $name),

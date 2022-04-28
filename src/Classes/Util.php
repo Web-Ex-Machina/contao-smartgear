@@ -73,13 +73,13 @@ class Util
      * @todo Find a way to add friendly names to the colors retrieved
      * @todo Maybe store these colors into a file to avoid load/format a shitload of stuff ?
      */
-    public static function getFramwayColors($strFWTheme = '')
+    public static function getFramwayColors(?string $strFWTheme = ''): array
     {
         try {
             /** @var UtilFramway */
             $framwayUtil = System::getContainer()->get('smartgear.classes.util_framway');
 
-            $colors = $framwayUtil->getThemeColors($strFWTheme);
+            $colors = empty($strFWTheme) ? $framwayUtil->getCombinedColors() : $framwayUtil->getThemeColors($strFWTheme);
             $return = [];
 
             foreach ($colors as $label => $hexa) {
