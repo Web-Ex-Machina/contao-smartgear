@@ -28,6 +28,14 @@ services:
         arguments:
             $templateFinder: '@smartgear.classes.template_finder'
         public: true
+        
+    smartgear.listener.news_list_fetch_items:
+        class: WEM\SmartgearBundle\EventListener\NewsListFetchItemsListener
+        public: true
+        
+    smartgear.listener.news_list_count_items:
+        class: WEM\SmartgearBundle\EventListener\NewsListCountItemsListener
+        public: true
 
 
         
