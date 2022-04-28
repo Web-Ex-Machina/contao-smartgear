@@ -241,8 +241,6 @@ class Blog implements ConfigModuleInterface
     {
         if (null !== $sgCurrentPresetIndex
         && null === $this->getPresetByIndex($sgCurrentPresetIndex)) {
-            dump($sgCurrentPresetIndex);
-            dump($this->sgPresets);
             throw new InvalidArgumentException('The provided preset ID does not refer to any known preset configuration.');
         }
         $this->sgCurrentPresetIndex = $sgCurrentPresetIndex;

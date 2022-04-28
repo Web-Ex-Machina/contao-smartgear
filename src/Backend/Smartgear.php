@@ -163,9 +163,6 @@ class Smartgear extends \Contao\BackendModule
      */
     protected function compile(): void
     {
-        $templateFinder = \Contao\System::getContainer()->get('smartgear.classes.template_finder');
-        dump($templateFinder->buildList()['be_login']);
-        dump(\Contao\TemplateLoader::getFiles()['be_login']);
         // Add WEM styles to template
         $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
         try {

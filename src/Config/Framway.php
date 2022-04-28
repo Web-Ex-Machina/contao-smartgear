@@ -26,13 +26,13 @@ class Framway implements ConfigJsonInterface
     public const DEFAULT_DEBUG = false;
     /** @var \stdClass */
     protected $originalConfig;
-    /** @var array [description] */
+    /** @var array */
     protected $themes = [];
-    /** @var array [description] */
+    /** @var array */
     protected $components = [];
-    /** @var array [description] */
+    /** @var array */
     protected $colors = [];
-    /** @var mixed string|bool */
+    /** @var string|bool */
     protected $useFA = self::DEFAULT_USE_FA;
     /** @var bool */
     protected $useToastr = self::DEFAULT_USE_TOASTR;
@@ -42,12 +42,33 @@ class Framway implements ConfigJsonInterface
     protected $useTarteaucitron = self::DEFAULT_USE_TARTE_AU_CITRON;
     /** @var bool */
     protected $debug = self::DEFAULT_DEBUG;
+    /** @var ?string */
+    protected $primary;
+    /** @var ?string */
+    protected $secondary;
+    /** @var ?string */
+    protected $tertiary;
+    /** @var ?string */
+    protected $success;
+    /** @var ?string */
+    protected $info;
+    /** @var ?string */
+    protected $warning;
+    /** @var ?string */
+    protected $error;
 
     public function reset(): self
     {
         $this->setThemes([])
             ->setComponents([])
             ->setColors([])
+            ->setPrimary(null)
+            ->setSecondary(null)
+            ->setTertiary(null)
+            ->setSuccess(null)
+            ->setInfo(null)
+            ->setWarning(null)
+            ->setError(null)
             ->setUseFA(self::DEFAULT_USE_FA)
             ->setUseToastr(self::DEFAULT_USE_TOASTR)
             ->setUseOutdatebrowser(self::DEFAULT_USE_OUTDATED_BROWSER)
@@ -64,6 +85,13 @@ class Framway implements ConfigJsonInterface
             ->setThemes($json->themes ?? [])
             ->setComponents($json->components ?? [])
             ->setColors($json->colors ?? [])
+            ->setPrimary($json->primary ?? null)
+            ->setSecondary($json->secondary ?? null)
+            ->setTertiary($json->tertiary ?? null)
+            ->setSuccess($json->success ?? null)
+            ->setInfo($json->info ?? null)
+            ->setWarning($json->warning ?? null)
+            ->setError($json->error ?? null)
             ->setUseFA(self::DEFAULT_USE_FA)
             ->setUseToastr($json->useToastr ?? self::DEFAULT_USE_TOASTR)
             ->setUseOutdatebrowser($json->useOutdatebrowser ?? self::DEFAULT_USE_OUTDATED_BROWSER)
@@ -86,6 +114,27 @@ class Framway implements ConfigJsonInterface
         $json->useTarteaucitron = $this->getUseTarteaucitron();
         $json->debug = $this->getDebug();
         $json->colors = $this->getColors();
+        if (null !== $this->getPrimary()) {
+            $json->primary = $this->getPrimary();
+        }
+        if (null !== $this->getSecondary()) {
+            $json->secondary = $this->getSecondary();
+        }
+        if (null !== $this->getTertiary()) {
+            $json->tertiary = $this->getTertiary();
+        }
+        if (null !== $this->getSuccess()) {
+            $json->success = $this->getSuccess();
+        }
+        if (null !== $this->getInfo()) {
+            $json->info = $this->getInfo();
+        }
+        if (null !== $this->getWarning()) {
+            $json->warning = $this->getWarning();
+        }
+        if (null !== $this->getError()) {
+            $json->error = $this->getError();
+        }
 
         return json_encode($json, \JSON_PRETTY_PRINT);
     }
@@ -95,9 +144,6 @@ class Framway implements ConfigJsonInterface
         return $this->debug;
     }
 
-    /**
-     * @param mixed $debug
-     */
     public function setDebug(bool $debug): self
     {
         $this->debug = $debug;
@@ -195,6 +241,90 @@ class Framway implements ConfigJsonInterface
     public function getOriginalConfig(): \stdClass
     {
         return $this->originalConfig;
+    }
+
+    public function getPrimary(): ?string
+    {
+        return $this->primary;
+    }
+
+    public function setPrimary(?string $primary): self
+    {
+        $this->primary = $primary;
+
+        return $this;
+    }
+
+    public function getSecondary(): ?string
+    {
+        return $this->secondary;
+    }
+
+    public function setSecondary(?string $secondary): self
+    {
+        $this->secondary = $secondary;
+
+        return $this;
+    }
+
+    public function getTertiary(): ?string
+    {
+        return $this->tertiary;
+    }
+
+    public function setTertiary(?string $tertiary): self
+    {
+        $this->tertiary = $tertiary;
+
+        return $this;
+    }
+
+    public function getSuccess(): ?string
+    {
+        return $this->success;
+    }
+
+    public function setSuccess(?string $success): self
+    {
+        $this->success = $success;
+
+        return $this;
+    }
+
+    public function getInfo(): ?string
+    {
+        return $this->info;
+    }
+
+    public function setInfo(?string $info): self
+    {
+        $this->info = $info;
+
+        return $this;
+    }
+
+    public function getWarning(): ?string
+    {
+        return $this->warning;
+    }
+
+    public function setWarning(?string $warning): self
+    {
+        $this->warning = $warning;
+
+        return $this;
+    }
+
+    public function getError(): ?string
+    {
+        return $this->error;
+    }
+
+    public function setError(?string $error): self
+    {
+        $this->error = $error;
+
+        return $this;
     }
 
     protected function setOriginalConfig(\stdClass $originalConfig): self
