@@ -51,7 +51,10 @@ class LoadDataContainerListener
         }
 
         // here add "explanation"/"reference" to styleManager fields ?
-        if (\array_key_exists('styleManager', $GLOBALS['TL_DCA'][$table]['fields'])) {
+        if (\array_key_exists($table, $GLOBALS['TL_DCA'])
+        && \array_key_exists('fields', $GLOBALS['TL_DCA'][$table])
+        && \array_key_exists('styleManager', $GLOBALS['TL_DCA'][$table]['fields'])
+        ) {
             try {
                 /** @var FramwayConfiguration */
                 $config = $this->framwayConfigurationManager->load();

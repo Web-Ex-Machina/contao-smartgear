@@ -1,0 +1,38 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/explain.php" source-language="en" target-language="fr">
+    <body>
+		<trans-unit id="XPL.smartgear_permissions.0.0">
+			<source>headspan</source>
+			<target>headspan</target>
+		</trans-unit>
+		<trans-unit id="XPL.smartgear_permissions.0.1">
+			<source>Smartgear global</source>
+			<target>Smartgear global</target>
+		</trans-unit>
+		<trans-unit id="XPL.smartgear_permissions.1.0">
+			<source>expert mode</source>
+			<target>mode expert</target>
+		</trans-unit>
+		<trans-unit id="XPL.smartgear_permissions.1.1">
+			<source>Tick to make Smartgear available in expert mode globally for this user/group (activates expert mode on all Smartgear components)</source>
+			<target>Cochez pour activer le mode expert Smartgear de manière globale pour l'utilisateur/groupe (active le mode expert pour tous les composants Smartgear)</target>
+		</trans-unit>
+		<trans-unit id="XPL.smartgear_permissions.2.0">
+			<source>headspan</source>
+			<target>headspan</target>
+		</trans-unit>
+		<trans-unit id="XPL.smartgear_permissions.2.1">
+			<source>Smartgear blog</source>
+			<target>Blog Smartgear</target>
+		</trans-unit>
+		<trans-unit id="XPL.smartgear_permissions.3.0">
+			<source>expert mode</source>
+			<target>mode expert</target>
+		</trans-unit>
+		<trans-unit id="XPL.smartgear_permissions.3.1">
+			<source>Tick to make Smartgear's blog available in expert mode for this user/group</source>
+			<target>Cochez pour activer le mode expert pour le blog Smartgear</target>
+		</trans-unit>
+    </body>
+  </file>
+</xliff>

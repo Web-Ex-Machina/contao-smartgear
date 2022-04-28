@@ -3,153 +3,153 @@
     <body>
 <!-- Backup API -->
     <trans-unit id="WEMSG.BACKUPMANAGER.API.messageDeleteSuccess">
-      <target>The specified backup "%s" has been deleted</target>
+      <source>The specified backup "%s" has been deleted</source>
     </trans-unit>
     <trans-unit id="WEMSG.BACKUPMANAGER.API.messageDeleteError">
-      <target>An error occured during the backup deletion "%s"</target>
+      <source>An error occured during the backup deletion "%s"</source>
     </trans-unit>
     <trans-unit id="WEMSG.BACKUPMANAGER.API.messageRestoreSuccess">
-      <target>The specified backup "%s" has been restored</target>
+      <source>The specified backup "%s" has been restored</source>
     </trans-unit>
     <!-- Migrations -->
     <!-- General -->
     <trans-unit id="WEMSG.MIGRATIONS.VERSIONCOMPARATOR.currentVersionHigher">
-      <target>Current version is higher than the migration's one (v%s &#155; v%s).</target>
+      <source>Current version is higher than the migration's one (v%s &#155; v%s).</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.VERSIONCOMPARATOR.versionsEquals">
-      <target>Current version is equal to the migration's one (v%s == v%s).</target>
+      <source>Current version is equal to the migration's one (v%s == v%s).</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.VERSIONCOMPARATOR.currentVersionLower">
-      <target>Current version is lower than the migration's one (v%s &#139; v%s).</target>
+      <source>Current version is lower than the migration's one (v%s &#139; v%s).</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.shouldBeRun">
-      <target>Migration should be ran.</target>
+      <source>Migration should be ran.</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.skippedBecauseSmartgearNotInstalled">
-      <target>Migration skipped because Smartgear isn't installed.</target>
+      <source>Migration skipped because Smartgear isn't installed.</source>
     </trans-unit>
     <!-- V1_0_0/M202203231730 -->
     <trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.name">
-      <target>Configures CSS classes</target>
+      <source>Configures CSS classes</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.description">
-      <target>Configures CSS classes available for contents.</target>
+      <source>Configures CSS classes available for contents.</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.shouldRunStyleManagerPackageAbsent">
-      <target>Cannot execute this migration : "Style Manager" package seems absent.</target>
+      <source>Cannot execute this migration : "Style Manager" package seems absent.</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.shouldRunCSSClassesAlreadyInDb">
-      <target>CSS classes already configured in database.</target>
+      <source>CSS classes already configured in database.</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSMargins">
-      <target>Adding margins CSS classes in database.</target>
+      <source>Adding margins CSS classes in database.</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSSeparators">
-      <target>Adding separators CSS classes in database.</target>
+      <source>Adding separators CSS classes in database.</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSButtons">
-      <target>Adding buttons CSS classes in database.</target>
+      <source>Adding buttons CSS classes in database.</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSBackgrounds">
-      <target>Adding backgrounds CSS classes in database.</target>
+      <source>Adding backgrounds CSS classes in database.</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSTables">
-      <target>Adding tables CSS classes in database.</target>
+      <source>Adding tables CSS classes in database.</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSImages">
-      <target>Adding images CSS classes in database.</target>
+      <source>Adding images CSS classes in database.</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSSliders">
-      <target>Adding sliders CSS classes in database.</target>
+      <source>Adding sliders CSS classes in database.</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSHero">
-      <target>Adding hero CSS classes in database.</target>
+      <source>Adding hero CSS classes in database.</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSGrids">
-      <target>Adding grids CSS classes in database.</target>
+      <source>Adding grids CSS classes in database.</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSGridItems">
-      <target>Adding grid items CSS classes in database.</target>
+      <source>Adding grid items CSS classes in database.</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSPriceCards">
-      <target>Adding price cards CSS classes in database.</target>
+      <source>Adding price cards CSS classes in database.</source>
     </trans-unit>
     <trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSQuotes">
-      <target>Adding quotes CSS classes in database.</target>
+      <source>Adding quotes CSS classes in database.</source>
     </trans-unit>
 
     <!-- Framway colors -->
     <trans-unit id="WEMSG.FRAMWAY.COLORS.meaningfulLabel">
-      <target>Contextual colors</target>
+      <source>Contextual colors</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.rawLabel">
-      <target>Raw colors</target>
+      <source>Raw colors</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.primary">
-      <target>primary</target>
+      <source>primary</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.secondary">
-      <target>secondary</target>
+      <source>secondary</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.tertiary">
-      <target>tertiary</target>
+      <source>tertiary</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.success">
-      <target>success</target>
+      <source>success</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.info">
-      <target>info</target>
+      <source>info</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.warning">
-      <target>warning</target>
+      <source>warning</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.error">
-      <target>error</target>
+      <source>error</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.blue">
-      <target>blue</target>
+      <source>blue</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.green">
-      <target>green</target>
+      <source>green</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.red">
-      <target>red</target>
+      <source>red</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.yellow">
-      <target>yellow</target>
+      <source>yellow</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.black">
-      <target>black</target>
+      <source>black</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.blacklight">
-      <target>blacklight</target>
+      <source>blacklight</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.blacklighter">
-      <target>blacklighter</target>
+      <source>blacklighter</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.greystronger">
-      <target>greystronger</target>
+      <source>greystronger</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.greystrong">
-      <target>greystrong</target>
+      <source>greystrong</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.grey">
-      <target>grey</target>
+      <source>grey</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.greylight">
-      <target>greylight</target>
+      <source>greylight</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.greylighter">
-      <target>greylighter</target>
+      <source>greylighter</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.white">
-      <target>white</target>
+      <source>white</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.none">
-      <target>none</target>
+      <source>none</source>
     </trans-unit>
     <trans-unit id="WEMSG.FRAMWAY.COLORS.helpWizardTitle">
-      <target>Colors</target>
+      <source>Colors</source>
     </trans-unit>
     </body>
   </file>

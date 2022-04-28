@@ -18,14 +18,19 @@ use WEM\SmartgearBundle\Security\SmartgearPermissions;
 $GLOBALS['TL_DCA']['tl_user_group']['fields']['smartgear_permissions'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => ['multiple' => true],
+    'eval' => ['multiple' => true, 'helpwizard' => true],
     'options' => [
-        // SmartgearPermissions::CORE_SIMPLE => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['simple'],
-        SmartgearPermissions::CORE_EXPERT => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['expert'],
-        // SmartgearPermissions::BLOG_SIMPLE => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['simple'],
-        SmartgearPermissions::BLOG_EXPERT => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['expert'],
+        $GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['optGroup'] => [
+            // SmartgearPermissions::CORE_SIMPLE => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['simple'],
+            SmartgearPermissions::CORE_EXPERT => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['expert'],
+        ],
+        $GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['optGroup'] => [
+            // SmartgearPermissions::BLOG_SIMPLE => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['simple'],
+            SmartgearPermissions::BLOG_EXPERT => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['expert'],
+        ],
     ],
     'sql' => ['type' => 'blob', 'notnull' => false],
+    'explanation' => 'smartgear_permissions',
 ];
 
 PaletteManipulator::create()

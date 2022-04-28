@@ -4703,6 +4703,10 @@
 		</trans-unit>
 
 		<!-- Security -->
+		<trans-unit id="WEMSG.SECURITY.CORE.optGroup">
+			<source>Global</source>
+			<target>Global</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.SECURITY.CORE.expert">
 			<source>Smartgear global - expert mode</source>
 			<target>Smartgear global - mode expert</target>
@@ -4711,6 +4715,10 @@
 			<source>Smartgear global - simplified mode</source>
 			<target>Smartgear global - mode simplifié</target>
 		</trans-unit> -->
+		<trans-unit id="WEMSG.SECURITY.BLOG.optGroup">
+			<source>Blog</source>
+			<target>Blog</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.SECURITY.BLOG.expert">
 			<source>Smartgear blog - expert mode</source>
 			<target>Smartgear blog - mode expert</target>
