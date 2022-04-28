@@ -57,7 +57,7 @@ services:
             $localConfigManager: '@smartgear.config.manager.local_config'
             $commandUtil: '@smartgear.classes.command.util'
             $foldersToCreate: 
-                - 'files/vendor'
+                - 'assets/smartgear/js'
         public: true
 
     smartgear.backend.component.core.configuration_step.framway_retrieval:
@@ -82,6 +82,7 @@ services:
             $tinyMCEPluginsSynchronizer: '@smartgear.classes.directories_synchronizer.tiny_mce.plugins'
             $tarteAuCitronSynchronizer: '@smartgear.classes.directories_synchronizer.tarte_au_citron'
             $outdatedBrowserSynchronizer: '@smartgear.classes.directories_synchronizer.outdated_browser'
+            $socialShareButtonsSynchronizer: '@smartgear.classes.directories_synchronizer.social_share_buttons'
             $framwayUtil: '@smartgear.classes.util_framway'
         public: true
 

@@ -42,6 +42,8 @@ class FramwayConfiguration extends ConfigurationStep
     protected $tarteAuCitronSynchronizer;
     /** @var DirectoriesSynchronizer */
     protected $outdatedBrowserSynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected $socialShareButtonsSynchronizer;
     /** @var UtilFramway */
     protected $framwayUtil;
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_configuration';
@@ -57,6 +59,7 @@ class FramwayConfiguration extends ConfigurationStep
         DirectoriesSynchronizer $tinyMCEPluginsSynchronizer,
         DirectoriesSynchronizer $tarteAuCitronSynchronizer,
         DirectoriesSynchronizer $outdatedBrowserSynchronizer,
+        DirectoriesSynchronizer $socialShareButtonsSynchronizer,
         UtilFramway $framwayUtil
     ) {
         parent::__construct($module, $type);
@@ -69,6 +72,7 @@ class FramwayConfiguration extends ConfigurationStep
         $this->tinyMCEPluginsSynchronizer = $tinyMCEPluginsSynchronizer;
         $this->tarteAuCitronSynchronizer = $tarteAuCitronSynchronizer;
         $this->outdatedBrowserSynchronizer = $outdatedBrowserSynchronizer;
+        $this->socialShareButtonsSynchronizer = $socialShareButtonsSynchronizer;
         $this->framwayUtil = $framwayUtil;
         try {
             /** @var CoreConfig */
@@ -111,6 +115,7 @@ class FramwayConfiguration extends ConfigurationStep
         $this->importTinyMCEPlugins();
         $this->importOutdatedBrowser();
         $this->importTarteAuCitron();
+        $this->importSocialShareButtons();
     }
 
     public function framwayThemeAdd()
@@ -188,5 +193,10 @@ class FramwayConfiguration extends ConfigurationStep
     protected function importTarteAuCitron(): void
     {
         $this->tarteAuCitronSynchronizer->synchronize(true);
+    }
+
+    protected function importSocialShareButtons(): void
+    {
+        $this->socialShareButtonsSynchronizer->synchronize(true);
     }
 }
