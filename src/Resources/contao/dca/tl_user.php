@@ -13,10 +13,29 @@ declare(strict_types=1);
  */
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use WEM\SmartgearBundle\Security\SmartgearPermissions;
+
+$GLOBALS['TL_DCA']['tl_user']['fields']['smartgear_permissions'] = [
+    'exclude' => true,
+    'inputType' => 'checkbox',
+    'eval' => ['multiple' => true, 'helpwizard' => true],
+    'options' => [
+        $GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['optGroup'] => [
+            // SmartgearPermissions::CORE_SIMPLE => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['simple'],
+            SmartgearPermissions::CORE_EXPERT => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['expert'],
+        ],
+        $GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['optGroup'] => [
+            // SmartgearPermissions::BLOG_SIMPLE => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['simple'],
+            SmartgearPermissions::BLOG_EXPERT => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['expert'],
+        ],
+    ],
+    'sql' => ['type' => 'blob', 'notnull' => false],
+    'explanation' => 'smartgear_permissions',
+];
 
 PaletteManipulator::create()
     ->addLegend('smartgear_permissions_legend', null)
-    ->addField('smartgear_permissions', 'smartgear_permissions_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField('smartgear_permissions', 'smartgear_permissions_legend', PaletteManipulator::POSITION_AFTER)
     ->applyToPalette('extend', 'tl_user')
     ->applyToPalette('custom', 'tl_user')
 ;

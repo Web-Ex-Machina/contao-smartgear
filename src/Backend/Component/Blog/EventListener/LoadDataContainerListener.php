@@ -52,7 +52,9 @@ class LoadDataContainerListener
                     $GLOBALS['TL_DCA'][$table]['fields']['singleSRC']['eval']['path'] = $blogConfig->getCurrentPreset()->getSgNewsFolder();
 
                     // if (BlogConfig::MODE_SIMPLE === $blogConfig->getSgMode()) {
-                    if (!$this->security->isGranted(SmartgearPermissions::BLOG_EXPERT)) {
+                    if (!$this->security->isGranted(SmartgearPermissions::CORE_EXPERT)
+                    && !$this->security->isGranted(SmartgearPermissions::BLOG_EXPERT)
+                    ) {
                         //get rid of all unnecessary actions.
                         unset($GLOBALS['TL_DCA'][$table]['list']['operations']['edit']);
                         //get rid of all unnecessary fields
