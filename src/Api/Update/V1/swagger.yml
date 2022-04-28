@@ -89,11 +89,17 @@ components:
     Update:
       type: "object"
       required:
+      - "version"
       - "update"
+      - "description"
       - "status"
       - "logs"
       properties:
+        version:
+          type: string
         update:
+          type: string
+        description:
           type: string
         status:
           type: string

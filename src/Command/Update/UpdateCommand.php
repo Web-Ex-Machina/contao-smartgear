@@ -65,9 +65,9 @@ class UpdateCommand extends AbstractUpdateCommand
         $formatted = [];
         foreach ($singleMigrationResults as $singleMigrationResult) {
             $formatted[] = [
-                $singleMigrationResult->getMigration()->getVersion(),
-                $singleMigrationResult->getMigration()->getName(),
-                $singleMigrationResult->getMigration()->getDescription(),
+                $singleMigrationResult->getVersion()->__toString(),
+                $singleMigrationResult->getName(),
+                $singleMigrationResult->getDescription(),
                 $singleMigrationResult->getResult()->getStatus(),
                 implode("\n", $singleMigrationResult->getResult()->getLogs()),
             ];
@@ -89,10 +89,10 @@ class UpdateCommand extends AbstractUpdateCommand
 
         foreach ($updateResult->getResults() as $singleMigrationResult) {
             $json['updates'][] = [
-                'classname' => \get_class($singleMigrationResult->getMigration()),
-                'version' => $singleMigrationResult->getMigration()->getVersion(),
-                'name' => $singleMigrationResult->getMigration()->getName(),
-                'description' => $singleMigrationResult->getMigration()->getDescription(),
+                // 'classname' => \get_class($singleMigrationResult),
+                'version' => $singleMigrationResult->getVersion()->__toString(),
+                'name' => $singleMigrationResult->getName(),
+                'description' => $singleMigrationResult->getDescription(),
                 'status' => $singleMigrationResult->getResult()->getStatus(),
                 'logs' => $singleMigrationResult->getResult()->getLogs(),
             ];

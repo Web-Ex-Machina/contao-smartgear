@@ -292,6 +292,9 @@ class Migration extends MigrationAbstract
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSQuotes'), [], 'contao_default'));
             $this->deleteUnusedStyles();
             $this->deleteUnusedArchives();
+            $result
+                ->setStatus(Result::STATUS_SUCCESS)
+            ;
         } catch (\Exception $e) {
             $result
                 ->setStatus(Result::STATUS_FAIL)
