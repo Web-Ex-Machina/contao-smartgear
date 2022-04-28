@@ -30,8 +30,6 @@ class FramwayTheme extends ManagerFramway
         ConfigurationManagerCore $configurationManagerCore
     ) {
         parent::__construct($translator, $configuration, $configurationManagerCore);
-        $this->configuration = $configuration;
-        $this->configurationManagerCore = $configurationManagerCore;
     }
 
     public function getConfigurationFilePath(): string
