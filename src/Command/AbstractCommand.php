@@ -30,6 +30,8 @@ class AbstractCommand extends Command
         parent::__construct();
 
         $this->framework->initialize();
+
+        \Contao\System::loadLanguageFile('default', 'en');
     }
 
     protected function configure(): void

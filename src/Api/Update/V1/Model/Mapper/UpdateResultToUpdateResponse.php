@@ -28,13 +28,16 @@ class UpdateResultToUpdateResponse
             'path' => $updateResult->getBackupResult()->getBackup()->getFile()->basename,
             'source' => $updateResult->getBackupResult()->getBackup()->getSource(),
             'size' => [
-                'raw' => $updateResult->getBackupResult()->getBackup()->size,
-                'human_readable' => Util::humanReadableFilesize((int) $updateResult->getBackupResult()->getBackup()->size),
+                'raw' => $updateResult->getBackupResult()->getBackup()->getFile()->size,
+                'human_readable' => Util::humanReadableFilesize((int) $updateResult->getBackupResult()->getBackup()->getFile()->size),
             ],
         ]);
         foreach ($updateResult->getResults() as $item) {
             $updateResponse->addUpdate([
-                'update' => \get_class($item->getMigration()),
+                // 'update' => \get_class($item->getMigration()),
+                'version' => $item->getVersion()->__toString(),
+                'update' => $item->getName(),
+                'description' => $item->getDescription(),
                 'status' => $item->getResult()->getStatus(),
                 'logs' => $item->getResult()->getLogs(),
             ]);

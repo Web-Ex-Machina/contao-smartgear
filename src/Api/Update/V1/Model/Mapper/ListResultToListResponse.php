@@ -24,7 +24,10 @@ class ListResultToListResponse
         $listResponse->setTotal(\count($listResult->getResults()));
         foreach ($listResult->getResults() as $item) {
             $listResponse->addUpdate([
-                'update' => \get_class($item->getMigration()),
+                // 'update' => \get_class($item->getMigration()),
+                'version' => $item->getVersion()->__toString(),
+                'update' => $item->getName(),
+                'description' => $item->getDescription(),
                 'status' => $item->getResult()->getStatus(),
                 'logs' => $item->getResult()->getLogs(),
             ]);

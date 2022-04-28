@@ -59,9 +59,9 @@ class BackupListCommand extends AbstractBackupCommand
         $formatted = [];
         foreach ($backups as $backup) {
             $formatted[] = [
-                $backup->basename,
-                Util::humanReadableFilesize($backup->size),
-                \DateTime::createFromFormat('U', (string) $backup->ctime)->format('d/m/Y H:i:s'),
+                $backup->getFile()->basename,
+                Util::humanReadableFilesize($backup->getFile()->size),
+                \DateTime::createFromFormat('U', (string) $backup->getFile()->ctime)->format('d/m/Y H:i:s'),
             ];
         }
 
@@ -74,9 +74,9 @@ class BackupListCommand extends AbstractBackupCommand
 
         foreach ($backups as $backup) {
             $json[] = [
-                'filename' => $backup->basename,
-                'size' => Util::humanReadableFilesize($backup->size),
-                'date' => \DateTime::createFromFormat('U', (string) $backup->ctime)->format('d/m/Y H:i:s'),
+                'filename' => $backup->getFile()->basename,
+                'size' => Util::humanReadableFilesize($backup->getFile()->size),
+                'date' => \DateTime::createFromFormat('U', (string) $backup->getFile()->ctime)->format('d/m/Y H:i:s'),
             ];
         }
 

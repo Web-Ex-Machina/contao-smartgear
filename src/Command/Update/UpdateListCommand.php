@@ -47,7 +47,7 @@ class UpdateListCommand extends AbstractUpdateCommand
             return 0;
         }
 
-        $io->table(['Version', 'Name', 'Description', 'Status'], $this->formatForTable($listResult->getResults()));
+        $io->table(['Version', 'Name', 'Description', 'Status', 'Logs'], $this->formatForTable($listResult->getResults()));
 
         return 0;
     }
@@ -57,10 +57,11 @@ class UpdateListCommand extends AbstractUpdateCommand
         $formatted = [];
         foreach ($singleMigrationResults as $singleMigrationResult) {
             $formatted[] = [
-                $singleMigrationResult->getMigration()->getVersion(),
-                $singleMigrationResult->getMigration()->getName(),
-                $singleMigrationResult->getMigration()->getDescription(),
+                $singleMigrationResult->getVersion()->__toString(),
+                $singleMigrationResult->getName(),
+                $singleMigrationResult->getDescription(),
                 $singleMigrationResult->getResult()->getStatus(),
+                implode(\PHP_EOL, $singleMigrationResult->getResult()->getLogs()),
             ];
         }
 
@@ -73,11 +74,12 @@ class UpdateListCommand extends AbstractUpdateCommand
 
         foreach ($singleMigrationResults as $singleMigrationResult) {
             $json[] = [
-                'classname' => \get_class($singleMigrationResult->getMigration()),
-                'version' => $singleMigrationResult->getMigration()->getVersion(),
-                'name' => $singleMigrationResult->getMigration()->getName(),
-                'description' => $singleMigrationResult->getMigration()->getDescription(),
+                // 'classname' => \get_class($singleMigrationResult),
+                'version' => $singleMigrationResult->getVersion()->__toString(),
+                'name' => $singleMigrationResult->getName(),
+                'description' => $singleMigrationResult->getDescription(),
                 'status' => $singleMigrationResult->getResult()->getStatus(),
+                'logs' => $singleMigrationResult->getResult()->getLogs(),
             ];
         }
 

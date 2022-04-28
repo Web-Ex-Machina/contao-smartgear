@@ -74,14 +74,17 @@ class BackupRestoreCommand extends AbstractBackupCommand
     private function formatForTable(RestoreResult $result): array
     {
         $formatted = [];
-        foreach ($result->getFilesDeleted() as $filepath) {
+        foreach ($result->getFilesDeletedByRestore() as $filepath) {
             $formatted[] = [$filepath, 'deleted'];
         }
         foreach ($result->getFilesInError() as $filepath) {
             $formatted[] = [$filepath, 'not restored'];
         }
-        foreach ($result->getFilesRestored() as $filepath) {
-            $formatted[] = [$filepath, 'restored'];
+        foreach ($result->getFilesReplacedByRestore() as $filepath) {
+            $formatted[] = [$filepath, 'restored (replaced)'];
+        }
+        foreach ($result->getFilesAddedByRestore() as $filepath) {
+            $formatted[] = [$filepath, 'restored (added)'];
         }
 
         return $formatted;
@@ -93,9 +96,20 @@ class BackupRestoreCommand extends AbstractBackupCommand
             'backup' => $result->getBackup()->getFile()->basename,
             'database_restored' => $result->getDatabaseRestored(),
             'files' => [
-                'deleted' => $result->getFilesDeleted(),
+                'deleted' => [
+                    'raw' => $result->getFilesDeleted(),
+                    'detailed' => [
+                        'deleted' => $result->getFilesDeletedByRestore(),
+                    ],
+                ],
                 'not_restored' => $result->getFilesInError(),
-                'restored' => $result->getFilesRestored(),
+                'restored' => [
+                    'raw' => $result->getFilesRestored(),
+                    'detailed' => [
+                        'replaced' => $result->getFilesReplacedByRestore(),
+                        'added' => $result->getFilesAddedByRestore(),
+                    ],
+                ],
             ],
         ];
 
