@@ -1,6 +1,7 @@
 <script src="assets/outdatedbrowser/outdatedbrowser.min.js"></script>
 <script src="{{config.framway.path}}/build/js/vendor.js"></script>
 <script src="{{config.framway.path}}/build/js/framway.js"></script>
+<script src="assets/smartgear/social-share-buttons/js/social-share-buttons.js"></script>
 <div id="outdated">
     <h6>Your browser is out-of-date!</h6>
     <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
@@ -30,7 +31,8 @@ addLoadEvent(function () {
         color: '#ffffff',
         lowerThan: 'object-fit',
         languagePath: 'assets/outdatedbrowser/lang/{{page::language}}.html'
-    })
+    });
+    SM.socialShareButtons.init();
 });
 
 </script>
