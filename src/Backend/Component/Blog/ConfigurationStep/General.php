@@ -281,7 +281,7 @@ class General extends ConfigurationStep
         $moduleReader->pid = $config->getSgTheme();
         $moduleReader->type = 'newsreader';
         $moduleReader->news_archives = serialize([$newsArchive->id]);
-        $moduleReader->news_metaFields = serialize(['date']);
+        $moduleReader->news_metaFields = serialize(['date', 'author']);
         $moduleReader->imgSize = serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]); //'a:3:{i:0;s:4:"1200";i:1;s:0:"";i:2;s:12:"proportional";}';
         $moduleReader->news_template = 'news_full';
         $moduleReader->wem_sg_display_share_buttons = '1';
@@ -307,7 +307,7 @@ class General extends ConfigurationStep
         $moduleList->news_featured = 'all_items';
         $moduleList->news_template = 'news_latest';
         $moduleList->skipFirst = 0;
-        $moduleList->news_metaFields = serialize([0 => 'date']);
+        $moduleList->news_metaFields = serialize(['date', 'author']);
         $moduleList->tstamp = time();
 
         $moduleList->wem_sg_number_of_characters = 200;
