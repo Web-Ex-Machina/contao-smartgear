@@ -36,10 +36,10 @@ class NewsListFetchItemsListener
             }
 
             if (\array_key_exists('date', $searchConfig) && !empty($searchConfig['date'])) {
-                $date = \DateTime::createFromFormat('Y-m-d', $searchConfig['date']); //format of <input type="date">
+                $date = \DateTime::createFromFormat('Y-m-d', $searchConfig['date']['year'].'-'.$searchConfig['date']['month'].'-01');
                 $col[] = 'date >= ? AND date <= ?';
                 $val[] = $date->setTime(0, 0, 0, 0)->getTimestamp();
-                $val[] = $date->setTime(23, 59, 59)->getTimestamp();
+                $val[] = $date->setTime(0, 0, 0, 0)->add(new \DateInterval('P1M'))->getTimestamp();
             }
 
             return NewsModel::findBy($col, $val, ['limit' => $limit, 'offset' => $offset]);
