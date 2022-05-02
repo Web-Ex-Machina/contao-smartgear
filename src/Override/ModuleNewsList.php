@@ -67,9 +67,18 @@ class ModuleNewsList extends \Contao\ModuleNewsList
                 }
             }
         }
-        $this->filters['date']['date'] = ['label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['date']];
+
+        $this->filters['month']['date'] = [
+            'label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['date'],
+            'year' => [
+                'start' => 2000,
+                'stop' => (int) date('Y'),
+            ],
+        ];
+
         if (null !== Input::get('date', null)) {
-            $this->config['date'] = Input::get('date', null);
+            $this->config['date']['month'] = Input::get('date', null)['month'];
+            $this->config['date']['year'] = Input::get('date', null)['year'];
         }
     }
 }
