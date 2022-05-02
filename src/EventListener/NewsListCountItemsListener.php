@@ -36,8 +36,8 @@ class NewsListCountItemsListener
             }
 
             if (\array_key_exists('date', $searchConfig) && !empty($searchConfig['date'])
-            && \array_key_exists('month', $searchConfig) && !empty($searchConfig['date']['month'])
-            && \array_key_exists('year', $searchConfig) && !empty($searchConfig['date']['year'])
+            && \array_key_exists('month', $searchConfig['date']) && !empty($searchConfig['date']['month'])
+            && \array_key_exists('year', $searchConfig['date']) && !empty($searchConfig['date']['year'])
             ) {
                 $date = \DateTime::createFromFormat('Y-m-d', $searchConfig['date']['year'].'-'.$searchConfig['date']['month'].'-01');
                 $col[] = 'date >= ? AND date <= ?';
