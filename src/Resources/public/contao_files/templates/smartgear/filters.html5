@@ -100,6 +100,9 @@
                     </td>
                     <td>
                       <select name="<?= $property ?>[month]" id="month-month--<?= $property ?>">
+                          <option value="" <?= ($this->config[$property]['month'] && $this->config[$property]['month'] == '' )?'selected':'' ?> >
+                            -
+                          </option>
                         <?php for($i=1;$i<=12;$i++): ?>
                           <?php $option = ['value' => 10 > $i ? '0'.$i : $i]; ?>
                           <option value="<?= $option['value']; ?>" <?= ($this->config[$property]['month'] && $this->config[$property]['month'] == $option['value'])?'selected':'' ?> >
@@ -110,6 +113,9 @@
                     </td>
                     <td>
                       <select name="<?= $property ?>[year]" id="month-year--<?= $property ?>">
+                          <option value="" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == '' )?'selected':'' ?> >
+                            -
+                          </option>
                         <?php for($i=$month['year']['start'];$i<=$month['year']['stop'];$i++): ?>
                           <?php $option = ['value' => $i]; ?>
                           <option value="<?= $option['value']; ?>" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == $option['value'])?'selected':'' ?>>

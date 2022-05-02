@@ -6,7 +6,9 @@
     <?php if (empty($this->articles)): ?>
       <p class="empty"><?= $this->empty ?></p>
     <?php else: ?>
+    <div class="flex-wrap">
       <?= implode('', $this->articles) ?>
+    </div>
       <?= $this->pagination ?>
     <?php endif; ?>
   </div>
