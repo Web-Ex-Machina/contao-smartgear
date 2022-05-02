@@ -57,3 +57,22 @@ Tags | Value | Description
 `sg::blog_newsArchiveTitle` | string | The blog's news archive title
 `sg::blog_newsListPerPage` | int | The blog's number of news per page
 `sg::blog_newsPageTitle` | string | The blog's page title
+
+
+events / calendar
+------------------
+
+Tags | Value | Description
+--- | --- | ---
+`sg::events_installComplete` | string | `1` if the calendar component is installed, `0` otherwise
+`sg::events_calendar` | int | The calendar's calendar ID
+`sg::events_page` | int | The calendar's page ID
+`sg::events_moduleReader` | int | The calendar's module reader ID
+`sg::events_moduleList` | int | The calendar's module list ID
+`sg::events_archived` | string |  `1` if the calendar component is archived, `0` otherwise
+`sg::events_archivedAt` | string | The timestamp the calendar component has been archived at
+`sg::events_archivedMode` | string | The mode the calendar component has been archived with (`archive`,`keep` or `delete`)
+`sg::events_eventsFolder` |  string | The folder where calendar's files are stored
+`sg::events_calendarTitle` | string | The calendar's calendar title
+`sg::events_eventsListPerPage` | int | The calendar's number of evenst per page
+`sg::events_eventsPageTitle` | string | The calendar's page title

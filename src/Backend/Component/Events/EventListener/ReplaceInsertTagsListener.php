@@ -70,7 +70,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 case 'events_installComplete':
                     return $eventsConfig->getSgInstallComplete() ? '1' : '0';
                 break;
-                case 'events_calendarFeed':
+                case 'events_calendar':
                     return $eventsConfig->getSgCalendar();
                 break;
                 case 'events_page':
@@ -94,7 +94,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 case 'events_eventsFolder':
                     return $eventsConfig->getSgEventsFolder();
                 break;
-                case 'events_calendarFeedTitle':
+                case 'events_calendarTitle':
                     return $eventsConfig->getSgCalendarTitle();
                 break;
                 case 'events_eventsListPerPage':

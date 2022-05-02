@@ -75,8 +75,8 @@ class Dataset extends ConfigurationStep
     public function do(): void
     {
         // do what is meant to be done in this step
-        $this->cleanDatasets();
-        $this->installDataset(Input::post('dataset', null));
+        // $this->cleanDatasets();
+        // $this->installDataset(Input::post('dataset', null));
         $this->commandUtil->executeCmdPHP('cache:clear');
     }
 
@@ -98,7 +98,7 @@ class Dataset extends ConfigurationStep
     protected function installDatasetA(): void
     {
         $eventsConfig = $this->configurationManager->load()->getSgEvents();
-        $filesDirectory = $eventsConfig->getCurrentPreset()->getSgNewsFolder();
+        $filesDirectory = $eventsConfig->getCurrentPreset()->getSgEventsFolder();
         $newsArchiveId = $eventsConfig->getSgNewsArchive();
         $fileNamesToCopy = ['fileA.png', 'fileB.png', 'fileC.png'];
 
@@ -112,7 +112,7 @@ class Dataset extends ConfigurationStep
     protected function installDatasetB(): void
     {
         $eventsConfig = $this->configurationManager->load()->getSgEvents();
-        $filesDirectory = $eventsConfig->getCurrentPreset()->getSgNewsFolder();
+        $filesDirectory = $eventsConfig->getCurrentPreset()->getSgEventsFolder();
         $newsArchiveId = $eventsConfig->getSgNewsArchive();
         $fileNamesToCopy = ['fileA.png', 'fileB.png', 'fileC.png', 'fileD.png', 'fileE.png', 'fileF.png', 'fileG.png', 'fileH.png', 'fileI.png', 'fileJ.png', 'fileK.png', 'fileL.png', 'fileM.png', 'fileN.png'];
 
@@ -141,7 +141,7 @@ class Dataset extends ConfigurationStep
     protected function cleanDatasets(): void
     {
         $eventsConfig = $this->configurationManager->load()->getSgEvents();
-        $directory = $eventsConfig->getCurrentPreset()->getSgNewsFolder();
+        $directory = $eventsConfig->getCurrentPreset()->getSgEventsFolder();
         $newsArchiveId = $eventsConfig->getSgNewsArchive();
         $fileNamesToDelete = ['fileA.png', 'fileB.png', 'fileC.png', 'fileD.png', 'fileE.png', 'fileF.png', 'fileG.png', 'fileH.png', 'fileI.png', 'fileJ.png', 'fileK.png', 'fileL.png', 'fileM.png', 'fileN.png'];
         foreach ($fileNamesToDelete as $filenameToDelete) {
@@ -163,7 +163,7 @@ class Dataset extends ConfigurationStep
     protected function copyFiles(array $filenames): void
     {
         $eventsConfig = $this->configurationManager->load()->getSgEvents();
-        $destinationDirectory = $eventsConfig->getCurrentPreset()->getSgNewsFolder();
+        $destinationDirectory = $eventsConfig->getCurrentPreset()->getSgEventsFolder();
         foreach ($filenames as $filenameToCopy) {
             $objFile = new \Contao\File($this->sourceDirectory.\DIRECTORY_SEPARATOR.$filenameToCopy);
             if (!$objFile->copyTo($destinationDirectory.\DIRECTORY_SEPARATOR.$filenameToCopy)) {
