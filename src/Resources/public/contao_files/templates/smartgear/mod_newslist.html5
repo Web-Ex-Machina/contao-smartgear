@@ -1,100 +1,13 @@
 <?php $this->extend('block_unsearchable'); ?>
 
 <?php $this->block('content'); ?>
-  <div class="row">
-    <!-- ici la recherche -->
-    <div class="ms__header">
-      <span class="h2 m-bottom-0"><?= $this->total ?> news</span>
-      <div class="">
-        <?php if ($this->filters): ?>
-          <button class="btn icon-first" data-sidepanel="filters"><i class="fa fa-filter"></i> <?= $GLOBALS['TL_LANG']['MS']['BTN']["filter"] ?></button>
-        <?php endif ?>
-      </div>
-    </div>
-  </div>
-  <?php if ($this->filters): ?>
-    <form method="get" class="sidepanel" data-name="filters" data-direction="right" data-bg="greylighter">
-      <div class="h2 bd-bottom-greylight-3 m-bottom txt-center m-x" style="padding-bottom: 1rem;"><?= $GLOBALS['TL_LANG']['MS']['LBL']["searchNewsBy"] ?></div>
-      <div class="table-list__filters style--sidepanel m-bottom" data-container="listNews">
-        <?php if (\Input::get('sort')): ?>
-          <input type="hidden" name="sort" value="<?= \Input::get('sort') ?>">
-        <?php endif ?>
-        <?php if ($this->filters['select'] || $this->filters['search']): ?>
-          <div class="table-list__filters--1">
-            <?php if ($this->filters['select']): ?>
-              <div class="table-list__filters--selects">
-                <table>
-                <?php foreach ($this->filters['select'] as $property => $select): ?>
-                  <tr>
-                    <td>
-                      <label for="select--<?= $property ?>"><?= $select['label']?:$property ?></label>
-                    </td>
-                    <td>
-                      <select name="<?= $property ?>" id="select--<?= $property ?>">
-                        <option value>-</option>
-                        <?php foreach ($select['options'] as $key => $option): ?>
-                          <option value="<?= $option['value'] ?>" <?= (\Input::get($property) && \Input::get($property) == $option['value'])?'selected':'' ?>><?= $option['label']?:$option['value'] ?></option>
-                        <?php endforeach ?>
-                      </select>
-                    </td>
-                  </tr>
-                <?php endforeach ?>
-                </table>
-              </div>
-            <?php endif ?>
-            <?php if ($this->filters['search']): ?>
-              <div class="table-list__filters--search">
-                <div class="input--search">
-                  <input type="text" name="searchValue" id="searchValue" placeholder="<?= $GLOBALS['TL_LANG']['MS']['BTN']["search"] ?>" value="<?= \Input::get('searchValue') ?>">
-                </div>
-              </div>
-            <?php endif ?>
-            <button type="submit" class="submit-alone btn-icon"><i class="fa fa-search"></i></button>
-            <button type="reset" class="submit-alone btn-icon"><i class="fa fa-times"></i></button>
-          </div>
-        <?php endif ?>
-        <?php if ($this->filters['radio'] || $this->filters['checkbox'] || $this->filters['sort']): ?>
-          <div class="table-list__filters--2 flex-flexgrow--0-justifycontent--spacebetween">
-            <?php if ($this->filters['radio'] || $this->filters['checkbox']): ?>
-                <!-- <input type="checkbox" name="check--value" id="check--1--3"><label for="check--1--3"><i class="pellet--blue"></i> checkbox value 3</label> -->
-                <?php foreach ($this->filters['radio'] as $property => $value): ?>
-                  <div class="table-list__filters--check">
-                  <?php foreach ($value['options'] as $key => $option): ?>
-                    <input type="radio" name="<?= $property ?>" value="<?= $option['value'] ?>" id="check--<?= $property ?>--<?= $key ?>" <?= $option['checked']?'checked':'' ?>><label for="check--<?= $property ?>--<?= $key ?>"><?= $option['label'] ?></label>
-                  <?php endforeach ?>
-                  </div>
-                <?php endforeach ?>
-                <?php foreach ($this->filters['checkbox'] as $property => $value): ?>
-                  <div class="table-list__filters--check">
-                  <?php foreach ($value['options'] as $key => $option): ?>
-                    <input type="checkbox" name="<?= $property ?>[]" value="<?= $option['value'] ?>" id="check--<?= $property ?>--<?= $key ?>" <?= $option['checked']?'checked':'' ?>><label for="check--<?= $property ?>--<?= $key ?>"><?= $option['label'] ?></label>
-                  <?php endforeach ?>
-                  </div>
-                <?php endforeach ?>
-            <?php endif ?>
-            <?php if ($this->filters['sort']): ?>
-              <div class="table-list__filters--group">
-                <span><?= $this->filters['sort']['label'] ?></span>
-                <select name="sort" id="group--value">
-                  <option value> - </option>
-                  <?php foreach ($this->filters['sort']['options'] as $key => $option): ?>
-                    <option value="<?= $option['field'] ?>" <?= (\Input::get('sort') == $option['field'])?'selected':'' ?>><?= $option['label'] ?></option>
-                  <?php endforeach ?>
-                </select>
-              </div>
-            <?php endif ?>
-          </div>
-        <?php endif ?>
-      </div>
-    </form>
-  <?php endif ?>
-  <!-- end search -->
+  <?php $this->insert('filters', ['filters'=>$this->filters ?? [],'dataContainer'=>'listNews']); ?>
   <div class="row">
     <?php if (empty($this->articles)): ?>
       <p class="empty"><?= $this->empty ?></p>
     <?php else: ?>
       <?= implode('', $this->articles) ?>
+      <?= $this->pagination ?>
     <?php endif; ?>
   </div>
-  <?= $this->pagination ?>
 <?php $this->endblock(); ?>

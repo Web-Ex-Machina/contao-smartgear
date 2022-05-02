@@ -1,0 +1,143 @@
+<!-- indexer::stop -->
+<?php $this->extend('block_unsearchable'); ?>
+
+<?php $this->block('content'); ?>
+<div class="row">
+  <div class="filter-button__container">
+    <div class="">
+      <?php if ($this->filters): ?>
+        <button class="btn icon-first" data-sidepanel="filters"><i class="fa fa-filter"></i>&nbsp;<?= $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['BTN']['showFilters'] ?></button>
+      <?php endif ?>
+    </div>
+  </div>
+</div>
+<?php if ($this->filters): ?>
+  <div class="filter-form__container">
+    <form method="get" class="sidepanel" data-name="filters" data-direction="right" data-bg="greylighter">
+      <div class="filter-form__title"><?= $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['title'] ?></div>
+      <div class="table-list__filters style--sidepanel m-bottom" data-container="<?= $this->dataContainer; ?>">
+        <?php if (\Input::get('sort')): ?>
+          <input type="hidden" name="sort" value="<?= \Input::get('sort') ?>">
+        <?php endif ?>
+        <?php if ($this->filters['select'] || $this->filters['search'] || $this->filters['date'] || $this->filters['time'] || $this->filters['datetime-local']): ?>
+          <div class="table-list__filters--1">
+            <?php if ($this->filters['select']): ?>
+              <div class="table-list__filters--selects">
+                <table>
+                <?php foreach ($this->filters['select'] as $property => $select): ?>
+                  <tr>
+                    <td>
+                      <label for="select--<?= $property ?>"><?= $select['label']?:$property ?></label>
+                    </td>
+                    <td>
+                      <select name="<?= $property ?>" id="select--<?= $property ?>">
+                        <option value>-</option>
+                        <?php foreach ($select['options'] as $key => $option): ?>
+                          <option value="<?= $option['value'] ?>" <?= (\Input::get($property) && \Input::get($property) == $option['value'])?'selected':'' ?>><?= $option['label']?:$option['value'] ?></option>
+                        <?php endforeach ?>
+                      </select>
+                    </td>
+                  </tr>
+                <?php endforeach ?>
+                </table>
+              </div>
+            <?php endif ?>
+            <?php if ($this->filters['datetime-local']): ?>
+              <div class="table-list__filters--datetime-local">
+                <table>
+                  <?php foreach ($this->filters['datetime-local'] as $property => $datetimeLocal): ?>
+                    <tr>
+                      <td>
+                        <label for="datetime-local--<?= $property ?>"><?= $datetimeLocal['label']?:$property ?></label>
+                      </td>
+                      <td>
+                        <input type="datetime-local" name="<?= $property ?>" id="datetime-local--<?= $property ?>" value="<?= \Input::get($property); ?>">
+                      </td>
+                    </tr>
+                  <?php endforeach ?>
+                </table>
+              </div>
+            <?php endif; ?>
+            <?php if ($this->filters['date']): ?>
+              <div class="table-list__filters--date">
+                <table>
+                <?php foreach ($this->filters['date'] as $property => $date): ?>
+                  <tr>
+                    <td>
+                      <label for="date--<?= $property ?>"><?= $date['label']?:$property ?></label>
+                    </td>
+                    <td>
+                      <input type="date" name="<?= $property ?>" id="date--<?= $property ?>" value="<?= \Input::get($property); ?>">
+                    </td>
+                  </tr>
+                <?php endforeach ?>
+                </table>
+              </div>
+            <?php endif; ?>
+            <?php if ($this->filters['time']): ?>
+              <div class="table-list__filters--time">
+                <table>
+                <?php foreach ($this->filters['time'] as $property => $time): ?>
+                  <tr>
+                    <td>
+                      <label for="time--<?= $property ?>"><?= $time['label']?:$property ?></label>
+                    </td>
+                    <td>
+                      <input type="time" name="<?= $property ?>" id="time--<?= $property ?>" value="<?= \Input::get($property); ?>">
+                    </td>
+                  </tr>
+                <?php endforeach ?>
+                </table>
+              </div>
+            <?php endif; ?>
+
+
+
+            <?php if ($this->filters['search']): ?>
+              <div class="table-list__filters--search">
+                <div class="input--search">
+                  <input type="text" name="searchValue" id="searchValue" placeholder="<?= $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['BTN']['search'] ?>" value="<?= \Input::get('searchValue') ?>">
+                </div>
+              </div>
+            <?php endif ?>
+            <button type="submit" class="submit-alone btn-icon"><i class="fa fa-search"></i></button>
+            <button type="reset" class="submit-alone btn-icon"><i class="fa fa-times"></i></button>
+          </div>
+        <?php endif ?>
+        <?php if ($this->filters['radio'] || $this->filters['checkbox'] || $this->filters['sort']): ?>
+          <div class="table-list__filters--2 flex-flexgrow--0-justifycontent--spacebetween">
+            <?php if ($this->filters['radio'] || $this->filters['checkbox']): ?>
+                <?php foreach ($this->filters['radio'] as $property => $value): ?>
+                  <div class="table-list__filters--check">
+                  <?php foreach ($value['options'] as $key => $option): ?>
+                    <input type="radio" name="<?= $property ?>" value="<?= $option['value'] ?>" id="check--<?= $property ?>--<?= $key ?>" <?= $option['checked']?'checked':'' ?>><label for="check--<?= $property ?>--<?= $key ?>"><?= $option['label'] ?></label>
+                  <?php endforeach ?>
+                  </div>
+                <?php endforeach ?>
+                <?php foreach ($this->filters['checkbox'] as $property => $value): ?>
+                  <div class="table-list__filters--check">
+                  <?php foreach ($value['options'] as $key => $option): ?>
+                    <input type="checkbox" name="<?= $property ?>[]" value="<?= $option['value'] ?>" id="check--<?= $property ?>--<?= $key ?>" <?= $option['checked']?'checked':'' ?>><label for="check--<?= $property ?>--<?= $key ?>"><?= $option['label'] ?></label>
+                  <?php endforeach ?>
+                  </div>
+                <?php endforeach ?>
+            <?php endif ?>
+            <?php if ($this->filters['sort']): ?>
+              <div class="table-list__filters--group">
+                <span><?= $this->filters['sort']['label'] ?></span>
+                <select name="sort" id="group--value">
+                  <option value> - </option>
+                  <?php foreach ($this->filters['sort']['options'] as $key => $option): ?>
+                    <option value="<?= $option['field'] ?>" <?= (\Input::get('sort') == $option['field'])?'selected':'' ?>><?= $option['label'] ?></option>
+                  <?php endforeach ?>
+                </select>
+              </div>
+            <?php endif ?>
+          </div>
+        <?php endif ?>
+      </div>
+    </form>
+  </div>
+  <?php endif ?>
+<?php $this->endblock(); ?>
+<!-- indexer::continue -->

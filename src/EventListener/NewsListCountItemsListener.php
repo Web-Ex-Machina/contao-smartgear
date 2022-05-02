@@ -30,19 +30,16 @@ class NewsListCountItemsListener
                 $val[] = '1';
             }
 
-            if (\array_key_exists('author', $searchConfig)) {
+            if (\array_key_exists('author', $searchConfig) && !empty($searchConfig['author'])) {
                 $col[] = 'author = ?';
                 $val[] = $searchConfig['author'];
             }
 
-            if (\array_key_exists('date', $searchConfig)) {
-                $col[] = 'date = ?';
-                $val[] = $searchConfig['date'];
-            }
-
-            if (\array_key_exists('time', $searchConfig)) {
-                $col[] = 'time = ?';
-                $val[] = $searchConfig['time'];
+            if (\array_key_exists('date', $searchConfig) && !empty($searchConfig['date'])) {
+                $date = \DateTime::createFromFormat('Y-m-d', $searchConfig['date']); //format of <input type="date">
+                $col[] = 'date >= ? AND date <= ?';
+                $val[] = $date->setTime(0, 0, 0, 0)->getTimestamp();
+                $val[] = $date->setTime(23, 59, 59)->getTimestamp();
             }
 
             return NewsModel::countBy($col, $val, []);

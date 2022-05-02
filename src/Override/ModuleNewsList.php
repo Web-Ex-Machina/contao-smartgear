@@ -25,7 +25,7 @@ class ModuleNewsList extends \Contao\ModuleNewsList
      * @var array
      */
     protected $filters = [];
-    protected $arrFilters = ['author', 'date', 'time'];
+    protected $arrFilters = ['author', 'date'];
     protected $config = [];
 
     public function getArrFilters(): array
@@ -59,7 +59,6 @@ class ModuleNewsList extends \Contao\ModuleNewsList
             $this->filters['select']['author'] = ['label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['author'], 'options' => []];
 
             while ($objItems->next()) {
-                // $this->filters['select']['author']['options'][$objItems->current->id] = ['label' => $objItems->current->firstname.' '.$objItems->current->lastname, 'value' => $objItems->current->id];
                 $this->filters['select']['author']['options'][$objItems->current()->id] = ['label' => $objItems->current()->name, 'value' => $objItems->current()->id];
 
                 if ($objItems->current()->id === Input::get('author')) {
@@ -71,11 +70,6 @@ class ModuleNewsList extends \Contao\ModuleNewsList
         $this->filters['date']['date'] = ['label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['date']];
         if (null !== Input::get('date', null)) {
             $this->config['date'] = Input::get('date', null);
-        }
-
-        $this->filters['time']['time'] = ['label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['time']];
-        if (null !== Input::get('time', null)) {
-            $this->config['time'] = Input::get('time', null);
         }
     }
 }

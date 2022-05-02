@@ -88,6 +88,31 @@
 			<source>This is a default dashboard.</source>
 			<target>Ceci est le dashboard par défaut</target>
 		</trans-unit>
+		<!-- Smartgear filter -->
+		<trans-unit id="WEMSG.FILTERS.title">
+			<source>Filter by :</source>
+			<target>Filtrer par :</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.BTN.showFilters">
+			<source>Filter</source>
+			<target>Filtrer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.BTN.search">
+			<source>Search</source>
+			<target>Rechercher</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.LBL.author">
+			<source>Author</source>
+			<target>Auteur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.LBL.date">
+			<source>Date</source>
+			<target>Date</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.LBL.time">
+			<source>Time</source>
+			<target>Heure</target>
+		</trans-unit>
 
 
 		<!-- Smartgear Backend -->
