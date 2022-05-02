@@ -28,6 +28,10 @@ $GLOBALS['TL_DCA']['tl_user_group']['fields']['smartgear_permissions'] = [
             // SmartgearPermissions::BLOG_SIMPLE => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['simple'],
             SmartgearPermissions::BLOG_EXPERT => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['expert'],
         ],
+        $GLOBALS['TL_LANG']['WEMSG']['SECURITY']['EVENTS']['optGroup'] => [
+            // SmartgearPermissions::BLOG_SIMPLE => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['simple'],
+            SmartgearPermissions::EVENTS_EXPERT => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['EVENTS']['expert'],
+        ],
     ],
     'sql' => ['type' => 'blob', 'notnull' => false],
     'explanation' => 'smartgear_permissions',

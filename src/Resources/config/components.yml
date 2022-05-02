@@ -202,3 +202,92 @@ services:
             $security: '@security.helper'
             $coreConfigurationManager: '@smartgear.config.manager.core'
         public: true
+
+    ############ EVENTS ############
+    
+    smartgear.backend.component.events.block:
+        class: WEM\SmartgearBundle\Backend\Component\Events\Block
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+            $configurationStepManager: '@smartgear.backend.component.events.configuration_step_manager'
+            $resetStepManager: '@smartgear.backend.component.events.reset_step_manager'
+            $dashboard: '@smartgear.backend.component.events.dashboard'
+        public: true
+
+    smartgear.backend.component.events.configuration_step_manager:
+        class: WEM\SmartgearBundle\Backend\Component\Events\ConfigurationStepManager
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'events'
+            $type: 'component'
+            $stepSessionKey: 'sg_events_install_step'
+            $steps: 
+                - '@smartgear.backend.component.events.configuration_step.general'
+                - '@smartgear.backend.component.events.configuration_step.dataset'
+        public: true
+
+    smartgear.backend.component.events.configuration_step.general:
+        class: WEM\SmartgearBundle\Backend\Component\Events\ConfigurationStep\General
+        arguments:
+            $module: 'events'
+            $type: 'component'
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+            $commandUtil: '@smartgear.classes.command.util'
+        public: true
+
+    smartgear.backend.component.events.configuration_step.dataset:
+        class: WEM\SmartgearBundle\Backend\Component\Events\ConfigurationStep\Dataset
+        arguments:
+            $module: 'events'
+            $type: 'component'
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+            $commandUtil: '@smartgear.classes.command.util'
+            $sourceDirectory: 'public/bundles/wemsmartgear/examples/events'
+        public: true
+
+    smartgear.backend.component.events.dashboard:
+        class: WEM\SmartgearBundle\Backend\Component\Events\Dashboard
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'events'
+            $type: 'component'
+        public: true
+
+    smartgear.backend.component.events.reset_step_manager:
+        class: WEM\SmartgearBundle\Backend\Component\Events\ResetStepManager
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'events'
+            $type: 'component'
+            $stepSessionKey: 'sg_core_reset_step'
+            $steps: 
+                - '@smartgear.backend.component.events.reset_step.general'
+        public: true
+
+    smartgear.backend.component.events.reset_step.general:
+        class: WEM\SmartgearBundle\Backend\Component\Events\ResetStep\General
+        arguments:
+            $module: 'events'
+            $type: 'component'
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.backend.component.events.listener.replace_insert_tags:
+        class: WEM\SmartgearBundle\Backend\Component\Events\EventListener\ReplaceInsertTagsListener
+        arguments:
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.backend.component.events.listener.load_data_container:
+        class: WEM\SmartgearBundle\Backend\Component\Events\EventListener\LoadDataContainerListener
+        arguments:
+            $security: '@security.helper'
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+        public: true

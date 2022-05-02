@@ -12,11 +12,10 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Backend\Component\Blog;
+namespace WEM\SmartgearBundle\Backend\Component\Events;
 
 use Contao\FrontendTemplate;
 use Contao\Input;
-use Contao\System;
 use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\Block as BackendBlock;
@@ -28,9 +27,9 @@ class Block extends BackendBlock
 {
     public const MODE_RESET = 'check_reset';
     protected $type = 'component';
-    protected $module = 'blog';
+    protected $module = 'events';
     protected $icon = 'exclamation-triangle';
-    protected $title = 'Blog';
+    protected $title = 'Events';
 
     protected $resetStepManager;
 
@@ -49,32 +48,6 @@ class Block extends BackendBlock
     {
         try {
             switch (Input::post('action')) {
-                case 'blogPresetAdd':
-                    try {
-                        $generalConfigurationStep = System::getContainer()->get('smartgear.backend.component.blog.configuration_step.general');
-                        $newPresetIndex = $generalConfigurationStep->presetAdd();
-                        $arrResponse['status'] = 'success';
-                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigAddAjaxMessageSuccess'];
-                        $arrResponse['index'] = $newPresetIndex;
-                    } catch (Exception $e) {
-                        $arrResponse['status'] = 'error';
-                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigAddAjaxMessageError'].$e->getMessage();
-                        $arrResponse['output'] = $e->getMessage();
-                    }
-                break;
-                case 'blogPresetGet':
-                    try {
-                        $generalConfigurationStep = System::getContainer()->get('smartgear.backend.component.blog.configuration_step.general');
-                        $config = $generalConfigurationStep->presetGet((int) Input::post('id'));
-                        $arrResponse['status'] = 'success';
-                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigGetAjaxMessageSuccess'];
-                        $arrResponse['config'] = null !== $config ? $config->export() : null;
-                    } catch (Exception $e) {
-                        $arrResponse['status'] = 'error';
-                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigGetAjaxMessageError'].$e->getMessage();
-                        // $arrResponse['output'] = $e->getMessage();
-                    }
-                break;
                 case 'reset_mode':
                     $this->setMode(self::MODE_RESET);
                     $this->resetStepManager->goToStep(0);
@@ -103,7 +76,7 @@ class Block extends BackendBlock
     {
         $config = $this->configurationManager->load();
 
-        return (bool) $config->getSgBlog()->getSgInstallComplete();
+        return (bool) $config->getSgEvents()->getSgInstallComplete();
     }
 
     protected function parseDependingOnMode(FrontendTemplate $objTemplate): FrontendTemplate

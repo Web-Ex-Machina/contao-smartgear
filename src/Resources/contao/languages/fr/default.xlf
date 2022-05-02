@@ -4752,6 +4752,14 @@
 			<source>Smartgear blog - simplified mode</source>
 			<target>Smartgear blog - mode simplifié</target>
 		</trans-unit> -->
+		<trans-unit id="WEMSG.SECURITY.EVENTS.optGroup">
+			<source>Events</source>
+			<target>Evènements</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SECURITY.EVENTS.expert">
+			<source>Smartgear events - expert mode</source>
+			<target>Smartgear évènements - mode expert</target>
+		</trans-unit>
 
 		<!-- heimrichhannot/contao-backend-lost-password-bundle -->
 		<trans-unit id="MSC.backendLostPassword.messageSubjectResetPassword">

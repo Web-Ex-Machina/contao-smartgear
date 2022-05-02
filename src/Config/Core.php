@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Config;
 
 use WEM\SmartgearBundle\Classes\Config\ConfigModuleInterface;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
+use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 
 class Core implements ConfigModuleInterface
 {
@@ -117,6 +118,8 @@ class Core implements ConfigModuleInterface
     protected $sgApiKey = self::DEFAULT_API_KEY;
     /** @var BlogConfig */
     protected $sgBlog;
+    /** @var EventsConfig */
+    protected $sgEvents;
 
     public function reset(): self
     {
@@ -154,6 +157,7 @@ class Core implements ConfigModuleInterface
             ->setSgGoogleFonts(self::DEFAULT_GOOGLE_FONTS)
             ->setSgApiKey(self::DEFAULT_API_KEY)
             ->setSgBlog((new BlogConfig())->reset())
+            ->setSgEvents((new EventsConfig())->reset())
         ;
 
         return $this;
@@ -198,6 +202,11 @@ class Core implements ConfigModuleInterface
                 $json->blog
                 ? (new BlogConfig())->import($json->blog)
                 : (new BlogConfig())->reset()
+            )
+            ->setSgEvents(
+                $json->events
+                ? (new EventsConfig())->import($json->events)
+                : (new EventsConfig())->reset()
             )
         ;
 
@@ -254,6 +263,7 @@ class Core implements ConfigModuleInterface
         $json->api->key = $this->getSgApiKey();
 
         $json->blog = $this->getSgBlog()->export();
+        $json->events = $this->getSgEvents()->export();
 
         return json_encode($json, \JSON_PRETTY_PRINT);
     }
@@ -626,18 +636,6 @@ class Core implements ConfigModuleInterface
         return $this;
     }
 
-    public function getSgBlog(): BlogConfig
-    {
-        return $this->blog;
-    }
-
-    public function setSgBlog(BlogConfig $blog): self
-    {
-        $this->blog = $blog;
-
-        return $this;
-    }
-
     public function getSgRootPage(): ?int
     {
         return $this->sgRootPage;
@@ -682,6 +680,30 @@ class Core implements ConfigModuleInterface
     public function setSgUserWebmaster(?int $sgUserWebmaster): self
     {
         $this->sgUserWebmaster = $sgUserWebmaster;
+
+        return $this;
+    }
+
+    public function getSgBlog(): BlogConfig
+    {
+        return $this->sgBlog;
+    }
+
+    public function setSgBlog(BlogConfig $sgBlog): self
+    {
+        $this->sgBlog = $sgBlog;
+
+        return $this;
+    }
+
+    public function getSgEvents(): EventsConfig
+    {
+        return $this->sgEvents;
+    }
+
+    public function setSgEvents(EventsConfig $sgEvents): self
+    {
+        $this->sgEvents = $sgEvents;
 
         return $this;
     }

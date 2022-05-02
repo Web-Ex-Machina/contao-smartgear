@@ -193,7 +193,11 @@ services:
         public: true
 
     smartgear.config.blog:
-        class: WEM\SmartgearBundle\Config\Blog
+        class: WEM\SmartgearBundle\Config\Component\Blog\Blog
+        public: true
+
+    smartgear.config.events:
+        class: WEM\SmartgearBundle\Config\Component\Events\Events
         public: true
 
     smartgear.config.framway:

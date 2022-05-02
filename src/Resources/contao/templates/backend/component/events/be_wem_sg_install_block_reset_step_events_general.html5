@@ -1,0 +1,23 @@
+<form action="<?= $this->request ?>" class="tl_form" method="post">
+	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
+	<div class="widget <?= $this->fields['deleteMode']['class'] ?> mb-2">
+		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['deleteMode']]); ?>
+		<ul>
+			<li>
+				<strong><?= $this->trans('WEMSG.EVENTS.RESET.deleteModeArchiveLabel', [], 'contao_default'); ?></strong> : <?= $this->trans('WEMSG.EVENTS.RESET.deleteModeArchiveDescription', [], 'contao_default'); ?>
+			</li>
+			<li>
+				<strong><?= $this->trans('WEMSG.EVENTS.RESET.deleteModeKeepLabel', [], 'contao_default'); ?></strong> : <?= $this->trans('WEMSG.EVENTS.RESET.deleteModeKeepDescription', [], 'contao_default'); ?>
+			</li>
+			<li>
+				<strong><?= $this->trans('WEMSG.EVENTS.RESET.deleteModeDeleteLabel', [], 'contao_default'); ?></strong> : <?= $this->trans('WEMSG.EVENTS.RESET.deleteModeDeleteDescription', [], 'contao_default'); ?>
+			</li>
+		</ul>
+		<br >
+	</div>
+
+
+	<div class="tl_submit_container">
+		<?= implode(' ', $this->actions) ?>
+	</div>
+</form>
