@@ -32,8 +32,13 @@ class ModuleEventReader extends \Contao\ModuleEventReader
 
             if ($objEvent->pageTitle) {
                 $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:title" content="%s">', $objEvent->pageTitle); // Already stored decoded
+                $GLOBALS['TL_HEAD'][] = sprintf('<meta property="title" content="%s">', $objEvent->pageTitle); // Already stored decoded
             } elseif ($objEvent->headline) {
                 $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:title" content="%s">', $htmlDecoder->inputEncodedToPlainText($objEvent->headline));
+                $GLOBALS['TL_HEAD'][] = sprintf('<meta property="title" content="%s">', $htmlDecoder->inputEncodedToPlainText($objEvent->headline));
+            } elseif ($objEvent->title) {
+                $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:title" content="%s">', $htmlDecoder->inputEncodedToPlainText($objEvent->title));
+                $GLOBALS['TL_HEAD'][] = sprintf('<meta property="title" content="%s">', $htmlDecoder->inputEncodedToPlainText($objEvent->title));
             }
 
             if ($objEvent->description) {
