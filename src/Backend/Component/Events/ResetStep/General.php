@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Events\ResetStep;
 
+use Contao\CalendarModel;
 use Contao\FilesModel;
 use Contao\Input;
-use Contao\NewsArchiveModel;
 use Contao\PageModel;
 use Contao\UserGroupModel;
 use Exception;
@@ -93,22 +93,22 @@ class General extends AbstractStep
 
         switch ($deleteMode) {
             case EventsConfig::ARCHIVE_MODE_ARCHIVE:
-                $objFolder = new \Contao\Folder($presetConfig->getSgNewsFolder());
-                $objNewsArchive = NewsArchiveModel::findById($eventsConfig->getSgNewsArchive());
+                $objFolder = new \Contao\Folder($eventsConfig->getSgEventsFolder());
+                $objCalendar = CalendarModel::findById($eventsConfig->getSgCalendar());
 
-                $objFolder->renameTo(sprintf('files/archives/news-%s', (string) $archiveTimestamp));
-                $objNewsArchive->title = sprintf('%s (Archive-%s)', $objNewsArchive->title, (string) $archiveTimestamp);
-                $objNewsArchive->save();
+                $objFolder->renameTo(sprintf('files/archives/events-%s', (string) $archiveTimestamp));
+                $objCalendar->title = sprintf('%s (Archive-%s)', $objCalendar->title, (string) $archiveTimestamp);
+                $objCalendar->save();
 
             break;
             case EventsConfig::ARCHIVE_MODE_KEEP:
             break;
             case EventsConfig::ARCHIVE_MODE_DELETE:
-                $objFolder = new \Contao\Folder($presetConfig->getSgNewsFolder());
-                $objNewsArchive = NewsArchiveModel::findById($eventsConfig->getSgNewsArchive());
+                $objFolder = new \Contao\Folder($eventsConfig->getSgEventsFolder());
+                $objCalendar = CalendarModel::findById($eventsConfig->getSgCalendar());
 
                 $objFolder->delete();
-                $objNewsArchive->delete();
+                $objCalendar->delete();
             break;
             default:
                 throw new \InvalidArgumentException($this->translator->trans('WEMSG.EVENTS.RESET.deleteModeUnknown', [], 'contao_default'));
@@ -136,10 +136,7 @@ class General extends AbstractStep
         /** @var EventsConfig */
         $eventsConfig = $config->getSgEvents();
 
-        $objUserGroup = UserGroupModel::findByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupWebmastersName']);
-        if (!$objUserGroup) {
-            throw new Exception(sprintf('Unable to find the user group "%s"', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupWebmastersName']));
-        }
+        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
         $objUserGroup = $this->resetUserGroupSmartgearPermissions($objUserGroup);
         $objUserGroup = $this->resetUserGroupAllowedModules($objUserGroup);
         $objUserGroup = $this->resetUserGroupAllowedNewsArchive($objUserGroup, $eventsConfig);
@@ -147,10 +144,7 @@ class General extends AbstractStep
         $objUserGroup = $this->resetUserGroupAllowedFields($objUserGroup);
         $objUserGroup->save();
 
-        $objUserGroup = UserGroupModel::findByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName']);
-        if (!$objUserGroup) {
-            throw new Exception(sprintf('Unable to find the user group "%s"', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName']));
-        }
+        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
         $objUserGroup = $this->resetUserGroupSmartgearPermissions($objUserGroup);
         $objUserGroup = $this->resetUserGroupAllowedModules($objUserGroup);
         $objUserGroup = $this->resetUserGroupAllowedNewsArchive($objUserGroup, $eventsConfig);
@@ -166,12 +160,12 @@ class General extends AbstractStep
 
     protected function resetUserGroupAllowedModules(UserGroupModel $objUserGroup): UserGroupModel
     {
-        return UserGroupModelUtil::removeAllowedModules($objUserGroup, ['news']);
+        return UserGroupModelUtil::removeAllowedModules($objUserGroup, ['calendar']);
     }
 
     protected function resetUserGroupAllowedNewsArchive(UserGroupModel $objUserGroup, EventsConfig $eventsConfig): UserGroupModel
     {
-        $objUserGroup = UserGroupModelUtil::removeAllowedNewsArchive($objUserGroup, [$eventsConfig->getSgNewsArchive()]);
+        $objUserGroup = UserGroupModelUtil::removeAllowedCalendar($objUserGroup, [$eventsConfig->getSgCalendar()]);
         $objUserGroup->newp = null;
 
         return $objUserGroup;
@@ -180,7 +174,7 @@ class General extends AbstractStep
     protected function resetUserGroupAllowedDirectory(UserGroupModel $objUserGroup, EventsConfig $eventsConfig): UserGroupModel
     {
         // add allowed directory
-        $objFolder = FilesModel::findByPath($eventsConfig->getCurrentPreset()->getSgNewsFolder());
+        $objFolder = FilesModel::findByPath($eventsConfig->getSgEventsFolder());
         if (!$objFolder) {
             throw new Exception('Unable to find the folder');
         }
@@ -190,6 +184,6 @@ class General extends AbstractStep
 
     protected function resetUserGroupAllowedFields(UserGroupModel $objUserGroup): UserGroupModel
     {
-        return UserGroupModelUtil::removeAllowedFieldsByPrefixes($objUserGroup, ['tl_news::']);
+        return UserGroupModelUtil::removeAllowedFieldsByPrefixes($objUserGroup, ['tl_calendar_events::']);
     }
 }
