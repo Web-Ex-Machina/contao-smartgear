@@ -1,43 +1,49 @@
 <div class="block-list event layout_list<?= $this->classList ?>" itemscope itemtype="http://schema.org/Event">
   <a href="<?= $this->href ?>" class="block-list__wrapper">
-    <div class="block-list__content no-overflow">
-      <?php if (strpos($this->classList, 'bygone') !== false): ?>
-        <div class="ribbon error"><i class="far fa-calendar-times"></i></div>
-      <?php endif ?>
-      <?php if (strpos($this->classList, 'current') !== false): ?>
-        <div class="ribbon featured"><i class="far fa-clock"></i></div>
-      <?php endif ?>
-      <?php if (strpos($this->classList, 'upcoming') !== false): ?>
-        <div class="ribbon warning"><i class="far fa-calendar"></i></div>
-      <?php endif ?>
-      <div class="block-list__title" title="<?= $this->title ?>" ><?= $this->link ?></div>
-      <div class="block-list__text">
-        <?php if ($this->location): ?>
-          <p class="location" itemprop="location" itemscope itemtype="http://schema.org/Place">
-            <span itemprop="name"><?= $this->location ?></span>
-            <?php if ($this->address): ?>
-              (<span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"><?= $this->address ?></span>)
+    <div class="<?= ($this->addImage)? 'd-grid cols-3 cols-md-1':'' ?>">
+      <?php if ($this->addImage): ?>
+        <div>
+          <figure class="img-container r_2-1 m-bottom-0">
+            <img src="<?= $this->picture['img']['src'] ?>" alt="<?= $this->headline ?>" itemprop="image">
+          </figure>
+        </div>
+      <?php endif; ?>
+      <div class="cols-span-2">
+        <div class="block-list__content no-overflow">
+          <?php if (strpos($this->classList, 'bygone') !== false): ?>
+            <div class="ribbon error"><i class="far fa-calendar-times"></i></div>
+          <?php endif ?>
+          <?php if (strpos($this->classList, 'current') !== false): ?>
+            <div class="ribbon featured"><i class="far fa-clock"></i></div>
+          <?php endif ?>
+          <?php if (strpos($this->classList, 'upcoming') !== false): ?>
+            <div class="ribbon warning"><i class="far fa-calendar"></i></div>
+          <?php endif ?>
+          <div class="block-list__title" title="<?= $this->title ?>" ><?= $this->link ?></div>
+          <div class="block-list__date">
+            <?php if ($this->day) : echo $this->day . ' '; endif; ?>
+            <time datetime="<?= $this->datetime ?>" itemprop="startDate"> <?= $this->date ?><?php if ($this->time): ?>, <?= $this->time ?><?php endif; ?></time>
+          </div>
+          <div class="block-list__text">
+            <?php if ($this->location): ?>
+              <p class="location" itemprop="location" itemscope itemtype="http://schema.org/Place">
+                <i class="fal fa-map-marker-alt"></i>&nbsp;
+                <span itemprop="name"><?= $this->location ?></span>
+                <?php if ($this->address): ?>
+                  - <span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"><?= $this->address ?></span>
+                <?php endif; ?>
+              </p>
             <?php endif; ?>
-          </p>
-        <?php endif; ?>
-        <div class="<?= ($this->addImage)? 'd-grid cols-3 cols-md-1':'' ?>">
-          <?php if ($this->addImage): ?>
-            <div>
-              <figure class="img-container r_2-1 m-bottom-0">
-                <img src="<?= $this->picture['img']['src'] ?>" alt="<?= $this->headline ?>" itemprop="image">
-              </figure>
-            </div>
-          <?php endif; ?>
-          <?php if ($this->hasTeaser): ?>
-            <div class="ce_text block <?= ($this->addImage)? 'cols-span-2 cols-span-md-1':'' ?>" itemprop="description">
-              <?= $this->teaser ?>
-            </div>
-          <?php endif; ?>
+              <?php if ($this->hasTeaser): ?>
+                <div class="ce_text block <?= ($this->addImage)? 'cols-span-2 cols-span-md-1':'' ?>" itemprop="description">
+                  <?= $this->teaser ?>
+                </div>
+              <?php endif; ?>
+          </div>
+        </div>
+        <div class="block-list__footer">
         </div>
       </div>
-    </div>
-    <div class="block-list__footer">
-      <div class="block-list__date"><?php if ($this->day) : echo $this->day . ' '; endif; ?><time datetime="<?= $this->datetime ?>" itemprop="startDate"><?= $this->date ?><?php if ($this->time): ?>, <?= $this->time ?><?php endif; ?></time></div>
     </div>
   </a>
 </div>

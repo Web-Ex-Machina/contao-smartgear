@@ -9,14 +9,6 @@
       <?php endif ?>
     </p>
   </div>
-  <?php if ($this->location): ?>
-    <p class="location" itemprop="location" itemscope itemtype="http://schema.org/Place">
-      <span itemprop="name"><?= $this->location ?></span>
-      <?php if ($this->address): ?>
-        (<span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"><?= $this->address ?></span>)
-      <?php endif; ?>
-    </p>
-  <?php endif; ?>
 
   <?php if ($this->addImage): ?>
     <?php $this->insert('image', $this->arrData); ?>
@@ -39,6 +31,17 @@
         </li>
       <?php endforeach; ?>
     </ul>
+  <?php endif; ?>
+
+  
+  <?php if ($this->location): ?>
+    <p class="location" itemprop="location" itemscope itemtype="http://schema.org/Place">
+      <i class="fal fa-map-marker-alt"></i>&nbsp;
+      <span itemprop="name"><?= $this->location ?></span>
+      <?php if ($this->address): ?>
+        (<span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"><?= $this->address ?></span>)
+      <?php endif; ?>
+    </p>
   <?php endif; ?>
 
   <?php if($this->recurring): ?>
