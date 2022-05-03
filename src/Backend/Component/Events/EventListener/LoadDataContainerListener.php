@@ -42,13 +42,13 @@ class LoadDataContainerListener
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
             switch ($table) {
-                case 'tl_calendar':
+                case 'tl_calendar_events':
                     $eventsConfig = $config->getSgEvents();
                     if (!$eventsConfig->getSgInstallComplete()) {
                         return;
                     }
                     // limiting singleSRC fierld to the blog folder
-                    $GLOBALS['TL_DCA'][$table]['fields']['singleSRC']['eval']['path'] = $eventsConfig->getSgNewsFolder();
+                    $GLOBALS['TL_DCA'][$table]['fields']['singleSRC']['eval']['path'] = $eventsConfig->getSgEventsFolder();
 
                     if (!$this->security->isGranted(SmartgearPermissions::CORE_EXPERT)
                     && !$this->security->isGranted(SmartgearPermissions::EVENTS_EXPERT)
@@ -56,7 +56,7 @@ class LoadDataContainerListener
                         //get rid of all unnecessary actions.
                         unset($GLOBALS['TL_DCA'][$table]['list']['operations']['edit']);
                         //get rid of all unnecessary fields
-                        $fieldsKeyToKeep = ['headline', 'title', 'alias', 'author', 'date', 'time', 'jumpTo', 'pageTitle', 'description', 'teaser', 'addImage', 'singleSRC', 'published', 'start', 'stop'];
+                        $fieldsKeyToKeep = ['headline', 'title', 'alias', 'author', 'addTime', 'startTime', 'endTime', 'startDate', 'endDate', 'pageTitle', 'description', 'location', 'address', 'teaser', 'addImage', 'singleSRC', 'recurring', 'repeatEach', 'repeatEnd', 'recurrences', 'source', 'jumpTo', 'published', 'start', 'stop'];
 
                         $fieldsKeyToRemove = array_diff(array_keys($GLOBALS['TL_DCA'][$table]['fields']), $fieldsKeyToKeep);
                         $palettesNames = array_keys($GLOBALS['TL_DCA'][$table]['palettes']);
@@ -81,6 +81,7 @@ class LoadDataContainerListener
                         $GLOBALS['TL_LANG'][$table]['teaser'][0] = &$GLOBALS['TL_LANG']['WEMSG']['EVENTS']['FORM']['fieldTeaserLabel'];
                         $GLOBALS['TL_LANG'][$table]['teaser'][1] = &$GLOBALS['TL_LANG']['WEMSG']['EVENTS']['FORM']['fieldTeaserHelp'];
                         $GLOBALS['TL_DCA'][$table]['fields']['alias']['eval']['readonly'] = true;
+                        $GLOBALS['TL_DCA'][$table]['fields']['source']['options_callback'] = ['tl_wem_sg_calendar_events', 'getSourceOptions'];
                     }
                 break;
             }

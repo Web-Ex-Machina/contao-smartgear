@@ -323,17 +323,17 @@ class General extends ConfigurationStep
 
     protected function updateUserGroupSmartgearPermissions(UserGroupModel $objUserGroup, bool $expertMode): UserGroupModel
     {
-        return UserGroupModelUtil::addSmartgearPermissions($objUserGroup, [SmartgearPermissions::EVENTS_EXPERT]);
+        return $expertMode ? UserGroupModelUtil::addSmartgearPermissions($objUserGroup, [SmartgearPermissions::EVENTS_EXPERT]) : $objUserGroup;
     }
 
     protected function updateUserGroupAllowedModules(UserGroupModel $objUserGroup): UserGroupModel
     {
-        return UserGroupModelUtil::addAllowedModules($objUserGroup, ['events']);
+        return UserGroupModelUtil::addAllowedModules($objUserGroup, ['calendar']);
     }
 
     protected function updateUserGroupAllowedNewsArchive(UserGroupModel $objUserGroup, EventsConfig $eventsConfig): UserGroupModel
     {
-        $objUserGroup = UserGroupModelUtil::addAllowedNewsArchive($objUserGroup, [$eventsConfig->getSgCalendar()]);
+        $objUserGroup = UserGroupModelUtil::addAllowedCalendar($objUserGroup, [$eventsConfig->getSgCalendar()]);
         $objUserGroup->newp = serialize(['create', 'delete']);
 
         return $objUserGroup;
