@@ -14,6 +14,14 @@ declare(strict_types=1);
 
 use Contao\DataContainer;
 
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['addressLat'] = [
+    'sql' => "varchar(20) unsigned NOT NULL DEFAULT ''",
+];
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['addressLon'] = [
+    'sql' => "varchar(20) unsigned NOT NULL DEFAULT ''",
+];
+$GLOBALS['TL_DCA']['tl_calendar_events']['config']['onsubmit_callback'][] = ['tl_wem_sg_calendar_events', 'fillCoordinates'];
+
 class tl_wem_sg_calendar_events extends tl_calendar_events
 {
     /**
@@ -32,5 +40,30 @@ class tl_wem_sg_calendar_events extends tl_calendar_events
         }
 
         return $arrOptions;
+    }
+
+    public function fillCoordinates(DataContainer $dc): void
+    {
+        // Return if there is no active record (override all)
+        if (!$dc->activeRecord
+        || empty($dc->activeRecord->address)
+        ) {
+            return;
+        }
+
+        $arrSet['addressLat'] = $dc->activeRecord->addressLat;
+        $arrSet['addressLon'] = $dc->activeRecord->addressLon;
+
+        /** @var \WEM\SmartgearBundle\Api\Nominatim\V4\Api */
+        $api = \Contao\System::getContainer()->get('smartgear.api.nominatim.v4.api');
+        try {
+            $response = $api->search($dc->activeRecord->address);
+            $arrSet['addressLat'] = $response->getLat() ?? '';
+            $arrSet['addressLon'] = $response->getLon() ?? '';
+        } catch (\Exception $e) {
+            return;
+        }
+
+        $this->Database->prepare('UPDATE tl_calendar_events %s WHERE id=?')->set($arrSet)->execute($dc->id);
     }
 }
