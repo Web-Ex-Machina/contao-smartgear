@@ -14,44 +14,20 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
-use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
-use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
-
 class GenerateBreadcrumbListener
 {
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
+    /** @var array */
+    protected $listeners;
 
     public function __construct(
-        CoreConfigurationManager $coreConfigurationManager
+        array $listeners
     ) {
-        $this->coreConfigurationManager = $coreConfigurationManager;
+        $this->listeners = $listeners;
     }
 
     public function __invoke(array $items, \Contao\Module $module): array
     {
         $arrSourceItems = $items;
-        $blogPageId = null;
-        try {
-            /** @var CoreConfig */
-            $config = $this->coreConfigurationManager->load();
-            $blogConfig = $config->getSgBlog();
-            $blogPageId = $blogConfig->getSgInstallComplete() ? $blogConfig->getSgPage() : $blogPageId;
-        } catch (FileNotFoundException $e) {
-            //nothing
-        }
-
-        $eventPageId = null;
-        try {
-            /** @var CoreConfig */
-            $config = $this->coreConfigurationManager->load();
-            $eventConfig = $config->getSgEvents();
-            $eventPageId = $eventConfig->getSgInstallComplete() ? $eventConfig->getSgPage() : $eventPageId;
-        } catch (FileNotFoundException $e) {
-            //nothing
-        }
-
         try {
             // Determine if we are at the root of the website
             global $objPage;
@@ -62,36 +38,8 @@ class GenerateBreadcrumbListener
                 return [];
             }
 
-            switch ($objPage->id) {
-                case $objHomePage->id:
-                    return [];
-                break;
-                case $blogPageId:
-                    // get the current tl_news
-                    $objArticle = \Contao\NewsModel::findPublishedByParentAndIdOrAlias(\Contao\Input::get('auto_item'), [$blogConfig->getSgNewsArchive()]);
-                    if ($objArticle) {
-                        $items[\count($items) - 1]['isActive'] = false;
-                        $items[] = [
-                            'isActive' => true,
-                            'title' => $objArticle->headline,
-                            'link' => $objArticle->headline,
-                            'href' => \Contao\Environment::get('uri'),
-                        ];
-                    }
-                break;
-                case $eventPageId:
-                    // get the current tl_news
-                    $objEvent = \Contao\CalendarEventsModel::findPublishedByParentAndIdOrAlias(\Contao\Input::get('auto_item'), [$eventConfig->getSgCalendar()]);
-                    if ($objEvent) {
-                        $items[\count($items) - 1]['isActive'] = false;
-                        $items[] = [
-                            'isActive' => true,
-                            'title' => $objEvent->title,
-                            'link' => $objEvent->title,
-                            'href' => \Contao\Environment::get('uri'),
-                        ];
-                    }
-                break;
+            foreach ($this->listeners as $listener) {
+                $items = $listener->__invoke($items, $module);
             }
 
             return $items;

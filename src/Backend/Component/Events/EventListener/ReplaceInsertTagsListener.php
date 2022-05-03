@@ -60,7 +60,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
         if ('sg' === $key && 'events' === substr($elements[1], 0, 4)) {
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
-            $eventsConfig = $config->getSgEvent();
+            $eventsConfig = $config->getSgEvents();
 
             if (!$eventsConfig->getSgInstallComplete()) {
                 return static::NOT_HANDLED;

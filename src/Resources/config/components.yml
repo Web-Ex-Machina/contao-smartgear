@@ -202,6 +202,12 @@ services:
             $security: '@security.helper'
             $coreConfigurationManager: '@smartgear.config.manager.core'
         public: true
+        
+    smartgear.backend.component.blog.listener.generate_breadcrumb:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\EventListener\GenerateBreadcrumbListener
+        arguments:
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+        public: true
 
     ############ EVENTS ############
     
@@ -289,5 +295,11 @@ services:
         class: WEM\SmartgearBundle\Backend\Component\Events\EventListener\LoadDataContainerListener
         arguments:
             $security: '@security.helper'
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+        public: true
+        
+    smartgear.backend.component.events.listener.generate_breadcrumb:
+        class: WEM\SmartgearBundle\Backend\Component\Events\EventListener\GenerateBreadcrumbListener
+        arguments:
             $coreConfigurationManager: '@smartgear.config.manager.core'
         public: true
