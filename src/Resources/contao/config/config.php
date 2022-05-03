@@ -88,6 +88,7 @@ array_insert($GLOBALS['FE_MOD'], 2, [
 ]);
 $GLOBALS['FE_MOD']['news']['newsreader'] = \WEM\SmartgearBundle\Override\ModuleNewsReader::class;
 $GLOBALS['FE_MOD']['news']['newslist'] = \WEM\SmartgearBundle\Override\ModuleNewsList::class;
+$GLOBALS['FE_MOD']['events']['eventreader'] = \WEM\SmartgearBundle\Override\ModuleEventReader::class;
 /*
  * Models
  */

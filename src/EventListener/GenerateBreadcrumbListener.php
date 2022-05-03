@@ -42,6 +42,16 @@ class GenerateBreadcrumbListener
             //nothing
         }
 
+        $eventPageId = null;
+        try {
+            /** @var CoreConfig */
+            $config = $this->coreConfigurationManager->load();
+            $eventConfig = $config->getSgEvents();
+            $eventPageId = $eventConfig->getSgInstallComplete() ? $eventConfig->getSgPage() : $eventPageId;
+        } catch (FileNotFoundException $e) {
+            //nothing
+        }
+
         try {
             // Determine if we are at the root of the website
             global $objPage;
@@ -65,6 +75,19 @@ class GenerateBreadcrumbListener
                             'isActive' => true,
                             'title' => $objArticle->headline,
                             'link' => $objArticle->headline,
+                            'href' => \Contao\Environment::get('uri'),
+                        ];
+                    }
+                break;
+                case $eventPageId:
+                    // get the current tl_news
+                    $objEvent = \Contao\CalendarEventsModel::findPublishedByParentAndIdOrAlias(\Contao\Input::get('auto_item'), [$eventConfig->getSgCalendar()]);
+                    if ($objEvent) {
+                        $items[\count($items) - 1]['isActive'] = false;
+                        $items[] = [
+                            'isActive' => true,
+                            'title' => $objEvent->title,
+                            'link' => $objEvent->title,
                             'href' => \Contao\Environment::get('uri'),
                         ];
                     }
