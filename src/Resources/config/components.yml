@@ -242,6 +242,7 @@ services:
             $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
             $commandUtil: '@smartgear.classes.command.util'
+            $leafletDirectorySynchronizer: '@smartgear.classes.directories_synchronizer.leaflet'
         public: true
 
     smartgear.backend.component.events.configuration_step.dataset:

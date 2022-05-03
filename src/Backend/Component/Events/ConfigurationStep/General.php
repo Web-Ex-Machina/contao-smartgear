@@ -27,6 +27,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
@@ -41,18 +42,22 @@ class General extends ConfigurationStep
     protected $configurationManager;
     /** @var CommandUtil */
     protected $commandUtil;
+    /** @var DirectoriesSynchronizer */
+    protected $leafletDirectorySynchronizer;
 
     public function __construct(
         string $module,
         string $type,
         TranslatorInterface $translator,
         ConfigurationManager $configurationManager,
-        CommandUtil $commandUtil
+        CommandUtil $commandUtil,
+        DirectoriesSynchronizer $leafletDirectorySynchronizer
     ) {
         parent::__construct($module, $type);
+        $this->translator = $translator;
         $this->configurationManager = $configurationManager;
         $this->commandUtil = $commandUtil;
-        $this->translator = $translator;
+        $this->leafletDirectorySynchronizer = $leafletDirectorySynchronizer;
 
         $this->title = $this->translator->trans('WEMSG.EVENTS.INSTALL_GENERAL.title', [], 'contao_default');
         /** @var EventsConfig */
@@ -104,7 +109,7 @@ class General extends ConfigurationStep
         $calendar = $this->createCalendarFeed($page);
         $modules = $this->createModules($page, $calendar);
         $this->fillArticle($page, $article, $modules);
-
+        $this->importLeaflet();
         $this->updateModuleConfigurationAfterGenerations($page, $calendar, $modules);
         $this->updateUserGroups((bool) Input::post('expertMode', false));
         $this->commandUtil->executeCmdPHP('cache:clear');
@@ -274,6 +279,11 @@ class General extends ConfigurationStep
         $list->save();
 
         $article->save();
+    }
+
+    protected function importLeaflet(): void
+    {
+        $this->leafletDirectorySynchronizer->synchronize(true);
     }
 
     protected function updateModuleConfigurationAfterGenerations(PageModel $page, CalendarModel $calendar, array $modules): void
