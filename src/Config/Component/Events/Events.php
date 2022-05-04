@@ -61,6 +61,8 @@ class Events implements ConfigModuleInterface
     protected $sgModuleReader;
     /** @var int */
     protected $sgModuleList;
+    /** @var int */
+    protected $sgModuleCalendar;
     /** @var bool */
     protected $sgArchived = false;
     /** @var int */
@@ -80,6 +82,7 @@ class Events implements ConfigModuleInterface
             ->setSgCalendar(null)
             ->setSgModuleReader(null)
             ->setSgModuleList(null)
+            ->setSgModuleCalendar(null)
             ->setSgArchived(false)
             ->setSgArchivedAt(0)
             ->setSgArchivedMode(self::DEFAULT_ARCHIVE_MODE)
@@ -100,6 +103,7 @@ class Events implements ConfigModuleInterface
             ->setSgCalendar($json->calendar ?? null)
             ->setSgModuleReader($json->moduleReader ?? null)
             ->setSgModuleList($json->moduleList ?? null)
+            ->setSgModuleCalendar($json->moduleCalendar ?? null)
             ->setSgArchived($json->archived->status ?? false)
             ->setSgArchivedAt($json->archived->at ?? 0)
             ->setSgArchivedMode($json->archived->mode ?? self::DEFAULT_ARCHIVE_MODE)
@@ -123,6 +127,7 @@ class Events implements ConfigModuleInterface
         $json->calendar = $this->getSgCalendar();
         $json->moduleReader = $this->getSgModuleReader();
         $json->moduleList = $this->getSgModuleList();
+        $json->moduleCalendar = $this->getSgModuleCalendar();
 
         $json->archived = new \stdClass();
         $json->archived->status = $this->getSgArchived();
@@ -258,6 +263,18 @@ class Events implements ConfigModuleInterface
     public function setSgModuleList(?int $sgModuleList): self
     {
         $this->sgModuleList = $sgModuleList;
+
+        return $this;
+    }
+
+    public function getSgModuleCalendar(): ?int
+    {
+        return $this->sgModuleCalendar;
+    }
+
+    public function setSgModuleCalendar(?int $sgModuleCalendar): self
+    {
+        $this->sgModuleCalendar = $sgModuleCalendar;
 
         return $this;
     }

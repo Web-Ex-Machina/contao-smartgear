@@ -216,6 +216,7 @@ class General extends ConfigurationStep
 
         $moduleReader = new ModuleModel();
         $moduleList = new ModuleModel();
+        $moduleCalendar = new ModuleModel();
 
         if (null !== $eventsConfig->getSgModuleReader()) {
             $moduleReaderOld = ModuleModel::findById($eventsConfig->getSgModuleReader());
@@ -249,12 +250,30 @@ class General extends ConfigurationStep
         $moduleList->cal_readerModule = $moduleReader->id;
         $moduleList->perPage = $eventsConfig->getSgEventsListPerPage();
         $moduleList->imgSize = serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]);
-
         $moduleList->tstamp = time();
-
         $moduleList->save();
 
-        return ['reader' => $moduleReader, 'list' => $moduleList];
+        if (null !== $eventsConfig->getSgModuleCalendar()) {
+            $moduleListOld = ModuleModel::findById($eventsConfig->getSgModuleCalendar());
+            if ($moduleListOld) {
+                $moduleListOld->delete();
+            }
+            $moduleCalendar->id = $eventsConfig->getSgModuleCalendar();
+        }
+        $moduleCalendar->name = $page->title.' - Calendar';
+        $moduleCalendar->pid = $config->getSgTheme();
+        $moduleCalendar->type = 'calendar';
+        $moduleCalendar->cal_calendar = serialize([$calendar->id]);
+        $moduleCalendar->numberOfItems = 0;
+        $moduleCalendar->cal_format = 'next_365';
+        $moduleCalendar->cal_order = 'order_date_desc';
+        $moduleCalendar->cal_readerModule = $moduleReader->id;
+        $moduleCalendar->perPage = $eventsConfig->getSgEventsListPerPage();
+        $moduleCalendar->imgSize = serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]);
+        $moduleCalendar->tstamp = time();
+        $moduleCalendar->save();
+
+        return ['reader' => $moduleReader, 'list' => $moduleList, 'calendar' => $moduleCalendar];
     }
 
     protected function fillArticle(PageModel $page, ArticleModel $article, array $modules): void
@@ -298,6 +317,7 @@ class General extends ConfigurationStep
             ->setSgCalendar((int) $calendar->id)
             ->setSgModuleReader((int) $modules['reader']->id)
             ->setSgModuleList((int) $modules['list']->id)
+            ->setSgModuleCalendar((int) $modules['calendar']->id)
         ;
 
         $config->setSgEvents($eventsConfig);
