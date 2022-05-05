@@ -143,8 +143,32 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 case 'theme':
                     return (string) $config->getSgTheme();
                 break;
-                case 'rootPage':
-                    return (string) $config->getSgRootPage();
+                case 'layoutStandard':
+                    return (string) $config->getSgLayoutStandard();
+                break;
+                case 'layoutFullwidth':
+                    return (string) $config->getSgLayoutFullwidth();
+                break;
+                case 'pageRoot':
+                    return (string) $config->getSgPageRoot();
+                break;
+                case 'pageHome':
+                    return (string) $config->getSgPageHome();
+                break;
+                case 'page404':
+                    return (string) $config->getSgPage404();
+                break;
+                case 'pageLegalNotice':
+                    return (string) $config->getSgPageLegalNotice();
+                break;
+                case 'pagePrivacyPolitics':
+                    return (string) $config->getSgPagePrivacyPolitics();
+                break;
+                case 'pageSitemap':
+                    return (string) $config->getSgPageSitemap();
+                break;
+                case 'notificationGatewayEmail':
+                    return (string) $config->getSgNotificationGatewayEmail();
                 break;
                 case 'modules':
                     $modules = $config->getSgModules();

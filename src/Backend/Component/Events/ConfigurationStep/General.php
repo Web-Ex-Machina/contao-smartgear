@@ -150,7 +150,7 @@ class General extends ConfigurationStep
         /** @var EventsConfig */
         $eventsConfig = $config->getSgEvents();
 
-        $rootPage = PageModel::findById($config->getSgRootPage());
+        $rootPage = PageModel::findById($config->getSgPageRoot());
 
         $page = PageModel::findById($eventsConfig->getSgPage());
 

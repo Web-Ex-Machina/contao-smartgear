@@ -199,7 +199,7 @@ class General extends ConfigurationStep
         $blogConfig = $config->getSgBlog();
         $presetConfig = $blogConfig->getCurrentPreset();
 
-        $rootPage = PageModel::findById($config->getSgRootPage());
+        $rootPage = PageModel::findById($config->getSgPageRoot());
 
         $page = PageModel::findById($blogConfig->getSgPage());
 
