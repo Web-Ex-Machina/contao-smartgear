@@ -54,14 +54,30 @@ class tl_wem_sg_calendar_events extends tl_calendar_events
         $arrSet['addressLat'] = $dc->activeRecord->addressLat;
         $arrSet['addressLon'] = $dc->activeRecord->addressLon;
 
-        /** @var \WEM\SmartgearBundle\Api\Nominatim\V4\Api */
-        $api = \Contao\System::getContainer()->get('smartgear.api.nominatim.v4.api');
-        try {
-            $response = $api->search($dc->activeRecord->address);
-            $arrSet['addressLat'] = $response->getLat() ?? '';
-            $arrSet['addressLon'] = $response->getLon() ?? '';
-        } catch (\Exception $e) {
+        // if coordinates are already calculated, skip
+        if (!empty($arrSet['addressLat']) && !empty($arrSet['addressLon'])) {
             return;
+        }
+
+        // check if there are other events with same address and filled coordinates
+        $otherItemsWithSameAddressAndCoordinatesFilled = \Contao\CalendarEventsModel::findBy(['address = ?', 'addressLat != ""', 'addressLon != ""'], $dc->activeRecord->address);
+        // If those events exist, use their coordinates instead of calling the API
+        if ($otherItemsWithSameAddressAndCoordinatesFilled) {
+            while ($otherItemsWithSameAddressAndCoordinatesFilled->next()) {
+                $arrSet['addressLat'] = $otherItemsWithSameAddressAndCoordinatesFilled->addressLat;
+                $arrSet['addressLon'] = $otherItemsWithSameAddressAndCoordinatesFilled->addressLon;
+                continue;
+            }
+        } else {
+            /** @var \WEM\SmartgearBundle\Api\Nominatim\V4\Api */
+            $api = \Contao\System::getContainer()->get('smartgear.api.nominatim.v4.api');
+            try {
+                $response = $api->search($dc->activeRecord->address);
+                $arrSet['addressLat'] = $response->getLat() ?? '';
+                $arrSet['addressLon'] = $response->getLon() ?? '';
+            } catch (\Exception $e) {
+                return;
+            }
         }
 
         $this->Database->prepare('UPDATE tl_calendar_events %s WHERE id=?')->set($arrSet)->execute($dc->id);

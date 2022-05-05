@@ -69,6 +69,7 @@ Tags | Value | Description
 `sg::events_page` | int | The calendar's page ID
 `sg::events_moduleReader` | int | The calendar's module reader ID
 `sg::events_moduleList` | int | The calendar's module list ID
+`sg::events_moduleCalendar` | int | The calendar's module calendar ID
 `sg::events_archived` | string |  `1` if the calendar component is archived, `0` otherwise
 `sg::events_archivedAt` | string | The timestamp the calendar component has been archived at
 `sg::events_archivedMode` | string | The mode the calendar component has been archived with (`archive`,`keep` or `delete`)

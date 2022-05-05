@@ -253,7 +253,7 @@ services:
             $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
             $commandUtil: '@smartgear.classes.command.util'
-            $sourceDirectory: 'public/bundles/wemsmartgear/examples/events'
+            $sourceDirectory: 'public/bundles/wemsmartgear/examples/blog' #yes, re-use blog examples files
         public: true
 
     smartgear.backend.component.events.dashboard:

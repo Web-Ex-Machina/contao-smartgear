@@ -82,6 +82,9 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 case 'events_moduleList':
                     return $eventsConfig->getSgModuleList();
                 break;
+                case 'events_moduleCalendar':
+                    return $eventsConfig->getSgModuleCalendar();
+                break;
                 case 'events_archived':
                     return $eventsConfig->getSgArchived() ? '1' : '0';
                 break;
