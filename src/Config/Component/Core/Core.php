@@ -167,12 +167,12 @@ class Core implements ConfigModuleInterface
     {
         $this->setSgInstallComplete($json->installComplete ?? false)
             ->setSgVersion($json->version ?? static::DEFAULT_VERSION)
-            ->setSgTheme((int) $json->theme ?? null)
-            ->setSgRootPage($json->rootPage ?? null)
-            ->setSgUserWebmaster($json->userWebmaster ?? null)
-            ->setSgUserGroupWebmasters($json->userGroupWebmasters ?? null)
-            ->setSgUserGroupAdministrators($json->userGroupAdministrators ?? null)
-            ->setSgModules($json->modules ?? [])
+            ->setSgTheme((int) $json->contao->theme ?? null)
+            ->setSgRootPage($json->contao->rootPage ?? null)
+            ->setSgUserWebmaster($json->contao->user->webmaster ?? null)
+            ->setSgUserGroupWebmasters($json->contao->userGroup->webmasters ?? null)
+            ->setSgUserGroupAdministrators($json->contao->userGroup->administrators ?? null)
+            ->setSgModules($json->contao->modules ?? [])
             ->setSgSelectedModules($json->selectedModules ?? [])
             ->setSgMode($json->mode ?? static::DEFAULT_MODE)
             ->setSgWebsiteTitle($json->websiteTitle ?? '')
@@ -218,17 +218,22 @@ class Core implements ConfigModuleInterface
         $json = new \stdClass();
         $json->installComplete = $this->getSgInstallComplete();
         $json->version = $this->getSgVersion();
-        $json->theme = $this->getSgTheme();
-        $json->rootPage = $this->getSgRootPage();
-        $json->userWebmaster = $this->getSgUserWebmaster();
-        $json->userGroupWebmasters = $this->getSgUserGroupWebmasters();
-        $json->userGroupAdministrators = $this->getSgUserGroupAdministrators();
-        $json->version = $this->getSgVersion();
         $json->selectedModules = $this->getSgSelectedModules();
-        $json->modules = $this->getSgModules();
         $json->mode = $this->getSgMode();
         $json->websiteTitle = $this->getSgWebsiteTitle();
         $json->googleFonts = $this->getSgGoogleFonts();
+
+        $json->contao = new \stdClass();
+        $json->contao->theme = $this->getSgTheme();
+        $json->contao->rootPage = $this->getSgRootPage();
+        $json->contao->modules = $this->getSgModules();
+
+        $json->contao->user = new \stdClass();
+        $json->contao->user->webmaster = $this->getSgUserWebmaster();
+
+        $json->contao->userGroup = new \stdClass();
+        $json->contao->userGroup->webmasters = $this->getSgUserGroupWebmasters();
+        $json->contao->userGroup->administrators = $this->getSgUserGroupAdministrators();
 
         $json->framway = new \stdClass();
         $json->framway->path = $this->getSgFramwayPath();
