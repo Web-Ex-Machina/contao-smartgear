@@ -69,6 +69,17 @@ class ModuleEventList extends \Contao\ModuleEventlist
             $this->config['date']['month'] = Input::get('date')['month'];
             $this->config['date']['day'] = Input::get('date')['day'];
         }
+        $locations = $this->getEventsLocations();
+        $this->filters['select']['location'] = [
+            'label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['location'],
+            'options' => [],
+        ];
+        foreach ($locations as $location) {
+            $this->filters['select']['location']['options'][] = ['value' => $location, 'label' => $location];
+        }
+        if (null !== Input::get('location', null)) {
+            $this->config['location'] = Input::get('location');
+        }
     }
 
     protected function adaptFiltersToEventlist(): void
@@ -95,5 +106,10 @@ class ModuleEventList extends \Contao\ModuleEventlist
             'start' => (new \DateTime())->setTimestamp((int) $firstEvent->startDate)->format('Y'),
             'stop' => (new \DateTime())->setTimestamp((int) $lastEvent->startDate)->format('Y'),
         ];
+    }
+
+    protected function getEventsLocations(): array
+    {
+        return (new \WEM\SmartgearBundle\Model\CalendarEvents())->getAllLocations($this->cal_calendar);
     }
 }

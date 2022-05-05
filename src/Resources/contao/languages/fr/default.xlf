@@ -113,6 +113,10 @@
 			<source>Time</source>
 			<target>Heure</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.LBL.location">
+			<source>Location</source>
+			<target>Lieu</target>
+		</trans-unit>
 
 
 		<!-- Smartgear Backend -->

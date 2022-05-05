@@ -21,8 +21,20 @@ class GetAllEventsListener
         $searchConfig = $module->getConfig();
         if (!empty($searchConfig)) {
             // we get rid of events not compliant with our criterias
-            foreach ($events as $index => $event) {
-                // do our things
+            foreach ($events as $startDate => $dateEvents) {
+                foreach ($dateEvents as $startTime => $timeEvents) {
+                    foreach ($timeEvents as $index => $event) {
+                        // do our things
+                        if (\array_key_exists('location', $searchConfig)
+                        && !empty($searchConfig['location'])
+                        ) {
+                            if ($event['location'] !== $searchConfig['location']) {
+                                unset($events[$startDate][$startTime][$index]);
+                                continue;
+                            }
+                        }
+                    }
+                }
             }
         }
 
