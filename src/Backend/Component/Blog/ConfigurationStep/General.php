@@ -395,7 +395,7 @@ class General extends ConfigurationStep
 
     protected function updateUserGroupSmartgearPermissions(UserGroupModel $objUserGroup, bool $expertMode): UserGroupModel
     {
-        return UserGroupModelUtil::addSmartgearPermissions($objUserGroup, [SmartgearPermissions::BLOG_EXPERT]);
+        return $expertMode ? UserGroupModelUtil::addSmartgearPermissions($objUserGroup, [SmartgearPermissions::BLOG_EXPERT]) : $objUserGroup;
     }
 
     protected function updateUserGroupAllowedModules(UserGroupModel $objUserGroup): UserGroupModel

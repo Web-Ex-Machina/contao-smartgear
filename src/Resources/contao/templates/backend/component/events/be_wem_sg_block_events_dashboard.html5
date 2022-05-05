@@ -1,0 +1,9 @@
+<div id="block-<?= $this->type ?>-<?= $this->module ?>-dashboard">
+	<div class="content_container">
+		<p>
+			<?= $this->trans('WEM.SMARTGEAR.DEFAULT.defaultDashboard'); ?>
+			<br :>
+			<?= $this->trans('WEMSG.EVENTS.DASHBOARD.mode',[$this->trans('WEMSG.EVENTS.MODE.'.$this->mode,[],'contao_default')],'contao_default'); ?>
+		</p>
+	</div>
+</div>

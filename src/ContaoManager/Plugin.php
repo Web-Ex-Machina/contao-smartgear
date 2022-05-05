@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\ContaoManager;
 
+use Contao\CalendarBundle\ContaoCalendarBundle;
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
@@ -42,6 +43,7 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface
                     ContaoCoreBundle::class,
                     \Oveleon\ContaoComponentStyleManager\ContaoComponentStyleManager::class,
                     ContaoNewsBundle::class,
+                    ContaoCalendarBundle::class,
                 ])
                 ->setReplace(['wem-smartgear']),
         ];

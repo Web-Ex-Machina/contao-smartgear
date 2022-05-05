@@ -42,5 +42,6 @@ class WEMSmartgearExtension extends Extension
         $loader->load('migrations.yml');
         $loader->load('listeners.yml');
         $loader->load('components.yml');
+        $loader->load('apis.yml');
     }
 }

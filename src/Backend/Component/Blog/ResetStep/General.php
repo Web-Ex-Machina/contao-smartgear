@@ -139,10 +139,7 @@ class General extends AbstractStep
         /** @var BlogConfig */
         $blogConfig = $config->getSgBlog();
 
-        $objUserGroup = UserGroupModel::findByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupWebmastersName']);
-        if (!$objUserGroup) {
-            throw new Exception(sprintf('Unable to find the user group "%s"', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupWebmastersName']));
-        }
+        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
         $objUserGroup = $this->resetUserGroupSmartgearPermissions($objUserGroup);
         $objUserGroup = $this->resetUserGroupAllowedModules($objUserGroup);
         $objUserGroup = $this->resetUserGroupAllowedNewsArchive($objUserGroup, $blogConfig);
@@ -150,10 +147,7 @@ class General extends AbstractStep
         $objUserGroup = $this->resetUserGroupAllowedFields($objUserGroup);
         $objUserGroup->save();
 
-        $objUserGroup = UserGroupModel::findByName($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName']);
-        if (!$objUserGroup) {
-            throw new Exception(sprintf('Unable to find the user group "%s"', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName']));
-        }
+        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
         $objUserGroup = $this->resetUserGroupSmartgearPermissions($objUserGroup);
         $objUserGroup = $this->resetUserGroupAllowedModules($objUserGroup);
         $objUserGroup = $this->resetUserGroupAllowedNewsArchive($objUserGroup, $blogConfig);

@@ -19,7 +19,7 @@
         <?php if (\Input::get('sort')): ?>
           <input type="hidden" name="sort" value="<?= \Input::get('sort') ?>">
         <?php endif ?>
-        <?php if ($this->filters['select'] || $this->filters['search'] || $this->filters['date'] || $this->filters['time'] || $this->filters['datetime-local'] || $this->filters['month']): ?>
+        <?php if ($this->filters['select'] || $this->filters['search'] || $this->filters['date'] || $this->filters['time'] || $this->filters['datetime-local'] || $this->filters['month']|| $this->filters['date_decomposed']): ?>
           <div class="table-list__filters--1">
             <?php if ($this->filters['select']): ?>
               <div class="table-list__filters--selects">
@@ -96,13 +96,13 @@
                 <?php foreach ($this->filters['month'] as $property => $month): ?>
                   <tr>
                     <td>
-                      <label for="time--<?= $property ?>"><?= $month['label']?:$property ?></label>
+                      <label for="month-month-<?= $property ?>"><?= $month['label']?:$property ?></label>
                     </td>
                     <td>
                       <select name="<?= $property ?>[month]" id="month-month--<?= $property ?>">
-                          <option value="" <?= ($this->config[$property]['month'] && $this->config[$property]['month'] == '' )?'selected':'' ?> >
-                            -
-                          </option>
+                        <option value="" <?= ($this->config[$property]['month'] && $this->config[$property]['month'] == '' )?'selected':'' ?> >
+                          -
+                        </option>
                         <?php for($i=1;$i<=12;$i++): ?>
                           <?php $option = ['value' => 10 > $i ? '0'.$i : $i]; ?>
                           <option value="<?= $option['value']; ?>" <?= ($this->config[$property]['month'] && $this->config[$property]['month'] == $option['value'])?'selected':'' ?> >
@@ -113,15 +113,82 @@
                     </td>
                     <td>
                       <select name="<?= $property ?>[year]" id="month-year--<?= $property ?>">
-                          <option value="" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == '' )?'selected':'' ?> >
-                            -
+                        <option value="" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == '' )?'selected':'' ?> >
+                          -
+                        </option>
+
+                        <?php if($month['year']['start'] === $month['year']['stop']): ?>
+                          <?php $option = ['value' => $month['year']['start']]; ?>
+                          <option value="<?= $option['value']; ?>" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == $option['value'])?'selected':'' ?>>
+                            <?= $option['value']; ?>
                           </option>
+                        <?php else: ?>
                         <?php for($i=$month['year']['start'];$i<=$month['year']['stop'];$i++): ?>
                           <?php $option = ['value' => $i]; ?>
                           <option value="<?= $option['value']; ?>" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == $option['value'])?'selected':'' ?>>
                             <?= $i; ?>
                           </option>
                         <?php endfor; ?>
+                        <?php endif; ?>
+                      </select>
+                    </td>
+                  </tr>
+                <?php endforeach ?>
+                </table>
+              </div>
+            <?php endif; ?>
+            <?php if ($this->filters['date_decomposed']): ?>
+            <div class="table-list__filters--date_decomposed">
+                <table>
+                <?php foreach ($this->filters['date_decomposed'] as $property => $date_decomposed): ?>
+                  <tr>
+                    <td>
+                      <label for="time--<?= $property ?>"><?= $date_decomposed['label']?:$property ?></label>
+                    </td>
+                    <td>
+                      <select name="<?= $property ?>[day]" id="date_decomposed-day--<?= $property ?>" data-type="day" data-property="<?= $property; ?>">
+                        <option value="" <?= ($this->config[$property]['day'] && $this->config[$property]['day'] == '' )?'selected':'' ?> >
+                          -
+                        </option>
+                        <?php for($i=1;$i<=31;$i++): ?>
+                          <?php $option = ['value' => 10 > $i ? '0'.$i : $i]; ?>
+                          <option value="<?= $option['value']; ?>" <?= ($this->config[$property]['day'] && $this->config[$property]['day'] == $option['value'])?'selected':'' ?> >
+                            <?= $option['value']; ?>
+                          </option>
+                        <?php endfor; ?>
+                      </select>
+                    </td>
+                    <td>
+                      <select name="<?= $property ?>[month]" id="date_decomposed-month--<?= $property ?>" data-type="month" data-property="<?= $property; ?>">
+                        <option value="" <?= ($this->config[$property]['month'] && $this->config[$property]['month'] == '' )?'selected':'' ?> >
+                          -
+                        </option>
+                        <?php for($i=1;$i<=12;$i++): ?>
+                          <?php $option = ['value' => 10 > $i ? '0'.$i : $i]; ?>
+                          <option value="<?= $option['value']; ?>" <?= ($this->config[$property]['month'] && $this->config[$property]['month'] == $option['value'])?'selected':'' ?> >
+                            <?= $GLOBALS['TL_LANG']['MONTHS'][$i-1]; ?>
+                          </option>
+                        <?php endfor; ?>
+                      </select>
+                    </td>
+                    <td>
+                      <select name="<?= $property ?>[year]" id="date_decomposed-year--<?= $property ?>" data-type="year" data-property="<?= $property; ?>">
+                        <option value="" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == '' )?'selected':'' ?> >
+                          -
+                        </option>
+                        <?php if($date_decomposed['year']['start'] === $date_decomposed['year']['stop']): ?>
+                          <?php $option = ['value' => $date_decomposed['year']['start']]; ?>
+                          <option value="<?= $option['value']; ?>" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == $option['value'])?'selected':'' ?>>
+                            <?= $option['value']; ?>
+                          </option>
+                        <?php else: ?>
+                        <?php for($i=$date_decomposed['year']['start'];$i<=$date_decomposed['year']['stop'];$i++): ?>
+                          <?php $option = ['value' => $i]; ?>
+                          <option value="<?= $option['value']; ?>" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == $option['value'])?'selected':'' ?>>
+                            <?= $i; ?>
+                          </option>
+                        <?php endfor; ?>
+                        <?php endif; ?>
                       </select>
                     </td>
                   </tr>
@@ -175,5 +242,89 @@
     </form>
   </div>
   <?php endif ?>
+<script type="text/javascript">
+  const selectsYear = document.querySelector('.table-list__filters--date_decomposed').querySelectorAll('select[data-type="year"]');
+  const selectsMonth = document.querySelector('.table-list__filters--date_decomposed').querySelectorAll('select[data-type="month"]');
+  const selectsDay = document.querySelector('.table-list__filters--date_decomposed').querySelectorAll('select[data-type="day"]');
+  var previousDays = {};
+
+  selectsYear.forEach(function(selectYear) {
+    selectYear.onchange = function(e){
+      let selectMonth = getMonthSelect(e.target.getAttribute('data-property'));
+      populateDays(e.target.value,selectMonth.value,e.target.getAttribute('data-property'));
+    };
+  });
+
+  selectsMonth.forEach(function(selectMonth) {
+    selectMonth.onchange = function(e){
+      let selectYear = getYearSelect(e.target.getAttribute('data-property'));
+      populateDays(selectYear.value,e.target.value,e.target.getAttribute('data-property'));
+    };
+  });
+
+  selectsDay.forEach(function(selectDay) {
+    previousDays = Object.assign(previousDays,{[selectDay.getAttribute('data-property')]: parseInt(selectDay.value)});
+    selectDay.onchange = function(e){
+      previousDays = Object.assign(previousDays,{[e.target.getAttribute('data-property')]: parseInt(selectDay.value)});
+    };
+  });
+
+  function getYearSelect(property){
+    return getSelectByTypeAndProperty("year",property);
+  }
+  function getMonthSelect(property){
+    return getSelectByTypeAndProperty("month",property);
+  }
+  function getDaySelect(property){
+    return getSelectByTypeAndProperty("day",property);
+  }
+  function getSelectByTypeAndProperty(type,property){
+    return document.querySelector('.table-list__filters--date_decomposed').querySelector('select[data-type="'+type+'"][data-property="'+property+'"]');
+  }
+  function populateDays(year, month, property) {
+    var daySelect = getDaySelect(property);
+    // empty days
+    while(daySelect.firstChild){
+      daySelect.removeChild(daySelect.firstChild);
+    }
+
+    let dayNum;
+    month = parseInt(month);
+
+    if(month === 1 || month === 3 || month === 5 || month === 7 || month === 8 || month === 10 || month === 12) {
+      dayNum = 31;
+    } else if(month === 4 || month === 6 || month === 9 || month === 11) {
+      dayNum = 30;
+    } else {
+      // if February, check if year is bissextile
+      let leap = new Date(year, 1, 29).getMonth() == 1;
+      dayNum = leap ? 29 : 28;
+    }
+
+    var emptyOption = document.createElement('option');
+    emptyOption.textContent = '-';
+    emptyOption.value = '';
+    daySelect.appendChild(emptyOption);
+    for(i = 1; i <= dayNum; i++) {
+      let option = document.createElement('option');
+      option.textContent = 10 > i ? '0'+i : i;
+      daySelect.appendChild(option);
+    }
+
+    var previousDay = previousDays[property];
+    if(previousDay) {
+      // If previously selected day is higher than current last day
+      if("undefined" !== typeof daySelect.options[previousDay]){
+        daySelect.value = daySelect.options[previousDay].value;
+      }else if("undefined" !== typeof daySelect.options[previousDay - 1]){
+        daySelect.value = daySelect.options[previousDay-1].value;
+      }else if("undefined" !== typeof daySelect.options[previousDay - 2]){
+        daySelect.value = daySelect.options[previousDay-2].value;
+      }else if("undefined" !== typeof daySelect.options[previousDay - 3]){
+        daySelect.value = daySelect.options[previousDay-3].value;
+      }
+    }
+  }
+</script>
 <?php $this->endblock(); ?>
 <!-- indexer::continue -->

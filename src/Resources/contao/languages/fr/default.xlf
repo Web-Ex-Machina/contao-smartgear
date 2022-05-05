@@ -113,6 +113,10 @@
 			<source>Time</source>
 			<target>Heure</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.LBL.location">
+			<source>Location</source>
+			<target>Lieu</target>
+		</trans-unit>
 
 
 		<!-- Smartgear Backend -->
@@ -790,17 +794,14 @@
 		</trans-unit>
 
 		<!-- Blog -->
-
 		<trans-unit id="WEMSG.BLOG.MODE.simple">
 			<source>Simple</source>
 			<target>Simple</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.MODE.expert">
 			<source>Expert</source>
 			<target>Expert</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.title">
 			<source>Installation</source>
 			<target>Installation</target>
@@ -837,18 +838,14 @@
 			<source>Cancel</source>
 			<target>Annuler</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsFolder">
 			<source>Files folder</source>
 			<target>Dossier</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsFolderHelp">
 			<source>Choose the folder where news' files/images are going to be stored</source>
 			<target>Choisissez le dossier dans lequel les fichiers/images associées  aux actualités seront stockées</target>
 		</trans-unit>
-
-
 		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.newsArchiveTitle">
 			<source>News feed title</source>
 			<target>Titre du flux d'actualités</target>
@@ -865,7 +862,6 @@
 			<source>Expert mode</source>
 			<target>Mode expert</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.INSTALL_GENERAL.fieldNewsPresetNameEmpty">
 			<source>News configuration preset name is missing</source>
 			<target>Le nom de la configuration n'est pas renseignée</target>
@@ -930,90 +926,217 @@
 			<source>No dataset specified</source>
 			<target>Aucun jeu de donnée sélectionné</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.RESET.title">
 			<source>Uninstall</source>
 			<target>Désinstallation</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.RESET.deleteModeLabel">
 			<source>Uninstall mode</source>
 			<target>Mode de désinstallation</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.RESET.deleteModeArchiveLabel">
 			<source>Archive</source>
 			<target>Archiver</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.RESET.deleteModeArchiveDescription">
 			<source>Files folder will be moved to `files/archives/news-{timestamp}` and news archive's name suffixed with " (Archive-{timestamp})".</source>
 			<target>Le dossier de fichiers associé au blog sera déplacé vers `files/archives/news-{timestamp}` et le nom de l'archive d'actualité sera suffixé par " (Archive-{timestamp})".</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.RESET.deleteModeKeepLabel">
 			<source>Keep</source>
 			<target>Conserver</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.RESET.deleteModeKeepDescription">
 			<source>All data will be kept in place.</source>
 			<target>Toutes les données seront conservées et ne seront pas déplacées.</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.RESET.deleteModeDeleteLabel">
 			<source>Delete</source>
 			<target>Supprimer</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.RESET.deleteModeDeleteDescription">
 			<source>Files and News Archive will be deleted.</source>
 			<target>Les fichiers ainsi que l'archive d'actualités seront supprimés.</target>
 		</trans-unit>
-
-
-
 		<trans-unit id="WEMSG.BLOG.RESET.deleteModeUnknown">
 			<source>Uninstall</source>
 			<target>Désinstallation</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.BLOCK.blogNewsConfigAddAjaxMessageSuccess">
 			<source>New configuration added</source>
 			<target>Nouvelle configuration ajoutée</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.BLOCK.blogNewsConfigAddAjaxMessageError">
 			<source>An error occured while adding a new configuration</source>
 			<target>Une serreur est survenue lors de l'ajout de la nouvelle configuration</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.BLOCK.blogNewsConfigGetAjaxMessageSuccess">
 			<source>Configuration retrieved</source>
 			<target>Configuration récupérée</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.BLOCK.blogNewsConfigGetAjaxMessageError">
 			<source>An error occured while retrieving the configuration</source>
 			<target>Une serreur est survenue lors de la récupération de la configuration</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.DASHBOARD.mode">
 			<source>Mode : %s</source>
 			<target>Mode : %s</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.FORM.fieldTeaserLabel">
 			<source>Content</source>
 			<target>Contenu</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.FORM.fieldTeaserHelp">
 			<source>Type news content here</source>
 			<target>Saisir le contenu de votre actualité</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.BLOG.FORM.paletteTeaserLabel">
+			<source>Content</source>
+			<target>Contenu</target>
+		</trans-unit>
+
+				<!-- Events -->
+		<trans-unit id="WEMSG.EVENTS.MODE.simple">
+			<source>Simple</source>
+			<target>Simple</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.MODE.expert">
+			<source>Expert</source>
+			<target>Expert</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_GENERAL.title">
+			<source>Installation</source>
+			<target>Installation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_GENERAL.eventsFolder">
+			<source>Files folder</source>
+			<target>Dossier</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_GENERAL.eventsFolderHelp">
+			<source>Choose the folder where events' files/images are going to be stored</source>
+			<target>Choisissez le dossier dans lequel les fichiers/images associées aux évènements seront stockées</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_GENERAL.calendarTitle">
+			<source>Calendar title</source>
+			<target>Titre du calendrier</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_GENERAL.eventsListPerPage">
+			<source>Events per page</source>
+			<target>Evènements par page</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_GENERAL.pageTitle">
+			<source>Calendar's page title</source>
+			<target>Titre de la page du calendrier</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_GENERAL.expertMode">
+			<source>Expert mode</source>
+			<target>Mode expert</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_GENERAL.eventsConfigMissing">
+			<source>Events configuration is missing</source>
+			<target>La configuration n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_GENERAL.calendarTitleMissing">
+			<source>Calendar's title is missing</source>
+			<target>Le titre du calendrier n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_GENERAL.eventsListPerPageMissing">
+			<source>Number of events per page is missing</source>
+			<target>Le nombre d'évènements par page n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_GENERAL.eventsListPerPageTooLow">
+			<source>Number of events per page is too low</source>
+			<target>Le nombre d'évènements par page est trop faible</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_GENERAL.pageTitleMissing">
+			<source>Calendar's page title is missing</source>
+			<target>Le titre de la page du calendrier n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_GENERAL.eventsFolderMissing">
+			<source>Files folder is missing</source>
+			<target>Le dossier n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_GENERAL.pageDescription">
+			<source>%s of %s's website</source>
+			<target>%s du site %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_DATASET.title">
+			<source>Dataset</source>
+			<target>Jeu de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_DATASET.datasetOptionNone">
+			<source>Aucun</source>
+			<target>Aucun</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_DATASET.datasetOptionA">
+			<source>A - simple - 3 events</source>
+			<target>A - simple - 3 évènements</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_DATASET.datasetOptionB">
+			<source>B - complete - 18 events</source>
+			<target>B - complet - 18 évènements</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_DATASET.dataset">
+			<source>Dataset</source>
+			<target>Jeu de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_DATASET.datasetHelp">
+			<source>Dataset to install</source>
+			<target>Jeu de données à installer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.INSTALL_DATASET.datasetMissing">
+			<source>No dataset specified</source>
+			<target>Aucun jeu de donnée sélectionné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.RESET.title">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.RESET.deleteModeLabel">
+			<source>Uninstall mode</source>
+			<target>Mode de désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.RESET.deleteModeArchiveLabel">
+			<source>Archive</source>
+			<target>Archiver</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.RESET.deleteModeArchiveDescription">
+			<source>Files folder will be moved to `files/archives/events-{timestamp}` and calendar's name suffixed with " (Archive-{timestamp})".</source>
+			<target>Le dossier de fichiers associé au calendrier sera déplacé vers `files/archives/events-{timestamp}` et le nom du calendrier sera suffixé par " (Archive-{timestamp})".</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.RESET.deleteModeKeepLabel">
+			<source>Keep</source>
+			<target>Conserver</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.RESET.deleteModeKeepDescription">
+			<source>All data will be kept in place.</source>
+			<target>Toutes les données seront conservées et ne seront pas déplacées.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.RESET.deleteModeDeleteLabel">
+			<source>Delete</source>
+			<target>Supprimer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.RESET.deleteModeDeleteDescription">
+			<source>Files and calendar will be deleted.</source>
+			<target>Les fichiers ainsi que le calendrier seront supprimés.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.RESET.deleteModeUnknown">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.DASHBOARD.mode">
+			<source>Mode : %s</source>
+			<target>Mode : %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.FORM.fieldTeaserLabel">
+			<source>Content</source>
+			<target>Contenu</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.FORM.fieldTeaserHelp">
+			<source>Type event content here</source>
+			<target>Saisir le contenu de votre évènement</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EVENTS.FORM.paletteTeaserLabel">
 			<source>Content</source>
 			<target>Contenu</target>
 		</trans-unit>
@@ -4752,6 +4875,14 @@
 			<source>Smartgear blog - simplified mode</source>
 			<target>Smartgear blog - mode simplifié</target>
 		</trans-unit> -->
+		<trans-unit id="WEMSG.SECURITY.EVENTS.optGroup">
+			<source>Events</source>
+			<target>Evènements</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SECURITY.EVENTS.expert">
+			<source>Smartgear events - expert mode</source>
+			<target>Smartgear évènements - mode expert</target>
+		</trans-unit>
 
 		<!-- heimrichhannot/contao-backend-lost-password-bundle -->
 		<trans-unit id="MSC.backendLostPassword.messageSubjectResetPassword">

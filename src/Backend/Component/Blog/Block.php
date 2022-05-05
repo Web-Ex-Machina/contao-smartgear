@@ -75,14 +75,6 @@ class Block extends BackendBlock
                         // $arrResponse['output'] = $e->getMessage();
                     }
                 break;
-                // case 'dev_mode':
-                //     $this->dashboard->enableDevMode();
-                //     $arrResponse = ['status' => 'success', 'msg' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['enableDevModeAjaxMessageSuccess'], 'callbacks' => [$this->callback('refreshBlock')]];
-                // break;
-                // case 'prod_mode':
-                //     $this->dashboard->enableProdMode();
-                //     $arrResponse = ['status' => 'success', 'msg' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['enableProdModeAjaxMessageSuccess'], 'callbacks' => [$this->callback('refreshBlock')]];
-                // break;
                 case 'reset_mode':
                     $this->setMode(self::MODE_RESET);
                     $this->resetStepManager->goToStep(0);
@@ -101,7 +93,6 @@ class Block extends BackendBlock
             $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
         }
 
-        // return $arrResponse;
         // Add Request Token to JSON answer and return
         $arrResponse['rt'] = \RequestToken::get();
         echo json_encode($arrResponse);

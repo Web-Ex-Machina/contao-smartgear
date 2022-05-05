@@ -9,14 +9,6 @@
       <?php endif ?>
     </p>
   </div>
-  <?php if ($this->location): ?>
-    <p class="location" itemprop="location" itemscope itemtype="http://schema.org/Place">
-      <span itemprop="name"><?= $this->location ?></span>
-      <?php if ($this->address): ?>
-        (<span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"><?= $this->address ?></span>)
-      <?php endif; ?>
-    </p>
-  <?php endif; ?>
 
   <?php if ($this->addImage): ?>
     <?php $this->insert('image', $this->arrData); ?>
@@ -41,7 +33,36 @@
     </ul>
   <?php endif; ?>
 
+
+  <?php if ($this->location): ?>
+    <p class="location" itemprop="location" itemscope itemtype="http://schema.org/Place">
+      <i class="fal fa-map-marker-alt"></i>&nbsp;
+      <span itemprop="name"><?= $this->location ?></span>
+      <?php if ($this->address): ?>
+        - <span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"><?= $this->address ?></span>
+
+        <?php if (!empty($this->addressLat) && !empty($this->addressLon)): ?>
+          <div id="map" style="height:512px;" data-lat="<?= $this->addressLat; ?>" data-lon="<?= $this->addressLon; ?>"></div>
+        <?php endif; ?>
+      <?php endif; ?>
+    </p>
+  <?php endif; ?>
+
   <?php if($this->recurring): ?>
     <p class="ft-grey ft-i"><span class="ft-orange"> * </span><?= $this->recurring ?><?php if ($this->until) echo ' ' . $this->until; ?>.</p>
   <?php endif; ?>
 </div>
+<?php if (!empty($this->addressLat) && !empty($this->addressLon)): ?>
+<link rel="stylesheet" href="assets/leaflet/leaflet.css" />
+<script src="assets/leaflet/leaflet.js"></script>
+<script type="text/javascript">
+  var mapContainer = document.querySelector('#map');
+  var map = L.map('map').setView([mapContainer.getAttribute('data-lat'),mapContainer.getAttribute('data-lon')], 16);
+  var OpenStreetMap_Layer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  })
+  .addTo(map);
+  var marker = L.marker([mapContainer.getAttribute('data-lat'),mapContainer.getAttribute('data-lon')]).addTo(map);
+</script>
+<?php endif; ?>

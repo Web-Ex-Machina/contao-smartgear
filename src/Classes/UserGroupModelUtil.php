@@ -157,6 +157,52 @@ class UserGroupModelUtil
     }
 
     /**
+     * Add allowed calendars (do not assign news permissions).
+     *
+     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
+     * @param array          $calendarIds  The Calendars IDs
+     *
+     * @return UserGroupModel The updated UserGroup entity (not saved)
+     */
+    public static function addAllowedCalendar(UserGroupModel $objUserGroup, array $calendarIds): UserGroupModel
+    {
+        // update allowed calendar
+        $allowedCalendars = null !== $objUserGroup->calendars ? unserialize($objUserGroup->calendars) : [];
+        foreach ($calendarIds as $calendarId) {
+            $calendarIndex = array_search((string) $calendarId, $allowedCalendars, true);
+            if (false === $calendarIndex) {
+                $allowedCalendars[] = (string) $calendarId;
+            }
+        }
+        $objUserGroup->calendars = serialize($allowedCalendars);
+
+        return $objUserGroup;
+    }
+
+    /**
+     * Remove allowed calendars (do not remove calendars permissions).
+     *
+     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
+     * @param array          $calendarIds  The Calendars IDs
+     *
+     * @return UserGroupModel The updated UserGroup entity (not saved)
+     */
+    public static function removeAllowedCalendar(UserGroupModel $objUserGroup, array $calendarIds): UserGroupModel
+    {
+        // update allowed calendar
+        $allowedCalendars = null !== $objUserGroup->calendars ? unserialize($objUserGroup->calendars) : [];
+        foreach ($calendarIds as $calendarId) {
+            $calendarIndex = array_search((string) $calendarId, $allowedCalendars, true);
+            if (false === $calendarIndex) {
+                unset($allowedCalendars[$calendarIndex]);
+            }
+        }
+        $objUserGroup->calendars = serialize($allowedCalendars);
+
+        return $objUserGroup;
+    }
+
+    /**
      * Add allowed filemounts (do not assign filemount permissions).
      *
      * @param UserGroupModel $objUserGroup The UserGroup entity to work on
