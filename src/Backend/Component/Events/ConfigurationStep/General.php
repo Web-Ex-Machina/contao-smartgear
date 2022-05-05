@@ -245,7 +245,7 @@ class General extends ConfigurationStep
         $moduleList->type = 'eventlist';
         $moduleList->cal_calendar = serialize([$calendar->id]);
         $moduleList->numberOfItems = 0;
-        $moduleList->cal_format = 'next_365';
+        $moduleList->cal_format = 'cal_month';
         $moduleList->cal_order = 'order_date_desc';
         $moduleList->cal_readerModule = $moduleReader->id;
         $moduleList->perPage = $eventsConfig->getSgEventsListPerPage();
@@ -265,7 +265,7 @@ class General extends ConfigurationStep
         $moduleCalendar->type = 'calendar';
         $moduleCalendar->cal_calendar = serialize([$calendar->id]);
         $moduleCalendar->numberOfItems = 0;
-        $moduleCalendar->cal_format = 'next_365';
+        $moduleCalendar->cal_format = 'cal_month';
         $moduleCalendar->cal_order = 'order_date_desc';
         $moduleCalendar->cal_readerModule = $moduleReader->id;
         $moduleCalendar->perPage = $eventsConfig->getSgEventsListPerPage();

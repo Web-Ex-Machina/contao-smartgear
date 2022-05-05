@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Override;
 
+use Contao\CalendarEventsModel;
 use Contao\Input;
 
 class ModuleEventList extends \Contao\ModuleEventlist
@@ -44,6 +45,7 @@ class ModuleEventList extends \Contao\ModuleEventlist
     {
         // Build List Filters
         $this->buildFilters();
+        $this->adaptFiltersToEventlist();
 
         parent::compile();
 
@@ -53,17 +55,45 @@ class ModuleEventList extends \Contao\ModuleEventlist
 
     protected function buildFilters(): void
     {
-        $this->filters['month']['date'] = [
+        $datesBounds = $this->getEventsDatesBound();
+        $this->filters['date_decomposed']['date'] = [
             'label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['date'],
             'year' => [
-                'start' => 2000,
-                'stop' => (int) date('Y'),
+                'start' => $datesBounds['start'],
+                'stop' => $datesBounds['stop'],
             ],
         ];
 
         if (null !== Input::get('date', null)) {
-            $this->config['date']['month'] = Input::get('date', null)['month'];
-            $this->config['date']['year'] = Input::get('date', null)['year'];
+            $this->config['date']['year'] = Input::get('date')['year'];
+            $this->config['date']['month'] = Input::get('date')['month'];
+            $this->config['date']['day'] = Input::get('date')['day'];
         }
+    }
+
+    protected function adaptFiltersToEventlist(): void
+    {
+        if (\array_key_exists('date', $this->config)) {
+            if (\array_key_exists('day', $this->config['date']) && !empty($this->config['date']['day'])) {
+                $_GET['day'] = sprintf('%s%s%s', $this->config['date']['year'], $this->config['date']['month'], $this->config['date']['day']);
+            } elseif (\array_key_exists('month', $this->config['date']) && !empty($this->config['date']['month'])) {
+                $_GET['month'] = sprintf('%s%s', $this->config['date']['year'], $this->config['date']['month']);
+            } elseif (\array_key_exists('year', $this->config['date']) && !empty($this->config['date']['year'])) {
+                $_GET['year'] = $this->config['date']['year'];
+            }
+        }
+    }
+
+    protected function getEventsDatesBound(): array
+    {
+        $col = ['pid IN (?)', 'published = ?'];
+        $val = [implode(',', $this->cal_calendar), 1];
+        $firstEvent = CalendarEventsModel::findBy($col, $val, ['limit' => 1, 'order' => 'startDate ASC']);
+        $lastEvent = CalendarEventsModel::findBy($col, $val, ['limit' => 1, 'order' => 'startDate DESC']);
+
+        return [
+            'start' => (new \DateTime())->setTimestamp((int) $firstEvent->startDate)->format('Y'),
+            'stop' => (new \DateTime())->setTimestamp((int) $lastEvent->startDate)->format('Y'),
+        ];
     }
 }
