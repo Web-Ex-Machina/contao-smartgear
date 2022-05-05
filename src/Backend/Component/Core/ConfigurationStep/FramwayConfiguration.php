@@ -19,7 +19,7 @@ use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 use WEM\SmartgearBundle\Classes\UtilFramway;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Framway as FramwayConfig;
 use WEM\SmartgearBundle\Config\Manager\Framway as ConfigurationManagerFramway;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;

@@ -27,7 +27,7 @@ use Contao\UserGroupModel;
 use Exception;
 use InvalidArgumentException;
 use Psr\Log\LogLevel;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\UtilsBundle\Classes\StringUtil;
 
 /**

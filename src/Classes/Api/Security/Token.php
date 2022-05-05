@@ -5,7 +5,7 @@ namespace WEM\SmartgearBundle\Classes\Api\Security;
 use Contao\System;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class Token{
 	

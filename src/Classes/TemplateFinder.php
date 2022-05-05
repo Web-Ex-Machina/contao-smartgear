@@ -16,7 +16,7 @@ namespace WEM\SmartgearBundle\Classes;
 
 use Contao\ThemeModel;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
 class TemplateFinder

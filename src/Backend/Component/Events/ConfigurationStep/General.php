@@ -30,8 +30,8 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class General extends ConfigurationStep
