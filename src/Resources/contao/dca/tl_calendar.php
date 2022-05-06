@@ -60,7 +60,7 @@ class tl_wem_sg_calendar extends tl_calendar
     public function deleteCalendar($row, $href, $label, $title, $icon, $attributes)
     {
         if ($this->isCalendarUsedBySmartgear((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon));
+            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
         return parent::deleteCalendar($row, $href, $label, $title, $icon, $attributes);

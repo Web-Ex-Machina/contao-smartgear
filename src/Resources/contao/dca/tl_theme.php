@@ -55,7 +55,7 @@ class tl_wem_sg_theme extends tl_theme
     public function deleteTheme($row, $href, $label, $title, $icon, $attributes)
     {
         if ($this->isThemeUsedBySmartgear((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon));
+            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
         return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ';
