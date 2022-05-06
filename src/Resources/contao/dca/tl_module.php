@@ -13,12 +13,15 @@ declare(strict_types=1);
  */
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Contao\CoreBundle\Exception\AccessDeniedException;
+use Contao\CoreBundle\Security\ContaoCorePermissions;
+use Contao\Image;
+use Contao\Input;
+use Contao\System;
 
 /*
  * SMARTGEAR for Contao Open Source CMS
  * Copyright (c) 2015-2022 Web ex Machina
-=======
->>>>>>> issue #64 : blog install WIP
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -30,6 +33,7 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
  * Add fields for header component
  */
 
+$GLOBALS['TL_DCA']['tl_module']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_module', 'deleteModule'];
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_header_content';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_navigation';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_display_share_buttons';
@@ -184,6 +188,25 @@ foreach ($palettesToUpdate as $paletteName) {
 class tl_wem_sg_module extends tl_module
 {
     /**
+     * Check permissions to edit table tl_modules.
+     *
+     * @throws AccessDeniedException
+     */
+    public function checkPermission(): void
+    {
+        parent::checkPermission();
+
+        // Check current action
+        switch (Input::get('act')) {
+            case 'delete':
+                if ($this->isModuleUsedBySmartgear((int) Input::get('id'))) {
+                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' module ID '.Input::get('id').'.');
+                }
+            break;
+        }
+    }
+
+    /**
      * Return the edit module wizard.
      *
      * @return string
@@ -208,5 +231,62 @@ class tl_wem_sg_module extends tl_module
         }
 
         return $arrModules;
+    }
+
+    /**
+     * Return the delete module button.
+     *
+     * @param array  $row
+     * @param string $href
+     * @param string $label
+     * @param string $title
+     * @param string $icon
+     * @param string $attributes
+     *
+     * @return string
+     */
+    public function deleteModule($row, $href, $label, $title, $icon, $attributes)
+    {
+        if ($this->isModuleUsedBySmartgear((int) $row['id'])) {
+            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon));
+        }
+
+        return System::getContainer()->get('security.helper')->isGranted(ContaoCorePermissions::USER_CAN_ACCESS_FRONTEND_MODULES) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ' : Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+    }
+
+    /**
+     * Check if the calendar is being used by Smartgear.
+     *
+     * @param int $id News archive's ID
+     */
+    protected function isModuleUsedBySmartgear(int $id): bool
+    {
+        $configManager = System::getContainer()->get('smartgear.config.manager.core');
+        try {
+            $config = $configManager->load();
+            if ($config->getSgInstallComplete()) {
+                $modules = $config->getSgModules();
+                foreach ($modules as $module) {
+                    if ($id === (int) $module->id) {
+                        return true;
+                    }
+                }
+            }
+            $blogConfig = $config->getSgBlog();
+            if ($blogConfig->getSgInstallComplete()
+            && ($id === (int) $blogConfig->getSgModuleList() || $id === (int) $blogConfig->getSgModuleReader())
+            ) {
+                return true;
+            }
+            $eventsConfig = $config->getSgEvents();
+            if ($eventsConfig->getSgInstallComplete()
+            && ($id === (int) $eventsConfig->getSgModuleList() || $id === (int) $eventsConfig->getSgModuleReader() || $id === (int) $eventsConfig->getSgModuleCalendar())
+            ) {
+                return true;
+            }
+        } catch (\Exception $e) {
+        }
+
+        return false;
     }
 }
