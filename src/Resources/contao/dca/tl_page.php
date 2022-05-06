@@ -17,14 +17,15 @@ use Contao\Image;
 use Contao\Input;
 use Contao\System;
 
-$GLOBALS['TL_DCA']['tl_page']['list']['operations']['delete']['button_callback'] = ['l_wem_sg_opage', 'deletePage'];
+$GLOBALS['TL_DCA']['tl_page']['config']['onload_callback'] = ['tl_wem_sg_page', 'checkPermission'];
+$GLOBALS['TL_DCA']['tl_page']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_page', 'deletePage'];
 
 /**
  * Provide miscellaneous methods that are used by the data configuration array.
  *
  * @property News $News
  */
-class l_wem_sg_opage extends tl_page
+class tl_wem_sg_page extends tl_page
 {
     /**
      * Check permissions to edit table tl_page.

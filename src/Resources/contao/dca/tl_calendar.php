@@ -17,6 +17,7 @@ use Contao\Image;
 use Contao\Input;
 use Contao\System;
 
+$GLOBALS['TL_DCA']['tl_calendar']['config']['onload_callback'] = ['tl_wem_sg_calendar', 'checkPermission'];
 $GLOBALS['TL_DCA']['tl_calendar']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_calendar', 'deleteCalendar'];
 
 /**

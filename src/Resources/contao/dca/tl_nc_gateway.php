@@ -17,32 +17,30 @@ use Contao\Image;
 use Contao\Input;
 use Contao\System;
 
-$GLOBALS['TL_DCA']['tl_theme']['config']['onload_callback'] = ['tl_wem_sg_theme', 'checkPermission'];
-$GLOBALS['TL_DCA']['tl_theme']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_theme', 'deleteTheme'];
+$GLOBALS['TL_DCA']['tl_nc_gateway']['config']['onload_callback'] = ['tl_wem_sg_notification_gateway', 'checkPermission'];
+$GLOBALS['TL_DCA']['tl_nc_gateway']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_notification_gateway', 'deleteNotificationGateway'];
 
-class tl_wem_sg_theme extends tl_theme
+class tl_wem_sg_notification_gateway
 {
     /**
-     * Check permissions to edit table tl_theme.
+     * Check permissions to edit table tl_user.
      *
      * @throws AccessDeniedException
      */
     public function checkPermission(): void
     {
-        parent::checkPermission();
-
         // Check current action
         switch (Input::get('act')) {
             case 'delete':
-                if ($this->isThemeUsedBySmartgear((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' theme ID '.Input::get('id').'.');
+                if ($this->isNotificationGatewayUsedBySmartgear((int) Input::get('id'))) {
+                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' notification gateway ID '.Input::get('id').'.');
                 }
             break;
         }
     }
 
     /**
-     * Return the delete theme button.
+     * Return the delete notification gateway button.
      *
      * @param array  $row
      * @param string $href
@@ -53,26 +51,26 @@ class tl_wem_sg_theme extends tl_theme
      *
      * @return string
      */
-    public function deleteTheme($row, $href, $label, $title, $icon, $attributes)
+    public function deleteNotificationGateway($row, $href, $label, $title, $icon, $attributes)
     {
-        if ($this->isThemeUsedBySmartgear((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+        if ($this->isNotificationGatewayUsedBySmartgear((int) $row['id'])) {
+            return Image::getHtml(preg_replace('/\.gif$/i', '_.gif', $icon)).' '; // yup, gif not svg
         }
 
         return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ';
     }
 
     /**
-     * Check if the theme is being used by Smartgear.
+     * Check if the notification gateway is being used by Smartgear.
      *
-     * @param int $id theme's ID
+     * @param int $id Notification gateway's ID
      */
-    protected function isThemeUsedBySmartgear(int $id): bool
+    protected function isNotificationGatewayUsedBySmartgear(int $id): bool
     {
         $configManager = System::getContainer()->get('smartgear.config.manager.core');
         try {
             $config = $configManager->load();
-            if ($config->getSgInstallComplete() && $id === (int) $config->getSgTheme()) {
+            if ($config->getSgInstallComplete() && $id === (int) $config->getSgNotificationGatewayEmail()) {
                 return true;
             }
         } catch (\Exception $e) {
