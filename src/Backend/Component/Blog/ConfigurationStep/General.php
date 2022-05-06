@@ -31,7 +31,7 @@ use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Blog\Preset as BlogPresetConfig;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class General extends ConfigurationStep
@@ -199,7 +199,7 @@ class General extends ConfigurationStep
         $blogConfig = $config->getSgBlog();
         $presetConfig = $blogConfig->getCurrentPreset();
 
-        $rootPage = PageModel::findById($config->getSgRootPage());
+        $rootPage = PageModel::findById($config->getSgPageRoot());
 
         $page = PageModel::findById($blogConfig->getSgPage());
 

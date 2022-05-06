@@ -83,10 +83,10 @@ class Blog implements ConfigModuleInterface
     {
         $this->setSgInstallComplete($json->installComplete ?? false)
             ->setSgMode($json->mode ?? static::DEFAULT_MODE)
-            ->setSgPage($json->page ?? null)
-            ->setSgModuleReader($json->moduleReader ?? null)
-            ->setSgModuleList($json->moduleList ?? null)
-            ->setSgNewsArchive($json->archive ?? null)
+            ->setSgPage($json->contao->page ?? null)
+            ->setSgModuleReader($json->contao->module->reader ?? null)
+            ->setSgModuleList($json->contao->module->list ?? null)
+            ->setSgNewsArchive($json->contao->archive ?? null)
             ->setSgArchived($json->archived->status ?? false)
             ->setSgArchivedAt($json->archived->at ?? 0)
             ->setSgArchivedMode($json->archived->mode ?? self::DEFAULT_ARCHIVE_MODE)
@@ -106,15 +106,19 @@ class Blog implements ConfigModuleInterface
         $json = new \stdClass();
         $json->installComplete = $this->getSgInstallComplete();
         $json->mode = $this->getSgMode();
-        $json->page = $this->getSgPage();
-        $json->moduleReader = $this->getSgModuleReader();
-        $json->moduleList = $this->getSgModuleList();
-        $json->archive = $this->getSgNewsArchive();
         $json->currentPresetIndex = $this->getSgCurrentPresetIndex();
         $json->presets = [];
         foreach ($this->getSgPresets() as $presetConfig) {
             $json->presets[] = $presetConfig->export();
         }
+
+        $json->contao = new \stdClass();
+        $json->contao->page = $this->getSgPage();
+        $json->contao->archive = $this->getSgNewsArchive();
+
+        $json->contao->module = new \stdClass();
+        $json->contao->module->reader = $this->getSgModuleReader();
+        $json->contao->module->list = $this->getSgModuleList();
 
         $json->archived = new \stdClass();
         $json->archived->status = $this->getSgArchived();

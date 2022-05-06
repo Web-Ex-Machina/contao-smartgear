@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Api\Smartgear\V1;
 
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Classes\Api\Security\ApiKey;
 use WEM\SmartgearBundle\Classes\Api\Security\Token;
 use WEM\SmartgearBundle\Classes\Util;

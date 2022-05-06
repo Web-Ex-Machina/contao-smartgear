@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Component\Events\EventListener;
 
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class GenerateBreadcrumbListener

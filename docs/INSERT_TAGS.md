@@ -35,7 +35,15 @@ Tags | Value | Description
 `sg::ownerDpoName` | string | The website owner's Data Protection Officer's name
 `sg::ownerDpoEmail` | string | The website owner's Data Protection Officer email
 `sg::theme` | int | The Contao's theme ID
-`sg::rootPage` | int | The Contao's rootpage ID
+`sg::layoutStandard` | int | The Contao's "standard" layout ID
+`sg::layoutFullwidth` | int | The Contao's "fullwidth" layout ID
+`sg::pageRoot` | int | The Contao's rootpage ID
+`sg::pageHome` | int | The Contao's homepage ID
+`sg::page404` | int | The Contao's 404 error page ID
+`sg::pageLegalNotice` | int | The Contao's legal notice page ID
+`sg::pagePrivacyPolitics` | int | The Contao's privacy ppolitics page ID
+`sg::pageSitemap` | int | The Contao's sitemap page ID
+`sg::notificationGatewayEmail` | int | The Contao's email notification gateway ID
 `sg::modules` | string | Comma separated list of modules
 `sg::apiKey` | string | The API key
 

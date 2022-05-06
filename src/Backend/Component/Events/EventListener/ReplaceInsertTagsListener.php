@@ -16,7 +16,7 @@ namespace WEM\SmartgearBundle\Backend\Component\Events\EventListener;
 
 use WEM\SmartgearBundle\Classes\Backend\Component\EventListener\ReplaceInsertTagsListener as AbstractReplaceInsertTagsListener;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
 {

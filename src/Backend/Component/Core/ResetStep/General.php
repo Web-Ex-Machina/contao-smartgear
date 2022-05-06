@@ -22,7 +22,7 @@ use WEM\SmartgearBundle\Backup\BackupManager;
 use WEM\SmartgearBundle\Backup\Model\Results\CreateResult;
 use WEM\SmartgearBundle\Classes\Backend\AbstractStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\LocalConfig;
 use WEM\SmartgearBundle\Config\Manager\LocalConfig as LocalConfigManager;
 

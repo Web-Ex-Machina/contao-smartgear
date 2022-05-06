@@ -26,7 +26,7 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Blog\Preset as BlogPresetConfig;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class General extends AbstractStep

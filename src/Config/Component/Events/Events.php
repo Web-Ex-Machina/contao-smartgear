@@ -99,11 +99,11 @@ class Events implements ConfigModuleInterface
             ->setSgCalendarTitle($json->calendar_title ?? self::DEFAULT_FEED_TITLE)
             ->setSgEventsListPerPage($json->events_list_per_page ?? self::DEFAULT_EVENTS_PER_PAGE)
             ->setSgPageTitle($json->page_title ?? self::DEFAULT_PAGE_TITLE)
-            ->setSgPage($json->page ?? null)
-            ->setSgCalendar($json->calendar ?? null)
-            ->setSgModuleReader($json->moduleReader ?? null)
-            ->setSgModuleList($json->moduleList ?? null)
-            ->setSgModuleCalendar($json->moduleCalendar ?? null)
+            ->setSgPage($json->contao->page ?? null)
+            ->setSgCalendar($json->contao->calendar ?? null)
+            ->setSgModuleReader($json->contao->moduleReader ?? null)
+            ->setSgModuleList($json->contao->moduleList ?? null)
+            ->setSgModuleCalendar($json->contao->moduleCalendar ?? null)
             ->setSgArchived($json->archived->status ?? false)
             ->setSgArchivedAt($json->archived->at ?? 0)
             ->setSgArchivedMode($json->archived->mode ?? self::DEFAULT_ARCHIVE_MODE)
@@ -123,11 +123,14 @@ class Events implements ConfigModuleInterface
         $json->events_list_per_page = $this->getSgEventsListPerPage();
         $json->page_title = $this->getSgPageTitle();
 
-        $json->page = $this->getSgPage();
-        $json->calendar = $this->getSgCalendar();
-        $json->moduleReader = $this->getSgModuleReader();
-        $json->moduleList = $this->getSgModuleList();
-        $json->moduleCalendar = $this->getSgModuleCalendar();
+        $json->contao = new \stdClass();
+        $json->contao->page = $this->getSgPage();
+        $json->contao->calendar = $this->getSgCalendar();
+
+        $json->contao->module = new \stdClass();
+        $json->contao->module->reader = $this->getSgModuleReader();
+        $json->contao->module->list = $this->getSgModuleList();
+        $json->contao->module->calendar = $this->getSgModuleCalendar();
 
         $json->archived = new \stdClass();
         $json->archived->status = $this->getSgArchived();

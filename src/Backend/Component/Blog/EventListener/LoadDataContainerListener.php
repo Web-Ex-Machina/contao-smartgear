@@ -18,7 +18,7 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Symfony\Component\Security\Core\Security;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 

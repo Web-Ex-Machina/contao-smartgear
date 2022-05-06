@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Config;
+namespace WEM\SmartgearBundle\Config\Component\Core;
 
 use WEM\SmartgearBundle\Classes\Config\ConfigModuleInterface;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
@@ -105,13 +105,29 @@ class Core implements ConfigModuleInterface
     /** @var int */
     protected $sgTheme;
     /** @var int */
-    protected $sgRootPage;
+    protected $sgPageRoot;
+    /** @var int */
+    protected $sgPageHome;
+    /** @var int */
+    protected $sgPage404;
+    /** @var int */
+    protected $sgPageLegalNotice;
+    /** @var int */
+    protected $sgPagePrivacyPolitics;
+    /** @var int */
+    protected $sgPageSitemap;
     /** @var int */
     protected $sgUserWebmaster;
     /** @var int */
     protected $sgUserGroupWebmasters;
     /** @var int */
     protected $sgUserGroupAdministrators;
+    /** @var int */
+    protected $sgLayoutStandard;
+    /** @var int */
+    protected $sgLayoutFullwidth;
+    /** @var int */
+    protected $sgNotificationGatewayEmail;
     /** @var array */
     protected $sgModules = [];
     /** @var string */
@@ -126,7 +142,14 @@ class Core implements ConfigModuleInterface
         $this->setSgInstallComplete(false)
             ->setSgVersion(static::DEFAULT_VERSION)
             ->setSgTheme(null)
-            ->setSgRootPage(null)
+            ->setSgLayoutStandard(null)
+            ->setSgLayoutFullwidth(null)
+            ->setSgPageRoot(null)
+            ->setSgPageHome(null)
+            ->setSgPage404(null)
+            ->setSgPageLegalNotice(null)
+            ->setSgPagePrivacyPolitics(null)
+            ->setSgPageSitemap(null)
             ->setSgUserWebmaster(null)
             ->setSgUserGroupWebmasters(null)
             ->setSgUserGroupAdministrators(null)
@@ -134,6 +157,7 @@ class Core implements ConfigModuleInterface
             ->setSgSelectedModules([])
             ->setSgMode(static::DEFAULT_MODE)
             ->setSgWebsiteTitle('')
+            ->setSgNotificationGatewayEmail(null)
             ->setSgFramwayPath(self::DEFAULT_FRAMWAY_PATH)
             ->setSgFramwayThemes([])
             ->setSgAnalytics(static::DEFAULT_ANALYTICS_SYSTEM)
@@ -167,15 +191,23 @@ class Core implements ConfigModuleInterface
     {
         $this->setSgInstallComplete($json->installComplete ?? false)
             ->setSgVersion($json->version ?? static::DEFAULT_VERSION)
-            ->setSgTheme((int) $json->theme ?? null)
-            ->setSgRootPage($json->rootPage ?? null)
-            ->setSgUserWebmaster($json->userWebmaster ?? null)
-            ->setSgUserGroupWebmasters($json->userGroupWebmasters ?? null)
-            ->setSgUserGroupAdministrators($json->userGroupAdministrators ?? null)
-            ->setSgModules($json->modules ?? [])
+            ->setSgTheme((int) $json->contao->theme ?? null)
+            ->setSgLayoutStandard((int) $json->contao->layout->standard ?? null)
+            ->setSgLayoutFullwidth((int) $json->contao->layout->fullwidth ?? null)
+            ->setSgPageRoot($json->contao->pages->root ?? null)
+            ->setSgPageHome($json->contao->pages->home)
+            ->setSgPage404($json->contao->pages->error404)
+            ->setSgPageLegalNotice($json->contao->pages->legalNotice)
+            ->setSgPagePrivacyPolitics($json->contao->pages->privacyPolitics)
+            ->setSgPageSitemap($json->contao->pages->sitemap)
+            ->setSgUserWebmaster($json->contao->user->webmaster ?? null)
+            ->setSgUserGroupWebmasters($json->contao->userGroup->webmasters ?? null)
+            ->setSgUserGroupAdministrators($json->contao->userGroup->administrators ?? null)
+            ->setSgModules($json->contao->modules ?? [])
             ->setSgSelectedModules($json->selectedModules ?? [])
             ->setSgMode($json->mode ?? static::DEFAULT_MODE)
             ->setSgWebsiteTitle($json->websiteTitle ?? '')
+            ->setSgNotificationGatewayEmail($json->contao->notificationGateway->email ?? '')
             ->setSgFramwayPath($json->framway->path ?? self::DEFAULT_FRAMWAY_PATH)
             ->setSgFramwayThemes($json->framway->themes ?? [])
             ->setSgAnalytics($json->analytics->system ?? static::DEFAULT_ANALYTICS_SYSTEM)
@@ -218,17 +250,36 @@ class Core implements ConfigModuleInterface
         $json = new \stdClass();
         $json->installComplete = $this->getSgInstallComplete();
         $json->version = $this->getSgVersion();
-        $json->theme = $this->getSgTheme();
-        $json->rootPage = $this->getSgRootPage();
-        $json->userWebmaster = $this->getSgUserWebmaster();
-        $json->userGroupWebmasters = $this->getSgUserGroupWebmasters();
-        $json->userGroupAdministrators = $this->getSgUserGroupAdministrators();
-        $json->version = $this->getSgVersion();
         $json->selectedModules = $this->getSgSelectedModules();
-        $json->modules = $this->getSgModules();
         $json->mode = $this->getSgMode();
         $json->websiteTitle = $this->getSgWebsiteTitle();
         $json->googleFonts = $this->getSgGoogleFonts();
+
+        $json->contao = new \stdClass();
+        $json->contao->theme = $this->getSgTheme();
+        $json->contao->modules = $this->getSgModules();
+
+        $json->contao->pages = new \stdClass();
+        $json->contao->pages->root = $this->getSgPageRoot();
+        $json->contao->pages->home = $this->getSgPageHome();
+        $json->contao->pages->error404 = $this->getSgPage404();
+        $json->contao->pages->legalNotice = $this->getSgPageLegalNotice();
+        $json->contao->pages->privacyPolitics = $this->getSgPagePrivacyPolitics();
+        $json->contao->pages->sitemap = $this->getSgPageSitemap();
+
+        $json->contao->user = new \stdClass();
+        $json->contao->user->webmaster = $this->getSgUserWebmaster();
+
+        $json->contao->userGroup = new \stdClass();
+        $json->contao->userGroup->webmasters = $this->getSgUserGroupWebmasters();
+        $json->contao->userGroup->administrators = $this->getSgUserGroupAdministrators();
+
+        $json->contao->layout = new \stdClass();
+        $json->contao->layout->standard = $this->getSgLayoutStandard();
+        $json->contao->layout->fullwidth = $this->getSgLayoutFullwidth();
+
+        $json->contao->notificationGateway = new \stdClass();
+        $json->contao->notificationGateway->email = $this->getSgNotificationGatewayEmail();
 
         $json->framway = new \stdClass();
         $json->framway->path = $this->getSgFramwayPath();
@@ -636,14 +687,14 @@ class Core implements ConfigModuleInterface
         return $this;
     }
 
-    public function getSgRootPage(): ?int
+    public function getSgPageRoot(): ?int
     {
-        return $this->sgRootPage;
+        return $this->sgPageRoot;
     }
 
-    public function setSgRootPage(?int $sgRootPage = null): self
+    public function setSgPageRoot(?int $sgPageRoot = null): self
     {
-        $this->sgRootPage = $sgRootPage;
+        $this->sgPageRoot = $sgPageRoot;
 
         return $this;
     }
@@ -704,6 +755,102 @@ class Core implements ConfigModuleInterface
     public function setSgEvents(EventsConfig $sgEvents): self
     {
         $this->sgEvents = $sgEvents;
+
+        return $this;
+    }
+
+    public function getSgLayoutStandard(): ?int
+    {
+        return $this->sgLayoutStandard;
+    }
+
+    public function setSgLayoutStandard(?int $sgLayoutStandard): self
+    {
+        $this->sgLayoutStandard = $sgLayoutStandard;
+
+        return $this;
+    }
+
+    public function getSgLayoutFullwidth(): ?int
+    {
+        return $this->sgLayoutFullwidth;
+    }
+
+    public function setSgLayoutFullwidth(?int $sgLayoutFullwidth): self
+    {
+        $this->sgLayoutFullwidth = $sgLayoutFullwidth;
+
+        return $this;
+    }
+
+    public function getSgPageHome(): ?int
+    {
+        return $this->sgPageHome;
+    }
+
+    public function setSgPageHome(?int $sgPageHome): self
+    {
+        $this->sgPageHome = $sgPageHome;
+
+        return $this;
+    }
+
+    public function getSgPage404(): ?int
+    {
+        return $this->sgPage404;
+    }
+
+    public function setSgPage404(?int $sgPage404): self
+    {
+        $this->sgPage404 = $sgPage404;
+
+        return $this;
+    }
+
+    public function getSgPageLegalNotice(): ?int
+    {
+        return $this->sgPageLegalNotice;
+    }
+
+    public function setSgPageLegalNotice(?int $sgPageLegalNotice): self
+    {
+        $this->sgPageLegalNotice = $sgPageLegalNotice;
+
+        return $this;
+    }
+
+    public function getSgPagePrivacyPolitics(): ?int
+    {
+        return $this->sgPagePrivacyPolitics;
+    }
+
+    public function setSgPagePrivacyPolitics(?int $sgPagePrivacyPolitics): self
+    {
+        $this->sgPagePrivacyPolitics = $sgPagePrivacyPolitics;
+
+        return $this;
+    }
+
+    public function getSgPageSitemap(): ?int
+    {
+        return $this->sgPageSitemap;
+    }
+
+    public function setSgPageSitemap(?int $sgPageSitemap): self
+    {
+        $this->sgPageSitemap = $sgPageSitemap;
+
+        return $this;
+    }
+
+    public function getSgNotificationGatewayEmail(): ?int
+    {
+        return $this->sgNotificationGatewayEmail;
+    }
+
+    public function setSgNotificationGatewayEmail(?int $sgNotificationGatewayEmail): self
+    {
+        $this->sgNotificationGatewayEmail = $sgNotificationGatewayEmail;
 
         return $this;
     }

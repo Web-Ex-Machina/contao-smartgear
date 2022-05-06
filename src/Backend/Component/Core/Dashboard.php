@@ -27,7 +27,7 @@ use WEM\SmartgearBundle\Classes\Analyzer\Htaccess as HtaccessAnalyzer;
 use WEM\SmartgearBundle\Classes\Backend\Dashboard as BackendDashboard;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\Util;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\EnvFile as EnvFileConfig;
 use WEM\SmartgearBundle\Config\Manager\EnvFile as ConfigurationEnvFileManager;
 
