@@ -308,7 +308,7 @@ class Website extends ConfigurationStep
         $objLayout->viewport = 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0';
         $objLayout->modules = serialize($arrLayoutModules);
         $objLayout->template = 'fe_page';
-        // $objLayout->webfonts = '';
+        $objLayout->webfonts = $config->getSgGoogleFonts();
         $objLayout->head = $head;
         $objLayout->script = $script;
         $objLayout->save();
@@ -327,7 +327,7 @@ class Website extends ConfigurationStep
         $objLayout->viewport = 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0';
         $objLayout->modules = serialize($arrLayoutModules);
         $objLayout->template = 'fe_page_full';
-        // $objLayout->webfonts = '';
+        $objLayout->webfonts = $config->getSgGoogleFonts();
         $objLayout->head = $head;
         $objLayout->script = $script;
         $objLayout->save();
@@ -688,7 +688,7 @@ class Website extends ConfigurationStep
         return $pages;
     }
 
-    protected function createModules2(int $themeId, array $pages): void
+    protected function createModules2(int $themeId, array $pages): array
     {
         $registeredModules = $this->getConfigModulesAsFormattedArray();
         $modules = [];
@@ -706,6 +706,8 @@ class Website extends ConfigurationStep
         $objCustomNavModule->navigationTpl = 'nav_default';
         $objCustomNavModule->save();
         $modules[$objCustomNavModule->type] = $objCustomNavModule;
+
+        return $modules;
     }
 
     protected function createNotificationGateways(): array
