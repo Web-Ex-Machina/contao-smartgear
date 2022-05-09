@@ -6,6 +6,7 @@ services:
                 - '@smartgear.backend.component.core.listener.replace_insert_tags'
                 - '@smartgear.backend.component.blog.listener.replace_insert_tags'
                 - '@smartgear.backend.component.events.listener.replace_insert_tags'
+                - '@smartgear.backend.component.faq.listener.replace_insert_tags'
         public: true
 
     smartgear.listener.load_data_container:
@@ -17,6 +18,7 @@ services:
             $listeners:
                 - '@smartgear.backend.component.blog.listener.load_data_container'
                 - '@smartgear.backend.component.events.listener.load_data_container'
+                - '@smartgear.backend.component.faq.listener.load_data_container'
         public: true
         
     smartgear.listener.generate_breadcrumb:

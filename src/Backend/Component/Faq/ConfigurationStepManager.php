@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Backend\Component\Events;
+namespace WEM\SmartgearBundle\Backend\Component\Faq;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStepManager as ConfigurationStepManagerBase;
@@ -37,9 +37,9 @@ class ConfigurationStepManager extends ConfigurationStepManagerBase
     public function setInstallAsComplete(): void
     {
         $config = $this->configurationManager->load();
-        $eventsConfig = $config->getSgEvents();
-        $eventsConfig->setSgInstallComplete(true);
-        $config->setSgEvents($eventsConfig);
+        $faqConfig = $config->getSgFaq();
+        $faqConfig->setSgInstallComplete(true);
+        $config->setSgFaq($faqConfig);
         $this->configurationManager->save($config);
     }
 }

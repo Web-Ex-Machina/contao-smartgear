@@ -995,7 +995,7 @@
 			<target>Contenu</target>
 		</trans-unit>
 
-				<!-- Events -->
+		<!-- Events -->
 		<trans-unit id="WEMSG.EVENTS.MODE.simple">
 			<source>Simple</source>
 			<target>Simple</target>
@@ -1139,6 +1139,83 @@
 		<trans-unit id="WEMSG.EVENTS.FORM.paletteTeaserLabel">
 			<source>Content</source>
 			<target>Contenu</target>
+		</trans-unit>
+				<!-- Faq -->
+		<trans-unit id="WEMSG.FAQ.INSTALL_GENERAL.title">
+			<source>Installation</source>
+			<target>Installation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.INSTALL_GENERAL.faqTitle">
+			<source>FAQ title</source>
+			<target>Titre de la FAQ</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.INSTALL_GENERAL.pageTitle">
+			<source>FAQ's page title</source>
+			<target>Titre de la page de la FAQ</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.INSTALL_GENERAL.faqConfigMissing">
+			<source>Faq configuration is missing</source>
+			<target>La configuration n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.INSTALL_GENERAL.faqTitleMissing">
+			<source>FAQ's title is missing</source>
+			<target>Le titre de la FAQ n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.INSTALL_GENERAL.pageTitleMissing">
+			<source>FAQ's page title is missing</source>
+			<target>Le titre de la page de la FAQ n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.INSTALL_GENERAL.pageDescription">
+			<source>%s of %s's website</source>
+			<target>%s du site %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.INSTALL_DATASET.title">
+			<source>Dataset</source>
+			<target>Jeu de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.INSTALL_DATASET.datasetOptionNone">
+			<source>Aucun</source>
+			<target>Aucun</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.RESET.title">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.RESET.deleteModeLabel">
+			<source>Uninstall mode</source>
+			<target>Mode de désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.RESET.deleteModeArchiveLabel">
+			<source>Archive</source>
+			<target>Archiver</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.RESET.deleteModeArchiveDescription">
+			<source>Files folder will be moved to `files/archives/faq-{timestamp}` and faq's name suffixed with " (Archive-{timestamp})".</source>
+			<target>Le dossier de fichiers associé à la FAQ sera déplacé vers `files/archives/faq-{timestamp}` et le nom de la FAQ sera suffixé par " (Archive-{timestamp})".</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.RESET.deleteModeKeepLabel">
+			<source>Keep</source>
+			<target>Conserver</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.RESET.deleteModeKeepDescription">
+			<source>All data will be kept in place.</source>
+			<target>Toutes les données seront conservées et ne seront pas déplacées.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.RESET.deleteModeDeleteLabel">
+			<source>Delete</source>
+			<target>Supprimer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.RESET.deleteModeDeleteDescription">
+			<source>Files and faq will be deleted.</source>
+			<target>Les fichiers ainsi que la FAQ seront supprimés.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.RESET.deleteModeUnknown">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FAQ.DASHBOARD.mode">
+			<source>Mode : %s</source>
+			<target>Mode : %s</target>
 		</trans-unit>
 
 

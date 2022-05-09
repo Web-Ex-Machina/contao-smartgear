@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Config\Component\Core;
 use WEM\SmartgearBundle\Classes\Config\ConfigModuleInterface;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
+use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
 
 class Core implements ConfigModuleInterface
 {
@@ -156,6 +157,8 @@ class Core implements ConfigModuleInterface
     protected $sgBlog;
     /** @var EventsConfig */
     protected $sgEvents;
+    /** @var FaqConfig */
+    protected $sgFaq;
 
     public function reset(): self
     {
@@ -212,6 +215,7 @@ class Core implements ConfigModuleInterface
             ->setSgApiKey(self::DEFAULT_API_KEY)
             ->setSgBlog((new BlogConfig())->reset())
             ->setSgEvents((new EventsConfig())->reset())
+            ->setSgFaq((new FaqConfig())->reset())
         ;
 
         return $this;
@@ -221,28 +225,28 @@ class Core implements ConfigModuleInterface
     {
         $this->setSgInstallComplete($json->installComplete ?? false)
             ->setSgVersion($json->version ?? static::DEFAULT_VERSION)
-            ->setSgTheme((int) $json->contao->theme ?? null)
-            ->setSgLayoutStandard((int) $json->contao->layouts->standard ?? null)
-            ->setSgLayoutFullwidth((int) $json->contao->layouts->fullwidth ?? null)
-            ->setSgPageRoot((int) $json->contao->pages->root ?? null)
-            ->setSgPageHome((int) $json->contao->pages->home ?? null)
-            ->setSgPage404((int) $json->contao->pages->error404 ?? null)
-            ->setSgPageLegalNotice((int) $json->contao->pages->legalNotice ?? null)
-            ->setSgPagePrivacyPolitics((int) $json->contao->pages->privacyPolitics ?? null)
-            ->setSgPageSitemap((int) $json->contao->pages->sitemap ?? null)
-            ->setSgArticleHome((int) $json->contao->articles->home ?? null)
-            ->setSgArticle404((int) $json->contao->articles->error404 ?? null)
-            ->setSgArticleLegalNotice((int) $json->contao->articles->legalNotice ?? null)
-            ->setSgArticlePrivacyPolitics((int) $json->contao->articles->privacyPolitics ?? null)
-            ->setSgArticleSitemap((int) $json->contao->articles->sitemap ?? null)
-            ->setSgContent404Headline((int) $json->contao->contents->error404Headline ?? null)
-            ->setSgContent404Sitemap((int) $json->contao->contents->error404Sitemap ?? null)
-            ->setSgContentLegalNotice((int) $json->contao->contents->legalNotice ?? null)
-            ->setSgContentPrivacyPolitics((int) $json->contao->contents->privacyPolitics ?? null)
-            ->setSgContentSitemap((int) $json->contao->contents->sitemap ?? null)
-            ->setSgUserWebmaster((int) $json->contao->users->webmaster ?? null)
-            ->setSgUserGroupWebmasters((int) $json->contao->userGroups->webmasters ?? null)
-            ->setSgUserGroupAdministrators((int) $json->contao->userGroups->administrators ?? null)
+            ->setSgTheme($json->contao->theme ?? null)
+            ->setSgLayoutStandard($json->contao->layouts->standard ?? null)
+            ->setSgLayoutFullwidth($json->contao->layouts->fullwidth ?? null)
+            ->setSgPageRoot($json->contao->pages->root ?? null)
+            ->setSgPageHome($json->contao->pages->home ?? null)
+            ->setSgPage404($json->contao->pages->error404 ?? null)
+            ->setSgPageLegalNotice($json->contao->pages->legalNotice ?? null)
+            ->setSgPagePrivacyPolitics($json->contao->pages->privacyPolitics ?? null)
+            ->setSgPageSitemap($json->contao->pages->sitemap ?? null)
+            ->setSgArticleHome($json->contao->articles->home ?? null)
+            ->setSgArticle404($json->contao->articles->error404 ?? null)
+            ->setSgArticleLegalNotice($json->contao->articles->legalNotice ?? null)
+            ->setSgArticlePrivacyPolitics($json->contao->articles->privacyPolitics ?? null)
+            ->setSgArticleSitemap($json->contao->articles->sitemap ?? null)
+            ->setSgContent404Headline($json->contao->contents->error404Headline ?? null)
+            ->setSgContent404Sitemap($json->contao->contents->error404Sitemap ?? null)
+            ->setSgContentLegalNotice($json->contao->contents->legalNotice ?? null)
+            ->setSgContentPrivacyPolitics($json->contao->contents->privacyPolitics ?? null)
+            ->setSgContentSitemap($json->contao->contents->sitemap ?? null)
+            ->setSgUserWebmaster($json->contao->users->webmaster ?? null)
+            ->setSgUserGroupWebmasters($json->contao->userGroups->webmasters ?? null)
+            ->setSgUserGroupAdministrators($json->contao->userGroups->administrators ?? null)
             ->setSgModules($json->contao->modules ?? [])
             ->setSgSelectedModules($json->selectedModules ?? [])
             ->setSgMode($json->mode ?? static::DEFAULT_MODE)
@@ -279,6 +283,11 @@ class Core implements ConfigModuleInterface
                 $json->events
                 ? (new EventsConfig())->import($json->events)
                 : (new EventsConfig())->reset()
+            )
+            ->setSgFaq(
+                $json->faq
+                ? (new FaqConfig())->import($json->faq)
+                : (new FaqConfig())->reset()
             )
         ;
 
@@ -369,6 +378,7 @@ class Core implements ConfigModuleInterface
 
         $json->blog = $this->getSgBlog()->export();
         $json->events = $this->getSgEvents()->export();
+        $json->faq = $this->getSgFaq()->export();
 
         return json_encode($json, \JSON_PRETTY_PRINT);
     }
@@ -809,6 +819,18 @@ class Core implements ConfigModuleInterface
     public function setSgEvents(EventsConfig $sgEvents): self
     {
         $this->sgEvents = $sgEvents;
+
+        return $this;
+    }
+
+    public function getSgFaq(): FaqConfig
+    {
+        return $this->sgFaq;
+    }
+
+    public function setSgFaq(FaqConfig $sgFaq): self
+    {
+        $this->sgFaq = $sgFaq;
 
         return $this;
     }

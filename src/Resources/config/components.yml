@@ -306,3 +306,83 @@ services:
         arguments:
             $coreConfigurationManager: '@smartgear.config.manager.core'
         public: true
+
+    
+
+    ############ EVENTS ############
+    
+    smartgear.backend.component.faq.block:
+        class: WEM\SmartgearBundle\Backend\Component\Faq\Block
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+            $configurationStepManager: '@smartgear.backend.component.faq.configuration_step_manager'
+            $resetStepManager: '@smartgear.backend.component.faq.reset_step_manager'
+            $dashboard: '@smartgear.backend.component.faq.dashboard'
+        public: true
+
+    smartgear.backend.component.faq.configuration_step_manager:
+        class: WEM\SmartgearBundle\Backend\Component\Faq\ConfigurationStepManager
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'faq'
+            $type: 'component'
+            $stepSessionKey: 'sg_faq_install_step'
+            $steps: 
+                - '@smartgear.backend.component.faq.configuration_step.general'
+        public: true
+
+    smartgear.backend.component.faq.configuration_step.general:
+        class: WEM\SmartgearBundle\Backend\Component\Faq\ConfigurationStep\General
+        arguments:
+            $module: 'faq'
+            $type: 'component'
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+            $commandUtil: '@smartgear.classes.command.util'
+        public: true
+
+    smartgear.backend.component.faq.dashboard:
+        class: WEM\SmartgearBundle\Backend\Component\Faq\Dashboard
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'faq'
+            $type: 'component'
+        public: true
+
+    smartgear.backend.component.faq.reset_step_manager:
+        class: WEM\SmartgearBundle\Backend\Component\Faq\ResetStepManager
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'faq'
+            $type: 'component'
+            $stepSessionKey: 'sg_core_reset_step'
+            $steps: 
+                - '@smartgear.backend.component.faq.reset_step.general'
+        public: true
+
+    smartgear.backend.component.faq.reset_step.general:
+        class: WEM\SmartgearBundle\Backend\Component\Faq\ResetStep\General
+        arguments:
+            $module: 'faq'
+            $type: 'component'
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.backend.component.faq.listener.replace_insert_tags:
+        class: WEM\SmartgearBundle\Backend\Component\Faq\EventListener\ReplaceInsertTagsListener
+        arguments:
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.backend.component.faq.listener.load_data_container:
+        class: WEM\SmartgearBundle\Backend\Component\Faq\EventListener\LoadDataContainerListener
+        arguments:
+            $security: '@security.helper'
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+            $dcaManipulator: '@smartgear.classes.dca.manipulator'
+        public: true

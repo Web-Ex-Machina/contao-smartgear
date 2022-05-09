@@ -288,6 +288,10 @@ class tl_wem_sg_module extends tl_module
             ) {
                 return true;
             }
+            $faqConfig = $config->getSgFaq();
+            if ($faqConfig->getSgInstallComplete() && $id === (int) $faqConfig->getSgModuleFaq()) {
+                return true;
+            }
         } catch (\Exception $e) {
         }
 

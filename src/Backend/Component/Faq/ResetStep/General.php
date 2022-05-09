@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Backend\Component\Events\ResetStep;
+namespace WEM\SmartgearBundle\Backend\Component\Faq\ResetStep;
 
 use Contao\CalendarModel;
 use Contao\FilesModel;
@@ -25,7 +25,7 @@ use WEM\SmartgearBundle\Classes\Backend\AbstractStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
-use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
+use WEM\SmartgearBundle\Config\Component\Faq\Faq as EventsConfig;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class General extends AbstractStep
@@ -33,7 +33,7 @@ class General extends AbstractStep
     /** @var ConfigurationManager */
     protected $configurationManager;
 
-    protected $strTemplate = 'be_wem_sg_install_block_reset_step_events_general';
+    protected $strTemplate = 'be_wem_sg_install_block_reset_step_faq_general';
 
     public function __construct(
         string $module,
@@ -88,12 +88,12 @@ class General extends AbstractStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
         /** @var EventsConfig */
-        $eventsConfig = $config->getSgEvents();
+        $eventsConfig = $config->getSgFaq();
         $archiveTimestamp = time();
 
         switch ($deleteMode) {
             case EventsConfig::ARCHIVE_MODE_ARCHIVE:
-                $objFolder = new \Contao\Folder($eventsConfig->getSgEventsFolder());
+                $objFolder = new \Contao\Folder($eventsConfig->getSgFaqFolder());
                 $objCalendar = CalendarModel::findById($eventsConfig->getSgCalendar());
 
                 $objFolder->renameTo(sprintf('files/archives/events-%s', (string) $archiveTimestamp));
@@ -104,7 +104,7 @@ class General extends AbstractStep
             case EventsConfig::ARCHIVE_MODE_KEEP:
             break;
             case EventsConfig::ARCHIVE_MODE_DELETE:
-                $objFolder = new \Contao\Folder($eventsConfig->getSgEventsFolder());
+                $objFolder = new \Contao\Folder($eventsConfig->getSgFaqFolder());
                 $objCalendar = CalendarModel::findById($eventsConfig->getSgCalendar());
 
                 $objFolder->delete();
@@ -124,7 +124,7 @@ class General extends AbstractStep
             ->setSgArchivedAt($archiveTimestamp)
         ;
 
-        $config->setSgEvents($eventsConfig);
+        $config->setSgFaq($eventsConfig);
 
         $this->configurationManager->save($config);
     }
@@ -134,7 +134,7 @@ class General extends AbstractStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
         /** @var EventsConfig */
-        $eventsConfig = $config->getSgEvents();
+        $eventsConfig = $config->getSgFaq();
 
         $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
         $objUserGroup = $this->resetUserGroupSmartgearPermissions($objUserGroup);
@@ -174,7 +174,7 @@ class General extends AbstractStep
     protected function resetUserGroupAllowedDirectory(UserGroupModel $objUserGroup, EventsConfig $eventsConfig): UserGroupModel
     {
         // add allowed directory
-        $objFolder = FilesModel::findByPath($eventsConfig->getSgEventsFolder());
+        $objFolder = FilesModel::findByPath($eventsConfig->getSgFaqFolder());
         if (!$objFolder) {
             throw new Exception('Unable to find the folder');
         }
