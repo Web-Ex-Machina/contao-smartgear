@@ -125,6 +125,7 @@ class General extends ConfigurationStep
         $this->updateModuleConfigurationAfterGenerations($page, $article, $newsArchive, $modules, $contents);
         $this->updateUserGroups((bool) Input::post('expertMode', false));
         $this->commandUtil->executeCmdPHP('cache:clear');
+        $this->commandUtil->executeCmdPHP('contao:symlinks');
     }
 
     public function presetAdd()

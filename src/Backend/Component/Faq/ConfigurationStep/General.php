@@ -87,8 +87,9 @@ class General extends ConfigurationStep
         $modules = $this->createModules($page, $faqCategory);
         $contents = $this->fillArticle($page, $article, $modules);
         $this->updateModuleConfigurationAfterGenerations($page, $article, $faqCategory, $modules, $contents);
-        $this->updateUserGroups((bool) Input::post('expertMode', false));
+        $this->updateUserGroups();
         $this->commandUtil->executeCmdPHP('cache:clear');
+        $this->commandUtil->executeCmdPHP('contao:symlinks');
     }
 
     protected function updateModuleConfiguration(): void

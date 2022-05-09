@@ -185,6 +185,8 @@ class Website extends ConfigurationStep
 
         $notificationGateways = $this->createNotificationGateways();
         $this->updateModuleConfigurationNotificationGateways($notificationGateways);
+        $this->commandUtil->executeCmdPHP('cache:clear');
+        $this->commandUtil->executeCmdPHP('contao:symlinks');
     }
 
     protected function createClientFilesFolders(): void
