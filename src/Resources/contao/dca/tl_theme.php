@@ -18,19 +18,15 @@ use Contao\Input;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
-DCAManipulator::create('tl_news_archive')
-    ->addConfigOnloadCallback('tl_wem_sg_news_archive', 'checkPermission')
-    ->setListOperationsDeleteButtonCallback('tl_wem_sg_news_archive', 'deleteArchive')
+DCAManipulator::create('tl_theme')
+    ->addConfigOnloadCallback('tl_wem_sg_theme', 'checkPermission')
+    ->setListOperationsDeleteButtonCallback('tl_wem_sg_theme', 'deleteTheme')
 ;
-/**
- * Provide miscellaneous methods that are used by the data configuration array.
- *
- * @property News $News
- */
-class tl_wem_sg_news_archive extends tl_news_archive
+
+class tl_wem_sg_theme extends tl_theme
 {
     /**
-     * Check permissions to edit table tl_news_archive.
+     * Check permissions to edit table tl_theme.
      *
      * @throws AccessDeniedException
      */
@@ -41,15 +37,15 @@ class tl_wem_sg_news_archive extends tl_news_archive
         // Check current action
         switch (Input::get('act')) {
             case 'delete':
-                if ($this->isArchiveUsedBySmartgear((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' news archive ID '.Input::get('id').'.');
+                if ($this->isThemeUsedBySmartgear((int) Input::get('id'))) {
+                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' theme ID '.Input::get('id').'.');
                 }
             break;
         }
     }
 
     /**
-     * Return the delete archive button.
+     * Return the delete theme button.
      *
      * @param array  $row
      * @param string $href
@@ -60,26 +56,26 @@ class tl_wem_sg_news_archive extends tl_news_archive
      *
      * @return string
      */
-    public function deleteArchive($row, $href, $label, $title, $icon, $attributes)
+    public function deleteTheme($row, $href, $label, $title, $icon, $attributes)
     {
-        if ($this->isArchiveUsedBySmartgear((int) $row['id'])) {
+        if ($this->isThemeUsedBySmartgear((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
-        return parent::deleteArchive($row, $href, $label, $title, $icon, $attributes);
+        return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ';
     }
 
     /**
-     * Check if the news archive is being used by Smartgear.
+     * Check if the theme is being used by Smartgear.
      *
-     * @param int $id News archive's ID
+     * @param int $id theme's ID
      */
-    protected function isArchiveUsedBySmartgear(int $id): bool
+    protected function isThemeUsedBySmartgear(int $id): bool
     {
         $configManager = System::getContainer()->get('smartgear.config.manager.core');
         try {
-            $blogConfig = $configManager->load()->getSgBlog();
-            if ($blogConfig->getSgInstallComplete() && $id === (int) $blogConfig->getSgNewsArchive()) {
+            $config = $configManager->load();
+            if ($config->getSgInstallComplete() && $id === (int) $config->getSgTheme()) {
                 return true;
             }
         } catch (\Exception $e) {

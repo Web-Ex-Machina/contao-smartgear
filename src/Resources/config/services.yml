@@ -151,6 +151,10 @@ services:
             $commandUtil: '@smartgear.classes.command.util'
         public: true
 
+    smartgear.classes.dca.manipulator:
+        class: WEM\SmartgearBundle\Classes\Dca\Manipulator
+        public: true
+
     smartgear.classes.template_finder:
         class: WEM\SmartgearBundle\Classes\TemplateFinder
         arguments:

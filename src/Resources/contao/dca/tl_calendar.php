@@ -16,8 +16,12 @@ use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
+use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
-$GLOBALS['TL_DCA']['tl_calendar']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_calendar', 'deleteCalendar'];
+DCAManipulator::create('tl_calendar')
+    ->addConfigOnloadCallback('tl_wem_sg_calendar', 'checkPermission')
+    ->setListOperationsDeleteButtonCallback('tl_wem_sg_calendar', 'deleteCalendar')
+;
 
 /**
  * Provide miscellaneous methods that are used by the data configuration array.
@@ -60,7 +64,7 @@ class tl_wem_sg_calendar extends tl_calendar
     public function deleteCalendar($row, $href, $label, $title, $icon, $attributes)
     {
         if ($this->isCalendarUsedBySmartgear((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon));
+            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
         return parent::deleteCalendar($row, $href, $label, $title, $icon, $attributes);
@@ -69,14 +73,14 @@ class tl_wem_sg_calendar extends tl_calendar
     /**
      * Check if the calendar is being used by Smartgear.
      *
-     * @param int $id News archive's ID
+     * @param int $id calendar's ID
      */
     protected function isCalendarUsedBySmartgear(int $id): bool
     {
         $configManager = System::getContainer()->get('smartgear.config.manager.core');
         try {
-            $blogConfig = $configManager->load()->getSgBlog();
-            if ($blogConfig->getSgInstallComplete() && $id === (int) $blogConfig->getSgNewsArchive()) {
+            $eventsConfig = $configManager->load()->getSgEvents();
+            if ($eventsConfig->getSgInstallComplete() && $id === (int) $eventsConfig->getSgCalendar()) {
                 return true;
             }
         } catch (\Exception $e) {

@@ -117,6 +117,26 @@ class Core implements ConfigModuleInterface
     /** @var int */
     protected $sgPageSitemap;
     /** @var int */
+    protected $sgArticleHome;
+    /** @var int */
+    protected $sgArticle404;
+    /** @var int */
+    protected $sgArticleLegalNotice;
+    /** @var int */
+    protected $sgArticlePrivacyPolitics;
+    /** @var int */
+    protected $sgArticleSitemap;
+    /** @var int */
+    protected $sgContent404Headline;
+    /** @var int */
+    protected $sgContent404Sitemap;
+    /** @var int */
+    protected $sgContentLegalNotice;
+    /** @var int */
+    protected $sgContentPrivacyPolitics;
+    /** @var int */
+    protected $sgContentSitemap;
+    /** @var int */
     protected $sgUserWebmaster;
     /** @var int */
     protected $sgUserGroupWebmasters;
@@ -150,6 +170,16 @@ class Core implements ConfigModuleInterface
             ->setSgPageLegalNotice(null)
             ->setSgPagePrivacyPolitics(null)
             ->setSgPageSitemap(null)
+            ->setSgArticleHome(null)
+            ->setSgArticle404(null)
+            ->setSgArticleLegalNotice(null)
+            ->setSgArticlePrivacyPolitics(null)
+            ->setSgArticleSitemap(null)
+            ->setSgContent404Headline(null)
+            ->setSgContent404Sitemap(null)
+            ->setSgContentLegalNotice(null)
+            ->setSgContentPrivacyPolitics(null)
+            ->setSgContentSitemap(null)
             ->setSgUserWebmaster(null)
             ->setSgUserGroupWebmasters(null)
             ->setSgUserGroupAdministrators(null)
@@ -192,22 +222,32 @@ class Core implements ConfigModuleInterface
         $this->setSgInstallComplete($json->installComplete ?? false)
             ->setSgVersion($json->version ?? static::DEFAULT_VERSION)
             ->setSgTheme((int) $json->contao->theme ?? null)
-            ->setSgLayoutStandard((int) $json->contao->layout->standard ?? null)
-            ->setSgLayoutFullwidth((int) $json->contao->layout->fullwidth ?? null)
-            ->setSgPageRoot($json->contao->pages->root ?? null)
-            ->setSgPageHome($json->contao->pages->home)
-            ->setSgPage404($json->contao->pages->error404)
-            ->setSgPageLegalNotice($json->contao->pages->legalNotice)
-            ->setSgPagePrivacyPolitics($json->contao->pages->privacyPolitics)
-            ->setSgPageSitemap($json->contao->pages->sitemap)
-            ->setSgUserWebmaster($json->contao->user->webmaster ?? null)
-            ->setSgUserGroupWebmasters($json->contao->userGroup->webmasters ?? null)
-            ->setSgUserGroupAdministrators($json->contao->userGroup->administrators ?? null)
+            ->setSgLayoutStandard((int) $json->contao->layouts->standard ?? null)
+            ->setSgLayoutFullwidth((int) $json->contao->layouts->fullwidth ?? null)
+            ->setSgPageRoot((int) $json->contao->pages->root ?? null)
+            ->setSgPageHome((int) $json->contao->pages->home ?? null)
+            ->setSgPage404((int) $json->contao->pages->error404 ?? null)
+            ->setSgPageLegalNotice((int) $json->contao->pages->legalNotice ?? null)
+            ->setSgPagePrivacyPolitics((int) $json->contao->pages->privacyPolitics ?? null)
+            ->setSgPageSitemap((int) $json->contao->pages->sitemap ?? null)
+            ->setSgArticleHome((int) $json->contao->articles->home ?? null)
+            ->setSgArticle404((int) $json->contao->articles->error404 ?? null)
+            ->setSgArticleLegalNotice((int) $json->contao->articles->legalNotice ?? null)
+            ->setSgArticlePrivacyPolitics((int) $json->contao->articles->privacyPolitics ?? null)
+            ->setSgArticleSitemap((int) $json->contao->articles->sitemap ?? null)
+            ->setSgContent404Headline((int) $json->contao->contents->error404Headline ?? null)
+            ->setSgContent404Sitemap((int) $json->contao->contents->error404Sitemap ?? null)
+            ->setSgContentLegalNotice((int) $json->contao->contents->legalNotice ?? null)
+            ->setSgContentPrivacyPolitics((int) $json->contao->contents->privacyPolitics ?? null)
+            ->setSgContentSitemap((int) $json->contao->contents->sitemap ?? null)
+            ->setSgUserWebmaster((int) $json->contao->users->webmaster ?? null)
+            ->setSgUserGroupWebmasters((int) $json->contao->userGroups->webmasters ?? null)
+            ->setSgUserGroupAdministrators((int) $json->contao->userGroups->administrators ?? null)
             ->setSgModules($json->contao->modules ?? [])
             ->setSgSelectedModules($json->selectedModules ?? [])
             ->setSgMode($json->mode ?? static::DEFAULT_MODE)
             ->setSgWebsiteTitle($json->websiteTitle ?? '')
-            ->setSgNotificationGatewayEmail($json->contao->notificationGateway->email ?? '')
+            ->setSgNotificationGatewayEmail($json->contao->notificationGateways->email ?? '')
             ->setSgFramwayPath($json->framway->path ?? self::DEFAULT_FRAMWAY_PATH)
             ->setSgFramwayThemes($json->framway->themes ?? [])
             ->setSgAnalytics($json->analytics->system ?? static::DEFAULT_ANALYTICS_SYSTEM)
@@ -267,19 +307,33 @@ class Core implements ConfigModuleInterface
         $json->contao->pages->privacyPolitics = $this->getSgPagePrivacyPolitics();
         $json->contao->pages->sitemap = $this->getSgPageSitemap();
 
-        $json->contao->user = new \stdClass();
-        $json->contao->user->webmaster = $this->getSgUserWebmaster();
+        $json->contao->articles = new \stdClass();
+        $json->contao->articles->home = $this->getSgArticleHome();
+        $json->contao->articles->error404 = $this->getSgArticle404();
+        $json->contao->articles->legalNotice = $this->getSgArticleLegalNotice();
+        $json->contao->articles->privacyPolitics = $this->getSgArticlePrivacyPolitics();
+        $json->contao->articles->sitemap = $this->getSgArticleSitemap();
 
-        $json->contao->userGroup = new \stdClass();
-        $json->contao->userGroup->webmasters = $this->getSgUserGroupWebmasters();
-        $json->contao->userGroup->administrators = $this->getSgUserGroupAdministrators();
+        $json->contao->contents = new \stdClass();
+        $json->contao->contents->error404Headline = $this->getSgContent404Headline();
+        $json->contao->contents->error404Sitemap = $this->getSgContent404Sitemap();
+        $json->contao->contents->legalNotice = $this->getSgContentLegalNotice();
+        $json->contao->contents->privacyPolitics = $this->getSgContentPrivacyPolitics();
+        $json->contao->contents->sitemap = $this->getSgContentSitemap();
 
-        $json->contao->layout = new \stdClass();
-        $json->contao->layout->standard = $this->getSgLayoutStandard();
-        $json->contao->layout->fullwidth = $this->getSgLayoutFullwidth();
+        $json->contao->users = new \stdClass();
+        $json->contao->users->webmaster = $this->getSgUserWebmaster();
 
-        $json->contao->notificationGateway = new \stdClass();
-        $json->contao->notificationGateway->email = $this->getSgNotificationGatewayEmail();
+        $json->contao->userGroups = new \stdClass();
+        $json->contao->userGroups->webmasters = $this->getSgUserGroupWebmasters();
+        $json->contao->userGroups->administrators = $this->getSgUserGroupAdministrators();
+
+        $json->contao->layouts = new \stdClass();
+        $json->contao->layouts->standard = $this->getSgLayoutStandard();
+        $json->contao->layouts->fullwidth = $this->getSgLayoutFullwidth();
+
+        $json->contao->notificationGateways = new \stdClass();
+        $json->contao->notificationGateways->email = $this->getSgNotificationGatewayEmail();
 
         $json->framway = new \stdClass();
         $json->framway->path = $this->getSgFramwayPath();
@@ -851,6 +905,126 @@ class Core implements ConfigModuleInterface
     public function setSgNotificationGatewayEmail(?int $sgNotificationGatewayEmail): self
     {
         $this->sgNotificationGatewayEmail = $sgNotificationGatewayEmail;
+
+        return $this;
+    }
+
+    public function getSgArticleHome(): ?int
+    {
+        return $this->sgArticleHome;
+    }
+
+    public function setSgArticleHome(?int $sgArticleHome): self
+    {
+        $this->sgArticleHome = $sgArticleHome;
+
+        return $this;
+    }
+
+    public function getSgArticle404(): ?int
+    {
+        return $this->sgArticle404;
+    }
+
+    public function setSgArticle404(?int $sgArticle404): self
+    {
+        $this->sgArticle404 = $sgArticle404;
+
+        return $this;
+    }
+
+    public function getSgArticleLegalNotice(): ?int
+    {
+        return $this->sgArticleLegalNotice;
+    }
+
+    public function setSgArticleLegalNotice(?int $sgArticleLegalNotice): self
+    {
+        $this->sgArticleLegalNotice = $sgArticleLegalNotice;
+
+        return $this;
+    }
+
+    public function getSgArticlePrivacyPolitics(): ?int
+    {
+        return $this->sgArticlePrivacyPolitics;
+    }
+
+    public function setSgArticlePrivacyPolitics(?int $sgArticlePrivacyPolitics): self
+    {
+        $this->sgArticlePrivacyPolitics = $sgArticlePrivacyPolitics;
+
+        return $this;
+    }
+
+    public function getSgArticleSitemap(): ?int
+    {
+        return $this->sgArticleSitemap;
+    }
+
+    public function setSgArticleSitemap(?int $sgArticleSitemap): self
+    {
+        $this->sgArticleSitemap = $sgArticleSitemap;
+
+        return $this;
+    }
+
+    public function getSgContent404Headline(): ?int
+    {
+        return $this->sgContent404Headline;
+    }
+
+    public function setSgContent404Headline(?int $sgContent404Headline): self
+    {
+        $this->sgContent404Headline = $sgContent404Headline;
+
+        return $this;
+    }
+
+    public function getSgContent404Sitemap(): ?int
+    {
+        return $this->sgContent404Sitemap;
+    }
+
+    public function setSgContent404Sitemap(?int $sgContent404Sitemap): self
+    {
+        $this->sgContent404Sitemap = $sgContent404Sitemap;
+
+        return $this;
+    }
+
+    public function getSgContentLegalNotice(): ?int
+    {
+        return $this->sgContentLegalNotice;
+    }
+
+    public function setSgContentLegalNotice(?int $sgContentLegalNotice): self
+    {
+        $this->sgContentLegalNotice = $sgContentLegalNotice;
+
+        return $this;
+    }
+
+    public function getSgContentPrivacyPolitics(): ?int
+    {
+        return $this->sgContentPrivacyPolitics;
+    }
+
+    public function setSgContentPrivacyPolitics(?int $sgContentPrivacyPolitics): self
+    {
+        $this->sgContentPrivacyPolitics = $sgContentPrivacyPolitics;
+
+        return $this;
+    }
+
+    public function getSgContentSitemap(): ?int
+    {
+        return $this->sgContentSitemap;
+    }
+
+    public function setSgContentSitemap(?int $sgContentSitemap): self
+    {
+        $this->sgContentSitemap = $sgContentSitemap;
 
         return $this;
     }

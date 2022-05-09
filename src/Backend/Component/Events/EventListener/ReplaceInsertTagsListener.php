@@ -76,6 +76,15 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 case 'events_page':
                     return $eventsConfig->getSgPage();
                 break;
+                case 'events_article':
+                    return (string) $eventsConfig->getSgArticle();
+                break;
+                case 'events_contentHeadline':
+                    return (string) $eventsConfig->getSgContentHeadline();
+                break;
+                case 'events_contentList':
+                    return (string) $eventsConfig->getSgContentList();
+                break;
                 case 'events_moduleReader':
                     return $eventsConfig->getSgModuleReader();
                 break;

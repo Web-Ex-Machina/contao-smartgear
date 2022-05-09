@@ -201,6 +201,7 @@ services:
         arguments:
             $security: '@security.helper'
             $coreConfigurationManager: '@smartgear.config.manager.core'
+            $dcaManipulator: '@smartgear.classes.dca.manipulator'
         public: true
         
     smartgear.backend.component.blog.listener.generate_breadcrumb:
@@ -297,6 +298,7 @@ services:
         arguments:
             $security: '@security.helper'
             $coreConfigurationManager: '@smartgear.config.manager.core'
+            $dcaManipulator: '@smartgear.classes.dca.manipulator'
         public: true
         
     smartgear.backend.component.events.listener.generate_breadcrumb:

@@ -18,19 +18,20 @@ use Contao\Input;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
-DCAManipulator::create('tl_news_archive')
-    ->addConfigOnloadCallback('tl_wem_sg_news_archive', 'checkPermission')
-    ->setListOperationsDeleteButtonCallback('tl_wem_sg_news_archive', 'deleteArchive')
+DCAManipulator::create('tl_layout')
+    ->addConfigOnloadCallback('tl_wem_sg_layout', 'checkPermission')
+    ->setListOperationsDeleteButtonCallback('tl_wem_sg_layout', 'deleteLayout')
 ;
+
 /**
  * Provide miscellaneous methods that are used by the data configuration array.
  *
  * @property News $News
  */
-class tl_wem_sg_news_archive extends tl_news_archive
+class tl_wem_sg_layout extends tl_layout
 {
     /**
-     * Check permissions to edit table tl_news_archive.
+     * Check permissions to edit table tl_layout.
      *
      * @throws AccessDeniedException
      */
@@ -41,15 +42,15 @@ class tl_wem_sg_news_archive extends tl_news_archive
         // Check current action
         switch (Input::get('act')) {
             case 'delete':
-                if ($this->isArchiveUsedBySmartgear((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' news archive ID '.Input::get('id').'.');
+                if ($this->isLayoutUsedBySmartgear((int) Input::get('id'))) {
+                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' layout ID '.Input::get('id').'.');
                 }
             break;
         }
     }
 
     /**
-     * Return the delete archive button.
+     * Return the delete layout button.
      *
      * @param array  $row
      * @param string $href
@@ -60,26 +61,31 @@ class tl_wem_sg_news_archive extends tl_news_archive
      *
      * @return string
      */
-    public function deleteArchive($row, $href, $label, $title, $icon, $attributes)
+    public function deleteLayout($row, $href, $label, $title, $icon, $attributes)
     {
-        if ($this->isArchiveUsedBySmartgear((int) $row['id'])) {
+        if ($this->isLayoutUsedBySmartgear((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
-        return parent::deleteArchive($row, $href, $label, $title, $icon, $attributes);
+        return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ';
     }
 
     /**
-     * Check if the news archive is being used by Smartgear.
+     * Check if the layout is being used by Smartgear.
      *
-     * @param int $id News archive's ID
+     * @param int $id layout's ID
      */
-    protected function isArchiveUsedBySmartgear(int $id): bool
+    protected function isLayoutUsedBySmartgear(int $id): bool
     {
         $configManager = System::getContainer()->get('smartgear.config.manager.core');
         try {
-            $blogConfig = $configManager->load()->getSgBlog();
-            if ($blogConfig->getSgInstallComplete() && $id === (int) $blogConfig->getSgNewsArchive()) {
+            $config = $configManager->load();
+            if ($config->getSgInstallComplete()
+            && (
+                $id === (int) $config->getSgLayoutStandard()
+                || $id === (int) $config->getSgLayoutFullwidth()
+            )
+            ) {
                 return true;
             }
         } catch (\Exception $e) {

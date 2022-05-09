@@ -56,6 +56,12 @@ class Events implements ConfigModuleInterface
     /** @var int */
     protected $sgPage;
     /** @var int */
+    protected $sgArticle;
+    /** @var int */
+    protected $sgContentHeadline;
+    /** @var int */
+    protected $sgContentList;
+    /** @var int */
     protected $sgCalendar;
     /** @var int */
     protected $sgModuleReader;
@@ -79,6 +85,9 @@ class Events implements ConfigModuleInterface
             ->setSgEventsListPerPage(self::DEFAULT_EVENTS_PER_PAGE)
             ->setSgPageTitle(self::DEFAULT_PAGE_TITLE)
             ->setSgPage(null)
+            ->setSgArticle(null)
+            ->setSgContentHeadline(null)
+            ->setSgContentList(null)
             ->setSgCalendar(null)
             ->setSgModuleReader(null)
             ->setSgModuleList(null)
@@ -99,11 +108,14 @@ class Events implements ConfigModuleInterface
             ->setSgCalendarTitle($json->calendar_title ?? self::DEFAULT_FEED_TITLE)
             ->setSgEventsListPerPage($json->events_list_per_page ?? self::DEFAULT_EVENTS_PER_PAGE)
             ->setSgPageTitle($json->page_title ?? self::DEFAULT_PAGE_TITLE)
-            ->setSgPage($json->contao->page ?? null)
-            ->setSgCalendar($json->contao->calendar ?? null)
-            ->setSgModuleReader($json->contao->module->reader ?? null)
-            ->setSgModuleList($json->contao->module->list ?? null)
-            ->setSgModuleCalendar($json->contao->module->calendar ?? null)
+            ->setSgPage((int) $json->contao->page ?? null)
+            ->setSgArticle((int) $json->contao->article ?? null)
+            ->setSgContentHeadline((int) $json->contao->contents->headline ?? null)
+            ->setSgContentList((int) $json->contao->contents->list ?? null)
+            ->setSgCalendar((int) $json->contao->calendar ?? null)
+            ->setSgModuleReader((int) $json->contao->modules->reader ?? null)
+            ->setSgModuleList((int) $json->contao->modules->list ?? null)
+            ->setSgModuleCalendar((int) $json->contao->modules->calendar ?? null)
             ->setSgArchived($json->archived->status ?? false)
             ->setSgArchivedAt($json->archived->at ?? 0)
             ->setSgArchivedMode($json->archived->mode ?? self::DEFAULT_ARCHIVE_MODE)
@@ -125,12 +137,17 @@ class Events implements ConfigModuleInterface
 
         $json->contao = new \stdClass();
         $json->contao->page = $this->getSgPage();
+        $json->contao->article = $this->getSgArticle();
         $json->contao->calendar = $this->getSgCalendar();
 
-        $json->contao->module = new \stdClass();
-        $json->contao->module->reader = $this->getSgModuleReader();
-        $json->contao->module->list = $this->getSgModuleList();
-        $json->contao->module->calendar = $this->getSgModuleCalendar();
+        $json->contao->contents = new \stdClass();
+        $json->contao->contents->headline = $this->getSgContentHeadline();
+        $json->contao->contents->list = $this->getSgContentList();
+
+        $json->contao->modules = new \stdClass();
+        $json->contao->modules->reader = $this->getSgModuleReader();
+        $json->contao->modules->list = $this->getSgModuleList();
+        $json->contao->modules->calendar = $this->getSgModuleCalendar();
 
         $json->archived = new \stdClass();
         $json->archived->status = $this->getSgArchived();
@@ -317,6 +334,42 @@ class Events implements ConfigModuleInterface
             throw new \InvalidArgumentException(sprintf('Invalid archive mode "%s" given', $sgArchivedMode));
         }
         $this->sgArchivedMode = $sgArchivedMode;
+
+        return $this;
+    }
+
+    public function getSgArticle(): ?int
+    {
+        return $this->sgArticle;
+    }
+
+    public function setSgArticle(?int $sgArticle): self
+    {
+        $this->sgArticle = $sgArticle;
+
+        return $this;
+    }
+
+    public function getSgContentHeadline(): ?int
+    {
+        return $this->sgContentHeadline;
+    }
+
+    public function setSgContentHeadline(?int $sgContentHeadline): self
+    {
+        $this->sgContentHeadline = $sgContentHeadline;
+
+        return $this;
+    }
+
+    public function getSgContentList(): ?int
+    {
+        return $this->sgContentList;
+    }
+
+    public function setSgContentList(?int $sgContentList): self
+    {
+        $this->sgContentList = $sgContentList;
 
         return $this;
     }

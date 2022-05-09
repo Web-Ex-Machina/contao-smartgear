@@ -174,6 +174,12 @@ class Website extends ConfigurationStep
         $pages = $this->createPages($layouts, $groups, $users, $modules);
         $this->updateModuleConfigurationPages($pages);
 
+        $articles = $this->createArticles($pages);
+        $this->updateModuleConfigurationArticles($articles);
+
+        $contents = $this->createContents($pages, $articles, $modules);
+        $this->updateModuleConfigurationContents($contents);
+
         $modules = array_merge($this->createModules2($themeId, $pages), $modules);
         $this->updateModuleConfigurationModules($modules);
 
@@ -519,7 +525,6 @@ class Website extends ConfigurationStep
             'sitemap' => 'default',
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id] : []));
-        $objArticle = ArticleModel::findByPid($page->id) ?? Util::createArticle($page);
 
         return $page;
     }
@@ -534,19 +539,6 @@ class Website extends ConfigurationStep
             'sitemap' => 'default',
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id] : []));
-        $objArticle = ArticleModel::findOneBy(['pid = ?', 'alias = ?'], [$page->id, $page->alias]) ?? Util::createArticle($page);
-        $content = ContentModel::findByPid($objArticle->id);
-        if ($content) {
-            while ($content->next()) {
-                $content->current()->delete();
-            }
-        }
-        $objContent = Util::createContent($objArticle, [
-            'headline' => serialize(['unit' => 'h1', 'value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Headline']]), 'text' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Text'],
-        ]);
-        $objContent = Util::createContent($objArticle, [
-            'type' => 'module', 'module' => $modules['sitemap']->id,
-        ]);
 
         return $page;
     }
@@ -563,13 +555,130 @@ class Website extends ConfigurationStep
             'description' => sprintf($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageLegalNoticeDescription'], $config->getSgWebsiteTitle()),
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id] : []));
-        $objArticle = ArticleModel::findOneBy(['pid = ?', 'alias = ?'], [$page->id, $page->alias]) ?? Util::createArticle($page);
-        $content = ContentModel::findByPid($objArticle->id);
-        if ($content) {
-            while ($content->next()) {
-                $content->current()->delete();
-            }
-        }
+
+        return $page;
+    }
+
+    protected function createPagePrivacyPolitics(PageModel $rootPage): PageModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        $page = PageModel::findOneById($config->getSgPagePrivacyPolitics());
+        $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PagePrivacyPoliticsTitle'], $rootPage->id, array_merge([
+            'sorting' => 512,
+            'sitemap' => 'default',
+            'description' => sprintf($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PagePrivacyPoliticsDescription'], $config->getSgWebsiteTitle()),
+            'hide' => 1,
+        ], null !== $page ? ['id' => $page->id] : []));
+
+        return $page;
+    }
+
+    protected function createPageSitemap(array $modules, PageModel $rootPage): PageModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $page = PageModel::findOneById($config->getSgPageSitemap());
+        $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapTitle'], $rootPage->id, array_merge([
+            'sorting' => 640,
+            'sitemap' => 'default',
+            'description' => sprintf($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapDescription'], $config->getSgWebsiteTitle()),
+            'hide' => 1,
+        ], null !== $page ? ['id' => $page->id] : []));
+
+        return $page;
+    }
+
+    protected function createPages(array $layouts, array $groups, array $users, array $modules): array
+    {
+        $pages = [];
+        $pages['root'] = $this->createPageRoot($layouts, $groups, $users, $modules);
+        $pages['home'] = $this->createPageHome($pages['root']);
+        $pages['404'] = $this->createPage404($modules, $pages['root']);
+        $pages['legal_notice'] = $this->createPageLegalNotice($pages['root']);
+        $pages['privacy_politics'] = $this->createPagePrivacyPolitics($pages['root']);
+        $pages['sitemap'] = $this->createPageSitemap($modules, $pages['root']);
+
+        return $pages;
+    }
+
+    protected function createArticleHome(PageModel $page): ArticleModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        return ArticleModel::findOneById($config->getSgArticleHome()) ?? Util::createArticle($page);
+    }
+
+    protected function createArticle404(PageModel $page): ArticleModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        return ArticleModel::findOneById($config->getSgArticle404()) ?? Util::createArticle($page);
+    }
+
+    protected function createArticleLegalNotice(PageModel $page): ArticleModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        return ArticleModel::findOneById($config->getSgArticleLegalNotice()) ?? Util::createArticle($page);
+    }
+
+    protected function createArticlePrivacyPolitics(PageModel $page): ArticleModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        return ArticleModel::findOneById($config->getSgArticlePrivacyPolitics()) ?? Util::createArticle($page);
+    }
+
+    protected function createArticleSitemap(PageModel $page): ArticleModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        return ArticleModel::findOneById($config->getSgArticleSitemap()) ?? Util::createArticle($page);
+    }
+
+    protected function createArticles(array $pages): array
+    {
+        $articles = [];
+        $articles['home'] = $this->createArticleHome($pages['home']);
+        $articles['404'] = $this->createArticle404($pages['404']);
+        $articles['legal_notice'] = $this->createArticleLegalNotice($pages['legal_notice']);
+        $articles['privacy_politics'] = $this->createArticlePrivacyPolitics($pages['privacy_politics']);
+        $articles['sitemap'] = $this->createArticleSitemap($pages['sitemap']);
+
+        return $articles;
+    }
+
+    protected function createContent404(ArticleModel $article, array $modules): array
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $content = ContentModel::findById($config->getSgContent404Headline());
+        $contents['headline'] = Util::createContent($article, array_merge([
+            'headline' => serialize(['unit' => 'h1', 'value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Headline']]), 'text' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Text'],
+        ], ['id' => null !== $content ? $content->id : null]));
+
+        $content = ContentModel::findById($config->getSgContent404Sitemap());
+        $contents['sitemap'] = Util::createContent($article, array_merge([
+            'type' => 'module', 'module' => $modules['sitemap']->id,
+        ], ['id' => null !== $content ? $content->id : null]));
+
+        return $contents;
+    }
+
+    protected function createContentLegalNotice(ArticleModel $article, array $modules): ContentModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        $content = ContentModel::findById($config->getSgContentLegalNotice());
+
         $strText = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/legal-notices_1.html');
         $strHtml = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageLegalNoticeTextDefault'];
         if ($strText) {
@@ -595,31 +704,19 @@ class Website extends ConfigurationStep
                     $config->getSgOwnerHost() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled']
                 );
         }
-        $objContent = Util::createContent($objArticle, [
+        $objContent = Util::createContent($article, array_merge([
             'headline' => serialize(['unit' => 'h1', 'value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageLegalNoticeHeadline']]), 'text' => $strHtml,
-        ]);
+        ], ['id' => null !== $content ? $content->id : null]));
 
-        return $page;
+        return $objContent;
     }
 
-    protected function createPagePrivacyPolitics(PageModel $rootPage): PageModel
+    protected function createContentPrivacyPolitics(PageModel $page, ArticleModel $article, array $modules): ContentModel
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
-        $page = PageModel::findOneById($config->getSgPagePrivacyPolitics());
-        $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PagePrivacyPoliticsTitle'], $rootPage->id, array_merge([
-            'sorting' => 512,
-            'sitemap' => 'default',
-            'description' => sprintf($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PagePrivacyPoliticsDescription'], $config->getSgWebsiteTitle()),
-            'hide' => 1,
-        ], null !== $page ? ['id' => $page->id] : []));
-        $objArticle = ArticleModel::findOneBy(['pid = ?', 'alias = ?'], [$page->id, $page->alias]) ?? Util::createArticle($page);
-        $content = ContentModel::findByPid($objArticle->id);
-        if ($content) {
-            while ($content->next()) {
-                $content->current()->delete();
-            }
-        }
+        $content = ContentModel::findById($config->getSgContentPrivacyPolitics());
+
         $strText = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/privacy_1.html');
         $strHtml = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PagePrivacyPoliticsTextDefault'];
         if ($strText) {
@@ -641,51 +738,34 @@ class Website extends ConfigurationStep
                 $config->getSgOwnerEmail() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled']
             );
         }
-        $objContent = Util::createContent($objArticle, [
+        $objContent = Util::createContent($article, array_merge([
             'text' => $strHtml,
-        ]);
+        ], ['id' => null !== $content ? $content->id : null]));
 
-        return $page;
+        return $objContent;
     }
 
-    protected function createPageSitemap(array $modules, PageModel $rootPage): PageModel
+    protected function createContentSitemap(ArticleModel $article, array $modules): ContentModel
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        $page = PageModel::findOneById($config->getSgPageSitemap());
-        $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapTitle'], $rootPage->id, array_merge([
-            'sorting' => 640,
-            'sitemap' => 'default',
-            'description' => sprintf($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapDescription'], $config->getSgWebsiteTitle()),
-            'hide' => 1,
-        ], null !== $page ? ['id' => $page->id] : []));
+        $content = ContentModel::findById($config->getSgContentSitemap());
 
-        $objArticle = ArticleModel::findOneBy(['pid = ?', 'alias = ?'], [$page->id, $page->alias]) ?? Util::createArticle($page);
-        $content = ContentModel::findByPid($objArticle->id);
-        if ($content) {
-            while ($content->next()) {
-                $content->current()->delete();
-            }
-        }
-        $objContent = Util::createContent($objArticle, [
+        return Util::createContent($article, array_merge([
             'type' => 'module', 'module' => $modules['sitemap']->id,
-        ]);
-
-        return $page;
+        ], ['id' => null !== $content ? $content->id : null]));
     }
 
-    protected function createPages(array $layouts, array $groups, array $users, array $modules): array
+    protected function createContents(array $pages, array $articles, array $modules): array
     {
-        $pages = [];
-        $pages['root'] = $this->createPageRoot($layouts, $groups, $users, $modules);
-        $pages['home'] = $this->createPageHome($pages['root']);
-        $pages['404'] = $this->createPage404($modules, $pages['root']);
-        $pages['legal_notice'] = $this->createPageLegalNotice($pages['root']);
-        $pages['privacy_politics'] = $this->createPagePrivacyPolitics($pages['root']);
-        $pages['sitemap'] = $this->createPageSitemap($modules, $pages['root']);
+        $contents = [];
+        $contents['404'] = $this->createContent404($articles['404'], $modules);
+        $contents['legal_notice'] = $this->createContentLegalNotice($articles['legal_notice'], $modules);
+        $contents['privacy_politics'] = $this->createContentPrivacyPolitics($pages['privacy_politics'], $articles['privacy_politics'], $modules);
+        $contents['sitemap'] = $this->createContentSitemap($articles['sitemap'], $modules);
 
-        return $pages;
+        return $contents;
     }
 
     protected function createModules2(int $themeId, array $pages): array
@@ -827,6 +907,34 @@ class Website extends ConfigurationStep
         $config->setSgPageLegalNotice((int) $pages['legal_notice']->id);
         $config->setSgPagePrivacyPolitics((int) $pages['privacy_politics']->id);
         $config->setSgPageSitemap((int) $pages['sitemap']->id);
+
+        $this->configurationManager->save($config);
+    }
+
+    protected function updateModuleConfigurationArticles(array $articles): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $config->setSgArticleHome((int) $articles['home']->id);
+        $config->setSgArticle404((int) $articles['404']->id);
+        $config->setSgArticleLegalNotice((int) $articles['legal_notice']->id);
+        $config->setSgArticlePrivacyPolitics((int) $articles['privacy_politics']->id);
+        $config->setSgArticleSitemap((int) $articles['sitemap']->id);
+
+        $this->configurationManager->save($config);
+    }
+
+    protected function updateModuleConfigurationContents(array $contents): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $config->setSgContent404Headline((int) $contents['404']['headline']->id);
+        $config->setSgContent404Sitemap((int) $contents['404']['sitemap']->id);
+        $config->setSgContentLegalNotice((int) $contents['legal_notice']->id);
+        $config->setSgContentPrivacyPolitics((int) $contents['privacy_politics']->id);
+        $config->setSgContentSitemap((int) $contents['sitemap']->id);
 
         $this->configurationManager->save($config);
     }

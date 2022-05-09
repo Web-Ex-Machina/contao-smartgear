@@ -18,12 +18,12 @@ use Contao\Input;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
-DCAManipulator::create('tl_user')
-    ->addConfigOnloadCallback('tl_wem_sg_user', 'checkPermission')
-    ->setListOperationsDeleteButtonCallback('tl_wem_sg_user', 'deleteUser')
+DCAManipulator::create('tl_nc_gateway')
+    ->addConfigOnloadCallback('tl_wem_sg_notification_gateway', 'checkPermission')
+    ->setListOperationsDeleteButtonCallback('tl_wem_sg_notification_gateway', 'deleteNotificationGateway')
 ;
 
-class tl_wem_sg_user extends tl_user
+class tl_wem_sg_notification_gateway
 {
     /**
      * Check permissions to edit table tl_user.
@@ -32,20 +32,18 @@ class tl_wem_sg_user extends tl_user
      */
     public function checkPermission(): void
     {
-        parent::checkPermission();
-
         // Check current action
         switch (Input::get('act')) {
             case 'delete':
-                if ($this->isUserUsedBySmartgear((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' user ID '.Input::get('id').'.');
+                if ($this->isNotificationGatewayUsedBySmartgear((int) Input::get('id'))) {
+                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' notification gateway ID '.Input::get('id').'.');
                 }
             break;
         }
     }
 
     /**
-     * Return the delete user button.
+     * Return the delete notification gateway button.
      *
      * @param array  $row
      * @param string $href
@@ -56,26 +54,26 @@ class tl_wem_sg_user extends tl_user
      *
      * @return string
      */
-    public function deleteUser($row, $href, $label, $title, $icon, $attributes)
+    public function deleteNotificationGateway($row, $href, $label, $title, $icon, $attributes)
     {
-        if ($this->isUserUsedBySmartgear((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+        if ($this->isNotificationGatewayUsedBySmartgear((int) $row['id'])) {
+            return Image::getHtml(preg_replace('/\.gif$/i', '_.gif', $icon)).' '; // yup, gif not svg
         }
 
-        return parent::deleteUser($row, $href, $label, $title, $icon, $attributes);
+        return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ';
     }
 
     /**
-     * Check if the user is being used by Smartgear.
+     * Check if the notification gateway is being used by Smartgear.
      *
-     * @param int $id user's ID
+     * @param int $id Notification gateway's ID
      */
-    protected function isUserUsedBySmartgear(int $id): bool
+    protected function isNotificationGatewayUsedBySmartgear(int $id): bool
     {
         $configManager = System::getContainer()->get('smartgear.config.manager.core');
         try {
             $config = $configManager->load();
-            if ($config->getSgInstallComplete() && $id === (int) $config->getSgUserWebmaster()) {
+            if ($config->getSgInstallComplete() && $id === (int) $config->getSgNotificationGatewayEmail()) {
                 return true;
             }
         } catch (\Exception $e) {
