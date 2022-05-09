@@ -120,9 +120,9 @@ class General extends ConfigurationStep
         $article = $this->createArticle($page);
         $newsArchive = $this->createNewsArchive($page);
         $modules = $this->createModules($page, $newsArchive);
-        $this->fillArticle($page, $article, $modules);
+        $contents = $this->fillArticle($page, $article, $modules);
 
-        $this->updateModuleConfigurationAfterGenerations($page, $newsArchive, $modules);
+        $this->updateModuleConfigurationAfterGenerations($page, $article, $newsArchive, $modules, $contents);
         $this->updateUserGroups((bool) Input::post('expertMode', false));
         $this->commandUtil->executeCmdPHP('cache:clear');
     }
@@ -316,7 +316,7 @@ class General extends ConfigurationStep
         return ['reader' => $moduleReader, 'list' => $moduleList];
     }
 
-    protected function fillArticle(PageModel $page, ArticleModel $article, array $modules): void
+    protected function fillArticle(PageModel $page, ArticleModel $article, array $modules): array
     {
         $headline = ContentModel::findOneBy(['pid = ?', 'ptable = ?', 'type = ?'], [$article->id, 'tl_article', 'headline']) ?? new ContentModel();
 
@@ -346,9 +346,11 @@ class General extends ConfigurationStep
         $list->save();
 
         $article->save();
+
+        return ['headline' => $headline, 'list' => $list];
     }
 
-    protected function updateModuleConfigurationAfterGenerations(PageModel $page, NewsArchiveModel $newsArchive, array $modules): void
+    protected function updateModuleConfigurationAfterGenerations(PageModel $page, ArticleModel $article, NewsArchiveModel $newsArchive, array $modules, array $contents): void
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
@@ -357,6 +359,9 @@ class General extends ConfigurationStep
 
         $blogConfig
             ->setSgPage((int) $page->id)
+            ->setSgArticle((int) $article->id)
+            ->setSgContentHeadline((int) $contents['headline']->id)
+            ->setSgContentList((int) $contents['list']->id)
             ->setSgNewsArchive((int) $newsArchive->id)
             ->setSgModuleReader((int) $modules['reader']->id)
             ->setSgModuleList((int) $modules['list']->id)
