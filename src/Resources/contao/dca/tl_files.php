@@ -16,10 +16,13 @@ use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
+use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
-$GLOBALS['TL_DCA']['tl_files']['config']['onload_callback'][] = ['tl_wem_sg_files', 'checkPermission'];
-$GLOBALS['TL_DCA']['tl_files']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_files', 'deleteFile'];
+DCAManipulator::create('tl_files')
+    ->addConfigOnloadCallback('tl_wem_sg_files', 'checkPermission')
+    ->setListOperationsDeleteButtonCallback('tl_wem_sg_files', 'deleteFile')
+;
 
 /**
  * Provide miscellaneous methods that are used by the data configuration array.

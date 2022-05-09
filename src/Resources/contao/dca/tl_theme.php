@@ -16,9 +16,12 @@ use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
+use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
-$GLOBALS['TL_DCA']['tl_theme']['config']['onload_callback'][] = ['tl_wem_sg_theme', 'checkPermission'];
-$GLOBALS['TL_DCA']['tl_theme']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_theme', 'deleteTheme'];
+DCAManipulator::create('tl_theme')
+    ->addConfigOnloadCallback('tl_wem_sg_theme', 'checkPermission')
+    ->setListOperationsDeleteButtonCallback('tl_wem_sg_theme', 'deleteTheme')
+;
 
 class tl_wem_sg_theme extends tl_theme
 {

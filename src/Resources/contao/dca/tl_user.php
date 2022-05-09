@@ -16,9 +16,12 @@ use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
+use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
-$GLOBALS['TL_DCA']['tl_user']['config']['onload_callback'][] = ['tl_wem_sg_user', 'checkPermission'];
-$GLOBALS['TL_DCA']['tl_user']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_user', 'deleteUser'];
+DCAManipulator::create('tl_user')
+    ->addConfigOnloadCallback('tl_wem_sg_user', 'checkPermission')
+    ->setListOperationsDeleteButtonCallback('tl_wem_sg_user', 'deleteUser')
+;
 
 class tl_wem_sg_user extends tl_user
 {

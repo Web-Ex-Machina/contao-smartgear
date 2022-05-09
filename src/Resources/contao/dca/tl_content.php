@@ -17,9 +17,12 @@ use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
+use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
-$GLOBALS['TL_DCA']['tl_content']['config']['onload_callback'][] = ['tl_wem_sg_content', 'checkPermission'];
-$GLOBALS['TL_DCA']['tl_content']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_content', 'deleteElement'];
+DCAManipulator::create('tl_content')
+    ->addConfigOnloadCallback('tl_wem_sg_content', 'checkPermission')
+    ->setListOperationsDeleteButtonCallback('tl_wem_sg_content', 'deleteElement')
+;
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['options_callback'] = static function (Contao\DataContainer $dc) {
     return WEM\SmartgearBundle\Override\Controller::getTemplateGroup('ce_'.$dc->activeRecord->type.'_', [], 'ce_'.$dc->activeRecord->type);

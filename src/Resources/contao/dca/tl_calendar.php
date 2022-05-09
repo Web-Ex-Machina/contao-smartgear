@@ -16,9 +16,12 @@ use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
+use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
-$GLOBALS['TL_DCA']['tl_calendar']['config']['onload_callback'][] = ['tl_wem_sg_calendar', 'checkPermission'];
-$GLOBALS['TL_DCA']['tl_calendar']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_calendar', 'deleteCalendar'];
+DCAManipulator::create('tl_calendar')
+    ->addConfigOnloadCallback('tl_wem_sg_calendar', 'checkPermission')
+    ->setListOperationsDeleteButtonCallback('tl_wem_sg_calendar', 'deleteCalendar')
+;
 
 /**
  * Provide miscellaneous methods that are used by the data configuration array.

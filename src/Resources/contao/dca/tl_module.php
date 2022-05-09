@@ -18,7 +18,6 @@ use Contao\CoreBundle\Security\ContaoCorePermissions;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
-
 /*
  * SMARTGEAR for Contao Open Source CMS
  * Copyright (c) 2015-2022 Web ex Machina
@@ -32,8 +31,13 @@ use Contao\System;
 /*
  * Add fields for header component
  */
+use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
-$GLOBALS['TL_DCA']['tl_module']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_module', 'deleteModule'];
+DCAManipulator::create('tl_module')
+    ->addConfigOnloadCallback('tl_wem_sg_module', 'checkPermission')
+    ->setListOperationsDeleteButtonCallback('tl_wem_sg_module', 'deleteModule')
+;
+
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_header_content';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_navigation';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_display_share_buttons';

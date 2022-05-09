@@ -33,15 +33,38 @@ class Manipulator
         return $this;
     }
 
+    public static function create(string $table)
+    {
+        return (new self())->setTable($table);
+    }
+
+    public function addConfigOnloadCallback(string $className, string $functionName): self
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['config']['onload_callback'][] = [$className, $functionName];
+
+        return $this;
+    }
+
+    public function setListOperationsDeleteButtonCallback(string $className, string $functionName): self
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['list']['operations']['delete']['button_callback'] = [$className, $functionName];
+
+        return $this;
+    }
+
     /**
      * Set the singleSRC field's path.
      *
      * @param string $path The new path
      */
-    public function setFieldSingleSRCPath(string $path): void
+    public function setFieldSingleSRCPath(string $path): self
     {
         $this->checkConfiguration();
         $GLOBALS['TL_DCA'][$this->table]['fields']['singleSRC']['eval']['path'] = $path;
+
+        return $this;
     }
 
     /**
@@ -49,7 +72,7 @@ class Manipulator
      *
      * @param array $fieldsKeyToKeep The fields to keep
      */
-    public function removeOtherFields(array $fieldsKeyToKeep): void
+    public function removeOtherFields(array $fieldsKeyToKeep): self
     {
         $this->checkConfiguration();
         //get rid of all unnecessary fields
@@ -70,6 +93,8 @@ class Manipulator
                 $pm->applyToSubpalette($subpaletteName, $this->table);
             }
         }
+
+        return $this;
     }
 
     /**
@@ -77,10 +102,12 @@ class Manipulator
      *
      * @param bool|bool $readOnly The readonly value
      */
-    public function setFieldAliasReadonly(?bool $readOnly = true): void
+    public function setFieldAliasReadonly(?bool $readOnly = true): self
     {
         $this->checkConfiguration();
         self::setFieldReadonly('alias', $readOnly);
+
+        return $this;
     }
 
     /**
@@ -88,19 +115,23 @@ class Manipulator
      *
      * @param bool|bool $readOnly The readonly value
      */
-    public function setFieldReadonly(string $field, ?bool $readOnly = true): void
+    public function setFieldReadonly(string $field, ?bool $readOnly = true): self
     {
         $this->checkConfiguration();
         $GLOBALS['TL_DCA'][$this->table]['fields'][$field]['eval']['readonly'] = $readOnly;
+
+        return $this;
     }
 
     /**
      * Remove the "edit" operation in list.
      */
-    public function removeListOperationsEdit(): void
+    public function removeListOperationsEdit(): self
     {
         $this->checkConfiguration();
         unset($GLOBALS['TL_DCA'][$this->table]['list']['operations']['edit']);
+
+        return $this;
     }
 
     protected function checkConfiguration(): void

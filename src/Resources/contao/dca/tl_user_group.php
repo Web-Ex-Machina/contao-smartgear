@@ -17,10 +17,14 @@ use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
+use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
-$GLOBALS['TL_DCA']['tl_user_group']['config']['onload_callback'][] = ['tl_wem_sg_user_group', 'checkPermission'];
-$GLOBALS['TL_DCA']['tl_user_group']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_user_group', 'deleteUserGroup'];
+DCAManipulator::create('tl_user_group')
+    ->addConfigOnloadCallback('tl_wem_sg_user_group', 'checkPermission')
+    ->setListOperationsDeleteButtonCallback('tl_wem_sg_user_group', 'deleteUserGroup')
+;
+
 $GLOBALS['TL_DCA']['tl_user_group']['fields']['smartgear_permissions'] = [
     'exclude' => true,
     'inputType' => 'checkbox',

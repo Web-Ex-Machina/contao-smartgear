@@ -16,10 +16,12 @@ use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
+use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
-$GLOBALS['TL_DCA']['tl_news_archive']['config']['onload_callback'][] = ['tl_wem_sg_news_archive', 'checkPermission'];
-$GLOBALS['TL_DCA']['tl_news_archive']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_news_archive', 'deleteArchive'];
-
+DCAManipulator::create('tl_news_archive')
+    ->addConfigOnloadCallback('tl_wem_sg_news_archive', 'checkPermission')
+    ->setListOperationsDeleteButtonCallback('tl_wem_sg_news_archive', 'deleteArchive')
+;
 /**
  * Provide miscellaneous methods that are used by the data configuration array.
  *

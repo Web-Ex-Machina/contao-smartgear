@@ -16,9 +16,12 @@ use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
+use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
-$GLOBALS['TL_DCA']['tl_page']['config']['onload_callback'][] = ['tl_wem_sg_page', 'checkPermission'];
-$GLOBALS['TL_DCA']['tl_page']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_page', 'deletePage'];
+DCAManipulator::create('tl_page')
+    ->addConfigOnloadCallback('tl_wem_sg_page', 'checkPermission')
+    ->setListOperationsDeleteButtonCallback('tl_wem_sg_page', 'deletePage')
+;
 
 /**
  * Provide miscellaneous methods that are used by the data configuration array.

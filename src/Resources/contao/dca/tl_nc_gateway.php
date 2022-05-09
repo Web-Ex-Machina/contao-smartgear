@@ -16,9 +16,12 @@ use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
+use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
-$GLOBALS['TL_DCA']['tl_nc_gateway']['config']['onload_callback'][] = ['tl_wem_sg_notification_gateway', 'checkPermission'];
-$GLOBALS['TL_DCA']['tl_nc_gateway']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_notification_gateway', 'deleteNotificationGateway'];
+DCAManipulator::create('tl_nc_gateway')
+    ->addConfigOnloadCallback('tl_wem_sg_notification_gateway', 'checkPermission')
+    ->setListOperationsDeleteButtonCallback('tl_wem_sg_notification_gateway', 'deleteNotificationGateway')
+;
 
 class tl_wem_sg_notification_gateway
 {
