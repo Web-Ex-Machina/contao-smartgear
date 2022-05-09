@@ -34,18 +34,29 @@ Tags | Value | Description
 `sg::ownerSiret` | string | The website owner's SIRET
 `sg::ownerDpoName` | string | The website owner's Data Protection Officer's name
 `sg::ownerDpoEmail` | string | The website owner's Data Protection Officer email
-`sg::theme` | int | The Contao's theme ID
-`sg::layoutStandard` | int | The Contao's "standard" layout ID
-`sg::layoutFullwidth` | int | The Contao's "fullwidth" layout ID
-`sg::pageRoot` | int | The Contao's rootpage ID
-`sg::pageHome` | int | The Contao's homepage ID
-`sg::page404` | int | The Contao's 404 error page ID
-`sg::pageLegalNotice` | int | The Contao's legal notice page ID
-`sg::pagePrivacyPolitics` | int | The Contao's privacy ppolitics page ID
-`sg::pageSitemap` | int | The Contao's sitemap page ID
+`sg::theme` | string | The Contao's theme ID
+`sg::layoutStandard` | string | The Contao's "standard" layout ID
+`sg::layoutFullwidth` | string | The Contao's "fullwidth" layout ID
+`sg::pageRoot` | string | The Contao's rootpage ID
+`sg::pageHome` | string | The Contao's homepage ID
+`sg::page404` | string | The Contao's 404 error page ID
+`sg::pageLegalNotice` | string | The Contao's legal notice page ID
+`sg::pagePrivacyPolitics` | string | The Contao's privacy politics page ID
+`sg::pageSitemap` | string | The Contao's sitemap page ID
+`sg::articleHome` | string | The Contao's home page article ID
+`sg::article404` | string | The Contao's 404 page article ID
+`sg::articleLegalNotice` | string | The Contao's legal notice page article ID
+`sg::articlePrivacyPolitics` | string | The Contao's privacy politics page article ID
+`sg::articleSitemap` | string | The Contao's sitemap page article ID
+`sg::content404Headline` | string | The Contao's 404 page headline content ID
+`sg::content404Sitemap` | string | The Contao's 404 page sitemap content ID
+`sg::contentLegalNotice` | string | The Contao's legal notice page content ID
+`sg::contentPrivacyPolitics` | string | The Contao's privacy politics page content ID
+`sg::contentSitemap` | string | The Contao's sitemap page content ID
 `sg::notificationGatewayEmail` | int | The Contao's email notification gateway ID
 `sg::modules` | string | Comma separated list of modules
 `sg::apiKey` | string | The API key
+
 
 blog
 ---------
@@ -53,17 +64,20 @@ blog
 Tags | Value | Description
 --- | --- | ---
 `sg::blog_installComplete` | string | `1` if the blog component is installed, `0` otherwise
-`sg::blog_newsArchive` | int | The blog's news archive ID
-`sg::blog_page` | int | The blog's page ID
-`sg::blog_moduleReader` | int | The blog's module reader ID
-`sg::blog_moduleList` | int | The blog's module list ID
-`sg::blog_currentPresetIndex` | int | The blog's current preset used
+`sg::blog_newsArchive` | string | The blog's news archive ID
+`sg::blog_page` | string | The blog's page ID
+`sg::blog_article` | string | The blog's page article ID
+`sg::blog_contentHeadline` | string | The blog's page article headline content ID
+`sg::blog_contentList` | string | The blog's page article list content ID
+`sg::blog_moduleReader` | string | The blog's module reader ID
+`sg::blog_moduleList` | string | The blog's module list ID
+`sg::blog_currentPresetIndex` | string | The blog's current preset used
 `sg::blog_archived` | string |  `1` if the blog component is archived, `0` otherwise
 `sg::blog_archivedAt` | string | The timestamp the blog component has been archived at
 `sg::blog_archivedMode` | string | The mode the blog component has been archived with (`archive`,`keep` or `delete`)
 `sg::blog_newsFolder` | string | The folder where news' files are stored
 `sg::blog_newsArchiveTitle` | string | The blog's news archive title
-`sg::blog_newsListPerPage` | int | The blog's number of news per page
+`sg::blog_newsListPerPage` | string | The blog's number of news per page
 `sg::blog_newsPageTitle` | string | The blog's page title
 
 
@@ -75,6 +89,9 @@ Tags | Value | Description
 `sg::events_installComplete` | string | `1` if the calendar component is installed, `0` otherwise
 `sg::events_calendar` | int | The calendar's calendar ID
 `sg::events_page` | int | The calendar's page ID
+`sg::events_article` | string | The calendar's page article ID
+`sg::events_contentHeadline` | string | The calendar's page article headline content ID
+`sg::events_contentList` | string | The calendar's page article list content ID
 `sg::events_moduleReader` | int | The calendar's module reader ID
 `sg::events_moduleList` | int | The calendar's module list ID
 `sg::events_moduleCalendar` | int | The calendar's module calendar ID

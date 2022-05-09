@@ -167,6 +167,39 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 case 'pageSitemap':
                     return (string) $config->getSgPageSitemap();
                 break;
+                case 'pageSitemap':
+                    return (string) $config->getSgPageSitemap();
+                break;
+                case 'articleHome':
+                    return (string) $config->getSgArticleHome();
+                break;
+                case 'article404':
+                    return (string) $config->getSgArticle404();
+                break;
+                case 'articleLegalNotice':
+                    return (string) $config->getSgArticleLegalNotice();
+                break;
+                case 'articlePrivacyPolitics':
+                    return (string) $config->getSgArticlePrivacyPolitics();
+                break;
+                case 'articleSitemap':
+                    return (string) $config->getSgArticleSitemap();
+                break;
+                case 'content404Headline':
+                    return (string) $config->getSgContent404Headline();
+                break;
+                case 'content404Sitemap':
+                    return (string) $config->getSgContent404Sitemap();
+                break;
+                case 'contentLegalNotice':
+                    return (string) $config->getSgContentLegalNotice();
+                break;
+                case 'contentPrivacyPolitics':
+                    return (string) $config->getSgContentPrivacyPolitics();
+                break;
+                case 'contentSitemap':
+                    return (string) $config->getSgContentSitemap();
+                break;
                 case 'notificationGatewayEmail':
                     return (string) $config->getSgNotificationGatewayEmail();
                 break;

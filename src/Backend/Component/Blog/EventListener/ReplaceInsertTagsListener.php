@@ -71,25 +71,34 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                     return $blogConfig->getSgInstallComplete() ? '1' : '0';
                 break;
                 case 'blog_newsArchive':
-                    return $blogConfig->getSgNewsArchive();
+                    return (string) $blogConfig->getSgNewsArchive();
                 break;
                 case 'blog_page':
-                    return $blogConfig->getSgPage();
+                    return (string) $blogConfig->getSgPage();
+                break;
+                case 'blog_article':
+                    return (string) $blogConfig->getSgArticle();
+                break;
+                case 'blog_contentHeadline':
+                    return (string) $blogConfig->getSgContentHeadline();
+                break;
+                case 'blog_contentList':
+                    return (string) $blogConfig->getSgContentList();
                 break;
                 case 'blog_moduleReader':
-                    return $blogConfig->getSgModuleReader();
+                    return (string) $blogConfig->getSgModuleReader();
                 break;
                 case 'blog_moduleList':
-                    return $blogConfig->getSgModuleList();
+                    return (string) $blogConfig->getSgModuleList();
                 break;
                 case 'blog_currentPresetIndex':
-                    return $blogConfig->getSgCurrentPresetIndex();
+                    return (string) $blogConfig->getSgCurrentPresetIndex();
                 break;
                 case 'blog_archived':
                     return $blogConfig->getSgArchived() ? '1' : '0';
                 break;
                 case 'blog_archivedAt':
-                    return $blogConfig->getSgArchivedAt();
+                    return (string) $blogConfig->getSgArchivedAt();
                 break;
                 case 'blog_archivedMode':
                     return $blogConfig->getSgArchivedMode();
@@ -101,7 +110,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                     return $blogConfig->getCurrentPreset()->getSgNewsArchiveTitle();
                 break;
                 case 'blog_newsListPerPage':
-                    return $blogConfig->getCurrentPreset()->getSgNewsListPerPage();
+                    return (string) $blogConfig->getCurrentPreset()->getSgNewsListPerPage();
                 break;
                 case 'blog_newsPageTitle':
                     return $blogConfig->getCurrentPreset()->getSgPageTitle();
