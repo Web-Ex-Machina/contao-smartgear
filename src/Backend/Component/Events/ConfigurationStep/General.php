@@ -278,24 +278,26 @@ class General extends ConfigurationStep
 
     protected function fillArticle(PageModel $page, ArticleModel $article, array $modules): array
     {
-        $headline = ContentModel::findOneBy(['pid = ?', 'ptable = ?', 'type = ?'], [$article->id, 'tl_article', 'headline']) ?? new ContentModel();
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        $eventsConfig = $config->getSgEvents();
 
-        $list = ContentModel::findOneBy(['pid = ?', 'ptable = ?', 'type = ?', 'module = ?'], [$article->id, 'tl_article', 'module', $modules['list']->id]) ?? new ContentModel();
+        $headline = ContentModel::findById($eventsConfig->getSgContentHeadline());
+        $headline = Util::createContent($article, array_merge([
+            'type' => 'headline',
+            'pid' => $article->id,
+            'ptable' => 'tl_article',
+            'headline' => serialize(['unit' => 'h1', 'value' => $page->title]),
+            'cssID' => 'sep-bottom',
+        ], ['id' => null !== $headline ? $headline->id : null]));
 
-        $headline->type = 'headline';
-        $headline->pid = $article->id;
-        $headline->ptable = 'tl_article';
-        $headline->headline = serialize(['unit' => 'h1', 'value' => $page->title]);
-        $headline->cssID = 'sep-bottom';
-        $headline->tstamp = time();
-        $headline->save();
-
-        $list->type = 'module';
-        $list->pid = $article->id;
-        $list->ptable = 'tl_article';
-        $list->module = $modules['list']->id;
-        $list->tstamp = time();
-        $list->save();
+        $list = ContentModel::findById($eventsConfig->getSgContentList());
+        $list = Util::createContent($article, array_merge([
+            'type' => 'module',
+            'pid' => $article->id,
+            'ptable' => 'tl_article',
+            'module' => $modules['list']->id,
+        ], ['id' => null !== $list ? $list->id : null]));
 
         $article->save();
 
