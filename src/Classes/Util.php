@@ -342,7 +342,7 @@ class Util
     public static function createArticle($objPage, $arrData = []): ArticleModel
     {
         // Create the article
-        $objArticle = new ArticleModel();
+        $objArticle = isset($arrData['id']) ? ArticleModel::findById($arrData['id']) ?? new ArticleModel() : new ArticleModel();
         $objArticle->tstamp = time();
         $objArticle->pid = $objPage->id;
         $objArticle->sorting = (ArticleModel::countBy('pid', $objPage->id) + 1) * 128;
@@ -376,7 +376,7 @@ class Util
         }
 
         // Create the content
-        $objContent = new ContentModel();
+        $objContent = isset($arrData['id']) ? ContentModel::findById($arrData['id']) ?? new ContentModel() : new ContentModel();
         $objContent->tstamp = time();
         $objContent->pid = $objArticle->id;
         $objContent->ptable = $arrData['ptable'];
