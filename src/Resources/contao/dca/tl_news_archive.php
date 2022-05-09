@@ -17,7 +17,7 @@ use Contao\Image;
 use Contao\Input;
 use Contao\System;
 
-$GLOBALS['TL_DCA']['tl_news_archive']['config']['onload_callback'] = ['tl_wem_sg_news_archive', 'checkPermission'];
+$GLOBALS['TL_DCA']['tl_news_archive']['config']['onload_callback'][] = ['tl_wem_sg_news_archive', 'checkPermission'];
 $GLOBALS['TL_DCA']['tl_news_archive']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_news_archive', 'deleteArchive'];
 
 /**

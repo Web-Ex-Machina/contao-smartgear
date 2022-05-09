@@ -17,7 +17,7 @@ use Contao\Image;
 use Contao\Input;
 use Contao\System;
 
-$GLOBALS['TL_DCA']['tl_calendar']['config']['onload_callback'] = ['tl_wem_sg_calendar', 'checkPermission'];
+$GLOBALS['TL_DCA']['tl_calendar']['config']['onload_callback'][] = ['tl_wem_sg_calendar', 'checkPermission'];
 $GLOBALS['TL_DCA']['tl_calendar']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_calendar', 'deleteCalendar'];
 
 /**
@@ -76,8 +76,8 @@ class tl_wem_sg_calendar extends tl_calendar
     {
         $configManager = System::getContainer()->get('smartgear.config.manager.core');
         try {
-            $blogConfig = $configManager->load()->getSgBlog();
-            if ($blogConfig->getSgInstallComplete() && $id === (int) $blogConfig->getSgNewsArchive()) {
+            $eventsConfig = $configManager->load()->getSgEvents();
+            if ($eventsConfig->getSgInstallComplete() && $id === (int) $eventsConfig->getSgCalendar()) {
                 return true;
             }
         } catch (\Exception $e) {

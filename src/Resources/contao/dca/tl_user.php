@@ -19,7 +19,7 @@ use Contao\Input;
 use Contao\System;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
-$GLOBALS['TL_DCA']['tl_user']['config']['onload_callback'] = ['tl_wem_sg_user', 'checkPermission'];
+$GLOBALS['TL_DCA']['tl_user']['config']['onload_callback'][] = ['tl_wem_sg_user', 'checkPermission'];
 $GLOBALS['TL_DCA']['tl_user']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_user', 'deleteUser'];
 $GLOBALS['TL_DCA']['tl_user']['fields']['smartgear_permissions'] = [
     'exclude' => true,

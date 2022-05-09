@@ -17,7 +17,7 @@ use Contao\Image;
 use Contao\Input;
 use Contao\System;
 
-$GLOBALS['TL_DCA']['tl_layout']['config']['onload_callback'] = ['tl_wem_sg_layout', 'checkPermission'];
+$GLOBALS['TL_DCA']['tl_layout']['config']['onload_callback'][] = ['tl_wem_sg_layout', 'checkPermission'];
 $GLOBALS['TL_DCA']['tl_layout']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_layout', 'deleteLayout'];
 
 /**

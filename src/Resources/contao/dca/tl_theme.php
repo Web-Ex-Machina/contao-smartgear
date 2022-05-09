@@ -17,7 +17,7 @@ use Contao\Image;
 use Contao\Input;
 use Contao\System;
 
-$GLOBALS['TL_DCA']['tl_theme']['config']['onload_callback'] = ['tl_wem_sg_theme', 'checkPermission'];
+$GLOBALS['TL_DCA']['tl_theme']['config']['onload_callback'][] = ['tl_wem_sg_theme', 'checkPermission'];
 $GLOBALS['TL_DCA']['tl_theme']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_theme', 'deleteTheme'];
 
 class tl_wem_sg_theme extends tl_theme
