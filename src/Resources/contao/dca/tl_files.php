@@ -82,6 +82,7 @@ class tl_wem_sg_files extends tl_files
             && (
                 CoreConfig::DEFAULT_CLIENT_FILES_FOLDER === $id
                 || CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER === $id
+                || $config->getSgOwnerLogo() === $id
             )
             ) {
                 return true;

@@ -12,43 +12,13 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
-use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 $GLOBALS['TL_DCA']['tl_user']['config']['onload_callback'][] = ['tl_wem_sg_user', 'checkPermission'];
 $GLOBALS['TL_DCA']['tl_user']['list']['operations']['delete']['button_callback'] = ['tl_wem_sg_user', 'deleteUser'];
-$GLOBALS['TL_DCA']['tl_user']['fields']['smartgear_permissions'] = [
-    'exclude' => true,
-    'inputType' => 'checkbox',
-    'eval' => ['multiple' => true, 'helpwizard' => true],
-    'options' => [
-        $GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['optGroup'] => [
-            // SmartgearPermissions::CORE_SIMPLE => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['simple'],
-            SmartgearPermissions::CORE_EXPERT => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['expert'],
-        ],
-        $GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['optGroup'] => [
-            // SmartgearPermissions::BLOG_SIMPLE => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['simple'],
-            SmartgearPermissions::BLOG_EXPERT => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['expert'],
-        ],
-        $GLOBALS['TL_LANG']['WEMSG']['SECURITY']['EVENTS']['optGroup'] => [
-            // SmartgearPermissions::BLOG_SIMPLE => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['simple'],
-            SmartgearPermissions::EVENTS_EXPERT => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['EVENTS']['expert'],
-        ],
-    ],
-    'sql' => ['type' => 'blob', 'notnull' => false],
-    'explanation' => 'smartgear_permissions',
-];
-
-PaletteManipulator::create()
-    ->addLegend('smartgear_permissions_legend', null)
-    ->addField('smartgear_permissions', 'smartgear_permissions_legend', PaletteManipulator::POSITION_AFTER)
-    ->applyToPalette('extend', 'tl_user')
-    ->applyToPalette('custom', 'tl_user')
-;
 
 class tl_wem_sg_user extends tl_user
 {
