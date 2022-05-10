@@ -102,3 +102,21 @@ Tags | Value | Description
 `sg::events_calendarTitle` | string | The calendar's calendar title
 `sg::events_eventsListPerPage` | int | The calendar's number of evenst per page
 `sg::events_eventsPageTitle` | string | The calendar's page title
+
+FAQ
+------------------
+
+Tags | Value | Description
+--- | --- | ---
+`sg::faq_installComplete` | string | `1` if the faq component is installed, `0` otherwise
+`sg::faq_faqCategory` | int | The faq's category ID
+`sg::faq_page` | int | The faq's page ID
+`sg::faq_article` | string | The faq's page article ID
+`sg::faq_content` | string | The faq's page article content ID
+`sg::faq_moduleFaq` | int | The faq's module faq ID
+`sg::faq_archived` | string |  `1` if the faq component is archived, `0` otherwise
+`sg::faq_archivedAt` | string | The timestamp the faq component has been archived at
+`sg::faq_archivedMode` | string | The mode the faq component has been archived with (`archive`,`keep` or `delete`)
+`sg::faq_faqFolder` |  string | The folder where faq's files are stored
+`sg::faq_faqTitle` | string | The faq's faq title
+`sg::faq_faqPageTitle` | string | The faq's page title
