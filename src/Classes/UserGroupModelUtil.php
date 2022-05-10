@@ -203,10 +203,10 @@ class UserGroupModelUtil
     }
 
     /**
-     * Add allowed faqs (do not assign news permissions).
+     * Add allowed faqs (do not assign faqs permissions).
      *
      * @param UserGroupModel $objUserGroup The UserGroup entity to work on
-     * @param array          $faqIds       The Calendars IDs
+     * @param array          $faqIds       The FAQ IDs
      *
      * @return UserGroupModel The updated UserGroup entity (not saved)
      */
@@ -229,7 +229,7 @@ class UserGroupModelUtil
      * Remove allowed faqs (do not remove faqs permissions).
      *
      * @param UserGroupModel $objUserGroup The UserGroup entity to work on
-     * @param array          $faqIds       The Calendars IDs
+     * @param array          $faqIds       The FAQ IDs
      *
      * @return UserGroupModel The updated UserGroup entity (not saved)
      */
