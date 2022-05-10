@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\EventListener;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
+use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\Config\Framway as FramwayConfiguration;
 use WEM\SmartgearBundle\Config\FramwayTheme as FramwayThemeConfiguration;
 use WEM\SmartgearBundle\Config\Manager\Framway as ConfigurationManager;
@@ -46,10 +47,38 @@ class LoadDataContainerListener
 
     public function __invoke(string $table): void
     {
+        $this->applySmartgearBehaviour($table);
+        $this->applyListeners($table);
+        $this->applyStyleManagerBehaviour($table);
+    }
+
+    protected function applySmartgearBehaviour($table): void
+    {
+        switch ($table) {
+            case 'tl_article':
+                DCAManipulator::create($table)
+                    ->addConfigOnloadCallback(\WEM\SmartgearBundle\DataContainer\Article::class, 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback(\WEM\SmartgearBundle\DataContainer\Article::class, 'deleteItem')
+                ;
+            break;
+            case 'tl_calendar':
+                DCAManipulator::create($table)
+                    ->addConfigOnloadCallback(\WEM\SmartgearBundle\DataContainer\Calendar::class, 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback(\WEM\SmartgearBundle\DataContainer\Calendar::class, 'deleteItem')
+                ;
+            break;
+        }
+    }
+
+    protected function applyListeners($table): void
+    {
         foreach ($this->listeners as $listener) {
             $listener->__invoke($table);
         }
+    }
 
+    protected function applyStyleManagerBehaviour($table): void
+    {
         // here add "explanation"/"reference" to styleManager fields ?
         if (\array_key_exists($table, $GLOBALS['TL_DCA'])
         && \array_key_exists('fields', $GLOBALS['TL_DCA'][$table])
