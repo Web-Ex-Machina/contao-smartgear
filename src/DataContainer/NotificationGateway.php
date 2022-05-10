@@ -12,21 +12,28 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+namespace WEM\SmartgearBundle\DataContainer;
+
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
+use Contao\StringUtil;
 use Contao\System;
-use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
+use NotificationCenter\tl_nc_gateway;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 
-DCAManipulator::create('tl_nc_gateway')
-    ->addConfigOnloadCallback('tl_wem_sg_notification_gateway', 'checkPermission')
-    ->setListOperationsDeleteButtonCallback('tl_wem_sg_notification_gateway', 'deleteNotificationGateway')
-;
-
-class tl_wem_sg_notification_gateway
+class NotificationGateway extends tl_nc_gateway
 {
+    /** @var CoreConfigurationManager */
+    private $configManager;
+
+    public function __construct()
+    {
+        $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
+    }
+
     /**
-     * Check permissions to edit table tl_user.
+     * Check permissions to edit table tl_nc_gateway.
      *
      * @throws AccessDeniedException
      */
@@ -35,7 +42,7 @@ class tl_wem_sg_notification_gateway
         // Check current action
         switch (Input::get('act')) {
             case 'delete':
-                if ($this->isNotificationGatewayUsedBySmartgear((int) Input::get('id'))) {
+                if ($this->isItemUsedBySmartgear((int) Input::get('id'))) {
                     throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' notification gateway ID '.Input::get('id').'.');
                 }
             break;
@@ -54,9 +61,9 @@ class tl_wem_sg_notification_gateway
      *
      * @return string
      */
-    public function deleteNotificationGateway($row, $href, $label, $title, $icon, $attributes)
+    public function deleteItem($row, $href, $label, $title, $icon, $attributes)
     {
-        if ($this->isNotificationGatewayUsedBySmartgear((int) $row['id'])) {
+        if ($this->isItemUsedBySmartgear((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.gif$/i', '_.gif', $icon)).' '; // yup, gif not svg
         }
 
@@ -66,13 +73,12 @@ class tl_wem_sg_notification_gateway
     /**
      * Check if the notification gateway is being used by Smartgear.
      *
-     * @param int $id Notification gateway's ID
+     * @param int $id notification gateway's ID
      */
-    protected function isNotificationGatewayUsedBySmartgear(int $id): bool
+    protected function isItemUsedBySmartgear(int $id): bool
     {
-        $configManager = System::getContainer()->get('smartgear.config.manager.core');
         try {
-            $config = $configManager->load();
+            $config = $this->configManager->load();
             if ($config->getSgInstallComplete() && $id === (int) $config->getSgNotificationGatewayEmail()) {
                 return true;
             }

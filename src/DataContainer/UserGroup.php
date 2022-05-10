@@ -12,40 +12,45 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+namespace WEM\SmartgearBundle\DataContainer;
+
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
+use Contao\StringUtil;
 use Contao\System;
-use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 
-DCAManipulator::create('tl_theme')
-    ->addConfigOnloadCallback('tl_wem_sg_theme', 'checkPermission')
-    ->setListOperationsDeleteButtonCallback('tl_wem_sg_theme', 'deleteTheme')
-;
-
-class tl_wem_sg_theme extends tl_theme
+class UserGroup extends \tl_user_group
 {
+    /** @var CoreConfigurationManager */
+    private $configManager;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
+    }
+
     /**
-     * Check permissions to edit table tl_theme.
+     * Check permissions to edit table user group.
      *
      * @throws AccessDeniedException
      */
     public function checkPermission(): void
     {
-        parent::checkPermission();
-
         // Check current action
         switch (Input::get('act')) {
             case 'delete':
-                if ($this->isThemeUsedBySmartgear((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' theme ID '.Input::get('id').'.');
+                if ($this->isItemUsedBySmartgear((int) Input::get('id'))) {
+                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' user group ID '.Input::get('id').'.');
                 }
             break;
         }
     }
 
     /**
-     * Return the delete theme button.
+     * Return the delete user group button.
      *
      * @param array  $row
      * @param string $href
@@ -56,9 +61,9 @@ class tl_wem_sg_theme extends tl_theme
      *
      * @return string
      */
-    public function deleteTheme($row, $href, $label, $title, $icon, $attributes)
+    public function deleteItem($row, $href, $label, $title, $icon, $attributes)
     {
-        if ($this->isThemeUsedBySmartgear((int) $row['id'])) {
+        if ($this->isItemUsedBySmartgear((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
@@ -66,16 +71,20 @@ class tl_wem_sg_theme extends tl_theme
     }
 
     /**
-     * Check if the theme is being used by Smartgear.
+     * Check if the user group is being used by Smartgear.
      *
-     * @param int $id theme's ID
+     * @param int $id user group's ID
      */
-    protected function isThemeUsedBySmartgear(int $id): bool
+    protected function isItemUsedBySmartgear(int $id): bool
     {
-        $configManager = System::getContainer()->get('smartgear.config.manager.core');
         try {
-            $config = $configManager->load();
-            if ($config->getSgInstallComplete() && $id === (int) $config->getSgTheme()) {
+            $config = $this->configManager->load();
+            if ($config->getSgInstallComplete()
+            && (
+                $id === (int) $config->getSgUsergroupWebmasters()
+                || $id === (int) $config->getSgUsergroupAdministrators()
+            )
+            ) {
                 return true;
             }
         } catch (\Exception $e) {

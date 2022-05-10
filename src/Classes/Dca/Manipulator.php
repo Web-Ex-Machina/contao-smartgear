@@ -46,6 +46,14 @@ class Manipulator
         return $this;
     }
 
+    public function addConfigOnsubmitCallback(string $className, string $functionName): self
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['config']['onsubmit_callback'][] = [$className, $functionName];
+
+        return $this;
+    }
+
     public function setListOperationsDeleteButtonCallback(string $className, string $functionName): self
     {
         $this->checkConfiguration();
@@ -62,7 +70,21 @@ class Manipulator
     public function setFieldSingleSRCPath(string $path): self
     {
         $this->checkConfiguration();
-        $GLOBALS['TL_DCA'][$this->table]['fields']['singleSRC']['eval']['path'] = $path;
+        $this->setFieldEvalProperty('singleSRC', 'path', $path);
+
+        return $this;
+    }
+
+    /**
+     * Set the source field's option callback.
+     *
+     * @param string $className    The class name containing the function
+     * @param string $functionName The function name
+     */
+    public function setFieldSourceOptionCallback(string $className, string $functionName): self
+    {
+        $this->checkConfiguration();
+        $this->setFieldProperty('source', 'options_callback', [$className, $functionName]);
 
         return $this;
     }
@@ -118,7 +140,7 @@ class Manipulator
     public function setFieldReadonly(string $field, ?bool $readOnly = true): self
     {
         $this->checkConfiguration();
-        $GLOBALS['TL_DCA'][$this->table]['fields'][$field]['eval']['readonly'] = $readOnly;
+        $this->setFieldProperty($field, 'readonly', $readOnly);
 
         return $this;
     }
@@ -130,6 +152,30 @@ class Manipulator
     {
         $this->checkConfiguration();
         unset($GLOBALS['TL_DCA'][$this->table]['list']['operations']['edit']);
+
+        return $this;
+    }
+
+    public function setFieldProperty(string $field, string $property, $value)
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['fields'][$field][$property] = $value;
+
+        return $this;
+    }
+
+    public function setFieldEvalProperty(string $field, string $property, $value)
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['fields'][$field]['eval'][$property] = $value;
+
+        return $this;
+    }
+
+    public function addField(string $field, array $configuration)
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['fields'][$field] = $configuration;
 
         return $this;
     }

@@ -18,6 +18,7 @@ use Symfony\Component\Security\Core\Security;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\DataContainer\CalendarEvents as CalendarEventsDCA;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
@@ -69,7 +70,7 @@ class LoadDataContainerListener
                         $GLOBALS['TL_LANG'][$table]['teaser_legend'] = &$GLOBALS['TL_LANG']['WEMSG']['EVENTS']['FORM']['paletteTeaserLabel'];
                         $GLOBALS['TL_LANG'][$table]['teaser'][0] = &$GLOBALS['TL_LANG']['WEMSG']['EVENTS']['FORM']['fieldTeaserLabel'];
                         $GLOBALS['TL_LANG'][$table]['teaser'][1] = &$GLOBALS['TL_LANG']['WEMSG']['EVENTS']['FORM']['fieldTeaserHelp'];
-                        $GLOBALS['TL_DCA'][$table]['fields']['source']['options_callback'] = ['tl_wem_sg_calendar_events', 'getSourceOptions'];
+                        $this->dcaManipulator->setFieldSourceOptionCallback(CalendarEventsDCA::class, 'getSourceOptions');
                     }
                 break;
             }
