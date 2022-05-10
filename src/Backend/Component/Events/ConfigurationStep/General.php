@@ -113,6 +113,7 @@ class General extends ConfigurationStep
         $this->updateModuleConfigurationAfterGenerations($page, $article, $calendar, $modules, $contents);
         $this->updateUserGroups((bool) Input::post('expertMode', false));
         $this->commandUtil->executeCmdPHP('cache:clear');
+        $this->commandUtil->executeCmdPHP('contao:symlinks');
     }
 
     protected function updateModuleConfiguration(): void
@@ -172,19 +173,11 @@ class General extends ConfigurationStep
         /** @var EventsConfig */
         $eventsConfig = $config->getSgEvents();
 
-        $article = ArticleModel::findOneByPid($page->id) ?? new ArticleModel();
-        $article->pid = $page->id;
-        $article->sorting = 128;
-        $article->title = $eventsConfig->getSgPageTitle();
-        $article->alias = $page->alias;
-        $article->author = 1;
-        $article->inColumn = 'main';
-        $article->published = 1;
-        $article->tstamp = time();
+        $article = ArticleModel::findById($eventsConfig->getSgArticle());
 
-        $article->save();
-
-        return $article;
+        return Util::createArticle($page, array_merge([
+            'title' => $eventsConfig->getSgPageTitle(),
+        ], null !== $article ? ['id' => $article->id] : []));
     }
 
     protected function createCalendarFeed(PageModel $page): CalendarModel

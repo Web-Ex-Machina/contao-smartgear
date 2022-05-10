@@ -60,7 +60,7 @@ class Smartgear extends \Contao\BackendModule
     protected $strBasePath = 'bundles/wemsmartgear';
 
     /** @var array */
-    protected $modules = ['module' => [], 'component' => ['core', 'blog', 'events']];
+    protected $modules = ['module' => [], 'component' => ['core', 'blog', 'events', 'faq']];
 
     /** @var BackupManager */
     protected $backupManager;

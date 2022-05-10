@@ -100,6 +100,10 @@ class tl_wem_sg_page extends tl_page
             if ($eventsConfig->getSgInstallComplete() && $id === (int) $eventsConfig->getSgPage()) {
                 return true;
             }
+            $faqConfig = $config->getSgFaq();
+            if ($faqConfig->getSgInstallComplete() && $id === (int) $faqConfig->getSgPage()) {
+                return true;
+            }
         } catch (\Exception $e) {
         }
 

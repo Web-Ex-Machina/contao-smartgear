@@ -98,6 +98,10 @@ class tl_wem_sg_files extends tl_files
             if ($eventsConfig->getSgInstallComplete() && $id === $eventsConfig->getSgEventsFolder()) {
                 return true;
             }
+            $faqConfig = $config->getSgFaq();
+            if ($faqConfig->getSgInstallComplete() && $id === $faqConfig->getSgFaqFolder()) {
+                return true;
+            }
         } catch (\Exception $e) {
         }
 

@@ -203,6 +203,52 @@ class UserGroupModelUtil
     }
 
     /**
+     * Add allowed faqs (do not assign faqs permissions).
+     *
+     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
+     * @param array          $faqIds       The FAQ IDs
+     *
+     * @return UserGroupModel The updated UserGroup entity (not saved)
+     */
+    public static function addAllowedFaq(UserGroupModel $objUserGroup, array $faqIds): UserGroupModel
+    {
+        // update allowed calendar
+        $allowedFaqs = null !== $objUserGroup->faqs ? unserialize($objUserGroup->faqs) : [];
+        foreach ($faqIds as $faqId) {
+            $faqIndex = array_search((string) $faqId, $allowedFaqs, true);
+            if (false === $faqIndex) {
+                $allowedFaqs[] = (string) $faqId;
+            }
+        }
+        $objUserGroup->faqs = serialize($allowedFaqs);
+
+        return $objUserGroup;
+    }
+
+    /**
+     * Remove allowed faqs (do not remove faqs permissions).
+     *
+     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
+     * @param array          $faqIds       The FAQ IDs
+     *
+     * @return UserGroupModel The updated UserGroup entity (not saved)
+     */
+    public static function removeAllowedFaq(UserGroupModel $objUserGroup, array $faqIds): UserGroupModel
+    {
+        // update allowed calendar
+        $allowedFaqs = null !== $objUserGroup->faqs ? unserialize($objUserGroup->faqs) : [];
+        foreach ($faqIds as $faqId) {
+            $faqIndex = array_search((string) $faqId, $allowedFaqs, true);
+            if (false === $faqIndex) {
+                unset($allowedFaqs[$faqIndex]);
+            }
+        }
+        $objUserGroup->faqs = serialize($allowedFaqs);
+
+        return $objUserGroup;
+    }
+
+    /**
      * Add allowed filemounts (do not assign filemount permissions).
      *
      * @param UserGroupModel $objUserGroup The UserGroup entity to work on

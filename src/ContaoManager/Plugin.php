@@ -44,6 +44,7 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface
                     \Oveleon\ContaoComponentStyleManager\ContaoComponentStyleManager::class,
                     ContaoNewsBundle::class,
                     ContaoCalendarBundle::class,
+                    ContaoFaqBundle::class,
                 ])
                 ->setReplace(['wem-smartgear']),
         ];

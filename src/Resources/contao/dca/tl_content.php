@@ -239,6 +239,10 @@ class tl_wem_sg_content extends tl_content
             ) {
                 return true;
             }
+            $faqConfig = $config->getSgFaq();
+            if ($faqConfig->getSgInstallComplete() && $id === (int) $faqConfig->getSgContent()) {
+                return true;
+            }
         } catch (\Exception $e) {
         }
 

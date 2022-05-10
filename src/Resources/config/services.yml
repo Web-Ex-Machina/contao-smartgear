@@ -214,6 +214,10 @@ services:
         class: WEM\SmartgearBundle\Config\Component\Events\Events
         public: true
 
+    smartgear.config.faq:
+        class: WEM\SmartgearBundle\Config\Component\Faq\Faq
+        public: true
+
     smartgear.config.framway:
         class: WEM\SmartgearBundle\Config\Framway
         public: true

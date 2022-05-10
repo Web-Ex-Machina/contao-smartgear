@@ -99,6 +99,10 @@ class tl_wem_sg_article extends tl_article
             if ($eventsConfig->getSgInstallComplete() && $id === (int) $eventsConfig->getSgArticle()) {
                 return true;
             }
+            $faqConfig = $config->getSgFaq();
+            if ($faqConfig->getSgInstallComplete() && $id === (int) $faqConfig->getSgArticle()) {
+                return true;
+            }
         } catch (\Exception $e) {
         }
 
