@@ -18,6 +18,7 @@ use WEM\SmartgearBundle\Classes\Config\ConfigModuleInterface;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
+use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
 
 class Core implements ConfigModuleInterface
 {
@@ -159,6 +160,8 @@ class Core implements ConfigModuleInterface
     protected $sgEvents;
     /** @var FaqConfig */
     protected $sgFaq;
+    /** @var FormContactConfig */
+    protected $sgFormContact;
 
     public function reset(): self
     {
@@ -216,6 +219,7 @@ class Core implements ConfigModuleInterface
             ->setSgBlog((new BlogConfig())->reset())
             ->setSgEvents((new EventsConfig())->reset())
             ->setSgFaq((new FaqConfig())->reset())
+            ->setSgFormContact((new FormContactConfig())->reset())
         ;
 
         return $this;
@@ -288,6 +292,11 @@ class Core implements ConfigModuleInterface
                 $json->faq
                 ? (new FaqConfig())->import($json->faq)
                 : (new FaqConfig())->reset()
+            )
+            ->setSgFormContact(
+                $json->formContact
+                ? (new FormContactConfig())->import($json->formContact)
+                : (new FormContactConfig())->reset()
             )
         ;
 
@@ -379,6 +388,7 @@ class Core implements ConfigModuleInterface
         $json->blog = $this->getSgBlog()->export();
         $json->events = $this->getSgEvents()->export();
         $json->faq = $this->getSgFaq()->export();
+        $json->formContact = $this->getSgFormContact()->export();
 
         return json_encode($json, \JSON_PRETTY_PRINT);
     }
@@ -1047,6 +1057,18 @@ class Core implements ConfigModuleInterface
     public function setSgContentSitemap(?int $sgContentSitemap): self
     {
         $this->sgContentSitemap = $sgContentSitemap;
+
+        return $this;
+    }
+
+    public function getSgFormContact(): FormContactConfig
+    {
+        return $this->sgFormContact;
+    }
+
+    public function setSgFormContact(FormContactConfig $sgFormContact): self
+    {
+        $this->sgFormContact = $sgFormContact;
 
         return $this;
     }

@@ -104,6 +104,15 @@ class Page extends \tl_page
             if ($faqConfig->getSgInstallComplete() && $id === (int) $faqConfig->getSgPage()) {
                 return true;
             }
+            $formContactConfig = $config->getSgFormContact();
+            if ($formContactConfig->getSgInstallComplete()
+            && (
+                $id === (int) $formContactConfig->getSgPageForm()
+                || $id === (int) $formContactConfig->getSgPageFormSent()
+            )
+            ) {
+                return true;
+            }
         } catch (\Exception $e) {
         }
 

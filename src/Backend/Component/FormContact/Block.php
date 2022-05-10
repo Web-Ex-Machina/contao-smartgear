@@ -27,9 +27,9 @@ class Block extends BackendBlock
 {
     public const MODE_RESET = 'check_reset';
     protected $type = 'component';
-    protected $module = 'formContact';
+    protected $module = 'form_contact';
     protected $icon = 'exclamation-triangle';
-    protected $title = 'FAQ';
+    protected $title = 'Form Contact';
 
     protected $resetStepManager;
 
