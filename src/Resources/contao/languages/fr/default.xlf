@@ -1260,6 +1260,22 @@
 			<source>Name</source>
 			<target>Nom</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputEmail">
+			<source>Email</source>
+			<target>Email</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputMessage">
+			<source>Message</source>
+			<target>Message</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputCaptcha">
+			<source>Captcha</source>
+			<target>Captcha</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputSubmit">
+			<source>Send</source>
+			<target>Envoyer</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.RESET.title">
 			<source>Uninstall</source>
 			<target>Désinstallation</target>

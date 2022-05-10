@@ -93,13 +93,13 @@ class General extends ConfigurationStep
         $pages = $this->createPages();
 
         $articles = $this->createArticles($pages);
-        $contents = $this->createContents($pages, $articles);
         $notification = $this->createNotificationGatewayNotification(Input::post('formContactTitle'));
         $notificationGatewayMessages = $this->createNotificationGatewayMessages($notification);
         $notificationGatewayMessagesLanguages = $this->createNotificationGatewayMessagesLanguages($notificationGatewayMessages, Input::post('formContactTitle'));
         $form = $this->createForm(Input::post('formContactTitle'), $pages['formSent'], $notification);
         $formInputs = $this->createFormInputs($form);
 
+        $contents = $this->createContents($pages, $articles, $form);
         $this->updateModuleConfigurationAfterGenerations($pages, $articles, $contents, $notification, $notificationGatewayMessages, $notificationGatewayMessagesLanguages, $form, $formInputs);
         // $this->updateUserGroups();
         $this->commandUtil->executeCmdPHP('cache:clear');
@@ -197,10 +197,13 @@ class General extends ConfigurationStep
 
     protected function createArticles(array $pages): array
     {
-        return ['form' => $this->createArticlePageForm($pages['form']), 'formSent' => $this->createArticlePageForm($pages['formSent'])];
+        return [
+            'form' => $this->createArticlePageForm($pages['form']),
+            'formSent' => $this->createArticlePageFormSent($pages['formSent']),
+        ];
     }
 
-    protected function createContentsPageForm(PageModel $page, ArticleModel $article): array
+    protected function createContentsPageForm(PageModel $page, ArticleModel $article, FormModel $form): array
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
@@ -213,12 +216,13 @@ class General extends ConfigurationStep
             'cssID' => ',sep-bottom',
         ], null !== $headline ? ['id' => $headline->id] : []));
 
-        $form = ContentModel::findOneById((int) $formContactConfig->getSgContentFormArticleForm());
-        $form = Util::createContent($article, array_merge([
-            'form' => $page->id,
-        ], null !== $form ? ['id' => $form->id] : []));
+        $contentForm = ContentModel::findOneById((int) $formContactConfig->getSgContentFormArticleForm());
+        $contentForm = Util::createContent($article, array_merge([
+            'type' => 'form',
+            'form' => $form->id,
+        ], null !== $contentForm ? ['id' => $contentForm->id] : []));
 
-        return ['headline' => $headline, 'form' => $form];
+        return ['headline' => $headline, 'form' => $contentForm];
     }
 
     protected function createContentsPageFormSent(PageModel $page, ArticleModel $article): array
@@ -242,10 +246,10 @@ class General extends ConfigurationStep
         return ['headline' => $headline, 'text' => $text];
     }
 
-    protected function createContents(array $pages, array $articles): array
+    protected function createContents(array $pages, array $articles, FormModel $form): array
     {
         return [
-            'form' => $this->createContentsPageForm($pages['form'], $articles['form']),
+            'form' => $this->createContentsPageForm($pages['form'], $articles['form'], $form),
             'formSent' => $this->createContentsPageFormSent($pages['formSent'], $articles['formSent']),
         ];
     }
@@ -319,7 +323,7 @@ class General extends ConfigurationStep
 
         $strText = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/formContact/user_form.html');
 
-        $nl = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageAdmin()) ?? new NotificationLanguageModel();
+        $nl = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageLanguageUser()) ?? new NotificationLanguageModel();
         $nl->pid = $gatewayMessage->id;
         $nl->tstamp = time();
         $nl->language = 'fr';
@@ -345,7 +349,7 @@ class General extends ConfigurationStep
 
         $strText = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/formContact/admin_form.html');
 
-        $nl = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageAdmin()) ?? new NotificationLanguageModel();
+        $nl = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageLanguageAdmin()) ?? new NotificationLanguageModel();
         $nl->pid = $gatewayMessage->id;
         $nl->tstamp = time();
         $nl->language = 'fr';
@@ -398,13 +402,54 @@ class General extends ConfigurationStep
         $inputName = FormFieldModel::findOneById($formContactConfig->getSgFieldName()) ?? new FormFieldModel();
         $inputName->pid = $form->id;
         $inputName->sorting = 128;
+        $inputName->type = 'text';
         $inputName->name = 'name';
         $inputName->label = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputName', [], 'contao_default');
         $inputName->mandatory = 1;
         $inputName->tstamp = time();
         $inputName->save();
 
-        return ['name' => $inputName];
+        $inputEmail = FormFieldModel::findOneById($formContactConfig->getSgFieldEmail()) ?? new FormFieldModel();
+        $inputEmail->pid = $form->id;
+        $inputEmail->sorting = 128;
+        $inputEmail->type = 'text';
+        $inputEmail->name = 'email';
+        $inputEmail->label = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputEmail', [], 'contao_default');
+        $inputEmail->mandatory = 1;
+        $inputEmail->tstamp = time();
+        $inputEmail->save();
+
+        $inputMessage = FormFieldModel::findOneById($formContactConfig->getSgFieldMessage()) ?? new FormFieldModel();
+        $inputMessage->pid = $form->id;
+        $inputMessage->sorting = 128;
+        $inputMessage->type = 'textarea';
+        $inputMessage->name = 'message';
+        $inputMessage->label = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputMessage', [], 'contao_default');
+        $inputMessage->mandatory = 1;
+        $inputMessage->tstamp = time();
+        $inputMessage->save();
+
+        $inputCaptcha = FormFieldModel::findOneById($formContactConfig->getSgFieldCaptcha()) ?? new FormFieldModel();
+        $inputCaptcha->pid = $form->id;
+        $inputCaptcha->sorting = 128;
+        $inputCaptcha->type = 'captcha';
+        $inputCaptcha->name = 'captcha';
+        $inputCaptcha->label = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputCaptcha', [], 'contao_default');
+        $inputCaptcha->mandatory = 1;
+        $inputCaptcha->tstamp = time();
+        $inputCaptcha->save();
+
+        $inputSubmit = FormFieldModel::findOneById($formContactConfig->getSgFieldSubmit()) ?? new FormFieldModel();
+        $inputSubmit->pid = $form->id;
+        $inputSubmit->sorting = 128;
+        $inputSubmit->type = 'submit';
+        $inputSubmit->name = 'submit';
+        $inputSubmit->slabel = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputSubmit', [], 'contao_default');
+        $inputSubmit->mandatory = 1;
+        $inputSubmit->tstamp = time();
+        $inputSubmit->save();
+
+        return ['name' => $inputName, 'email' => $inputEmail, 'message' => $inputMessage, 'captcha' => $inputCaptcha, 'submit' => $inputSubmit];
     }
 
     protected function updateModuleConfigurationAfterGenerations(array $pages, array $articles, array $contents, NotificationModel $notification, array $notificationGatewayMessages, array $notificationGatewayMessagesLanguages, FormModel $form, array $formInputs): void
@@ -425,16 +470,15 @@ class General extends ConfigurationStep
             ->setSgContentTextArticleFormSent((int) $contents['formSent']['text']->id)
             ->setSgFormContact((int) $form->id)
             ->setSgFieldName((int) $formInputs['name']->id)
-            ->setSgFieldEmail(null)
-            ->setSgFieldMessage(null)
-            ->setSgFieldCaptcha(null)
-            ->setSgFieldSubmit(null)
+            ->setSgFieldEmail((int) $formInputs['email']->id)
+            ->setSgFieldMessage((int) $formInputs['message']->id)
+            ->setSgFieldCaptcha((int) $formInputs['captcha']->id)
+            ->setSgFieldSubmit((int) $formInputs['submit']->id)
             ->setSgNotification((int) $notification->id)
             ->setSgNotificationMessageUser((int) $notificationGatewayMessages['user']->id)
             ->setSgNotificationMessageAdmin((int) $notificationGatewayMessages['admin']->id)
             ->setSgNotificationMessageUserLanguage((int) $notificationGatewayMessagesLanguages['user']->id)
             ->setSgNotificationMessageAdminLanguage((int) $notificationGatewayMessagesLanguages['admin']->id)
-
         ;
 
         $config->setSgFormContact($formContactConfig);
