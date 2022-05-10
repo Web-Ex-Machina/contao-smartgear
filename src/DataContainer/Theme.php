@@ -12,26 +12,28 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+namespace WEM\SmartgearBundle\DataContainer;
+
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
+use Contao\StringUtil;
 use Contao\System;
-use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 
-DCAManipulator::create('tl_layout')
-    ->addConfigOnloadCallback('tl_wem_sg_layout', 'checkPermission')
-    ->setListOperationsDeleteButtonCallback('tl_wem_sg_layout', 'deleteLayout')
-;
-
-/**
- * Provide miscellaneous methods that are used by the data configuration array.
- *
- * @property News $News
- */
-class tl_wem_sg_layout extends tl_layout
+class Theme extends \tl_theme
 {
+    /** @var CoreConfigurationManager */
+    private $configManager;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
+    }
+
     /**
-     * Check permissions to edit table tl_layout.
+     * Check permissions to edit table theme.
      *
      * @throws AccessDeniedException
      */
@@ -42,15 +44,15 @@ class tl_wem_sg_layout extends tl_layout
         // Check current action
         switch (Input::get('act')) {
             case 'delete':
-                if ($this->isLayoutUsedBySmartgear((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' layout ID '.Input::get('id').'.');
+                if ($this->isItemUsedBySmartgear((int) Input::get('id'))) {
+                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' theme ID '.Input::get('id').'.');
                 }
             break;
         }
     }
 
     /**
-     * Return the delete layout button.
+     * Return the delete theme button.
      *
      * @param array  $row
      * @param string $href
@@ -61,9 +63,9 @@ class tl_wem_sg_layout extends tl_layout
      *
      * @return string
      */
-    public function deleteLayout($row, $href, $label, $title, $icon, $attributes)
+    public function deleteItem($row, $href, $label, $title, $icon, $attributes)
     {
-        if ($this->isLayoutUsedBySmartgear((int) $row['id'])) {
+        if ($this->isItemUsedBySmartgear((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
@@ -71,21 +73,15 @@ class tl_wem_sg_layout extends tl_layout
     }
 
     /**
-     * Check if the layout is being used by Smartgear.
+     * Check if the theme is being used by Smartgear.
      *
-     * @param int $id layout's ID
+     * @param int $id theme's ID
      */
-    protected function isLayoutUsedBySmartgear(int $id): bool
+    protected function isItemUsedBySmartgear(int $id): bool
     {
-        $configManager = System::getContainer()->get('smartgear.config.manager.core');
         try {
-            $config = $configManager->load();
-            if ($config->getSgInstallComplete()
-            && (
-                $id === (int) $config->getSgLayoutStandard()
-                || $id === (int) $config->getSgLayoutFullwidth()
-            )
-            ) {
+            $config = $this->configManager->load();
+            if ($config->getSgInstallComplete() && $id === (int) $config->getSgTheme()) {
                 return true;
             }
         } catch (\Exception $e) {

@@ -12,24 +12,25 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+namespace WEM\SmartgearBundle\DataContainer;
+
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
-use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 
-DCAManipulator::create('tl_page')
-    ->addConfigOnloadCallback('tl_wem_sg_page', 'checkPermission')
-    ->setListOperationsDeleteButtonCallback('tl_wem_sg_page', 'deletePage')
-;
-
-/**
- * Provide miscellaneous methods that are used by the data configuration array.
- *
- * @property News $News
- */
-class tl_wem_sg_page extends tl_page
+class Page extends \tl_page
 {
+    /** @var CoreConfigurationManager */
+    private $configManager;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
+    }
+
     /**
      * Check permissions to edit table tl_page.
      *
@@ -42,7 +43,7 @@ class tl_wem_sg_page extends tl_page
         // Check current action
         switch (Input::get('act')) {
             case 'delete':
-                if ($this->isPageUsedBySmartgear((int) Input::get('id'))) {
+                if ($this->isItemUsedBySmartgear((int) Input::get('id'))) {
                     throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' page ID '.Input::get('id').'.');
                 }
             break;
@@ -61,9 +62,9 @@ class tl_wem_sg_page extends tl_page
      *
      * @return string
      */
-    public function deletePage($row, $href, $label, $title, $icon, $attributes)
+    public function deleteItem($row, $href, $label, $title, $icon, $attributes)
     {
-        if ($this->isPageUsedBySmartgear((int) $row['id'])) {
+        if ($this->isItemUsedBySmartgear((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
@@ -75,11 +76,10 @@ class tl_wem_sg_page extends tl_page
      *
      * @param int $id page's ID
      */
-    protected function isPageUsedBySmartgear(int $id): bool
+    protected function isItemUsedBySmartgear(int $id): bool
     {
-        $configManager = System::getContainer()->get('smartgear.config.manager.core');
         try {
-            $config = $configManager->load();
+            $config = $this->configManager->load();
             if ($config->getSgInstallComplete()
             && (
                 $id === (int) $config->getSgPageRoot()

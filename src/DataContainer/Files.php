@@ -12,25 +12,26 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+namespace WEM\SmartgearBundle\DataContainer;
+
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
-use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
-DCAManipulator::create('tl_files')
-    ->addConfigOnloadCallback('tl_wem_sg_files', 'checkPermission')
-    ->setListOperationsDeleteButtonCallback('tl_wem_sg_files', 'deleteFile')
-;
-
-/**
- * Provide miscellaneous methods that are used by the data configuration array.
- *
- * @property News $News
- */
-class tl_wem_sg_files extends tl_files
+class Files extends \tl_files
 {
+    /** @var CoreConfigurationManager */
+    private $configManager;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
+    }
+
     /**
      * Check permissions to edit table tl_files.
      *
@@ -43,7 +44,7 @@ class tl_wem_sg_files extends tl_files
         // Check current action
         switch (Input::get('act')) {
             case 'delete':
-                if ($this->isFileUsedBySmartgear(Input::get('id'))) {
+                if ($this->isItemUsedBySmartgear(Input::get('id'))) {
                     throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' files ID '.Input::get('id').'.');
                 }
             break;
@@ -62,9 +63,9 @@ class tl_wem_sg_files extends tl_files
      *
      * @return string
      */
-    public function deleteFile($row, $href, $label, $title, $icon, $attributes)
+    public function deleteItem($row, $href, $label, $title, $icon, $attributes)
     {
-        if ($this->isFileUsedBySmartgear($row['id'])) {
+        if ($this->isItemUsedBySmartgear($row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
@@ -73,14 +74,11 @@ class tl_wem_sg_files extends tl_files
 
     /**
      * Check if the files is being used by Smartgear.
-     *
-     * @param int $id files's ID
      */
-    protected function isFileUsedBySmartgear($id): bool
+    protected function isItemUsedBySmartgear(string $id): bool
     {
-        $configManager = System::getContainer()->get('smartgear.config.manager.core');
         try {
-            $config = $configManager->load();
+            $config = $this->configManager->load();
             if ($config->getSgInstallComplete()
             && (
                 CoreConfig::DEFAULT_CLIENT_FILES_FOLDER === $id

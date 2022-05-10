@@ -13,16 +13,6 @@ declare(strict_types=1);
  */
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
-use Contao\CoreBundle\Exception\AccessDeniedException;
-use Contao\Image;
-use Contao\Input;
-use Contao\System;
-use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
-
-DCAManipulator::create('tl_content')
-    ->addConfigOnloadCallback('tl_wem_sg_content', 'checkPermission')
-    ->setListOperationsDeleteButtonCallback('tl_wem_sg_content', 'deleteElement')
-;
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['options_callback'] = static function (Contao\DataContainer $dc) {
     return WEM\SmartgearBundle\Override\Controller::getTemplateGroup('ce_'.$dc->activeRecord->type.'_', [], 'ce_'.$dc->activeRecord->type);
@@ -152,100 +142,4 @@ function updatePalettePlayer(): void
     //     ->removeField('cssID')
     //     ->applyToPalette('player', 'tl_content')
     // ;
-}
-/**
- * Provide miscellaneous methods that are used by the data configuration array.
- *
- * @property News $News
- */
-class tl_wem_sg_content extends tl_content
-{
-    /**
-     * Check permissions to edit table tl_content.
-     *
-     * @throws AccessDeniedException
-     */
-    public function checkPermission(): void
-    {
-        parent::checkPermission();
-
-        // Check current action
-        switch (Input::get('act')) {
-            case 'delete':
-                if ($this->isContentUsedBySmartgear((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' content ID '.Input::get('id').'.');
-                }
-            break;
-        }
-    }
-
-    /**
-     * Return the delete content button.
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
-     */
-    public function deleteElement($row, $href, $label, $title, $icon, $attributes)
-    {
-        if ($this->isContentUsedBySmartgear((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
-        }
-
-        return parent::deleteElement($row, $href, $label, $title, $icon, $attributes);
-    }
-
-    /**
-     * Check if the content is being used by Smartgear.
-     *
-     * @param int $id content's ID
-     */
-    protected function isContentUsedBySmartgear(int $id): bool
-    {
-        $configManager = System::getContainer()->get('smartgear.config.manager.core');
-        try {
-            $config = $configManager->load();
-            if ($config->getSgInstallComplete()
-            && (
-                $id === (int) $config->getSgContent404Headline()
-                || $id === (int) $config->getSgContent404Sitemap()
-                || $id === (int) $config->getSgContentLegalNotice()
-                || $id === (int) $config->getSgContentPrivacyPolitics()
-                || $id === (int) $config->getSgContentSitemap()
-            )
-            ) {
-                return true;
-            }
-            $blogConfig = $config->getSgBlog();
-            if ($blogConfig->getSgInstallComplete()
-            && (
-                $id === (int) $blogConfig->getSgContentHeadline()
-                || $id === (int) $blogConfig->getSgContentList()
-            )
-            ) {
-                return true;
-            }
-            $eventsConfig = $config->getSgEvents();
-            if ($eventsConfig->getSgInstallComplete()
-            && (
-                $id === (int) $eventsConfig->getSgContentHeadline()
-                || $id === (int) $eventsConfig->getSgContentList()
-            )
-            ) {
-                return true;
-            }
-            $faqConfig = $config->getSgFaq();
-            if ($faqConfig->getSgInstallComplete() && $id === (int) $faqConfig->getSgContent()) {
-                return true;
-            }
-        } catch (\Exception $e) {
-        }
-
-        return false;
-    }
 }
