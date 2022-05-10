@@ -172,6 +172,14 @@ class Manipulator
         return $this;
     }
 
+    public function addField(string $field, array $configuration)
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['fields'][$field] = $configuration;
+
+        return $this;
+    }
+
     protected function checkConfiguration(): void
     {
         if (null === $this->table) {

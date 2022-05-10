@@ -12,9 +12,13 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['addressLat'] = [
-    'sql' => "varchar(20) unsigned NOT NULL DEFAULT ''",
-];
-$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['addressLon'] = [
-    'sql' => "varchar(20) unsigned NOT NULL DEFAULT ''",
-];
+use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
+
+DCAManipulator::create('tl_calendar_events')
+    ->addField('addressLat', [
+        'sql' => "varchar(20) unsigned NOT NULL DEFAULT ''",
+    ])
+    ->addField('addressLon', [
+        'sql' => "varchar(20) unsigned NOT NULL DEFAULT ''",
+    ])
+;
