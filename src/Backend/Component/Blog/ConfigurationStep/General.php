@@ -224,19 +224,11 @@ class General extends ConfigurationStep
         $blogConfig = $config->getSgBlog();
         $presetConfig = $blogConfig->getCurrentPreset();
 
-        $article = ArticleModel::findOneByPid($page->id) ?? new ArticleModel();
-        $article->pid = $page->id;
-        $article->sorting = 128;
-        $article->title = $presetConfig->getSgPageTitle();
-        $article->alias = $page->alias;
-        $article->author = 1;
-        $article->inColumn = 'main';
-        $article->published = 1;
-        $article->tstamp = time();
+        $article = ArticleModel::findById($blogConfig->getSgArticle());
 
-        $article->save();
-
-        return $article;
+        return Util::createArticle($page, array_merge([
+            'title' => $presetConfig->getSgPageTitle(),
+        ], null !== $article ? ['id' => $article->id] : []));
     }
 
     protected function createNewsArchive(PageModel $page): NewsArchiveModel

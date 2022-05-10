@@ -147,19 +147,11 @@ class General extends ConfigurationStep
         /** @var FaqConfig */
         $faqConfig = $config->getSgFaq();
 
-        $article = ArticleModel::findOneByPid($page->id) ?? new ArticleModel();
-        $article->pid = $page->id;
-        $article->sorting = 128;
-        $article->title = $faqConfig->getSgPageTitle();
-        $article->alias = $page->alias;
-        $article->author = 1;
-        $article->inColumn = 'main';
-        $article->published = 1;
-        $article->tstamp = time();
+        $article = ArticleModel::findById($faqConfig->getSgArticle());
 
-        $article->save();
-
-        return $article;
+        return Util::createArticle($page, array_merge([
+            'title' => $faqConfig->getSgPageTitle(),
+        ], null !== $article ? ['id' => $article->id] : []));
     }
 
     protected function createFaqCategory(PageModel $page): FaqCategoryModel
