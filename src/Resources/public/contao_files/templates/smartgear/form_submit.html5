@@ -1,4 +1,3 @@
-<?php $this->extend('form_row'); ?>
 
 <?php $this->block('field'); ?>
   <?php if ($this->src): ?>
