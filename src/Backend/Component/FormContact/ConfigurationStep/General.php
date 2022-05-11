@@ -47,6 +47,8 @@ class General extends ConfigurationStep
     protected $commandUtil;
     /** @var HtmlDecoder */
     protected $htmlDecoder;
+    /** @var string */
+    protected $language;
 
     public function __construct(
         string $module,
@@ -61,6 +63,7 @@ class General extends ConfigurationStep
         $this->configurationManager = $configurationManager;
         $this->commandUtil = $commandUtil;
         $this->htmlDecoder = $htmlDecoder;
+        $this->language = \Contao\BackendUser::getInstance()->language;
 
         $this->title = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.title', [], 'contao_default');
         /** @var FormContactConfig */
@@ -320,7 +323,7 @@ class General extends ConfigurationStep
         /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
-        $strText = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/formContact/user_form.html');
+        $strText = file_get_contents(sprintf('%s/public/bundles/wemsmartgear/examples/formContact/%s/user_form.html', TL_ROOT, $this->language));
 
         $nl = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageUserLanguage()) ?? new NotificationLanguageModel();
         $nl->pid = $gatewayMessage->id;
@@ -346,7 +349,7 @@ class General extends ConfigurationStep
         /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
-        $strText = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/formContact/admin_form.html');
+        $strText = file_get_contents(sprintf('%s/public/bundles/wemsmartgear/examples/formContact/%s/admin_form.html', TL_ROOT, $this->language));
 
         $nl = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageAdminLanguage()) ?? new NotificationLanguageModel();
         $nl->pid = $gatewayMessage->id;

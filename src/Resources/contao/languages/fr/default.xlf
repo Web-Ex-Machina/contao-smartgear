@@ -1309,8 +1309,8 @@
 			<target>Archiver</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeArchiveDescription">
-			<source>Files folder will be moved to `files/archives/faq-{timestamp}` and faq's name suffixed with " (Archive-{timestamp})".</source>
-			<target>Le dossier de fichiers associé à la FAQ sera déplacé vers `files/archives/faq-{timestamp}` et le nom de la FAQ sera suffixé par " (Archive-{timestamp})".</target>
+			<source>Form's name wille be suffixed with " (Archive-{timestamp})".</source>
+			<target>Le nom du formulaire sera suffixé par " (Archive-{timestamp})".</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeKeepLabel">
 			<source>Keep</source>
@@ -1318,15 +1318,15 @@
 		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeKeepDescription">
 			<source>All data will be kept in place.</source>
-			<target>Toutes les données seront conservées et ne seront pas déplacées.</target>
+			<target>Toutes les données seront conservées.</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeDeleteLabel">
 			<source>Delete</source>
 			<target>Supprimer</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeDeleteDescription">
-			<source>Files and faq will be deleted.</source>
-			<target>Les fichiers ainsi que la FAQ seront supprimés.</target>
+			<source>Form contact will be deleted.</source>
+			<target>Le formulaire de contact sera supprimé.</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeUnknown">
 			<source>Uninstall</source>
