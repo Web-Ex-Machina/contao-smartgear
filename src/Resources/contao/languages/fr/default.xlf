@@ -1276,6 +1276,14 @@
 			<source>Send</source>
 			<target>Envoyer</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageUser">
+			<source>%s - %s</source>
+			<target>%s - %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageUser">
+			<source>%s - %s</source>
+			<target>%s - %s</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.RESET.title">
 			<source>Uninstall</source>
 			<target>Désinstallation</target>

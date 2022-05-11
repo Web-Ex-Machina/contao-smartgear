@@ -17,7 +17,6 @@ namespace WEM\SmartgearBundle\Backend\Component\FormContact\ConfigurationStep;
 use Contao\ArticleModel;
 use Contao\ContentModel;
 use Contao\CoreBundle\String\HtmlDecoder;
-use Contao\FilesModel;
 use Contao\FormFieldModel;
 use Contao\FormModel;
 use Contao\Input;
@@ -101,7 +100,7 @@ class General extends ConfigurationStep
 
         $contents = $this->createContents($pages, $articles, $form);
         $this->updateModuleConfigurationAfterGenerations($pages, $articles, $contents, $notification, $notificationGatewayMessages, $notificationGatewayMessagesLanguages, $form, $formInputs);
-        // $this->updateUserGroups();
+        $this->updateUserGroups();
         $this->commandUtil->executeCmdPHP('cache:clear');
     }
 
@@ -314,7 +313,7 @@ class General extends ConfigurationStep
         ];
     }
 
-    protected function createNotificationGatewayMessagesLanguagesUser(NotificationMessageModel $gatewayMessage): NotificationLanguageModel
+    protected function createNotificationGatewayMessagesLanguagesUser(NotificationMessageModel $gatewayMessage, string $formTitle): NotificationLanguageModel
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
@@ -331,7 +330,7 @@ class General extends ConfigurationStep
         $nl->recipients = '##form_email##';
         $nl->email_sender_name = $config->getSgWebsiteTitle();
         $nl->email_sender_address = $config->getSgOwnerEmail();
-        $nl->email_subject = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageUser', [$config->getSgWebsiteTitle()], 'contao_default');
+        $nl->email_subject = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageUser', [$config->getSgWebsiteTitle(), $formTitle], 'contao_default');
         $nl->email_mode = 'textAndHtml';
         $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, true);
         $nl->email_html = $strText;
@@ -340,7 +339,7 @@ class General extends ConfigurationStep
         return $nl;
     }
 
-    protected function createNotificationGatewayMessagesLanguagesAdmin(NotificationMessageModel $gatewayMessage): NotificationLanguageModel
+    protected function createNotificationGatewayMessagesLanguagesAdmin(NotificationMessageModel $gatewayMessage, string $formTitle): NotificationLanguageModel
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
@@ -357,7 +356,7 @@ class General extends ConfigurationStep
         $nl->recipients = '##admin_email##';
         $nl->email_sender_name = $config->getSgWebsiteTitle();
         $nl->email_sender_address = $config->getSgOwnerEmail();
-        $nl->email_subject = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageUser', [$config->getSgWebsiteTitle()], 'contao_default');
+        $nl->email_subject = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageUser', [$config->getSgWebsiteTitle(), $formTitle], 'contao_default');
         $nl->email_mode = 'textAndHtml';
         $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, true);
         $nl->email_html = $strText;
@@ -486,56 +485,43 @@ class General extends ConfigurationStep
         $this->configurationManager->save($config);
     }
 
-    // protected function updateUserGroups(): void
-    // {
-    //     /** @var CoreConfig */
-    //     $config = $this->configurationManager->load();
-    //     /** @var FormContactConfig */
-    //     $formContactConfig = $config->getSgFormContact();
+    protected function updateUserGroups(): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        /** @var FormContactConfig */
+        $formContactConfig = $config->getSgFormContact();
 
-    //     // retrieve the webmaster's group and update the permissions
+        // retrieve the webmaster's group and update the permissions
 
-    //     $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
-    //     $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
-    //     $objUserGroup = $this->updateUserGroupAllowedFormContact($objUserGroup, $formContactConfig);
-    //     $objUserGroup = $this->updateUserGroupAllowedDirectory($objUserGroup, $formContactConfig);
-    //     $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
-    //     $objUserGroup->save();
+        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
+        $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
+        $objUserGroup = $this->updateUserGroupAllowedFormContact($objUserGroup, $formContactConfig);
+        $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
+        $objUserGroup->save();
 
-    //     $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
-    //     $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
-    //     $objUserGroup = $this->updateUserGroupAllowedFormContact($objUserGroup, $formContactConfig);
-    //     $objUserGroup = $this->updateUserGroupAllowedDirectory($objUserGroup, $formContactConfig);
-    //     $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
-    //     $objUserGroup->save();
-    // }
+        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
+        $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
+        $objUserGroup = $this->updateUserGroupAllowedFormContact($objUserGroup, $formContactConfig);
+        $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
+        $objUserGroup->save();
+    }
 
-    // protected function updateUserGroupAllowedModules(UserGroupModel $objUserGroup): UserGroupModel
-    // {
-    //     return UserGroupModelUtil::addAllowedModules($objUserGroup, ['formContact']);
-    // }
+    protected function updateUserGroupAllowedModules(UserGroupModel $objUserGroup): UserGroupModel
+    {
+        return UserGroupModelUtil::addAllowedModules($objUserGroup, ['form']);
+    }
 
-    // protected function updateUserGroupAllowedFormContact(UserGroupModel $objUserGroup, FormContactConfig $formContactConfig): UserGroupModel
-    // {
-    //     $objUserGroup = UserGroupModelUtil::addAllowedFormContact($objUserGroup, [$formContactConfig->getSgFormContactCategory()]);
-    //     $objUserGroup->formContactp = serialize(['create', 'delete']);
+    protected function updateUserGroupAllowedFormContact(UserGroupModel $objUserGroup, FormContactConfig $formContactConfig): UserGroupModel
+    {
+        $objUserGroup = UserGroupModelUtil::addAllowedForms($objUserGroup, [$formContactConfig->getSgFormContact()]);
+        $objUserGroup->formContactp = serialize(['create', 'delete']);
 
-    //     return $objUserGroup;
-    // }
+        return $objUserGroup;
+    }
 
-    // protected function updateUserGroupAllowedDirectory(UserGroupModel $objUserGroup, FormContactConfig $formContactConfig): UserGroupModel
-    // {
-    //     // add allowed directory
-    //     $objFolder = FilesModel::findByPath($formContactConfig->getSgFormContactFolder());
-    //     if (!$objFolder) {
-    //         throw new Exception('Unable to find the folder');
-    //     }
-
-    //     return UserGroupModelUtil::addAllowedFilemounts($objUserGroup, [$objFolder->uuid]);
-    // }
-
-    // protected function updateUserGroupAllowedFields(UserGroupModel $objUserGroup): UserGroupModel
-    // {
-    //     return UserGroupModelUtil::addAllowedFieldsByTables($objUserGroup, ['tl_formContact']);
-    // }
+    protected function updateUserGroupAllowedFields(UserGroupModel $objUserGroup): UserGroupModel
+    {
+        return UserGroupModelUtil::addAllowedFieldsByTables($objUserGroup, ['tl_form']);
+    }
 }

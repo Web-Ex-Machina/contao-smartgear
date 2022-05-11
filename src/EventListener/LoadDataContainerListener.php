@@ -26,6 +26,7 @@ use WEM\SmartgearBundle\DataContainer\CalendarEvents as CalendarEventsDCA;
 use WEM\SmartgearBundle\DataContainer\Content as ContentDCA;
 use WEM\SmartgearBundle\DataContainer\FaqCategory as FaqCategoryDCA;
 use WEM\SmartgearBundle\DataContainer\Files as FilesDCA;
+use WEM\SmartgearBundle\DataContainer\Form as FormDCA;
 use WEM\SmartgearBundle\DataContainer\Layout as LayoutDCA;
 use WEM\SmartgearBundle\DataContainer\Module as ModuleDCA;
 use WEM\SmartgearBundle\DataContainer\NewsArchive as NewsArchiveDCA;
@@ -102,6 +103,12 @@ class LoadDataContainerListener
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(FilesDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(FilesDCA::class, 'deleteItem')
+                ;
+            break;
+            case 'tl_form':
+                DCAManipulator::create($table)
+                    ->addConfigOnloadCallback(FormDCA::class, 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback(FormDCA::class, 'deleteItem')
                 ;
             break;
             case 'tl_layout':
