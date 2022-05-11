@@ -282,6 +282,7 @@ class General extends ConfigurationStep
         $nm = NotificationMessageModel::findOneById($formContactConfig->getSgNotificationMessageUser()) ?? new NotificationMessageModel();
         $nm->pid = $gateway->id;
         $nm->gateway = $config->getSgNotificationGatewayEmail();
+        $nm->gateway_type = 'email';
         $nm->tstamp = time();
         $nm->title = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.titleNotificationGatewayMessageUser', [], 'contao_default');
         $nm->published = 1;
@@ -300,6 +301,7 @@ class General extends ConfigurationStep
         $nm = NotificationMessageModel::findOneById($formContactConfig->getSgNotificationMessageAdmin()) ?? new NotificationMessageModel();
         $nm->pid = $gateway->id;
         $nm->gateway = $config->getSgNotificationGatewayEmail();
+        $nm->gateway_type = 'email';
         $nm->tstamp = time();
         $nm->title = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.titleNotificationGatewayMessageAdmin', [], 'contao_default');
         $nm->published = 1;
@@ -331,6 +333,7 @@ class General extends ConfigurationStep
         $nl->language = 'fr';
         $nl->fallback = 1;
         $nl->recipients = '##form_email##';
+        $nl->gateway_type = 'email';
         $nl->email_sender_name = $config->getSgWebsiteTitle();
         $nl->email_sender_address = $config->getSgOwnerEmail();
         $nl->email_subject = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageUser', [$config->getSgWebsiteTitle(), $formTitle], 'contao_default');
@@ -357,6 +360,7 @@ class General extends ConfigurationStep
         $nl->language = 'fr';
         $nl->fallback = 1;
         $nl->recipients = '##admin_email##';
+        $nl->gateway_type = 'email';
         $nl->email_sender_name = $config->getSgWebsiteTitle();
         $nl->email_sender_address = $config->getSgOwnerEmail();
         $nl->email_subject = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageUser', [$config->getSgWebsiteTitle(), $formTitle], 'contao_default');
