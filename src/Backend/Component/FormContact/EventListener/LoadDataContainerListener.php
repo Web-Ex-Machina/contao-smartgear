@@ -46,7 +46,7 @@ class LoadDataContainerListener
             $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
             switch ($table) {
-                case 'tl_formContact':
+                case 'tl_form':
                     $formContactConfig = $config->getSgFormContact();
                     if (!$formContactConfig->getSgInstallComplete()) {
                         return;
