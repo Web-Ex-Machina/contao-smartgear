@@ -1268,6 +1268,18 @@
 			<source>Message</source>
 			<target>Message</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.placeholderFormInputName">
+			<source>Your name</source>
+			<target>Votre nom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.placeholderFormInputEmail">
+			<source>Your email address</source>
+			<target>Votre adresse e-mail</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.placeholderFormInputMessage">
+			<source>Your message</source>
+			<target>Votre message</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputCaptcha">
 			<source>Captcha</source>
 			<target>Captcha</target>

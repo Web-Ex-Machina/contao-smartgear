@@ -404,6 +404,7 @@ class General extends ConfigurationStep
         $inputName->type = 'text';
         $inputName->name = 'name';
         $inputName->label = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputName', [], 'contao_default');
+        $inputName->placeholder = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.placeholderFormInputName', [], 'contao_default');
         $inputName->mandatory = 1;
         $inputName->tstamp = time();
         $inputName->save();
@@ -414,7 +415,9 @@ class General extends ConfigurationStep
         $inputEmail->type = 'text';
         $inputEmail->name = 'email';
         $inputEmail->label = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputEmail', [], 'contao_default');
+        $inputEmail->placeholder = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.placeholderFormInputEmail', [], 'contao_default');
         $inputEmail->mandatory = 1;
+        $inputEmail->rgxp = 'email';
         $inputEmail->tstamp = time();
         $inputEmail->save();
 
@@ -424,6 +427,7 @@ class General extends ConfigurationStep
         $inputMessage->type = 'textarea';
         $inputMessage->name = 'message';
         $inputMessage->label = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputMessage', [], 'contao_default');
+        $inputMessage->placeholder = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.placeholderFormInputMessage', [], 'contao_default');
         $inputMessage->mandatory = 1;
         $inputMessage->tstamp = time();
         $inputMessage->save();
