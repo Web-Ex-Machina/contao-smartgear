@@ -30,7 +30,7 @@ class FramwayCombined extends ManagerFramway
         ConfigurationManagerCore $configurationManagerCore
     ) {
         parent::__construct($translator, $configuration, $configurationManagerCore);
-        $this->configurationFilePath = $this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'combined'.\DIRECTORY_SEPARATOR.'_config.scss';
+        $this->configurationFilePath = '';
     }
 
     /**
@@ -90,5 +90,10 @@ class FramwayCombined extends ManagerFramway
         }
 
         return json_decode(json_encode($futureJson), false, 512, \JSON_THROW_ON_ERROR);
+    }
+
+    protected function assignConfigurationFilePath(): void
+    {
+        $this->configurationFilePath = $this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'combined'.\DIRECTORY_SEPARATOR.'_config.scss';
     }
 }

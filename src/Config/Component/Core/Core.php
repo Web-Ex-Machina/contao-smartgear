@@ -255,7 +255,7 @@ class Core implements ConfigModuleInterface
             ->setSgSelectedModules($json->selectedModules ?? [])
             ->setSgMode($json->mode ?? static::DEFAULT_MODE)
             ->setSgWebsiteTitle($json->websiteTitle ?? '')
-            ->setSgNotificationGatewayEmail($json->contao->notificationGateways->email ?? '')
+            ->setSgNotificationGatewayEmail($json->contao->notificationGateways->email ?? null)
             ->setSgFramwayPath($json->framway->path ?? self::DEFAULT_FRAMWAY_PATH)
             ->setSgFramwayThemes($json->framway->themes ?? [])
             ->setSgAnalytics($json->analytics->system ?? static::DEFAULT_ANALYTICS_SYSTEM)

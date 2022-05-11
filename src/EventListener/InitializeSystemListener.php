@@ -14,21 +14,36 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\TemplateFinder;
+use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
 class InitializeSystemListener
 {
+    /** @var CoreConfigurationManager */
+    protected $configurationManager;
     /** @var TemplateFinder */
     protected $templateFinder;
 
     public function __construct(
+        CoreConfigurationManager $configurationManager,
         TemplateFinder $templateFinder
     ) {
+        $this->configurationManager = $configurationManager;
         $this->templateFinder = $templateFinder;
     }
 
     public function __invoke(): void
     {
+        try {
+            $config = $this->configurationManager->load();
+        } catch (NotFound $e) {
+            return;
+        }
+        if (!$config->getSgInstallComplete()) {
+            return;
+        }
+
         \Contao\TemplateLoader::addFiles($this->templateFinder->buildList());
     }
 }

@@ -92,6 +92,7 @@ services:
             $module: 'core'
             $type: 'component'
             $configurationManager: '@smartgear.config.manager.core'
+            $commandUtil: '@smartgear.classes.command.util'
         public: true
 
     smartgear.backend.component.core.reset_step.general:
