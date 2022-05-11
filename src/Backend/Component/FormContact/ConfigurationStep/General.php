@@ -335,7 +335,7 @@ class General extends ConfigurationStep
         $nl->email_sender_address = $config->getSgOwnerEmail();
         $nl->email_subject = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageUser', [$config->getSgWebsiteTitle(), $formTitle], 'contao_default');
         $nl->email_mode = 'textAndHtml';
-        $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, true);
+        $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, false);
         $nl->email_html = $strText;
         $nl->save();
 
@@ -361,7 +361,7 @@ class General extends ConfigurationStep
         $nl->email_sender_address = $config->getSgOwnerEmail();
         $nl->email_subject = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageUser', [$config->getSgWebsiteTitle(), $formTitle], 'contao_default');
         $nl->email_mode = 'textAndHtml';
-        $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, true);
+        $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, false);
         $nl->email_html = $strText;
         $nl->email_replyTo = '##form_email##';
         $nl->save();
