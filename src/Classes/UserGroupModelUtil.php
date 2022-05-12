@@ -295,6 +295,50 @@ class UserGroupModelUtil
     }
 
     /**
+     * Add allowed fields (do not assign fields permissions).
+     *
+     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
+     * @param array          $fields       The fields types
+     *
+     * @return UserGroupModel The updated UserGroup entity (not saved)
+     */
+    public static function addAllowedFormFields(UserGroupModel $objUserGroup, array $fields): UserGroupModel
+    {
+        $allowedFields = null !== $objUserGroup->fields ? unserialize($objUserGroup->fields) : [];
+        foreach ($fields as $field) {
+            $fieldIndex = array_search($field, $allowedFields, true);
+            if (false === $fieldIndex) {
+                $allowedFields[] = $field;
+            }
+        }
+        $objUserGroup->fields = serialize($allowedFields);
+
+        return $objUserGroup;
+    }
+
+    /**
+     * Remove allowed fields (do not remove fields permissions).
+     *
+     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
+     * @param array          $fields       The fields types
+     *
+     * @return UserGroupModel The updated UserGroup entity (not saved)
+     */
+    public static function removeAllowedFormFields(UserGroupModel $objUserGroup, array $fields): UserGroupModel
+    {
+        $allowedFields = null !== $objUserGroup->fields ? unserialize($objUserGroup->fields) : [];
+        foreach ($fields as $field) {
+            $fieldIndex = array_search($field, $allowedFields, true);
+            if (false !== $fieldIndex) {
+                unset($allowedFields[$fieldIndex]);
+            }
+        }
+        $objUserGroup->fields = serialize($allowedFields);
+
+        return $objUserGroup;
+    }
+
+    /**
      * Add allowed filemounts (do not assign filemount permissions).
      *
      * @param UserGroupModel $objUserGroup The UserGroup entity to work on

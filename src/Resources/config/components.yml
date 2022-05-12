@@ -458,11 +458,3 @@ services:
         arguments:
             $coreConfigurationManager: '@smartgear.config.manager.core'
         public: true
-
-    smartgear.backend.component.form_contact.listener.load_data_container:
-        class: WEM\SmartgearBundle\Backend\Component\FormContact\EventListener\LoadDataContainerListener
-        arguments:
-            $security: '@security.helper'
-            $coreConfigurationManager: '@smartgear.config.manager.core'
-            $dcaManipulator: '@smartgear.classes.dca.manipulator'
-        public: true

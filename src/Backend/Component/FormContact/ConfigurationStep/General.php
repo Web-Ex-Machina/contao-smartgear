@@ -393,6 +393,7 @@ class General extends ConfigurationStep
         $form->alias = StringUtil::generateAlias($formContactTitle);
         $form->jumpTo = $page->id;
         $form->nc_notification = $notification->id;
+        $form->tstamp = time();
         $form->save();
 
         return $form;
@@ -507,13 +508,15 @@ class General extends ConfigurationStep
 
         $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
         $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
-        $objUserGroup = $this->updateUserGroupAllowedFormContact($objUserGroup, $formContactConfig);
+        $objUserGroup = $this->updateUserGroupAllowedForm($objUserGroup, $formContactConfig);
+        $objUserGroup = $this->updateUserGroupAllowedFormFields($objUserGroup);
         $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
         $objUserGroup->save();
 
         $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
         $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
-        $objUserGroup = $this->updateUserGroupAllowedFormContact($objUserGroup, $formContactConfig);
+        $objUserGroup = $this->updateUserGroupAllowedForm($objUserGroup, $formContactConfig);
+        $objUserGroup = $this->updateUserGroupAllowedFormFields($objUserGroup);
         $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
         $objUserGroup->save();
     }
@@ -523,16 +526,21 @@ class General extends ConfigurationStep
         return UserGroupModelUtil::addAllowedModules($objUserGroup, ['form']);
     }
 
-    protected function updateUserGroupAllowedFormContact(UserGroupModel $objUserGroup, FormContactConfig $formContactConfig): UserGroupModel
+    protected function updateUserGroupAllowedForm(UserGroupModel $objUserGroup, FormContactConfig $formContactConfig): UserGroupModel
     {
         $objUserGroup = UserGroupModelUtil::addAllowedForms($objUserGroup, [$formContactConfig->getSgFormContact()]);
-        $objUserGroup->formContactp = serialize(['create', 'delete']);
+        $objUserGroup->formp = serialize(['create', 'delete']);
 
         return $objUserGroup;
     }
 
+    protected function updateUserGroupAllowedFormFields(UserGroupModel $objUserGroup): UserGroupModel
+    {
+        return UserGroupModelUtil::addAllowedFormFields($objUserGroup, ['text', 'textarea', 'captcha', 'submit']);
+    }
+
     protected function updateUserGroupAllowedFields(UserGroupModel $objUserGroup): UserGroupModel
     {
-        return UserGroupModelUtil::addAllowedFieldsByTables($objUserGroup, ['tl_form']);
+        return UserGroupModelUtil::addAllowedFieldsByTables($objUserGroup, ['tl_form', 'tl_form_field']);
     }
 }
