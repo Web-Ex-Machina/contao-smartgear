@@ -1333,6 +1333,24 @@
 			<target>Désinstallation</target>
 		</trans-unit>
 
+		<!-- Social links-->
+		<trans-unit id="WEMSG.SOCIALLINKS.FORM.headerNetwork">
+			<source>Network</source>
+			<target>Réseau</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALLINKS.FORM.headerLink">
+			<source>Link</source>
+			<target>Lien</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALLINKS.FORM.headerIconCustom">
+			<source>Custom icon</source>
+			<target>Icône personnalisé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALLINKS.FORM.helpIconCustom">
+			<source>Leave blank to use the selected network's default icon</source>
+			<target>Laissez vide pour utiliser l'icône du réseau social par défaut</target>
+		</trans-unit>
+
 
 		<!-- ConfigurationStepManager -->
 		<trans-unit id="WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish">

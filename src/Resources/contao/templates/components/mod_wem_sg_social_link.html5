@@ -11,9 +11,9 @@
 				<input name="action" value="" type="hidden" class="btnAction">
 
 				<thead>
-					<th>Network</th>
-					<th>Link</th>
-					<th>Icon</th>
+					<th><?= $this->trans('WEMSG.SOCIALLINKS.FORM.headerNetwork',[],'contao_default'); ?></th>
+					<th><?= $this->trans('WEMSG.SOCIALLINKS.FORM.headerLink',[],'contao_default'); ?></th>
+					<th><?= $this->trans('WEMSG.SOCIALLINKS.FORM.headerIconCustom',[],'contao_default'); ?></th>
 					<th></th>
 				</thead>
 				<tbody class="sortable">
@@ -49,8 +49,19 @@
 					</tr>
 					<?php endforeach; ?>
 				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="2"></td>
+						<td>
+							<p class="tl_help tl_tip">
+								<?= $this->trans('WEMSG.SOCIALLINKS.FORM.helpIconCustom',[],'contao_default'); ?>
+							</p>
+						</td>
+						<td colspan="2"></td>
+					</tr>
+				</tfoot>
 			</table>
-			<button type="submit">
+			<button type="submit" class="tl_submit">
 			<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['save']); ?>
 			</button>
 		</form>
