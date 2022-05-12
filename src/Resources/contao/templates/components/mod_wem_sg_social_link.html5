@@ -1,0 +1,164 @@
+<?php
+	$currentNetworkCategory = null;
+?>
+<!-- Display messages -->
+<?= Message::generate(); ?>
+    <div class="tl_listing_container">
+       	<form method="post" name="tl_wem_sg_social_network">
+			<table id="ctrl_<?= $this->strId; ?>" class="tl_optionwizard">
+				<input name="FORM_SUBMIT" value="tl_wem_sg_social_network" type="hidden">
+				<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
+				<input name="action" value="" type="hidden" class="btnAction">
+
+				<thead>
+					<th>Network</th>
+					<th>Link</th>
+					<th>Icon</th>
+					<th></th>
+				</thead>
+				<tbody class="sortable">
+					<?php foreach($this->formData as $index => $row): ?>
+					<tr>
+						<td>
+							<select name="<?= $this->strId; ?>[<?= $index; ?>][network]" id="<?= $this->strId; ?>_network_<?= $row['id']; ?>" class="tl_select tl_text"><!-- tl_text class is used for making reordering work -->
+								<?php foreach($this->networks as $network): ?>
+									<?php if($currentNetworkCategory !== $network->category): ?>
+										<?php if($currentNetworkCategory !== null): ?>
+											</optgroup>
+										<?php endif ?>
+										<optgroup label="<?= $network->getRelated('category')->name; ?>">
+									<?php endif ?>
+									<option value="<?= $network->id; ?>" <?= $network->id == $row['network'] ? 'selected' : '';?> >
+										<?= $network->name; ?>
+									</option>
+								<?php endforeach; ?>
+								</optgroup>
+							</select>
+						</td>
+						<td>
+							<input type="text" name="<?= $this->strId; ?>[<?= $index; ?>][value]" id="<?= $this->strId; ?>_value_<?= $row['id']; ?>" class="tl_text" value="<?= $row['value']; ?>"/>
+						</td>
+						<td>
+							<input type="text" name="<?= $this->strId; ?>[<?= $index; ?>][icon]" id="<?= $this->strId; ?>_icon_<?= $row['id']; ?>" class="tl_text" value="<?= $row['icon']; ?>"/>
+						</td>
+						<td>
+							<input type="hidden" name="<?= $this->strId; ?>[<?= $index; ?>][id]" value="<?= $row['id']; ?>" />
+							<button type="button" data-command="copy" title="<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['ow_copy']); ?>"><?= Image::getHtml('copy.svg'); ?></button>
+							<button type="button" data-command="delete" title="<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['ow_copy']); ?>"><?= Image::getHtml('delete.svg'); ?></button>
+							<button type="button" class="drag-handle" title="<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['move']); ?>" aria-hidden="true"><?= Image::getHtml('drag.svg');?></button>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+			<button type="submit">
+			<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['save']); ?>
+			</button>
+		</form>
+    </div>
+<script>
+	optionsWizardWithSelect("ctrl_<?= $this->strId; ?>");
+	function optionsWizardWithSelect (id) {
+		var table = $(id),
+			tbody = table.getElement('tbody'),
+			makeSortable = function(tbody) {
+				var rows = tbody.getChildren(),
+					childs, i, j, input;
+
+				for (i=0; i<rows.length; i++) {
+					childs = rows[i].getChildren();
+					for (j=0; j<childs.length; j++) {
+						if (input = childs[j].getFirst('input')) {
+							input.name = input.name.replace(/\[[0-9]+]/g, '[' + i + ']');
+							if (input.type == 'checkbox') {
+								input.id = input.name.replace(/\[[0-9]+]/g, '').replace(/\[/g, '_').replace(/]/g, '') + '_' + i;
+								input.getNext('label').set('for', input.id);
+							}
+						}
+						if (select = childs[j].getFirst('select')) {
+							select.name = select.name.replace(/\[[0-9]+]/g, '[' + i + ']');
+						}
+					}
+				}
+
+				new Sortables(tbody, {
+					constrain: true,
+					opacity: 0.6,
+					handle: '.drag-handle',
+					onComplete: function() {
+						makeSortable(tbody);
+					}
+				});
+			},
+			addEventsTo = function(tr) {
+				var command, input, next, ntr, childs, i;
+				tr.getElements('button').each(function(bt) {
+					if (bt.hasEvent('click')) return;
+					command = bt.getProperty('data-command');
+
+					switch (command) {
+						case 'copy':
+							bt.addEvent('click', function() {
+								Backend.getScrollOffset();
+								ntr = new Element('tr');
+								childs = tr.getChildren();
+								for (i=0; i<childs.length; i++) {
+									Backend.retrieveInteractiveHelp(childs[i].getElements('button,a'));
+									next = childs[i].clone(true).inject(ntr, 'bottom');
+									if (input = childs[i].getFirst('input')) {
+										next.getFirst('input').value = input.value;
+										if (input.type == 'checkbox') {
+											next.getFirst('input').checked = input.checked ? 'checked' : '';
+										}
+									}
+								}
+								ntr.inject(tr, 'after');
+								addEventsTo(ntr);
+								makeSortable(tbody);
+								Backend.addInteractiveHelp();
+							});
+							break;
+						case 'delete':
+							bt.addEvent('click', function() {
+								Backend.getScrollOffset();
+								if (tbody.getChildren().length > 1) {
+									tr.destroy();
+								}
+								makeSortable(tbody);
+								Backend.hideInteractiveHelp();
+							});
+							break;
+						case null:
+							bt.addEvent('keydown', function(e) {
+								if (e.event.keyCode == 38) {
+									e.preventDefault();
+									if (ntr = tr.getPrevious('tr')) {
+										tr.inject(ntr, 'before');
+									} else {
+										tr.inject(tbody, 'bottom');
+									}
+									bt.focus();
+									makeSortable(tbody);
+								} else if (e.event.keyCode == 40) {
+									e.preventDefault();
+									if (ntr = tr.getNext('tr')) {
+										tr.inject(ntr, 'after');
+									} else {
+										tr.inject(tbody, 'top');
+									}
+									bt.focus();
+									makeSortable(tbody);
+								}
+							});
+							break;
+					}
+				});
+			};
+
+		makeSortable(tbody);
+
+		tbody.getChildren().each(function(tr) {
+			addEventsTo(tr);
+		});
+	}
+</script>

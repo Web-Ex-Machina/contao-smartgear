@@ -77,6 +77,11 @@ array_insert($GLOBALS['BE_MOD']['system'], 0, [
         'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
     ],
 ]);
+array_insert($GLOBALS['BE_MOD']['content'], 0, [
+    'social_link' => [
+        'callback' => "\WEM\SmartgearBundle\Module\SocialLink",
+    ],
+]);
 
 /*
  * Frontend modules
@@ -93,8 +98,10 @@ $GLOBALS['FE_MOD']['events']['eventlist'] = \WEM\SmartgearBundle\Override\Module
 /*
  * Models
  */
-$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\Backup::getTable()] = WEM\SmartgearBundle\Model\Backup::class;
-
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Backup::getTable()] = WEM\SmartgearBundle\Model\Backup::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialNetworkCategory::getTable()] = WEM\SmartgearBundle\Model\SocialNetworkCategory::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialNetwork::getTable()] = WEM\SmartgearBundle\Model\SocialNetwork::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialLink::getTable()] = WEM\SmartgearBundle\Model\SocialLink::class;
 /*
  * Add BE Hooks
  */
