@@ -57,6 +57,15 @@
 			<target>Configurer votre Smartgear</target>
 		</trans-unit>
 
+		<trans-unit id="MOD.social_link.0">
+			<source>Social links</source>
+			<target>Réseaux sociaux</target>
+		</trans-unit>
+		<trans-unit id="MOD.social_link.1">
+			<source>Configure links to your social networks</source>
+			<target>Configurer vos liens vers vos réseaux sociaux</target>
+		</trans-unit>
+
 		<trans-unit id="FMD.smartgear">
 			<source>Smartgear</source>
 			<target>Smartgear</target>

@@ -8,3 +8,17 @@
     color: white;
     padding: 1em;
 }
+
+.tl_optionwizard--fullwidth{
+    max-width: 100%;
+}
+
+.tl_optionwizard--custom td:nth-child(n+3)
+{
+    width:33%;
+}
+
+.tl_optionwizard--custom td:nth-child(n+4){
+    width: 1%;
+    white-space: nowrap;
+}

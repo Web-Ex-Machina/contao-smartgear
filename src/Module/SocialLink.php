@@ -52,7 +52,9 @@ class SocialLink extends BackendModule
         $formData = $this->prepareFormData();
         $arrIdsToKeep = [];
         foreach ($formData as $index => $row) {
-            $objLink = SocialLinkModel::findByPk($row['id']) ?? new SocialLinkModel();
+            // $objLink = SocialLinkModel::findByPk($row['id']) ?? new SocialLinkModel();
+            $objLink = SocialLinkModel::findByPk($index + 1) ?? new SocialLinkModel();
+            $objLink->id = $index + 1;
             $objLink->network = $row['network'];
             $objLink->value = $row['value'];
             $objLink->icon = $row['icon'];
@@ -61,6 +63,16 @@ class SocialLink extends BackendModule
             $objLink->createdAt = $objLink->createdAt ?? time();
             $objLink->save();
             $arrIdsToKeep[] = $objLink->id;
+        }
+        $objLinksToDelete = SocialLinkModel::findItems([
+            'where' => [
+                sprintf('id NOT IN (%s)', implode(',', $arrIdsToKeep)),
+            ],
+        ]);
+        if ($objLinksToDelete) {
+            while ($objLinksToDelete->next()) {
+                $objLinksToDelete->delete();
+            }
         }
     }
 
@@ -71,7 +83,7 @@ class SocialLink extends BackendModule
             $rows = Input::post($this->strId);
             foreach ($rows as $index => $row) {
                 $formData[$index] = [
-                    'id' => $row['id'],
+                    // 'id' => $row['id'],
                     'network' => $row['network'],
                     'value' => $row['value'],
                     'icon' => $row['icon'],
@@ -82,7 +94,7 @@ class SocialLink extends BackendModule
             $index = 0;
             foreach ($objLinks as $objLink) {
                 $formData[$index] = [
-                    'id' => $objLink->id,
+                    // 'id' => $objLink->id,
                     'network' => $objLink->network,
                     'value' => $objLink->value,
                     'icon' => $objLink->icon,

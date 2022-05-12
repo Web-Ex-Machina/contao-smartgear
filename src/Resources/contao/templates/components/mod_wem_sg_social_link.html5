@@ -5,7 +5,7 @@
 <?= Message::generate(); ?>
     <div class="tl_listing_container">
        	<form method="post" name="tl_wem_sg_social_network">
-			<table id="ctrl_<?= $this->strId; ?>" class="tl_optionwizard">
+			<table id="ctrl_<?= $this->strId; ?>" class="tl_optionwizard tl_optionwizard--fullwidth tl_optionwizard--custom">
 				<input name="FORM_SUBMIT" value="tl_wem_sg_social_network" type="hidden">
 				<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
 				<input name="action" value="" type="hidden" class="btnAction">
@@ -42,7 +42,6 @@
 							<input type="text" name="<?= $this->strId; ?>[<?= $index; ?>][icon]" id="<?= $this->strId; ?>_icon_<?= $row['id']; ?>" class="tl_text" value="<?= $row['icon']; ?>"/>
 						</td>
 						<td>
-							<input type="hidden" name="<?= $this->strId; ?>[<?= $index; ?>][id]" value="<?= $row['id']; ?>" />
 							<button type="button" data-command="copy" title="<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['ow_copy']); ?>"><?= Image::getHtml('copy.svg'); ?></button>
 							<button type="button" data-command="delete" title="<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['ow_copy']); ?>"><?= Image::getHtml('delete.svg'); ?></button>
 							<button type="button" class="drag-handle" title="<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['move']); ?>" aria-hidden="true"><?= Image::getHtml('drag.svg');?></button>
@@ -110,6 +109,9 @@
 										if (input.type == 'checkbox') {
 											next.getFirst('input').checked = input.checked ? 'checked' : '';
 										}
+									}
+									if (select = childs[i].getFirst('select')) {
+										next.getFirst('select').selectedIndex = select.selectedIndex;
 									}
 								}
 								ntr.inject(tr, 'after');
