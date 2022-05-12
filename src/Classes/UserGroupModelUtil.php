@@ -18,409 +18,258 @@ use Contao\UserGroupModel;
 
 class UserGroupModelUtil
 {
+    private $userGroup;
+
+    public function getUserGroup(): UserGroupModel
+    {
+        return $this->userGroup;
+    }
+
+    public function setUserGroup(UserGroupModel $userGroup): self
+    {
+        $this->userGroup = $userGroup;
+
+        return $this;
+    }
+
+    public static function create(UserGroupModel $userGroup)
+    {
+        return (new self())->setUserGroup($userGroup);
+    }
+
     /**
      * Add Smartgear permissions.
      *
-     * @param UserGroupModel $objUserGroup         The UserGroup entity to work on
-     * @param array          $smartgearPermissions The permissions
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $smartgearPermissions The permissions
      */
-    public static function addSmartgearPermissions(UserGroupModel $objUserGroup, array $smartgearPermissions): UserGroupModel
+    public function addSmartgearPermissions(array $smartgearPermissions): self
     {
-        $permissions = null !== $objUserGroup->smartgear_permissions ? unserialize($objUserGroup->smartgear_permissions) : [];
-        foreach ($smartgearPermissions as $smartgearPermission) {
-            $smartgearPermissionIndex = array_search($smartgearPermission, $permissions, true);
-            if (false === $smartgearPermissionIndex) {
-                $permissions[] = $smartgearPermission;
-            }
-        }
+        // $permissions = null !== $this->userGroup->smartgear_permissions ? unserialize($this->userGroup->smartgear_permissions) : [];
+        // foreach ($smartgearPermissions as $smartgearPermission) {
+        //     $smartgearPermissionIndex = array_search($smartgearPermission, $permissions, true);
+        //     if (false === $smartgearPermissionIndex) {
+        //         $permissions[] = $smartgearPermission;
+        //     }
+        // }
 
-        $objUserGroup->smartgear_permissions = serialize($permissions);
+        // $this->userGroup->smartgear_permissions = serialize($permissions);
+        $this->userGroup->smartgear_permissions = $this->addAllowedItems($this->userGroup->smartgear_permissions, $smartgearPermissions);
 
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Remove Smartgear permissions.
      *
-     * @param UserGroupModel $objUserGroup         The UserGroup entity to work on
-     * @param array          $smartgearPermissions The permissions
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $smartgearPermissions The permissions
      */
-    public static function removeSmartgearPermissions(UserGroupModel $objUserGroup, array $smartgearPermissions): UserGroupModel
+    public function removeSmartgearPermissions(array $smartgearPermissions): self
     {
-        $permissions = null !== $objUserGroup->smartgear_permissions ? unserialize($objUserGroup->smartgear_permissions) : [];
-        foreach ($smartgearPermissions as $smartgearPermission) {
-            $smartgearPermissionIndex = array_search($smartgearPermission, $permissions, true);
-            if (false !== $smartgearPermissionIndex) {
-                unset($permissions[$smartgearPermissionIndex]);
-            }
-        }
+        $this->userGroup->smartgear_permissions = $this->removeAllowedItems($this->userGroup->smartgear_permissions, $smartgearPermissions);
 
-        $objUserGroup->smartgear_permissions = serialize($permissions);
-
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Add allowed modules.
      *
-     * @param UserGroupModel $objUserGroup      The UserGroup entity to work on
-     * @param array          $newAllowedModules The modules names
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $newAllowedModules The modules names
      */
-    public static function addAllowedModules(UserGroupModel $objUserGroup, array $newAllowedModules): UserGroupModel
+    public function addAllowedModules(array $newAllowedModules): self
     {
-        $allowedModules = null !== $objUserGroup->modules ? unserialize($objUserGroup->modules) : [];
+        $this->userGroup->modules = $this->addAllowedItems($this->userGroup->modules, $newAllowedModules);
 
-        foreach ($newAllowedModules as $newAllowedModule) {
-            $blogModuleIndex = array_search($newAllowedModule, $allowedModules, true);
-            if (false === $blogModuleIndex) {
-                $allowedModules[] = $newAllowedModule;
-            }
-        }
-        $objUserGroup->modules = serialize($allowedModules);
-
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Remove allowed modules.
      *
-     * @param UserGroupModel $objUserGroup     The UserGroup entity to work on
-     * @param array          $unallowedModules The modules names
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $unallowedModules The modules names
      */
-    public static function removeAllowedModules(UserGroupModel $objUserGroup, array $unallowedModules): UserGroupModel
+    public function removeAllowedModules(array $unallowedModules): self
     {
-        $allowedModules = null !== $objUserGroup->modules ? unserialize($objUserGroup->modules) : [];
+        $this->userGroup->modules = $this->removeAllowedItems($this->userGroup->modules, $unallowedModules);
 
-        foreach ($unallowedModules as $unallowedModule) {
-            $blogModuleIndex = array_search($unallowedModule, $allowedModules, true);
-            if (false !== $blogModuleIndex) {
-                unset($allowedModules[$unallowedModule]);
-            }
-        }
-        $objUserGroup->modules = serialize($allowedModules);
-
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Add allowed news archive (do not assign news permissions).
      *
-     * @param UserGroupModel $objUserGroup   The UserGroup entity to work on
-     * @param array          $newsArchiveIds The News Archives IDs
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $newsArchiveIds The News Archives IDs
      */
-    public static function addAllowedNewsArchive(UserGroupModel $objUserGroup, array $newsArchiveIds): UserGroupModel
+    public function addAllowedNewsArchive(array $newsArchiveIds): self
     {
-        // update allowed news archives
-        $allowedNewsArchives = null !== $objUserGroup->news ? unserialize($objUserGroup->news) : [];
-        foreach ($newsArchiveIds as $newsArchiveId) {
-            $newsArchiveIndex = array_search((string) $newsArchiveId, $allowedNewsArchives, true);
-            if (false === $newsArchiveIndex) {
-                $allowedNewsArchives[] = (string) $newsArchiveId;
-            }
-        }
-        $objUserGroup->news = serialize($allowedNewsArchives);
+        $this->userGroup->news = $this->addAllowedItems($this->userGroup->news, $newsArchiveIds);
 
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Remove allowed news archive (do not remove news permissions).
      *
-     * @param UserGroupModel $objUserGroup   The UserGroup entity to work on
-     * @param array          $newsArchiveIds The News Archives IDs
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $newsArchiveIds The News Archives IDs
      */
-    public static function removeAllowedNewsArchive(UserGroupModel $objUserGroup, array $newsArchiveIds): UserGroupModel
+    public function removeAllowedNewsArchive(array $newsArchiveIds): self
     {
-        // update allowed news archives
-        $allowedNewsArchives = null !== $objUserGroup->news ? unserialize($objUserGroup->news) : [];
-        foreach ($newsArchiveIds as $newsArchiveId) {
-            $newsArchiveIndex = array_search((string) $newsArchiveId, $allowedNewsArchives, true);
-            if (false === $newsArchiveIndex) {
-                unset($allowedNewsArchives[$newsArchiveIndex]);
-            }
-        }
-        $objUserGroup->news = serialize($allowedNewsArchives);
+        $this->userGroup->news = $this->removeAllowedItems($this->userGroup->news, $newsArchiveIds);
 
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Add allowed calendars (do not assign news permissions).
      *
-     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
-     * @param array          $calendarIds  The Calendars IDs
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $calendarIds The Calendars IDs
      */
-    public static function addAllowedCalendar(UserGroupModel $objUserGroup, array $calendarIds): UserGroupModel
+    public function addAllowedCalendar(array $calendarIds): self
     {
-        // update allowed calendar
-        $allowedCalendars = null !== $objUserGroup->calendars ? unserialize($objUserGroup->calendars) : [];
-        foreach ($calendarIds as $calendarId) {
-            $calendarIndex = array_search((string) $calendarId, $allowedCalendars, true);
-            if (false === $calendarIndex) {
-                $allowedCalendars[] = (string) $calendarId;
-            }
-        }
-        $objUserGroup->calendars = serialize($allowedCalendars);
+        $this->userGroup->calendars = $this->addAllowedItems($this->userGroup->calendars, $calendarIds);
 
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Remove allowed calendars (do not remove calendars permissions).
      *
-     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
-     * @param array          $calendarIds  The Calendars IDs
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $calendarIds The Calendars IDs
      */
-    public static function removeAllowedCalendar(UserGroupModel $objUserGroup, array $calendarIds): UserGroupModel
+    public function removeAllowedCalendar(array $calendarIds): self
     {
-        // update allowed calendar
-        $allowedCalendars = null !== $objUserGroup->calendars ? unserialize($objUserGroup->calendars) : [];
-        foreach ($calendarIds as $calendarId) {
-            $calendarIndex = array_search((string) $calendarId, $allowedCalendars, true);
-            if (false === $calendarIndex) {
-                unset($allowedCalendars[$calendarIndex]);
-            }
-        }
-        $objUserGroup->calendars = serialize($allowedCalendars);
+        $this->userGroup->calendars = $this->removeAllowedItems($this->userGroup->calendars, $calendarIds);
 
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Add allowed faqs (do not assign faqs permissions).
      *
-     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
-     * @param array          $faqIds       The FAQ IDs
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $faqIds The FAQ IDs
      */
-    public static function addAllowedFaq(UserGroupModel $objUserGroup, array $faqIds): UserGroupModel
+    public function addAllowedFaq(array $faqIds): self
     {
-        // update allowed calendar
-        $allowedFaqs = null !== $objUserGroup->faqs ? unserialize($objUserGroup->faqs) : [];
-        foreach ($faqIds as $faqId) {
-            $faqIndex = array_search((string) $faqId, $allowedFaqs, true);
-            if (false === $faqIndex) {
-                $allowedFaqs[] = (string) $faqId;
-            }
-        }
-        $objUserGroup->faqs = serialize($allowedFaqs);
+        $this->userGroup->faqs = $this->addAllowedItems($this->userGroup->faqs, $faqIds);
 
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Remove allowed faqs (do not remove faqs permissions).
      *
-     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
-     * @param array          $faqIds       The FAQ IDs
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $faqIds The FAQ IDs
      */
-    public static function removeAllowedFaq(UserGroupModel $objUserGroup, array $faqIds): UserGroupModel
+    public function removeAllowedFaq(array $faqIds): self
     {
-        // update allowed calendar
-        $allowedFaqs = null !== $objUserGroup->faqs ? unserialize($objUserGroup->faqs) : [];
-        foreach ($faqIds as $faqId) {
-            $faqIndex = array_search((string) $faqId, $allowedFaqs, true);
-            if (false === $faqIndex) {
-                unset($allowedFaqs[$faqIndex]);
-            }
-        }
-        $objUserGroup->faqs = serialize($allowedFaqs);
+        $this->userGroup->faqs = $this->removeAllowedItems($this->userGroup->faqs, $faqIds);
 
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Add allowed forms.
      *
-     * @param UserGroupModel $objUserGroup    The UserGroup entity to work on
-     * @param array          $newAllowedForms The forms names
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $newAllowedForms The forms names
      */
-    public static function addAllowedForms(UserGroupModel $objUserGroup, array $newAllowedForms): UserGroupModel
+    public function addAllowedForms(array $newAllowedForms): self
     {
-        $allowedForms = null !== $objUserGroup->forms ? unserialize($objUserGroup->forms) : [];
+        $this->userGroup->forms = $this->addAllowedItems($this->userGroup->forms, $newAllowedForms);
 
-        foreach ($newAllowedForms as $newAllowedForm) {
-            $blogFormIndex = array_search($newAllowedForm, $allowedForms, true);
-            if (false === $blogFormIndex) {
-                $allowedForms[] = $newAllowedForm;
-            }
-        }
-        $objUserGroup->forms = serialize($allowedForms);
-
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Remove allowed forms.
      *
-     * @param UserGroupModel $objUserGroup   The UserGroup entity to work on
-     * @param array          $unallowedForms The forms names
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $unallowedForms The forms names
      */
-    public static function removeAllowedForms(UserGroupModel $objUserGroup, array $unallowedForms): UserGroupModel
+    public function removeAllowedForms(array $unallowedForms): self
     {
-        $allowedForms = null !== $objUserGroup->forms ? unserialize($objUserGroup->forms) : [];
+        $this->userGroup->forms = $this->removeAllowedItems($this->userGroup->forms, $unallowedForms);
 
-        foreach ($unallowedForms as $unallowedForm) {
-            $blogFormIndex = array_search($unallowedForm, $allowedForms, true);
-            if (false !== $blogFormIndex) {
-                unset($allowedForms[$unallowedForm]);
-            }
-        }
-        $objUserGroup->forms = serialize($allowedForms);
-
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Add allowed fields (do not assign fields permissions).
      *
-     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
-     * @param array          $fields       The fields types
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $fields The fields types
      */
-    public static function addAllowedFormFields(UserGroupModel $objUserGroup, array $fields): UserGroupModel
+    public function addAllowedFormFields(array $fields): self
     {
-        $allowedFields = null !== $objUserGroup->fields ? unserialize($objUserGroup->fields) : [];
-        foreach ($fields as $field) {
-            $fieldIndex = array_search($field, $allowedFields, true);
-            if (false === $fieldIndex) {
-                $allowedFields[] = $field;
-            }
-        }
-        $objUserGroup->fields = serialize($allowedFields);
+        $this->userGroup->fields = $this->addAllowedItems($this->userGroup->fields, $fields);
 
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Remove allowed fields (do not remove fields permissions).
      *
-     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
-     * @param array          $fields       The fields types
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $fields The fields types
      */
-    public static function removeAllowedFormFields(UserGroupModel $objUserGroup, array $fields): UserGroupModel
+    public function removeAllowedFormFields(array $fields): self
     {
-        $allowedFields = null !== $objUserGroup->fields ? unserialize($objUserGroup->fields) : [];
-        foreach ($fields as $field) {
-            $fieldIndex = array_search($field, $allowedFields, true);
-            if (false !== $fieldIndex) {
-                unset($allowedFields[$fieldIndex]);
-            }
-        }
-        $objUserGroup->fields = serialize($allowedFields);
+        $this->userGroup->fields = $this->removeAllowedItems($this->userGroup->fields, $fields);
 
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Add allowed filemounts (do not assign filemount permissions).
      *
-     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
-     * @param array          $folderUUIDs  The folders'UUIDs
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $folderUUIDs The folders'UUIDs
      */
-    public static function addAllowedFilemounts(UserGroupModel $objUserGroup, array $folderUUIDs): UserGroupModel
+    public function addAllowedFilemounts(array $folderUUIDs): self
     {
-        $allowedFolders = null !== $objUserGroup->filemounts ? unserialize($objUserGroup->filemounts) : [];
-        foreach ($folderUUIDs as $folderUUID) {
-            $folderIndex = array_search($folderUUID, $allowedFolders, true);
-            if (false === $folderIndex) {
-                $allowedFolders[] = $folderUUID;
-            }
-        }
-        $objUserGroup->filemounts = serialize($allowedFolders);
+        $this->userGroup->filemounts = $this->addAllowedItems($this->userGroup->filemounts, $folderUUIDs);
 
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Remove allowed filemounts (do not remove filemount permissions).
      *
-     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
-     * @param array          $folderUUIDs  The folders'UUIDs
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $folderUUIDs The folders'UUIDs
      */
-    public static function removeAllowedFilemounts(UserGroupModel $objUserGroup, array $folderUUIDs): UserGroupModel
+    public function removeAllowedFilemounts(array $folderUUIDs): self
     {
-        $allowedFolders = null !== $objUserGroup->filemounts ? unserialize($objUserGroup->filemounts) : [];
-        foreach ($folderUUIDs as $folderUUID) {
-            $folderIndex = array_search($folderUUID, $allowedFolders, true);
-            if (false !== $folderIndex) {
-                unset($allowedFolders[$folderIndex]);
-            }
-        }
-        $objUserGroup->filemounts = serialize($allowedFolders);
+        $this->userGroup->filemounts = $this->removeAllowedItems($this->userGroup->filemounts, $folderUUIDs);
 
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Add allowed fields.
      *
-     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
-     * @param array          $fields       The fields name to remove (eg tl_news::title)
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $fields The fields name to remove (eg tl_news::title)
      */
-    public static function addAllowedFields(UserGroupModel $objUserGroup, array $fields): UserGroupModel
+    public function addAllowedFields(array $fields): self
     {
-        $objUserGroup->alexf = serialize(array_unique(array_merge(unserialize($objUserGroup->alexf), $fields)));
+        $alexf = null !== $this->userGroup->alexf ? unserialize($this->userGroup->alexf) : [];
+        $this->userGroup->alexf = serialize(array_unique(array_merge($alexf, $fields)));
 
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Remove allowed fields.
      *
-     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
-     * @param array          $fields       The fields name to remove (eg tl_news::title)
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $fields The fields name to remove (eg tl_news::title)
      */
-    public static function removeAllowedFields(UserGroupModel $objUserGroup, array $fields): UserGroupModel
+    public function removeAllowedFields(array $fields): self
     {
-        $objUserGroup->alexf = serialize(array_unique(array_diff(unserialize($objUserGroup->alexf), $fields)));
+        $alexf = null !== $this->userGroup->alexf ? unserialize($this->userGroup->alexf) : [];
+        $this->userGroup->alexf = serialize(array_unique(array_diff($alexf, $fields)));
 
-        return $objUserGroup;
+        return $this;
     }
 
     /**
      * Add allowed fields by table name.
      *
-     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
-     * @param array          $tables       Name of tables to retrieve fields from their DCA
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $tables Name of tables to retrieve fields from their DCA
      */
-    public static function addAllowedFieldsByTables(UserGroupModel $objUserGroup, array $tables): UserGroupModel
+    public function addAllowedFieldsByTables(array $tables): self
     {
         $allowedFields = [];
         foreach ($tables as $table) {
@@ -434,20 +283,17 @@ class UserGroupModelUtil
             }
         }
 
-        return static::addAllowedFields($objUserGroup, $allowedFields);
+        return $this->addAllowedFields($allowedFields);
     }
 
     /**
      * Remove allowed fields by prefix.
      *
-     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
-     * @param array          $prefixes     Prefixes of fields to remove (eg: tl_news::)
-     *
-     * @return UserGroupModel The updated UserGroup entity (not saved)
+     * @param array $prefixes Prefixes of fields to remove (eg: tl_news::)
      */
-    public static function removeAllowedFieldsByPrefixes(UserGroupModel $objUserGroup, array $prefixes): UserGroupModel
+    public function removeAllowedFieldsByPrefixes(array $prefixes): self
     {
-        $alexf = unserialize($objUserGroup->alexf);
+        $alexf = unserialize($this->userGroup->alexf);
 
         foreach ($prefixes as $prefix) {
             $fieldNameKeyToDelete = $prefix;
@@ -459,8 +305,50 @@ class UserGroupModelUtil
             }
         }
 
-        $objUserGroup->alexf = serialize($alexf);
+        $this->userGroup->alexf = serialize($alexf);
 
-        return $objUserGroup;
+        return $this;
+    }
+
+    /**
+     * Return allowed items in a serialized array.
+     *
+     * @param ?string $rawValue The current allowed items (as they are stored in DB)
+     * @param array   $items    The items
+     *
+     * @return ?string The allowed items in a serialized array
+     */
+    protected function addAllowedItems(?string $rawValue, array $items): ?string
+    {
+        $allowedItems = null !== $rawValue ? unserialize($rawValue) : [];
+        foreach ($items as $item) {
+            $itemIndex = array_search($item, $allowedItems, true);
+            if (false === $itemIndex) {
+                $allowedItems[] = $item;
+            }
+        }
+
+        return serialize($allowedItems);
+    }
+
+    /**
+     * Return allowed items in a serialized array.
+     *
+     * @param ?string $rawValue The current allowed items (as they are stored in DB)
+     * @param array   $items    The items
+     *
+     * @return ?string The allowed items in a serialized array
+     */
+    protected function removeAllowedItems(?string $rawValue, array $items): ?string
+    {
+        $allowedItems = null !== $rawValue ? unserialize($rawValue) : [];
+        foreach ($items as $item) {
+            $itemIndex = array_search($item, $allowedItems, true);
+            if (false !== $itemIndex) {
+                unset($allowedItems[$itemIndex]);
+            }
+        }
+
+        return serialize($allowedItems);
     }
 }
