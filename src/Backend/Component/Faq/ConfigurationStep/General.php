@@ -248,49 +248,27 @@ class General extends ConfigurationStep
         /** @var FaqConfig */
         $faqConfig = $config->getSgFaq();
 
-        // retrieve the webmaster's group and update the permissions
-
-        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
-        $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
-        $objUserGroup = $this->updateUserGroupAllowedFaq($objUserGroup, $faqConfig);
-        $objUserGroup = $this->updateUserGroupAllowedDirectory($objUserGroup, $faqConfig);
-        $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
-        $objUserGroup->save();
-
-        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
-        $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
-        $objUserGroup = $this->updateUserGroupAllowedFaq($objUserGroup, $faqConfig);
-        $objUserGroup = $this->updateUserGroupAllowedDirectory($objUserGroup, $faqConfig);
-        $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
-        $objUserGroup->save();
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $faqConfig);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $faqConfig);
     }
 
-    protected function updateUserGroupAllowedModules(UserGroupModel $objUserGroup): UserGroupModel
+    protected function updateUserGroup(UserGroupModel $objUserGroup, FaqConfig $faqConfig): void
     {
-        return UserGroupModelUtil::addAllowedModules($objUserGroup, ['faq']);
-    }
-
-    protected function updateUserGroupAllowedFaq(UserGroupModel $objUserGroup, FaqConfig $faqConfig): UserGroupModel
-    {
-        $objUserGroup = UserGroupModelUtil::addAllowedFaq($objUserGroup, [$faqConfig->getSgFaqCategory()]);
-        $objUserGroup->faqp = serialize(['create', 'delete']);
-
-        return $objUserGroup;
-    }
-
-    protected function updateUserGroupAllowedDirectory(UserGroupModel $objUserGroup, FaqConfig $faqConfig): UserGroupModel
-    {
-        // add allowed directory
         $objFolder = FilesModel::findByPath($faqConfig->getSgFaqFolder());
         if (!$objFolder) {
             throw new Exception('Unable to find the folder');
         }
 
-        return UserGroupModelUtil::addAllowedFilemounts($objUserGroup, [$objFolder->uuid]);
-    }
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedModules(['faq'])
+            ->addAllowedFaq([$faqConfig->getSgFaqCategory()])
+            ->addAllowedFilemounts([$objFolder->uuid])
+            ->addAllowedFieldsByTables(['tl_faq'])
+        ;
 
-    protected function updateUserGroupAllowedFields(UserGroupModel $objUserGroup): UserGroupModel
-    {
-        return UserGroupModelUtil::addAllowedFieldsByTables($objUserGroup, ['tl_faq']);
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->faqp = serialize(['create', 'delete']);
+        $objUserGroup->save();
     }
 }

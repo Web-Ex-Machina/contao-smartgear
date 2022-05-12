@@ -332,56 +332,32 @@ class General extends ConfigurationStep
         /** @var EventsConfig */
         $eventsConfig = $config->getSgEvents();
 
-        // retrieve the webmaster's group and update the permissions
-
-        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
-        $objUserGroup = $this->updateUserGroupSmartgearPermissions($objUserGroup, $expertMode);
-        $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
-        $objUserGroup = $this->updateUserGroupAllowedNewsArchive($objUserGroup, $eventsConfig);
-        $objUserGroup = $this->updateUserGroupAllowedDirectory($objUserGroup, $eventsConfig);
-        $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
-        $objUserGroup->save();
-
-        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
-        $objUserGroup = $this->updateUserGroupSmartgearPermissions($objUserGroup, true);
-        $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
-        $objUserGroup = $this->updateUserGroupAllowedNewsArchive($objUserGroup, $eventsConfig);
-        $objUserGroup = $this->updateUserGroupAllowedDirectory($objUserGroup, $eventsConfig);
-        $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
-        $objUserGroup->save();
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $expertMode, $eventsConfig);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), true, $eventsConfig);
     }
 
-    protected function updateUserGroupSmartgearPermissions(UserGroupModel $objUserGroup, bool $expertMode): UserGroupModel
+    protected function updateUserGroup(UserGroupModel $objUserGroup, bool $expertMode, EventsConfig $eventsConfig): void
     {
-        return $expertMode ? UserGroupModelUtil::addSmartgearPermissions($objUserGroup, [SmartgearPermissions::EVENTS_EXPERT]) : $objUserGroup;
-    }
-
-    protected function updateUserGroupAllowedModules(UserGroupModel $objUserGroup): UserGroupModel
-    {
-        return UserGroupModelUtil::addAllowedModules($objUserGroup, ['calendar']);
-    }
-
-    protected function updateUserGroupAllowedNewsArchive(UserGroupModel $objUserGroup, EventsConfig $eventsConfig): UserGroupModel
-    {
-        $objUserGroup = UserGroupModelUtil::addAllowedCalendar($objUserGroup, [$eventsConfig->getSgCalendar()]);
-        $objUserGroup->newp = serialize(['create', 'delete']);
-
-        return $objUserGroup;
-    }
-
-    protected function updateUserGroupAllowedDirectory(UserGroupModel $objUserGroup, EventsConfig $eventsConfig): UserGroupModel
-    {
-        // add allowed directory
         $objFolder = FilesModel::findByPath($eventsConfig->getSgEventsFolder());
         if (!$objFolder) {
             throw new Exception('Unable to find the folder');
         }
 
-        return UserGroupModelUtil::addAllowedFilemounts($objUserGroup, [$objFolder->uuid]);
-    }
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedModules(['calendar'])
+            ->addAllowedCalendar([$eventsConfig->getSgCalendar()])
+            ->addAllowedFilemounts([$objFolder->uuid])
+            ->addAllowedFieldsByTables(['tl_calendar_events'])
+        ;
+        if ($expertMode) {
+            $userGroupManipulator
+                ->addSmartgearPermissions([SmartgearPermissions::EVENTS_EXPERT])
+            ;
+        }
 
-    protected function updateUserGroupAllowedFields(UserGroupModel $objUserGroup): UserGroupModel
-    {
-        return UserGroupModelUtil::addAllowedFieldsByTables($objUserGroup, ['tl_calendar_events']);
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->calendarp = serialize(['create', 'delete']);
+        $objUserGroup->save();
     }
 }

@@ -139,54 +139,28 @@ class General extends AbstractStep
         /** @var BlogConfig */
         $blogConfig = $config->getSgBlog();
 
-        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
-        $objUserGroup = $this->resetUserGroupSmartgearPermissions($objUserGroup);
-        $objUserGroup = $this->resetUserGroupAllowedModules($objUserGroup);
-        $objUserGroup = $this->resetUserGroupAllowedNewsArchive($objUserGroup, $blogConfig);
-        $objUserGroup = $this->resetUserGroupAllowedDirectory($objUserGroup, $blogConfig);
-        $objUserGroup = $this->resetUserGroupAllowedFields($objUserGroup);
-        $objUserGroup->save();
-
-        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
-        $objUserGroup = $this->resetUserGroupSmartgearPermissions($objUserGroup);
-        $objUserGroup = $this->resetUserGroupAllowedModules($objUserGroup);
-        $objUserGroup = $this->resetUserGroupAllowedNewsArchive($objUserGroup, $blogConfig);
-        $objUserGroup = $this->resetUserGroupAllowedDirectory($objUserGroup, $blogConfig);
-        $objUserGroup = $this->resetUserGroupAllowedFields($objUserGroup);
-        $objUserGroup->save();
+        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $blogConfig);
+        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $blogConfig);
     }
 
-    protected function resetUserGroupSmartgearPermissions(UserGroupModel $objUserGroup): UserGroupModel
+    protected function resetUserGroup(UserGroupModel $objUserGroup, BlogConfig $blogConfig): void
     {
-        return UserGroupModelUtil::removeSmartgearPermissions($objUserGroup, [SmartgearPermissions::BLOG_EXPERT]);
-    }
-
-    protected function resetUserGroupAllowedModules(UserGroupModel $objUserGroup): UserGroupModel
-    {
-        return UserGroupModelUtil::removeAllowedModules($objUserGroup, ['news']);
-    }
-
-    protected function resetUserGroupAllowedNewsArchive(UserGroupModel $objUserGroup, BlogConfig $blogConfig): UserGroupModel
-    {
-        $objUserGroup = UserGroupModelUtil::removeAllowedNewsArchive($objUserGroup, [$blogConfig->getSgNewsArchive()]);
-        $objUserGroup->newp = null;
-
-        return $objUserGroup;
-    }
-
-    protected function resetUserGroupAllowedDirectory(UserGroupModel $objUserGroup, BlogConfig $blogConfig): UserGroupModel
-    {
-        // add allowed directory
         $objFolder = FilesModel::findByPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
         if (!$objFolder) {
             throw new Exception('Unable to find the folder');
         }
 
-        return UserGroupModelUtil::removeAllowedFilemounts($objUserGroup, [$objFolder->uuid]);
-    }
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->removeSmartgearPermissions([SmartgearPermissions::BLOG_EXPERT])
+            ->removeAllowedModules(['news'])
+            ->removeAllowedNewsArchive([$blogConfig->getSgNewsArchive()])
+            ->removeAllowedFilemounts([$objFolder->uuid])
+            ->removeAllowedFieldsByPrefixes(['tl_news::'])
+        ;
 
-    protected function resetUserGroupAllowedFields(UserGroupModel $objUserGroup): UserGroupModel
-    {
-        return UserGroupModelUtil::removeAllowedFieldsByPrefixes($objUserGroup, ['tl_news::']);
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->newp = null;
+        $objUserGroup->save();
     }
 }

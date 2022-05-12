@@ -178,34 +178,21 @@ class General extends AbstractStep
         /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
-        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
-        $objUserGroup = $this->resetUserGroupAllowedModules($objUserGroup);
-        $objUserGroup = $this->resetUserGroupAllowedForms($objUserGroup, $formContactConfig);
-        $objUserGroup = $this->resetUserGroupAllowedFields($objUserGroup);
+        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $formContactConfig);
+        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $formContactConfig);
+    }
+
+    protected function resetUserGroup(UserGroupModel $objUserGroup, FormContactConfig $formContactConfig): void
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->removeAllowedModules(['form'])
+            ->removeAllowedForms([$formContactConfig->getSgFormContact()])
+            ->removeAllowedFormFields(['text', 'textarea', 'captcha', 'submit'])
+            ->removeAllowedFieldsByPrefixes(['tl_form::', 'tl_form_field::'])
+        ;
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->formp = null;
         $objUserGroup->save();
-
-        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
-        $objUserGroup = $this->resetUserGroupAllowedModules($objUserGroup);
-        $objUserGroup = $this->resetUserGroupAllowedForms($objUserGroup, $formContactConfig);
-        $objUserGroup = $this->resetUserGroupAllowedFields($objUserGroup);
-        $objUserGroup->save();
-    }
-
-    protected function resetUserGroupAllowedModules(UserGroupModel $objUserGroup): UserGroupModel
-    {
-        return UserGroupModelUtil::removeAllowedModules($objUserGroup, ['form']);
-    }
-
-    protected function resetUserGroupAllowedForms(UserGroupModel $objUserGroup, FormContactConfig $formContactConfig): UserGroupModel
-    {
-        $objUserGroup = UserGroupModelUtil::removeAllowedForms($objUserGroup, [$formContactConfig->getSgFormContact()]);
-        $objUserGroup->newp = null;
-
-        return $objUserGroup;
-    }
-
-    protected function resetUserGroupAllowedFields(UserGroupModel $objUserGroup): UserGroupModel
-    {
-        return UserGroupModelUtil::removeAllowedFieldsByPrefixes($objUserGroup, ['tl_form::']);
     }
 }

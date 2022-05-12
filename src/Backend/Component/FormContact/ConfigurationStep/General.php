@@ -505,42 +505,21 @@ class General extends ConfigurationStep
         $formContactConfig = $config->getSgFormContact();
 
         // retrieve the webmaster's group and update the permissions
-
-        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
-        $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
-        $objUserGroup = $this->updateUserGroupAllowedForm($objUserGroup, $formContactConfig);
-        $objUserGroup = $this->updateUserGroupAllowedFormFields($objUserGroup);
-        $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
-        $objUserGroup->save();
-
-        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
-        $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
-        $objUserGroup = $this->updateUserGroupAllowedForm($objUserGroup, $formContactConfig);
-        $objUserGroup = $this->updateUserGroupAllowedFormFields($objUserGroup);
-        $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
-        $objUserGroup->save();
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $formContactConfig);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $formContactConfig);
     }
 
-    protected function updateUserGroupAllowedModules(UserGroupModel $objUserGroup): UserGroupModel
+    protected function updateUserGroup(UserGroupModel $objUserGroup, FormContactConfig $formContactConfig): void
     {
-        return UserGroupModelUtil::addAllowedModules($objUserGroup, ['form']);
-    }
-
-    protected function updateUserGroupAllowedForm(UserGroupModel $objUserGroup, FormContactConfig $formContactConfig): UserGroupModel
-    {
-        $objUserGroup = UserGroupModelUtil::addAllowedForms($objUserGroup, [$formContactConfig->getSgFormContact()]);
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedModules(['form'])
+            ->addAllowedForms([$formContactConfig->getSgFormContact()])
+            ->addAllowedFormFields(['text', 'textarea', 'captcha', 'submit'])
+            ->addAllowedFieldsByTables(['tl_form', 'tl_form_field'])
+        ;
+        $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->formp = serialize(['create', 'delete']);
-
-        return $objUserGroup;
-    }
-
-    protected function updateUserGroupAllowedFormFields(UserGroupModel $objUserGroup): UserGroupModel
-    {
-        return UserGroupModelUtil::addAllowedFormFields($objUserGroup, ['text', 'textarea', 'captcha', 'submit']);
-    }
-
-    protected function updateUserGroupAllowedFields(UserGroupModel $objUserGroup): UserGroupModel
-    {
-        return UserGroupModelUtil::addAllowedFieldsByTables($objUserGroup, ['tl_form', 'tl_form_field']);
+        $objUserGroup->save();
     }
 }

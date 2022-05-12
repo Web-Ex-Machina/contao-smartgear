@@ -136,54 +136,28 @@ class General extends AbstractStep
         /** @var EventsConfig */
         $eventsConfig = $config->getSgEvents();
 
-        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
-        $objUserGroup = $this->resetUserGroupSmartgearPermissions($objUserGroup);
-        $objUserGroup = $this->resetUserGroupAllowedModules($objUserGroup);
-        $objUserGroup = $this->resetUserGroupAllowedNewsArchive($objUserGroup, $eventsConfig);
-        $objUserGroup = $this->resetUserGroupAllowedDirectory($objUserGroup, $eventsConfig);
-        $objUserGroup = $this->resetUserGroupAllowedFields($objUserGroup);
-        $objUserGroup->save();
-
-        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
-        $objUserGroup = $this->resetUserGroupSmartgearPermissions($objUserGroup);
-        $objUserGroup = $this->resetUserGroupAllowedModules($objUserGroup);
-        $objUserGroup = $this->resetUserGroupAllowedNewsArchive($objUserGroup, $eventsConfig);
-        $objUserGroup = $this->resetUserGroupAllowedDirectory($objUserGroup, $eventsConfig);
-        $objUserGroup = $this->resetUserGroupAllowedFields($objUserGroup);
-        $objUserGroup->save();
+        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $eventsConfig);
+        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $eventsConfig);
     }
 
-    protected function resetUserGroupSmartgearPermissions(UserGroupModel $objUserGroup): UserGroupModel
+    protected function resetUserGroup(UserGroupModel $objUserGroup, EventsConfig $eventsConfig): void
     {
-        return UserGroupModelUtil::removeSmartgearPermissions($objUserGroup, [SmartgearPermissions::EVENTS_EXPERT]);
-    }
-
-    protected function resetUserGroupAllowedModules(UserGroupModel $objUserGroup): UserGroupModel
-    {
-        return UserGroupModelUtil::removeAllowedModules($objUserGroup, ['calendar']);
-    }
-
-    protected function resetUserGroupAllowedNewsArchive(UserGroupModel $objUserGroup, EventsConfig $eventsConfig): UserGroupModel
-    {
-        $objUserGroup = UserGroupModelUtil::removeAllowedCalendar($objUserGroup, [$eventsConfig->getSgCalendar()]);
-        $objUserGroup->newp = null;
-
-        return $objUserGroup;
-    }
-
-    protected function resetUserGroupAllowedDirectory(UserGroupModel $objUserGroup, EventsConfig $eventsConfig): UserGroupModel
-    {
-        // add allowed directory
         $objFolder = FilesModel::findByPath($eventsConfig->getSgEventsFolder());
         if (!$objFolder) {
             throw new Exception('Unable to find the folder');
         }
 
-        return UserGroupModelUtil::removeAllowedFilemounts($objUserGroup, [$objFolder->uuid]);
-    }
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->removeSmartgearPermissions([SmartgearPermissions::EVENTS_EXPERT])
+            ->removeAllowedModules(['calendar'])
+            ->removeAllowedCalendar([$eventsConfig->getSgCalendar()])
+            ->removeAllowedFilemounts([$objFolder->uuid])
+            ->removeAllowedFieldsByPrefixes(['tl_calendar_events::'])
+        ;
 
-    protected function resetUserGroupAllowedFields(UserGroupModel $objUserGroup): UserGroupModel
-    {
-        return UserGroupModelUtil::removeAllowedFieldsByPrefixes($objUserGroup, ['tl_calendar_events::']);
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->calendarp = null;
+        $objUserGroup->save();
     }
 }

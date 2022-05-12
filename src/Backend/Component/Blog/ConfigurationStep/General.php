@@ -366,56 +366,32 @@ class General extends ConfigurationStep
         /** @var BlogConfig */
         $blogConfig = $config->getSgBlog();
 
-        // retrieve the webmaster's group and update the permissions
-
-        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
-        $objUserGroup = $this->updateUserGroupSmartgearPermissions($objUserGroup, $expertMode);
-        $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
-        $objUserGroup = $this->updateUserGroupAllowedNewsArchive($objUserGroup, $blogConfig);
-        $objUserGroup = $this->updateUserGroupAllowedDirectory($objUserGroup, $blogConfig);
-        $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
-        $objUserGroup->save();
-
-        $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
-        $objUserGroup = $this->updateUserGroupSmartgearPermissions($objUserGroup, true);
-        $objUserGroup = $this->updateUserGroupAllowedModules($objUserGroup);
-        $objUserGroup = $this->updateUserGroupAllowedNewsArchive($objUserGroup, $blogConfig);
-        $objUserGroup = $this->updateUserGroupAllowedDirectory($objUserGroup, $blogConfig);
-        $objUserGroup = $this->updateUserGroupAllowedFields($objUserGroup);
-        $objUserGroup->save();
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $expertMode, $blogConfig);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), true, $blogConfig);
     }
 
-    protected function updateUserGroupSmartgearPermissions(UserGroupModel $objUserGroup, bool $expertMode): UserGroupModel
+    protected function updateUserGroup(UserGroupModel $objUserGroup, bool $expertMode, BlogConfig $blogConfig): void
     {
-        return $expertMode ? UserGroupModelUtil::addSmartgearPermissions($objUserGroup, [SmartgearPermissions::BLOG_EXPERT]) : $objUserGroup;
-    }
-
-    protected function updateUserGroupAllowedModules(UserGroupModel $objUserGroup): UserGroupModel
-    {
-        return UserGroupModelUtil::addAllowedModules($objUserGroup, ['news']);
-    }
-
-    protected function updateUserGroupAllowedNewsArchive(UserGroupModel $objUserGroup, BlogConfig $blogConfig): UserGroupModel
-    {
-        $objUserGroup = UserGroupModelUtil::addAllowedNewsArchive($objUserGroup, [$blogConfig->getSgNewsArchive()]);
-        $objUserGroup->newp = serialize(['create', 'delete']);
-
-        return $objUserGroup;
-    }
-
-    protected function updateUserGroupAllowedDirectory(UserGroupModel $objUserGroup, BlogConfig $blogConfig): UserGroupModel
-    {
-        // add allowed directory
         $objFolder = FilesModel::findByPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
         if (!$objFolder) {
             throw new Exception('Unable to find the folder');
         }
 
-        return UserGroupModelUtil::addAllowedFilemounts($objUserGroup, [$objFolder->uuid]);
-    }
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedModules(['news'])
+            ->addAllowedNewsArchive([$blogConfig->getSgNewsArchive()])
+            ->addAllowedFilemounts([$objFolder->uuid])
+            ->addAllowedFieldsByTables(['tl_news'])
+        ;
+        if ($expertMode) {
+            $userGroupManipulator
+                ->addSmartgearPermissions([SmartgearPermissions::BLOG_EXPERT])
+            ;
+        }
 
-    protected function updateUserGroupAllowedFields(UserGroupModel $objUserGroup): UserGroupModel
-    {
-        return UserGroupModelUtil::addAllowedFieldsByTables($objUserGroup, ['tl_news']);
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->newp = serialize(['create', 'delete']);
+        $objUserGroup->save();
     }
 }
