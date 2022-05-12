@@ -30,7 +30,7 @@ class FramwayCombined extends ManagerFramway
         ConfigurationManagerCore $configurationManagerCore
     ) {
         parent::__construct($translator, $configuration, $configurationManagerCore);
-        $this->configurationFilePath = '';
+        $this->configurationFilePath = null;
     }
 
     /**
