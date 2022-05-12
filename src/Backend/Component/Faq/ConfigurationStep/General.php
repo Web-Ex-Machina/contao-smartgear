@@ -66,7 +66,7 @@ class General extends ConfigurationStep
     {
         // check if the step is correct
         if (null === Input::post('faqTitle', null)) {
-            throw new Exception($this->translator->trans('WEMSG.FAQ.INSTALL_GENERAL.calendarTitleMissing', [], 'contao_default'));
+            throw new Exception($this->translator->trans('WEMSG.FAQ.INSTALL_GENERAL.faqTitleMissing', [], 'contao_default'));
         }
         if (null === Input::post('pageTitle', null)) {
             throw new Exception($this->translator->trans('WEMSG.FAQ.INSTALL_GENERAL.pageTitleMissing', [], 'contao_default'));

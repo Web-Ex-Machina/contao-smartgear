@@ -32,6 +32,7 @@ services:
     smartgear.listener.initialize_system:
         class: WEM\SmartgearBundle\EventListener\InitializeSystemListener
         arguments:
+            $configurationManager: '@smartgear.config.manager.core'
             $templateFinder: '@smartgear.classes.template_finder'
         public: true
         

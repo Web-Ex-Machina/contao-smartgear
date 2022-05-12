@@ -113,6 +113,17 @@ class Content extends \tl_content
             if ($faqConfig->getSgInstallComplete() && $id === (int) $faqConfig->getSgContent()) {
                 return true;
             }
+            $formContactConfig = $config->getSgFormContact();
+            if ($formContactConfig->getSgInstallComplete()
+            && (
+                $id === (int) $formContactConfig->sgContentHeadlineArticleForm()
+                || $id === (int) $formContactConfig->sgContentFormArticleForm()
+                || $id === (int) $formContactConfig->sgContentHeadlineArticleFormSent()
+                || $id === (int) $formContactConfig->sgContentTextArticleFormSent()
+            )
+            ) {
+                return true;
+            }
         } catch (\Exception $e) {
         }
 

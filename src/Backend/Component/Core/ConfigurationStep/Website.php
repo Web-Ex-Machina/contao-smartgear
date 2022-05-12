@@ -29,6 +29,7 @@ use Contao\UserGroupModel;
 use Contao\UserModel;
 use Exception;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
+use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -39,16 +40,20 @@ class Website extends ConfigurationStep
 {
     /** @var ConfigurationManager */
     protected $configurationManager;
+    /** @var CommandUtil */
+    protected $commandUtil;
 
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_website';
 
     public function __construct(
         string $module,
         string $type,
-        ConfigurationManager $configurationManager
+        ConfigurationManager $configurationManager,
+        CommandUtil $commandUtil
     ) {
         parent::__construct($module, $type);
         $this->configurationManager = $configurationManager;
+        $this->commandUtil = $commandUtil;
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Title'];
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
@@ -966,6 +971,7 @@ class Website extends ConfigurationStep
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
+        $registeredModules = [];
         $registeredModulesRaw = $config->getSgModules();
         foreach ($registeredModulesRaw as $registeredModuleRaw) {
             $registeredModules[$registeredModuleRaw->type] = (int) $registeredModuleRaw->id;

@@ -74,7 +74,7 @@ class UserGroupModelUtil
      */
     public static function addAllowedModules(UserGroupModel $objUserGroup, array $newAllowedModules): UserGroupModel
     {
-        $allowedModules = unserialize($objUserGroup->modules);
+        $allowedModules = null !== $objUserGroup->modules ? unserialize($objUserGroup->modules) : [];
 
         foreach ($newAllowedModules as $newAllowedModule) {
             $blogModuleIndex = array_search($newAllowedModule, $allowedModules, true);
@@ -97,7 +97,7 @@ class UserGroupModelUtil
      */
     public static function removeAllowedModules(UserGroupModel $objUserGroup, array $unallowedModules): UserGroupModel
     {
-        $allowedModules = unserialize($objUserGroup->modules);
+        $allowedModules = null !== $objUserGroup->modules ? unserialize($objUserGroup->modules) : [];
 
         foreach ($unallowedModules as $unallowedModule) {
             $blogModuleIndex = array_search($unallowedModule, $allowedModules, true);
@@ -244,6 +244,96 @@ class UserGroupModelUtil
             }
         }
         $objUserGroup->faqs = serialize($allowedFaqs);
+
+        return $objUserGroup;
+    }
+
+    /**
+     * Add allowed forms.
+     *
+     * @param UserGroupModel $objUserGroup    The UserGroup entity to work on
+     * @param array          $newAllowedForms The forms names
+     *
+     * @return UserGroupModel The updated UserGroup entity (not saved)
+     */
+    public static function addAllowedForms(UserGroupModel $objUserGroup, array $newAllowedForms): UserGroupModel
+    {
+        $allowedForms = null !== $objUserGroup->forms ? unserialize($objUserGroup->forms) : [];
+
+        foreach ($newAllowedForms as $newAllowedForm) {
+            $blogFormIndex = array_search($newAllowedForm, $allowedForms, true);
+            if (false === $blogFormIndex) {
+                $allowedForms[] = $newAllowedForm;
+            }
+        }
+        $objUserGroup->forms = serialize($allowedForms);
+
+        return $objUserGroup;
+    }
+
+    /**
+     * Remove allowed forms.
+     *
+     * @param UserGroupModel $objUserGroup   The UserGroup entity to work on
+     * @param array          $unallowedForms The forms names
+     *
+     * @return UserGroupModel The updated UserGroup entity (not saved)
+     */
+    public static function removeAllowedForms(UserGroupModel $objUserGroup, array $unallowedForms): UserGroupModel
+    {
+        $allowedForms = null !== $objUserGroup->forms ? unserialize($objUserGroup->forms) : [];
+
+        foreach ($unallowedForms as $unallowedForm) {
+            $blogFormIndex = array_search($unallowedForm, $allowedForms, true);
+            if (false !== $blogFormIndex) {
+                unset($allowedForms[$unallowedForm]);
+            }
+        }
+        $objUserGroup->forms = serialize($allowedForms);
+
+        return $objUserGroup;
+    }
+
+    /**
+     * Add allowed fields (do not assign fields permissions).
+     *
+     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
+     * @param array          $fields       The fields types
+     *
+     * @return UserGroupModel The updated UserGroup entity (not saved)
+     */
+    public static function addAllowedFormFields(UserGroupModel $objUserGroup, array $fields): UserGroupModel
+    {
+        $allowedFields = null !== $objUserGroup->fields ? unserialize($objUserGroup->fields) : [];
+        foreach ($fields as $field) {
+            $fieldIndex = array_search($field, $allowedFields, true);
+            if (false === $fieldIndex) {
+                $allowedFields[] = $field;
+            }
+        }
+        $objUserGroup->fields = serialize($allowedFields);
+
+        return $objUserGroup;
+    }
+
+    /**
+     * Remove allowed fields (do not remove fields permissions).
+     *
+     * @param UserGroupModel $objUserGroup The UserGroup entity to work on
+     * @param array          $fields       The fields types
+     *
+     * @return UserGroupModel The updated UserGroup entity (not saved)
+     */
+    public static function removeAllowedFormFields(UserGroupModel $objUserGroup, array $fields): UserGroupModel
+    {
+        $allowedFields = null !== $objUserGroup->fields ? unserialize($objUserGroup->fields) : [];
+        foreach ($fields as $field) {
+            $fieldIndex = array_search($field, $allowedFields, true);
+            if (false !== $fieldIndex) {
+                unset($allowedFields[$fieldIndex]);
+            }
+        }
+        $objUserGroup->fields = serialize($allowedFields);
 
         return $objUserGroup;
     }

@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Backend\Component\Faq\EventListener;
+namespace WEM\SmartgearBundle\Backend\Component\FormContact\EventListener;
 
 use WEM\SmartgearBundle\Classes\Backend\Component\EventListener\ReplaceInsertTagsListener as AbstractReplaceInsertTagsListener;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
@@ -57,51 +57,51 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
     ) {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
-        if ('sg' === $key && 'faq' === substr($elements[1], 0, 3)) {
+        if ('sg' === $key && 'formContact' === substr($elements[1], 0, 11)) {
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
-            $faqConfig = $config->getSgFaq();
+            $formContactConfig = $config->getSgFormContact();
 
-            if (!$faqConfig->getSgInstallComplete()) {
+            if (!$formContactConfig->getSgInstallComplete()) {
                 return static::NOT_HANDLED;
             }
 
             switch ($elements[1]) {
-                case 'faq_installComplete':
-                    return $faqConfig->getSgInstallComplete() ? '1' : '0';
+                case 'formContact_installComplete':
+                    return $formContactConfig->getSgInstallComplete() ? '1' : '0';
                 break;
-                case 'faq_faqFolder':
-                    return $faqConfig->getSgFaqFolder();
+                case 'formContact_formContactFolder':
+                    return $formContactConfig->getSgFormContactFolder();
                 break;
-                case 'faq_pageTitle':
-                    return $faqConfig->getSgPageTitle();
+                case 'formContact_pageTitle':
+                    return $formContactConfig->getSgPageTitle();
                 break;
-                case 'faq_faqTitle':
-                    return $faqConfig->getSgFaqTitle();
+                case 'formContact_formContactTitle':
+                    return $formContactConfig->getSgFormContactTitle();
                 break;
-                case 'faq_page':
-                    return $faqConfig->getSgPage();
+                case 'formContact_page':
+                    return $formContactConfig->getSgPage();
                 break;
-                case 'faq_article':
-                    return (string) $faqConfig->getSgArticle();
+                case 'formContact_article':
+                    return (string) $formContactConfig->getSgArticle();
                 break;
-                case 'faq_content':
-                    return (string) $faqConfig->getSgContent();
+                case 'formContact_content':
+                    return (string) $formContactConfig->getSgContent();
                 break;
-                case 'faq_moduleFaq':
-                    return $faqConfig->getSgModuleFaq();
+                case 'formContact_moduleFormContact':
+                    return $formContactConfig->getSgModuleFormContact();
                 break;
-                case 'faq_faqCategory':
-                    return $faqConfig->getSgFaqCategory();
+                case 'formContact_formContactCategory':
+                    return $formContactConfig->getSgFormContactCategory();
                 break;
-                case 'faq_archived':
-                    return $faqConfig->getSgArchived() ? '1' : '0';
+                case 'formContact_archived':
+                    return $formContactConfig->getSgArchived() ? '1' : '0';
                 break;
-                case 'faq_archivedAt':
-                    return $faqConfig->getSgArchivedAt();
+                case 'formContact_archivedAt':
+                    return $formContactConfig->getSgArchivedAt();
                 break;
-                case 'faq_archivedMode':
-                    return $faqConfig->getSgArchivedMode();
+                case 'formContact_archivedMode':
+                    return $formContactConfig->getSgArchivedMode();
                 break;
                 default:
                 return static::NOT_HANDLED;

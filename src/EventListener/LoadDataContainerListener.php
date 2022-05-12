@@ -26,10 +26,13 @@ use WEM\SmartgearBundle\DataContainer\CalendarEvents as CalendarEventsDCA;
 use WEM\SmartgearBundle\DataContainer\Content as ContentDCA;
 use WEM\SmartgearBundle\DataContainer\FaqCategory as FaqCategoryDCA;
 use WEM\SmartgearBundle\DataContainer\Files as FilesDCA;
+use WEM\SmartgearBundle\DataContainer\Form as FormDCA;
 use WEM\SmartgearBundle\DataContainer\Layout as LayoutDCA;
 use WEM\SmartgearBundle\DataContainer\Module as ModuleDCA;
 use WEM\SmartgearBundle\DataContainer\NewsArchive as NewsArchiveDCA;
 use WEM\SmartgearBundle\DataContainer\NotificationGateway as NotificationGatewayDCA;
+use WEM\SmartgearBundle\DataContainer\NotificationMessage as NotificationMessageDCA;
+use WEM\SmartgearBundle\DataContainer\NotificationNotification as NotificationNotificationDCA;
 use WEM\SmartgearBundle\DataContainer\Page as PageDCA;
 use WEM\SmartgearBundle\DataContainer\Theme as ThemeDCA;
 use WEM\SmartgearBundle\DataContainer\User as UserDCA;
@@ -104,6 +107,12 @@ class LoadDataContainerListener
                     ->setListOperationsDeleteButtonCallback(FilesDCA::class, 'deleteItem')
                 ;
             break;
+            case 'tl_form':
+                DCAManipulator::create($table)
+                    ->addConfigOnloadCallback(FormDCA::class, 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback(FormDCA::class, 'deleteItem')
+                ;
+            break;
             case 'tl_layout':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(LayoutDCA::class, 'checkPermission')
@@ -120,6 +129,18 @@ class LoadDataContainerListener
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(NotificationGatewayDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(NotificationGatewayDCA::class, 'deleteItem')
+                ;
+            break;
+            case 'tl_nc_message':
+                DCAManipulator::create($table)
+                    ->addConfigOnloadCallback(NotificationMessageDCA::class, 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback(NotificationMessageDCA::class, 'deleteItem')
+                ;
+            break;
+            case 'tl_nc_notification':
+                DCAManipulator::create($table)
+                    ->addConfigOnloadCallback(NotificationNotificationDCA::class, 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback(NotificationNotificationDCA::class, 'deleteItem')
                 ;
             break;
             case 'tl_news_archive':

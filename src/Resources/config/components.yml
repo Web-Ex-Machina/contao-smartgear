@@ -92,6 +92,7 @@ services:
             $module: 'core'
             $type: 'component'
             $configurationManager: '@smartgear.config.manager.core'
+            $commandUtil: '@smartgear.classes.command.util'
         public: true
 
     smartgear.backend.component.core.reset_step.general:
@@ -309,7 +310,7 @@ services:
 
     
 
-    ############ EVENTS ############
+    ############ FAQ ############
     
     smartgear.backend.component.faq.block:
         class: WEM\SmartgearBundle\Backend\Component\Faq\Block
@@ -385,4 +386,75 @@ services:
             $security: '@security.helper'
             $coreConfigurationManager: '@smartgear.config.manager.core'
             $dcaManipulator: '@smartgear.classes.dca.manipulator'
+        public: true
+
+    ############ FormContact ############
+    
+    smartgear.backend.component.form_contact.block:
+        class: WEM\SmartgearBundle\Backend\Component\FormContact\Block
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+            $configurationStepManager: '@smartgear.backend.component.form_contact.configuration_step_manager'
+            $resetStepManager: '@smartgear.backend.component.form_contact.reset_step_manager'
+            $dashboard: '@smartgear.backend.component.form_contact.dashboard'
+        public: true
+
+    smartgear.backend.component.form_contact.configuration_step_manager:
+        class: WEM\SmartgearBundle\Backend\Component\FormContact\ConfigurationStepManager
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'form_contact'
+            $type: 'component'
+            $stepSessionKey: 'sg_form_contact_install_step'
+            $steps: 
+                - '@smartgear.backend.component.form_contact.configuration_step.general'
+        public: true
+
+    smartgear.backend.component.form_contact.configuration_step.general:
+        class: WEM\SmartgearBundle\Backend\Component\FormContact\ConfigurationStep\General
+        arguments:
+            $module: 'form_contact'
+            $type: 'component'
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+            $commandUtil: '@smartgear.classes.command.util'
+            $htmlDecoder: '@contao.string.html_decoder'
+        public: true
+
+    smartgear.backend.component.form_contact.dashboard:
+        class: WEM\SmartgearBundle\Backend\Component\FormContact\Dashboard
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'form_contact'
+            $type: 'component'
+        public: true
+
+    smartgear.backend.component.form_contact.reset_step_manager:
+        class: WEM\SmartgearBundle\Backend\Component\FormContact\ResetStepManager
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'form_contact'
+            $type: 'component'
+            $stepSessionKey: 'sg_core_reset_step'
+            $steps: 
+                - '@smartgear.backend.component.form_contact.reset_step.general'
+        public: true
+
+    smartgear.backend.component.form_contact.reset_step.general:
+        class: WEM\SmartgearBundle\Backend\Component\FormContact\ResetStep\General
+        arguments:
+            $module: 'form_contact'
+            $type: 'component'
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.backend.component.form_contact.listener.replace_insert_tags:
+        class: WEM\SmartgearBundle\Backend\Component\FormContact\EventListener\ReplaceInsertTagsListener
+        arguments:
+            $coreConfigurationManager: '@smartgear.config.manager.core'
         public: true

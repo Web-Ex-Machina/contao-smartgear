@@ -20,7 +20,7 @@ use Contao\Input;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 
-class Page extends \tl_page
+class Form extends \tl_form
 {
     /** @var CoreConfigurationManager */
     private $configManager;
@@ -32,7 +32,7 @@ class Page extends \tl_page
     }
 
     /**
-     * Check permissions to edit table tl_page.
+     * Check permissions to edit table tl_form.
      *
      * @throws AccessDeniedException
      */
@@ -44,14 +44,14 @@ class Page extends \tl_page
         switch (Input::get('act')) {
             case 'delete':
                 if ($this->isItemUsedBySmartgear((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' page ID '.Input::get('id').'.');
+                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' form ID '.Input::get('id').'.');
                 }
             break;
         }
     }
 
     /**
-     * Return the delete page button.
+     * Return the delete form button.
      *
      * @param array  $row
      * @param string $href
@@ -68,49 +68,19 @@ class Page extends \tl_page
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
-        return parent::deletePage($row, $href, $label, $title, $icon, $attributes);
+        return parent::deleteForm($row, $href, $label, $title, $icon, $attributes);
     }
 
     /**
-     * Check if the page is being used by Smartgear.
+     * Check if the form is being used by Smartgear.
      *
-     * @param int $id page's ID
+     * @param int $id form's ID
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
         try {
-            $config = $this->configManager->load();
-            if ($config->getSgInstallComplete()
-            && (
-                $id === (int) $config->getSgPageRoot()
-                || $id === (int) $config->getSgPageHome()
-                || $id === (int) $config->getSgPage404()
-                || $id === (int) $config->getSgPageLegalNotice()
-                || $id === (int) $config->getSgPagePrivacyPolitics()
-                || $id === (int) $config->getSgPageSitemap()
-            )
-            ) {
-                return true;
-            }
-            $blogConfig = $config->getSgBlog();
-            if ($blogConfig->getSgInstallComplete() && $id === (int) $blogConfig->getSgPage()) {
-                return true;
-            }
-            $eventsConfig = $config->getSgEvents();
-            if ($eventsConfig->getSgInstallComplete() && $id === (int) $eventsConfig->getSgPage()) {
-                return true;
-            }
-            $faqConfig = $config->getSgFaq();
-            if ($faqConfig->getSgInstallComplete() && $id === (int) $faqConfig->getSgPage()) {
-                return true;
-            }
-            $formContactConfig = $config->getSgFormContact();
-            if ($formContactConfig->getSgInstallComplete()
-            && (
-                $id === (int) $formContactConfig->getSgPageForm()
-                || $id === (int) $formContactConfig->getSgPageFormSent()
-            )
-            ) {
+            $formContactConfig = $this->configManager->load()->getSgFormContact();
+            if ($formContactConfig->getSgInstallComplete() && $id === (int) $formContactConfig->getSgFormContact()) {
                 return true;
             }
         } catch (\Exception $e) {

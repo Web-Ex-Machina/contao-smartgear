@@ -1140,7 +1140,8 @@
 			<source>Content</source>
 			<target>Contenu</target>
 		</trans-unit>
-				<!-- Faq -->
+		
+		<!-- Faq -->
 		<trans-unit id="WEMSG.FAQ.INSTALL_GENERAL.title">
 			<source>Installation</source>
 			<target>Installation</target>
@@ -1168,14 +1169,6 @@
 		<trans-unit id="WEMSG.FAQ.INSTALL_GENERAL.pageDescription">
 			<source>%s of %s's website</source>
 			<target>%s du site %s</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.FAQ.INSTALL_DATASET.title">
-			<source>Dataset</source>
-			<target>Jeu de données</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.FAQ.INSTALL_DATASET.datasetOptionNone">
-			<source>Aucun</source>
-			<target>Aucun</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FAQ.RESET.title">
 			<source>Uninstall</source>
@@ -1213,9 +1206,131 @@
 			<source>Uninstall</source>
 			<target>Désinstallation</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.FAQ.DASHBOARD.mode">
-			<source>Mode : %s</source>
-			<target>Mode : %s</target>
+
+				<!-- Form Contact -->
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.title">
+			<source>Installation</source>
+			<target>Installation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.formContactTitle">
+			<source>Contact form title</source>
+			<target>Titre du formulaire de contact</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.pageTitle">
+			<source>Contact form's page title</source>
+			<target>Titre de la page du formulaire de contact</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.formContactConfigMissing">
+			<source>Faq configuration is missing</source>
+			<target>La configuration n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.formContactTitleMissing">
+			<source>Contact form's title is missing</source>
+			<target>Le titre du formulaire de contact n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.pageTitleMissing">
+			<source>Contact form's page title is missing</source>
+			<target>Le titre de la page du formulaire de contact n'est pas renseigné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormDescription">
+			<source>%s - %s</source>
+			<target>%s - %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormSentTitle">
+			<source>%s sent</source>
+			<target>%s envoyé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormSentDescription">
+			<source>%s sent - %s</source>
+			<target>%s envoyé - %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.contentTextPageFormSent">
+			<source>Your message has been sent successfully ! We will answer you as soon as possible.</source>
+			<target>Votre message a été envoyé avec succès ! Nous vous répondrons dans les délais les plus brefs.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.titleNotificationGatewayMessageUser">
+			<source>Acknowledgment of receipt</source>
+			<target>Accusé réception</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.titleNotificationGatewayMessageAdmin">
+			<source>Administrator Notification</source>
+			<target>Notification Administrateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputName">
+			<source>Name</source>
+			<target>Nom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputEmail">
+			<source>Email</source>
+			<target>Email</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputMessage">
+			<source>Message</source>
+			<target>Message</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.placeholderFormInputName">
+			<source>Your name</source>
+			<target>Votre nom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.placeholderFormInputEmail">
+			<source>Your email address</source>
+			<target>Votre adresse e-mail</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.placeholderFormInputMessage">
+			<source>Your message</source>
+			<target>Votre message</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputCaptcha">
+			<source>Captcha</source>
+			<target>Captcha</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputSubmit">
+			<source>Send</source>
+			<target>Envoyer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageUser">
+			<source>%s - %s</source>
+			<target>%s - %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageUser">
+			<source>%s - %s</source>
+			<target>%s - %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.RESET.title">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeLabel">
+			<source>Uninstall mode</source>
+			<target>Mode de désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeArchiveLabel">
+			<source>Archive</source>
+			<target>Archiver</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeArchiveDescription">
+			<source>Form's name wille be suffixed with " (Archive-{timestamp})".</source>
+			<target>Le nom du formulaire sera suffixé par " (Archive-{timestamp})".</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeKeepLabel">
+			<source>Keep</source>
+			<target>Conserver</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeKeepDescription">
+			<source>All data will be kept in place.</source>
+			<target>Toutes les données seront conservées.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeDeleteLabel">
+			<source>Delete</source>
+			<target>Supprimer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeDeleteDescription">
+			<source>Form contact will be deleted.</source>
+			<target>Le formulaire de contact sera supprimé.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeUnknown">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
 		</trans-unit>
 
 

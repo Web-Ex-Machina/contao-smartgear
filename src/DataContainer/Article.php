@@ -103,6 +103,15 @@ class Article extends \tl_article
             if ($faqConfig->getSgInstallComplete() && $id === (int) $faqConfig->getSgArticle()) {
                 return true;
             }
+            $formContactConfig = $config->getSgFormContact();
+            if ($formContactConfig->getSgInstallComplete()
+            && (
+                $id === (int) $formContactConfig->getSgArticleForm()
+                || $id === (int) $formContactConfig->getSgArticleFormSent()
+            )
+            ) {
+                return true;
+            }
         } catch (\Exception $e) {
         }
 
