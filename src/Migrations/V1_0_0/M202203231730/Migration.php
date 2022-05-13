@@ -34,19 +34,19 @@ class Migration extends MigrationAbstract
     protected $configurationFramwayCombinedManager;
 
     protected static $elements = [
-        'margin' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordionFW', 'rsce_counterFW', 'rsce_gridGallery', 'rsce_heroFW', 'rsce_heroFWStart', 'rsce_priceCards', 'rsce_sliderFW', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations', 'rsce_pdfViewerFW'], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroFWStop'
+        'margin' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordion', 'rsce_counter', 'rsce_gridGallery', 'rsce_hero', 'rsce_heroStart', 'rsce_priceCards', 'rsce_slider', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations', 'rsce_pdfViewer'], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroStop'
         'button' => ['hyperlink'],
-        'button_manual' => ['rsce_pdfViewerFW'],
+        'button_manual' => ['rsce_pdfViewer'],
         'background' => ['headline', 'text', 'rsce_quote'],
         'separator' => ['headline'],
         'table' => ['table'],
-        'accordion' => ['accordionStart', 'rsce_accordionFW'], //, 'accordionStop'
-        'slider' => ['sliderStart', 'rsce_sliderFW', 'rsce_testimonials'], //, 'sliderStop'
-        'slider_image_manual' => ['rsce_sliderFW'], //, 'sliderStop'
+        'accordion' => ['accordionStart', 'rsce_accordion'], //, 'accordionStop'
+        'slider' => ['sliderStart', 'rsce_slider', 'rsce_testimonials'], //, 'sliderStop'
+        'slider_image_manual' => ['rsce_slider'], //, 'sliderStop'
         'image_other' => ['image'],
         'image_ratio' => ['image', 'rsce_quote'],
         'image_ratio_manual' => ['rsce_gridGallery'],
-        'hero' => ['rsce_heroFW', 'rsce_heroFWStart'], //'rsce_heroFWStop'
+        'hero' => ['rsce_hero', 'rsce_heroStart'], //'rsce_heroStop'
         'grid_manual' => ['rsce_gridGallery', 'rsce_priceCards'],
         'griditems_manual' => ['rsce_gridGallery', 'rsce_priceCards'],
         'priceCards_manual' => ['rsce_priceCards'],

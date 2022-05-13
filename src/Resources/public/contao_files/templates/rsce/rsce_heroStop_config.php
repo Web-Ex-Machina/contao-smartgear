@@ -13,5 +13,5 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_herofw_stop'], 'contentCategory' => 'SMARTGEAR',
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_hero_stop'], 'contentCategory' => 'SMARTGEAR',
 ];
