@@ -286,6 +286,17 @@ class Website extends ConfigurationStep
         $objSitemapModule->save();
         $modules[$objSitemapModule->type] = $objSitemapModule;
 
+        $objSocialLinkModule = \array_key_exists('wem_sg_social_link', $registeredModules)
+                            ? ModuleModel::findOneById($registeredModules['wem_sg_social_link']) ?? new ModuleModel()
+                            : new ModuleModel()
+                            ;
+        $objSocialLinkModule->pid = $themeId;
+        $objSocialLinkModule->tstamp = time();
+        $objSocialLinkModule->type = 'wem_sg_social_link';
+        $objSocialLinkModule->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSocialLinkName'];
+        $objSocialLinkModule->save();
+        $modules[$objSocialLinkModule->type] = $objSocialLinkModule;
+
         return $modules;
     }
 
@@ -528,7 +539,7 @@ class Website extends ConfigurationStep
         $page = PageModel::findOneById($config->getSgPageHome());
         $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageHomeTitle'], $rootPage->id, array_merge([
             'sorting' => 128,
-            'alias' => '/',
+            // 'alias' => '/',
             'sitemap' => 'default',
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id] : []));

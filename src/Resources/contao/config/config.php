@@ -82,7 +82,7 @@ array_insert(
     array_search('article', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
     [
         'social_link' => [
-            'callback' => "\WEM\SmartgearBundle\Module\SocialLink",
+            'callback' => "\WEM\SmartgearBundle\Backend\SocialLink",
         ],
     ]);
 
@@ -92,6 +92,7 @@ array_insert(
 array_insert($GLOBALS['FE_MOD'], 2, [
     'smartgear' => [
         'wem_sg_header' => '\WEM\SmartgearBundle\Module\Header',
+        'wem_sg_social_link' => '\WEM\SmartgearBundle\Module\SocialLink',
     ],
 ]);
 $GLOBALS['FE_MOD']['news']['newsreader'] = \WEM\SmartgearBundle\Override\ModuleNewsReader::class;

@@ -215,11 +215,25 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 case 'apiKey':
                     return $config->getSgApiKey();
                 break;
+                case 'socialLinks':
+                    return $this->generateSocialLinks($config);
+                break;
                 default:
                 return static::NOT_HANDLED;
             }
         }
 
         return static::NOT_HANDLED;
+    }
+
+    protected function generateSocialLinks(CoreConfig $config): string
+    {
+        if ($config->getSgInstallComplete()) {
+            $objModule = \Contao\ModuleModel::findById($config->getSgModuleByType('wem_sg_social_link'));
+
+            return (new \WEM\SmartgearBundle\Module\SocialLink($objModule))->generate();
+        }
+
+        return '';
     }
 }

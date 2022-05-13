@@ -459,6 +459,10 @@
 			<source>Sitemap</source>
 			<target>Plan du site</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.ModuleSocialLinkName">
+			<source>Social network links</source>
+			<target>Liens réseaux sociaux</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.ModuleFooterNavName">
 			<source>Nav - footer</source>
 			<target>Nav - footer</target>
