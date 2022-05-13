@@ -55,6 +55,9 @@ class Migration extends MigrationAbstract
 
             return $result;
         }
+        $result
+            ->addLog($this->translator->trans('WEMSG.MIGRATIONS.shouldBeRun', [], 'contao_default'))
+        ;
 
         return $result;
     }
