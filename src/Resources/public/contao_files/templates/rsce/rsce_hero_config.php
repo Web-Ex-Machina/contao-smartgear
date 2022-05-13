@@ -13,7 +13,7 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_herofw'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_hero'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
         'config_legend' => [
             'label' => [&$GLOBALS['TL_LANG']['tl_content']['config_legend']], 'inputType' => 'group',
         ],
@@ -44,7 +44,7 @@ return [
             },
         ],
         'content_legend' => [
-            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_herofw']['content_legend']],
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_hero']['content_legend']],
             'inputType' => 'group',
         ],
         'text' => [

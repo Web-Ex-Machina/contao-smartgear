@@ -13,28 +13,28 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewerfw'],
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewer'],
     'contentCategory' => 'SMARTGEAR',
     'standardFields' => ['cssID'],
     'fields' => [
         'source' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewerfw']['source'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewer']['source'],
             'inputType' => 'fileTree',
             'eval' => ['filesOnly' => true, 'fieldType' => 'radio'],
         ],
         'downloadable' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewerfw']['downloadable'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewer']['downloadable'],
             'inputType' => 'checkbox',
             // 'options' => ['true'],
             'eval' => ['tl_class' => 'w50 clr'],
         ],
         'download_button_text' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewerfw']['download_button_text'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewer']['download_button_text'],
             'inputType' => 'text',
             'eval' => ['tl_class' => 'w50'],
         ],
         'download_button_title' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewerfw']['download_button_title'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewer']['download_button_title'],
             'inputType' => 'text',
             'eval' => ['tl_class' => 'w100 clr'],
         ],
