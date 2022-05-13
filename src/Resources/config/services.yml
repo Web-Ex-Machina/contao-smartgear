@@ -269,6 +269,7 @@ services:
             $backupManager: '@smartgear.backup.backup_manager'
             $migrations: 
                 - '@smartgear.migrations.v1_0_0.m202203231730.migration'
+                - '@smartgear.migrations.v1_0_0.m202205130814.migration'
         public: true
 
     smartgear.model.backup:

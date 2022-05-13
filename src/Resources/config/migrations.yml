@@ -9,3 +9,12 @@ services:
       $versionComparator: '@smartgear.classes.version.comparator'
       $configurationFramwayCombinedManager: '@smartgear.config.manager.framway_combined'
     public: true
+
+  smartgear.migrations.v1_0_0.m202205130814.migration:
+    class: WEM\SmartgearBundle\Migrations\V1_0_0\M202205130814\Migration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+    public: true

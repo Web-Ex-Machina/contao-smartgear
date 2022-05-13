@@ -27,11 +27,13 @@
 											</optgroup>
 										<?php endif ?>
 										<optgroup label="<?= $network->getRelated('category')->name; ?>">
+										<?php $currentNetworkCategory = $network->category ;?>
 									<?php endif ?>
 									<option value="<?= $network->id; ?>" <?= $network->id == $row['network'] ? 'selected' : '';?> >
 										<?= $network->name; ?>
 									</option>
 								<?php endforeach; ?>
+
 								</optgroup>
 							</select>
 						</td>
