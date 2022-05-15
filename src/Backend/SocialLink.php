@@ -16,8 +16,10 @@ namespace WEM\SmartgearBundle\Backend;
 
 use Contao\BackendModule;
 use Contao\Input;
+use Contao\System;
 use WEM\SmartgearBundle\Model\SocialLink as SocialLinkModel;
 use WEM\SmartgearBundle\Model\SocialNetwork as SocialNetworkModel;
+use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class SocialLink extends BackendModule
 {
@@ -28,6 +30,12 @@ class SocialLink extends BackendModule
      */
     protected $strTemplate = 'be_wem_sg_social_link';
     protected $strId = 'social_link';
+
+    public function __construct($dc = null)
+    {
+        parent::__construct($dc);
+        $this->security = System::getContainer()->get('security.helper');
+    }
 
     public function generate(): string
     {
@@ -44,6 +52,7 @@ class SocialLink extends BackendModule
         $this->Template->strId = $this->strId;
         $this->Template->links = SocialLinkModel::findAll();
         $this->Template->networks = SocialNetworkModel::findAll(['order' => 'category ASC, name ASC']);
+        $this->Template->modeExpert = $this->security->isGranted(SmartgearPermissions::SOCIALLINK_EXPERT);
         $this->Template->token = REQUEST_TOKEN;
     }
 
@@ -79,21 +88,20 @@ class SocialLink extends BackendModule
     {
         $formData = [];
         if (null !== Input::post('FORM_SUBMIT')) {
-            $rows = Input::post($this->strId);
-            foreach ($rows as $index => $row) {
-                $formData[$index] = [
-                    // 'id' => $row['id'],
-                    'network' => $row['network'],
-                    'value' => $row['value'],
-                    'icon' => $row['icon'],
-                ];
-            }
+            // $rows = Input::post($this->strId);
+            // foreach ($rows as $index => $row) {
+            //     $formData[$index] = [
+            //         'network' => $row['network'],
+            //         'value' => $row['value'],
+            //         'icon' => $row['icon'],
+            //     ];
+            // }
+            $formData = Input::post($this->strId);
         } else {
             $objLinks = SocialLinkModel::findAll(['order' => 'sorting ASC']);
             $index = 0;
             foreach ($objLinks as $objLink) {
                 $formData[$index] = [
-                    // 'id' => $objLink->id,
                     'network' => $objLink->network,
                     'value' => $objLink->value,
                     'icon' => $objLink->icon,

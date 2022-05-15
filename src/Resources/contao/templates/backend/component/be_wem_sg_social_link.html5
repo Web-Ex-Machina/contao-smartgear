@@ -13,7 +13,7 @@
 				<thead>
 					<th><?= $this->trans('WEMSG.SOCIALLINKS.FORM.headerNetwork',[],'contao_default'); ?></th>
 					<th><?= $this->trans('WEMSG.SOCIALLINKS.FORM.headerLink',[],'contao_default'); ?></th>
-					<th><?= $this->trans('WEMSG.SOCIALLINKS.FORM.headerIconCustom',[],'contao_default'); ?></th>
+					<th class="<?= $this->modeExpert ? '' : 'hidden'; ?>"><?= $this->trans('WEMSG.SOCIALLINKS.FORM.headerIconCustom',[],'contao_default'); ?></th>
 					<th></th>
 				</thead>
 				<tbody class="sortable">
@@ -40,8 +40,8 @@
 						<td>
 							<input type="text" name="<?= $this->strId; ?>[<?= $index; ?>][value]" id="<?= $this->strId; ?>_value_<?= $row['id']; ?>" class="tl_text" value="<?= $row['value']; ?>"/>
 						</td>
-						<td>
-							<input type="text" name="<?= $this->strId; ?>[<?= $index; ?>][icon]" id="<?= $this->strId; ?>_icon_<?= $row['id']; ?>" class="tl_text" value="<?= $row['icon']; ?>"/>
+						<td class="<?= $this->modeExpert ? '' : 'hidden'; ?>">
+							<input type="<?= $this->modeExpert ? 'text' : 'hidden'; ?>" name="<?= $this->strId; ?>[<?= $index; ?>][icon]" id="<?= $this->strId; ?>_icon_<?= $row['id']; ?>" class="tl_text" value="<?= $row['icon']; ?>"/>
 						</td>
 						<td>
 							<button type="button" data-command="copy" title="<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['ow_copy']); ?>"><?= Image::getHtml('copy.svg'); ?></button>
@@ -54,7 +54,7 @@
 				<tfoot>
 					<tr>
 						<td colspan="2"></td>
-						<td>
+						<td class="<?= $this->modeExpert ? '' : 'hidden'; ?>">
 							<p class="tl_help tl_tip">
 								<?= $this->trans('WEMSG.SOCIALLINKS.FORM.helpIconCustom',[],'contao_default'); ?>
 							</p>

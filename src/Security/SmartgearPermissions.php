@@ -21,4 +21,5 @@ final class SmartgearPermissions
     public const BLOG_EXPERT = 'contao_user.smartgear_blog_expert';
     // public const BLOG_SIMPLE = 'contao_user.smartgear_blog_simple';
     public const EVENTS_EXPERT = 'contao_user.smartgear_events_expert';
+    public const SOCIALLINK_EXPERT = 'contao_user.smartgear_sociallink_expert';
 }
