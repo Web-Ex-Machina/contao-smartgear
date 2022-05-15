@@ -81,7 +81,7 @@ array_insert(
     $GLOBALS['BE_MOD']['content'],
     array_search('article', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
     [
-        'social_link' => [
+        'wem_sg_social_link' => [
             'callback' => "\WEM\SmartgearBundle\Backend\SocialLink",
         ],
     ]);
