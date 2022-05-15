@@ -85,7 +85,19 @@ array_insert(
             'callback' => "\WEM\SmartgearBundle\Backend\SocialLink",
         ],
     ]);
-
+array_insert(
+    $GLOBALS['BE_MOD'],
+    array_search('content', array_keys($GLOBALS['BE_MOD']), true) + 1,
+    [
+        'wem_sg_social_link_config' => [
+            'wem_sg_social_link_config_categories' => [
+                'tables' => ['tl_sm_social_network_category'],
+            ],
+            'wem_sg_social_link_config_networks' => [
+                'tables' => ['tl_sm_social_network', 'tl_sm_social_network_category'],
+            ],
+        ],
+    ]);
 /*
  * Frontend modules
  */

@@ -1,0 +1,39 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/tl_sm_social_network.php" source-language="en" target-language="fr">
+  <!-- <file datatype="php" source-language="en" target-language="fr"> -->
+    <body>
+		<trans-unit id="tl_sm_social_network.title_legend">
+			<source>Social network</source>
+			<target>Réseau social</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_social_network.new.0">
+			<source>New social network</source>
+			<target>Nouveau réseau social</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_social_network.new.1">
+			<source>Create a new social network</source>
+			<target>Ajoute un nouveau réseau social</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_social_network.pid.0">
+			<source>Category</source>
+			<target>Catégorie</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_social_network.pid.1">
+			<source>Select the category the social network will appears in</source>
+			<target>Sélectionnez la catégorie du réseau social</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_social_network.name.0">
+			<source>Name</source>
+			<target>Nom</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_social_network.icon.0">
+			<source>Icon</source>
+			<target>Icône</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_social_network.icon.1">
+			<source>Enter the Font Awesome icon to use for this social network. Eg : "fab fa-facebook"</source>
+			<target>Entrez le nom de l'icône Font Awesome associée à ce réseau social. Ex : "fab fa-facebook"</target>
+		</trans-unit>
+    </body>
+  </file>
+</xliff>

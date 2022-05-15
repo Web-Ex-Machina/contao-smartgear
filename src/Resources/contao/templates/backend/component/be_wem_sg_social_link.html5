@@ -20,16 +20,16 @@
 					<?php foreach($this->formData as $index => $row): ?>
 					<tr>
 						<td>
-							<select name="<?= $this->strId; ?>[<?= $index; ?>][network]" id="<?= $this->strId; ?>_network_<?= $row['id']; ?>" class="tl_select tl_text"><!-- tl_text class is used for making reordering work -->
+							<select name="<?= $this->strId; ?>[<?= $index; ?>][pid]" id="<?= $this->strId; ?>_pid_<?= $row['id']; ?>" class="tl_select tl_text"><!-- tl_text class is used for making reordering work -->
 								<?php foreach($this->networks as $network): ?>
-									<?php if($currentNetworkCategory !== $network->category): ?>
+									<?php if($currentNetworkCategory !== $network->pid): ?>
 										<?php if($currentNetworkCategory !== null): ?>
 											</optgroup>
 										<?php endif ?>
-										<optgroup label="<?= $network->getRelated('category')->name; ?>">
-										<?php $currentNetworkCategory = $network->category ;?>
+										<optgroup label="<?= $network->getRelated('pid')->name; ?>">
+										<?php $currentNetworkCategory = $network->pid ;?>
 									<?php endif ?>
-									<option value="<?= $network->id; ?>" <?= $network->id == $row['network'] ? 'selected' : '';?> >
+									<option value="<?= $network->id; ?>" <?= $network->id == $row['pid'] ? 'selected' : '';?> >
 										<?= $network->name; ?>
 									</option>
 								<?php endforeach; ?>

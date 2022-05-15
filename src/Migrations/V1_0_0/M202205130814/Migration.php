@@ -129,7 +129,7 @@ class Migration extends MigrationAbstract
         $objSocialNetwork = SocialNetworkModel::findOneByName($this->translator->trans($translationKeyName, [], 'contao_default')) ?? new SocialNetworkModel();
 
         $objSocialNetwork->name = $this->translator->trans($translationKeyName, [], 'contao_default');
-        $objSocialNetwork->category = (string) $categoryId;
+        $objSocialNetwork->pid = (string) $categoryId;
         $objSocialNetwork->icon = $icon;
         $objSocialNetwork->tstamp = $objSocialNetwork->tstamp ?? time();
         $objSocialNetwork->createdAt = $objSocialNetwork->createdAt ?? time();

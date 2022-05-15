@@ -16,7 +16,7 @@ $GLOBALS['TL_DCA']['tl_sm_social_link'] = [
     // Config
     'config' => [
         'dataContainer' => 'Table',
-        'ctable' => [],
+        'ptable' => ['tl_sm_social_network'],
         'switchToEdit' => false,
         'enableVersioning' => false,
         'sql' => [
@@ -43,7 +43,7 @@ $GLOBALS['TL_DCA']['tl_sm_social_link'] = [
         'sorting' => [
             'sql' => 'int(10) unsigned NOT NULL default 0',
         ],
-        'network' => [
+        'pid' => [
             'exclude' => true,
             'inputType' => 'picker',
             'foreignKey' => 'tl_sm_social_network.name',

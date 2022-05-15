@@ -51,7 +51,7 @@ class SocialLink extends BackendModule
         $this->Template->formData = $this->prepareFormData();
         $this->Template->strId = $this->strId;
         $this->Template->links = SocialLinkModel::findAll();
-        $this->Template->networks = SocialNetworkModel::findAll(['order' => 'category ASC, name ASC']);
+        $this->Template->networks = SocialNetworkModel::findAll(['order' => 'pid ASC, name ASC']);
         $this->Template->modeExpert = $this->security->isGranted(SmartgearPermissions::SOCIALLINK_EXPERT);
         $this->Template->token = REQUEST_TOKEN;
     }
@@ -63,7 +63,7 @@ class SocialLink extends BackendModule
         foreach ($formData as $index => $row) {
             $objLink = SocialLinkModel::findByPk($index + 1) ?? new SocialLinkModel();
             $objLink->id = $index + 1;
-            $objLink->network = $row['network'];
+            $objLink->pid = $row['pid'];
             $objLink->value = $row['value'];
             $objLink->icon = $row['icon'];
             $objLink->sorting = 128 + $index;
