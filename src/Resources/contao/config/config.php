@@ -76,6 +76,9 @@ array_insert($GLOBALS['BE_MOD']['system'], 0, [
     'smartgear' => [
         'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
     ],
+    'wem_sg_social_link_config_categories' => [
+        'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
+    ],
 ]);
 array_insert(
     $GLOBALS['BE_MOD']['content'],
@@ -83,19 +86,6 @@ array_insert(
     [
         'wem_sg_social_link' => [
             'callback' => "\WEM\SmartgearBundle\Backend\SocialLink",
-        ],
-    ]);
-array_insert(
-    $GLOBALS['BE_MOD'],
-    array_search('content', array_keys($GLOBALS['BE_MOD']), true) + 1,
-    [
-        'wem_sg_social_link_config' => [
-            'wem_sg_social_link_config_categories' => [
-                'tables' => ['tl_sm_social_network_category'],
-            ],
-            'wem_sg_social_link_config_networks' => [
-                'tables' => ['tl_sm_social_network', 'tl_sm_social_network_category'],
-            ],
         ],
     ]);
 /*

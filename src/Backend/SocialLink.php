@@ -102,7 +102,7 @@ class SocialLink extends BackendModule
             $index = 0;
             foreach ($objLinks as $objLink) {
                 $formData[$index] = [
-                    'network' => $objLink->network,
+                    'pid' => $objLink->pid,
                     'value' => $objLink->value,
                     'icon' => $objLink->icon,
                 ];

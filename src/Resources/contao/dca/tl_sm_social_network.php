@@ -19,6 +19,7 @@ $GLOBALS['TL_DCA']['tl_sm_social_network'] = [
     'config' => [
         'dataContainer' => 'Table',
         'ptable' => 'tl_sm_social_network_category',
+        'ctable' => ['tl_sm_social_link'],
         'switchToEdit' => false,
         'enableVersioning' => false,
         'sql' => [
@@ -30,9 +31,10 @@ $GLOBALS['TL_DCA']['tl_sm_social_network'] = [
     // List
     'list' => [
         'sorting' => [
-            'mode' => DataContainer::MODE_SORTED,
-            'panelLayout' => 'filter;search',
-            'fields' => ['pid', 'name'],
+            'mode' => DataContainer::MODE_PARENT,
+            'fields' => ['sorting'],
+            'panelLayout' => 'filter;search,limit',
+            'headerFields' => ['name'],
         ],
         'label' => [
             'fields' => ['name'],
@@ -82,6 +84,9 @@ $GLOBALS['TL_DCA']['tl_sm_social_network'] = [
             'default' => time(),
             'flag' => 8,
             'sql' => "varchar(10) NOT NULL default ''",
+        ],
+        'sorting' => [
+            'sql' => 'int(10) unsigned NOT NULL default 0',
         ],
         'pid' => [
             'exclude' => true,

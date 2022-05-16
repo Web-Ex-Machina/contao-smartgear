@@ -12,6 +12,8 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+use Contao\DataContainer;
+
 $GLOBALS['TL_DCA']['tl_sm_social_network_category'] = [
     // Config
     'config' => [
@@ -29,9 +31,10 @@ $GLOBALS['TL_DCA']['tl_sm_social_network_category'] = [
     // List
     'list' => [
         'sorting' => [
+            'mode' => DataContainer::MODE_SORTED,
             'fields' => ['name'],
+            'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
             'panelLayout' => 'filter;search,limit',
-            'headerFields' => ['name'],
         ],
         'label' => [
             'fields' => ['name'],
@@ -46,8 +49,12 @@ $GLOBALS['TL_DCA']['tl_sm_social_network_category'] = [
         ],
         'operations' => [
             'edit' => [
-                'href' => 'act=edit',
+                'href' => 'table=tl_sm_social_network',
                 'icon' => 'edit.svg',
+            ],
+            'editheader' => [
+                'href' => 'act=edit',
+                'icon' => 'header.svg',
             ],
             'copy' => [
                 'href' => 'act=paste&amp;mode=copy',

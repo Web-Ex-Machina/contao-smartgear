@@ -16,7 +16,7 @@ $GLOBALS['TL_DCA']['tl_sm_social_link'] = [
     // Config
     'config' => [
         'dataContainer' => 'Table',
-        'ptable' => ['tl_sm_social_network'],
+        'ptable' => 'tl_sm_social_network',
         'switchToEdit' => false,
         'enableVersioning' => false,
         'sql' => [

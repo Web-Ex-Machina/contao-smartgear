@@ -161,6 +161,7 @@ class LoadDataContainerListener
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(SocialNetworkCategoryDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(SocialNetworkCategoryDCA::class, 'deleteItem')
+                    ->setListOperationsEditheaderButtonCallback(SocialNetworkCategoryDCA::class, 'editHeader')
                 ;
             break;
             case 'tl_sm_social_network':

@@ -57,27 +57,13 @@
 			<target>Configurer votre Smartgear</target>
 		</trans-unit>
 
-		<trans-unit id="MOD.wem_sg_social_link_config">
-			<source>Social networks configuration</source>
-			<target>Configuration réseaux sociaux</target>
-		</trans-unit>
-
 		<trans-unit id="MOD.wem_sg_social_link_config_categories.0">
-			<source>Categories</source>
-			<target>Catégories</target>
+			<source>Social network categories</source>
+			<target>Catégories réseaux sociaux</target>
 		</trans-unit>
 		<trans-unit id="MOD.wem_sg_social_link_config_categories.1">
 			<source>Manage social networks categories</source>
 			<target>Gérer les catégories de réseaux sociaux</target>
-		</trans-unit>
-
-		<trans-unit id="MOD.wem_sg_social_link_config_networks.0">
-			<source>Social networks</source>
-			<target>Réseaux sociaux</target>
-		</trans-unit>
-		<trans-unit id="MOD.wem_sg_social_link_config_networks.1">
-			<source>Manage social networks available</source>
-			<target>Gérer les réseaux sociaux disponibles</target>
 		</trans-unit>
 
 		<trans-unit id="MOD.wem_sg_social_link.0">

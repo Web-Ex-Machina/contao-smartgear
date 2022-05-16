@@ -1,8 +1,8 @@
 <!--indexer::stop-->
-<div class="">
+<div class="<?= $this->class; ?>">
 	<?php foreach($this->links as $link): ?>
-	<a href="<?= $link->value; ?>" rel="nofollow" target="_blank" title="<?= $link->getRelated('network')->name;?>">
-		<i class="<?= !empty($link->icon) ? $link->icon : $link->getRelated('network')->icon ; ?>"></i>
+	<a href="<?= $link->value; ?>" rel="nofollow" target="_blank" title="<?= $link->getRelated('pid')->name;?>">
+		<i class="<?= !empty($link->icon) ? $link->icon : $link->getRelated('pid')->icon ; ?>"></i>
 	</a>
 	<?php endforeach; ?>
 </div>

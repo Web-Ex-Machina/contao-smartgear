@@ -22,6 +22,7 @@ use Contao\StringUtil;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Model\SocialNetwork as SocialNetworkModel;
+use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class SocialNetworkCategory extends Backend
 {
@@ -48,6 +49,23 @@ class SocialNetworkCategory extends Backend
                 }
             break;
         }
+    }
+
+    /**
+     * Return the edit header button.
+     *
+     * @param array  $row
+     * @param string $href
+     * @param string $label
+     * @param string $title
+     * @param string $icon
+     * @param string $attributes
+     *
+     * @return string
+     */
+    public function editHeader($row, $href, $label, $title, $icon, $attributes)
+    {
+        return System::getContainer()->get('security.helper')->isGranted(SmartgearPermissions::SOCIALLINK_EXPERT) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ' : Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
     }
 
     /**
