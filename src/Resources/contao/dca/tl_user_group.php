@@ -34,6 +34,10 @@ DCAManipulator::create('tl_user_group')
                 // SmartgearPermissions::BLOG_SIMPLE => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['simple'],
                 SmartgearPermissions::EVENTS_EXPERT => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['EVENTS']['expert'],
             ],
+            $GLOBALS['TL_LANG']['WEMSG']['SECURITY']['SOCIALLINK']['optGroup'] => [
+                // SmartgearPermissions::BLOG_SIMPLE => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['simple'],
+                SmartgearPermissions::SOCIALLINK_EXPERT => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['SOCIALLINK']['expert'],
+            ],
         ],
         'sql' => ['type' => 'blob', 'notnull' => false],
         'explanation' => 'smartgear_permissions',

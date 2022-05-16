@@ -76,14 +76,25 @@ array_insert($GLOBALS['BE_MOD']['system'], 0, [
     'smartgear' => [
         'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
     ],
+    'wem_sg_social_link_config_categories' => [
+        'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
+    ],
 ]);
-
+array_insert(
+    $GLOBALS['BE_MOD']['content'],
+    array_search('article', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
+    [
+        'wem_sg_social_link' => [
+            'callback' => "\WEM\SmartgearBundle\Backend\SocialLink",
+        ],
+    ]);
 /*
  * Frontend modules
  */
 array_insert($GLOBALS['FE_MOD'], 2, [
     'smartgear' => [
         'wem_sg_header' => '\WEM\SmartgearBundle\Module\Header',
+        'wem_sg_social_link' => '\WEM\SmartgearBundle\Module\SocialLink',
     ],
 ]);
 $GLOBALS['FE_MOD']['news']['newsreader'] = \WEM\SmartgearBundle\Override\ModuleNewsReader::class;
@@ -93,8 +104,10 @@ $GLOBALS['FE_MOD']['events']['eventlist'] = \WEM\SmartgearBundle\Override\Module
 /*
  * Models
  */
-$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\Backup::getTable()] = WEM\SmartgearBundle\Model\Backup::class;
-
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Backup::getTable()] = WEM\SmartgearBundle\Model\Backup::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialNetworkCategory::getTable()] = WEM\SmartgearBundle\Model\SocialNetworkCategory::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialNetwork::getTable()] = WEM\SmartgearBundle\Model\SocialNetwork::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialLink::getTable()] = WEM\SmartgearBundle\Model\SocialLink::class;
 /*
  * Add BE Hooks
  */

@@ -286,6 +286,17 @@ class Website extends ConfigurationStep
         $objSitemapModule->save();
         $modules[$objSitemapModule->type] = $objSitemapModule;
 
+        $objSocialLinkModule = \array_key_exists('wem_sg_social_link', $registeredModules)
+                            ? ModuleModel::findOneById($registeredModules['wem_sg_social_link']) ?? new ModuleModel()
+                            : new ModuleModel()
+                            ;
+        $objSocialLinkModule->pid = $themeId;
+        $objSocialLinkModule->tstamp = time();
+        $objSocialLinkModule->type = 'wem_sg_social_link';
+        $objSocialLinkModule->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSocialLinkName'];
+        $objSocialLinkModule->save();
+        $modules[$objSocialLinkModule->type] = $objSocialLinkModule;
+
         return $modules;
     }
 
@@ -363,7 +374,7 @@ class Website extends ConfigurationStep
         }
         $objUserGroup->tstamp = time();
         $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName'];
-        $objUserGroup->modules = serialize(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance']);
+        $objUserGroup->modules = serialize(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance', 'wem_sg_social_link']);
         // $objUserGroup->pagemounts = '';
         // $objUserGroup->alpty = 'a:3:{i:0;s:7:"regular";i:1;s:7:"forward";i:2;s:8:"redirect";}';
         // $objUserGroup->filemounts = 'a:1:{i:0;s:16:"'.$objMediaFolder->getModel()->uuid.'";}';
@@ -528,7 +539,7 @@ class Website extends ConfigurationStep
         $page = PageModel::findOneById($config->getSgPageHome());
         $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageHomeTitle'], $rootPage->id, array_merge([
             'sorting' => 128,
-            'alias' => '/',
+            // 'alias' => '/',
             'sitemap' => 'default',
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id] : []));

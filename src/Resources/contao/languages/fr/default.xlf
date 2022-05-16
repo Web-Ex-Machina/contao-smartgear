@@ -459,6 +459,10 @@
 			<source>Sitemap</source>
 			<target>Plan du site</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.ModuleSocialLinkName">
+			<source>Social network links</source>
+			<target>Liens réseaux sociaux</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.ModuleFooterNavName">
 			<source>Nav - footer</source>
 			<target>Nav - footer</target>
@@ -1331,6 +1335,24 @@
 		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeUnknown">
 			<source>Uninstall</source>
 			<target>Désinstallation</target>
+		</trans-unit>
+
+		<!-- Social links-->
+		<trans-unit id="WEMSG.SOCIALLINKS.FORM.headerNetwork">
+			<source>Network</source>
+			<target>Réseau</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALLINKS.FORM.headerLink">
+			<source>Link</source>
+			<target>Lien</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALLINKS.FORM.headerIconCustom">
+			<source>Custom icon</source>
+			<target>Icône personnalisé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALLINKS.FORM.helpIconCustom">
+			<source>Leave blank to use the selected network's default icon</source>
+			<target>Laissez vide pour utiliser l'icône du réseau social par défaut</target>
 		</trans-unit>
 
 
@@ -4942,6 +4964,121 @@
 		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSQuotes">
 			<source>Adding quotes CSS classes in database.</source>
 			<target>Ajout des classes CSS de gestion des éléments de citations.</target>
+		</trans-unit>
+		<!-- V1_0_0/M202203231730 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202205130814.name">
+			<source>Configures social networks</source>
+			<target>Configuration des réseaux sociaux.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202205130814.description">
+			<source>Configures social networks available for social links.</source>
+			<target>Configuration des réseaux sociaux disponibles pour les liens sociaux.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202205130814.shouldRunSocialNetworkTablesMissing">
+			<source>Cannot execute this migration : social network tables are missing.</source>
+			<target>La mise à jour ne peut être appliquée : les tables de réseaux sociaux sont absentes.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202205130814.doAddSocialNetworks">
+			<source>Adding social networks in database.</source>
+			<target>Ajout des réseaux sociaux.</target>
+		</trans-unit>
+
+		<!-- Social networks -->
+		<trans-unit id="WEMSG.SOCIALNETWORK.CATEGORY.social">
+			<source>Socials</source>
+			<target>Sociaux</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.CATEGORY.video">
+			<source>Video</source>
+			<target>Vidéo</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.CATEGORY.music">
+			<source>Music</source>
+			<target>Musique</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.CATEGORY.communication">
+			<source>Communication</source>
+			<target>Communication</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.CATEGORY.technology">
+			<source>Technology</source>
+			<target>Technologie</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.facebook">
+			<source>Facebook</source>
+			<target>Facebook</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.twitter">
+			<source>Twitter</source>
+			<target>Twitter</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.linkedin">
+			<source>LinkedIn</source>
+			<target>LinkedIn</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.instagram">
+			<source>Instagram</source>
+			<target>Instagram</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.tiktok">
+			<source>TikTok</source>
+			<target>TikTok</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.snapchat">
+			<source>Snapchat</source>
+			<target>Snapchat</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.youtube">
+			<source>Youtube</source>
+			<target>Youtube</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.twitch">
+			<source>Twitch</source>
+			<target>Twitch</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.dailymotion">
+			<source>Dailymotion</source>
+			<target>Dailymotion</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.deezer">
+			<source>Deezer</source>
+			<target>Deezer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.spotify">
+			<source>Spotify</source>
+			<target>Spotify</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.itunes">
+			<source>iTunes</source>
+			<target>iTunes</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.soundcloud">
+			<source>Soundcloud</source>
+			<target>Soundcloud</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.discord">
+			<source>Discord</source>
+			<target>Discord</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.slack">
+			<source>Slack</source>
+			<target>Slack</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.discourse">
+			<source>Discourse</source>
+			<target>Discourse</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.mastodon">
+			<source>Mastodon</source>
+			<target>Mastodon</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.github">
+			<source>Github</source>
+			<target>Github</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SOCIALNETWORK.NETWORK.gitlab">
+			<source>Gitlab</source>
+			<target>Gitlab</target>
 		</trans-unit>
 
 		<!-- Framway colors -->

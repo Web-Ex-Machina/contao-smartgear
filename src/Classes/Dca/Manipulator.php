@@ -62,6 +62,14 @@ class Manipulator
         return $this;
     }
 
+    public function setListOperationsEditheaderButtonCallback(string $className, string $functionName): self
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['list']['operations']['editheader']['button_callback'] = [$className, $functionName];
+
+        return $this;
+    }
+
     /**
      * Set the singleSRC field's path.
      *

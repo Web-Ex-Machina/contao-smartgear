@@ -34,6 +34,8 @@ use WEM\SmartgearBundle\DataContainer\NotificationGateway as NotificationGateway
 use WEM\SmartgearBundle\DataContainer\NotificationMessage as NotificationMessageDCA;
 use WEM\SmartgearBundle\DataContainer\NotificationNotification as NotificationNotificationDCA;
 use WEM\SmartgearBundle\DataContainer\Page as PageDCA;
+use WEM\SmartgearBundle\DataContainer\SocialNetwork as SocialNetworkDCA;
+use WEM\SmartgearBundle\DataContainer\SocialNetworkCategory as SocialNetworkCategoryDCA;
 use WEM\SmartgearBundle\DataContainer\Theme as ThemeDCA;
 use WEM\SmartgearBundle\DataContainer\User as UserDCA;
 use WEM\SmartgearBundle\DataContainer\UserGroup as UserGroupDCA;
@@ -153,6 +155,19 @@ class LoadDataContainerListener
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(PageDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(PageDCA::class, 'deleteItem')
+                ;
+            break;
+            case 'tl_sm_social_network_category':
+                DCAManipulator::create($table)
+                    ->addConfigOnloadCallback(SocialNetworkCategoryDCA::class, 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback(SocialNetworkCategoryDCA::class, 'deleteItem')
+                    ->setListOperationsEditheaderButtonCallback(SocialNetworkCategoryDCA::class, 'editHeader')
+                ;
+            break;
+            case 'tl_sm_social_network':
+                DCAManipulator::create($table)
+                    ->addConfigOnloadCallback(SocialNetworkDCA::class, 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback(SocialNetworkDCA::class, 'deleteItem')
                 ;
             break;
             case 'tl_theme':

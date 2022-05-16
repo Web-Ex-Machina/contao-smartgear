@@ -1,0 +1,19 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/tl_sm_social_network_category.php" source-language="en" target-language="fr">
+  <!-- <file datatype="php" source-language="en" target-language="fr"> -->
+    <body>
+		<trans-unit id="tl_sm_social_network_category.new.0">
+			<source>New social network category</source>
+			<target>Nouvelle catégorie de réseau sociaux</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_social_network_category.new.1">
+			<source>Create a social network category</source>
+			<target>Créer une nouvelle catégorie de réseau sociaux</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_social_network_category.name.0">
+			<source>Name</source>
+			<target>Nom</target>
+		</trans-unit>
+    </body>
+  </file>
+</xliff>

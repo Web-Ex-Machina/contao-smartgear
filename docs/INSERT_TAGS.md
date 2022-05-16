@@ -56,6 +56,7 @@ Tags | Value | Description
 `sg::notificationGatewayEmail` | int | The Contao's email notification gateway ID
 `sg::modules` | string | Comma separated list of modules
 `sg::apiKey` | string | The API key
+`sg::socialLinks` | string | The social network links buttons
 
 
 blog

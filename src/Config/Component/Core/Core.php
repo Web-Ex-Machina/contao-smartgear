@@ -713,6 +713,17 @@ class Core implements ConfigModuleInterface
         return $this;
     }
 
+    public function getSgModuleByType(string $moduleType): ?int
+    {
+        foreach ($this->sgModules as $module) {
+            if ($moduleType === $module->type) {
+                return (int) $module->id;
+            }
+        }
+
+        return null;
+    }
+
     public function getSgOwnerName(): string
     {
         return $this->sgOwnerName;
