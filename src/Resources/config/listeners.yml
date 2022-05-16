@@ -47,6 +47,12 @@ services:
     smartgear.listener.get_all_events:
         class: WEM\SmartgearBundle\EventListener\GetAllEventsListener
         public: true
+        
+    smartgear.listener.get_content_element:
+        class: WEM\SmartgearBundle\EventListener\GetContentElementListener
+        arguments:
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+        public: true
 
 
 
