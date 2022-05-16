@@ -1,35 +1,34 @@
-<div class="layout_latest arc_<?= $this->archive->id ?> block-list r_16-9 fadetocolor col-12 col-sm-6 col-md-4 <?= $this->class ?>"<?= $this->cssID ?> itemscope itemtype="http://schema.org/Article">
+<div class="layout_latest arc_<?= $this->archive->id ?> block-card r_16-9 <?= $this->class ?>"<?= $this->cssID ?> itemscope itemtype="http://schema.org/Article" data-maxlines="4">
   <?php if ($this->hasText || $this->hasTeaser): ?>
-    <a href="<?= $this->link ?>" class="block-list__wrapper" title="<?= $this->headline ?>"<?= ($this->target) ? ' target="_blank"' : '' ?>>
+    <a href="<?= $this->link ?>" class="block-card__wrapper" title="<?= $this->headline ?>"<?= ($this->target) ? ' target="_blank"' : '' ?>>
   <?php else: ?>
-    <div class="block-list__wrapper" title="<?= $this->headline ?>">
+    <div class="block-card__wrapper" title="<?= $this->headline ?>">
   <?php endif; ?>
-  <?php if ($this->addImage): ?>
-    <figure class="block-list__figure" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="associatedMedia">
-      <?php if (strpos($this->class, "featured") != false): ?>
-        <div class="ribbon featured"><i class="fas fa-star"></i></div>
-      <?php endif ?>
-      <img src="<?= $this->picture['img']['src'] ?>" alt="<?= $this->headline ?>" itemprop="image">
-    </figure>
-  <?php endif; ?>
-  <?php if ($this->hasMetaFields): ?>
-    <div class="block-list__headline">
-      <div class="block-list__category"><?= $this->archive->title ?></div>
-      <div class="block-list__date"><time datetime="<?= $this->datetime ?>" itemprop="datePublished"><?= $this->date ?></time></div>
-      <!-- <p class="info"><time datetime="<?= $this->datetime ?>" itemprop="datePublished"><?= $this->date ?></time> <?= $this->author ?> <?= $this->commentCount ?></p> -->
+    <?php if ($this->addImage): ?>
+      <figure class="block-card__figure" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="associatedMedia">
+        <?php if (strpos($this->class, "featured") != false): ?>
+          <div class="ribbon featured"><i class="fas fa-star"></i></div>
+        <?php endif ?>
+        <img src="<?= $this->picture['img']['src'] ?>" alt="<?= $this->headline ?>" itemprop="image">
+      </figure>
+    <?php endif; ?>
+    <?php if ($this->hasMetaFields): ?>
+      <div class="block-card__headline">
+        <div class="block-card__category"><?= $this->archive->title ?></div>
+        <div class="block-card__date"><time datetime="<?= $this->datetime ?>" itemprop="datePublished"><?= $this->date ?></time></div>
+      </div>
+    <?php endif; ?>
+    <div class="block-card__content">
+      <div class="block-card__title" itemprop="name"><?= $this->headline ?></div>
+      <div class="block-card__text" itemprop="description">
+        <?= $this->teaser ?>
+      </div>
     </div>
-  <?php endif; ?>
-  <div class="block-list__content">
-    <div class="block-list__title" itemprop="name"><?= $this->headline ?></div>
-    <div class="block-list__text" itemprop="description">
-      <?= strlen($this->teaser)>250 ? substr(htmlspecialchars_decode($this->teaser),0,250).'...':htmlspecialchars_decode($this->teaser) ?>
-    </div>
-  </div>
-  <?php if ($this->hasMetaFields): ?>
-    <div class="block-list__footer">
-      <div class="block-list__author"><?= $this->author ?></div>
-    </div>
-  <?php endif; ?>
+    <?php if ($this->hasMetaFields): ?>
+      <div class="block-card__footer">
+        <div class="block-card__author"><?= $this->author ?></div>
+      </div>
+    <?php endif; ?>
   <?php if ($this->hasText || $this->hasTeaser): ?>
     </a>
   <?php else: ?>
@@ -37,6 +36,6 @@
   <?php endif; ?>
 </div>
 <?php if (strpos($this->class, "last") != false): ?>
-  <div class="block-list col-12 col-sm-6 col-md-4"></div>
-  <div class="block-list col-12 col-sm-6 col-md-4"></div>
+  <div class="block-card" data-preset="inline"></div>
+  <div class="block-card" data-preset="inline"></div>
 <?php endif ?>
