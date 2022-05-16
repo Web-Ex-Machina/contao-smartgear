@@ -4,7 +4,7 @@
 ?>
 <div class="<?= $this->class ?>"<?= $this->cssID ?>>
 	<div class="pdfviewer__iframe">
-		<iframe src="<?= $objFile->path; ?>" title="<?= $objFile->name; ?>"></iframe>
+		<iframe src="<?= $objFile->path; ?>" title="<?= $objFile->name; ?>" class="custom"></iframe>
 	</div>
 	<?php if((bool)$this->downloadable): ?>
 	<a href="<?= $objFile->path; ?>" title="<?= $this->download_button_title; ?>" class="<?= $buttonClasses; ?>" target="_blank">
