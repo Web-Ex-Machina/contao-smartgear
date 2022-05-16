@@ -1,15 +1,10 @@
-<?php $this->extend('block_unsearchable'); ?>
-
 <?php $this->block('content'); ?>
-  <?php $this->insert('filters', ['filters'=>$this->filters ?? [],'config'=>$this->config ?? [],'dataContainer'=>'listNews']); ?>
-  <div class="row">
+  <div class="<?= $this->class ?>">
     <?php if (empty($this->articles)): ?>
       <p class="empty"><?= $this->empty ?></p>
     <?php else: ?>
-    <div class="flex-wrap">
       <?= implode('', $this->articles) ?>
-    </div>
-      <?= $this->pagination ?>
     <?php endif; ?>
   </div>
+  <?= $this->pagination ?>
 <?php $this->endblock(); ?>
