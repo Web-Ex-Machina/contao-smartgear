@@ -1,0 +1,84 @@
+<?php
+	// Get the file
+	$arrCrop = deserialize($this->size);
+	$objFile = FilesModel::findByUuid($this->singleSRC) ?: FilesModel::findOneByPath($this->singleSRC);
+	$strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
+
+	// Prepare the main block classes
+	$arrClasses = [];
+	if($this->imagesize_ratio)
+		$arrClasses[] = $this->imagesize_ratio;
+	if($this->imagesize_horizontal)
+		$arrClasses[] = 'img--'.$this->imagesize_horizontal;
+	if($this->imagesize_vertical)
+		$arrClasses[] = 'img--'.$this->imagesize_vertical;
+	if($this->image_displaymode)
+		$arrClasses[] = $this->image_displaymode;
+	if($this->imagehover_zoom)
+		$arrClasses[] = $this->imagehover_zoom;
+	if($this->imagehover_fade)
+		$arrClasses[] = $this->imagehover_fade;
+	if($this->content_opacity)
+		$arrClasses[] = 'content__bg__opacity--'.intval($this->content_opacity);
+	if($this->content_background)
+		$arrClasses[] = 'content__bg--'.$this->content_background;
+	if($this->content_color)
+		$arrClasses[] = $this->content_color;
+	if($this->text_align)
+		$arrClasses[] = $this->text_align;
+	if($this->content_position)
+		$arrClasses[] = 'content--'.$this->content_position;
+	if($this->content_horizontal)
+		$arrClasses[] = 'content__text--'.$this->content_horizontal;
+	if($this->content_vertical)
+		$arrClasses[] = 'content__text--'.$this->content_vertical;
+	if($this->contenthover_legend_translate)
+		$arrClasses[] = 'content--'.$this->contenthover_legend_translate;
+	if($this->contenthover_legend_fade)
+		$arrClasses[] = 'content--'.$this->contenthover_legend_fade;
+
+	// Prepare the block wrapper
+	$arrWrapperClasses = ['block-card__wrapper'];
+	if ($this->addRadius) 
+		$arrWrapperClasses[] = 'rad';
+	$strWrapperStart = 'div class="'.implode(' ', $arrWrapperClasses).'"';
+	$strWrapperEnd = 'div';
+	if($this->url && $this->link_mode == 'wrapper') {
+		$strWrapperStart = sprintf('a href="%s" title="%s" class="%s"', $this->url, $this->alt, implode(' ', $arrWrapperClasses));
+		$strWrapperEnd = 'a';
+
+		if($this->fullsize)
+			$strWrapperStart .= ' target="_blank"';
+	}
+	else if($this->fullsize) {
+		$arrWrapperClasses[] = 'cboxElement';
+		$strWrapperStart = sprintf('a href="%s" title="%s" class="%s"', $objFile->path, $this->alt, implode(' ', $arrWrapperClasses));
+		$strWrapperEnd = 'a';
+	}
+?>
+<div class="block-card <?= implode(' ', $arrClasses) ?> <?= $this->class ?>"<?= $this->cssID ?> data-preset="<?= $this->preset ?: 'default' ?>">
+	<<?= $strWrapperStart ?>>
+		<?php if ($this->singleSRC && $this->content_order == 'img_first'): ?>
+			<div class="block-card__figure <?= $this->image_css ?>" <?= $this->preset == 'inline' && $this->image_displaymode == 'img--natural' ? 'style="width:'.($arrCrop[0]?$arrCrop[0].'px':'auto').'"' :'' ?>>
+				<img src="<?= $strFile ?>" alt="<?= $this->alt ?>">
+			</div>
+		<?php endif ?>
+		<?php if($this->text || $this->headline): ?>
+			<div class="block-card__content">
+				<?php if ($this->headline): ?><div class="block-card__title <?= $this->hl ?> <?= $this->title_css ?>"><?= $this->headline ?></div><?php endif; ?>
+				<?php if ($this->text): ?><div class="block-card__text <?= $this->text_css ?>"><?= $this->text ?></div><?php endif; ?>
+				<?php if ($this->url && $this->link_mode != 'wrapper'): ?>
+					<div class="block-card__actions">
+						<a href="<?= $this->url ?>" <?= $this->target?' target="_blank"':'' ?> class="<?= $this->link_mode == 'btn'?'btn':'' ?> <?= $this->link_css ?>" title="<?= trim(strip_tags($this->linkTitle)) ?>"><?= $this->linkTitle ?></a>
+					</div>
+				<?php endif ?>
+			</div>
+		<?php endif; ?>
+		<?php if ($this->singleSRC && $this->content_order == 'txt_first'): ?>
+			<div class="block-card__figure <?= $this->image_css ?>" <?= $this->preset == 'inline' ? 'style="width:'.($arrCrop[0]?$arrCrop[0].'px':'auto').'"' :'' ?>>
+				<img src="<?= $strFile ?>" alt="<?= $this->alt ?>">
+			</div>
+		<?php endif ?>
+
+    </<?= $strWrapperEnd ?>>
+</div>
