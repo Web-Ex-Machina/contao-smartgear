@@ -1,4 +1,6 @@
+
 <?php $this->block('content'); ?>
+  <?php $this->insert('filters', ['filters'=>$this->filters ?? [],'config'=>$this->config ?? [],'dataContainer'=>'listNews']); ?>
   <div class="<?= $this->class ?>">
     <?php if (empty($this->articles)): ?>
       <p class="empty"><?= $this->empty ?></p>
