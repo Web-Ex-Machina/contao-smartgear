@@ -1,4 +1,4 @@
-<div class="layout_latest arc_<?= $this->archive->id ?> block-card r_16-9 <?= $this->class ?>"<?= $this->cssID ?> itemscope itemtype="http://schema.org/Article" data-maxlines="4">
+<div class="layout_latest arc_<?= $this->archive->id ?> block-card r_16-9 <?= $this->class ?>"<?= $this->cssID ?> itemscope itemtype="http://schema.org/Article" data-maxlines="4" data-preset="inline">
   <?php if ($this->hasText || $this->hasTeaser): ?>
     <a href="<?= $this->link ?>" class="block-card__wrapper" title="<?= $this->headline ?>"<?= ($this->target) ? ' target="_blank"' : '' ?>>
   <?php else: ?>
@@ -12,6 +12,7 @@
         <img src="<?= $this->picture['img']['src'] ?>" alt="<?= $this->headline ?>" itemprop="image">
       </figure>
     <?php endif; ?>
+    <div class="flex-column">
     <?php if ($this->hasMetaFields): ?>
       <div class="block-card__headline">
         <div class="block-card__category"><?= $this->archive->title ?></div>
@@ -29,6 +30,7 @@
         <div class="block-card__author"><?= $this->author ?></div>
       </div>
     <?php endif; ?>
+    </div>
   <?php if ($this->hasText || $this->hasTeaser): ?>
     </a>
   <?php else: ?>
