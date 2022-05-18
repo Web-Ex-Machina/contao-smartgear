@@ -875,6 +875,128 @@
         <source>Type the text to display for this date</source>
         <target>Saisissez le texte a afficher pour cette date</target>
       </trans-unit>
+
+      <trans-unit id="tl_content.rsce_blockcard.0">
+        <source>Block Card</source>
+        <target>Block Card</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.1">
+        <source>Generate a conten block composed of a text and an image</source>
+        <target>Générez un bloc de contenu composé d'un texte et d'une image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.content_order.0">
+        <source>Display order</source>
+        <target>Ordre d'apparition</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.content_order.1">
+        <source>Adjust contents' display order</source>
+        <target>Ajustez l'ordre d'apparition des contenus</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.content_order.optionImg_first">
+        <source>Image > Text</source>
+        <target>Image > Texte</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.content_order.optionTxt_first">
+        <source>Text > Image</source>
+        <target>Texte > Image</target>
+      </trans-unit>
+
+      <trans-unit id="tl_content.rsce_blockcard.addRadius.0">
+        <source>Rounded borders</source>
+        <target>Bord arrondis</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.addRadius.1">
+        <source>Check to make rounded borders</source>
+        <target>Cochez pour arrondir les extrémités du bloc</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.preset_legend">
+        <source>Presets</source>
+        <target>Presets</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.preset.0">
+        <source>Preset</source>
+        <target>Preset</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.preset.1">
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.preset.optionLight">
+        <source>Light</source>
+        <target>Light</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.preset.optionThumbnail">
+        <source>Thumbnail</source>
+        <target>Thumbnail</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.preset.optionInline">
+        <source>Inline</source>
+        <target>Inline</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.image_legend">
+        <source>Image</source>
+        <target>Image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.image_css.0">
+        <source>Image CSS class(es)</source>
+        <target>Classe(s) CSS image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.image_css.1">
+        <source>CSS class(es) to add to the image</source>
+        <target>Classe(s) CSS à ajouter a l'image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.content_legend">
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.title_css.0">
+        <source>Title CSS class(es)</source>
+        <target>Classe(s) CSS titre</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.title_css.1">
+        <source>CSS class(es) to add to the title</source>
+        <target>Classe(s) CSS à ajouter au titre</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.text_css.0">
+        <source>Text CSS class(es)</source>
+        <target>Classe(s) CSS texte</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.text_css.1">
+        <source>CSS class(es) to add to the text</source>
+        <target>Classe(s) CSS à ajouter au texte</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.link_css.0">
+        <source>Link CSS class(es)</source>
+        <target>Classe(s) CSS lien</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.link_css.1">
+        <source>CSS class(es) to add to the link</source>
+        <target>Classe(s) CSS à ajouter au lien</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.link_legend">
+        <source>Link</source>
+        <target>Lien</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.link_mode.0">
+        <source>Mode</source>
+        <target>Mode</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.link_mode.1">
+        <source>Change the link's display mode in the block</source>
+        <target>Change le mode d'affichage du lien dans le bloc</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.link_mode.optionWrapper">
+        <source>Wrapper</source>
+        <target>Wrapper</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.link_mode.optionBtn">
+        <source>Button</source>
+        <target>Bouton</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.link_mode.optionLink">
+        <source>Text link</source>
+        <target>Lien texte</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

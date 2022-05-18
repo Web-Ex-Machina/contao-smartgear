@@ -1,220 +1,117 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * rsce_block-img_config.php
- * https://demo.smartgear.webexmachina.fr/guidelines.html
+ * SMARTGEAR for Contao Open Source CMS
+ * Copyright (c) 2015-2022 Web ex Machina
+ *
+ * @category ContaoBundle
+ * @package  Web-Ex-Machina/contao-smartgear
+ * @author   Web ex Machina <contact@webexmachina.fr>
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
-return array(
-    'label' => array('Block Card', 'Générez un bloc de contenu composé d\'un texte et d\'une image'),
-    'types' => array('content'),
-    'contentCategory' => 'Éléments personnalisés',
-    'standardFields' => array('cssID'),
-    'fields' => array(
-        'content_background' => array(
-            'label' => array('Couleur de fond', 'Si souhaité, ajustez la couleur de fond'),
+
+return [
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard'],
+    'types' => ['content'],
+    'contentCategory' => 'SMARTGEAR',
+    'standardFields' => ['cssID'],
+    'fields' => [
+        'content_order' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['content_order'],
             'inputType' => 'select',
-            'options' => \WEM\SmartgearBundle\Backend\Util::getSmartgearColors(),
-            'eval' => array('tl_class'=>'w50 clr','includeBlankOption'=>true),
-        ),
-        'content_color' => array(
-            'label' => array('Couleur du texte', 'Si souhaité, ajustez la couleur du contenu'),
-            'inputType' => 'select',
-            'options' => \WEM\SmartgearBundle\Backend\Util::getSmartgearColors("rsce-ft"),
-            'eval' => array('tl_class'=>'w50','includeBlankOption'=>true),
-        ),
-        'content_opacity' => array(
-            'label' => array('Opacité du fond', 'Ajustez l\'opacité du fond de l\'item (Valeur entre 0 et 10)'),
-            'inputType' => 'text',
-            'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50', 'min'=>0, 'max'=>10)
-        ),
-        'content_order' => array(
-            'label' => array('Ordre d\'apparition', 'Ajustez l\'ordre d\'apparition des contenus'),
-            'inputType' => 'select',
-            'options' => array(
-                'img_first' => 'Image > Texte',
-                'txt_first' => 'Texte > Image',
-            ),
-            'eval' => array('tl_class'=>'clr w50'),
-        ),
-        'text_align' => array(
-            'label' => array('Alignement texte', 'Ajustez l\'alignement du texte'),
-            'inputType' => 'select',
-            'options' => array(
-                'txt-center' => 'Centre',
-                'txt-right' => 'right',
-            ),
-            'eval' => array('tl_class'=>'w50','includeBlankOption'=>true),
-        ),
-        'addRadius' => array(
-            'label' => array("Bord arrondis", "Cochez pour arrondir les extrémités du bloc"),
+            'options' => [
+                'img_first' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['content_order']['optionImg_first'],
+                'txt_first' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['content_order']['optionTxt_first'],
+            ],
+            'eval' => ['tl_class' => 'clr w50'],
+        ],
+        'addRadius' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['addRadius'],
             'inputType' => 'checkbox',
-            'eval' => array( 'tl_class' => 'clr w50')
-        ),
-        'preset_legend' => array(
-            'label' => array('Presets'),
+            'eval' => ['tl_class' => 'w50'],
+        ],
+        'preset_legend' => [
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['preset_legend']],
             'inputType' => 'group',
-        ),
-        'preset' => array(
-            'label' => array('Preset', ''),
+        ],
+        'preset' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['preset'],
             'inputType' => 'select',
-            'options' => array(
-                'light' => 'Light',
-                'thumbnail' => 'Thumbnail',
-                'inline' => 'Inline',
-            ),
-            'eval' => array('tl_class'=>'w50 clr','includeBlankOption'=>true),
-        ),
-        'image_legend' => array(
-            'label' => array('Image'),
+            'options' => [
+                'light' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['preset']['optionLight'],
+                'thumbnail' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['preset']['optionThumbnail'],
+                'inline' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['preset']['optionInline'],
+            ],
+            'eval' => ['tl_class' => 'w50 clr', 'includeBlankOption' => true],
+        ],
+        'image_legend' => [
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['image_legend']],
             'inputType' => 'group',
-        ),
-        'singleSRC' => array(
+        ],
+        'singleSRC' => [
             'inputType' => 'standardField',
-            'eval' => array('tl_class'=>'w50','mandatory'=>false)
-        ),
-        'fullsize' => array(
+            'eval' => ['tl_class' => 'w50', 'mandatory' => false],
+        ],
+        'fullsize' => [
             'inputType' => 'standardField',
-            'eval' => array('tl_class'=>'clr w50')
-        ),
-        'alt' => array(
+            'eval' => ['tl_class' => 'clr w50'],
+        ],
+        'alt' => [
             'inputType' => 'standardField',
-            'eval' => array('tl_class'=>'clr w100 long')
-        ),
-        'size' => array(
+            'eval' => ['tl_class' => 'clr w100 long'],
+        ],
+        'size' => [
             'inputType' => 'standardField',
-        ),
-        'image_displaymode' => array(
-            'label' => array('Mode d\'affichage', 'Change le mode d\'affichage de l\'image dans le bloc'),
-            'inputType' => 'select',
-            'options' => array(
-                'img--cover'    => 'Remplissage automatique',
-                'img--contain'  => 'Ajustée',
-                'img--natural'  => 'Taille naturelle',
-            ),
-            'eval' => array('tl_class'=>'w50'),
-        ),
-        'image_css' => array(
-            'label' => array('Classe(s) CSS image', 'Classe(s) CSS à ajouter a l\'image')
-            ,'inputType' => 'text'
-            ,'eval' => array('tl_class'=>'w50 clr', 'mandatory' => false)
-        ),
-
-        'imagesize_legend' => array(
-            'label' => array('Image - Remplissage automatique'),
+        ],
+        'image_css' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['image_css'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr', 'mandatory' => false],
+        ],
+        'content_legend' => [
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['content_legend']],
             'inputType' => 'group',
-        ),
-        'imagesize_ratio' => array(
-            'label' => array('Ratio', 'Si souhaité, sélectionnez un ratio d\'image'),
-            'inputType' => 'select',
-            'options' => array(
-                '' => 'Original',
-                'r_1-1' => '1:1',
-                'r_2-1' => '2:1',
-                'r_1-2' => '1:2',
-                'r_16-9' => '16:9',
-            ),
-            'eval' => array('tl_class'=>'w50'),
-        ),
-        'imagesize_horizontal' => array(
-            'label' => array('Alignement Horizontal', 'Si souhaité, ajustez la position horizontale de l\'image'),
-            'inputType' => 'select',
-            'options' => array(
-                '' => 'Aucun',
-                'left' => 'Gauche',
-                'right' => 'Droite',
-            ),
-            'eval' => array('tl_class'=>'w50'),
-        ),
-        'imagesize_vertical' => array(
-            'label' => array('Alignement vertical', 'Si souhaité, ajustez la position verticale de l\'image'),
-            'inputType' => 'select',
-            'options' => array(
-                '' => 'Aucun',
-                'top' => 'Haut',
-                'bottom' => 'Bas',
-            ),
-            'eval' => array('tl_class'=>'w50'),
-        ),
-
-        'imagehover_legend' => array(
-            'label' => array('Image - Effets de survol'),
-            'inputType' => 'group',
-        ),
-        'imagehover_zoom' => array(
-            'label' => array('Zoom', 'Si souhaité, sélectionnez un effet de zoom'),
-            'inputType' => 'select',
-            'options' => array(
-                '' => 'Aucun',
-                'zoomin' => 'Zoom In',
-                'zoomout' => 'Zoom Out',
-            ),
-            'eval' => array('tl_class'=>'w50'),
-        ),
-        'imagehover_fade' => array(
-            'label' => array('Fade', 'Si souhaité, sélectionnez un effet de fondu'),
-            'inputType' => 'select',
-            'options' => array(
-                '' => 'Aucun',
-                'fadetogrey' => 'Fade to grey',
-                'fadetocolor' => 'Fade to colour',
-            ),
-            'eval' => array('tl_class'=>'w50'),
-        ),
-
-        'content_legend' => array(
-            'label' => array('Contenu'),
-            'inputType' => 'group',
-        ),
-        'headline' => array(
-            'label' => array('Titre', 'Si souhaité, indiquez un titre')
-            ,'inputType' => 'standardField'
-            ,'eval' => array('tl_class' => 'w50', 'mandatory' => false,'allowHtml'=>true,'includeBlankOption'=>true)
-        ),
-        'text' => array(
+        ],
+        'headline' => [
+            'label' => ['Titre', 'Si souhaité, indiquez un titre'], 'inputType' => 'standardField', 'eval' => ['tl_class' => 'w50', 'mandatory' => false, 'allowHtml' => true, 'includeBlankOption' => true],
+        ],
+        'text' => [
             'inputType' => 'standardField',
-            'eval' => array('tl_class'=>'clr','mandatory'=>false),
-        ),
-        'title_css' => array(
-            'label' => array('Classe(s) CSS titre', 'Classe(s) CSS à ajouter au titre')
-            ,'inputType' => 'text'
-            ,'eval' => array('tl_class'=>'w50 clr', 'mandatory' => false)
-        ),
-        'text_css' => array(
-            'label' => array('Classe(s) CSS texte', 'Classe(s) CSS à ajouter au texte')
-            ,'inputType' => 'text'
-            ,'eval' => array('tl_class'=>'w50 ', 'mandatory' => false)
-        ),
-        'link_legend' => array(
-            'label' => array('Lien'),
+            'eval' => ['tl_class' => 'clr', 'mandatory' => false],
+        ],
+        'title_css' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['title_css'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr', 'mandatory' => false],
+        ],
+        'text_css' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['text_css'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 ', 'mandatory' => false],
+        ],
+        'link_legend' => [
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['link_legend']],
             'inputType' => 'group',
-        ),
-        'url' => array(
+        ],
+        'url' => [
             'inputType' => 'standardField',
-            'eval' => array('mandatory'=>false)
-        ),
-        'linkTitle' => array(
+            'eval' => ['mandatory' => false],
+        ],
+        'linkTitle' => [
             'inputType' => 'standardField',
-            'eval' => array('allowHtml'=>true)
-        ),
-        'target' => array(
-            'label' => &$GLOBALS['TL_LANG']['MSC']['target']
-            ,'inputType' => 'checkbox'
-            ,'eval' => array('tl_class'=>'w50')
-        ),
-        'link_mode' => array(
-            'label' => array('Mode', 'Change le mode d\'affichage du lien dans le bloc'),
+            'eval' => ['allowHtml' => true],
+        ],
+        'target' => [
+            'label' => &$GLOBALS['TL_LANG']['MSC']['target'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50'],
+        ],
+        'link_mode' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['link_mode'],
             'inputType' => 'select',
-            'options' => array(
-                'wrapper' => 'Click sur le block',
-                'btn' => 'Bouton',
-                'link' => 'Lien texte',
-            ),
-            'eval' => array('tl_class'=>'w50 clr'),
-        ),
-        'link_css' => array(
-            'label' => array('Classe(s) CSS lien', 'Classe(s) CSS à ajouter au lien')
-            ,'inputType' => 'text'
-            ,'eval' => array('tl_class'=>'w50 ', 'mandatory' => false)
-        ),
-    ),
-);
+            'options' => [
+                'wrapper' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['link_mode']['optionWrapper'],
+                'btn' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['link_mode']['optionBtn'],
+                'link' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['link_mode']['optionLink'],
+            ],
+            'eval' => ['tl_class' => 'w50 clr'],
+        ],
+        'link_css' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['link_css'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 ', 'mandatory' => false],
+        ],
+    ],
+];
