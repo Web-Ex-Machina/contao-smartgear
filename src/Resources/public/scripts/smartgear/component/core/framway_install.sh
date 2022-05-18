@@ -1,4 +1,5 @@
 # !/bin/bash
+PATH=$nvmpath:$PATH
 cd $1
 echo "### Copie du fichier package.json"
 cp package.json package_original.json

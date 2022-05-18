@@ -3,7 +3,11 @@ SMARTGEAR Project for Contao Open Source CMS
 1.0.0 - 2022-XX-XX
 - Contao: Contao 4.13 is the only supported version
 - Global: Complete rework of internal functionning
-- Smartgear: automated Framway retrieval
+- Smartgear: automated Framway retrieval (`git` & `npm` needed)
+- Smartgear: Add API to get various smartgear informations
+- Smartgear: Add API to manage updates
+- Smartgear: Add API to manage backups
+- Smartgear: Reworked template priority (Root > Client > Smartgear + RSCE)
 
 0.8 - 2020-07-x
 - Global: Allow Smartgear to execute Contao Commands through the backend

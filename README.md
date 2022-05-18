@@ -15,6 +15,8 @@ System requirements
 
  * Contao 4.13
  * [Framway][4] (will be automatically retrieved during first configuration)
+ * Access to `git`
+ * Access to `npm` (temp fix : using a `$nvmpath` environment variable to make `npm` available on our host)
 
 Installation
 ------------
