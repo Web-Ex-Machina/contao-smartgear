@@ -415,6 +415,7 @@ class Website extends ConfigurationStep
             'rsce_tabs',
             'rsce_testimonials',
             'rsce_pdfViewer',
+            'rsce_blockCard',
         ]);
         $objUserGroup->save();
         $userGroups['administrators'] = $objUserGroup;
@@ -464,6 +465,7 @@ class Website extends ConfigurationStep
             'rsce_tabs',
             'rsce_testimonials',
             'rsce_pdfViewer',
+            'rsce_blockCard',
         ]);
         $objUserGroup->save();
         $userGroups['webmasters'] = $objUserGroup;
