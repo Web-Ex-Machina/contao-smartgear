@@ -70,6 +70,14 @@ class Manipulator
         return $this;
     }
 
+    public function setConfigDataContainer(string $dataContainerClass)
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['config']['dataContainer'] = $dataContainerClass;
+
+        return $this;
+    }
+
     /**
      * Set the singleSRC field's path.
      *

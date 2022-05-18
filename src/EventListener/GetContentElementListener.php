@@ -37,7 +37,7 @@ class GetContentElementListener
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
 
-            $moduleGridBuilderId = 13; //$config->getSgModuleByType('wem_sg_gridbuilder');
+            $moduleGridBuilderId = $config->getSgModuleByType('wem_sg_gridbuilder');
             if ($moduleGridBuilderId === (int) $contentModel->module) {
                 // $element->setContentElementId($contentModel->id);
                 // $strClass = ContentElement::findClass($contentModel->type);
@@ -47,6 +47,11 @@ class GetContentElementListener
                 $objModule = \Contao\ModuleModel::findById($moduleGridBuilderId);
 
                 return (new \WEM\SmartgearBundle\Module\GridBuilder($objModule))->setContentElementId((int) $contentModel->id)->generate();
+            }
+
+            // check if the current item is inside a grid
+            if ('tl_content' === $contentModel->ptable) {
+                // $buffer = 'I AM A GRID ELEMENT'.$buffer;
             }
         } catch (\Exception $e) {
             // do nothing

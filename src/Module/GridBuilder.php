@@ -44,7 +44,6 @@ class GridBuilder extends Module
         if (TL_MODE === 'BE') {
             // How can I retrieve all tl_content having this module as PID and render them in their BE tpl ?
             $items = ContentModel::findBy(['pid = ?', 'ptable = ?'], [$this->contentElementId, 'tl_content']);
-            dump($items);
             /** @var BackendTemplate|object $objTemplate */
             $objTemplate = new BackendTemplate('be_wem_sg_gridbuilder');
 
@@ -54,9 +53,11 @@ class GridBuilder extends Module
             $objTemplate->link = $this->name;
             $objTemplate->items = $items;
             $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id='.$this->id;
+            $objTemplate->contentElement = $this->getCurrentContentElement();
 
             return $objTemplate->parse();
         }
+        $this->loadDataContainer('tl_content');
 
         return parent::generate();
     }
@@ -77,9 +78,16 @@ class GridBuilder extends Module
     protected function compile(): void
     {
         try {
+            $this->Template->contentElement = $this->getCurrentContentElement();
+            $this->Template->items = ContentModel::findBy(['pid = ?', 'ptable = ?'], [$this->contentElementId, 'tl_content']);
         } catch (Exception $e) {
             $this->Template->blnError = true;
             $this->Template->strError = $e->getMessage();
         }
+    }
+
+    protected function getCurrentContentElement()
+    {
+        return ContentModel::findById($this->contentElementId);
     }
 }

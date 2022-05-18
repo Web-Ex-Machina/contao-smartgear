@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\Config\Framway as FramwayConfiguration;
@@ -24,6 +25,7 @@ use WEM\SmartgearBundle\DataContainer\Article as ArticleDCA;
 use WEM\SmartgearBundle\DataContainer\Calendar as CalendarDCA;
 use WEM\SmartgearBundle\DataContainer\CalendarEvents as CalendarEventsDCA;
 use WEM\SmartgearBundle\DataContainer\Content as ContentDCA;
+use WEM\SmartgearBundle\DataContainer\Drivers\DC_TableCustom;
 use WEM\SmartgearBundle\DataContainer\FaqCategory as FaqCategoryDCA;
 use WEM\SmartgearBundle\DataContainer\Files as FilesDCA;
 use WEM\SmartgearBundle\DataContainer\Form as FormDCA;
@@ -95,7 +97,18 @@ class LoadDataContainerListener
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(ContentDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(ContentDCA::class, 'deleteItem')
+                    // ->setConfigDataContainer(DC_TableCustom::class)
                 ;
+                // $GLOBALS['TL_DCA']['tl_content']['fields']['pid']['inputType'] = 'text';
+                // $GLOBALS['TL_DCA']['tl_content']['fields']['ptable']['inputType'] = 'text';
+                // $palettes = array_keys(\array_slice($GLOBALS['TL_DCA']['tl_content']['palettes'], 1));
+                // $pm = PaletteManipulator::create()
+                //     ->addField('ptable', $palettes, PaletteManipulator::POSITION_APPEND)
+                //     ->addField('pid', $palettes, PaletteManipulator::POSITION_APPEND)
+                // ;
+                // foreach ($palettes as $paletteName) {
+                //     $pm->applyToPalette($paletteName, 'tl_content');
+                // }
             break;
             case 'tl_faq_category':
                 DCAManipulator::create($table)
