@@ -17,16 +17,21 @@ return [
         'config_legend' => [
             'label' => [&$GLOBALS['TL_LANG']['tl_content']['config_legend']], 'inputType' => 'group',
         ],
-        'force_fullheight' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['force_fullheight'],
-            'inputType' => 'checkbox',
-            'eval' => ['tl_class' => 'w50'],
-        ],
         'block_height' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['block_height'],
             'inputType' => 'text',
-            'eval' => ['tl_class' => 'w50'],
+            'eval' => ['tl_class' => 'w50 clr'],
         ],
+        'force_fullheight' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['force_fullheight'],
+            'inputType' => 'checkbox',
+            'eval' => ['tl_class' => 'w50 clr'],
+        ],
+        'force_fullwidth' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['force_fullwidth'],
+            'inputType' => 'checkbox',
+            'eval' => array( 'tl_class' => 'w50 clr')
+        ),
         'image_legend' => [
             'label' => [&$GLOBALS['TL_LANG']['tl_content']['image_legend']],
             'inputType' => 'group',
