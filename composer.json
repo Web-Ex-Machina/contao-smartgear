@@ -34,7 +34,7 @@
         "numero2/contao-opengraph3": "^4.2",
         "terminal42/notification_center": "^1.6",
         "webexmachina/contao-utils": "^0.3",
-        "webexmachina/contao-grid": "branch-test@dev",
+        "webexmachina/contao-grid": "^0.4",
         "heimseiten/contao-sticky-footer-backend-bundle": "^1.0",
         "oveleon/contao-component-style-manager": "^2.6"
     },

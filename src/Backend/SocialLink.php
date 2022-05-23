@@ -72,11 +72,19 @@ class SocialLink extends BackendModule
             $objLink->save();
             $arrIdsToKeep[] = $objLink->id;
         }
-        $objLinksToDelete = SocialLinkModel::findItems([
-            'where' => [
-                sprintf('id NOT IN (%s)', implode(',', $arrIdsToKeep)),
-            ],
-        ]);
+        $this->removeUnusedLinks($arrIdsToKeep);
+    }
+
+    protected function removeUnusedLinks(array $arrIdsToKeep): void
+    {
+        $arrConfig = !empty($arrIdsToKeep)
+                    ? [
+                        'where' => [
+                            sprintf('id NOT IN (%s)', implode(',', $arrIdsToKeep)),
+                        ],
+                    ]
+                    : [];
+        $objLinksToDelete = SocialLinkModel::findItems($arrConfig);
         if ($objLinksToDelete) {
             while ($objLinksToDelete->next()) {
                 $objLinksToDelete->delete();
@@ -88,15 +96,12 @@ class SocialLink extends BackendModule
     {
         $formData = [];
         if (null !== Input::post('FORM_SUBMIT')) {
-            // $rows = Input::post($this->strId);
-            // foreach ($rows as $index => $row) {
-            //     $formData[$index] = [
-            //         'network' => $row['network'],
-            //         'value' => $row['value'],
-            //         'icon' => $row['icon'],
-            //     ];
-            // }
-            $formData = Input::post($this->strId);
+            $rows = Input::post($this->strId);
+            foreach ($rows as $index => $row) {
+                if (!empty($row['value'])) {
+                    $formData[$index] = $row;
+                }
+            }
         } else {
             $objLinks = SocialLinkModel::findAll(['order' => 'sorting ASC']);
             $index = 0;
