@@ -1,6 +1,6 @@
 <?php
   // Get the file
-  $arrCrop = deserialize($this->img_size);
+  $arrCrop = deserialize($this->image_size);
   $objFile = FilesModel::findByUuid($this->singleSRC);
   $strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
 
@@ -8,6 +8,8 @@
   $arrClasses = [];
   if($this->force_fullwidth)
     $arrClasses[] = 'w-full';
+  if($this->image_opacity)
+    $arrClasses[] = 'figure__opacity--'.intval($this->image_opacity);
 
   $height = '';
   if($this->block_height)

@@ -43,11 +43,16 @@ return [
             'inputType' => 'standardField',
             'eval' => ['tl_class' => 'w50'],
         ],
-        'img_size' => [
+        'image_size' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['size'], 'inputType' => 'imageSize', 'reference' => &$GLOBALS['TL_LANG']['MSC'], 'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50 clr'], 'options_callback' => function () {
                 return System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance());
             },
         ],
+        'image_opacity' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['image_opacity'],
+            'inputType' => 'text',
+            'eval' => array('rgxp' => 'digit', 'tl_class' => 'w50', 'min'=>0, 'max'=>10)
+        ),
         'content_legend' => [
             'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_hero']['content_legend']],
             'inputType' => 'group',
