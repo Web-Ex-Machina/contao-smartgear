@@ -1,0 +1,38 @@
+<?php 
+    if ($this->content_type == 'picture') {
+        $arrCrop = deserialize($this->size);
+        $objFile = FilesModel::findByUuid($this->singleSRC);
+        $strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
+        $meta = deserialize($objFile->meta)[$GLOBALS['TL_LANGUAGE']];
+        $strMeta  = 'title="'.($this->imageTitle?: $meta['title']).'"';
+        $strMeta .= 'alt="'.($this->alt?: $meta['alt']).'"';
+    }
+?>
+<div class="modalFW<?= $this->content_type == 'picture'?' modalFW--img':'' ?>" 
+    data-name        = "<?= ($this->modal_name?:'modal--'.$this->content_type.'--'.$this->id) ?>"
+    data-title       = "<?= $this->modal_title ?>"
+    data-open        = "<?= $this->trigger_type=='onload'?"true":"false" ?>"
+    data-autoload    = "<?= $this->modal_autoload?"true":"false" ?>"
+    data-autodestroy = "<?= $this->modal_autodestroy?"true":"false" ?>"
+    data-refresh     = "<?= $this->modal_refresh?"true":"false" ?>"
+>
+    <?php 
+        switch($this->content_type){
+            case 'text':    echo $this->text; break;
+            case 'picture': echo '<img src="'.$strFile.'" '.$strMeta.'>'; break;
+            case 'article': echo '{{insert_article::'.$this->article.'}}'; break;
+            case 'form':    echo '{{insert_form::'.$this->form.'}}'; break;
+            case 'module':    echo '{{insert_module::'.$this->module.'}}'; break;
+            case 'html':    echo $this->html; break;
+            case 'custom':  echo $this->content_custom; break;
+        }
+    ?>
+</div>
+
+<?php 
+    switch($this->trigger_type){
+        case 'custom': echo $this->trigger_custom; break;
+        case 'button':
+        case 'link':   echo '<a href="" data-modal="'.($this->modal_name?:'modal--'.$this->content_type.'--'.$this->id).'" title="'.$this->titleText.'" class="'.$this->trigger_css.''.($this->trigger_type=='button'?' btn':'').'">'.$this->linkTitle.'</a>';break;
+    }
+?>
