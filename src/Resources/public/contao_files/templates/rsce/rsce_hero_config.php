@@ -57,6 +57,22 @@ return [
             'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_hero']['content_legend']],
             'inputType' => 'group',
         ],
+        'headline' => array(
+            'inputType' => 'standardField',
+            'eval' => array('mandatory'=>false,'includeBlankOption'=>true)
+        ),
+        'title_modifier' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['title_modifier'],
+            'inputType' => 'select',
+            'options' => array(
+                '' => ' - ',
+                'title--1' => 'Style 1',
+                'title--2' => 'Style 2',
+                'title--3' => 'Style 3',
+                'title--4' => 'Style 4',
+            ),
+            'eval' => array('tl_class'=>'w50'),
+        ),
         'text' => [
             'inputType' => 'standardField',
             'eval' => ['mandatory' => false, 'tl_class' => 'clr'],
