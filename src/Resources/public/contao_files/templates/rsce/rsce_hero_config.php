@@ -77,6 +77,30 @@ return [
             'inputType' => 'standardField',
             'eval' => ['mandatory' => false, 'tl_class' => 'clr'],
         ],
+        'content_horizontal' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['content_horizontal'],
+            'inputType' => 'select',
+            'options' => array(
+                'center' => 'Centré',
+                'left' => 'Gauche',
+                'right' => 'Droite',
+            ),
+            'eval' => array('tl_class'=>'w50','includeBlankOption'=>true),
+        ),
+        'content_vertical' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['content_vertical'],
+            'inputType' => 'select',
+            'options' => array(
+                'center' => 'Centré',
+                'top' => 'Haut',
+                'bottom' => 'Bas',
+            ),
+            'eval' => array('tl_class'=>'w50','includeBlankOption'=>true),
+        ),
+        'link_legend' => [
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_hero']['link_legend']],
+            'inputType' => 'group',
+        ],
         'url' => [
             'inputType' => 'standardField',
             'eval' => ['mandatory' => false],

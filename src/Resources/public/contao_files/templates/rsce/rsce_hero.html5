@@ -12,6 +12,10 @@
     $arrClasses[] = 'figure__opacity--'.intval($this->image_opacity);
   if($this->title_modifier)
     $arrClasses[] = $this->title_modifier;
+  if($this->content_horizontal || $this->content_vertical)
+    $arrClasses[] = 'content--h--'.$this->content_horizontal;
+  if($this->content_vertical)
+    $arrClasses[] = 'content--v--'.$this->content_vertical;
 
   $height = '';
   if($this->block_height)
@@ -27,10 +31,12 @@
     <div class="heroFW__content">
       <div class="heroFW__content__wrapper">
         <?= $this->hl?'<'.$this->hl.' class="heroFW__title">':'<div class="heroFW__title">' ?><?= $this->headline ?><?= $this->hl?'</'.$this->hl.'>':'</div>' ?>
-        <div class="heroFW__text"><?= $this->text ?></div>
-        <?php if($this->url): ?>
-        <a class="btn" href="<?= $this->url ?>" title="<?= $this->linkTitle ?>"<?= $this->target ? ' target="_blank"' : '' ?>><?= $this->linkTitle ?></a>
-        <?php endif; ?>
+        <div class="heroFW__text">
+          <?= $this->text ?>
+          <?php if($this->url): ?>
+            <a class="btn <?= $this->link_css ?>" href="<?= $this->url ?>" title="<?= $this->linkTitle ?>"<?= $this->target ? ' target="_blank"' : '' ?>><?= $this->linkTitle ?></a>
+          <?php endif; ?>
+        </div>
       </div>
     </div>
   </div>
