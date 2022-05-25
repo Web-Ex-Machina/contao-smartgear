@@ -111,5 +111,16 @@ return [
         'target' => [
             'label' => &$GLOBALS['TL_LANG']['MSC']['target'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50'],
         ],
+        'link_css' => array(
+            'label' => array('Classe(s) CSS lien', 'Classe(s) CSS à ajouter au lien')
+            ,'inputType' => 'text'
+            ,'eval' => array('tl_class'=>'w50 clr', 'mandatory' => false)
+        ),
     ],
 ];
+
+
+// STYLE MANAGER NEEDED TWEAKS
+// remove fwherowfull, fwherofigureopacity, fwherotitle, fwherocontentvertical, fwherocontenthorizontal
+// tabs global: fwheroft,fwherocontentbg, fwherocontentbgopacity, fwheroheightcontent, fwherowidthcontent
+// tabs picture: fwheroimgvertical, fwheroimghorizontal
