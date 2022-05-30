@@ -34,7 +34,7 @@ class Migration extends MigrationAbstract
     protected $configurationFramwayCombinedManager;
 
     protected static $elements = [
-        'margin' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordion', 'rsce_counter', 'rsce_gridGallery', 'rsce_hero', 'rsce_heroStart', 'rsce_priceCards', 'rsce_slider', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations', 'rsce_pdfViewer'], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroStop'
+        'margin' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordion', 'rsce_counter', 'rsce_hero', 'rsce_heroStart', 'rsce_priceCards', 'rsce_slider', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations', 'rsce_pdfViewer'], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroStop', 'rsce_gridGallery'
         'button' => ['hyperlink'],
         'button_manual' => ['rsce_pdfViewer'],
         'background' => ['headline', 'text', 'rsce_quote'],
@@ -45,10 +45,9 @@ class Migration extends MigrationAbstract
         'slider_image_manual' => ['rsce_slider'], //, 'sliderStop'
         'image_other' => ['image'],
         'image_ratio' => ['image', 'rsce_quote'],
-        'image_ratio_manual' => ['rsce_gridGallery'],
         'hero' => ['rsce_hero', 'rsce_heroStart'], //'rsce_heroStop'
-        'grid_manual' => ['rsce_gridGallery', 'rsce_priceCards'],
-        'griditems_manual' => ['rsce_gridGallery', 'rsce_priceCards'],
+        'grid_manual' => ['rsce_priceCards'], // 'rsce_gridGallery'
+        'griditems_manual' => ['rsce_priceCards'], // 'rsce_gridGallery'
         'priceCards_manual' => ['rsce_priceCards'],
         'quote' => ['rsce_quote'],
     ];
@@ -93,7 +92,6 @@ class Migration extends MigrationAbstract
         $objArchiveTable = StyleManagerArchiveModel::findByIdentifier('fwtable');
         $objArchiveImage = StyleManagerArchiveModel::findByIdentifier('fwimage');
         $objArchiveImageRatio = StyleManagerArchiveModel::findByIdentifier('fwimageratio');
-        $objArchiveImageRatioManual = StyleManagerArchiveModel::findByIdentifier('fwimageratio_manual');
         $objArchiveSlider = StyleManagerArchiveModel::findByIdentifier('fwslider');
         $objArchiveSliderNav = StyleManagerArchiveModel::findByIdentifier('fwslidernav');
         $objArchiveSliderContent = StyleManagerArchiveModel::findByIdentifier('fwslidercontent');
@@ -275,7 +273,6 @@ class Migration extends MigrationAbstract
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSTables'), [], 'contao_default'));
             $this->manageImages();
             $this->manageImagesRatio();
-            $this->manageImagesRatio('_manual', true);
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSImages'), [], 'contao_default'));
             $this->manageSliders();
             $this->manageSlidersImages('_manual', true);
