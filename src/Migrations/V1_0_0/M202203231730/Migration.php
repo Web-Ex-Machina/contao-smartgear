@@ -101,8 +101,6 @@ class Migration extends MigrationAbstract
 
         $objArchiveHero = StyleManagerArchiveModel::findByIdentifier('fwhero');
         $objArchiveHeroImg = StyleManagerArchiveModel::findByIdentifier('fwheroimg');
-        $objArchiveHeroContent = StyleManagerArchiveModel::findByIdentifier('fwherocontent');
-        $objArchiveHeroTitle = StyleManagerArchiveModel::findByIdentifier('fwherotitle');
 
         $objArchiveGridManual = StyleManagerArchiveModel::findByIdentifier('fwgrid_manual');
         $objArchiveGridXLManual = StyleManagerArchiveModel::findByIdentifier('fwgridxl_manual');
@@ -141,8 +139,6 @@ class Migration extends MigrationAbstract
         && null !== $objArchiveSliderTitle
         && null !== $objArchiveHero
         && null !== $objArchiveHeroImg
-        && null !== $objArchiveHeroContent
-        && null !== $objArchiveHeroTitle
         && null !== $objArchiveGridManual
         && null !== $objArchiveGridXLManual
         && null !== $objArchiveGridLGManual
@@ -216,15 +212,14 @@ class Migration extends MigrationAbstract
             && null !== StyleManagerModel::findByAliasAndPid('fwheroimgvertical', $objArchiveHeroImg->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwheroimghorizontal', $objArchiveHeroImg->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwherofigureopacity', $objArchiveHeroImg->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentvertical', $objArchiveHeroContent->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherocontenthorizontal', $objArchiveHeroContent->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherotitle', $objArchiveHeroTitle->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwheroft', $objArchiveHeroTitle->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentbg', $objArchiveHeroContent->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentbgopacity', $objArchiveHeroContent->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentvertical', $objArchiveHero->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwherocontenthorizontal', $objArchiveHero->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwheroft', $objArchiveHero->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentbg', $objArchiveHero->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentbgopacity', $objArchiveHero->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwherowfull', $objArchiveHero->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwheroheightcontent', $objArchiveHeroContent->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherowidthcontent', $objArchiveHeroContent->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwheroheightcontent', $objArchiveHero->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwherowidthcontent', $objArchiveHero->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwslidernav', $objArchiveSliderNav->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwslidernavvertical', $objArchiveSliderNav->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwslidernavhorizontal', $objArchiveSliderNav->id)
@@ -644,10 +639,6 @@ class Migration extends MigrationAbstract
         $objArchive->save();
         $objArchiveImg = $this->fillObjArchive('fwheroimg'.$suffix, 'WEMSG.STYLEMANAGER.fwheroimg.tabTitle', 'FramwayHero');
         $objArchiveImg->save();
-        $objArchiveContent = $this->fillObjArchive('fwherocontent'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontent.tabTitle', 'FramwayHero');
-        $objArchiveContent->save();
-        $objArchiveTitle = $this->fillObjArchive('fwherotitle'.$suffix, 'WEMSG.STYLEMANAGER.fwherotitle.tabTitle', 'FramwayHero');
-        $objArchiveTitle->save();
         // Hero - imgvertical
         $cssClasses = [
             ['key' => 'img--top', 'value' => 'WEMSG.STYLEMANAGER.fwheroimgvertical.topLabel'],
@@ -662,61 +653,33 @@ class Migration extends MigrationAbstract
         ];
         $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwheroimghorizontal'.$suffix, 'WEMSG.STYLEMANAGER.fwheroimghorizontal.title', 'WEMSG.STYLEMANAGER.fwheroimghorizontal.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
-        // Hero - figureopacity
-        $cssClasses = $this->buildMultipleCssClasses('figure__opacity--%s', 'fwherofigureopacity', 1, 10);
-        $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwherofigureopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwherofigureopacity.title', 'WEMSG.STYLEMANAGER.fwherofigureopacity.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
-        // Hero - contentvertical
-        $cssClasses = [
-            ['key' => 'content--v--top', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentvertical.topLabel'],
-            ['key' => 'content--v--center', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentvertical.centerLabel'],
-            ['key' => 'content--v--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentvertical.bottomLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherocontentvertical'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontentvertical.title', 'WEMSG.STYLEMANAGER.fwherocontentvertical.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
-        // Hero - contenthorizontal
-        $cssClasses = [
-            ['key' => 'content--h--left', 'value' => 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.leftLabel'],
-            ['key' => 'content--h--center', 'value' => 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.centerLabel'],
-            ['key' => 'content--h--right', 'value' => 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.rightLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherocontenthorizontal'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.title', 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
-        // Hero - title
-        $cssClasses = $this->buildMultipleCssClasses('title--%s', 'fwherotitle', 1, 4);
-        $objStyle = $this->fillObjStyle($objArchiveTitle->id, 'fwherotitle'.$suffix, 'WEMSG.STYLEMANAGER.fwherotitle.title', 'WEMSG.STYLEMANAGER.fwherotitle.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
+
         // Hero - text color
         $cssClasses = $this->buildMeaningfulColorsCssClasses('ft-%s', 'fwheroft');
         $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('ft-%s', 'fwheroft'));
-        $objStyle = $this->fillObjStyle($objArchiveTitle->id, 'fwheroft'.$suffix, 'WEMSG.STYLEMANAGER.fwheroft.title', 'WEMSG.STYLEMANAGER.fwheroft.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwheroft'.$suffix, 'WEMSG.STYLEMANAGER.fwheroft.title', 'WEMSG.STYLEMANAGER.fwheroft.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
         // Hero - bg color
         $cssClasses = $this->buildMeaningfulColorsCssClasses('content__bg--%s', 'fwherocontentbg');
         $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('content__bg--%s', 'fwherocontentbg'));
-        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherocontentbg'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontentbg.title', 'WEMSG.STYLEMANAGER.fwherocontentbg.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherocontentbg'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontentbg.title', 'WEMSG.STYLEMANAGER.fwherocontentbg.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
         // Hero - bgopacity
         $cssClasses = $this->buildMultipleCssClasses('content__bg__opacity--%s', 'fwherocontentbgopacity', 1, 10);
-        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherocontentbgopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.title', 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherocontentbgopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.title', 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
-        // Hero - wfull
-        $cssClasses = [
-            ['key' => 'w-full', 'value' => 'WEMSG.STYLEMANAGER.fwherowfull.label'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherowfull'.$suffix, 'WEMSG.STYLEMANAGER.fwherowfull.title', 'WEMSG.STYLEMANAGER.fwherowfull.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
+
         // Hero - heightcontent
         $cssClasses = [
             ['key' => 'height--content', 'value' => 'WEMSG.STYLEMANAGER.fwheroheightcontent.label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwheroheightcontent'.$suffix, 'WEMSG.STYLEMANAGER.fwheroheightcontent.title', 'WEMSG.STYLEMANAGER.fwheroheightcontent.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwheroheightcontent'.$suffix, 'WEMSG.STYLEMANAGER.fwheroheightcontent.title', 'WEMSG.STYLEMANAGER.fwheroheightcontent.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
         // Hero - widthcontent
         $cssClasses = [
             ['key' => 'width--content', 'value' => 'WEMSG.STYLEMANAGER.fwherowidthcontent.label'],
         ];
-        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherowidthcontent'.$suffix, 'WEMSG.STYLEMANAGER.fwherowidthcontent.title', 'WEMSG.STYLEMANAGER.fwherowidthcontent.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherowidthcontent'.$suffix, 'WEMSG.STYLEMANAGER.fwherowidthcontent.title', 'WEMSG.STYLEMANAGER.fwherowidthcontent.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
     }
 

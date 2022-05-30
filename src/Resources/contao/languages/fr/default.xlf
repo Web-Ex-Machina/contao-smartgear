@@ -2039,23 +2039,13 @@
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwhero.tabTitle">
-			<source>Hero</source>
-			<target>Bannière</target>
+			<source>Hero - Global</source>
+			<target>Bannière - Global</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwheroimg.tabTitle">
 			<source>Hero - Image</source>
 			<target>Bannière - Image</target>
-		</trans-unit>
-
-		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontent.tabTitle">
-			<source>Hero - Content</source>
-			<target>Bannière - Contenu</target>
-		</trans-unit>
-
-		<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.tabTitle">
-			<source>Hero - Title</source>
-			<target>Bannière - Titre</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwgrid.tabTitle">
@@ -2546,145 +2536,10 @@
 		<source>fwheroimghorizontal - left</source>
 <target>fwheroimghorizontal - left</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.rightLabel">
 		<source>fwheroimghorizontal - right</source>
 <target>fwheroimghorizontal - right</target>
 </trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.title">
-		<source>fwherofigureopacity</source>
-<target>fwherofigureopacity</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.description">
-	<source>fwherofigureopacity description</source>
-<target>fwherofigureopacity description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.0Label">
-		<source>fwherofigureopacity - 0</source>
-<target>fwherofigureopacity - 0</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.1Label">
-		<source>fwherofigureopacity - 1</source>
-<target>fwherofigureopacity - 1</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.2Label">
-		<source>fwherofigureopacity - 2</source>
-<target>fwherofigureopacity - 2</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.3Label">
-		<source>fwherofigureopacity - 3</source>
-<target>fwherofigureopacity - 3</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.4Label">
-		<source>fwherofigureopacity - 4</source>
-<target>fwherofigureopacity - 4</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.5Label">
-		<source>fwherofigureopacity - 5</source>
-<target>fwherofigureopacity - 5</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.6Label">
-		<source>fwherofigureopacity - 6</source>
-<target>fwherofigureopacity - 6</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.7Label">
-		<source>fwherofigureopacity - 7</source>
-<target>fwherofigureopacity - 7</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.8Label">
-		<source>fwherofigureopacity - 8</source>
-<target>fwherofigureopacity - 8</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.9Label">
-		<source>fwherofigureopacity - 9</source>
-<target>fwherofigureopacity - 9</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherofigureopacity.10Label">
-		<source>fwherofigureopacity - 10</source>
-<target>fwherofigureopacity - 10</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentvertical.title">
-		<source>fwherocontentvertical</source>
-<target>fwherocontentvertical</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherocontentvertical.description">
-	<source>fwherocontentvertical description</source>
-<target>fwherocontentvertical description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentvertical.topLabel">
-		<source>fwherocontentvertical - top</source>
-<target>fwherocontentvertical - top</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentvertical.centerLabel">
-		<source>fwherocontentvertical - center</source>
-<target>fwherocontentvertical - center</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentvertical.bottomLabel">
-		<source>fwherocontentvertical - bottom</source>
-<target>fwherocontentvertical - bottom</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontenthorizontal.title">
-		<source>fwherocontenthorizontal</source>
-<target>fwherocontenthorizontal</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherocontenthorizontal.description">
-	<source>fwherocontenthorizontal description</source>
-<target>fwherocontenthorizontal description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontenthorizontal.leftLabel">
-		<source>fwherocontenthorizontal - left</source>
-<target>fwherocontenthorizontal - left</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontenthorizontal.centerLabel">
-		<source>fwherocontenthorizontal - center</source>
-<target>fwherocontenthorizontal - center</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontenthorizontal.rightLabel">
-		<source>fwherocontenthorizontal - right</source>
-<target>fwherocontenthorizontal - right</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.title">
-		<source>fwherotitle</source>
-<target>fwherotitle</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.description">
-	<source>fwherotitle description</source>
-<target>fwherotitle description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.1Label">
-		<source>fwherotitle - 1</source>
-<target>fwherotitle - 1</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.2Label">
-		<source>fwherotitle - 2</source>
-<target>fwherotitle - 2</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.3Label">
-		<source>fwherotitle - 3</source>
-<target>fwherotitle - 3</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.4Label">
-		<source>fwherotitle - 4</source>
-<target>fwherotitle - 4</target>
-</trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwheroft.title">
 		<source>fwheroft</source>
 <target>fwheroft</target>
@@ -2696,7 +2551,6 @@
 		<source>fwheroft - color %s</source>
 <target>fwheroft - color %s</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbg.title">
 		<source>fwherocontentbg</source>
 <target>fwherocontentbg</target>
@@ -2708,7 +2562,6 @@
 		<source>fwherocontentbg - color %s</source>
 <target>fwherocontentbg - color %s</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.title">
 		<source>fwherocontentbgopacity</source>
 <target>fwherocontentbgopacity</target>
@@ -2720,69 +2573,46 @@
 		<source>fwherocontentbgopacity - 0</source>
 <target>fwherocontentbgopacity - 0</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.1Label">
 		<source>fwherocontentbgopacity - 1</source>
 <target>fwherocontentbgopacity - 1</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.2Label">
 		<source>fwherocontentbgopacity - 2</source>
 <target>fwherocontentbgopacity - 2</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.3Label">
 		<source>fwherocontentbgopacity - 3</source>
 <target>fwherocontentbgopacity - 3</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.4Label">
 		<source>fwherocontentbgopacity - 4</source>
 <target>fwherocontentbgopacity - 4</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.5Label">
 		<source>fwherocontentbgopacity - 5</source>
 <target>fwherocontentbgopacity - 5</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.6Label">
 		<source>fwherocontentbgopacity - 6</source>
 <target>fwherocontentbgopacity - 6</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.7Label">
 		<source>fwherocontentbgopacity - 7</source>
 <target>fwherocontentbgopacity - 7</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.8Label">
 		<source>fwherocontentbgopacity - 8</source>
 <target>fwherocontentbgopacity - 8</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.9Label">
 		<source>fwherocontentbgopacity - 9</source>
 <target>fwherocontentbgopacity - 9</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.10Label">
 		<source>fwherocontentbgopacity - 10</source>
 <target>fwherocontentbgopacity - 10</target>
 </trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherowfull.title">
-		<source>fwherowfull</source>
-<target>fwherowfull</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherowfull.description">
-	<source>fwherowfull description</source>
-<target>fwherowfull description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherowfull.label">
-		<source>fwherowfull - label</source>
-<target>fwherowfull - label</target>
-</trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwheroheightcontent.title">
 		<source>fwheroheightcontent</source>
 <target>fwheroheightcontent</target>
