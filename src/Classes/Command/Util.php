@@ -91,8 +91,8 @@ class Util
      */
     public function executeCmdLive(string $cmd, ?int $timeout = 3600): string
     {
-        while (@ob_end_flush()) {
-        } // end all output buffers if any
+        // while (@ob_end_flush()) {
+        // } // end all output buffers if any
         $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline(
             $cmd
         ) : new Process([$cmd]);

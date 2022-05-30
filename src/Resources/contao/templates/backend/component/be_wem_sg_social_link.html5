@@ -9,7 +9,6 @@
 				<input name="FORM_SUBMIT" value="tl_wem_sg_social_network" type="hidden">
 				<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
 				<input name="action" value="" type="hidden" class="btnAction">
-
 				<thead>
 					<th><?= $this->trans('WEMSG.SOCIALLINKS.FORM.headerNetwork',[],'contao_default'); ?></th>
 					<th><?= $this->trans('WEMSG.SOCIALLINKS.FORM.headerLink',[],'contao_default'); ?></th>
@@ -33,7 +32,7 @@
 										<?= $network->name; ?>
 									</option>
 								<?php endforeach; ?>
-
+								<?php $currentNetworkCategory = null ;?>
 								</optgroup>
 							</select>
 						</td>
@@ -45,11 +44,44 @@
 						</td>
 						<td>
 							<button type="button" data-command="copy" title="<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['ow_copy']); ?>"><?= Image::getHtml('copy.svg'); ?></button>
-							<button type="button" data-command="delete" title="<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['ow_copy']); ?>"><?= Image::getHtml('delete.svg'); ?></button>
+							<button type="button" data-command="delete" title="<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['ow_delete']); ?>"><?= Image::getHtml('delete.svg'); ?></button>
 							<button type="button" class="drag-handle" title="<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['move']); ?>" aria-hidden="true"><?= Image::getHtml('drag.svg');?></button>
 						</td>
 					</tr>
 					<?php endforeach; ?>
+					<?php if(empty($this->formData)): ?>
+					<tr>
+						<td>
+							<select name="<?= $this->strId; ?>[<?= $index; ?>][pid]" id="<?= $this->strId; ?>_pid_<?= $row['id']; ?>" class="tl_select tl_text"><!-- tl_text class is used for making reordering work -->
+								<?php foreach($this->networks as $network): ?>
+									<?php if($currentNetworkCategory !== $network->pid): ?>
+										<?php if($currentNetworkCategory !== null): ?>
+											</optgroup>
+										<?php endif ?>
+										<optgroup label="<?= $network->getRelated('pid')->name; ?>">
+										<?php $currentNetworkCategory = $network->pid ;?>
+									<?php endif ?>
+									<option value="<?= $network->id; ?>" <?= $network->id == $row['pid'] ? 'selected' : '';?> >
+										<?= $network->name; ?>
+									</option>
+								<?php endforeach; ?>
+								<?php $currentNetworkCategory = null ;?>
+								</optgroup>
+							</select>
+						</td>
+						<td>
+							<input type="text" name="<?= $this->strId; ?>[0][value]" id="<?= $this->strId; ?>_value_0" class="tl_text" value=""/>
+						</td>
+						<td class="<?= $this->modeExpert ? '' : 'hidden'; ?>">
+							<input type="<?= $this->modeExpert ? 'text' : 'hidden'; ?>" name="<?= $this->strId; ?>[0][icon]" id="<?= $this->strId; ?>_icon_0" class="tl_text" value=""/>
+						</td>
+						<td>
+							<button type="button" data-command="copy" title="<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['ow_copy']); ?>"><?= Image::getHtml('copy.svg'); ?></button>
+							<button type="button" data-command="delete" title="<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['ow_delete']); ?>"><?= Image::getHtml('delete.svg'); ?></button>
+							<button type="button" class="drag-handle" title="<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['move']); ?>" aria-hidden="true"><?= Image::getHtml('drag.svg');?></button>
+						</td>
+					</tr>
+					<?php endif; ?>
 				</tbody>
 				<tfoot>
 					<tr>
@@ -138,6 +170,13 @@
 								Backend.getScrollOffset();
 								if (tbody.getChildren().length > 1) {
 									tr.destroy();
+								}else{
+									tr.getElements('input').each(function(input){
+										input.value = '';
+									});
+									tr.getElements('select').each(function(select){
+										select.selectedIndex = null;
+									});
 								}
 								makeSortable(tbody);
 								Backend.hideInteractiveHelp();

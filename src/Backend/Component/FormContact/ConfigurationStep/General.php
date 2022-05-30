@@ -165,6 +165,7 @@ class General extends ConfigurationStep
             'robots' => 'index,follow',
             'description' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormSentDescription', [$formContactConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
             'published' => 1,
+            'hide' => 1,
         ], null !== $page ? ['id' => $page->id] : []));
     }
 

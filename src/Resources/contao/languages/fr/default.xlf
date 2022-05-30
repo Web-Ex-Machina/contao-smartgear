@@ -1704,12 +1704,12 @@
 		</trans-unit>
 		<!-- style manager -->
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbackground.tabTitle">
-			<source>Framway - Background</source>
-			<target>Framway - Background</target>
+			<source>Background</source>
+			<target>Background</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.title">
-			<source>Framway - Background - Color</source>
-			<target>Framway - Background - Color</target>
+			<source>Background - Color</source>
+			<target>Background - Color</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.colorLabel">
 			<source>background color %s</source>
@@ -1720,12 +1720,12 @@
 			<target>Ajoute à l'élément un background correspondant à la couleur "%s"</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbutton.tabTitle">
-			<source>Framway - Buttons</source>
-			<target>Framway - Buttons</target>
+			<source>Buttons</source>
+			<target>Buttons</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.title">
-			<source>Framway - Buttons - Background</source>
-			<target>Framway - Buttons - Background</target>
+			<source>Buttons - Background</source>
+			<target>Buttons - Background</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonbackground.colorLabel">
 			<source>background color %s</source>
@@ -1736,8 +1736,8 @@
 			<target>Transforme l'élément en bouton avec un background correspondant à la couleur "%s"</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.title">
-			<source>Framway - Buttons - Borders</source>
-			<target>Framway - Buttons - Bordures</target>
+			<source>Buttons - Borders</source>
+			<target>Buttons - Bordures</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonborder.colorLabel">
 			<source>border color %s</source>
@@ -1748,8 +1748,8 @@
 			<target>Transforme l'élément en bouton avec une bordure correspondant à la couleur "%s"</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonsize.title">
-			<source>Framway - Buttons - Size</source>
-			<target>Framway - Buttons - Size</target>
+			<source>Buttons - Size</source>
+			<target>Buttons - Size</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbuttonsize.sizeLabel">
 			<source>button - normal</source>
@@ -1776,12 +1776,12 @@
 			<target>Transforme l'élément en bouton de grande taille</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwseparator.tabTitle">
-			<source>Framway - Separators</source>
-			<target>Framway - Separators</target>
+			<source>Separators</source>
+			<target>Separators</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatortop.title">
-			<source>Framway - Separators - Top</source>
-			<target>Framway - Separators - Top</target>
+			<source>Separators - Top</source>
+			<target>Separators - Top</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatortop.label">
 			<source>separator - top</source>
@@ -1792,8 +1792,8 @@
 			<target>Ajoute une bordure séparatrice en haut de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatorbottom.title">
-			<source>Framway - Separators - Bottom</source>
-			<target>Framway - Separators - Bottom</target>
+			<source>Separators - Bottom</source>
+			<target>Separators - Bottom</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatorbottom.label">
 			<source>separator - bottom</source>
@@ -1804,8 +1804,8 @@
 			<target>Ajoute une bordure séparatrice en bas de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatorleft.title">
-			<source>Framway - Separators - Left</source>
-			<target>Framway - Separators - Left</target>
+			<source>Separators - Left</source>
+			<target>Separators - Left</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatorleft.label">
 			<source>separator - left</source>
@@ -1816,8 +1816,8 @@
 			<target>Ajoute une bordure séparatrice à gauche de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatorright.title">
-			<source>Framway - Separators - Right</source>
-			<target>Framway - Separators - Right</target>
+			<source>Separators - Right</source>
+			<target>Separators - Right</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwseparatorright.label">
 			<source>separator - right</source>
@@ -1828,12 +1828,12 @@
 			<target>Ajoute une bordure séparatrice à droite de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmargin.tabTitle">
-			<source>Framway - Margins</source>
-			<target>Framway - Margins</target>
+			<source>Margins</source>
+			<target>Margins</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmargintop.title">
-			<source>Framway - Margins - Top</source>
-			<target>Framway - Margins - Top</target>
+			<source>Margins - Top</source>
+			<target>Margins - Top</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmargintop.label">
 			<source>margin - top</source>
@@ -1860,8 +1860,8 @@
 			<target>Ajoute une marge doublée en haut de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginbottom.title">
-			<source>Framway - Margins - Bottom</source>
-			<target>Framway - Margins - Bottom</target>
+			<source>Margins - Bottom</source>
+			<target>Margins - Bottom</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginbottom.label">
 			<source>margin - bottom</source>
@@ -1888,8 +1888,8 @@
 			<target>Ajoute une marge doublée en bas de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginleft.title">
-			<source>Framway - Margins - Left</source>
-			<target>Framway - Margins - Left</target>
+			<source>Margins - Left</source>
+			<target>Margins - Left</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginleft.label">
 			<source>margin - left</source>
@@ -1916,8 +1916,8 @@
 			<target>Ajoute une marge doublée à gauche de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginright.title">
-			<source>Framway - Margins - Right</source>
-			<target>Framway - Margins - Right</target>
+			<source>Margins - Right</source>
+			<target>Margins - Right</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginright.label">
 			<source>margin - right</source>
@@ -1945,12 +1945,12 @@
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwtable.tabTitle">
-			<source>Framway - Table</source>
-			<target>Framway - Table</target>
+			<source>Table</source>
+			<target>Table</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwtablesm.title">
-			<source>Framway - Table - Small</source>
-			<target>Framway - Table - Réduit</target>
+			<source>Table - Small</source>
+			<target>Table - Réduit</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwtablesm.label">
 			<source>table - small</source>
@@ -1962,8 +1962,8 @@
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwtableborder.title">
-			<source>Framway - Table - Border</source>
-			<target>Framway - Table - Bordures</target>
+			<source>Table - Border</source>
+			<target>Table - Bordures</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwtableborder.borderedLabel">
 			<source>table - bordered</source>
@@ -1983,8 +1983,8 @@
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwtablestriped.title">
-			<source>Framway - Table - Striped</source>
-			<target>Framway - Table - Couleurs alternées</target>
+			<source>Table - Striped</source>
+			<target>Table - Couleurs alternées</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwtablestriped.label">
 			<source>table - striped</source>
@@ -1996,8 +1996,8 @@
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwtablehover.title">
-			<source>Framway - Table - Hover</source>
-			<target>Framway - Table - Survol</target>
+			<source>Table - Hover</source>
+			<target>Table - Survol</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwtablehover.label">
 			<source>table - hovered line</source>
@@ -2009,123 +2009,123 @@
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwimage.tabTitle">
-			<source>Framway - Image</source>
-			<target>Framway - Image</target>
+			<source>Image</source>
+			<target>Image</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwslider.tabTitle">
-			<source>Framway - Slider</source>
-			<target>Framway - Slider</target>
+			<source>Slider</source>
+			<target>Slider</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwslidernav.tabTitle">
-			<source>Framway - Slider - Nav</source>
-			<target>Framway - Slider - Nav</target>
+			<source>Slider - Nav</source>
+			<target>Slider - Nav</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimg.tabTitle">
-			<source>Framway - Slider - Image</source>
-			<target>Framway - Slider - Image</target>
+			<source>Slider - Image</source>
+			<target>Slider - Image</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontent.tabTitle">
-			<source>Framway - Slider - Content</source>
-			<target>Framway - Slider - Content</target>
+			<source>Slider - Content</source>
+			<target>Slider - Content</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.tabTitle">
-			<source>Framway - Slider - Title</source>
-			<target>Framway - Slider - Title</target>
+			<source>Slider - Title</source>
+			<target>Slider - Title</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwhero.tabTitle">
-			<source>Framway - Hero</source>
-			<target>Framway - Bannière</target>
+			<source>Hero</source>
+			<target>Bannière</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwheroimg.tabTitle">
-			<source>Framway - Hero - Image</source>
-			<target>Framway - Bannière - Image</target>
+			<source>Hero - Image</source>
+			<target>Bannière - Image</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontent.tabTitle">
-			<source>Framway - Hero - Content</source>
-			<target>Framway - Bannière - Contenu</target>
+			<source>Hero - Content</source>
+			<target>Bannière - Contenu</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwherotitle.tabTitle">
-			<source>Framway - Hero - Title</source>
-			<target>Framway - Bannière - Titre</target>
+			<source>Hero - Title</source>
+			<target>Bannière - Titre</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwgrid.tabTitle">
-			<source>Framway - Grid</source>
-			<target>Framway - Grille</target>
+			<source>Grid</source>
+			<target>Grille</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwgridxl.tabTitle">
-			<source>Framway - Grid - XL</source>
-			<target>Framway - Grille - XL</target>
+			<source>Grid - XL</source>
+			<target>Grille - XL</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwgridlg.tabTitle">
-			<source>Framway - Grid - LG</source>
-			<target>Framway - Grille - LG</target>
+			<source>Grid - LG</source>
+			<target>Grille - LG</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwgridmd.tabTitle">
-			<source>Framway - Grid - MD</source>
-			<target>Framway - Grille - MD</target>
+			<source>Grid - MD</source>
+			<target>Grille - MD</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwgridsm.tabTitle">
-			<source>Framway - Grid - SM</source>
-			<target>Framway - Grille - SM</target>
+			<source>Grid - SM</source>
+			<target>Grille - SM</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwgridxs.tabTitle">
-			<source>Framway - Grid - XS</source>
-			<target>Framway - Grille - XS</target>
+			<source>Grid - XS</source>
+			<target>Grille - XS</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwgridxxs.tabTitle">
-			<source>Framway - Grid - XXS</source>
-			<target>Framway - Grille - XXS</target>
+			<source>Grid - XXS</source>
+			<target>Grille - XXS</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwgriditem.tabTitle">
-			<source>Framway - Grid Item</source>
-			<target>Framway - Elément de grille</target>
+			<source>Grid Item</source>
+			<target>Elément de grille</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemxl.tabTitle">
-			<source>Framway - Grid Item - XL</source>
-			<target>Framway - Elément de grille - XL</target>
+			<source>Grid Item - XL</source>
+			<target>Elément de grille - XL</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemlg.tabTitle">
-			<source>Framway - Grid Item - LG</source>
-			<target>Framway - Elément de grille - LG</target>
+			<source>Grid Item - LG</source>
+			<target>Elément de grille - LG</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemmd.tabTitle">
-			<source>Framway - Grid Item - MD</source>
-			<target>Framway - Elément de grille - MD</target>
+			<source>Grid Item - MD</source>
+			<target>Elément de grille - MD</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemsm.tabTitle">
-			<source>Framway - Grid Item - SM</source>
-			<target>Framway - Elément de grille - SM</target>
+			<source>Grid Item - SM</source>
+			<target>Elément de grille - SM</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemxs.tabTitle">
-			<source>Framway - Grid Item - XS</source>
-			<target>Framway - Elément de grille - XS</target>
+			<source>Grid Item - XS</source>
+			<target>Elément de grille - XS</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwgriditemxxs.tabTitle">
-			<source>Framway - Grid Item - XXS</source>
-			<target>Framway - Elément de grille - XXS</target>
+			<source>Grid Item - XXS</source>
+			<target>Elément de grille - XXS</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwpricecard.tabTitle">
-			<source>Framway - Price Cards</source>
-			<target>Framway - Carte de prix</target>
+			<source>Price Cards</source>
+			<target>Carte de prix</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.STYLEMANAGER.fwquote.tabTitle">
-			<source>Framway - Quotes</source>
-			<target>Framway - Citations</target>
+			<source>Quotes</source>
+			<target>Citations</target>
 		</trans-unit>
 
 

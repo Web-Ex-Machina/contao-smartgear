@@ -17,7 +17,7 @@
     <?= $this->details ?>
   <?php else: ?>
     <div class="ce_text block">
-      <?php if ($this->teaser): ?>
+      <?php if ($this->hasTeaser): ?>
         <?= $this->teaser ?>
       <?php endif; ?>
     </div>

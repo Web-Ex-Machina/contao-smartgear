@@ -247,35 +247,6 @@
         <source>Type the element's text content</source>
         <target>Saisissez le contenu textuel de l'élément</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_gridgallery.0">
-        <source>Image gallery</source>
-        <target>Galerie d'images</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_gridgallery.1">
-        <source>Generate an image gallery using a responsive grid</source>
-        <target>Générez une galerie d'images personnalisée utilisant une grille responsive</target>
-      </trans-unit>
-
-      <trans-unit id="tl_content.rsce_gridgallery.items_legend.0">
-        <source>Pictures</source>
-        <target>Images</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_gridgallery.items_legend.1">
-        <source>Edit pictures</source>
-        <target>Editez les images</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_gridgallery.item_legend">
-        <source>%s. picture</source>
-        <target>%s. image</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_gridgallery.img_legend">
-        <source>Picture settings</source>
-        <target>Configuration de l'image</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_gridgallery.link_legend">
-        <source>Link settings</source>
-        <target>Configuration du lien</target>
-      </trans-unit>
       <trans-unit id="tl_content.rsce_hero.0">
         <source>Hero (alone)</source>
         <target>Bannière (seule)</target>

@@ -34,23 +34,22 @@ class Migration extends MigrationAbstract
     protected $configurationFramwayCombinedManager;
 
     protected static $elements = [
-        'margin' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordion', 'rsce_counter', 'rsce_gridGallery', 'rsce_hero', 'rsce_heroStart', 'rsce_priceCards', 'rsce_slider', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations', 'rsce_pdfViewer'], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroStop'
-        'button' => ['hyperlink'],
-        'button_manual' => ['rsce_pdfViewer'],
-        'background' => ['headline', 'text', 'rsce_quote'],
-        'separator' => ['headline'],
-        'table' => ['table'],
-        'accordion' => ['accordionStart', 'rsce_accordion'], //, 'accordionStop'
-        'slider' => ['sliderStart', 'rsce_slider', 'rsce_testimonials'], //, 'sliderStop'
-        'slider_image_manual' => ['rsce_slider'], //, 'sliderStop'
-        'image_other' => ['image'],
-        'image_ratio' => ['image', 'rsce_quote'],
-        'image_ratio_manual' => ['rsce_gridGallery'],
-        'hero' => ['rsce_hero', 'rsce_heroStart'], //'rsce_heroStop'
-        'grid_manual' => ['rsce_gridGallery', 'rsce_priceCards'],
-        'griditems_manual' => ['rsce_gridGallery', 'rsce_priceCards'],
-        'priceCards_manual' => ['rsce_priceCards'],
-        'quote' => ['rsce_quote'],
+        'margin' => ['contentElements' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordion', 'rsce_counter', 'rsce_hero', 'rsce_heroStart', 'rsce_priceCards', 'rsce_slider', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations', 'rsce_pdfViewer']], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroStop', 'rsce_gridGallery'
+        'button' => ['contentElements' => ['hyperlink'], 'formFields' => ['submit']],
+        'button_manual' => ['contentElements' => ['rsce_pdfViewer']],
+        'background' => ['contentElements' => ['headline', 'text', 'rsce_quote']],
+        'separator' => ['contentElements' => ['headline']],
+        'table' => ['contentElements' => ['table']],
+        'accordion' => ['contentElements' => ['accordionStart', 'rsce_accordion']], //, 'accordionStop]'
+        'slider' => ['contentElements' => ['sliderStart', 'rsce_slider', 'rsce_testimonials']], //, 'sliderStop]'
+        'slider_image_manual' => ['contentElements' => ['rsce_slider']], //, 'sliderStop]'
+        'image_other' => ['contentElements' => ['image']],
+        'image_ratio' => ['contentElements' => ['image', 'rsce_quote']],
+        'hero' => ['contentElements' => ['rsce_hero', 'rsce_heroStart']], //'rsce_heroStop]'
+        'grid_manual' => ['contentElements' => ['rsce_priceCards']], // 'rsce_gridGallery]'
+        'griditems_manual' => ['contentElements' => ['rsce_priceCards']], // 'rsce_gridGallery]'
+        'priceCards_manual' => ['contentElements' => ['rsce_priceCards']],
+        'quote' => ['contentElements' => ['rsce_quote']],
     ];
     /** @var array */
     private $archiveIdentifierToKeep = [];
@@ -93,7 +92,6 @@ class Migration extends MigrationAbstract
         $objArchiveTable = StyleManagerArchiveModel::findByIdentifier('fwtable');
         $objArchiveImage = StyleManagerArchiveModel::findByIdentifier('fwimage');
         $objArchiveImageRatio = StyleManagerArchiveModel::findByIdentifier('fwimageratio');
-        $objArchiveImageRatioManual = StyleManagerArchiveModel::findByIdentifier('fwimageratio_manual');
         $objArchiveSlider = StyleManagerArchiveModel::findByIdentifier('fwslider');
         $objArchiveSliderNav = StyleManagerArchiveModel::findByIdentifier('fwslidernav');
         $objArchiveSliderContent = StyleManagerArchiveModel::findByIdentifier('fwslidercontent');
@@ -275,7 +273,6 @@ class Migration extends MigrationAbstract
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSTables'), [], 'contao_default'));
             $this->manageImages();
             $this->manageImagesRatio();
-            $this->manageImagesRatio('_manual', true);
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSImages'), [], 'contao_default'));
             $this->manageSliders();
             $this->manageSlidersImages('_manual', true);
@@ -993,8 +990,15 @@ class Migration extends MigrationAbstract
         $objStyle->blankOption = true;
         $objStyle->chosen = true;
         $objStyle->tstamp = time();
-        $objStyle->contentElements = serialize($contentElements);
-        $objStyle->extendContentElement = true;
+        if (\array_key_exists('contentElements', $contentElements)) {
+            $objStyle->contentElements = serialize($contentElements['contentElements']);
+            $objStyle->extendContentElement = true;
+        }
+        if (\array_key_exists('formFields', $contentElements)) {
+            $objStyle->formFields = serialize($contentElements['formFields']);
+            $objStyle->extendFormFields = true;
+        }
+
         $objStyle->description = $descriptioneKey;
         $objStyle->cssClasses = serialize($cssClasses);
         $objStyle->passToTemplate = $passToTemplate;
