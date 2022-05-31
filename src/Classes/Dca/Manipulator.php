@@ -107,10 +107,22 @@ class Manipulator
         $this->checkConfiguration();
         //get rid of all unnecessary fields
         $fieldsKeyToRemove = array_diff(array_keys($GLOBALS['TL_DCA'][$this->table]['fields']), $fieldsKeyToKeep);
+        $this->removeFields($fieldsKeyToRemove);
+
+        return $this;
+    }
+
+    /**
+     * Removes all fields in $fieldsKey from the DCA.
+     */
+    public function removeFields(array $fieldsKey): self
+    {
+        $this->checkConfiguration();
+        //get rid of all unnecessary fields
         $palettesNames = array_keys($GLOBALS['TL_DCA'][$this->table]['palettes']);
         $subpalettesNames = array_keys($GLOBALS['TL_DCA'][$this->table]['subpalettes']);
         $pm = PaletteManipulator::create();
-        foreach ($fieldsKeyToRemove as $field) {
+        foreach ($fieldsKey as $field) {
             $pm->removeField($field);
         }
         foreach ($palettesNames as $paletteName) {
