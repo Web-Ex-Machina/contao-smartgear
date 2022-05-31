@@ -29,6 +29,8 @@ class LoadDataContainerListener
     protected $coreConfigurationManager;
     /** @var DCAManipulator */
     protected $dcaManipulator;
+    /** @var string */
+    protected $do;
 
     public function __construct(
         Security $security,
@@ -52,11 +54,11 @@ class LoadDataContainerListener
                     if (!$blogConfig->getSgInstallComplete()) {
                         return;
                     }
-                    // limiting singleSRC fierld to the blog folder
+                    // limiting singleSRC field to the blog folder
                     $this->dcaManipulator->setFieldSingleSRCPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
 
-                    if (!$this->security->isGranted(SmartgearPermissions::CORE_EXPERT)
-                    && !$this->security->isGranted(SmartgearPermissions::BLOG_EXPERT)
+                    if (!$this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::CORE_EXPERT)
+                    && !$this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::BLOG_EXPERT)
                     ) {
                         //get rid of all unnecessary actions.
                         $this->dcaManipulator->removeListOperationsEdit();
@@ -71,9 +73,27 @@ class LoadDataContainerListener
                         $GLOBALS['TL_LANG'][$table]['teaser'][1] = &$GLOBALS['TL_LANG']['WEMSG']['BLOG']['FORM']['fieldTeaserHelp'];
                     }
                 break;
+                case 'tl_content':
+                    if ('news' !== $this->do) {
+                        return;
+                    }
+                    $blogConfig = $config->getSgBlog();
+                    if (!$blogConfig->getSgInstallComplete()) {
+                        return;
+                    }
+                    // limiting singleSRC field to the blog folder
+                    $this->dcaManipulator->setFieldSingleSRCPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
+                break;
             }
         } catch (FileNotFoundException $e) {
             //nothing
         }
+    }
+
+    public function setDo(string $do): self
+    {
+        $this->do = $do;
+
+        return $this;
     }
 }

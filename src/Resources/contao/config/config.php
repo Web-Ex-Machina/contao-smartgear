@@ -137,4 +137,4 @@ if ('FE' === TL_MODE) {
 /*
  * Add custom rights
  */
-$GLOBALS['TL_PERMISSIONS'][] = 'smartgear';
+$GLOBALS['TL_PERMISSIONS'][] = 'smartgear_permissions';

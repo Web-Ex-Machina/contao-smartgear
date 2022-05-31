@@ -29,6 +29,8 @@ class LoadDataContainerListener
     protected $coreConfigurationManager;
     /** @var DCAManipulator */
     protected $dcaManipulator;
+    /** @var string */
+    protected $do;
 
     public function __construct(
         Security $security,
@@ -48,7 +50,7 @@ class LoadDataContainerListener
             $this->dcaManipulator->setTable($table);
             switch ($table) {
                 case 'tl_content':
-                    if (!$this->security->isGranted(SmartgearPermissions::CORE_EXPERT)
+                    if (!$this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::CORE_EXPERT)
                     ) {
                         // do not display grid_gap settings
                         $this->dcaManipulator->removeFields(['grid_gap']);
@@ -58,5 +60,12 @@ class LoadDataContainerListener
         } catch (FileNotFoundException $e) {
             //nothing
         }
+    }
+
+    public function setDo(string $do): self
+    {
+        $this->do = $do;
+
+        return $this;
     }
 }

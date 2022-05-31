@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use Contao\Input;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\Config\Framway as FramwayConfiguration;
@@ -51,6 +52,8 @@ class LoadDataContainerListener
     protected $framwayThemeConfigurationManager;
     /** @var array */
     protected $listeners;
+    /** @var string */
+    protected $do;
 
     public function __construct(
         TranslatorInterface $translator,
@@ -62,6 +65,7 @@ class LoadDataContainerListener
         $this->framwayConfigurationManager = $framwayConfigurationManager;
         $this->framwayThemeConfigurationManager = $framwayThemeConfigurationManager;
         $this->listeners = $listeners;
+        $this->do = Input::get('do') ?? '';
     }
 
     public function __invoke(string $table): void
@@ -194,6 +198,7 @@ class LoadDataContainerListener
     protected function applyListeners($table): void
     {
         foreach ($this->listeners as $listener) {
+            $listener->setDo($this->do);
             $listener->__invoke($table);
         }
     }

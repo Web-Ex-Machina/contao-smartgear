@@ -28,6 +28,8 @@ class LoadDataContainerListener
     protected $coreConfigurationManager;
     /** @var DCAManipulator */
     protected $dcaManipulator;
+    /** @var string */
+    protected $do;
 
     public function __construct(
         Security $security,
@@ -58,5 +60,12 @@ class LoadDataContainerListener
         } catch (FileNotFoundException $e) {
             //nothing
         }
+    }
+
+    public function setDo(string $do): self
+    {
+        $this->do = $do;
+
+        return $this;
     }
 }

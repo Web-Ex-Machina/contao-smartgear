@@ -14,21 +14,38 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\Backend;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
+use tl_content;
+use tl_content_calendar;
+use tl_content_news;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 
-class Content extends \tl_content
+// class Content extends \tl_content
+class Content extends Backend
 {
     /** @var CoreConfigurationManager */
     private $configManager;
+    /** @var Backend */
+    private $parent;
 
     public function __construct()
     {
         parent::__construct();
         $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
+        switch (Input::get('do')) {
+            case 'news':
+                $this->parent = new tl_content_news();
+            break;
+            case 'calendar':
+                $this->parent = new tl_content_calendar();
+            break;
+            default:
+                $this->parent = new tl_content();
+        }
     }
 
     /**
@@ -38,7 +55,8 @@ class Content extends \tl_content
      */
     public function checkPermission(): void
     {
-        parent::checkPermission();
+        // parent::checkPermission();
+        $this->parent->checkPermission();
 
         // Check current action
         switch (Input::get('act')) {
@@ -68,7 +86,12 @@ class Content extends \tl_content
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
-        return parent::deleteElement($row, $href, $label, $title, $icon, $attributes);
+        // return parent::deleteElement($row, $href, $label, $title, $icon, $attributes);
+        if (method_exists($this->parent, 'deleteElement')) {
+            return $this->parent->deleteElement($row, $href, $label, $title, $icon, $attributes);
+        }
+
+        return (new tl_content())->deleteElement($row, $href, $label, $title, $icon, $attributes);
     }
 
     /**
