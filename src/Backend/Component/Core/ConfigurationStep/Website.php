@@ -297,17 +297,6 @@ class Website extends ConfigurationStep
         $objSocialLinkModule->save();
         $modules[$objSocialLinkModule->type] = $objSocialLinkModule;
 
-        $objGridBuilderModule = \array_key_exists('wem_sg_gridbuilder', $registeredModules)
-                            ? ModuleModel::findOneById($registeredModules['wem_sg_gridbuilder']) ?? new ModuleModel()
-                            : new ModuleModel()
-                            ;
-        $objGridBuilderModule->pid = $themeId;
-        $objGridBuilderModule->tstamp = time();
-        $objGridBuilderModule->type = 'wem_sg_gridbuilder';
-        $objGridBuilderModule->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleGridBuilderName'];
-        $objGridBuilderModule->save();
-        $modules[$objGridBuilderModule->type] = $objGridBuilderModule;
-
         return $modules;
     }
 

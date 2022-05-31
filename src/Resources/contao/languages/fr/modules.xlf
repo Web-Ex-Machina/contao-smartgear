@@ -87,16 +87,6 @@
 			<source>Afficher un header conçu pour Smartgear</source>
 			<target>Afficher un header conçu pour Smartgear</target>
 		</trans-unit>
-		<trans-unit id="MOD.wem_sg_gridbuilder.0">
-			<source>GridBuilder</source>
-			<target>GridBuilder</target>
-		</trans-unit>
-		<trans-unit id="MOD.wem_sg_gridbuilder.1">
-			<source>Afficher une grille conçue pour Smartgear</source>
-			<target>Afficher une grille conçue pour Smartgear</target>
-		</trans-unit>
-
-
     </body>
   </file>
 </xliff>

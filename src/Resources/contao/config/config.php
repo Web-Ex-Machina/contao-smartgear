@@ -95,7 +95,6 @@ array_insert($GLOBALS['FE_MOD'], 2, [
     'smartgear' => [
         'wem_sg_header' => '\WEM\SmartgearBundle\Module\Header',
         'wem_sg_social_link' => '\WEM\SmartgearBundle\Module\SocialLink',
-        'wem_sg_gridbuilder' => '\WEM\SmartgearBundle\Module\GridBuilder',
     ],
 ]);
 $GLOBALS['FE_MOD']['news']['newsreader'] = \WEM\SmartgearBundle\Override\ModuleNewsReader::class;
@@ -117,7 +116,6 @@ if ('BE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['loadDataContainer'][] = ['smartgear.listener.load_data_container', '__invoke'];
     $GLOBALS['TL_HOOKS']['initializeSystem'][] = ['smartgear.listener.initialize_system', '__invoke'];
     $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['smartgear.listener.replace_insert_tags', 'onReplaceInsertTags'];
-    $GLOBALS['TL_HOOKS']['getContentElement'][] = ['smartgear.listener.get_content_element', '__invoke'];
 }
 
 /*
@@ -134,7 +132,6 @@ if ('FE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['newsListFetchItems'][] = ['smartgear.listener.news_list_fetch_items', '__invoke'];
     $GLOBALS['TL_HOOKS']['newsListCountItems'][] = ['smartgear.listener.news_list_count_items', '__invoke'];
     $GLOBALS['TL_HOOKS']['getAllEvents'][] = ['smartgear.listener.get_all_events', '__invoke'];
-    $GLOBALS['TL_HOOKS']['getContentElement'][] = ['smartgear.listener.get_content_element', '__invoke'];
 }
 
 /*
