@@ -1829,115 +1829,115 @@
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmargin.tabTitle">
 			<source>Margins</source>
-			<target>Margins</target>
+			<target>Marges</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmargintop.title">
-			<source>Margins - Top</source>
-			<target>Margins - Top</target>
+			<source>Top</source>
+			<target>Top</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmargintop.label">
-			<source>margin - top</source>
-			<target>marge - haut</target>
+			<source>Simple margin</source>
+			<target>Marge simple</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmargintop.description">
 			<source>Add a margin on top of the element</source>
 			<target>Ajoute une marge en haut de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmargintop.noLabel">
-			<source>no margin - top</source>
-			<target>Pas de marge - haut</target>
+			<source>no margin</source>
+			<target>Pas de marge</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmargintop.noDescription">
 			<source>Remove margin on top of the element</source>
 			<target>Retire la marge en haut de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmargintop.doubleLabel">
-			<source>double margin - top</source>
-			<target>marge double - haut</target>
+			<source>Double margin</source>
+			<target>Marge double</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmargintop.doubleDescription">
 			<source>Add a double sized margin on top of the element</source>
 			<target>Ajoute une marge doublée en haut de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginbottom.title">
-			<source>Margins - Bottom</source>
-			<target>Margins - Bottom</target>
+			<source>Bottom</source>
+			<target>Bas</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginbottom.label">
-			<source>margin - bottom</source>
-			<target>marge - bas</target>
+			<source>Simple margin</source>
+			<target>Marge simple</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginbottom.description">
 			<source>Add a margin at the bottom of the element</source>
 			<target>Ajoute une marge en bas de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginbottom.noLabel">
-			<source>no margin - bottom</source>
-			<target>Pas de marge - bas</target>
+			<source>no margin</source>
+			<target>Pas de marge</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginbottom.noDescription">
 			<source>Remove margin at the bottom of the element</source>
 			<target>Retire la marge en bas de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginbottom.doubleLabel">
-			<source>double margin - bottom</source>
-			<target>marge double - bas</target>
+			<source>Double margin</source>
+			<target>Marge double</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginbottom.doubleDescription">
 			<source>Add a double sized margin at the bottom of the element</source>
 			<target>Ajoute une marge doublée en bas de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginleft.title">
-			<source>Margins - Left</source>
-			<target>Margins - Left</target>
+			<source>Left</source>
+			<target>Gauche</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginleft.label">
-			<source>margin - left</source>
-			<target>marge - gauche</target>
+			<source>Simple margin</source>
+			<target>Marge simple</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginleft.description">
 			<source>Add a margin on the left of the element</source>
 			<target>Ajoute une marge à gauche de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginleft.noLabel">
-			<source>no margin - left</source>
-			<target>Pas de marge - gauche</target>
+			<source>no margin</source>
+			<target>Pas de marge</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginleft.noDescription">
 			<source>Remove margin on the left of the element</source>
 			<target>Retire la marge à gauche de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginleft.doubleLabel">
-			<source>double margin - left</source>
-			<target>marge double - gauche</target>
+			<source>Double margin</source>
+			<target>Marge double</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginleft.doubleDescription">
 			<source>Add a double sized margin on the left of the element</source>
 			<target>Ajoute une marge doublée à gauche de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginright.title">
-			<source>Margins - Right</source>
-			<target>Margins - Right</target>
+			<source>Right</source>
+			<target>Droite</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginright.label">
-			<source>margin - right</source>
-			<target>marge - droite</target>
+			<source>Simple margin</source>
+			<target>Marge simple</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginright.description">
 			<source>Add a margin on the right of the element</source>
 			<target>Ajoute une marge à droite de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginright.noLabel">
-			<source>no margin - right</source>
-			<target>Pas de marge - droite</target>
+			<source>no margin</source>
+			<target>Pas de marge</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginright.noDescription">
 			<source>Remove margin on the right of the element</source>
 			<target>Retire la marge à droite de l'élément</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginright.doubleLabel">
-			<source>double margin - right</source>
-			<target>marge double - droite</target>
+			<source>Double margin</source>
+			<target>Marge double</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwmarginright.doubleDescription">
 			<source>Add a double sized margin on the right of the element</source>
