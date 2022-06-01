@@ -14,24 +14,6 @@ declare(strict_types=1);
 
 return [
     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_hero'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
-        'config_legend' => [
-            'label' => [&$GLOBALS['TL_LANG']['tl_content']['config_legend']], 'inputType' => 'group',
-        ],
-        'block_height' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['block_height'],
-            'inputType' => 'text',
-            'eval' => ['tl_class' => 'w50 clr'],
-        ],
-        'force_fullheight' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['force_fullheight'],
-            'inputType' => 'checkbox',
-            'eval' => ['tl_class' => 'w50 clr'],
-        ],
-        'force_fullwidth' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['force_fullwidth'],
-            'inputType' => 'checkbox',
-            'eval' => ['tl_class' => 'w50 clr'],
-        ],
         'image_legend' => [
             'label' => [&$GLOBALS['TL_LANG']['tl_content']['image_legend']],
             'inputType' => 'group',
@@ -50,8 +32,22 @@ return [
         ],
         'image_opacity' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['image_opacity'],
-            'inputType' => 'text',
-            'eval' => ['rgxp' => 'digit', 'tl_class' => 'w50', 'min' => 0, 'max' => 10],
+            'inputType' => 'select',
+            'options' => [
+                '0'  => '0%',
+                '1'  => '10%',
+                '2'  => '20%',
+                '3'  => '30%',
+                '4'  => '40%',
+                '5'  => '50%',
+                '6'  => '60%',
+                '7'  => '70%',
+                '8'  => '80%',
+                '9'  => '90%',
+                '10' => '100%',
+            ],
+            'default' => '100%',
+            'eval' => ['tl_class' => 'w50', 'isAssociative' => true ],
         ],
         'content_legend' => [
             'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_hero']['content_legend']],
@@ -115,6 +111,41 @@ return [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_hero']['link_css'],
             'inputType' => 'text',
             'eval' => ['tl_class' => 'w50 clr', 'mandatory' => false],
+        ],
+        'config_legend' => [
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['config_legend']], 'inputType' => 'group',
+        ],
+        'hero_height' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['hero_height'],
+            'inputType' => 'radio',
+            'options' => [
+                'custom'   => &$GLOBALS['TL_LANG']['tl_content']['hero_height']['custom'], 
+                'viewport' => &$GLOBALS['TL_LANG']['tl_content']['hero_height']['viewport'],
+                'content'  => &$GLOBALS['TL_LANG']['tl_content']['hero_height']['content'],
+            ],
+            'default' => 'custom',
+            'eval' => ['tl_class' => 'w50 clr'],
+        ],
+        'block_height' => [
+            'label' => '',
+            'inputType' => 'text',
+            'eval' => ['tl_class' => 'w50 clr cbx','style' => 'margin-top: -15px;', 'mandatory' => true],
+            'default' => '40vh',
+            'dependsOn' => array(
+                'field' => 'hero_height', 
+                'value' => 'custom',      
+            ),
+        ],
+        'hero_width' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['hero_width'],
+            'inputType' => 'radio',
+            'options' => [
+                'default'   => &$GLOBALS['TL_LANG']['tl_content']['hero_width']['default'],
+                'viewport'  => &$GLOBALS['TL_LANG']['tl_content']['hero_width']['viewport'],
+                'content'   => &$GLOBALS['TL_LANG']['tl_content']['hero_width']['content'],
+            ],
+            'default' => 'default',
+            'eval' => ['tl_class' => 'w50 clr'],
         ],
     ],
 ];
