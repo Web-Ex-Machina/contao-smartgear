@@ -118,8 +118,8 @@
         <target>Opacité de l'image</target>
       </trans-unit>
       <trans-unit id="tl_content.image_opacity.1">
-        <source>Enter a value between 0 and 10</source>
-        <target>Entrez une valeur entre 0 et 10</target>
+        <source>Change the picture opacity</source>
+        <target>Change l'opacité de l'image</target>
       </trans-unit>
       <trans-unit id="tl_content.title_modifier.0">
         <source>Title modifier</source>
