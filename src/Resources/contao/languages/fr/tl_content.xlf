@@ -45,12 +45,16 @@
         <source>Block settings</source>
         <target>Configuration du bloc</target>
       </trans-unit>
+      <trans-unit id="tl_content.link_legend">
+        <source>Link settings</source>
+        <target>Paramètres du lien</target>
+      </trans-unit>
       <trans-unit id="tl_content.content_horizontal.0">
         <source>Horizontal alignment</source>
         <target>Alignement horizontal</target>
       </trans-unit>
       <trans-unit id="tl_content.content_vertical.0">
-        <source>Vertgical alignment</source>
+        <source>Vertical alignment</source>
         <target>Alignement vertical</target>
       </trans-unit>
       <trans-unit id="tl_content.content_horizontal.optionCenter">
@@ -76,6 +80,38 @@
       <trans-unit id="tl_content.content_vertical.optionBottom">
         <source>Bottom</source>
         <target>Bas</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_height.0">
+        <source>Hero's height</source>
+        <target>Hauteur de la bannière</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_height.custom">
+        <source>Custom</source>
+        <target>Customisée</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_height.viewport">
+        <source>Viewport's height</source>
+        <target>Toute la hauteur d'écran disponible</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_height.content">
+        <source>Content relative</source>
+        <target>Relative au contenu</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_width.0">
+        <source>Hero's width</source>
+        <target>Largeur de la bannière</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_width.default">
+        <source>Default (all available space)</source>
+        <target>Par défaut (tout l'espace disponible)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_width.viewport">
+        <source>Viewport's width</source>
+        <target>Toute la largeur d'écran disponible</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_width.content">
+        <source>Content relative</source>
+        <target>Relative au contenu</target>
       </trans-unit>
       <trans-unit id="tl_content.image_opacity.0">
         <source>Image opacity</source>
