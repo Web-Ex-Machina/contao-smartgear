@@ -2613,31 +2613,6 @@
 		<source>100%</source>
 <target>100%</target>
 </trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroheightcontent.title">
-		<source>fwheroheightcontent</source>
-<target>fwheroheightcontent</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwheroheightcontent.description">
-	<source>fwheroheightcontent description</source>
-<target>fwheroheightcontent description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroheightcontent.label">
-		<source>fwheroheightcontent - label</source>
-<target>fwheroheightcontent - label</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwherowidthcontent.title">
-		<source>fwherowidthcontent</source>
-<target>fwherowidthcontent</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherowidthcontent.description">
-	<source>fwherowidthcontent description</source>
-<target>fwherowidthcontent description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherowidthcontent.label">
-		<source>fwherowidthcontent - label</source>
-<target>fwherowidthcontent - label</target>
-</trans-unit>
-
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.title">
 		<source>fwgridgap</source>
 <target>fwgridgap</target>
