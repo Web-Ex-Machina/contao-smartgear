@@ -37,6 +37,39 @@
         <source>Picture</source>
         <target>Image</target>
       </trans-unit>
+      <trans-unit id="tl_content.advanced_legend">
+        <source>Advanced parameters</source>
+        <target>Paramètres avancés</target>
+      </trans-unit>
+
+      <trans-unit id="tl_content.alignment.0">
+        <source>alignment</source>
+        <target>Alignement</target>
+      </trans-unit>
+      <trans-unit id="tl_content.alignment.1">
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit id="tl_content.alignment.center">
+        <source>center</source>
+        <target>Centre</target>
+      </trans-unit>
+      <trans-unit id="tl_content.alignment.top">
+        <source>top</source>
+        <target>Haut</target>
+      </trans-unit>
+      <trans-unit id="tl_content.alignment.bottom">
+        <source>bottom</source>
+        <target>Bas</target>
+      </trans-unit>
+      <trans-unit id="tl_content.alignment.left">
+        <source>left</source>
+        <target>Gauche</target>
+      </trans-unit>
+      <trans-unit id="tl_content.alignment.right">
+        <source>right</source>
+        <target>Droite</target>
+      </trans-unit>
 
       <trans-unit id="tl_content.rsce_accordion.0">
         <source>Accordion (alone)</source>
@@ -909,29 +942,25 @@
         <source>Check to make rounded borders</source>
         <target>Cochez pour arrondir les extrémités du bloc</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.preset_legend">
-        <source>Presets</source>
-        <target>Presets</target>
-      </trans-unit>
       <trans-unit id="tl_content.rsce_blockcard.preset.0">
         <source>Preset</source>
-        <target>Preset</target>
+        <target>Style prédéfini</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_blockcard.preset.1">
-        <source></source>
-        <target></target>
+        <source>Select a predefined and peculiar style for the block</source>
+        <target>Selectionnez un style prédéfini et particulier pour le bloc</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_blockcard.preset.optionLight">
         <source>Light</source>
-        <target>Light</target>
+        <target>Minimalist</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_blockcard.preset.optionThumbnail">
         <source>Thumbnail</source>
-        <target>Thumbnail</target>
+        <target>Miniature (image)</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_blockcard.preset.optionInline">
         <source>Inline</source>
-        <target>Inline</target>
+        <target>En ligne</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_blockcard.image_legend">
         <source>Image</source>
@@ -996,6 +1025,50 @@
       <trans-unit id="tl_content.rsce_blockcard.link_mode.optionLink">
         <source>Text link</source>
         <target>Lien texte</target>
+      </trans-unit>
+      <trans-unit id="tl_content.image_ratio.0">
+        <source>Picture ratio</source>
+        <target>Ratio de l'image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.image_ratio.1">
+        <source>Change the picture displayed ratio</source>
+        <target>Change le ratio d'affichage de l'image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.image_align_horizontal.0">
+        <source>Picture horizontal alignment</source>
+        <target>Alignement horizontal de l'image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.image_align_horizontal.1">
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit id="tl_content.image_align_vertical.0">
+        <source>Picture vertical alignment</source>
+        <target>Alignement vertical de l'image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.image_align_vertical.1">
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.image_displaymode.0">
+        <source>Display mode</source>
+        <target>Mode d'affichage</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.image_displaymode.1">
+        <source>Change the way the picture will be displayed in the block</source>
+        <target>Change la manière dont l'image sera affichée</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.image_displaymode.cover">
+        <source>Automatic filling</source>
+        <target>Remplissage automatique</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.image_displaymode.contain">
+        <source>Adjusted fit</source>
+        <target>Ajustée</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.image_displaymode.natural">
+        <source>Natural</source>
+        <target>Taille naturelle</target>
       </trans-unit>
     </body>
   </file>
