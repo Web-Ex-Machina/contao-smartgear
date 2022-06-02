@@ -1347,7 +1347,7 @@
 			<target>Désinstallation</target>
 		</trans-unit>
 
-		<!-- Social links-->
+		<!-- Social links -->
 		<trans-unit id="WEMSG.SOCIALLINKS.FORM.headerNetwork">
 			<source>Network</source>
 			<target>Réseau</target>
@@ -1364,6 +1364,75 @@
 			<source>Leave blank to use the selected network's default icon</source>
 			<target>Laissez vide pour utiliser l'icône du réseau social par défaut</target>
 		</trans-unit>
+
+		<!-- Extranet -->
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.title">
+			<source>Installation</source>
+			<target>Installation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.groupTitle">
+			<source>Members' group title</source>
+			<target>Titre du groupe des membres</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageTitle">
+			<source>Page title</source>
+			<target>Titre de la page</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.canSubscribe">
+			<source>News users can register</source>
+			<target>Les nouveaux utilisateurs peuvent s'enregistrer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.groupTitleMissing">
+			<source>Members' group title is missing</source>
+			<target>Veuillez renseigner le titre du group des membres</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageTitleMissing">
+			<source>Page title is missing</source>
+			<target>Veuillez renseigner le titre de la page</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageExtranetDescription">
+			<source>%s - %s</source>
+			<target>%s - %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageError401Title">
+			<source>Error 401 - Not authentified</source>
+			<target>Erreur 401 - Non authentifié</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageError403Title">
+			<source>Error 403 - Forbidden access</source>
+			<target>Erreur 403 - Accès interdit</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageContentTitle">
+			<source>Informations</source>
+			<target>Informations</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageDataTitle">
+			<source>My data</source>
+			<target>Mes données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageDataConfirmTitle">
+			<source>Data updated</source>
+			<target>Données modifiées</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pagePasswordTitle">
+			<source>Update my password</source>
+			<target>Modifier mon mot de passe</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pagePasswordConfirmTitle">
+			<source>Confirm update password</source>
+			<target>Confirmation de changement de mot de passe</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pagePasswordValidateTitle">
+			<source>Password update validated</source>
+			<target>Changement de mot de passe validé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageLogoutTitle">
+			<source>Logout</source>
+			<target>Déconnexion</target>
+		</trans-unit>
+
+
+
 
 
 		<!-- ConfigurationStepManager -->

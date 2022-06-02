@@ -28,19 +28,26 @@ class Extranet implements ConfigModuleInterface
         self::ARCHIVE_MODE_KEEP,
         self::ARCHIVE_MODE_DELETE,
     ];
+    public const DEFAULT_FOLDER_PATH = 'files/extranet';
     public const DEFAULT_ARCHIVE_MODE = self::ARCHIVE_MODE_EMPTY;
     public const DEFAULT_CAN_SUBSCRIBE = false;
-    public const DEFAULT_USER_GROUP_MEMBERS_NAME = 'Membres';
-    public const DEFAULT_PAGE_MEMBERS_TITLE = 'Espace Membre';
+    public const DEFAULT_MEMBER_GROUP_MEMBERS_TITLE = 'Membres';
+    public const DEFAULT_PAGE_EXTRANET_TITLE = 'Espace Membre';
 
     /** @var bool */
     protected $sgInstallComplete = false;
+    /** @var string */
+    protected $sgExtranetFolder = self::DEFAULT_FOLDER_PATH;
     /** @var bool */
     protected $sgCanSubscribe = self::DEFAULT_CAN_SUBSCRIBE;
     /** @var int */
-    protected $sgUserExample;
+    protected $sgMemberExample;
     /** @var int */
-    protected $sgUserGroupMembers;
+    protected $sgMemberGroupMembers;
+    /** @var string */
+    protected $sgMemberGroupMembersTitle = self::DEFAULT_MEMBER_GROUP_MEMBERS_TITLE;
+    /** @var string */
+    protected $sgPageExtranetTitle = self::DEFAULT_PAGE_EXTRANET_TITLE;
     /** @var int */
     protected $sgPageExtranet;
     /** @var int */
@@ -225,9 +232,12 @@ class Extranet implements ConfigModuleInterface
     public function reset(): self
     {
         $this->setSgInstallComplete(false)
+            ->setSgExtranetFolder(self::DEFAULT_FOLDER_PATH)
             ->setSgCanSubscribe(self::DEFAULT_CAN_SUBSCRIBE)
-            ->setSgUserExample(null)
-            ->setSgUserGroupMembers(null)
+            ->setSgMemberGroupMembersTitle(self::DEFAULT_MEMBER_GROUP_MEMBERS_TITLE)
+            ->setSgPageExtranetTitle(self::DEFAULT_PAGE_EXTRANET_TITLE)
+            ->setSgMemberExample(null)
+            ->setSgMemberGroupMembers(null)
             ->setSgPageExtranet(null)
             ->setSgPage401(null)
             ->setSgPage403(null)
@@ -242,6 +252,20 @@ class Extranet implements ConfigModuleInterface
             ->setSgPageSubscribeConfirm(null)
             ->setSgPageSubscribeValidate(null)
             ->setSgPageUnsubscribeConfirm(null)
+            ->setSgArticleExtranet(null)
+            ->setSgArticle401(null)
+            ->setSgArticle403(null)
+            ->setSgArticleContent(null)
+            ->setSgArticleData(null)
+            ->setSgArticleDataConfirm(null)
+            ->setSgArticlePassword(null)
+            ->setSgArticlePasswordConfirm(null)
+            ->setSgArticlePasswordValidate(null)
+            ->setSgArticleLogout(null)
+            ->setSgArticleSubscribe(null)
+            ->setSgArticleSubscribeConfirm(null)
+            ->setSgArticleSubscribeValidate(null)
+            ->setSgArticleUnsubscribeConfirm(null)
             ->setSgModuleLogin(null)
             ->setSgModuleLogout(null)
             ->setSgModuleData(null)
@@ -313,9 +337,12 @@ class Extranet implements ConfigModuleInterface
     public function import(\stdClass $json): self
     {
         $this->setSgInstallComplete($json->installComplete ?? false)
+            ->setSgExtranetFolder($json->extranet_folder ?? self::DEFAULT_FOLDER_PATH)
             ->setSgCanSubscribe($json->canSubscribe ?? false)
-            ->setSgUserExample($json->contao->users->example ?? null)
-            ->setSgUserGroupMembers($json->contao->userGroups->members ?? null)
+            ->setSgMemberGroupMembersTitle($json->memberGroupMembersTitle ?? self::DEFAULT_MEMBER_GROUP_MEMBERS_TITLE)
+            ->setSgPageExtranetTitle($json->pageExtranetTitle ?? self::DEFAULT_PAGE_EXTRANET_TITLE)
+            ->setSgMemberExample($json->contao->members->example ?? null)
+            ->setSgMemberGroupMembers($json->contao->memberGroups->members ?? null)
             ->setSgPageExtranet($json->contao->pages->extranet ?? null)
             ->setSgPage401($json->contao->pages->error401 ?? null)
             ->setSgPage403($json->contao->pages->error403 ?? null)
@@ -330,6 +357,20 @@ class Extranet implements ConfigModuleInterface
             ->setSgPageSubscribeConfirm($json->contao->pages->subscribeConfirm ?? null)
             ->setSgPageSubscribeValidate($json->contao->pages->subscribeValidate ?? null)
             ->setSgPageUnsubscribeConfirm($json->contao->pages->unsubscribe ?? null)
+            ->setSgArticleExtranet($json->contao->articles->extranet ?? null)
+            ->setSgArticle401($json->contao->articles->error401 ?? null)
+            ->setSgArticle403($json->contao->articles->error403 ?? null)
+            ->setSgArticleContent($json->contao->articles->content ?? null)
+            ->setSgArticleData($json->contao->articles->data ?? null)
+            ->setSgArticleDataConfirm($json->contao->articles->dataConfirm ?? null)
+            ->setSgArticlePassword($json->contao->articles->password ?? null)
+            ->setSgArticlePasswordConfirm($json->contao->articles->passwordConfirm ?? null)
+            ->setSgArticlePasswordValidate($json->contao->articles->passwordValidate ?? null)
+            ->setSgArticleLogout($json->contao->articles->logout ?? null)
+            ->setSgArticleSubscribe($json->contao->articles->subscribe ?? null)
+            ->setSgArticleSubscribeConfirm($json->contao->articles->subscribeConfirm ?? null)
+            ->setSgArticleSubscribeValidate($json->contao->articles->subscribeValidate ?? null)
+            ->setSgArticleUnsubscribeConfirm($json->contao->articles->unsubscribe ?? null)
             ->setSgModuleLogin($json->contao->modules->login ?? null)
             ->setSgModuleLogout($json->contao->modules->logout ?? null)
             ->setSgModuleData($json->contao->modules->data ?? null)
@@ -401,7 +442,10 @@ class Extranet implements ConfigModuleInterface
     {
         $json = new \stdClass();
         $json->installComplete = $this->getSgInstallComplete();
+        $json->extranet_folder = $this->getSgExtranetFolder();
         $json->canSubscribe = $this->getSgCanSubscribe();
+        $json->memberGroupMembersTitle = $this->getSgMemberGroupMembersTitle();
+        $json->pageExtranetTitle = $this->getSgPageExtranetTitle();
 
         $json->contao = new \stdClass();
 
@@ -505,11 +549,11 @@ class Extranet implements ConfigModuleInterface
         $json->contao->contents->unsubscribe->text = $this->getSgContentTextArticleUnsubscribe();
         $json->contao->contents->unsubscribe->hyperlink = $this->getSgContentHyperlinkArticleUnsubscribe();
 
-        $json->contao->users = new \stdClass();
-        $json->contao->users->example = $this->getSgUserExample();
+        $json->contao->members = new \stdClass();
+        $json->contao->members->example = $this->getSgMemberExample();
 
-        $json->contao->userGroups = new \stdClass();
-        $json->contao->userGroups->members = $this->getSgUserGroupMembers();
+        $json->contao->memberGroups = new \stdClass();
+        $json->contao->memberGroups->members = $this->getSgMemberGroupMembers();
 
         $json->archived = new \stdClass();
         $json->archived->status = $this->getSgArchived();
@@ -582,26 +626,26 @@ class Extranet implements ConfigModuleInterface
         return $this;
     }
 
-    public function getSgUserExample(): ?int
+    public function getSgMemberExample(): ?int
     {
-        return $this->sgUserExample;
+        return $this->sgMemberExample;
     }
 
-    public function setSgUserExample(?int $sgUserExample): self
+    public function setSgMemberExample(?int $sgMemberExample): self
     {
-        $this->sgUserExample = $sgUserExample;
+        $this->sgMemberExample = $sgMemberExample;
 
         return $this;
     }
 
-    public function getSgUserGroupMembers(): ?int
+    public function getSgMemberGroupMembers(): ?int
     {
-        return $this->sgUserGroupMembers;
+        return $this->sgMemberGroupMembers;
     }
 
-    public function setSgUserGroupMembers(?int $sgUserGroupMembers): self
+    public function setSgMemberGroupMembers(?int $sgMemberGroupMembers): self
     {
-        $this->sgUserGroupMembers = $sgUserGroupMembers;
+        $this->sgMemberGroupMembers = $sgMemberGroupMembers;
 
         return $this;
     }
@@ -1231,14 +1275,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHeadlineArticleExtranet(): ?int
     {
         return $this->sgContentHeadlineArticleExtranet;
     }
 
-    public function setSgContentHeadlineArticleExtranet(mixed $sgContentHeadlineArticleExtranet): self
+    public function setSgContentHeadlineArticleExtranet(?int $sgContentHeadlineArticleExtranet): self
     {
         $this->sgContentHeadlineArticleExtranet = $sgContentHeadlineArticleExtranet;
 
@@ -1246,14 +1290,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentModuleLoginGuestsArticleExtranet(): ?int
     {
         return $this->sgContentModuleLoginGuestsArticleExtranet;
     }
 
-    public function setSgContentModuleLoginGuestsArticleExtranet(mixed $sgContentModuleLoginGuestsArticleExtranet): self
+    public function setSgContentModuleLoginGuestsArticleExtranet(?int $sgContentModuleLoginGuestsArticleExtranet): self
     {
         $this->sgContentModuleLoginGuestsArticleExtranet = $sgContentModuleLoginGuestsArticleExtranet;
 
@@ -1261,14 +1305,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentGridStartAArticleExtranet(): ?int
     {
         return $this->sgContentGridStartAArticleExtranet;
     }
 
-    public function setSgContentGridStartAArticleExtranet(mixed $sgContentGridStartAArticleExtranet): self
+    public function setSgContentGridStartAArticleExtranet(?int $sgContentGridStartAArticleExtranet): self
     {
         $this->sgContentGridStartAArticleExtranet = $sgContentGridStartAArticleExtranet;
 
@@ -1276,14 +1320,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentGridStartBArticleExtranet(): ?int
     {
         return $this->sgContentGridStartBArticleExtranet;
     }
 
-    public function setSgContentGridStartBArticleExtranet(mixed $sgContentGridStartBArticleExtranet): self
+    public function setSgContentGridStartBArticleExtranet(?int $sgContentGridStartBArticleExtranet): self
     {
         $this->sgContentGridStartBArticleExtranet = $sgContentGridStartBArticleExtranet;
 
@@ -1291,14 +1335,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentModuleLoginLoggedArticleExtranet(): ?int
     {
         return $this->sgContentModuleLoginLoggedArticleExtranet;
     }
 
-    public function setSgContentModuleLoginLoggedArticleExtranet(mixed $sgContentModuleLoginLoggedArticleExtranet): self
+    public function setSgContentModuleLoginLoggedArticleExtranet(?int $sgContentModuleLoginLoggedArticleExtranet): self
     {
         $this->sgContentModuleLoginLoggedArticleExtranet = $sgContentModuleLoginLoggedArticleExtranet;
 
@@ -1306,14 +1350,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentModuleNavArticleExtranet(): ?int
     {
         return $this->sgContentModuleNavArticleExtranet;
     }
 
-    public function setSgContentModuleNavArticleExtranet(mixed $sgContentModuleNavArticleExtranet): self
+    public function setSgContentModuleNavArticleExtranet(?int $sgContentModuleNavArticleExtranet): self
     {
         $this->sgContentModuleNavArticleExtranet = $sgContentModuleNavArticleExtranet;
 
@@ -1321,14 +1365,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentGridStopBArticleExtranet(): ?int
     {
         return $this->sgContentGridStopBArticleExtranet;
     }
 
-    public function setSgContentGridStopBArticleExtranet(mixed $sgContentGridStopBArticleExtranet): self
+    public function setSgContentGridStopBArticleExtranet(?int $sgContentGridStopBArticleExtranet): self
     {
         $this->sgContentGridStopBArticleExtranet = $sgContentGridStopBArticleExtranet;
 
@@ -1336,14 +1380,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentTextArticleExtranet(): ?int
     {
         return $this->sgContentTextArticleExtranet;
     }
 
-    public function setSgContentTextArticleExtranet(mixed $sgContentTextArticleExtranet): self
+    public function setSgContentTextArticleExtranet(?int $sgContentTextArticleExtranet): self
     {
         $this->sgContentTextArticleExtranet = $sgContentTextArticleExtranet;
 
@@ -1351,14 +1395,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentGridStopAArticleExtranet(): ?int
     {
         return $this->sgContentGridStopAArticleExtranet;
     }
 
-    public function setSgContentGridStopAArticleExtranet(mixed $sgContentGridStopAArticleExtranet): self
+    public function setSgContentGridStopAArticleExtranet(?int $sgContentGridStopAArticleExtranet): self
     {
         $this->sgContentGridStopAArticleExtranet = $sgContentGridStopAArticleExtranet;
 
@@ -1366,14 +1410,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHeadlineArticle401(): ?int
     {
         return $this->sgContentHeadlineArticle401;
     }
 
-    public function setSgContentHeadlineArticle401(mixed $sgContentHeadlineArticle401): self
+    public function setSgContentHeadlineArticle401(?int $sgContentHeadlineArticle401): self
     {
         $this->sgContentHeadlineArticle401 = $sgContentHeadlineArticle401;
 
@@ -1381,14 +1425,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentTextArticle401(): ?int
     {
         return $this->sgContentTextArticle401;
     }
 
-    public function setSgContentTextArticle401(mixed $sgContentTextArticle401): self
+    public function setSgContentTextArticle401(?int $sgContentTextArticle401): self
     {
         $this->sgContentTextArticle401 = $sgContentTextArticle401;
 
@@ -1396,14 +1440,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentModuleLoginGuestsArticle401(): ?int
     {
         return $this->sgContentModuleLoginGuestsArticle401;
     }
 
-    public function setSgContentModuleLoginGuestsArticle401(mixed $sgContentModuleLoginGuestsArticle401): self
+    public function setSgContentModuleLoginGuestsArticle401(?int $sgContentModuleLoginGuestsArticle401): self
     {
         $this->sgContentModuleLoginGuestsArticle401 = $sgContentModuleLoginGuestsArticle401;
 
@@ -1411,14 +1455,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHeadlineArticle403(): ?int
     {
         return $this->sgContentHeadlineArticle403;
     }
 
-    public function setSgContentHeadlineArticle403(mixed $sgContentHeadlineArticle403): self
+    public function setSgContentHeadlineArticle403(?int $sgContentHeadlineArticle403): self
     {
         $this->sgContentHeadlineArticle403 = $sgContentHeadlineArticle403;
 
@@ -1426,14 +1470,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentTextArticle403(): ?int
     {
         return $this->sgContentTextArticle403;
     }
 
-    public function setSgContentTextArticle403(mixed $sgContentTextArticle403): self
+    public function setSgContentTextArticle403(?int $sgContentTextArticle403): self
     {
         $this->sgContentTextArticle403 = $sgContentTextArticle403;
 
@@ -1441,14 +1485,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHyperlinkArticle403(): ?int
     {
         return $this->sgContentHyperlinkArticle403;
     }
 
-    public function setSgContentHyperlinkArticle403(mixed $sgContentHyperlinkArticle403): self
+    public function setSgContentHyperlinkArticle403(?int $sgContentHyperlinkArticle403): self
     {
         $this->sgContentHyperlinkArticle403 = $sgContentHyperlinkArticle403;
 
@@ -1456,14 +1500,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHeadlineArticleContent(): ?int
     {
         return $this->sgContentHeadlineArticleContent;
     }
 
-    public function setSgContentHeadlineArticleContent(mixed $sgContentHeadlineArticleContent): self
+    public function setSgContentHeadlineArticleContent(?int $sgContentHeadlineArticleContent): self
     {
         $this->sgContentHeadlineArticleContent = $sgContentHeadlineArticleContent;
 
@@ -1471,14 +1515,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentTextArticleContent(): ?int
     {
         return $this->sgContentTextArticleContent;
     }
 
-    public function setSgContentTextArticleContent(mixed $sgContentTextArticleContent): self
+    public function setSgContentTextArticleContent(?int $sgContentTextArticleContent): self
     {
         $this->sgContentTextArticleContent = $sgContentTextArticleContent;
 
@@ -1486,14 +1530,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHeadlineArticleData(): ?int
     {
         return $this->sgContentHeadlineArticleData;
     }
 
-    public function setSgContentHeadlineArticleData(mixed $sgContentHeadlineArticleData): self
+    public function setSgContentHeadlineArticleData(?int $sgContentHeadlineArticleData): self
     {
         $this->sgContentHeadlineArticleData = $sgContentHeadlineArticleData;
 
@@ -1501,14 +1545,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentModuleDataArticleData(): ?int
     {
         return $this->sgContentModuleDataArticleData;
     }
 
-    public function setSgContentModuleDataArticleData(mixed $sgContentModuleDataArticleData): self
+    public function setSgContentModuleDataArticleData(?int $sgContentModuleDataArticleData): self
     {
         $this->sgContentModuleDataArticleData = $sgContentModuleDataArticleData;
 
@@ -1516,14 +1560,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHeadlineCloseAccountArticleData(): ?int
     {
         return $this->sgContentHeadlineCloseAccountArticleData;
     }
 
-    public function setSgContentHeadlineCloseAccountArticleData(mixed $sgContentHeadlineCloseAccountArticleData): self
+    public function setSgContentHeadlineCloseAccountArticleData(?int $sgContentHeadlineCloseAccountArticleData): self
     {
         $this->sgContentHeadlineCloseAccountArticleData = $sgContentHeadlineCloseAccountArticleData;
 
@@ -1531,14 +1575,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentTextCloseAccountArticleData(): ?int
     {
         return $this->sgContentTextCloseAccountArticleData;
     }
 
-    public function setSgContentTextCloseAccountArticleData(mixed $sgContentTextCloseAccountArticleData): self
+    public function setSgContentTextCloseAccountArticleData(?int $sgContentTextCloseAccountArticleData): self
     {
         $this->sgContentTextCloseAccountArticleData = $sgContentTextCloseAccountArticleData;
 
@@ -1546,14 +1590,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentModuleCloseAccountArticleData(): ?int
     {
         return $this->sgContentModuleCloseAccountArticleData;
     }
 
-    public function setSgContentModuleCloseAccountArticleData(mixed $sgContentModuleCloseAccountArticleData): self
+    public function setSgContentModuleCloseAccountArticleData(?int $sgContentModuleCloseAccountArticleData): self
     {
         $this->sgContentModuleCloseAccountArticleData = $sgContentModuleCloseAccountArticleData;
 
@@ -1561,14 +1605,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHeadlineArticleDataConfirm(): ?int
     {
         return $this->sgContentHeadlineArticleDataConfirm;
     }
 
-    public function setSgContentHeadlineArticleDataConfirm(mixed $sgContentHeadlineArticleDataConfirm): self
+    public function setSgContentHeadlineArticleDataConfirm(?int $sgContentHeadlineArticleDataConfirm): self
     {
         $this->sgContentHeadlineArticleDataConfirm = $sgContentHeadlineArticleDataConfirm;
 
@@ -1576,14 +1620,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentTextArticleDataConfirm(): ?int
     {
         return $this->sgContentTextArticleDataConfirm;
     }
 
-    public function setSgContentTextArticleDataConfirm(mixed $sgContentTextArticleDataConfirm): self
+    public function setSgContentTextArticleDataConfirm(?int $sgContentTextArticleDataConfirm): self
     {
         $this->sgContentTextArticleDataConfirm = $sgContentTextArticleDataConfirm;
 
@@ -1591,14 +1635,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHyperlinkArticleDataConfirm(): ?int
     {
         return $this->sgContentHyperlinkArticleDataConfirm;
     }
 
-    public function setSgContentHyperlinkArticleDataConfirm(mixed $sgContentHyperlinkArticleDataConfirm): self
+    public function setSgContentHyperlinkArticleDataConfirm(?int $sgContentHyperlinkArticleDataConfirm): self
     {
         $this->sgContentHyperlinkArticleDataConfirm = $sgContentHyperlinkArticleDataConfirm;
 
@@ -1606,14 +1650,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHeadlineArticlePassword(): ?int
     {
         return $this->sgContentHeadlineArticlePassword;
     }
 
-    public function setSgContentHeadlineArticlePassword(mixed $sgContentHeadlineArticlePassword): self
+    public function setSgContentHeadlineArticlePassword(?int $sgContentHeadlineArticlePassword): self
     {
         $this->sgContentHeadlineArticlePassword = $sgContentHeadlineArticlePassword;
 
@@ -1621,14 +1665,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentModulePasswordArticlePassword(): ?int
     {
         return $this->sgContentModulePasswordArticlePassword;
     }
 
-    public function setSgContentModulePasswordArticlePassword(mixed $sgContentModulePasswordArticlePassword): self
+    public function setSgContentModulePasswordArticlePassword(?int $sgContentModulePasswordArticlePassword): self
     {
         $this->sgContentModulePasswordArticlePassword = $sgContentModulePasswordArticlePassword;
 
@@ -1636,14 +1680,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHeadlineArticlePasswordConfirm(): ?int
     {
         return $this->sgContentHeadlineArticlePasswordConfirm;
     }
 
-    public function setSgContentHeadlineArticlePasswordConfirm(mixed $sgContentHeadlineArticlePasswordConfirm): self
+    public function setSgContentHeadlineArticlePasswordConfirm(?int $sgContentHeadlineArticlePasswordConfirm): self
     {
         $this->sgContentHeadlineArticlePasswordConfirm = $sgContentHeadlineArticlePasswordConfirm;
 
@@ -1651,14 +1695,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentTextArticlePasswordConfirm(): ?int
     {
         return $this->sgContentTextArticlePasswordConfirm;
     }
 
-    public function setSgContentTextArticlePasswordConfirm(mixed $sgContentTextArticlePasswordConfirm): self
+    public function setSgContentTextArticlePasswordConfirm(?int $sgContentTextArticlePasswordConfirm): self
     {
         $this->sgContentTextArticlePasswordConfirm = $sgContentTextArticlePasswordConfirm;
 
@@ -1666,14 +1710,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHeadlineArticlePasswordValidate(): ?int
     {
         return $this->sgContentHeadlineArticlePasswordValidate;
     }
 
-    public function setSgContentHeadlineArticlePasswordValidate(mixed $sgContentHeadlineArticlePasswordValidate): self
+    public function setSgContentHeadlineArticlePasswordValidate(?int $sgContentHeadlineArticlePasswordValidate): self
     {
         $this->sgContentHeadlineArticlePasswordValidate = $sgContentHeadlineArticlePasswordValidate;
 
@@ -1681,14 +1725,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentModulePasswordArticlePasswordValidate(): ?int
     {
         return $this->sgContentModulePasswordArticlePasswordValidate;
     }
 
-    public function setSgContentModulePasswordArticlePasswordValidate(mixed $sgContentModulePasswordArticlePasswordValidate): self
+    public function setSgContentModulePasswordArticlePasswordValidate(?int $sgContentModulePasswordArticlePasswordValidate): self
     {
         $this->sgContentModulePasswordArticlePasswordValidate = $sgContentModulePasswordArticlePasswordValidate;
 
@@ -1696,14 +1740,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentModuleLogoutArticleLogout(): ?int
     {
         return $this->sgContentModuleLogoutArticleLogout;
     }
 
-    public function setSgContentModuleLogoutArticleLogout(mixed $sgContentModuleLogoutArticleLogout): self
+    public function setSgContentModuleLogoutArticleLogout(?int $sgContentModuleLogoutArticleLogout): self
     {
         $this->sgContentModuleLogoutArticleLogout = $sgContentModuleLogoutArticleLogout;
 
@@ -1711,14 +1755,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHeadlineArticleSubscribe(): ?int
     {
         return $this->sgContentHeadlineArticleSubscribe;
     }
 
-    public function setSgContentHeadlineArticleSubscribe(mixed $sgContentHeadlineArticleSubscribe): self
+    public function setSgContentHeadlineArticleSubscribe(?int $sgContentHeadlineArticleSubscribe): self
     {
         $this->sgContentHeadlineArticleSubscribe = $sgContentHeadlineArticleSubscribe;
 
@@ -1726,14 +1770,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentModuleSubscribeArticleSubscribe(): ?int
     {
         return $this->sgContentModuleSubscribeArticleSubscribe;
     }
 
-    public function setSgContentModuleSubscribeArticleSubscribe(mixed $sgContentModuleSubscribeArticleSubscribe): self
+    public function setSgContentModuleSubscribeArticleSubscribe(?int $sgContentModuleSubscribeArticleSubscribe): self
     {
         $this->sgContentModuleSubscribeArticleSubscribe = $sgContentModuleSubscribeArticleSubscribe;
 
@@ -1741,14 +1785,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHeadlineArticleSubscribeConfirm(): ?int
     {
         return $this->sgContentHeadlineArticleSubscribeConfirm;
     }
 
-    public function setSgContentHeadlineArticleSubscribeConfirm(mixed $sgContentHeadlineArticleSubscribeConfirm): self
+    public function setSgContentHeadlineArticleSubscribeConfirm(?int $sgContentHeadlineArticleSubscribeConfirm): self
     {
         $this->sgContentHeadlineArticleSubscribeConfirm = $sgContentHeadlineArticleSubscribeConfirm;
 
@@ -1756,14 +1800,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentTextArticleSubscribeConfirm(): ?int
     {
         return $this->sgContentTextArticleSubscribeConfirm;
     }
 
-    public function setSgContentTextArticleSubscribeConfirm(mixed $sgContentTextArticleSubscribeConfirm): self
+    public function setSgContentTextArticleSubscribeConfirm(?int $sgContentTextArticleSubscribeConfirm): self
     {
         $this->sgContentTextArticleSubscribeConfirm = $sgContentTextArticleSubscribeConfirm;
 
@@ -1771,14 +1815,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHeadlineArticleSubscribeValidate(): ?int
     {
         return $this->sgContentHeadlineArticleSubscribeValidate;
     }
 
-    public function setSgContentHeadlineArticleSubscribeValidate(mixed $sgContentHeadlineArticleSubscribeValidate): self
+    public function setSgContentHeadlineArticleSubscribeValidate(?int $sgContentHeadlineArticleSubscribeValidate): self
     {
         $this->sgContentHeadlineArticleSubscribeValidate = $sgContentHeadlineArticleSubscribeValidate;
 
@@ -1786,14 +1830,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentTextArticleSubscribeValidate(): ?int
     {
         return $this->sgContentTextArticleSubscribeValidate;
     }
 
-    public function setSgContentTextArticleSubscribeValidate(mixed $sgContentTextArticleSubscribeValidate): self
+    public function setSgContentTextArticleSubscribeValidate(?int $sgContentTextArticleSubscribeValidate): self
     {
         $this->sgContentTextArticleSubscribeValidate = $sgContentTextArticleSubscribeValidate;
 
@@ -1801,14 +1845,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentModuleLoginGuestsArticleSubscribeValidate(): ?int
     {
         return $this->sgContentModuleLoginGuestsArticleSubscribeValidate;
     }
 
-    public function setSgContentModuleLoginGuestsArticleSubscribeValidate(mixed $sgContentModuleLoginGuestsArticleSubscribeValidate): self
+    public function setSgContentModuleLoginGuestsArticleSubscribeValidate(?int $sgContentModuleLoginGuestsArticleSubscribeValidate): self
     {
         $this->sgContentModuleLoginGuestsArticleSubscribeValidate = $sgContentModuleLoginGuestsArticleSubscribeValidate;
 
@@ -1816,14 +1860,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHeadlineArticleUnsubscribe(): ?int
     {
         return $this->sgContentHeadlineArticleUnsubscribe;
     }
 
-    public function setSgContentHeadlineArticleUnsubscribe(mixed $sgContentHeadlineArticleUnsubscribe): self
+    public function setSgContentHeadlineArticleUnsubscribe(?int $sgContentHeadlineArticleUnsubscribe): self
     {
         $this->sgContentHeadlineArticleUnsubscribe = $sgContentHeadlineArticleUnsubscribe;
 
@@ -1831,14 +1875,14 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentTextArticleUnsubscribe(): ?int
     {
         return $this->sgContentTextArticleUnsubscribe;
     }
 
-    public function setSgContentTextArticleUnsubscribe(mixed $sgContentTextArticleUnsubscribe): self
+    public function setSgContentTextArticleUnsubscribe(?int $sgContentTextArticleUnsubscribe): self
     {
         $this->sgContentTextArticleUnsubscribe = $sgContentTextArticleUnsubscribe;
 
@@ -1846,16 +1890,52 @@ class Extranet implements ConfigModuleInterface
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
     public function getSgContentHyperlinkArticleUnsubscribe(): ?int
     {
         return $this->sgContentHyperlinkArticleUnsubscribe;
     }
 
-    public function setSgContentHyperlinkArticleUnsubscribe(mixed $sgContentHyperlinkArticleUnsubscribe): self
+    public function setSgContentHyperlinkArticleUnsubscribe(?int $sgContentHyperlinkArticleUnsubscribe): self
     {
         $this->sgContentHyperlinkArticleUnsubscribe = $sgContentHyperlinkArticleUnsubscribe;
+
+        return $this;
+    }
+
+    public function getSgMemberGroupMembersTitle(): ?string
+    {
+        return $this->sgMemberGroupMembersTitle;
+    }
+
+    public function setSgMemberGroupMembersTitle(?string $sgMemberGroupMembersTitle): self
+    {
+        $this->sgMemberGroupMembersTitle = $sgMemberGroupMembersTitle;
+
+        return $this;
+    }
+
+    public function getSgPageExtranetTitle(): ?string
+    {
+        return $this->sgPageExtranetTitle;
+    }
+
+    public function setSgPageExtranetTitle(?string $sgPageExtranetTitle): self
+    {
+        $this->sgPageExtranetTitle = $sgPageExtranetTitle;
+
+        return $this;
+    }
+
+    public function getSgExtranetFolder(): ?string
+    {
+        return $this->sgExtranetFolder;
+    }
+
+    public function setSgExtranetFolder(?string $sgExtranetFolder): self
+    {
+        $this->sgExtranetFolder = $sgExtranetFolder;
 
         return $this;
     }
