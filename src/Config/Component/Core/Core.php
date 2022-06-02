@@ -19,6 +19,7 @@ use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
 use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
+use WEM\SmartgearBundle\Config\Module\Extranet\Extranet as ExtranetConfig;
 
 class Core implements ConfigModuleInterface
 {
@@ -162,6 +163,8 @@ class Core implements ConfigModuleInterface
     protected $sgFaq;
     /** @var FormContactConfig */
     protected $sgFormContact;
+    /** @var ExtranetConfig */
+    protected $sgExtranet;
 
     public function reset(): self
     {
@@ -220,6 +223,7 @@ class Core implements ConfigModuleInterface
             ->setSgEvents((new EventsConfig())->reset())
             ->setSgFaq((new FaqConfig())->reset())
             ->setSgFormContact((new FormContactConfig())->reset())
+            ->setSgExtranet((new ExtranetConfig())->reset())
         ;
 
         return $this;
@@ -297,6 +301,11 @@ class Core implements ConfigModuleInterface
                 property_exists($json, 'formContact')
                 ? (new FormContactConfig())->import($json->formContact)
                 : (new FormContactConfig())->reset()
+            )
+            ->setSgExtranet(
+                $json->extranet
+                ? (new ExtranetConfig())->import($json->extranet)
+                : (new ExtranetConfig())->reset()
             )
         ;
 
@@ -389,6 +398,7 @@ class Core implements ConfigModuleInterface
         $json->events = $this->getSgEvents()->export();
         $json->faq = $this->getSgFaq()->export();
         $json->formContact = $this->getSgFormContact()->export();
+        $json->extranet = $this->getSgExtranet()->export();
 
         return json_encode($json, \JSON_PRETTY_PRINT);
     }
@@ -1080,6 +1090,18 @@ class Core implements ConfigModuleInterface
     public function setSgFormContact(FormContactConfig $sgFormContact): self
     {
         $this->sgFormContact = $sgFormContact;
+
+        return $this;
+    }
+
+    public function getSgExtranet(): ExtranetConfig
+    {
+        return $this->sgExtranet;
+    }
+
+    public function setSgExtranet(ExtranetConfig $sgExtranet): self
+    {
+        $this->sgExtranet = $sgExtranet;
 
         return $this;
     }
