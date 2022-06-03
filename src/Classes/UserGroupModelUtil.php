@@ -322,10 +322,13 @@ class UserGroupModelUtil
     {
         $allowedItems = null !== $rawValue ? unserialize($rawValue) : [];
         foreach ($items as $item) {
-            $itemIndex = array_search($item, $allowedItems, true);
-            if (false === $itemIndex) {
+            if (!\in_array($item, $allowedItems, true)) {
                 $allowedItems[] = $item;
             }
+            // $itemIndex = array_search($item, $allowedItems, true);
+            // if (false === $itemIndex) {
+            //     $allowedItems[] = $item;
+            // }
         }
 
         return serialize($allowedItems);

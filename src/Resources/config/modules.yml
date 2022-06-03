@@ -31,6 +31,7 @@ services:
             $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
             $commandUtil: '@smartgear.classes.command.util'
+            $htmlDecoder: '@contao.string.html_decoder'
         public: true
 
     smartgear.backend.module.extranet.dashboard:

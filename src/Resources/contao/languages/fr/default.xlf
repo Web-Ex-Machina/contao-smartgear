@@ -1430,8 +1430,96 @@
 			<source>Logout</source>
 			<target>Déconnexion</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageSubscribeTitle">
+			<source>Create an account</source>
+			<target>Créer un compte</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageSubscribeConfirmTitle">
+			<source>Subscription confirmation</source>
+			<target>Confirmation d'inscription</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageSubscribeValidateTitle">
+			<source>Subscription validated</source>
+			<target>Inscription validée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageUnsubscribeTitle">
+			<source>Unsubscribe confirmation</source>
+			<target>Confirmation de désinscription</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.moduleLoginName">
+			<source>Extranet - Login</source>
+			<target>Extranet - Login</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.moduleLogoutName">
+			<source>Extranet - Logout</source>
+			<target>Extranet - Logout</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.moduleDataName">
+			<source>Extranet - Update data</source>
+			<target>Extranet - Mise à jour des données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.modulePasswordName">
+			<source>Extranet - Forgotten password</source>
+			<target>Extranet - Mot de passe oublié</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.moduleSubscribeName">
+			<source>Extranet - Subscription</source>
+			<target>Extranet - Inscription</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.moduleCloseAccountName">
+			<source>Extranet - Close account</source>
+			<target>Extranet - Désinscription</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.moduleNavName">
+			<source>Extranet - Navigation</source>
+			<target>Extranet - Navigation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationChangeDataTitle">
+			<source>Extranet - Data changed</source>
+			<target>Extranet - Changement de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationGatewayMessageChangeDataTitle">
+			<source>User notification</source>
+			<target>Notification utilisateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationGatewayMessageLanguageChangeDataSubject">
+			<source>%s - Data changed</source>
+			<target>%s - Changement de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationPasswordTitle">
+			<source>Extranet - Forgotten password</source>
+			<target>Extranet - Mot de passe oublié</target>
+		</trans-unit>		
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationGatewayMessagePasswordTitle">
+			<source>User notification</source>
+			<target>Notification utilisateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationGatewayMessageLanguagePasswordSubject">
+			<source>%s - Password updated</source>
+			<target>%s - Changement de mot de passe</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationSubscriptionTitle">
+			<source>Extranet - Subscription confirmation</source>
+			<target>Extranet - Confirmation d'inscription</target>
+		</trans-unit>		
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationGatewayMessageSubscriptionTitle">
+			<source>User notification</source>
+			<target>Notification utilisateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationGatewayMessageLanguageSubscriptionSubject">
+			<source>%s - Confirm your subscription</source>
+			<target>%s - Confirmez votre inscription</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleExtranetHeadline">
+			<source>Members' space</source>
+			<target>Espace Membre</target>
+		</trans-unit>
 
 
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.xxxxxxxx">
+			<source>xxxxx</source>
+			<target>xxxxxx</target>
+		</trans-unit>
 
 
 
