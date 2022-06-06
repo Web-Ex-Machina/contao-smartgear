@@ -884,6 +884,8 @@ class General extends ConfigurationStep
             'type' => 'grid-stop',
         ], ['id' => null !== $gridStopA ? $gridStopA->id : null]));
 
+        // @todo : update $gridStartA to apply some style to its fifth element (aka Leeloo)
+
         return [
             'headline' => $headline,
             'moduleLoginGuests' => $moduleLoginGuests,

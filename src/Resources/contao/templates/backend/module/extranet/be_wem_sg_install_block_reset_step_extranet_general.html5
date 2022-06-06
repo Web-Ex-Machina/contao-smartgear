@@ -4,13 +4,13 @@
 		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['deleteMode']]); ?>
 		<ul>
 			<li>
-				<strong><?= $this->trans('WEMSG.FAQ.RESET.deleteModeArchiveLabel', [], 'contao_default'); ?></strong> : <?= $this->trans('WEMSG.FAQ.RESET.deleteModeArchiveDescription', [], 'contao_default'); ?>
+				<strong><?= $this->trans('WEMSG.EXTRANET.RESET.deleteModeArchiveLabel', [], 'contao_default'); ?></strong> : <?= $this->trans('WEMSG.EXTRANET.RESET.deleteModeArchiveDescription', [], 'contao_default'); ?>
 			</li>
 			<li>
-				<strong><?= $this->trans('WEMSG.FAQ.RESET.deleteModeKeepLabel', [], 'contao_default'); ?></strong> : <?= $this->trans('WEMSG.FAQ.RESET.deleteModeKeepDescription', [], 'contao_default'); ?>
+				<strong><?= $this->trans('WEMSG.EXTRANET.RESET.deleteModeKeepLabel', [], 'contao_default'); ?></strong> : <?= $this->trans('WEMSG.EXTRANET.RESET.deleteModeKeepDescription', [], 'contao_default'); ?>
 			</li>
 			<li>
-				<strong><?= $this->trans('WEMSG.FAQ.RESET.deleteModeDeleteLabel', [], 'contao_default'); ?></strong> : <?= $this->trans('WEMSG.FAQ.RESET.deleteModeDeleteDescription', [], 'contao_default'); ?>
+				<strong><?= $this->trans('WEMSG.EXTRANET.RESET.deleteModeDeleteLabel', [], 'contao_default'); ?></strong> : <?= $this->trans('WEMSG.EXTRANET.RESET.deleteModeDeleteDescription', [], 'contao_default'); ?>
 			</li>
 		</ul>
 		<br >

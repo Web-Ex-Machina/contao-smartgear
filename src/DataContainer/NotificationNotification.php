@@ -89,9 +89,9 @@ class NotificationNotification extends tl_nc_notification
             if ($extranetConfig->getSgInstallComplete()
             &&
             (
-                $id === (int) $extranetConfig->getSgNotificationPasswordMessageLanguage()
-                || $id === (int) $extranetConfig->getSgNotificationChangeDataMessageLanguage()
-                || $id === (int) $extranetConfig->getSgNotificationSubscriptionMessageLanguage()
+                $id === (int) $extranetConfig->getSgNotificationPassword()
+                || $id === (int) $extranetConfig->getSgNotificationChangeData()
+                || $id === (int) $extranetConfig->getSgNotificationSubscription()
             )
             ) {
                 return true;

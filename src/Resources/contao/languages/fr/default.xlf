@@ -88,6 +88,10 @@
 			<source>This is a default dashboard.</source>
 			<target>Ceci est le dashboard par défaut</target>
 		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.elementArchivedAt">
+			<source>%s (archived on %s at %s)</source>
+			<target>%s (archivé le %s a %s)</target>
+		</trans-unit>
 		<!-- Smartgear filter -->
 		<trans-unit id="WEMSG.FILTERS.title">
 			<source>Filter by :</source>
@@ -1323,7 +1327,7 @@
 			<target>Archiver</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeArchiveDescription">
-			<source>Form's name wille be suffixed with " (Archive-{timestamp})".</source>
+			<source>Form's name will be suffixed with " (Archive-{timestamp})".</source>
 			<target>Le nom du formulaire sera suffixé par " (Archive-{timestamp})".</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeKeepLabel">
@@ -1613,6 +1617,42 @@
 		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleUnsubscribeHyperlink">
 			<source>Back to the members' space</source>
 			<target>Retour à l'espace membre</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.title">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.deleteModeLabel">
+			<source>Uninstall mode</source>
+			<target>Mode de désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.deleteModeArchiveLabel">
+			<source>Archive</source>
+			<target>Archiver</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.deleteModeArchiveDescription">
+			<source>Extranet's linked entities' name will be suffixed with " (Archive-{timestamp})".</source>
+			<target>Les entités liées à l'extranet seront suffixées par " (Archive-{timestamp})".</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.deleteModeKeepLabel">
+			<source>Keep</source>
+			<target>Conserver</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.deleteModeKeepDescription">
+			<source>All data will be kept in place.</source>
+			<target>Toutes les données seront conservées.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.deleteModeDeleteLabel">
+			<source>Delete</source>
+			<target>Supprimer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.deleteModeDeleteDescription">
+			<source>Extranet will be deleted.</source>
+			<target>L'extranet sera supprimé.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.deleteModeUnknown">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
 		</trans-unit>
 
 
