@@ -1578,6 +1578,44 @@
 			<source>Your request have been taken into account, you will receive an email indicating the rest of the procedure. Make sure to check your spam / junk mail folder if you don't receive this email quickly.</source>
 			<target>Votre demande a été prise en compte, vous allez recevoir un email vous indiquant la suite de la procédure. Pensez à vérifier vos dossier de spams / courriers indésirables si vous ne recevez pas cet email rapidement.</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticlePasswordValidateHeadline">
+			<source>Update my password</source>
+			<target>Modifier mon mot de passe</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleSubscribeHeadline">
+			<source>Create an account</source>
+			<target>Créer un compte</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleSubscribeConfirmHeadline">
+			<source>Create an account</source>
+			<target>Créer un compte</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleSubscribeConfirmText">
+			<source>Your request have been taken into account, you will receive an email indicating the rest of the procedure. Make sure to check your spam / junk mail folder if you don't receive this email quickly.</source>
+			<target>Votre demande a été prise en compte, vous allez recevoir un email vous indiquant la suite de la procédure. Pensez à vérifier vos dossier de spams / courriers indésirables si vous ne recevez pas cet email rapidement.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleSubscribeValidateHeadline">
+			<source>Account creation validated</source>
+			<target>Inscription validée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleSubscribeValidateText">
+			<source>Your registration is finished ! You can now log in thanks to the form below.</source>
+			<target>Votre inscription est terminée ! Vous pouvez désormais vous connecter grâce au formulaire de connexion ci-dessous.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleUnsubscribeHeadline">
+			<source>Create an account</source>
+			<target>Créer un compte</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleUnsubscribeText">
+			<source>Your account have been closed successfully</source>
+			<target>Votre compte a bien été clôturé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleUnsubscribeHyperlink">
+			<source>Back to the members' space</source>
+			<target>Retour à l'espace membre</target>
+		</trans-unit>
+
+
 
 
 		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.xxxxxxxx">
