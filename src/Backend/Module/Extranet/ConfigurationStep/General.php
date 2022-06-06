@@ -761,7 +761,7 @@ class General extends ConfigurationStep
 
         $headline = Util::createContent($article, array_merge([
             'type' => 'headline',
-            'headline' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleExtranetHeadline', [], 'contao_default').',h1',
+            'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleExtranetHeadline', [], 'contao_default')]),
             'cssID' => ',sep-bottom',
         ], null !== $headline ? ['id' => $headline->id] : []));
 
@@ -823,6 +823,229 @@ class General extends ConfigurationStep
         ];
     }
 
+    protected function createContentsArticle401(ExtranetConfig $extranetConfig, PageModel $page, ArticleModel $article, array $modules): array
+    {
+        $headline = ContentModel::findById($extranetConfig->getSgContentArticle401Headline());
+        $text = ContentModel::findById($extranetConfig->getSgContentArticle401Text());
+        $moduleLoginGuests = ContentModel::findById($extranetConfig->getSgContentArticle401ModuleLoginGuests());
+
+        $headline = Util::createContent($article, array_merge([
+            'type' => 'headline',
+            'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle401Headline', [], 'contao_default')]),
+            'cssID' => ',sep-bottom',
+        ], null !== $headline ? ['id' => $headline->id] : []));
+
+        $text = Util::createContent($article, array_merge([
+            'type' => 'text',
+            'text' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle401Text', [], 'contao_default'),
+            'cssID' => ',sep-bottom',
+        ], null !== $text ? ['id' => $text->id] : []));
+
+        $moduleLoginGuests = Util::createContent($article, array_merge([
+            'type' => 'module',
+            'module' => $modules['login']->id,
+            'guests' => 1,
+        ], ['id' => null !== $moduleLoginGuests ? $moduleLoginGuests->id : null]));
+
+        return [
+            'headline' => $headline,
+            'text' => $text,
+            'moduleLoginGuests' => $moduleLoginGuests,
+        ];
+    }
+
+    protected function createContentsArticle403(ExtranetConfig $extranetConfig, PageModel $page, ArticleModel $article, PageModel $pageExtranet): array
+    {
+        $headline = ContentModel::findById($extranetConfig->getSgContentArticle403Headline());
+        $text = ContentModel::findById($extranetConfig->getSgContentArticle403Text());
+        $hyperlink = ContentModel::findById($extranetConfig->getSgContentArticle403Hyperlink());
+
+        $headline = Util::createContent($article, array_merge([
+            'type' => 'headline',
+            'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle403Headline', [], 'contao_default')]),
+            'cssID' => ',sep-bottom',
+        ], null !== $headline ? ['id' => $headline->id] : []));
+
+        $text = Util::createContent($article, array_merge([
+            'type' => 'text',
+            'text' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle403Text', [], 'contao_default'),
+            'cssID' => ',sep-bottom',
+        ], null !== $text ? ['id' => $text->id] : []));
+
+        $hyperlink = Util::createContent($article, array_merge([
+            'type' => 'hyperlink',
+            'url' => sprintf('{{link_url::%s}}', $pageExtranet->id),
+            'linkTitle' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle403Hyperlink', [], 'contao_default'),
+            'titleText' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle403Hyperlink', [], 'contao_default'),
+        ], ['id' => null !== $hyperlink ? $hyperlink->id : null]));
+
+        return [
+            'headline' => $headline,
+            'text' => $text,
+            'hyperlink' => $hyperlink,
+        ];
+    }
+
+    protected function createContentsArticleContent(ExtranetConfig $extranetConfig, PageModel $page, ArticleModel $article): array
+    {
+        $headline = ContentModel::findById($extranetConfig->getSgContentArticleContentHeadline());
+        $text = ContentModel::findById($extranetConfig->getSgContentArticleContentText());
+
+        $headline = Util::createContent($article, array_merge([
+            'type' => 'headline',
+            'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleContentHeadline', [], 'contao_default')]),
+            'cssID' => ',sep-bottom',
+        ], null !== $headline ? ['id' => $headline->id] : []));
+
+        $text = Util::createContent($article, array_merge([
+            'type' => 'text',
+            'text' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleContentText', [], 'contao_default'),
+            'cssID' => ',sep-bottom',
+        ], null !== $text ? ['id' => $text->id] : []));
+
+        return [
+            'headline' => $headline,
+            'text' => $text,
+        ];
+    }
+
+    protected function createContentsArticleData(ExtranetConfig $extranetConfig, PageModel $page, ArticleModel $article, array $modules): array
+    {
+        $headline = ContentModel::findById($extranetConfig->getSgContentArticleDataHeadline());
+        $moduleData = ContentModel::findById($extranetConfig->getSgContentArticleDataModuleData());
+        $headlineCloseAccount = ContentModel::findById($extranetConfig->getSgContentArticleDataHeadlineCloseAccount());
+        $textCloseAccount = ContentModel::findById($extranetConfig->getSgContentArticleDataTextCloseAccount());
+        $moduleCloseAccount = ContentModel::findById($extranetConfig->getSgContentArticleDataModuleCloseAccount());
+
+        $headline = Util::createContent($article, array_merge([
+            'type' => 'headline',
+            'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataHeadline', [], 'contao_default')]),
+            'cssID' => ',sep-bottom',
+        ], null !== $headline ? ['id' => $headline->id] : []));
+
+        $moduleData = Util::createContent($article, array_merge([
+            'type' => 'module',
+            'module' => $modules['data']->id,
+        ], ['id' => null !== $moduleData ? $moduleData->id : null]));
+
+        if ($extranetConfig->getSgCanSubscribe()) {
+            $headlineCloseAccount = Util::createContent($article, array_merge([
+                'type' => 'headline',
+                'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataHeadlineCloseAccount', [], 'contao_default')]),
+                'cssID' => ',sep-bottom',
+            ], null !== $headlineCloseAccount ? ['id' => $headlineCloseAccount->id] : []));
+
+            $textCloseAccount = Util::createContent($article, array_merge([
+                'type' => 'text',
+                'text' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataTextCloseAccount', [], 'contao_default'),
+                'cssID' => ',sep-bottom',
+            ], null !== $textCloseAccount ? ['id' => $textCloseAccount->id] : []));
+
+            $moduleCloseAccount = Util::createContent($article, array_merge([
+                'type' => 'module',
+                'module' => $modules['closeAccount']->id,
+            ], ['id' => null !== $moduleCloseAccount ? $moduleCloseAccount->id : null]));
+        } else {
+            if (null !== $headlineCloseAccount) {
+                $headlineCloseAccount->delete();
+                $headlineCloseAccount = null;
+            }
+            if (null !== $textCloseAccount) {
+                $textCloseAccount->delete();
+                $textCloseAccount = null;
+            }
+            if (null !== $moduleCloseAccount) {
+                $moduleCloseAccount->delete();
+                $moduleCloseAccount = null;
+            }
+        }
+
+        return [
+            'headline' => $headline,
+            'moduleData' => $moduleData,
+            'headlineCloseAccount' => $headlineCloseAccount,
+            'textCloseAccount' => $textCloseAccount,
+            'moduleCloseAccount' => $moduleCloseAccount,
+        ];
+    }
+
+    protected function createContentsArticleDataConfirm(ExtranetConfig $extranetConfig, PageModel $page, ArticleModel $article, PageModel $pageExtranet): array
+    {
+        $headline = ContentModel::findById($extranetConfig->getSgContentArticleDataConfirmHeadline());
+        $text = ContentModel::findById($extranetConfig->getSgContentArticleDataConfirmText());
+        $hyperlink = ContentModel::findById($extranetConfig->getSgContentArticleDataConfirmHyperlink());
+
+        $headline = Util::createContent($article, array_merge([
+            'type' => 'headline',
+            'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataConfirmHeadline', [], 'contao_default')]),
+            'cssID' => ',sep-bottom',
+        ], null !== $headline ? ['id' => $headline->id] : []));
+
+        $text = Util::createContent($article, array_merge([
+            'type' => 'text',
+            'text' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataConfirmText', [], 'contao_default'),
+            'cssID' => ',sep-bottom',
+        ], null !== $text ? ['id' => $text->id] : []));
+
+        $hyperlink = Util::createContent($article, array_merge([
+            'type' => 'hyperlink',
+            'url' => sprintf('{{link_url::%s}}', $pageExtranet->id),
+            'linkTitle' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataConfirmHyperlink', [], 'contao_default'),
+            'titleText' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataConfirmHyperlink', [], 'contao_default'),
+        ], ['id' => null !== $hyperlink ? $hyperlink->id : null]));
+
+        return [
+            'headline' => $headline,
+            'text' => $text,
+            'hyperlink' => $hyperlink,
+        ];
+    }
+
+    protected function createContentsArticlePassword(ExtranetConfig $extranetConfig, PageModel $page, ArticleModel $article, array $modules): array
+    {
+        $headline = ContentModel::findById($extranetConfig->getSgContentArticlePasswordHeadline());
+        $modulePassword = ContentModel::findById($extranetConfig->getSgContentArticlePasswordModulePassword());
+
+        $headline = Util::createContent($article, array_merge([
+            'type' => 'headline',
+            'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticlePasswordHeadline', [], 'contao_default')]),
+            'cssID' => ',sep-bottom',
+        ], null !== $headline ? ['id' => $headline->id] : []));
+
+        $modulePassword = Util::createContent($article, array_merge([
+            'type' => 'module',
+            'module' => $modules['password']->id,
+        ], ['id' => null !== $modulePassword ? $modulePassword->id : null]));
+
+        return [
+            'headline' => $headline,
+            'modulePassword' => $modulePassword,
+        ];
+    }
+
+    protected function createContentsArticlePasswordConfirm(ExtranetConfig $extranetConfig, PageModel $page, ArticleModel $article): array
+    {
+        $headline = ContentModel::findById($extranetConfig->getSgContentArticlePasswordConfirmHeadline());
+        $text = ContentModel::findById($extranetConfig->getSgContentArticlePasswordConfirmText());
+
+        $headline = Util::createContent($article, array_merge([
+            'type' => 'headline',
+            'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticlePasswordConfirmHeadline', [], 'contao_default')]),
+            'cssID' => ',sep-bottom',
+        ], null !== $headline ? ['id' => $headline->id] : []));
+
+        $text = Util::createContent($article, array_merge([
+            'type' => 'text',
+            'text' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticlePasswordConfirmText', [], 'contao_default'),
+            'cssID' => ',sep-bottom',
+        ], null !== $text ? ['id' => $text->id] : []));
+
+        return [
+            'headline' => $headline,
+            'text' => $text,
+        ];
+    }
+
     protected function createContents(array $pages, array $articles, array $modules, array $groups): array
     {
         /** @var CoreConfig */
@@ -831,6 +1054,13 @@ class General extends ConfigurationStep
 
         return [
             'extranet' => $this->createContentsArticleExtranet($extranetConfig, $pages['extranet'], $articles['extranet'], $modules, $groups['members']),
+            'error401' => $this->createContentsArticle401($extranetConfig, $pages['error401'], $articles['error401'], $modules),
+            'error403' => $this->createContentsArticle403($extranetConfig, $pages['error403'], $articles['error403'], $pages['extranet']),
+            'content' => $this->createContentsArticleContent($extranetConfig, $pages['content'], $articles['content']),
+            'data' => $this->createContentsArticleData($extranetConfig, $pages['data'], $articles['data'], $modules),
+            'dataConfirm' => $this->createContentsArticleDataConfirm($extranetConfig, $pages['dataConfirm'], $articles['dataConfirm'], $pages['extranet']),
+            'password' => $this->createContentsArticlePassword($extranetConfig, $pages['password'], $articles['password'], $modules),
+            'passwordConfirm' => $this->createContentsArticlePasswordConfirm($extranetConfig, $pages['passwordConfirm'], $articles['passwordConfirm']),
         ];
     }
 
@@ -1124,6 +1354,32 @@ class General extends ConfigurationStep
             ->setSgContentArticleExtranetText((int) $contents['extranet']['text']->id)
             ->setSgContentArticleExtranetGridStopB((int) $contents['extranet']['gridStopB']->id)
 
+            ->setSgContentArticle401Headline((int) $contents['error401']['headline']->id)
+            ->setSgContentArticle401Text((int) $contents['error401']['text']->id)
+            ->setSgContentArticle401ModuleLoginGuests((int) $contents['error401']['moduleLoginGuests']->id)
+
+            ->setSgContentArticle403Headline((int) $contents['error403']['headline']->id)
+            ->setSgContentArticle403Text((int) $contents['error403']['text']->id)
+            ->setSgContentArticle403Hyperlink((int) $contents['error403']['hyperlink']->id)
+
+            ->setSgContentArticleContentHeadline((int) $contents['content']['headline']->id)
+            ->setSgContentArticleContentText((int) $contents['content']['text']->id)
+
+            ->setSgContentArticleDataHeadline((int) $contents['data']['headline']->id)
+            ->setSgContentArticleDataModuleData((int) $contents['data']['moduleData']->id)
+            ->setSgContentArticleDataHeadlineCloseAccount(null === $contents['data']['headlineCloseAccount'] ? $contents['data']['headlineCloseAccount'] : (int) $contents['data']['headlineCloseAccount']->id)
+            ->setSgContentArticleDataTextCloseAccount(null === $contents['data']['textCloseAccount'] ? $contents['data']['textCloseAccount'] : (int) $contents['data']['textCloseAccount']->id)
+            ->setSgContentArticleDataModuleCloseAccount(null === $contents['data']['moduleCloseAccount'] ? $contents['data']['moduleCloseAccount'] : (int) $contents['data']['moduleCloseAccount']->id)
+
+            ->setSgContentArticleDataConfirmHeadline((int) $contents['dataConfirm']['headline']->id)
+            ->setSgContentArticleDataConfirmText((int) $contents['dataConfirm']['text']->id)
+            ->setSgContentArticleDataConfirmHyperlink((int) $contents['dataConfirm']['hyperlink']->id)
+
+            ->setSgContentArticlePasswordHeadline((int) $contents['password']['headline']->id)
+            ->setSgContentArticlePasswordModulePassword((int) $contents['password']['modulePassword']->id)
+
+            ->setSgContentArticlePasswordConfirmHeadline((int) $contents['passwordConfirm']['headline']->id)
+            ->setSgContentArticlePasswordConfirmText((int) $contents['passwordConfirm']['text']->id)
         ;
 
         $config->setSgExtranet($extranetConfig);

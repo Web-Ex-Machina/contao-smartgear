@@ -402,8 +402,8 @@ class Extranet implements ConfigModuleInterface
             ->setSgContentArticleContentText($json->contao->contents->content->text ?? null)
             ->setSgContentArticleDataHeadline($json->contao->contents->data->headline ?? null)
             ->setSgContentArticleDataModuleData($json->contao->contents->data->moduleData ?? null)
-            ->setSgContentArticleDataHeadlineCloseAccount($json->contao->contents->data->headline ?? null)
-            ->setSgContentArticleDataTextCloseAccount($json->contao->contents->data->text ?? null)
+            ->setSgContentArticleDataHeadlineCloseAccount($json->contao->contents->data->headlineCloseAccount ?? null)
+            ->setSgContentArticleDataTextCloseAccount($json->contao->contents->data->textCloseAccount ?? null)
             ->setSgContentArticleDataModuleCloseAccount($json->contao->contents->data->moduleCloseAccount ?? null)
             ->setSgContentArticleDataConfirmHeadline($json->contao->contents->dataConfirm->headline ?? null)
             ->setSgContentArticleDataConfirmText($json->contao->contents->dataConfirm->text ?? null)
@@ -521,8 +521,8 @@ class Extranet implements ConfigModuleInterface
         $json->contao->contents->content->text = $this->getSgContentArticleContentText();
         $json->contao->contents->data->headline = $this->getSgContentArticleDataHeadline();
         $json->contao->contents->data->moduleData = $this->getSgContentArticleDataModuleData();
-        $json->contao->contents->data->headline = $this->getSgContentArticleDataHeadlineCloseAccount();
-        $json->contao->contents->data->text = $this->getSgContentArticleDataTextCloseAccount();
+        $json->contao->contents->data->headlineCloseAccount = $this->getSgContentArticleDataHeadlineCloseAccount();
+        $json->contao->contents->data->textCloseAccount = $this->getSgContentArticleDataTextCloseAccount();
         $json->contao->contents->data->moduleCloseAccount = $this->getSgContentArticleDataModuleCloseAccount();
         $json->contao->contents->dataConfirm->headline = $this->getSgContentArticleDataConfirmHeadline();
         $json->contao->contents->dataConfirm->text = $this->getSgContentArticleDataConfirmText();

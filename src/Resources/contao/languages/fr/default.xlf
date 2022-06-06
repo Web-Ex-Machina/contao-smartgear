@@ -1514,11 +1514,75 @@
 			<source>Members' space</source>
 			<target>Espace Membre</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle401Headline">
+			<source>Error 401 - Not authenticated</source>
+			<target>Erreur 401 - Non authentifié</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle401Text">
+			<source>You must be authenticated to access this page. You can do it using the login form below.</source>
+			<target>Vous devez être connecté pour accéder à cette page. Vous pouvez le faire via le formulaire de connexion ci-dessous.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle403Headline">
+			<source>Error 403 - Not authorized</source>
+			<target>Erreur 403 - Non autorisé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle403Text">
+			<source>You are not authorized to access to this page's content.</source>
+			<target>Vous n'êtes pas autorisé à accéder au contenu de cette page.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle403Hyperlink">
+			<source>Back to the members' space</source>
+			<target>Retour à l'espace membre</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleContentHeadline">
+			<source>Informations</source>
+			<target>Informations</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleContentText">
+			<source>Random text</source>
+			<target>Random text</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataHeadline">
+			<source>My data</source>
+			<target>Mes données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataHeadlineCloseAccount">
+			<source>Close my account</source>
+			<target>Clôturer mon compte</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataTextCloseAccount">
+			<source>You must be authenticated to access this page. You can do it using the login form below.</source>
+			<target>Vous devez être connecté pour accéder à cette page. Vous pouvez le faire via le formulaire de connexion ci-dessous.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataConfirmHeadline">
+			<source>Data updated</source>
+			<target>Données modifiées</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataConfirmText">
+			<source>Your data have been successfully updated !</source>
+			<target>Vos données ont été modifiées avec succès !</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataConfirmHyperlink">
+			<source>Back to the members' space</source>
+			<target>Retour à l'espace membre</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticlePasswordHeadline">
+			<source>Update my password</source>
+			<target>Modifier mon mot de passe</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticlePasswordConfirmHeadline">
+			<source>Update my password</source>
+			<target>Modifier mon mot de passe</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticlePasswordConfirmText">
+			<source>Your request have been taken into account, you will receive an email indicating the rest of the procedure. Make sure to check your spam / junk mail folder if you don't receive this email quickly.</source>
+			<target>Votre demande a été prise en compte, vous allez recevoir un email vous indiquant la suite de la procédure. Pensez à vérifier vos dossier de spams / courriers indésirables si vous ne recevez pas cet email rapidement.</target>
+		</trans-unit>
 
 
 		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.xxxxxxxx">
 			<source>xxxxx</source>
-			<target>xxxxxx</target>
+			<target>xxxxx</target>
 		</trans-unit>
 
 
