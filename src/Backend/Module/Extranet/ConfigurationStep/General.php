@@ -30,6 +30,7 @@ use NotificationCenter\Model\Language as NotificationLanguageModel;
 use NotificationCenter\Model\Message as NotificationMessageModel;
 use NotificationCenter\Model\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use WEM\GridBundle\Classes\GridStartManipulator;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
@@ -884,7 +885,25 @@ class General extends ConfigurationStep
             'type' => 'grid-stop',
         ], ['id' => null !== $gridStopA ? $gridStopA->id : null]));
 
-        // @todo : update $gridStartA to apply some style to its fifth element (aka Leeloo)
+        /** @todo : update $gridStartA to apply some style to its fifth element (aka Leeloo) */
+        $gsm = GridStartManipulator::create($gridStartA);
+        $gsm
+            ->recalculateElements()
+            ->setGridColsAll(3)
+            ->setGridColsSm(1)
+            ->setGridItemsSettingsForItemAndPropertyAndResolution((int) $text->id, 'cols', 'all', 'cols-span-2')
+        ;
+
+        $gridStartA = $gsm->getGridStart();
+        $gridStartA->save();
+        // no need to recalculate GridStartB elements as it is a nested grid from GridStartA
+        $gsm = GridStartManipulator::create($gridStartB);
+        $gsm
+            ->setGridColsAll(1)
+        ;
+
+        $gridStartB = $gsm->getGridStart();
+        $gridStartB->save();
 
         return [
             'headline' => $headline,
@@ -1349,7 +1368,8 @@ class General extends ConfigurationStep
 
         $objUser = null !== $extranetConfig->getSgMemberExample()
                     ? MemberModel::findOneById($extranetConfig->getSgMemberExample()) ?? new MemberModel()
-                    : new MemberModel();
+                    : MemberModel::findOneByUsername('test@webexmachina.fr') ?? new MemberModel()
+;
         $objUser->tstamp = time();
         $objUser->dateAdded = time();
         $objUser->firstname = 'John';
