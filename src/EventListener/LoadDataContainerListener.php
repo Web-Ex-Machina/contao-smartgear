@@ -34,6 +34,7 @@ use WEM\SmartgearBundle\DataContainer\MemberGroup as MemberGroupDCA;
 use WEM\SmartgearBundle\DataContainer\Module as ModuleDCA;
 use WEM\SmartgearBundle\DataContainer\NewsArchive as NewsArchiveDCA;
 use WEM\SmartgearBundle\DataContainer\NotificationGateway as NotificationGatewayDCA;
+use WEM\SmartgearBundle\DataContainer\NotificationLanguage as NotificationLanguageDCA;
 use WEM\SmartgearBundle\DataContainer\NotificationMessage as NotificationMessageDCA;
 use WEM\SmartgearBundle\DataContainer\NotificationNotification as NotificationNotificationDCA;
 use WEM\SmartgearBundle\DataContainer\Page as PageDCA;
@@ -149,6 +150,12 @@ class LoadDataContainerListener
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(NotificationGatewayDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(NotificationGatewayDCA::class, 'deleteItem')
+                ;
+            break;
+            case 'tl_nc_language':
+                DCAManipulator::create($table)
+                    ->addConfigOnloadCallback(NotificationLanguageDCA::class, 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback(NotificationLanguageDCA::class, 'deleteItem')
                 ;
             break;
             case 'tl_nc_message':
