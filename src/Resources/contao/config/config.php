@@ -67,6 +67,15 @@ if (isset($bundles['VerstaerkerI18nl10nBundle'])) {
     unset($GLOBALS['BE_MOD']['design']['i18nl10n']);
 }
 
+/*
+ * Move Page Backend Module
+ */
+array_insert($GLOBALS['BE_MOD']['extranet'], 0, [
+    'member' => $GLOBALS['BE_MOD']['accounts']['member'],
+    'mgroup' => $GLOBALS['BE_MOD']['accounts']['mgroup'],
+]);
+unset($GLOBALS['BE_MOD']['accounts']['member'], $GLOBALS['BE_MOD']['accounts']['mgroup']);
+
 // ComponentStyleSelect override
 $GLOBALS['BE_FFL']['stylemanager'] = WEM\SmartgearBundle\Widget\ComponentStyleSelect::class;
 /*

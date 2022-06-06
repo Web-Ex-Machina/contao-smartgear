@@ -1825,6 +1825,7 @@ class General extends ConfigurationStep
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
         $userGroupManipulator
             ->addAllowedModules(array_values($modules))
+            ->addAllowedModules(['member', 'mgroup'])
             ->addAllowedFilemounts([$objFolder->uuid])
         ;
 
