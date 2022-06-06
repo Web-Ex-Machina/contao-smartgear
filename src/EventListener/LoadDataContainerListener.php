@@ -29,6 +29,8 @@ use WEM\SmartgearBundle\DataContainer\FaqCategory as FaqCategoryDCA;
 use WEM\SmartgearBundle\DataContainer\Files as FilesDCA;
 use WEM\SmartgearBundle\DataContainer\Form as FormDCA;
 use WEM\SmartgearBundle\DataContainer\Layout as LayoutDCA;
+use WEM\SmartgearBundle\DataContainer\Member as MemberDCA;
+use WEM\SmartgearBundle\DataContainer\MemberGroup as MemberGroupDCA;
 use WEM\SmartgearBundle\DataContainer\Module as ModuleDCA;
 use WEM\SmartgearBundle\DataContainer\NewsArchive as NewsArchiveDCA;
 use WEM\SmartgearBundle\DataContainer\NotificationGateway as NotificationGatewayDCA;
@@ -123,6 +125,18 @@ class LoadDataContainerListener
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(LayoutDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(LayoutDCA::class, 'deleteItem')
+                ;
+            break;
+            case 'tl_member':
+                DCAManipulator::create($table)
+                    ->addConfigOnloadCallback(MemberDCA::class, 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback(MemberDCA::class, 'deleteItem')
+                ;
+            break;
+            case 'tl_member_group':
+                DCAManipulator::create($table)
+                    ->addConfigOnloadCallback(MemberGroupDCA::class, 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback(MemberGroupDCA::class, 'deleteItem')
                 ;
             break;
             case 'tl_module':

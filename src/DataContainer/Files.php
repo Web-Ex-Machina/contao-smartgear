@@ -78,6 +78,7 @@ class Files extends \tl_files
     protected function isItemUsedBySmartgear(string $id): bool
     {
         try {
+            /** @var CoreConfig */
             $config = $this->configManager->load();
             if ($config->getSgInstallComplete()
             && (
@@ -98,6 +99,10 @@ class Files extends \tl_files
             }
             $faqConfig = $config->getSgFaq();
             if ($faqConfig->getSgInstallComplete() && $id === $faqConfig->getSgFaqFolder()) {
+                return true;
+            }
+            $extranetConfig = $config->getSgExtranet();
+            if ($extranetConfig->getSgInstallComplete() && $id === $extranetConfig->getSgExtranetFolder()) {
                 return true;
             }
         } catch (\Exception $e) {

@@ -19,22 +19,22 @@ use Contao\Image;
 use Contao\Input;
 use Contao\StringUtil;
 use Contao\System;
-use NotificationCenter\tl_nc_notification;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
-class NotificationNotification extends tl_nc_notification
+class MemberGroup extends \tl_member_group
 {
     /** @var CoreConfigurationManager */
     private $configManager;
 
     public function __construct()
     {
+        parent::__construct();
         $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
     }
 
     /**
-     * Check permissions to edit table tl_nc_notification.
+     * Check permissions to edit table member.
      *
      * @throws AccessDeniedException
      */
@@ -44,14 +44,14 @@ class NotificationNotification extends tl_nc_notification
         switch (Input::get('act')) {
             case 'delete':
                 if ($this->isItemUsedBySmartgear((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' notification ID '.Input::get('id').'.');
+                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' member group ID '.Input::get('id').'.');
                 }
             break;
         }
     }
 
     /**
-     * Return the delete notification button.
+     * Return the delete member button.
      *
      * @param array  $row
      * @param string $href
@@ -65,35 +65,24 @@ class NotificationNotification extends tl_nc_notification
     public function deleteItem($row, $href, $label, $title, $icon, $attributes)
     {
         if ($this->isItemUsedBySmartgear((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.gif$/i', '_.gif', $icon)).' '; // yup, gif not svg
+            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
-        return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ';
+        return '<a href="'.$href.'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ';
     }
 
     /**
-     * Check if the notification is being used by Smartgear.
+     * Check if the member is being used by Smartgear.
      *
-     * @param int $id notification's ID
+     * @param int $id member's ID
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
         try {
             /** @var CoreConfig */
             $config = $this->configManager->load();
-            $formContactConfig = $config->getSgFormContact();
-            if ($formContactConfig->getSgInstallComplete() && $id === (int) $formContactConfig->getSgNotification()) {
-                return true;
-            }
             $extranetConfig = $config->getSgExtranet();
-            if ($extranetConfig->getSgInstallComplete()
-            &&
-            (
-                $id === (int) $extranetConfig->getSgNotificationPasswordMessageLanguage()
-                || $id === (int) $extranetConfig->getSgNotificationChangeDataMessageLanguage()
-                || $id === (int) $extranetConfig->getSgNotificationSubscriptionMessageLanguage()
-            )
-            ) {
+            if ($extranetConfig->getSgInstallComplete() && $id === $extranetConfig->getSgMemberGroupMembers()) {
                 return true;
             }
         } catch (\Exception $e) {

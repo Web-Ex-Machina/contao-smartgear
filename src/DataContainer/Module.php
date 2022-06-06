@@ -22,6 +22,7 @@ use Contao\Input;
 use Contao\StringUtil;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class Module extends \tl_module
 {
@@ -109,6 +110,7 @@ class Module extends \tl_module
     protected function isItemUsedBySmartgear(int $id): bool
     {
         try {
+            /** @var CoreConfig */
             $config = $this->configManager->load();
             if ($config->getSgInstallComplete()) {
                 $modules = $config->getSgModules();
@@ -120,18 +122,39 @@ class Module extends \tl_module
             }
             $blogConfig = $config->getSgBlog();
             if ($blogConfig->getSgInstallComplete()
-            && ($id === (int) $blogConfig->getSgModuleList() || $id === (int) $blogConfig->getSgModuleReader())
+            && (
+                $id === (int) $blogConfig->getSgModuleList()
+                || $id === (int) $blogConfig->getSgModuleReader()
+            )
             ) {
                 return true;
             }
             $eventsConfig = $config->getSgEvents();
             if ($eventsConfig->getSgInstallComplete()
-            && ($id === (int) $eventsConfig->getSgModuleList() || $id === (int) $eventsConfig->getSgModuleReader() || $id === (int) $eventsConfig->getSgModuleCalendar())
+            && (
+                $id === (int) $eventsConfig->getSgModuleList()
+                || $id === (int) $eventsConfig->getSgModuleReader()
+                || $id === (int) $eventsConfig->getSgModuleCalendar()
+            )
             ) {
                 return true;
             }
             $faqConfig = $config->getSgFaq();
             if ($faqConfig->getSgInstallComplete() && $id === (int) $faqConfig->getSgModuleFaq()) {
+                return true;
+            }
+            $extranetConfig = $config->getSgExtranet();
+            if ($extranetConfig->getSgInstallComplete()
+            && (
+                $id === (int) $extranetConfig->getSgModuleData()
+                || $id === (int) $extranetConfig->getSgModuleLogin()
+                || $id === (int) $extranetConfig->getSgModuleLogout()
+                || $id === (int) $extranetConfig->getSgModuleNav()
+                || $id === (int) $extranetConfig->getSgModulePassword()
+                || $id === (int) $extranetConfig->getSgModuleSubscribe()
+                || $id === (int) $extranetConfig->getSgModuleCloseAccount()
+            )
+            ) {
                 return true;
             }
         } catch (\Exception $e) {
