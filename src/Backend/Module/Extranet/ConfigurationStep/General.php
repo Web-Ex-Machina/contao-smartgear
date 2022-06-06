@@ -1170,7 +1170,7 @@ class General extends ConfigurationStep
 
             $moduleSubscribe = Util::createContent($article, array_merge([
                 'type' => 'module',
-                'module' => $modules['password']->id,
+                'module' => $modules['subscribe']->id,
             ], ['id' => null !== $moduleSubscribe ? $moduleSubscribe->id : null]));
         } else {
             if (null !== $headline) {
