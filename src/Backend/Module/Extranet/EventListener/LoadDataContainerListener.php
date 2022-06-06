@@ -47,16 +47,6 @@ class LoadDataContainerListener
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
-            switch ($table) {
-                case 'tl_extranet':
-                    $extranetConfig = $config->getSgExtranet();
-                    if (!$extranetConfig->getSgInstallComplete()) {
-                        return;
-                    }
-                    // limiting singleSRC fierld to the blog folder
-                    $this->dcaManipulator->setFieldSingleSRCPath($extranetConfig->getSgExtranetFolder());
-                break;
-            }
         } catch (FileNotFoundException $e) {
             //nothing
         }
