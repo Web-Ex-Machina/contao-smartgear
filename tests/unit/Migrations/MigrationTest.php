@@ -16,7 +16,7 @@ use Contao\TestCase\ContaoTestCase;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Migration\Result as MigrationResult;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 require_once realpath(__DIR__.'/../../../tests/_data/migrations/1-0-1/Migration.php');
 

@@ -279,22 +279,22 @@ class Core implements ConfigModuleInterface
             ->setSgGoogleFonts($json->googleFonts ?? self::DEFAULT_GOOGLE_FONTS)
             ->setSgApiKey($json->api->key ?? self::DEFAULT_API_KEY)
             ->setSgBlog(
-                $json->blog
+                property_exists($json, 'blog')
                 ? (new BlogConfig())->import($json->blog)
                 : (new BlogConfig())->reset()
             )
             ->setSgEvents(
-                $json->events
+                property_exists($json, 'events')
                 ? (new EventsConfig())->import($json->events)
                 : (new EventsConfig())->reset()
             )
             ->setSgFaq(
-                $json->faq
+                property_exists($json, 'faq')
                 ? (new FaqConfig())->import($json->faq)
                 : (new FaqConfig())->reset()
             )
             ->setSgFormContact(
-                $json->formContact
+                property_exists($json, 'formContact')
                 ? (new FormContactConfig())->import($json->formContact)
                 : (new FormContactConfig())->reset()
             )
