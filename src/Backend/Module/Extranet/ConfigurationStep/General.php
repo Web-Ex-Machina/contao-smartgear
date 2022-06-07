@@ -897,10 +897,10 @@ class General extends ConfigurationStep
         /** @todo : update $gridStartA to apply some style to its fifth element (aka Leeloo) */
         $gsm = GridStartManipulator::create($gridStartA);
         $gsm
-            ->recalculateElements()
+            ->recalculateElementsForAllGridSharingTheSamePidAndPtable()
             ->setGridColsAll(3)
             ->setGridColsSm(1)
-            ->setGridItemsSettingsForItemAndPropertyAndResolution((int) $text->id, GridStartManipulator::PROPERTY_COLS, GridStartManipulator::RESOLUTION_ALL, 'cols-span-2')
+            ->setGridItemColsAll((int) $text->id, 'cols-span-2')
         ;
 
         $gridStartA = $gsm->getGridStart();

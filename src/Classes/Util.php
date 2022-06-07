@@ -375,12 +375,14 @@ class Util
             $arrData['ptable'] = 'tl_article';
         }
 
+        $objContentHighestSorting = ContentModel::findOneBy(['pid = ?', 'ptable = ?'], [$objArticle->id, $arrData['ptable']], ['order' => 'sorting DESC']);
+
         // Create the content
         $objContent = isset($arrData['id']) ? ContentModel::findById($arrData['id']) ?? new ContentModel() : new ContentModel();
         $objContent->tstamp = time();
         $objContent->pid = $objArticle->id;
         $objContent->ptable = $arrData['ptable'];
-        $objContent->sorting = (ContentModel::countPublishedByPidAndTable($objArticle->id, $arrData['ptable']) + 1) * 128;
+        $objContent->sorting = $objContentHighestSorting->sorting + 128;
         $objContent->type = 'text';
 
         // Now we get the default values, get the arrData table
