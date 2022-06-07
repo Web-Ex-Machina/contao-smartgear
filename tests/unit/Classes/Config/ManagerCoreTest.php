@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Classes\Config;
 
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as Manager;
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 require_once realpath(__DIR__.'/../../Util/SmartgearTestCase.php');
 
