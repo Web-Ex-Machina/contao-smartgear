@@ -838,24 +838,28 @@ class General extends ConfigurationStep
             'type' => 'headline',
             'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleExtranetHeadline', [], 'contao_default')]),
             'cssID' => ',sep-bottom',
+            'sorting' => 128,
         ], null !== $headline ? ['id' => $headline->id] : []));
 
         $moduleLoginGuests = Util::createContent($article, array_merge([
             'type' => 'module',
             'module' => $modules['login']->id,
             'guests' => 1,
+            'sorting' => 256,
         ], ['id' => null !== $moduleLoginGuests ? $moduleLoginGuests->id : null]));
 
         $gridStartA = Util::createContent($article, array_merge([
             'type' => 'grid-start',
             'protected' => 1,
             'groups' => serialize([$group->id]),
+            'sorting' => 384,
         ], ['id' => null !== $gridStartA ? $gridStartA->id : null]));
 
         $gridStartB = Util::createContent($article, array_merge([
             'type' => 'grid-start',
             'protected' => 1,
             'groups' => serialize([$group->id]),
+            'sorting' => 512,
         ], ['id' => null !== $gridStartB ? $gridStartB->id : null]));
 
         $moduleLoginLogged = Util::createContent($article, array_merge([
@@ -863,6 +867,7 @@ class General extends ConfigurationStep
             'module' => $modules['login']->id,
             'protected' => 1,
             'groups' => serialize([$group->id]),
+            'sorting' => 640,
         ], ['id' => null !== $moduleLoginLogged ? $moduleLoginLogged->id : null]));
 
         $moduleNav = Util::createContent($article, array_merge([
@@ -870,19 +875,23 @@ class General extends ConfigurationStep
             'module' => $modules['nav']->id,
             'protected' => 1,
             'groups' => serialize([$group->id]),
+            'sorting' => 768,
         ], ['id' => null !== $moduleNav ? $moduleNav->id : null]));
 
         $gridStopB = Util::createContent($article, array_merge([
             'type' => 'grid-stop',
+            'sorting' => 896,
         ], ['id' => null !== $gridStopB ? $gridStopB->id : null]));
 
         $text = Util::createContent($article, array_merge([
             'type' => 'text',
             'text' => 'random',
+            'sorting' => 1024,
         ], ['id' => null !== $text ? $text->id : null]));
 
         $gridStopA = Util::createContent($article, array_merge([
             'type' => 'grid-stop',
+            'sorting' => 1152,
         ], ['id' => null !== $gridStopA ? $gridStopA->id : null]));
 
         /** @todo : update $gridStartA to apply some style to its fifth element (aka Leeloo) */
@@ -891,7 +900,7 @@ class General extends ConfigurationStep
             ->recalculateElements()
             ->setGridColsAll(3)
             ->setGridColsSm(1)
-            ->setGridItemsSettingsForItemAndPropertyAndResolution((int) $text->id, 'cols', 'all', 'cols-span-2')
+            ->setGridItemsSettingsForItemAndPropertyAndResolution((int) $text->id, GridStartManipulator::PROPERTY_COLS, GridStartManipulator::RESOLUTION_ALL, 'cols-span-2')
         ;
 
         $gridStartA = $gsm->getGridStart();
