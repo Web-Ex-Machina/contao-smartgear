@@ -6,10 +6,10 @@
 
 	// Prepare the main block classes
 	$arrClasses = [];
-	if($this->content_background){
-		$arrClasses[] = 'content__bg--'.$this->content_background;
-		$arrClasses[] = 'content__bg__opacity--'.intval($this->content_opacity);
-	}
+	// if($this->content_background){
+	// 	$arrClasses[] = 'content__bg--'.$this->content_background;
+	// 	$arrClasses[] = 'content__bg__opacity--'.intval($this->content_opacity);
+	// }
 	if($this->image_displaymode)
 		$arrClasses[] = $this->image_displaymode;
 	if($this->image_ratio)
