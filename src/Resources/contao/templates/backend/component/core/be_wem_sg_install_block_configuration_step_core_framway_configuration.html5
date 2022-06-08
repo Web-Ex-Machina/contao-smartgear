@@ -5,6 +5,10 @@
 		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['themes[]']]); ?>
 		<br>
 	</div>
+	<div class="widget <?= $this->fields['themesAvailables[]']['class'] ?>">
+		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['themesAvailables[]']]); ?>
+		<br>
+	</div>
 
 	<div class="widget">
 		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme" 
@@ -24,6 +28,10 @@
 
 	<div class="widget <?= $this->fields['components[]']['class'] ?>">
 		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['components[]']]); ?>
+		<br>
+	</div>
+	<div class="widget <?= $this->fields['componentsAvailables[]']['class'] ?>">
+		<?php $this->insert('be_wem_sg_install_step_field', ['field'=>$this->fields['componentsAvailables[]']]); ?>
 		<br>
 	</div>
 
@@ -60,7 +68,8 @@
 	function framwayThemeAdd(type, module){
 		var ctn = j('div#widget-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme');
 		var field = ctn.find('.tl_text');
-		var selectThemesField = j('select[name="themes[]"]')
+		var selectThemesField = j('select[name="themes[]"]');
+		var selectThemesAvailablesField = j('select[name="themesAvailables[]"]');
 		ctn.find('.loader').addClass("active");
 		ctn.find('.result').removeClass("hidden").html('');
 		return executeCmdLive(
@@ -74,6 +83,11 @@
 			ctn.find('.result').html(ctn.find('.result').html().concat(r["msg"]));
 			ctn.find('.loader').removeClass("active");
 			selectThemesField.append(j('<option>', {
+			    value: field.val(),
+			    text: field.val(),
+			    selected: ''
+			}));
+			selectThemesAvailablesField.append(j('<option>', {
 			    value: field.val(),
 			    text: field.val(),
 			    selected: ''

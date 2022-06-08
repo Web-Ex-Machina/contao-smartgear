@@ -31,6 +31,7 @@ use WEM\SmartgearBundle\Config\Manager\FramwayTheme as ConfigurationThemeManager
  */
 class UtilFramway
 {
+    public const THEME_NAME_REGEXP = '/^([A-Za-z0-9-_:@.\/]+)$/';
     public const SCRIPTS_PATH = './bundles/wemsmartgear/scripts/smartgear/component/core/';
     /** @var ConfigurationManager */
     protected $configurationManager;
@@ -124,8 +125,8 @@ class UtilFramway
 
     public function checkThemeName(string $themeName): void
     {
-        if (!preg_match('/^([A-Za-z0-9-_]+)$/', $themeName)) {
-            throw new \InvalidArgumentException('Le nom du nouveau thème est invalide! Les caractères autorisés sont : lettres, chiffres, tirets ("-") et underscores ("_").');
+        if (!preg_match(self::THEME_NAME_REGEXP, $themeName)) {
+            throw new \InvalidArgumentException('New theme\'s name is incorrect ! Authorized characters are : letters, numbers, middlescores ("-"),underscores ("_"), dots ("."), semicolon (":"), slashes ("/"") and arobase ("@").');
         }
     }
 
