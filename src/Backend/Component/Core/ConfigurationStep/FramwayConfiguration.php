@@ -79,8 +79,23 @@ class FramwayConfiguration extends ConfigurationStep
             $config = $this->configurationManager->load();
             /** @var FramwayConfig */
             $framwayConfig = $this->configurationManagerFramway->load();
-            $this->addSelectField('themes[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldThemes'], $this->framwayUtil->getAvailableThemes(), $framwayConfig->getThemes(), true, true);
-            $this->addSelectField('components[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldComponents'], $this->framwayUtil->getAvailableComponents(), $framwayConfig->getComponents(), true, true);
+
+            $themesOptions = [];
+            foreach ($framwayConfig->getThemesAvailables() as $theme) {
+                $themesOptions[] = ['value' => $theme, 'label' => $theme];
+            }
+
+            $componentsOptions = [];
+            foreach ($framwayConfig->getComponentsAvailables() as $component) {
+                $componentsOptions[] = ['value' => $component, 'label' => $component];
+            }
+
+            // $this->addSelectField('themes[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldThemes'], $this->framwayUtil->getAvailableThemes(), $framwayConfig->getThemes(), true, true);
+            $this->addSelectField('themes[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldThemes'], $themesOptions, $framwayConfig->getThemes(), true, true);
+            $this->addSelectField('themesAvailables[]', '', $themesOptions, $framwayConfig->getThemesAvailables(), true, true, 'hidden');
+            // $this->addSelectField('components[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldComponents'], $this->framwayUtil->getAvailableComponents(), $framwayConfig->getComponents(), true, true);
+            $this->addSelectField('components[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldComponents'], $componentsOptions, $framwayConfig->getComponents(), true, true);
+            $this->addSelectField('componentsAvailables[]', '', $componentsOptions, $framwayConfig->getComponentsAvailables(), true, true, 'hidden');
             $this->addTextField('new_theme', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldNewTheme'], '', false, 'hidden', 'text');
         } catch (NotFound $e) {
         }
@@ -104,7 +119,12 @@ class FramwayConfiguration extends ConfigurationStep
         // do what is meant to be done in this step
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
-        $this->updateFramwayConfiguration(Input::post('themes') ?? [], Input::post('components'));
+        $this->updateFramwayConfiguration(
+            Input::post('themes') ?? [],
+            Input::post('components'),
+            Input::post('themesAvailables'),
+            Input::post('componentsAvailables'),
+        );
         $this->updateCoreConfiguration(Input::post('themes') ?? []);
 
         $this->framwayUtil->build();
@@ -136,15 +156,19 @@ class FramwayConfiguration extends ConfigurationStep
     /**
      * Update Framway configuration.
      *
-     * @param array $themes     [description]
-     * @param array $components [description]
+     * @param array $themes               [description]
+     * @param array $components           [description]
+     * @param array $themesAvailables     [description]
+     * @param array $componentsAvailables [description]
      */
-    protected function updateFramwayConfiguration(array $themes, array $components): FramwayConfig
+    protected function updateFramwayConfiguration(array $themes, array $components, array $themesAvailables, array $componentsAvailables): FramwayConfig
     {
         /** @var FramwayConfig */
         $framwayConfig = $this->configurationManagerFramway->load();
         $framwayConfig->setThemes($themes);
+        $framwayConfig->setThemesAvailables($themesAvailables);
         $framwayConfig->setComponents($components);
+        $framwayConfig->setComponentsAvailables($componentsAvailables);
         $this->configurationManagerFramway->save($framwayConfig);
 
         return $framwayConfig;

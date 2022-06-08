@@ -29,7 +29,11 @@ class Framway implements ConfigJsonInterface
     /** @var array */
     protected $themes = [];
     /** @var array */
+    protected $themesAvailables = [];
+    /** @var array */
     protected $components = [];
+    /** @var array */
+    protected $componentsAvailables = [];
     /** @var array */
     protected $colors = [];
     /** @var string|bool */
@@ -60,7 +64,9 @@ class Framway implements ConfigJsonInterface
     public function reset(): self
     {
         $this->setThemes([])
+            ->setThemesAvailables([])
             ->setComponents([])
+            ->setComponentsAvailables([])
             ->setColors([])
             ->setPrimary(null)
             ->setSecondary(null)
@@ -83,7 +89,17 @@ class Framway implements ConfigJsonInterface
     {
         $this->setOriginalConfig($json)
             ->setThemes($json->themes ?? [])
+            ->setThemesAvailables(
+                property_exists($json, 'themesAvailables')
+                ? $json->themesAvailables
+                : $json->themes ?? []
+            )
             ->setComponents($json->components ?? [])
+            ->setComponentsAvailables(
+                property_exists($json, 'componentsAvailables')
+                ? $json->componentsAvailables
+                : $json->components ?? []
+            )
             ->setColors($json->colors ?? [])
             ->setPrimary($json->primary ?? null)
             ->setSecondary($json->secondary ?? null)
@@ -107,7 +123,9 @@ class Framway implements ConfigJsonInterface
         $json = $this->getOriginalConfig();
 
         $json->themes = $this->getThemes();
+        $json->themesAvailables = $this->getThemesAvailables();
         $json->components = $this->getComponents();
+        $json->componentsAvailables = $this->getComponentsAvailables();
         $json->useFA = $this->getUseFA();
         $json->useToastr = $this->getUseToastr();
         $json->useOutdatebrowser = $this->getUseOutdatebrowser();
@@ -323,6 +341,30 @@ class Framway implements ConfigJsonInterface
     public function setError(?string $error): self
     {
         $this->error = $error;
+
+        return $this;
+    }
+
+    public function getThemesAvailables(): array
+    {
+        return $this->themesAvailables;
+    }
+
+    public function setThemesAvailables(array $themesAvailables): self
+    {
+        $this->themesAvailables = $themesAvailables;
+
+        return $this;
+    }
+
+    public function getComponentsAvailables(): array
+    {
+        return $this->componentsAvailables;
+    }
+
+    public function setComponentsAvailables(array $componentsAvailables): self
+    {
+        $this->componentsAvailables = $componentsAvailables;
 
         return $this;
     }
