@@ -35,6 +35,16 @@ class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\Componen
             },
             $content
         );
+
+        // normal translation keys for optgroup
+        $content = preg_replace_callback(
+            '/label\="([\s|&nbsp;]+)([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)"/',
+            function ($match) {
+                return sprintf('label="%s%s"', $match[1], $GLOBALS['TL_LANG'][$match[2]][$match[3]][$match[4]][$match[5]]);
+            },
+            $content
+        );
+
         $content = preg_replace_callback(
             '|</h3><select([^>]*)>(.*)</select>|U',
             function ($match): string {
