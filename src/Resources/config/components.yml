@@ -31,7 +31,8 @@ services:
             $stepSessionKey: 'sg_core_install_step'
             $steps: 
                 - '@smartgear.backend.component.core.configuration_step.general'
-                - '@smartgear.backend.component.core.configuration_step.framway_retrieval'
+                # - '@smartgear.backend.component.core.configuration_step.framway_retrieval'
+                - '@smartgear.backend.component.core.configuration_step.framway_retrieval_minimal'
                 - '@smartgear.backend.component.core.configuration_step.framway_configuration'
                 - '@smartgear.backend.component.core.configuration_step.website'
         public: true
@@ -66,6 +67,16 @@ services:
             $module: 'core'
             $type: 'component'
             $configurationManager: '@smartgear.config.manager.core'
+            $framwayUtil: '@smartgear.classes.util_framway'
+        public: true
+
+    smartgear.backend.component.core.configuration_step.framway_retrieval_minimal:
+        class: WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep\FramwayRetrievalMinimal
+        arguments:
+            $module: 'core'
+            $type: 'component'
+            $configurationManager: '@smartgear.config.manager.core'
+            $framwaySynchronizer: '@smartgear.classes.directories_synchronizer.framway'
             $framwayUtil: '@smartgear.classes.util_framway'
         public: true
 

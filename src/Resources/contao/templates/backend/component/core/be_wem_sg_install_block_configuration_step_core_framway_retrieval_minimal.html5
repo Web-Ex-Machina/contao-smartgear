@@ -1,0 +1,11 @@
+<form action="<?= $this->request ?>" class="tl_form" method="post">
+	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
+	<?php if($this->framway_is_present): ?>
+		<?= $this->trans('WEMSG.INSTALL.FRAMWAYRETRIEVALMINIMAL.FramwayPresent'); ?>
+	<?php else: ?>
+		<?= $this->trans('WEMSG.INSTALL.FRAMWAYRETRIEVALMINIMAL.FramwayAbsent'); ?>
+	<?php endif; ?>
+	<div class="tl_submit_container">
+		<?= implode(' ', $this->actions) ?>
+	</div>
+</form>

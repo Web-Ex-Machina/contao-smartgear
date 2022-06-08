@@ -17,9 +17,10 @@ namespace WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep;
 use Contao\FrontendTemplate;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 use WEM\SmartgearBundle\Classes\UtilFramway;
 
-class FramwayRetrieval extends ConfigurationStep
+class FramwayRetrievalMinimal extends ConfigurationStep
 {
     /** @var ConfigurationManager */
     protected $configurationManager;
@@ -27,17 +28,19 @@ class FramwayRetrieval extends ConfigurationStep
     protected $framwaySynchronizer;
     /** @var UtilFramway */
     protected $framwayUtil;
-    protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_retrieval';
+    protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_retrieval_minimal';
 
     public function __construct(
         string $module,
         string $type,
         ConfigurationManager $configurationManager,
+        DirectoriesSynchronizer $framwaySynchronizer,
         UtilFramway $framwayUtil
     ) {
         parent::__construct($module, $type);
-        $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYRETRIEVAL']['Title'];
+        $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYRETRIEVALMINIMAL']['Title'];
         $this->configurationManager = $configurationManager;
+        $this->framwaySynchronizer = $framwaySynchronizer;
         $this->framwayUtil = $framwayUtil;
     }
 
@@ -54,44 +57,22 @@ class FramwayRetrieval extends ConfigurationStep
     {
         // check if the step is correct
 
-        return $this->checkFramwayPresence();
+        return true; //$this->checkFramwayPresence();
     }
 
     public function do(): void
     {
         // do what is meant to be done in this step
-    }
-
-    public function framwayRetrieve()
-    {
-        set_time_limit(0);
-
-        return $this->framwayUtil->retrieve(true);
-    }
-
-    public function framwayInstall()
-    {
-        set_time_limit(0);
-
-        return $this->framwayUtil->install(true);
-    }
-
-    public function framwayInitialize()
-    {
-        set_time_limit(0);
-
-        return $this->framwayUtil->initialize(true);
-    }
-
-    public function framwayBuild()
-    {
-        set_time_limit(0);
-
-        return $this->framwayUtil->build(true);
+        $this->importFramway();
     }
 
     public function checkFramwayPresence()
     {
         return $this->framwayUtil->checkPresence();
+    }
+
+    protected function importFramway(): void
+    {
+        $this->framwaySynchronizer->synchronize(true);
     }
 }
