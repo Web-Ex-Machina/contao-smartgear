@@ -1,27 +1,45 @@
 <?php
   // Get the file
-  $arrCrop = deserialize($this->img_size);
+  $arrCrop = deserialize($this->image_size);
   $objFile = FilesModel::findByUuid($this->singleSRC);
   $strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
 
+  // Prepare the main block classes
+  $arrClasses = [];
+  switch($this->hero_width){
+    case 'viewport' : $arrClasses[] = 'w-full'; break;
+    case 'content'  : $arrClasses[] = 'width--content'; break;
+  }
   $height = '';
-  if($this->block_height)
-    $height = $this->block_height;
-  if($this->force_fullheight)
-    $height = 'viewport';
+  switch($this->hero_height){
+    case 'custom'   : $height       = $this->block_height; break;
+    case 'viewport' : $height       = 'viewport'; break;
+    case 'content'  : $arrClasses[] = 'height--content'; break;
+  }
+  if(isset($this->image_opacity))
+    $arrClasses[] = 'figure__opacity--'.intval($this->image_opacity);
+  if($this->title_modifier)
+    $arrClasses[] = $this->title_modifier;
+  if($this->content_horizontal || $this->content_vertical)
+    $arrClasses[] = 'content--h--'.$this->content_horizontal;
+  if($this->content_vertical)
+    $arrClasses[] = 'content--v--'.$this->content_vertical;
+
 ?>
-<div class="heroFW <?= $this->class ?>"<?= $this->cssID ?> data-height="<?= $height ?>" <?= ($height!="viewport") ? 'style="height:'.$height.';"' : 'style="height:80vh;"' ?>>
+<div class="heroFW <?= implode(' ', $arrClasses) ?> <?= $this->class ?>"<?= $this->cssID ?> data-height="<?= $height ?>" <?= ($height=="custom") ? 'style="height:'.$height.';"' : '' ?> <?= ($height=="viewport") ? 'style="height:80vh;"' : '' ?>>
   <div class="heroFW__wrapper">
     <div class="heroFW__figure">
       <img src="<?= $strFile ?>" alt="<?= $this->alt ?>">
     </div>
     <div class="heroFW__content">
       <div class="heroFW__content__wrapper">
-        <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
-        <?= $this->text ?>
-        <?php if($this->url): ?>
-        <a class="btn" href="<?= $this->url ?>" title="<?= $this->linkTitle ?>"<?= $this->target ? ' target="_blank"' : '' ?>><?= $this->linkTitle ?></a>
-        <?php endif; ?>
+        <?= $this->hl?'<'.$this->hl.' class="heroFW__title">':'<div class="heroFW__title">' ?><?= $this->headline ?><?= $this->hl?'</'.$this->hl.'>':'</div>' ?>
+        <div class="heroFW__text">
+          <?= $this->text ?>
+          <?php if($this->url): ?>
+            <a class="btn <?= $this->link_css ?>" href="<?= $this->url ?>" title="<?= $this->linkTitle ?>"<?= $this->target ? ' target="_blank"' : '' ?>><?= $this->linkTitle ?></a>
+          <?php endif; ?>
+        </div>
       </div>
     </div>
   </div>

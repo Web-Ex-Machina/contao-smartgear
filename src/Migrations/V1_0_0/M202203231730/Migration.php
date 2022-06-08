@@ -101,8 +101,6 @@ class Migration extends MigrationAbstract
 
         $objArchiveHero = StyleManagerArchiveModel::findByIdentifier('fwhero');
         $objArchiveHeroImg = StyleManagerArchiveModel::findByIdentifier('fwheroimg');
-        $objArchiveHeroContent = StyleManagerArchiveModel::findByIdentifier('fwherocontent');
-        $objArchiveHeroTitle = StyleManagerArchiveModel::findByIdentifier('fwherotitle');
 
         $objArchiveGridManual = StyleManagerArchiveModel::findByIdentifier('fwgrid_manual');
         $objArchiveGridXLManual = StyleManagerArchiveModel::findByIdentifier('fwgridxl_manual');
@@ -141,8 +139,6 @@ class Migration extends MigrationAbstract
         && null !== $objArchiveSliderTitle
         && null !== $objArchiveHero
         && null !== $objArchiveHeroImg
-        && null !== $objArchiveHeroContent
-        && null !== $objArchiveHeroTitle
         && null !== $objArchiveGridManual
         && null !== $objArchiveGridXLManual
         && null !== $objArchiveGridLGManual
@@ -215,16 +211,9 @@ class Migration extends MigrationAbstract
             && null !== StyleManagerModel::findByAliasAndPid('fwgridrowsxxs', $objArchiveGridXXSManual->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwheroimgvertical', $objArchiveHeroImg->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwheroimghorizontal', $objArchiveHeroImg->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherofigureopacity', $objArchiveHeroImg->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentvertical', $objArchiveHeroContent->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherocontenthorizontal', $objArchiveHeroContent->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherotitle', $objArchiveHeroTitle->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwheroft', $objArchiveHeroTitle->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentbg', $objArchiveHeroContent->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentbgopacity', $objArchiveHeroContent->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherowfull', $objArchiveHero->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwheroheightcontent', $objArchiveHeroContent->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherowidthcontent', $objArchiveHeroContent->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwheroft', $objArchiveHero->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentbg', $objArchiveHero->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentbgopacity', $objArchiveHero->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwslidernav', $objArchiveSliderNav->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwslidernavvertical', $objArchiveSliderNav->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwslidernavhorizontal', $objArchiveSliderNav->id)
@@ -321,7 +310,17 @@ class Migration extends MigrationAbstract
 
         if ($styles) {
             foreach ($styles as $style) {
-                if ('fw' === substr($style->alias, 0, 2) && !\in_array($style->alias, $this->styleAliasToKeep, true)) {
+                if ('fw' === substr($style->alias, 0, 2)
+                && (
+                    !\in_array($style->alias, $this->styleAliasToKeep, true)
+                    ||
+                    (
+                        \in_array($style->alias, $this->styleAliasToKeep, true)
+                        &&
+                        !\array_key_exists($style->id, $this->styleAliasToKeep)
+                    )
+                )
+                ) {
                     $style->delete();
                 }
             }
@@ -334,7 +333,17 @@ class Migration extends MigrationAbstract
 
         if ($archives) {
             foreach ($archives as $archive) {
-                if ('fw' === substr($archive->identifier, 0, 2) && !\in_array($archive->identifier, $this->archiveIdentifierToKeep, true)) {
+                if ('fw' === substr($archive->identifier, 0, 2)
+                && (
+                    !\in_array($archive->identifier, $this->archiveIdentifierToKeep, true)
+                    ||
+                    (
+                        \in_array($archive->identifier, $this->archiveIdentifierToKeep, true)
+                        &&
+                        !\array_key_exists($archive->id, $this->archiveIdentifierToKeep)
+                    )
+                )
+                ) {
                     $archive->delete();
                 }
             }
@@ -396,7 +405,6 @@ class Migration extends MigrationAbstract
         $contentElements = self::$elements['quote'.$suffix];
         // Quote
         $objArchive = $this->fillObjArchive('fwquote'.$suffix, 'WEMSG.STYLEMANAGER.fwquote.tabTitle', 'FramwayQuote');
-        $objArchive->save();
 
         // Quote - imgh
         $cssClasses = [
@@ -404,7 +412,6 @@ class Migration extends MigrationAbstract
             ['key' => 'img--right', 'value' => 'WEMSG.STYLEMANAGER.fwquoteimgh.rightLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwquoteimgh'.$suffix, 'WEMSG.STYLEMANAGER.fwquoteimgh.title', 'WEMSG.STYLEMANAGER.fwquoteimgh.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
 
         // Quote - imgv
         $cssClasses = [
@@ -412,7 +419,6 @@ class Migration extends MigrationAbstract
             ['key' => 'img--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwquoteimgv.bottomLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwquoteimgv'.$suffix, 'WEMSG.STYLEMANAGER.fwquoteimgv.title', 'WEMSG.STYLEMANAGER.fwquoteimgv.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
     }
 
     protected function managePriceCards(?string $suffix = '', ?bool $passToTemplate = false): void
@@ -420,29 +426,24 @@ class Migration extends MigrationAbstract
         $contentElements = self::$elements['priceCards'.$suffix];
         // Price card
         $objArchive = $this->fillObjArchive('fwpricecard'.$suffix, 'WEMSG.STYLEMANAGER.fwpricecard.tabTitle', 'FramwayPriceCard');
-        $objArchive->save();
 
         // Price card - text color
         $cssClasses = $this->buildMeaningfulColorsCssClasses('ft-%s', 'fwpricecardft');
         $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('ft-%s', 'fwpricecardft'));
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardft'.$suffix, 'WEMSG.STYLEMANAGER.fwpricecardft.title', 'WEMSG.STYLEMANAGER.fwpricecardft.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Price card - bg color
         $cssClasses = $this->buildMeaningfulColorsCssClasses('bg--%s', 'fwpricecardbg');
         $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('bg--%s', 'fwpricecardbg'));
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardbg'.$suffix, 'WEMSG.STYLEMANAGER.fwpricecardbg.title', 'WEMSG.STYLEMANAGER.fwpricecardbg.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Price card - content color
         $cssClasses = $this->buildMeaningfulColorsCssClasses('content--%s', 'fwpricecardcontent');
         $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('content--%s', 'fwpricecardcontent'));
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardcontent'.$suffix, 'WEMSG.STYLEMANAGER.fwpricecardcontent.title', 'WEMSG.STYLEMANAGER.fwpricecardcontent.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Price card - main
         $cssClasses = [
             ['key' => 'main', 'value' => 'WEMSG.STYLEMANAGER.fwpricecardmain.label'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardmain'.$suffix, 'WEMSG.STYLEMANAGER.fwpricecardmain.title', 'WEMSG.STYLEMANAGER.fwpricecardmain.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
     }
 
     protected function manageGridItems(?string $suffix = '', ?bool $passToTemplate = false): void
@@ -450,82 +451,61 @@ class Migration extends MigrationAbstract
         $contentElements = self::$elements['griditems'.$suffix];
         // Grid Items
         $objArchive = $this->fillObjArchive('fwgriditem'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditem.tabTitle', 'FramwayGridItem');
-        $objArchive->save();
         $objArchiveXL = $this->fillObjArchive('fwgriditemxl'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemxl.tabTitle', 'FramwayGridItem');
-        $objArchiveXL->save();
         $objArchiveLG = $this->fillObjArchive('fwgriditemlg'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemlg.tabTitle', 'FramwayGridItem');
-        $objArchiveLG->save();
         $objArchiveMD = $this->fillObjArchive('fwgriditemmd'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemmd.tabTitle', 'FramwayGridItem');
-        $objArchiveMD->save();
         $objArchiveSM = $this->fillObjArchive('fwgriditemsm'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemsm.tabTitle', 'FramwayGridItem');
-        $objArchiveSM->save();
         $objArchiveXS = $this->fillObjArchive('fwgriditemxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemxs.tabTitle', 'FramwayGridItem');
-        $objArchiveXS->save();
         $objArchiveXXS = $this->fillObjArchive('fwgriditemxxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemxxs.tabTitle', 'FramwayGridItem');
-        $objArchiveXXS->save();
 
         // Grid item - cols
         $cssClasses = $this->buildMultipleCssClasses('cols-span-%s', 'fwgriditemcolsspan', 1, 12);
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemcolsspan'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemcolsspan.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspan.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Grid item - rows
         $cssClasses = $this->buildMultipleCssClasses('rows-span-%s', 'fwgriditemrowsspan', 1, 12);
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemrowsspan'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemrowsspan.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspan.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
 
         // Grid item - colsspanxl
         $cssClasses = $this->buildMultipleCssClasses('cols-span-xl-%s', 'fwgriditemcolsspanxl', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveXL->id, 'fwgriditemcolsspanxl'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Grid item - rowsspanxl
         $cssClasses = $this->buildMultipleCssClasses('rows-span-xl-%s', 'fwgriditemrowsspanxl', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveXL->id, 'fwgriditemrowsspanxl'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
 
         // Grid item - colsspanlg
         $cssClasses = $this->buildMultipleCssClasses('cols-span-lg-%s', 'fwgriditemcolsspanlg', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveLG->id, 'fwgriditemcolsspanlg'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Grid item - rowsspanlg
         $cssClasses = $this->buildMultipleCssClasses('rows-span-lg-%s', 'fwgriditemrowsspanlg', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveLG->id, 'fwgriditemrowsspanlg'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
 
         // Grid item - colsspanmd
         $cssClasses = $this->buildMultipleCssClasses('cols-span-md-%s', 'fwgriditemcolsspanmd', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveMD->id, 'fwgriditemcolsspanmd'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Grid item - rowsspanmd
         $cssClasses = $this->buildMultipleCssClasses('rows-span-md-%s', 'fwgriditemrowsspanmd', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveMD->id, 'fwgriditemrowsspanmd'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
 
         // Grid item - colsspansm
         $cssClasses = $this->buildMultipleCssClasses('cols-span-sm-%s', 'fwgriditemcolsspansm', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveSM->id, 'fwgriditemcolsspansm'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemcolsspansm.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspansm.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Grid item - rowsspansm
         $cssClasses = $this->buildMultipleCssClasses('rows-span-sm-%s', 'fwgriditemrowsspansm', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveSM->id, 'fwgriditemrowsspansm'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemrowsspansm.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspansm.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
 
         // Grid item - colsspanxs
         $cssClasses = $this->buildMultipleCssClasses('cols-span-xs-%s', 'fwgriditemcolsspanxs', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveXS->id, 'fwgriditemcolsspanxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Grid item - rowsspanxs
         $cssClasses = $this->buildMultipleCssClasses('rows-span-xs-%s', 'fwgriditemrowsspanxs', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveXS->id, 'fwgriditemrowsspanxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
 
         // Grid item - colsspanxxs
         $cssClasses = $this->buildMultipleCssClasses('cols-span-xxs-%s', 'fwgriditemcolsspanxxs', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveXXS->id, 'fwgriditemcolsspanxxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Grid item - rowsspanxxs
         $cssClasses = $this->buildMultipleCssClasses('rows-span-xxs-%s', 'fwgriditemrowsspanxxs', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveXXS->id, 'fwgriditemrowsspanxxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
     }
 
     protected function manageGrids(?string $suffix = '', ?bool $passToTemplate = false): void
@@ -533,19 +513,12 @@ class Migration extends MigrationAbstract
         $contentElements = self::$elements['grid'.$suffix];
         // Grid
         $objArchive = $this->fillObjArchive('fwgrid'.$suffix, 'WEMSG.STYLEMANAGER.fwgrid.tabTitle', 'FramwayGrid');
-        $objArchive->save();
         $objArchiveXL = $this->fillObjArchive('fwgridxl'.$suffix, 'WEMSG.STYLEMANAGER.fwgridxl.tabTitle', 'FramwayGrid');
-        $objArchiveXL->save();
         $objArchiveLG = $this->fillObjArchive('fwgridlg'.$suffix, 'WEMSG.STYLEMANAGER.fwgridlg.tabTitle', 'FramwayGrid');
-        $objArchiveLG->save();
         $objArchiveMD = $this->fillObjArchive('fwgridmd'.$suffix, 'WEMSG.STYLEMANAGER.fwgridmd.tabTitle', 'FramwayGrid');
-        $objArchiveMD->save();
         $objArchiveSM = $this->fillObjArchive('fwgridsm'.$suffix, 'WEMSG.STYLEMANAGER.fwgridsm.tabTitle', 'FramwayGrid');
-        $objArchiveSM->save();
         $objArchiveXS = $this->fillObjArchive('fwgridxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgridxs.tabTitle', 'FramwayGrid');
-        $objArchiveXS->save();
         $objArchiveXXS = $this->fillObjArchive('fwgridxxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgridxxs.tabTitle', 'FramwayGrid');
-        $objArchiveXXS->save();
         // Grid - gap
         $cssClasses = [
             ['key' => 'gap-0', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.0Label'],
@@ -571,69 +544,54 @@ class Migration extends MigrationAbstract
             ['key' => 'gap-6-rem', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.6remLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridgap'.$suffix, 'WEMSG.STYLEMANAGER.fwgridgap.title', 'WEMSG.STYLEMANAGER.fwgridgap.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Grid - cols
         $cssClasses = $this->buildMultipleCssClasses('cols-%s', 'fwgridcols', 1, 12);
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcols'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcols.title', 'WEMSG.STYLEMANAGER.fwgridcols.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Grid - rows
         $cssClasses = $this->buildMultipleCssClasses('rows-%s', 'fwgridrows', 1, 12);
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridrows'.$suffix, 'WEMSG.STYLEMANAGER.fwgridrows.title', 'WEMSG.STYLEMANAGER.fwgridrows.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
 
         // Grid - colsxl
         $cssClasses = $this->buildMultipleCssClasses('cols-xl-%s', 'fwgridcolsxl', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveXL->id, 'fwgridcolsxl'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolsxl.title', 'WEMSG.STYLEMANAGER.fwgridcolsxl.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Grid - rowsxl
         $cssClasses = $this->buildMultipleCssClasses('rows-xl-%s', 'fwgridrowsxl', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveXL->id, 'fwgridrowsxl'.$suffix, 'WEMSG.STYLEMANAGER.fwgridrowsxl.title', 'WEMSG.STYLEMANAGER.fwgridrowsxl.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
 
         // Grid - colslg
         $cssClasses = $this->buildMultipleCssClasses('cols-lg-%s', 'fwgridcolslg', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveLG->id, 'fwgridcolslg'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolslg.title', 'WEMSG.STYLEMANAGER.fwgridcolslg.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Grid - rowslg
         $cssClasses = $this->buildMultipleCssClasses('rows-lg-%s', 'fwgridrowslg', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveLG->id, 'fwgridrowslg'.$suffix, 'WEMSG.STYLEMANAGER.fwgridrowslg.title', 'WEMSG.STYLEMANAGER.fwgridrowslg.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
 
         // Grid - colsmd
         $cssClasses = $this->buildMultipleCssClasses('cols-md-%s', 'fwgridcolsmd', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveMD->id, 'fwgridcolsmd'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolsmd.title', 'WEMSG.STYLEMANAGER.fwgridcolsmd.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Grid - rowsmd
         $cssClasses = $this->buildMultipleCssClasses('rows-md-%s', 'fwgridrowsmd', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveMD->id, 'fwgridrowsmd'.$suffix, 'WEMSG.STYLEMANAGER.fwgridrowsmd.title', 'WEMSG.STYLEMANAGER.fwgridrowsmd.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
 
         // Grid - colssm
         $cssClasses = $this->buildMultipleCssClasses('cols-sm-%s', 'fwgridcolssm', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveSM->id, 'fwgridcolssm'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolssm.title', 'WEMSG.STYLEMANAGER.fwgridcolssm.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Grid - rowssm
         $cssClasses = $this->buildMultipleCssClasses('rows-sm-%s', 'fwgridrowssm', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveSM->id, 'fwgridrowssm'.$suffix, 'WEMSG.STYLEMANAGER.fwgridrowssm.title', 'WEMSG.STYLEMANAGER.fwgridrowssm.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
 
         // Grid - colsxs
         $cssClasses = $this->buildMultipleCssClasses('cols-xs-%s', 'fwgridcolsxs', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveXS->id, 'fwgridcolsxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolsxs.title', 'WEMSG.STYLEMANAGER.fwgridcolsxs.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Grid - rowsxs
         $cssClasses = $this->buildMultipleCssClasses('rows-xs-%s', 'fwgridrowsxs', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveXS->id, 'fwgridrowsxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgridrowsxs.title', 'WEMSG.STYLEMANAGER.fwgridrowsxs.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
 
         // Grid - colsxxs
         $cssClasses = $this->buildMultipleCssClasses('cols-xxs-%s', 'fwgridcolsxxs', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveXXS->id, 'fwgridcolsxxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolsxxs.title', 'WEMSG.STYLEMANAGER.fwgridcolsxxs.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Grid - rowsxxs
         $cssClasses = $this->buildMultipleCssClasses('rows-xxs-%s', 'fwgridrowsxxs', 1, 12);
         $objStyle = $this->fillObjStyle($objArchiveXXS->id, 'fwgridrowsxxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgridrowsxxs.title', 'WEMSG.STYLEMANAGER.fwgridrowsxxs.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
     }
 
     protected function manageHero(?string $suffix = '', ?bool $passToTemplate = false): void
@@ -641,83 +599,31 @@ class Migration extends MigrationAbstract
         $contentElements = self::$elements['hero'.$suffix];
         // Hero
         $objArchive = $this->fillObjArchive('fwhero'.$suffix, 'WEMSG.STYLEMANAGER.fwhero.tabTitle', 'FramwayHero');
-        $objArchive->save();
         $objArchiveImg = $this->fillObjArchive('fwheroimg'.$suffix, 'WEMSG.STYLEMANAGER.fwheroimg.tabTitle', 'FramwayHero');
-        $objArchiveImg->save();
-        $objArchiveContent = $this->fillObjArchive('fwherocontent'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontent.tabTitle', 'FramwayHero');
-        $objArchiveContent->save();
-        $objArchiveTitle = $this->fillObjArchive('fwherotitle'.$suffix, 'WEMSG.STYLEMANAGER.fwherotitle.tabTitle', 'FramwayHero');
-        $objArchiveTitle->save();
         // Hero - imgvertical
         $cssClasses = [
             ['key' => 'img--top', 'value' => 'WEMSG.STYLEMANAGER.fwheroimgvertical.topLabel'],
             ['key' => 'img--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwheroimgvertical.bottomLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwheroimgvertical'.$suffix, 'WEMSG.STYLEMANAGER.fwheroimgvertical.title', 'WEMSG.STYLEMANAGER.fwheroimgvertical.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Hero - imghorizontal
         $cssClasses = [
             ['key' => 'img--left', 'value' => 'WEMSG.STYLEMANAGER.fwheroimghorizontal.leftLabel'],
             ['key' => 'img--right', 'value' => 'WEMSG.STYLEMANAGER.fwheroimghorizontal.rightLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwheroimghorizontal'.$suffix, 'WEMSG.STYLEMANAGER.fwheroimghorizontal.title', 'WEMSG.STYLEMANAGER.fwheroimghorizontal.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
-        // Hero - figureopacity
-        $cssClasses = $this->buildMultipleCssClasses('figure__opacity--%s', 'fwherofigureopacity', 1, 10);
-        $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwherofigureopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwherofigureopacity.title', 'WEMSG.STYLEMANAGER.fwherofigureopacity.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
-        // Hero - contentvertical
-        $cssClasses = [
-            ['key' => 'content--v--top', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentvertical.topLabel'],
-            ['key' => 'content--v--center', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentvertical.centerLabel'],
-            ['key' => 'content--v--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwherocontentvertical.bottomLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherocontentvertical'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontentvertical.title', 'WEMSG.STYLEMANAGER.fwherocontentvertical.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
-        // Hero - contenthorizontal
-        $cssClasses = [
-            ['key' => 'content--h--left', 'value' => 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.leftLabel'],
-            ['key' => 'content--h--center', 'value' => 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.centerLabel'],
-            ['key' => 'content--h--right', 'value' => 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.rightLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherocontenthorizontal'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.title', 'WEMSG.STYLEMANAGER.fwherocontenthorizontal.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
-        // Hero - title
-        $cssClasses = $this->buildMultipleCssClasses('title--%s', 'fwherotitle', 1, 4);
-        $objStyle = $this->fillObjStyle($objArchiveTitle->id, 'fwherotitle'.$suffix, 'WEMSG.STYLEMANAGER.fwherotitle.title', 'WEMSG.STYLEMANAGER.fwherotitle.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
+
         // Hero - text color
         $cssClasses = $this->buildMeaningfulColorsCssClasses('ft-%s', 'fwheroft');
         $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('ft-%s', 'fwheroft'));
-        $objStyle = $this->fillObjStyle($objArchiveTitle->id, 'fwheroft'.$suffix, 'WEMSG.STYLEMANAGER.fwheroft.title', 'WEMSG.STYLEMANAGER.fwheroft.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwheroft'.$suffix, 'WEMSG.STYLEMANAGER.fwheroft.title', 'WEMSG.STYLEMANAGER.fwheroft.description', $contentElements, $cssClasses, $passToTemplate);
         // Hero - bg color
         $cssClasses = $this->buildMeaningfulColorsCssClasses('content__bg--%s', 'fwherocontentbg');
         $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('content__bg--%s', 'fwherocontentbg'));
-        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherocontentbg'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontentbg.title', 'WEMSG.STYLEMANAGER.fwherocontentbg.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherocontentbg'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontentbg.title', 'WEMSG.STYLEMANAGER.fwherocontentbg.description', $contentElements, $cssClasses, $passToTemplate);
         // Hero - bgopacity
         $cssClasses = $this->buildMultipleCssClasses('content__bg__opacity--%s', 'fwherocontentbgopacity', 1, 10);
-        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherocontentbgopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.title', 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
-        // Hero - wfull
-        $cssClasses = [
-            ['key' => 'w-full', 'value' => 'WEMSG.STYLEMANAGER.fwherowfull.label'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherowfull'.$suffix, 'WEMSG.STYLEMANAGER.fwherowfull.title', 'WEMSG.STYLEMANAGER.fwherowfull.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
-        // Hero - heightcontent
-        $cssClasses = [
-            ['key' => 'height--content', 'value' => 'WEMSG.STYLEMANAGER.fwheroheightcontent.label'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwheroheightcontent'.$suffix, 'WEMSG.STYLEMANAGER.fwheroheightcontent.title', 'WEMSG.STYLEMANAGER.fwheroheightcontent.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
-        // Hero - widthcontent
-        $cssClasses = [
-            ['key' => 'width--content', 'value' => 'WEMSG.STYLEMANAGER.fwherowidthcontent.label'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwherowidthcontent'.$suffix, 'WEMSG.STYLEMANAGER.fwherowidthcontent.title', 'WEMSG.STYLEMANAGER.fwherowidthcontent.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherocontentbgopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.title', 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.description', $contentElements, $cssClasses, $passToTemplate);
     }
 
     protected function manageSlidersImages(?string $suffix = '', ?bool $passToTemplate = false): void
@@ -725,25 +631,21 @@ class Migration extends MigrationAbstract
         $contentElements = self::$elements['slider_image'.$suffix];
         // Slider
         $objArchiveImg = $this->fillObjArchive('fwsliderimg'.$suffix, 'WEMSG.STYLEMANAGER.fwsliderimg.tabTitle', 'FramwaySlider');
-        $objArchiveImg->save();
         // Slider - imgvertical
         $cssClasses = [
             ['key' => 'img--top', 'value' => 'WEMSG.STYLEMANAGER.fwsliderimgvertical.topLabel'],
             ['key' => 'img--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwsliderimgvertical.bottomLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwsliderimgvertical'.$suffix, 'WEMSG.STYLEMANAGER.fwsliderimgvertical.title', 'WEMSG.STYLEMANAGER.fwsliderimgvertical.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Slider - imghorizontal
         $cssClasses = [
             ['key' => 'img--left', 'value' => 'WEMSG.STYLEMANAGER.fwsliderimghorizontal.leftLabel'],
             ['key' => 'img--right', 'value' => 'WEMSG.STYLEMANAGER.fwsliderimghorizontal.rightLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwsliderimghorizontal'.$suffix, 'WEMSG.STYLEMANAGER.fwsliderimghorizontal.title', 'WEMSG.STYLEMANAGER.fwsliderimghorizontal.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Slider - imgopacity
         $cssClasses = $this->buildMultipleCssClasses('img_opacity--%s', 'fwsliderimgopacity', 1, 10);
         $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwsliderimgopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwsliderimgopacity.title', 'WEMSG.STYLEMANAGER.fwsliderimgopacity.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
     }
 
     protected function manageSliders(?string $suffix = '', ?bool $passToTemplate = false): void
@@ -751,34 +653,27 @@ class Migration extends MigrationAbstract
         $contentElements = self::$elements['slider'.$suffix];
         // Slider
         $objArchive = $this->fillObjArchive('fwslider'.$suffix, 'WEMSG.STYLEMANAGER.fwslider.tabTitle', 'FramwaySlider');
-        $objArchive->save();
         $objArchiveNav = $this->fillObjArchive('fwslidernav'.$suffix, 'WEMSG.STYLEMANAGER.fwslidernav.tabTitle', 'FramwaySlider');
-        $objArchiveNav->save();
         $objArchiveContent = $this->fillObjArchive('fwslidercontent'.$suffix, 'WEMSG.STYLEMANAGER.fwslidercontent.tabTitle', 'FramwaySlider');
-        $objArchiveContent->save();
         $objArchiveTitle = $this->fillObjArchive('fwslidertitle'.$suffix, 'WEMSG.STYLEMANAGER.fwslidertitle.tabTitle', 'FramwaySlider');
-        $objArchiveTitle->save();
         // Slider - nav
         $cssClasses = [
             ['key' => 'nav--below', 'value' => 'WEMSG.STYLEMANAGER.fwslidernav.belowLabel'],
             ['key' => 'nav--hidden', 'value' => 'WEMSG.STYLEMANAGER.fwslidernav.hiddenLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchiveNav->id, 'fwslidernav'.$suffix, 'WEMSG.STYLEMANAGER.fwslidernav.title', 'WEMSG.STYLEMANAGER.fwslidernav.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Slider - navvertical
         $cssClasses = [
             ['key' => 'nav--top', 'value' => 'WEMSG.STYLEMANAGER.fwslidernavvertical.topLabel'],
             ['key' => 'nav--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwslidernavvertical.bottomLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchiveNav->id, 'fwslidernavvertical'.$suffix, 'WEMSG.STYLEMANAGER.fwslidernavvertical.title', 'WEMSG.STYLEMANAGER.fwslidernavvertical.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Slider - navhorizontal
         $cssClasses = [
             ['key' => 'nav--left', 'value' => 'WEMSG.STYLEMANAGER.fwslidernavhorizontal.leftLabel'],
             ['key' => 'nav--right', 'value' => 'WEMSG.STYLEMANAGER.fwslidernavhorizontal.rightLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchiveNav->id, 'fwslidernavhorizontal'.$suffix, 'WEMSG.STYLEMANAGER.fwslidernavhorizontal.title', 'WEMSG.STYLEMANAGER.fwslidernavhorizontal.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Slider - contentvertical
         $cssClasses = [
             ['key' => 'content--v--top', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentvertical.topLabel'],
@@ -786,7 +681,6 @@ class Migration extends MigrationAbstract
             ['key' => 'content--v--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentvertical.bottomLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwslidercontentvertical'.$suffix, 'WEMSG.STYLEMANAGER.fwslidercontentvertical.title', 'WEMSG.STYLEMANAGER.fwslidercontentvertical.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Slider - contenthorizontal
         $cssClasses = [
             ['key' => 'content--h--left', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.leftLabel'],
@@ -794,31 +688,25 @@ class Migration extends MigrationAbstract
             ['key' => 'content--h--right', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.rightLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwslidercontenthorizontal'.$suffix, 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.title', 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Slider - title
         $cssClasses = $this->buildMultipleCssClasses('title--%s', 'fwslidertitle', 1, 4);
         $objStyle = $this->fillObjStyle($objArchiveTitle->id, 'fwslidertitle'.$suffix, 'WEMSG.STYLEMANAGER.fwslidertitle.title', 'WEMSG.STYLEMANAGER.fwslidertitle.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Slider - text color
         $cssClasses = $this->buildMeaningfulColorsCssClasses('ft-%s', 'fwsliderft');
         $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('ft-%s', 'fwsliderft'));
         $objStyle = $this->fillObjStyle($objArchiveTitle->id, 'fwsliderft'.$suffix, 'WEMSG.STYLEMANAGER.fwsliderft.title', 'WEMSG.STYLEMANAGER.fwsliderft.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Slider - bg color
         $cssClasses = $this->buildMeaningfulColorsCssClasses('content__bg--%s', 'fwslidercontentbg');
         $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('content__bg--%s', 'fwslidercontentbg'));
         $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwslidercontentbg'.$suffix, 'WEMSG.STYLEMANAGER.fwslidercontentbg.title', 'WEMSG.STYLEMANAGER.fwslidercontentbg.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Slider - bgopacity
         $cssClasses = $this->buildMultipleCssClasses('content__bg__opacity--%s', 'fwslidercontentbgopacity', 1, 10);
         $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwslidercontentbgopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.title', 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Slider - wfull
         $cssClasses = [
             ['key' => 'w-full', 'value' => 'WEMSG.STYLEMANAGER.fwsliderwfull.label'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwsliderwfull'.$suffix, 'WEMSG.STYLEMANAGER.fwsliderwfull.title', 'WEMSG.STYLEMANAGER.fwsliderwfull.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
     }
 
     protected function manageImages(?string $suffix = '', ?bool $passToTemplate = false): void
@@ -826,21 +714,18 @@ class Migration extends MigrationAbstract
         $contentElements = self::$elements['image_other'.$suffix];
         // Image
         $objArchive = $this->fillObjArchive('fwimage'.$suffix, 'WEMSG.STYLEMANAGER.fwimage.tabTitle', 'FramwayImage');
-        $objArchive->save();
         // Image - zoom
         $cssClasses = [
             ['key' => 'zoomin', 'value' => 'WEMSG.STYLEMANAGER.fwimagezoom.inLabel'],
             ['key' => 'zoomout', 'value' => 'WEMSG.STYLEMANAGER.fwimagezoom.outLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwimagezoom'.$suffix, 'WEMSG.STYLEMANAGER.fwimagezoom.title', 'WEMSG.STYLEMANAGER.fwimagezoom.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Image - fade
         $cssClasses = [
             ['key' => 'fadetocolor', 'value' => 'WEMSG.STYLEMANAGER.fwimagefade.colorLabel'],
             ['key' => 'fadetogrey', 'value' => 'WEMSG.STYLEMANAGER.fwimagefade.greyLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwimagefade'.$suffix, 'WEMSG.STYLEMANAGER.fwimagefade.title', 'WEMSG.STYLEMANAGER.fwimagefade.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
     }
 
     protected function manageImagesRatio(?string $suffix = '', ?bool $passToTemplate = false): void
@@ -848,7 +733,6 @@ class Migration extends MigrationAbstract
         $contentElements = self::$elements['image_ratio'.$suffix];
         // Image
         $objArchive = $this->fillObjArchive('fwimageratio'.$suffix, 'WEMSG.STYLEMANAGER.fwimageratio.tabTitle', 'FramwayImage');
-        $objArchive->save();
         // Image - ratio
         $cssClasses = [
             ['key' => 'r_16-9', 'value' => 'WEMSG.STYLEMANAGER.fwimageratio.r169Label'],
@@ -858,7 +742,6 @@ class Migration extends MigrationAbstract
             ['key' => 'r_4-3', 'value' => 'WEMSG.STYLEMANAGER.fwimageratio.r43Label'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwimageratio'.$suffix, 'WEMSG.STYLEMANAGER.fwimageratio.title', 'WEMSG.STYLEMANAGER.fwimageratio.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
     }
 
     protected function manageTables(?string $suffix = '', ?bool $passToTemplate = false): void
@@ -866,32 +749,27 @@ class Migration extends MigrationAbstract
         $contentElements = self::$elements['table'.$suffix];
         // Table
         $objArchive = $this->fillObjArchive('fwtable'.$suffix, 'WEMSG.STYLEMANAGER.fwtable.tabTitle', 'FramwayTable');
-        $objArchive->save();
         // Table - sm
         $cssClasses = [
             ['key' => 'table-sm', 'value' => 'WEMSG.STYLEMANAGER.fwtablesm.label'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwtablesm'.$suffix, 'WEMSG.STYLEMANAGER.fwtablesm.title', 'WEMSG.STYLEMANAGER.fwtablesm.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Table - border
         $cssClasses = [
             ['key' => 'table-bordered', 'value' => 'WEMSG.STYLEMANAGER.fwtableborder.borderedLabel'],
             ['key' => 'table-borderless', 'value' => 'WEMSG.STYLEMANAGER.fwtableborder.borderlessLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwtableborder'.$suffix, 'WEMSG.STYLEMANAGER.fwtableborder.title', 'WEMSG.STYLEMANAGER.fwtableborder.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Table - striped
         $cssClasses = [
             ['key' => 'table-striped', 'value' => 'WEMSG.STYLEMANAGER.fwtablestriped.label'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwtablestriped'.$suffix, 'WEMSG.STYLEMANAGER.fwtablestriped.title', 'WEMSG.STYLEMANAGER.fwtablestriped.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Table - hover
         $cssClasses = [
             ['key' => 'table-hover', 'value' => 'WEMSG.STYLEMANAGER.fwtablehover.label'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwtablehover'.$suffix, 'WEMSG.STYLEMANAGER.fwtablehover.title', 'WEMSG.STYLEMANAGER.fwtablehover.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
     }
 
     protected function manageBackgrounds(?string $suffix = '', ?bool $passToTemplate = false): void
@@ -899,12 +777,10 @@ class Migration extends MigrationAbstract
         $contentElements = self::$elements['background'.$suffix];
         // Background
         $objArchive = $this->fillObjArchive('fwbackground'.$suffix, 'WEMSG.STYLEMANAGER.fwbackground.tabTitle', 'FramwayBackground');
-        $objArchive->save();
         // Background - background
         $cssClasses = $this->buildMeaningfulColorsCssClasses('bg-%s', 'fwbackgroundcolor');
         $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('bg-%s', 'fwbackgroundcolor'));
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwbackgroundcolor'.$suffix, 'WEMSG.STYLEMANAGER.fwbackgroundcolor.title', 'WEMSG.STYLEMANAGER.fwbackgroundcolor.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
     }
 
     protected function manageButtons(?string $suffix = '', ?bool $passToTemplate = false): void
@@ -912,7 +788,6 @@ class Migration extends MigrationAbstract
         $contentElements = self::$elements['button'.$suffix];
         // Buttons
         $objArchive = $this->fillObjArchive('fwbutton'.$suffix, 'WEMSG.STYLEMANAGER.fwbutton.tabTitle', 'FramwayButton');
-        $objArchive->save();
         // Buttons - size
         $cssClasses = [
             ['key' => 'btn', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonsize.sizeLabel'],
@@ -920,17 +795,14 @@ class Migration extends MigrationAbstract
             ['key' => 'btn-lg', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonsize.sizeLgLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonsize'.$suffix, 'WEMSG.STYLEMANAGER.fwbuttonsize.title', 'WEMSG.STYLEMANAGER.fwbuttonsize.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Buttons - background
         $cssClasses = $this->buildMeaningfulColorsCssClasses('btn-bg-%s', 'fwbuttonbackground');
         $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('btn-bg-%s', 'fwbuttonbackground'));
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonbackground'.$suffix, 'WEMSG.STYLEMANAGER.fwbuttonbackground.title', 'WEMSG.STYLEMANAGER.fwbuttonbackground.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // Buttons - border
         $cssClasses = $this->buildMeaningfulColorsCssClasses('btn-bd-%s', 'fwbuttonborder');
         $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('btn-bd-%s', 'fwbuttonborder'));
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonborder'.$suffix, 'WEMSG.STYLEMANAGER.fwbuttonborder.title', 'WEMSG.STYLEMANAGER.fwbuttonborder.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
     }
 
     protected function manageSeparators(?string $suffix = '', ?bool $passToTemplate = false): void
@@ -938,31 +810,26 @@ class Migration extends MigrationAbstract
         $contentElements = self::$elements['separator'.$suffix];
         // separators
         $objArchive = $this->fillObjArchive('fwseparator'.$suffix, 'WEMSG.STYLEMANAGER.fwseparator.tabTitle', 'FramwaySeparator');
-        $objArchive->save();
         // separators - top
         $cssClasses = [
             ['key' => 'sep-top', 'value' => 'WEMSG.STYLEMANAGER.fwseparatortop.label'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatortop'.$suffix, 'WEMSG.STYLEMANAGER.fwseparatortop.title', 'WEMSG.STYLEMANAGER.fwseparatortop.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // separators - bottom
         $cssClasses = [
             ['key' => 'sep-bottom', 'value' => 'WEMSG.STYLEMANAGER.fwseparatorbottom.label'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatorbottom'.$suffix, 'WEMSG.STYLEMANAGER.fwseparatorbottom.title', 'WEMSG.STYLEMANAGER.fwseparatorbottom.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // separators - left
         $cssClasses = [
             ['key' => 'sep-left', 'value' => 'WEMSG.STYLEMANAGER.fwseparatorleft.label'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatorleft'.$suffix, 'WEMSG.STYLEMANAGER.fwseparatorleft.title', 'WEMSG.STYLEMANAGER.fwseparatorleft.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // separators - right
         $cssClasses = [
             ['key' => 'sep-right', 'value' => 'WEMSG.STYLEMANAGER.fwseparatorright.label'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatorright'.$suffix, 'WEMSG.STYLEMANAGER.fwseparatorright.title', 'WEMSG.STYLEMANAGER.fwseparatorright.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
     }
 
     protected function manageMargins(?string $suffix = '', ?bool $passToTemplate = false): void
@@ -970,7 +837,6 @@ class Migration extends MigrationAbstract
         $contentElements = self::$elements['margin'.$suffix];
         // margins
         $objArchive = $this->fillObjArchive('fwmargin'.$suffix, 'WEMSG.STYLEMANAGER.fwmargin.tabTitle', 'FramwayMargin');
-        $objArchive->save();
         // margins - top
         $cssClasses = [
             ['key' => 'm-top-0', 'value' => 'WEMSG.STYLEMANAGER.fwmargintop.noLabel'],
@@ -978,7 +844,6 @@ class Migration extends MigrationAbstract
             ['key' => 'm-top-x2', 'value' => 'WEMSG.STYLEMANAGER.fwmargintop.doubleLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwmargintop'.$suffix, 'WEMSG.STYLEMANAGER.fwmargintop.title', 'WEMSG.STYLEMANAGER.fwmargintop.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // margins - bottom
         $cssClasses = [
             ['key' => 'm-bottom-0', 'value' => 'WEMSG.STYLEMANAGER.fwmarginbottom.noLabel'],
@@ -986,7 +851,6 @@ class Migration extends MigrationAbstract
             ['key' => 'm-bottom-x2', 'value' => 'WEMSG.STYLEMANAGER.fwmarginbottom.doubleLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwmarginbottom'.$suffix, 'WEMSG.STYLEMANAGER.fwmarginbottom.title', 'WEMSG.STYLEMANAGER.fwmarginbottom.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // margins - left
         $cssClasses = [
             ['key' => 'm-left-0', 'value' => 'WEMSG.STYLEMANAGER.fwmarginleft.noLabel'],
@@ -994,7 +858,6 @@ class Migration extends MigrationAbstract
             ['key' => 'm-left-x2', 'value' => 'WEMSG.STYLEMANAGER.fwmarginleft.doubleLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwmarginleft'.$suffix, 'WEMSG.STYLEMANAGER.fwmarginleft.title', 'WEMSG.STYLEMANAGER.fwmarginleft.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
         // margins - right
         $cssClasses = [
             ['key' => 'm-right-0', 'value' => 'WEMSG.STYLEMANAGER.fwmarginright.noLabel'],
@@ -1002,7 +865,6 @@ class Migration extends MigrationAbstract
             ['key' => 'm-right-x2', 'value' => 'WEMSG.STYLEMANAGER.fwmarginright.doubleLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwmarginright'.$suffix, 'WEMSG.STYLEMANAGER.fwmarginright.title', 'WEMSG.STYLEMANAGER.fwmarginright.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
     }
 
     private function buildRawColorsCssClasses(string $keyPattern, string $translationKeyPart): array
@@ -1064,8 +926,9 @@ class Migration extends MigrationAbstract
         $objStyle->description = $descriptioneKey;
         $objStyle->cssClasses = serialize($cssClasses);
         $objStyle->passToTemplate = $passToTemplate;
+        $objStyle->save();
 
-        $this->styleAliasToKeep[] = $alias;
+        $this->styleAliasToKeep[$objStyle->id] = $alias;
 
         return $objStyle;
     }
@@ -1083,8 +946,9 @@ class Migration extends MigrationAbstract
         $objArchive->identifier = $identifier;
         $objArchive->groupAlias = $groupAlias;
         $objArchive->tstamp = time();
+        $objArchive->save();
 
-        $this->archiveIdentifierToKeep[] = $identifier;
+        $this->archiveIdentifierToKeep[$objArchive->id] = $identifier;
 
         return $objArchive;
     }

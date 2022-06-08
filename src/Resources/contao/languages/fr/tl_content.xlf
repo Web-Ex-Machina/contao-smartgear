@@ -21,6 +21,14 @@
         <source>Tick to force the element to take all screen height</source>
         <target>Cochez pour forcer le bloc à prendre toute la hauteur de l'écran</target>
       </trans-unit>
+      <trans-unit id="tl_content.force_fullwidth.0">
+        <source>Full width</source>
+        <target>Toute la largeur</target>
+      </trans-unit>
+      <trans-unit id="tl_content.force_fullwidth.1">
+        <source>Tick to force the element to take all screen width</source>
+        <target>Cochez pour forcer le bloc à prendre toute la largeur de l'écran</target>
+      </trans-unit>
       <trans-unit id="tl_content.block_height.0">
         <source>Element height</source>
         <target>Hauteur de l'élément</target>
@@ -29,13 +37,97 @@
         <source>Set the desired element's height</source>
         <target>Indiquez la hauteur voulue de l'élément</target>
       </trans-unit>
+      <trans-unit id="tl_content.image_legend">
+        <source>Picture</source>
+        <target>Image</target>
+      </trans-unit>
       <trans-unit id="tl_content.config_legend">
         <source>Block settings</source>
         <target>Configuration du bloc</target>
       </trans-unit>
-      <trans-unit id="tl_content.image_legend">
-        <source>Picture</source>
-        <target>Image</target>
+      <trans-unit id="tl_content.link_legend">
+        <source>Link settings</source>
+        <target>Paramètres du lien</target>
+      </trans-unit>
+      <trans-unit id="tl_content.content_horizontal.0">
+        <source>Horizontal alignment</source>
+        <target>Alignement horizontal</target>
+      </trans-unit>
+      <trans-unit id="tl_content.content_vertical.0">
+        <source>Vertical alignment</source>
+        <target>Alignement vertical</target>
+      </trans-unit>
+      <trans-unit id="tl_content.content_horizontal.optionCenter">
+        <source>Center</source>
+        <target>Centré</target>
+      </trans-unit>
+      <trans-unit id="tl_content.content_horizontal.optionLeft">
+        <source>Left</source>
+        <target>Gauche</target>
+      </trans-unit>
+      <trans-unit id="tl_content.content_horizontal.optionRight">
+        <source>Right</source>
+        <target>Droite</target>
+      </trans-unit>
+      <trans-unit id="tl_content.content_vertical.optionCenter">
+        <source>Center</source>
+        <target>Centré</target>
+      </trans-unit>
+      <trans-unit id="tl_content.content_vertical.optionTop">
+        <source>Top</source>
+        <target>Haut</target>
+      </trans-unit>
+      <trans-unit id="tl_content.content_vertical.optionBottom">
+        <source>Bottom</source>
+        <target>Bas</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_height.0">
+        <source>Hero's height</source>
+        <target>Hauteur de la bannière</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_height.custom">
+        <source>Custom</source>
+        <target>Customisée</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_height.viewport">
+        <source>Viewport's height</source>
+        <target>Toute la hauteur d'écran disponible</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_height.content">
+        <source>Content relative</source>
+        <target>Relative au contenu</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_width.0">
+        <source>Hero's width</source>
+        <target>Largeur de la bannière</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_width.default">
+        <source>Default (all available space)</source>
+        <target>Par défaut (tout l'espace disponible)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_width.viewport">
+        <source>Viewport's width</source>
+        <target>Toute la largeur d'écran disponible</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_width.content">
+        <source>Content relative</source>
+        <target>Relative au contenu</target>
+      </trans-unit>
+      <trans-unit id="tl_content.image_opacity.0">
+        <source>Image opacity</source>
+        <target>Opacité de l'image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.image_opacity.1">
+        <source>Change the picture opacity</source>
+        <target>Change l'opacité de l'image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.title_modifier.0">
+        <source>Title modifier</source>
+        <target>Style du titre</target>
+      </trans-unit>
+      <trans-unit id="tl_content.title_modifier.option">
+        <source>Style %s</source>
+        <target>Style %s</target>
       </trans-unit>
       <trans-unit id="tl_content.advanced_legend">
         <source>Advanced parameters</source>
@@ -291,6 +383,14 @@
       <trans-unit id="tl_content.rsce_hero.content_legend">
         <source>Content</source>
         <target>Contenu</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_hero.link_css.0">
+        <source>Link's CSS classes</source>
+        <target>Classe(s) css du lien</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_hero.link_css.1">
+        <source>Type one or more CSS classes to add to the link (separated by space)</source>
+        <target>Classe(s) CSS à ajouter au lien (séparées par un espace)</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_hero_start.0">
         <source>Hero - Start</source>
