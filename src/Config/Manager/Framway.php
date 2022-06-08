@@ -70,6 +70,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         $notJsonCompliant = preg_replace('/\s\s/', '', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/,\]/', ']', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/,\}/', '}', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/."com":/', '.com:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
 
         return json_decode($notJsonCompliant, false, 512, \JSON_THROW_ON_ERROR);
     }

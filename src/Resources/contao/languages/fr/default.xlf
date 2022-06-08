@@ -196,8 +196,8 @@
 			<target>Le nom du nouveau thème est vide</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.FieldNewThemeIncorrectFormat">
-			<source>New theme's name is incorrect ! Authorized characters are : letters, numbers, middlescores ("-") et underscores ("_")</source>
-			<target>Le nom du nouveau thème est invalide! Les caractères autorisés sont : lettres, chiffres, tirets ("-") et underscores ("_")</target>
+			<source>New theme's name is incorrect ! Authorized characters are : letters, numbers, middlescores ("-"),underscores ("_"), dots ("."), semicolon (":"), slashes ("/"") and arobase ("@")</source>
+			<target>Le nom du nouveau thème est invalide! Les caractères autorisés sont : lettres, chiffres, tirets ("-"),underscores ("_"), points ("."), double-points (":"), slash ("/") et arobase ("@")</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeAdd">
 			<source>Add theme</source>
