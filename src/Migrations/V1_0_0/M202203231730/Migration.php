@@ -34,7 +34,7 @@ class Migration extends MigrationAbstract
     protected $configurationFramwayCombinedManager;
 
     protected static $elements = [
-        'margin' => ['contentElements' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordion', 'rsce_counter', 'rsce_hero', 'rsce_heroStart', 'rsce_priceCards', 'rsce_slider', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations', 'rsce_pdfViewer']], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroStop', 'rsce_gridGallery'
+        'margin' => ['contentElements' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordion', 'rsce_counter', 'rsce_hero', 'rsce_heroStart', 'rsce_priceCards', 'rsce_slider', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations', 'rsce_pdfViewer', 'rsce_blockCard']], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroStop', 'rsce_gridGallery'
         'button' => ['contentElements' => ['hyperlink'], 'formFields' => ['submit']],
         'button_manual' => ['contentElements' => ['rsce_pdfViewer']],
         'background' => ['contentElements' => ['headline', 'text', 'rsce_quote']],
@@ -50,6 +50,7 @@ class Migration extends MigrationAbstract
         'griditems_manual' => ['contentElements' => ['rsce_priceCards']], // 'rsce_gridGallery]'
         'priceCards_manual' => ['contentElements' => ['rsce_priceCards']],
         'quote' => ['contentElements' => ['rsce_quote']],
+        'blockCard' => ['contentElements' => ['rsce_blockCard']],
     ];
     /** @var array */
     private $archiveIdentifierToKeep = [];
@@ -122,6 +123,9 @@ class Migration extends MigrationAbstract
         $objArchivePriceCardManual = StyleManagerArchiveModel::findByIdentifier('fwpricecard_manual');
         $objArchiveQuote = StyleManagerArchiveModel::findByIdentifier('fwquote');
 
+        $objArchiveBlockCardText = StyleManagerArchiveModel::findByIdentifier('fwblockcardtext');
+        $objArchiveBlockCardBg = StyleManagerArchiveModel::findByIdentifier('fwblockcardbg');
+
         if (null === $objArchiveBackground
         && null !== $objArchiveButton
         && null !== $objArchiveButtonManual
@@ -155,6 +159,8 @@ class Migration extends MigrationAbstract
         && null !== $objArchiveGridItemXXSManual
         && null !== $objArchivePriceCardManual
         && null !== $objArchiveQuote
+        && null !== $objArchiveBlockCardText
+        && null !== $objArchiveBlockCardBg
         ) {
             if (null !== StyleManagerModel::findByAliasAndPid('fwbackgroundcolor', $objArchiveBackground->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwbuttonsize', $objArchiveButton->id)
@@ -237,6 +243,10 @@ class Migration extends MigrationAbstract
             && null !== StyleManagerModel::findByAliasAndPid('fwimagefade', $objArchiveImage->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwquoteimgh', $objArchiveQuote->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwquoteimgv', $objArchiveQuote->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwblockcardft', $objArchiveBlockCardText->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwblockcardtextalign', $objArchiveBlockCardText->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwblockcardcontentbg', $objArchiveBlockCardBg->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwblockcardcontentbgopacity', $objArchiveBlockCardBg->id)
             ) {
                 $result
                 ->setStatus(Result::STATUS_SKIPPED)
@@ -287,8 +297,11 @@ class Migration extends MigrationAbstract
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSPriceCards'), [], 'contao_default'));
             $this->manageQuote();
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSQuotes'), [], 'contao_default'));
+            $this->manageBlockCard();
+            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSBlockCard'), [], 'contao_default'));
             $this->deleteUnusedStyles();
             $this->deleteUnusedArchives();
+            $this->deleteOrphanStyles();
             $result
                 ->setStatus(Result::STATUS_SUCCESS)
             ;
@@ -328,6 +341,56 @@ class Migration extends MigrationAbstract
         }
     }
 
+    protected function deleteOrphanStyles(): void
+    {
+        $styles = StyleManagerModel::findAll();
+        $archives = StyleManagerArchiveModel::findAll();
+        $archivesIds = $archives->fetchEach('id');
+
+        if ($styles) {
+            foreach ($styles as $style) {
+                if ('fw' === substr($style->alias, 0, 2) && !\in_array($style->pid, $archivesIds, true)) {
+                    $style->delete();
+                }
+            }
+        }
+    }
+
+    protected function manageBlockCard(?string $suffix = '', ?bool $passToTemplate = false): void
+    {
+        $contentElements = self::$elements['blockCard'.$suffix];
+        // Block card
+        $objArchiveText = $this->fillObjArchive('fwblockcardtext'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardtext.tabTitle', 'FramwayBlockCard');
+        $objArchiveText->save();
+        $objArchiveBg = $this->fillObjArchive('fwblockcardbg'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardbg.tabTitle', 'FramwayBlockCard');
+        $objArchiveBg->save();
+
+        // Block card - text color
+        $cssClasses = $this->buildMeaningfulColorsCssClasses('ft-%s', 'fwblockcardft');
+        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('ft-%s', 'fwblockcardft'));
+        $objStyle = $this->fillObjStyle($objArchiveText->id, 'fwblockcardft'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardft.title', 'WEMSG.STYLEMANAGER.fwblockcardft.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle->save();
+
+        // Block card - text align
+        $cssClasses = [
+            ['key' => 'txt-center', 'value' => 'WEMSG.STYLEMANAGER.fwblockcardtextalign.centerLabel'],
+            ['key' => 'txt-right', 'value' => 'WEMSG.STYLEMANAGER.fwblockcardtextalign.rightLabel'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchiveText->id, 'fwblockcardtextalign'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardtextalign.title', 'WEMSG.STYLEMANAGER.fwblockcardtextalign.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle->save();
+
+        // Block card - bg color
+        $cssClasses = $this->buildMeaningfulColorsCssClasses('content__bg--%s', 'fwblockcardcontentbg');
+        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('content__bg--%s', 'fwblockcardcontentbg'));
+        $objStyle = $this->fillObjStyle($objArchiveBg->id, 'fwblockcardcontentbg'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardcontentbg.title', 'WEMSG.STYLEMANAGER.fwblockcardcontentbg.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle->save();
+
+        // Block card - bgopacity
+        $cssClasses = $this->buildMultipleCssClasses('content__bg__opacity--%s', 'fwblockcardcontentbgopacity', 1, 10);
+        $objStyle = $this->fillObjStyle($objArchiveBg->id, 'fwblockcardcontentbgopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.title', 'WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle->save();
+    }
+
     protected function manageQuote(?string $suffix = '', ?bool $passToTemplate = false): void
     {
         $contentElements = self::$elements['quote'.$suffix];
@@ -360,7 +423,6 @@ class Migration extends MigrationAbstract
         $objArchive->save();
 
         // Price card - text color
-
         $cssClasses = $this->buildMeaningfulColorsCssClasses('ft-%s', 'fwpricecardft');
         $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('ft-%s', 'fwpricecardft'));
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardft'.$suffix, 'WEMSG.STYLEMANAGER.fwpricecardft.title', 'WEMSG.STYLEMANAGER.fwpricecardft.description', $contentElements, $cssClasses, $passToTemplate);
