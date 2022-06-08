@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Config;
 
-use WEM\SmartgearBundle\Config\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class CoreTest extends \Codeception\Test\Unit
 {

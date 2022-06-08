@@ -34,7 +34,7 @@ class Migration extends MigrationAbstract
     protected $configurationFramwayCombinedManager;
 
     protected static $elements = [
-        'margin' => ['contentElements' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordion', 'rsce_counter', 'rsce_hero', 'rsce_heroStart', 'rsce_priceCards', 'rsce_slider', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations', 'rsce_pdfViewer']], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroStop', 'rsce_gridGallery'
+        'margin' => ['contentElements' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordion', 'rsce_counter', 'rsce_hero', 'rsce_heroStart', 'rsce_priceCards', 'rsce_slider', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations', 'rsce_pdfViewer', 'rsce_blockCard']], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroStop', 'rsce_gridGallery'
         'button' => ['contentElements' => ['hyperlink'], 'formFields' => ['submit']],
         'button_manual' => ['contentElements' => ['rsce_pdfViewer']],
         'background' => ['contentElements' => ['headline', 'text', 'rsce_quote']],
@@ -43,13 +43,14 @@ class Migration extends MigrationAbstract
         'accordion' => ['contentElements' => ['accordionStart', 'rsce_accordion']], //, 'accordionStop]'
         'slider' => ['contentElements' => ['sliderStart', 'rsce_slider', 'rsce_testimonials']], //, 'sliderStop]'
         'slider_image_manual' => ['contentElements' => ['rsce_slider']], //, 'sliderStop]'
-        'image_other' => ['contentElements' => ['image', 'rsce_blockCard']],
-        'image_ratio' => ['contentElements' => ['image', 'rsce_quote', 'rsce_blockCard']],
+        'image_other' => ['contentElements' => ['image']],
+        'image_ratio' => ['contentElements' => ['image', 'rsce_quote']],
         'hero' => ['contentElements' => ['rsce_hero', 'rsce_heroStart']], //'rsce_heroStop]'
         'grid_manual' => ['contentElements' => ['rsce_priceCards']], // 'rsce_gridGallery]'
         'griditems_manual' => ['contentElements' => ['rsce_priceCards']], // 'rsce_gridGallery]'
         'priceCards_manual' => ['contentElements' => ['rsce_priceCards']],
         'quote' => ['contentElements' => ['rsce_quote']],
+        'blockCard' => ['contentElements' => ['rsce_blockCard']],
     ];
     /** @var array */
     private $archiveIdentifierToKeep = [];
@@ -122,7 +123,6 @@ class Migration extends MigrationAbstract
         $objArchivePriceCardManual = StyleManagerArchiveModel::findByIdentifier('fwpricecard_manual');
         $objArchiveQuote = StyleManagerArchiveModel::findByIdentifier('fwquote');
 
-        $objArchiveBlockCardImg = StyleManagerArchiveModel::findByIdentifier('fwblockcardimg');
         $objArchiveBlockCardText = StyleManagerArchiveModel::findByIdentifier('fwblockcardtext');
         $objArchiveBlockCardBg = StyleManagerArchiveModel::findByIdentifier('fwblockcardbg');
 
@@ -159,7 +159,6 @@ class Migration extends MigrationAbstract
         && null !== $objArchiveGridItemXXSManual
         && null !== $objArchivePriceCardManual
         && null !== $objArchiveQuote
-        && null !== $objArchiveBlockCardImg
         && null !== $objArchiveBlockCardText
         && null !== $objArchiveBlockCardBg
         ) {
@@ -244,9 +243,6 @@ class Migration extends MigrationAbstract
             && null !== StyleManagerModel::findByAliasAndPid('fwimagefade', $objArchiveImage->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwquoteimgh', $objArchiveQuote->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwquoteimgv', $objArchiveQuote->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwblockcardimgh', $objArchiveBlockCardImg->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwblockcardimgv', $objArchiveBlockCardImg->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwblockcardimgmode', $objArchiveBlockCardImg->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwblockcardft', $objArchiveBlockCardText->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwblockcardtextalign', $objArchiveBlockCardText->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwblockcardcontentbg', $objArchiveBlockCardBg->id)
@@ -364,37 +360,10 @@ class Migration extends MigrationAbstract
     {
         $contentElements = self::$elements['blockCard'.$suffix];
         // Block card
-        $objArchiveImg = $this->fillObjArchive('fwblockcardimg'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardimg.tabTitle', 'FramwayBlockCard');
-        $objArchiveImg->save();
         $objArchiveText = $this->fillObjArchive('fwblockcardtext'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardtext.tabTitle', 'FramwayBlockCard');
         $objArchiveText->save();
         $objArchiveBg = $this->fillObjArchive('fwblockcardbg'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardbg.tabTitle', 'FramwayBlockCard');
         $objArchiveBg->save();
-
-        // Block card - imgh
-        $cssClasses = [
-            ['key' => 'img--left', 'value' => 'WEMSG.STYLEMANAGER.fwblockcardimgh.leftLabel'],
-            ['key' => 'img--right', 'value' => 'WEMSG.STYLEMANAGER.fwblockcardimgh.rightLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwblockcardimgh'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardimgh.title', 'WEMSG.STYLEMANAGER.fwblockcardimgh.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
-
-        // Block card - imgv
-        $cssClasses = [
-            ['key' => 'img--top', 'value' => 'WEMSG.STYLEMANAGER.fwblockcardimgv.topLabel'],
-            ['key' => 'img--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwblockcardimgv.bottomLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwblockcardimgv'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardimgv.title', 'WEMSG.STYLEMANAGER.fwblockcardimgv.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
-
-        // Block card - img display mode
-        $cssClasses = [
-            ['key' => 'img--cover', 'value' => 'WEMSG.STYLEMANAGER.fwblockcardimgmode.coverLabel'],
-            ['key' => 'img--contain', 'value' => 'WEMSG.STYLEMANAGER.fwblockcardimgmode.containLabel'],
-            ['key' => 'img--natural', 'value' => 'WEMSG.STYLEMANAGER.fwblockcardimgmode.naturalLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwblockcardimgmode'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardimgmode.title', 'WEMSG.STYLEMANAGER.fwblockcardimgmode.description', $contentElements, $cssClasses, $passToTemplate);
-        $objStyle->save();
 
         // Block card - text color
         $cssClasses = $this->buildMeaningfulColorsCssClasses('ft-%s', 'fwblockcardft');

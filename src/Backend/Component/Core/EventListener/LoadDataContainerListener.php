@@ -12,13 +12,14 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Backend\Component\Faq\EventListener;
+namespace WEM\SmartgearBundle\Backend\Component\Core\EventListener;
 
 use Symfony\Component\Security\Core\Security;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
+use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class LoadDataContainerListener
 {
@@ -48,13 +49,12 @@ class LoadDataContainerListener
             $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
             switch ($table) {
-                case 'tl_faq':
-                    $faqConfig = $config->getSgFaq();
-                    if (!$faqConfig->getSgInstallComplete()) {
-                        return;
+                case 'tl_content':
+                    if (!$this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::CORE_EXPERT)
+                    ) {
+                        // do not display grid_gap settings
+                        $this->dcaManipulator->removeFields(['grid_gap']);
                     }
-                    // limiting singleSRC fierld to the blog folder
-                    $this->dcaManipulator->setFieldSingleSRCPath($faqConfig->getSgFaqFolder());
                 break;
             }
         } catch (FileNotFoundException $e) {
