@@ -335,6 +335,7 @@ class Website extends ConfigurationStep
         $objLayout->webfonts = $config->getSgGoogleFonts();
         $objLayout->head = $head;
         $objLayout->script = $script;
+        $objLayout->framework = serialize([]);
         $objLayout->save();
 
         $layouts['standard'] = $objLayout;
@@ -354,6 +355,7 @@ class Website extends ConfigurationStep
         $objLayout->webfonts = $config->getSgGoogleFonts();
         $objLayout->head = $head;
         $objLayout->script = $script;
+        $objLayout->framework = serialize([]);
         $objLayout->save();
 
         $layouts['fullwidth'] = $objLayout;
