@@ -33,7 +33,7 @@ services:
                 - '@smartgear.backend.component.core.configuration_step.general'
                 # - '@smartgear.backend.component.core.configuration_step.framway_retrieval'
                 - '@smartgear.backend.component.core.configuration_step.framway_retrieval_minimal'
-                - '@smartgear.backend.component.core.configuration_step.framway_configuration'
+                # - '@smartgear.backend.component.core.configuration_step.framway_configuration'
                 - '@smartgear.backend.component.core.configuration_step.website'
         public: true
 
@@ -76,6 +76,7 @@ services:
             $module: 'core'
             $type: 'component'
             $configurationManager: '@smartgear.config.manager.core'
+            $configurationManagerFramway: '@smartgear.config.manager.framway'
             $framwaySynchronizer: '@smartgear.classes.directories_synchronizer.framway'
             $framwayUtil: '@smartgear.classes.util_framway'
         public: true

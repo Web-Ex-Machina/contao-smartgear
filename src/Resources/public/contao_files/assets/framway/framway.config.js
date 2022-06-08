@@ -1,5 +1,7 @@
 module.exports = {
-    themes: [],
+    themes: [
+        'smartgear2'
+    ],
     components: [
         'select2FW',
         'input-number',

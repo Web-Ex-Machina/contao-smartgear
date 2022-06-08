@@ -10,7 +10,7 @@
 		<br>
 	</div>
 
-	<div class="widget">
+	<div class="widget hidden">
 		<button type="button" id="button-<?= $this->type ?>-<?= $this->module ?>-framway-configuration-new-theme" 
 		title="<?= $this->trans('WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeAddTitle'); ?>"><?= $this->trans('WEMSG.INSTALL.FRAMWAYCONFIGURATION.ButtonFramwayThemeAdd'); ?></button>
 		<br>

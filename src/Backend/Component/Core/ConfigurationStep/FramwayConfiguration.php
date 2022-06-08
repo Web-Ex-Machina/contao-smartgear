@@ -90,10 +90,8 @@ class FramwayConfiguration extends ConfigurationStep
                 $componentsOptions[] = ['value' => $component, 'label' => $component];
             }
 
-            // $this->addSelectField('themes[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldThemes'], $this->framwayUtil->getAvailableThemes(), $framwayConfig->getThemes(), true, true);
             $this->addSelectField('themes[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldThemes'], $themesOptions, $framwayConfig->getThemes(), true, true);
             $this->addSelectField('themesAvailables[]', '', $themesOptions, $framwayConfig->getThemesAvailables(), true, true, 'hidden');
-            // $this->addSelectField('components[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldComponents'], $this->framwayUtil->getAvailableComponents(), $framwayConfig->getComponents(), true, true);
             $this->addSelectField('components[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldComponents'], $componentsOptions, $framwayConfig->getComponents(), true, true);
             $this->addSelectField('componentsAvailables[]', '', $componentsOptions, $framwayConfig->getComponentsAvailables(), true, true, 'hidden');
             $this->addTextField('new_theme', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldNewTheme'], '', false, 'hidden', 'text');
@@ -127,7 +125,8 @@ class FramwayConfiguration extends ConfigurationStep
         );
         $this->updateCoreConfiguration(Input::post('themes') ?? []);
 
-        $this->framwayUtil->build();
+        // no build needed anymore
+        // $this->framwayUtil->build();
 
         $this->importRSCETemplates();
         $this->importSmartgearTemplates();

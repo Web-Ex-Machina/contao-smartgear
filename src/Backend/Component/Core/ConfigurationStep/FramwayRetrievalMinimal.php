@@ -19,11 +19,16 @@ use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 use WEM\SmartgearBundle\Classes\UtilFramway;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Framway as FramwayConfig;
+use WEM\SmartgearBundle\Config\Manager\Framway as ConfigurationManagerFramway;
 
 class FramwayRetrievalMinimal extends ConfigurationStep
 {
     /** @var ConfigurationManager */
     protected $configurationManager;
+    /** @var ConfigurationManagerFramway */
+    protected $configurationManagerFramway;
     /** @var DirectoriesSynchronizer */
     protected $framwaySynchronizer;
     /** @var UtilFramway */
@@ -34,12 +39,14 @@ class FramwayRetrievalMinimal extends ConfigurationStep
         string $module,
         string $type,
         ConfigurationManager $configurationManager,
+        ConfigurationManagerFramway $configurationManagerFramway,
         DirectoriesSynchronizer $framwaySynchronizer,
         UtilFramway $framwayUtil
     ) {
         parent::__construct($module, $type);
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYRETRIEVALMINIMAL']['Title'];
         $this->configurationManager = $configurationManager;
+        $this->configurationManagerFramway = $configurationManagerFramway;
         $this->framwaySynchronizer = $framwaySynchronizer;
         $this->framwayUtil = $framwayUtil;
     }
@@ -64,6 +71,8 @@ class FramwayRetrievalMinimal extends ConfigurationStep
     {
         // do what is meant to be done in this step
         $this->importFramway();
+        $framwayConfig = $this->updateFramwayConfiguration();
+        $this->updateCoreConfiguration($framwayConfig->getThemes());
     }
 
     public function checkFramwayPresence()
@@ -74,5 +83,27 @@ class FramwayRetrievalMinimal extends ConfigurationStep
     protected function importFramway(): void
     {
         $this->framwaySynchronizer->synchronize(true);
+    }
+
+    protected function updateFramwayConfiguration(): FramwayConfig
+    {
+        /** @var FramwayConfig */
+        $framwayConfig = $this->configurationManagerFramway->load();
+        $this->configurationManagerFramway->save($framwayConfig);
+
+        return $framwayConfig;
+    }
+
+    /**
+     * Update Core configuration.
+     *
+     * @param array $themes [description]
+     */
+    protected function updateCoreConfiguration(array $themes): void
+    {
+        /** @var CoreConfig */
+        $coreConfig = $this->configurationManager->load();
+        $coreConfig->setSgFramwayThemes($themes);
+        $this->configurationManager->save($coreConfig);
     }
 }
