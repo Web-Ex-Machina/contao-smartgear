@@ -248,19 +248,17 @@
 			<target>4. Build du Framway</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVALMINIMAL.Title">
-			<source>Framway | Retrieval</source>
-			<target>Framway | Récupération</target>
+			<source>Framway</source>
+			<target>Framway</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVALMINIMAL.FramwayPresent">
-			<source><p>Framway is already present and configured</p><p>You can skip this step or update the Framway</p></source>
-			<target><p>Le framway est déjà présent et configuré.</p><p>Vous pouvez passer à l'étape suivante ou le mettre à jour.</p></target>
+			<source><p>Framway is present and configured</p></source>
+			<target><p>Le framway est présent et configuré.</p></target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVALMINIMAL.FramwayAbsent">
-			<source><p>Framway isn't present and/or configured</p><p>You have to retrieve / update it before going to the next step</p></source>
-			<target><p>Le framway n'est pas présent / configuré.</p><p>Vous devez le récupérer / mettre à jour avant de passer à l'étape suivante.</p></target>
+			<source><p>Framway isn't present.</p><p>It will be installed and configured when going to the next step.</p></source>
+			<target><p>Le framway n'est pas présent.</p><p>Il sera installé et configuré lors du passage à l'étape suivante.</p></target>
 		</trans-unit>
-
-
 
 		<trans-unit id="WEMSG.INSTALL.GENERAL.Title">
 			<source>Global</source>
