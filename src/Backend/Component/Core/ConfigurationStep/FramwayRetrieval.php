@@ -23,6 +23,8 @@ class FramwayRetrieval extends ConfigurationStep
 {
     /** @var ConfigurationManager */
     protected $configurationManager;
+    /** @var DirectoriesSynchronizer */
+    protected $framwaySynchronizer;
     /** @var UtilFramway */
     protected $framwayUtil;
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_retrieval';

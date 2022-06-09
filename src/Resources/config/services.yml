@@ -91,6 +91,16 @@ services:
             $manageSubfolders: true
         public: true
 
+    smartgear.classes.directories_synchronizer.framway:
+        class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
+        arguments:
+            $translator: '@contao.translation.translator'
+            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/assets/framway'
+            $destinationDirectory: 'assets/framway'
+            $rootDir: '%kernel.project_dir%'
+            $manageSubfolders: true
+        public: true
+
     smartgear.classes.directories_synchronizer.leaflet:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
