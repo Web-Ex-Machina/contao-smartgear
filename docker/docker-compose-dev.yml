@@ -43,6 +43,7 @@ services:
         cd ${WORKDIR_CONTAO}/vendor/webexmachina/${BUNDLE_NAME}/ &&
         runuser -u www-data -- composer install --dev --prefer-dist --no-progress &&
         chown -R www-data:www-data vendor &&
+        cd ${WORKDIR_CONTAO} &&
         runuser -u www-data -- ${WORKDIR_CONTAO}/vendor/bin/contao-console contao:filesync &&
         php-fpm -F
     networks:
