@@ -211,18 +211,6 @@
         <source>%s. element</source>
         <target>%s. élément</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_accordion.hl_title.0">
-        <source>Title format</source>
-        <target>Format titre</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_accordion.hl_title.1">
-        <source>Select a title format</source>
-        <target>Selectionner un format de titre a appliquer</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_accordion.hl_title.option_none">
-        <source>None</source>
-        <target>Aucun</target>
-      </trans-unit>
       <trans-unit id="tl_content.rsce_accordion.content.0">
         <source>Content</source>
         <target>Contenu</target>
