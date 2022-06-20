@@ -14,20 +14,6 @@ declare(strict_types=1);
 
 return [
     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_hero_start'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
-        'config_legend' => [
-            'label' => [&$GLOBALS['TL_LANG']['tl_content']['config_legend']], 'inputType' => 'group',
-        ],
-        'force_fullheight' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['force_fullheight'],
-            'inputType' => 'checkbox',
-            'eval' => ['tl_class' => 'w50'],
-        ],
-        'block_height' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['block_height'],
-            'inputType' => 'text',
-            'eval' => ['tl_class' => 'w50'],
-        ],
-
         'image_legend' => [
             'label' => [&$GLOBALS['TL_LANG']['tl_content']['image_legend']],
             'inputType' => 'group',
@@ -39,10 +25,88 @@ return [
             'inputType' => 'standardField',
             'eval' => ['tl_class' => 'w50'],
         ],
-        'img_size' => [
+        'image_size' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['size'], 'inputType' => 'imageSize', 'reference' => &$GLOBALS['TL_LANG']['MSC'], 'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50 clr'], 'options_callback' => function () {
                 return System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance());
             },
+        ],
+        'image_opacity' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['image_opacity'],
+            'inputType' => 'select',
+            'options' => [
+                '0' => '0%',
+                '1' => '10%',
+                '2' => '20%',
+                '3' => '30%',
+                '4' => '40%',
+                '5' => '50%',
+                '6' => '60%',
+                '7' => '70%',
+                '8' => '80%',
+                '9' => '90%',
+                '10' => '100%',
+            ],
+            'default' => '10',
+            'eval' => ['tl_class' => 'w50', 'isAssociative' => true],
+        ],
+        'content_legend' => [
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_hero']['content_legend']],
+            'inputType' => 'group',
+        ],
+        'content_horizontal' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['content_horizontal'],
+            'inputType' => 'select',
+            'options' => [
+                'center' => &$GLOBALS['TL_LANG']['tl_content']['content_horizontal']['optionCenter'],
+                'left' => &$GLOBALS['TL_LANG']['tl_content']['content_horizontal']['optionLeft'],
+                'right' => &$GLOBALS['TL_LANG']['tl_content']['content_horizontal']['optionRight'],
+            ],
+            'eval' => ['tl_class' => 'w50', 'includeBlankOption' => true],
+        ],
+        'content_vertical' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['content_vertical'],
+            'inputType' => 'select',
+            'options' => [
+                'center' => &$GLOBALS['TL_LANG']['tl_content']['content_vertical']['optionCenter'],
+                'top' => &$GLOBALS['TL_LANG']['tl_content']['content_vertical']['optionTop'],
+                'bottom' => &$GLOBALS['TL_LANG']['tl_content']['content_vertical']['optionBottom'],
+            ],
+            'eval' => ['tl_class' => 'w50', 'includeBlankOption' => true],
+        ],
+        'config_legend' => [
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['config_legend']], 'inputType' => 'group',
+        ],
+        'hero_height' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['hero_height'],
+            'inputType' => 'radio',
+            'options' => [
+                'custom' => &$GLOBALS['TL_LANG']['tl_content']['hero_height']['custom'],
+                'viewport' => &$GLOBALS['TL_LANG']['tl_content']['hero_height']['viewport'],
+                'content' => &$GLOBALS['TL_LANG']['tl_content']['hero_height']['content'],
+            ],
+            'default' => 'custom',
+            'eval' => ['tl_class' => 'w50 clr'],
+        ],
+        'block_height' => [
+            'label' => '',
+            'inputType' => 'text',
+            'eval' => ['tl_class' => 'w50 clr cbx', 'style' => 'margin-top: -15px;', 'mandatory' => true],
+            'default' => '40vh',
+            'dependsOn' => [
+                'field' => 'hero_height',
+                'value' => 'custom',
+            ],
+        ],
+        'hero_width' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['hero_width'],
+            'inputType' => 'radio',
+            'options' => [
+                'default' => &$GLOBALS['TL_LANG']['tl_content']['hero_width']['default'],
+                'viewport' => &$GLOBALS['TL_LANG']['tl_content']['hero_width']['viewport'],
+                'content' => &$GLOBALS['TL_LANG']['tl_content']['hero_width']['content'],
+            ],
+            'default' => 'default',
+            'eval' => ['tl_class' => 'w50 clr'],
         ],
     ],
 ];
