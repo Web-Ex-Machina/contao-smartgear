@@ -19,9 +19,14 @@ return [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_tabs']['items_legend'], 'elementLabel' => &$GLOBALS['TL_LANG']['tl_content']['rsce_tabs']['item_legend'], 'inputType' => 'list', 'fields' => [
                 // Content
                 'title' => [
-                    'label' => &$GLOBALS['TL_LANG']['tl_content']['headline'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w100 long'],
-                ], 'content' => [
-                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_tabs']['content'], 'inputType' => 'textarea', 'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['headline'], 
+                    'inputType' => 'text', 
+                    'eval' => ['tl_class' => 'w50','mandatory' => true], 
+                ],
+                'content' => [
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_tabs']['content'], 
+                    'inputType' => 'textarea', 
+                    'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
                 ],
             ],
         ],
