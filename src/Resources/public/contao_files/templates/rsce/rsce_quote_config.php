@@ -48,7 +48,7 @@ return [
         ],
         'text' => [
             'inputType' => 'standardField',
-            'eval' => ['mandatory' => false, 'tl_class' => 'clr'],
+            'eval' => ['mandatory' => true, 'tl_class' => 'clr'],
         ],
         'author' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['author'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr', 'mandatory' => false],
