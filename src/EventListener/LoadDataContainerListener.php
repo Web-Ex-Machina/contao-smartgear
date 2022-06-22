@@ -227,7 +227,8 @@ class LoadDataContainerListener
     protected function applyStyleManagerBehaviour($table): void
     {
         // here add "explanation"/"reference" to styleManager fields ?
-        if (\array_key_exists($table, $GLOBALS['TL_DCA'])
+        if (\array_key_exists('TL_DCA', $GLOBALS)
+        && \array_key_exists($table, $GLOBALS['TL_DCA'])
         && \array_key_exists('fields', $GLOBALS['TL_DCA'][$table])
         && \array_key_exists('styleManager', $GLOBALS['TL_DCA'][$table]['fields'])
         ) {

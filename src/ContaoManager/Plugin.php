@@ -45,8 +45,8 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface
                     ContaoNewsBundle::class,
                     ContaoCalendarBundle::class,
                     ContaoFaqBundle::class,
-                    ContaoFaqBundle::class,
                     'notification_center',
+                    WEMPersonalDataManager::class,
                 ])
                 ->setReplace(['wem-smartgear']),
         ];
