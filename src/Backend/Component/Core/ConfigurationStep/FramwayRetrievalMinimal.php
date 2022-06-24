@@ -31,6 +31,20 @@ class FramwayRetrievalMinimal extends ConfigurationStep
     protected $configurationManagerFramway;
     /** @var DirectoriesSynchronizer */
     protected $framwaySynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected $templateRSCESynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected $templateSmartgearSynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected $templateGeneralSynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected $tinyMCEPluginsSynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected $tarteAuCitronSynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected $outdatedBrowserSynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected $socialShareButtonsSynchronizer;
     /** @var UtilFramway */
     protected $framwayUtil;
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_retrieval_minimal';
@@ -41,6 +55,13 @@ class FramwayRetrievalMinimal extends ConfigurationStep
         ConfigurationManager $configurationManager,
         ConfigurationManagerFramway $configurationManagerFramway,
         DirectoriesSynchronizer $framwaySynchronizer,
+        DirectoriesSynchronizer $templateRSCESynchronizer,
+        DirectoriesSynchronizer $templateSmartgearSynchronizer,
+        DirectoriesSynchronizer $templateGeneralSynchronizer,
+        DirectoriesSynchronizer $tinyMCEPluginsSynchronizer,
+        DirectoriesSynchronizer $tarteAuCitronSynchronizer,
+        DirectoriesSynchronizer $outdatedBrowserSynchronizer,
+        DirectoriesSynchronizer $socialShareButtonsSynchronizer,
         UtilFramway $framwayUtil
     ) {
         parent::__construct($module, $type);
@@ -48,6 +69,13 @@ class FramwayRetrievalMinimal extends ConfigurationStep
         $this->configurationManager = $configurationManager;
         $this->configurationManagerFramway = $configurationManagerFramway;
         $this->framwaySynchronizer = $framwaySynchronizer;
+        $this->templateRSCESynchronizer = $templateRSCESynchronizer;
+        $this->templateSmartgearSynchronizer = $templateSmartgearSynchronizer;
+        $this->templateGeneralSynchronizer = $templateGeneralSynchronizer;
+        $this->tinyMCEPluginsSynchronizer = $tinyMCEPluginsSynchronizer;
+        $this->tarteAuCitronSynchronizer = $tarteAuCitronSynchronizer;
+        $this->outdatedBrowserSynchronizer = $outdatedBrowserSynchronizer;
+        $this->socialShareButtonsSynchronizer = $socialShareButtonsSynchronizer;
         $this->framwayUtil = $framwayUtil;
     }
 
@@ -73,6 +101,14 @@ class FramwayRetrievalMinimal extends ConfigurationStep
         $this->importFramway();
         $framwayConfig = $this->updateFramwayConfiguration();
         $this->updateCoreConfiguration($framwayConfig->getThemes());
+
+        $this->importRSCETemplates();
+        $this->importSmartgearTemplates();
+        $this->importGeneralTemplates();
+        $this->importTinyMCEPlugins();
+        $this->importOutdatedBrowser();
+        $this->importTarteAuCitron();
+        $this->importSocialShareButtons();
     }
 
     public function checkFramwayPresence()
@@ -105,5 +141,40 @@ class FramwayRetrievalMinimal extends ConfigurationStep
         $coreConfig = $this->configurationManager->load();
         $coreConfig->setSgFramwayThemes($themes);
         $this->configurationManager->save($coreConfig);
+    }
+
+    protected function importRSCETemplates(): void
+    {
+        $this->templateRSCESynchronizer->synchronize(false);
+    }
+
+    protected function importSmartgearTemplates(): void
+    {
+        $this->templateSmartgearSynchronizer->synchronize(false);
+    }
+
+    protected function importGeneralTemplates(): void
+    {
+        $this->templateGeneralSynchronizer->synchronize(false);
+    }
+
+    protected function importTinyMCEPlugins(): void
+    {
+        $this->tinyMCEPluginsSynchronizer->synchronize(false);
+    }
+
+    protected function importOutdatedBrowser(): void
+    {
+        $this->outdatedBrowserSynchronizer->synchronize(true);
+    }
+
+    protected function importTarteAuCitron(): void
+    {
+        $this->tarteAuCitronSynchronizer->synchronize(true);
+    }
+
+    protected function importSocialShareButtons(): void
+    {
+        $this->socialShareButtonsSynchronizer->synchronize(true);
     }
 }
