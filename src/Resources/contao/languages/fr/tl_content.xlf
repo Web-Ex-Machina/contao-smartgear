@@ -37,6 +37,10 @@
         <source>Set the desired element's height</source>
         <target>Indiquez la hauteur voulue de l'élément</target>
       </trans-unit>
+      <trans-unit id="tl_content.content_legend">
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
       <trans-unit id="tl_content.image_legend">
         <source>Picture</source>
         <target>Image</target>
@@ -88,6 +92,26 @@
       <trans-unit id="tl_content.content_vertical.optionBottom">
         <source>Bottom</source>
         <target>Bas</target>
+      </trans-unit>
+      <trans-unit id="tl_content.overlay_legend">
+        <source>Overlay configuration</source>
+        <target>Configuration de l'overlay</target>
+      </trans-unit>
+      <trans-unit id="tl_content.overlay_background.0">
+        <source>Overlay color</source>
+        <target>Couleur de l'overlay</target>
+      </trans-unit>
+      <trans-unit id="tl_content.overlay_background.1">
+        <source>Change overlay color</source>
+        <target>Ajoute un calque de couleur entre l'image et le contenu.</target>
+      </trans-unit>
+      <trans-unit id="tl_content.overlay_opacity.0">
+        <source>Overlay opacity</source>
+        <target>Opacité de l'overlay</target>
+      </trans-unit>
+      <trans-unit id="tl_content.overlay_opacity.1">
+        <source>Change overlay opacity</source>
+        <target>Change l'opacité de l'overlay</target>
       </trans-unit>
       <trans-unit id="tl_content.hero_height.0">
         <source>Hero's height</source>
@@ -632,81 +656,121 @@
         <source>Slider configuration</source>
         <target>Configuration du slider</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slide_height.0">
+      <trans-unit id="tl_content.rsce_slider.height.0">
         <source>Slider height</source>
         <target>Hauteur du slider</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slide_height.1">
-        <source>Configure the slider height</source>
-        <target>Configurez la hauteur du slider</target>
+      <trans-unit id="tl_content.rsce_slider.height.1">
+        <source>Configure the slider height. Default height is relative to the slider content.</source>
+        <target>Configurez la hauteur du slider. Par défaut, la hauteur du slider est relative à son contenu.</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slide_autoplay.0">
+      <trans-unit id="tl_content.rsce_slider.itemsPerRow.0">
+        <source>Items per row</source>
+        <target>Nombre d'objets par slide</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.itemsPerRow.1">
+        <source>Indicate the number of objects to display per slide</source>
+        <target>Indiquez le nombre d'objets à afficher par slide</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.autoplay.0">
         <source>Autostart</source>
         <target>Démarrage automatique</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slide_autoplay.1">
-        <source>Tick to make the slider starts automatically</source>
-        <target>Cochez pour faire en sorte que le slider se lance automatiquement</target>
+      <trans-unit id="tl_content.rsce_slider.autoplay.1">
+        <source>Check to make the slider starts automatically</source>
+        <target>Cochez pour que le slider se lance automatiquement</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slider_loop.0">
+      <trans-unit id="tl_content.rsce_slider.loop.0">
         <source>Loop</source>
         <target>En boucle</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slider_loop.1">
-        <source>Tick to make the slider start over when finished</source>
-        <target>Cochez pour faire en sorte que le slider se relance une fois fini</target>
+      <trans-unit id="tl_content.rsce_slider.loop.1">
+        <source>Check to make the slider start over when finished</source>
+        <target>Cochez pour que le slider se relance une fois fini. (ne fonctionne que si le nombre de slide est supérieur à 2)</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slider_transition.0">
+      <trans-unit id="tl_content.rsce_slider.transition.0">
         <source>Transition</source>
         <target>Transition</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slider_transition.1">
+      <trans-unit id="tl_content.rsce_slider.transition.1">
         <source>Choose the desired transition type between slides</source>
         <target>Sélectionner le type de transition souhaitée entre les slides</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slider_transition.optionTranslate">
+      <trans-unit id="tl_content.rsce_slider.transition.optionTranslate">
         <source>Translation</source>
         <target>Translation</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slider_transition.optionFade">
+      <trans-unit id="tl_content.rsce_slider.transition.optionFade">
         <source>Fading</source>
         <target>Fondu</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slider_transition.optionNone">
+      <trans-unit id="tl_content.rsce_slider.transition.optionNone">
         <source>None</source>
         <target>Aucune</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.transition_duration.0">
+        <source>Transition duration</source>
+        <target>Durée de transition</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.transition_duration.1">
+        <source>Set the execution time of the transitions (ms)</source>
+        <target>Paramétrez la durée d'exécution des transitions (ms)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.transition_delay.0">
+        <source>Transition delay</source>
+        <target>Délais de transition</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.transition_delay.1">
+        <source>Set the time interval between each transition (ms)</source>
+        <target>Paramétrez l'interval de temps entre chaque transition (ms)</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_slider.config_nav_legend">
         <source>Navigation configuration</source>
         <target>Configuration de la navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.nav_display.0">
+        <source>Nav display</source>
+        <target>Affichage de la navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.nav_display.1">
+        <source></source>
+        <target>Choisissez le mode d'affichage de la navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.nav_display.default">
+        <source>Default</source>
+        <target>Par défaut</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.nav_display.below">
+        <source>Below</source>
+        <target>En dessous du slider</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.nav_display.hidden">
+        <source>Hidden</source>
+        <target>Masquée</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_slider.nav_arrows.0">
         <source>Use arrows to navigate</source>
         <target>Navigation fléchée</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_slider.nav_arrows.1">
-        <source>Tick to activate navigation throught arrows (disable classic navigation)</source>
-        <target>Cochez pour activer la navigation fléchée (désactive la navigation classique)</target>
+        <source>Check to activate navigation throught arrows (disable classic navigation)</source>
+        <target>Cochez pour activer la navigation fléchée</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.disable_swipe.0">
-        <source>Disable swipe</source>
-        <target>Désactiver swipe</target>
+      <trans-unit id="tl_content.rsce_slider.swipe.0">
+        <source>Enable swipe</source>
+        <target>Activer swipe</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.disable_swipe.1">
-        <source>Tick to disable navigation throught swipe</source>
-        <target>Cochez pour désactiver la navigation par swipe</target>
+      <trans-unit id="tl_content.rsce_slider.swipe.1">
+        <source>Check to enable navigation throught swipe</source>
+        <target>Cochez pour activer la navigation par swipe</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.config_content_legend">
-        <source>Content configuration</source>
-        <target>Configuration des contenus</target>
+      <trans-unit id="tl_content.rsce_slider.keypress.0">
+        <source>Enable keyboard navigation</source>
+        <target>Activer navigation clavier</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.content_noblur.0">
-        <source>No blur</source>
-        <target>Pas de flou</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.content_noblur.1">
-        <source>Tick to disable the blur effect behind the content</source>
-        <target>Cochez pour désactiver l'effet de flou derrière le contenu</target>
+      <trans-unit id="tl_content.rsce_slider.keypress.1">
+        <source>Check to enable navigation throught keyboard</source>
+        <target>Cochez pour activer la navigation au clavier</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_slider.items_legend.0">
         <source>Slides</source>
@@ -720,27 +784,27 @@
         <source>%s. slide</source>
         <target>%s. slide</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slide_img_src.0">
+      <trans-unit id="tl_content.rsce_slider.img_src.0">
         <source>Background</source>
         <target>Fond</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slide_img_src.1">
+      <trans-unit id="tl_content.rsce_slider.img_src.1">
         <source>Insert thhe background image for this item</source>
         <target>Insérez une image qui sera utilisé comme fond de cet item</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slide_content.0">
+      <trans-unit id="tl_content.rsce_slider.content.0">
         <source>Content</source>
         <target>Contenu</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slide_content.1">
+      <trans-unit id="tl_content.rsce_slider.content.1">
         <source>Type the slide's textual content</source>
         <target>Saisissez le contenu textuel de la slide</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slide_link_classes.0">
+      <trans-unit id="tl_content.rsce_slider.link_classes.0">
         <source>Link's CSS classes</source>
         <target>Classe(s) css du lien</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_slider.slide_link_classes.1">
+      <trans-unit id="tl_content.rsce_slider.link_classes.1">
         <source>Type one or more CSS classes to add to the link (separated by space)</source>
         <target>Saisissez une ou plusieurs classes css à appliquer au lien (séparées par un espace)</target>
       </trans-unit>
