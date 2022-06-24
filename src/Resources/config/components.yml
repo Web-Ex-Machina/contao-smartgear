@@ -78,6 +78,13 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
             $configurationManagerFramway: '@smartgear.config.manager.framway'
             $framwaySynchronizer: '@smartgear.classes.directories_synchronizer.framway'
+            $templateRSCESynchronizer: '@smartgear.classes.directories_synchronizer.templates.rsce'
+            $templateSmartgearSynchronizer: '@smartgear.classes.directories_synchronizer.templates.smartgear'
+            $templateGeneralSynchronizer: '@smartgear.classes.directories_synchronizer.templates.general'
+            $tinyMCEPluginsSynchronizer: '@smartgear.classes.directories_synchronizer.tiny_mce.plugins'
+            $tarteAuCitronSynchronizer: '@smartgear.classes.directories_synchronizer.tarte_au_citron'
+            $outdatedBrowserSynchronizer: '@smartgear.classes.directories_synchronizer.outdated_browser'
+            $socialShareButtonsSynchronizer: '@smartgear.classes.directories_synchronizer.social_share_buttons'
             $framwayUtil: '@smartgear.classes.util_framway'
         public: true
 
