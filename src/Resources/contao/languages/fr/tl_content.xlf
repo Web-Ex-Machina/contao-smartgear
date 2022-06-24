@@ -673,12 +673,12 @@
         <target>Indiquez le nombre d'objets à afficher par slide</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_slider.autoplay.0">
-        <source>Autostart</source>
-        <target>Démarrage automatique</target>
+        <source>Autoplay</source>
+        <target>Défilement automatique</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_slider.autoplay.1">
-        <source>Check to make the slider starts automatically</source>
-        <target>Cochez pour que le slider se lance automatiquement</target>
+        <source>Check to make the slider plays automatically</source>
+        <target>Cochez pour que le slider défile automatiquement</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_slider.loop.0">
         <source>Loop</source>
@@ -800,6 +800,14 @@
         <source>Type the slide's textual content</source>
         <target>Saisissez le contenu textuel de la slide</target>
       </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.content_fontcolor.0">
+        <source>Font color</source>
+        <target>Couleur du texte</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.content_fontcolor.1">
+        <source>If needed, adjust the text font color</source>
+        <target>Si nécessaire, ajustez la couleur du texte</target>
+      </trans-unit>
       <trans-unit id="tl_content.rsce_slider.link_classes.0">
         <source>Link's CSS classes</source>
         <target>Classe(s) css du lien</target>
@@ -857,11 +865,11 @@
         <target>Configurez la hauteur du slider</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_testimonials.slide_autoplay.0">
-        <source>Autostart</source>
-        <target>Démarrage automatique</target>
+        <source>Autoplay</source>
+        <target>Défilement automatique</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_testimonials.slide_autoplay.1">
-        <source>Tick to make the contents slide automatically</source>
+        <source>Check to make the contents slide automatically</source>
         <target>Cochez pour que les contenus défilent automatiquement</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_testimonials.slider_loop.0">
