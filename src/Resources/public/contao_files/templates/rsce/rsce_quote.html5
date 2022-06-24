@@ -3,22 +3,34 @@
   $arrCrop = deserialize($this->size);
   $objFile = FilesModel::findByUuid($this->singleSRC);
   $strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
+
+  // Prepare the main block classes
+  $arrClasses = [];
+  if($this->image_displaymode)
+    $arrClasses[] = $this->image_displaymode;
+  if($this->image_ratio)
+    $arrClasses[] = $this->image_ratio;
+  if($this->image_align_horizontal)
+    $arrClasses[] = $this->image_align_horizontal;
+  if($this->image_align_vertical)
+    $arrClasses[] = $this->image_align_vertical;
+
 ?>
-<div class="<?= $this->class ?> d-grid gap-0 cols-3 cols-sm-1 block-std p-0">
+<div class="<?= $this->class ?> <?= implode(' ', $arrClasses)  ?> block-std ">
   <?php if ($strFile && $this->image_pos == 'before'): ?>
-    <div class="img-container">
-      <img src="<?= $strFile ?>" alt="<?= $this->alt ?>">
+    <div class="quote__picture <?= $this->image_ratio ? 'img-container':'' ?>" <?= $this->image_ratio && $arrCrop[0] ? 'style="width:'.$arrCrop[0].'px"':'' ?>>
+      <img src="<?= $strFile ?>" alt="<?= $this->alt ?>" width="<?= $arrCrop[0] ?>" height="<?= $arrCrop[1] ?>" >
     </div>
   <?php endif ?>
-  <div class="cols-span-<?= $strFile ? '2':'3' ?> cols-sm-1 p-all  flex-alignitems--center">
+  <div class="quote__content <?= $strFile ? 'p-all':'' ?>  flex-alignitems--center">
     <div>
-      <div class="ft-i ft-inherit quote"><?= $this->text ?></div>
-      <div class="txt-right"><strong><?= $this->author ?></strong></div>
+      <div class="quote__content__text "><?= $this->text ?></div>
+      <div class="quote__content__author"><strong><?= $this->author ?></strong></div>
     </div>
   </div>
   <?php if ($strFile && $this->image_pos == 'after'): ?>
-    <div class="img-container">
-      <img src="<?= $strFile ?>" alt="<?= $this->alt ?>">
+    <div class="quote__picture <?= $this->image_ratio ? 'img-container':'' ?>" <?= $this->image_ratio && $arrCrop[0] ? 'style="width:'.$arrCrop[0].'px"':'' ?>>
+      <img src="<?= $strFile ?>" alt="<?= $this->alt ?>" width="<?= $arrCrop[0] ?>" height="<?= $arrCrop[1] ?>" >
     </div>
   <?php endif ?>
 </div>
