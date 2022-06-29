@@ -117,6 +117,7 @@ $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Backup::getTable()] = WEM\Smart
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialNetworkCategory::getTable()] = WEM\SmartgearBundle\Model\SocialNetworkCategory::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialNetwork::getTable()] = WEM\SmartgearBundle\Model\SocialNetwork::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialLink::getTable()] = WEM\SmartgearBundle\Model\SocialLink::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Member::getTable()] = WEM\SmartgearBundle\Model\Member::class;
 /*
  * Add BE Hooks
  */
@@ -147,3 +148,4 @@ if ('FE' === TL_MODE) {
  * Add custom rights
  */
 $GLOBALS['TL_PERMISSIONS'][] = 'smartgear_permissions';
+}

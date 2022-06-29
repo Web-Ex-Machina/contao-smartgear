@@ -308,6 +308,14 @@
 			<source>API Key</source>
 			<target>Clef API</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgEncryptionKey">
+			<source>Encryption Key</source>
+			<target>Clef de chiffrement</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgEncryptionKeyHelp">
+			<source>The encryption key is used to encrypt and decrypt personal data. Do not change it once set !</source>
+			<target>Cette clef de chiffrement est utilisée pour chiffrer/déchiffrer les données personnelles. Ne la changez pas une fois qu'elle a été définie !</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.GENERAL.sgWebsiteTitleEmpty">
 			<source>Website's title is missing</source>
 			<target>Le titre du site web n'est pas renseigné.</target>
@@ -333,8 +341,12 @@
 			<target>L'identifiant Google Analytics n'est pas renseigné.</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.GENERAL.sgApiKeyEmpty">
-			<source>Website's title is missing</source>
+			<source>API key is missing</source>
 			<target>La clef API n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgApiKeyEmpty">
+			<source>Encryption key is missing</source>
+			<target>La clef de chiffrement n'est pas renseignée.</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.Title">
 			<source>Informations</source>
@@ -1477,6 +1489,10 @@
 		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.moduleNavName">
 			<source>Extranet - Navigation</source>
 			<target>Extranet - Navigation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.modulePersonalDataManagerName">
+			<source>Extranet - Personal Data Manager</source>
+			<target>Extranet - Gestionnaire Données Personnelles</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationChangeDataTitle">
 			<source>Extranet - Data changed</source>

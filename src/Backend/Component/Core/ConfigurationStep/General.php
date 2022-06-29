@@ -77,6 +77,7 @@ class General extends ConfigurationStep
         $this->addTextField('sgAnalyticsMatomoId', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsMatomoId'], $config->getSgAnalyticsMatomoId(), false);
         $this->addTextField('sgAnalyticsMatomoHost', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsMatomoHost'], $config->getSgAnalyticsMatomoHost(), false);
         $this->addTextField('sgApiKey', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgApiKey'], $config->getSgApiKey(), false);
+        $this->addTextField('sgEncryptionKey', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgEncryptionKey'], $config->getSgEncryptionKey(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgEncryptionKeyHelp']);
     }
 
     public function isStepValid(): bool
@@ -113,6 +114,10 @@ class General extends ConfigurationStep
             throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgApiKeyEmpty']);
         }
 
+        if (empty(Input::post('sgEncryptionKey'))) {
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgEncryptionKeyEmpty']);
+        }
+
         return true;
     }
 
@@ -120,6 +125,7 @@ class General extends ConfigurationStep
     {
         // do what is meant to be done in this step
         $this->updateModuleConfiguration();
+        $this->updateLocalconfigConfiguration();
         $this->updateContaoConfiguration();
         $this->createPublicFolders();
         $this->commandUtil->executeCmdPHP('cache:clear');
@@ -149,8 +155,15 @@ class General extends ConfigurationStep
         $config->setSgAnalyticsMatomoId(Input::post('sgAnalyticsMatomoId'));
         $config->setSgAnalyticsMatomoHost(Input::post('sgAnalyticsMatomoHost'));
         $config->setSgApiKey(Input::post('sgApiKey'));
+        $config->setSgEncryptionKey(Input::post('sgEncryptionKey'));
 
         $this->configurationManager->save($config);
+    }
+
+    protected function updateLocalconfigConfiguration(): void
+    {
+        \Contao\Config::set('wem_pdm_encryption_key', Input::post('sgEncryptionKey'));
+        \Contao\Config::persist('wem_pdm_encryption_key', Input::post('sgEncryptionKey'));
     }
 
     protected function updateContaoConfiguration(): void

@@ -51,6 +51,7 @@ class Core implements ConfigModuleInterface
     public const DEFAULT_ROOTPAGE_CHMOD = 'a:12:{i:0;s:2:"u1";i:1;s:2:"u2";i:2;s:2:"u3";i:3;s:2:"u4";i:4;s:2:"u5";i:5;s:2:"u6";i:6;s:2:"g1";i:7;s:2:"g2";i:8;s:2:"g3";i:9;s:2:"g4";i:10;s:2:"g5";i:11;s:2:"g6";}';
 
     public const DEFAULT_API_KEY = 'api-key-to-change';
+    public const DEFAULT_ENCRYPTION_KEY = 'encryption-key-to-change';
     public const DEFAULT_CLIENT_FILES_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media';
     public const DEFAULT_CLIENT_LOGOS_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media'.\DIRECTORY_SEPARATOR.'logos';
     /** @var bool */
@@ -155,6 +156,8 @@ class Core implements ConfigModuleInterface
     protected $sgModules = [];
     /** @var string */
     protected $sgApiKey = self::DEFAULT_API_KEY;
+    /** @var string */
+    protected $sgEncryptionKey = self::DEFAULT_API_KEY;
     /** @var BlogConfig */
     protected $sgBlog;
     /** @var EventsConfig */
@@ -219,6 +222,7 @@ class Core implements ConfigModuleInterface
             ->setSgOwnerDpoEmail('')
             ->setSgGoogleFonts(self::DEFAULT_GOOGLE_FONTS)
             ->setSgApiKey(self::DEFAULT_API_KEY)
+            ->setSgApiKey(self::DEFAULT_ENCRYPTION_KEY)
             ->setSgBlog((new BlogConfig())->reset())
             ->setSgEvents((new EventsConfig())->reset())
             ->setSgFaq((new FaqConfig())->reset())
@@ -282,6 +286,7 @@ class Core implements ConfigModuleInterface
             ->setSgOwnerDpoEmail($json->owner->dpo->email ?? '')
             ->setSgGoogleFonts($json->googleFonts ?? self::DEFAULT_GOOGLE_FONTS)
             ->setSgApiKey($json->api->key ?? self::DEFAULT_API_KEY)
+            ->setSgEncryptionKey($json->encryption->key ?? self::DEFAULT_API_KEY)
             ->setSgBlog(
                 property_exists($json, 'blog')
                 ? (new BlogConfig())->import($json->blog)
@@ -393,6 +398,9 @@ class Core implements ConfigModuleInterface
 
         $json->api = new \stdClass();
         $json->api->key = $this->getSgApiKey();
+
+        $json->encryption = new \stdClass();
+        $json->encryption->key = $this->getSgEncryptionKey();
 
         $json->blog = $this->getSgBlog()->export();
         $json->events = $this->getSgEvents()->export();
@@ -1102,6 +1110,18 @@ class Core implements ConfigModuleInterface
     public function setSgExtranet(ExtranetConfig $sgExtranet): self
     {
         $this->sgExtranet = $sgExtranet;
+
+        return $this;
+    }
+
+    public function getSgEncryptionKey(): ?string
+    {
+        return $this->sgEncryptionKey;
+    }
+
+    public function setSgEncryptionKey(?string $sgEncryptionKey): self
+    {
+        $this->sgEncryptionKey = $sgEncryptionKey;
 
         return $this;
     }
