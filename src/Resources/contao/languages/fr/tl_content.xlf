@@ -41,6 +41,14 @@
         <source>Picture</source>
         <target>Image</target>
       </trans-unit>
+      <trans-unit id="tl_content.icon_legend">
+        <source>Icon</source>
+        <target>Icône</target>
+      </trans-unit>
+      <trans-unit id="tl_content.background_legend">
+        <source>Background color</source>
+        <target>Couleur de fond</target>
+      </trans-unit>
       <trans-unit id="tl_content.config_legend">
         <source>Block settings</source>
         <target>Configuration du bloc</target>
@@ -348,6 +356,22 @@
         <source>Generate an icons list paired with text</source>
         <target>Générez une liste d'icones accompagnées de texte.</target>
       </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.icon_type.0">
+        <source>Image type</source>
+        <target>Type d'image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.icon_type.1">
+        <source>Choose the type of image to display in the block</source>
+        <target>Choisissez le type d'image à afficher dans le block</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.icon_type.image">
+        <source>Image</source>
+        <target>Image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.icon_type.icon">
+        <source>Icon</source>
+        <target>Icône</target>
+      </trans-unit>
       <trans-unit id="tl_content.rsce_listicons.items_legend.0">
         <source>Thumbnails</source>
         <target>Vignettes</target>
@@ -360,25 +384,25 @@
         <source>%s. thumbnail</source>
         <target>%s. vignette</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_listicons.img_src.0">
-        <source>Picture</source>
-        <target>Image</target>
+      <trans-unit id="tl_content.rsce_listicons.icon_html.0">
+        <source>font-awesome icon</source>
+        <target>Icone font-awesome</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_listicons.img_src.1">
-        <source>Choose an icon</source>
-        <target>Sélectionnez une icone</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_listicons.img_text.0">
-        <source>font-awesome icon (disable seleted picture)</source>
-        <target>Icone font-awesome (désactive l'image sélectionnée)</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_listicons.img_text.1">
+      <trans-unit id="tl_content.rsce_listicons.icon_html.1">
         <source>aaa</source>
-        <target>Indiquez le code html de l'icone désirée (exemple: &lt;i class=&quot;fas fa-paper-plane&quot;&gt;&lt;/i&gt;) voir site &lt;a href=&quot;https://fontawesome.com/icons?d=gallery&quot; target=&quot;_blank&quot;&gt;Font Awesome =>&lt;/a&gt;</target>
+        <target>Indiquez le code html de l'icône désirée (exemple: &lt;i class=&quot;fas fa-paper-plane&quot;&gt;&lt;/i&gt;) voir site &lt;a style="text-decoration:underline" href=&quot;https://fontawesome.com/icons?d=gallery&quot; target=&quot;_blank&quot;&gt;Font Awesome =>&lt;/a&gt;</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_listicons.text.0">
         <source>Text</source>
         <target>Texte</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.image_background.0">
+        <source>Background color</source>
+        <target>Couleur de fond</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.image_background.1">
+        <source>If desired, define a background color for the icon</source>
+        <target>Si souhaité, définissez une couleur de fond pour l'icône</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_listicons.text.1">
         <source>Type the text to be displayed under the icon</source>
