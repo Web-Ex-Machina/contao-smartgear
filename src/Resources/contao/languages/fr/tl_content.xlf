@@ -1018,67 +1018,67 @@
         <source>Inline</source>
         <target>En ligne</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.image_legend">
+      <trans-unit id="tl_content.image_legend">
         <source>Image</source>
         <target>Image</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.image_css.0">
+      <trans-unit id="tl_content.image_css.0">
         <source>Image CSS class(es)</source>
         <target>Classe(s) CSS image</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.image_css.1">
+      <trans-unit id="tl_content.image_css.1">
         <source>CSS class(es) to add to the image</source>
         <target>Classe(s) CSS à ajouter a l'image</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.content_legend">
+      <trans-unit id="tl_content.content_legend">
         <source>Content</source>
         <target>Contenu</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.title_css.0">
+      <trans-unit id="tl_content.title_css.0">
         <source>Title CSS class(es)</source>
         <target>Classe(s) CSS titre</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.title_css.1">
+      <trans-unit id="tl_content.title_css.1">
         <source>CSS class(es) to add to the title</source>
         <target>Classe(s) CSS à ajouter au titre</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.text_css.0">
+      <trans-unit id="tl_content.text_css.0">
         <source>Text CSS class(es)</source>
         <target>Classe(s) CSS texte</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.text_css.1">
+      <trans-unit id="tl_content.text_css.1">
         <source>CSS class(es) to add to the text</source>
         <target>Classe(s) CSS à ajouter au texte</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.link_css.0">
+      <trans-unit id="tl_content.link_css.0">
         <source>Link CSS class(es)</source>
         <target>Classe(s) CSS lien</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.link_css.1">
+      <trans-unit id="tl_content.link_css.1">
         <source>CSS class(es) to add to the link</source>
         <target>Classe(s) CSS à ajouter au lien</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.link_legend">
+      <trans-unit id="tl_content.link_legend">
         <source>Link</source>
         <target>Lien</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.link_mode.0">
+      <trans-unit id="tl_content.link_mode.0">
         <source>Mode</source>
         <target>Mode</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.link_mode.1">
-        <source>Change the link's display mode in the block</source>
-        <target>Change le mode d'affichage du lien dans le bloc</target>
+      <trans-unit id="tl_content.link_mode.1">
+        <source>Change the link's display mode</source>
+        <target>Change le mode d'affichage du lien</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.link_mode.optionWrapper">
+      <trans-unit id="tl_content.link_mode.optionWrapper">
         <source>Wrapper</source>
         <target>Wrapper</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.link_mode.optionBtn">
+      <trans-unit id="tl_content.link_mode.optionBtn">
         <source>Button</source>
         <target>Bouton</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.link_mode.optionLink">
+      <trans-unit id="tl_content.link_mode.optionLink">
         <source>Text link</source>
         <target>Lien texte</target>
       </trans-unit>
@@ -1106,23 +1106,23 @@
         <source></source>
         <target></target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.image_displaymode.0">
+      <trans-unit id="tl_content.image_displaymode.0">
         <source>Display mode</source>
         <target>Mode d'affichage</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.image_displaymode.1">
+      <trans-unit id="tl_content.image_displaymode.1">
         <source>Change the way the picture will be displayed in the block</source>
-        <target>Change la manière dont l'image sera affichée</target>
+        <target>Change la façon dont l'image sera affichée à l'écran</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.image_displaymode.cover">
+      <trans-unit id="tl_content.image_displaymode.cover">
         <source>Automatic filling</source>
         <target>Remplissage automatique</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.image_displaymode.contain">
+      <trans-unit id="tl_content.image_displaymode.contain">
         <source>Adjusted fit</source>
         <target>Ajustée</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_blockcard.image_displaymode.natural">
+      <trans-unit id="tl_content.image_displaymode.natural">
         <source>Natural</source>
         <target>Taille naturelle</target>
       </trans-unit>
