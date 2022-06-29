@@ -19,7 +19,7 @@ return [
     'standardFields' => ['cssID'],
     'fields' => [
         'image_legend' => [
-            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['image_legend']],
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['image_legend']],
             'inputType' => 'group',
         ],
         'singleSRC' => [
@@ -38,10 +38,10 @@ return [
             'inputType' => 'standardField',
         ],
         'image_css' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['image_css'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50', 'mandatory' => false],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['image_css'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50', 'mandatory' => false],
         ],
         'image_displaymode' => array(
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['image_displaymode'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['image_displaymode'],
             'inputType' => 'select',
             'options' => array(
                 'img--cover'    => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['image_displaymode']['cover'],
@@ -99,11 +99,11 @@ return [
             'eval' => array('tl_class'=>'w50'),
         ),
         'content_legend' => [
-            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['content_legend']],
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['content_legend']],
             'inputType' => 'group',
         ],
         'headline' => [
-            'label' => ['Titre', 'Si souhaité, indiquez un titre'], 'inputType' => 'standardField', 'eval' => ['tl_class' => 'w50', 'mandatory' => false, 'allowHtml' => true, 'includeBlankOption' => true],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['headline'], 'inputType' => 'standardField', 'eval' => ['tl_class' => 'w50', 'mandatory' => false, 'allowHtml' => true, 'includeBlankOption' => true],
         ],
         'text' => [
             'inputType' => 'standardField',
@@ -135,13 +135,13 @@ return [
         //     'eval' => ['tl_class' => 'w50', 'isAssociative' => true ],
         // ),
         'title_css' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['title_css'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr', 'mandatory' => false],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['title_css'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr', 'mandatory' => false],
         ],
         'text_css' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['text_css'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 ', 'mandatory' => false],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['text_css'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 ', 'mandatory' => false],
         ],
         'link_legend' => [
-            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['link_legend']],
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['link_legend']],
             'inputType' => 'group',
         ],
         'url' => [
@@ -156,17 +156,17 @@ return [
             'label' => &$GLOBALS['TL_LANG']['MSC']['target'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50'],
         ],
         'link_mode' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['link_mode'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['link_mode'],
             'inputType' => 'select',
             'options' => [
-                'wrapper' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['link_mode']['optionWrapper'],
-                'btn' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['link_mode']['optionBtn'],
-                'link' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['link_mode']['optionLink'],
+                'wrapper' => &$GLOBALS['TL_LANG']['tl_content']['link_mode']['optionWrapper'],
+                'btn' => &$GLOBALS['TL_LANG']['tl_content']['link_mode']['optionBtn'],
+                'link' => &$GLOBALS['TL_LANG']['tl_content']['link_mode']['optionLink'],
             ],
             'eval' => ['tl_class' => 'w50 clr'],
         ],
         'link_css' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['link_css'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 ', 'mandatory' => false],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['link_css'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 ', 'mandatory' => false],
         ],
         'advanced_legend' => [
             'label' => [&$GLOBALS['TL_LANG']['tl_content']['advanced_legend']],
