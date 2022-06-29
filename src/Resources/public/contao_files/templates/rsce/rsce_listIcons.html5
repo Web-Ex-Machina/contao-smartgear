@@ -3,21 +3,36 @@
     $arrItems = [];
     foreach($this->listItems as $item){
       $arrItem = [];
-      if ($item->img_src && !$item->img_text) {
-        $arrCrop = deserialize($item->img_crop);
-        $objFile = FilesModel::findByUuid($item->img_src);
+      $arrItem['icon_type'] = $item->icon_type;
+      if ($arrItem['icon_type'] == 'image') {
+        // Get the file
+        $arrCrop = deserialize($item->image_size);
+        $objFile = FilesModel::findByUuid($item->image_src) ?: FilesModel::findOneByPath($item->image_src);
         $strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
-        $arrItem = [
-          "src"=>$strFile,
-          "alt"=>($item->img_alt) ? $item->img_alt : $objFile->name
-        ];
-      } else if($item->img_text){
-        $arrItem['icon'] = $item->img_text;
+        $arrItem['src'] = $strFile;
+        $arrItem['alt'] = $item->image_alt ?: $objFile->name;
+      } else if($item->icon_html){
+        $arrItem['icon'] = $item->icon_html;
       }
 
-      $arrItem['classes'] = $item->classes ? $item->classes : '';
-      $arrItem['text'] = $item->text;
+      $arrItem['classes'] = [];
+      if($item->image_displaymode)
+        $arrItem['classes'][] = $item->image_displaymode;
+      if ($item->image_background) 
+        $arrItem['classes'][] = 'bg--'.$item->image_background;
+      if($item->image_ratio)
+        $arrItem['classes'][] = $item->image_ratio;
+      if($item->image_align_horizontal)
+        $arrItem['classes'][] = $item->image_align_horizontal;
+      if($item->image_align_vertical)
+        $arrItem['classes'][] = $item->image_align_vertical;
 
+      if($item->classes)
+        $arrItem['item_classes'] = $item->classes;
+      if($item->image_css)
+        $arrItem['image_css'] = $item->image_css;
+
+      $arrItem['text']    = $item->text;
       if ($item->href){
         $arrItem["url"]   = 1;
         $arrItem["href"]  = $item->href;
@@ -31,11 +46,11 @@
 ?>
 <div class="<?= $this->class ?>">
   <?php foreach($arrItems as $item): ?>
-    <div class="block-icon <?= $item['classes']?>">
+    <div class="block-icon mode--<?= $item['icon_type'] ?> <?= implode(' ',$item['classes']) ?><?= $item['item_classes'] ? ' '.$item['item_classes']:'' ?>">
       <?php if ($item['url']): ?>
         <a href="<?= $item['href'] ?>" title="<?= $item['title'] ?>" <?= ($item['target']) ? 'target="_blank"':'' ?>>
       <?php endif; ?>
-      <div class="block-icon__roundgradient r_1-1">
+      <div class="block-icon__icon img-container<?= $item['image_css'] ? ' '.$item['image_css']:'' ?>">
         <?php if ($item['src']): ?>
           <img class="block-icon__img" src="<?= $item['src'] ?>" alt="<?= $item['alt'] ?>">
         <?php endif; ?>
