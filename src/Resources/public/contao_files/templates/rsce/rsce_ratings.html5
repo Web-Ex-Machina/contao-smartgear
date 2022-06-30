@@ -1,0 +1,31 @@
+<div class="<?= $this->class ?>"<?= $this->cssID ?>>
+  <?php if ($this->headline): ?>
+    <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
+  <?php endif ?>
+  <?php foreach($this->ratings as $rating): ?>
+    <div class="rating">
+      <div class="rating__label">
+        <?= $rating->label ?>
+      </div>
+      <div class="rating__icons" title="<?= $rating->note ?>/<?= $this->noteMax ?>">
+        <?php for ($i=0; $i < $this->noteMax; $i++) {
+          $classes = 'fa-star';
+          if ($i < $rating->note){
+            if(($i+1) > $rating->note)
+              $classes.='-half-alt';
+            $classes.=' fas';
+          }
+          else
+            $classes.=' far';
+          echo '<i class="'.$classes.'"></i>';
+        } ?>
+      </div>
+      <div class="rating__text">
+        
+      <?php if ($rating->text): ?>
+        <?= $rating->text ?>
+      <?php endif ?>
+      </div>
+    </div>
+  <?php endforeach; ?>
+</div>
