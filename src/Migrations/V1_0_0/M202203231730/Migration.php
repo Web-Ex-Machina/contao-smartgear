@@ -41,8 +41,6 @@ class Migration extends MigrationAbstract
         'separator' => ['contentElements' => ['headline']],
         'table' => ['contentElements' => ['table']],
         'accordion' => ['contentElements' => ['accordionStart', 'rsce_accordion']], //, 'accordionStop]'
-        'slider' => ['contentElements' => ['sliderStart', 'rsce_slider', 'rsce_testimonials']], //, 'sliderStop]'
-        'slider_image_manual' => ['contentElements' => ['rsce_slider']], //, 'sliderStop]'
         'image_other' => ['contentElements' => ['image']],
         'image_ratio' => ['contentElements' => ['image']],
         'hero' => ['contentElements' => ['rsce_hero', 'rsce_heroStart']], //'rsce_heroStop]'
@@ -92,11 +90,6 @@ class Migration extends MigrationAbstract
         $objArchiveTable = StyleManagerArchiveModel::findByIdentifier('fwtable');
         $objArchiveImage = StyleManagerArchiveModel::findByIdentifier('fwimage');
         $objArchiveImageRatio = StyleManagerArchiveModel::findByIdentifier('fwimageratio');
-        $objArchiveSlider = StyleManagerArchiveModel::findByIdentifier('fwslider');
-        $objArchiveSliderNav = StyleManagerArchiveModel::findByIdentifier('fwslidernav');
-        $objArchiveSliderContent = StyleManagerArchiveModel::findByIdentifier('fwslidercontent');
-        $objArchiveSliderTitle = StyleManagerArchiveModel::findByIdentifier('fwslidertitle');
-        $objArchiveSliderImgManual = StyleManagerArchiveModel::findByIdentifier('fwsliderimg_manual');
 
         $objArchiveHero = StyleManagerArchiveModel::findByIdentifier('fwhero');
         $objArchiveHeroImg = StyleManagerArchiveModel::findByIdentifier('fwheroimg');
@@ -130,11 +123,6 @@ class Migration extends MigrationAbstract
         && null !== $objArchiveTable
         && null !== $objArchiveImage
         && null !== $objArchiveImageRatio
-        && null !== $objArchiveSlider
-        && null !== $objArchiveSliderNav
-        && null !== $objArchiveSliderImgManual
-        && null !== $objArchiveSliderContent
-        && null !== $objArchiveSliderTitle
         && null !== $objArchiveHero
         && null !== $objArchiveHeroImg
         && null !== $objArchiveGridManual
@@ -211,19 +199,6 @@ class Migration extends MigrationAbstract
             && null !== StyleManagerModel::findByAliasAndPid('fwheroft', $objArchiveHero->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwherocontentbg', $objArchiveHero->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwherocontentbgopacity', $objArchiveHero->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwslidernav', $objArchiveSliderNav->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwslidernavvertical', $objArchiveSliderNav->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwslidernavhorizontal', $objArchiveSliderNav->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwsliderimgvertical', $objArchiveSliderImgManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwsliderimghorizontal', $objArchiveSliderImgManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwsliderimgopacity', $objArchiveSliderImgManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwslidercontentvertical', $objArchiveSliderContent->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwslidercontenthorizontal', $objArchiveSliderContent->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwslidertitle', $objArchiveSliderTitle->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwsliderft', $objArchiveSliderTitle->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwslidercontentbg', $objArchiveSliderContent->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwslidercontentbgopacity', $objArchiveSliderContent->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwsliderwfull', $objArchiveSlider->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwimageratio', $objArchiveImageRatio->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwimagezoom', $objArchiveImage->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwimagefade', $objArchiveImage->id)
@@ -268,9 +243,6 @@ class Migration extends MigrationAbstract
             $this->manageImages();
             $this->manageImagesRatio();
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSImages'), [], 'contao_default'));
-            $this->manageSliders();
-            $this->manageSlidersImages('_manual', true);
-            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSSliders'), [], 'contao_default'));
             $this->manageHero();
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSHero'), [], 'contao_default'));
             $this->manageGrids('_manual', true);
@@ -596,89 +568,6 @@ class Migration extends MigrationAbstract
         // Hero - bgopacity
         $cssClasses = $this->buildMultipleCssClasses('content__bg__opacity--%s', 'fwherocontentbgopacity', 1, 10);
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwherocontentbgopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.title', 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.description', $contentElements, $cssClasses, $passToTemplate);
-    }
-
-    protected function manageSlidersImages(?string $suffix = '', ?bool $passToTemplate = false): void
-    {
-        $contentElements = self::$elements['slider_image'.$suffix];
-        // Slider
-        $objArchiveImg = $this->fillObjArchive('fwsliderimg'.$suffix, 'WEMSG.STYLEMANAGER.fwsliderimg.tabTitle', 'FramwaySlider');
-        // Slider - imgvertical
-        $cssClasses = [
-            ['key' => 'img--top', 'value' => 'WEMSG.STYLEMANAGER.fwsliderimgvertical.topLabel'],
-            ['key' => 'img--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwsliderimgvertical.bottomLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwsliderimgvertical'.$suffix, 'WEMSG.STYLEMANAGER.fwsliderimgvertical.title', 'WEMSG.STYLEMANAGER.fwsliderimgvertical.description', $contentElements, $cssClasses, $passToTemplate);
-        // Slider - imghorizontal
-        $cssClasses = [
-            ['key' => 'img--left', 'value' => 'WEMSG.STYLEMANAGER.fwsliderimghorizontal.leftLabel'],
-            ['key' => 'img--right', 'value' => 'WEMSG.STYLEMANAGER.fwsliderimghorizontal.rightLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwsliderimghorizontal'.$suffix, 'WEMSG.STYLEMANAGER.fwsliderimghorizontal.title', 'WEMSG.STYLEMANAGER.fwsliderimghorizontal.description', $contentElements, $cssClasses, $passToTemplate);
-        // Slider - imgopacity
-        $cssClasses = $this->buildMultipleCssClasses('img_opacity--%s', 'fwsliderimgopacity', 1, 10);
-        $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwsliderimgopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwsliderimgopacity.title', 'WEMSG.STYLEMANAGER.fwsliderimgopacity.description', $contentElements, $cssClasses, $passToTemplate);
-    }
-
-    protected function manageSliders(?string $suffix = '', ?bool $passToTemplate = false): void
-    {
-        $contentElements = self::$elements['slider'.$suffix];
-        // Slider
-        $objArchive = $this->fillObjArchive('fwslider'.$suffix, 'WEMSG.STYLEMANAGER.fwslider.tabTitle', 'FramwaySlider');
-        $objArchiveNav = $this->fillObjArchive('fwslidernav'.$suffix, 'WEMSG.STYLEMANAGER.fwslidernav.tabTitle', 'FramwaySlider');
-        $objArchiveContent = $this->fillObjArchive('fwslidercontent'.$suffix, 'WEMSG.STYLEMANAGER.fwslidercontent.tabTitle', 'FramwaySlider');
-        $objArchiveTitle = $this->fillObjArchive('fwslidertitle'.$suffix, 'WEMSG.STYLEMANAGER.fwslidertitle.tabTitle', 'FramwaySlider');
-        // Slider - nav
-        $cssClasses = [
-            ['key' => 'nav--below', 'value' => 'WEMSG.STYLEMANAGER.fwslidernav.belowLabel'],
-            ['key' => 'nav--hidden', 'value' => 'WEMSG.STYLEMANAGER.fwslidernav.hiddenLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveNav->id, 'fwslidernav'.$suffix, 'WEMSG.STYLEMANAGER.fwslidernav.title', 'WEMSG.STYLEMANAGER.fwslidernav.description', $contentElements, $cssClasses, $passToTemplate);
-        // Slider - navvertical
-        $cssClasses = [
-            ['key' => 'nav--top', 'value' => 'WEMSG.STYLEMANAGER.fwslidernavvertical.topLabel'],
-            ['key' => 'nav--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwslidernavvertical.bottomLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveNav->id, 'fwslidernavvertical'.$suffix, 'WEMSG.STYLEMANAGER.fwslidernavvertical.title', 'WEMSG.STYLEMANAGER.fwslidernavvertical.description', $contentElements, $cssClasses, $passToTemplate);
-        // Slider - navhorizontal
-        $cssClasses = [
-            ['key' => 'nav--left', 'value' => 'WEMSG.STYLEMANAGER.fwslidernavhorizontal.leftLabel'],
-            ['key' => 'nav--right', 'value' => 'WEMSG.STYLEMANAGER.fwslidernavhorizontal.rightLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveNav->id, 'fwslidernavhorizontal'.$suffix, 'WEMSG.STYLEMANAGER.fwslidernavhorizontal.title', 'WEMSG.STYLEMANAGER.fwslidernavhorizontal.description', $contentElements, $cssClasses, $passToTemplate);
-        // Slider - contentvertical
-        $cssClasses = [
-            ['key' => 'content--v--top', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentvertical.topLabel'],
-            ['key' => 'content--v--center', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentvertical.centerLabel'],
-            ['key' => 'content--v--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontentvertical.bottomLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwslidercontentvertical'.$suffix, 'WEMSG.STYLEMANAGER.fwslidercontentvertical.title', 'WEMSG.STYLEMANAGER.fwslidercontentvertical.description', $contentElements, $cssClasses, $passToTemplate);
-        // Slider - contenthorizontal
-        $cssClasses = [
-            ['key' => 'content--h--left', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.leftLabel'],
-            ['key' => 'content--h--center', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.centerLabel'],
-            ['key' => 'content--h--right', 'value' => 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.rightLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwslidercontenthorizontal'.$suffix, 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.title', 'WEMSG.STYLEMANAGER.fwslidercontenthorizontal.description', $contentElements, $cssClasses, $passToTemplate);
-        // Slider - title
-        $cssClasses = $this->buildMultipleCssClasses('title--%s', 'fwslidertitle', 1, 4);
-        $objStyle = $this->fillObjStyle($objArchiveTitle->id, 'fwslidertitle'.$suffix, 'WEMSG.STYLEMANAGER.fwslidertitle.title', 'WEMSG.STYLEMANAGER.fwslidertitle.description', $contentElements, $cssClasses, $passToTemplate);
-        // Slider - text color
-        $cssClasses = $this->buildMeaningfulColorsCssClasses('ft-%s', 'fwsliderft');
-        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('ft-%s', 'fwsliderft'));
-        $objStyle = $this->fillObjStyle($objArchiveTitle->id, 'fwsliderft'.$suffix, 'WEMSG.STYLEMANAGER.fwsliderft.title', 'WEMSG.STYLEMANAGER.fwsliderft.description', $contentElements, $cssClasses, $passToTemplate);
-        // Slider - bg color
-        $cssClasses = $this->buildMeaningfulColorsCssClasses('content__bg--%s', 'fwslidercontentbg');
-        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('content__bg--%s', 'fwslidercontentbg'));
-        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwslidercontentbg'.$suffix, 'WEMSG.STYLEMANAGER.fwslidercontentbg.title', 'WEMSG.STYLEMANAGER.fwslidercontentbg.description', $contentElements, $cssClasses, $passToTemplate);
-        // Slider - bgopacity
-        $cssClasses = $this->buildMultipleCssClasses('content__bg__opacity--%s', 'fwslidercontentbgopacity', 1, 10);
-        $objStyle = $this->fillObjStyle($objArchiveContent->id, 'fwslidercontentbgopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.title', 'WEMSG.STYLEMANAGER.fwslidercontentbgopacity.description', $contentElements, $cssClasses, $passToTemplate);
-        // Slider - wfull
-        $cssClasses = [
-            ['key' => 'w-full', 'value' => 'WEMSG.STYLEMANAGER.fwsliderwfull.label'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwsliderwfull'.$suffix, 'WEMSG.STYLEMANAGER.fwsliderwfull.title', 'WEMSG.STYLEMANAGER.fwsliderwfull.description', $contentElements, $cssClasses, $passToTemplate);
     }
 
     protected function manageImages(?string $suffix = '', ?bool $passToTemplate = false): void
