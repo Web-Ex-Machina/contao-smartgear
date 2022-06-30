@@ -48,3 +48,12 @@ services:
     smartgear.listener.get_all_events:
         class: WEM\SmartgearBundle\EventListener\GetAllEventsListener
         public: true
+        
+    smartgear.listener.create_new_user:
+        class: WEM\SmartgearBundle\EventListener\CreateNewUserListener
+        arguments:
+            $listeners:
+                - '@smartgear.backend.component.core.listener.create_new_user'
+        public: true
+
+    

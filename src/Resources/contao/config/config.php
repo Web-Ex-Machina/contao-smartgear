@@ -144,6 +144,8 @@ if ('FE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['getAllEvents'][] = ['smartgear.listener.get_all_events', '__invoke'];
 }
 
+$GLOBALS['TL_HOOKS']['createNewUser'][] = ['smartgear.listener.create_new_user', '__invoke'];
+
 /*
  * Add custom rights
  */
