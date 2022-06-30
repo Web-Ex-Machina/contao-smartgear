@@ -2023,31 +2023,6 @@
 			<target>Image</target>
 		</trans-unit>
 
-		<trans-unit id="WEMSG.STYLEMANAGER.fwslider.tabTitle">
-			<source>Slider</source>
-			<target>Slider</target>
-		</trans-unit>
-
-		<trans-unit id="WEMSG.STYLEMANAGER.fwslidernav.tabTitle">
-			<source>Slider - Nav</source>
-			<target>Slider - Nav</target>
-		</trans-unit>
-
-		<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimg.tabTitle">
-			<source>Slider - Image</source>
-			<target>Slider - Image</target>
-		</trans-unit>
-
-		<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontent.tabTitle">
-			<source>Slider - Content</source>
-			<target>Slider - Content</target>
-		</trans-unit>
-
-		<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.tabTitle">
-			<source>Slider - Title</source>
-			<target>Slider - Title</target>
-		</trans-unit>
-
 		<trans-unit id="WEMSG.STYLEMANAGER.fwhero.tabTitle">
 			<source>Hero - Global</source>
 			<target>Bannière - Global</target>
@@ -2127,8 +2102,6 @@
 			<source>Quotes</source>
 			<target>Citations</target>
 		</trans-unit>
-
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.tabTitle">
 		<source>Image - Ratio</source>
 <target>Image - Ratio</target>
@@ -2144,28 +2117,22 @@
 		<source>16:1</source>
 <target>16:1</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r21Label">
 		<source>2:1</source>
 <target>2:1</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r11Label">
 		<source>1:1</source>
 <target>1:1</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r12Label">
 		<source>1:2</source>
 <target>1:2</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r43Label">
 		<source>4:3</source>
 <target>4:3</target>
 </trans-unit>
-
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.title">
 		<source>Zoom</source>
 <target>Zoom</target>
@@ -2177,13 +2144,10 @@
 		<source>Zoom In</source>
 <target>Zoom In</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.outLabel">
 		<source>Zoom Out</source>
 <target>Zoom Out</target>
 </trans-unit>
-
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.title">
 		<source>Fade</source>
 <target>Fondu</target>
@@ -2195,329 +2159,10 @@
 		<source>Fade to color</source>
 <target>Fondu vers la couleur</target>
 </trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.greyLabel">
 		<source>Fade to grey</source>
 <target>Fondu vers le gris</target>
 </trans-unit>
-
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernav.title">
-		<source>fwslidernav</source>
-<target>fwslidernav</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidernav.description">
-	<source>fwslidernav description</source>
-<target>fwslidernav description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernav.belowLabel">
-		<source>fwslidernav - below</source>
-<target>fwslidernav - below</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernav.hiddenLabel">
-		<source>fwslidernav - hidden</source>
-<target>fwslidernav - hidden</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavvertical.title">
-		<source>fwslidernavvertical</source>
-<target>fwslidernavvertical</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidernavvertical.description">
-	<source>fwslidernavvertical description</source>
-<target>fwslidernavvertical description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavvertical.topLabel">
-		<source>fwslidernavvertical - top</source>
-<target>fwslidernavvertical - top</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavvertical.bottomLabel">
-		<source>fwslidernavvertical - bottom</source>
-<target>fwslidernavvertical - bottom</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavhorizontal.title">
-		<source>fwslidernavhorizontal</source>
-<target>fwslidernavhorizontal</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidernavhorizontal.description">
-	<source>fwslidernavhorizontal description</source>
-<target>fwslidernavhorizontal description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavhorizontal.leftLabel">
-		<source>fwslidernavhorizontal - left</source>
-<target>fwslidernavhorizontal - left</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidernavhorizontal.rightLabel">
-		<source>fwslidernavhorizontal - right</source>
-<target>fwslidernavhorizontal - right</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgvertical.title">
-		<source>fwsliderimgvertical</source>
-<target>fwsliderimgvertical</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgvertical.description">
-	<source>fwsliderimgvertical description</source>
-<target>fwsliderimgvertical description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgvertical.topLabel">
-		<source>fwsliderimgvertical - top</source>
-<target>fwsliderimgvertical - top</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgvertical.bottomLabel">
-		<source>fwsliderimgvertical - bottom</source>
-<target>fwsliderimgvertical - bottom</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimghorizontal.title">
-		<source>fwsliderimghorizontal</source>
-<target>fwsliderimghorizontal</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwsliderimghorizontal.description">
-	<source>fwsliderimghorizontal description</source>
-<target>fwsliderimghorizontal description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimghorizontal.leftLabel">
-		<source>fwsliderimghorizontal - left</source>
-<target>fwsliderimghorizontal - left</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimghorizontal.rightLabel">
-		<source>fwsliderimghorizontal - right</source>
-<target>fwsliderimghorizontal - right</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.title">
-		<source>fwsliderimgopacity</source>
-<target>fwsliderimgopacity</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.description">
-	<source>fwsliderimgopacity description</source>
-<target>fwsliderimgopacity description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.0Label">
-		<source>fwsliderimgopacity - 0</source>
-<target>fwsliderimgopacity - 0</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.1Label">
-		<source>fwsliderimgopacity - 1</source>
-<target>fwsliderimgopacity - 1</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.2Label">
-		<source>fwsliderimgopacity - 2</source>
-<target>fwsliderimgopacity - 2</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.3Label">
-		<source>fwsliderimgopacity - 3</source>
-<target>fwsliderimgopacity - 3</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.4Label">
-		<source>fwsliderimgopacity - 4</source>
-<target>fwsliderimgopacity - 4</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.5Label">
-		<source>fwsliderimgopacity - 5</source>
-<target>fwsliderimgopacity - 5</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.6Label">
-		<source>fwsliderimgopacity - 6</source>
-<target>fwsliderimgopacity - 6</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.7Label">
-		<source>fwsliderimgopacity - 7</source>
-<target>fwsliderimgopacity - 7</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.8Label">
-		<source>fwsliderimgopacity - 8</source>
-<target>fwsliderimgopacity - 8</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.9Label">
-		<source>fwsliderimgopacity - 9</source>
-<target>fwsliderimgopacity - 9</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderimgopacity.10Label">
-		<source>fwsliderimgopacity - 10</source>
-<target>fwsliderimgopacity - 10</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentvertical.title">
-		<source>fwslidercontentvertical</source>
-<target>fwslidercontentvertical</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentvertical.description">
-	<source>fwslidercontentvertical description</source>
-<target>fwslidercontentvertical description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentvertical.topLabel">
-		<source>fwslidercontentvertical - top</source>
-<target>fwslidercontentvertical - top</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentvertical.centerLabel">
-		<source>fwslidercontentvertical - center</source>
-<target>fwslidercontentvertical - center</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentvertical.bottomLabel">
-		<source>fwslidercontentvertical - bottom</source>
-<target>fwslidercontentvertical - bottom</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontenthorizontal.title">
-		<source>fwslidercontenthorizontal</source>
-<target>fwslidercontenthorizontal</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidercontenthorizontal.description">
-	<source>fwslidercontenthorizontal description</source>
-<target>fwslidercontenthorizontal description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontenthorizontal.leftLabel">
-		<source>fwslidercontenthorizontal - left</source>
-<target>fwslidercontenthorizontal - left</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontenthorizontal.centerLabel">
-		<source>fwslidercontenthorizontal - center</source>
-<target>fwslidercontenthorizontal - center</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontenthorizontal.rightLabel">
-		<source>fwslidercontenthorizontal - right</source>
-<target>fwslidercontenthorizontal - right</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.title">
-		<source>fwslidertitle</source>
-<target>fwslidertitle</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.description">
-	<source>fwslidertitle description</source>
-<target>fwslidertitle description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.1Label">
-		<source>fwslidertitle - 1</source>
-<target>fwslidertitle - 1</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.2Label">
-		<source>fwslidertitle - 2</source>
-<target>fwslidertitle - 2</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.3Label">
-		<source>fwslidertitle - 3</source>
-<target>fwslidertitle - 3</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidertitle.4Label">
-		<source>fwslidertitle - 4</source>
-<target>fwslidertitle - 4</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderft.title">
-		<source>fwsliderft</source>
-<target>fwsliderft</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwsliderft.description">
-	<source>fwsliderft description</source>
-<target>fwsliderft description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderft.colorLabel">
-		<source>fwsliderft - color %s</source>
-<target>fwsliderft - color %s</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbg.title">
-		<source>fwslidercontentbg</source>
-<target>fwslidercontentbg</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbg.description">
-	<source>fwslidercontentbg description</source>
-<target>fwslidercontentbg description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbg.colorLabel">
-		<source>fwslidercontentbg - color %s</source>
-<target>fwslidercontentbg - color %s</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.title">
-		<source>fwslidercontentbgopacity</source>
-<target>fwslidercontentbgopacity</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.description">
-	<source>fwslidercontentbgopacity description</source>
-<target>fwslidercontentbgopacity description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.0Label">
-		<source>fwslidercontentbgopacity - 0</source>
-<target>fwslidercontentbgopacity - 0</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.1Label">
-		<source>fwslidercontentbgopacity - 1</source>
-<target>fwslidercontentbgopacity - 1</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.2Label">
-		<source>fwslidercontentbgopacity - 2</source>
-<target>fwslidercontentbgopacity - 2</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.3Label">
-		<source>fwslidercontentbgopacity - 3</source>
-<target>fwslidercontentbgopacity - 3</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.4Label">
-		<source>fwslidercontentbgopacity - 4</source>
-<target>fwslidercontentbgopacity - 4</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.5Label">
-		<source>fwslidercontentbgopacity - 5</source>
-<target>fwslidercontentbgopacity - 5</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.6Label">
-		<source>fwslidercontentbgopacity - 6</source>
-<target>fwslidercontentbgopacity - 6</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.7Label">
-		<source>fwslidercontentbgopacity - 7</source>
-<target>fwslidercontentbgopacity - 7</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.8Label">
-		<source>fwslidercontentbgopacity - 8</source>
-<target>fwslidercontentbgopacity - 8</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.9Label">
-		<source>fwslidercontentbgopacity - 9</source>
-<target>fwslidercontentbgopacity - 9</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwslidercontentbgopacity.10Label">
-		<source>fwslidercontentbgopacity - 10</source>
-<target>fwslidercontentbgopacity - 10</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderwfull.title">
-		<source>fwsliderwfull</source>
-<target>fwsliderwfull</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwsliderwfull.description">
-	<source>fwsliderwfull description</source>
-<target>fwsliderwfull description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwsliderwfull.label">
-		<source>fwsliderwfull - label</source>
-<target>fwsliderwfull - label</target>
-</trans-unit>
-
 <trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.title">
 		<source>Vertical alignment</source>
 <target>Alignement vertical</target>
