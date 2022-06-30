@@ -18,6 +18,7 @@ use Contao\ArticleModel;
 use Contao\ContentModel;
 use Contao\File;
 use Contao\Files;
+use Contao\FilesModel;
 use Contao\Folder;
 use Contao\FrontendTemplate;
 use Contao\Input;
@@ -368,6 +369,9 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
+        $objFolderClientFiles = FilesModel::findByPath(CoreConfig::DEFAULT_CLIENT_FILES_FOLDER);
+        $objFolderClientLogos = FilesModel::findByPath(CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER);
+
         $userGroups = [];
         if (null !== $config->getSgUserGroupAdministrators()) {
             $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators()) ?? new UserGroupModel();
@@ -379,7 +383,7 @@ class Website extends ConfigurationStep
         $objUserGroup->modules = serialize(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance', 'wem_sg_social_link']);
         // $objUserGroup->pagemounts = '';
         // $objUserGroup->alpty = 'a:3:{i:0;s:7:"regular";i:1;s:7:"forward";i:2;s:8:"redirect";}';
-        // $objUserGroup->filemounts = 'a:1:{i:0;s:16:"'.$objMediaFolder->getModel()->uuid.'";}';
+        $objUserGroup->filemounts = serialize([$objFolderClientFiles->uuid, $objFolderClientLogos->uuid]);
         $objUserGroup->fop = serialize(['f1', 'f2', 'f3', 'f4']);
         $objUserGroup->imageSizes = serialize(['proportional']);
         $objUserGroup->alexf = Util::addPermissions($this->getCorePermissions());
@@ -431,6 +435,7 @@ class Website extends ConfigurationStep
         $objUserGroup->modules = serialize(['article', 'files']);
         $objUserGroup->alexf = Util::addPermissions($this->getCorePermissions());
         $objUserGroup->imageSizes = serialize(['proportional']);
+        $objUserGroup->filemounts = serialize([$objFolderClientFiles->uuid, $objFolderClientLogos->uuid]);
         $objUserGroup->fop = serialize(['f1', 'f2', 'f3', 'f4']);
         $objUserGroup->elements = serialize([
             'headline',
