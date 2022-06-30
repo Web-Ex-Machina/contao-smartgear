@@ -196,6 +196,7 @@ class Core implements ConfigModuleInterface
             ->setSgUserGroupWebmasters(null)
             ->setSgUserGroupAdministrators(null)
             ->setSgModules([])
+            ->setSgModulePersonalDataManager(null)
             ->setSgSelectedModules([])
             ->setSgMode(static::DEFAULT_MODE)
             ->setSgWebsiteTitle('')

@@ -804,33 +804,6 @@ class General extends ConfigurationStep
         return $module;
     }
 
-    protected function createModulePersonalDataManager(CoreConfig $config, ExtranetConfig $extranetConfig): ?ModuleModel
-    {
-        $module = new ModuleModel();
-
-        if (null !== $extranetConfig->getSgModulePersonalDataManager()) {
-            $moduleListOld = ModuleModel::findById($extranetConfig->getSgModulePersonalDataManager());
-            if ($moduleListOld) {
-                $moduleListOld->delete();
-            }
-            $module->id = $extranetConfig->getSgModulePersonalDataManager();
-        }
-
-        if (!$extranetConfig->getSgCanSubscribe()) {
-            return null;
-        }
-
-        $module->name = $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.modulePersonalDataManagerName', [], 'contao_default');
-        $module->pid = $config->getSgTheme();
-        $module->type = 'wem_personaldatamanager';
-        // $module->jumpTo = $page->id;
-        // $module->reg_close = 'close_delete';
-        $module->tstamp = time();
-        $module->save();
-
-        return $module;
-    }
-
     protected function createModules(array $pages, array $notifications, array $groups): array
     {
         /** @var CoreConfig */
@@ -846,7 +819,6 @@ class General extends ConfigurationStep
             'nav' => $this->createModuleNav($config, $extranetConfig, $pages['extranet']),
             'subscribe' => $this->createModuleSubscribe($config, $extranetConfig, $pages['subscribeConfirm'], $pages['subscribeValidate'], $notifications['subscription'], $groups['members']),
             'closeAccount' => $this->createModuleCloseAccount($config, $extranetConfig, $pages['unsubscribeConfirm']),
-            'wem_personaldatamanager' => $this->createModulePersonalDataManager($config, $extranetConfig),
         ];
     }
 
@@ -1755,7 +1727,6 @@ class General extends ConfigurationStep
                 ? $modules['closeAccount']
                 : (int) $modules['closeAccount']->id
             )
-            ->setSgModulePersonalDataManager((int) $modules['wem_personaldatamanager']->id)
             ->setSgContentArticleExtranetHeadline((int) $contents['extranet']['headline']->id)
             ->setSgContentArticleExtranetModuleLoginGuests((int) $contents['extranet']['moduleLoginGuests']->id)
             ->setSgContentArticleExtranetGridStartA((int) $contents['extranet']['gridStartA']->id)

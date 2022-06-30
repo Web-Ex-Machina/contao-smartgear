@@ -119,8 +119,6 @@ class Extranet implements ConfigModuleInterface
     /** @var int */
     protected $sgModuleCloseAccount;
     /** @var int */
-    protected $sgModulePersonalDataManager;
-    /** @var int */
     protected $sgNotificationChangeData;
     /** @var int */
     protected $sgNotificationChangeDataMessage;
@@ -273,7 +271,6 @@ class Extranet implements ConfigModuleInterface
             ->setSgModuleNav(null)
             ->setSgModuleSubscribe(null)
             ->setSgModuleCloseAccount(null)
-            ->setSgModulePersonalDataManager(null)
             ->setSgNotificationChangeData(null)
             ->setSgNotificationChangeDataMessage(null)
             ->setSgNotificationChangeDataMessageLanguage(null)
@@ -377,7 +374,6 @@ class Extranet implements ConfigModuleInterface
             ->setSgModuleNav($json->contao->modules->nav ?? null)
             ->setSgModuleSubscribe($json->contao->modules->subscribe ?? null)
             ->setSgModuleCloseAccount($json->contao->modules->closeAccount ?? null)
-            ->setSgModulePersonalDataManager($json->contao->modules->personalDataManager ?? null)
             ->setSgNotificationChangeData($json->contao->notifications->changeData ?? null)
             ->setSgNotificationChangeDataMessage($json->contao->notificationMessages->changeData ?? null)
             ->setSgNotificationChangeDataMessageLanguage($json->contao->notificationMessagesLanguages->changeData ?? null)
@@ -489,7 +485,6 @@ class Extranet implements ConfigModuleInterface
         $json->contao->modules->nav = $this->getSgModuleNav();
         $json->contao->modules->subscribe = $this->getSgModuleSubscribe();
         $json->contao->modules->closeAccount = $this->getSgModuleCloseAccount();
-        $json->contao->modules->personalDataManager = $this->getSgModulePersonalDataManager();
 
         $json->contao->notifications = new \stdClass();
         $json->contao->notifications->changeData = $this->getSgNotificationChangeData();
@@ -1937,18 +1932,6 @@ class Extranet implements ConfigModuleInterface
     public function setSgExtranetFolder(?string $sgExtranetFolder): self
     {
         $this->sgExtranetFolder = $sgExtranetFolder;
-
-        return $this;
-    }
-
-    public function getSgModulePersonalDataManager(): ?int
-    {
-        return $this->sgModulePersonalDataManager;
-    }
-
-    public function setSgModulePersonalDataManager(?int $sgModulePersonalDataManager): self
-    {
-        $this->sgModulePersonalDataManager = $sgModulePersonalDataManager;
 
         return $this;
     }
