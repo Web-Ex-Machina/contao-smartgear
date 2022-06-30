@@ -211,7 +211,7 @@ class General extends ConfigurationStep
             'type' => 'regular',
             'robots' => 'noindex,nofollow',
             'protected' => 1,
-            'groups' => serialize([$groups['member']]),
+            'groups' => serialize([0 => $groups['members']->id]),
             'noSearch' => 1,
             'published' => 1,
             'sitemap' => 'map_never',
@@ -229,7 +229,7 @@ class General extends ConfigurationStep
             'type' => 'regular',
             'robots' => 'noindex,nofollow',
             'protected' => 1,
-            'groups' => serialize([$groups['member']]),
+            'groups' => serialize([0 => $groups['members']->id]),
             'noSearch' => 1,
             'published' => 1,
             'sitemap' => 'map_never',
@@ -247,7 +247,7 @@ class General extends ConfigurationStep
             'type' => 'regular',
             'robots' => 'noindex,nofollow',
             'protected' => 1,
-            'groups' => serialize([$groups['member']]),
+            'groups' => serialize([0 => $groups['members']->id]),
             'noSearch' => 1,
             'published' => 1,
             'sitemap' => 'map_never',
@@ -1755,6 +1755,7 @@ class General extends ConfigurationStep
                 ? $modules['closeAccount']
                 : (int) $modules['closeAccount']->id
             )
+            ->setSgModulePersonalDataManager((int) $modules['wem_personaldatamanager']->id)
             ->setSgContentArticleExtranetHeadline((int) $contents['extranet']['headline']->id)
             ->setSgContentArticleExtranetModuleLoginGuests((int) $contents['extranet']['moduleLoginGuests']->id)
             ->setSgContentArticleExtranetGridStartA((int) $contents['extranet']['gridStartA']->id)
