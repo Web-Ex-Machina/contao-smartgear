@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Core\EventListener;
 
-use WEM\SmartgearBundle\Model\Member as MemberModell;
+use WEM\SmartgearBundle\Model\Member as MemberModel;
 
 class CreateNewUserListener
 {
@@ -24,15 +24,12 @@ class CreateNewUserListener
 
     public function __invoke(string $userId, array $data, \Contao\Module $module): void
     {
-        $objMember = MemberModell::findByPk($userId);
-        // foreach ($data as $field => $value) {
-        //     if ($objMember->isFieldInPersonalDataFieldsNames($field)) {
-        //         $objMember->markModified($field);
-        //     }
-        // }
-        dump(\get_class($objMember));
+        $objMember = MemberModel::findByPk($userId);
+        foreach ($data as $field => $value) {
+            if ($objMember->isFieldInPersonalDataFieldsNames($field)) {
+                $objMember->markModified($field);
+            }
+        }
         $objMember->save(); // will automatically triggers the encryption of personal data
-        dump($objMember);
-        exit();
     }
 }
