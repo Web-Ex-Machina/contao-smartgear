@@ -17,7 +17,6 @@ namespace WEM\SmartgearBundle\Backend\Module\Extranet\ResetStep;
 use Contao\FilesModel;
 use Contao\Input;
 use Contao\MemberGroupModel;
-use Contao\MemberModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\UserGroupModel;
@@ -29,6 +28,7 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Module\Extranet\Extranet as ExtranetConfig;
+use WEM\SmartgearBundle\Model\Member as MemberModel;
 
 class General extends AbstractStep
 {

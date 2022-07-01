@@ -157,7 +157,7 @@ class Core implements ConfigModuleInterface
     /** @var string */
     protected $sgApiKey = self::DEFAULT_API_KEY;
     /** @var string */
-    protected $sgEncryptionKey = self::DEFAULT_API_KEY;
+    protected $sgEncryptionKey = self::DEFAULT_ENCRYPTION_KEY;
     /** @var BlogConfig */
     protected $sgBlog;
     /** @var EventsConfig */
@@ -196,7 +196,6 @@ class Core implements ConfigModuleInterface
             ->setSgUserGroupWebmasters(null)
             ->setSgUserGroupAdministrators(null)
             ->setSgModules([])
-            ->setSgModulePersonalDataManager(null)
             ->setSgSelectedModules([])
             ->setSgMode(static::DEFAULT_MODE)
             ->setSgWebsiteTitle('')
@@ -223,7 +222,7 @@ class Core implements ConfigModuleInterface
             ->setSgOwnerDpoEmail('')
             ->setSgGoogleFonts(self::DEFAULT_GOOGLE_FONTS)
             ->setSgApiKey(self::DEFAULT_API_KEY)
-            ->setSgApiKey(self::DEFAULT_ENCRYPTION_KEY)
+            ->setSgEncryptionKey(self::DEFAULT_ENCRYPTION_KEY)
             ->setSgBlog((new BlogConfig())->reset())
             ->setSgEvents((new EventsConfig())->reset())
             ->setSgFaq((new FaqConfig())->reset())
@@ -287,7 +286,7 @@ class Core implements ConfigModuleInterface
             ->setSgOwnerDpoEmail($json->owner->dpo->email ?? '')
             ->setSgGoogleFonts($json->googleFonts ?? self::DEFAULT_GOOGLE_FONTS)
             ->setSgApiKey($json->api->key ?? self::DEFAULT_API_KEY)
-            ->setSgEncryptionKey($json->encryption->key ?? self::DEFAULT_API_KEY)
+            ->setSgEncryptionKey($json->encryption->key ?? self::DEFAULT_ENCRYPTION_KEY)
             ->setSgBlog(
                 property_exists($json, 'blog')
                 ? (new BlogConfig())->import($json->blog)

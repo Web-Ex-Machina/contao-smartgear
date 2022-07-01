@@ -142,11 +142,15 @@ if ('FE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['newsListFetchItems'][] = ['smartgear.listener.news_list_fetch_items', '__invoke'];
     $GLOBALS['TL_HOOKS']['newsListCountItems'][] = ['smartgear.listener.news_list_count_items', '__invoke'];
     $GLOBALS['TL_HOOKS']['getAllEvents'][] = ['smartgear.listener.get_all_events', '__invoke'];
+    $GLOBALS['TL_HOOKS']['createNewUser'][] = ['smartgear.listener.create_new_user', '__invoke'];
 }
-
-$GLOBALS['TL_HOOKS']['createNewUser'][] = ['smartgear.listener.create_new_user', '__invoke'];
 
 /*
  * Add custom rights
  */
 $GLOBALS['TL_PERMISSIONS'][] = 'smartgear_permissions';
+
+$GLOBALS['WEM_HOOKS']['renderSingleItemTitle'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemTitle'];
+$GLOBALS['WEM_HOOKS']['renderSingleItemBodyOriginalModelSingle'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyOriginalModelSingle'];
+$GLOBALS['WEM_HOOKS']['renderSingleItemBodyOriginalModelSingleFieldValue'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyOriginalModelSingleFieldValue'];
+$GLOBALS['WEM_HOOKS']['renderSingleItemBodyPersonalDataSingleFieldValue'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyPersonalDataSingleFieldValue'];

@@ -56,4 +56,10 @@ services:
                 - '@smartgear.backend.component.core.listener.create_new_user'
         public: true
 
+    smartgear.listener.personal_data_ui:
+        class: WEM\SmartgearBundle\EventListener\PersonalDataManager\UiListener
+        arguments:
+            $translator: '@contao.translation.translator'
+        public: true
+
     

@@ -92,6 +92,10 @@
 			<source>%s (archived on %s at %s)</source>
 			<target>%s (archivé le %s a %s)</target>
 		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.elementUnknown">
+			<source>Unknown element</source>
+			<target>Elément inconnu</target>
+		</trans-unit>
 		<!-- Smartgear filter -->
 		<trans-unit id="WEMSG.FILTERS.title">
 			<source>Filter by :</source>
