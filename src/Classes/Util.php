@@ -151,7 +151,6 @@ class Util
                         }
                     }
                     $colors = [
-                        $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['rawLabel'] => $colors,
                         $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['meaningfulLabel'] => [
                             'ft-primary' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['primary'],
                             'ft-secondary' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['secondary'],
@@ -159,6 +158,7 @@ class Util
                             'ft-error' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['error'],
                             'ft-warning' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['warning'],
                         ],
+                        $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['rawLabel'] => $colors,
                     ];
                     break;
 
@@ -171,7 +171,6 @@ class Util
                         ;
                     }
                     $colors = [
-                        $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['rawLabel'] => $colors,
                         $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['meaningfulLabel'] => [
                             'primary' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['primary'],
                             'secondary' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['secondary'],
@@ -179,6 +178,7 @@ class Util
                             'error' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['error'],
                             'warning' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['warning'],
                         ],
+                        $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['rawLabel'] => $colors,
                     ];
             }
 
