@@ -13,35 +13,37 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_notations'],
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_ratings'],
     'contentCategory' => 'SMARTGEAR',
     'standardFields' => ['cssID'/*,'headline'*/],
     'fields' => [
         'noteMax' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_notations']['note_max'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_ratings']['note_max'],
             'inputType' => 'text',
             'default' => 5,
             'eval' => ['tl_class' => 'w50 clr', 'rgxp' => 'digit'],
         ],
-        'notations' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_notations']['notations'],
+        'ratings' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_ratings']['ratings'],
             'elementLabel' => '%s. note',
             'inputType' => 'list',
             'fields' => [
                 'label' => [
-                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_notations']['label'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_ratings']['label'],
                     'inputType' => 'text',
-                    'eval' => ['tl_class' => 'clr w50', 'mandatory' => true],
+                    'eval' => ['tl_class' => 'clr w50', 'allowHtml' => true],
                 ],
                 'note' => [
-                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_notations']['note'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_ratings']['note'],
                     'inputType' => 'text',
                     'eval' => ['tl_class' => 'w50', 'rgxp' => 'digit', 'mandatory' => true],
                 ],
+                'text' => [
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_ratings']['text'], 
+                    'inputType' => 'textarea', 
+                    'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
+                ],
             ],
-        ],
-        'text' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_notations']['text'], 'inputType' => 'textarea', 'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
         ],
     ],
 ];

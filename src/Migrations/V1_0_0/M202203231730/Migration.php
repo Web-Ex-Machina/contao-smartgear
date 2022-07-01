@@ -34,7 +34,7 @@ class Migration extends MigrationAbstract
     protected $configurationFramwayCombinedManager;
 
     protected static $elements = [
-        'margin' => ['contentElements' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordion', 'rsce_counter', 'rsce_hero', 'rsce_heroStart', 'rsce_priceCards', 'rsce_slider', 'rsce_tabs', 'rsce_testimonials', 'rsce_notations', 'rsce_pdfViewer', 'rsce_blockCard']], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroStop', 'rsce_gridGallery'
+        'margin' => ['contentElements' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordion', 'rsce_counter', 'rsce_hero', 'rsce_heroStart', 'rsce_priceCards', 'rsce_slider', 'rsce_tabs', 'rsce_testimonials', 'rsce_ratings', 'rsce_pdfViewer', 'rsce_blockCard']], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroStop', 'rsce_gridGallery'
         'button' => ['contentElements' => ['hyperlink'], 'formFields' => ['submit']],
         'button_manual' => ['contentElements' => ['rsce_pdfViewer']],
         'background' => ['contentElements' => ['headline', 'text', 'rsce_quote']],
