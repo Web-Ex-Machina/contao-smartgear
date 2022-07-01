@@ -1,7 +1,75 @@
 <?xml version="1.0" ?><xliff version="1.1">
-  <file datatype="php">
+  <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/default.php" source-language="en">
     <body>
-<!-- Backup API -->
+    <!-- Smartgear default -->
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.NotFilled">
+      <source>N/A</source>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.Cancel">
+      <source>Cancel</source>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.AjaxNoActionSpecified">
+      <source>No action specified</source>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.AjaxInvalidActionSpecified">
+      <source>Specified action "%s" is invalid</source>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.PreviousStep">
+      <source>Previous</source>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.NextStep">
+      <source>Suivant</source>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.Save">
+      <source>Save</source>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.Finish">
+      <source>Finish</source>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.InvalidToken">
+      <source>Invalid Token</source>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.InvalidForm">
+      <source>Invalid Form</source>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.MissingDependencies">
+      <source>You can't manage this module until the following dependencies have been met : %s</source>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.dataSaved">
+      <source>Data have been saved</source>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.defaultDashboard">
+      <source>This is a default dashboard.</source>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.elementArchivedAt">
+      <source>%s (archived on %s at %s)</source>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.elementUnknown">
+      <source>Unknown element</source>
+    </trans-unit>
+    <!-- Smartgear filter -->
+    <trans-unit id="WEMSG.FILTERS.title">
+      <source>Filter by :</source>
+    </trans-unit>
+    <trans-unit id="WEMSG.FILTERS.BTN.showFilters">
+      <source>Filter</source>
+    </trans-unit>
+    <trans-unit id="WEMSG.FILTERS.BTN.search">
+      <source>Search</source>
+    </trans-unit>
+    <trans-unit id="WEMSG.FILTERS.LBL.author">
+      <source>Author</source>
+    </trans-unit>
+    <trans-unit id="WEMSG.FILTERS.LBL.date">
+      <source>Date</source>
+    </trans-unit>
+    <trans-unit id="WEMSG.FILTERS.LBL.time">
+      <source>Time</source>
+    </trans-unit>
+    <trans-unit id="WEMSG.FILTERS.LBL.location">
+      <source>Location</source>
+    </trans-unit>
+    <!-- Backup API -->
     <trans-unit id="WEMSG.BACKUPMANAGER.API.messageDeleteSuccess">
       <source>The specified backup "%s" has been deleted</source>
     </trans-unit>
