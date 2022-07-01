@@ -32,6 +32,7 @@ use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Blog\Preset as BlogPresetConfig;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Model\Module;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class General extends ConfigurationStep
@@ -379,10 +380,12 @@ class General extends ConfigurationStep
 
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
         $userGroupManipulator
-            ->addAllowedModules(['news'])
+            // ->addAllowedModules(['news'])
             ->addAllowedNewsArchive([$blogConfig->getSgNewsArchive()])
             ->addAllowedFilemounts([$objFolder->uuid])
             ->addAllowedFieldsByTables(['tl_news'])
+            ->addAllowedPagemounts($blogConfig->getContaoPagesIds())
+            ->addAllowedModules(Module::getTypesByIds($blogConfig->getContaoModulesIds()))
         ;
         if ($expertMode) {
             $userGroupManipulator

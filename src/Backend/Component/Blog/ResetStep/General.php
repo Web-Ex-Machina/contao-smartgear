@@ -27,6 +27,7 @@ use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Blog\Preset as BlogPresetConfig;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Model\Module;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class General extends AbstractStep
@@ -153,10 +154,12 @@ class General extends AbstractStep
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
         $userGroupManipulator
             ->removeSmartgearPermissions([SmartgearPermissions::BLOG_EXPERT])
-            ->removeAllowedModules(['news'])
+            // ->removeAllowedModules(['news'])
             ->removeAllowedNewsArchive([$blogConfig->getSgNewsArchive()])
             ->removeAllowedFilemounts([$objFolder->uuid])
             ->removeAllowedFieldsByPrefixes(['tl_news::'])
+            ->removeAllowedPagemounts($blogConfig->getContaoPagesIds())
+            ->removeAllowedModules(Module::getTypesByIds($blogConfig->getContaoModulesIds()))
         ;
 
         $objUserGroup = $userGroupManipulator->getUserGroup();
