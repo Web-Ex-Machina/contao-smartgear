@@ -298,6 +298,19 @@ class Website extends ConfigurationStep
         $objSocialLinkModule->save();
         $modules[$objSocialLinkModule->type] = $objSocialLinkModule;
 
+
+        $objPDMModule = \array_key_exists('wem_personaldatamanager', $registeredModules)
+                            ? ModuleModel::findOneById($registeredModules['wem_personaldatamanager']) ?? new ModuleModel()
+                            : new ModuleModel()
+                            ;
+
+        $objPDMModule->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['modulePersonalDataManagerName'];
+        $objPDMModule->pid = $themeId;
+        $objPDMModule->type = 'wem_personaldatamanager';
+        $objPDMModule->tstamp = time();
+        $objPDMModule->save();
+        $modules[$objPDMModule->type] = $objSitemapModule;
+
         return $modules;
     }
 

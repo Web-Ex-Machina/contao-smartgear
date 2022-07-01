@@ -29,9 +29,12 @@ use WEM\SmartgearBundle\DataContainer\FaqCategory as FaqCategoryDCA;
 use WEM\SmartgearBundle\DataContainer\Files as FilesDCA;
 use WEM\SmartgearBundle\DataContainer\Form as FormDCA;
 use WEM\SmartgearBundle\DataContainer\Layout as LayoutDCA;
+use WEM\SmartgearBundle\DataContainer\Member as MemberDCA;
+use WEM\SmartgearBundle\DataContainer\MemberGroup as MemberGroupDCA;
 use WEM\SmartgearBundle\DataContainer\Module as ModuleDCA;
 use WEM\SmartgearBundle\DataContainer\NewsArchive as NewsArchiveDCA;
 use WEM\SmartgearBundle\DataContainer\NotificationGateway as NotificationGatewayDCA;
+use WEM\SmartgearBundle\DataContainer\NotificationLanguage as NotificationLanguageDCA;
 use WEM\SmartgearBundle\DataContainer\NotificationMessage as NotificationMessageDCA;
 use WEM\SmartgearBundle\DataContainer\NotificationNotification as NotificationNotificationDCA;
 use WEM\SmartgearBundle\DataContainer\Page as PageDCA;
@@ -125,6 +128,18 @@ class LoadDataContainerListener
                     ->setListOperationsDeleteButtonCallback(LayoutDCA::class, 'deleteItem')
                 ;
             break;
+            case 'tl_member':
+                DCAManipulator::create($table)
+                    ->addConfigOnloadCallback(MemberDCA::class, 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback(MemberDCA::class, 'deleteItem')
+                ;
+            break;
+            case 'tl_member_group':
+                DCAManipulator::create($table)
+                    ->addConfigOnloadCallback(MemberGroupDCA::class, 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback(MemberGroupDCA::class, 'deleteItem')
+                ;
+            break;
             case 'tl_module':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(ModuleDCA::class, 'checkPermission')
@@ -135,6 +150,12 @@ class LoadDataContainerListener
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(NotificationGatewayDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(NotificationGatewayDCA::class, 'deleteItem')
+                ;
+            break;
+            case 'tl_nc_language':
+                DCAManipulator::create($table)
+                    ->addConfigOnloadCallback(NotificationLanguageDCA::class, 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback(NotificationLanguageDCA::class, 'deleteItem')
                 ;
             break;
             case 'tl_nc_message':
@@ -206,7 +227,8 @@ class LoadDataContainerListener
     protected function applyStyleManagerBehaviour($table): void
     {
         // here add "explanation"/"reference" to styleManager fields ?
-        if (\array_key_exists($table, $GLOBALS['TL_DCA'])
+        if (\array_key_exists('TL_DCA', $GLOBALS)
+        && \array_key_exists($table, $GLOBALS['TL_DCA'])
         && \array_key_exists('fields', $GLOBALS['TL_DCA'][$table])
         && \array_key_exists('styleManager', $GLOBALS['TL_DCA'][$table]['fields'])
         ) {

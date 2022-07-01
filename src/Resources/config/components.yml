@@ -142,6 +142,10 @@ services:
             $dcaManipulator: '@smartgear.classes.dca.manipulator'
         public: true
 
+    smartgear.backend.component.core.listener.create_new_user:
+        class: WEM\SmartgearBundle\Backend\Component\Core\EventListener\CreateNewUserListener
+        public: true
+
     ############ BLOG ############
     
     smartgear.backend.component.blog.block:

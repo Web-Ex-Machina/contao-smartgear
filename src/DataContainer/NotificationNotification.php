@@ -21,6 +21,7 @@ use Contao\StringUtil;
 use Contao\System;
 use NotificationCenter\tl_nc_notification;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class NotificationNotification extends tl_nc_notification
 {
@@ -78,9 +79,21 @@ class NotificationNotification extends tl_nc_notification
     protected function isItemUsedBySmartgear(int $id): bool
     {
         try {
+            /** @var CoreConfig */
             $config = $this->configManager->load();
             $formContactConfig = $config->getSgFormContact();
             if ($formContactConfig->getSgInstallComplete() && $id === (int) $formContactConfig->getSgNotification()) {
+                return true;
+            }
+            $extranetConfig = $config->getSgExtranet();
+            if ($extranetConfig->getSgInstallComplete()
+            &&
+            (
+                $id === (int) $extranetConfig->getSgNotificationPassword()
+                || $id === (int) $extranetConfig->getSgNotificationChangeData()
+                || $id === (int) $extranetConfig->getSgNotificationSubscription()
+            )
+            ) {
                 return true;
             }
         } catch (\Exception $e) {

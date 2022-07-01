@@ -25,7 +25,6 @@ if (\array_key_exists('require', $contaoComposerJsonContent)) {
 
 $contaoComposerJsonContent['require'] = array_merge($contaoComposerJsonContent['require'], $additionnalComposerJsonContent['require'] ?? []);
 $contaoComposerJsonContent['require-dev'] = array_merge($contaoComposerJsonContent['require-dev'] ?? [], $bundleComposerJsonContent['require-dev'] ?? []);
-
 $contaoComposerJsonContent['repositories'] = $contaoComposerJsonContent['repositories'] ?? [];
 foreach ($contaoComposerJsonContent['repositories'] as $index => $repo) {
     if (\array_key_exists('url', $repo)
@@ -35,8 +34,9 @@ foreach ($contaoComposerJsonContent['repositories'] as $index => $repo) {
     }
 }
 
-$contaoComposerJsonContent['repositories'] = array_merge(
+$contaoComposerJsonContent['repositories'] = array_values(unique_multidim_array(array_merge(
     $contaoComposerJsonContent['repositories'],
+    $bundleComposerJsonContent['repositories'] ?? [],
     [
         [
             'type' => 'path',
@@ -44,8 +44,40 @@ $contaoComposerJsonContent['repositories'] = array_merge(
             'url' => getenv('WORKDIR_CONTAO').'/vendor/webexmachina/'.getenv('BUNDLE_NAME'),
         ],
     ]
-);
+), 'url'));
+
+if (\array_key_exists('github-oauth', $bundleComposerJsonContent)) {
+    file_put_contents('/var/www/.config/composer/auth.json', '{"github-oauth":'.json_encode($bundleComposerJsonContent['github-oauth'], \JSON_PRETTY_PRINT).'}');
+    $contaoComposerJsonContent['github-oauth'] = $bundleComposerJsonContent['github-oauth'] ?? '';
+}
 
 $contaoComposerJsonContent['minimum-stability'] = 'dev';
 $contaoComposerJsonContent['prefer-stable'] = true;
-file_put_contents(getenv('WORKDIR_CONTAO').'/composer.json', json_encode($contaoComposerJsonContent));
+file_put_contents(getenv('WORKDIR_CONTAO').'/composer.json', json_encode($contaoComposerJsonContent, \JSON_PRETTY_PRINT));
+
+/**
+ * [unique_multidim_array description].
+ *
+ * @source https://www.php.net/manual/fr/function.array-unique.php#116302
+ *
+ * @param  [type] $array [description]
+ * @param  [type] $key   [description]
+ *
+ * @return [type]        [description]
+ */
+function unique_multidim_array($array, $key)
+{
+    $temp_array = [];
+    $i = 0;
+    $key_array = [];
+
+    foreach ($array as $val) {
+        if (!\in_array($val[$key], $key_array, true)) {
+            $key_array[$i] = $val[$key];
+            $temp_array[$i] = $val;
+        }
+        ++$i;
+    }
+
+    return $temp_array;
+}

@@ -21,12 +21,10 @@
 			<source>Files</source>
 			<target>Fichiers</target>
 		</trans-unit>
-
 		<trans-unit id="MOD.calendar.0">
 			<source>Events</source>
 			<target>Événements</target>
 		</trans-unit>
-		
 		<trans-unit id="MOD.channels.0">
 			<source>Subscribers lists</source>
 			<target>Listes d'abonnés</target>
@@ -43,10 +41,18 @@
 			<source>Manage subscriptions and send newsletters</source>
 			<target>Gérer les abonnements et envoyer des newsletters.</target>
 		</trans-unit>
-      <trans-unit id="MOD.news.0">
-        <source>News</source>
-        <target>Blog</target>
-      </trans-unit>
+    <trans-unit id="MOD.news.0">
+      <source>News</source>
+      <target>Blog</target>
+    </trans-unit>
+    <trans-unit id="MOD.mgroup.0">
+      <source>Groups</source>
+      <target>Groupes</target>
+    </trans-unit>
+    <trans-unit id="MOD.extranet.0">
+      <source>Extranet</source>
+      <target>Extranet</target>
+    </trans-unit>
 
 		<trans-unit id="MOD.smartgear.0">
 			<source>Smartgear</source>

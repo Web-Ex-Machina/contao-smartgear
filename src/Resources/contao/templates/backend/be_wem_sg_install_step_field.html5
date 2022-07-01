@@ -28,4 +28,6 @@
 	<h3><label for="ctrl_<?= $this->field['name'] ?>"><?= $this->field['label'] ?></label></h3>
 	<input name="<?= $this->field['name'] ?>" id="ctrl_<?= $this->field['name'] ?>" class="tl_text" value="<?= $this->field['value'] ?>"<?= $this->field['required'] ? ' required=""' : '' ?> onfocus="Backend.getScrollOffset()" type="text">
 <?php endif; ?>
-<p class="tl_help tl_tip"><?= $this->field['help'] ?></p>
+<?php if(!empty($this->field['help'])): ?>
+	<p class="tl_help"><?= $this->field['help'] ?></p>
+<?php endif; ?>

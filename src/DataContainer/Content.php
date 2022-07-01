@@ -23,6 +23,7 @@ use tl_content;
 use tl_content_calendar;
 use tl_content_news;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 // class Content extends \tl_content
 class Content extends Backend
@@ -102,6 +103,7 @@ class Content extends Backend
     protected function isItemUsedBySmartgear(int $id): bool
     {
         try {
+            /** @var CoreConfig */
             $config = $this->configManager->load();
             if ($config->getSgInstallComplete()
             && (
@@ -143,6 +145,55 @@ class Content extends Backend
                 || $id === (int) $formContactConfig->getSgContentFormArticleForm()
                 || $id === (int) $formContactConfig->getSgContentHeadlineArticleFormSent()
                 || $id === (int) $formContactConfig->getSgContentTextArticleFormSent()
+            )
+            ) {
+                return true;
+            }
+            $extranetConfig = $config->getSgExtranet();
+            if ($extranetConfig->getSgInstallComplete()
+            && (
+                $id === (int) $extranetConfig->getSgContentArticleExtranetHeadline()
+                || $id === (int) $extranetConfig->getSgContentArticleExtranetModuleLoginGuests()
+                || $id === (int) $extranetConfig->getSgContentArticleExtranetGridStartA()
+                || $id === (int) $extranetConfig->getSgContentArticleExtranetGridStartB()
+                || $id === (int) $extranetConfig->getSgContentArticleExtranetModuleLoginLogged()
+                || $id === (int) $extranetConfig->getSgContentArticleExtranetModuleNav()
+                || $id === (int) $extranetConfig->getSgContentArticleExtranetGridStopB()
+                || $id === (int) $extranetConfig->getSgContentArticleExtranetText()
+                || $id === (int) $extranetConfig->getSgContentArticleExtranetGridStopA()
+                || $id === (int) $extranetConfig->getSgContentArticle401Headline()
+                || $id === (int) $extranetConfig->getSgContentArticle401Text()
+                || $id === (int) $extranetConfig->getSgContentArticle401ModuleLoginGuests()
+                || $id === (int) $extranetConfig->getSgContentArticle403Headline()
+                || $id === (int) $extranetConfig->getSgContentArticle403Text()
+                || $id === (int) $extranetConfig->getSgContentArticle403Hyperlink()
+                || $id === (int) $extranetConfig->getSgContentArticleContentHeadline()
+                || $id === (int) $extranetConfig->getSgContentArticleContentText()
+                || $id === (int) $extranetConfig->getSgContentArticleDataHeadline()
+                || $id === (int) $extranetConfig->getSgContentArticleDataModuleData()
+                || $id === (int) $extranetConfig->getSgContentArticleDataHeadlineCloseAccount()
+                || $id === (int) $extranetConfig->getSgContentArticleDataTextCloseAccount()
+                || $id === (int) $extranetConfig->getSgContentArticleDataModuleCloseAccount()
+                || $id === (int) $extranetConfig->getSgContentArticleDataConfirmHeadline()
+                || $id === (int) $extranetConfig->getSgContentArticleDataConfirmText()
+                || $id === (int) $extranetConfig->getSgContentArticleDataConfirmHyperlink()
+                || $id === (int) $extranetConfig->getSgContentArticlePasswordHeadline()
+                || $id === (int) $extranetConfig->getSgContentArticlePasswordModulePassword()
+                || $id === (int) $extranetConfig->getSgContentArticlePasswordConfirmHeadline()
+                || $id === (int) $extranetConfig->getSgContentArticlePasswordConfirmText()
+                || $id === (int) $extranetConfig->getSgContentArticlePasswordValidateHeadline()
+                || $id === (int) $extranetConfig->getSgContentArticlePasswordValidateModulePassword()
+                || $id === (int) $extranetConfig->getSgContentArticleLogoutModuleLogout()
+                || $id === (int) $extranetConfig->getSgContentArticleSubscribeHeadline()
+                || $id === (int) $extranetConfig->getSgContentArticleSubscribeModuleSubscribe()
+                || $id === (int) $extranetConfig->getSgContentArticleSubscribeConfirmHeadline()
+                || $id === (int) $extranetConfig->getSgContentArticleSubscribeConfirmText()
+                || $id === (int) $extranetConfig->getSgContentArticleSubscribeValidateHeadline()
+                || $id === (int) $extranetConfig->getSgContentArticleSubscribeValidateText()
+                || $id === (int) $extranetConfig->getSgContentArticleSubscribeValidateModuleLoginGuests()
+                || $id === (int) $extranetConfig->getSgContentArticleUnsubscribeHeadline()
+                || $id === (int) $extranetConfig->getSgContentArticleUnsubscribeText()
+                || $id === (int) $extranetConfig->getSgContentArticleUnsubscribeHyperlink()
             )
             ) {
                 return true;

@@ -36,7 +36,8 @@
         "webexmachina/contao-utils": "^0.3",
         "webexmachina/contao-grid": "^1.0",
         "heimseiten/contao-sticky-footer-backend-bundle": "^1.0",
-        "oveleon/contao-component-style-manager": "^2.6"
+        "oveleon/contao-component-style-manager": "^2.6",
+        "webexmachina/contao-personal-data-manager": "dev-main"
     },
     "require-dev":
     {

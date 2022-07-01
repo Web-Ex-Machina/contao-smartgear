@@ -88,6 +88,14 @@
 			<source>This is a default dashboard.</source>
 			<target>Ceci est le dashboard par défaut</target>
 		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.elementArchivedAt">
+			<source>%s (archived on %s at %s)</source>
+			<target>%s (archivé le %s a %s)</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.elementUnknown">
+			<source>Unknown element</source>
+			<target>Elément inconnu</target>
+		</trans-unit>
 		<!-- Smartgear filter -->
 		<trans-unit id="WEMSG.FILTERS.title">
 			<source>Filter by :</source>
@@ -304,6 +312,14 @@
 			<source>API Key</source>
 			<target>Clef API</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgEncryptionKey">
+			<source>Encryption Key</source>
+			<target>Clef de chiffrement</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgEncryptionKeyHelp">
+			<source>The encryption key is used to encrypt and decrypt personal data. Do not change it once set !</source>
+			<target>Cette clef de chiffrement est utilisée pour chiffrer/déchiffrer les données personnelles. Ne la changez pas une fois qu'elle a été définie !</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.GENERAL.sgWebsiteTitleEmpty">
 			<source>Website's title is missing</source>
 			<target>Le titre du site web n'est pas renseigné.</target>
@@ -329,8 +345,12 @@
 			<target>L'identifiant Google Analytics n'est pas renseigné.</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.GENERAL.sgApiKeyEmpty">
-			<source>Website's title is missing</source>
+			<source>API key is missing</source>
 			<target>La clef API n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgApiKeyEmpty">
+			<source>Encryption key is missing</source>
+			<target>La clef de chiffrement n'est pas renseignée.</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.Title">
 			<source>Informations</source>
@@ -476,6 +496,10 @@
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.ModuleFooterNavName">
 			<source>Nav - footer</source>
 			<target>Nav - footer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.modulePersonalDataManagerName">
+			<source>Personal Data Manager</source>
+			<target>Gestionnaire Données Personnelles</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.LayoutStandardName">
 			<source>Standard Page</source>
@@ -1323,7 +1347,7 @@
 			<target>Archiver</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeArchiveDescription">
-			<source>Form's name wille be suffixed with " (Archive-{timestamp})".</source>
+			<source>Form's name will be suffixed with " (Archive-{timestamp})".</source>
 			<target>Le nom du formulaire sera suffixé par " (Archive-{timestamp})".</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.RESET.deleteModeKeepLabel">
@@ -1347,7 +1371,7 @@
 			<target>Désinstallation</target>
 		</trans-unit>
 
-		<!-- Social links-->
+		<!-- Social links -->
 		<trans-unit id="WEMSG.SOCIALLINKS.FORM.headerNetwork">
 			<source>Network</source>
 			<target>Réseau</target>
@@ -1364,6 +1388,301 @@
 			<source>Leave blank to use the selected network's default icon</source>
 			<target>Laissez vide pour utiliser l'icône du réseau social par défaut</target>
 		</trans-unit>
+
+		<!-- Extranet -->
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.title">
+			<source>Installation</source>
+			<target>Installation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.groupTitle">
+			<source>Members' group title</source>
+			<target>Titre du groupe des membres</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageTitle">
+			<source>Page title</source>
+			<target>Titre de la page</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.canSubscribe">
+			<source>News users can register</source>
+			<target>Les nouveaux utilisateurs peuvent s'enregistrer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.groupTitleMissing">
+			<source>Members' group title is missing</source>
+			<target>Veuillez renseigner le titre du group des membres</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageTitleMissing">
+			<source>Page title is missing</source>
+			<target>Veuillez renseigner le titre de la page</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageExtranetDescription">
+			<source>%s - %s</source>
+			<target>%s - %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageError401Title">
+			<source>Error 401 - Not authentified</source>
+			<target>Erreur 401 - Non authentifié</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageError403Title">
+			<source>Error 403 - Forbidden access</source>
+			<target>Erreur 403 - Accès interdit</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageContentTitle">
+			<source>Informations</source>
+			<target>Informations</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageDataTitle">
+			<source>My data</source>
+			<target>Mes données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageDataConfirmTitle">
+			<source>Data updated</source>
+			<target>Données modifiées</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pagePasswordTitle">
+			<source>Update my password</source>
+			<target>Modifier mon mot de passe</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pagePasswordConfirmTitle">
+			<source>Confirm update password</source>
+			<target>Confirmation de changement de mot de passe</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pagePasswordValidateTitle">
+			<source>Password update validated</source>
+			<target>Changement de mot de passe validé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageLogoutTitle">
+			<source>Logout</source>
+			<target>Déconnexion</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageSubscribeTitle">
+			<source>Create an account</source>
+			<target>Créer un compte</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageSubscribeConfirmTitle">
+			<source>Subscription confirmation</source>
+			<target>Confirmation d'inscription</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageSubscribeValidateTitle">
+			<source>Subscription validated</source>
+			<target>Inscription validée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.pageUnsubscribeTitle">
+			<source>Unsubscribe confirmation</source>
+			<target>Confirmation de désinscription</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.moduleLoginName">
+			<source>Extranet - Login</source>
+			<target>Extranet - Login</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.moduleLogoutName">
+			<source>Extranet - Logout</source>
+			<target>Extranet - Logout</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.moduleDataName">
+			<source>Extranet - Update data</source>
+			<target>Extranet - Mise à jour des données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.modulePasswordName">
+			<source>Extranet - Forgotten password</source>
+			<target>Extranet - Mot de passe oublié</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.moduleSubscribeName">
+			<source>Extranet - Subscription</source>
+			<target>Extranet - Inscription</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.moduleCloseAccountName">
+			<source>Extranet - Close account</source>
+			<target>Extranet - Désinscription</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.moduleNavName">
+			<source>Extranet - Navigation</source>
+			<target>Extranet - Navigation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationChangeDataTitle">
+			<source>Extranet - Data changed</source>
+			<target>Extranet - Changement de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationGatewayMessageChangeDataTitle">
+			<source>User notification</source>
+			<target>Notification utilisateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationGatewayMessageLanguageChangeDataSubject">
+			<source>%s - Data changed</source>
+			<target>%s - Changement de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationPasswordTitle">
+			<source>Extranet - Forgotten password</source>
+			<target>Extranet - Mot de passe oublié</target>
+		</trans-unit>		
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationGatewayMessagePasswordTitle">
+			<source>User notification</source>
+			<target>Notification utilisateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationGatewayMessageLanguagePasswordSubject">
+			<source>%s - Password updated</source>
+			<target>%s - Changement de mot de passe</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationSubscriptionTitle">
+			<source>Extranet - Subscription confirmation</source>
+			<target>Extranet - Confirmation d'inscription</target>
+		</trans-unit>		
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationGatewayMessageSubscriptionTitle">
+			<source>User notification</source>
+			<target>Notification utilisateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.notificationGatewayMessageLanguageSubscriptionSubject">
+			<source>%s - Confirm your subscription</source>
+			<target>%s - Confirmez votre inscription</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleExtranetHeadline">
+			<source>Members' space</source>
+			<target>Espace Membre</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle401Headline">
+			<source>Error 401 - Not authenticated</source>
+			<target>Erreur 401 - Non authentifié</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle401Text">
+			<source>You must be authenticated to access this page. You can do it using the login form below.</source>
+			<target>Vous devez être connecté pour accéder à cette page. Vous pouvez le faire via le formulaire de connexion ci-dessous.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle403Headline">
+			<source>Error 403 - Not authorized</source>
+			<target>Erreur 403 - Non autorisé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle403Text">
+			<source>You are not authorized to access to this page's content.</source>
+			<target>Vous n'êtes pas autorisé à accéder au contenu de cette page.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle403Hyperlink">
+			<source>Back to the members' space</source>
+			<target>Retour à l'espace membre</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleContentHeadline">
+			<source>Informations</source>
+			<target>Informations</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleContentText">
+			<source>Random text</source>
+			<target>Random text</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataHeadline">
+			<source>My data</source>
+			<target>Mes données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataHeadlineCloseAccount">
+			<source>Close my account</source>
+			<target>Clôturer mon compte</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataTextCloseAccount">
+			<source>You must be authenticated to access this page. You can do it using the login form below.</source>
+			<target>Vous devez être connecté pour accéder à cette page. Vous pouvez le faire via le formulaire de connexion ci-dessous.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataConfirmHeadline">
+			<source>Data updated</source>
+			<target>Données modifiées</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataConfirmText">
+			<source>Your data have been successfully updated !</source>
+			<target>Vos données ont été modifiées avec succès !</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataConfirmHyperlink">
+			<source>Back to the members' space</source>
+			<target>Retour à l'espace membre</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticlePasswordHeadline">
+			<source>Update my password</source>
+			<target>Modifier mon mot de passe</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticlePasswordConfirmHeadline">
+			<source>Update my password</source>
+			<target>Modifier mon mot de passe</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticlePasswordConfirmText">
+			<source>Your request have been taken into account, you will receive an email indicating the rest of the procedure. Make sure to check your spam / junk mail folder if you don't receive this email quickly.</source>
+			<target>Votre demande a été prise en compte, vous allez recevoir un email vous indiquant la suite de la procédure. Pensez à vérifier vos dossier de spams / courriers indésirables si vous ne recevez pas cet email rapidement.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticlePasswordValidateHeadline">
+			<source>Update my password</source>
+			<target>Modifier mon mot de passe</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleSubscribeHeadline">
+			<source>Create an account</source>
+			<target>Créer un compte</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleSubscribeConfirmHeadline">
+			<source>Create an account</source>
+			<target>Créer un compte</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleSubscribeConfirmText">
+			<source>Your request have been taken into account, you will receive an email indicating the rest of the procedure. Make sure to check your spam / junk mail folder if you don't receive this email quickly.</source>
+			<target>Votre demande a été prise en compte, vous allez recevoir un email vous indiquant la suite de la procédure. Pensez à vérifier vos dossier de spams / courriers indésirables si vous ne recevez pas cet email rapidement.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleSubscribeValidateHeadline">
+			<source>Account creation validated</source>
+			<target>Inscription validée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleSubscribeValidateText">
+			<source>Your registration is finished ! You can now log in thanks to the form below.</source>
+			<target>Votre inscription est terminée ! Vous pouvez désormais vous connecter grâce au formulaire de connexion ci-dessous.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleUnsubscribeHeadline">
+			<source>Create an account</source>
+			<target>Créer un compte</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleUnsubscribeText">
+			<source>Your account have been closed successfully</source>
+			<target>Votre compte a bien été clôturé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleUnsubscribeHyperlink">
+			<source>Back to the members' space</source>
+			<target>Retour à l'espace membre</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.title">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.deleteModeLabel">
+			<source>Uninstall mode</source>
+			<target>Mode de désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.deleteModeArchiveLabel">
+			<source>Archive</source>
+			<target>Archiver</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.deleteModeArchiveDescription">
+			<source>Extranet's linked entities' name will be suffixed with " (Archive-{timestamp})".</source>
+			<target>Les entités liées à l'extranet seront suffixées par " (Archive-{timestamp})".</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.deleteModeKeepLabel">
+			<source>Keep</source>
+			<target>Conserver</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.deleteModeKeepDescription">
+			<source>All data will be kept in place.</source>
+			<target>Toutes les données seront conservées.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.deleteModeDeleteLabel">
+			<source>Delete</source>
+			<target>Supprimer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.deleteModeDeleteDescription">
+			<source>Extranet will be deleted.</source>
+			<target>L'extranet sera supprimé.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.RESET.deleteModeUnknown">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
+		</trans-unit>
+
+
+
+
+		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.xxxxxxxx">
+			<source>xxxxx</source>
+			<target>xxxxx</target>
+		</trans-unit>
+
 
 
 		<!-- ConfigurationStepManager -->

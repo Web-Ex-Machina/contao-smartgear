@@ -67,6 +67,15 @@ if (isset($bundles['VerstaerkerI18nl10nBundle'])) {
     unset($GLOBALS['BE_MOD']['design']['i18nl10n']);
 }
 
+/*
+ * Move Page Backend Module
+ */
+array_insert($GLOBALS['BE_MOD']['extranet'], 0, [
+    'member' => $GLOBALS['BE_MOD']['accounts']['member'],
+    'mgroup' => $GLOBALS['BE_MOD']['accounts']['mgroup'],
+]);
+unset($GLOBALS['BE_MOD']['accounts']['member'], $GLOBALS['BE_MOD']['accounts']['mgroup']);
+
 // ComponentStyleSelect override
 $GLOBALS['BE_FFL']['stylemanager'] = WEM\SmartgearBundle\Widget\ComponentStyleSelect::class;
 /*
@@ -108,6 +117,7 @@ $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Backup::getTable()] = WEM\Smart
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialNetworkCategory::getTable()] = WEM\SmartgearBundle\Model\SocialNetworkCategory::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialNetwork::getTable()] = WEM\SmartgearBundle\Model\SocialNetwork::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialLink::getTable()] = WEM\SmartgearBundle\Model\SocialLink::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Member::getTable()] = WEM\SmartgearBundle\Model\Member::class;
 /*
  * Add BE Hooks
  */
@@ -132,9 +142,15 @@ if ('FE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['newsListFetchItems'][] = ['smartgear.listener.news_list_fetch_items', '__invoke'];
     $GLOBALS['TL_HOOKS']['newsListCountItems'][] = ['smartgear.listener.news_list_count_items', '__invoke'];
     $GLOBALS['TL_HOOKS']['getAllEvents'][] = ['smartgear.listener.get_all_events', '__invoke'];
+    $GLOBALS['TL_HOOKS']['createNewUser'][] = ['smartgear.listener.create_new_user', '__invoke'];
 }
 
 /*
  * Add custom rights
  */
 $GLOBALS['TL_PERMISSIONS'][] = 'smartgear_permissions';
+
+$GLOBALS['WEM_HOOKS']['renderSingleItemTitle'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemTitle'];
+$GLOBALS['WEM_HOOKS']['renderSingleItemBodyOriginalModelSingle'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyOriginalModelSingle'];
+$GLOBALS['WEM_HOOKS']['renderSingleItemBodyOriginalModelSingleFieldValue'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyOriginalModelSingleFieldValue'];
+$GLOBALS['WEM_HOOKS']['renderSingleItemBodyPersonalDataSingleFieldValue'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyPersonalDataSingleFieldValue'];

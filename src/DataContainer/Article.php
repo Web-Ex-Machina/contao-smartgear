@@ -19,6 +19,7 @@ use Contao\Image;
 use Contao\Input;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class Article extends \tl_article
 {
@@ -79,6 +80,7 @@ class Article extends \tl_article
     protected function isItemUsedBySmartgear(int $id): bool
     {
         try {
+            /** @var CoreConfig */
             $config = $this->configManager->load();
             if ($config->getSgInstallComplete()
             && (
@@ -108,6 +110,27 @@ class Article extends \tl_article
             && (
                 $id === (int) $formContactConfig->getSgArticleForm()
                 || $id === (int) $formContactConfig->getSgArticleFormSent()
+            )
+            ) {
+                return true;
+            }
+            $extranetConfig = $config->getSgExtranet();
+            if ($extranetConfig->getSgInstallComplete()
+            && (
+                $id === (int) $extranetConfig->getSgArticleExtranet()
+                || $id === (int) $extranetConfig->getSgArticle401()
+                || $id === (int) $extranetConfig->getSgArticle403()
+                || $id === (int) $extranetConfig->getSgArticleContent()
+                || $id === (int) $extranetConfig->getSgArticleData()
+                || $id === (int) $extranetConfig->getSgArticleDataConfirm()
+                || $id === (int) $extranetConfig->getSgArticlePassword()
+                || $id === (int) $extranetConfig->getSgArticlePasswordConfirm()
+                || $id === (int) $extranetConfig->getSgArticlePasswordValidate()
+                || $id === (int) $extranetConfig->getSgArticleLogout()
+                || $id === (int) $extranetConfig->getSgArticleSubscribe()
+                || $id === (int) $extranetConfig->getSgArticleSubscribeConfirm()
+                || $id === (int) $extranetConfig->getSgArticleSubscribeValidate()
+                || $id === (int) $extranetConfig->getSgArticleUnsubscribeConfirm()
             )
             ) {
                 return true;

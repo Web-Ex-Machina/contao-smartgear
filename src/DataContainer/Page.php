@@ -19,6 +19,7 @@ use Contao\Image;
 use Contao\Input;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class Page extends \tl_page
 {
@@ -79,6 +80,7 @@ class Page extends \tl_page
     protected function isItemUsedBySmartgear(int $id): bool
     {
         try {
+            /** @var CoreConfig */
             $config = $this->configManager->load();
             if ($config->getSgInstallComplete()
             && (
@@ -109,6 +111,27 @@ class Page extends \tl_page
             && (
                 $id === (int) $formContactConfig->getSgPageForm()
                 || $id === (int) $formContactConfig->getSgPageFormSent()
+            )
+            ) {
+                return true;
+            }
+            $extranetConfig = $config->getSgExtranet();
+            if ($extranetConfig->getSgInstallComplete()
+            && (
+                $id === (int) $extranetConfig->getSgPageExtranet()
+                || $id === (int) $extranetConfig->getSgPage401()
+                || $id === (int) $extranetConfig->getSgPage403()
+                || $id === (int) $extranetConfig->getSgPageContent()
+                || $id === (int) $extranetConfig->getSgPageData()
+                || $id === (int) $extranetConfig->getSgPageDataConfirm()
+                || $id === (int) $extranetConfig->getSgPagePassword()
+                || $id === (int) $extranetConfig->getSgPagePasswordConfirm()
+                || $id === (int) $extranetConfig->getSgPagePasswordValidate()
+                || $id === (int) $extranetConfig->getSgPageLogout()
+                || $id === (int) $extranetConfig->getSgPageSubscribe()
+                || $id === (int) $extranetConfig->getSgPageSubscribeConfirm()
+                || $id === (int) $extranetConfig->getSgPageSubscribeValidate()
+                || $id === (int) $extranetConfig->getSgPageUnsubscribeConfirm()
             )
             ) {
                 return true;
