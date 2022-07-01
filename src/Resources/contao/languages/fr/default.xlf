@@ -4985,32 +4985,32 @@
 			<target>Couleurs brutes</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FRAMWAY.COLORS.primary">
-			<source>primary</source>
-			<target>primaire</target>
+			<source>Primary</source>
+			<target>Primaire</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FRAMWAY.COLORS.secondary">
-			<source>secondary</source>
-			<target>secondaire</target>
+			<source>Secondary</source>
+			<target>Secondaire</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FRAMWAY.COLORS.tertiary">
-			<source>tertiary</source>
-			<target>tertiaire</target>
+			<source>Tertiary</source>
+			<target>Tertiaire</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FRAMWAY.COLORS.success">
-			<source>success</source>
-			<target>succès</target>
+			<source>Success</source>
+			<target>Succès</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FRAMWAY.COLORS.info">
-			<source>info</source>
-			<target>info</target>
+			<source>Info</source>
+			<target>Info</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FRAMWAY.COLORS.warning">
-			<source>warning</source>
-			<target>avertissement</target>
+			<source>Warning</source>
+			<target>Avertissement</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FRAMWAY.COLORS.error">
-			<source>error</source>
-			<target>erreur</target>
+			<source>Error</source>
+			<target>Erreur</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FRAMWAY.COLORS.blue">
 			<source>blue</source>
