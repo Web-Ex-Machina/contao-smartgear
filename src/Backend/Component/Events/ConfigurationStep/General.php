@@ -32,6 +32,7 @@ use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
+use WEM\SmartgearBundle\Model\Module;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class General extends ConfigurationStep
@@ -349,6 +350,8 @@ class General extends ConfigurationStep
             ->addAllowedCalendar([$eventsConfig->getSgCalendar()])
             ->addAllowedFilemounts([$objFolder->uuid])
             ->addAllowedFieldsByTables(['tl_calendar_events'])
+            ->addAllowedPagemounts($eventsConfig->getContaoPagesIds())
+            ->addAllowedModules(Module::getTypesByIds($eventsConfig->getContaoModulesIds()))
         ;
         if ($expertMode) {
             $userGroupManipulator

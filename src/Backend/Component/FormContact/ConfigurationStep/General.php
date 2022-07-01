@@ -34,6 +34,7 @@ use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
+use WEM\SmartgearBundle\Model\Module;
 // use WEM\SmartgearBundle\DataContainer\NotificationGateway;
 use WEM\UtilsBundle\Classes\StringUtil;
 
@@ -518,6 +519,8 @@ class General extends ConfigurationStep
             ->addAllowedForms([$formContactConfig->getSgFormContact()])
             ->addAllowedFormFields(['text', 'textarea', 'captcha', 'submit'])
             ->addAllowedFieldsByTables(['tl_form', 'tl_form_field'])
+            ->addAllowedPagemounts($formContactConfig->getContaoPagesIds())
+            ->addAllowedModules(Module::getTypesByIds($formContactConfig->getContaoModulesIds()))
         ;
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->formp = serialize(['create', 'delete']);

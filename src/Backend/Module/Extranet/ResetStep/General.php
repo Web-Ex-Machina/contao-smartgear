@@ -29,6 +29,7 @@ use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Module\Extranet\Extranet as ExtranetConfig;
 use WEM\SmartgearBundle\Model\Member as MemberModel;
+use WEM\SmartgearBundle\Model\Module;
 
 class General extends AbstractStep
 {
@@ -534,6 +535,8 @@ class General extends AbstractStep
         $userGroupManipulator
             ->removeAllowedModules(['member', 'mgroup'])
             ->removeAllowedFilemounts([$objFolder->uuid])
+            ->removeAllowedPagemounts($extranetConfig->getContaoPagesIds())
+            ->removeAllowedModules(Module::getTypesByIds($extranetConfig->getContaoModulesIds()))
         ;
 
         $objUserGroup = $userGroupManipulator->getUserGroup();

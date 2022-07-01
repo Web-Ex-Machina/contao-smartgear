@@ -82,57 +82,7 @@ class Article extends \tl_article
         try {
             /** @var CoreConfig */
             $config = $this->configManager->load();
-            if ($config->getSgInstallComplete()
-            && (
-                $id === (int) $config->getSgArticleHome()
-                || $id === (int) $config->getSgArticle404()
-                || $id === (int) $config->getSgArticleLegalNotice()
-                || $id === (int) $config->getSgArticlePrivacyPolitics()
-                || $id === (int) $config->getSgArticleSitemap()
-            )
-            ) {
-                return true;
-            }
-            $blogConfig = $config->getSgBlog();
-            if ($blogConfig->getSgInstallComplete() && $id === (int) $blogConfig->getSgArticle()) {
-                return true;
-            }
-            $eventsConfig = $config->getSgEvents();
-            if ($eventsConfig->getSgInstallComplete() && $id === (int) $eventsConfig->getSgArticle()) {
-                return true;
-            }
-            $faqConfig = $config->getSgFaq();
-            if ($faqConfig->getSgInstallComplete() && $id === (int) $faqConfig->getSgArticle()) {
-                return true;
-            }
-            $formContactConfig = $config->getSgFormContact();
-            if ($formContactConfig->getSgInstallComplete()
-            && (
-                $id === (int) $formContactConfig->getSgArticleForm()
-                || $id === (int) $formContactConfig->getSgArticleFormSent()
-            )
-            ) {
-                return true;
-            }
-            $extranetConfig = $config->getSgExtranet();
-            if ($extranetConfig->getSgInstallComplete()
-            && (
-                $id === (int) $extranetConfig->getSgArticleExtranet()
-                || $id === (int) $extranetConfig->getSgArticle401()
-                || $id === (int) $extranetConfig->getSgArticle403()
-                || $id === (int) $extranetConfig->getSgArticleContent()
-                || $id === (int) $extranetConfig->getSgArticleData()
-                || $id === (int) $extranetConfig->getSgArticleDataConfirm()
-                || $id === (int) $extranetConfig->getSgArticlePassword()
-                || $id === (int) $extranetConfig->getSgArticlePasswordConfirm()
-                || $id === (int) $extranetConfig->getSgArticlePasswordValidate()
-                || $id === (int) $extranetConfig->getSgArticleLogout()
-                || $id === (int) $extranetConfig->getSgArticleSubscribe()
-                || $id === (int) $extranetConfig->getSgArticleSubscribeConfirm()
-                || $id === (int) $extranetConfig->getSgArticleSubscribeValidate()
-                || $id === (int) $extranetConfig->getSgArticleUnsubscribeConfirm()
-            )
-            ) {
+            if (\in_array($id, $config->getContaoArticlesIdsForAll(), true)) {
                 return true;
             }
         } catch (\Exception $e) {

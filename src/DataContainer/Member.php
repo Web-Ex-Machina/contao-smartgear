@@ -81,8 +81,7 @@ class Member extends \tl_member
         try {
             /** @var CoreConfig */
             $config = $this->configManager->load();
-            $extranetConfig = $config->getSgExtranet();
-            if ($extranetConfig->getSgInstallComplete() && $id === $extranetConfig->getSgMemberExample()) {
+            if (\in_array($id, $config->getContaoMembersIdsForAll(), true)) {
                 return true;
             }
         } catch (\Exception $e) {

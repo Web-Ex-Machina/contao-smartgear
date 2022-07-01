@@ -559,6 +559,187 @@ class Extranet implements ConfigModuleInterface
         return $json;
     }
 
+    public function getContaoModulesIds(): array
+    {
+        if (!$this->getSgInstallComplete()
+        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        ) {
+            return [];
+        }
+        $modules = [
+            $this->getSgModuleLogin(),
+            $this->getSgModuleLogout(),
+            $this->getSgModuleData(),
+            $this->getSgModulePassword(),
+            $this->getSgModuleNav(),
+        ];
+        if ($this->getSgCanSubscribe()) {
+            $modules[] = $this->getSgModuleSubscribe();
+            $modules[] = $this->getSgModuleCloseAccount();
+        }
+
+        return $modules;
+    }
+
+    public function getContaoPagesIds(): array
+    {
+        if (!$this->getSgInstallComplete()
+        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        ) {
+            return [];
+        }
+        $pages = [
+            $this->getSgPageExtranet(),
+            $this->getSgPage401(),
+            $this->getSgPage403(),
+            $this->getSgPageContent(),
+            $this->getSgPageData(),
+            $this->getSgPageDataConfirm(),
+            $this->getSgPagePassword(),
+            $this->getSgPagePasswordConfirm(),
+            $this->getSgPagePasswordValidate(),
+            $this->getSgPageLogout(),
+        ];
+        if ($this->getSgCanSubscribe()) {
+            $pages[] = $this->getSgPageSubscribe();
+            $pages[] = $this->getSgPageSubscribeConfirm();
+            $pages[] = $this->getSgPageSubscribeValidate();
+            $pages[] = $this->getSgPageUnsubscribeConfirm();
+        }
+
+        return $pages;
+    }
+
+    public function getContaoContentsIds(): array
+    {
+        if (!$this->getSgInstallComplete()
+        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        ) {
+            return [];
+        }
+
+        $contents = [
+            $this->getSgContentArticleExtranetHeadline(),
+            $this->getSgContentArticleExtranetModuleLoginGuests(),
+            $this->getSgContentArticleExtranetGridStartA(),
+            $this->getSgContentArticleExtranetGridStartB(),
+            $this->getSgContentArticleExtranetModuleLoginLogged(),
+            $this->getSgContentArticleExtranetModuleNav(),
+            $this->getSgContentArticleExtranetGridStopB(),
+            $this->getSgContentArticleExtranetText(),
+            $this->getSgContentArticleExtranetGridStopA(),
+            $this->getSgContentArticle401Headline(),
+            $this->getSgContentArticle401Text(),
+            $this->getSgContentArticle401ModuleLoginGuests(),
+            $this->getSgContentArticle403Headline(),
+            $this->getSgContentArticle403Text(),
+            $this->getSgContentArticle403Hyperlink(),
+            $this->getSgContentArticleContentHeadline(),
+            $this->getSgContentArticleContentText(),
+            $this->getSgContentArticleDataHeadline(),
+            $this->getSgContentArticleDataModuleData(),
+            $this->getSgContentArticleDataHeadlineCloseAccount(),
+            $this->getSgContentArticleDataTextCloseAccount(),
+            $this->getSgContentArticleDataModuleCloseAccount(),
+            $this->getSgContentArticleDataConfirmHeadline(),
+            $this->getSgContentArticleDataConfirmText(),
+            $this->getSgContentArticleDataConfirmHyperlink(),
+            $this->getSgContentArticlePasswordHeadline(),
+            $this->getSgContentArticlePasswordModulePassword(),
+            $this->getSgContentArticlePasswordConfirmHeadline(),
+            $this->getSgContentArticlePasswordConfirmText(),
+            $this->getSgContentArticlePasswordValidateHeadline(),
+            $this->getSgContentArticlePasswordValidateModulePassword(),
+            $this->getSgContentArticleLogoutModuleLogout(),
+            $this->getSgContentArticleSubscribeHeadline(),
+            $this->getSgContentArticleSubscribeModuleSubscribe(),
+            $this->getSgContentArticleSubscribeConfirmHeadline(),
+            $this->getSgContentArticleSubscribeConfirmText(),
+            $this->getSgContentArticleSubscribeValidateHeadline(),
+            $this->getSgContentArticleSubscribeValidateText(),
+            $this->getSgContentArticleSubscribeValidateModuleLoginGuests(),
+        ];
+        if ($this->getSgCanSubscribe()) {
+            $contents[] = $this->getSgContentArticleUnsubscribeHeadline();
+            $contents[] = $this->getSgContentArticleUnsubscribeText();
+            $contents[] = $this->getSgContentArticleUnsubscribeHyperlink();
+        }
+
+        return $contents;
+    }
+
+    public function getContaoArticlesIds(): array
+    {
+        if (!$this->getSgInstallComplete()
+        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        ) {
+            return [];
+        }
+        $articles = [
+            $this->getSgArticleExtranet(),
+            $this->getSgArticle401(),
+            $this->getSgArticle403(),
+            $this->getSgArticleContent(),
+            $this->getSgArticleData(),
+            $this->getSgArticleDataConfirm(),
+            $this->getSgArticlePassword(),
+            $this->getSgArticlePasswordConfirm(),
+            $this->getSgArticlePasswordValidate(),
+            $this->getSgArticleLogout(),
+        ];
+        if ($this->getSgCanSubscribe()) {
+            $articles[] = $this->getSgArticleSubscribe();
+            $articles[] = $this->getSgArticleSubscribeConfirm();
+            $articles[] = $this->getSgArticleSubscribeValidate();
+            $articles[] = $this->getSgArticleUnsubscribeConfirm();
+        }
+
+        return $articles;
+    }
+
+    public function getContaoFoldersIds(): array
+    {
+        if (!$this->getSgInstallComplete()
+        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        ) {
+            return [];
+        }
+
+        return [$this->getSgExtranetFolder()];
+    }
+
+    public function getContaoUsersIds(): array
+    {
+        return [];
+    }
+
+    public function getContaoUserGroupsIds(): array
+    {
+        return [];
+    }
+
+    public function getContaoMembersIds(): array
+    {
+        if (!$this->getSgInstallComplete()
+        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        ) {
+            return [];
+        }
+
+        return [$this->getSgMemberExample()];
+    }
+
+    public function getContaoMemberGroupsIds(): array
+    {
+        if (!$this->getSgInstallComplete()
+        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        ) {
+            return [];
+        }
+
+        return [$this->getSgMemberGroupMembers()];
+    }
+
     public function getSgInstallComplete(): bool
     {
         return $this->sgInstallComplete;

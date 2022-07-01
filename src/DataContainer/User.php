@@ -79,8 +79,9 @@ class User extends \tl_user
     protected function isItemUsedBySmartgear(int $id): bool
     {
         try {
+            /** @var CoreConfig */
             $config = $this->configManager->load();
-            if ($config->getSgInstallComplete() && $id === (int) $config->getSgUserWebmaster()) {
+            if (\in_array($id, $config->getContaoUsersIdsForAll(), true)) {
                 return true;
             }
         } catch (\Exception $e) {

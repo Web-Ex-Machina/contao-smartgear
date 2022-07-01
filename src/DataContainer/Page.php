@@ -82,58 +82,7 @@ class Page extends \tl_page
         try {
             /** @var CoreConfig */
             $config = $this->configManager->load();
-            if ($config->getSgInstallComplete()
-            && (
-                $id === (int) $config->getSgPageRoot()
-                || $id === (int) $config->getSgPageHome()
-                || $id === (int) $config->getSgPage404()
-                || $id === (int) $config->getSgPageLegalNotice()
-                || $id === (int) $config->getSgPagePrivacyPolitics()
-                || $id === (int) $config->getSgPageSitemap()
-            )
-            ) {
-                return true;
-            }
-            $blogConfig = $config->getSgBlog();
-            if ($blogConfig->getSgInstallComplete() && $id === (int) $blogConfig->getSgPage()) {
-                return true;
-            }
-            $eventsConfig = $config->getSgEvents();
-            if ($eventsConfig->getSgInstallComplete() && $id === (int) $eventsConfig->getSgPage()) {
-                return true;
-            }
-            $faqConfig = $config->getSgFaq();
-            if ($faqConfig->getSgInstallComplete() && $id === (int) $faqConfig->getSgPage()) {
-                return true;
-            }
-            $formContactConfig = $config->getSgFormContact();
-            if ($formContactConfig->getSgInstallComplete()
-            && (
-                $id === (int) $formContactConfig->getSgPageForm()
-                || $id === (int) $formContactConfig->getSgPageFormSent()
-            )
-            ) {
-                return true;
-            }
-            $extranetConfig = $config->getSgExtranet();
-            if ($extranetConfig->getSgInstallComplete()
-            && (
-                $id === (int) $extranetConfig->getSgPageExtranet()
-                || $id === (int) $extranetConfig->getSgPage401()
-                || $id === (int) $extranetConfig->getSgPage403()
-                || $id === (int) $extranetConfig->getSgPageContent()
-                || $id === (int) $extranetConfig->getSgPageData()
-                || $id === (int) $extranetConfig->getSgPageDataConfirm()
-                || $id === (int) $extranetConfig->getSgPagePassword()
-                || $id === (int) $extranetConfig->getSgPagePasswordConfirm()
-                || $id === (int) $extranetConfig->getSgPagePasswordValidate()
-                || $id === (int) $extranetConfig->getSgPageLogout()
-                || $id === (int) $extranetConfig->getSgPageSubscribe()
-                || $id === (int) $extranetConfig->getSgPageSubscribeConfirm()
-                || $id === (int) $extranetConfig->getSgPageSubscribeValidate()
-                || $id === (int) $extranetConfig->getSgPageUnsubscribeConfirm()
-            )
-            ) {
+            if (\in_array($id, $config->getContaoPagesIdsForAll(), true)) {
                 return true;
             }
         } catch (\Exception $e) {

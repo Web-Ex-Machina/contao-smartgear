@@ -411,6 +411,229 @@ class Core implements ConfigModuleInterface
         return json_encode($json, \JSON_PRETTY_PRINT);
     }
 
+    public function getContaoModulesIdsForAll(): array
+    {
+        return array_merge(
+            $this->getContaoModulesIds(),
+            $this->getSgBlog()->getContaoModulesIds(),
+            $this->getSgEvents()->getContaoModulesIds(),
+            $this->getSgFaq()->getContaoModulesIds(),
+            $this->getSgFormContact()->getContaoModulesIds(),
+            $this->getSgExtranet()->getContaoModulesIds(),
+        );
+    }
+
+    public function getContaoModulesIds(): array
+    {
+        if (!$this->getSgInstallComplete()) {
+            return [];
+        }
+
+        $modules = [];
+        foreach ($this->getSgModules() as $module) {
+            if (null !== $module->id) {
+                $modules[] = $module->id;
+            }
+        }
+
+        return $modules;
+    }
+
+    public function getContaoPagesIdsForAll(): array
+    {
+        return array_merge(
+            $this->getContaoPagesIds(),
+            $this->getSgBlog()->getContaoPagesIds(),
+            $this->getSgEvents()->getContaoPagesIds(),
+            $this->getSgFaq()->getContaoPagesIds(),
+            $this->getSgFormContact()->getContaoPagesIds(),
+            $this->getSgExtranet()->getContaoPagesIds(),
+        );
+    }
+
+    public function getContaoPagesIds(): array
+    {
+        if (!$this->getSgInstallComplete()) {
+            return [];
+        }
+
+        return [
+            $this->getSgPageRoot(),
+            $this->getSgPageHome(),
+            $this->getSgPage404(),
+            $this->getSgPageLegalNotice(),
+            $this->getSgPagePrivacyPolitics(),
+            $this->getSgPageSitemap(),
+        ];
+    }
+
+    public function getContaoContentsIdsForAll(): array
+    {
+        return array_merge(
+            $this->getContaoContentsIds(),
+            $this->getSgBlog()->getContaoContentsIds(),
+            $this->getSgEvents()->getContaoContentsIds(),
+            $this->getSgFaq()->getContaoContentsIds(),
+            $this->getSgFormContact()->getContaoContentsIds(),
+            $this->getSgExtranet()->getContaoContentsIds(),
+        );
+    }
+
+    public function getContaoContentsIds(): array
+    {
+        if (!$this->getSgInstallComplete()) {
+            return [];
+        }
+
+        return [
+            $this->getSgContent404Headline(),
+            $this->getSgContent404Sitemap(),
+            $this->getSgContentLegalNotice(),
+            $this->getSgContentPrivacyPolitics(),
+            $this->getSgContentSitemap(),
+        ];
+    }
+
+    public function getContaoArticlesIdsForAll(): array
+    {
+        return array_merge(
+            $this->getContaoArticlesIds(),
+            $this->getSgBlog()->getContaoArticlesIds(),
+            $this->getSgEvents()->getContaoArticlesIds(),
+            $this->getSgFaq()->getContaoArticlesIds(),
+            $this->getSgFormContact()->getContaoArticlesIds(),
+            $this->getSgExtranet()->getContaoArticlesIds(),
+        );
+    }
+
+    public function getContaoArticlesIds(): array
+    {
+        if (!$this->getSgInstallComplete()) {
+            return [];
+        }
+
+        return [
+            $this->getSgArticleHome(),
+            $this->getSgArticle404(),
+            $this->getSgArticleLegalNotice(),
+            $this->getSgArticlePrivacyPolitics(),
+            $this->getSgArticleSitemap(),
+        ];
+    }
+
+    public function getContaoFoldersIdsForAll(): array
+    {
+        return array_merge(
+            $this->getContaoFoldersIds(),
+            $this->getSgBlog()->getContaoFoldersIds(),
+            $this->getSgEvents()->getContaoFoldersIds(),
+            $this->getSgFaq()->getContaoFoldersIds(),
+            $this->getSgFormContact()->getContaoFoldersIds(),
+            $this->getSgExtranet()->getContaoFoldersIds(),
+        );
+    }
+
+    public function getContaoFoldersIds(): array
+    {
+        if (!$this->getSgInstallComplete()) {
+            return [];
+        }
+
+        return [
+            self::DEFAULT_CLIENT_FILES_FOLDER,
+            self::DEFAULT_CLIENT_LOGOS_FOLDER,
+        ];
+    }
+
+    public function getContaoUsersIdsForAll(): array
+    {
+        return array_merge(
+            $this->getContaoUsersIds(),
+            $this->getSgBlog()->getContaoUsersIds(),
+            $this->getSgEvents()->getContaoUsersIds(),
+            $this->getSgFaq()->getContaoUsersIds(),
+            $this->getSgFormContact()->getContaoUsersIds(),
+            $this->getSgExtranet()->getContaoUsersIds(),
+        );
+    }
+
+    public function getContaoUsersIds(): array
+    {
+        if (!$this->getSgInstallComplete()) {
+            return [];
+        }
+
+        return [
+            $this->getSgUserWebmaster(),
+        ];
+    }
+
+    public function getContaoUserGroupsIdsForAll(): array
+    {
+        return array_merge(
+            $this->getContaoUserGroupsIds(),
+            $this->getSgBlog()->getContaoUserGroupsIds(),
+            $this->getSgEvents()->getContaoUserGroupsIds(),
+            $this->getSgFaq()->getContaoUserGroupsIds(),
+            $this->getSgFormContact()->getContaoUserGroupsIds(),
+            $this->getSgExtranet()->getContaoUserGroupsIds(),
+        );
+    }
+
+    public function getContaoUserGroupsIds(): array
+    {
+        if (!$this->getSgInstallComplete()) {
+            return [];
+        }
+
+        return [
+            $this->getSgUserGroupAdministrators(),
+            $this->getSgUserGroupWebmasters(),
+        ];
+    }
+
+    public function getContaoMembersIdsForAll(): array
+    {
+        return array_merge(
+            $this->getContaoMembersIds(),
+            $this->getSgBlog()->getContaoMembersIds(),
+            $this->getSgEvents()->getContaoMembersIds(),
+            $this->getSgFaq()->getContaoMembersIds(),
+            $this->getSgFormContact()->getContaoMembersIds(),
+            $this->getSgExtranet()->getContaoMembersIds(),
+        );
+    }
+
+    public function getContaoMembersIds(): array
+    {
+        if (!$this->getSgInstallComplete()) {
+            return [];
+        }
+
+        return [];
+    }
+
+    public function getContaoMemberGroupsIdsForAll(): array
+    {
+        return array_merge(
+            $this->getContaoMemberGroupsIds(),
+            $this->getSgBlog()->getContaoMemberGroupsIds(),
+            $this->getSgEvents()->getContaoMemberGroupsIds(),
+            $this->getSgFaq()->getContaoMemberGroupsIds(),
+            $this->getSgFormContact()->getContaoMemberGroupsIds(),
+            $this->getSgExtranet()->getContaoMemberGroupsIds(),
+        );
+    }
+
+    public function getContaoMemberGroupsIds(): array
+    {
+        if (!$this->getSgInstallComplete()) {
+            return [];
+        }
+
+        return [];
+    }
+
     public function getSgVersion(): string
     {
         return $this->sgVersion;

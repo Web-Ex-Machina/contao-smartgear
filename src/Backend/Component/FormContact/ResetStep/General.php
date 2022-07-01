@@ -28,6 +28,7 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
+use WEM\SmartgearBundle\Model\Module;
 
 class General extends AbstractStep
 {
@@ -190,6 +191,8 @@ class General extends AbstractStep
             ->removeAllowedForms([$formContactConfig->getSgFormContact()])
             ->removeAllowedFormFields(['text', 'textarea', 'captcha', 'submit'])
             ->removeAllowedFieldsByPrefixes(['tl_form::', 'tl_form_field::'])
+            ->removeAllowedPagemounts($formContactConfig->getContaoPagesIds())
+            ->removeAllowedModules(Module::getTypesByIds($formContactConfig->getContaoModulesIds()))
         ;
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->formp = null;

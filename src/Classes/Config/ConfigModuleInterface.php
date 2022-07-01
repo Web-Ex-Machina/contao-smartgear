@@ -29,4 +29,22 @@ interface ConfigModuleInterface extends ConfigJsonInterface
      * @param bool $sgInstallComplete true if installation is complete, false otherwise
      */
     public function setSgInstallComplete(bool $sgInstallComplete): self;
+
+    public function getContaoModulesIds(): array;
+
+    public function getContaoPagesIds(): array;
+
+    public function getContaoContentsIds(): array;
+
+    public function getContaoArticlesIds(): array;
+
+    public function getContaoFoldersIds(): array;
+
+    public function getContaoUsersIds(): array;
+
+    public function getContaoUserGroupsIds(): array;
+
+    public function getContaoMembersIds(): array;
+
+    public function getContaoMemberGroupsIds(): array;
 }

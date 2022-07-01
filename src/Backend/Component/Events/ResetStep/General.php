@@ -26,6 +26,7 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
+use WEM\SmartgearBundle\Model\Module;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class General extends AbstractStep
@@ -154,6 +155,8 @@ class General extends AbstractStep
             ->removeAllowedCalendar([$eventsConfig->getSgCalendar()])
             ->removeAllowedFilemounts([$objFolder->uuid])
             ->removeAllowedFieldsByPrefixes(['tl_calendar_events::'])
+            ->removeAllowedPagemounts($eventsConfig->getContaoPagesIds())
+            ->removeAllowedModules(Module::getTypesByIds($eventsConfig->getContaoModulesIds()))
         ;
 
         $objUserGroup = $userGroupManipulator->getUserGroup();
