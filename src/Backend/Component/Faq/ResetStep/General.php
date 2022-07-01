@@ -26,6 +26,7 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
+use WEM\SmartgearBundle\Model\Module;
 
 class General extends AbstractStep
 {
@@ -152,6 +153,8 @@ class General extends AbstractStep
             ->removeAllowedFaq([$faqConfig->getSgFaqCategory()])
             ->removeAllowedFilemounts([$objFolder->uuid])
             ->removeAllowedFieldsByPrefixes(['tl_faq::'])
+            ->removeAllowedPagemounts($faqConfig->getContaoPagesIds())
+            ->removeAllowedModules(Module::getTypesByIds($faqConfig->getContaoModulesIds()))
         ;
 
         $objUserGroup = $userGroupManipulator->getUserGroup();

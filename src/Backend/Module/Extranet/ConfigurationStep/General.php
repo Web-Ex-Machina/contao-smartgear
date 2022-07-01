@@ -38,6 +38,7 @@ use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Module\Extranet\Extranet as ExtranetConfig;
 use WEM\SmartgearBundle\Model\Member as MemberModel;
+use WEM\SmartgearBundle\Model\Module;
 
 class General extends ConfigurationStep
 {
@@ -1858,6 +1859,8 @@ class General extends ConfigurationStep
             ->addAllowedModules(array_values($modules))
             ->addAllowedModules(['member', 'mgroup'])
             ->addAllowedFilemounts([$objFolder->uuid])
+            ->addAllowedPagemounts($extranetConfig->getContaoPagesIds())
+            ->addAllowedModules(Module::getTypesByIds($extranetConfig->getContaoModulesIds()))
         ;
 
         $objUserGroup = $userGroupManipulator->getUserGroup();

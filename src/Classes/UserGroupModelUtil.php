@@ -44,15 +44,6 @@ class UserGroupModelUtil
      */
     public function addSmartgearPermissions(array $smartgearPermissions): self
     {
-        // $permissions = null !== $this->userGroup->smartgear_permissions ? unserialize($this->userGroup->smartgear_permissions) : [];
-        // foreach ($smartgearPermissions as $smartgearPermission) {
-        //     $smartgearPermissionIndex = array_search($smartgearPermission, $permissions, true);
-        //     if (false === $smartgearPermissionIndex) {
-        //         $permissions[] = $smartgearPermission;
-        //     }
-        // }
-
-        // $this->userGroup->smartgear_permissions = serialize($permissions);
         $this->userGroup->smartgear_permissions = $this->addAllowedItems($this->userGroup->smartgear_permissions, $smartgearPermissions);
 
         return $this;
@@ -234,6 +225,30 @@ class UserGroupModelUtil
     public function removeAllowedFilemounts(array $folderUUIDs): self
     {
         $this->userGroup->filemounts = $this->removeAllowedItems($this->userGroup->filemounts, $folderUUIDs);
+
+        return $this;
+    }
+
+    /**
+     * Add allowed pagemounts.
+     *
+     * @param array $pageIds The pages'IDs
+     */
+    public function addAllowedPagemounts(array $pageIds): self
+    {
+        $this->userGroup->pagemounts = $this->addAllowedItems($this->userGroup->pagemounts, $pageIds);
+
+        return $this;
+    }
+
+    /**
+     * Remove allowed pagemounts.
+     *
+     * @param array $pageIds The pages'IDs
+     */
+    public function removeAllowedPagemounts(array $pageIds): self
+    {
+        $this->userGroup->pagemounts = $this->removeAllowedItems($this->userGroup->pagemounts, $pageIds);
 
         return $this;
     }

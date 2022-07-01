@@ -32,8 +32,10 @@ use Exception;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Model\Module;
 use WEM\UtilsBundle\Classes\Files as WEMFiles;
 use WEM\UtilsBundle\Classes\StringUtil as WEMStringUtil;
 
@@ -191,6 +193,7 @@ class Website extends ConfigurationStep
 
         $notificationGateways = $this->createNotificationGateways();
         $this->updateModuleConfigurationNotificationGateways($notificationGateways);
+        $this->updateUserGroups();
         $this->commandUtil->executeCmdPHP('cache:clear');
         $this->commandUtil->executeCmdPHP('contao:symlinks');
     }
@@ -297,7 +300,6 @@ class Website extends ConfigurationStep
         $objSocialLinkModule->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSocialLinkName'];
         $objSocialLinkModule->save();
         $modules[$objSocialLinkModule->type] = $objSocialLinkModule;
-
 
         $objPDMModule = \array_key_exists('wem_personaldatamanager', $registeredModules)
                             ? ModuleModel::findOneById($registeredModules['wem_personaldatamanager']) ?? new ModuleModel()
@@ -1175,5 +1177,36 @@ class Website extends ConfigurationStep
             155 => 'tl_user::session',
             156 => 'tl_content::grid_gap',
         ];
+    }
+
+    protected function updateUserGroups(): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $config);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $config);
+    }
+
+    protected function updateUserGroup(UserGroupModel $objUserGroup, CoreConfig $config): void
+    {
+        $objFolderClient = FilesModel::findByPath(CoreConfig::DEFAULT_CLIENT_FILES_FOLDER);
+        if (!$objFolderClient) {
+            throw new Exception('Unable to find the folder');
+        }
+        $objFolderLogos = FilesModel::findByPath(CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER);
+        if (!$objFolderLogos) {
+            throw new Exception('Unable to find the folder');
+        }
+
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedFilemounts($config->getContaoFoldersIds())
+            ->addAllowedPagemounts($config->getContaoPagesIds())
+            ->addAllowedModules(Module::getTypesByIds($config->getContaoModulesIds()))
+        ;
+
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->save();
     }
 }
