@@ -78,13 +78,9 @@ class UserGroup extends \tl_user_group
     protected function isItemUsedBySmartgear(int $id): bool
     {
         try {
+            /** @var CoreConfig */
             $config = $this->configManager->load();
-            if ($config->getSgInstallComplete()
-            && (
-                $id === (int) $config->getSgUsergroupWebmasters()
-                || $id === (int) $config->getSgUsergroupAdministrators()
-            )
-            ) {
+            if (\in_array($id, $config->getContaoUserGroupsIdsForAll(), true)) {
                 return true;
             }
         } catch (\Exception $e) {

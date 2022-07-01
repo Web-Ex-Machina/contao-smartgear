@@ -80,29 +80,7 @@ class Files extends \tl_files
         try {
             /** @var CoreConfig */
             $config = $this->configManager->load();
-            if ($config->getSgInstallComplete()
-            && (
-                CoreConfig::DEFAULT_CLIENT_FILES_FOLDER === $id
-                || CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER === $id
-                || $config->getSgOwnerLogo() === $id
-            )
-            ) {
-                return true;
-            }
-            $blogConfig = $config->getSgBlog();
-            if ($blogConfig->getSgInstallComplete() && $id === $blogConfig->getCurrentPreset()->getSgNewsFolder()) {
-                return true;
-            }
-            $eventsConfig = $config->getSgEvents();
-            if ($eventsConfig->getSgInstallComplete() && $id === $eventsConfig->getSgEventsFolder()) {
-                return true;
-            }
-            $faqConfig = $config->getSgFaq();
-            if ($faqConfig->getSgInstallComplete() && $id === $faqConfig->getSgFaqFolder()) {
-                return true;
-            }
-            $extranetConfig = $config->getSgExtranet();
-            if ($extranetConfig->getSgInstallComplete() && $id === $extranetConfig->getSgExtranetFolder()) {
+            if (\in_array($id, $config->getContaoFoldersIdsForAll(), true)) {
                 return true;
             }
         } catch (\Exception $e) {

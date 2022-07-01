@@ -121,6 +121,81 @@ class Faq implements ConfigModuleInterface
         return $json;
     }
 
+    public function getContaoModulesIds(): array
+    {
+        if (!$this->getSgInstallComplete()
+        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        ) {
+            return [];
+        }
+
+        return [$this->getSgModuleFaq()];
+    }
+
+    public function getContaoPagesIds(): array
+    {
+        if (!$this->getSgInstallComplete()
+        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        ) {
+            return [];
+        }
+
+        return [$this->getSgPage()];
+    }
+
+    public function getContaoContentsIds(): array
+    {
+        if (!$this->getSgInstallComplete()
+        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        ) {
+            return [];
+        }
+
+        return [$this->getSgArticle()];
+    }
+
+    public function getContaoArticlesIds(): array
+    {
+        if (!$this->getSgInstallComplete()
+        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        ) {
+            return [$this->getSgContent()];
+        }
+
+        return [];
+    }
+
+    public function getContaoFoldersIds(): array
+    {
+        if (!$this->getSgInstallComplete()
+        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        ) {
+            return [];
+        }
+
+        return [];
+    }
+
+    public function getContaoUsersIds(): array
+    {
+        return [];
+    }
+
+    public function getContaoUserGroupsIds(): array
+    {
+        return [];
+    }
+
+    public function getContaoMembersIds(): array
+    {
+        return [];
+    }
+
+    public function getContaoMemberGroupsIds(): array
+    {
+        return [];
+    }
+
     public function getSgInstallComplete(): bool
     {
         return $this->sgInstallComplete;

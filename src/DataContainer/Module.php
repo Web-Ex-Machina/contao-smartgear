@@ -112,49 +112,7 @@ class Module extends \tl_module
         try {
             /** @var CoreConfig */
             $config = $this->configManager->load();
-            if ($config->getSgInstallComplete()) {
-                $modules = $config->getSgModules();
-                foreach ($modules as $module) {
-                    if ($id === (int) $module->id) {
-                        return true;
-                    }
-                }
-            }
-            $blogConfig = $config->getSgBlog();
-            if ($blogConfig->getSgInstallComplete()
-            && (
-                $id === (int) $blogConfig->getSgModuleList()
-                || $id === (int) $blogConfig->getSgModuleReader()
-            )
-            ) {
-                return true;
-            }
-            $eventsConfig = $config->getSgEvents();
-            if ($eventsConfig->getSgInstallComplete()
-            && (
-                $id === (int) $eventsConfig->getSgModuleList()
-                || $id === (int) $eventsConfig->getSgModuleReader()
-                || $id === (int) $eventsConfig->getSgModuleCalendar()
-            )
-            ) {
-                return true;
-            }
-            $faqConfig = $config->getSgFaq();
-            if ($faqConfig->getSgInstallComplete() && $id === (int) $faqConfig->getSgModuleFaq()) {
-                return true;
-            }
-            $extranetConfig = $config->getSgExtranet();
-            if ($extranetConfig->getSgInstallComplete()
-            && (
-                $id === (int) $extranetConfig->getSgModuleData()
-                || $id === (int) $extranetConfig->getSgModuleLogin()
-                || $id === (int) $extranetConfig->getSgModuleLogout()
-                || $id === (int) $extranetConfig->getSgModuleNav()
-                || $id === (int) $extranetConfig->getSgModulePassword()
-                || $id === (int) $extranetConfig->getSgModuleSubscribe()
-                || $id === (int) $extranetConfig->getSgModuleCloseAccount()
-            )
-            ) {
+            if (\in_array($id, $config->getContaoModulesIdsForAll(), true)) {
                 return true;
             }
         } catch (\Exception $e) {

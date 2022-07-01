@@ -81,8 +81,7 @@ class MemberGroup extends \tl_member_group
         try {
             /** @var CoreConfig */
             $config = $this->configManager->load();
-            $extranetConfig = $config->getSgExtranet();
-            if ($extranetConfig->getSgInstallComplete() && $id === $extranetConfig->getSgMemberGroupMembers()) {
+            if (\in_array($id, $config->getContaoMemberGroupsIdsForAll(), true)) {
                 return true;
             }
         } catch (\Exception $e) {
