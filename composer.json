@@ -16,12 +16,6 @@
         "issues": "https://github.com/webexmachina/contao-smartgear/issues",
         "source": "https://github.com/webexmachina/contao-smartgear"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/Web-Ex-Machina/contao-component-style-manager"
-        }
-    ],
     "require":
     {
         "php": ">=7.4",
