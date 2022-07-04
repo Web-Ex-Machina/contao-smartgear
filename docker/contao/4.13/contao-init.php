@@ -13,6 +13,7 @@ declare(strict_types=1);
  */
 
 // adding package informations into contao's composer.json
+$bundleAuthJsonContent = json_decode(file_get_contents(getenv('WORKDIR_BUNDLE').'/auth.json') ?? '{}', true);
 $bundleComposerJsonContent = json_decode(file_get_contents(getenv('WORKDIR_BUNDLE').'/composer.json'), true);
 $contaoComposerJsonContent = json_decode(file_get_contents(getenv('WORKDIR_CONTAO').'/composer.json'), true);
 $additionnalComposerJsonContent = json_decode(file_get_contents(__DIR__.\DIRECTORY_SEPARATOR.'additionnal_composer.json'), true);
@@ -46,9 +47,9 @@ $contaoComposerJsonContent['repositories'] = array_values(unique_multidim_array(
     ]
 ), 'url'));
 
-if (\array_key_exists('github-oauth', $bundleComposerJsonContent)) {
-    file_put_contents('/var/www/.config/composer/auth.json', '{"github-oauth":'.json_encode($bundleComposerJsonContent['github-oauth'], \JSON_PRETTY_PRINT).'}');
-    $contaoComposerJsonContent['github-oauth'] = $bundleComposerJsonContent['github-oauth'] ?? '';
+if (\array_key_exists('github-oauth', $bundleAuthJsonContent)) {
+    file_put_contents('/var/www/.config/composer/auth.json', '{"github-oauth":'.json_encode($bundleAuthJsonContent['github-oauth'], \JSON_PRETTY_PRINT).'}');
+    $contaoComposerJsonContent['github-oauth'] = $bundleAuthJsonContent['github-oauth'] ?? '';
 }
 
 $contaoComposerJsonContent['minimum-stability'] = 'dev';

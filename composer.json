@@ -16,6 +16,12 @@
         "issues": "https://github.com/webexmachina/contao-smartgear/issues",
         "source": "https://github.com/webexmachina/contao-smartgear"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Web-Ex-Machina/contao-component-style-manager"
+        }
+    ],
     "require":
     {
         "php": ">=7.4",
@@ -36,7 +42,7 @@
         "webexmachina/contao-utils": "^0.3",
         "webexmachina/contao-grid": "^1.0",
         "heimseiten/contao-sticky-footer-backend-bundle": "^1.0",
-        "oveleon/contao-component-style-manager": "^2.6",
+        "webexmachina/contao-component-style-manager": "^2.6",
         "webexmachina/contao-personal-data-manager": "dev-main"
     },
     "require-dev":
