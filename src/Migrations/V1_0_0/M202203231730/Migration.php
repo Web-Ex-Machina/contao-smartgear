@@ -739,17 +739,27 @@ class Migration extends MigrationAbstract
             ];
         }
 
-        return $cssClasses;
+        return [
+            [
+                'value' => 'WEMSG.FRAMWAY.COLORS.rawLabel',
+                'key' => $cssClasses,
+            ],
+        ];
     }
 
     private function buildMeaningfulColorsCssClasses(string $keyPattern, string $translationKeyPart): array
     {
         return [
-            ['key' => sprintf($keyPattern, 'primary'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'primary')],
-            ['key' => sprintf($keyPattern, 'secondary'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'secondary')],
-            ['key' => sprintf($keyPattern, 'success'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'success')],
-            ['key' => sprintf($keyPattern, 'error'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'error')],
-            ['key' => sprintf($keyPattern, 'warning'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'warning')],
+            [
+                'value' => 'WEMSG.FRAMWAY.COLORS.meaningfulLabel',
+                'key' => [
+                    ['key' => sprintf($keyPattern, 'primary'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'primary')],
+                    ['key' => sprintf($keyPattern, 'secondary'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'secondary')],
+                    ['key' => sprintf($keyPattern, 'success'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'success')],
+                    ['key' => sprintf($keyPattern, 'error'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'error')],
+                    ['key' => sprintf($keyPattern, 'warning'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'warning')],
+                ],
+            ],
         ];
     }
 

@@ -94,6 +94,6 @@ class FramwayCombined extends ManagerFramway
 
     protected function assignConfigurationFilePath(): void
     {
-        $this->configurationFilePath = $this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'combined'.\DIRECTORY_SEPARATOR.'_config.scss';
+        $this->configurationFilePath = $this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'build'.\DIRECTORY_SEPARATOR.'combined'.\DIRECTORY_SEPARATOR.'_config.scss';
     }
 }
