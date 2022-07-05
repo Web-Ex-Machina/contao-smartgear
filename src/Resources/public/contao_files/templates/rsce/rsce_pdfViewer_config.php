@@ -25,18 +25,40 @@ return [
         'downloadable' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewer']['downloadable'],
             'inputType' => 'checkbox',
-            // 'options' => ['true'],
-            'eval' => ['tl_class' => 'w50 clr'],
+            'eval' => ['tl_class' => 'clr'],
         ],
-        'download_button_text' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewer']['download_button_text'],
-            'inputType' => 'text',
-            'eval' => ['tl_class' => 'w50'],
+        'linkTitle' => [
+            'inputType' => 'standardField',
+            'eval' => ['tl_class' => 'clr'],
         ],
-        'download_button_title' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewer']['download_button_title'],
-            'inputType' => 'text',
-            'eval' => ['tl_class' => 'w100 clr'],
+        'linkTitle' => [
+            'inputType' => 'standardField',
+        ],
+        'title' => [
+            'label'     => &$GLOBALS['TL_LANG']['tl_content']['titleText'], 
+            'inputType' => 'text', 
+            'eval'      => ['tl_class' => 'w50'],
+        ],
+        'player_ratio' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewer']['player_ratio'],
+            'inputType' => 'select',
+            'options' => array(
+                '' => 'Original',
+                'r_16-9' => '16:9',
+                'r_4-3'  => '4:3',
+                'r_2-1'  => '2:1',
+                'r_1-1'  => '1:1',
+                'r_1-2'  => '1:2',
+            ),
+            'eval' => array('tl_class'=>'w50'),
+        ),
+        'playerSize' => [
+            'inputType' => 'standardField', 
+        ],
+        'center' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewer']['center'],
+            'inputType' => 'checkbox',
+            'eval' => ['tl_class' => 'clr'],
         ],
     ],
 ];
