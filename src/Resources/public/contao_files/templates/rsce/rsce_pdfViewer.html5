@@ -1,14 +1,17 @@
 <?php 
 	$objFile = FilesModel::findByUuid($this->source); 
 	$buttonClasses=$this->styleManager->get('fwbutton_manual');
+	$arrCrop = deserialize($this->playerSize);
 ?>
-<div class="<?= $this->class ?>"<?= $this->cssID ?>>
-	<div class="pdfviewer__iframe">
-		<iframe src="<?= $objFile->path; ?>" title="<?= $objFile->name; ?>" class="custom"></iframe>
+<div class="<?= $this->class ?><?= $this->center&&$arrCrop[0]?' center':'' ?>"<?= $this->cssID ?>>
+	<div class="pdfviewer__iframe<?= $this->player_ratio? ' img-container '.$this->player_ratio:'' ?>" <?= $this->player_ratio ? 'style="width:'.($arrCrop[0]?$arrCrop[0].'px':'100%').'"' :'' ?>>
+		<iframe src="<?= $objFile->path; ?>" title="<?= $objFile->name; ?>" class="custom" width="<?= $arrCrop[0] ?: '100%' ?>" height="<?= $arrCrop[1] ?: 600 ?>"></iframe>
 	</div>
 	<?php if((bool)$this->downloadable): ?>
-	<a href="<?= $objFile->path; ?>" title="<?= $this->download_button_title; ?>" class="<?= $buttonClasses; ?>" target="_blank">
-		<?= $this->download_button_text; ?>
-	</a>
+		<div class="pdfviewer__download">
+			<a href="<?= $objFile->path; ?>" title="<?= $this->title; ?>" class="<?= $buttonClasses; ?><?= $this->center?' center':'' ?>" target="_blank">
+				<?= $this->linkTitle?:$GLOBALS['TL_LANG']['MSC']['fileDownload']; ?>
+			</a>
+		</div>
 	<?php endif; ?>
 </div>
