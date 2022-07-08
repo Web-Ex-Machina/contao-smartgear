@@ -98,7 +98,9 @@ class FramwayRetrievalMinimal extends ConfigurationStep
     public function do(): void
     {
         // do what is meant to be done in this step
-        $this->importFramway();
+        if (!$this->checkFramwayPresence()) {
+            $this->importFramway();
+        }
         $framwayConfig = $this->updateFramwayConfiguration();
         $this->updateCoreConfiguration($framwayConfig->getThemes());
 
