@@ -34,7 +34,7 @@ class Migration extends MigrationAbstract
     protected $configurationFramwayCombinedManager;
 
     protected static $elements = [
-        'margin' => ['contentElements' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordion', 'rsce_counter', 'rsce_hero', 'rsce_heroStart', 'rsce_priceCards', 'rsce_slider', 'rsce_tabs', 'rsce_testimonials', 'rsce_ratings', 'rsce_pdfViewer', 'rsce_blockCard']], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroStop', 'rsce_gridGallery'
+        'margin' => ['contentElements' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordion', 'rsce_counter', 'rsce_hero', 'rsce_heroStart', 'rsce_pricecards', 'rsce_slider', 'rsce_tabs', 'rsce_testimonials', 'rsce_ratings', 'rsce_pdfViewer', 'rsce_blockCard']], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroStop', 'rsce_gridGallery'
         'button' => ['contentElements' => ['hyperlink'], 'formFields' => ['submit']],
         'button_manual' => ['contentElements' => ['rsce_pdfViewer']],
         'background' => ['contentElements' => ['headline', 'text', 'rsce_quote']],
@@ -44,9 +44,6 @@ class Migration extends MigrationAbstract
         'image_other' => ['contentElements' => ['image']],
         'image_ratio' => ['contentElements' => ['image']],
         'hero' => ['contentElements' => ['rsce_hero', 'rsce_heroStart']], //'rsce_heroStop]'
-        'grid_manual' => ['contentElements' => ['rsce_priceCards']], // 'rsce_gridGallery]'
-        'griditems_manual' => ['contentElements' => ['rsce_priceCards']], // 'rsce_gridGallery]'
-        'priceCards_manual' => ['contentElements' => ['rsce_priceCards']],
         'blockCard' => ['contentElements' => ['rsce_blockCard']],
     ];
     /** @var array */
@@ -94,24 +91,6 @@ class Migration extends MigrationAbstract
         $objArchiveHero = StyleManagerArchiveModel::findByIdentifier('fwhero');
         $objArchiveHeroImg = StyleManagerArchiveModel::findByIdentifier('fwheroimg');
 
-        $objArchiveGridManual = StyleManagerArchiveModel::findByIdentifier('fwgrid_manual');
-        $objArchiveGridXLManual = StyleManagerArchiveModel::findByIdentifier('fwgridxl_manual');
-        $objArchiveGridLGManual = StyleManagerArchiveModel::findByIdentifier('fwgridlg_manual');
-        $objArchiveGridMDManual = StyleManagerArchiveModel::findByIdentifier('fwgridmd_manual');
-        $objArchiveGridSMManual = StyleManagerArchiveModel::findByIdentifier('fwgridsm_manual');
-        $objArchiveGridXSManual = StyleManagerArchiveModel::findByIdentifier('fwgridxs_manual');
-        $objArchiveGridXXSManual = StyleManagerArchiveModel::findByIdentifier('fwgridxxs_manual');
-
-        $objArchiveGridItemManual = StyleManagerArchiveModel::findByIdentifier('fwgriditem_manual');
-        $objArchiveGridItemXLManual = StyleManagerArchiveModel::findByIdentifier('fwgriditemxl_manual');
-        $objArchiveGridItemLGManual = StyleManagerArchiveModel::findByIdentifier('fwgriditemlg_manual');
-        $objArchiveGridItemMDManual = StyleManagerArchiveModel::findByIdentifier('fwgriditemmd_manual');
-        $objArchiveGridItemSMManual = StyleManagerArchiveModel::findByIdentifier('fwgriditemsm_manual');
-        $objArchiveGridItemXSManual = StyleManagerArchiveModel::findByIdentifier('fwgriditemxs_manual');
-        $objArchiveGridItemXXSManual = StyleManagerArchiveModel::findByIdentifier('fwgriditemxxs_manual');
-
-        $objArchivePriceCardManual = StyleManagerArchiveModel::findByIdentifier('fwpricecard_manual');
-
         $objArchiveBlockCardText = StyleManagerArchiveModel::findByIdentifier('fwblockcardtext');
         $objArchiveBlockCardBg = StyleManagerArchiveModel::findByIdentifier('fwblockcardbg');
 
@@ -125,21 +104,6 @@ class Migration extends MigrationAbstract
         && null !== $objArchiveImageRatio
         && null !== $objArchiveHero
         && null !== $objArchiveHeroImg
-        && null !== $objArchiveGridManual
-        && null !== $objArchiveGridXLManual
-        && null !== $objArchiveGridLGManual
-        && null !== $objArchiveGridMDManual
-        && null !== $objArchiveGridSMManual
-        && null !== $objArchiveGridXSManual
-        && null !== $objArchiveGridXXSManual
-        && null !== $objArchiveGridItemManual
-        && null !== $objArchiveGridItemXLManual
-        && null !== $objArchiveGridItemLGManual
-        && null !== $objArchiveGridItemMDManual
-        && null !== $objArchiveGridItemSMManual
-        && null !== $objArchiveGridItemXSManual
-        && null !== $objArchiveGridItemXXSManual
-        && null !== $objArchivePriceCardManual
         && null !== $objArchiveBlockCardText
         && null !== $objArchiveBlockCardBg
         ) {
@@ -161,39 +125,6 @@ class Migration extends MigrationAbstract
             && null !== StyleManagerModel::findByAliasAndPid('fwtablesm', $objArchiveTable->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwtableborder', $objArchiveTable->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwtablestriped', $objArchiveTable->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwpricecardft', $objArchivePriceCardManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwpricecardbg', $objArchivePriceCardManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwpricecardcontent', $objArchivePriceCardManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwpricecardmain', $objArchivePriceCardManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspan', $objArchiveGridItemManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspan', $objArchiveGridItemManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspanxl', $objArchiveGridItemXLManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspanxl', $objArchiveGridItemXLManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspanlg', $objArchiveGridItemLGManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspanlg', $objArchiveGridItemLGManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspanmd', $objArchiveGridItemMDManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspanmd', $objArchiveGridItemMDManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspansm', $objArchiveGridItemSMManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspansm', $objArchiveGridItemSMManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspanxs', $objArchiveGridItemXSManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspanxs', $objArchiveGridItemXSManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemcolsspanxxs', $objArchiveGridItemXXSManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgriditemrowsspanxxs', $objArchiveGridItemXXSManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridgap', $objArchiveGridManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcols', $objArchiveGridManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridrows', $objArchiveGridManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsxl', $objArchiveGridXLManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowsxl', $objArchiveGridXLManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolslg', $objArchiveGridLGManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowslg', $objArchiveGridLGManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsmd', $objArchiveGridMDManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowsmd', $objArchiveGridMDManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolssm', $objArchiveGridSMManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowssm', $objArchiveGridSMManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsxs', $objArchiveGridXSManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowsxs', $objArchiveGridXSManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsxxs', $objArchiveGridXXSManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridrowsxxs', $objArchiveGridXXSManual->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwheroimgvertical', $objArchiveHeroImg->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwheroimghorizontal', $objArchiveHeroImg->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwheroft', $objArchiveHero->id)
@@ -245,12 +176,6 @@ class Migration extends MigrationAbstract
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSImages'), [], 'contao_default'));
             $this->manageHero();
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSHero'), [], 'contao_default'));
-            $this->manageGrids('_manual', true);
-            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSGrids'), [], 'contao_default'));
-            $this->manageGridItems('_manual', true);
-            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSGridItems'), [], 'contao_default'));
-            $this->managePriceCards('_manual', true);
-            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSPriceCards'), [], 'contao_default'));
             $this->manageBlockCard();
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSBlockCard'), [], 'contao_default'));
             $this->deleteUnusedStyles();
@@ -363,179 +288,6 @@ class Migration extends MigrationAbstract
         $cssClasses = $this->buildMultipleCssClasses('content__bg__opacity--%s', 'fwblockcardcontentbgopacity', 1, 10);
         $objStyle = $this->fillObjStyle($objArchiveBg->id, 'fwblockcardcontentbgopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.title', 'WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
-    }
-
-    protected function managePriceCards(?string $suffix = '', ?bool $passToTemplate = false): void
-    {
-        $contentElements = self::$elements['priceCards'.$suffix];
-        // Price card
-        $objArchive = $this->fillObjArchive('fwpricecard'.$suffix, 'WEMSG.STYLEMANAGER.fwpricecard.tabTitle', 'FramwayPriceCard');
-
-        // Price card - text color
-        $cssClasses = $this->buildMeaningfulColorsCssClasses('ft-%s', 'fwpricecardft');
-        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('ft-%s', 'fwpricecardft'));
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardft'.$suffix, 'WEMSG.STYLEMANAGER.fwpricecardft.title', 'WEMSG.STYLEMANAGER.fwpricecardft.description', $contentElements, $cssClasses, $passToTemplate);
-        // Price card - bg color
-        $cssClasses = $this->buildMeaningfulColorsCssClasses('bg--%s', 'fwpricecardbg');
-        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('bg--%s', 'fwpricecardbg'));
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardbg'.$suffix, 'WEMSG.STYLEMANAGER.fwpricecardbg.title', 'WEMSG.STYLEMANAGER.fwpricecardbg.description', $contentElements, $cssClasses, $passToTemplate);
-        // Price card - content color
-        $cssClasses = $this->buildMeaningfulColorsCssClasses('content--%s', 'fwpricecardcontent');
-        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('content--%s', 'fwpricecardcontent'));
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardcontent'.$suffix, 'WEMSG.STYLEMANAGER.fwpricecardcontent.title', 'WEMSG.STYLEMANAGER.fwpricecardcontent.description', $contentElements, $cssClasses, $passToTemplate);
-        // Price card - main
-        $cssClasses = [
-            ['key' => 'main', 'value' => 'WEMSG.STYLEMANAGER.fwpricecardmain.label'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwpricecardmain'.$suffix, 'WEMSG.STYLEMANAGER.fwpricecardmain.title', 'WEMSG.STYLEMANAGER.fwpricecardmain.description', $contentElements, $cssClasses, $passToTemplate);
-    }
-
-    protected function manageGridItems(?string $suffix = '', ?bool $passToTemplate = false): void
-    {
-        $contentElements = self::$elements['griditems'.$suffix];
-        // Grid Items
-        $objArchive = $this->fillObjArchive('fwgriditem'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditem.tabTitle', 'FramwayGridItem');
-        $objArchiveXL = $this->fillObjArchive('fwgriditemxl'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemxl.tabTitle', 'FramwayGridItem');
-        $objArchiveLG = $this->fillObjArchive('fwgriditemlg'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemlg.tabTitle', 'FramwayGridItem');
-        $objArchiveMD = $this->fillObjArchive('fwgriditemmd'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemmd.tabTitle', 'FramwayGridItem');
-        $objArchiveSM = $this->fillObjArchive('fwgriditemsm'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemsm.tabTitle', 'FramwayGridItem');
-        $objArchiveXS = $this->fillObjArchive('fwgriditemxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemxs.tabTitle', 'FramwayGridItem');
-        $objArchiveXXS = $this->fillObjArchive('fwgriditemxxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemxxs.tabTitle', 'FramwayGridItem');
-
-        // Grid item - cols
-        $cssClasses = $this->buildMultipleCssClasses('cols-span-%s', 'fwgriditemcolsspan', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemcolsspan'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemcolsspan.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspan.description', $contentElements, $cssClasses, $passToTemplate);
-        // Grid item - rows
-        $cssClasses = $this->buildMultipleCssClasses('rows-span-%s', 'fwgriditemrowsspan', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgriditemrowsspan'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemrowsspan.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspan.description', $contentElements, $cssClasses, $passToTemplate);
-
-        // Grid item - colsspanxl
-        $cssClasses = $this->buildMultipleCssClasses('cols-span-xl-%s', 'fwgriditemcolsspanxl', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveXL->id, 'fwgriditemcolsspanxl'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxl.description', $contentElements, $cssClasses, $passToTemplate);
-        // Grid item - rowsspanxl
-        $cssClasses = $this->buildMultipleCssClasses('rows-span-xl-%s', 'fwgriditemrowsspanxl', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveXL->id, 'fwgriditemrowsspanxl'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxl.description', $contentElements, $cssClasses, $passToTemplate);
-
-        // Grid item - colsspanlg
-        $cssClasses = $this->buildMultipleCssClasses('cols-span-lg-%s', 'fwgriditemcolsspanlg', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveLG->id, 'fwgriditemcolsspanlg'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanlg.description', $contentElements, $cssClasses, $passToTemplate);
-        // Grid item - rowsspanlg
-        $cssClasses = $this->buildMultipleCssClasses('rows-span-lg-%s', 'fwgriditemrowsspanlg', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveLG->id, 'fwgriditemrowsspanlg'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanlg.description', $contentElements, $cssClasses, $passToTemplate);
-
-        // Grid item - colsspanmd
-        $cssClasses = $this->buildMultipleCssClasses('cols-span-md-%s', 'fwgriditemcolsspanmd', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveMD->id, 'fwgriditemcolsspanmd'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanmd.description', $contentElements, $cssClasses, $passToTemplate);
-        // Grid item - rowsspanmd
-        $cssClasses = $this->buildMultipleCssClasses('rows-span-md-%s', 'fwgriditemrowsspanmd', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveMD->id, 'fwgriditemrowsspanmd'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanmd.description', $contentElements, $cssClasses, $passToTemplate);
-
-        // Grid item - colsspansm
-        $cssClasses = $this->buildMultipleCssClasses('cols-span-sm-%s', 'fwgriditemcolsspansm', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveSM->id, 'fwgriditemcolsspansm'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemcolsspansm.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspansm.description', $contentElements, $cssClasses, $passToTemplate);
-        // Grid item - rowsspansm
-        $cssClasses = $this->buildMultipleCssClasses('rows-span-sm-%s', 'fwgriditemrowsspansm', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveSM->id, 'fwgriditemrowsspansm'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemrowsspansm.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspansm.description', $contentElements, $cssClasses, $passToTemplate);
-
-        // Grid item - colsspanxs
-        $cssClasses = $this->buildMultipleCssClasses('cols-span-xs-%s', 'fwgriditemcolsspanxs', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveXS->id, 'fwgriditemcolsspanxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxs.description', $contentElements, $cssClasses, $passToTemplate);
-        // Grid item - rowsspanxs
-        $cssClasses = $this->buildMultipleCssClasses('rows-span-xs-%s', 'fwgriditemrowsspanxs', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveXS->id, 'fwgriditemrowsspanxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxs.description', $contentElements, $cssClasses, $passToTemplate);
-
-        // Grid item - colsspanxxs
-        $cssClasses = $this->buildMultipleCssClasses('cols-span-xxs-%s', 'fwgriditemcolsspanxxs', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveXXS->id, 'fwgriditemcolsspanxxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.title', 'WEMSG.STYLEMANAGER.fwgriditemcolsspanxxs.description', $contentElements, $cssClasses, $passToTemplate);
-        // Grid item - rowsspanxxs
-        $cssClasses = $this->buildMultipleCssClasses('rows-span-xxs-%s', 'fwgriditemrowsspanxxs', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveXXS->id, 'fwgriditemrowsspanxxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.title', 'WEMSG.STYLEMANAGER.fwgriditemrowsspanxxs.description', $contentElements, $cssClasses, $passToTemplate);
-    }
-
-    protected function manageGrids(?string $suffix = '', ?bool $passToTemplate = false): void
-    {
-        $contentElements = self::$elements['grid'.$suffix];
-        // Grid
-        $objArchive = $this->fillObjArchive('fwgrid'.$suffix, 'WEMSG.STYLEMANAGER.fwgrid.tabTitle', 'FramwayGrid');
-        $objArchiveXL = $this->fillObjArchive('fwgridxl'.$suffix, 'WEMSG.STYLEMANAGER.fwgridxl.tabTitle', 'FramwayGrid');
-        $objArchiveLG = $this->fillObjArchive('fwgridlg'.$suffix, 'WEMSG.STYLEMANAGER.fwgridlg.tabTitle', 'FramwayGrid');
-        $objArchiveMD = $this->fillObjArchive('fwgridmd'.$suffix, 'WEMSG.STYLEMANAGER.fwgridmd.tabTitle', 'FramwayGrid');
-        $objArchiveSM = $this->fillObjArchive('fwgridsm'.$suffix, 'WEMSG.STYLEMANAGER.fwgridsm.tabTitle', 'FramwayGrid');
-        $objArchiveXS = $this->fillObjArchive('fwgridxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgridxs.tabTitle', 'FramwayGrid');
-        $objArchiveXXS = $this->fillObjArchive('fwgridxxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgridxxs.tabTitle', 'FramwayGrid');
-        // Grid - gap
-        $cssClasses = [
-            ['key' => 'gap-0', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.0Label'],
-            ['key' => 'gap-0-em', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.0emLabel'],
-            ['key' => 'gap-0-rem', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.0remLabel'],
-            ['key' => 'gap-1', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.1Label'],
-            ['key' => 'gap-1-em', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.1emLabel'],
-            ['key' => 'gap-1-rem', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.1remLabel'],
-            ['key' => 'gap-2', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.2Label'],
-            ['key' => 'gap-2-em', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.2emLabel'],
-            ['key' => 'gap-2-rem', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.2remLabel'],
-            ['key' => 'gap-3', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.3Label'],
-            ['key' => 'gap-3-em', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.3emLabel'],
-            ['key' => 'gap-3-rem', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.3remLabel'],
-            ['key' => 'gap-4', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.4Label'],
-            ['key' => 'gap-4-em', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.4emLabel'],
-            ['key' => 'gap-4-rem', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.4remLabel'],
-            ['key' => 'gap-5', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.5Label'],
-            ['key' => 'gap-5-em', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.5emLabel'],
-            ['key' => 'gap-5-rem', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.5remLabel'],
-            ['key' => 'gap-6', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.6Label'],
-            ['key' => 'gap-6-em', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.6emLabel'],
-            ['key' => 'gap-6-rem', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.6remLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridgap'.$suffix, 'WEMSG.STYLEMANAGER.fwgridgap.title', 'WEMSG.STYLEMANAGER.fwgridgap.description', $contentElements, $cssClasses, $passToTemplate);
-        // Grid - cols
-        $cssClasses = $this->buildMultipleCssClasses('cols-%s', 'fwgridcols', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcols'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcols.title', 'WEMSG.STYLEMANAGER.fwgridcols.description', $contentElements, $cssClasses, $passToTemplate);
-        // Grid - rows
-        $cssClasses = $this->buildMultipleCssClasses('rows-%s', 'fwgridrows', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridrows'.$suffix, 'WEMSG.STYLEMANAGER.fwgridrows.title', 'WEMSG.STYLEMANAGER.fwgridrows.description', $contentElements, $cssClasses, $passToTemplate);
-
-        // Grid - colsxl
-        $cssClasses = $this->buildMultipleCssClasses('cols-xl-%s', 'fwgridcolsxl', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveXL->id, 'fwgridcolsxl'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolsxl.title', 'WEMSG.STYLEMANAGER.fwgridcolsxl.description', $contentElements, $cssClasses, $passToTemplate);
-        // Grid - rowsxl
-        $cssClasses = $this->buildMultipleCssClasses('rows-xl-%s', 'fwgridrowsxl', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveXL->id, 'fwgridrowsxl'.$suffix, 'WEMSG.STYLEMANAGER.fwgridrowsxl.title', 'WEMSG.STYLEMANAGER.fwgridrowsxl.description', $contentElements, $cssClasses, $passToTemplate);
-
-        // Grid - colslg
-        $cssClasses = $this->buildMultipleCssClasses('cols-lg-%s', 'fwgridcolslg', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveLG->id, 'fwgridcolslg'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolslg.title', 'WEMSG.STYLEMANAGER.fwgridcolslg.description', $contentElements, $cssClasses, $passToTemplate);
-        // Grid - rowslg
-        $cssClasses = $this->buildMultipleCssClasses('rows-lg-%s', 'fwgridrowslg', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveLG->id, 'fwgridrowslg'.$suffix, 'WEMSG.STYLEMANAGER.fwgridrowslg.title', 'WEMSG.STYLEMANAGER.fwgridrowslg.description', $contentElements, $cssClasses, $passToTemplate);
-
-        // Grid - colsmd
-        $cssClasses = $this->buildMultipleCssClasses('cols-md-%s', 'fwgridcolsmd', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveMD->id, 'fwgridcolsmd'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolsmd.title', 'WEMSG.STYLEMANAGER.fwgridcolsmd.description', $contentElements, $cssClasses, $passToTemplate);
-        // Grid - rowsmd
-        $cssClasses = $this->buildMultipleCssClasses('rows-md-%s', 'fwgridrowsmd', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveMD->id, 'fwgridrowsmd'.$suffix, 'WEMSG.STYLEMANAGER.fwgridrowsmd.title', 'WEMSG.STYLEMANAGER.fwgridrowsmd.description', $contentElements, $cssClasses, $passToTemplate);
-
-        // Grid - colssm
-        $cssClasses = $this->buildMultipleCssClasses('cols-sm-%s', 'fwgridcolssm', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveSM->id, 'fwgridcolssm'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolssm.title', 'WEMSG.STYLEMANAGER.fwgridcolssm.description', $contentElements, $cssClasses, $passToTemplate);
-        // Grid - rowssm
-        $cssClasses = $this->buildMultipleCssClasses('rows-sm-%s', 'fwgridrowssm', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveSM->id, 'fwgridrowssm'.$suffix, 'WEMSG.STYLEMANAGER.fwgridrowssm.title', 'WEMSG.STYLEMANAGER.fwgridrowssm.description', $contentElements, $cssClasses, $passToTemplate);
-
-        // Grid - colsxs
-        $cssClasses = $this->buildMultipleCssClasses('cols-xs-%s', 'fwgridcolsxs', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveXS->id, 'fwgridcolsxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolsxs.title', 'WEMSG.STYLEMANAGER.fwgridcolsxs.description', $contentElements, $cssClasses, $passToTemplate);
-        // Grid - rowsxs
-        $cssClasses = $this->buildMultipleCssClasses('rows-xs-%s', 'fwgridrowsxs', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveXS->id, 'fwgridrowsxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgridrowsxs.title', 'WEMSG.STYLEMANAGER.fwgridrowsxs.description', $contentElements, $cssClasses, $passToTemplate);
-
-        // Grid - colsxxs
-        $cssClasses = $this->buildMultipleCssClasses('cols-xxs-%s', 'fwgridcolsxxs', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveXXS->id, 'fwgridcolsxxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolsxxs.title', 'WEMSG.STYLEMANAGER.fwgridcolsxxs.description', $contentElements, $cssClasses, $passToTemplate);
-        // Grid - rowsxxs
-        $cssClasses = $this->buildMultipleCssClasses('rows-xxs-%s', 'fwgridrowsxxs', 1, 12);
-        $objStyle = $this->fillObjStyle($objArchiveXXS->id, 'fwgridrowsxxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgridrowsxxs.title', 'WEMSG.STYLEMANAGER.fwgridrowsxxs.description', $contentElements, $cssClasses, $passToTemplate);
     }
 
     protected function manageHero(?string $suffix = '', ?bool $passToTemplate = false): void
