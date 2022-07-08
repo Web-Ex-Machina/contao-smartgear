@@ -13,7 +13,7 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_pricecards'][0], &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecards'][1]],
+    'label' => [$GLOBALS['TL_LANG']['tl_content']['rsce_pricecards'][0], $GLOBALS['TL_LANG']['tl_content']['rsce_pricecards'][1]],
     'contentCategory' => 'SMARTGEAR',
     'standardFields' => ['cssID'],
     'fields' => [
