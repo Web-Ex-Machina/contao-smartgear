@@ -17,7 +17,7 @@ $arrColors = \WEM\SmartgearBundle\Classes\Util::getSmartgearColors('rsce');
 return [
     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline'],
     'types' => ['content'],
-    'contentCategory' => 'includes',
+    'contentCategory' => 'miscellaneous',
     'standardFields' => ['cssID'],
     'fields' => [
         'timeline_style' => [

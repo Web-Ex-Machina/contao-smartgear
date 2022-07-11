@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 return [
     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_ratings'],
-    'contentCategory' => 'SMARTGEAR',
+    'contentCategory' => 'miscellaneous',
     'standardFields' => ['cssID'/*,'headline'*/],
     'fields' => [
         'noteMax' => [
