@@ -13,7 +13,7 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_tabs'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_tabs'], 'contentCategory' => 'miscellaneous', 'standardFields' => ['cssID'], 'fields' => [
         // Items
         'items' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_tabs']['items_legend'], 'elementLabel' => &$GLOBALS['TL_LANG']['tl_content']['rsce_tabs']['item_legend'], 'inputType' => 'list', 'fields' => [

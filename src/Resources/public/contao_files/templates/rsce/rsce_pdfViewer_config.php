@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 return [
     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewer'],
-    'contentCategory' => 'SMARTGEAR',
+    'contentCategory' => 'includes',
     'standardFields' => ['cssID'],
     'fields' => [
         'source' => [

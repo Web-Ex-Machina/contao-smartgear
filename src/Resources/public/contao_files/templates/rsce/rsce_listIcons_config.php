@@ -15,7 +15,7 @@ declare(strict_types=1);
 return [
     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_listicons'],
     'types' => ['content'],
-    'contentCategory' => 'texts',
+    'contentCategory' => 'miscellaneous',
     'standardFields' => ['cssID'],
     'fields' => [
         'listItems' => [

@@ -34,6 +34,10 @@
       <source>Hyperlink</source>
       <target>Lien</target>
     </trans-unit>
+    <trans-unit id="CTE.banner">
+      <source>Banner</source>
+      <target>Bannière</target>
+    </trans-unit>
 
 		<!-- Smartgear default -->
 		<trans-unit id="WEM.SMARTGEAR.DEFAULT.NotFilled">

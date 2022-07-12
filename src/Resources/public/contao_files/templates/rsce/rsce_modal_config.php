@@ -6,7 +6,7 @@
  */
 return array(
     'label' => array('Popup / Modal', 'Générez une fenêtre popup'),
-    'contentCategory' => 'SMARTGEAR',
+    'contentCategory' => 'links',
     'standardFields' => array('cssID'),
     'fields' => array(
         'modal_legend' => array(

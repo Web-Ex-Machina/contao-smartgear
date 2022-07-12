@@ -13,7 +13,7 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_counter'], 'contentCategory' => 'SMARTGEAR', 'standardFields' => ['cssID'], 'fields' => [
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_counter'], 'contentCategory' => 'miscellaneous', 'standardFields' => ['cssID'], 'fields' => [
         'config_legend' => [
             'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_counter']['config_legend']], 'inputType' => 'group',
         ], 
