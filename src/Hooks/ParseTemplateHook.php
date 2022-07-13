@@ -41,13 +41,21 @@ class ParseTemplateHook
             $objPage->templateGroup = $objPage->templateGroupMemory;
         }
 
-        // If the template does not exists in the objPage template group
-        // BUT it exists in the templates/smartgear folder
-        // We are updating the objPage template folder by the smartgear one
-        if (!file_exists($rootDir.'/'.$objPage->templateGroup.'/'.$file)
-            && file_exists($rootDir.'/'.$sgDir.'/'.$file)) {
+        /** @var WEM\SmartgearBundle\Classes\TemplateFinder */
+        $templateFinder = \Contao\System::getContainer()->get('smartgear.classes.template_finder');
+        $templates = $templateFinder->buildList();
+        if (\array_key_exists($objTemplate->getName(), $templates)) {
             $objPage->templateGroupMemory = $objPage->templateGroup; // Trick to reset the system for the next iteration of the hook
-            $objPage->templateGroup = $sgDir;
+            $objPage->templateGroup = $templates[$objTemplate->getName()];
+        } else {
+            // If the template does not exists in the objPage template group
+            // BUT it exists in the templates/smartgear folder
+            // We are updating the objPage template folder by the smartgear one
+            if (!file_exists($rootDir.'/'.$objPage->templateGroup.'/'.$file)
+                && file_exists($rootDir.'/'.$sgDir.'/'.$file)) {
+                $objPage->templateGroupMemory = $objPage->templateGroup; // Trick to reset the system for the next iteration of the hook
+                $objPage->templateGroup = $sgDir;
+            }
         }
     }
 }
