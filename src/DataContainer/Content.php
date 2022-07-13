@@ -69,6 +69,28 @@ class Content extends Backend
         }
     }
 
+    public function getContentElements()
+    {
+        $groups = (new tl_content())->getContentElements();
+        /** @var CoreConfig */
+        $config = $this->configManager->load();
+        if (!$config->getSgInstallComplete()) {
+            return $groups;
+        }
+
+        $elementsToRemove = ['list', 'code', 'markdown', 'toplink', 'gallery', 'article', 'alias', 'form', 'teaser', 'comments', 'accordionSingle', 'sliderStart', 'sliderStop', 'template'];
+
+        foreach ($groups as $groupKey => $elements) {
+            foreach ($elements as $elementKey => $element) {
+                if (\in_array($element, $elementsToRemove, true)) {
+                    unset($groups[$groupKey][$elementKey]);
+                }
+            }
+        }
+
+        return $groups;
+    }
+
     /**
      * Return the delete content button.
      *

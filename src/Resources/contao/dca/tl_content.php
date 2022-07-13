@@ -18,6 +18,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['options_callback'] = st
     return WEM\SmartgearBundle\Override\Controller::getTemplateGroup('ce_'.$dc->activeRecord->type.'_', [], 'ce_'.$dc->activeRecord->type);
 };
 $GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['eval']['includeBlankOption'] = true;
+
 updatePaletteHeadline();
 updatePaletteText();
 updatePaletteTable();
@@ -26,6 +27,10 @@ updatePaletteSlider();
 updatePaletteHyperlink();
 updatePaletteImage();
 updatePalettePlayer();
+updatePaletteYoutube();
+updatePaletteVimeo();
+updatePaletteDownloads();
+
 function updatePaletteHeadline(): void
 {
     PaletteManipulator::create()
@@ -135,11 +140,44 @@ function updatePaletteImage(): void
 
 function updatePalettePlayer(): void
 {
-    // PaletteManipulator::create()
-        // ->removeField('headline')
-    //     ->removeField('customTpl')
-    //     ->removeField('guests')
-    //     ->removeField('cssID')
-    //     ->applyToPalette('player', 'tl_content')
-    // ;
+    PaletteManipulator::create()
+        ->removeField('headline')
+        ->removeField('customTpl')
+        ->removeField('guests')
+        ->removeField('cssID')
+        ->applyToPalette('player', 'tl_content')
+    ;
+}
+
+function updatePaletteYoutube(): void
+{
+    PaletteManipulator::create()
+        ->removeField('headline')
+        ->removeField('customTpl')
+        ->removeField('guests')
+        ->removeField('cssID')
+        ->applyToPalette('youtube', 'tl_content')
+    ;
+}
+
+function updatePaletteVimeo(): void
+{
+    PaletteManipulator::create()
+        ->removeField('headline')
+        ->removeField('customTpl')
+        ->removeField('guests')
+        ->removeField('cssID')
+        ->applyToPalette('vimeo', 'tl_content')
+    ;
+}
+
+function updatePaletteDownloads(): void
+{
+    PaletteManipulator::create()
+        ->removeField('headline')
+        ->removeField('customTpl')
+        ->removeField('guests')
+        ->removeField('cssID')
+        ->applyToPalette('downloads', 'tl_content')
+    ;
 }
