@@ -102,7 +102,6 @@ class LoadDataContainerListener
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(ContentDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(ContentDCA::class, 'deleteItem')
-                    ->setFieldProperty('type', 'options_callback', [ContentDCA::class, 'getContentElements'])
                 ;
             break;
             case 'tl_faq_category':
