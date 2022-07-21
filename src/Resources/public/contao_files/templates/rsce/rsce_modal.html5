@@ -18,21 +18,27 @@
 >
     <?php 
         switch($this->content_type){
-            case 'text':    echo $this->text; break;
-            case 'picture': echo '<img src="'.$strFile.'" '.$strMeta.'>'; break;
-            case 'article': echo '{{insert_article::'.$this->article.'}}'; break;
-            case 'form':    echo '{{insert_form::'.$this->form.'}}'; break;
-            case 'module':    echo '{{insert_module::'.$this->module.'}}'; break;
-            case 'html':    echo $this->html; break;
-            case 'custom':  echo $this->content_custom; break;
+            case 'text'    : echo $this->text;                              break;
+            case 'picture' : echo '<img src="'.$strFile.'" '.$strMeta.'>';  break;
+            case 'article' : echo '{{insert_article::'.$this->article.'}}'; break;
+            case 'form'    : echo '{{insert_form::'.$this->form.'}}';       break;
+            case 'module'  : echo '{{insert_module::'.$this->module.'}}';   break;
+            case 'html'    : echo $this->html;                              break;
+            case 'custom'  : echo $this->content_custom;                    break;
         }
     ?>
 </div>
 
 <?php 
     switch($this->trigger_type){
-        case 'custom': echo $this->trigger_custom; break;
-        case 'button':
-        case 'link':   echo '<a href="" data-modal="'.($this->modal_name?:'modal--'.$this->content_type.'--'.$this->id).'" title="'.$this->titleText.'" class="'.$this->trigger_css.''.($this->trigger_type=='button'?' btn':'').'">'.$this->linkTitle.'</a>';break;
+        case 'custom': 
+            echo $this->trigger_custom; 
+        break;
+        case 'button': 
+            echo '<button type="button" data-modal="'.($this->modal_name?:'modal--'.$this->content_type.'--'.$this->id).'" title="'.$this->titleText.'" class="'.$this->trigger_css.'">'.$this->linkTitle.'</button>';
+        break;
+        case 'link':   
+            echo '<a href="#" data-modal="'.($this->modal_name?:'modal--'.$this->content_type.'--'.$this->id).'" title="'.$this->titleText.'" class="'.$this->trigger_css.'">'.$this->linkTitle.'</a>';
+        break;
     }
 ?>
