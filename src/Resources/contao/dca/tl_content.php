@@ -18,6 +18,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['options_callback'] = st
     return WEM\SmartgearBundle\Override\Controller::getTemplateGroup('ce_'.$dc->activeRecord->type.'_', [], 'ce_'.$dc->activeRecord->type);
 };
 $GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['eval']['includeBlankOption'] = true;
+$GLOBALS['TL_DCA']['tl_content']['fields']['cssID']['eval']['tl_class'] = 'hidden';
 
 updatePaletteHeadline();
 updatePaletteText();
@@ -36,7 +37,7 @@ function updatePaletteHeadline(): void
     PaletteManipulator::create()
         ->removeField('customTpl')
         ->removeField('guests')
-        ->removeField('cssID')
+        // ->removeField('cssID')
         ->applyToPalette('headline', 'tl_content')
     ;
 }
@@ -47,7 +48,7 @@ function updatePaletteText(): void
         ->removeField('headline')
         ->removeField('customTpl')
         ->removeField('guests')
-        ->removeField('cssID')
+        // ->removeField('cssID')
         ->applyToPalette('text', 'tl_content')
     ;
     PaletteManipulator::create()
@@ -62,7 +63,7 @@ function updatePaletteTable(): void
         ->removeField('headline')
         ->removeField('customTpl')
         ->removeField('guests')
-        ->removeField('cssID')
+        // ->removeField('cssID')
         ->removeField('sortable')
         ->applyToPalette('table', 'tl_content')
     ;
@@ -74,7 +75,7 @@ function updatePaletteAccordion(): void
         ->removeField('headline')
         ->removeField('customTpl')
         ->removeField('guests')
-        ->removeField('cssID')
+        // ->removeField('cssID')
         ->removeField('mooStyle')
         ->removeField('mooClasses')
         ->applyToPalette('accordionStart', 'tl_content')
@@ -83,7 +84,7 @@ function updatePaletteAccordion(): void
         ->removeField('headline')
         ->removeField('customTpl')
         ->removeField('guests')
-        ->removeField('cssID')
+        // ->removeField('cssID')
         ->removeField('mooStyle')
         ->removeField('mooClasses')
         ->applyToPalette('accordionStop', 'tl_content')
@@ -118,7 +119,7 @@ function updatePaletteHyperlink(): void
         ->removeField('headline')
         ->removeField('customTpl')
         ->removeField('guests')
-        ->removeField('cssID')
+        // ->removeField('cssID')
         ->removeField('embed')
         ->removeField('rel')
         ->removeField('useImage')
@@ -131,7 +132,7 @@ function updatePaletteImage(): void
     PaletteManipulator::create()
         ->removeField('headline')
         ->removeField('customTpl')
-        ->removeField('guests')
+        // ->removeField('guests')
         ->removeField('cssID')
         ->removeField('imagemargin')
         ->applyToPalette('image', 'tl_content')
@@ -144,7 +145,7 @@ function updatePalettePlayer(): void
         ->removeField('headline')
         ->removeField('customTpl')
         ->removeField('guests')
-        ->removeField('cssID')
+        // ->removeField('cssID')
         ->applyToPalette('player', 'tl_content')
     ;
 }
@@ -155,7 +156,7 @@ function updatePaletteYoutube(): void
         ->removeField('headline')
         ->removeField('customTpl')
         ->removeField('guests')
-        ->removeField('cssID')
+        // ->removeField('cssID')
         ->applyToPalette('youtube', 'tl_content')
     ;
 }
@@ -166,7 +167,7 @@ function updatePaletteVimeo(): void
         ->removeField('headline')
         ->removeField('customTpl')
         ->removeField('guests')
-        ->removeField('cssID')
+        // ->removeField('cssID')
         ->applyToPalette('vimeo', 'tl_content')
     ;
 }
@@ -177,7 +178,7 @@ function updatePaletteDownloads(): void
         ->removeField('headline')
         ->removeField('customTpl')
         ->removeField('guests')
-        ->removeField('cssID')
+        // ->removeField('cssID')
         ->applyToPalette('downloads', 'tl_content')
     ;
 }
