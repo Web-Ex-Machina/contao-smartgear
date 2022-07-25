@@ -1278,6 +1278,214 @@
         <source>Natural</source>
         <target>Taille naturelle</target>
       </trans-unit>
+      <trans-unit id="tl_content.header.0">
+        <source>Header</source>
+        <target>Header</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.1">
+        <source>Configure a header for the site (logo, navigation, contact, etc.)</source>
+        <target>Configurez un header pour le site (logo, navigation, contact, etc)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.logo_legend">
+        <source>Logo</source>
+        <target>Logo</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_legend">
+        <source>Navigation</source>
+        <target>Navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.config_legend">
+        <source>Configuration</source>
+        <target>Configuration</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.appearance_legend">
+        <source>Appearance</source>
+        <target>Apparence</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_catchline.0">
+        <source>Add catchline</source>
+        <target>Ajoutez une accroche</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_catchline.1">
+        <source>Add free content displayed beside or below the logo</source>
+        <target>Ajoutez un contenu libre, affiché à côté ou en dessous du logo</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.catchline.0">
+        <source>Catchline</source>
+        <target>Accroche</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.catchline.1">
+        <source>Catchline content</source>
+        <target>Contenu de l'accroche</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.catchline_position.0">
+        <source>Catchline position</source>
+        <target>Position de l'accroche</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.catchline_position.1">
+        <source>Define the catchline position</source>
+        <target>Définissez la position de l'accroche</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.catchline_position.optionSide">
+        <source>Beside logo</source>
+        <target>A côté du logo</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.catchline_position.optionBelow">
+        <source>Below logo</source>
+        <target>En dessous du logo</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_module.0">
+        <source>Navigation</source>
+        <target>Navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_module.1">
+        <source>Choose the module used for navigation</source>
+        <target>Choisissez le module utilisé pour la navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_module.optionDefault">
+        <source>Default</source>
+        <target>Par défaut</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_module.optionModule">
+        <source>Custom module</source>
+        <target>Module personalisé</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_custom_module.0">
+        <source>Custom nav module</source>
+        <target>Module de navigation personalisé</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_custom_module.1">
+        <source>Choose the module used for navigation</source>
+        <target>Choisissez le module utilisé pour la navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_position.0">
+        <source>Nav position</source>
+        <target>Position du menu de navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_position.1">
+        <source>Choose nav's position</source>
+        <target>Choisissez la position du menu de navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.sticky.0">
+        <source>Sticky header</source>
+        <target>Header flottant</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.sticky.1">
+        <source>If checked, the header will stay fixed on top of the page while scrolling</source>
+        <target>Si coché, le header restera fixe en haut de la page pendant le défilement</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_search.0">
+        <source>Add search field</source>
+        <target>Ajouter un champ de recherche</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_search.1">
+        <source>Add a search field to the far end of the navigation</source>
+        <target>Ajoute un champ de recherche à l'extrémité de la navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_lang_selector.0">
+        <source>Add lang selector</source>
+        <target>Ajouter un selecteur de langue</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_lang_selector.1">
+        <source>Add a lang selector to the far end of the navigation</source>
+        <target>Ajoute un sélecteur de langue à l'extrémité de la navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_topbar.0">
+        <source>Add top bar</source>
+        <target>Ajouter une top bar</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_topbar.1">
+        <source>Add free content displayed in a bar placed on top of the header</source>
+        <target>Ajouter du contenu libre affiché dans une barre placée au-dessus du header</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.topbar.0">
+        <source>Top bar</source>
+        <target>Top bar</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.topbar.1">
+        <source>Top bar content</source>
+        <target>Contenu de la top bar</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_postnav_content.0">
+        <source>Add post nav content</source>
+        <target>Ajouter du contenu après la navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_postnav_content.1">
+        <source>Add free content displayed at the far end of the navigation</source>
+        <target>Ajouter du contenu libre affiché après le menu de navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.postnav_content.0">
+        <source>Post nav content</source>
+        <target>Contenu suplémentaire</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.postnav_content.1">
+        <source>Post nav content</source>
+        <target>Contenu placé après le menu de navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.panel_position.0">
+        <source>Reponsive panel position</source>
+        <target>Position du menu de navigation mobile</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.panel_position.1">
+        <source>Defines the side on which the mobile navigation will be displayed</source>
+        <target>Définit le côté sur lequel la navigation mobile sera affichée</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.width.0">
+        <source>Width</source>
+        <target>Largeur</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.width.1">
+        <source>Choose the header's width</source>
+        <target>Choississez la largeur du header</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.width.optionFullsize">
+        <source>Viewport width</source>
+        <target>Largeur de l'écran</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.width.optionContainer">
+        <source>Page body width</source>
+        <target>Corps de page</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.background.0">
+        <source>Background color</source>
+        <target>Couleur du fond</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.background.1">
+        <source>Change the header's background color</source>
+        <target>Change la couleur de fond du header</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.bottom_style.0">
+        <source>Demarcation style</source>
+        <target>Style de démarcation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.bottom_style.1">
+        <source>Choose the appearance of the demarcation between header and page content</source>
+        <target>Choisissez l'apparence de la démarcation entre le header et le contenu de la page</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.bottom_style.optionShadow">
+        <source>Shadow</source>
+        <target>Ombrage</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.bottom_style.optionBorder">
+        <source>Border</source>
+        <target>Bordure</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.hover_style.0">
+        <source>Hovering style</source>
+        <target>Effet de survol</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.hover_style.1">
+        <source>Choose the appearance of the hover effect on menu items</source>
+        <target>Choisissez l'apparence de l'effet de survol sur les éléments de menu</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.hover_style.optionUnderline">
+        <source>Underline</source>
+        <target>Texte souligné</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.hover_style.optionBackground">
+        <source>Background</source>
+        <target>Fond coloré</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
