@@ -1424,7 +1424,7 @@
       </trans-unit>
       <trans-unit id="tl_content.header.panel_position.0">
         <source>Reponsive panel position</source>
-        <target>Position du menu de navigation mobile</target>
+        <target>Position du panneau de navigation mobile</target>
       </trans-unit>
       <trans-unit id="tl_content.header.panel_position.1">
         <source>Defines the side on which the mobile navigation will be displayed</source>
