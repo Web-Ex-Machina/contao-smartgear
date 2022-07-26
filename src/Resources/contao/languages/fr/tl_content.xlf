@@ -1348,11 +1348,11 @@
       </trans-unit>
       <trans-unit id="tl_content.header.nav_module.optionModule">
         <source>Custom module</source>
-        <target>Module personalisé</target>
+        <target>Module personnalisé</target>
       </trans-unit>
       <trans-unit id="tl_content.header.nav_custom_module.0">
         <source>Custom nav module</source>
-        <target>Module de navigation personalisé</target>
+        <target>Module de navigation personnalisé</target>
       </trans-unit>
       <trans-unit id="tl_content.header.nav_custom_module.1">
         <source>Choose the module used for navigation</source>
@@ -1382,6 +1382,14 @@
         <source>Add a search field to the far end of the navigation</source>
         <target>Ajoute un champ de recherche à l'extrémité de la navigation</target>
       </trans-unit>
+      <trans-unit id="tl_content.header.search_page.0">
+        <source>Search engine page</source>
+        <target>Page du moteur de recherche</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.search_page.1">
+        <source>Select the page where to redirect the user on submit</source>
+        <target>Sélectionnez la page où rediriger l'utilisateur lors de l'envoi</target>
+      </trans-unit>
       <trans-unit id="tl_content.header.add_lang_selector.0">
         <source>Add lang selector</source>
         <target>Ajouter un selecteur de langue</target>
@@ -1389,6 +1397,14 @@
       <trans-unit id="tl_content.header.add_lang_selector.1">
         <source>Add a lang selector to the far end of the navigation</source>
         <target>Ajoute un sélecteur de langue à l'extrémité de la navigation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.lang_selector_module.0">
+        <source>Lang selector module</source>
+        <target>Module de sélection de langue</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.lang_selector_module.1">
+        <source>Select the lang selector module</source>
+        <target>Sélectionnez le module de sélection de langue</target>
       </trans-unit>
       <trans-unit id="tl_content.header.add_topbar.0">
         <source>Add top bar</source>
