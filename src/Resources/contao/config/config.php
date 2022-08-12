@@ -96,7 +96,17 @@ array_insert(
         'wem_sg_social_link' => [
             'callback' => "\WEM\SmartgearBundle\Backend\SocialLink",
         ],
-    ]);
+    ]
+);
+array_insert(
+    $GLOBALS['BE_MOD']['content'],
+    array_search('form', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
+    [
+        'wem_sg_form_data_manager' => [
+            'tables' => ['tl_sm_form_storage', 'tl_sm_form_storage_data'],
+        ],
+    ]
+);
 /*
  * Frontend modules
  */
@@ -118,6 +128,7 @@ $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialNetworkCategory::getTable
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialNetwork::getTable()] = WEM\SmartgearBundle\Model\SocialNetwork::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialLink::getTable()] = WEM\SmartgearBundle\Model\SocialLink::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Member::getTable()] = WEM\SmartgearBundle\Model\Member::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorage::getTable()] = WEM\SmartgearBundle\Model\FormStorage::class;
 /*
  * Add BE Hooks
  */

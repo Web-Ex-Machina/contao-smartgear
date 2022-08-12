@@ -166,3 +166,12 @@ services:
             $coreConfigurationManager: '@smartgear.config.manager.core'
             $dcaManipulator: '@smartgear.classes.dca.manipulator'
         public: true
+
+    smartgear.backend.module.form_data_manager.listener.backend_menu_build:
+        class: WEM\SmartgearBundle\Backend\Module\FormDataManager\EventListener\BackendMenuBuildListener
+        arguments:
+            $translator: '@contao.translation.translator'
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+        public: true
+        tags:
+            - { name: kernel.event_listener, event: contao.backend_menu_build, method: __invoke }
