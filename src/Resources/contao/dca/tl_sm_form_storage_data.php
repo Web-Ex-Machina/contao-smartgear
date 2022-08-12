@@ -34,14 +34,10 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage_data'] = [
     'list' => [
         'sorting' => [
             'mode' => DataContainer::MODE_PARENT,
-            'fields' => ['pid'],
-            'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
+            'headerFields' => ['form', 'tstamp', 'status', 'token'],
+            // 'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
             'panelLayout' => 'filter;search,limit',
-        ],
-        'label' => [
-            'fields' => ['field', 'value'],
-            'showColumns' => true,
-            // 'format' => '%s',
+            'child_record_callback' => [WEM\SmartgearBundle\DataContainer\FormStorageData::class, 'listItems'],
         ],
         'global_operations' => [
             'all' => [

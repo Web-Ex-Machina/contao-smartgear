@@ -66,7 +66,7 @@ class BackendMenuBuildListener
                     ->setLinkAttribute('class', 'form-data-manager')
                     // ->setCurrent(/* … */)
                 ;
-
+                // todo : re-order nodes to have this one right after "form"
                 $contentNode->addChild($node);
             }
         } catch (Exception $e) {

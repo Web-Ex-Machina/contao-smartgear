@@ -25,6 +25,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
         'sql' => [
             'keys' => [
                 'id' => 'primary',
+                'form' => 'index',
             ],
         ],
     ],
@@ -40,7 +41,6 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
         'label' => [
             'fields' => ['createdAt', 'status'],
             'showColumns' => true,
-            // 'format' => '%s',
         ],
         'global_operations' => [
             'all' => [
@@ -81,7 +81,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend},pid,status,token',
+        'default' => '{title_legend},form,status,token',
     ],
     // Fields
     'fields' => [
@@ -98,7 +98,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             'flag' => 8,
             'sql' => "varchar(10) NOT NULL default ''",
         ],
-        'pid' => [
+        'form' => [
             'exclude' => true,
             'inputType' => 'select',
             'foreignKey' => 'tl_form.title',
