@@ -189,17 +189,17 @@ class Htaccess
 
     protected function isComment(string $line): bool
     {
-        return 0 === strncmp('#', ltrim($line), 1);
+        return 0 === strncmp('#', $line, 1);
     }
 
     protected function uncomment(string $line): string
     {
-        return str_replace('#', '', ltrim($line));
+        return str_replace('#', '', $line);
     }
 
     protected function comment(string $line): string
     {
-        return '#'.ltrim($line);
+        return '#'.$line;
     }
 
     protected function getLines(): array
