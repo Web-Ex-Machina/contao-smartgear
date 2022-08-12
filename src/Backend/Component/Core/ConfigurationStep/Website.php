@@ -553,7 +553,7 @@ class Website extends ConfigurationStep
         $page = PageModel::findOneById($config->getSgPageHome());
         $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageHomeTitle'], $rootPage->id, array_merge([
             'sorting' => 128,
-            // 'alias' => '/',
+            'alias' => 'index',
             'sitemap' => 'default',
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id] : []));
