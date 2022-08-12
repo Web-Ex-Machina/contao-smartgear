@@ -228,6 +228,14 @@ services:
         class: WEM\SmartgearBundle\Config\Component\Faq\Faq
         public: true
 
+    smartgear.config.extranet:
+        class: WEM\SmartgearBundle\Config\Module\Extranet\Extranet
+        public: true
+
+    smartgear.config.form_data_manager:
+        class: WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager
+        public: true
+
     smartgear.config.framway:
         class: WEM\SmartgearBundle\Config\Framway
         public: true

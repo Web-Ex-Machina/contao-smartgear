@@ -1687,14 +1687,47 @@
 			<target>Désinstallation</target>
 		</trans-unit>
 
-
-
-
-		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.xxxxxxxx">
-			<source>xxxxx</source>
-			<target>xxxxx</target>
+		<!-- Form Data Manager -->
+		<trans-unit id="WEMSG.FDM.INSTALL_GENERAL.title">
+			<source>Installation</source>
+			<target>Installation</target>
 		</trans-unit>
-
+		<trans-unit id="WEMSG.FDM.RESET.title">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.RESET.deleteModeLabel">
+			<source>Uninstall mode</source>
+			<target>Mode de désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.RESET.deleteModeArchiveLabel">
+			<source>Archive</source>
+			<target>Archiver</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.RESET.deleteModeArchiveDescription">
+			<source>Form Data Manager's linked entities' name will be suffixed with " (Archive-{timestamp})".</source>
+			<target>Les entités liées au gestionnaire de formulaires seront suffixées par " (Archive-{timestamp})".</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.RESET.deleteModeKeepLabel">
+			<source>Keep</source>
+			<target>Conserver</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.RESET.deleteModeKeepDescription">
+			<source>All data will be kept in place.</source>
+			<target>Toutes les données seront conservées.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.RESET.deleteModeDeleteLabel">
+			<source>Delete</source>
+			<target>Supprimer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.RESET.deleteModeDeleteDescription">
+			<source>Form Data Manager will be deleted.</source>
+			<target>Le gestionnaire de formulaires sera supprimé.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.RESET.deleteModeUnknown">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
+		</trans-unit>
 
 
 		<!-- ConfigurationStepManager -->
