@@ -22,6 +22,8 @@ class Htaccess
     public const REWRITE_COND_WWW_1 = 'RewriteCond %{HTTP_HOST} !^www\. [NC]';
     public const REWRITE_COND_WWW_2 = 'RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]';
     public const REWRITE_RULE = 'RewriteRule ^.*$ https://www.%1%{REQUEST_URI} [L,NE,R=301]'; // [L,NE,R=301]
+    public const REWRITE_RULE_FW_ASSETS_OLD = 'RewriteRule ^(assets|bundles)/ - [ENV=CONTAO_ASSETS:true]';
+    public const REWRITE_RULE_FW_ASSETS_NEW = 'RewriteRule ^(assets\/(?!framway).*|bundles)/ - [ENV=CONTAO_ASSETS:true]';
 
     // RewriteCond %{HTTPS} off
     // RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
@@ -92,7 +94,7 @@ class Htaccess
         if (!$foundInFirstLoop) {
             foreach ($content as $index => $line) {
                 if ($this->isLineARewriteEngineOn($line)) {
-                    $content[$index] = $line.\PHP_EOL.self::REWRITE_COND_HTTPS_1.\PHP_EOL.self::REWRITE_COND_HTTPS_2.\PHP_EOL.self::REWRITE_COND_WWW_1.\PHP_EOL.self::REWRITE_COND_WWW_2.\PHP_EOL.self::REWRITE_RULE;
+                    $content[$index] = $line.self::REWRITE_COND_HTTPS_1.\PHP_EOL.self::REWRITE_COND_HTTPS_2.\PHP_EOL.self::REWRITE_COND_WWW_1.\PHP_EOL.self::REWRITE_COND_WWW_2.\PHP_EOL.self::REWRITE_RULE;
                 }
             }
         }
@@ -112,6 +114,33 @@ class Htaccess
                 || $this->isLineARedirectionToWwwAndHttps($line)
             )) {
                 $content[$index] = $this->comment($line);
+            }
+        }
+
+        return $this->writeFile($content);
+    }
+
+    public function enableFramwayAssetsManagementRules(): bool
+    {
+        $content = $this->getLines();
+        foreach ($content as $index => $line) {
+            if (!$this->isComment($line) && $this->isLineARewriteRuleFwAssetsOld($line)) {
+                $content[$index] = $this->comment($line).self::REWRITE_RULE_FW_ASSETS_NEW.\PHP_EOL;
+            }
+        }
+
+        return $this->writeFile($content);
+    }
+
+    public function disableFramwayAssetsManagementRules(): bool
+    {
+        $content = $this->getLines();
+        foreach ($content as $index => $line) {
+            if ($this->isComment($line) && $this->isLineARewriteRuleFwAssetsOld($line)) {
+                $content[$index] = $this->uncomment($line);
+            }
+            if (!$this->isComment($line) && $this->isLineARewriteRuleFwAssetsNew($line)) {
+                unset($content[$index]);
             }
         }
 
@@ -148,6 +177,16 @@ class Htaccess
         return false !== stripos($line, self::REWRITE_RULE);
     }
 
+    protected function isLineARewriteRuleFwAssetsOld(string $line): bool
+    {
+        return false !== stripos($line, self::REWRITE_RULE_FW_ASSETS_OLD);
+    }
+
+    protected function isLineARewriteRuleFwAssetsNew(string $line): bool
+    {
+        return false !== stripos($line, self::REWRITE_RULE_FW_ASSETS_NEW);
+    }
+
     protected function isComment(string $line): bool
     {
         return 0 === strncmp('#', ltrim($line), 1);
@@ -170,6 +209,6 @@ class Htaccess
 
     protected function writeFile(array $lines): bool
     {
-        return false !== file_put_contents($this->filepath, implode(\PHP_EOL, $lines));
+        return false !== file_put_contents($this->filepath, implode('', $lines));
     }
 }

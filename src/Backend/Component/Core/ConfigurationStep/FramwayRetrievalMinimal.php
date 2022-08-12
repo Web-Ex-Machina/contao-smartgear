@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep;
 
 use Contao\FrontendTemplate;
+use WEM\SmartgearBundle\Classes\Analyzer\Htaccess as HtaccessAnalyzer;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
@@ -47,6 +48,8 @@ class FramwayRetrievalMinimal extends ConfigurationStep
     protected $socialShareButtonsSynchronizer;
     /** @var UtilFramway */
     protected $framwayUtil;
+    /** @var HtaccessAnalyzer */
+    protected $htaccessAnalyzer;
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_retrieval_minimal';
 
     public function __construct(
@@ -62,7 +65,8 @@ class FramwayRetrievalMinimal extends ConfigurationStep
         DirectoriesSynchronizer $tarteAuCitronSynchronizer,
         DirectoriesSynchronizer $outdatedBrowserSynchronizer,
         DirectoriesSynchronizer $socialShareButtonsSynchronizer,
-        UtilFramway $framwayUtil
+        UtilFramway $framwayUtil,
+        HtaccessAnalyzer $htaccessAnalyzer
     ) {
         parent::__construct($module, $type);
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYRETRIEVALMINIMAL']['Title'];
@@ -77,6 +81,7 @@ class FramwayRetrievalMinimal extends ConfigurationStep
         $this->outdatedBrowserSynchronizer = $outdatedBrowserSynchronizer;
         $this->socialShareButtonsSynchronizer = $socialShareButtonsSynchronizer;
         $this->framwayUtil = $framwayUtil;
+        $this->htaccessAnalyzer = $htaccessAnalyzer;
     }
 
     public function getFilledTemplate(): FrontendTemplate
@@ -111,6 +116,7 @@ class FramwayRetrievalMinimal extends ConfigurationStep
         $this->importOutdatedBrowser();
         $this->importTarteAuCitron();
         $this->importSocialShareButtons();
+        $this->enableFramwayAssetsManagementRules();
     }
 
     public function checkFramwayPresence()
@@ -178,5 +184,10 @@ class FramwayRetrievalMinimal extends ConfigurationStep
     protected function importSocialShareButtons(): void
     {
         $this->socialShareButtonsSynchronizer->synchronize(true);
+    }
+
+    protected function enableFramwayAssetsManagementRules(): void
+    {
+        $this->htaccessAnalyzer->enableFramwayAssetsManagementRules();
     }
 }

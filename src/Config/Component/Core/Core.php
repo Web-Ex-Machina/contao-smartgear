@@ -308,7 +308,7 @@ class Core implements ConfigModuleInterface
                 : (new FormContactConfig())->reset()
             )
             ->setSgExtranet(
-                $json->extranet
+                property_exists($json, 'extranet')
                 ? (new ExtranetConfig())->import($json->extranet)
                 : (new ExtranetConfig())->reset()
             )

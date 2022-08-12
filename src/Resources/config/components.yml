@@ -86,6 +86,7 @@ services:
             $outdatedBrowserSynchronizer: '@smartgear.classes.directories_synchronizer.outdated_browser'
             $socialShareButtonsSynchronizer: '@smartgear.classes.directories_synchronizer.social_share_buttons'
             $framwayUtil: '@smartgear.classes.util_framway'
+            $htaccessAnalyzer: '@smartgear.classes.analyzer.htaccess'
         public: true
 
     smartgear.backend.component.core.configuration_step.framway_configuration:
@@ -122,6 +123,7 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
             $localConfigManager: '@smartgear.config.manager.local_config'
             $backupManager: '@smartgear.backup.backup_manager'
+            $htaccessAnalyzer: '@smartgear.classes.analyzer.htaccess'
             $templatesDirs: 
                 - 'templates/rsce'
                 - 'templates/smartgear'

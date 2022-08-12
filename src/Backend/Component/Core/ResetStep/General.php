@@ -20,6 +20,7 @@ use Contao\PageModel;
 use Contao\ThemeModel;
 use WEM\SmartgearBundle\Backup\BackupManager;
 use WEM\SmartgearBundle\Backup\Model\Results\CreateResult;
+use WEM\SmartgearBundle\Classes\Analyzer\Htaccess as HtaccessAnalyzer;
 use WEM\SmartgearBundle\Classes\Backend\AbstractStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -34,6 +35,8 @@ class General extends AbstractStep
     protected $localConfigManager;
     /** @var BackupManager */
     protected $backupManager;
+    /** @var HtaccessAnalyzer */
+    protected $htaccessAnalyzer;
     /** @var array */
     protected $templatesDirs;
 
@@ -45,12 +48,14 @@ class General extends AbstractStep
         ConfigurationManager $configurationManager,
         LocalConfigManager $localConfigManager,
         BackupManager $backupManager,
+        HtaccessAnalyzer $htaccessAnalyzer,
         array $templatesDirs
     ) {
         parent::__construct($module, $type);
         $this->configurationManager = $configurationManager;
         $this->localConfigManager = $localConfigManager;
         $this->backupManager = $backupManager;
+        $this->htaccessAnalyzer = $htaccessAnalyzer;
         $this->templatesDirs = $templatesDirs;
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['Title'];
 
@@ -123,6 +128,7 @@ class General extends AbstractStep
             $this->resetFiles();
             $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['filesDeleted']);
         }
+        $this->disableFramwayAssetsManagementRules();
     }
 
     protected function resetLocalConfig(): void
@@ -182,5 +188,10 @@ class General extends AbstractStep
 
         $config->setSgOwnerLogo('');
         $this->configurationManager->save($config);
+    }
+
+    protected function disableFramwayAssetsManagementRules(): void
+    {
+        $this->htaccessAnalyzer->disableFramwayAssetsManagementRules();
     }
 }
