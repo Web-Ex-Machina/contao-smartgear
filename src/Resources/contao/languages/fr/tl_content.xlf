@@ -1295,12 +1295,12 @@
         <target>Navigation</target>
       </trans-unit>
       <trans-unit id="tl_content.header.config_legend">
-        <source>Configuration</source>
-        <target>Configuration</target>
+        <source>Header's configuration</source>
+        <target>Configuration du header</target>
       </trans-unit>
       <trans-unit id="tl_content.header.appearance_legend">
-        <source>Appearance</source>
-        <target>Apparence</target>
+        <source>Header's appearance</source>
+        <target>Apparence du header</target>
       </trans-unit>
       <trans-unit id="tl_content.header.add_catchline.0">
         <source>Add catchline</source>
@@ -1390,6 +1390,14 @@
         <source>Select the page where to redirect the user on submit</source>
         <target>Sélectionnez la page où rediriger l'utilisateur lors de l'envoi</target>
       </trans-unit>
+      <trans-unit id="tl_content.header.search_bg.0">
+        <source>Background color</source>
+        <target>Couleur de fond</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.search_bg.1">
+        <source>Select the search block background color</source>
+        <target>Sélectionnez la couleur de fond du bloc de recherche</target>
+      </trans-unit>
       <trans-unit id="tl_content.header.add_lang_selector.0">
         <source>Add lang selector</source>
         <target>Ajouter un selecteur de langue</target>
@@ -1406,6 +1414,14 @@
         <source>Select the lang selector module</source>
         <target>Sélectionnez le module de sélection de langue</target>
       </trans-unit>
+      <trans-unit id="tl_content.header.lang_selector_bg.0">
+        <source>Background color</source>
+        <target>Couleur de fond</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.lang_selector_bg.1">
+        <source>Select the langage block background color</source>
+        <target>Sélectionnez la couleur de fond du bloc de selection de langue</target>
+      </trans-unit>
       <trans-unit id="tl_content.header.add_topbar.0">
         <source>Add top bar</source>
         <target>Ajouter une top bar</target>
@@ -1421,6 +1437,14 @@
       <trans-unit id="tl_content.header.topbar.1">
         <source>Top bar content</source>
         <target>Contenu de la top bar</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.topbar_bg.0">
+        <source>Background color</source>
+        <target>Couleur de fond</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.topbar_bg.1">
+        <source>Select the topbar background color</source>
+        <target>Sélectionnez la couleur de fond de la topbar</target>
       </trans-unit>
       <trans-unit id="tl_content.header.add_postnav_content.0">
         <source>Add post nav content</source>
