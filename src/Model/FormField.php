@@ -28,5 +28,5 @@ class FormField extends CoreModel
      */
     protected static $strTable = 'tl_form_field';
 
-    protected static $strOrderBy = 'tstamp';
+    protected static $strOrderColumn = 'tstamp';
 }

@@ -49,9 +49,6 @@ class ProcessFormDataListener
             if ($coreConfig->getSgInstallComplete()
             && $fdmConfig->getSgInstallComplete()
             ) {
-                // register the form in tl_sm_form_storage
-                // for each fields
-                // save it in tl_sm_form_storage_data
                 $objFormStorage = new FormStorage();
 
                 $objFormStorage->tstamp = time();
@@ -61,24 +58,36 @@ class ProcessFormDataListener
                 $objFormStorage->token = REQUEST_TOKEN;
                 $objFormStorage->save();
 
+                if (\array_key_exists('email', $submittedData)) {
+                    $this->storeFieldValue('email', $submittedData['email'], $objFormStorage);
+                    unset($submittedData['email']);
+                }
+
                 foreach ($submittedData as $fieldName => $value) {
-                    $objFormField = FormField::findItems(['name' => $fieldName, 'pid' => $objFormStorage->form], 1);
-                    if (!$objFormField) {
-                        throw new Exception('Unable to find field "%s" in form "%s"', $fieldName, $form->getModel()->name);
-                    }
-                    $objFormStorageData = new FormStorageData();
-                    $objFormStorageData->tstamp = time();
-                    $objFormStorageData->createdAt = time();
-                    $objFormStorageData->pid = $objFormStorage->id;
-                    $objFormStorageData->field = $objFormField->id;
-                    $objFormStorageData->field_label = $objFormField->label;
-                    $objFormStorageData->value = $value;
-                    $objFormStorageData->contains_personal_data = $objFormField->contains_personal_data;
-                    $objFormStorageData->save();
+                    $this->storeFieldValue($fieldName, $value, $objFormStorage);
                 }
             }
         } catch (Exception $e) {
             throw $e;
         }
+    }
+
+    protected function storeFieldValue(string $fieldName, $value, FormStorage $objFormStorage): FormStorageData
+    {
+        $objFormField = FormField::findItems(['name' => $fieldName, 'pid' => $objFormStorage->form], 1);
+        if (!$objFormField) {
+            throw new Exception('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('form')->name);
+        }
+        $objFormStorageData = new FormStorageData();
+        $objFormStorageData->tstamp = time();
+        $objFormStorageData->createdAt = time();
+        $objFormStorageData->pid = $objFormStorage->id;
+        $objFormStorageData->field = $objFormField->id;
+        $objFormStorageData->field_label = $objFormField->label;
+        $objFormStorageData->value = $value;
+        $objFormStorageData->contains_personal_data = $objFormField->contains_personal_data;
+        $objFormStorageData->save();
+
+        return $objFormStorageData;
     }
 }
