@@ -74,7 +74,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage_data'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend},pid,field,value',
+        'default' => '{title_legend},pid,field,value,contains_personal_data',
     ],
     // Fields
     'fields' => [
@@ -107,11 +107,23 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage_data'] = [
             'sql' => 'int(10) unsigned NOT NULL default 0',
             'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
         ],
+        'field_label' => [
+            'inputType' => 'text',
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
         'value' => [
             'search' => true,
             'inputType' => 'text',
             'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
+            'load_callback' => [['smartgear.classes.dca.field.callback.load.tl_sm_form_storage_data.value', '__invoke']],
+            'save_callback' => [['smartgear.classes.dca.field.callback.save.tl_sm_form_storage_data.value', '__invoke']],
             'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'contains_personal_data' => [
+            'search' => true,
+            'inputType' => 'checkbox',
+            'eval' => ['tl_class' => 'w50'],
+            'sql' => 'TINYINT(1) unsigned NOT NULL DEFAULT 0',
         ],
     ],
 ];

@@ -493,3 +493,17 @@ services:
             $frontendField: 'fax'
             $table: 'tl_member'
         public: true
+    smartgear.classes.dca.field.callback.load.tl_form_dtorage_data.value:
+        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\LoadConditionnal
+        arguments:
+            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.load'
+            $frontendField: 'value'
+            $table: 'tl_form_dtorage_data'
+        public: true
+    smartgear.classes.dca.field.callback.save.tl_form_dtorage_data.value:
+        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\SaveConditionnal
+        arguments:
+            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
+            $frontendField: 'value'
+            $table: 'tl_form_dtorage_data'
+        public: true

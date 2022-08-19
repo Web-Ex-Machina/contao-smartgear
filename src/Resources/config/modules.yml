@@ -175,3 +175,9 @@ services:
         public: true
         tags:
             - { name: kernel.event_listener, event: contao.backend_menu_build, method: __invoke }
+
+    smartgear.backend.module.form_data_manager.listener.process_form_data:
+        class: WEM\SmartgearBundle\Backend\Module\FormDataManager\EventListener\ProcessFormDataListener
+        arguments:
+            $coreConfigurationManager: '@smartgear.config.manager.core'
+        public: true

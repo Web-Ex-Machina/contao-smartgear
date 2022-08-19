@@ -12,18 +12,31 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+use Contao\ArrayUtil;
+use Contao\System;
+
+/*
+ * SMARTGEAR for Contao Open Source CMS
+ * Copyright (c) 2015-2022 Web ex Machina
+ *
+ * @category ContaoBundle
+ * @package  Web-Ex-Machina/contao-smartgear
+ * @author   Web ex Machina <contact@webexmachina.fr>
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
+ */
+
 // Load icon in Contao 4.2 backend
 if ('BE' === TL_MODE) {
     $GLOBALS['TL_CSS'][] = 'bundles/wemsmartgear/backend/backend.css';
 }
 
 // Load Contao Bundles
-$bundles = \System::getContainer()->getParameter('kernel.bundles');
+$bundles = System::getContainer()->getParameter('kernel.bundles');
 
 /*
  * Move Page Backend Module
  */
-array_insert($GLOBALS['BE_MOD']['content'], 0, [
+ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['content'], 0, [
     'page' => $GLOBALS['BE_MOD']['design']['page'],
 ]);
 unset($GLOBALS['BE_MOD']['design']['page']);
@@ -31,7 +44,7 @@ unset($GLOBALS['BE_MOD']['design']['page']);
 /*
  * Move Files Backend Module
  */
-array_insert($GLOBALS['BE_MOD']['content'], 99, [
+ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['content'], 99, [
     'files' => $GLOBALS['BE_MOD']['system']['files'],
 ]);
 unset($GLOBALS['BE_MOD']['system']['files']);
@@ -40,7 +53,7 @@ unset($GLOBALS['BE_MOD']['system']['files']);
  * Move Newsletter Backend Module
  */
 if (isset($bundles['ContaoNewsletterBundle'])) {
-    array_insert($GLOBALS['BE_MOD'], 1, [
+    ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 1, [
         'newsletters' => [
             'channels' => $GLOBALS['BE_MOD']['content']['newsletter'],
             'newsletter' => [
@@ -57,7 +70,7 @@ if (isset($bundles['ContaoNewsletterBundle'])) {
  * Move Multilingual pages
  */
 if (isset($bundles['VerstaerkerI18nl10nBundle'])) {
-    array_insert(
+    ArrayUtil::arrayInsert(
         $GLOBALS['BE_MOD']['content'],
         array_search('page', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
         [
@@ -70,7 +83,7 @@ if (isset($bundles['VerstaerkerI18nl10nBundle'])) {
 /*
  * Move Page Backend Module
  */
-array_insert($GLOBALS['BE_MOD']['extranet'], 0, [
+ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['extranet'], 0, [
     'member' => $GLOBALS['BE_MOD']['accounts']['member'],
     'mgroup' => $GLOBALS['BE_MOD']['accounts']['mgroup'],
 ]);
@@ -81,7 +94,7 @@ $GLOBALS['BE_FFL']['stylemanager'] = WEM\SmartgearBundle\Widget\ComponentStyleSe
 /*
  * Backend modules
  */
-array_insert($GLOBALS['BE_MOD']['system'], 0, [
+ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 0, [
     'smartgear' => [
         'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
     ],
@@ -89,7 +102,7 @@ array_insert($GLOBALS['BE_MOD']['system'], 0, [
         'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
     ],
 ]);
-array_insert(
+ArrayUtil::arrayInsert(
     $GLOBALS['BE_MOD']['content'],
     array_search('article', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
     [
@@ -98,7 +111,7 @@ array_insert(
         ],
     ]
 );
-array_insert(
+ArrayUtil::arrayInsert(
     $GLOBALS['BE_MOD']['content'],
     array_search('form', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
     [
@@ -110,7 +123,7 @@ array_insert(
 /*
  * Frontend modules
  */
-array_insert($GLOBALS['FE_MOD'], 2, [
+ArrayUtil::arrayInsert($GLOBALS['FE_MOD'], 2, [
     'smartgear' => [
         'wem_sg_header' => '\WEM\SmartgearBundle\Module\Header',
         'wem_sg_social_link' => '\WEM\SmartgearBundle\Module\SocialLink',
@@ -154,6 +167,7 @@ if ('FE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['newsListCountItems'][] = ['smartgear.listener.news_list_count_items', '__invoke'];
     $GLOBALS['TL_HOOKS']['getAllEvents'][] = ['smartgear.listener.get_all_events', '__invoke'];
     $GLOBALS['TL_HOOKS']['createNewUser'][] = ['smartgear.listener.create_new_user', '__invoke'];
+    $GLOBALS['TL_HOOKS']['processFormData'][] = ['smartgear.listener.process_form_data', '__invoke'];
 }
 
 /*
