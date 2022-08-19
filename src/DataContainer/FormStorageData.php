@@ -16,15 +16,17 @@ namespace WEM\SmartgearBundle\DataContainer;
 
 use Contao\FormFieldModel;
 use WEM\SmartgearBundle\Model\FormStorage;
+use WEM\SmartgearBundle\Model\FormStorageData as FormStorageDataModel;
 
 class FormStorageData
 {
     public function listItems(array $row): string
     {
+        $objFormStorageData = FormStorageDataModel::findByPk($row['id']);
         $objFormStorage = FormStorage::findByPk($row['pid']);
         $objForm = $objFormStorage->getRelated('form');
         $objFormField = FormFieldModel::findById($row['field']);
-        // todo, uncrypt personal data if needed
-        return sprintf('<div><b>Field</b> : %s<br /><b>Value</b> : %s</div>', $objFormField->label, $row['value']);
+
+        return sprintf('<div><b>Field</b> : %s<br /><b>Value</b> : %s</div>', $objFormField->label, $objFormStorageData->value);
     }
 }
