@@ -14,9 +14,12 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\BackendTemplate;
 use Contao\Config;
+use Contao\DataContainer;
 use Contao\Date;
 use Contao\FormModel;
+use Contao\System;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Model\FormStorageData;
 
@@ -41,5 +44,22 @@ class FormStorage
             $this->translator->trans(sprintf('tl_sm_form_storage.status.%s', $row['status']), [], 'contao_default'),
             $objFormStorageDataEmail ? $objFormStorageDataEmail->value : 'NR',
         ];
+    }
+
+    public function showData(DataContainer $dc, string $extendedLabel): string
+    {
+        System::loadLanguageFile('tl_sm_form_storage_data');
+        $formStorageDatas = FormStorageData::findItems(['pid' => $dc->id]);
+        $arrFormStorageDatas = [];
+        $objTemplate = new BackendTemplate('be_wem_sg_widget_fdm_form_storage_data');
+
+        if ($formStorageDatas) {
+            while ($formStorageDatas->next()) {
+                $arrFormStorageDatas[$formStorageDatas->id] = $formStorageDatas->current()->row();
+            }
+        }
+        $objTemplate->arrFormStorageDatas = $arrFormStorageDatas;
+
+        return $objTemplate->parse();
     }
 }

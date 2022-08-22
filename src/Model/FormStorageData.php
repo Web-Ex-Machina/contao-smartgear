@@ -36,7 +36,7 @@ class FormStorageData extends CoreModel
     ];
     protected static $personalDataPidField = 'id';
     protected static $personalDataEmailField = 'email';
-    protected static $personalDataPtable = 'tl_member';
+    protected static $personalDataPtable = 'tl_sm_form_storage_data';
     /**
      * Table name.
      *

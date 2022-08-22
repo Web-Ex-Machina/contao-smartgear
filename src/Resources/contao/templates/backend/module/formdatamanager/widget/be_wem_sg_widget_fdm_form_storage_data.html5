@@ -1,0 +1,18 @@
+<div class="clr widget">
+	<table class="table clr">
+		<thead>
+			<tr>
+				<th><?php echo $this->trans('tl_sm_form_storage_data.field.0',[],'contao_default'); ?></th>
+				<th><?php echo $this->trans('tl_sm_form_storage_data.value.0',[],'contao_default'); ?></th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach($this->arrFormStorageDatas as $id => $row): ?>
+				<tr>
+					<td><?php echo $row['field_label']; ?></td>
+					<td><?php echo $row['value']; ?></td>
+				</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+</div>

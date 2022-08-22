@@ -83,7 +83,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend},pid,status,token',
+        'default' => '{title_legend},pid,status;{data_legend},form_storage_data;',
     ],
     // Fields
     'fields' => [
@@ -105,7 +105,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             'search' => true,
             'inputType' => 'select',
             'foreignKey' => 'tl_form.title',
-            'eval' => ['mandatory' => true, 'tl_class' => 'clr'],
+            'eval' => ['mandatory' => true, 'tl_class' => 'clr', 'disabled' => true],
             'sql' => 'int(10) unsigned NOT NULL default 0',
             'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
         ],
@@ -127,6 +127,11 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'form_storage_data' => [
+            'search' => false,
+            'exclude' => true,
+            'input_field_callback' => ['smartgear.data_container.form_storage', 'showData'],
         ],
     ],
 ];

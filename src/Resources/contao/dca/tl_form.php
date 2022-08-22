@@ -17,7 +17,7 @@ use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 DCAManipulator::create('tl_form')
     ->addListOperation('contacts', [
         'href' => 'table=tl_sm_form_storage',
-        'icon' => 'edit.gif',
+        'icon' => 'user.svg',
     ])
     ->addCtable('tl_sm_form_storage')
 ;
