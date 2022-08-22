@@ -19,13 +19,14 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
     // Config
     'config' => [
         'dataContainer' => 'Table',
+        'ptable' => 'tl_form',
         'ctable' => ['tl_sm_form_storage_data'],
         'switchToEdit' => false,
         'enableVersioning' => false,
         'sql' => [
             'keys' => [
                 'id' => 'primary',
-                'form' => 'index',
+                'pid' => 'index',
             ],
         ],
     ],
@@ -33,14 +34,13 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
     // List
     'list' => [
         'sorting' => [
-            'mode' => DataContainer::MODE_SORTED,
+            // 'mode' => DataContainer::MODE_SORTED,
+            'mode' => DataContainer::MODE_PARENT,
+            'headerFields' => ['title', 'tstamp'],
             'fields' => ['createdAt', 'status'],
             'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
             'panelLayout' => 'filter;search,limit',
-        ],
-        'label' => [
-            'fields' => ['createdAt', 'status'],
-            'showColumns' => true,
+            'child_record_callback' => ['smartgear.data_container.form_storage', 'listItems'],
         ],
         'global_operations' => [
             'all' => [
@@ -81,7 +81,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend},form,status,token',
+        'default' => '{title_legend},pid,status,token',
     ],
     // Fields
     'fields' => [
@@ -98,8 +98,9 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             'flag' => 8,
             'sql' => "varchar(10) NOT NULL default ''",
         ],
-        'form' => [
+        'pid' => [
             'exclude' => true,
+            'search' => true,
             'inputType' => 'select',
             'foreignKey' => 'tl_form.title',
             'eval' => ['mandatory' => true, 'tl_class' => 'clr'],
@@ -110,11 +111,11 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             'search' => true,
             'inputType' => 'select',
             'options' => [
-                FormStorage::STATUS_UNREAD,
-                FormStorage::STATUS_READ,
-                FormStorage::STATUS_SPAM,
-                FormStorage::STATUS_OK,
-                FormStorage::STATUS_REPLIED,
+                FormStorage::STATUS_UNREAD => &$GLOBALS['TL_LANG']['tl_sm_form_storage']['status']['unread'],
+                FormStorage::STATUS_READ => &$GLOBALS['TL_LANG']['tl_sm_form_storage']['status']['read'],
+                FormStorage::STATUS_SPAM => &$GLOBALS['TL_LANG']['tl_sm_form_storage']['status']['spam'],
+                FormStorage::STATUS_OK => &$GLOBALS['TL_LANG']['tl_sm_form_storage']['status']['ok'],
+                FormStorage::STATUS_REPLIED => &$GLOBALS['TL_LANG']['tl_sm_form_storage']['status']['replied'],
             ],
             'eval' => ['mandatory' => true, 'maxlength' => 32, 'tl_class' => 'w50'],
             'sql' => "varchar(32) NOT NULL default ''",

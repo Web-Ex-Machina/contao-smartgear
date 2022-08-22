@@ -14,6 +14,29 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\Config;
+use Contao\Date;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use WEM\SmartgearBundle\Model\FormStorageData;
+
 class FormStorage
 {
+    /** @var TranslatorInterface */
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
+    public function listItems(array $row): string
+    {
+        $objFormStorageDataEmail = FormStorageData::findItems(['pid' => $row['id'], 'field_label' => 'Email'], 1);
+
+        return sprintf('[%s] [%s] %s',
+            Date::parse(Config::get('datimFormat'), (int) $row['tstamp']),
+            $this->translator->trans(sprintf('tl_sm_form_storage.status.%s', $row['status']), [], 'contao_default'),
+            $objFormStorageDataEmail ? $objFormStorageDataEmail->value : 'NR'
+        );
+    }
 }

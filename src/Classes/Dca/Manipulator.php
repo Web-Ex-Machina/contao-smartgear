@@ -38,6 +38,42 @@ class Manipulator
         return (new self())->setTable($table);
     }
 
+    public function addCtable(string $table)
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['config']['ctable'][] = $table;
+
+        return $this;
+    }
+
+    public function addCtables(array $tables)
+    {
+        $this->checkConfiguration();
+        foreach ($tables as $table) {
+            $this->addCtable($table);
+        }
+
+        return $this;
+    }
+
+    public function removeCtable(string $table)
+    {
+        $this->checkConfiguration();
+        unset($GLOBALS['TL_DCA'][$this->table]['config']['ctable'][$table]);
+
+        return $this;
+    }
+
+    public function removeCtables(array $tables)
+    {
+        $this->checkConfiguration();
+        foreach ($tables as $table) {
+            $this->removeCtable($table);
+        }
+
+        return $this;
+    }
+
     public function addConfigOnloadCallback(string $className, string $functionName): self
     {
         $this->checkConfiguration();
@@ -172,6 +208,42 @@ class Manipulator
     {
         $this->checkConfiguration();
         unset($GLOBALS['TL_DCA'][$this->table]['list']['operations']['edit']);
+
+        return $this;
+    }
+
+    public function removeListOperation(string $key): self
+    {
+        $this->checkConfiguration();
+        unset($GLOBALS['TL_DCA'][$this->table]['list']['operations'][$key]);
+
+        return $this;
+    }
+
+    public function removeListOperations(array $keys): self
+    {
+        $this->checkConfiguration();
+        foreach ($keys as $key) {
+            $this->removeListOperation($key);
+        }
+
+        return $this;
+    }
+
+    public function addListOperation(string $key, array $options): self
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['list']['operations'][$key] = $options;
+
+        return $this;
+    }
+
+    public function addListOperations(array $operations): self
+    {
+        $this->checkConfiguration();
+        foreach ($operations as $key => $options) {
+            $this->addListOperation($key, $options);
+        }
 
         return $this;
     }

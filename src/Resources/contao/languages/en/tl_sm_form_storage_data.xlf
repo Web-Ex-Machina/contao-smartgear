@@ -1,0 +1,24 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" target-language="en">
+    <body>
+		<trans-unit id="tl_sm_form_storage_data.pid.0">
+			<source>Form</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage_data.field.0">
+			<source>Field</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage_data.field_label.0">
+			<source>Field label</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage_data.value.0">
+			<source>Value</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage_data.contains_personal_data.0">
+			<source>Contains personal data</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage_data.title_legend">
+			<source>Informations</source>
+		</trans-unit>
+    </body>
+  </file>
+</xliff>

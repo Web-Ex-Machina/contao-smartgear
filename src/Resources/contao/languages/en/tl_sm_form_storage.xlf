@@ -1,0 +1,42 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" target-language="en">
+    <body>
+		<trans-unit id="tl_sm_form_storage.pid.0">
+			<source>Form</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.pid.1">
+			<source></source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.status.0">
+			<source>Status</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.status.1">
+			<source></source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.token.0">
+			<source>Token</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.token.1">
+			<source></source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.status.unread">
+			<source>Unread</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.status.read">
+			<source>Read</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.status.spam">
+			<source>Spam</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.status.ok">
+			<source>OK</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.status.replied">
+			<source>Replied</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.title_legend">
+			<source>Informations</source>
+		</trans-unit>
+    </body>
+  </file>
+</xliff>

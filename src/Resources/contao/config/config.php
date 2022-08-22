@@ -89,6 +89,9 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['extranet'], 0, [
 ]);
 unset($GLOBALS['BE_MOD']['accounts']['member'], $GLOBALS['BE_MOD']['accounts']['mgroup']);
 
+$GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_sm_form_storage';
+$GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_sm_form_storage_data';
+
 // ComponentStyleSelect override
 $GLOBALS['BE_FFL']['stylemanager'] = WEM\SmartgearBundle\Widget\ComponentStyleSelect::class;
 /*

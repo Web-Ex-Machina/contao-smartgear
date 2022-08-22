@@ -53,7 +53,7 @@ class ProcessFormDataListener
 
                 $objFormStorage->tstamp = time();
                 $objFormStorage->createdAt = time();
-                $objFormStorage->form = $form->getModel()->id;
+                $objFormStorage->pid = $form->getModel()->id;
                 $objFormStorage->status = FormStorage::STATUS_UNREAD;
                 $objFormStorage->token = REQUEST_TOKEN;
                 $objFormStorage->save();
@@ -74,9 +74,9 @@ class ProcessFormDataListener
 
     protected function storeFieldValue(string $fieldName, $value, FormStorage $objFormStorage): FormStorageData
     {
-        $objFormField = FormField::findItems(['name' => $fieldName, 'pid' => $objFormStorage->form], 1);
+        $objFormField = FormField::findItems(['name' => $fieldName, 'pid' => $objFormStorage->pid], 1);
         if (!$objFormField) {
-            throw new Exception('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('form')->name);
+            throw new Exception('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('pid')->name);
         }
         $objFormStorageData = new FormStorageData();
         $objFormStorageData->tstamp = time();

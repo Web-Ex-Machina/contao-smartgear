@@ -54,7 +54,7 @@ class SaveConditionnal
 
     public function invokeBackend($value, DataContainer $dc)
     {
-        return !$dc->contains_personnal_data ? $value : $this->pdmCallback->__invoke(...\func_get_args());
+        return !(bool) $dc->activeRecord->contains_personal_data ? $value : $this->pdmCallback->__invoke(...\func_get_args());
     }
 
     public function invokeFrontend($value, \Contao\FrontendUser $user, \Contao\ModulePersonalData $module): void

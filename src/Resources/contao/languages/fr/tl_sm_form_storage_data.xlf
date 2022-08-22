@@ -1,0 +1,30 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/tl_sm_form_storage_data.php" source-language="en" target-language="fr">
+    <body>
+		<trans-unit id="tl_sm_form_storage_data.pid.0">
+			<source>Form</source>
+			<target>Formulaire</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage_data.field.0">
+			<source>Field</source>
+			<target>Champ</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage_data.field_label.0">
+			<source>Field label</source>
+			<target>Label du champ</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage_data.value.0">
+			<source>Value</source>
+			<target>Valeur</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage_data.contains_personal_data.0">
+			<source>Contains personal data</source>
+			<target>Contient une donnée personnelle</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage_data.title_legend">
+			<source>Informations</source>
+			<target>Informations</target>
+		</trans-unit>
+    </body>
+  </file>
+</xliff>
