@@ -9,6 +9,14 @@
 			<source></source>
 			<target></target>
 		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.createdAt.0">
+			<source>Submission date</source>
+			<target>Date de soumission</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.sender.0">
+			<source>Sender</source>
+			<target>Expéditeur</target>
+		</trans-unit>
 		<trans-unit id="tl_sm_form_storage.status.0">
 			<source>Status</source>
 			<target>Statut</target>

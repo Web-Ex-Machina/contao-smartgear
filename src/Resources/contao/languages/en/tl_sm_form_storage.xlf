@@ -7,6 +7,12 @@
 		<trans-unit id="tl_sm_form_storage.pid.1">
 			<source></source>
 		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.createdAt.0">
+			<source>Submission date</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.sender.0">
+			<source>Sender</source>
+		</trans-unit>
 		<trans-unit id="tl_sm_form_storage.status.0">
 			<source>Status</source>
 		</trans-unit>

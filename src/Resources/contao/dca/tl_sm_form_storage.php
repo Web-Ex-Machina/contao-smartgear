@@ -34,13 +34,15 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
     // List
     'list' => [
         'sorting' => [
-            // 'mode' => DataContainer::MODE_SORTED,
-            'mode' => DataContainer::MODE_PARENT,
-            'headerFields' => ['title', 'tstamp'],
+            'mode' => DataContainer::MODE_SORTED,
             'fields' => ['createdAt', 'status'],
             'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
             'panelLayout' => 'filter;search,limit',
-            'child_record_callback' => ['smartgear.data_container.form_storage', 'listItems'],
+        ],
+        'label' => [
+            'fields' => ['pid', 'createdAt', 'status', 'sender'],
+            'showColumns' => true,
+            'label_callback' => ['smartgear.data_container.form_storage', 'listItems'],
         ],
         'global_operations' => [
             'all' => [
