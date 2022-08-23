@@ -83,7 +83,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend},pid,status;{statistics_legend},completion_percentage,delay_to_first_interaction,delay_to_submission;{data_legend},form_storage_data;',
+        'default' => '{title_legend},pid,status,note;{statistics_legend},completion_percentage,delay_to_first_interaction,delay_to_submission;{data_legend},form_storage_data;',
     ],
     // Fields
     'fields' => [
@@ -121,6 +121,11 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             ],
             'eval' => ['mandatory' => true, 'maxlength' => 32, 'tl_class' => 'w50'],
             'sql' => "varchar(32) NOT NULL default ''",
+        ],
+        'note' => [
+            'inputType' => 'textarea',
+            'eval' => ['tl_class' => 'w50', 'rows' => 3],
+            'sql' => "TEXT NOT NULL default ''",
         ],
         'token' => [
             'search' => true,

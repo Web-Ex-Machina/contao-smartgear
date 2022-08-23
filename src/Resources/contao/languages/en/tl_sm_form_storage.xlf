@@ -31,6 +31,9 @@
 		<trans-unit id="tl_sm_form_storage.status.0">
 			<source>Status</source>
 		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.note.0">
+			<source>Note</source>
+		</trans-unit>
 		<trans-unit id="tl_sm_form_storage.token.0">
 			<source>Token</source>
 		</trans-unit>

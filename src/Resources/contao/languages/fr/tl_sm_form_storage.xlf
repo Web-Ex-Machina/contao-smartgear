@@ -37,6 +37,10 @@
 			<source>Status</source>
 			<target>Statut</target>
 		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.note.0">
+			<source>Note</source>
+			<target>Note</target>
+		</trans-unit>
 		<trans-unit id="tl_sm_form_storage.token.0">
 			<source>Token</source>
 			<target>Token</target>
