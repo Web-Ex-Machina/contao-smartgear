@@ -12,6 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
 DCAManipulator::create('tl_form')
@@ -20,4 +21,13 @@ DCAManipulator::create('tl_form')
         'icon' => 'user.svg',
     ])
     ->addCtable('tl_sm_form_storage')
+    ->addField('storeViaFormDataManager', [
+        'inputType' => 'checkbox',
+        'sql' => "char(1) NOT NULL default ''",
+    ])
+;
+
+PaletteManipulator::create()
+    ->addField('storeViaFormDataManager', 'storeValues', PaletteManipulator::POSITION_BEFORE)
+    ->applyToPalette('default', 'tl_form')
 ;

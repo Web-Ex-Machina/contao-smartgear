@@ -53,27 +53,29 @@ class ProcessFormDataListener
             if ($coreConfig->getSgInstallComplete()
             && $fdmConfig->getSgInstallComplete()
             ) {
-                $objFormStorage = new FormStorage();
+                if ((bool) $form->getModel()->storeViaFormDataManager) {
+                    $objFormStorage = new FormStorage();
 
-                $objFormStorage->tstamp = time();
-                $objFormStorage->createdAt = time();
-                $objFormStorage->pid = $form->getModel()->id;
-                $objFormStorage->status = FormStorage::STATUS_UNREAD;
-                $objFormStorage->token = REQUEST_TOKEN;
-                $objFormStorage->completion_percentage = $this->calculateCompletionPercentage($submittedData, $form);
-                $objFormStorage->delay_to_first_interaction = $this->calculateDelayToFirstInteraction($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]']);
-                $objFormStorage->delay_to_submission = $this->calculateDelayToSubmission($submittedData['fdm[first_interaction]'], $form);
-                $objFormStorage->save();
+                    $objFormStorage->tstamp = time();
+                    $objFormStorage->createdAt = time();
+                    $objFormStorage->pid = $form->getModel()->id;
+                    $objFormStorage->status = FormStorage::STATUS_UNREAD;
+                    $objFormStorage->token = REQUEST_TOKEN;
+                    $objFormStorage->completion_percentage = $this->calculateCompletionPercentage($submittedData, $form);
+                    $objFormStorage->delay_to_first_interaction = $this->calculateDelayToFirstInteraction($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]']);
+                    $objFormStorage->delay_to_submission = $this->calculateDelayToSubmission($submittedData['fdm[first_interaction]'], $form);
+                    $objFormStorage->save();
 
-                if (\array_key_exists('email', $submittedData)) {
-                    $this->storeFieldValue('email', $submittedData['email'], $objFormStorage);
-                    unset($submittedData['email']);
-                }
+                    if (\array_key_exists('email', $submittedData)) {
+                        $this->storeFieldValue('email', $submittedData['email'], $objFormStorage);
+                        unset($submittedData['email']);
+                    }
 
-                unset($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]']);
+                    unset($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]']);
 
-                foreach ($submittedData as $fieldName => $value) {
-                    $this->storeFieldValue($fieldName, $value, $objFormStorage);
+                    foreach ($submittedData as $fieldName => $value) {
+                        $this->storeFieldValue($fieldName, $value, $objFormStorage);
+                    }
                 }
             }
         } catch (Exception $e) {

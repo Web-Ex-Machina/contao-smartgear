@@ -45,20 +45,22 @@ class CompileFormFieldsListener
             if ($coreConfig->getSgInstallComplete()
             && $fdmConfig->getSgInstallComplete()
             ) {
-                $objFormFieldFirstAppearance = (new FormFieldModel());
-                $objFormFieldFirstAppearance->name = 'fdm[first_appearance]';
-                $objFormFieldFirstAppearance->type = 'hidden';
-                $arrFields['first_appearance'] = $objFormFieldFirstAppearance;
+                if ((bool) $form->getModel()->storeViaFormDataManager) {
+                    $objFormFieldFirstAppearance = (new FormFieldModel());
+                    $objFormFieldFirstAppearance->name = 'fdm[first_appearance]';
+                    $objFormFieldFirstAppearance->type = 'hidden';
+                    $arrFields['first_appearance'] = $objFormFieldFirstAppearance;
 
-                $objFormFieldFirstInteraction = (new FormFieldModel());
-                $objFormFieldFirstInteraction->name = 'fdm[first_interaction]';
-                $objFormFieldFirstInteraction->type = 'hidden';
-                $arrFields['first_interaction'] = $objFormFieldFirstInteraction;
-
-                return $arrFields;
+                    $objFormFieldFirstInteraction = (new FormFieldModel());
+                    $objFormFieldFirstInteraction->name = 'fdm[first_interaction]';
+                    $objFormFieldFirstInteraction->type = 'hidden';
+                    $arrFields['first_interaction'] = $objFormFieldFirstInteraction;
+                }
             }
         } catch (Exception $e) {
             throw $e;
         }
+
+        return $arrFields;
     }
 }

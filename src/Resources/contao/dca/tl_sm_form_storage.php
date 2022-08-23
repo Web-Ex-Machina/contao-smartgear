@@ -52,13 +52,13 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             ],
         ],
         'operations' => [
-            'edit' => [
+            'show_data' => [
                 'href' => 'table=tl_sm_form_storage_data',
-                'icon' => 'edit.svg',
+                'icon' => 'rows.svg',
             ],
-            'editheader' => [
+            'edit' => [
                 'href' => 'act=edit',
-                'icon' => 'header.svg',
+                'icon' => 'edit.svg',
             ],
             // 'copy' => [
             //     'href' => 'act=paste&amp;mode=copy',
@@ -125,7 +125,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
         'note' => [
             'inputType' => 'textarea',
             'eval' => ['tl_class' => 'w50', 'rows' => 3],
-            'sql' => "TEXT NOT NULL default ''",
+            'sql' => 'TEXT NULL',
         ],
         'token' => [
             'search' => true,
@@ -141,11 +141,29 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
         'delay_to_first_interaction' => [
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,14})$/', 'tl_class' => 'w50', 'disabled' => true, 'minval' => 0],
+            'load_callback' => [function ($value, $dc): string {
+                $minutes = (int) ($value / 60000);
+                $value = ($value % 60000);
+                $seconds = (int) ($value / 1000);
+                $value = ($value % 1000);
+                $ms = $value;
+
+                return sprintf('%02dm%02ds%03dms', $minutes, $seconds, $ms);
+            }],
             'sql' => "varchar(14) NOT NULL default ''",
         ],
         'delay_to_submission' => [
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,14})$/', 'tl_class' => 'w50', 'disabled' => true, 'minval' => 0],
+            'load_callback' => [function ($value, $dc): string {
+                $minutes = (int) ($value / 60000);
+                $value = ($value % 60000);
+                $seconds = (int) ($value / 1000);
+                $value = ($value % 1000);
+                $ms = $value;
+
+                return sprintf('%02dm%02ds%03dms', $minutes, $seconds, $ms);
+            }],
             'sql' => "varchar(14) NOT NULL default ''",
         ],
         'form_storage_data' => [

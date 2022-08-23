@@ -5,6 +5,10 @@
 			<source>See submitted data by this form</source>
 			<target>Afficher toutes les envois de ce formulaire</target>
 		</trans-unit>
+    <trans-unit id="tl_form.storeViaFormDataManager.0">
+      <source>Save data using Form Data Manager</source>
+			<target>Enregistrer les données grâce au Form Data Manager</target>
+    </trans-unit>
     </body>
   </file>
 </xliff>
