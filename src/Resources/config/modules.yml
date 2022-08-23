@@ -153,6 +153,16 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
         public: true
 
+    smartgear.backend.module.form_data_manager.backend_controller:
+        class: WEM\SmartgearBundle\Backend\Module\FormDataManager\BackendController
+        arguments:
+            $module: 'form_data_manager'
+            $type: 'module'
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
+
     smartgear.backend.module.form_data_manager.listener.replace_insert_tags:
         class: WEM\SmartgearBundle\Backend\Module\FormDataManager\EventListener\ReplaceInsertTagsListener
         arguments:

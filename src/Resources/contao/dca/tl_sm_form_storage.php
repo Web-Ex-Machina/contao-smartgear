@@ -50,6 +50,10 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
                 'class' => 'header_edit_all',
                 'attributes' => 'onclick="Backend.getScrollOffset()" accesskey="e"',
             ],
+            'export_all' => [
+                'href' => 'key=export_all',
+                'icon' => 'export.svg',
+            ],
         ],
         'operations' => [
             'show_data' => [

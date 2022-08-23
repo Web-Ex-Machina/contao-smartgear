@@ -19,7 +19,7 @@ use WEM\UtilsBundle\Model\Model as CoreModel;
 /**
  * Reads and writes items.
  */
-class SocialLink extends CoreModel
+class Form extends CoreModel
 {
     /**
      * Table name.

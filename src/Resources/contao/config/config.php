@@ -120,9 +120,11 @@ ArrayUtil::arrayInsert(
     [
         'wem_sg_form_data_manager' => [
             'tables' => ['tl_sm_form_storage', 'tl_sm_form_storage_data'],
+            'export_all' => ['smartgear.backend.module.form_data_manager.backend_controller', 'exportAll'],
         ],
     ]
 );
+$GLOBALS['BE_MOD']['content']['form']['export_all'] = ['smartgear.backend.module.form_data_manager.backend_controller', 'exportAllFromForm'];
 /*
  * Frontend modules
  */
@@ -146,6 +148,8 @@ $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialLink::getTable()] = WEM\S
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Member::getTable()] = WEM\SmartgearBundle\Model\Member::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorage::getTable()] = WEM\SmartgearBundle\Model\FormStorage::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorageData::getTable()] = WEM\SmartgearBundle\Model\FormStorageData::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Form::getTable()] = WEM\SmartgearBundle\Model\Form::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormField::getTable()] = WEM\SmartgearBundle\Model\FormField::class;
 /*
  * Add BE Hooks
  */
