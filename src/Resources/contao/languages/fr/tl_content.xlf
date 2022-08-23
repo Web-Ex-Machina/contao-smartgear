@@ -1307,8 +1307,8 @@
         <target>Ajoutez une accroche</target>
       </trans-unit>
       <trans-unit id="tl_content.header.add_catchline.1">
-        <source>Add free content displayed beside or below the logo</source>
-        <target>Ajoutez un contenu libre, affiché à côté ou en dessous du logo</target>
+        <source>Add free content displayed beside the logo</source>
+        <target>Ajoutez un contenu libre, affiché à côté du logo</target>
       </trans-unit>
       <trans-unit id="tl_content.header.catchline.0">
         <source>Catchline</source>
@@ -1317,14 +1317,6 @@
       <trans-unit id="tl_content.header.catchline.1">
         <source>Catchline content</source>
         <target>Contenu de l'accroche</target>
-      </trans-unit>
-      <trans-unit id="tl_content.header.catchline_position.0">
-        <source>Catchline position</source>
-        <target>Position de l'accroche</target>
-      </trans-unit>
-      <trans-unit id="tl_content.header.catchline_position.1">
-        <source>Define the catchline position</source>
-        <target>Définissez la position de l'accroche</target>
       </trans-unit>
       <trans-unit id="tl_content.header.catchline_position.optionSide">
         <source>Beside logo</source>
