@@ -43,6 +43,9 @@
 		<trans-unit id="tl_sm_form_storage.title_legend">
 			<source>Informations</source>
 		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.data_legend">
+			<source>Data</source>
+		</trans-unit>
     </body>
   </file>
 </xliff>

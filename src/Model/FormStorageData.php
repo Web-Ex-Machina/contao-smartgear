@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Model;
 
 use Exception;
 use WEM\PersonalDataManagerBundle\Model\Traits\PersonalDataTrait as PDMTrait;
+use WEM\UtilsBundle\Classes\StringUtil;
 use WEM\UtilsBundle\Model\Model as CoreModel;
 
 /**
@@ -46,7 +47,7 @@ class FormStorageData extends CoreModel
 
     public function getPersonalDataEmailFieldValue(): string
     {
-        $objFDS = self::findItems(['pid' => $this->pid, 'field_label' => 'email'], 1);
+        $objFDS = self::findItems(['pid' => $this->pid, 'field_name' => 'email'], 1);
         if (!$objFDS) {
             throw new Exception('Unable to find the email field');
         }
@@ -57,5 +58,21 @@ class FormStorageData extends CoreModel
     public function shouldManagePersonalData(): bool
     {
         return (bool) $this->contains_personal_data;
+    }
+
+    public function getValueAsString(): string
+    {
+        $value = StringUtil::deserialize($this->value);
+        if (\is_array($value)) {
+            $formattedValue = [];
+            foreach ($value as $valueChunk) {
+                $formattedValue[] = sprintf('%s (%s)', $valueChunk['label'], $valueChunk['value']);
+            }
+            $formattedValue = implode(',', $formattedValue);
+        } else {
+            $formattedValue = $value;
+        }
+
+        return $formattedValue;
     }
 }

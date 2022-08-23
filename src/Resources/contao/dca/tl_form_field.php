@@ -24,8 +24,6 @@ DCAManipulator::create('tl_form_field')
 
 PaletteManipulator::create()
     ->addField('contains_personal_data', 'type')
-    ->applyToPalette('explanation', 'tl_form_field')
-    ->applyToPalette('html', 'tl_form_field')
     ->applyToPalette('text', 'tl_form_field')
     ->applyToPalette('textdigit', 'tl_form_field')
     ->applyToPalette('textcustom', 'tl_form_field')

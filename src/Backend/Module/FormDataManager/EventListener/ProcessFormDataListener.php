@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Module\FormDataManager\EventListener;
 
 use Contao\Form;
+use Contao\FormFieldModel;
 use Exception;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -22,6 +23,7 @@ use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDat
 use WEM\SmartgearBundle\Model\FormField;
 use WEM\SmartgearBundle\Model\FormStorage;
 use WEM\SmartgearBundle\Model\FormStorageData;
+use WEM\UtilsBundle\Classes\StringUtil;
 
 class ProcessFormDataListener
 {
@@ -42,6 +44,8 @@ class ProcessFormDataListener
         Form $form
     ): void {
         try {
+            // dump($submittedData);
+            // exit();
             /** @var CoreConfig */
             $coreConfig = $this->coreConfigurationManager->load();
             /** @var FormDataManagerConfig */
@@ -84,10 +88,38 @@ class ProcessFormDataListener
         $objFormStorageData->pid = $objFormStorage->id;
         $objFormStorageData->field = $objFormField->id;
         $objFormStorageData->field_label = $objFormField->label;
-        $objFormStorageData->value = $value;
+        $objFormStorageData->value = $this->formatValueToStore($value, $objFormField->current());
         $objFormStorageData->contains_personal_data = $objFormField->contains_personal_data;
         $objFormStorageData->save();
 
         return $objFormStorageData;
+    }
+
+    protected function formatValueToStore($submittedValue, FormFieldModel $objFormField)
+    {
+        $value = $submittedValue;
+        switch ($objFormField->type) {
+            case 'radio':
+            case 'checkbox':
+            case 'select':
+                $options = StringUtil::deserialize($objFormField->options);
+                $options2 = [];
+                foreach ($options as $option) {
+                    $options2[$option['value']] = $option;
+                }
+                $options = $options2;
+
+                if (!\is_array($submittedValue)) {
+                    $submittedValue = [$submittedValue];
+                }
+                $optionsSelected = [];
+                foreach ($submittedValue as $submittedValueChunk) {
+                    $optionsSelected[$submittedValueChunk] = ['label' => $options[$submittedValueChunk]['label'], 'value' => $submittedValueChunk];
+                }
+                $value = serialize($optionsSelected);
+            break;
+        }
+
+        return $value;
     }
 }

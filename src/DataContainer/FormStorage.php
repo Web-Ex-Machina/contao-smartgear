@@ -56,6 +56,7 @@ class FormStorage
         if ($formStorageDatas) {
             while ($formStorageDatas->next()) {
                 $arrFormStorageDatas[$formStorageDatas->id] = $formStorageDatas->current()->row();
+                $arrFormStorageDatas[$formStorageDatas->id]['value'] = $formStorageDatas->current()->getValueAsString();
             }
         }
         $objTemplate->arrFormStorageDatas = $arrFormStorageDatas;

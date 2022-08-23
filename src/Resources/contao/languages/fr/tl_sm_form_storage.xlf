@@ -57,6 +57,10 @@
 			<source>Informations</source>
 			<target>Informations</target>
 		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.data_legend">
+			<source>Data</source>
+			<target>Données</target>
+		</trans-unit>
     </body>
   </file>
 </xliff>

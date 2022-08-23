@@ -13,6 +13,10 @@
 			<source>Field label</source>
 			<target>Label du champ</target>
 		</trans-unit>
+		<trans-unit id="tl_sm_form_storage_data.field_name.0">
+			<source>Field name</source>
+			<target>Nom du champ</target>
+		</trans-unit>
 		<trans-unit id="tl_sm_form_storage_data.value.0">
 			<source>Value</source>
 			<target>Valeur</target>

@@ -10,6 +10,9 @@
 		<trans-unit id="tl_sm_form_storage_data.field_label.0">
 			<source>Field label</source>
 		</trans-unit>
+		<trans-unit id="tl_sm_form_storage_data.field_name.0">
+			<source>Field name</source>
+		</trans-unit>
 		<trans-unit id="tl_sm_form_storage_data.value.0">
 			<source>Value</source>
 		</trans-unit>
