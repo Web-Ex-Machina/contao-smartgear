@@ -1,5 +1,5 @@
-<div class="clr widget">
-	<table class="table clr">
+<div class="clr widget form_data_manager_table">
+	<table class="clr">
 		<thead>
 			<tr>
 				<th><?php echo $this->trans('tl_sm_form_storage_data.field.0',[],'contao_default'); ?></th>

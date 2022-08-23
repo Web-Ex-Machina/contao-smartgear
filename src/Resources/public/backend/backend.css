@@ -22,3 +22,17 @@
     width: 1%;
     white-space: nowrap;
 }
+
+/*.form_data_manager_table table,*/
+.form_data_manager_table table th,
+.form_data_manager_table table td
+{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.form_data_manager_table table th,
+.form_data_manager_table table td
+{
+    padding: 5px;
+}
