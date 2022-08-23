@@ -75,4 +75,16 @@ services:
                 - '@smartgear.backend.module.form_data_manager.listener.process_form_data'
         public: true
 
+    smartgear.listener.compile_form_fields:
+        class: WEM\SmartgearBundle\EventListener\CompileFormFieldsListener
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+            $listeners:
+                - '@smartgear.backend.module.form_data_manager.listener.compile_form_fields'
+        public: true
+
+
+
+
     

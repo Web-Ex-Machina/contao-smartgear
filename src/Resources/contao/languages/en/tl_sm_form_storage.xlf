@@ -4,11 +4,26 @@
 		<trans-unit id="tl_sm_form_storage.pid.0">
 			<source>Form</source>
 		</trans-unit>
-		<trans-unit id="tl_sm_form_storage.pid.1">
-			<source></source>
-		</trans-unit>
 		<trans-unit id="tl_sm_form_storage.createdAt.0">
 			<source>Submission date</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.completion_percentage.0">
+			<source>Completion pourcentage</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.completion_percentage.0">
+			<source>Completion pourcentage</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.delay_to_first_interaction.0">
+			<source>Delay to first interaction (in ms)</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.delay_to_first_interaction.1">
+			<source>Number of milliseconds between form appearance and first user interaction</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.delay_to_submission.0">
+			<source>Delay to form submission (in ms)</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.delay_to_submission.1">
+			<source>Number of milliseconds between form's first user interaction and form submission</source>
 		</trans-unit>
 		<trans-unit id="tl_sm_form_storage.sender.0">
 			<source>Sender</source>
@@ -16,14 +31,8 @@
 		<trans-unit id="tl_sm_form_storage.status.0">
 			<source>Status</source>
 		</trans-unit>
-		<trans-unit id="tl_sm_form_storage.status.1">
-			<source></source>
-		</trans-unit>
 		<trans-unit id="tl_sm_form_storage.token.0">
 			<source>Token</source>
-		</trans-unit>
-		<trans-unit id="tl_sm_form_storage.token.1">
-			<source></source>
 		</trans-unit>
 		<trans-unit id="tl_sm_form_storage.status.unread">
 			<source>Unread</source>

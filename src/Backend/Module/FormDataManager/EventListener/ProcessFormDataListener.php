@@ -60,12 +60,17 @@ class ProcessFormDataListener
                 $objFormStorage->pid = $form->getModel()->id;
                 $objFormStorage->status = FormStorage::STATUS_UNREAD;
                 $objFormStorage->token = REQUEST_TOKEN;
+                $objFormStorage->completion_percentage = $this->calculateCompletionPercentage($submittedData, $form);
+                $objFormStorage->delay_to_first_interaction = $this->calculateDelayToFirstInteraction($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]']);
+                $objFormStorage->delay_to_submission = $this->calculateDelayToSubmission($submittedData['fdm[first_interaction]'], $form);
                 $objFormStorage->save();
 
                 if (\array_key_exists('email', $submittedData)) {
                     $this->storeFieldValue('email', $submittedData['email'], $objFormStorage);
                     unset($submittedData['email']);
                 }
+
+                unset($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]']);
 
                 foreach ($submittedData as $fieldName => $value) {
                     $this->storeFieldValue($fieldName, $value, $objFormStorage);
@@ -74,6 +79,39 @@ class ProcessFormDataListener
         } catch (Exception $e) {
             throw $e;
         }
+    }
+
+    protected function calculateDelayToFirstInteraction(string $firstAppearanceMs, string $firstInteractionMs): int
+    {
+        return (int) $firstInteractionMs - (int) $firstAppearanceMs;
+    }
+
+    protected function calculateDelayToSubmission(string $firstInteractionMs, Form $form): int
+    {
+        return (int) ((int) (microtime(true) * 1000) - (int) $firstInteractionMs);
+    }
+
+    protected function calculateCompletionPercentage(array $submittedData, Form $form): float
+    {
+        $formFields = FormFieldModel::findPublishedByPid($form->getModel()->id);
+        $fieldsTotal = $formFields->count();
+        $fieldsCompleted = 0;
+        if ($formFields) {
+            while ($formFields->next()) {
+                $formField = $formFields->current();
+                if (\in_array($formField->type, ['captcha', 'submit'], true)) {
+                    --$fieldsTotal;
+                    continue;
+                }
+                if (\array_key_exists($formField->name, $submittedData)
+                && !empty($submittedData[$formField->name])
+                ) {
+                    ++$fieldsCompleted;
+                }
+            }
+        }
+
+        return $fieldsCompleted * 100 / $fieldsTotal;
     }
 
     protected function storeFieldValue(string $fieldName, $value, FormStorage $objFormStorage): FormStorageData
@@ -88,6 +126,7 @@ class ProcessFormDataListener
         $objFormStorageData->pid = $objFormStorage->id;
         $objFormStorageData->field = $objFormField->id;
         $objFormStorageData->field_label = $objFormField->label;
+        $objFormStorageData->field_name = $objFormField->name;
         $objFormStorageData->value = $this->formatValueToStore($value, $objFormField->current());
         $objFormStorageData->contains_personal_data = $objFormField->contains_personal_data;
         $objFormStorageData->save();

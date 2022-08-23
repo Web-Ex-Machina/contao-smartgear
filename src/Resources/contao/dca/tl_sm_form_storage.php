@@ -83,7 +83,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend},pid,status;{data_legend},form_storage_data;',
+        'default' => '{title_legend},pid,status;{statistics_legend},completion_percentage,delay_to_first_interaction,delay_to_submission;{data_legend},form_storage_data;',
     ],
     // Fields
     'fields' => [
@@ -127,6 +127,21 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'completion_percentage' => [
+            'inputType' => 'text',
+            'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,3}),([0-9]{2})$/', 'tl_class' => 'w50 clr', 'disabled' => true, 'maxval' => 100, 'minval' => 0],
+            'sql' => 'DECIMAL(5,2) unsigned NOT NULL default 0',
+        ],
+        'delay_to_first_interaction' => [
+            'inputType' => 'text',
+            'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,14})$/', 'tl_class' => 'w50', 'disabled' => true, 'minval' => 0],
+            'sql' => "varchar(14) NOT NULL default ''",
+        ],
+        'delay_to_submission' => [
+            'inputType' => 'text',
+            'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,14})$/', 'tl_class' => 'w50', 'disabled' => true, 'minval' => 0],
+            'sql' => "varchar(14) NOT NULL default ''",
         ],
         'form_storage_data' => [
             'search' => false,

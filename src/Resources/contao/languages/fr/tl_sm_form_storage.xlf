@@ -5,10 +5,6 @@
 			<source>Form</source>
 			<target>Formulaire</target>
 		</trans-unit>
-		<trans-unit id="tl_sm_form_storage.pid.1">
-			<source></source>
-			<target></target>
-		</trans-unit>
 		<trans-unit id="tl_sm_form_storage.createdAt.0">
 			<source>Submission date</source>
 			<target>Date de soumission</target>
@@ -17,21 +13,33 @@
 			<source>Sender</source>
 			<target>Expéditeur</target>
 		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.completion_percentage.0">
+			<source>Completion pourcentage</source>
+			<target>Pourcentage de complétion</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.delay_to_first_interaction.0">
+			<source>Delay to first interaction (in ms)</source>
+			<target>Délai avant première interaction (en ms)</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.delay_to_first_interaction.1">
+			<source>Number of milliseconds between form appearance and first user interaction</source>
+			<target>Nombre de millisecondes entre l'affichage du formulaire et la première interaction de l'utilisateur</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.delay_to_submission.0">
+			<source>Delay to form submission (in ms)</source>
+			<target>Délai avant soumission du formulaire (en ms)</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.delay_to_submission.1">
+			<source>Number of milliseconds between form's first user interaction and form submission</source>
+			<target>Nombre de millisecondes entre la première interaction de l'utilisateur avec le formulaire et sa soumission</target>
+		</trans-unit>
 		<trans-unit id="tl_sm_form_storage.status.0">
 			<source>Status</source>
 			<target>Statut</target>
 		</trans-unit>
-		<trans-unit id="tl_sm_form_storage.status.1">
-			<source></source>
-			<target></target>
-		</trans-unit>
 		<trans-unit id="tl_sm_form_storage.token.0">
 			<source>Token</source>
 			<target>Token</target>
-		</trans-unit>
-		<trans-unit id="tl_sm_form_storage.token.1">
-			<source></source>
-			<target></target>
 		</trans-unit>
 		<trans-unit id="tl_sm_form_storage.status.unread">
 			<source>Unread</source>
@@ -57,6 +65,10 @@
 			<source>Informations</source>
 			<target>Informations</target>
 		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.statistics_legend">
+			<source>Statistics</source>
+			<target>Statistiques</target>
+		</trans-unit>
 		<trans-unit id="tl_sm_form_storage.data_legend">
 			<source>Data</source>
 			<target>Données</target>
@@ -64,3 +76,6 @@
     </body>
   </file>
 </xliff>
+
+
+
