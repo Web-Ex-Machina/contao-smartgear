@@ -186,6 +186,8 @@ if ('FE' === TL_MODE) {
  */
 $GLOBALS['TL_PERMISSIONS'][] = 'smartgear_permissions';
 
+$GLOBALS['WEM_HOOKS']['formatSinglePersonalDataForCsvExport'][] = ['smartgear.listener.personal_data_csv_formatter', 'formatSingle'];
+$GLOBALS['WEM_HOOKS']['renderSingleItem'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItem'];
 $GLOBALS['WEM_HOOKS']['renderSingleItemTitle'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemTitle'];
 $GLOBALS['WEM_HOOKS']['renderSingleItemBodyOriginalModelSingle'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyOriginalModelSingle'];
 $GLOBALS['WEM_HOOKS']['renderSingleItemBodyOriginalModelSingleFieldValue'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyOriginalModelSingleFieldValue'];

@@ -14,10 +14,12 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener\PersonalDataManager;
 
+use Contao\FrontendTemplate;
 use Contao\MemberGroupModel;
 use Contao\Model;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\PersonalDataManagerBundle\Model\PersonalData;
+use WEM\SmartgearBundle\Model\FormStorageData;
 
 class UiListener
 {
@@ -28,6 +30,18 @@ class UiListener
         TranslatorInterface $translator
     ) {
         $this->translator = $translator;
+    }
+
+    public function renderSingleItem(int $pid, string $ptable, string $email, array $personalDatas, Model $originalModel, string $str): string
+    {
+        switch ($ptable) {
+            case FormStorageData::getTable():
+                // I would need to rebuild everything from here ...
+                return 'coucou';
+            break;
+        }
+
+        return $str;
     }
 
     public function renderSingleItemTitle(int $pid, string $ptable, array $personalDatas, Model $originalModel, string $buffer): string

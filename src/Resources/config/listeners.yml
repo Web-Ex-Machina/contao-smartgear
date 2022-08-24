@@ -66,6 +66,12 @@ services:
             $translator: '@contao.translation.translator'
         public: true
 
+    smartgear.listener.personal_data_csv_formatter:
+        class: WEM\SmartgearBundle\EventListener\PersonalDataManager\CsvFormatterListener
+        arguments:
+            $translator: '@contao.translation.translator'
+        public: true
+
     smartgear.listener.process_form_data:
         class: WEM\SmartgearBundle\EventListener\ProcessFormDataListener
         arguments:
