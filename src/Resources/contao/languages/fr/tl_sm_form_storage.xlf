@@ -5,6 +5,14 @@
 			<source>Show details</source>
 			<target>Voir le détail</target>
 		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.export_all">
+			<source>Export all lines</source>
+			<target>Exporter toutes les lignes</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.export">
+			<source>Export this line</source>
+			<target>Exporter cette ligne</target>
+		</trans-unit>
 		<trans-unit id="tl_sm_form_storage.pid.0">
 			<source>Form</source>
 			<target>Formulaire</target>

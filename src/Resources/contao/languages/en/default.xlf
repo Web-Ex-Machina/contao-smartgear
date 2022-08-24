@@ -47,6 +47,9 @@
     <trans-unit id="WEM.SMARTGEAR.DEFAULT.elementUnknown">
       <source>Unknown element</source>
     </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.unconcerned">
+      <source>Unconcerned</source>
+    </trans-unit>
     <!-- Smartgear filter -->
     <trans-unit id="WEMSG.FILTERS.title">
       <source>Filter by :</source>

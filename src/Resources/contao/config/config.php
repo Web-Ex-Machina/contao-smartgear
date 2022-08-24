@@ -121,10 +121,12 @@ ArrayUtil::arrayInsert(
         'wem_sg_form_data_manager' => [
             'tables' => ['tl_sm_form_storage', 'tl_sm_form_storage_data'],
             'export_all' => ['smartgear.backend.module.form_data_manager.backend_controller', 'exportAll'],
+            'export' => ['smartgear.backend.module.form_data_manager.backend_controller', 'exportSingle'],
         ],
     ]
 );
 $GLOBALS['BE_MOD']['content']['form']['export_all'] = ['smartgear.backend.module.form_data_manager.backend_controller', 'exportAllFromForm'];
+$GLOBALS['BE_MOD']['content']['form']['export'] = ['smartgear.backend.module.form_data_manager.backend_controller', 'exportSingle'];
 /*
  * Frontend modules
  */
