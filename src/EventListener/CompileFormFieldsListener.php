@@ -53,7 +53,7 @@ class CompileFormFieldsListener
         Form $form
     ): array {
         foreach ($this->listeners as $listener) {
-            $arrFields = array_merge($arrFields, $listener->__invoke($arrFields, $formId, $form));
+            $arrFields = $listener->__invoke($arrFields, $formId, $form);
         }
 
         return $arrFields;

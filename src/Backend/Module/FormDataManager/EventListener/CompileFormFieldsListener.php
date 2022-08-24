@@ -20,6 +20,7 @@ use Exception;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
+use WEM\SmartgearBundle\Model\FormField;
 
 class CompileFormFieldsListener
 {
@@ -46,6 +47,17 @@ class CompileFormFieldsListener
             && $fdmConfig->getSgInstallComplete()
             ) {
                 if ((bool) $form->getModel()->storeViaFormDataManager) {
+                    $objFormFieldWarning = (new FormField());
+                    $objFormFieldWarning->pid = $form->getModel()->id;
+                    $objFormFieldWarning->sorting = 16;
+                    $objFormFieldWarning->type = 'html';
+                    $objFormFieldWarning->html = file_get_contents(sprintf('%s/public/bundles/wemsmartgear/examples/formDataManager/%s/warning_message.html', TL_ROOT, \Contao\BackendUser::getInstance()->language));
+
+                    // add this field at the beginning of the array
+                    $arrFields = array_reverse($arrFields, true);
+                    $arrFields['warning'] = $objFormFieldWarning;
+                    $arrFields = array_reverse($arrFields, true);
+
                     $objFormFieldFirstAppearance = (new FormFieldModel());
                     $objFormFieldFirstAppearance->name = 'fdm[first_appearance]';
                     $objFormFieldFirstAppearance->type = 'hidden';
