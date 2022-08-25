@@ -544,7 +544,7 @@ class Website extends ConfigurationStep
         // $objUser->password = \Contao\Encryption::hash('webmaster');
         $objUser->password = password_hash('webmaster', \PASSWORD_DEFAULT);
         $objUser->pwChange = 1;
-        $objUser->groups = serialize([0 => $groups['administrators']->id]);
+        $objUser->groups = serialize([0 => $groups['redactors']->id]);
         $objUser->inherit = 'group';
         $objUser->save();
 
