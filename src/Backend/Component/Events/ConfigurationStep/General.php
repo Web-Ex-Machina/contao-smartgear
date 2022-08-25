@@ -32,7 +32,6 @@ use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
-use WEM\SmartgearBundle\Model\Module;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class General extends ConfigurationStep
@@ -189,12 +188,12 @@ class General extends ConfigurationStep
         $eventsConfig = $config->getSgEvents();
 
         $objUserGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
-        $objUserGroupWebmasters = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
+        $objUserGroupRedactors = UserGroupModel::findOneById($config->getSgUserGroupRedactors());
 
         $calendar = CalendarModel::findById($eventsConfig->getSgCalendar()) ?? new CalendarModel();
         $calendar->title = $eventsConfig->getSgCalendarTitle();
         $calendar->jumpTo = $page->id;
-        $calendar->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupWebmasters->id]);
+        $calendar->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupRedactors->id]);
         $calendar->tstamp = time();
         $calendar->save();
 
@@ -333,7 +332,7 @@ class General extends ConfigurationStep
         /** @var EventsConfig */
         $eventsConfig = $config->getSgEvents();
 
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $expertMode, $eventsConfig);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $expertMode, $eventsConfig);
         $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), true, $eventsConfig);
     }
 
@@ -351,7 +350,6 @@ class General extends ConfigurationStep
             ->addAllowedFilemounts([$objFolder->uuid])
             ->addAllowedFieldsByTables(['tl_calendar_events'])
             ->addAllowedPagemounts($eventsConfig->getContaoPagesIds())
-            ->addAllowedModules(Module::getTypesByIds($eventsConfig->getContaoModulesIds()))
         ;
         if ($expertMode) {
             $userGroupManipulator

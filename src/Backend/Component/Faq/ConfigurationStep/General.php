@@ -163,12 +163,12 @@ class General extends ConfigurationStep
         $faqConfig = $config->getSgFaq();
 
         $objUserGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
-        $objUserGroupWebmasters = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
+        $objUserGroupRedactors = UserGroupModel::findOneById($config->getSgUserGroupRedactors());
 
         $faqCategory = FaqCategoryModel::findById($faqConfig->getSgFaqCategory()) ?? new FaqCategoryModel();
         $faqCategory->title = $faqConfig->getSgFaqTitle();
         $faqCategory->jumpTo = $page->id;
-        $faqCategory->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupWebmasters->id]);
+        $faqCategory->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupRedactors->id]);
         $faqCategory->tstamp = time();
         $faqCategory->save();
 
@@ -249,7 +249,7 @@ class General extends ConfigurationStep
         /** @var FaqConfig */
         $faqConfig = $config->getSgFaq();
 
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $faqConfig);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $faqConfig);
         $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $faqConfig);
     }
 
@@ -267,7 +267,7 @@ class General extends ConfigurationStep
             ->addAllowedFilemounts([$objFolder->uuid])
             ->addAllowedFieldsByTables(['tl_faq'])
             ->addAllowedPagemounts($faqConfig->getContaoPagesIds())
-            ->addAllowedModules(Module::getTypesByIds($faqConfig->getContaoModulesIds()))
+            // ->addAllowedModules(Module::getTypesByIds($faqConfig->getContaoModulesIds()))
         ;
 
         $objUserGroup = $userGroupManipulator->getUserGroup();

@@ -1843,7 +1843,7 @@ class General extends ConfigurationStep
             }
         }
 
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $extranetConfig, $modulesTypes);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $extranetConfig, $modulesTypes);
         $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $extranetConfig, $modulesTypes);
     }
 

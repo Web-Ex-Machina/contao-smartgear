@@ -241,12 +241,12 @@ class General extends ConfigurationStep
         $presetConfig = $blogConfig->getCurrentPreset();
 
         $objUserGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
-        $objUserGroupWebmasters = UserGroupModel::findOneById($config->getSgUserGroupWebmasters());
+        $objUserGroupRedactors = UserGroupModel::findOneById($config->getSgUserGroupRedactors());
 
         $newsArchive = NewsArchiveModel::findById($blogConfig->getSgNewsArchive()) ?? new NewsArchiveModel();
         $newsArchive->title = $presetConfig->getSgNewsArchiveTitle();
         $newsArchive->jumpTo = $page->id;
-        $newsArchive->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupWebmasters->id]);
+        $newsArchive->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupRedactors->id]);
         $newsArchive->tstamp = time();
         $newsArchive->save();
 
@@ -367,7 +367,7 @@ class General extends ConfigurationStep
         /** @var BlogConfig */
         $blogConfig = $config->getSgBlog();
 
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $expertMode, $blogConfig);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $expertMode, $blogConfig);
         $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), true, $blogConfig);
     }
 
@@ -380,12 +380,12 @@ class General extends ConfigurationStep
 
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
         $userGroupManipulator
-            // ->addAllowedModules(['news'])
+            ->addAllowedModules(['news'])
             ->addAllowedNewsArchive([$blogConfig->getSgNewsArchive()])
             ->addAllowedFilemounts([$objFolder->uuid])
             ->addAllowedFieldsByTables(['tl_news'])
             ->addAllowedPagemounts($blogConfig->getContaoPagesIds())
-            ->addAllowedModules(Module::getTypesByIds($blogConfig->getContaoModulesIds()))
+            // ->addAllowedModules(Module::getTypesByIds($blogConfig->getContaoModulesIds()))
         ;
         if ($expertMode) {
             $userGroupManipulator

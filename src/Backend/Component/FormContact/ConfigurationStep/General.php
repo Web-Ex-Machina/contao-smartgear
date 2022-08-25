@@ -507,7 +507,7 @@ class General extends ConfigurationStep
         $formContactConfig = $config->getSgFormContact();
 
         // retrieve the webmaster's group and update the permissions
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $formContactConfig);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $formContactConfig);
         $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $formContactConfig);
     }
 
@@ -520,7 +520,7 @@ class General extends ConfigurationStep
             ->addAllowedFormFields(['text', 'textarea', 'captcha', 'submit'])
             ->addAllowedFieldsByTables(['tl_form', 'tl_form_field'])
             ->addAllowedPagemounts($formContactConfig->getContaoPagesIds())
-            ->addAllowedModules(Module::getTypesByIds($formContactConfig->getContaoModulesIds()))
+            // ->addAllowedModules(Module::getTypesByIds($formContactConfig->getContaoModulesIds()))
         ;
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->formp = serialize(['create', 'delete']);

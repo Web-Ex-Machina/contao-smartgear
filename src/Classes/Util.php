@@ -601,7 +601,7 @@ class Util
                 $conf = self::loadSmartgearConfig();
 
                 // if ($conf['sgInstallUserGroup']) {
-                $objUserGroup = UserGroupModel::findOneById($conf->getSgUserGroupWebmasters());
+                $objUserGroup = UserGroupModel::findOneById($conf->getSgUserGroupRedactors());
             // }
             } else {
                 $objUserGroup = UserGroupModel::findByPk($intGroup);
@@ -648,7 +648,7 @@ class Util
                 $conf = self::loadSmartgearConfig();
 
                 if ($conf['sgInstallUserGroup']) {
-                    $objUserGroup = UserGroupModel::findByPk($conf->getSgUserGroupWebmasters());
+                    $objUserGroup = UserGroupModel::findByPk($conf->getSgUserGroupRedactors());
                 }
             } else {
                 $objUserGroup = UserGroupModel::findByPk($intGroup);
