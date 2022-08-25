@@ -64,10 +64,23 @@ services:
         class: WEM\SmartgearBundle\EventListener\PersonalDataManager\UiListener
         arguments:
             $translator: '@contao.translation.translator'
+            $personalDataManagerUi: '@wem.personal_data_manager.service.personal_data_manager_ui'
         public: true
 
     smartgear.listener.personal_data_csv_formatter:
         class: WEM\SmartgearBundle\EventListener\PersonalDataManager\CsvFormatterListener
+        arguments:
+            $translator: '@contao.translation.translator'
+        public: true
+
+    smartgear.listener.personal_data_export:
+        class: WEM\SmartgearBundle\EventListener\PersonalDataManager\ExportListener
+        arguments:
+            $translator: '@contao.translation.translator'
+        public: true
+
+    smartgear.listener.personal_data_anonymize:
+        class: WEM\SmartgearBundle\EventListener\PersonalDataManager\AnonymizeListener
         arguments:
             $translator: '@contao.translation.translator'
         public: true

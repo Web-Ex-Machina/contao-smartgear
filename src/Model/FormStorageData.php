@@ -16,7 +16,7 @@ namespace WEM\SmartgearBundle\Model;
 
 use Exception;
 use WEM\PersonalDataManagerBundle\Model\Traits\PersonalDataTrait as PDMTrait;
-use WEM\UtilsBundle\Classes\StringUtil;
+use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\UtilsBundle\Model\Model as CoreModel;
 
 /**
@@ -62,17 +62,6 @@ class FormStorageData extends CoreModel
 
     public function getValueAsString(): string
     {
-        $value = StringUtil::deserialize($this->value);
-        if (\is_array($value)) {
-            $formattedValue = [];
-            foreach ($value as $valueChunk) {
-                $formattedValue[] = sprintf('%s (%s)', $valueChunk['label'], $valueChunk['value']);
-            }
-            $formattedValue = implode(',', $formattedValue);
-        } else {
-            $formattedValue = $value;
-        }
-
-        return $formattedValue;
+        return StringUtil::getFormStorageDataValueAsString($this->value);
     }
 }

@@ -13,9 +13,6 @@
 		<trans-unit id="tl_sm_form_storage.completion_percentage.0">
 			<source>Completion pourcentage</source>
 		</trans-unit>
-		<trans-unit id="tl_sm_form_storage.completion_percentage.0">
-			<source>Completion pourcentage</source>
-		</trans-unit>
 		<trans-unit id="tl_sm_form_storage.delay_to_first_interaction.0">
 			<source>Delay to first interaction</source>
 		</trans-unit>
