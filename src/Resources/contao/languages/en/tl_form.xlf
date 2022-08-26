@@ -4,6 +4,12 @@
     <trans-unit id="tl_form.contacts">
       <source>See submitted data by this form</source>
     </trans-unit>
+    <trans-unit id="tl_form.nbSubmission">
+      <source>%s submission</source>
+    </trans-unit>
+    <trans-unit id="tl_form.nbSubmissions">
+      <source>%s submissions</source>
+    </trans-unit>
     <trans-unit id="tl_form.storeViaFormDataManager.0">
       <source>Save data using Form Data Manager</source>
     </trans-unit>

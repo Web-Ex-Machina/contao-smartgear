@@ -13,7 +13,10 @@ declare(strict_types=1);
  */
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Contao\DcaLoader;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
+
+(new DcaLoader('tl_form'))->load();
 
 DCAManipulator::create('tl_form')
     ->addListOperation('contacts', [
@@ -21,6 +24,7 @@ DCAManipulator::create('tl_form')
         'icon' => 'user.svg',
     ])
     ->addCtable('tl_sm_form_storage')
+    ->addListLabelLabelCallback('smartgear.data_container.form', 'listItems')
     ->addField('storeViaFormDataManager', [
         'inputType' => 'checkbox',
         'sql' => "char(1) NOT NULL default ''",

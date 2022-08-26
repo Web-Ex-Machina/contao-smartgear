@@ -14,21 +14,44 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\Backend;
 use Contao\CoreBundle\Exception\AccessDeniedException;
+use Contao\DataContainer;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
+use tl_form;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Model\FormStorage;
 
-class Form extends \tl_form
+// class Form extends \tl_form
+class Form extends Backend
 {
     /** @var CoreConfigurationManager */
-    private $configManager;
+    private $configurationManager;
+    /** @var Backend */
+    private $parent;
 
     public function __construct()
     {
         parent::__construct();
-        $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
+        $this->configurationManager = System::getContainer()->get('smartgear.config.manager.core');
+        $this->parent = new tl_form();
+    }
+
+    public function listItems(array $row, string $label, DataContainer $dc, array $labels): string
+    {
+        try {
+            $fdmConfig = $this->configurationManager->load()->getSgFormDataManager();
+            if ($fdmConfig->getSgInstallComplete()) {
+                $nbFormStorage = FormStorage::countItems(['pid' => $row['id']]);
+
+                return sprintf('%s (%s)', $label, $nbFormStorage <= 1 ? $GLOBALS['TL_LANG']['tl_form']['nbSubmission'] : sprintf($GLOBALS['TL_LANG']['tl_form']['nbSubmissions'], $nbFormStorage));
+            }
+        } catch (\Exception $e) {
+        }
+
+        return $label;
     }
 
     /**
@@ -38,7 +61,8 @@ class Form extends \tl_form
      */
     public function checkPermission(): void
     {
-        parent::checkPermission();
+        // parent::checkPermission();
+        $this->parent->checkPermission();
 
         // Check current action
         switch (Input::get('act')) {
@@ -68,7 +92,7 @@ class Form extends \tl_form
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
-        return parent::deleteForm($row, $href, $label, $title, $icon, $attributes);
+        return $this->parent->deleteForm($row, $href, $label, $title, $icon, $attributes);
     }
 
     /**
@@ -79,7 +103,7 @@ class Form extends \tl_form
     protected function isItemUsedBySmartgear(int $id): bool
     {
         try {
-            $formContactConfig = $this->configManager->load()->getSgFormContact();
+            $formContactConfig = $this->configurationManager->load()->getSgFormContact();
             if ($formContactConfig->getSgInstallComplete() && $id === (int) $formContactConfig->getSgFormContact()) {
                 return true;
             }

@@ -106,6 +106,14 @@ class Manipulator
         return $this;
     }
 
+    public function addListLabelLabelCallback(string $className, string $functionName): self
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['list']['label']['label_callback'] = [$className, $functionName];
+
+        return $this;
+    }
+
     /**
      * Set the singleSRC field's path.
      *
@@ -247,6 +255,13 @@ class Manipulator
 
         return $this;
     }
+
+    // public function getListOperation(string $key): ?array
+    // {
+    //     $this->checkConfiguration();
+
+    //     return \array_key_exists($key, $GLOBALS['TL_DCA'][$this->table]['list']['operations']) ? $GLOBALS['TL_DCA'][$this->table]['list']['operations'][$key] : null;
+    // }
 
     public function setFieldProperty(string $field, string $property, $value)
     {
