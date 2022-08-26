@@ -82,7 +82,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend},pid,status,note;{statistics_legend},completion_percentage,delay_to_first_interaction,delay_to_submission;{data_legend},form_storage_data;',
+        'default' => '{title_legend},pid,status,note;{statistics_legend},completion_percentage,delay_to_first_interaction,delay_to_submission;{page_legend},current_page,current_page_url,referer_page,referer_page_url;{data_legend},form_storage_data;',
     ],
     // Fields
     'fields' => [
@@ -153,7 +153,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
         ],
         'delay_to_submission' => [
             'inputType' => 'text',
-            'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,14})$/', 'tl_class' => 'w50', 'disabled' => true, 'minval' => 0],
+            'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,14})$/', 'tl_class' => 'w50 clr', 'disabled' => true, 'minval' => 0],
             'load_callback' => [function ($value, $dc): string {
                 $minutes = (int) ($value / 60000);
                 $value = ($value % 60000);
@@ -164,6 +164,30 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
                 return sprintf('%02dm%02ds%03dms', $minutes, $seconds, $ms);
             }],
             'sql' => "varchar(14) NOT NULL default ''",
+        ],
+        'current_page' => [
+            'inputType' => 'select',
+            'foreignKey' => 'tl_page.title',
+            'eval' => ['tl_class' => 'w50', 'disabled' => true],
+            'sql' => 'int(10) unsigned NOT NULL default 0',
+            'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
+        ],
+        'current_page_url' => [
+            'inputType' => 'text',
+            'eval' => ['tl_class' => 'w50', 'mandatory' => true, 'rgxp' => 'httpurl', 'disabled' => true],
+            'sql' => 'TEXT NULL',
+        ],
+        'referer_page' => [
+            'inputType' => 'select',
+            'foreignKey' => 'tl_page.title',
+            'eval' => ['tl_class' => 'w50', 'disabled' => true],
+            'sql' => 'int(10) unsigned NOT NULL default 0',
+            'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
+        ],
+        'referer_page_url' => [
+            'inputType' => 'text',
+            'eval' => ['tl_class' => 'w50', 'rgxp' => 'httpurl', 'disabled' => true],
+            'sql' => 'TEXT NULL',
         ],
         'form_storage_data' => [
             'search' => false,

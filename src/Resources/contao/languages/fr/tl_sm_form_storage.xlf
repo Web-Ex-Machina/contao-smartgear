@@ -57,6 +57,22 @@
 			<source>Token</source>
 			<target>Token</target>
 		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.current_page.0">
+			<source>Form's page</source>
+			<target>Page du formulaire</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.current_page_url.0">
+			<source>Form's page URL</source>
+			<target>URL de la page du formulaire</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.referer_page.0">
+			<source>Referer page</source>
+			<target>Page référente</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.referer_page_url.0">
+			<source>Referer page URL</source>
+			<target>URL de la page référente</target>
+		</trans-unit>
 		<trans-unit id="tl_sm_form_storage.status.unread">
 			<source>Unread</source>
 			<target>Non lu</target>
@@ -88,6 +104,10 @@
 		<trans-unit id="tl_sm_form_storage.data_legend">
 			<source>Data</source>
 			<target>Données</target>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.page_legend">
+			<source>Pages</source>
+			<target>Pages</target>
 		</trans-unit>
     </body>
   </file>

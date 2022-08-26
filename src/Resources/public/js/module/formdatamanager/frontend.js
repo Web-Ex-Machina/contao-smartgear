@@ -1,7 +1,6 @@
 window.onload = () => {
 	document.querySelectorAll('[name="fdm[first_appearance]"]').forEach(function(element,index){
 		element.value = Date.now();
-		console.log('first_appearance : ' + Date.now());
 	});
 
 	document.querySelectorAll('form').forEach(function(element,index){
@@ -20,7 +19,6 @@ window.onload = () => {
 		if(firstInteractionField
 		&& 0 == firstInteractionField.value.length){
 			firstInteractionField.value = Date.now();
-		console.log('first_interaction : ' + Date.now());
 		}
 		form.removeEventListener('keydown',formKeyDownCallback);
 		form.removeEventListener('keyup',formKeyDownCallback);

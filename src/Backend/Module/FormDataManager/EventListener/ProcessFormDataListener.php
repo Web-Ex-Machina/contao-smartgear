@@ -16,6 +16,8 @@ namespace WEM\SmartgearBundle\Backend\Module\FormDataManager\EventListener;
 
 use Contao\Form;
 use Contao\FormFieldModel;
+use Contao\Model;
+use Contao\PageModel;
 use Exception;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -29,11 +31,14 @@ class ProcessFormDataListener
 {
     /** @var CoreConfigurationManager */
     protected $coreConfigurationManager;
+    protected $routingCandidates;
 
     public function __construct(
-        CoreConfigurationManager $coreConfigurationManager
+        CoreConfigurationManager $coreConfigurationManager,
+        $routingCandidates
     ) {
         $this->coreConfigurationManager = $coreConfigurationManager;
+        $this->routingCandidates = $routingCandidates;
     }
 
     public function __invoke(
@@ -44,8 +49,6 @@ class ProcessFormDataListener
         Form $form
     ): void {
         try {
-            // dump($submittedData);
-            // exit();
             /** @var CoreConfig */
             $coreConfig = $this->coreConfigurationManager->load();
             /** @var FormDataManagerConfig */
@@ -64,6 +67,10 @@ class ProcessFormDataListener
                     $objFormStorage->completion_percentage = $this->calculateCompletionPercentage($submittedData, $form);
                     $objFormStorage->delay_to_first_interaction = $this->calculateDelayToFirstInteraction($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]']);
                     $objFormStorage->delay_to_submission = $this->calculateDelayToSubmission($submittedData['fdm[first_interaction]'], $form);
+                    $objFormStorage->current_page = $submittedData['fdm[current_page]'];
+                    $objFormStorage->current_page_url = $submittedData['fdm[current_page_url]'];
+                    $objFormStorage->referer_page = $this->getRefererPageId($submittedData['fdm[referer_page_url]']) ?? 0;
+                    $objFormStorage->referer_page_url = $submittedData['fdm[referer_page_url]'];
                     $objFormStorage->save();
 
                     if (\array_key_exists('email', $submittedData)) {
@@ -71,7 +78,7 @@ class ProcessFormDataListener
                         unset($submittedData['email']);
                     }
 
-                    unset($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]']);
+                    unset($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]'], $submittedData['fdm[current_page]'], $submittedData['fdm[current_page_url]'], $submittedData['fdm[referer_page_url]']);
 
                     foreach ($submittedData as $fieldName => $value) {
                         $this->storeFieldValue($fieldName, $value, $objFormStorage);
@@ -81,6 +88,20 @@ class ProcessFormDataListener
         } catch (Exception $e) {
             throw $e;
         }
+    }
+
+    protected function getRefererPageId(string $url): ?string
+    {
+        $refererPageId = null;
+        $refererPages = $this->routingCandidates->getCandidates(\Symfony\Component\HttpFoundation\Request::create($url));
+        if (\count($refererPages) > 0) {
+            $objPage = PageModel::findByAlias($refererPages[0]);
+            if ($objPage) {
+                $refererPageId = $objPage->id;
+            }
+        }
+
+        return $refererPageId;
     }
 
     protected function calculateDelayToFirstInteraction(string $firstAppearanceMs, string $firstInteractionMs): int
@@ -120,7 +141,7 @@ class ProcessFormDataListener
     {
         $objFormField = FormField::findItems(['name' => $fieldName, 'pid' => $objFormStorage->pid], 1);
         if (!$objFormField) {
-            throw new Exception('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('pid')->name);
+            throw new Exception(sprintf('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('pid')->name));
         }
         $objFormStorageData = new FormStorageData();
         $objFormStorageData->tstamp = time();
@@ -136,7 +157,7 @@ class ProcessFormDataListener
         return $objFormStorageData;
     }
 
-    protected function formatValueToStore($submittedValue, FormFieldModel $objFormField)
+    protected function formatValueToStore($submittedValue, Model $objFormField)
     {
         $value = $submittedValue;
         switch ($objFormField->type) {

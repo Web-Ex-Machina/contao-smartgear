@@ -14,8 +14,12 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Module\FormDataManager\EventListener;
 
+use Contao\Environment;
 use Contao\Form;
 use Contao\FormFieldModel;
+use Contao\Model;
+use Contao\PageModel;
+use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -67,6 +71,31 @@ class CompileFormFieldsListener
                     $objFormFieldFirstInteraction->name = 'fdm[first_interaction]';
                     $objFormFieldFirstInteraction->type = 'hidden';
                     $arrFields['first_interaction'] = $objFormFieldFirstInteraction;
+
+                    // current page
+                    $objParent = $form->getParent();
+                    $model = Model::getClassFromTable($objParent->ptable);
+                    $objGreatParent = $model::findOneById($objParent->pid);
+                    $objPage = PageModel::findOneById($objGreatParent->pid);
+
+                    $objFormFieldCurrentPage = (new FormFieldModel());
+                    $objFormFieldCurrentPage->name = 'fdm[current_page]';
+                    $objFormFieldCurrentPage->type = 'hidden';
+                    $objFormFieldCurrentPage->value = $objPage->id;
+                    $arrFields['current_page'] = $objFormFieldCurrentPage;
+
+                    $objFormFieldCurrentPage = (new FormFieldModel());
+                    $objFormFieldCurrentPage->name = 'fdm[current_page_url]';
+                    $objFormFieldCurrentPage->type = 'hidden';
+                    $objFormFieldCurrentPage->value = Environment::get('url');
+                    $arrFields['current_page_url'] = $objFormFieldCurrentPage;
+
+                    // Previous page
+                    $objFormFieldRefererPage = (new FormFieldModel());
+                    $objFormFieldRefererPage->name = 'fdm[referer_page_url]';
+                    $objFormFieldRefererPage->type = 'hidden';
+                    $objFormFieldRefererPage->value = System::getReferer();
+                    $arrFields['referer_page_url'] = $objFormFieldRefererPage;
                 }
             }
         } catch (Exception $e) {
