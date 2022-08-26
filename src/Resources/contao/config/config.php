@@ -191,13 +191,10 @@ $GLOBALS['WEM_HOOKS']['exportByPidAndPtableAndEmail'][] = ['smartgear.listener.p
 // PDM ANONYMIZE
 $GLOBALS['WEM_HOOKS']['anonymizeByPidAndPtableAndEmail'][] = ['smartgear.listener.personal_data_anonymize', 'anonymizeByPidAndPtableAndEmail'];
 // PDM UI
-$GLOBALS['WEM_HOOKS']['renderSingleItem'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItem'];
+$GLOBALS['WEM_HOOKS']['sortData'][] = ['smartgear.listener.personal_data_ui', 'sortData'];
 $GLOBALS['WEM_HOOKS']['renderSingleItemTitle'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemTitle'];
-$GLOBALS['WEM_HOOKS']['renderSingleItemBodyOriginalModel'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyOriginalModel'];
 $GLOBALS['WEM_HOOKS']['renderSingleItemBodyOriginalModelSingle'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyOriginalModelSingle'];
-$GLOBALS['WEM_HOOKS']['renderSingleItemBodyOriginalModelSingleFieldLabel'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyOriginalModelSingleFieldLabel'];
 $GLOBALS['WEM_HOOKS']['renderSingleItemBodyOriginalModelSingleFieldValue'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyOriginalModelSingleFieldValue'];
-$GLOBALS['WEM_HOOKS']['renderSingleItemBodyPersonalData'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyPersonalData'];
 $GLOBALS['WEM_HOOKS']['renderSingleItemBodyPersonalDataSingle'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyPersonalDataSingle'];
 $GLOBALS['WEM_HOOKS']['renderSingleItemBodyPersonalDataSingleFieldLabel'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyPersonalDataSingleFieldLabel'];
 $GLOBALS['WEM_HOOKS']['renderSingleItemBodyPersonalDataSingleFieldValue'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyPersonalDataSingleFieldValue'];

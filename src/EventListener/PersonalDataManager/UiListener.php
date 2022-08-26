@@ -18,6 +18,7 @@ use Contao\Config;
 use Contao\Date;
 use Contao\MemberGroupModel;
 use Contao\Model;
+use Contao\Model\Collection;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\PersonalDataManagerBundle\Service\PersonalDataManagerUi;
@@ -41,22 +42,36 @@ class UiListener
         $this->personalDataManagerUi = $personalDataManagerUi;
     }
 
-    public function renderSingleItem(int $pid, string $ptable, string $email, array $personalDatas, Model $originalModel, string $buffer): string
+    public function sortData(array $sorted, ?Collection $personalDatas): array
     {
-        switch ($ptable) {
-            case FormStorageData::getTable():
-                // I would need to rebuild everything from here ...
-                $objFormStorageData = FormStorageData::findOneBy('id', $pid);
-                $objFormStorage = $objFormStorageData->getRelated('pid');
+        $sorted2 = $sorted;
 
-                $objForm = $objFormStorage->getRelated('pid');
-                $arrPersonalDatas = $this->getPersonalDataForFormStorage($objFormStorage);
+        foreach ($sorted as $ptable => $ptableDatas) {
+            switch ($ptable) {
+                case FormStorageData::getTable():
+                    foreach ($ptableDatas as $id => $idDatas) {
+                        $objFormStorageData = FormStorageData::findOneBy('id', $idDatas['personalDatas'][0]->pid);
+                        $objFormStorage = $objFormStorageData->getRelated('pid');
 
-                return $this->personalDataManagerUi->formatSingleItem((int) $arrPersonalDatas[0]->id, FormStorage::getTable(), $email, $arrPersonalDatas[1], $arrPersonalDatas[0]);
-            break;
+                        if (!\array_key_exists(FormStorage::getTable(), $sorted2)) {
+                            $sorted2[FormStorage::getTable()] = [];
+                        }
+
+                        if (!\array_key_exists($objFormStorage->id, $sorted2[FormStorage::getTable()])) {
+                            $arrPersonalDatas = $this->getPersonalDataForFormStorage($objFormStorage);
+                            $sorted2[FormStorage::getTable()][$objFormStorage->id] = [
+                                'originalModel' => $arrPersonalDatas[0],
+                                'personalDatas' => $arrPersonalDatas[1],
+                            ];
+                        }
+
+                        unset($sorted2[$ptable][$id]);
+                    }
+                break;
+            }
         }
 
-        return $buffer;
+        return $sorted2;
     }
 
     public function renderSingleItemTitle(int $pid, string $ptable, string $email, array $personalDatas, Model $originalModel, string $buffer): string
@@ -65,32 +80,10 @@ class UiListener
             case 'tl_member':
                 $buffer = 'Member';
             break;
-            case FormStorageData::getTable():
-                $objFormStorageData = FormStorageData::findOneBy('id', $pid);
-                $objFormStorage = $objFormStorageData->getRelated('pid');
-                $objForm = $objFormStorage->getRelated('pid');
-                $buffer = sprintf('%s %s', 'Formulaire', $objForm->title);
-            break;
             case FormStorage::getTable():
                 $objFormStorage = FormStorage::findOneBy('id', $pid);
                 $objForm = $objFormStorage->getRelated('pid');
                 $buffer = sprintf('%s %s', 'Formulaire', $objForm->title);
-            break;
-        }
-
-        return $buffer;
-    }
-
-    public function renderSingleItemBodyOriginalModel(int $pid, string $ptable, string $email, array $personalDatas, Model $originalModel, string $buffer): string
-    {
-        switch ($ptable) {
-            case FormStorageData::getTable():
-                // make the original model a form storage with all needed fields
-                $objFormStorageData = FormStorageData::findById($pid);
-                $objFormStorage = FormStorage::findById($objFormStorageData->pid);
-                $arrPersonalDatas = $this->getPersonalDataForFormStorage($objFormStorageData);
-
-                $buffer = $this->personalDataManagerUi->formatSingleItemBodyOriginalModel($pid, $ptable, $email, $arrPersonalDatas[1], $arrPersonalDatas[0]);
             break;
         }
 
@@ -128,19 +121,6 @@ class UiListener
                     case 'delay_to_submission':
                     case 'delay_to_first_interaction':
                     case 'note':
-                        $buffer = '';
-                    break;
-                }
-            break;
-            case FormStorageData::getTable():
-                switch ($field) {
-                    case 'id':
-                    case 'field':
-                    case 'contains_personal_data':
-                    case 'field_name':
-                    case 'field_label':
-                    case 'value':
-                    case 'tstamp':
                         $buffer = '';
                     break;
                 }
@@ -185,35 +165,6 @@ class UiListener
                     break;
                 }
             break;
-            case FormStorageData::getTable():
-                switch ($field) {
-                    case 'pid':
-                        $objFormStorageData = FormStorageData::findOneBy('id', $pid);
-                        $objFormStorage = $objFormStorageData->getRelated('pid');
-                        $objForm = $objFormStorage->getRelated('pid');
-                        $buffer = $objForm->title;
-                    break;
-                    case 'createdAt':
-                        $buffer = Date::parse(Config::get('datimFormat'), (int) $value);
-                    break;
-                }
-            break;
-        }
-
-        return $buffer;
-    }
-
-    public function renderSingleItemBodyPersonalData(int $pid, string $ptable, string $email, array $personalDatas, Model $originalModel, string $buffer): string
-    {
-        switch ($ptable) {
-            case FormStorageData::getTable():
-                // make the original model a form storage with all needed fields
-                $objFormStorageData = FormStorageData::findById($pid);
-                $objFormStorage = FormStorage::findById($objFormStorageData->pid);
-                $arrPersonalDatas = $this->getPersonalDataForFormStorage($objFormStorageData);
-
-                $buffer = $this->personalDataManagerUi->formatSingleItemBodyPersonalData($pid, $ptable, $email, $arrPersonalDatas[1], $arrPersonalDatas[0]);
-            break;
         }
 
         return $buffer;
@@ -242,19 +193,6 @@ class UiListener
             case FormStorage::getTable():
             case FormStorageData::getTable():
                 $buffer = $personalData->field_label ?? $buffer;
-            break;
-        }
-
-        return $buffer;
-    }
-
-    public function renderSingleItemBodyOriginalModelSingleFieldLabel(int $pid, string $ptable, string $email, string $field, $value, array $personalDatas, Model $originalModel, string $buffer): string
-    {
-        switch ($ptable) {
-            case FormStorageData::getTable():
-                if (sprintf('%s.%s.0', $ptable, $field) === $buffer) {
-                    return $field;
-                }
             break;
         }
 
