@@ -47,6 +47,17 @@ class LoadDataContainerListener
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
+            switch ($table) {
+                case 'tl_form':
+                    $fmdConfig = $config->getSgFormDataManager();
+                    if ($fmdConfig->getSgInstallComplete()) {
+                        return;
+                    }
+
+                    $this->dcaManipulator->removeListOperation('contacts');
+
+                break;
+            }
         } catch (FileNotFoundException $e) {
             //nothing
         }
