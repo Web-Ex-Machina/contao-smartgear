@@ -29,6 +29,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
                 'pid' => 'index',
             ],
         ],
+        'onshow_callback' => [['smartgear.data_container.form_storage', 'onShowCallback']],
     ],
 
     // List

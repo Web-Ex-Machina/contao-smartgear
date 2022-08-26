@@ -63,4 +63,17 @@ class FormStorage
 
         return $objTemplate->parse();
     }
+
+    public function onShowCallback(array $modalData, array $recordData, DataContainer $dc): array
+    {
+        $formStorageDatas = FormStorageData::findItems(['pid' => $dc->id]);
+        if ($formStorageDatas) {
+            $modalData[FormStorageData::getTable()] = [0 => []];
+            while ($formStorageDatas->next()) {
+                $modalData[FormStorageData::getTable()][0][$formStorageDatas->field_label] = $formStorageDatas->current()->getValueAsString();
+            }
+        }
+
+        return $modalData;
+    }
 }

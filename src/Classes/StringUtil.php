@@ -28,7 +28,7 @@ class StringUtil extends StringUtilBase
             }
             $formattedValue = implode(',', $formattedValue);
         } else {
-            $formattedValue = $value;
+            $formattedValue = (string) $value;
         }
 
         return $formattedValue;

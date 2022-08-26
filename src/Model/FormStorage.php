@@ -33,7 +33,7 @@ class FormStorage extends CoreModel
      */
     protected static $strTable = 'tl_sm_form_storage';
 
-    public function getSender()
+    public function getSender(): ?string
     {
         $formStorageDatas = FormStorageData::findItems(['pid' => $this->id, 'field_name' => 'email'], 1);
         if (!$formStorageDatas) {
