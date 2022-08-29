@@ -13,6 +13,7 @@ declare(strict_types=1);
  */
 
 use Contao\DataContainer;
+use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Model\FormStorage;
 
 $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
@@ -141,13 +142,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,14})$/', 'tl_class' => 'w50', 'disabled' => true, 'minval' => 0],
             'load_callback' => [function ($value, $dc): string {
-                $minutes = (int) ($value / 60000);
-                $value = ($value % 60000);
-                $seconds = (int) ($value / 1000);
-                $value = ($value % 1000);
-                $ms = $value;
-
-                return sprintf('%02dm%02ds%03dms', $minutes, $seconds, $ms);
+                return Util::humanReadableDuration($value);
             }],
             'sql' => "varchar(14) NOT NULL default ''",
         ],
@@ -155,13 +150,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,14})$/', 'tl_class' => 'w50 clr', 'disabled' => true, 'minval' => 0],
             'load_callback' => [function ($value, $dc): string {
-                $minutes = (int) ($value / 60000);
-                $value = ($value % 60000);
-                $seconds = (int) ($value / 1000);
-                $value = ($value % 1000);
-                $ms = $value;
-
-                return sprintf('%02dm%02ds%03dms', $minutes, $seconds, $ms);
+                return Util::humanReadableDuration($value);
             }],
             'sql' => "varchar(14) NOT NULL default ''",
         ],
