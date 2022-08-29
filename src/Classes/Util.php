@@ -773,6 +773,22 @@ class Util
         return sprintf('%02dm%02ds%03dms', $minutes, $seconds, $ms);
     }
 
+    public static function getLocalizedTemplateContent(string $tplPath, string $language, ?string $fallbackTplPath = null): string
+    {
+        $tplPath = str_replace(['{root}', '{lang}'], [TL_ROOT, $language], $tplPath);
+        $fallbackTplPath = str_replace(['{root}', '{lang}'], [TL_ROOT, $language], $fallbackTplPath);
+
+        if (file_exists($tplPath)) {
+            return file_get_contents($tplPath);
+        }
+
+        if (file_exists($fallbackTplPath)) {
+            return file_get_contents($fallbackTplPath);
+        }
+
+        throw new Exception(sprintf('Unable to find "%s" nor "%s".', $tplPath, $fallbackTplPath));
+    }
+
     /**
      * Check if a permission can be added into.
      *

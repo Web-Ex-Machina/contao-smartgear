@@ -114,6 +114,30 @@ class Manipulator
         return $this;
     }
 
+    public function addListLabelFields(array $fields): self
+    {
+        $this->checkConfiguration();
+        $this->setListLabelFields(array_merge($GLOBALS['TL_DCA'][$this->table]['list']['label']['fields'], $fields));
+
+        return $this;
+    }
+
+    public function setListLabelFields(array $fields): self
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['list']['label']['fields'] = $fields;
+
+        return $this;
+    }
+
+    public function setListLabelShowColumns(bool $showColumns): self
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['list']['label']['showColumns'] = $showColumns;
+
+        return $this;
+    }
+
     /**
      * Set the singleSRC field's path.
      *

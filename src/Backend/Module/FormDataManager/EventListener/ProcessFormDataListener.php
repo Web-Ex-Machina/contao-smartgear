@@ -20,6 +20,7 @@ use Contao\Model;
 use Contao\PageModel;
 use Exception;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Classes\FormUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
 use WEM\SmartgearBundle\Model\FormField;
@@ -56,7 +57,8 @@ class ProcessFormDataListener
             if ($coreConfig->getSgInstallComplete()
             && $fdmConfig->getSgInstallComplete()
             ) {
-                if ((bool) $form->getModel()->storeViaFormDataManager) {
+                // if ((bool) $form->getModel()->storeViaFormDataManager) {
+                if (FormUtil::isFormConfigurationCompliantForFormDataManager($form->getModel()->id)) {
                     $objFormStorage = new FormStorage();
 
                     $objFormStorage->tstamp = time();

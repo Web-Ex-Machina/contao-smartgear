@@ -24,6 +24,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
         'ctable' => ['tl_sm_form_storage_data'],
         'switchToEdit' => false,
         'enableVersioning' => false,
+        'doNotCopyRecords' => true,
         'sql' => [
             'keys' => [
                 'id' => 'primary',

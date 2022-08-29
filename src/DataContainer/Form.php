@@ -20,8 +20,12 @@ use Contao\DataContainer;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
+use Exception;
 use tl_form;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Classes\FormUtil;
+use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\FormNotConfiguredToStoreValues;
+use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\NoEmailFieldInForm;
 use WEM\SmartgearBundle\Model\FormStorage;
 
 // class Form extends \tl_form
@@ -39,19 +43,35 @@ class Form extends Backend
         $this->parent = new tl_form();
     }
 
-    public function listItems(array $row, string $label, DataContainer $dc, array $labels): string
+    public function listItems(array $row, string $label, DataContainer $dc, array $labels): array
     {
         try {
             $fdmConfig = $this->configurationManager->load()->getSgFormDataManager();
-            if ($fdmConfig->getSgInstallComplete()) {
-                $nbFormStorage = FormStorage::countItems(['pid' => $row['id']]);
+            if (!$fdmConfig->getSgInstallComplete()) {
+                $labels[1] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['fdmNotInstalled'];
+            } elseif ($fdmConfig->getSgInstallComplete()) {
+                try {
+                    // check form configuration
+                    FormUtil::checkFormConfigurationCompliantForFormDataManager($row['id']);
 
-                return sprintf('%s (%s)', $label, $nbFormStorage <= 1 ? $GLOBALS['TL_LANG']['tl_form']['nbSubmission'] : sprintf($GLOBALS['TL_LANG']['tl_form']['nbSubmissions'], $nbFormStorage));
+                    $nbFormStorage = FormStorage::countItems(['pid' => $row['id']]);
+
+                    $labels[1] = FormStorage::countItems(['pid' => $row['id']]);
+                } catch (FormNotConfiguredToStoreValues $e) {
+                    $labels[1] = $e->getMessage();
+                } catch (NoEmailFieldInForm $e) {
+                    $labels[1] = $e->getMessage();
+                } catch (Exception $e) {
+                    $labels[1] = $e->getMessage();
+                }
             }
+        } catch (\WEM\SmartgearBundle\Exceptions\File\NotFound $e) {
+            $labels[1] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['fdmNotInstalled'];
         } catch (\Exception $e) {
+            $labels[1] = '0';
         }
 
-        return $label;
+        return $labels;
     }
 
     /**

@@ -13,9 +13,17 @@
       <source>%s submissions</source>
       <target>%s soumissions</target>
     </trans-unit>
+    <trans-unit id="tl_form.submissions.0">
+      <source>Submissions</source>
+      <target>Soumissions</target>
+    </trans-unit>
     <trans-unit id="tl_form.storeViaFormDataManager.0">
       <source>Save data using Form Data Manager</source>
 			<target>Enregistrer les données grâce au Form Data Manager</target>
+    </trans-unit>
+    <trans-unit id="tl_form.storeViaFormDataManager.1">
+      <source>A field named "email" is required in the form in order to make it work</source>
+      <target>Un champ nommé "email" est requis pour que cela fonctionne</target>
     </trans-unit>
     </body>
   </file>

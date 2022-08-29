@@ -10,8 +10,14 @@
     <trans-unit id="tl_form.nbSubmissions">
       <source>%s submissions</source>
     </trans-unit>
+    <trans-unit id="tl_form.submissions.0">
+      <source>Submissions</source>
+    </trans-unit>
     <trans-unit id="tl_form.storeViaFormDataManager.0">
       <source>Save data using Form Data Manager</source>
+    </trans-unit>
+    <trans-unit id="tl_form.storeViaFormDataManager.1">
+      <source>A field named "email" is required in the form in order to make it work</source>
     </trans-unit>
     </body>
   </file>

@@ -104,6 +104,10 @@
       <source>Unconcerned</source>
 			<target>Non concerné</target>
     </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.fdmNotInstalled">
+      <source>"Form Data Manager" module not installed</source>
+			<target>Module "Form Data Manager" non installé</target>
+    </trans-unit>
 		<!-- Smartgear filter -->
 		<trans-unit id="WEMSG.FILTERS.title">
 			<source>Filter by :</source>
@@ -1731,6 +1735,14 @@
 		<trans-unit id="WEMSG.FDM.RESET.deleteModeUnknown">
 			<source>Uninstall</source>
 			<target>Désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.FORM.notManagedByFDM">
+			<source>Form not configured to store values with Form Data Manager</source>
+			<target>Formulaire non configuré pour enregistrer les données avec le Form Data Manager</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.FORM.noEmailField">
+			<source>No "email" field in the form</source>
+			<target>Champ "email" non présent dans le formulaire</target>
 		</trans-unit>
 
 

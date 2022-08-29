@@ -21,6 +21,7 @@ use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\FormUtil;
+use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
 use WEM\SmartgearBundle\Model\FormField;
@@ -54,7 +55,8 @@ class CompileFormFieldsListener
                     $objFormFieldWarning->pid = $form->getModel()->id;
                     $objFormFieldWarning->sorting = 16;
                     $objFormFieldWarning->type = 'html';
-                    $objFormFieldWarning->html = file_get_contents(sprintf('%s/public/bundles/wemsmartgear/examples/formDataManager/%s/warning_message.html', TL_ROOT, \Contao\BackendUser::getInstance()->language));
+                    // $objFormFieldWarning->html = file_get_contents(sprintf('%s/public/bundles/wemsmartgear/examples/formDataManager/%s/warning_message.html', TL_ROOT, \Contao\BackendUser::getInstance()->language));
+                    $objFormFieldWarning->html = Util::getLocalizedTemplateContent('{root}/public/bundles/wemsmartgear/examples/formDataManager/{lang}/warning_message.html', \Contao\User::getInstance()->language, '{root}/public/bundles/wemsmartgear/examples/formDataManager/fr/warning_message.html');
 
                     // add this field at the beginning of the array
                     $arrFields = array_reverse($arrFields, true);
