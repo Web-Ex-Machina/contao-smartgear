@@ -74,6 +74,8 @@ class ProcessFormDataListener
                     $objFormStorage->save();
 
                     if (\array_key_exists('email', $submittedData)) {
+                        $objFormStorage->sender = $submittedData['email'];
+                        $objFormStorage->save();
                         $this->storeFieldValue('email', $submittedData['email'], $objFormStorage);
                         unset($submittedData['email']);
                     }

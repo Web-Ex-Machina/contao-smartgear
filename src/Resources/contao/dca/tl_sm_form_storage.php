@@ -83,7 +83,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend},pid,status,note;{statistics_legend},completion_percentage,delay_to_first_interaction,delay_to_submission;{page_legend},current_page,current_page_url,referer_page,referer_page_url;{data_legend},form_storage_data;',
+        'default' => '{title_legend},pid,status,note;{statistics_legend},completion_percentage,delay_to_first_interaction,delay_to_submission;{page_legend},current_page,current_page_url,referer_page,referer_page_url;{data_legend},sender,form_storage_data;',
     ],
     // Fields
     'fields' => [
@@ -186,6 +186,13 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             'search' => false,
             'exclude' => true,
             'input_field_callback' => ['smartgear.data_container.form_storage', 'showData'],
+        ],
+        'sender' => [
+            'search' => true,
+            'filter' => true,
+            'inputType' => 'text',
+            'eval' => ['tl_class' => 'w50', 'disabled' => true, 'rgxp' => 'email'],
+            'sql' => "VARCHAR(255) NOT NULL default ''",
         ],
     ],
 ];

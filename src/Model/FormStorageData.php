@@ -47,6 +47,10 @@ class FormStorageData extends CoreModel
 
     public function getPersonalDataEmailFieldValue(): string
     {
+        $objFS = FormStorage::findItems(['id' => $this->pid]);
+        if ($objFS && !empty($objFS->sender)) {
+            return $objFS->sender;
+        }
         $objFDS = self::findItems(['pid' => $this->pid, 'field_name' => 'email'], 1);
         if (!$objFDS) {
             throw new Exception('Unable to find the email field');

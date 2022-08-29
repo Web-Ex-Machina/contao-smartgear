@@ -44,7 +44,7 @@ class FormStorage
             $objForm ? $objForm->title : $row['pid'],
             Date::parse(Config::get('datimFormat'), (int) $row['tstamp']),
             $this->translator->trans(sprintf('tl_sm_form_storage.status.%s', $row['status']), [], 'contao_default'),
-            $objFormStorageDataEmail ? $objFormStorageDataEmail->value : 'NR',
+            !empty($row['sender']) ? $row['sender'] : ($objFormStorageDataEmail ? $objFormStorageDataEmail->value : 'NR'),
         ];
     }
 
