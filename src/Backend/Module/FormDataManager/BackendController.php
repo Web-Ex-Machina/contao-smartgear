@@ -24,6 +24,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Model\FormStorage;
 use WEM\SmartgearBundle\Model\FormStorageData;
+use WEM\UtilsBundle\Classes\StringUtil;
 
 class BackendController extends ControllerBackendController
 {
@@ -170,7 +171,7 @@ class BackendController extends ControllerBackendController
 
         if ($formStorageDatas) {
             while ($formStorageDatas->next()) {
-                $headers[$formStorageDatas->field_name] = '"'.$formStorageDatas->current()->getValueAsString().'"';
+                $headers[$formStorageDatas->field_name] = '"'.StringUtil::decodeEntities($formStorageDatas->current()->getValueAsString()).'"';
                 $headersKeyToKeep[] = $formStorageDatas->field_name;
             }
         }

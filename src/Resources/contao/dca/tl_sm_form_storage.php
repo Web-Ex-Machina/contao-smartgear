@@ -128,7 +128,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             'sql' => 'TEXT NULL',
         ],
         'token' => [
-            'search' => true,
+            'search' => false,
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
@@ -155,6 +155,8 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             'sql' => "varchar(14) NOT NULL default ''",
         ],
         'current_page' => [
+            'search' => true,
+            'filter' => true,
             'inputType' => 'select',
             'foreignKey' => 'tl_page.title',
             'eval' => ['tl_class' => 'w50', 'disabled' => true],
@@ -167,6 +169,8 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             'sql' => 'TEXT NULL',
         ],
         'referer_page' => [
+            'search' => true,
+            'filter' => true,
             'inputType' => 'select',
             'foreignKey' => 'tl_page.title',
             'eval' => ['tl_class' => 'w50', 'disabled' => true],
