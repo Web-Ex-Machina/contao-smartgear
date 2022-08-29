@@ -17,11 +17,10 @@ namespace WEM\SmartgearBundle\Backend\Module\FormDataManager\EventListener;
 use Contao\Environment;
 use Contao\Form;
 use Contao\FormFieldModel;
-use Contao\Model;
-use Contao\PageModel;
 use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Classes\FormUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
 use WEM\SmartgearBundle\Model\FormField;
@@ -73,15 +72,12 @@ class CompileFormFieldsListener
                     $arrFields['first_interaction'] = $objFormFieldFirstInteraction;
 
                     // current page
-                    $objParent = $form->getParent();
-                    $model = Model::getClassFromTable($objParent->ptable);
-                    $objGreatParent = $model::findOneById($objParent->pid);
-                    $objPage = PageModel::findOneById($objGreatParent->pid);
+                    $objPage = FormUtil::getPageFromForm($form);
 
                     $objFormFieldCurrentPage = (new FormFieldModel());
                     $objFormFieldCurrentPage->name = 'fdm[current_page]';
                     $objFormFieldCurrentPage->type = 'hidden';
-                    $objFormFieldCurrentPage->value = $objPage->id;
+                    $objFormFieldCurrentPage->value = $objPage ? $objPage->id : 0;
                     $arrFields['current_page'] = $objFormFieldCurrentPage;
 
                     $objFormFieldCurrentPage = (new FormFieldModel());
