@@ -19,6 +19,7 @@ use Contao\FormModel;
 use Contao\Model;
 use Contao\PageModel;
 use Exception;
+use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\EmailFieldNotMandatoryInForm;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\FormNotConfiguredToStoreValues;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\NoEmailFieldInForm;
 use WEM\SmartgearBundle\Model\FormField;
@@ -48,6 +49,10 @@ class FormUtil
         $objFormFieldEmail = FormField::findItems(['pid' => $formId, 'name' => 'email']);
         if (!$objFormFieldEmail) {
             throw new NoEmailFieldInForm($GLOBALS['TL_LANG']['WEMSG']['FDM']['FORM']['noEmailField']);
+        }
+
+        if (!$objFormFieldEmail->mandatory) {
+            throw new EmailFieldNotMandatoryInForm($GLOBALS['TL_LANG']['WEMSG']['FDM']['FORM']['emailFieldPresentButNotMandatory']);
         }
     }
 

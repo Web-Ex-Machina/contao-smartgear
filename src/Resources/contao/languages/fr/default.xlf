@@ -1728,7 +1728,18 @@
 			<source>No "email" field in the form</source>
 			<target>Champ "email" non présent dans le formulaire</target>
 		</trans-unit>
-
+		<trans-unit id="WEMSG.FDM.FORM.emailFieldPresentButNotMandatory">
+			<source>The "email" field is not mandatory !</source>
+			<target>Champ "email" non obligatoire dans le formulaire !</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.FORM.emailFieldLabel">
+			<source>E-mail</source>
+			<target>E-mail</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.FORM.emailFieldPlaceholder">
+			<source>Your e-mail address</source>
+			<target>Votre adresse e-mail</target>
+		</trans-unit>
 
 		<!-- ConfigurationStepManager -->
 		<trans-unit id="WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish">

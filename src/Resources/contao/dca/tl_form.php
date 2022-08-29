@@ -24,6 +24,7 @@ DCAManipulator::create('tl_form')
         'icon' => 'user.svg',
     ])
     ->addCtable('tl_sm_form_storage')
+    ->addConfigOnsubmitCallback('smartgear.data_container.form', 'onSubmitCallback')
     ->setListLabelFields(['title', 'submissions'])
     ->setListLabelShowColumns(true)
     ->addListLabelLabelCallback('smartgear.data_container.form', 'listItems')
