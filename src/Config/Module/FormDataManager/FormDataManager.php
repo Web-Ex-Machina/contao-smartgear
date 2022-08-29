@@ -19,22 +19,15 @@ use WEM\SmartgearBundle\Classes\Config\ConfigModuleInterface;
 class FormDataManager implements ConfigModuleInterface
 {
     public const ARCHIVE_MODE_EMPTY = '';
-    public const ARCHIVE_MODE_ARCHIVE = 'archive';
-    public const ARCHIVE_MODE_KEEP = 'keep';
     public const ARCHIVE_MODE_DELETE = 'delete';
     public const ARCHIVE_MODES_ALLOWED = [
         self::ARCHIVE_MODE_EMPTY,
-        self::ARCHIVE_MODE_ARCHIVE,
-        self::ARCHIVE_MODE_KEEP,
         self::ARCHIVE_MODE_DELETE,
     ];
-    public const DEFAULT_FOLDER_PATH = 'files/form-data-manager';
     public const DEFAULT_ARCHIVE_MODE = self::ARCHIVE_MODE_EMPTY;
 
     /** @var bool */
     protected $sgInstallComplete = false;
-    /** @var string */
-    protected $sgFormDataManagerFolder = self::DEFAULT_FOLDER_PATH;
     /** @var bool */
     protected $sgArchived = false;
     /** @var int */
@@ -45,7 +38,6 @@ class FormDataManager implements ConfigModuleInterface
     public function reset(): self
     {
         $this->setSgInstallComplete(false)
-            ->setSgFormDataManagerFolder(self::DEFAULT_FOLDER_PATH)
             ->setSgArchived(false)
             ->setSgArchivedAt(0)
             ->setSgArchivedMode(self::DEFAULT_ARCHIVE_MODE)
@@ -57,7 +49,6 @@ class FormDataManager implements ConfigModuleInterface
     public function import(\stdClass $json): self
     {
         $this->setSgInstallComplete($json->installComplete ?? false)
-            ->setSgFormDataManagerFolder($json->extranet_folder ?? self::DEFAULT_FOLDER_PATH)
             ->setSgArchived($json->archived->status ?? false)
             ->setSgArchivedAt($json->archived->at ?? 0)
             ->setSgArchivedMode($json->archived->mode ?? self::DEFAULT_ARCHIVE_MODE)
@@ -70,7 +61,6 @@ class FormDataManager implements ConfigModuleInterface
     {
         $json = new \stdClass();
         $json->installComplete = $this->getSgInstallComplete();
-        $json->extranet_folder = $this->getSgFormDataManagerFolder();
 
         $json->archived = new \stdClass();
         $json->archived->status = $this->getSgArchived();
@@ -102,13 +92,7 @@ class FormDataManager implements ConfigModuleInterface
 
     public function getContaoFoldersIds(): array
     {
-        if (!$this->getSgInstallComplete()
-        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
-        ) {
-            return [];
-        }
-
-        return [$this->getSgFormDataManagerFolder()];
+        return [];
     }
 
     public function getContaoUsersIds(): array
@@ -178,18 +162,6 @@ class FormDataManager implements ConfigModuleInterface
             throw new \InvalidArgumentException(sprintf('Invalid archive mode "%s" given', $sgArchivedMode));
         }
         $this->sgArchivedMode = $sgArchivedMode;
-
-        return $this;
-    }
-
-    public function getSgFormDataManagerFolder(): ?string
-    {
-        return $this->sgFormDataManagerFolder;
-    }
-
-    public function setSgFormDataManagerFolder(?string $sgFormDataManagerFolder): self
-    {
-        $this->sgFormDataManagerFolder = $sgFormDataManagerFolder;
 
         return $this;
     }

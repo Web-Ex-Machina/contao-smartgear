@@ -15,9 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Module\FormDataManager\ConfigurationStep;
 
 use Contao\CoreBundle\String\HtmlDecoder;
-use Contao\FilesModel;
 use Contao\UserGroupModel;
-use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
@@ -66,18 +64,11 @@ class General extends ConfigurationStep
 
     public function do(): void
     {
-        $this->createFolder();
         $this->updateModuleConfigurationAfterGenerations();
         $this->updateUserGroups();
 
         $this->commandUtil->executeCmdPHP('cache:clear');
         $this->commandUtil->executeCmdPHP('contao:symlinks');
-    }
-
-    protected function createFolder(): void
-    {
-        $objFolder = new \Contao\Folder(FormDataManagerConfig::DEFAULT_FOLDER_PATH);
-        $objFolder->unprotect();
     }
 
     protected function updateModuleConfigurationAfterGenerations(): void
@@ -89,7 +80,6 @@ class General extends ConfigurationStep
 
         $extranetConfig
             ->setSgInstallComplete(true)
-            ->setSgFormDataManagerFolder(FormDataManagerConfig::DEFAULT_FOLDER_PATH)
         ;
 
         $config->setSgFormDataManager($extranetConfig);
@@ -109,18 +99,9 @@ class General extends ConfigurationStep
 
     protected function updateUserGroup(UserGroupModel $objUserGroup, FormDataManagerConfig $extranetConfig): void
     {
-        $objFolder = FilesModel::findByPath($extranetConfig->getSgFormDataManagerFolder());
-        if (!$objFolder) {
-            throw new Exception('Unable to find the folder');
-        }
-
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
-        $userGroupManipulator
-            ->addAllowedFilemounts([$objFolder->uuid])
-        ;
 
         $objUserGroup = $userGroupManipulator->getUserGroup();
-        // $objUserGroup->extranetp = serialize(['create', 'delete']);
         $objUserGroup->save();
     }
 }

@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Model;
 
+use Contao\Database;
 use Exception;
 use WEM\PersonalDataManagerBundle\Model\Traits\PersonalDataTrait as PDMTrait;
 use WEM\SmartgearBundle\Classes\StringUtil;
@@ -67,5 +68,14 @@ class FormStorageData extends CoreModel
     public function getValueAsString(): string
     {
         return StringUtil::getFormStorageDataValueAsString($this->value);
+    }
+
+    public static function deleteAll(): void
+    {
+        $objStatement = Database::getInstance()->prepare(sprintf('DELETE FROM %s', self::getTable()));
+        $objResult = $objStatement->execute();
+
+        $manager = \Contao\System::getContainer()->get('wem.personal_data_manager.service.personal_data_manager');
+        $manager->deleteByPtable(self::getTable());
     }
 }

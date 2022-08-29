@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Model;
 
+use Contao\Database;
 use WEM\UtilsBundle\Model\Model as CoreModel;
 
 /**
@@ -45,5 +46,13 @@ class FormStorage extends CoreModel
         }
 
         return $formStorageDatas->first()->current()->getValueAsString();
+    }
+
+    public static function deleteAll(): void
+    {
+        $objStatement = Database::getInstance()->prepare(sprintf('DELETE FROM %s', self::getTable()));
+        $objResult = $objStatement->execute();
+
+        FormStorageData::deleteAll();
     }
 }

@@ -14,23 +14,22 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Module\FormDataManager\ResetStep;
 
-use Contao\FilesModel;
 use Contao\Input;
 use Contao\UserGroupModel;
-use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\AbstractStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
+use WEM\SmartgearBundle\Model\FormStorage;
 
 class General extends AbstractStep
 {
     /** @var ConfigurationManager */
     protected $configurationManager;
 
-    protected $strTemplate = 'be_wem_sg_install_block_reset_step_extranet_general';
+    protected $strTemplate = 'be_wem_sg_install_block_reset_step_fdm_general';
 
     public function __construct(
         string $module,
@@ -46,20 +45,12 @@ class General extends AbstractStep
 
         $resetOptions = [
             [
-                'value' => FormDataManagerConfig::ARCHIVE_MODE_ARCHIVE,
-                'label' => $this->translator->trans('WEMSG.FDM.RESET.deleteModeArchiveLabel', [], 'contao_default'),
-            ],
-            [
-                'value' => FormDataManagerConfig::ARCHIVE_MODE_KEEP,
-                'label' => $this->translator->trans('WEMSG.FDM.RESET.deleteModeKeepLabel', [], 'contao_default'),
-            ],
-            [
                 'value' => FormDataManagerConfig::ARCHIVE_MODE_DELETE,
                 'label' => $this->translator->trans('WEMSG.FDM.RESET.deleteModeDeleteLabel', [], 'contao_default'),
             ],
         ];
 
-        $this->addSelectField('deleteMode', $this->translator->trans('WEMSG.FDM.RESET.deleteModeLabel', [], 'contao_default'), $resetOptions, FormDataManagerConfig::ARCHIVE_MODE_ARCHIVE, true);
+        $this->addSelectField('deleteMode', $this->translator->trans('WEMSG.FDM.RESET.deleteModeLabel', [], 'contao_default'), $resetOptions, FormDataManagerConfig::ARCHIVE_MODE_DELETE, true);
     }
 
     public function isStepValid(): bool
@@ -89,11 +80,6 @@ class General extends AbstractStep
         $archiveTimestamp = time();
 
         switch ($deleteMode) {
-            case FormDataManagerConfig::ARCHIVE_MODE_ARCHIVE:
-                $this->archiveModeArchive($formDataManagerConfig, $archiveTimestamp);
-            break;
-            case FormDataManagerConfig::ARCHIVE_MODE_KEEP:
-            break;
             case FormDataManagerConfig::ARCHIVE_MODE_DELETE:
                 $this->archiveModeDelete($formDataManagerConfig);
             break;
@@ -103,6 +89,7 @@ class General extends AbstractStep
         }
 
         $formDataManagerConfig
+            ->setSgInstallComplete(false)
             ->setSgArchived(true)
             ->setSgArchivedMode($deleteMode)
             ->setSgArchivedAt($archiveTimestamp)
@@ -113,19 +100,9 @@ class General extends AbstractStep
         $this->configurationManager->save($config);
     }
 
-    protected function archiveModeArchive(FormDataManagerConfig $formDataManagerConfig, int $archiveTimestamp): FormDataManagerConfig
-    {
-        $objFolder = new \Contao\Folder($formDataManagerConfig->getSgFormDataManagerFolder());
-        $objFolder->renameTo(sprintf('files/archives/form-data-manager-%s', (string) $archiveTimestamp));
-        $dateTime = (new \DateTime())->setTimestamp($archiveTimestamp);
-
-        return $formDataManagerConfig;
-    }
-
     protected function archiveModeDelete(FormDataManagerConfig $formDataManagerConfig): FormDataManagerConfig
     {
-        $objFolder = new \Contao\Folder($formDataManagerConfig->getSgFormDataManagerFolder());
-        $objFolder->delete();
+        FormStorage::deleteAll();
 
         return $formDataManagerConfig;
     }
@@ -143,15 +120,7 @@ class General extends AbstractStep
 
     protected function resetUserGroup(UserGroupModel $objUserGroup, FormDataManagerConfig $formDataManagerConfig): void
     {
-        $objFolder = FilesModel::findByPath($formDataManagerConfig->getSgFormDataManagerFolder());
-        if (!$objFolder) {
-            throw new Exception('Unable to find the folder');
-        }
-
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
-        $userGroupManipulator
-            ->removeAllowedFilemounts([$objFolder->uuid])
-        ;
 
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->save();

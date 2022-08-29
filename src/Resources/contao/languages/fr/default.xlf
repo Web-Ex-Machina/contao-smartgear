@@ -1708,22 +1708,6 @@
 			<source>Uninstall mode</source>
 			<target>Mode de désinstallation</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.FDM.RESET.deleteModeArchiveLabel">
-			<source>Archive</source>
-			<target>Archiver</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.FDM.RESET.deleteModeArchiveDescription">
-			<source>Form Data Manager's linked entities' name will be suffixed with " (Archive-{timestamp})".</source>
-			<target>Les entités liées au gestionnaire de formulaires seront suffixées par " (Archive-{timestamp})".</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.FDM.RESET.deleteModeKeepLabel">
-			<source>Keep</source>
-			<target>Conserver</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.FDM.RESET.deleteModeKeepDescription">
-			<source>All data will be kept in place.</source>
-			<target>Toutes les données seront conservées.</target>
-		</trans-unit>
 		<trans-unit id="WEMSG.FDM.RESET.deleteModeDeleteLabel">
 			<source>Delete</source>
 			<target>Supprimer</target>
