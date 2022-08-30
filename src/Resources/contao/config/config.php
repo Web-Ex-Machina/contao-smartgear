@@ -150,8 +150,8 @@ $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialLink::getTable()] = WEM\S
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Member::getTable()] = WEM\SmartgearBundle\Model\Member::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorage::getTable()] = WEM\SmartgearBundle\Model\FormStorage::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorageData::getTable()] = WEM\SmartgearBundle\Model\FormStorageData::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Form::getTable()] = WEM\SmartgearBundle\Model\Form::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormField::getTable()] = WEM\SmartgearBundle\Model\FormField::class;
+// $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Form::getTable()] = WEM\SmartgearBundle\Model\Form::class;
+// $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormField::getTable()] = WEM\SmartgearBundle\Model\FormField::class;
 /*
  * Add BE Hooks
  */

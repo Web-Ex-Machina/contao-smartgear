@@ -66,7 +66,7 @@ class ProcessFormDataListener
                     $objFormStorage->pid = $form->getModel()->id;
                     $objFormStorage->status = FormStorage::STATUS_UNREAD;
                     $objFormStorage->token = REQUEST_TOKEN;
-                    $objFormStorage->completion_percentage = $this->calculateCompletionPercentage($submittedData, $form);
+                    $objFormStorage->completion_percentage = $this->calculateCompletionPercentage($submittedData, $files, $form);
                     $objFormStorage->delay_to_first_interaction = $this->calculateDelayToFirstInteraction($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]']);
                     $objFormStorage->delay_to_submission = $this->calculateDelayToSubmission($submittedData['fdm[first_interaction]'], $form);
                     $objFormStorage->current_page = $submittedData['fdm[current_page]'];
@@ -84,9 +84,11 @@ class ProcessFormDataListener
 
                     unset($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]'], $submittedData['fdm[current_page]'], $submittedData['fdm[current_page_url]'], $submittedData['fdm[referer_page_url]']);
 
+                    // empty fields are transmitted
                     foreach ($submittedData as $fieldName => $value) {
                         $this->storeFieldValue($fieldName, $value, $objFormStorage);
                     }
+                    $this->storeFilesValues($files, $objFormStorage);
                 }
             }
         } catch (Exception $e) {
@@ -118,7 +120,7 @@ class ProcessFormDataListener
         return (int) ((int) (microtime(true) * 1000) - (int) $firstInteractionMs);
     }
 
-    protected function calculateCompletionPercentage(array $submittedData, Form $form): float
+    protected function calculateCompletionPercentage(array $submittedData, array $files, Form $form): float
     {
         $formFields = FormFieldModel::findPublishedByPid($form->getModel()->id);
         $fieldsTotal = $formFields->count();
@@ -130,7 +132,7 @@ class ProcessFormDataListener
                     --$fieldsTotal;
                     continue;
                 }
-                if (\array_key_exists($formField->name, $submittedData)
+                if ((\array_key_exists($formField->name, $submittedData) || \array_key_exists($formField->name, $files))
                 && !empty($submittedData[$formField->name])
                 ) {
                     ++$fieldsCompleted;
@@ -155,6 +157,43 @@ class ProcessFormDataListener
         $objFormStorageData->field_label = $objFormField->label;
         $objFormStorageData->field_name = $objFormField->name;
         $objFormStorageData->value = $this->formatValueToStore($value, $objFormField->current());
+        $objFormStorageData->contains_personal_data = $objFormField->contains_personal_data;
+        $objFormStorageData->save();
+
+        return $objFormStorageData;
+    }
+
+    protected function storeFilesValues(array $files, FormStorage $objFormStorage): array
+    {
+        $formStorageDatas = [];
+        // empty file fields aren't transmitted
+        $formFieldsFile = FormField::findItems(['type' => 'upload', 'pid' => $objFormStorage->pid]);
+        if (!$formFieldsFile) {
+            return $formStorageDatas;
+        }
+        while ($formFieldsFile->next()) {
+            // if (\array_key_exists($formFieldsFile->name, $files)) {
+            $formStorageDatas[] = $this->storeFileValue($formFieldsFile->name, $files[$formFieldsFile->name] ?? [], $objFormStorage);
+            // }
+        }
+
+        return $formStorageDatas;
+    }
+
+    protected function storeFileValue(string $fieldName, array $fileData, FormStorage $objFormStorage): ?FormStorageData
+    {
+        $objFormField = FormField::findItems(['name' => $fieldName, 'pid' => $objFormStorage->pid], 1);
+        if (!$objFormField) {
+            throw new Exception(sprintf('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('pid')->name));
+        }
+        $objFormStorageData = new FormStorageData();
+        $objFormStorageData->tstamp = time();
+        $objFormStorageData->createdAt = time();
+        $objFormStorageData->pid = $objFormStorage->id;
+        $objFormStorageData->field = $objFormField->id;
+        $objFormStorageData->field_label = $objFormField->label;
+        $objFormStorageData->field_name = $objFormField->name;
+        $objFormStorageData->value = $objFormField->storeFile ? $fileData['uuid'] : 'Fichier transmis mais non enregistré';
         $objFormStorageData->contains_personal_data = $objFormField->contains_personal_data;
         $objFormStorageData->save();
 
