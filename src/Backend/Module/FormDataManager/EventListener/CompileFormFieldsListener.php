@@ -51,12 +51,14 @@ class CompileFormFieldsListener
             && $fdmConfig->getSgInstallComplete()
             ) {
                 if ((bool) $form->getModel()->storeViaFormDataManager) {
+                    // current page
+                    $objPage = FormUtil::getPageFromForm($form);
+
                     $objFormFieldWarning = (new FormField());
                     $objFormFieldWarning->pid = $form->getModel()->id;
                     $objFormFieldWarning->sorting = 16;
                     $objFormFieldWarning->type = 'html';
-                    // $objFormFieldWarning->html = file_get_contents(sprintf('%s/public/bundles/wemsmartgear/examples/formDataManager/%s/warning_message.html', TL_ROOT, \Contao\BackendUser::getInstance()->language));
-                    $objFormFieldWarning->html = Util::getLocalizedTemplateContent('{root}/public/bundles/wemsmartgear/examples/formDataManager/{lang}/warning_message.html', \Contao\User::getInstance()->language, '{root}/public/bundles/wemsmartgear/examples/formDataManager/fr/warning_message.html');
+                    $objFormFieldWarning->html = Util::getLocalizedTemplateContent('{root}/public/bundles/wemsmartgear/examples/formDataManager/{lang}/warning_message.html', 'FE' === TL_MODE ? $objPage->rootLanguage : \Contao\BackendUser::getInstance()->language, '{root}/public/bundles/wemsmartgear/examples/formDataManager/fr/warning_message.html');
 
                     // add this field at the beginning of the array
                     $arrFields = array_reverse($arrFields, true);
@@ -72,9 +74,6 @@ class CompileFormFieldsListener
                     $objFormFieldFirstInteraction->name = 'fdm[first_interaction]';
                     $objFormFieldFirstInteraction->type = 'hidden';
                     $arrFields['first_interaction'] = $objFormFieldFirstInteraction;
-
-                    // current page
-                    $objPage = FormUtil::getPageFromForm($form);
 
                     $objFormFieldCurrentPage = (new FormFieldModel());
                     $objFormFieldCurrentPage->name = 'fdm[current_page]';
