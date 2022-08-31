@@ -51,8 +51,8 @@ class BackendController extends ControllerBackendController
     {
         $rows = FormStorage::findItems(['id' => Input::get('id')], 0, 0, ['order' => 'createdAt DESC']);
 
-        (new Response(utf8_decode($this->export($rows)), Response::HTTP_OK, [
-            'Content-Type' => 'text/csv; charset=utf-8',
+        (new Response(mb_convert_encoding(StringUtil::decodeEntities($this->export($rows)), 'UTF-16LE', 'UTF-8'), Response::HTTP_OK, [
+            'Content-Type' => 'text/csv; charset=utf-16le',
             'Content-Disposition' => 'attachment;filename='.sprintf(
                 'contact_%s_%s_%s.csv',
                 $rows->first()->getRelated('pid')->title,
@@ -70,8 +70,9 @@ class BackendController extends ControllerBackendController
             $this->exportAllFromForm();
         }
         $rows = FormStorage::findItems([], 0, 0, ['order' => 'createdAt DESC']);
-        (new Response(utf8_decode($this->export($rows)), Response::HTTP_OK, [
-            'Content-Type' => 'text/csv; charset=utf-8',
+
+        (new Response(mb_convert_encoding(StringUtil::decodeEntities($this->export($rows)), 'UTF-16LE', 'UTF-8'), Response::HTTP_OK, [
+            'Content-Type' => 'text/csv; charset=utf-16le',
             'Content-Disposition' => 'attachment;filename=contacts.csv',
         ]
         ))->send();
@@ -82,8 +83,8 @@ class BackendController extends ControllerBackendController
     {
         $rows = FormStorage::findItems(['pid' => Input::get('id')], 0, 0, ['order' => 'createdAt DESC']);
 
-        (new Response(utf8_decode($this->export($rows)), Response::HTTP_OK, [
-            'Content-Type' => 'text/csv; charset=utf-8',
+        (new Response(mb_convert_encoding(StringUtil::decodeEntities($this->export($rows)), 'UTF-16LE', 'UTF-8'), Response::HTTP_OK, [
+            'Content-Type' => 'text/csv; charset=utf-16le',
             'Content-Disposition' => 'attachment;filename='.sprintf(
                 'contacts_%s.csv',
                 $rows->first()->getRelated('pid')->title
