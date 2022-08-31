@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Model;
 
 use Contao\Database;
 use Contao\FilesModel;
+use Contao\Validator;
 use Exception;
 use WEM\PersonalDataManagerBundle\Model\Traits\PersonalDataTrait as PDMTrait;
 use WEM\SmartgearBundle\Classes\StringUtil;
@@ -91,12 +92,14 @@ class FormStorageData extends CoreModel
                         $value = 'FICHIER TRANSMIS MAIS NON ENREGISTRé';
                     break;
                     default:
-                        // we should have an UUID here
-                        $objFile = FilesModel::findByUuid($value);
-                        if (!$objFile) {
-                            $value = 'FICHIER TRANSMIS INTROUVABLE';
-                        } else {
-                            $value = $objFile->path;
+                        if (Validator::isStringUuid($value)) {
+                            // we should have an UUID here
+                            $objFile = FilesModel::findByUuid($value);
+                            if (!$objFile) {
+                                $value = 'FICHIER TRANSMIS INTROUVABLE';
+                            } else {
+                                $value = $objFile->path;
+                            }
                         }
                     break;
                 }
