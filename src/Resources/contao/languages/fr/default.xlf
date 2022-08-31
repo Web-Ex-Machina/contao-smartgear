@@ -100,10 +100,6 @@
 			<source>Unknown element</source>
 			<target>Elément inconnu</target>
 		</trans-unit>
-    <trans-unit id="WEM.SMARTGEAR.DEFAULT.unconcerned">
-      <source>Unconcerned</source>
-			<target>Non concerné</target>
-    </trans-unit>
     <trans-unit id="WEM.SMARTGEAR.DEFAULT.fdmNotInstalled">
       <source>"Form Data Manager" module not installed</source>
 			<target>Module "Form Data Manager" non installé</target>
@@ -1740,6 +1736,10 @@
 			<source>Your e-mail address</source>
 			<target>Votre adresse e-mail</target>
 		</trans-unit>
+    <trans-unit id="WEMSG.FDM.EXPORT.fieldNotPresentInForm">
+      <source>Field not present in form</source>
+			<target>Champ non présent dans le formulaire</target>
+    </trans-unit>²
 
 		<!-- ConfigurationStepManager -->
 		<trans-unit id="WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish">

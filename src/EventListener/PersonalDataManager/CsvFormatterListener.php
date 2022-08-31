@@ -14,14 +14,10 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener\PersonalDataManager;
 
-use Contao\FrontendTemplate;
-use Contao\MemberGroupModel;
-use Contao\Model;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use WEM\PersonalDataManagerBundle\Model\PersonalData;
-use WEM\SmartgearBundle\Model\FormStorageData;
 use WEM\PersonalDataManagerBundle\Model\PersonalData as PersonalDataModel;
 use WEM\SmartgearBundle\Model\FormStorage;
+use WEM\SmartgearBundle\Model\FormStorageData;
 
 class CsvFormatterListener
 {
@@ -39,14 +35,14 @@ class CsvFormatterListener
         switch ($personalData->ptable) {
             case FormStorageData::getTable():
                 $objFormStorageData = FormStorageData::findByPk($personalData->pid);
-                $row = [
+
+                return [
                     FormStorage::getTable(),
                     $personalData->email,
                     $objFormStorageData->field_label,
-                    $personalData->anonymized ? $personalData->value : $objFormStorageData->getValueAsString(),
+                    $personalData->anonymized ? $personalData->value : '"'.$objFormStorageData->getValueAsString().'"',
                     $personalData->anonymized ? $this->translator->trans('WEM.PEDAMA.CSV.columnAnonymizedValueYes', [], 'contao_default') : $this->translator->trans('WEM.PEDAMA.CSV.columnAnonymizedValueNo', [], 'contao_default'),
                 ];
-                return $row;
             break;
         }
 

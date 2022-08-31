@@ -47,9 +47,6 @@
     <trans-unit id="WEM.SMARTGEAR.DEFAULT.elementUnknown">
       <source>Unknown element</source>
     </trans-unit>
-    <trans-unit id="WEM.SMARTGEAR.DEFAULT.unconcerned">
-      <source>Unconcerned</source>
-    </trans-unit>
     <trans-unit id="WEM.SMARTGEAR.DEFAULT.fdmNotInstalled">
       <source>"Form Data Manager" module not installed</source>
     </trans-unit>

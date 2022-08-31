@@ -80,7 +80,7 @@ class FormStorage
         if ($formStorageDatas) {
             $modalData[FormStorageData::getTable()] = [0 => []];
             while ($formStorageDatas->next()) {
-                $modalData[FormStorageData::getTable()][0][$formStorageDatas->field_label] = $formStorageDatas->current()->getValueAsStringFormatted();
+                $modalData[FormStorageData::getTable()][0][$formStorageDatas->field_label] = $formStorageDatas->current()->getValueAsString();
             }
         }
 

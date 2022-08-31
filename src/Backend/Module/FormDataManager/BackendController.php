@@ -51,8 +51,8 @@ class BackendController extends ControllerBackendController
     {
         $rows = FormStorage::findItems(['id' => Input::get('id')], 0, 0, ['order' => 'createdAt DESC']);
 
-        (new Response($this->export($rows), Response::HTTP_OK, [
-            'Content-Type' => 'text/csv',
+        (new Response(utf8_decode($this->export($rows)), Response::HTTP_OK, [
+            'Content-Type' => 'text/csv; charset=utf-8',
             'Content-Disposition' => 'attachment;filename='.sprintf(
                 'contact_%s_%s_%s.csv',
                 $rows->first()->getRelated('pid')->title,
@@ -70,8 +70,8 @@ class BackendController extends ControllerBackendController
             $this->exportAllFromForm();
         }
         $rows = FormStorage::findItems([], 0, 0, ['order' => 'createdAt DESC']);
-        (new Response($this->export($rows), Response::HTTP_OK, [
-            'Content-Type' => 'text/csv',
+        (new Response(utf8_decode($this->export($rows)), Response::HTTP_OK, [
+            'Content-Type' => 'text/csv; charset=utf-8',
             'Content-Disposition' => 'attachment;filename=contacts.csv',
         ]
         ))->send();
@@ -82,8 +82,8 @@ class BackendController extends ControllerBackendController
     {
         $rows = FormStorage::findItems(['pid' => Input::get('id')], 0, 0, ['order' => 'createdAt DESC']);
 
-        (new Response($this->export($rows), Response::HTTP_OK, [
-            'Content-Type' => 'text/csv',
+        (new Response(utf8_decode($this->export($rows)), Response::HTTP_OK, [
+            'Content-Type' => 'text/csv; charset=utf-8',
             'Content-Disposition' => 'attachment;filename='.sprintf(
                 'contacts_%s.csv',
                 $rows->first()->getRelated('pid')->title
@@ -178,7 +178,7 @@ class BackendController extends ControllerBackendController
 
         foreach ($headers as $key => $value) {
             if (!\in_array($key, $headersKeyToKeep, true)) {
-                $headers[$key] = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.unconcerned', [], 'contao_default');
+                $headers[$key] = $this->translator->trans('WEMSG.FDM.EXPORT.fieldNotPresentInForm', [], 'contao_default');
             }
         }
 
