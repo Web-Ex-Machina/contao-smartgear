@@ -16,10 +16,13 @@ namespace WEM\SmartgearBundle\EventListener\PersonalDataManager;
 
 use Contao\Config;
 use Contao\Date;
+use Contao\File;
+use Contao\FilesModel;
 use Contao\MemberGroupModel;
 use Contao\Model;
 use Contao\Model\Collection;
 use Contao\PageModel;
+use Contao\Validator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\PersonalDataManagerBundle\Service\PersonalDataManagerUi;
@@ -184,8 +187,29 @@ class UiListener
     {
         switch ($ptable) {
             case FormStorage::getTable():
-            case FormStorageData::getTable():
                 $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
+            break;
+            case FormStorageData::getTable():
+                $objFormStorageData = FormStorageData::findByPk($pid);
+                if ($objFormStorageData) {
+                    switch ($objFormStorageData->field_type) {
+                        case 'upload':
+                            $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
+                            if (Validator::isStringUuid($buffer)) {
+                                $objFileModel = FilesModel::findByUuid($buffer);
+                                if (!$objFileModel) {
+                                    $buffer = 'FICHIER INTROUVABLE';
+                                } else {
+                                    $buffer = $objFileModel->name;
+                                }
+                            }
+                        break;
+                        default:
+                            $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
+                    }
+                } else {
+                    $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
+                }
             break;
             default:
                 if (empty($buffer)) {
@@ -218,6 +242,34 @@ class UiListener
         }
 
         return $buffer;
+    }
+
+    public function buildSingleItemBodyPersonalDataSingleButtons(int $pid, string $ptable, string $email, PersonalData $personalData, array $personalDatas, Model $originalModel, array $buttons): array
+    {
+        switch ($ptable) {
+            case FormStorageData::getTable():
+                $objFormStorageData = FormStorageData::findByPk($pid);
+                if ($objFormStorageData) {
+                    switch ($objFormStorageData->field_type) {
+                        case 'upload':
+                            if (Validator::isStringUuid($objFormStorageData->value)) {
+                                $objFileModel = FilesModel::findByUuid($objFormStorageData->value);
+                                if ($objFileModel) {
+                                    $objFile = new File($objFileModel->path);
+                                    if ($objFile->isUnprotected()) {
+                                        $buttons['show'] = sprintf('<a href="%s" class="pdm-button" target="_blank">O</a>', $objFileModel->path);
+                                        $buttons['download'] = sprintf('<a href="?file=%s" class="pdm-button" target="_blank">v</a>', $objFileModel->path);
+                                    }
+                                }
+                            }
+                        break;
+                    }
+                }
+
+            break;
+        }
+
+        return $buttons;
     }
 
     protected function getPersonalDataForFormStorage($objFormStorage): array
