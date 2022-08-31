@@ -116,6 +116,10 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage_data'] = [
             'inputType' => 'text',
             'sql' => "varchar(255) NOT NULL default ''",
         ],
+        'field_type' => [
+            'inputType' => 'text',
+            'sql' => "varchar(64) NOT NULL default 'text'",
+        ],
         'value' => [
             'search' => true,
             'inputType' => 'text',

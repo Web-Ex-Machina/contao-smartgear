@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Model;
 
 use Contao\Database;
+use Contao\FilesModel;
 use Exception;
 use WEM\PersonalDataManagerBundle\Model\Traits\PersonalDataTrait as PDMTrait;
 use WEM\SmartgearBundle\Classes\StringUtil;
@@ -26,6 +27,9 @@ use WEM\UtilsBundle\Model\Model as CoreModel;
 class FormStorageData extends CoreModel
 {
     use PDMTrait;
+
+    public const NO_FILE_UPLOADED = 'no_file_uploaded';
+    public const FILE_UPLOADED_BUT_NOT_STORED = 'file_uploaded_but_not_stored';
 
     protected static $personalDataFieldsNames = [
         'value',
@@ -68,6 +72,38 @@ class FormStorageData extends CoreModel
     public function getValueAsString(): string
     {
         return StringUtil::getFormStorageDataValueAsString($this->value);
+    }
+
+    public function getValueAsStringFormatted(): string
+    {
+        $value = $this->getValueAsString();
+        switch ($this->field_type) {
+            case 'textarea':
+            case 'textareacustom':
+                $value = nl2br($value ?? '');
+            break;
+            case 'upload':
+                switch ($value) {
+                    case self::NO_FILE_UPLOADED:
+                        $value = 'AUCUN FICHIER TRANSMIS';
+                    break;
+                    case self::FILE_UPLOADED_BUT_NOT_STORED:
+                        $value = 'FICHIER TRANSMIS MAIS NON ENREGISTRé';
+                    break;
+                    default:
+                        // we should have an UUID here
+                        $objFile = FilesModel::findByUuid($value);
+                        if (!$objFile) {
+                            $value = 'FICHIER TRANSMIS INTROUVABLE';
+                        } else {
+                            $value = $objFile->path;
+                        }
+                    break;
+                }
+            break;
+        }
+
+        return $value;
     }
 
     public static function deleteAll(): void

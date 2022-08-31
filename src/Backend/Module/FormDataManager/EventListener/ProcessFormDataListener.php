@@ -156,6 +156,7 @@ class ProcessFormDataListener
         $objFormStorageData->field = $objFormField->id;
         $objFormStorageData->field_label = $objFormField->label;
         $objFormStorageData->field_name = $objFormField->name;
+        $objFormStorageData->field_type = $objFormField->type;
         $objFormStorageData->value = $this->formatValueToStore($value, $objFormField->current());
         $objFormStorageData->contains_personal_data = $objFormField->contains_personal_data;
         $objFormStorageData->save();
@@ -186,6 +187,16 @@ class ProcessFormDataListener
         if (!$objFormField) {
             throw new Exception(sprintf('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('pid')->name));
         }
+
+        $value = '';
+        if (empty($fileData)) {
+            $value = FormStorageData::NO_FILE_UPLOADED;
+        } elseif ($objFormField->storeFile) {
+            $value = $fileData['uuid'];
+        } else {
+            $value = FormStorageData::FILE_UPLOADED_BUT_NOT_STORED;
+        }
+
         $objFormStorageData = new FormStorageData();
         $objFormStorageData->tstamp = time();
         $objFormStorageData->createdAt = time();
@@ -193,7 +204,8 @@ class ProcessFormDataListener
         $objFormStorageData->field = $objFormField->id;
         $objFormStorageData->field_label = $objFormField->label;
         $objFormStorageData->field_name = $objFormField->name;
-        $objFormStorageData->value = $objFormField->storeFile ? $fileData['uuid'] : 'Fichier transmis mais non enregistré';
+        $objFormStorageData->field_type = $objFormField->type;
+        $objFormStorageData->value = $value;
         $objFormStorageData->contains_personal_data = $objFormField->contains_personal_data;
         $objFormStorageData->save();
 

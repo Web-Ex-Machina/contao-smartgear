@@ -58,7 +58,8 @@ class FormStorage
         if ($formStorageDatas) {
             while ($formStorageDatas->next()) {
                 $arrFormStorageDatas[$formStorageDatas->id] = $formStorageDatas->current()->row();
-                $arrFormStorageDatas[$formStorageDatas->id]['value'] = $formStorageDatas->current()->getValueAsString();
+                $arrFormStorageDatas[$formStorageDatas->id]['raw_value'] = $arrFormStorageDatas[$formStorageDatas->id]['value'];
+                $arrFormStorageDatas[$formStorageDatas->id]['value'] = $formStorageDatas->current()->getValueAsStringFormatted();
             }
         }
         $objTemplate->arrFormStorageDatas = $arrFormStorageDatas;
@@ -79,7 +80,7 @@ class FormStorage
         if ($formStorageDatas) {
             $modalData[FormStorageData::getTable()] = [0 => []];
             while ($formStorageDatas->next()) {
-                $modalData[FormStorageData::getTable()][0][$formStorageDatas->field_label] = $formStorageDatas->current()->getValueAsString();
+                $modalData[FormStorageData::getTable()][0][$formStorageDatas->field_label] = $formStorageDatas->current()->getValueAsStringFormatted();
             }
         }
 
