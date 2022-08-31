@@ -37,4 +37,5 @@ PaletteManipulator::create()
     ->applyToPalette('range', 'tl_form_field')
     ->applyToPalette('hidden', 'tl_form_field')
     ->applyToPalette('hiddencustom', 'tl_form_field')
+    ->applyToPalette('upload', 'tl_form_field')
 ;

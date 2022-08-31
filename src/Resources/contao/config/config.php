@@ -189,6 +189,7 @@ $GLOBALS['TL_PERMISSIONS'][] = 'smartgear_permissions';
 $GLOBALS['WEM_HOOKS']['formatSinglePersonalDataForCsvExport'][] = ['smartgear.listener.personal_data_csv_formatter', 'formatSingle'];
 $GLOBALS['WEM_HOOKS']['exportByPidAndPtableAndEmail'][] = ['smartgear.listener.personal_data_export', 'exportByPidAndPtableAndEmail'];
 // PDM ANONYMIZE
+$GLOBALS['WEM_HOOKS']['anonymize'][] = ['smartgear.listener.personal_data_anonymize', 'anonymize'];
 $GLOBALS['WEM_HOOKS']['anonymizeByPidAndPtableAndEmail'][] = ['smartgear.listener.personal_data_anonymize', 'anonymizeByPidAndPtableAndEmail'];
 // PDM UI
 $GLOBALS['WEM_HOOKS']['sortData'][] = ['smartgear.listener.personal_data_ui', 'sortData'];

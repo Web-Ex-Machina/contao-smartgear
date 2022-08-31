@@ -19,6 +19,7 @@ use Contao\Date;
 use Contao\MemberGroupModel;
 use Contao\Model;
 use Contao\Model\Collection;
+use Contao\PageModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\PersonalDataManagerBundle\Service\PersonalDataManagerUi;
@@ -162,6 +163,15 @@ class UiListener
                     break;
                     case 'createdAt':
                         $buffer = Date::parse(Config::get('datimFormat'), (int) $value);
+                    break;
+                    case 'current_page':
+                    case 'referer_page':
+                        if (!empty($value)) {
+                            $objPage = PageModel::findOneById($value);
+                            if ($objPage) {
+                                $buffer = $objPage->title;
+                            }
+                        }
                     break;
                 }
             break;

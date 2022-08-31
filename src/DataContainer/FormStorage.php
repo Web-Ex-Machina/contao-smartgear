@@ -20,6 +20,7 @@ use Contao\DataContainer;
 use Contao\Date;
 use Contao\FormModel;
 use Contao\System;
+use Contao\Validator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Model\FormStorage as ModelFormStorage;
@@ -60,6 +61,7 @@ class FormStorage
                 $arrFormStorageDatas[$formStorageDatas->id] = $formStorageDatas->current()->row();
                 $arrFormStorageDatas[$formStorageDatas->id]['raw_value'] = $arrFormStorageDatas[$formStorageDatas->id]['value'];
                 $arrFormStorageDatas[$formStorageDatas->id]['value'] = $formStorageDatas->current()->getValueAsStringFormatted();
+                $arrFormStorageDatas[$formStorageDatas->id]['is_uuid'] = Validator::isStringUuid($arrFormStorageDatas[$formStorageDatas->id]['raw_value']);
             }
         }
         $objTemplate->arrFormStorageDatas = $arrFormStorageDatas;

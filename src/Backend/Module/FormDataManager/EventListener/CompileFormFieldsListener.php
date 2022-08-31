@@ -84,7 +84,7 @@ class CompileFormFieldsListener
                     $objFormFieldCurrentPage = (new FormFieldModel());
                     $objFormFieldCurrentPage->name = 'fdm[current_page_url]';
                     $objFormFieldCurrentPage->type = 'hidden';
-                    $objFormFieldCurrentPage->value = Environment::get('url');
+                    $objFormFieldCurrentPage->value = Environment::get('uri');
                     $arrFields['current_page_url'] = $objFormFieldCurrentPage;
 
                     // Previous page

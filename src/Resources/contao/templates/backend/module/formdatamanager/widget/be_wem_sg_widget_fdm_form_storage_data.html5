@@ -11,7 +11,7 @@
 				<tr>
 					<td><?php echo $row['field_label']; ?></td>
 					<td>
-						<?php if('upload' === $row['field_type'] && Validator::isStringUuid($row['raw_value'])): ?>
+						<?php if('upload' === $row['field_type'] && $row['is_uuid']): ?>
 							<a href="<?php echo $row['value']; ?>" target="_blank"><?php echo $row['value']; ?></a>
 						<?php else: ?>
 							<?php echo $row['value']; ?>
