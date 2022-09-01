@@ -202,7 +202,7 @@ class UiListener
                             if (Validator::isStringUuid($buffer)) {
                                 $objFileModel = FilesModel::findByUuid($buffer);
                                 if (!$objFileModel) {
-                                    $buffer = 'FICHIER INTROUVABLE';
+                                    $buffer = $this->translator->trans('WEMSG.FDM.PDMUI.fileNotFound', [], 'contao_default')
                                 } else {
                                     $buffer = $objFileModel->name;
                                 }
@@ -264,14 +264,14 @@ class UiListener
                                         $buttons['show'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_show_file pdm-item__personal_data_single__button_show_file" target="_blank" data-path="%s">%s</a>',
                                             $this->personalDataManagerUi->getUrl(),
                                             $objFileModel->path,
-                                            $this->translator->trans('WEMSG.FDM.PDMUI.buttonShowFile', [], 'contao_default'
-                                        ));
+                                            $this->translator->trans('WEMSG.FDM.PDMUI.buttonShowFile', [], 'contao_default')
+                                        );
                                     }
                                     $buttons['download'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_download_file pdm-item__personal_data_single__button_download_file" target="_blank" data-path="%s">%s</a>',
                                             $this->personalDataManagerUi->getUrl(),
                                             $objFileModel->path,
-                                            $this->translator->trans('WEMSG.FDM.PDMUI.buttonDownloadFile', [], 'contao_default'
-                                        ));
+                                            $this->translator->trans('WEMSG.FDM.PDMUI.buttonDownloadFile', [], 'contao_default')
+                                        );
                                 }
                             }
                         break;

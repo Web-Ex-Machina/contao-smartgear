@@ -46,6 +46,14 @@ window.onload = () => {
 					blnDismiss:false,
 					onClose: function(){
 						modal.destroy();
+					},
+					onOpen: function(){
+						// doesn't work, how can I find a workaround ?
+						modal.$el[0].querySelector('iframe').addEventListener('load',function(e){
+							e.target.querySelectorAll('img').forEach(function(img){
+								img.style = "margin: auto;";
+							});
+						});
 					}
 				});
 				modal.open();

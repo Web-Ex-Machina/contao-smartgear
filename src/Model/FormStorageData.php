@@ -86,17 +86,17 @@ class FormStorageData extends CoreModel
             case 'upload':
                 switch ($value) {
                     case self::NO_FILE_UPLOADED:
-                        $value = 'AUCUN FICHIER TRANSMIS';
+                        $value = $GLOBALS['TL_LANG']['WEMSG']['FDM']['ERROR']['noFileUploaded'];
                     break;
                     case self::FILE_UPLOADED_BUT_NOT_STORED:
-                        $value = 'FICHIER TRANSMIS MAIS NON ENREGISTRé';
+                        $value = $GLOBALS['TL_LANG']['WEMSG']['FDM']['ERROR']['fileUploadedButNotStored'];
                     break;
                     default:
                         if (Validator::isStringUuid($value)) {
                             // we should have an UUID here
                             $objFile = FilesModel::findByUuid($value);
                             if (!$objFile) {
-                                $value = 'FICHIER TRANSMIS INTROUVABLE';
+                                $value = $GLOBALS['TL_LANG']['WEMSG']['FDM']['ERROR']['uploadedFileNotFound'];
                             } else {
                                 $value = $objFile->path;
                             }
