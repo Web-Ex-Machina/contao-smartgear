@@ -44,6 +44,9 @@ class UiListener
     ) {
         $this->translator = $translator;
         $this->personalDataManagerUi = $personalDataManagerUi;
+
+        $GLOBALS['TL_CSS'][] = 'bundles/wemsmartgear/css/module/personaldatamanager/frontend.css';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/wemsmartgear/js/module/personaldatamanager/frontend.js';
     }
 
     public function sortData(array $sorted, ?Collection $personalDatas): array
@@ -257,8 +260,16 @@ class UiListener
                                 if ($objFileModel) {
                                     $objFile = new File($objFileModel->path);
                                     if ($objFile->isUnprotected()) {
-                                        $buttons['show'] = sprintf('<a href="%s" class="pdm-button" target="_blank">O</a>', $objFileModel->path);
-                                        $buttons['download'] = sprintf('<a href="?file=%s" class="pdm-button" target="_blank">v</a>', $objFileModel->path);
+                                        $buttons['show'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_show_file pdm-item__personal_data_single__button_show_file" target="_blank" data-path="%s">%s</a>',
+                                            $this->personalDataManagerUi->getUrl(),
+                                            $objFileModel->path,
+                                            $this->translator->trans('WEMSG.FDM.PDMUI.buttonShowFile', [], 'contao_default'
+                                        ));
+                                        $buttons['download'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_download_file pdm-item__personal_data_single__button_download_file" target="_blank" data-path="%s">%s</a>',
+                                            $this->personalDataManagerUi->getUrl(),
+                                            $objFileModel->path,
+                                            $this->translator->trans('WEMSG.FDM.PDMUI.buttonDownloadFile', [], 'contao_default'
+                                        ));
                                     }
                                 }
                             }

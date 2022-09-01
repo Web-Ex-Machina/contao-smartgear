@@ -1739,7 +1739,16 @@
     <trans-unit id="WEMSG.FDM.EXPORT.fieldNotPresentInForm">
       <source>Field not present in form</source>
 			<target>Champ non présent dans le formulaire</target>
-    </trans-unit>²
+    </trans-unit>
+    <trans-unit id="WEMSG.FDM.PDMUI.buttonShowFile">
+      <source>Show</source>
+			<target>Afficher</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.FDM.PDMUI.buttonDownloadFile">
+      <source>Download</source>
+			<target>Télécharger</target>
+    </trans-unit>
+
 
 		<!-- ConfigurationStepManager -->
 		<trans-unit id="WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish">
