@@ -26,6 +26,7 @@ use Contao\Validator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\PersonalDataManagerBundle\Service\PersonalDataManagerUi;
+use WEM\SmartgearBundle\Classes\FileUtil;
 use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Model\Form;
 use WEM\SmartgearBundle\Model\FormStorage;
@@ -259,18 +260,18 @@ class UiListener
                                 $objFileModel = FilesModel::findByUuid($objFormStorageData->value);
                                 if ($objFileModel) {
                                     $objFile = new File($objFileModel->path);
-                                    if ($objFile->isUnprotected()) {
+                                    if (FileUtil::isDisplayableInBrowser($objFile)) {
                                         $buttons['show'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_show_file pdm-item__personal_data_single__button_show_file" target="_blank" data-path="%s">%s</a>',
                                             $this->personalDataManagerUi->getUrl(),
                                             $objFileModel->path,
                                             $this->translator->trans('WEMSG.FDM.PDMUI.buttonShowFile', [], 'contao_default'
                                         ));
-                                        $buttons['download'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_download_file pdm-item__personal_data_single__button_download_file" target="_blank" data-path="%s">%s</a>',
+                                    }
+                                    $buttons['download'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_download_file pdm-item__personal_data_single__button_download_file" target="_blank" data-path="%s">%s</a>',
                                             $this->personalDataManagerUi->getUrl(),
                                             $objFileModel->path,
                                             $this->translator->trans('WEMSG.FDM.PDMUI.buttonDownloadFile', [], 'contao_default'
                                         ));
-                                    }
                                 }
                             }
                         break;

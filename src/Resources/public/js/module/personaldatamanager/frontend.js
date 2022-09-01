@@ -39,21 +39,19 @@ window.onload = () => {
 		.then(data => data.json())
 		.then(data =>{
 			if("success" == data.status){
-
-				// var url = window.URL.createObjectURL(blob);
-				var a = document.createElement('a');
-				// a.style.display = 'none';
-				a.href = data.content;
-				a.target = "_blank";
-				// the filename you want
-				// a.download = filename;
-				document.body.appendChild(a);
-				a.click();
-				// window.URL.revokeObjectURL(url);
+				var modal = new app.ModalFW({
+					name : 'modal-pdm-show-file',
+					content: '<iframe src="'+data.content+'" width="100%" height="'+window.innerHeight*.75+'px"></iframe>',
+					width:'75%',
+					blnDismiss:false,
+					onClose: function(){
+						modal.destroy();
+					}
+				});
+				modal.open();
 			}else{
 				alert(data.msg);	
 			}
-			// hideLoader(singleElement);
 		}).catch(function(e) {
 			alert("Une erreur est survenue");
 			console.log(e);
@@ -70,7 +68,6 @@ window.onload = () => {
 			'email':email,
 			'field':field
 		})
-		// .then(data => data.json())
 		.then(response =>{
 			if(response.ok) {
 				response.blob().then(function(blob) {
