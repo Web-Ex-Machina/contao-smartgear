@@ -202,7 +202,7 @@ class UiListener
                             if (Validator::isStringUuid($buffer)) {
                                 $objFileModel = FilesModel::findByUuid($buffer);
                                 if (!$objFileModel) {
-                                    $buffer = $this->translator->trans('WEMSG.FDM.PDMUI.fileNotFound', [], 'contao_default')
+                                    $buffer = $this->translator->trans('WEMSG.FDM.PDMUI.fileNotFound', [], 'contao_default');
                                 } else {
                                     $buffer = $objFileModel->name;
                                 }
