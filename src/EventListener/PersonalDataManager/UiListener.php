@@ -248,7 +248,59 @@ class UiListener
         return $buffer;
     }
 
-    public function buildSingleItemBodyPersonalDataSingleButtons(int $pid, string $ptable, string $email, PersonalData $personalData, array $personalDatas, Model $originalModel, array $buttons): array
+    public function buildSingleItemBodyPersonalDataSingleButtons(int $pid, string $ptable, string $email, PersonalData $personalData, array $personalDatas, Model $originalModel, ?File $file, array $buttons): array
+    {
+        // switch ($ptable) {
+        //     case FormStorageData::getTable():
+        //         $objFormStorageData = FormStorageData::findByPk($pid);
+        //         if ($objFormStorageData) {
+        //             switch ($objFormStorageData->field_type) {
+        //                 case 'upload':
+        //                     if (Validator::isStringUuid($objFormStorageData->value)) {
+        //                         $objFileModel = FilesModel::findByUuid($objFormStorageData->value);
+        //                         if ($objFileModel) {
+        //                             $objFile = new File($objFileModel->path);
+        if ($file) {
+            if (FileUtil::isDisplayableInBrowser($file)) {
+                $buttons['show'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_show_file pdm-item__personal_data_single__button_show_file" target="_blank" data-path="%s">%s</a>',
+                                            $this->personalDataManagerUi->getUrl(),
+                                            $file->path,
+                                            $this->translator->trans('WEMSG.FDM.PDMUI.buttonShowFile', [], 'contao_default')
+                                        );
+            }
+            $buttons['download'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_download_file pdm-item__personal_data_single__button_download_file" target="_blank" data-path="%s">%s</a>',
+                                            $this->personalDataManagerUi->getUrl(),
+                                            $file->path,
+                                            $this->translator->trans('WEMSG.FDM.PDMUI.buttonDownloadFile', [], 'contao_default')
+                                        );
+        }
+        //                         }
+        //                     }
+        //                 break;
+        //             }
+        //         }
+
+        //     break;
+        // }
+
+        return $buttons;
+    }
+
+    /**
+     * @todo Move this function in another class
+     * [getFileByPidAndPtableAndEmailAndField description]
+     *
+     * @param string       $pid          [description]
+     * @param string       $ptable       [description]
+     * @param string       $email        [description]
+     * @param string       $field        [description]
+     * @param PersonalData $personalData [description]
+     * @param  [type]       $value        [description]
+     * @param FilesModel $objFileModel [description]
+     *
+     * @return [type]                     [description]
+     */
+    public function getFileByPidAndPtableAndEmailAndField(string $pid, string $ptable, string $email, string $field, PersonalData $personalData, $value, ?FilesModel $objFileModel): ?FilesModel
     {
         switch ($ptable) {
             case FormStorageData::getTable():
@@ -258,30 +310,43 @@ class UiListener
                         case 'upload':
                             if (Validator::isStringUuid($objFormStorageData->value)) {
                                 $objFileModel = FilesModel::findByUuid($objFormStorageData->value);
-                                if ($objFileModel) {
-                                    $objFile = new File($objFileModel->path);
-                                    if (FileUtil::isDisplayableInBrowser($objFile)) {
-                                        $buttons['show'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_show_file pdm-item__personal_data_single__button_show_file" target="_blank" data-path="%s">%s</a>',
-                                            $this->personalDataManagerUi->getUrl(),
-                                            $objFileModel->path,
-                                            $this->translator->trans('WEMSG.FDM.PDMUI.buttonShowFile', [], 'contao_default')
-                                        );
-                                    }
-                                    $buttons['download'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_download_file pdm-item__personal_data_single__button_download_file" target="_blank" data-path="%s">%s</a>',
-                                            $this->personalDataManagerUi->getUrl(),
-                                            $objFileModel->path,
-                                            $this->translator->trans('WEMSG.FDM.PDMUI.buttonDownloadFile', [], 'contao_default')
-                                        );
-                                }
                             }
                         break;
                     }
                 }
-
             break;
         }
 
-        return $buttons;
+        return $objFileModel;
+    }
+
+    /**
+     * @todo Move this function in another class
+     * [isPersonalDataLinkedToFile description]
+     *
+     * @param \WEM\PersonalDataManagerBundle\Model\PersonalData $personalData   [description]
+     * @param bool                                              $isLinkedToFile [description]
+     *
+     * @return bool [description]
+     */
+    public function isPersonalDataLinkedToFile(PersonalData $personalData, bool $isLinkedToFile): bool
+    {
+        switch ($personalData->ptable) {
+            case FormStorageData::getTable():
+                $objFormStorageData = FormStorageData::findByPk($personalData->pid);
+                if ($objFormStorageData) {
+                    switch ($objFormStorageData->field_type) {
+                        case 'upload':
+                            if (Validator::isStringUuid($objFormStorageData->value)) {
+                                $isLinkedToFile = true;
+                            }
+                        break;
+                    }
+                }
+            break;
+        }
+
+        return $isLinkedToFile;
     }
 
     protected function getPersonalDataForFormStorage($objFormStorage): array

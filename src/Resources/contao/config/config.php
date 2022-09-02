@@ -198,3 +198,6 @@ $GLOBALS['WEM_HOOKS']['renderSingleItemBodyPersonalDataSingle'][] = ['smartgear.
 $GLOBALS['WEM_HOOKS']['buildSingleItemBodyPersonalDataSingleButtons'][] = ['smartgear.listener.personal_data_ui', 'buildSingleItemBodyPersonalDataSingleButtons'];
 $GLOBALS['WEM_HOOKS']['renderSingleItemBodyPersonalDataSingleFieldLabel'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyPersonalDataSingleFieldLabel'];
 $GLOBALS['WEM_HOOKS']['renderSingleItemBodyPersonalDataSingleFieldValue'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyPersonalDataSingleFieldValue'];
+// PDM Manager
+$GLOBALS['WEM_HOOKS']['getFileByPidAndPtableAndEmailAndField'][] = ['smartgear.listener.personal_data_ui', 'getFileByPidAndPtableAndEmailAndField'];
+$GLOBALS['WEM_HOOKS']['isPersonalDataLinkedToFile'][] = ['smartgear.listener.personal_data_ui', 'isPersonalDataLinkedToFile'];
