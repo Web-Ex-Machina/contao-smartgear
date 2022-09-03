@@ -14,9 +14,6 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener\PersonalDataManager;
 
-use Contao\File;
-use Contao\FilesModel;
-use Contao\Validator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\SmartgearBundle\Model\FormStorage;
@@ -31,33 +28,6 @@ class AnonymizeListener
         TranslatorInterface $translator
     ) {
         $this->translator = $translator;
-    }
-
-    public function anonymize(PersonalData $personalData, $value): void
-    {
-        switch ($personalData->ptable) {
-            case FormStorageData::getTable():
-                $objFormStorageData = FormStorageData::findBy('id', $personalData->pid);
-                if (!$objFormStorageData) {
-                    return;
-                }
-
-                if ('upload' === $objFormStorageData->field_type && Validator::isStringUuid($value)) {
-                    $objFileModel = FilesModel::findByUuid($value);
-
-                    if (!$objFileModel) {
-                        return;
-                    }
-                    // replace file by anonymized image
-                    $objFile = new File($objFileModel->path);
-                    $objFileDeletedTplContent = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/formDataManager/file_deleted.jpg');
-
-                    $objFile->write($objFileDeletedTplContent);
-                    $objFile->renameTo(str_replace($objFile->name, sprintf('file_deleted_%s.jpg', time()), $objFile->path));
-                    $objFile->close();
-                }
-            break;
-        }
     }
 
     public function anonymizeByPidAndPtableAndEmail(string $pid, string $ptable, string $email, ?\Contao\Model\Collection $pdms): ?\Contao\Model\Collection

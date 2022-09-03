@@ -85,6 +85,12 @@ services:
             $translator: '@contao.translation.translator'
         public: true
 
+    smartgear.listener.personal_data_manager:
+        class: WEM\SmartgearBundle\EventListener\PersonalDataManager\ManagerListener
+        arguments:
+            $translator: '@contao.translation.translator'
+        public: true
+
     smartgear.listener.process_form_data:
         class: WEM\SmartgearBundle\EventListener\ProcessFormDataListener
         arguments:
