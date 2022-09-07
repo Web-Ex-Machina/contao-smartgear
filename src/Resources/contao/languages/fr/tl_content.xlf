@@ -1224,7 +1224,7 @@
       </trans-unit>
       <trans-unit id="tl_content.link_mode.optionWrapper">
         <source>Wrapper</source>
-        <target>Wrapper</target>
+        <target>Tout le bloc</target>
       </trans-unit>
       <trans-unit id="tl_content.link_mode.optionBtn">
         <source>Button</source>
