@@ -1390,6 +1390,14 @@
         <source>Select the search block background color</source>
         <target>Sélectionnez la couleur de fond du bloc de recherche</target>
       </trans-unit>
+      <trans-unit id="tl_content.header.search_parameter.0">
+        <source>GET argument name</source>
+        <target>Nom du paramètre GET</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.search_parameter.1">
+        <source>Define the name of the argument used by the search engine</source>
+        <target>Définit le nom du paramètre utilisé par le moteur de recherche</target>
+      </trans-unit>
       <trans-unit id="tl_content.header.add_lang_selector.0">
         <source>Add lang selector</source>
         <target>Ajouter un selecteur de langue</target>
