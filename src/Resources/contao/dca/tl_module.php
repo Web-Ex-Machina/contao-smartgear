@@ -42,7 +42,6 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['wem_sg_header'] = '
 {wem_sg_header_nav_legend},wem_sg_header_nav_module,wem_sg_header_nav_position,wem_sg_header_panel_position,wem_sg_header_add_search,wem_sg_header_add_lang_selector;
 {wem_sg_header_config_legend},wem_sg_header_sticky,wem_sg_header_add_topbar,wem_sg_header_add_postnav_content;
 {wem_sg_header_appearance_legend},wem_sg_header_width,wem_sg_header_background,wem_sg_header_bottom_style,wem_sg_header_hover_style;
-{nav_legend},wem_sg_navigation;
 {expert_legend:hide},customTpl,cssID
 ';
 
@@ -89,6 +88,7 @@ DCAManipulator::create('tl_module')
         'sql' => "int(10) unsigned NOT NULL default '0'",
     ])
     ->addField('wem_sg_header_alt', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['header_alt'],
         'inputType' => 'text',
         'eval' => ['tl_class' => 'w50'],
         'sql' => "varchar(255) NOT NULL default ''",

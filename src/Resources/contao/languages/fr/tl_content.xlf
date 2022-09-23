@@ -1286,21 +1286,13 @@
         <source>Configure a header for the site (logo, navigation, contact, etc.)</source>
         <target>Configurez un header pour le site (logo, navigation, contact, etc)</target>
       </trans-unit>
-      <trans-unit id="tl_content.header.logo_legend">
-        <source>Logo</source>
-        <target>Logo</target>
+      <trans-unit id="tl_content.header.header_alt.0">
+        <source>Alt logo text</source>
+        <target>Texte alternatif</target>
       </trans-unit>
-      <trans-unit id="tl_content.header.nav_legend">
-        <source>Navigation</source>
-        <target>Navigation</target>
-      </trans-unit>
-      <trans-unit id="tl_content.header.config_legend">
-        <source>Header's configuration</source>
-        <target>Configuration du header</target>
-      </trans-unit>
-      <trans-unit id="tl_content.header.appearance_legend">
-        <source>Header's appearance</source>
-        <target>Apparence du header</target>
+      <trans-unit id="tl_content.header.header_alt.1">
+        <source>Text to display if the logo is not displayable</source>
+        <target>Texte à afficher à la place du logo si celui-ci n'est pas affichable</target>
       </trans-unit>
       <trans-unit id="tl_content.header.add_catchline.0">
         <source>Add catchline</source>

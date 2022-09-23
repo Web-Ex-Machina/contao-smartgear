@@ -23,6 +23,23 @@
 			<target>Navigation fléchée</target>
 		</trans-unit>
 
+		<trans-unit id="tl_module.wem_sg_header_logo_legend">
+			<source>Logo</source>
+			<target>Logo</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_nav_legend">
+			<source>Navigation</source>
+			<target>Navigation</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_config_legend">
+		  <source>Header's configuration</source>
+		  <target>Configuration du header</target>
+		</trans-unit>
+		<trans-unit id="tl_module.wem_sg_header_appearance_legend">
+		  <source>Header's appearance</source>
+		  <target>Apparence du header</target>
+		</trans-unit>
+
 		<trans-unit id="tl_module.wem_sg_header_above.0">
 			<source>Logo and contents above</source>
 			<target>Logo et contenus au dessus</target>
