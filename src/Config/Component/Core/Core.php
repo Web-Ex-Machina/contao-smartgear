@@ -432,7 +432,7 @@ class Core implements ConfigModuleInterface
         $modules = [];
         foreach ($this->getSgModules() as $module) {
             if (null !== $module->id) {
-                $modules[] = $module->id;
+                $modules[] = (int) $module->id;
             }
         }
 
