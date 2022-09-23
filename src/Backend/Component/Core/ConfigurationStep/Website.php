@@ -311,7 +311,7 @@ class Website extends ConfigurationStep
         $objPDMModule->type = 'wem_personaldatamanager';
         $objPDMModule->tstamp = time();
         $objPDMModule->save();
-        $modules[$objPDMModule->type] = $objSitemapModule;
+        $modules[$objPDMModule->type] = $objPDMModule;
 
         return $modules;
     }

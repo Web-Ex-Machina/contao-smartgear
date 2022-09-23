@@ -12,9 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-use Contao\BackendUser;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
-use Contao\System;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\DataContainer\Module as ModuleDCA;
 
@@ -31,84 +29,30 @@ use WEM\SmartgearBundle\DataContainer\Module as ModuleDCA;
 /*
  * Add fields for header component
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_header_content';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_navigation';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_display_share_buttons';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_header_add_catchline';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_header_add_search';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_header_add_lang_selector';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_header_add_topbar';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_header_add_postnav_content';
 
 $GLOBALS['TL_DCA']['tl_module']['palettes']['wem_sg_header'] = '
-	{title_legend},name,type;
-	{config_legend},wem_sg_header_preset,wem_sg_header_above,wem_sg_header_sticky;
-	{wemsgheader_legend},wem_sg_header_logo,wem_sg_header_logo_size,wem_sg_header_logo_alt,wem_sg_header_content;
-	{nav_legend},wem_sg_navigation;
-	{expert_legend:hide},customTpl,cssID
+{wem_sg_header_logo_legend},singleSRC,imgSize,wem_sg_header_alt,wem_sg_header_add_catchline;
+{wem_sg_header_nav_legend},wem_sg_header_nav_module,wem_sg_header_nav_position,wem_sg_header_panel_position,wem_sg_header_add_search,wem_sg_header_add_lang_selector;
+{wem_sg_header_config_legend},wem_sg_header_sticky,wem_sg_header_add_topbar,wem_sg_header_add_postnav_content;
+{wem_sg_header_appearance_legend},wem_sg_header_width,wem_sg_header_background,wem_sg_header_bottom_style,wem_sg_header_hover_style;
+{nav_legend},wem_sg_navigation;
+{expert_legend:hide},customTpl,cssID
 ';
-$GLOBALS['TL_DCA']['tl_module']['subpalettes']['wem_sg_header_content'] = 'wem_sg_header_content_html';
+
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['wem_sg_navigation_module'] = 'wem_sg_navigation_module';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['wem_sg_header_add_catchline'] = 'wem_sg_header_catchline';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['wem_sg_header_add_search'] = 'wem_sg_header_search_page,wem_sg_header_search_bg,wem_sg_header_search_parameter';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['wem_sg_header_add_lang_selector'] = 'wem_sg_header_lang_selector_module,wem_sg_header_lang_selector_bg';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['wem_sg_header_add_topbar'] = 'wem_sg_header_topbar,wem_sg_header_topbar_bg';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['wem_sg_header_add_postnav_content'] = 'wem_sg_header_postnav_content';
 DCAManipulator::create('tl_module')
-    ->addField('wem_sg_header_preset', [
-        'label' => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_header_preset'],
-        'default' => 'classic',
-        'exclude' => true,
-        'inputType' => 'select',
-        'options' => ['classic', 'nav--arrowed'],
-        'reference' => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_header_preset'],
-        'eval' => ['helpwizard' => true],
-        'sql' => "varchar(32) NOT NULL default ''",
-    ])
-    ->addField('wem_sg_header_above', [
-        'label' => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_header_above'],
-        'exclude' => true,
-        'inputType' => 'checkbox',
-        'eval' => ['tl_class' => 'w50 m12'],
-        'sql' => "char(1) NOT NULL default ''",
-    ])
-    ->addField('wem_sg_header_sticky', [
-        'label' => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_header_sticky'],
-        'exclude' => true,
-        'inputType' => 'checkbox',
-        'eval' => ['tl_class' => 'w50 m12'],
-        'sql' => "char(1) NOT NULL default ''",
-    ])
-    ->addField('wem_sg_header_logo', [
-        'label' => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_header_logo'],
-        'exclude' => true,
-        'inputType' => 'fileTree',
-        'eval' => ['fieldType' => 'radio', 'filesOnly' => true, 'mandatory' => true, 'tl_class' => 'clr'],
-        'sql' => 'binary(16) NULL',
-    ])
-    ->addField('wem_sg_header_logo_size', [
-        'label' => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_header_logo_size'],
-        'exclude' => true,
-        'inputType' => 'imageSize',
-        'reference' => &$GLOBALS['TL_LANG']['MSC'],
-        'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50'],
-        'options_callback' => function () {
-            return System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance());
-        },
-        'sql' => "varchar(64) NOT NULL default ''",
-    ])
-    ->addField('wem_sg_header_logo_alt', [
-        'label' => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_header_logo_alt'],
-        'exclude' => true,
-        'inputType' => 'text',
-        'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NOT NULL default ''",
-    ])
-    ->addField('wem_sg_header_content', [
-        'label' => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_header_content'],
-        'exclude' => true,
-        'inputType' => 'checkbox',
-        'eval' => ['tl_class' => 'w50 clr', 'submitOnChange' => true],
-        'sql' => "char(1) NOT NULL default ''",
-    ])
-    ->addField('wem_sg_header_content_html', [
-        'label' => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_header_content_html'],
-        'exclude' => true,
-        'inputType' => 'textarea',
-        'eval' => ['allowHtml' => true, 'class' => 'monospace', 'rte' => 'ace|html', 'helpwizard' => true],
-        'explanation' => 'insertTags',
-        'sql' => 'text NULL',
-    ])
     ->addField('wem_sg_navigation', [
         'label' => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_navigation'],
         'default' => 'classic',
@@ -143,6 +87,205 @@ DCAManipulator::create('tl_module')
         'inputType' => 'text',
         'eval' => ['maxlength' => 4, 'tl_class' => 'w50'],
         'sql' => "int(10) unsigned NOT NULL default '0'",
+    ])
+    ->addField('wem_sg_header_alt', [
+        'inputType' => 'text',
+        'eval' => ['tl_class' => 'w50'],
+        'sql' => "varchar(255) NOT NULL default ''",
+    ])
+    ->addField('wem_sg_header_add_catchline', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['add_catchline'],
+        'inputType' => 'checkbox',
+        'eval' => ['tl_class' => 'w50 clr m12', 'submitOnChange' => true],
+        'sql' => "CHAR(1) NOT NULL default '0'",
+    ])
+    ->addField('wem_sg_header_catchline', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['catchline'],
+        'inputType' => 'text',
+        'eval' => ['mandatory' => false, 'tl_class' => 'clr', 'rte' => 'ace|html'],
+        'dependsOn' => [
+            'field' => 'add_catchline',
+        ],
+        'sql' => 'TEXT NULL',
+    ])
+    ->addField('wem_sg_header_nav_module', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['nav_custom_module'],
+        'inputType' => 'select',
+        'options_callback' => [WEM\SmartgearBundle\DataContainer\Content::class, 'getModules'],
+        'eval' => ['mandatory' => true, 'tl_class' => 'w50 wizard', 'includeBlankOption' => true],
+        // 'wizard' => [['tl_content', 'editModule']],  // doesn't seem to work
+        'sql' => "int(10) unsigned NOT NULL default '0'",
+    ])
+    ->addField('wem_sg_header_nav_position', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['nav_position'],
+        'inputType' => 'select',
+        'options' => [
+            'left' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['left'],
+            'center' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['center'],
+            'right' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['right'],
+        ],
+        'default' => 'right',
+        'eval' => ['tl_class' => 'w50 clr'],
+        'sql' => "varchar(255) NOT NULL default ''",
+    ])
+    ->addField('wem_sg_header_panel_position', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['panel_position'],
+        'inputType' => 'select',
+        'options' => [
+            'left' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['left'],
+            'right' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['right'],
+        ],
+        'default' => 'right',
+        'eval' => ['tl_class' => 'w50 '],
+        'sql' => "varchar(255) NOT NULL default ''",
+    ])
+    ->addField('wem_sg_header_add_search', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['add_search'],
+        'inputType' => 'checkbox',
+        'eval' => ['tl_class' => 'w50 clr m12 cbx', 'submitOnChange' => true],
+        'sql' => "CHAR(1) NOT NULL default '0'",
+    ])
+    ->addField('wem_sg_header_search_page', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['search_page'],
+        'inputType' => 'pageTree',
+        'eval' => ['rgxp' => 'url', 'tl_class' => 'w50 wizard clr', 'mandatory' => true],
+        'wizard' => [[WEM\SmartgearBundle\DataContainer\Content::class, 'pagePicker']],
+        'dependsOn' => [
+            'field' => 'add_search',
+        ],
+        'sql' => "int(10) unsigned NOT NULL default '0'",
+    ])
+    ->addField('wem_sg_header_search_bg', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['search_bg'],
+        'inputType' => 'select',
+        'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
+        'eval' => ['tl_class' => 'w50 ', 'includeBlankOption' => true],
+        'dependsOn' => [
+            'field' => 'add_search',
+        ],
+        'sql' => "varchar(255) NOT NULL default ''",
+    ])
+    ->addField('wem_sg_header_search_parameter', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['search_parameter'],
+        'inputType' => 'text',
+        'eval' => ['tl_class' => 'w50 clr', 'mandatory' => true],
+        'default' => 'keywords',
+        'dependsOn' => [
+            'field' => 'add_search',
+        ],
+        'sql' => 'TEXT NULL',
+    ])
+    ->addField('wem_sg_header_add_lang_selector', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['add_lang_selector'],
+        'inputType' => 'checkbox',
+        'eval' => ['tl_class' => 'w50 clr m12 cbx', 'submitOnChange' => true],
+        'sql' => "CHAR(1) NOT NULL default '0'",
+    ])
+    ->addField('wem_sg_header_lang_selector_module', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['lang_selector_module'],
+        'inputType' => 'select',
+        'options_callback' => [WEM\SmartgearBundle\DataContainer\Content::class, 'getModules'],
+        'eval' => ['mandatory' => true, 'tl_class' => 'w50 clr wizard', 'includeBlankOption' => true],
+        'dependsOn' => [
+            'field' => 'add_lang_selector',
+        ],
+        'sql' => "int(10) unsigned NOT NULL default '0'",
+    ])
+    ->addField('wem_sg_header_lang_selector_bg', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['lang_selector_bg'],
+        'inputType' => 'select',
+        'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
+        'eval' => ['tl_class' => 'w50 ', 'includeBlankOption' => true],
+        'dependsOn' => [
+            'field' => 'add_lang_selector',
+        ],
+        'sql' => "varchar(255) NOT NULL default ''",
+    ])
+    ->addField('wem_sg_header_sticky', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['sticky'],
+        'inputType' => 'checkbox',
+        'default' => true,
+        'eval' => ['tl_class' => 'w50 clr'],
+        'sql' => "CHAR(1) NOT NULL default '0'",
+    ])
+    ->addField('wem_sg_header_add_topbar', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['add_topbar'],
+        'inputType' => 'checkbox',
+        'eval' => ['tl_class' => 'w50 clr ', 'submitOnChange' => true],
+        'sql' => "CHAR(1) NOT NULL default '0'",
+    ])
+    ->addField('wem_sg_header_topbar', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['topbar'],
+        'inputType' => 'text',
+        'eval' => ['mandatory' => false, 'tl_class' => 'clr w50', 'rte' => 'ace|html'],
+        'dependsOn' => [
+            'field' => 'add_topbar',
+        ],
+        'sql' => 'TEXT NULL',
+    ])
+    ->addField('wem_sg_header_topbar_bg', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['topbar_bg'],
+        'inputType' => 'select',
+        'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
+        'eval' => ['tl_class' => 'w50 ', 'includeBlankOption' => true],
+        'dependsOn' => [
+            'field' => 'add_topbar',
+        ],
+        'sql' => "varchar(255) NOT NULL default ''",
+    ])
+    ->addField('wem_sg_header_add_postnav_content', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['add_postnav_content'],
+        'inputType' => 'checkbox',
+        'eval' => ['tl_class' => 'w50 clr', 'submitOnChange' => true],
+        'sql' => "CHAR(1) NOT NULL default '0'",
+    ])
+    ->addField('wem_sg_header_postnav_content', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['postnav_content'],
+        'inputType' => 'text',
+        'eval' => ['mandatory' => false, 'tl_class' => 'clr', 'rte' => 'ace|html'],
+        'dependsOn' => [
+            'field' => 'add_postnav_content',
+        ],
+        'sql' => 'TEXT NULL',
+    ])
+    ->addField('wem_sg_header_width', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['width'],
+        'inputType' => 'select',
+        'options' => [
+            'fullsize' => &$GLOBALS['TL_LANG']['tl_content']['header']['width']['optionFullsize'],
+            'container' => &$GLOBALS['TL_LANG']['tl_content']['header']['width']['optionContainer'],
+        ],
+        'default' => 'fullsize',
+        'eval' => ['tl_class' => 'w50 clr'],
+        'sql' => "varchar(255) NOT NULL default ''",
+    ])
+    ->addField('wem_sg_header_background', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['background'],
+        'inputType' => 'select',
+        'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
+        'eval' => ['tl_class' => 'w50 clr', 'includeBlankOption' => true],
+        'sql' => "varchar(255) NOT NULL default ''",
+    ])
+    ->addField('wem_sg_header_bottom_style', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['bottom_style'],
+        'inputType' => 'select',
+        'options' => [
+            'shadow' => &$GLOBALS['TL_LANG']['tl_content']['header']['bottom_style']['optionShadow'],
+            'border' => &$GLOBALS['TL_LANG']['tl_content']['header']['bottom_style']['optionBorder'],
+        ],
+        'eval' => ['tl_class' => 'w50 clr', 'includeBlankOption' => true],
+        'sql' => "varchar(255) NOT NULL default ''",
+    ])
+    ->addField('wem_sg_header_hover_style', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['hover_style'],
+        'inputType' => 'select',
+        'options' => [
+            'underline' => &$GLOBALS['TL_LANG']['tl_content']['header']['hover_style']['optionUnderline'],
+            'background' => &$GLOBALS['TL_LANG']['tl_content']['header']['hover_style']['optionBackground'],
+        ],
+        'default' => 'underline',
+        'eval' => ['tl_class' => 'w50 clr'],
+        'sql' => "varchar(255) NOT NULL default ''",
     ])
 ;
 
