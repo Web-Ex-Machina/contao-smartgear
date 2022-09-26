@@ -61,7 +61,11 @@ class Header extends Module
     protected function compile(): void
     {
         try {
-            // nothing specific to do here
+            global $objPage;
+
+            $isRoot = 'root' === $objPage->type || 'index' === $objPage->alias;
+
+            $this->Template->isRoot = $isRoot;
         } catch (Exception $e) {
             $this->Template->blnError = true;
             $this->Template->strError = $e->getMessage();

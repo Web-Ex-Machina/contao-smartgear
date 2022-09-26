@@ -21,9 +21,9 @@
 <div class="headerFW <?= $this->wem_sg_header_class ?> <?= implode(' ', $arrClasses) ?>" data-stick="<?= $this->wem_sg_header_sticky?'true':'false' ?>" data-watchnav="true">
   <div class="headerFW__wrapper <?= $this->wem_sg_header_width ?>">
     <div class="headerFW__logo__wrapper">
-      <<?= $this->wem_sg_header_isRoot?'h1':'a href="{{env::url}}"' ?> id="logo" class="headerFW__logo" title="<?= $this->wem_sg_header_alt ? $this->wem_sg_header_alt : '{{page::rootTitle}}' ?>">
+      <<?= $this->isRoot?'h1':'a href="{{env::url}}"' ?> id="logo" class="headerFW__logo" title="<?= $this->wem_sg_header_alt ? $this->wem_sg_header_alt : '{{page::rootTitle}}' ?>">
         <img src="<?= $strFile ?>" alt="<?= $this->wem_sg_header_alt ? $this->wem_sg_header_alt : '{{page::rootTitle}}' ?>" width="<?= $arrCrop[0] ?>" height="<?= $arrCrop[1] ?>">
-      </<?= $this->wem_sg_header_isRoot?'h1':'a' ?>>
+      </<?= $this->isRoot?'h1':'a' ?>>
       <?php if ($this->wem_sg_header_catchline): ?>
         <div class="headerFW__catchline">
           <?= $this->wem_sg_header_catchline ?>
