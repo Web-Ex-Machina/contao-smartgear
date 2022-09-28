@@ -260,12 +260,15 @@ class Website extends ConfigurationStep
             $objFileModel = FilesModel::findByPath($config->getSgOwnerLogo());
             if ($objFileModel) {
                 $objHeaderModule->singleSRC = $objFileModel->uuid;
-                $objHeaderModule->imgSize = 'a:3:{i:0;s:0:"";i:1;s:3:"100";i:2;s:12:"proportional";}';
             }
         }
+        $objHeaderModule->imgSize = 'a:3:{i:0;s:0:"";i:1;s:3:"100";i:2;s:12:"proportional";}';
         $objHeaderModule->wem_sg_header_sticky = 1;
         $objHeaderModule->wem_sg_header_nav_module = $objNavMain->id;
         $objHeaderModule->wem_sg_header_alt = 'Logo '.$this->sgConfig['websiteTitle'];
+        $objHeaderModule->wem_sg_header_search_parameter = 'keywords';
+        $objHeaderModule->wem_sg_header_nav_position = 'right';
+        $objHeaderModule->wem_sg_header_panel_position = 'right';
         $objHeaderModule->save();
         $modules[$objHeaderModule->type] = $objHeaderModule;
 
@@ -863,10 +866,11 @@ class Website extends ConfigurationStep
     {
         $fm = Files::getInstance();
         $logoFolder = new Folder(CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER);
-        if (!$fm->move_uploaded_file($_FILES['sgWebsiteLogo']['tmp_name'], CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.$_FILES['sgWebsiteLogo']['name'])) {
-            throw new Exception(sprintf('Unable to upload logo to "%s".', CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.$_FILES['sgWebsiteLogo']['name']));
+        if (!$fm->move_uploaded_file($_FILES['sgWebsiteLogo']['tmp_name'], CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.\DIRECTORY_SEPARATOR.$_FILES['sgWebsiteLogo']['name'].'_tmp')) {
+            throw new Exception(sprintf('Unable to upload logo to "%s".', CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.\DIRECTORY_SEPARATOR.$_FILES['sgWebsiteLogo']['name'].'_tmp'));
         }
-        $objFile = new File(CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.$_FILES['sgWebsiteLogo']['name']);
+        $objFile = new File(CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.\DIRECTORY_SEPARATOR.$_FILES['sgWebsiteLogo']['name'].'_tmp');
+        $objFile->renameTo(CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.\DIRECTORY_SEPARATOR.$_FILES['sgWebsiteLogo']['name']);
 
         return $objFile;
     }
