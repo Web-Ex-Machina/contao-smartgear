@@ -81,7 +81,7 @@ trait MessagesTrait
     }
 
     /**
-     * Add an error.
+     * Add an info.
      */
     protected function addInfo(string $msg): void
     {
@@ -92,7 +92,7 @@ trait MessagesTrait
     }
 
     /**
-     * Add an error.
+     * Add an confirm.
      */
     protected function addConfirm(string $msg): void
     {
@@ -103,7 +103,7 @@ trait MessagesTrait
     }
 
     /**
-     * Add an error.
+     * Add an new.
      */
     protected function addNew(string $msg): void
     {
@@ -111,5 +111,37 @@ trait MessagesTrait
             'class' => 'tl_new',
             'text' => $msg,
         ];
+    }
+
+    /**
+     * Add a message.
+     */
+    // protected function addMessage(string $scope, string $msg): void
+    protected function addMessage($strMessage, $strType): void // needs to be the same as \Contao\System::addMessage, otherwise a warning is thrown "because"
+    {
+        switch ($strType) {
+            case 'tl_new':
+                $this->addNew($strMessage);
+            break;
+            case 'tl_confirm':
+                $this->addConfirm($strMessage);
+            break;
+            case 'tl_info':
+                $this->addInfo($strMessage);
+            break;
+            case 'tl_error':
+                $this->addError($strMessage);
+            break;
+        }
+    }
+
+    /**
+     * Add a message.
+     */
+    protected function addMessages(array $messages): void
+    {
+        foreach ($messages as $scope => $message) {
+            $this->addMessage($scope, $message);
+        }
     }
 }

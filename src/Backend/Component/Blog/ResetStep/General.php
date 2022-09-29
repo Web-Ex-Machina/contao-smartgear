@@ -14,26 +14,21 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Blog\ResetStep;
 
-use Contao\FilesModel;
 use Contao\Input;
-use Contao\NewsArchiveModel;
-use Contao\PageModel;
-use Contao\UserGroupModel;
-use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use WEM\SmartgearBundle\Backend\Component\Blog\Resetter;
 use WEM\SmartgearBundle\Classes\Backend\AbstractStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
-use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
-use WEM\SmartgearBundle\Config\Component\Blog\Preset as BlogPresetConfig;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
-use WEM\SmartgearBundle\Model\Module;
-use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class General extends AbstractStep
 {
+    /** @var TranslatorInterface */
+    protected $translator;
     /** @var ConfigurationManager */
     protected $configurationManager;
+    /** @var Resetter */
+    protected $resetter;
 
     protected $strTemplate = 'be_wem_sg_install_block_reset_step_blog_general';
 
@@ -41,11 +36,13 @@ class General extends AbstractStep
         string $module,
         string $type,
         TranslatorInterface $translator,
-        ConfigurationManager $configurationManager
+        ConfigurationManager $configurationManager,
+        Resetter $resetter
     ) {
         parent::__construct($module, $type);
         $this->translator = $translator;
         $this->configurationManager = $configurationManager;
+        $this->resetter = $resetter;
 
         $this->title = $this->translator->trans('WEMSG.BLOG.RESET.title', [], 'contao_default');
 
@@ -80,90 +77,7 @@ class General extends AbstractStep
     public function do(): void
     {
         // do what is meant to be done in this step
-        $this->resetUserGroupSettings();
-        $this->reset(Input::post('deleteMode'));
-    }
-
-    protected function reset(string $deleteMode): void
-    {
-        // reset everything except what we wanted to keep
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
-        /** @var BlogConfig */
-        $blogConfig = $config->getSgBlog();
-        /** @var BlogPresetConfig */
-        $presetConfig = $blogConfig->getCurrentPreset();
-        $archiveTimestamp = time();
-
-        switch ($deleteMode) {
-            case BlogConfig::ARCHIVE_MODE_ARCHIVE:
-                $objFolder = new \Contao\Folder($presetConfig->getSgNewsFolder());
-                $objNewsArchive = NewsArchiveModel::findById($blogConfig->getSgNewsArchive());
-
-                $objFolder->renameTo(sprintf('files/archives/news-%s', (string) $archiveTimestamp));
-                $objNewsArchive->title = sprintf('%s (Archive-%s)', $objNewsArchive->title, (string) $archiveTimestamp);
-                $objNewsArchive->save();
-
-            break;
-            case BlogConfig::ARCHIVE_MODE_KEEP:
-            break;
-            case BlogConfig::ARCHIVE_MODE_DELETE:
-                $objFolder = new \Contao\Folder($presetConfig->getSgNewsFolder());
-                $objNewsArchive = NewsArchiveModel::findById($blogConfig->getSgNewsArchive());
-
-                $objFolder->delete();
-                $objNewsArchive->delete();
-            break;
-            default:
-                throw new \InvalidArgumentException($this->translator->trans('WEMSG.BLOG.RESET.deleteModeUnknown', [], 'contao_default'));
-            break;
-        }
-
-        $objPage = PageModel::findById($blogConfig->getSgPage());
-        $objPage->published = false;
-        $objPage->save();
-
-        $blogConfig->setSgArchived(true)
-            ->setSgArchivedMode($deleteMode)
-            ->setSgArchivedAt($archiveTimestamp)
-        ;
-
-        $config->setSgBlog($blogConfig);
-
-        $this->configurationManager->save($config);
-    }
-
-    protected function resetUserGroupSettings(): void
-    {
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
-        /** @var BlogConfig */
-        $blogConfig = $config->getSgBlog();
-
-        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $blogConfig);
-        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $blogConfig);
-    }
-
-    protected function resetUserGroup(UserGroupModel $objUserGroup, BlogConfig $blogConfig): void
-    {
-        $objFolder = FilesModel::findByPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
-        if (!$objFolder) {
-            throw new Exception('Unable to find the folder');
-        }
-
-        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
-        $userGroupManipulator
-            ->removeSmartgearPermissions([SmartgearPermissions::BLOG_EXPERT])
-            // ->removeAllowedModules(['news'])
-            ->removeAllowedNewsArchive([$blogConfig->getSgNewsArchive()])
-            ->removeAllowedFilemounts([$objFolder->uuid])
-            ->removeAllowedFieldsByPrefixes(['tl_news::'])
-            ->removeAllowedPagemounts($blogConfig->getContaoPagesIds())
-            ->removeAllowedModules(Module::getTypesByIds($blogConfig->getContaoModulesIds()))
-        ;
-
-        $objUserGroup = $userGroupManipulator->getUserGroup();
-        $objUserGroup->newp = null;
-        $objUserGroup->save();
+        $this->resetter->reset(Input::post('deleteMode'));
+        $this->addMessages($this->resetter->getMessages());
     }
 }

@@ -591,8 +591,8 @@
 			<target>Configuration locale</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.RESET.GENERAL.localconfigHelp">
-			<source>Additionnal configuration in <code>congif/config.yml</code> file</source>
-			<target>Configuration supplémentaire dans le fichier <code>congif/config.yml</code></target>
+			<source>Additionnal configuration in congif/config.yml file</source>
+			<target>Configuration supplémentaire dans le fichier congif/config.yml</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.RESET.GENERAL.localconfigKept">
 			<source>Local configuration kept</source>
@@ -623,8 +623,8 @@
 			<target>Templates</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.RESET.GENERAL.templatesHelp">
-			<source>Folders <code>%s</code> will be deleted</source>
-			<target>Les dossiers <code>%s</code> seront supprimés</target>
+			<source>Folders %s will be deleted</source>
+			<target>Les dossiers %s seront supprimés</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.RESET.GENERAL.templatesKept">
 			<source>Templates kept</source>
@@ -809,6 +809,10 @@
 		<trans-unit id="WEMSG.CORE.RESETSTEPMANAGER.backupBeforeReset">
 			<source>Backup before reset :</source>
 			<target>Sauvegarde avant réinitialisation :</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.RESETSTEPMANAGER.allModulesAndComponentsWillBeResetted">
+			<source>Warning ! All Smartgear' s components and modules will be resetted !</source>
+			<target>Attention ! Tous les composants et modules Smartgear seront désinstallés !</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.AJAX.COMMAND.messageCmdNotSpecified">
 			<source>Missing one arguments : cmd</source>

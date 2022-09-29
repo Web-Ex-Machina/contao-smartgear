@@ -740,6 +740,127 @@ class Extranet implements ConfigModuleInterface
         return [$this->getSgMemberGroupMembers()];
     }
 
+    public function resetContaoModulesIds(): void
+    {
+        $this->setSgModuleData(null);
+        $this->setSgModuleLogin(null);
+        $this->setSgModuleLogout(null);
+        $this->setSgModuleNav(null);
+        $this->setSgModulePassword(null);
+        $this->setSgModuleSubscribe(null);
+        $this->setSgModuleCloseAccount(null);
+    }
+
+    public function resetContaoPagesIds(): void
+    {
+        $this->setSgPage401(null);
+        $this->setSgPage403(null);
+        $this->setSgPageContent(null);
+        $this->setSgPageData(null);
+        $this->setSgPageExtranet(null);
+        $this->setSgPageLogout(null);
+        $this->setSgPagePassword(null);
+        $this->setSgPageSubscribe(null);
+        $this->setSgPageDataConfirm(null);
+        $this->setSgPageExtranetTitle(null);
+        $this->setSgPagePasswordConfirm(null);
+        $this->setSgPagePasswordValidate(null);
+        $this->setSgPageSubscribeConfirm(null);
+        $this->setSgPageSubscribeValidate(null);
+        $this->setSgPageUnsubscribeConfirm(null);
+    }
+
+    public function resetContaoContentsIds(): void
+    {
+        $this
+            ->setSgContentArticleExtranetHeadline(null)
+            ->setSgContentArticleExtranetModuleLoginGuests(null)
+            ->setSgContentArticleExtranetGridStartA(null)
+            ->setSgContentArticleExtranetGridStartB(null)
+            ->setSgContentArticleExtranetModuleLoginLogged(null)
+            ->setSgContentArticleExtranetModuleNav(null)
+            ->setSgContentArticleExtranetGridStopB(null)
+            ->setSgContentArticleExtranetText(null)
+            ->setSgContentArticleExtranetGridStopA(null)
+            ->setSgContentArticle401Headline(null)
+            ->setSgContentArticle401Text(null)
+            ->setSgContentArticle401ModuleLoginGuests(null)
+            ->setSgContentArticle403Headline(null)
+            ->setSgContentArticle403Text(null)
+            ->setSgContentArticle403Hyperlink(null)
+            ->setSgContentArticleContentHeadline(null)
+            ->setSgContentArticleContentText(null)
+            ->setSgContentArticleDataHeadline(null)
+            ->setSgContentArticleDataModuleData(null)
+            ->setSgContentArticleDataHeadlineCloseAccount(null)
+            ->setSgContentArticleDataTextCloseAccount(null)
+            ->setSgContentArticleDataModuleCloseAccount(null)
+            ->setSgContentArticleDataConfirmHeadline(null)
+            ->setSgContentArticleDataConfirmText(null)
+            ->setSgContentArticleDataConfirmHyperlink(null)
+            ->setSgContentArticlePasswordHeadline(null)
+            ->setSgContentArticlePasswordModulePassword(null)
+            ->setSgContentArticlePasswordConfirmHeadline(null)
+            ->setSgContentArticlePasswordConfirmText(null)
+            ->setSgContentArticlePasswordValidateHeadline(null)
+            ->setSgContentArticlePasswordValidateModulePassword(null)
+            ->setSgContentArticleLogoutModuleLogout(null)
+            ->setSgContentArticleSubscribeHeadline(null)
+            ->setSgContentArticleSubscribeModuleSubscribe(null)
+            ->setSgContentArticleSubscribeConfirmHeadline(null)
+            ->setSgContentArticleSubscribeConfirmText(null)
+            ->setSgContentArticleSubscribeValidateHeadline(null)
+            ->setSgContentArticleSubscribeValidateText(null)
+            ->setSgContentArticleSubscribeValidateModuleLoginGuests(null)
+            ->setSgContentArticleUnsubscribeHeadline(null)
+            ->setSgContentArticleUnsubscribeText(null)
+            ->setSgContentArticleUnsubscribeHyperlink(null)
+        ;
+    }
+
+    public function resetContaoArticlesIds(): void
+    {
+        $this
+            ->setSgArticleExtranet(null)
+            ->setSgArticle401(null)
+            ->setSgArticle403(null)
+            ->setSgArticleContent(null)
+            ->setSgArticleData(null)
+            ->setSgArticleDataConfirm(null)
+            ->setSgArticlePassword(null)
+            ->setSgArticlePasswordConfirm(null)
+            ->setSgArticlePasswordValidate(null)
+            ->setSgArticleLogout(null)
+            ->setSgArticleSubscribe(null)
+            ->setSgArticleSubscribeConfirm(null)
+            ->setSgArticleSubscribeValidate(null)
+            ->setSgArticleUnsubscribeConfirm(null)
+        ;
+    }
+
+    public function resetContaoFoldersIds(): void
+    {
+        $this->setSgExtranetFolder('');
+    }
+
+    public function resetContaoUsersIds(): void
+    {
+    }
+
+    public function resetContaoUserGroupsIds(): void
+    {
+    }
+
+    public function resetContaoMembersIds(): void
+    {
+        $this->setSgMemberExample(null);
+    }
+
+    public function resetContaoMemberGroupsIds(): void
+    {
+        $this->setSgMemberGroupMembers(null);
+    }
+
     public function getSgInstallComplete(): bool
     {
         return $this->sgInstallComplete;

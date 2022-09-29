@@ -236,6 +236,50 @@ class Events implements ConfigModuleInterface
         return [];
     }
 
+    public function resetContaoModulesIds(): void
+    {
+        $this->setSgModuleCalendar(null);
+        $this->setSgModuleList(null);
+        $this->setSgModuleReader(null);
+    }
+
+    public function resetContaoPagesIds(): void
+    {
+        $this->setSgPage(null);
+    }
+
+    public function resetContaoContentsIds(): void
+    {
+        $this->setSgContentHeadline(null);
+        $this->setSgContentList(null);
+    }
+
+    public function resetContaoArticlesIds(): void
+    {
+        $this->setSgArticle(null);
+    }
+
+    public function resetContaoFoldersIds(): void
+    {
+        $this->setSgEventsFolder('');
+    }
+
+    public function resetContaoUsersIds(): void
+    {
+    }
+
+    public function resetContaoUserGroupsIds(): void
+    {
+    }
+
+    public function resetContaoMembersIds(): void
+    {
+    }
+
+    public function resetContaoMemberGroupsIds(): void
+    {
+    }
+
     /**
      * @return mixed
      */

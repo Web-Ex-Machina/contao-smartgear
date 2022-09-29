@@ -1,0 +1,207 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SMARTGEAR for Contao Open Source CMS
+ * Copyright (c) 2015-2022 Web ex Machina
+ *
+ * @category ContaoBundle
+ * @package  Web-Ex-Machina/contao-smartgear
+ * @author   Web ex Machina <contact@webexmachina.fr>
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
+ */
+
+namespace WEM\SmartgearBundle\Backend\Component\Core;
+
+use Contao\ModuleModel;
+use Contao\PageModel;
+use Contao\ThemeModel;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use WEM\SmartgearBundle\Classes\Backend\Resetter as BackendResetter;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Manager\LocalConfig as LocalConfigManager;
+
+class Resetter extends BackendResetter
+{
+    /** @var string */
+    protected $module = '';
+    /** @var string */
+    protected $type = '';
+    /** @var ConfigurationManager */
+    protected $configurationManager;
+    /** @var TranslatorInterface */
+    protected $translator;
+    /** @var LocalConfigManager */
+    protected $localConfigManager;
+    /** @var array */
+    protected $templatesDirs;
+    /** @var array */
+    protected $componentsResetters;
+    /** @var array */
+    protected $modulesResetters;
+
+    /**
+     * Generic array of logs.
+     *
+     * @var array
+     */
+    protected $logs = [];
+
+    public function __construct(
+        ConfigurationManager $configurationManager,
+        TranslatorInterface $translator,
+        LocalConfigManager $localConfigManager,
+        string $module,
+        string $type,
+        array $templatesDirs,
+        array $componentsResetters,
+        array $modulesResetters
+    ) {
+        parent::__construct($configurationManager, $translator, $module, $type);
+        $this->localConfigManager = $localConfigManager;
+        $this->templatesDirs = $templatesDirs;
+        $this->componentsResetters = $componentsResetters;
+        $this->modulesResetters = $modulesResetters;
+    }
+
+    public function reset(bool $keepFramway, bool $keepTemplates, bool $keepThemesModules, bool $keepPages, bool $keepFiles, bool $keepLocalconfig): void
+    {
+        return;
+        $itemsResetted = 0;
+        // reset everything except what we wanted to keep
+        if ($keepFramway) {
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['framwayKept']);
+        } else {
+            $this->resetFramway();
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['framwayDeleted']);
+            ++$itemsResetted;
+        }
+        if ($keepTemplates) {
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['templatesKept']);
+        } else {
+            $this->resetTemplates();
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['templatesDeleted']);
+            ++$itemsResetted;
+        }
+        if ($keepThemesModules) {
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['themes_modulesKept']);
+        } else {
+            $this->resetThemesModules();
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['themes_modulesDeleted']);
+            ++$itemsResetted;
+        }
+        if ($keepPages) {
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['pagesKept']);
+        } else {
+            $this->resetPages();
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['pagesDeleted']);
+            ++$itemsResetted;
+        }
+        if ($keepFiles) {
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['filesKept']);
+        } else {
+            $this->resetFiles();
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['filesDeleted']);
+            ++$itemsResetted;
+        }
+        if ($keepLocalconfig) {
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['localconfigKept']);
+            if (0 !== $itemsResetted) {
+                $this->markModulesAndComponentsAsUninstalled();
+            }
+        } else {
+            $this->resetLocalConfig();
+            $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['localconfigDeleted']);
+        }
+    }
+
+    protected function markModulesAndComponentsAsUninstalled(): void
+    {
+        foreach ($this->componentsResetters as $resetter) {
+            $resetter->reset('delete');
+        }
+
+        foreach ($this->modulesResetters as $resetter) {
+            $resetter->reset('delete');
+        }
+
+        // /** @var CoreConfig */
+        // $config = $this->configurationManager->load();
+        // $timestamp = time();
+        // // mark all modules & components as uninstalled
+        // $submodulesConfig = $config->getSubmodulesConfigs();
+        // foreach ($submodulesConfig as $key => $submoduleConfig) {
+        //     $clss = \get_class($submoduleConfig);
+        //     $submoduleConfig
+        //         ->setSgInstallComplete(false)
+        //         ->setSgArchivedMode($clss::ARCHIVE_MODE_DELETE)
+        //         ->setSgArchived(true)
+        //         ->setSgArchivedAt($timestamp)
+        //     ;
+        // }
+
+        // $this->configurationManager->save($config);
+    }
+
+    protected function resetLocalConfig(): void
+    {
+        /** @var LocalConfig */
+        $config = $this->localConfigManager->load();
+
+        $config->reset();
+
+        $this->localConfigManager->save($config);
+    }
+
+    protected function resetFramway(): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $folder = new \Contao\Folder($config->getSgFramwayPath());
+        $folder->delete();
+    }
+
+    protected function resetTemplates(): void
+    {
+        foreach ($this->templatesDirs as $templatesDir) {
+            $folder = new \Contao\Folder($templatesDir);
+            $folder->delete();
+        }
+    }
+
+    protected function resetThemesModules(): void
+    {
+        $modules = ModuleModel::findAll();
+        if ($modules) {
+            $modules->delete();
+        }
+
+        $themes = ThemeModel::findAll();
+        if ($themes) {
+            $themes->delete();
+        }
+    }
+
+    protected function resetPages(): void
+    {
+        $pages = PageModel::findAll();
+        if ($pages) {
+            $pages->delete();
+        }
+    }
+
+    protected function resetFiles(): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $folder = new \Contao\Folder('files');
+        $folder->purge();
+
+        $config->setSgOwnerLogo('');
+        $this->configurationManager->save($config);
+    }
+}
