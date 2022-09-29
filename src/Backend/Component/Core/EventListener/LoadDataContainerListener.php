@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Core\EventListener;
 
+use Contao\ModuleModel;
 use Symfony\Component\Security\Core\Security;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
@@ -54,6 +55,13 @@ class LoadDataContainerListener
                     ) {
                         // do not display grid_gap settings
                         $this->dcaManipulator->removeFields(['grid_gap']);
+                    }
+                break;
+                case 'tl_module':
+                    $nbChangeLanguageModules = ModuleModel::countByType('changelanguage');
+                    if (0 === (int) $nbChangeLanguageModules) {
+                        // do not display lang_selector settings
+                        $this->dcaManipulator->removeFields(['wem_sg_header_add_lang_selector', 'wem_sg_header_lang_selector_bg', 'wem_sg_header_lang_selector_module']);
                     }
                 break;
             }

@@ -16,9 +16,11 @@ namespace WEM\SmartgearBundle\DataContainer;
 
 use Contao\Backend;
 use Contao\CoreBundle\Exception\AccessDeniedException;
+use Contao\DataContainer;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
+use Exception;
 use tl_content;
 use tl_content_calendar;
 use tl_content_news;
@@ -45,8 +47,27 @@ class Content extends Backend
                 $this->parent = new tl_content_calendar();
             break;
             default:
+                $this->loadDataContainer('tl_content');
                 $this->parent = new tl_content();
         }
+    }
+
+    public function getModules()
+    {
+        if (!method_exists($this->parent, 'getModules')) {
+            throw new Exception('Method "getModules" doesn\'t exists');
+        }
+
+        return $this->parent->getModules();
+    }
+
+    public function pagePicker(DataContainer $dc)
+    {
+        if (!method_exists($this->parent, 'pagePicker')) {
+            throw new Exception('Method "pagePicker" doesn\'t exists');
+        }
+
+        return $this->parent->pagePicker($dc);
     }
 
     /**

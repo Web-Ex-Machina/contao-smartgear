@@ -1,42 +1,60 @@
 <?php
   // Get the file
-  $arrCrop = deserialize($this->wem_sg_header_logo_size);
-  $objFile = FilesModel::findByUuid($this->wem_sg_header_logo);
+  $arrCrop = deserialize($this->imgSize);
+  $objFile = FilesModel::findByUuid($this->singleSRC);
   $strFile = \Image::get($objFile->path, $arrCrop[0], $arrCrop[1], $arrCrop[2]);
 
   // construct classes
   $arrClasses = [];
-  if($this->wem_sg_header_content)
-    $arrClasses[] = 'headbanner--allowcontent';
-  if($this->wem_sg_header_above)
-    $arrClasses[] = 'headbanner--above';
-  if($this->wem_sg_header_preset)
-    $arrClasses[] = $this->wem_sg_header_preset;
+  if($this->wem_sg_header_background)
+    $arrClasses[] = 'bg-'.$this->wem_sg_header_background;
+  if($this->wem_sg_header_nav_position && $this->wem_sg_header_nav_position != 'right')
+    $arrClasses[] = 'nav--'.$this->wem_sg_header_nav_position;
+  if($this->wem_sg_header_panel_position)
+    $arrClasses[] = 'panel--'.$this->wem_sg_header_panel_position;
+  if($this->wem_sg_header_bottom_style)
+    $arrClasses[] = 'bottom--'.$this->wem_sg_header_bottom_style;
+  if($this->wem_sg_header_hover_style)
+    $arrClasses[] = 'hover--'.$this->wem_sg_header_hover_style;
 
-  $stick = "false";
-  if($this->wem_sg_header_sticky)
-    $stick = "true";
 ?>
-<!--indexer::stop-->
-<div id="header" class="headerFW <?= $this->class ?> <?= implode(' ', $arrClasses) ?>" data-stick="<?= $stick ?>">
-  <div class="headerFW__headbanner">
-    <?php if ($this->isRoot): ?>
-      <h1 id="logo" title="<?= $this->wem_sg_header_logo_alt ? $this->wem_sg_header_logo_alt : '{{page::rootTitle}}' ?>">
-    <?php else: ?>
-      <a href="<?= $this->rootHref ?>" id="logo">
-    <?php endif ?>
-      <img src="<?= $strFile ?>" alt="<?= $this->wem_sg_header_logo_alt ? $this->wem_sg_header_logo_alt : '{{page::rootTitle}}' ?>">
-    <?php if ($this->isRoot): ?>
-      </h1>
-    <?php else: ?>
-      </a>
-    <?php endif ?>
-    <?php if ($this->wem_sg_header_content_html): ?>
-      <?= $this->wem_sg_header_content_html ?>
-    <?php endif ?>
+<div class="headerFW <?= $this->wem_sg_header_class ?> <?= implode(' ', $arrClasses) ?>" data-stick="<?= $this->wem_sg_header_sticky?'true':'false' ?>" data-watchnav="true">
+  <div class="headerFW__wrapper <?= $this->wem_sg_header_width ?>">
+    <div class="headerFW__logo__wrapper">
+      <<?= $this->isRoot?'h1':'a href="{{env::url}}"' ?> id="logo" class="headerFW__logo" title="<?= $this->wem_sg_header_alt ? $this->wem_sg_header_alt : '{{page::rootTitle}}' ?>">
+        <img src="<?= $strFile ?>" alt="<?= $this->wem_sg_header_alt ? $this->wem_sg_header_alt : '{{page::rootTitle}}' ?>" width="<?= $arrCrop[0] ?>" height="<?= $arrCrop[1] ?>">
+      </<?= $this->isRoot?'h1':'a' ?>>
+      <?php if ($this->wem_sg_header_catchline): ?>
+        <div class="headerFW__catchline">
+          <?= $this->wem_sg_header_catchline ?>
+        </div>
+      <?php endif ?>
+    </div>
+    <div class="headerFW__nav__wrapper">
+      {{insert_module::<?= $this->wem_sg_header_nav_module ?>}}
+      <?php if ($this->wem_sg_header_add_postnav_content): ?>
+        <div class="headerFW__postnav">
+          <?= $this->wem_sg_header_postnav_content ?>
+        </div>
+      <?php endif ?>
+      <?php if ($this->wem_sg_header_add_search): ?>
+        <form method="GET" action="{{link_url::<?= $this->wem_sg_header_search_page ?>|urlattr}}" class="headerFW__search<?= $this->wem_sg_header_search_bg?' bg-'.$this->wem_sg_header_search_bg:'' ?>">
+          <div class="input-group form-shrink headerFW__search__field">
+            <input type="text" name="<?= $this->wem_sg_header_search_parameter?:'keywords' ?>" placeholder="Search...">
+            <button type="submit" class="btn-bg-none squared ft-inherit"><i class="fa fa-search"></i></button>
+          </div>
+        </form>
+      <?php endif ?>
+      <?php if ($this->wem_sg_header_add_lang_selector): ?>
+        <div class="headerFW__lang<?= $this->wem_sg_header_lang_selector_bg?' bg-'.$this->wem_sg_header_lang_selector_bg:'' ?>">
+          {{insert_module::<?= $this->wem_sg_header_lang_selector_module ?>}}
+        </div>
+      <?php endif ?>
+    </div>
   </div>
-  <nav class="headerFW__nav">
-      <?= $this->nav ?>
-  </nav>
 </div>
-<!--indexer::continue-->
+<?php if ($this->wem_sg_header_add_topbar): ?>
+  <div class="headerFW__topbar<?= $this->wem_sg_header_topbar_bg?' bg-'.$this->wem_sg_header_topbar_bg:'' ?>">
+    <?= $this->wem_sg_header_topbar ?>
+  </div>
+<?php endif ?>

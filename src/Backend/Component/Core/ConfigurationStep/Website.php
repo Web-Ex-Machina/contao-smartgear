@@ -235,8 +235,19 @@ class Website extends ConfigurationStep
         $config = $this->configurationManager->load();
         $registeredModules = $this->getConfigModulesAsFormattedArray();
         $modules = [];
-        // Header - Logo
+        // Navigation
+        $objNavMain = \array_key_exists('navigation', $registeredModules)
+                            ? ModuleModel::findOneById($registeredModules['navigation']) ?? new ModuleModel()
+                            : new ModuleModel()
+                            ;
+        $objNavMain->pid = $themeId;
+        $objNavMain->tstamp = time();
+        $objNavMain->type = 'navigation';
+        $objNavMain->name = 'Nav - main';
+        $objNavMain->save();
+        $modules[$objNavMain->type] = $objNavMain;
 
+        // Header
         $objHeaderModule = \array_key_exists('wem_sg_header', $registeredModules)
                             ? ModuleModel::findOneById($registeredModules['wem_sg_header']) ?? new ModuleModel()
                             : new ModuleModel()
@@ -245,12 +256,19 @@ class Website extends ConfigurationStep
         $objHeaderModule->tstamp = time();
         $objHeaderModule->type = 'wem_sg_header';
         $objHeaderModule->name = 'HEADER';
-        // $objHeaderModule->wem_sg_header_preset = 'classic';
-        // $objHeaderModule->wem_sg_header_sticky = 1;
-        // $objHeaderModule->wem_sg_navigation = 'classic';
-        // $objHeaderModule->wem_sg_header_logo = $objLogoModel->uuid;
-        // $objHeaderModule->wem_sg_header_logo_size = 'a:3:{i:0;s:0:"";i:1;s:2:"75";i:2;s:12:"proportional";}';
-        // $objHeaderModule->wem_sg_header_logo_alt = 'Logo '.$this->sgConfig['websiteTitle'];
+        if (!empty($config->getSgOwnerLogo())) {
+            $objFileModel = FilesModel::findByPath($config->getSgOwnerLogo());
+            if ($objFileModel) {
+                $objHeaderModule->singleSRC = $objFileModel->uuid;
+            }
+        }
+        $objHeaderModule->imgSize = 'a:3:{i:0;s:0:"";i:1;s:3:"100";i:2;s:12:"proportional";}';
+        $objHeaderModule->wem_sg_header_sticky = 1;
+        $objHeaderModule->wem_sg_header_nav_module = $objNavMain->id;
+        $objHeaderModule->wem_sg_header_alt = 'Logo '.$this->sgConfig['websiteTitle'];
+        $objHeaderModule->wem_sg_header_search_parameter = 'keywords';
+        $objHeaderModule->wem_sg_header_nav_position = 'right';
+        $objHeaderModule->wem_sg_header_panel_position = 'right';
         $objHeaderModule->save();
         $modules[$objHeaderModule->type] = $objHeaderModule;
 
@@ -279,6 +297,7 @@ class Website extends ConfigurationStep
         $objFooterModule->save();
         $modules[$objFooterModule->type] = $objFooterModule;
 
+        // Sitemap
         $objSitemapModule = \array_key_exists('sitemap', $registeredModules)
                             ? ModuleModel::findOneById($registeredModules['sitemap']) ?? new ModuleModel()
                             : new ModuleModel()
@@ -290,6 +309,7 @@ class Website extends ConfigurationStep
         $objSitemapModule->save();
         $modules[$objSitemapModule->type] = $objSitemapModule;
 
+        // Social link
         $objSocialLinkModule = \array_key_exists('wem_sg_social_link', $registeredModules)
                             ? ModuleModel::findOneById($registeredModules['wem_sg_social_link']) ?? new ModuleModel()
                             : new ModuleModel()
@@ -301,6 +321,7 @@ class Website extends ConfigurationStep
         $objSocialLinkModule->save();
         $modules[$objSocialLinkModule->type] = $objSocialLinkModule;
 
+        // Personal Data Manager
         $objPDMModule = \array_key_exists('wem_personaldatamanager', $registeredModules)
                             ? ModuleModel::findOneById($registeredModules['wem_personaldatamanager']) ?? new ModuleModel()
                             : new ModuleModel()
@@ -311,7 +332,7 @@ class Website extends ConfigurationStep
         $objPDMModule->type = 'wem_personaldatamanager';
         $objPDMModule->tstamp = time();
         $objPDMModule->save();
-        $modules[$objPDMModule->type] = $objSitemapModule;
+        $modules[$objPDMModule->type] = $objPDMModule;
 
         return $modules;
     }
@@ -845,10 +866,11 @@ class Website extends ConfigurationStep
     {
         $fm = Files::getInstance();
         $logoFolder = new Folder(CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER);
-        if (!$fm->move_uploaded_file($_FILES['sgWebsiteLogo']['tmp_name'], CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.$_FILES['sgWebsiteLogo']['name'])) {
-            throw new Exception(sprintf('Unable to upload logo to "%s".', CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.$_FILES['sgWebsiteLogo']['name']));
+        if (!$fm->move_uploaded_file($_FILES['sgWebsiteLogo']['tmp_name'], CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.\DIRECTORY_SEPARATOR.$_FILES['sgWebsiteLogo']['name'].'_tmp')) {
+            throw new Exception(sprintf('Unable to upload logo to "%s".', CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.\DIRECTORY_SEPARATOR.$_FILES['sgWebsiteLogo']['name'].'_tmp'));
         }
-        $objFile = new File(CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.$_FILES['sgWebsiteLogo']['name']);
+        $objFile = new File(CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.\DIRECTORY_SEPARATOR.$_FILES['sgWebsiteLogo']['name'].'_tmp');
+        $objFile->renameTo(CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.\DIRECTORY_SEPARATOR.$_FILES['sgWebsiteLogo']['name']);
 
         return $objFile;
     }
