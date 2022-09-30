@@ -27,6 +27,7 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
             $translator: '@contao.translation.translator'
             $localConfigManager: '@smartgear.config.manager.local_config'
+            $htaccessAnalyzer: '@smartgear.classes.analyzer.htaccess'
             $module: 'core'
             $type: 'component'
             $templatesDirs: 
@@ -142,7 +143,6 @@ services:
             $type: 'component'
             $configurationManager: '@smartgear.config.manager.core'
             $backupManager: '@smartgear.backup.backup_manager'
-            $htaccessAnalyzer: '@smartgear.classes.analyzer.htaccess'
             $resetter: '@smartgear.backend.component.core.resetter'
         public: true
 

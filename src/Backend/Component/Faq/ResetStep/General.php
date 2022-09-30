@@ -77,7 +77,12 @@ class General extends AbstractStep
     public function do(): void
     {
         // do what is meant to be done in this step
-        $this->resetter->reset(Input::post('deleteMode'));
+        $this->reset(Input::post('deleteMode'));
+    }
+
+    protected function reset(string $mode): void
+    {
+        $this->resetter->reset($mode);
         $this->addMessages($this->resetter->getMessages());
     }
 }

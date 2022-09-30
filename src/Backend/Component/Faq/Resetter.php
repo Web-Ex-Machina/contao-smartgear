@@ -14,11 +14,14 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Faq;
 
+use Contao\ArticleModel;
+use Contao\ContentModel;
 use Contao\FaqCategoryModel;
+use Contao\FaqModel;
 use Contao\FilesModel;
+use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\UserGroupModel;
-use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\Resetter as BackendResetter;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
@@ -67,30 +70,90 @@ class Resetter extends BackendResetter
         switch ($mode) {
             case FaqConfig::ARCHIVE_MODE_ARCHIVE:
                 $objFolder = new \Contao\Folder($faqConfig->getSgFaqFolder());
-                $objCalendar = FaqCategoryModel::findById($faqConfig->getSgFaqCategory());
+                if ($objFolder) {
+                    $objFolder->renameTo(sprintf('files/archives/events-%s', (string) $archiveTimestamp));
+                }
 
-                $objFolder->renameTo(sprintf('files/archives/events-%s', (string) $archiveTimestamp));
-                $objCalendar->title = sprintf('%s (Archive-%s)', $objCalendar->title, (string) $archiveTimestamp);
-                $objCalendar->save();
+                $objFaqCategory = FaqCategoryModel::findById($faqConfig->getSgFaqCategory());
+                if ($objFaqCategory) {
+                    $objFaqCategory->title = sprintf('%s (Archive-%s)', $objFaqCategory->title, (string) $archiveTimestamp);
+                    $objFaqCategory->save();
+                }
 
+                $objPage = PageModel::findById($faqConfig->getSgPage());
+                if ($objPage) {
+                    $objPage->published = false;
+                    $objPage->save();
+                }
+
+                foreach ($faqConfig->getContaoArticlesIds() as $id) {
+                    $objArticle = ArticleModel::findByPk($id);
+                    if ($objArticle) {
+                        $objArticle->published = false;
+                        $objArticle->title = sprintf('%s (Archive-%s)', $objArticle->title, (string) $archiveTimestamp);
+                        $objArticle->save();
+                    }
+                }
+
+                foreach ($faqConfig->getContaoModulesIds() as $id) {
+                    $objModule = ModuleModel::findByPk($id);
+                    if ($objModule) {
+                        $objModule->published = false;
+                        $objModule->title = sprintf('%s (Archive-%s)', $objModule->title, (string) $archiveTimestamp);
+                        $objModule->save();
+                    }
+                }
             break;
             case FaqConfig::ARCHIVE_MODE_KEEP:
             break;
             case FaqConfig::ARCHIVE_MODE_DELETE:
                 $objFolder = new \Contao\Folder($faqConfig->getSgFaqFolder());
-                $objCalendar = FaqCategoryModel::findById($faqConfig->getSgFaqCategory());
+                if ($objFolder) {
+                    $objFolder->delete();
+                }
 
-                $objFolder->delete();
-                $objCalendar->delete();
+                $faqs = FaqModel::findByPid($faqConfig->getSgFaqCategory());
+                if ($faqs) {
+                    while ($faqs->next()) {
+                        $faqs->delete();
+                    }
+                }
+
+                $objFaqCategory = FaqCategoryModel::findById($faqConfig->getSgFaqCategory());
+                if ($objFaqCategory) {
+                    $objFaqCategory->delete();
+                }
+
+                $objPage = PageModel::findById($faqConfig->getSgPage());
+                if ($objPage) {
+                    $objPage->delete();
+                }
+
+                foreach ($faqConfig->getContaoArticlesIds() as $id) {
+                    $objArticle = ArticleModel::findByPk($id);
+                    if ($objArticle) {
+                        $objArticle->delete();
+                    }
+                }
+
+                foreach ($faqConfig->getContaoContentsIds() as $id) {
+                    $objContent = ContentModel::findByPk($id);
+                    if ($objContent) {
+                        $objContent->delete();
+                    }
+                }
+
+                foreach ($faqConfig->getContaoModulesIds() as $id) {
+                    $objModule = ModuleModel::findByPk($id);
+                    if ($objModule) {
+                        $objModule->delete();
+                    }
+                }
             break;
             default:
                 throw new \InvalidArgumentException($this->translator->trans('WEMSG.FAQ.RESET.deleteModeUnknown', [], 'contao_default'));
             break;
         }
-
-        $objPage = PageModel::findById($faqConfig->getSgPage());
-        $objPage->published = false;
-        $objPage->save();
 
         $faqConfig->setSgArchived(true)
             ->setSgArchivedMode($mode)
@@ -115,20 +178,19 @@ class Resetter extends BackendResetter
 
     protected function resetUserGroup(UserGroupModel $objUserGroup, FaqConfig $faqConfig): void
     {
-        $objFolder = FilesModel::findByPath($faqConfig->getSgFaqFolder());
-        if (!$objFolder) {
-            throw new Exception('Unable to find the folder');
-        }
-
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
         $userGroupManipulator
             ->removeAllowedModules(['faq'])
             ->removeAllowedFaq([$faqConfig->getSgFaqCategory()])
-            ->removeAllowedFilemounts([$objFolder->uuid])
             ->removeAllowedFieldsByPrefixes(['tl_faq::'])
             ->removeAllowedPagemounts($faqConfig->getContaoPagesIds())
             ->removeAllowedModules(Module::getTypesByIds($faqConfig->getContaoModulesIds()))
         ;
+
+        $objFolder = FilesModel::findByPath($faqConfig->getSgFaqFolder());
+        if ($objFolder) {
+            $userGroupManipulator->removeAllowedFilemounts([$objFolder->uuid]);
+        }
 
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->faqp = null;

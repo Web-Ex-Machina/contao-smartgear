@@ -14,10 +14,13 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Core;
 
+use Contao\ArticleModel;
+use Contao\ContentModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\ThemeModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use WEM\SmartgearBundle\Classes\Analyzer\Htaccess as HtaccessAnalyzer;
 use WEM\SmartgearBundle\Classes\Backend\Resetter as BackendResetter;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -31,6 +34,8 @@ class Resetter extends BackendResetter
     protected $type = '';
     /** @var ConfigurationManager */
     protected $configurationManager;
+    /** @var HtaccessAnalyzer */
+    protected $htaccessAnalyzer;
     /** @var TranslatorInterface */
     protected $translator;
     /** @var LocalConfigManager */
@@ -53,6 +58,7 @@ class Resetter extends BackendResetter
         ConfigurationManager $configurationManager,
         TranslatorInterface $translator,
         LocalConfigManager $localConfigManager,
+        HtaccessAnalyzer $htaccessAnalyzer,
         string $module,
         string $type,
         array $templatesDirs,
@@ -61,6 +67,7 @@ class Resetter extends BackendResetter
     ) {
         parent::__construct($configurationManager, $translator, $module, $type);
         $this->localConfigManager = $localConfigManager;
+        $this->htaccessAnalyzer = $htaccessAnalyzer;
         $this->templatesDirs = $templatesDirs;
         $this->componentsResetters = $componentsResetters;
         $this->modulesResetters = $modulesResetters;
@@ -68,7 +75,6 @@ class Resetter extends BackendResetter
 
     public function reset(bool $keepFramway, bool $keepTemplates, bool $keepThemesModules, bool $keepPages, bool $keepFiles, bool $keepLocalconfig): void
     {
-        return;
         $itemsResetted = 0;
         // reset everything except what we wanted to keep
         if ($keepFramway) {
@@ -108,13 +114,15 @@ class Resetter extends BackendResetter
         }
         if ($keepLocalconfig) {
             $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['localconfigKept']);
-            if (0 !== $itemsResetted) {
-                $this->markModulesAndComponentsAsUninstalled();
-            }
         } else {
             $this->resetLocalConfig();
             $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['localconfigDeleted']);
+            ++$itemsResetted;
         }
+        if (0 !== $itemsResetted) {
+            $this->markModulesAndComponentsAsUninstalled();
+        }
+        $this->disableFramwayAssetsManagementRules();
     }
 
     protected function markModulesAndComponentsAsUninstalled(): void
@@ -127,22 +135,19 @@ class Resetter extends BackendResetter
             $resetter->reset('delete');
         }
 
-        // /** @var CoreConfig */
-        // $config = $this->configurationManager->load();
-        // $timestamp = time();
-        // // mark all modules & components as uninstalled
-        // $submodulesConfig = $config->getSubmodulesConfigs();
-        // foreach ($submodulesConfig as $key => $submoduleConfig) {
-        //     $clss = \get_class($submoduleConfig);
-        //     $submoduleConfig
-        //         ->setSgInstallComplete(false)
-        //         ->setSgArchivedMode($clss::ARCHIVE_MODE_DELETE)
-        //         ->setSgArchived(true)
-        //         ->setSgArchivedAt($timestamp)
-        //     ;
-        // }
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        $timestamp = time();
+        // mark all modules & components as uninstalled
+        $submodulesConfig = $config->getSubmodulesConfigs();
+        foreach ($submodulesConfig as $key => $submoduleConfig) {
+            $submoduleConfig
+                ->setSgInstallComplete(false)
+            ;
+            $config->setSubmoduleConfig($key, $submoduleConfig);
+        }
 
-        // $this->configurationManager->save($config);
+        $this->configurationManager->save($config);
     }
 
     protected function resetLocalConfig(): void
@@ -176,12 +181,16 @@ class Resetter extends BackendResetter
     {
         $modules = ModuleModel::findAll();
         if ($modules) {
-            $modules->delete();
+            while ($modules->next()) {
+                $modules->delete();
+            }
         }
 
         $themes = ThemeModel::findAll();
         if ($themes) {
-            $themes->delete();
+            while ($themes->next()) {
+                $themes->delete();
+            }
         }
     }
 
@@ -189,7 +198,21 @@ class Resetter extends BackendResetter
     {
         $pages = PageModel::findAll();
         if ($pages) {
-            $pages->delete();
+            while ($pages->next()) {
+                $pages->delete();
+            }
+        }
+        $contents = ContentModel::findAll();
+        if ($contents) {
+            while ($contents->next()) {
+                $contents->delete();
+            }
+        }
+        $articles = ArticleModel::findAll();
+        if ($articles) {
+            while ($articles->next()) {
+                $articles->delete();
+            }
         }
     }
 
@@ -203,5 +226,10 @@ class Resetter extends BackendResetter
 
         $config->setSgOwnerLogo('');
         $this->configurationManager->save($config);
+    }
+
+    protected function disableFramwayAssetsManagementRules(): void
+    {
+        $this->htaccessAnalyzer->disableFramwayAssetsManagementRules();
     }
 }

@@ -14,12 +14,15 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Module\Extranet;
 
+use Contao\ArticleModel;
+use Contao\ContentModel;
 use Contao\FilesModel;
 use Contao\MemberGroupModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\UserGroupModel;
-use Exception;
+use NotificationCenter\Model\Language as NotificationMessageLanguage;
+use NotificationCenter\Model\Message as NotificationMessage;
 use NotificationCenter\Model\Notification;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\Resetter as BackendResetter;
@@ -94,7 +97,9 @@ class Resetter extends BackendResetter
     protected function archiveModeArchive(ExtranetConfig $extranetConfig, int $archiveTimestamp): ExtranetConfig
     {
         $objFolder = new \Contao\Folder($extranetConfig->getSgExtranetFolder());
-        $objFolder->renameTo(sprintf('files/archives/extranet-%s', (string) $archiveTimestamp));
+        if ($objFolder) {
+            $objFolder->renameTo(sprintf('files/archives/extranet-%s', (string) $archiveTimestamp));
+        }
         $dateTime = (new \DateTime())->setTimestamp($archiveTimestamp);
         $date = $dateTime->format($GLOBALS['TL_CONFIG']['dateFormat']);
         $time = $dateTime->format($GLOBALS['TL_CONFIG']['timeFormat']);
@@ -145,6 +150,25 @@ class Resetter extends BackendResetter
             $module->name = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$module->name, $date, $time], 'contao_default');
             $module->save();
         }
+
+        foreach ($extranetConfig->getContaoArticlesIds() as $id) {
+            $objArticle = ArticleModel::findByPk($id);
+            if ($objArticle) {
+                $objArticle->published = false;
+                $objArticle->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$objArticle->name, $date, $time], 'contao_default');
+                $objArticle->save();
+            }
+        }
+
+        foreach ($extranetConfig->getContaoModulesIds() as $id) {
+            $objModule = ModuleModel::findByPk($id);
+            if ($objModule) {
+                $objModule->published = false;
+                $objModule->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$objModule->name, $date, $time], 'contao_default');
+                $objModule->save();
+            }
+        }
+
         $page = PageModel::findById($extranetConfig->getSgPageExtranet());
         if (null !== $page) {
             $page->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$page->title, $date, $time], 'contao_default');
@@ -229,18 +253,21 @@ class Resetter extends BackendResetter
             $page->published = 0;
             $page->save();
         }
+
         $notification = Notification::findById($extranetConfig->getSgNotificationChangeData());
         if (null !== $notification) {
             $notification->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$notification->title, $date, $time], 'contao_default');
             $notification->published = 0;
             $notification->save();
         }
+
         $notification = Notification::findById($extranetConfig->getSgNotificationPassword());
         if (null !== $notification) {
             $notification->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$notification->title, $date, $time], 'contao_default');
             $notification->published = 0;
             $notification->save();
         }
+
         $notification = Notification::findById($extranetConfig->getSgNotificationSubscription());
         if (null !== $notification) {
             $notification->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$notification->title, $date, $time], 'contao_default');
@@ -254,7 +281,9 @@ class Resetter extends BackendResetter
     protected function archiveModeDelete(ExtranetConfig $extranetConfig): ExtranetConfig
     {
         $objFolder = new \Contao\Folder($extranetConfig->getSgExtranetFolder());
-        $objFolder->delete();
+        if ($objFolder) {
+            $objFolder->delete();
+        }
         // delete pages (articles & contents will be deleted automatically), modules, notifications (message & languages will be deleted automatically), members & memberGroups
         $member = MemberModel::findById($extranetConfig->getSgMemberExample());
         if (null !== $member) {
@@ -301,6 +330,21 @@ class Resetter extends BackendResetter
             $module->delete();
             $extranetConfig->setSgModuleCloseAccount(null);
         }
+
+        foreach ($extranetConfig->getContaoArticlesIds() as $id) {
+            $objArticle = ArticleModel::findByPk($id);
+            if ($objArticle) {
+                $objArticle->delete();
+            }
+        }
+
+        foreach ($extranetConfig->getContaoContentsIds() as $id) {
+            $objContent = ContentModel::findByPk($id);
+            if ($objContent) {
+                $objContent->delete();
+            }
+        }
+
         $page = PageModel::findById($extranetConfig->getSgPageExtranet());
         if (null !== $page) {
             $page->delete();
@@ -455,33 +499,60 @@ class Resetter extends BackendResetter
                 ->setSgContentArticleUnsubscribeHyperlink(null)
             ;
         }
+
+        $notificationML = NotificationMessageLanguage::findById($extranetConfig->getSgNotificationChangeDataMessageLanguage());
+        if (null !== $notificationML) {
+            $notificationML->delete();
+        }
+        $notificationM = NotificationMessage::findById($extranetConfig->getSgNotificationChangeDataMessage());
+        if (null !== $notificationM) {
+            $notificationM->delete();
+        }
         $notification = Notification::findById($extranetConfig->getSgNotificationChangeData());
         if (null !== $notification) {
             $notification->delete();
-            $extranetConfig
-                ->setSgNotificationChangeData(null)
-                ->setSgNotificationChangeDataMessage(null)
-                ->setSgNotificationChangeDataMessageLanguage(null)
-            ;
+        }
+        $extranetConfig
+            ->setSgNotificationChangeData(null)
+            ->setSgNotificationChangeDataMessage(null)
+            ->setSgNotificationChangeDataMessageLanguage(null)
+        ;
+
+        $notificationML = NotificationMessageLanguage::findById($extranetConfig->getSgNotificationPasswordMessageLanguage());
+        if (null !== $notificationML) {
+            $notificationML->delete();
+        }
+        $notificationM = NotificationMessage::findById($extranetConfig->getSgNotificationPasswordMessage());
+        if (null !== $notificationM) {
+            $notificationM->delete();
         }
         $notification = Notification::findById($extranetConfig->getSgNotificationPassword());
         if (null !== $notification) {
             $notification->delete();
-            $extranetConfig
-                ->setSgNotificationPassword(null)
-                ->setSgNotificationPasswordMessage(null)
-                ->setSgNotificationPasswordMessageLanguage(null)
-            ;
+        }
+        $extranetConfig
+            ->setSgNotificationPassword(null)
+            ->setSgNotificationPasswordMessage(null)
+            ->setSgNotificationPasswordMessageLanguage(null)
+        ;
+
+        $notificationML = NotificationMessageLanguage::findById($extranetConfig->getSgNotificationSubscriptionMessageLanguage());
+        if (null !== $notificationML) {
+            $notificationML->delete();
+        }
+        $notificationM = NotificationMessage::findById($extranetConfig->getSgNotificationSubscriptionMessage());
+        if (null !== $notificationM) {
+            $notificationM->delete();
         }
         $notification = Notification::findById($extranetConfig->getSgNotificationSubscription());
         if (null !== $notification) {
             $notification->delete();
-            $extranetConfig
-                ->setSgNotificationSubscription(null)
-                ->setSgNotificationSubscriptionMessage(null)
-                ->setSgNotificationSubscriptionMessageLanguage(null)
-            ;
         }
+        $extranetConfig
+            ->setSgNotificationSubscription(null)
+            ->setSgNotificationSubscriptionMessage(null)
+            ->setSgNotificationSubscriptionMessageLanguage(null)
+        ;
 
         return $extranetConfig;
     }
@@ -499,18 +570,17 @@ class Resetter extends BackendResetter
 
     protected function resetUserGroup(UserGroupModel $objUserGroup, ExtranetConfig $extranetConfig): void
     {
-        $objFolder = FilesModel::findByPath($extranetConfig->getSgExtranetFolder());
-        if (!$objFolder) {
-            throw new Exception('Unable to find the folder');
-        }
-
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
         $userGroupManipulator
             ->removeAllowedModules(['member', 'mgroup'])
-            ->removeAllowedFilemounts([$objFolder->uuid])
             ->removeAllowedPagemounts($extranetConfig->getContaoPagesIds())
             ->removeAllowedModules(Module::getTypesByIds($extranetConfig->getContaoModulesIds()))
         ;
+
+        $objFolder = FilesModel::findByPath($extranetConfig->getSgExtranetFolder());
+        if ($objFolder) {
+            $userGroupManipulator->removeAllowedFilemounts([$objFolder->uuid]);
+        }
 
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->save();

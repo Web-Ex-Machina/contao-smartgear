@@ -14,11 +14,14 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Events;
 
+use Contao\ArticleModel;
+use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
+use Contao\ContentModel;
 use Contao\FilesModel;
+use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\UserGroupModel;
-use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\Resetter as BackendResetter;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
@@ -67,30 +70,90 @@ class Resetter extends BackendResetter
         switch ($mode) {
             case EventsConfig::ARCHIVE_MODE_ARCHIVE:
                 $objFolder = new \Contao\Folder($eventsConfig->getSgEventsFolder());
+                if ($objFolder) {
+                    $objFolder->renameTo(sprintf('files/archives/events-%s', (string) $archiveTimestamp));
+                }
+
                 $objCalendar = CalendarModel::findById($eventsConfig->getSgCalendar());
+                if ($objCalendar) {
+                    $objCalendar->title = sprintf('%s (Archive-%s)', $objCalendar->title, (string) $archiveTimestamp);
+                    $objCalendar->save();
+                }
 
-                $objFolder->renameTo(sprintf('files/archives/events-%s', (string) $archiveTimestamp));
-                $objCalendar->title = sprintf('%s (Archive-%s)', $objCalendar->title, (string) $archiveTimestamp);
-                $objCalendar->save();
+                $objPage = PageModel::findById($eventsConfig->getSgPage());
+                if ($objPage) {
+                    $objPage->published = false;
+                    $objPage->save();
+                }
 
+                foreach ($eventsConfig->getContaoArticlesIds() as $id) {
+                    $objArticle = ArticleModel::findByPk($id);
+                    if ($objArticle) {
+                        $objArticle->published = false;
+                        $objArticle->title = sprintf('%s (Archive-%s)', $objArticle->title, (string) $archiveTimestamp);
+                        $objArticle->save();
+                    }
+                }
+
+                foreach ($eventsConfig->getContaoModulesIds() as $id) {
+                    $objModule = ModuleModel::findByPk($id);
+                    if ($objModule) {
+                        $objModule->published = false;
+                        $objModule->title = sprintf('%s (Archive-%s)', $objModule->title, (string) $archiveTimestamp);
+                        $objModule->save();
+                    }
+                }
             break;
             case EventsConfig::ARCHIVE_MODE_KEEP:
             break;
             case EventsConfig::ARCHIVE_MODE_DELETE:
                 $objFolder = new \Contao\Folder($eventsConfig->getSgEventsFolder());
-                $objCalendar = CalendarModel::findById($eventsConfig->getSgCalendar());
+                if ($objFolder) {
+                    $objFolder->delete();
+                }
 
-                $objFolder->delete();
-                $objCalendar->delete();
+                $calendarEvents = CalendarEventsModel::findByPid($eventsConfig->getSgCalendar());
+                if ($calendarEvents) {
+                    while ($calendarEvents->next()) {
+                        $calendarEvents->delete();
+                    }
+                }
+
+                $objCalendar = CalendarModel::findById($eventsConfig->getSgCalendar());
+                if ($objCalendar) {
+                    $objCalendar->delete();
+                }
+
+                $objPage = PageModel::findById($eventsConfig->getSgPage());
+                if ($objPage) {
+                    $objPage->delete();
+                }
+
+                foreach ($eventsConfig->getContaoArticlesIds() as $id) {
+                    $objArticle = ArticleModel::findByPk($id);
+                    if ($objArticle) {
+                        $objArticle->delete();
+                    }
+                }
+
+                foreach ($eventsConfig->getContaoContentsIds() as $id) {
+                    $objContent = ContentModel::findByPk($id);
+                    if ($objContent) {
+                        $objContent->delete();
+                    }
+                }
+
+                foreach ($eventsConfig->getContaoModulesIds() as $id) {
+                    $objModule = ModuleModel::findByPk($id);
+                    if ($objModule) {
+                        $objModule->delete();
+                    }
+                }
             break;
             default:
                 throw new \InvalidArgumentException($this->translator->trans('WEMSG.EVENTS.RESET.deleteModeUnknown', [], 'contao_default'));
             break;
         }
-
-        $objPage = PageModel::findById($eventsConfig->getSgPage());
-        $objPage->published = false;
-        $objPage->save();
 
         $eventsConfig->setSgArchived(true)
             ->setSgArchivedMode($mode)
@@ -115,21 +178,20 @@ class Resetter extends BackendResetter
 
     protected function resetUserGroup(UserGroupModel $objUserGroup, EventsConfig $eventsConfig): void
     {
-        $objFolder = FilesModel::findByPath($eventsConfig->getSgEventsFolder());
-        if (!$objFolder) {
-            throw new Exception('Unable to find the folder');
-        }
-
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
         $userGroupManipulator
             ->removeSmartgearPermissions([SmartgearPermissions::EVENTS_EXPERT])
             ->removeAllowedModules(['calendar'])
             ->removeAllowedCalendar([$eventsConfig->getSgCalendar()])
-            ->removeAllowedFilemounts([$objFolder->uuid])
             ->removeAllowedFieldsByPrefixes(['tl_calendar_events::'])
             ->removeAllowedPagemounts($eventsConfig->getContaoPagesIds())
             ->removeAllowedModules(Module::getTypesByIds($eventsConfig->getContaoModulesIds()))
         ;
+
+        $objFolder = FilesModel::findByPath($eventsConfig->getSgEventsFolder());
+        if ($objFolder) {
+            $userGroupManipulator->removeAllowedFilemounts([$objFolder->uuid]);
+        }
 
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->calendarp = null;

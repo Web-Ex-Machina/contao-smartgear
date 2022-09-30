@@ -14,11 +14,14 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Blog;
 
+use Contao\ArticleModel;
+use Contao\ContentModel;
 use Contao\FilesModel;
+use Contao\ModuleModel;
 use Contao\NewsArchiveModel;
+use Contao\NewsModel;
 use Contao\PageModel;
 use Contao\UserGroupModel;
-use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\Resetter as BackendResetter;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
@@ -69,30 +72,90 @@ class Resetter extends BackendResetter
         switch ($mode) {
             case BlogConfig::ARCHIVE_MODE_ARCHIVE:
                 $objFolder = new \Contao\Folder($presetConfig->getSgNewsFolder());
+                if ($objFolder) {
+                    $objFolder->renameTo(sprintf('files/archives/news-%s', (string) $archiveTimestamp));
+                }
+
                 $objNewsArchive = NewsArchiveModel::findById($blogConfig->getSgNewsArchive());
+                if ($objNewsArchive) {
+                    $objNewsArchive->title = sprintf('%s (Archive-%s)', $objNewsArchive->title, (string) $archiveTimestamp);
+                    $objNewsArchive->save();
+                }
 
-                $objFolder->renameTo(sprintf('files/archives/news-%s', (string) $archiveTimestamp));
-                $objNewsArchive->title = sprintf('%s (Archive-%s)', $objNewsArchive->title, (string) $archiveTimestamp);
-                $objNewsArchive->save();
+                $objPage = PageModel::findById($blogConfig->getSgPage());
+                if ($objPage) {
+                    $objPage->published = false;
+                    $objPage->title = sprintf('%s (Archive-%s)', $objPage->title, (string) $archiveTimestamp);
+                    $objPage->save();
+                }
 
+                foreach ($blogConfig->getContaoArticlesIds() as $id) {
+                    $objArticle = ArticleModel::findByPk($id);
+                    if ($objArticle) {
+                        $objArticle->published = false;
+                        $objArticle->title = sprintf('%s (Archive-%s)', $objArticle->title, (string) $archiveTimestamp);
+                        $objArticle->save();
+                    }
+                }
+
+                foreach ($blogConfig->getContaoModulesIds() as $id) {
+                    $objModule = ModuleModel::findByPk($id);
+                    if ($objModule) {
+                        $objModule->published = false;
+                        $objModule->title = sprintf('%s (Archive-%s)', $objModule->title, (string) $archiveTimestamp);
+                        $objModule->save();
+                    }
+                }
             break;
             case BlogConfig::ARCHIVE_MODE_KEEP:
             break;
             case BlogConfig::ARCHIVE_MODE_DELETE:
                 $objFolder = new \Contao\Folder($presetConfig->getSgNewsFolder());
-                $objNewsArchive = NewsArchiveModel::findById($blogConfig->getSgNewsArchive());
+                if ($objFolder) {
+                    $objFolder->delete();
+                }
 
-                $objFolder->delete();
-                $objNewsArchive->delete();
+                $news = NewsModel::findByPid($blogConfig->getSgNewsArchive());
+                if ($news) {
+                    while ($news->next()) {
+                        $news->delete();
+                    }
+                }
+                $objNewsArchive = NewsArchiveModel::findById($blogConfig->getSgNewsArchive());
+                if ($objNewsArchive) {
+                    $objNewsArchive->delete();
+                }
+
+                $objPage = PageModel::findById($blogConfig->getSgPage());
+                if ($objPage) {
+                    $objPage->delete();
+                }
+
+                foreach ($blogConfig->getContaoArticlesIds() as $id) {
+                    $objArticle = ArticleModel::findByPk($id);
+                    if ($objArticle) {
+                        $objArticle->delete();
+                    }
+                }
+
+                foreach ($blogConfig->getContaoContentsIds() as $id) {
+                    $objContent = ContentModel::findByPk($id);
+                    if ($objContent) {
+                        $objContent->delete();
+                    }
+                }
+
+                foreach ($blogConfig->getContaoModulesIds() as $id) {
+                    $objModule = ModuleModel::findByPk($id);
+                    if ($objModule) {
+                        $objModule->delete();
+                    }
+                }
             break;
             default:
                 throw new \InvalidArgumentException($this->translator->trans('WEMSG.BLOG.RESET.deleteModeUnknown', [], 'contao_default'));
             break;
         }
-
-        $objPage = PageModel::findById($blogConfig->getSgPage());
-        $objPage->published = false;
-        $objPage->save();
 
         $blogConfig->setSgArchived(true)
             ->setSgArchivedMode($mode)
@@ -117,21 +180,20 @@ class Resetter extends BackendResetter
 
     protected function resetUserGroup(UserGroupModel $objUserGroup, BlogConfig $blogConfig): void
     {
-        $objFolder = FilesModel::findByPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
-        if (!$objFolder) {
-            throw new Exception('Unable to find the folder');
-        }
-
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
         $userGroupManipulator
             ->removeSmartgearPermissions([SmartgearPermissions::BLOG_EXPERT])
             // ->removeAllowedModules(['news'])
             ->removeAllowedNewsArchive([$blogConfig->getSgNewsArchive()])
-            ->removeAllowedFilemounts([$objFolder->uuid])
             ->removeAllowedFieldsByPrefixes(['tl_news::'])
             ->removeAllowedPagemounts($blogConfig->getContaoPagesIds())
             ->removeAllowedModules(Module::getTypesByIds($blogConfig->getContaoModulesIds()))
         ;
+
+        $objFolder = FilesModel::findByPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
+        if ($objFolder) {
+            $userGroupManipulator->removeAllowedFilemounts([$objFolder->uuid]);
+        }
 
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->newp = null;

@@ -14,8 +14,11 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\FormContact;
 
+use Contao\ArticleModel;
+use Contao\ContentModel;
 use Contao\FormFieldModel;
 use Contao\FormModel;
+use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\UserGroupModel;
 use NotificationCenter\Model\Language as NotificationLanguageModel;
@@ -69,71 +72,152 @@ class Resetter extends BackendResetter
         switch ($mode) {
             case FormContactConfig::ARCHIVE_MODE_ARCHIVE:
                 $objFormContact = FormModel::findById($formContactConfig->getSgFormContact());
-                $objFormContact->title = sprintf('%s (Archive-%s)', $objFormContact->title, (string) $archiveTimestamp);
-                $objFormContact->save();
+                if ($objFormContact) {
+                    $objFormContact->title = sprintf('%s (Archive-%s)', $objFormContact->title, (string) $archiveTimestamp);
+                    $objFormContact->save();
+                }
 
                 $objNotification = NotificationModel::findOneById($formContactConfig->getSgNotification());
-                $objNotification->title = sprintf('%s (Archive-%s)', $objNotification->title, (string) $archiveTimestamp);
-                $objNotification->save();
+                if ($objNotification) {
+                    $objNotification->title = sprintf('%s (Archive-%s)', $objNotification->title, (string) $archiveTimestamp);
+                    $objNotification->save();
+                }
 
                 $objNotificationMessageUser = NotificationMessageModel::findOneById($formContactConfig->getSgNotificationMessageUser());
-                $objNotificationMessageUser->title = sprintf('%s (Archive-%s)', $objNotificationMessageUser->title, (string) $archiveTimestamp);
-                $objNotificationMessageUser->save();
+                if ($objNotificationMessageUser) {
+                    $objNotificationMessageUser->title = sprintf('%s (Archive-%s)', $objNotificationMessageUser->title, (string) $archiveTimestamp);
+                    $objNotificationMessageUser->save();
+                }
 
                 $objNotificationMessageAdmin = NotificationMessageModel::findOneById($formContactConfig->getSgNotificationMessageAdmin());
-                $objNotificationMessageAdmin->title = sprintf('%s (Archive-%s)', $objNotificationMessageAdmin->title, (string) $archiveTimestamp);
-                $objNotificationMessageAdmin->save();
+                if ($objNotificationMessageAdmin) {
+                    $objNotificationMessageAdmin->title = sprintf('%s (Archive-%s)', $objNotificationMessageAdmin->title, (string) $archiveTimestamp);
+                    $objNotificationMessageAdmin->save();
+                }
 
+                $objPageForm = PageModel::findById($formContactConfig->getSgPageForm());
+                if ($objPageForm) {
+                    $objPageForm->published = false;
+                    $objPageForm->save();
+                }
+
+                $objPageFormSent = PageModel::findById($formContactConfig->getSgPageFormSent());
+                if ($objPageFormSent) {
+                    $objPageFormSent->published = false;
+                    $objPageFormSent->save();
+                }
+
+                foreach ($formContactConfig->getContaoArticlesIds() as $id) {
+                    $objArticle = ArticleModel::findByPk($id);
+                    if ($objArticle) {
+                        $objArticle->published = false;
+                        $objArticle->title = sprintf('%s (Archive-%s)', $objArticle->title, (string) $archiveTimestamp);
+                        $objArticle->save();
+                    }
+                }
+
+                foreach ($formContactConfig->getContaoModulesIds() as $id) {
+                    $objModule = ModuleModel::findByPk($id);
+                    if ($objModule) {
+                        $objModule->published = false;
+                        $objModule->title = sprintf('%s (Archive-%s)', $objModule->title, (string) $archiveTimestamp);
+                        $objModule->save();
+                    }
+                }
             break;
             case FormContactConfig::ARCHIVE_MODE_KEEP:
             break;
             case FormContactConfig::ARCHIVE_MODE_DELETE:
                 $objFormContact = FormModel::findById($formContactConfig->getSgFormContact());
-                $objFormContact->delete();
+                if ($objFormContact) {
+                    $objFormContact->delete();
+                }
 
                 $objField = FormFieldModel::findByIdOrAlias($formContactConfig->getSgFieldName());
-                $objField->delete();
+                if ($objField) {
+                    $objField->delete();
+                }
 
                 $objField = FormFieldModel::findByIdOrAlias($formContactConfig->getSgFieldEmail());
-                $objField->delete();
+                if ($objField) {
+                    $objField->delete();
+                }
 
                 $objField = FormFieldModel::findByIdOrAlias($formContactConfig->getSgFieldMessage());
-                $objField->delete();
+                if ($objField) {
+                    $objField->delete();
+                }
 
                 $objField = FormFieldModel::findByIdOrAlias($formContactConfig->getSgFieldCaptcha());
-                $objField->delete();
+                if ($objField) {
+                    $objField->delete();
+                }
 
                 $objField = FormFieldModel::findByIdOrAlias($formContactConfig->getSgFieldSubmit());
-                $objField->delete();
+                if ($objField) {
+                    $objField->delete();
+                }
 
                 $objNotification = NotificationModel::findOneById($formContactConfig->getSgNotification());
-                $objNotification->delete();
+                if ($objNotification) {
+                    $objNotification->delete();
+                }
 
                 $objNotificationMessageUser = NotificationMessageModel::findOneById($formContactConfig->getSgNotificationMessageUser());
-                $objNotificationMessageUser->delete();
+                if ($objNotificationMessageUser) {
+                    $objNotificationMessageUser->delete();
+                }
 
                 $objNotificationMessageUserLanguage = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageUserLanguage());
-                $objNotificationMessageUserLanguage->delete();
+                if ($objNotificationMessageUserLanguage) {
+                    $objNotificationMessageUserLanguage->delete();
+                }
 
                 $objNotificationMessageAdmin = NotificationMessageModel::findOneById($formContactConfig->getSgNotificationMessageAdmin());
-                $objNotificationMessageAdmin->delete();
+                if ($objNotificationMessageAdmin) {
+                    $objNotificationMessageAdmin->delete();
+                }
 
                 $objNotificationMessageAdminLanguage = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageAdminLanguage());
-                $objNotificationMessageAdminLanguage->delete();
+                if ($objNotificationMessageAdminLanguage) {
+                    $objNotificationMessageAdminLanguage->delete();
+                }
 
+                $objPageForm = PageModel::findById($formContactConfig->getSgPageForm());
+                if ($objPageForm) {
+                    $objPageForm->delete();
+                }
+
+                $objPageFormSent = PageModel::findById($formContactConfig->getSgPageFormSent());
+                if ($objPageFormSent) {
+                    $objPageFormSent->delete();
+                }
+
+                foreach ($formContactConfig->getContaoArticlesIds() as $id) {
+                    $objArticle = ArticleModel::findByPk($id);
+                    if ($objArticle) {
+                        $objArticle->delete();
+                    }
+                }
+
+                foreach ($formContactConfig->getContaoContentsIds() as $id) {
+                    $objContent = ContentModel::findByPk($id);
+                    if ($objContent) {
+                        $objContent->delete();
+                    }
+                }
+
+                foreach ($formContactConfig->getContaoModulesIds() as $id) {
+                    $objModule = ModuleModel::findByPk($id);
+                    if ($objModule) {
+                        $objModule->delete();
+                    }
+                }
             break;
             default:
                 throw new \InvalidArgumentException($this->translator->trans('WEMSG.FORMCONTACT.RESET.deleteModeUnknown', [], 'contao_default'));
             break;
         }
-
-        $objPageForm = PageModel::findById($formContactConfig->getSgPageForm());
-        $objPageForm->published = false;
-        $objPageForm->save();
-
-        $objPageFormSent = PageModel::findById($formContactConfig->getSgPageFormSent());
-        $objPageFormSent->published = false;
-        $objPageFormSent->save();
 
         $formContactConfig->setSgArchived(true)
             ->setSgArchivedMode($mode)

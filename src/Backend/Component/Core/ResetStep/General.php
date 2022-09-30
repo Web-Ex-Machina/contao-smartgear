@@ -18,7 +18,6 @@ use Contao\Input;
 use WEM\SmartgearBundle\Backend\Component\Core\Resetter;
 use WEM\SmartgearBundle\Backup\BackupManager;
 use WEM\SmartgearBundle\Backup\Model\Results\CreateResult;
-use WEM\SmartgearBundle\Classes\Analyzer\Htaccess as HtaccessAnalyzer;
 use WEM\SmartgearBundle\Classes\Backend\AbstractStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 
@@ -28,8 +27,6 @@ class General extends AbstractStep
     protected $configurationManager;
     /** @var BackupManager */
     protected $backupManager;
-    /** @var HtaccessAnalyzer */
-    protected $htaccessAnalyzer;
     /** @var Resetter */
     protected $resetter;
 
@@ -40,13 +37,11 @@ class General extends AbstractStep
         string $type,
         ConfigurationManager $configurationManager,
         BackupManager $backupManager,
-        HtaccessAnalyzer $htaccessAnalyzer,
         Resetter $resetter
     ) {
         parent::__construct($module, $type);
         $this->configurationManager = $configurationManager;
         $this->backupManager = $backupManager;
-        $this->htaccessAnalyzer = $htaccessAnalyzer;
         $this->resetter = $resetter;
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['Title'];
 
@@ -70,10 +65,7 @@ class General extends AbstractStep
     {
         // do what is meant to be done in this step
         $this->backup();
-        // $this->reset();
-        $this->resetter->reset((bool) Input::post('framway'), (bool) Input::post('templates'), (bool) Input::post('themes_modules'), (bool) Input::post('pages'), (bool) Input::post('files'), (bool) Input::post('localconfig'));
-        $this->addMessages($this->resetter->getMessages());
-        $this->disableFramwayAssetsManagementRules();
+        $this->reset((bool) Input::post('framway'), (bool) Input::post('templates'), (bool) Input::post('themes_modules'), (bool) Input::post('pages'), (bool) Input::post('files'), (bool) Input::post('localconfig'));
     }
 
     protected function backup(): void
@@ -83,12 +75,9 @@ class General extends AbstractStep
         $this->addConfirm(sprintf($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['backupCompleted'], $createResult->getBackup()->getFile()->basename));
     }
 
-    protected function reset(): void
+    protected function reset(bool $keepFramway, bool $keepTemplates, bool $keepThemesModules, bool $keepPages, bool $keepFiles, bool $keepLocalconfig): void
     {
-    }
-
-    protected function disableFramwayAssetsManagementRules(): void
-    {
-        $this->htaccessAnalyzer->disableFramwayAssetsManagementRules();
+        $this->resetter->reset($keepFramway, $keepTemplates, $keepThemesModules, $keepPages, $keepFiles, $keepLocalconfig);
+        $this->addMessages($this->resetter->getMessages());
     }
 }
