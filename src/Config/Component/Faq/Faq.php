@@ -196,6 +196,47 @@ class Faq implements ConfigModuleInterface
         return [];
     }
 
+    public function resetContaoModulesIds(): void
+    {
+        $this->setSgModuleFaq(null);
+    }
+
+    public function resetContaoPagesIds(): void
+    {
+        $this->setSgPage(null);
+    }
+
+    public function resetContaoContentsIds(): void
+    {
+        $this->setSgContent(null);
+    }
+
+    public function resetContaoArticlesIds(): void
+    {
+        $this->setSgArticle(null);
+    }
+
+    public function resetContaoFoldersIds(): void
+    {
+        $this->setSgFaqFolder('');
+    }
+
+    public function resetContaoUsersIds(): void
+    {
+    }
+
+    public function resetContaoUserGroupsIds(): void
+    {
+    }
+
+    public function resetContaoMembersIds(): void
+    {
+    }
+
+    public function resetContaoMemberGroupsIds(): void
+    {
+    }
+
     public function getSgInstallComplete(): bool
     {
         return $this->sgInstallComplete;

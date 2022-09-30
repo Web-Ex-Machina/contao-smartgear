@@ -21,6 +21,27 @@ services:
             $translator: '@contao.translation.translator'
         public: true
 
+    smartgear.backend.component.core.resetter:
+        class: WEM\SmartgearBundle\Backend\Component\Core\Resetter
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $localConfigManager: '@smartgear.config.manager.local_config'
+            $htaccessAnalyzer: '@smartgear.classes.analyzer.htaccess'
+            $module: 'core'
+            $type: 'component'
+            $templatesDirs: 
+                - 'templates/rsce'
+                - 'templates/smartgear'
+            $componentsResetters:
+                - '@smartgear.backend.component.blog.resetter'
+                - '@smartgear.backend.component.events.resetter'
+                - '@smartgear.backend.component.faq.resetter'
+                - '@smartgear.backend.component.form_contact.resetter'
+            $modulesResetters:
+                - '@smartgear.backend.module.extranet.resetter'
+        public: true
+
     smartgear.backend.component.core.configuration_step_manager:
         class: WEM\SmartgearBundle\Classes\Backend\ConfigurationStepManager
         arguments:
@@ -121,12 +142,8 @@ services:
             $module: 'core'
             $type: 'component'
             $configurationManager: '@smartgear.config.manager.core'
-            $localConfigManager: '@smartgear.config.manager.local_config'
             $backupManager: '@smartgear.backup.backup_manager'
-            $htaccessAnalyzer: '@smartgear.classes.analyzer.htaccess'
-            $templatesDirs: 
-                - 'templates/rsce'
-                - 'templates/smartgear'
+            $resetter: '@smartgear.backend.component.core.resetter'
         public: true
 
         
@@ -158,6 +175,15 @@ services:
             $configurationStepManager: '@smartgear.backend.component.blog.configuration_step_manager'
             $resetStepManager: '@smartgear.backend.component.blog.reset_step_manager'
             $dashboard: '@smartgear.backend.component.blog.dashboard'
+        public: true
+
+    smartgear.backend.component.blog.resetter:
+        class: WEM\SmartgearBundle\Backend\Component\Blog\Resetter
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'blog'
+            $type: 'component'
         public: true
 
     smartgear.backend.component.blog.configuration_step_manager:
@@ -222,6 +248,7 @@ services:
             $type: 'component'
             $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
+            $resetter: '@smartgear.backend.component.blog.resetter'
         public: true
 
     smartgear.backend.component.blog.listener.replace_insert_tags:
@@ -254,6 +281,15 @@ services:
             $configurationStepManager: '@smartgear.backend.component.events.configuration_step_manager'
             $resetStepManager: '@smartgear.backend.component.events.reset_step_manager'
             $dashboard: '@smartgear.backend.component.events.dashboard'
+        public: true
+
+    smartgear.backend.component.events.resetter:
+        class: WEM\SmartgearBundle\Backend\Component\Events\Resetter
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'events'
+            $type: 'component'
         public: true
 
     smartgear.backend.component.events.configuration_step_manager:
@@ -319,6 +355,7 @@ services:
             $type: 'component'
             $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
+            $resetter: '@smartgear.backend.component.events.resetter'
         public: true
 
     smartgear.backend.component.events.listener.replace_insert_tags:
@@ -353,6 +390,15 @@ services:
             $configurationStepManager: '@smartgear.backend.component.faq.configuration_step_manager'
             $resetStepManager: '@smartgear.backend.component.faq.reset_step_manager'
             $dashboard: '@smartgear.backend.component.faq.dashboard'
+        public: true
+
+    smartgear.backend.component.faq.resetter:
+        class: WEM\SmartgearBundle\Backend\Component\Faq\Resetter
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'faq'
+            $type: 'component'
         public: true
 
     smartgear.backend.component.faq.configuration_step_manager:
@@ -405,6 +451,7 @@ services:
             $type: 'component'
             $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
+            $resetter: '@smartgear.backend.component.faq.resetter'
         public: true
 
     smartgear.backend.component.faq.listener.replace_insert_tags:
@@ -431,6 +478,15 @@ services:
             $configurationStepManager: '@smartgear.backend.component.form_contact.configuration_step_manager'
             $resetStepManager: '@smartgear.backend.component.form_contact.reset_step_manager'
             $dashboard: '@smartgear.backend.component.form_contact.dashboard'
+        public: true
+
+    smartgear.backend.component.form_contact.resetter:
+        class: WEM\SmartgearBundle\Backend\Component\FormContact\Resetter
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'form_contact'
+            $type: 'component'
         public: true
 
     smartgear.backend.component.form_contact.configuration_step_manager:
@@ -484,6 +540,7 @@ services:
             $type: 'component'
             $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
+            $resetter: '@smartgear.backend.component.form_contact.resetter'
         public: true
 
     smartgear.backend.component.form_contact.listener.replace_insert_tags:

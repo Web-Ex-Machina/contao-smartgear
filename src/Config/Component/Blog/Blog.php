@@ -226,6 +226,48 @@ class Blog implements ConfigModuleInterface
         return [];
     }
 
+    public function resetContaoModulesIds(): void
+    {
+        $this->setSgModuleList(null);
+        $this->setSgModuleReader(null);
+    }
+
+    public function resetContaoPagesIds(): void
+    {
+        $this->setSgPage(null);
+    }
+
+    public function resetContaoContentsIds(): void
+    {
+        $this->setSgContentHeadline(null);
+        $this->setSgContentList(null);
+    }
+
+    public function resetContaoArticlesIds(): void
+    {
+        $this->setSgArticle(null);
+    }
+
+    public function resetContaoFoldersIds(): void
+    {
+    }
+
+    public function resetContaoUsersIds(): void
+    {
+    }
+
+    public function resetContaoUserGroupsIds(): void
+    {
+    }
+
+    public function resetContaoMembersIds(): void
+    {
+    }
+
+    public function resetContaoMemberGroupsIds(): void
+    {
+    }
+
     public function getSgInstallComplete(): bool
     {
         return $this->sgInstallComplete;

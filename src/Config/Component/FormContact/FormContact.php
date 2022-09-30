@@ -273,6 +273,50 @@ class FormContact implements ConfigModuleInterface
         return [];
     }
 
+    public function resetContaoModulesIds(): void
+    {
+    }
+
+    public function resetContaoPagesIds(): void
+    {
+        $this->setSgPageForm(null);
+        $this->setSgPageFormSent(null);
+    }
+
+    public function resetContaoContentsIds(): void
+    {
+        $this->setSgContentFormArticleForm(null);
+        $this->setSgContentHeadlineArticleForm(null);
+        $this->setSgContentHeadlineArticleFormSent(null);
+        $this->setSgContentTextArticleFormSent(null);
+    }
+
+    public function resetContaoArticlesIds(): void
+    {
+        $this->setSgArticleForm(null);
+        $this->setSgArticleFormSent(null);
+    }
+
+    public function resetContaoFoldersIds(): void
+    {
+    }
+
+    public function resetContaoUsersIds(): void
+    {
+    }
+
+    public function resetContaoUserGroupsIds(): void
+    {
+    }
+
+    public function resetContaoMembersIds(): void
+    {
+    }
+
+    public function resetContaoMemberGroupsIds(): void
+    {
+    }
+
     public function getSgInstallComplete(): bool
     {
         return $this->sgInstallComplete;

@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Config\Component\Core;
 
+use Exception;
 use WEM\SmartgearBundle\Classes\Config\ConfigModuleInterface;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
@@ -54,6 +55,7 @@ class Core implements ConfigModuleInterface
     public const DEFAULT_ENCRYPTION_KEY = 'encryption-key-to-change';
     public const DEFAULT_CLIENT_FILES_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media';
     public const DEFAULT_CLIENT_LOGOS_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media'.\DIRECTORY_SEPARATOR.'logos';
+    public const SUBMODULES_KEYS = ['blog', 'events', 'faq', 'form_contact', 'extranet'];
     /** @var bool */
     protected $sgInstallComplete = false;
     /** @var string */
@@ -411,6 +413,76 @@ class Core implements ConfigModuleInterface
         return json_encode($json, \JSON_PRETTY_PRINT);
     }
 
+    public function getSubmodulesConfigs(): array
+    {
+        return [
+            'blog' => $this->getSubmoduleConfig('blog'),
+            'events' => $this->getSubmoduleConfig('events'),
+            'faq' => $this->getSubmoduleConfig('faq'),
+            'form_contact' => $this->getSubmoduleConfig('form_contact'),
+            'extranet' => $this->getSubmoduleConfig('extranet'),
+        ];
+    }
+
+    public function getSubmoduleConfig(string $submodule)
+    {
+        if (!$this->isSubmoduleNameKnown($submodule)) {
+            throw new Exception(sprintf('The submodule "%s" is unknown', $submodule));
+        }
+        switch ($submodule) {
+            case 'blog':
+                return $this->getSgBlog();
+            break;
+            case 'events':
+                return $this->getSgEvents();
+            break;
+            case 'faq':
+                return $this->getSgFaq();
+            break;
+            case 'form_contact':
+                return $this->getSgFormContact();
+            break;
+            case 'extranet':
+                return $this->getSgExtranet();
+            break;
+        }
+    }
+
+    public function setSubmodulesConfigs(array $submodulesConfigs): self
+    {
+        foreach ($submodulesConfigs as $submodule => $config) {
+            $this->setSubmoduleConfig($submodule, $config);
+        }
+
+        return $this;
+    }
+
+    public function setSubmoduleConfig(string $submodule, $config): self
+    {
+        if (!$this->isSubmoduleNameKnown($submodule)) {
+            throw new Exception(sprintf('The submodule "%s" is unknown', $submodule));
+        }
+        switch ($submodule) {
+            case 'blog':
+                $this->setSgBlog($config);
+            break;
+            case 'events':
+                $this->setSgEvents($config);
+            break;
+            case 'faq':
+                $this->setSgFaq($config);
+            break;
+            case 'form_contact':
+                $this->setSgFormContact($config);
+            break;
+            case 'extranet':
+                $this->setSgExtranet($config);
+            break;
+        }
+
+        return $this;
+    }
+
     public function getContaoModulesIdsForAll(): array
     {
         return array_merge(
@@ -632,6 +704,62 @@ class Core implements ConfigModuleInterface
         }
 
         return [];
+    }
+
+    public function resetContaoModulesIds(): void
+    {
+        $this->setSgModules([]);
+    }
+
+    public function resetContaoPagesIds(): void
+    {
+        $this->setSgPageHome(null);
+        $this->setSgPageRoot(null);
+        $this->setSgPagePrivacyPolitics(null);
+        $this->setSgPage404(null);
+        $this->setSgPageSitemap(null);
+        $this->setSgPageLegalNotice(null);
+    }
+
+    public function resetContaoContentsIds(): void
+    {
+        $this->setSgContent404Headline(null);
+        $this->setSgContent404Sitemap(null);
+        $this->setSgContentSitemap(null);
+        $this->setSgContentLegalNotice(null);
+        $this->setSgContentPrivacyPolitics(null);
+    }
+
+    public function resetContaoArticlesIds(): void
+    {
+        $this->setSgArticle404(null);
+        $this->setSgArticleHome(null);
+        $this->setSgArticleSitemap(null);
+        $this->setSgArticleLegalNotice(null);
+        $this->setSgArticlePrivacyPolitics(null);
+    }
+
+    public function resetContaoFoldersIds(): void
+    {
+    }
+
+    public function resetContaoUsersIds(): void
+    {
+        $this->setSgUserWebmaster(null);
+    }
+
+    public function resetContaoUserGroupsIds(): void
+    {
+        $this->setSgUserGroupAdministrators(null);
+        $this->setSgUserGroupWebmasters(null);
+    }
+
+    public function resetContaoMembersIds(): void
+    {
+    }
+
+    public function resetContaoMemberGroupsIds(): void
+    {
     }
 
     public function getSgVersion(): string
@@ -1347,5 +1475,10 @@ class Core implements ConfigModuleInterface
         $this->sgEncryptionKey = $sgEncryptionKey;
 
         return $this;
+    }
+
+    protected function isSubmoduleNameKnown(string $submodule): bool
+    {
+        return \in_array($submodule, self::SUBMODULES_KEYS, true);
     }
 }

@@ -14,26 +14,21 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\FormContact\ResetStep;
 
-use Contao\FormFieldModel;
-use Contao\FormModel;
 use Contao\Input;
-use Contao\PageModel;
-use Contao\UserGroupModel;
-use NotificationCenter\Model\Language as NotificationLanguageModel;
-use NotificationCenter\Model\Message as NotificationMessageModel;
-use NotificationCenter\Model\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use WEM\SmartgearBundle\Backend\Component\FormContact\Resetter;
 use WEM\SmartgearBundle\Classes\Backend\AbstractStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
-use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
-use WEM\SmartgearBundle\Model\Module;
 
 class General extends AbstractStep
 {
+    /** @var TranslatorInterface */
+    protected $translator;
     /** @var ConfigurationManager */
     protected $configurationManager;
+    /** @var Resetter */
+    protected $resetter;
 
     protected $strTemplate = 'be_wem_sg_install_block_reset_step_formcontact_general';
 
@@ -41,11 +36,13 @@ class General extends AbstractStep
         string $module,
         string $type,
         TranslatorInterface $translator,
-        ConfigurationManager $configurationManager
+        ConfigurationManager $configurationManager,
+        Resetter $resetter
     ) {
         parent::__construct($module, $type);
         $this->translator = $translator;
         $this->configurationManager = $configurationManager;
+        $this->resetter = $resetter;
 
         $this->title = $this->translator->trans('WEMSG.FORMCONTACT.RESET.title', [], 'contao_default');
 
@@ -80,122 +77,12 @@ class General extends AbstractStep
     public function do(): void
     {
         // do what is meant to be done in this step
-        $this->resetUserGroupSettings();
         $this->reset(Input::post('deleteMode'));
     }
 
-    protected function reset(string $deleteMode): void
+    protected function reset(string $mode): void
     {
-        // reset everything except what we wanted to keep
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
-        $formContactConfig = $config->getSgFormContact();
-        $archiveTimestamp = time();
-
-        switch ($deleteMode) {
-            case FormContactConfig::ARCHIVE_MODE_ARCHIVE:
-                $objFormContact = FormModel::findById($formContactConfig->getSgFormContact());
-                $objFormContact->title = sprintf('%s (Archive-%s)', $objFormContact->title, (string) $archiveTimestamp);
-                $objFormContact->save();
-
-                $objNotification = NotificationModel::findOneById($formContactConfig->getSgNotification());
-                $objNotification->title = sprintf('%s (Archive-%s)', $objNotification->title, (string) $archiveTimestamp);
-                $objNotification->save();
-
-                $objNotificationMessageUser = NotificationMessageModel::findOneById($formContactConfig->getSgNotificationMessageUser());
-                $objNotificationMessageUser->title = sprintf('%s (Archive-%s)', $objNotificationMessageUser->title, (string) $archiveTimestamp);
-                $objNotificationMessageUser->save();
-
-                $objNotificationMessageAdmin = NotificationMessageModel::findOneById($formContactConfig->getSgNotificationMessageAdmin());
-                $objNotificationMessageAdmin->title = sprintf('%s (Archive-%s)', $objNotificationMessageAdmin->title, (string) $archiveTimestamp);
-                $objNotificationMessageAdmin->save();
-
-            break;
-            case FormContactConfig::ARCHIVE_MODE_KEEP:
-            break;
-            case FormContactConfig::ARCHIVE_MODE_DELETE:
-                $objFormContact = FormModel::findById($formContactConfig->getSgFormContact());
-                $objFormContact->delete();
-
-                $objField = FormFieldModel::findByIdOrAlias($formContactConfig->getSgFieldName());
-                $objField->delete();
-
-                $objField = FormFieldModel::findByIdOrAlias($formContactConfig->getSgFieldEmail());
-                $objField->delete();
-
-                $objField = FormFieldModel::findByIdOrAlias($formContactConfig->getSgFieldMessage());
-                $objField->delete();
-
-                $objField = FormFieldModel::findByIdOrAlias($formContactConfig->getSgFieldCaptcha());
-                $objField->delete();
-
-                $objField = FormFieldModel::findByIdOrAlias($formContactConfig->getSgFieldSubmit());
-                $objField->delete();
-
-                $objNotification = NotificationModel::findOneById($formContactConfig->getSgNotification());
-                $objNotification->delete();
-
-                $objNotificationMessageUser = NotificationMessageModel::findOneById($formContactConfig->getSgNotificationMessageUser());
-                $objNotificationMessageUser->delete();
-
-                $objNotificationMessageUserLanguage = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageUserLanguage());
-                $objNotificationMessageUserLanguage->delete();
-
-                $objNotificationMessageAdmin = NotificationMessageModel::findOneById($formContactConfig->getSgNotificationMessageAdmin());
-                $objNotificationMessageAdmin->delete();
-
-                $objNotificationMessageAdminLanguage = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageAdminLanguage());
-                $objNotificationMessageAdminLanguage->delete();
-
-            break;
-            default:
-                throw new \InvalidArgumentException($this->translator->trans('WEMSG.FORMCONTACT.RESET.deleteModeUnknown', [], 'contao_default'));
-            break;
-        }
-
-        $objPageForm = PageModel::findById($formContactConfig->getSgPageForm());
-        $objPageForm->published = false;
-        $objPageForm->save();
-
-        $objPageFormSent = PageModel::findById($formContactConfig->getSgPageFormSent());
-        $objPageFormSent->published = false;
-        $objPageFormSent->save();
-
-        $formContactConfig->setSgArchived(true)
-            ->setSgArchivedMode($deleteMode)
-            ->setSgArchivedAt($archiveTimestamp)
-        ;
-
-        $config->setSgFormContact($formContactConfig);
-
-        $this->configurationManager->save($config);
-    }
-
-    protected function resetUserGroupSettings(): void
-    {
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
-        $formContactConfig = $config->getSgFormContact();
-
-        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $formContactConfig);
-        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $formContactConfig);
-    }
-
-    protected function resetUserGroup(UserGroupModel $objUserGroup, FormContactConfig $formContactConfig): void
-    {
-        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
-        $userGroupManipulator
-            ->removeAllowedModules(['form'])
-            ->removeAllowedForms([$formContactConfig->getSgFormContact()])
-            ->removeAllowedFormFields(['text', 'textarea', 'captcha', 'submit'])
-            ->removeAllowedFieldsByPrefixes(['tl_form::', 'tl_form_field::'])
-            ->removeAllowedPagemounts($formContactConfig->getContaoPagesIds())
-            ->removeAllowedModules(Module::getTypesByIds($formContactConfig->getContaoModulesIds()))
-        ;
-        $objUserGroup = $userGroupManipulator->getUserGroup();
-        $objUserGroup->formp = null;
-        $objUserGroup->save();
+        $this->resetter->reset($mode);
+        $this->addMessages($this->resetter->getMessages());
     }
 }

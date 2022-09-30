@@ -47,4 +47,22 @@ interface ConfigModuleInterface extends ConfigJsonInterface
     public function getContaoMembersIds(): array;
 
     public function getContaoMemberGroupsIds(): array;
+
+    public function resetContaoModulesIds(): void;
+
+    public function resetContaoPagesIds(): void;
+
+    public function resetContaoContentsIds(): void;
+
+    public function resetContaoArticlesIds(): void;
+
+    public function resetContaoFoldersIds(): void;
+
+    public function resetContaoUsersIds(): void;
+
+    public function resetContaoUserGroupsIds(): void;
+
+    public function resetContaoMembersIds(): void;
+
+    public function resetContaoMemberGroupsIds(): void;
 }

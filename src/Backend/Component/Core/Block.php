@@ -215,10 +215,16 @@ class Block extends BackendBlock
                     $callbacks[] = $this->callback('toastrDisplay', $singleMessageParameters);
                 }
 
-                $callbacks[] = $this->callback('refreshBlock');
+                // $callbacks[] = $this->callback('refreshBlock');
+                $callbacks[] = $this->callback('reload');
                 $this->setMode(self::MODE_INSTALL);
                 $this->configurationStepManager->setCurrentStepIndex(0);
                 $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => $callbacks];
+            break;
+            case self::MODE_CONFIGURE:
+            case self::MODE_INSTALL:
+                $arrResponse = parent::finish();
+                $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('reload')]];
             break;
             default:
                 return parent::finish();

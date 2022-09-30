@@ -28,3 +28,19 @@
 #tl_wem_sg_install .loader.active{visibility:visible;opacity:1;}
 
 .wem_sg_modal{padding:15px 0;}
+.tl_warning {
+    margin:0 0 1px;
+    padding:11px 18px 11px 37px;
+    line-height:1.3;
+    background:#fbf2e5 url("/../../../system/themes/flexible/icons/important.svg") no-repeat 16px 12px;
+}
+.tl_warning,.tl_warning a {
+    color:#d68c23;
+}
+.widget .tl_warning {
+    padding:8px 10px 8px 30px;
+    background-position:9px 9px;
+}
+.tl_warning strong {
+    color:inherit;
+}

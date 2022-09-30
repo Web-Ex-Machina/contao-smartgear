@@ -1,6 +1,16 @@
 <form action="<?= $this->request ?>" class="tl_form" method="post">
 	<?php $this->insert('be_wem_sg_install_step_mandatory_fields', $this->getData()); ?>
 	<?php if(!empty($this->fields)): ?>
+		<br />
+		<div class="widget">
+			<p class="tl_warning">
+				<?= $this->trans('WEMSG.CORE.RESETSTEPMANAGER.allModulesAndComponentsWillBeResetted'); ?>
+			</p>
+			<p class="tl_info">
+				<?= $this->trans('WEMSG.RESET.GENERAL.backupHelp'); ?>
+			</p>
+		</div>
+		<br />
 		<div class="widget">
 			<h3><?= $this->trans('WEMSG.CORE.RESETSTEPMANAGER.elementsToKeep'); ?></h3>
 			<div class="<?= $this->fields['localconfig']['class'] ?>">

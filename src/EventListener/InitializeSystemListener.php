@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\EventListener;
 
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\TemplateFinder;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
 class InitializeSystemListener
@@ -36,6 +37,7 @@ class InitializeSystemListener
     public function __invoke(): void
     {
         try {
+            /** @var CoreConfig */
             $config = $this->configurationManager->load();
         } catch (NotFound $e) {
             return;

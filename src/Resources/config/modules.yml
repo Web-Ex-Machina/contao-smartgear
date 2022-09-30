@@ -11,6 +11,15 @@ services:
             $dashboard: '@smartgear.backend.module.extranet.dashboard'
         public: true
 
+    smartgear.backend.module.extranet.resetter:
+        class: WEM\SmartgearBundle\Backend\Module\Extranet\Resetter
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'extranet'
+            $type: 'module'
+        public: true
+
     smartgear.backend.module.extranet.configuration_step_manager:
         class: WEM\SmartgearBundle\Backend\Module\Extranet\ConfigurationStepManager
         arguments:
@@ -62,6 +71,7 @@ services:
             $type: 'module'
             $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
+            $resetter: '@smartgear.backend.module.extranet.resetter'
         public: true
 
     smartgear.backend.module.extranet.listener.replace_insert_tags:
