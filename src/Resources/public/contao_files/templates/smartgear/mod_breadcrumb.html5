@@ -11,7 +11,7 @@
       <?php else: ?>
         <li<?php if ($item['class']): ?> class="<?= $item['class'] ?>"<?php endif; ?> itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement">
           <a href="<?= $item['href'] ?: './' ?>" title="<?= $item['title'] ?>" itemprop="item">
-            <span itemprop="name"><?= $item['link'] ?></span></a><span class="chevron"> > </span>
+            <span itemprop="name"><?= $item['link'] ?></span></a>
           <meta itemprop="position" content="<?= $position + 1 ?>">
         </li>
       <?php endif; ?>
