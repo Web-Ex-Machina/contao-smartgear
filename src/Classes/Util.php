@@ -562,6 +562,20 @@ class Util
     }
 
     /**
+     * Returns the public directory root (/path/to/contao/public or /path/to/contao/web).
+     */
+    public static function getPublicOrWebDirectory(): string
+    {
+        $composerJson = json_decode(file_get_contents(TL_ROOT.'/composer.json'));
+
+        if (property_exists($composerJson->extra, 'extra') && property_exists($composerJson->extra, 'public-dir')) {
+            return TL_ROOT.\DIRECTORY_SEPARATOR.$composerJson['extra']['public-dir'];
+        }
+
+        return TL_ROOT.\DIRECTORY_SEPARATOR.'public';
+    }
+
+    /**
      * Get this package's version.
      *
      * @return string|null The package version if found, null otherwise

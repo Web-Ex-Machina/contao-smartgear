@@ -48,10 +48,10 @@ class DirectoriesSynchronizer
         string $rootDir,
         bool $manageSubfolders
     ) {
-        $this->sourceDirectory = $sourceDirectory;
-        $this->destinationDirectory = $destinationDirectory;
-        $this->rootDir = $rootDir;
+        $this->rootDir = $rootDir; // must be first !!!
         $this->manageSubfolders = $manageSubfolders;
+        $this->sourceDirectory = $this->stripRootPathFromPath(str_replace('[public_or_web]', Util::getPublicOrWebDirectory(), $sourceDirectory));
+        $this->destinationDirectory = $this->stripRootPathFromPath(str_replace('[public_or_web]', Util::getPublicOrWebDirectory(), $destinationDirectory));
     }
 
     /**

@@ -327,7 +327,7 @@ class General extends ConfigurationStep
         /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
-        $strText = file_get_contents(sprintf('%s/public/bundles/wemsmartgear/examples/formContact/%s/user_form.html', TL_ROOT, $this->language));
+        $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/formContact/%s/user_form.html', Util::getPublicOrWebDirectory(), $this->language));
 
         $nl = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageUserLanguage()) ?? new NotificationLanguageModel();
         $nl->pid = $gatewayMessage->id;
@@ -354,7 +354,7 @@ class General extends ConfigurationStep
         /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
-        $strText = file_get_contents(sprintf('%s/public/bundles/wemsmartgear/examples/formContact/%s/admin_form.html', TL_ROOT, $this->language));
+        $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/formContact/%s/admin_form.html', Util::getPublicOrWebDirectory(), $this->language));
 
         $nl = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageAdminLanguage()) ?? new NotificationLanguageModel();
         $nl->pid = $gatewayMessage->id;
