@@ -93,7 +93,7 @@ class General extends ConfigurationStep
         $config = $this->configurationManager->load();
         /** @var FormDataManagerConfig */
         $extranetConfig = $config->getSgFormDataManager();
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $extranetConfig);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $extranetConfig);
         $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $extranetConfig);
     }
 

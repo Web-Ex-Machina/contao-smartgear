@@ -56,7 +56,7 @@ class Core implements ConfigModuleInterface
     public const DEFAULT_ENCRYPTION_KEY = 'encryption-key-to-change';
     public const DEFAULT_CLIENT_FILES_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media';
     public const DEFAULT_CLIENT_LOGOS_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media'.\DIRECTORY_SEPARATOR.'logos';
-    public const SUBMODULES_KEYS = ['blog', 'events', 'faq', 'form_contact', 'extranet'];
+    public const SUBMODULES_KEYS = ['blog', 'events', 'faq', 'form_contact', 'extranet', 'form_data_manager'];
     /** @var bool */
     protected $sgInstallComplete = false;
     /** @var string */

@@ -88,7 +88,7 @@ class ProcessFormDataListener
                     foreach ($submittedData as $fieldName => $value) {
                         $this->storeFieldValue($fieldName, $value, $objFormStorage);
                     }
-                    $this->storeFilesValues($files, $objFormStorage);
+                    $this->storeFilesValues($files ?? [], $objFormStorage);
                 }
             }
         } catch (Exception $e) {
@@ -120,7 +120,7 @@ class ProcessFormDataListener
         return (int) ((int) (microtime(true) * 1000) - (int) $firstInteractionMs);
     }
 
-    protected function calculateCompletionPercentage(array $submittedData, array $files, Form $form): float
+    protected function calculateCompletionPercentage(array $submittedData, ?array $files = [], Form $form): float
     {
         $formFields = FormFieldModel::findPublishedByPid($form->getModel()->id);
         $fieldsTotal = $formFields->count();

@@ -100,6 +100,15 @@ services:
             $dashboard: '@smartgear.backend.module.form_data_manager.dashboard'
         public: true
 
+    smartgear.backend.module.form_data_manager.resetter:
+        class: WEM\SmartgearBundle\Backend\Module\FormDataManager\Resetter
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $translator: '@contao.translation.translator'
+            $module: 'form_data_manager'
+            $type: 'module'
+        public: true
+
     smartgear.backend.module.form_data_manager.configuration_step_manager:
         class: WEM\SmartgearBundle\Backend\Module\FormDataManager\ConfigurationStepManager
         arguments:
@@ -151,6 +160,7 @@ services:
             $type: 'module'
             $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
+            $resetter: '@smartgear.backend.module.form_data_manager.resetter'
         public: true
 
     smartgear.backend.module.form_data_manager.backend_controller:

@@ -15,19 +15,18 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Module\FormDataManager\ResetStep;
 
 use Contao\Input;
-use Contao\UserGroupModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\AbstractStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
-use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
-use WEM\SmartgearBundle\Model\FormStorage;
+use WEM\SmartgearBundle\Backend\Module\FormDataManager\Resetter;
 
 class General extends AbstractStep
 {
     /** @var ConfigurationManager */
     protected $configurationManager;
+    /** @var Resetter */
+    protected $resetter;
 
     protected $strTemplate = 'be_wem_sg_install_block_reset_step_fdm_general';
 
@@ -35,11 +34,13 @@ class General extends AbstractStep
         string $module,
         string $type,
         TranslatorInterface $translator,
-        ConfigurationManager $configurationManager
+        ConfigurationManager $configurationManager,
+        Resetter $resetter
     ) {
         parent::__construct($module, $type);
         $this->translator = $translator;
         $this->configurationManager = $configurationManager;
+        $this->resetter = $resetter;
 
         $this->title = $this->translator->trans('WEMSG.FDM.RESET.title', [], 'contao_default');
 
@@ -66,63 +67,12 @@ class General extends AbstractStep
     public function do(): void
     {
         // do what is meant to be done in this step
-        $this->resetUserGroupSettings();
         $this->reset(Input::post('deleteMode'));
     }
 
-    protected function reset(string $deleteMode): void
+    protected function reset(string $mode): void
     {
-        // reset everything except what we wanted to keep
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
-        /** @var FormDataManagerConfig */
-        $formDataManagerConfig = $config->getSgFormDataManager();
-        $archiveTimestamp = time();
-
-        switch ($deleteMode) {
-            case FormDataManagerConfig::ARCHIVE_MODE_DELETE:
-                $this->archiveModeDelete($formDataManagerConfig);
-            break;
-            default:
-                throw new \InvalidArgumentException($this->translator->trans('WEMSG.FDM.RESET.deleteModeUnknown', [], 'contao_default'));
-            break;
-        }
-
-        $formDataManagerConfig
-            ->setSgInstallComplete(false)
-            ->setSgArchived(true)
-            ->setSgArchivedMode($deleteMode)
-            ->setSgArchivedAt($archiveTimestamp)
-        ;
-
-        $config->setSgFormDataManager($formDataManagerConfig);
-
-        $this->configurationManager->save($config);
-    }
-
-    protected function archiveModeDelete(FormDataManagerConfig $formDataManagerConfig): FormDataManagerConfig
-    {
-        FormStorage::deleteAll();
-
-        return $formDataManagerConfig;
-    }
-
-    protected function resetUserGroupSettings(): void
-    {
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
-        /** @var FormDataManagerConfig */
-        $formDataManagerConfig = $config->getSgFormDataManager();
-
-        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $formDataManagerConfig);
-        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $formDataManagerConfig);
-    }
-
-    protected function resetUserGroup(UserGroupModel $objUserGroup, FormDataManagerConfig $formDataManagerConfig): void
-    {
-        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
-
-        $objUserGroup = $userGroupManipulator->getUserGroup();
-        $objUserGroup->save();
+        $this->resetter->reset($mode);
+        $this->addMessages($this->resetter->getMessages());
     }
 }

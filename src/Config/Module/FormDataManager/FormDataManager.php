@@ -115,6 +115,42 @@ class FormDataManager implements ConfigModuleInterface
         return [];
     }
 
+    public function resetContaoModulesIds(): void
+    {
+    }
+
+    public function resetContaoPagesIds(): void
+    {
+    }
+
+    public function resetContaoContentsIds(): void
+    {
+    }
+
+    public function resetContaoArticlesIds(): void
+    {
+    }
+
+    public function resetContaoFoldersIds(): void
+    {
+    }
+
+    public function resetContaoUsersIds(): void
+    {
+    }
+
+    public function resetContaoUserGroupsIds(): void
+    {
+    }
+
+    public function resetContaoMembersIds(): void
+    {
+    }
+
+    public function resetContaoMemberGroupsIds(): void
+    {
+    }
+
     public function getSgInstallComplete(): bool
     {
         return $this->sgInstallComplete;
