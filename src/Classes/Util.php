@@ -566,9 +566,8 @@ class Util
      */
     public static function getPublicOrWebDirectory(): string
     {
-        $composerJson = json_decode(file_get_contents(TL_ROOT.'/composer.json'));
-
-        if (property_exists($composerJson->extra, 'extra') && property_exists($composerJson->extra, 'public-dir')) {
+        $composerJson = json_decode(file_get_contents(TL_ROOT.'/composer.json'), true);
+        if ($composerJson['extra']['public-dir'] ?? false) {
             return TL_ROOT.\DIRECTORY_SEPARATOR.$composerJson['extra']['public-dir'];
         }
 
@@ -789,8 +788,8 @@ class Util
 
     public static function getLocalizedTemplateContent(string $tplPath, string $language, ?string $fallbackTplPath = null): string
     {
-        $tplPath = str_replace(['{root}', '{lang}'], [TL_ROOT, $language], $tplPath);
-        $fallbackTplPath = str_replace(['{root}', '{lang}'], [TL_ROOT, $language], $fallbackTplPath);
+        $tplPath = str_replace(['{root}', '{lang}', '{public_or_web}'], [TL_ROOT, $language, self::getPublicOrWebDirectory()], $tplPath);
+        $fallbackTplPath = str_replace(['{root}', '{lang}', '{public_or_web}'], [TL_ROOT, $language, self::getPublicOrWebDirectory()], $fallbackTplPath);
 
         if (file_exists($tplPath)) {
             return file_get_contents($tplPath);

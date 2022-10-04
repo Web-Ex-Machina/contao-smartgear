@@ -293,7 +293,7 @@ class Website extends ConfigurationStep
         $objFooterModule->tstamp = time();
         $objFooterModule->type = 'wem_sg_footer';
         $objFooterModule->name = 'FOOTER';
-        $objFooterModule->html = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/footer_1.html');
+        $objFooterModule->html = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/footer_1.html');
         $objFooterModule->save();
         $modules[$objFooterModule->type] = $objFooterModule;
 
@@ -362,11 +362,11 @@ class Website extends ConfigurationStep
             ['mod' => 0, 'col' => 'main', 'enable' => '1'],
             ['mod' => $modules['wem_sg_footer']->id, 'col' => 'footer', 'enable' => '1'],
         ];
-        $script = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
+        $script = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
         $script = str_replace('{{config.googleFonts}}', "'".implode("','", $config->getSgGoogleFonts())."'", $script);
         $script = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $script);
 
-        $head = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+        $head = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
         $head = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $head);
 
         $objLayout = null !== $config->getSgLayoutStandard()
@@ -744,7 +744,7 @@ class Website extends ConfigurationStep
         $config = $this->configurationManager->load();
         $content = ContentModel::findById($config->getSgContentLegalNotice());
 
-        $strText = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/legal-notices_1.html');
+        $strText = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/legal-notices_1.html');
         $strHtml = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageLegalNoticeTextDefault'];
         if ($strText) {
             /**
@@ -782,7 +782,7 @@ class Website extends ConfigurationStep
         $config = $this->configurationManager->load();
         $content = ContentModel::findById($config->getSgContentPrivacyPolitics());
 
-        $strText = file_get_contents(TL_ROOT.'/public/bundles/wemsmartgear/examples/privacy_1.html');
+        $strText = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/privacy_1.html');
         $strHtml = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PagePrivacyPoliticsTextDefault'];
         if ($strText) {
             /**

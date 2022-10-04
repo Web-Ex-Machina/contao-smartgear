@@ -53,12 +53,15 @@ class Resetter extends BackendResetter
 
     public function reset(string $mode): void
     {
-        $this->resetUserGroupSettings();
         // reset everything except what we wanted to keep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
         /** @var FormDataManagerConfig */
         $formDataManagerConfig = $config->getSgFormDataManager();
+        if (!$formDataManagerConfig) {
+            return;
+        }
+        $this->resetUserGroupSettings();
         $archiveTimestamp = time();
 
         switch ($mode) {

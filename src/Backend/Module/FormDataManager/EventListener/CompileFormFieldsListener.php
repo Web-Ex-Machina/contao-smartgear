@@ -58,7 +58,7 @@ class CompileFormFieldsListener
                     $objFormFieldWarning->pid = $form->getModel()->id;
                     $objFormFieldWarning->sorting = 16;
                     $objFormFieldWarning->type = 'html';
-                    $objFormFieldWarning->html = Util::getLocalizedTemplateContent('{root}/public/bundles/wemsmartgear/examples/formDataManager/{lang}/warning_message.html', 'FE' === TL_MODE ? $objPage->rootLanguage : \Contao\BackendUser::getInstance()->language, '{root}/public/bundles/wemsmartgear/examples/formDataManager/fr/warning_message.html');
+                    $objFormFieldWarning->html = Util::getLocalizedTemplateContent('{public_or_web}/bundles/wemsmartgear/examples/formDataManager/{lang}/warning_message.html', 'FE' === TL_MODE ? $objPage->rootLanguage : \Contao\BackendUser::getInstance()->language, '{public_or_web}/bundles/wemsmartgear/examples/formDataManager/fr/warning_message.html');
 
                     // add this field at the beginning of the array
                     $arrFields = array_reverse($arrFields, true);

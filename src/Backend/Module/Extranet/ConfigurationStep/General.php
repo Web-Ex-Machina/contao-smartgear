@@ -1536,7 +1536,7 @@ class General extends ConfigurationStep
 
     protected function createNotificationsMessagesLanguagesChangeData(CoreConfig $config, ExtranetConfig $extranetConfig, NotificationMessageModel $gatewayMessage): NotificationLanguageModel
     {
-        $strText = Util::getLocalizedTemplateContent('{root}/public/bundles/wemsmartgear/examples/extranet/{lang}/change_data.html', $this->language, '{root}/public/bundles/wemsmartgear/examples/extranet/fr/change_data.html');
+        $strText = Util::getLocalizedTemplateContent('{public_or_web}/bundles/wemsmartgear/examples/extranet/{lang}/change_data.html', $this->language, '{public_or_web}/bundles/wemsmartgear/examples/extranet/fr/change_data.html');
 
         $nl = NotificationLanguageModel::findOneById($extranetConfig->getSgNotificationChangeDataMessageLanguage()) ?? new NotificationLanguageModel();
         $nl->pid = $gatewayMessage->id;
@@ -1558,7 +1558,7 @@ class General extends ConfigurationStep
 
     protected function createNotificationsMessagesLanguagesPassword(CoreConfig $config, ExtranetConfig $extranetConfig, NotificationMessageModel $gatewayMessage): NotificationLanguageModel
     {
-        $strText = Util::getLocalizedTemplateContent('{root}/public/bundles/wemsmartgear/examples/extranet/{lang}/password.html', $this->language, '{root}/public/bundles/wemsmartgear/examples/extranet/fr/password.html');
+        $strText = Util::getLocalizedTemplateContent('{public_or_web}/bundles/wemsmartgear/examples/extranet/{lang}/password.html', $this->language, '{public_or_web}/bundles/wemsmartgear/examples/extranet/fr/password.html');
 
         $nl = NotificationLanguageModel::findOneById($extranetConfig->getSgNotificationPasswordMessageLanguage()) ?? new NotificationLanguageModel();
         $nl->pid = $gatewayMessage->id;
@@ -1580,7 +1580,7 @@ class General extends ConfigurationStep
 
     protected function createNotificationsMessagesLanguagesSubscription(CoreConfig $config, ExtranetConfig $extranetConfig, ?NotificationMessageModel $gatewayMessage): ?NotificationLanguageModel
     {
-        $strText = Util::getLocalizedTemplateContent('{root}/public/bundles/wemsmartgear/examples/extranet/{lang}/subscription.html', $this->language, '{root}/public/bundles/wemsmartgear/examples/extranet/fr/subscription.html');
+        $strText = Util::getLocalizedTemplateContent('{public_or_web}/bundles/wemsmartgear/examples/extranet/{lang}/subscription.html', $this->language, '{public_or_web}/bundles/wemsmartgear/examples/extranet/fr/subscription.html');
 
         $nl = NotificationLanguageModel::findOneById($extranetConfig->getSgNotificationSubscriptionMessageLanguage()) ?? new NotificationLanguageModel();
 

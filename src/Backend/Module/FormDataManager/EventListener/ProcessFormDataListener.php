@@ -99,12 +99,15 @@ class ProcessFormDataListener
     protected function getRefererPageId(string $url): ?string
     {
         $refererPageId = null;
-        $refererPages = $this->routingCandidates->getCandidates(\Symfony\Component\HttpFoundation\Request::create($url));
-        if (\count($refererPages) > 0) {
-            $objPage = PageModel::findByAlias($refererPages[0]);
-            if ($objPage) {
-                $refererPageId = $objPage->id;
+        try {
+            $refererPages = $this->routingCandidates->getCandidates(\Symfony\Component\HttpFoundation\Request::create($url));
+            if (\count($refererPages) > 0) {
+                $objPage = PageModel::findByAlias($refererPages[0]);
+                if ($objPage) {
+                    $refererPageId = $objPage->id;
+                }
             }
+        } catch (Exception $e) {
         }
 
         return $refererPageId;
@@ -120,7 +123,7 @@ class ProcessFormDataListener
         return (int) ((int) (microtime(true) * 1000) - (int) $firstInteractionMs);
     }
 
-    protected function calculateCompletionPercentage(array $submittedData, ?array $files = [], Form $form): float
+    protected function calculateCompletionPercentage(array $submittedData, ?array $files, Form $form): float
     {
         $formFields = FormFieldModel::findPublishedByPid($form->getModel()->id);
         $fieldsTotal = $formFields->count();
