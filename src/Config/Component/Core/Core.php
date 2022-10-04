@@ -455,6 +455,9 @@ class Core implements ConfigModuleInterface
             case 'extranet':
                 return $this->getSgExtranet();
             break;
+            case 'form_data_manager':
+                return $this->getSgFormDataManager();
+            break;
         }
     }
 
@@ -487,6 +490,9 @@ class Core implements ConfigModuleInterface
             break;
             case 'extranet':
                 $this->setSgExtranet($config);
+            break;
+            case 'form_data_manager':
+                $this->setSgFormDataManager($config);
             break;
         }
 
