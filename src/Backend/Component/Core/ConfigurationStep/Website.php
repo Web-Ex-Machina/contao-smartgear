@@ -321,6 +321,18 @@ class Website extends ConfigurationStep
         $objSocialLinkModule->save();
         $modules[$objSocialLinkModule->type] = $objSocialLinkModule;
 
+        // Social Link Categories
+        $objSocialLinkCategoriesModule = \array_key_exists('wem_sg_social_link_config_categories', $registeredModules)
+                            ? ModuleModel::findOneById($registeredModules['wem_sg_social_link_config_categories']) ?? new ModuleModel()
+                            : new ModuleModel()
+                            ;
+        $objSocialLinkCategoriesModule->pid = $themeId;
+        $objSocialLinkCategoriesModule->tstamp = time();
+        $objSocialLinkCategoriesModule->type = 'wem_sg_social_link_config_categories';
+        $objSocialLinkCategoriesModule->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSocialLinkConfigCategoriesName'];
+        $objSocialLinkCategoriesModule->save();
+        $modules[$objSocialLinkCategoriesModule->type] = $objSocialLinkCategoriesModule;
+
         // Personal Data Manager
         $objPDMModule = \array_key_exists('wem_personaldatamanager', $registeredModules)
                             ? ModuleModel::findOneById($registeredModules['wem_personaldatamanager']) ?? new ModuleModel()
@@ -459,12 +471,12 @@ class Website extends ConfigurationStep
         $userGroups['administrators'] = $objUserGroup;
 
         if (null !== $config->getSgUserGroupAdministrators()) {
-            $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupWebmasters()) ?? new UserGroupModel();
+            $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupRedactors()) ?? new UserGroupModel();
         } else {
             $objUserGroup = new UserGroupModel();
         }
         $objUserGroup->tstamp = time();
-        $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupWebmastersName'];
+        $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName'];
         $objUserGroup->modules = serialize(['article', 'files']);
         $objUserGroup->alexf = Util::addPermissions($this->getCorePermissions());
         $objUserGroup->imageSizes = serialize(['proportional']);
@@ -503,7 +515,7 @@ class Website extends ConfigurationStep
             'rsce_blockCard',
         ]);
         $objUserGroup->save();
-        $userGroups['webmasters'] = $objUserGroup;
+        $userGroups['redactors'] = $objUserGroup;
 
         return $userGroups;
     }
@@ -532,7 +544,7 @@ class Website extends ConfigurationStep
         // $objUser->password = \Contao\Encryption::hash('webmaster');
         $objUser->password = password_hash('webmaster', \PASSWORD_DEFAULT);
         $objUser->pwChange = 1;
-        $objUser->groups = serialize([0 => $groups['administrators']->id]);
+        $objUser->groups = serialize([0 => $groups['redactors']->id]);
         $objUser->inherit = 'group';
         $objUser->save();
 
@@ -944,7 +956,7 @@ class Website extends ConfigurationStep
         $config = $this->configurationManager->load();
 
         $config->setSgUserWebmaster((int) $users['webmaster']->id);
-        $config->setSgUserGroupWebmasters((int) $groups['webmasters']->id);
+        $config->setSgUserGroupRedactors((int) $groups['redactors']->id);
         $config->setSgUserGroupAdministrators((int) $groups['administrators']->id);
 
         $this->configurationManager->save($config);
@@ -1200,7 +1212,7 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $config);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $config);
         $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $config);
     }
 

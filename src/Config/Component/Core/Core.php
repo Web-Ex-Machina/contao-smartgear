@@ -145,7 +145,7 @@ class Core implements ConfigModuleInterface
     /** @var int */
     protected $sgUserWebmaster;
     /** @var int */
-    protected $sgUserGroupWebmasters;
+    protected $sgUserGroupRedactors;
     /** @var int */
     protected $sgUserGroupAdministrators;
     /** @var int */
@@ -195,7 +195,7 @@ class Core implements ConfigModuleInterface
             ->setSgContentPrivacyPolitics(null)
             ->setSgContentSitemap(null)
             ->setSgUserWebmaster(null)
-            ->setSgUserGroupWebmasters(null)
+            ->setSgUserGroupRedactors(null)
             ->setSgUserGroupAdministrators(null)
             ->setSgModules([])
             ->setSgSelectedModules([])
@@ -259,7 +259,7 @@ class Core implements ConfigModuleInterface
             ->setSgContentPrivacyPolitics($json->contao->contents->privacyPolitics ?? null)
             ->setSgContentSitemap($json->contao->contents->sitemap ?? null)
             ->setSgUserWebmaster($json->contao->users->webmaster ?? null)
-            ->setSgUserGroupWebmasters($json->contao->userGroups->webmasters ?? null)
+            ->setSgUserGroupRedactors($json->contao->userGroups->redactors ?? null)
             ->setSgUserGroupAdministrators($json->contao->userGroups->administrators ?? null)
             ->setSgModules($json->contao->modules ?? [])
             ->setSgSelectedModules($json->selectedModules ?? [])
@@ -359,7 +359,7 @@ class Core implements ConfigModuleInterface
         $json->contao->users->webmaster = $this->getSgUserWebmaster();
 
         $json->contao->userGroups = new \stdClass();
-        $json->contao->userGroups->webmasters = $this->getSgUserGroupWebmasters();
+        $json->contao->userGroups->redactors = $this->getSgUserGroupRedactors();
         $json->contao->userGroups->administrators = $this->getSgUserGroupAdministrators();
 
         $json->contao->layouts = new \stdClass();
@@ -660,7 +660,7 @@ class Core implements ConfigModuleInterface
 
         return [
             $this->getSgUserGroupAdministrators(),
-            $this->getSgUserGroupWebmasters(),
+            $this->getSgUserGroupRedactors(),
         ];
     }
 
@@ -751,7 +751,7 @@ class Core implements ConfigModuleInterface
     public function resetContaoUserGroupsIds(): void
     {
         $this->setSgUserGroupAdministrators(null);
-        $this->setSgUserGroupWebmasters(null);
+        $this->setSgUserGroupRedactors(null);
     }
 
     public function resetContaoMembersIds(): void
@@ -1165,14 +1165,14 @@ class Core implements ConfigModuleInterface
         return $this;
     }
 
-    public function getSgUserGroupWebmasters(): ?int
+    public function getSgUserGroupRedactors(): ?int
     {
-        return $this->sgUserGroupWebmasters;
+        return $this->sgUserGroupRedactors;
     }
 
-    public function setSgUserGroupWebmasters(?int $sgUserGroupWebmasters): self
+    public function setSgUserGroupRedactors(?int $sgUserGroupRedactors): self
     {
-        $this->sgUserGroupWebmasters = $sgUserGroupWebmasters;
+        $this->sgUserGroupRedactors = $sgUserGroupRedactors;
 
         return $this;
     }

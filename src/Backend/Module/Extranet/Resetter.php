@@ -564,7 +564,7 @@ class Resetter extends BackendResetter
         /** @var ExtranetConfig */
         $extranetConfig = $config->getSgExtranet();
 
-        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupWebmasters()), $extranetConfig);
+        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $extranetConfig);
         $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $extranetConfig);
     }
 
