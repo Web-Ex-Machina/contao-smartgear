@@ -1231,7 +1231,7 @@ class Website extends ConfigurationStep
         $userGroupManipulator
             ->addAllowedFilemounts($config->getContaoFoldersIds())
             ->addAllowedPagemounts($config->getContaoPagesIds())
-            ->addAllowedModules(Module::getTypesByIds($config->getContaoModulesIds()))
+            // ->addAllowedModules(Module::getTypesByIds($config->getContaoModulesIds()))
         ;
 
         $objUserGroup = $userGroupManipulator->getUserGroup();

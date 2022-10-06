@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\DataContainer;
 
 use Contao\Backend;
+use Contao\ContentModel;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\DataContainer;
 use Contao\Image;
@@ -25,6 +26,7 @@ use tl_content;
 use tl_content_calendar;
 use tl_content_news;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Classes\Message;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 // class Content extends \tl_content
@@ -114,6 +116,27 @@ class Content extends Backend
         }
 
         return (new tl_content())->deleteElement($row, $href, $label, $title, $icon, $attributes);
+    }
+
+    /**
+     * Show a hint if a JavaScript library needs to be included in the page layout.
+     */
+    public function showJsLibraryHint($dc): void
+    {
+        if ('tl_content' === \get_class($this->parent)) {
+            $objCte = ContentModel::findByPk($dc->id);
+            if (null === $objCte) {
+                return;
+            }
+
+            switch ($objCte->type) {
+                case 'accordionSingle':
+                case 'accordionStart':
+                case 'accordionStop':
+                    Message::removeLatest();
+                break;
+            }
+        }
     }
 
     /**
