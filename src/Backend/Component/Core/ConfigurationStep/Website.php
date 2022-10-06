@@ -385,6 +385,7 @@ class Website extends ConfigurationStep
         $objLayout->head = $head;
         $objLayout->script = $script;
         $objLayout->framework = serialize([]);
+        $objLayout->tstamp = time();
         $objLayout->save();
 
         $layouts['standard'] = $objLayout;
@@ -405,6 +406,7 @@ class Website extends ConfigurationStep
         $objLayout->head = $head;
         $objLayout->script = $script;
         $objLayout->framework = serialize([]);
+        $objLayout->tstamp = time();
         $objLayout->save();
 
         $layouts['fullwidth'] = $objLayout;
