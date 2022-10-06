@@ -1,9 +1,9 @@
-<?php $this->extend('block_unsearchable'); ?>
+<div class="<?= $this->class ?> neutral"<?= $this->cssID ?>>
+  <?php $this->block('content'); ?>
+      
+    <?php $this->insert('filters', ['filters'=>$this->filters ?? [],'config'=>$this->config ?? [],'dataContainer'=>'listEvents']); ?>
+    <?= $this->events ?>
+    <?= $this->pagination ?>
 
-<?php $this->block('content'); ?>
-    
-  <?php $this->insert('filters', ['filters'=>$this->filters ?? [],'config'=>$this->config ?? [],'dataContainer'=>'listEvents']); ?>
-  <?= $this->events ?>
-  <?= $this->pagination ?>
-
-<?php $this->endblock(); ?>
+  <?php $this->endblock(); ?>
+</div>

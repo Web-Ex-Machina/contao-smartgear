@@ -1,22 +1,27 @@
-
 <div class="event layout_full block<?= $this->class ?>" itemscope itemtype="http://schema.org/Event">
-  <div class="flex-wrap-justifycontent--spacebetween-alignitems--baseline">
+  <?php if ($this->addImage): ?>
+    <div class="event__picture img-container r_2-1">
+      <?php $this->insert('image', $this->arrData); ?>
+    </div>
+  <?php endif; ?>
+
+  <div class="event__headline">
     <h1 class="m-right m-bottom-0" itemprop="name"><?= $this->title ?></h1>
-    <p class="info m-bottom-0 ft-grey ft-i">
+    <?php if (strpos($this->class, 'bygone') !== false): ?><div class="event__icon bygone"><i class="far fa-calendar-times"></i></div><?php endif ?>
+    <?php if (strpos($this->class, 'current') !== false): ?><div class="event__icon current"><i class="far fa-clock"></i></div><?php endif ?>
+    <?php if (strpos($this->class, 'upcoming') !== false): ?><div class="event__icon upcoming"><i class="far fa-calendar"></i></div><?php endif ?>
+  </div>
+    <div class="event__time">
+      <?php if ($this->day) : echo $this->day . ' '; endif; ?>
       <time datetime="<?= $this->datetime ?>" itemprop="startDate"> <?= $this->date ?><?php if ($this->time): ?>, <?= $this->time ?><?php endif; ?></time>
       <?php if ($this->recurring): ?>
         <span class="ft-orange"> * </span>
       <?php endif ?>
-    </p>
-  </div>
-
-  <?php if ($this->addImage): ?>
-    <?php $this->insert('image', $this->arrData); ?>
-  <?php endif; ?>
+    </div>
   <?php if ($this->hasDetails): ?>
     <?= $this->details ?>
   <?php else: ?>
-    <div class="ce_text block">
+    <div class="event__text ce_text block">
       <?php if ($this->hasTeaser): ?>
         <?= $this->teaser ?>
       <?php endif; ?>
@@ -35,17 +40,17 @@
 
 
   <?php if ($this->location): ?>
-    <p class="location" itemprop="location" itemscope itemtype="http://schema.org/Place">
+    <div class="event__location" itemprop="location" itemscope itemtype="http://schema.org/Place">
       <i class="fal fa-map-marker-alt"></i>&nbsp;
       <span itemprop="name"><?= $this->location ?></span>
       <?php if ($this->address): ?>
         - <span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"><?= $this->address ?></span>
 
-        <?php if (!empty($this->addressLat) && !empty($this->addressLon)): ?>
-          <div id="map" style="height:512px;" data-lat="<?= $this->addressLat; ?>" data-lon="<?= $this->addressLon; ?>"></div>
-        <?php endif; ?>
       <?php endif; ?>
-    </p>
+    </div>
+    <?php if (!empty($this->addressLat) && !empty($this->addressLon)): ?>
+      <div id="map" class="event__map" style="height:512px;" data-lat="<?= $this->addressLat; ?>" data-lon="<?= $this->addressLon; ?>"></div>
+    <?php endif; ?>
   <?php endif; ?>
 
   <?php if($this->recurring): ?>
