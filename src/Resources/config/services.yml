@@ -212,6 +212,14 @@ services:
             $configurationFilePath: '../config/config.yml'
         public: true
 
+    smartgear.config.manager.data_manager:
+        class: WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configuration: '@smartgear.config.core'
+            $configurationFilePath: './assets/smartgear/datamanager.json'
+        public: true
+
     smartgear.config.core:
         class: WEM\SmartgearBundle\Config\Component\Core\Core
         public: true
@@ -254,6 +262,10 @@ services:
 
     smartgear.config.local_config:
         class: WEM\SmartgearBundle\Config\LocalConfig
+        public: true
+
+    smartgear.config.data_manager:
+        class: WEM\SmartgearBundle\Config\DataManager
         public: true
 
     smartgear.backup.backup_manager:
