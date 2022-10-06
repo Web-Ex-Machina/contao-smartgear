@@ -172,6 +172,12 @@ services:
             $configurationManager : '@smartgear.config.manager.core'
         public: true
 
+    smartgear.classes.data_manager.data_provider:
+        class: WEM\SmartgearBundle\Classes\DataManager\DataProvider
+        arguments:
+            $configurationManager : '@smartgear.config.manager.data_manager'
+        public: true
+
     smartgear.config.manager.framway:
         class: WEM\SmartgearBundle\Config\Manager\Framway
         arguments:
