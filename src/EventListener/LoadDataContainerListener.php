@@ -101,6 +101,7 @@ class LoadDataContainerListener
             case 'tl_content':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(ContentDCA::class, 'checkPermission')
+                    ->addConfigOnloadCallback(ContentDCA::class, 'showJsLibraryHint')
                     ->setListOperationsDeleteButtonCallback(ContentDCA::class, 'deleteItem')
                 ;
             break;
