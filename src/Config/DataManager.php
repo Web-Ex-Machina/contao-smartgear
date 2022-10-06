@@ -79,6 +79,33 @@ class DataManager implements ConfigJsonInterface
         throw new Exception('Unable to find the dataset to remove');
     }
 
+    public function hasDataset(DataManagerDataSet $item): bool
+    {
+        foreach ($this->datasets as $key => $dataset) {
+            if ($this->buildDatasetAlias($dataset) === $this->buildDatasetAlias($item)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function getDataset(string $type, string $module, string $name): DataManagerDataSet
+    {
+        $item = (new DataManagerDataSet())
+            ->setType($type)
+            ->setModule($module)
+            ->setName($name)
+        ;
+        foreach ($this->datasets as $key => $dataset) {
+            if ($this->buildDatasetAlias($dataset) === $this->buildDatasetAlias($item)) {
+                return $dataset;
+            }
+        }
+
+        throw new Exception('Unable to find the dataset');
+    }
+
     protected function buildDatasetAlias(DataManagerDataSet $item): string
     {
         return sprintf('%s-%s-%s', $item->getType(), $item->getModule(), $item->getName());
