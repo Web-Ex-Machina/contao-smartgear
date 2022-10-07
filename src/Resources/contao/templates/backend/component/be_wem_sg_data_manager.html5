@@ -1,0 +1,171 @@
+<!-- Load Libraries -->
+<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"> -->
+<?= Message::generate(); ?>
+  <?php if($this->filters): ?>
+    <form method="get" class="" data-name="filters">
+      <div class="tl_formbody">
+        <input type="hidden" name="do" value="wem_sg_data_manager">
+        <div class="tl_panel cf">
+          <div class="tl_submit_panel tl_subpanel">
+            <button name="filter" id="filter" class="tl_img_submit filter_apply" title="">Appliquer</button>
+            <button name="filter_reset" id="filter_reset" value="1" class="tl_img_submit filter_reset" title="">Réinitialiser</button>
+          </div>
+          <div class="tl_filter tl_subpanel">
+            <div class="filters">
+              <div class="filters__line line--2">
+                <?php if($this->filters['select']): ?>
+                <div class="filters__col col--left">
+                  <?php foreach ($this->filters['select'] as $name => $f): ?>
+                  <select name="<?= $name ?>" id="select--<?= $name ?>" class="tl_select">
+                    <?php foreach($f['options'] as $optgroup => $o): ?>
+                      <?php if(array_key_exists('options',$o)): ?>
+                        <optgroup label="<?= $optgroup; ?>">
+                          <?php foreach($o['options'] as $oo): ?>
+                            <option value="<?= $oo['value'] ?>"<?php if($oo['selected']): ?> selected<?php endif; ?>><?= $oo['label'] ?></option>
+                          <?php endforeach; ?>
+                        </optgroup>
+                      <?php else: ?>
+                          <option value="<?= $o['value'] ?>"<?php if($o['selected']): ?> selected<?php endif; ?>><?= $o['label'] ?></option>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
+                  </select>
+                  <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+
+                <?php if($this->filters['search']): ?>
+                <div class="filters__col col--right">
+                  <div class="input-group">
+                    <input type="text" class="tl_text" name="search" id="search--value" placeholder="<?= $this->filters['search']['placeholder'] ?>" value="<?= $this->filters['search']['value'] ?: '' ?>" />
+                    <button type="submit" class="squared btn-lg"><i class="fal fa-search"></i></button>
+                  </div>
+                </div>
+                <?php endif; ?>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  <?php endif; ?>
+
+  <?php if (empty($this->items)): ?>
+
+    <p class="tl_info empty"><?= $this->empty ?></p>
+  
+  <?php else: ?>
+
+  <div class="tl_listing_container list_view">
+    <div class="table-list fix--shadow">
+      <table class="table-list__container tl_listing">
+        <tbody>
+          <tr class="table-list__headline">
+            <th class="table-list__cell tl_folder_tlist" data-name="status"><?= $this->trans('WEMSG.DATAMANAGER.LIST.status',[],'contao_default'); ?></th>
+            <th class="table-list__cell tl_folder_tlist" data-name="name"><?= $this->trans('WEMSG.DATAMANAGER.LIST.name',[],'contao_default'); ?></th>
+            <th class="table-list__cell tl_folder_tlist" data-name="nb_elements"><?= $this->trans('WEMSG.DATAMANAGER.LIST.nb_elements',[],'contao_default'); ?></th>
+            <th class="table-list__cell tl_folder_tlist" data-name="nb_media"><?= $this->trans('WEMSG.DATAMANAGER.LIST.nb_media',[],'contao_default'); ?></th>
+            <th class="table-list__cell tl_folder_tlist" data-name="type"><?= $this->trans('WEMSG.DATAMANAGER.LIST.type',[],'contao_default'); ?></th>
+            <th class="table-list__cell tl_folder_tlist" data-name="module"><?= $this->trans('WEMSG.DATAMANAGER.LIST.module',[],'contao_default'); ?></th>
+            <th class="table-list__cell tl_folder_tlist" data-name="date_installation"><?= $this->trans('WEMSG.DATAMANAGER.LIST.date_installation',[],'contao_default'); ?></th>
+            <th class="table-list__cell tl_folder_tlist tl_right_nowrap" data-name="actions"><i class="fa fa-pencil-ruler"></i></th>
+          </tr>
+
+          <?= implode('', $this->items) ?>
+        </tbody>
+      </table>
+    </div>
+    
+    <?= $this->pagination ?>
+
+  <?php endif; ?>
+  <script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    // Toastr Options
+    toastr.options.closeButton = true;
+    toastr.options.timeOut = 5000;
+    toastr.options.extendedTimeOut = 0;
+    j(document).ready(function(){
+
+      j('body').on('click','*[data-ajax]',function(e){
+        e.preventDefault();
+        var blnRequest = true;
+        var method = 'POST';
+        var url = '';
+        var action = '';
+        var data = {};
+        var button = j(this);
+
+        url = button.attr('href');
+        action = button.data('ajax');
+
+        data['action'] = action;
+        data['REQUEST_TOKEN'] = "<?= $this->rt; ?>";
+        var strParams = button.data('params');
+        if (strParams) {
+          var params = strParams.split(",");
+          for (var i in params) {
+            if("string" === typeof params[i]){
+              var param = params[i].split('=');
+              data[param[0]] = param[1];
+            }
+          }
+        }
+
+        button.closest('.table-list__line').addClass('loading');
+        
+        if (action.indexOf('delete') != -1) {
+          blnRequest = confirm('Voulez vous vraiment supprimer ceci ?');
+        }
+
+        if(blnRequest) {
+          postData(data, url, method).then(function(r){
+            // Display a toastr if there is a status & a msg
+            if (r.status && r.msg) {
+              toastr[r.status](r.msg);
+            }
+
+            // Apply callbacks
+            if('success' === r.status && r.callbacks) {
+              for(var i in r.callbacks) {
+                if("object" == typeof(r["callbacks"][i])){
+                  window[r["callbacks"][i].method].apply(null, r["callbacks"][i].args);
+                }
+              }
+            }
+
+            button.closest('.table-list__line').removeClass('loading');
+          });
+        } else {
+          button.closest('.table-list__line').removeClass('loading');
+        }
+      });
+
+      async function postData(data, url = "", method = "POST") {
+        var request = new FormData();
+        request.append('TL_AJAX', 1);
+        request.append('REQUEST_TOKEN', "<?= $this->rt; ?>");
+
+        for(var i in data) {
+          request.append(i, data[i]);
+        }
+
+        var strUrl = url ? url : window.location.href;
+        var strMethod = method ? method: "POST";
+
+        const response = await fetch(strUrl, {
+          method: strMethod,
+          mode: 'same-origin',
+          cache: 'no-cache',
+          body: request
+        });
+
+        return response.json();
+      }
+  });
+  // outside of "window.ready"
+  function reload(args){
+    window.location.reload(args);
+  }
+  </script>
+</div>

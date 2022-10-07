@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Config;
 
 use Exception;
+use stdClass;
 use WEM\SmartgearBundle\Classes\Config\ConfigJsonInterface;
 
 class DataManagerDataSet implements ConfigJsonInterface
@@ -35,7 +36,7 @@ class DataManagerDataSet implements ConfigJsonInterface
         return $this;
     }
 
-    public function import(\stdClass $json): self
+    public function import(stdClass $json): self
     {
         $this
             ->setName($json->name ?? '')
@@ -52,17 +53,23 @@ class DataManagerDataSet implements ConfigJsonInterface
         return $this;
     }
 
-    public function export(): string
+    public function export(): stdClass
     {
-        $json = new \stdClass();
+        $json = new stdClass();
 
         $json->name = $this->getName();
         $json->type = $this->getType();
         $json->module = $this->getModule();
         $json->date_installation = $this->getDateInstallation();
-        $json->items = $this->getItems();
 
-        return json_encode($json, \JSON_PRETTY_PRINT);
+        $arrItems = [];
+        foreach ($this->items as $item) {
+            $arrItems[] = $item->export();
+        }
+
+        $json->items = $arrItems;
+
+        return $json;
     }
 
     public function getItems(): array

@@ -178,6 +178,12 @@ services:
             $configurationManager : '@smartgear.config.manager.data_manager'
         public: true
 
+    smartgear.classes.data_manager.dataset_finder:
+        class: WEM\SmartgearBundle\Classes\DataManager\DataSetFinder
+        arguments:
+            $projectDir: 'public/bundles/wemsmartgear/samples'
+        public: true
+
     smartgear.config.manager.framway:
         class: WEM\SmartgearBundle\Config\Manager\Framway
         arguments:
@@ -222,7 +228,7 @@ services:
         class: WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson
         arguments:
             $translator: '@contao.translation.translator'
-            $configuration: '@smartgear.config.core'
+            $configuration: '@smartgear.config.data_manager'
             $configurationFilePath: './assets/smartgear/datamanager.json'
         public: true
 

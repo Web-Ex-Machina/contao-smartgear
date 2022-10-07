@@ -4,7 +4,7 @@
 		"reference":"theme",
 		"table":"tl_theme",
 		"fields":[{
-			"field":"title",
+			"field":"name",
 			"value":"SECOND THEME"
 		},{
 			"field":"tstamp",
@@ -18,7 +18,7 @@
 			"field":"pid",
 			"value":"[[theme.id]]"
 		},{
-			"field":"title",
+			"field":"name",
 			"value":"CECI EST UN LAYOUT"
 		},{
 			"field":"tstamp",

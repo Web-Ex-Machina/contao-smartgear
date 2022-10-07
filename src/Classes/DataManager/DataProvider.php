@@ -18,11 +18,13 @@ use Contao\File;
 use Contao\FilesModel;
 use Contao\Model;
 use Exception;
+use ReflectionClass;
 use stdClass;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as DataManagerConfig;
 use WEM\SmartgearBundle\Config\DataManager;
 use WEM\SmartgearBundle\Config\DataManagerDataSet;
 use WEM\SmartgearBundle\Config\DataManagerDataSetItem;
+use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class DataProvider
 {
@@ -44,8 +46,12 @@ class DataProvider
 
     public function isInstalled(): bool
     {
-        /** @var DataManager */
-        $config = $this->configurationManager->load();
+        try {
+            /** @var DataManager */
+            $config = $this->configurationManager->load();
+        } catch (FileNotFoundException $e) {
+            $config = new DataManager();
+        }
 
         return $config->hasDataset($this->config);
     }
@@ -65,11 +71,22 @@ class DataProvider
 
     public function getDataAsObject(): stdClass
     {
-        if (!file_exists('./data.json')) {
-            throw new Exception('File not found');
+        // get reflection for the current class
+        $reflection = new ReflectionClass(static::class);
+
+        // get the filename where the class was defined
+        $definitionPath = $reflection->getFileName();
+
+        // set the class image path
+        $jsonPath = realpath(\dirname($definitionPath).\DIRECTORY_SEPARATOR.'data.json');
+        // $jsonPath = str_replace([TL_ROOT], ['.'], realpath(\dirname($definitionPath).\DIRECTORY_SEPARATOR.'data.json'));
+        // $jsonPath = str_replace([TL_ROOT, '/vendor/webexmachina/contao-smartgear/src/Resources/public/'], ['', '/public/bundles/wemsmartgear/'], realpath(\dirname($definitionPath).\DIRECTORY_SEPARATOR.'data.json'));
+
+        if (!file_exists($jsonPath)) {
+            throw new FileNotFoundException('File not found');
         }
 
-        return json_decode(file_get_contents('./data.json'));
+        return json_decode(file_get_contents($jsonPath));
     }
 
     public function installItem(stdClass $item): DataManagerDataSetItem
@@ -86,7 +103,7 @@ class DataProvider
 
     public function removeItem(DataManagerDataSetItem $item)
     {
-        switch ($item->table) {
+        switch ($item->getTable()) {
             case 'tl_files':
                 return $this->removeItemMedia($item);
             break;
@@ -94,6 +111,14 @@ class DataProvider
                 return $this->removeItemDatabase($item);
             break;
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConfig(): DataManagerDataSet
+    {
+        return $this->config;
     }
 
     protected function installItemDatabase(stdClass $item): DataManagerDataSetItem
@@ -117,10 +142,11 @@ class DataProvider
 
             $objItem->$field = $value;
         }
+        $objItem->save();
 
         $this->references[$item->reference] = $objItem;
         $config->setTable($item->table);
-        $config->setId($this->references[$item->reference]->id);
+        $config->setId((int) $this->references[$item->reference]->id);
 
         return $config;
     }
@@ -130,7 +156,7 @@ class DataProvider
         $config = new DataManagerDataSetItem();
         $this->references[$item->reference] = $this->duplicateMediaToFiles($item->source, $item->target);
         $config->setTable('tl_files');
-        $config->setId($this->references[$item->reference]->id);
+        $config->setId((int) $this->references[$item->reference]->id);
 
         return $config;
     }
@@ -144,7 +170,7 @@ class DataProvider
             return true;
         }
 
-        return $objItem->delete();
+        return 0 !== $objItem->delete();
     }
 
     protected function removeItemMedia(DataManagerDataSetItem $item): bool
@@ -176,14 +202,14 @@ class DataProvider
         return $objFile->delete();
     }
 
-    protected function isValueAReferenceToAnotherObject(string $value): bool
+    protected function isValueAReferenceToAnotherObject($value): bool
     {
-        return '[[' === substr($value, 0, 2) && ']]' === substr($value, -2, 2);
+        return \is_string($value) && '[[' === substr($value, 0, 2) && ']]' === substr($value, -2, 2);
     }
 
     protected function getCleanedValueReference(string $value): string
     {
-        return substr(substr($value, -2, 2), 0, 2);
+        return substr($value, 2, \strlen($value) - 4);
     }
 
     protected function getValueReferenceObjectName(string $value): string
@@ -193,6 +219,6 @@ class DataProvider
 
     protected function getValueReferenceObjectField(string $value): string
     {
-        return substr($value, strpos($value, '.'));
+        return substr($value, strpos($value, '.') + 1);
     }
 }

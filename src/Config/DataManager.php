@@ -24,11 +24,14 @@ class DataManager implements ConfigJsonInterface
 
     public function reset(): self
     {
+        $this->datasets = [];
+
         return $this;
     }
 
     public function import(\stdClass $json): self
     {
+        $this->reset();
         if ($json->datasets) {
             foreach ($json->datasets as $dataset) {
                 $this->addDataset((new DataManagerDataSet())->import($dataset));
@@ -42,7 +45,12 @@ class DataManager implements ConfigJsonInterface
     {
         $json = new \stdClass();
 
-        $json->datasets = $this->getDatasets();
+        $arrDatasets = [];
+        foreach ($this->datasets as $dataset) {
+            $arrDatasets[] = $dataset->export();
+        }
+
+        $json->datasets = $arrDatasets;
 
         return json_encode($json, \JSON_PRETTY_PRINT);
     }
