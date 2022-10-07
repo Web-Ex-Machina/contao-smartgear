@@ -112,8 +112,10 @@ ArrayUtil::arrayInsert(
         'wem_sg_social_link' => [
             'callback' => "\WEM\SmartgearBundle\Backend\SocialLink",
         ],
-    ]
-);
+        'wem_sg_data_manager' => [
+            'callback' => "\WEM\SmartgearBundle\Backend\DataManager",
+        ],
+    ]);
 ArrayUtil::arrayInsert(
     $GLOBALS['BE_MOD']['content'],
     array_search('form', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
@@ -127,6 +129,7 @@ ArrayUtil::arrayInsert(
 );
 $GLOBALS['BE_MOD']['content']['form']['export_all'] = ['smartgear.backend.module.form_data_manager.backend_controller', 'exportAllFromForm'];
 $GLOBALS['BE_MOD']['content']['form']['export'] = ['smartgear.backend.module.form_data_manager.backend_controller', 'exportSingle'];
+
 /*
  * Frontend modules
  */
