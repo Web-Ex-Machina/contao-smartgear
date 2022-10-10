@@ -44,17 +44,17 @@ class TemplateFinder
 
     protected function getRsceTemplates(): array
     {
-        return $this->getTemplatesFromFolder($this->projectDir.\DIRECTORY_SEPARATOR.'templates'.\DIRECTORY_SEPARATOR.'rsce');
+        return file_exists($this->projectDir.\DIRECTORY_SEPARATOR.'templates'.\DIRECTORY_SEPARATOR.'rsce') ? $this->getTemplatesFromFolder($this->projectDir.\DIRECTORY_SEPARATOR.'templates'.\DIRECTORY_SEPARATOR.'rsce') : [];
     }
 
     protected function getRootTemplates(): array
     {
-        return $this->getTemplatesFromFolder($this->projectDir.\DIRECTORY_SEPARATOR.'templates');
+        return file_exists($this->projectDir.\DIRECTORY_SEPARATOR.'templates') ? $this->getTemplatesFromFolder($this->projectDir.\DIRECTORY_SEPARATOR.'templates') : [];
     }
 
     protected function getSmartgearTemplates(): array
     {
-        return $this->getTemplatesFromFolder($this->projectDir.\DIRECTORY_SEPARATOR.'templates'.\DIRECTORY_SEPARATOR.'smartgear');
+        return file_exists($this->projectDir.\DIRECTORY_SEPARATOR.'templates'.\DIRECTORY_SEPARATOR.'smartgear') ? $this->getTemplatesFromFolder($this->projectDir.\DIRECTORY_SEPARATOR.'templates'.\DIRECTORY_SEPARATOR.'smartgear') : [];
     }
 
     protected function getClientTemplates(): array
@@ -69,7 +69,7 @@ class TemplateFinder
 
         $objTheme = ThemeModel::findById($config->getSgTheme());
 
-        return $this->getTemplatesFromFolder($this->projectDir.\DIRECTORY_SEPARATOR.$objTheme->templates);
+        return file_exists($this->projectDir.\DIRECTORY_SEPARATOR.$objTheme->templates) ? $this->getTemplatesFromFolder($this->projectDir.\DIRECTORY_SEPARATOR.$objTheme->templates) : [];
     }
 
     protected function getTemplatesFromFolder(string $folderPath): array

@@ -25,7 +25,7 @@ services:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
             $translator: '@contao.translation.translator'
-            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/templates/rsce'
+            $sourceDirectory: '[public_or_web]/bundles/wemsmartgear/contao_files/templates/rsce'
             $destinationDirectory: 'templates/rsce'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: true
@@ -35,7 +35,7 @@ services:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
             $translator: '@contao.translation.translator'
-            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/templates/smartgear'
+            $sourceDirectory: '[public_or_web]/bundles/wemsmartgear/contao_files/templates/smartgear'
             $destinationDirectory: 'templates/smartgear'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: true
@@ -45,7 +45,7 @@ services:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
             $translator: '@contao.translation.translator'
-            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/templates'
+            $sourceDirectory: '[public_or_web]/bundles/wemsmartgear/contao_files/templates'
             $destinationDirectory: 'templates'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: false
@@ -55,7 +55,7 @@ services:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
             $translator: '@contao.translation.translator'
-            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/assets/tinymce4/js/plugins'
+            $sourceDirectory: '[public_or_web]/bundles/wemsmartgear/contao_files/assets/tinymce4/js/plugins'
             $destinationDirectory: 'assets/tinymce4/js/plugins'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: true
@@ -65,7 +65,7 @@ services:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
             $translator: '@contao.translation.translator'
-            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/files/vendor/outdatedbrowser'
+            $sourceDirectory: '[public_or_web]/bundles/wemsmartgear/contao_files/files/vendor/outdatedbrowser'
             $destinationDirectory: 'assets/outdatedbrowser'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: true
@@ -75,7 +75,7 @@ services:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
             $translator: '@contao.translation.translator'
-            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/files/vendor/tarteaucitron'
+            $sourceDirectory: '[public_or_web]/bundles/wemsmartgear/contao_files/files/vendor/tarteaucitron'
             $destinationDirectory: 'assets/tarteaucitron'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: true
@@ -85,7 +85,7 @@ services:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
             $translator: '@contao.translation.translator'
-            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/assets/smartgear/social-share-buttons'
+            $sourceDirectory: '[public_or_web]/bundles/wemsmartgear/contao_files/assets/smartgear/social-share-buttons'
             $destinationDirectory: 'assets/smartgear/social-share-buttons'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: true
@@ -95,7 +95,7 @@ services:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
             $translator: '@contao.translation.translator'
-            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/assets/framway'
+            $sourceDirectory: '[public_or_web]/bundles/wemsmartgear/contao_files/assets/framway'
             $destinationDirectory: 'assets/framway'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: true
@@ -105,7 +105,7 @@ services:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:
             $translator: '@contao.translation.translator'
-            $sourceDirectory: 'public/bundles/wemsmartgear/contao_files/assets/leaflet'
+            $sourceDirectory: '[public_or_web]/bundles/wemsmartgear/contao_files/assets/leaflet'
             $destinationDirectory: 'assets/leaflet'
             $rootDir: '%kernel.project_dir%'
             $manageSubfolders: true
@@ -228,6 +228,14 @@ services:
         class: WEM\SmartgearBundle\Config\Component\Faq\Faq
         public: true
 
+    smartgear.config.extranet:
+        class: WEM\SmartgearBundle\Config\Module\Extranet\Extranet
+        public: true
+
+    smartgear.config.form_data_manager:
+        class: WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager
+        public: true
+
     smartgear.config.framway:
         class: WEM\SmartgearBundle\Config\Framway
         public: true
@@ -284,7 +292,23 @@ services:
 
     smartgear.model.backup:
         class: WEM\SmartgearBundle\Model\Backup
-        public: true   
+        public: true
+
+    smartgear.data_container.form:
+        class: WEM\SmartgearBundle\DataContainer\Form
+        public: true
+
+    smartgear.data_container.form_storage:
+        class: WEM\SmartgearBundle\DataContainer\FormStorage
+        arguments:
+            $translator: '@contao.translation.translator'
+        public: true
+
+    smartgear.data_container.form_storage_data:
+        class: WEM\SmartgearBundle\DataContainer\FormStorageData
+        arguments:
+            $translator: '@contao.translation.translator'
+        public: true
 
     smartgear.classes.dca.field.callback.load:
         class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Load
@@ -484,4 +508,18 @@ services:
             $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
             $frontendField: 'fax'
             $table: 'tl_member'
+        public: true
+    smartgear.classes.dca.field.callback.load.tl_sm_form_storage_data.value:
+        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\LoadConditionnal
+        arguments:
+            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.load'
+            $frontendField: 'value'
+            $table: 'tl_form_dtorage_data'
+        public: true
+    smartgear.classes.dca.field.callback.save.tl_sm_form_storage_data.value:
+        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\SaveConditionnal
+        arguments:
+            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
+            $frontendField: 'value'
+            $table: 'tl_form_dtorage_data'
         public: true

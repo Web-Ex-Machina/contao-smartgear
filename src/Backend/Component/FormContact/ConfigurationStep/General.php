@@ -327,7 +327,7 @@ class General extends ConfigurationStep
         /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
-        $strText = file_get_contents(sprintf('%s/public/bundles/wemsmartgear/examples/formContact/%s/user_form.html', TL_ROOT, $this->language));
+        $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/formContact/%s/user_form.html', Util::getPublicOrWebDirectory(), $this->language));
 
         $nl = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageUserLanguage()) ?? new NotificationLanguageModel();
         $nl->pid = $gatewayMessage->id;
@@ -354,7 +354,7 @@ class General extends ConfigurationStep
         /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
-        $strText = file_get_contents(sprintf('%s/public/bundles/wemsmartgear/examples/formContact/%s/admin_form.html', TL_ROOT, $this->language));
+        $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/formContact/%s/admin_form.html', Util::getPublicOrWebDirectory(), $this->language));
 
         $nl = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageAdminLanguage()) ?? new NotificationLanguageModel();
         $nl->pid = $gatewayMessage->id;
@@ -396,6 +396,9 @@ class General extends ConfigurationStep
         $form->jumpTo = $page->id;
         $form->nc_notification = $notification->id;
         $form->tstamp = time();
+        if ($config->getSgFormDataManager()->getSgInstallComplete()) {
+            $form->storeViaFormDataManager = true;
+        }
         $form->save();
 
         return $form;
@@ -417,6 +420,9 @@ class General extends ConfigurationStep
         $inputName->placeholder = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.placeholderFormInputName', [], 'contao_default');
         $inputName->mandatory = 1;
         $inputName->tstamp = time();
+        if ($config->getSgFormDataManager()->getSgInstallComplete()) {
+            $inputName->contains_personal_data = true;
+        }
         $inputName->save();
 
         $inputEmail = FormFieldModel::findOneById($formContactConfig->getSgFieldEmail()) ?? new FormFieldModel();
@@ -440,6 +446,9 @@ class General extends ConfigurationStep
         $inputMessage->placeholder = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.placeholderFormInputMessage', [], 'contao_default');
         $inputMessage->mandatory = 1;
         $inputMessage->tstamp = time();
+        if ($config->getSgFormDataManager()->getSgInstallComplete()) {
+            $inputName->contains_personal_data = true;
+        }
         $inputMessage->save();
 
         $inputCaptcha = FormFieldModel::findOneById($formContactConfig->getSgFieldCaptcha()) ?? new FormFieldModel();

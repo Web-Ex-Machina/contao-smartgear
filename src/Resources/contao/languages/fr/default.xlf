@@ -100,6 +100,10 @@
 			<source>Unknown element</source>
 			<target>Elément inconnu</target>
 		</trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.fdmNotInstalled">
+      <source>"Form Data Manager" module not installed</source>
+			<target>Module "Form Data Manager" non installé</target>
+    </trans-unit>
 		<!-- Smartgear filter -->
 		<trans-unit id="WEMSG.FILTERS.title">
 			<source>Filter by :</source>
@@ -1687,13 +1691,81 @@
 			<target>Désinstallation</target>
 		</trans-unit>
 
-
-
-
-		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.xxxxxxxx">
-			<source>xxxxx</source>
-			<target>xxxxx</target>
+		<!-- Form Data Manager -->
+		<trans-unit id="WEMSG.FDM.INSTALL_GENERAL.title">
+			<source>Installation</source>
+			<target>Installation</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.FDM.RESET.title">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.RESET.deleteModeLabel">
+			<source>Uninstall mode</source>
+			<target>Mode de désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.RESET.deleteModeDeleteLabel">
+			<source>Delete</source>
+			<target>Supprimer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.RESET.deleteModeDeleteDescription">
+			<source>Form Data Manager will be deleted.</source>
+			<target>Le gestionnaire de formulaires sera supprimé.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.RESET.deleteModeUnknown">
+			<source>Uninstall</source>
+			<target>Désinstallation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.FORM.notManagedByFDM">
+			<source>Form not configured to store values with Form Data Manager</source>
+			<target>Formulaire non configuré pour enregistrer les données avec le Form Data Manager</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.FORM.noEmailField">
+			<source>No "email" field in the form</source>
+			<target>Champ "email" non présent dans le formulaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.FORM.emailFieldPresentButNotMandatory">
+			<source>The "email" field is not mandatory !</source>
+			<target>Champ "email" non obligatoire dans le formulaire !</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.FORM.emailFieldLabel">
+			<source>E-mail</source>
+			<target>E-mail</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FDM.FORM.emailFieldPlaceholder">
+			<source>Your e-mail address</source>
+			<target>Votre adresse e-mail</target>
+		</trans-unit>
+    <trans-unit id="WEMSG.FDM.EXPORT.fieldNotPresentInForm">
+      <source>Field not present in form</source>
+			<target>Champ non présent dans le formulaire</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.FDM.PDMUI.buttonShowFile">
+      <source>Show</source>
+			<target>Afficher</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.FDM.PDMUI.buttonDownloadFile">
+      <source>Download</source>
+			<target>Télécharger</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.FDM.PDMUI.fileNotFound">
+      <source>File not found</source>
+			<target>Fichier introuvable</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.FDM.ERROR.noFileUploaded">
+      <source>No file uploaded</source>
+			<target>Aucun fichier transmis</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.FDM.ERROR.fileUploadedButNotStored">
+      <source>File uploaded but not stored</source>
+			<target>Fichier transmis mais non enregistré</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.FDM.ERROR.uploadedFileNotFound">
+      <source>Uploaded file not found</source>
+			<target>Fichier transmis introuvable</target>
+    </trans-unit>
+
+
 
 
 

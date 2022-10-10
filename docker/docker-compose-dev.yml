@@ -30,6 +30,14 @@ services:
       retries: 10
     command:
     - >-
+        echo "> ==== INIT START ====" &&
+        cd ${WORKDIR_INIT} &&
+        mkdir -p /var/www/.config/composer/ &&
+        chmod 777 /var/www/.config/composer/ &&
+        runuser -u www-data -- ./contao-init.sh &&
+        cd -- &&
+        echo "> ==== INIT STOP ====" &&
+        echo "> ==== TEMPLATES MANAGEMENT START ====" && 
         mkdir -p ../${PRJ_NAME}/templates &&
         echo "nothing" > ../${PRJ_NAME}/templates/nothing &&
         mkdir -p ../${PRJ_NAME}/templates_save &&
@@ -41,16 +49,17 @@ services:
         mv ../${PRJ_NAME}/templates_save/* ../${PRJ_NAME}/templates &&
         rm -r ../${PRJ_NAME}/templates_save/ &&
         rm ../${PRJ_NAME}/templates/nothing &&
+        echo "> ==== TEMPLATES MANAGEMENT STOP ====" &&
+        echo "> ==== INIT START ====" &&
         cd ${WORKDIR_INIT} &&
-        echo "> INIT START" &&
         mkdir -p /var/www/.config/composer/ &&
         chmod 777 /var/www/.config/composer/ &&
         runuser -u www-data -- ./contao-init.sh &&
-        echo "> INIT STOP" &&
+        echo "> ==== INIT STOP ====" &&
+        echo "> ==== COMPOSER INSTALL START ====" &&
         cd ${WORKDIR_CONTAO}/vendor/webexmachina/${BUNDLE_NAME}/ &&
-        echo "> COMPOSER INSTALL START"
         runuser -u www-data -- composer install --dev --prefer-dist --no-progress &&
-        echo "> COMPOSER INSTALL STOP"
+        echo "> ==== COMPOSER INSTALL STOP ====" &&
         chown -R www-data:www-data vendor &&
         cd ${WORKDIR_CONTAO} &&
         runuser -u www-data -- ${WORKDIR_CONTAO}/vendor/bin/contao-console contao:filesync &&

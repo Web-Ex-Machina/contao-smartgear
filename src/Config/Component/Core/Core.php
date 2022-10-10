@@ -21,6 +21,7 @@ use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
 use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
 use WEM\SmartgearBundle\Config\Module\Extranet\Extranet as ExtranetConfig;
+use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
 
 class Core implements ConfigModuleInterface
 {
@@ -55,7 +56,7 @@ class Core implements ConfigModuleInterface
     public const DEFAULT_ENCRYPTION_KEY = 'encryption-key-to-change';
     public const DEFAULT_CLIENT_FILES_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media';
     public const DEFAULT_CLIENT_LOGOS_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media'.\DIRECTORY_SEPARATOR.'logos';
-    public const SUBMODULES_KEYS = ['blog', 'events', 'faq', 'form_contact', 'extranet'];
+    public const SUBMODULES_KEYS = ['blog', 'events', 'faq', 'form_contact', 'extranet', 'form_data_manager'];
     /** @var bool */
     protected $sgInstallComplete = false;
     /** @var string */
@@ -170,6 +171,8 @@ class Core implements ConfigModuleInterface
     protected $sgFormContact;
     /** @var ExtranetConfig */
     protected $sgExtranet;
+    /** @var FormDataManagerConfig */
+    protected $sgFormDataManager;
 
     public function reset(): self
     {
@@ -230,6 +233,7 @@ class Core implements ConfigModuleInterface
             ->setSgFaq((new FaqConfig())->reset())
             ->setSgFormContact((new FormContactConfig())->reset())
             ->setSgExtranet((new ExtranetConfig())->reset())
+            ->setSgFormDataManager((new FormDataManagerConfig())->reset())
         ;
 
         return $this;
@@ -313,6 +317,11 @@ class Core implements ConfigModuleInterface
                 property_exists($json, 'extranet')
                 ? (new ExtranetConfig())->import($json->extranet)
                 : (new ExtranetConfig())->reset()
+            )
+            ->setSgFormDataManager(
+                property_exists($json, 'formDataManager')
+                ? (new FormDataManagerConfig())->import($json->formDataManager)
+                : (new FormDataManagerConfig())->reset()
             )
         ;
 
@@ -409,6 +418,7 @@ class Core implements ConfigModuleInterface
         $json->faq = $this->getSgFaq()->export();
         $json->formContact = $this->getSgFormContact()->export();
         $json->extranet = $this->getSgExtranet()->export();
+        $json->formDataManager = $this->getSgFormDataManager()->export();
 
         return json_encode($json, \JSON_PRETTY_PRINT);
     }
@@ -445,6 +455,9 @@ class Core implements ConfigModuleInterface
             case 'extranet':
                 return $this->getSgExtranet();
             break;
+            case 'form_data_manager':
+                return $this->getSgFormDataManager();
+            break;
         }
     }
 
@@ -478,6 +491,9 @@ class Core implements ConfigModuleInterface
             case 'extranet':
                 $this->setSgExtranet($config);
             break;
+            case 'form_data_manager':
+                $this->setSgFormDataManager($config);
+            break;
         }
 
         return $this;
@@ -492,6 +508,7 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoModulesIds(),
             $this->getSgFormContact()->getContaoModulesIds(),
             $this->getSgExtranet()->getContaoModulesIds(),
+            $this->getSgFormDataManager()->getContaoModulesIds(),
         );
     }
 
@@ -520,6 +537,7 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoPagesIds(),
             $this->getSgFormContact()->getContaoPagesIds(),
             $this->getSgExtranet()->getContaoPagesIds(),
+            $this->getSgFormDataManager()->getContaoPagesIds(),
         );
     }
 
@@ -548,6 +566,7 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoContentsIds(),
             $this->getSgFormContact()->getContaoContentsIds(),
             $this->getSgExtranet()->getContaoContentsIds(),
+            $this->getSgFormDataManager()->getContaoContentsIds(),
         );
     }
 
@@ -575,6 +594,7 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoArticlesIds(),
             $this->getSgFormContact()->getContaoArticlesIds(),
             $this->getSgExtranet()->getContaoArticlesIds(),
+            $this->getSgFormDataManager()->getContaoArticlesIds(),
         );
     }
 
@@ -602,6 +622,7 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoFoldersIds(),
             $this->getSgFormContact()->getContaoFoldersIds(),
             $this->getSgExtranet()->getContaoFoldersIds(),
+            $this->getSgFormDataManager()->getContaoFoldersIds(),
         );
     }
 
@@ -626,6 +647,7 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoUsersIds(),
             $this->getSgFormContact()->getContaoUsersIds(),
             $this->getSgExtranet()->getContaoUsersIds(),
+            $this->getSgFormDataManager()->getContaoUsersIds(),
         );
     }
 
@@ -649,6 +671,7 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoUserGroupsIds(),
             $this->getSgFormContact()->getContaoUserGroupsIds(),
             $this->getSgExtranet()->getContaoUserGroupsIds(),
+            $this->getSgFormDataManager()->getContaoUserGroupsIds(),
         );
     }
 
@@ -673,6 +696,7 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoMembersIds(),
             $this->getSgFormContact()->getContaoMembersIds(),
             $this->getSgExtranet()->getContaoMembersIds(),
+            $this->getSgFormDataManager()->getContaoMembersIds(),
         );
     }
 
@@ -694,6 +718,7 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoMemberGroupsIds(),
             $this->getSgFormContact()->getContaoMemberGroupsIds(),
             $this->getSgExtranet()->getContaoMemberGroupsIds(),
+            $this->getSgFormDataManager()->getContaoMemberGroupsIds(),
         );
     }
 
@@ -1473,6 +1498,18 @@ class Core implements ConfigModuleInterface
     public function setSgEncryptionKey(?string $sgEncryptionKey): self
     {
         $this->sgEncryptionKey = $sgEncryptionKey;
+
+        return $this;
+    }
+
+    public function getSgFormDataManager(): FormDataManagerConfig
+    {
+        return $this->sgFormDataManager;
+    }
+
+    public function setSgFormDataManager(FormDataManagerConfig $sgFormDataManager): self
+    {
+        $this->sgFormDataManager = $sgFormDataManager;
 
         return $this;
     }

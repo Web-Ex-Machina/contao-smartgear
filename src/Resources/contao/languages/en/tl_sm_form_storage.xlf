@@ -1,0 +1,78 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" target-language="en">
+    <body>
+		<trans-unit id="tl_sm_form_storage.show_data">
+			<source>Show details</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.pid.0">
+			<source>Form</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.createdAt.0">
+			<source>Submission date</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.completion_percentage.0">
+			<source>Completion pourcentage</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.delay_to_first_interaction.0">
+			<source>Delay to first interaction</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.delay_to_first_interaction.1">
+			<source>Duration between form appearance and first user interaction</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.delay_to_submission.0">
+			<source>Delay to form submission</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.delay_to_submission.1">
+			<source>Duration between form's first user interaction and form submission</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.sender.0">
+			<source>Sender</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.status.0">
+			<source>Status</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.note.0">
+			<source>Note</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.token.0">
+			<source>Token</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.current_page.0">
+			<source>Form's page</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.current_page_url.0">
+			<source>Form's page URL</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.referer_page.0">
+			<source>Referer page</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.referer_page_url.0">
+			<source>Referer page URL</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.status.unread">
+			<source>Unread</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.status.read">
+			<source>Read</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.status.spam">
+			<source>Spam</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.status.ok">
+			<source>OK</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.status.replied">
+			<source>Replied</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.title_legend">
+			<source>Informations</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.data_legend">
+			<source>Data</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_form_storage.page_legend">
+			<source>Pages</source>
+		</trans-unit>
+    </body>
+  </file>
+</xliff>

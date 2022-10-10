@@ -562,6 +562,19 @@ class Util
     }
 
     /**
+     * Returns the public directory root (/path/to/contao/public or /path/to/contao/web).
+     */
+    public static function getPublicOrWebDirectory(): string
+    {
+        $composerJson = json_decode(file_get_contents(TL_ROOT.'/composer.json'), true);
+        if ($composerJson['extra']['public-dir'] ?? false) {
+            return TL_ROOT.\DIRECTORY_SEPARATOR.$composerJson['extra']['public-dir'];
+        }
+
+        return TL_ROOT.\DIRECTORY_SEPARATOR.'public';
+    }
+
+    /**
      * Get this package's version.
      *
      * @return string|null The package version if found, null otherwise
@@ -753,6 +766,40 @@ class Util
     public static function log(string $message, ?string $filename = 'debug.log'): void
     {
         file_put_contents(\Contao\System::getContainer()->getParameter('kernel.project_dir').'/vendor/webexmachina/contao-smartgear/'.$filename, $message.\PHP_EOL, \FILE_APPEND);
+    }
+
+    /**
+     * Converts a number of milliseconds into a human readable duration.
+     *
+     * @param int $duration Number of milliseconds
+     *
+     * @return string The duration in 12m34s567ms
+     */
+    public static function humanReadableDuration(int $duration): string
+    {
+        $minutes = (int) ($duration / 60000);
+        $duration = ($duration % 60000);
+        $seconds = (int) ($duration / 1000);
+        $duration = ($duration % 1000);
+        $ms = $duration;
+
+        return sprintf('%02dm%02ds%03dms', $minutes, $seconds, $ms);
+    }
+
+    public static function getLocalizedTemplateContent(string $tplPath, string $language, ?string $fallbackTplPath = null): string
+    {
+        $tplPath = str_replace(['{root}', '{lang}', '{public_or_web}'], [TL_ROOT, $language, self::getPublicOrWebDirectory()], $tplPath);
+        $fallbackTplPath = str_replace(['{root}', '{lang}', '{public_or_web}'], [TL_ROOT, $language, self::getPublicOrWebDirectory()], $fallbackTplPath);
+
+        if (file_exists($tplPath)) {
+            return file_get_contents($tplPath);
+        }
+
+        if (file_exists($fallbackTplPath)) {
+            return file_get_contents($fallbackTplPath);
+        }
+
+        throw new Exception(sprintf('Unable to find "%s" nor "%s".', $tplPath, $fallbackTplPath));
     }
 
     /**

@@ -14,21 +14,99 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\Backend;
 use Contao\CoreBundle\Exception\AccessDeniedException;
+use Contao\DataContainer;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
+use Exception;
+use tl_form;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Classes\FormUtil;
+use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\EmailFieldNotMandatoryInForm;
+use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\FormNotConfiguredToStoreValues;
+use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\NoEmailFieldInForm;
+use WEM\SmartgearBundle\Model\FormField;
+use WEM\SmartgearBundle\Model\FormStorage;
 
-class Form extends \tl_form
+// class Form extends \tl_form
+class Form extends Backend
 {
     /** @var CoreConfigurationManager */
-    private $configManager;
+    private $configurationManager;
+    /** @var Backend */
+    private $parent;
 
     public function __construct()
     {
         parent::__construct();
-        $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
+        $this->configurationManager = System::getContainer()->get('smartgear.config.manager.core');
+        $this->parent = new tl_form();
+    }
+
+    public function listItems(array $row, string $label, DataContainer $dc, array $labels): array
+    {
+        try {
+            $fdmConfig = $this->configurationManager->load()->getSgFormDataManager();
+            if (!$fdmConfig->getSgInstallComplete()) {
+                $labels[1] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['fdmNotInstalled'];
+            } elseif ($fdmConfig->getSgInstallComplete()) {
+                try {
+                    // check form configuration
+                    FormUtil::checkFormConfigurationCompliantForFormDataManager($row['id']);
+
+                    $nbFormStorage = FormStorage::countItems(['pid' => $row['id']]);
+
+                    $labels[1] = FormStorage::countItems(['pid' => $row['id']]);
+                } catch (FormNotConfiguredToStoreValues $e) {
+                    $labels[1] = $e->getMessage();
+                } catch (NoEmailFieldInForm $e) {
+                    $labels[1] = $e->getMessage();
+                } catch (EmailFieldNotMandatoryInForm $e) {
+                    $labels[1] = $e->getMessage();
+                } catch (Exception $e) {
+                    $labels[1] = $e->getMessage();
+                }
+            }
+        } catch (\WEM\SmartgearBundle\Exceptions\File\NotFound $e) {
+            $labels[1] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['fdmNotInstalled'];
+        } catch (\Exception $e) {
+            $labels[1] = '0';
+        }
+
+        return $labels;
+    }
+
+    public function onSubmitCallback(DataContainer $dc): void
+    {
+        // if the form has to be managed by FDM, assign a mandatory email field
+        try {
+            // check form configuration
+            FormUtil::checkFormConfigurationCompliantForFormDataManager($dc->id);
+        } catch (FormNotConfiguredToStoreValues $e) {
+            // do nothing
+        } catch (NoEmailFieldInForm $e) {
+            // add a mandatory email field
+            $objFormFieldEmail = new FormField();
+            $objFormFieldEmail->pid = $dc->id;
+            $objFormFieldEmail->type = 'text';
+            $objFormFieldEmail->rgxp = 'email';
+            $objFormFieldEmail->name = 'email';
+            $objFormFieldEmail->label = $GLOBALS['TL_LANG']['WEMSG']['FDM']['FORM']['emailFieldLabel'];
+            $objFormFieldEmail->placeholder = $GLOBALS['TL_LANG']['WEMSG']['FDM']['FORM']['emailFieldPlaceholder'];
+            $objFormFieldEmail->sorting = 32;
+            $objFormFieldEmail->mandatory = 1;
+            $objFormFieldEmail->tstamp = time();
+            $objFormFieldEmail->save();
+        } catch (EmailFieldNotMandatoryInForm $e) {
+            // retrieve the email field and make it mandatory
+            $objFormFieldEmail = FormField::findItems(['pid' => $dc->id, 'name' => 'email']);
+            $objFormFieldEmail->mandatory = 1;
+            $objFormFieldEmail->save();
+        } catch (Exception $e) {
+            $labels[1] = $e->getMessage();
+        }
     }
 
     /**
@@ -38,7 +116,8 @@ class Form extends \tl_form
      */
     public function checkPermission(): void
     {
-        parent::checkPermission();
+        // parent::checkPermission();
+        $this->parent->checkPermission();
 
         // Check current action
         switch (Input::get('act')) {
@@ -68,7 +147,7 @@ class Form extends \tl_form
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
-        return parent::deleteForm($row, $href, $label, $title, $icon, $attributes);
+        return $this->parent->deleteForm($row, $href, $label, $title, $icon, $attributes);
     }
 
     /**
@@ -79,7 +158,7 @@ class Form extends \tl_form
     protected function isItemUsedBySmartgear(int $id): bool
     {
         try {
-            $formContactConfig = $this->configManager->load()->getSgFormContact();
+            $formContactConfig = $this->configurationManager->load()->getSgFormContact();
             if ($formContactConfig->getSgInstallComplete() && $id === (int) $formContactConfig->getSgFormContact()) {
                 return true;
             }

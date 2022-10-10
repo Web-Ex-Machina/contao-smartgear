@@ -1,0 +1,24 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" target-language="en">
+    <body>
+    <trans-unit id="tl_form.contacts">
+      <source>See submitted data by this form</source>
+    </trans-unit>
+    <trans-unit id="tl_form.nbSubmission">
+      <source>%s submission</source>
+    </trans-unit>
+    <trans-unit id="tl_form.nbSubmissions">
+      <source>%s submissions</source>
+    </trans-unit>
+    <trans-unit id="tl_form.submissions.0">
+      <source>Submissions</source>
+    </trans-unit>
+    <trans-unit id="tl_form.storeViaFormDataManager.0">
+      <source>Save data using Form Data Manager</source>
+    </trans-unit>
+    <trans-unit id="tl_form.storeViaFormDataManager.1">
+      <source>A field named "email" is required in the form in order to make it work</source>
+    </trans-unit>
+    </body>
+  </file>
+</xliff>

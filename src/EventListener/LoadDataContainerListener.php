@@ -71,11 +71,16 @@ class LoadDataContainerListener
         $this->do = Input::get('do') ?? '';
     }
 
-    public function __invoke(string $table): void
+    public function __invoke($tables): void
     {
-        $this->applySmartgearBehaviour($table);
-        $this->applyListeners($table);
-        $this->applyStyleManagerBehaviour($table);
+        if (!\is_array($tables)) {
+            $tables = [$tables];
+        }
+        foreach ($tables as $table) {
+            $this->applySmartgearBehaviour($table);
+            $this->applyListeners($table);
+            $this->applyStyleManagerBehaviour($table);
+        }
     }
 
     protected function applySmartgearBehaviour($table): void

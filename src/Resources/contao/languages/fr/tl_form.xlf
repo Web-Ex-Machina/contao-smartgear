@@ -1,0 +1,30 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/tl_form.php" source-language="en" target-language="fr">
+    <body>
+		<trans-unit id="tl_form.contacts">
+			<source>See submitted data by this form</source>
+			<target>Afficher toutes les envois de ce formulaire</target>
+		</trans-unit>
+    <trans-unit id="tl_form.nbSubmission">
+      <source>%s submission</source>
+      <target>%s soumission</target>
+    </trans-unit>
+    <trans-unit id="tl_form.nbSubmissions">
+      <source>%s submissions</source>
+      <target>%s soumissions</target>
+    </trans-unit>
+    <trans-unit id="tl_form.submissions.0">
+      <source>Submissions</source>
+      <target>Soumissions</target>
+    </trans-unit>
+    <trans-unit id="tl_form.storeViaFormDataManager.0">
+      <source>Save data using Form Data Manager</source>
+			<target>Enregistrer les données grâce au Form Data Manager</target>
+    </trans-unit>
+    <trans-unit id="tl_form.storeViaFormDataManager.1">
+      <source>A field named "email" is required in the form in order to make it work</source>
+      <target>Un champ nommé "email" est requis pour que cela fonctionne</target>
+    </trans-unit>
+    </body>
+  </file>
+</xliff>

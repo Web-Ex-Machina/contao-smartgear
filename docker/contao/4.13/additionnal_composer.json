@@ -30,5 +30,11 @@
         "terminal42/contao-mailusername": "^2.0",
         "terminal42/contao-shortlink": "^1.0",
         "terminal42/notification_center": "^1.6"
-    }
+    },
+    "repositories":[
+        {
+            "type": "vcs",
+            "url": "git@github.com:web-ex-machina/contao-personal-data-manager.git"
+        }
+    ]
 }

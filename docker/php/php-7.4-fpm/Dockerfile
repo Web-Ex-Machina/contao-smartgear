@@ -66,6 +66,7 @@ RUN apt-get update && apt-get install -y \
     && ssh-keyscan github.com >> ~/.ssh/known_host \
     # Install contao
     cd / \
+    && mkdir -p $workdir_init \
     && mkdir -p $workdir_contao \
     # We give the www-data the same user UUID as ours
     && usermod -u 1000 www-data \

@@ -40,6 +40,7 @@ services:
                 - '@smartgear.backend.component.form_contact.resetter'
             $modulesResetters:
                 - '@smartgear.backend.module.extranet.resetter'
+                - '@smartgear.backend.module.form_data_manager.resetter'
         public: true
 
     smartgear.backend.component.core.configuration_step_manager:

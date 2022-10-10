@@ -47,6 +47,9 @@
     <trans-unit id="WEM.SMARTGEAR.DEFAULT.elementUnknown">
       <source>Unknown element</source>
     </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.fdmNotInstalled">
+      <source>"Form Data Manager" module not installed</source>
+    </trans-unit>
     <!-- Smartgear filter -->
     <trans-unit id="WEMSG.FILTERS.title">
       <source>Filter by :</source>
