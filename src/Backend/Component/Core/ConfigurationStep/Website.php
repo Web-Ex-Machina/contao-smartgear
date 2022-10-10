@@ -601,7 +601,7 @@ class Website extends ConfigurationStep
             'sorting' => 256,
             'sitemap' => 'default',
             'hide' => 1,
-            'type' => 'error404',
+            'type' => 'error_404',
         ], null !== $page ? ['id' => $page->id] : []));
 
         return $page;
