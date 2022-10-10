@@ -41,6 +41,14 @@ class UtilFramway
     protected $configurationCombinedManager;
     /** @var CommandUtil */
     protected $commandUtil;
+    /** @var array */
+    protected $filesToCheck = [
+        'framway.config.js',
+        'build/css/vendor.css',
+        'build/css/framway.css',
+        'build/js/vendor.js',
+        'build/js/framway.js',
+    ];
 
     public function __construct(
         ConfigurationManager $configurationManager,
@@ -109,7 +117,13 @@ class UtilFramway
 
     public function checkPresence()
     {
-        return file_exists($this->getFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js') && file_exists($this->getFramwayPath().\DIRECTORY_SEPARATOR.'build');
+        foreach ($this->filesToCheck as $fileToCheck) {
+            if (!file_exists($this->getFramwayPath().\DIRECTORY_SEPARATOR.$fileToCheck)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function addTheme(string $themeName, bool $live = false)
@@ -160,7 +174,12 @@ class UtilFramway
         return $arrComponents;
     }
 
-    protected function getFramwayPath(): string
+    public function getFilesToCheck(): array
+    {
+        return $this->filesToCheck;
+    }
+
+    public function getFramwayPath(): string
     {
         return $this->configurationManager->load()->getSgFramwayPath();
     }

@@ -15,6 +15,19 @@
 				</p>
 			</div>
 		<?php endif; ?>
+		<br />
+		=================
+		<p>
+			<?= $this->trans('WEMSG.INSTALL.FRAMWAYRETRIEVALMINIMAL.filesChecked'); ?> :
+			<ul>
+				<?php foreach($this->filesToCheck as $fileToCheck): ?>
+					<li>
+						- <?php echo $fileToCheck; ?>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		</p>
+		==================
 	</div>
 	<br />
 	<div class="tl_submit_container">
