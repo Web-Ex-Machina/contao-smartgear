@@ -74,9 +74,10 @@ class DataProvider
     public function duplicateMediaToFiles(string $sourcePath, string $targetPath): FilesModel
     {
         $objFileModel = FilesModel::findByPath($targetPath);
+        $sourceFullPath = TL_ROOT.'/public/bundles/wemsmartgear/samples/'.$sourcePath;
         if (!$objFileModel) {
             $objFile = new File($targetPath);
-            $objFile->write(file_get_contents($sourcePath));
+            $objFile->write(file_get_contents($sourceFullPath));
             $objFile->close();
             $objFileModel = $objFile->getModel();
         }

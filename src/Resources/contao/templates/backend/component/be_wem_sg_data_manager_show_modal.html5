@@ -19,19 +19,13 @@
 				<th class="table-list__cell tl_folder_tlist" data-name="fields">
 					<?= $this->trans('WEMSG.DATAMANAGER.SHOW.fields',[],'contao_default'); ?>
 				</th>
-				<th class="table-list__cell tl_folder_tlist" data-name="source">
-					<?= $this->trans('WEMSG.DATAMANAGER.SHOW.source',[],'contao_default'); ?>
-				</th>
-				<th class="table-list__cell tl_folder_tlist" data-name="target">
-					<?= $this->trans('WEMSG.DATAMANAGER.SHOW.target',[],'contao_default'); ?>
-				</th>
 				<th class="table-list__cell tl_folder_tlist tl_right_nowrap" data-name="actions"><i class="fa fa-pencil-ruler"></i></th>
 			</thead>
 			<tbody>
 				<?php foreach($this->items as $item): ?>
 				<tr class="table-list__line hover-row">
 					<td class="table-list__cell tl_file_list" data-name="type">
-						<?= $item['type']; ?>
+						<?= $this->trans(sprintf('WEMSG.DATAMANAGER.type.%s',$item['type']),[],'contao_default'); ?>
 					</td>
 					<td class="table-list__cell tl_file_list" data-name="reference">
 						<?= $item['reference']; ?>
@@ -44,14 +38,29 @@
 					</td>
 					<td class="table-list__cell tl_file_list" data-name="fields">
 						<?php foreach($item['fields'] as $field => $value): ?>
-							<?= $field; ?> : <?= $value; ?><br />
+							<strong>
+								<?= sprintf('%s.%s.0',$item['table'],$field) === $this->trans(sprintf('%s.%s.0',$item['table'],$field),[],'contao_default') 
+									? $field 
+									: $this->trans(sprintf('%s.%s.0',$item['table'],$field),[],'contao_default') 
+								?> :
+							</strong>
+							<?= $value; ?>
+							<br />
 						<?php endforeach; ?>
-					</td>
-					<td class="table-list__cell tl_file_list" data-name="source">
-						<?= $item['source']; ?>
-					</td>
-					<td class="table-list__cell tl_file_list" data-name="target">
-						<?= $item['target']; ?>
+						<?php if(null!==$item['source']): ?>
+							<strong>
+								<?= $this->trans('WEMSG.DATAMANAGER.SHOW.source',[],'contao_default'); ?> :
+							</strong>
+							<?= $item['source']; ?>
+							<br />
+						<?php endif; ?>
+						<?php if(null!==$item['target']): ?>
+							<strong>
+								<?= $this->trans('WEMSG.DATAMANAGER.SHOW.target',[],'contao_default'); ?> :
+							</strong>
+							<?= $item['target']; ?>
+							<br />
+						<?php endif; ?>
 					</td>
 					<td class="table-list__cell tl_file_list tl_right_nowrap" data-name="actions">
 						<a href="<?= $item['href']; ?>" target="_blank" title="<?= $this->trans('WEMSG.DATAMANAGER.SHOW.show',[],'contao_default'); ?>">

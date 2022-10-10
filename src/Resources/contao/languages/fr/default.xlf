@@ -1565,6 +1565,10 @@
 			<source>Show dataset</source>
 			<target>Voir le jeu de données</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.modalTitle">
+			<source>Dataset : %s</source>
+			<target>Jeu de données : %s</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.DATAMANAGER.SHOW.type">
 			<source>Type</source>
 			<target>Type</target>
@@ -1596,6 +1600,14 @@
 		<trans-unit id="WEMSG.DATAMANAGER.SHOW.show">
 			<source>Show in another tab</source>
 			<target>Afficher dans un nouvel onglet</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.type.database">
+			<source>Database</source>
+			<target>Base de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.type.media">
+			<source>Media</source>
+			<target>Média</target>
 		</trans-unit>
 		<!-- Extranet -->
 		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.title">
