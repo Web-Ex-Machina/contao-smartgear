@@ -44,6 +44,21 @@ class DataProvider
         $this->config->setName($this->name);
     }
 
+    public function getModule(): string
+    {
+        return $this->module;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
     public function isInstalled(): bool
     {
         try {
@@ -144,6 +159,7 @@ class DataProvider
         $this->references[$item->reference] = $objItem;
         $config->setTable($item->table);
         $config->setId((int) $this->references[$item->reference]->id);
+        $config->setReference($item->reference);
 
         return $config;
     }
@@ -154,6 +170,7 @@ class DataProvider
         $this->references[$item->reference] = $this->duplicateMediaToFiles($item->source, $item->target);
         $config->setTable('tl_files');
         $config->setId((int) $this->references[$item->reference]->id);
+        $config->setReference($item->reference);
 
         return $config;
     }

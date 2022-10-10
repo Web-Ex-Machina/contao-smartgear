@@ -134,13 +134,18 @@ class DataManagerDataSet implements ConfigJsonInterface
 
     public function addItem(DataManagerDataSetItem $item): self
     {
-        $this->items[] = $item;
+        $this->items[$item->getReference()] = $item;
 
         return $this;
     }
 
     public function removeItem(DataManagerDataSetItem $item): self
     {
+        if (\array_key_exists($item->getReference(), $this->items)) {
+            unset($this->items[$item->getReference()]);
+
+            return $this;
+        }
         foreach ($this->items as $key => $existingItem) {
             if ($this->buildItemAlias($existingItem) === $this->buildItemAlias($item)) {
                 unset($this->items[$key]);
@@ -150,6 +155,14 @@ class DataManagerDataSet implements ConfigJsonInterface
         }
 
         throw new Exception('Unable to find the item to remove');
+    }
+
+    public function getItem(string $reference)
+    {
+        if (\array_key_exists($reference, $this->items)) {
+            return $this->items[$reference];
+        }
+        throw new Exception('Unable to find the item');
     }
 
     protected function buildItemAlias(DataManagerDataSetItem $item): string

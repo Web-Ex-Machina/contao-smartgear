@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Service;
 
 use Exception;
+use stdClass;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson;
 use WEM\SmartgearBundle\Classes\DataManager\DataSetFinder;
 use WEM\SmartgearBundle\Classes\Util;
@@ -57,9 +58,7 @@ class DataManager
         }
         $arrDatasetsFiles = $this->finder->buildList();
         foreach ($arrDatasetsFiles as $datasetPath) {
-            require_once $datasetPath;
-            $datasetClassName = Util::getDatasetFQDNFromPath($datasetPath);
-            $dtFile = new $datasetClassName($this->dataManagerConfigurationManager);
+            $dtFile = $this->getDatasetClass($datasetPath);
 
             if ($c['module'] && '' !== $c['module'] && $c['module'] !== $dtFile->getModule()) {
                 continue;
@@ -97,7 +96,7 @@ class DataManager
                 }
             }
             // handle nb of items & media
-            $dataJson = json_decode(file_get_contents(str_replace('DataSet.php', 'data.json', $datasetPath)));
+            $dataJson = $this->getDatasetJson($datasetPath);
             if ($dataJson) {
                 $nbElements = 0;
                 $nbMedia = 0;
@@ -155,19 +154,28 @@ class DataManager
 
     public function installDataset(string $datasetPath): void
     {
-        $datasetClassName = Util::getDatasetFQDNFromPath($datasetPath);
-        require_once $datasetPath;
-        $dtFile = new $datasetClassName($this->dataManagerConfigurationManager);
+        $dtFile = $this->getDatasetClass($datasetPath);
 
         $dtFile->import();
     }
 
     public function removeDataset(string $datasetPath): void
     {
-        $datasetClassName = Util::getDatasetFQDNFromPath($datasetPath);
-        require_once $datasetPath;
-        $dtFile = new $datasetClassName($this->dataManagerConfigurationManager);
+        $dtFile = $this->getDatasetClass($datasetPath);
 
         $dtFile->remove();
+    }
+
+    public function getDatasetClass(string $datasetPath): \WEM\SmartgearBundle\Classes\DataManager\DataProvider
+    {
+        $datasetClassName = Util::getDatasetFQDNFromPath($datasetPath);
+        require_once $datasetPath;
+
+        return new $datasetClassName($this->dataManagerConfigurationManager);
+    }
+
+    public function getDatasetJson(string $datasetPath): stdClass
+    {
+        return json_decode(file_get_contents(str_replace('DataSet.php', 'data.json', $datasetPath)));
     }
 }

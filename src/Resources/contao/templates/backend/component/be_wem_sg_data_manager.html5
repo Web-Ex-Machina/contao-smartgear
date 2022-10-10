@@ -129,7 +129,7 @@
             if('success' === r.status && r.callbacks) {
               for(var i in r.callbacks) {
                 if("object" == typeof(r["callbacks"][i])){
-                  window[r["callbacks"][i].method].apply(null, r["callbacks"][i].args);
+                  window[r["callbacks"][i].method](r["callbacks"][i].args);
                 }
               }
             }
@@ -166,6 +166,11 @@
   // outside of "window.ready"
   function reload(args){
     window.location.reload(args);
+  }
+
+  function openDatasetShowModal(args){
+    // display modal here
+    Backend.openModalWindow(800,"test",args.content);
   }
   </script>
 </div>

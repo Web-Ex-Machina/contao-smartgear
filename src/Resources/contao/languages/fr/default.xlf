@@ -1553,7 +1553,50 @@
 			<source>Remove OK</source>
 			<target>Suppression effectuée</target>
 		</trans-unit>
-
+		<trans-unit id="WEMSG.DATAMANAGER.BTN.install">
+			<source>Install dataset</source>
+			<target>Installer le jeu de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.BTN.remove">
+			<source>Uninstall dataset</source>
+			<target>Désinstaller le jeu de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.BTN.show">
+			<source>Show dataset</source>
+			<target>Voir le jeu de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.type">
+			<source>Type</source>
+			<target>Type</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.reference">
+			<source>Reference</source>
+			<target>Référence</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.table">
+			<source>Table</source>
+			<target>Table</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.id">
+			<source>Id</source>
+			<target>Id</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.fields">
+			<source>Data</source>
+			<target>Données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.source">
+			<source>Source</source>
+			<target>Source</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.target">
+			<source>Target</source>
+			<target>Destination</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.show">
+			<source>Show in another tab</source>
+			<target>Afficher dans un nouvel onglet</target>
+		</trans-unit>
 		<!-- Extranet -->
 		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.title">
 			<source>Installation</source>

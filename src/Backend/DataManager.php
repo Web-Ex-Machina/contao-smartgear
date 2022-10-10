@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend;
 
 use Contao\BackendModule;
+use Contao\BackendTemplate;
 use Contao\Config;
 use Contao\CoreBundle\Exception\PageNotFoundException;
 use Contao\Date;
@@ -24,6 +25,8 @@ use Contao\Input;
 use Contao\Pagination;
 use Contao\System;
 use Exception;
+use WEM\SmartgearBundle\Config\DataManager as DataManagerConfig;
+use WEM\SmartgearBundle\Config\DataManagerDataSet;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class DataManager extends BackendModule
@@ -267,7 +270,7 @@ class DataManager extends BackendModule
             if ($this->canBeInstalled($objItem)) {
                 $actions[] = [
                     'name' => 'install',
-                    'label' => $GLOBALS['TL_LANG']['WEMSG']['BTN']['install'],
+                    'label' => $GLOBALS['TL_LANG']['WEMSG']['DATAMANAGER']['BTN']['install'],
                     'buttonClasses' => 'fa fa-download',
                     'ajax' => 'install',
                     'params' => sprintf('module=%s,path=%s', $this->id, $path),
@@ -277,13 +280,21 @@ class DataManager extends BackendModule
             if ($this->canBeRemoved($objItem)) {
                 $actions[] = [
                     'name' => 'remove',
-                    'label' => $GLOBALS['TL_LANG']['WEMSG']['BTN']['remove'],
+                    'label' => $GLOBALS['TL_LANG']['WEMSG']['DATAMANAGER']['BTN']['remove'],
                     'buttonClasses' => 'fa fa-trash',
                     'ajax' => 'remove',
                     'params' => sprintf('module=%s,path=%s', $this->id, $path),
                     'url' => Environment::get('request'),
                 ];
             }
+            $actions[] = [
+                'name' => 'openDatasetShowModal',
+                'label' => $GLOBALS['TL_LANG']['WEMSG']['DATAMANAGER']['BTN']['show'],
+                'buttonClasses' => 'fa fa-eye',
+                'ajax' => 'openDatasetShowModal',
+                'params' => sprintf('module=%s,path=%s', $this->id, $path),
+                'url' => Environment::get('request'),
+            ];
 
             $objTemplate->actions = $actions;
 
@@ -337,6 +348,24 @@ class DataManager extends BackendModule
                         ],
                     ];
                 break;
+                case 'openDatasetShowModal':
+                    if (!Input::post('path')) {
+                        throw new Exception($GLOBALS['TL_LANG']['WEMSG']['DATAMANAGER']['AJAX']['noPathProvided']);
+                    }
+
+                    $arrResponse = [
+                        'status' => 'success',
+                        'msg' => '',
+                        'callbacks' => [
+                            [
+                                'method' => 'openDatasetShowModal',
+                                'args' => [
+                                    'content' => $this->openDatasetShowModal(Input::post('path')),
+                                ],
+                            ],
+                        ],
+                    ];
+                break;
                 default:
                     throw new \Exception(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['AjaxInvalidActionSpecified'], $strAction));
             }
@@ -349,5 +378,75 @@ class DataManager extends BackendModule
 
         echo json_encode($arrResponse, \JSON_INVALID_UTF8_IGNORE);
         exit;
+    }
+
+    protected function openDatasetShowModal(string $datasetPath): string
+    {
+        $objTemplate = new BackendTemplate('be_wem_sg_data_manager_show_modal');
+
+        $dtFile = $this->dataManagerService->getDatasetClass($datasetPath);
+        $dtJsonFile = $this->dataManagerService->getDatasetJson($datasetPath);
+        /** @var DataManagerConfig */
+        $dmConfig = $this->dataManagerConfigurationManager->load();
+
+        $fakeDataset = (new DataManagerDataSet())
+            ->setType($dtFile->getType())
+            ->setModule($dtFile->getModule())
+            ->setName($dtFile->getName())
+        ;
+        if ($dmConfig->hasDataset($fakeDataset)) {
+            $dtInstalled = $dmConfig->getDataset($dtFile->getType(), $dtFile->getModule(), $dtFile->getName());
+        } else {
+            $dtInstalled = $fakeDataset;
+        }
+
+        $items = [];
+
+        $router = System::getContainer()->get('router');
+
+        foreach ($dtJsonFile->items as $jsonItem) {
+            $items[$jsonItem->reference] = [
+                'type' => $jsonItem->type,
+                'reference' => $jsonItem->reference,
+                'table' => $jsonItem->table ?? '',
+                'id' => null,
+                'fields' => [],
+                'source' => $jsonItem->source ?? null,
+                'target' => $jsonItem->target ?? null,
+                'href' => '',
+            ];
+            // add info from installed item if exists
+            try {
+                $dtInstalledItem = $dtInstalled->getItem($jsonItem->reference);
+                $items[$jsonItem->reference]['table'] = $dtInstalledItem->getTable();
+                $items[$jsonItem->reference]['id'] = $dtInstalledItem->getId();
+            } catch (Exception $e) {
+                //do nothing
+            }
+            foreach ($jsonItem->fields ?? [] as $jsonItemField) {
+                $items[$jsonItem->reference]['fields'][$jsonItemField->field] = $jsonItemField->value;
+            }
+            // find a way to associate table to backend route
+            // $GLOBALS['BE_MOD'][useless][do]
+            foreach ($GLOBALS['BE_MOD'] as $strGroupName => $arrGroupModules) {
+                foreach ($arrGroupModules as $strModuleName => $arrConfig) {
+                    if (\array_key_exists('tables', $arrConfig)
+                    && \in_array($items[$jsonItem->reference]['table'], $arrConfig['tables'], true)
+                    ) {
+                        $items[$jsonItem->reference]['href'] = $router->generate('contao_backend', [
+                            'do' => $strModuleName,
+                            'table' => $items[$jsonItem->reference]['table'],
+                            'id' => $items[$jsonItem->reference]['id'],
+                            'act' => 'edit',
+                            'rt' => System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue(),
+                        ]);
+                    }
+                }
+            }
+        }
+
+        $objTemplate->items = $items;
+
+        return $objTemplate->parse();
     }
 }
