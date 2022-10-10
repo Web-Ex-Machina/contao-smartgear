@@ -181,7 +181,7 @@ services:
     smartgear.classes.data_manager.dataset_finder:
         class: WEM\SmartgearBundle\Classes\DataManager\DataSetFinder
         arguments:
-            $projectDir: 'public/bundles/wemsmartgear/samples'
+            $projectDir: '{public_or_web}/bundles/wemsmartgear/samples'
         public: true
 
     smartgear.config.manager.framway:
