@@ -23,6 +23,8 @@ class DataManagerDataSetItem implements ConfigJsonInterface
     protected $table = '';
     /** @var int */
     protected $id = 0;
+    /** @var string */
+    protected $reference = '';
 
     public function reset(): self
     {
@@ -34,6 +36,7 @@ class DataManagerDataSetItem implements ConfigJsonInterface
         $this
             ->setTable($json->table ?? '')
             ->setId($json->id ?? 0)
+            ->setReference($json->reference ?? '')
         ;
 
         return $this;
@@ -45,6 +48,7 @@ class DataManagerDataSetItem implements ConfigJsonInterface
 
         $json->table = $this->getTable();
         $json->id = $this->getId();
+        $json->reference = $this->getReference();
 
         return $json;
     }
@@ -81,6 +85,21 @@ class DataManagerDataSetItem implements ConfigJsonInterface
     public function setId(int $id): self
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    public function getReference(): string
+    {
+        return $this->reference;
+    }
+
+    /**
+     * @param mixed $reference
+     */
+    public function setReference(string $reference): self
+    {
+        $this->reference = $reference;
 
         return $this;
     }

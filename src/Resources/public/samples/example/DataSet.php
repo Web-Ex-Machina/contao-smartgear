@@ -28,21 +28,6 @@ class DataSet extends DataProvider implements DataSetInterface
     protected $type = 'component';
     protected $module = 'core';
 
-    public function getModule(): string
-    {
-        return $this->module;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
     public function import(): DataManagerDataSet
     {
         if ($this->isInstalled()) {
