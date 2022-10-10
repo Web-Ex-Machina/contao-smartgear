@@ -170,7 +170,7 @@
 
   function openDatasetShowModal(args){
     // display modal here
-    Backend.openModalWindow(800,"test",args.content);
+    Backend.openModalWindow(args.width ?? 800,args.title,args.content);
   }
   </script>
 </div>

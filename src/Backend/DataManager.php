@@ -20,6 +20,7 @@ use Contao\Config;
 use Contao\CoreBundle\Exception\PageNotFoundException;
 use Contao\Date;
 use Contao\Environment;
+use Contao\FilesModel;
 use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\Pagination;
@@ -353,6 +354,7 @@ class DataManager extends BackendModule
                         throw new Exception($GLOBALS['TL_LANG']['WEMSG']['DATAMANAGER']['AJAX']['noPathProvided']);
                     }
 
+                    $dtFile = $this->dataManagerService->getDatasetClass(Input::post('path'));
                     $arrResponse = [
                         'status' => 'success',
                         'msg' => '',
@@ -361,6 +363,7 @@ class DataManager extends BackendModule
                                 'method' => 'openDatasetShowModal',
                                 'args' => [
                                     'content' => $this->openDatasetShowModal(Input::post('path')),
+                                    'title' => sprintf($GLOBALS['TL_LANG']['WEMSG']['DATAMANAGER']['SHOW']['modalTitle'], $dtFile->getName()),
                                 ],
                             ],
                         ],
@@ -420,6 +423,7 @@ class DataManager extends BackendModule
                 $dtInstalledItem = $dtInstalled->getItem($jsonItem->reference);
                 $items[$jsonItem->reference]['table'] = $dtInstalledItem->getTable();
                 $items[$jsonItem->reference]['id'] = $dtInstalledItem->getId();
+                $this->loadLanguageFile($items[$jsonItem->reference]['table']);
             } catch (Exception $e) {
                 //do nothing
             }
@@ -427,19 +431,33 @@ class DataManager extends BackendModule
                 $items[$jsonItem->reference]['fields'][$jsonItemField->field] = $jsonItemField->value;
             }
             // find a way to associate table to backend route
-            // $GLOBALS['BE_MOD'][useless][do]
-            foreach ($GLOBALS['BE_MOD'] as $strGroupName => $arrGroupModules) {
-                foreach ($arrGroupModules as $strModuleName => $arrConfig) {
-                    if (\array_key_exists('tables', $arrConfig)
+            if ('media' === $items[$jsonItem->reference]['type']
+            || 'tl_files' === $items[$jsonItem->reference]['table']
+            ) {
+                $objFileModel = FilesModel::findById($items[$jsonItem->reference]['id']);
+                if (!$objFileModel) {
+                    continue;
+                }
+                $items[$jsonItem->reference]['href'] = $router->generate('contao_backend', [
+                    'do' => 'files',
+                    'id' => $objFileModel->path,
+                    'act' => 'edit',
+                    'rt' => System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue(),
+                ]);
+            } else {
+                foreach ($GLOBALS['BE_MOD'] as $strGroupName => $arrGroupModules) {
+                    foreach ($arrGroupModules as $strModuleName => $arrConfig) {
+                        if (\array_key_exists('tables', $arrConfig)
                     && \in_array($items[$jsonItem->reference]['table'], $arrConfig['tables'], true)
                     ) {
-                        $items[$jsonItem->reference]['href'] = $router->generate('contao_backend', [
-                            'do' => $strModuleName,
-                            'table' => $items[$jsonItem->reference]['table'],
-                            'id' => $items[$jsonItem->reference]['id'],
-                            'act' => 'edit',
-                            'rt' => System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue(),
-                        ]);
+                            $items[$jsonItem->reference]['href'] = $router->generate('contao_backend', [
+                                'do' => $strModuleName,
+                                'table' => $items[$jsonItem->reference]['table'],
+                                'id' => $items[$jsonItem->reference]['id'],
+                                'act' => 'edit',
+                                'rt' => System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue(),
+                            ]);
+                        }
                     }
                 }
             }
