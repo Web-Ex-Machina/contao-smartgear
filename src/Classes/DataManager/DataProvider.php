@@ -21,6 +21,7 @@ use Exception;
 use ReflectionClass;
 use stdClass;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as DataManagerConfig;
+use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\DataManager;
 use WEM\SmartgearBundle\Config\DataManagerDataSet;
 use WEM\SmartgearBundle\Config\DataManagerDataSetItem;
@@ -74,7 +75,7 @@ class DataProvider
     public function duplicateMediaToFiles(string $sourcePath, string $targetPath): FilesModel
     {
         $objFileModel = FilesModel::findByPath($targetPath);
-        $sourceFullPath = TL_ROOT.'/public/bundles/wemsmartgear/samples/'.$sourcePath;
+        $sourceFullPath = str_replace('{public_or_web}', Util::getPublicOrWebDirectory(false), TL_ROOT.'/{public_or_web}/bundles/wemsmartgear/samples/'.$sourcePath);
         if (!$objFileModel) {
             $objFile = new File($targetPath);
             $objFile->write(file_get_contents($sourceFullPath));

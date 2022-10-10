@@ -584,14 +584,14 @@ class Util
     /**
      * Returns the public directory root (/path/to/contao/public or /path/to/contao/web).
      */
-    public static function getPublicOrWebDirectory(?bool $relative = false): string
+    public static function getPublicOrWebDirectory(?bool $absolute = true): string
     {
         $composerJson = json_decode(file_get_contents(TL_ROOT.'/composer.json'), true);
         if ($composerJson['extra']['public-dir'] ?? false) {
-            return $relative ? $composerJson['extra']['public-dir'] : TL_ROOT.\DIRECTORY_SEPARATOR.$composerJson['extra']['public-dir'];
+            return !$absolute ? $composerJson['extra']['public-dir'] : TL_ROOT.\DIRECTORY_SEPARATOR.$composerJson['extra']['public-dir'];
         }
 
-        return $relative ? 'public' : TL_ROOT.\DIRECTORY_SEPARATOR.'public';
+        return !$absolute ? 'public' : TL_ROOT.\DIRECTORY_SEPARATOR.'public';
     }
 
     /**
@@ -981,7 +981,7 @@ class Util
 
     public static function getDatasetFQDNFromPath(string $filePath): string
     {
-        return '\WEM\SmartgearBundle\Dataset'.str_replace([\DIRECTORY_SEPARATOR, '.php'], ['\\', ''], str_replace(TL_ROOT.'/public/bundles/wemsmartgear/samples', '', $filePath));
+        return '\WEM\SmartgearBundle\Dataset'.str_replace([\DIRECTORY_SEPARATOR, '.php'], ['\\', ''], str_replace(str_replace('{public_or_web}', self::getPublicOrWebDirectory(false), TL_ROOT.'/{public_or_web}/bundles/wemsmartgear/samples'), '', $filePath));
     }
 
     /**

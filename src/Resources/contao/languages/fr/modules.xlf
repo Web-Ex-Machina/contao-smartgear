@@ -104,6 +104,7 @@
 		<trans-unit id="MOD.wem_sg_form_data_manager.1">
 			<source>Manage contacts</source>
 			<target>Gérer les contacts</target>
+		</trans-unit>
 		<trans-unit id="MOD.wem_sg_data_manager.0">
 			<source>Data manager</source>
 			<target>Jeux de données</target>

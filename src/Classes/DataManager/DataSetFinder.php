@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\DataManager;
 
+use WEM\SmartgearBundle\Classes\Util;
+
 class DataSetFinder
 {
     /** @var string */
@@ -23,7 +25,7 @@ class DataSetFinder
     public function __construct(
         string $projectDir
     ) {
-        $this->projectDir = $projectDir;
+        $this->projectDir = str_replace('{public_or_web}', Util::getPublicOrWebDirectory(false), $projectDir);
         $this->fullDir = TL_ROOT.\DIRECTORY_SEPARATOR.$this->projectDir;
     }
 
