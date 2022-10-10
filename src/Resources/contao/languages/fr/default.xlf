@@ -275,6 +275,12 @@
 			<source><p>Framway isn't present.</p><p>It will be installed and configured when going to the next step.</p></source>
 			<target><p>Le framway n'est pas présent.</p><p>Il sera installé et configuré lors du passage à l'étape suivante.</p></target>
 		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.FRAMWAYRETRIEVALMINIMAL.filesChecked">
+			<source>Files checked to verify Framway's presence</source>
+			<target>Fichiers contrôlés pour vérifier la présence du Framway</target>
+		</trans-unit>
+
+
 
 		<trans-unit id="WEMSG.INSTALL.GENERAL.Title">
 			<source>Global</source>

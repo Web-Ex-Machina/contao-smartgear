@@ -89,6 +89,12 @@ class FramwayRetrievalMinimal extends ConfigurationStep
         // to render the step
         $objTemplate = parent::getFilledTemplate();
         $objTemplate->framway_is_present = $this->checkFramwayPresence();
+
+        $arrFilesToCheck = $this->framwayUtil->getFilesToCheck();
+        foreach ($arrFilesToCheck as $key => $filetoCheck) {
+            $arrFilesToCheck[$key] = $this->framwayUtil->getFramwayPath().\DIRECTORY_SEPARATOR.$filetoCheck;
+        }
+        $objTemplate->filesToCheck = $arrFilesToCheck;
         // And return the template, parsed.
         return $objTemplate;
     }

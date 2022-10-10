@@ -47,7 +47,7 @@ class Core implements ConfigModuleInterface
     public const DEFAULT_MODE = self::MODE_DEV;
     public const DEFAULT_FRAMWAY_PATH = 'assets/framway';
     public const DEFAULT_OWNER_HOST = 'INFOMANIAK - 25 Eugène-Marziano 1227 Les Acacias - GENÈVE - SUISSE';
-    public const DEFAULT_GOOGLE_FONTS = ['Exo', 'OpenSans', 'Shizuru'];
+    public const DEFAULT_GOOGLE_FONTS = [];
     public const DEFAULT_USER_USERNAME = 'webmaster';
     public const DEFAULT_USER_GROUP_ADMIN_NAME = 'Administrateurs';
     public const DEFAULT_ROOTPAGE_CHMOD = 'a:12:{i:0;s:2:"u1";i:1;s:2:"u2";i:2;s:2:"u3";i:3;s:2:"u4";i:4;s:2:"u5";i:5;s:2:"u6";i:6;s:2:"g1";i:7;s:2:"g2";i:8;s:2:"g3";i:9;s:2:"g4";i:10;s:2:"g5";i:11;s:2:"g6";}';
