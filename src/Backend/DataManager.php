@@ -24,10 +24,6 @@ use Contao\Input;
 use Contao\Pagination;
 use Contao\System;
 use Exception;
-use WEM\SmartgearBundle\Classes\Util;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
-use WEM\SmartgearBundle\Config\DataManager as DataManagerConfig;
-use WEM\SmartgearBundle\Exceptions\File\NotFound;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class DataManager extends BackendModule
@@ -49,6 +45,7 @@ class DataManager extends BackendModule
         $this->configurationManager = System::getContainer()->get('smartgear.config.manager.core');
         $this->dataManagerConfigurationManager = System::getContainer()->get('smartgear.config.manager.data_manager');
         $this->datasetFinder = System::getContainer()->get('smartgear.classes.data_manager.dataset_finder');
+        $this->dataManagerService = System::getContainer()->get('smartgear.service.data_manager');
     }
 
     public function generate(): string
@@ -169,8 +166,8 @@ class DataManager extends BackendModule
             ],
         ];
 
-        if (Input::get('status')) {
-            $this->arrConfig['status'] = Input::get('status');
+        if (null !== Input::get('status') && '' !== (Input::get('status'))) {
+            $this->arrConfig['status'] = (int) Input::get('status');
         }
 
         return $arrFilters;
@@ -211,106 +208,7 @@ class DataManager extends BackendModule
 
     protected function retrieveItems(array $c, ?int $limit = 0, ?int $offset = 0, $options = []): array
     {
-        try {
-            /** @var DataManagerConfig */
-            $datamanagerConfig = $this->dataManagerConfigurationManager->load();
-        } catch (NotFound $e) {
-            $datamanagerConfig = new DataManagerConfig();
-        }
-        try {
-            /** @var CoreConfig */
-            $coreConfig = $this->configurationManager->load();
-        } catch (NotFound $e) {
-            $coreConfig = new CoreConfig();
-        }
-        $arrDatasets = $this->datasetFinder->buildList();
-        foreach ($arrDatasets as $datasetPath => $datasetClassName) {
-            require_once $datasetPath;
-            $dtFile = new $datasetClassName($this->dataManagerConfigurationManager);
-
-            $arrDatasets[$datasetPath] = [
-                'name' => $dtFile->getName(),
-                'type' => $dtFile->getType(),
-                'module' => $dtFile->getModule(),
-                'nb_elements' => 0,
-                'nb_media' => 0,
-                'date_installation' => 0,
-                'status' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusUnavailable'],
-            ];
-            // handle status
-            if ($datamanagerConfig->hasDataset($dtFile->getConfig())) {
-                $arrDatasets[$datasetPath]['status'] = $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusInstalled'];
-                $arrDatasets[$datasetPath]['date_installation'] = $datamanagerConfig->getDataset($arrDatasets[$datasetPath]['type'], $arrDatasets[$datasetPath]['module'], $arrDatasets[$datasetPath]['name'])->getDateInstallation();
-            } else {
-                try {
-                    if ('core' === $dtFile->getModule()) {
-                        $moduleConfig = $coreConfig;
-                    } else {
-                        $moduleConfig = $coreConfig->getSubmoduleConfig($dtFile->getModule());
-                    }
-                    if ($moduleConfig->getSgInstallComplete()) {
-                        $arrDatasets[$datasetPath]['status'] = $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusNotInstalled'];
-                    }
-                } catch (Exception $e) {
-                    //do nothing
-                }
-            }
-            // handle nb of items & media
-            $dataJson = json_decode(file_get_contents(str_replace('DataSet.php', 'data.json', $datasetPath)));
-            if ($dataJson) {
-                $nbElements = 0;
-                $nbMedia = 0;
-                foreach ($dataJson->items as $item) {
-                    if ('media' === $item->type) {
-                        ++$nbMedia;
-                    } else {
-                        ++$nbElements;
-                    }
-                }
-                $arrDatasets[$datasetPath]['nb_elements'] = $nbElements;
-                $arrDatasets[$datasetPath]['nb_media'] = $nbMedia;
-            }
-        }
-
-        // here we'll manage filters
-        foreach ($arrDatasets as $datasetPath => $dataset) {
-            if ($c['status'] && '' !== $c['status']) {
-                if (-1 === (int) $c['status'] && $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusUnavailable'] !== $dataset['status']) {
-                    unset($arrDatasets[$datasetPath]);
-                } elseif (0 === (int) $c['status'] && $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusNotInstalled'] !== $dataset['status']) {
-                    unset($arrDatasets[$datasetPath]);
-                } elseif (1 === (int) $c['status'] && $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusInstalled'] !== $dataset['status']) {
-                    unset($arrDatasets[$datasetPath]);
-                }
-            }
-        }
-
-        // here we'll manage ordering
-        // installed by date
-        // not installed by name
-        // not available by name
-        $arrDatasetsInstalled = [];
-        $arrDatasetsNotInstalled = [];
-        $arrDatasetsUnavailable = [];
-        foreach ($arrDatasets as $datasetPath => $dataset) {
-            switch ($dataset['status']) {
-                case $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusUnavailable']:
-                    $arrDatasetsUnavailable[$datasetPath] = $dataset;
-                break;
-                case $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusNotInstalled']:
-                    $arrDatasetsNotInstalled[$datasetPath] = $dataset;
-                    break;
-                case $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusInstalled']:
-                    $arrDatasetsInstalled[$datasetPath] = $dataset;
-                    break;
-            }
-        }
-
-        $arrDatasetsInstalled = Util::array_sort($arrDatasetsInstalled, 'date_installation', \SORT_DESC);
-        $arrDatasetsNotInstalled = Util::array_sort($arrDatasetsNotInstalled, 'name', \SORT_ASC);
-        $arrDatasetsUnavailable = Util::array_sort($arrDatasetsUnavailable, 'name', \SORT_ASC);
-
-        return $arrDatasetsInstalled + $arrDatasetsNotInstalled + $arrDatasetsUnavailable;
+        return $this->dataManagerService->getDatasetList($c, $limit, $offset);
     }
 
     /**
@@ -414,12 +312,7 @@ class DataManager extends BackendModule
                         throw new Exception($GLOBALS['TL_LANG']['WEMSG']['DATAMANAGER']['AJAX']['noPathProvided']);
                     }
 
-                    $datasetPath = Input::post('path');
-                    $datasetClassName = $this->datasetFinder->getDatasetFQDNFromPath($datasetPath);
-                    require_once $datasetPath;
-                    $dtFile = new $datasetClassName($this->dataManagerConfigurationManager);
-
-                    $dtFile->import();
+                    $this->dataManagerService->installDataset(Input::post('path'));
 
                     $arrResponse = [
                         'status' => 'success',
@@ -434,12 +327,7 @@ class DataManager extends BackendModule
                         throw new Exception($GLOBALS['TL_LANG']['WEMSG']['DATAMANAGER']['AJAX']['noPathProvided']);
                     }
 
-                    $datasetPath = Input::post('path');
-                    $datasetClassName = $this->datasetFinder->getDatasetFQDNFromPath($datasetPath);
-                    require_once $datasetPath;
-                    $dtFile = new $datasetClassName($this->dataManagerConfigurationManager);
-
-                    $dtFile->remove();
+                    $this->dataManagerService->removeDataset(Input::post('path'));
 
                     $arrResponse = [
                         'status' => 'success',

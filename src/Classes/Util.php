@@ -979,6 +979,11 @@ class Util
         return $new_array;
     }
 
+    public static function getDatasetFQDNFromPath(string $filePath): string
+    {
+        return '\WEM\SmartgearBundle\Dataset'.str_replace([\DIRECTORY_SEPARATOR, '.php'], ['\\', ''], str_replace(TL_ROOT.'/public/bundles/wemsmartgear/samples', '', $filePath));
+    }
+
     /**
      * Check if a permission can be added into.
      *

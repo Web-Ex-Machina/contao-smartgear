@@ -77,10 +77,7 @@ class DataProvider
         // get the filename where the class was defined
         $definitionPath = $reflection->getFileName();
 
-        // set the class image path
         $jsonPath = realpath(\dirname($definitionPath).\DIRECTORY_SEPARATOR.'data.json');
-        // $jsonPath = str_replace([TL_ROOT], ['.'], realpath(\dirname($definitionPath).\DIRECTORY_SEPARATOR.'data.json'));
-        // $jsonPath = str_replace([TL_ROOT, '/vendor/webexmachina/contao-smartgear/src/Resources/public/'], ['', '/public/bundles/wemsmartgear/'], realpath(\dirname($definitionPath).\DIRECTORY_SEPARATOR.'data.json'));
 
         if (!file_exists($jsonPath)) {
             throw new FileNotFoundException('File not found');

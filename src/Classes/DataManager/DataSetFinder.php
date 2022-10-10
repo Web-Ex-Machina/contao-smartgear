@@ -32,17 +32,11 @@ class DataSetFinder
         return $this->getDataSetsFromFolder($this->fullDir);
     }
 
-    public function getDatasetFQDNFromPath(string $filePath): string
-    {
-        return '\WEM\SmartgearBundle\Dataset'.str_replace([\DIRECTORY_SEPARATOR, '.php'], ['\\', ''], str_replace($this->fullDir, '', $filePath));
-    }
-
     protected function getDataSetsFromFolder(string $folderPath): array
     {
         $templates = [];
         foreach ((new \Contao\CoreBundle\Config\ResourceFinder([$folderPath]))->find()->files()->depth('<=3')->name('DataSet.php') as $filePath => $fileInfo) {
-            // $templates[$filePath] = '\WEM\SmartgearBundle\Dataset'.str_replace([\DIRECTORY_SEPARATOR, '.php'], ['\\', ''], str_replace($folderPath, '', $filePath));
-            $templates[$filePath] = $this->getDatasetFQDNFromPath($filePath);
+            $templates[] = $filePath;
         }
 
         return $templates;

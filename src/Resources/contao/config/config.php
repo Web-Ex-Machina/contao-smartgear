@@ -101,6 +101,9 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 0, [
     'smartgear' => [
         'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
     ],
+    'wem_sg_data_manager' => [
+        'callback' => "\WEM\SmartgearBundle\Backend\DataManager",
+    ],
     'wem_sg_social_link_config_categories' => [
         'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
     ],
@@ -111,9 +114,6 @@ ArrayUtil::arrayInsert(
     [
         'wem_sg_social_link' => [
             'callback' => "\WEM\SmartgearBundle\Backend\SocialLink",
-        ],
-        'wem_sg_data_manager' => [
-            'callback' => "\WEM\SmartgearBundle\Backend\DataManager",
         ],
     ]);
 ArrayUtil::arrayInsert(

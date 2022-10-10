@@ -334,6 +334,14 @@ services:
             $translator: '@contao.translation.translator'
         public: true
 
+    smartgear.service.data_manager:
+        class: WEM\SmartgearBundle\Service\DataManager
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $dataManagerConfigurationManager: '@smartgear.config.manager.data_manager'
+            $finder: '@smartgear.classes.data_manager.dataset_finder'
+        public: true
+
     smartgear.classes.dca.field.callback.load:
         class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Load
         arguments:
@@ -349,7 +357,6 @@ services:
             $frontendField: ''
             $table: ''
         public: true
-
 
     smartgear.classes.dca.field.callback.load.tl_member.firstname:
         class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Load
