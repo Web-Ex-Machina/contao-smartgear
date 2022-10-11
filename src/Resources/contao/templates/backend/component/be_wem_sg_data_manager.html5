@@ -21,11 +21,11 @@
                       <?php if(array_key_exists('options',$o)): ?>
                         <optgroup label="<?= $optgroup; ?>">
                           <?php foreach($o['options'] as $oo): ?>
-                            <option value="<?= $oo['value'] ?>"<?php if($oo['selected']): ?> selected<?php endif; ?>><?= $oo['label'] ?></option>
+                            <option value="<?= $oo['value'] ?>"<?php if($oo['selected']): ?> selected<?php endif; ?><?php if($o['disabled']): ?> disabled<?php endif; ?>><?= $oo['label'] ?></option>
                           <?php endforeach; ?>
                         </optgroup>
                       <?php else: ?>
-                          <option value="<?= $o['value'] ?>"<?php if($o['selected']): ?> selected<?php endif; ?>><?= $o['label'] ?></option>
+                          <option value="<?= $o['value'] ?>"<?php if($o['selected']): ?> selected<?php endif; ?><?php if($o['disabled']): ?> disabled<?php endif; ?>><?= $o['label'] ?></option>
                       <?php endif; ?>
                     <?php endforeach; ?>
                   </select>

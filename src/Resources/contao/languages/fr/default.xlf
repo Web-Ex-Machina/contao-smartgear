@@ -199,6 +199,10 @@
 			<source>Unavailable</source>
 			<target>Indisponible</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.LBL.module">
+			<source>Module</source>
+			<target>Module</target>
+		</trans-unit>
 
 
 		<!-- Smartgear Backend -->
