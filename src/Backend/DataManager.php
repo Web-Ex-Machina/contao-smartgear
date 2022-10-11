@@ -150,7 +150,12 @@ class DataManager extends BackendModule
             'options' => [
                 [
                     'value' => '',
-                    'label' => '-',
+                    'label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['status'],
+                ],
+                [
+                    'value' => '',
+                    'label' => '-------',
+                    'disabled' => true,
                 ],
                 [
                     'value' => 1,
@@ -172,6 +177,42 @@ class DataManager extends BackendModule
 
         if (null !== Input::get('status') && '' !== (Input::get('status'))) {
             $this->arrConfig['status'] = (int) Input::get('status');
+        }
+
+        // modules & types
+        $arrModules = System::getContainer()->get('smartgear.backend.smartgear')->getModules();
+        $arrOptions = [
+            [
+                'value' => '',
+                'label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['module'],
+            ],
+            [
+                'value' => '',
+                'label' => '-------',
+                'disabled' => true,
+            ],
+        ];
+        foreach ($arrModules as $type => $items) {
+            $lbl = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT'][$type];
+            $arrOptions[$lbl] = [
+                'options' => [],
+            ];
+            foreach ($items as $item) {
+                $arrOptions[$lbl]['options'][] = [
+                    'value' => $item,
+                    'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT'][$item],
+                    'selected' => $item === Input::get('module'),
+                ];
+            }
+        }
+        $arrFilters['select']['module'] = [
+            'name' => 'module',
+            'placeholder' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['module'],
+            'options' => $arrOptions,
+        ];
+
+        if (null !== Input::get('module') && '' !== (Input::get('module'))) {
+            $this->arrConfig['module'] = Input::get('module');
         }
 
         return $arrFilters;

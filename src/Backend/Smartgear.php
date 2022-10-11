@@ -79,6 +79,11 @@ class Smartgear extends \Contao\BackendModule
         $this->objSession = System::getContainer()->get('session'); // Init session
     }
 
+    public function getModules(): array
+    {
+        return $this->modules;
+    }
+
     /**
      * Process AJAX actions.
      *
