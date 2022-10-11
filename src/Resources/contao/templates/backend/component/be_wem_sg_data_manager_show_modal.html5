@@ -1,5 +1,3 @@
-<?php //dump($this->items); ?>
-
 <div class="tl_listing_container list_view">
     <div class="table-list fix--shadow">
 		<table class="table-list__container tl_listing">
@@ -63,9 +61,11 @@
 						<?php endif; ?>
 					</td>
 					<td class="table-list__cell tl_file_list tl_right_nowrap" data-name="actions">
-						<a href="<?= $item['href']; ?>" target="_blank" title="<?= $this->trans('WEMSG.DATAMANAGER.SHOW.show',[],'contao_default'); ?>">
-							<i class="fa fa-eye"></i>
-						</a>
+						<?php if($item['installed']): ?>
+							<a href="<?= $item['href']; ?>" target="_blank" title="<?= $this->trans('WEMSG.DATAMANAGER.SHOW.show',[],'contao_default'); ?>">
+								<i class="fa fa-eye"></i>
+							</a>
+						<?php endif; ?>
 					</td>
 				</tr>
 				<?php endforeach; ?>

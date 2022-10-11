@@ -427,7 +427,7 @@ class DataManager extends BackendModule
     protected function openDatasetShowModal(string $datasetPath): string
     {
         $objTemplate = new BackendTemplate('be_wem_sg_data_manager_show_modal');
-
+        $blnInstalled = false;
         $dtFile = $this->dataManagerService->getDatasetClass($datasetPath);
         $dtJsonFile = $this->dataManagerService->getDatasetJson($datasetPath);
         /** @var DataManagerConfig */
@@ -440,6 +440,7 @@ class DataManager extends BackendModule
         ;
         if ($dmConfig->hasDataset($fakeDataset)) {
             $dtInstalled = $dmConfig->getDataset($dtFile->getType(), $dtFile->getModule(), $dtFile->getName());
+            $blnInstalled = true;
         } else {
             $dtInstalled = $fakeDataset;
         }
@@ -458,6 +459,7 @@ class DataManager extends BackendModule
                 'source' => $jsonItem->source ?? null,
                 'target' => $jsonItem->target ?? null,
                 'href' => '',
+                'installed' => $blnInstalled,
             ];
             // add info from installed item if exists
             try {
@@ -470,6 +472,9 @@ class DataManager extends BackendModule
             }
             foreach ($jsonItem->fields ?? [] as $jsonItemField) {
                 $items[$jsonItem->reference]['fields'][$jsonItemField->field] = $jsonItemField->value;
+            }
+            if (!$blnInstalled) {
+                continue;
             }
             // find a way to associate table to backend route
             if ('media' === $items[$jsonItem->reference]['type']
@@ -489,8 +494,8 @@ class DataManager extends BackendModule
                 foreach ($GLOBALS['BE_MOD'] as $strGroupName => $arrGroupModules) {
                     foreach ($arrGroupModules as $strModuleName => $arrConfig) {
                         if (\array_key_exists('tables', $arrConfig)
-                    && \in_array($items[$jsonItem->reference]['table'], $arrConfig['tables'], true)
-                    ) {
+                        && \in_array($items[$jsonItem->reference]['table'], $arrConfig['tables'], true)
+                        ) {
                             $items[$jsonItem->reference]['href'] = $router->generate('contao_backend', [
                                 'do' => $strModuleName,
                                 'table' => $items[$jsonItem->reference]['table'],

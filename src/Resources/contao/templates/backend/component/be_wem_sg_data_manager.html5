@@ -114,8 +114,8 @@
 
         button.closest('.table-list__line').addClass('loading');
         
-        if (action.indexOf('delete') != -1) {
-          blnRequest = confirm('Voulez vous vraiment supprimer ceci ?');
+        if (action.indexOf('remove') != -1) {
+          blnRequest = confirm('Voulez vous vraiment désinstaller ce jeu de données ?');
         }
 
         if(blnRequest) {
