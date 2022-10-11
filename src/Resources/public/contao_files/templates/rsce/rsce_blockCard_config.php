@@ -26,10 +26,6 @@ return [
             'inputType' => 'standardField',
             'eval' => ['tl_class' => 'w50', 'mandatory' => false],
         ],
-        'fullsize' => [
-            'inputType' => 'standardField',
-            'eval' => ['tl_class' => 'clr w50'],
-        ],
         'alt' => [
             'inputType' => 'standardField',
             'eval' => ['tl_class' => 'clr w100 long'],
@@ -105,6 +101,9 @@ return [
         'headline' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['headline'], 'inputType' => 'standardField', 'eval' => ['tl_class' => 'w50', 'mandatory' => false, 'allowHtml' => true, 'includeBlankOption' => true],
         ],
+        'title_css' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['title_css'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50', 'mandatory' => false],
+        ],
         'text' => [
             'inputType' => 'standardField',
             'eval' => ['tl_class' => 'clr', 'mandatory' => false],
@@ -134,11 +133,8 @@ return [
         //     'default' => '10',
         //     'eval' => ['tl_class' => 'w50', 'isAssociative' => true ],
         // ),
-        'title_css' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['title_css'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr', 'mandatory' => false],
-        ],
         'text_css' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['text_css'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 ', 'mandatory' => false],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['text_css'], 'inputType' => 'text', 'eval' => ['tl_class' => 'long ', 'mandatory' => false],
         ],
         'link_legend' => [
             'label' => [&$GLOBALS['TL_LANG']['tl_content']['link_legend']],
@@ -148,14 +144,18 @@ return [
             'inputType' => 'standardField',
             'eval' => ['mandatory' => false],
         ],
-        'linkTitle' => [
-            'inputType' => 'standardField',
-            'eval' => ['allowHtml' => true],
-        ],
         'target' => [
             'label' => &$GLOBALS['TL_LANG']['MSC']['target'], 
             'inputType' => 'checkbox', 
-            'eval' => ['tl_class' => 'w50'],
+            'eval' => ['tl_class' => 'w50 m12'],
+        ],
+        'titleText' => [
+            'inputType' => 'standardField',
+            'eval' => ['allowHtml' => true],
+        ],
+        'linkTitle' => [
+            'inputType' => 'standardField',
+            'eval' => ['allowHtml' => true],
         ],
         'link_mode' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['link_mode'],
@@ -186,7 +186,7 @@ return [
         'addRadius' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['addRadius'],
             'inputType' => 'checkbox',
-            'eval' => ['tl_class' => 'clr'],
+            'eval' => ['tl_class' => 'clr m12'],
         ],
         'preset' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['preset'],

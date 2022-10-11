@@ -22,16 +22,11 @@
 	$strWrapperStart = 'div class="'.implode(' ', $arrWrapperClasses).'"';
 	$strWrapperEnd = 'div';
 	if($this->url && $this->link_mode == 'wrapper') {
-		$strWrapperStart = sprintf('a href="%s" title="%s" class="%s"', $this->url, $this->alt, implode(' ', $arrWrapperClasses));
+		$strWrapperStart = sprintf('a href="%s" title="%s" class="%s"', $this->url, $this->titleText ?: $this->alt, implode(' ', $arrWrapperClasses));
 		$strWrapperEnd = 'a';
 
-		if($this->fullsize)
+		if($this->target)
 			$strWrapperStart .= ' target="_blank"';
-	}
-	else if($this->fullsize) {
-		$arrWrapperClasses[] = 'cboxElement';
-		$strWrapperStart = sprintf('a href="%s" title="%s" class="%s"', $objFile->path, $this->alt, implode(' ', $arrWrapperClasses));
-		$strWrapperEnd = 'a';
 	}
 ?>
 <div class="block-card <?= implode(' ', $arrClasses) ?> <?= $this->class ?>"<?= $this->cssID ?> data-preset="<?= $this->preset ?: 'default' ?>">
@@ -47,7 +42,7 @@
 				<?php if ($this->text): ?><div class="block-card__text <?= $this->text_css ?>"><?= $this->text ?></div><?php endif; ?>
 				<?php if ($this->url && $this->link_mode != 'wrapper'): ?>
 					<div class="block-card__actions">
-						<a href="<?= $this->url ?>" <?= $this->target?' target="_blank"':'' ?> class="<?= $this->link_mode == 'btn'?'btn':'' ?> <?= $this->link_css ?>" title="<?= trim(strip_tags($this->linkTitle)) ?>"><?= $this->linkTitle ?></a>
+						<a href="<?= $this->url ?>" <?= $this->target?' target="_blank"':'' ?> class="<?= $this->link_mode == 'btn'?'btn':'' ?> <?= $this->link_css ?>" title="<?= trim(strip_tags($this->titleText)) ?: trim(strip_tags($this->linkTitle)) ?>"><?= $this->linkTitle ?></a>
 					</div>
 				<?php endif ?>
 			</div>
