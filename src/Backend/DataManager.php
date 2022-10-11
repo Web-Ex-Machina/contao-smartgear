@@ -160,7 +160,7 @@ class DataManager extends BackendModule
                 [
                     'value' => 0,
                     'label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusNotInstalled'],
-                    'selected' => '' !== Input::get('status') && 0 === (int) Input::get('status'),
+                    'selected' => null !== Input::get('status') && '' !== Input::get('status') && 0 === (int) Input::get('status'),
                 ],
                 [
                     'value' => -1,
