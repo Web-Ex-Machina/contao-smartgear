@@ -1,5 +1,4 @@
 <!-- indexer::stop -->
-
 <?php $this->block('content'); ?>
 <?php if ($this->filters): ?>
     <form class="filters" method="get">
@@ -57,51 +56,66 @@
           <?php endif ?>
         <div class="filters__col col--right">
           <?php if ($this->filters['datetime-local']): ?>
-            <label for="datetime-local--<?= $property ?>"><?= $datetimeLocal['label']?:$property ?></label>
-            <input type="datetime-local" name="<?= $property ?>" id="datetime-local--<?= $property ?>" value="<?= $this->config[$property]; ?>">
-          <?php endif ?>
-          <?php if ($this->filters['date']): ?>
-            <label for="date--<?= $property ?>"><?= $date['label']?:$property ?></label>
-            <input type="date" name="<?= $property ?>" id="date--<?= $property ?>" value="<?= $this->config[$property]; ?>">
-          <?php endif ?>
-          <?php if ($this->filters['time']): ?>
-            <label for="time--<?= $property ?>"><?= $time['label']?:$property ?></label>
-            <input type="time" name="<?= $property ?>" id="time--<?= $property ?>" value="<?= $this->config[$property]; ?>">
-          <?php endif ?>
-          <?php if ($this->filters['month']): ?>
             <div class="filters__group">
-              <label for="month-month-<?= $property ?>"><?= $month['label']?:$property ?></label>
-              <select name="<?= $property ?>[month]" id="month-month--<?= $property ?>">
-                <option value="" <?= ($this->config[$property]['month'] && $this->config[$property]['month'] == '' )?'selected':'' ?> >
-                  -
-                </option>
-                <?php for($i=1;$i<=12;$i++): ?>
-                  <?php $option = ['value' => 10 > $i ? '0'.$i : $i]; ?>
-                  <option value="<?= $option['value']; ?>" <?= ($this->config[$property]['month'] && $this->config[$property]['month'] == $option['value'])?'selected':'' ?> >
-                    <?= $GLOBALS['TL_LANG']['MONTHS'][$i-1]; ?>
-                  </option>
-                <?php endfor; ?>
-              </select>
-              <select name="<?= $property ?>[year]" id="month-year--<?= $property ?>">
-                <option value="" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == '' )?'selected':'' ?> >
-                  -
-                </option>
-                <?php if($month['year']['start'] === $month['year']['stop']): ?>
-                  <?php $option = ['value' => $month['year']['start']]; ?>
-                  <option value="<?= $option['value']; ?>" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == $option['value'])?'selected':'' ?>>
-                    <?= $option['value']; ?>
-                  </option>
-                <?php else: ?>
-                  <?php for($i=$month['year']['start'];$i<=$month['year']['stop'];$i++): ?>
-                    <?php $option = ['value' => $i]; ?>
-                    <option value="<?= $option['value']; ?>" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == $option['value'])?'selected':'' ?>>
-                      <?= $i; ?>
-                    </option>
-                  <?php endfor; ?>
-                <?php endif; ?>
-              </select>
+              <?php foreach ($this->filters['datetime-local'] as $property => $datetimeLocal): ?>
+                <label for="datetime-local--<?= $property ?>"><?= $datetimeLocal['label']?:$property ?></label>
+                <input type="datetime-local" name="<?= $property ?>" id="datetime-local--<?= $property ?>" value="<?= $this->config[$property]; ?>">
+              <?php endforeach ?>
             </div>
           <?php endif ?>
+          <?php if ($this->filters['date']): ?>
+            <div class="filters__group">
+              <?php foreach ($this->filters['date'] as $property => $date): ?>
+                <label for="date--<?= $property ?>"><?= $date['label']?:$property ?></label>
+                <input type="date" name="<?= $property ?>" id="date--<?= $property ?>" value="<?= $this->config[$property]; ?>">
+              <?php endforeach ?>
+            </div>
+          <?php endif ?>
+          <?php if ($this->filters['time']): ?>
+            <div class="filters__group">
+              <?php foreach ($this->filters['time'] as $property => $time): ?>
+                <label for="time--<?= $property ?>"><?= $time['label']?:$property ?></label>
+                <input type="time" name="<?= $property ?>" id="time--<?= $property ?>" value="<?= $this->config[$property]; ?>">
+              <?php endforeach ?>
+            </div>
+          <?php endif ?>
+          <?php if ($this->filters['month']): ?>
+              <div class="filters__group">
+                <?php foreach ($this->filters['month'] as $property => $month): ?>
+                  <label for="month-month-<?= $property ?>"><?= $month['label']?:$property ?></label>
+                  <select name="<?= $property ?>[month]" id="month-month--<?= $property ?>">
+                    <option value="" <?= ($this->config[$property]['month'] && $this->config[$property]['month'] == '' )?'selected':'' ?> >
+                      -
+                    </option>
+                    <?php for($i=1;$i<=12;$i++): ?>
+                      <?php $option = ['value' => 10 > $i ? '0'.$i : $i]; ?>
+                      <option value="<?= $option['value']; ?>" <?= ($this->config[$property]['month'] && $this->config[$property]['month'] == $option['value'])?'selected':'' ?> >
+                        <?= $GLOBALS['TL_LANG']['MONTHS'][$i-1]; ?>
+                      </option>
+                    <?php endfor; ?>
+                  </select>
+                  <select name="<?= $property ?>[year]" id="month-year--<?= $property ?>">
+                    <option value="" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == '' )?'selected':'' ?> >
+                      -
+                    </option>
+
+                    <?php if($month['year']['start'] === $month['year']['stop']): ?>
+                      <?php $option = ['value' => $month['year']['start']]; ?>
+                      <option value="<?= $option['value']; ?>" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == $option['value'])?'selected':'' ?>>
+                        <?= $option['value']; ?>
+                      </option>
+                    <?php else: ?>
+                    <?php for($i=$month['year']['start'];$i<=$month['year']['stop'];$i++): ?>
+                      <?php $option = ['value' => $i]; ?>
+                      <option value="<?= $option['value']; ?>" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == $option['value'])?'selected':'' ?>>
+                        <?= $i; ?>
+                      </option>
+                    <?php endfor; ?>
+                    <?php endif; ?>
+                  </select>
+                <?php endforeach ?>
+              </div>
+            <?php endif; ?>
           <?php if ($this->filters['date_decomposed']): ?>
             <?php foreach ($this->filters['date_decomposed'] as $property => $date_decomposed): ?>
               <div class="filters__group filters--date_decomposed">
