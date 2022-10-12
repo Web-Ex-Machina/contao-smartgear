@@ -24,7 +24,6 @@ class GetAllEventsListener
             foreach ($events as $startDate => $dateEvents) {
                 foreach ($dateEvents as $startTime => $timeEvents) {
                     foreach ($timeEvents as $index => $event) {
-                        // dump($startDate, $startTime, $index);
                         // do our things
                         if (\array_key_exists('location', $searchConfig)
                         && !empty($searchConfig['location'])
