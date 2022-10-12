@@ -68,6 +68,9 @@ class ModuleEventList extends \Contao\ModuleEventlist
             $this->config['date']['year'] = Input::get('date')['year'];
             $this->config['date']['month'] = Input::get('date')['month'];
             $this->config['date']['day'] = Input::get('date')['day'];
+        } else {
+            $this->config['date']['year'] = date('Y');
+            $this->config['date']['month'] = date('m');
         }
         $locations = $this->getEventsLocations();
         $this->filters['select']['location'] = [
