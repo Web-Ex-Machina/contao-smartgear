@@ -62,7 +62,7 @@ class ModuleNewsList extends \Contao\ModuleNewsList
                 $this->filters['select']['author']['options'][$objItems->current()->id] = ['label' => $objItems->current()->name, 'value' => $objItems->current()->id];
 
                 if ($objItems->current()->id === Input::get('author')) {
-                    $this->filters['select']['author']['options'][$objItems->current()->status]['selected'] = true;
+                    $this->filters['select']['author']['options'][$objItems->current()->id]['selected'] = true;
                     $this->config['author'] = $objItems->current()->id;
                 }
             }
