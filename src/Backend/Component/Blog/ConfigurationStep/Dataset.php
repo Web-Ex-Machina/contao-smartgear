@@ -20,6 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 
 class Dataset extends ConfigurationStep
@@ -47,7 +48,7 @@ class Dataset extends ConfigurationStep
         $this->configurationManager = $configurationManager;
         $this->commandUtil = $commandUtil;
         $this->translator = $translator;
-        $this->sourceDirectory = $sourceDirectory;
+        $this->sourceDirectory = str_replace('[public_or_web]', Util::getPublicOrWebDirectory(true), $sourceDirectory);
 
         $this->title = $this->translator->trans('WEMSG.BLOG.INSTALL_DATASET.title', [], 'contao_default');
         /** @var BlogConfig */

@@ -564,14 +564,14 @@ class Util
     /**
      * Returns the public directory root (/path/to/contao/public or /path/to/contao/web).
      */
-    public static function getPublicOrWebDirectory(): string
+    public static function getPublicOrWebDirectory(?bool $relative = false): string
     {
         $composerJson = json_decode(file_get_contents(TL_ROOT.'/composer.json'), true);
         if ($composerJson['extra']['public-dir'] ?? false) {
-            return TL_ROOT.\DIRECTORY_SEPARATOR.$composerJson['extra']['public-dir'];
+            return $relative ? $composerJson['extra']['public-dir'] : TL_ROOT.\DIRECTORY_SEPARATOR.$composerJson['extra']['public-dir'];
         }
 
-        return TL_ROOT.\DIRECTORY_SEPARATOR.'public';
+        return $relative ? 'public' : TL_ROOT.\DIRECTORY_SEPARATOR.'public';
     }
 
     /**
