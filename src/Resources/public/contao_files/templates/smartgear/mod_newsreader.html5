@@ -4,12 +4,14 @@
 
   <?= $this->articles ?>
 
-  <!-- indexer::stop -->
-  <p class="back"><a href="<?= $this->referer ?>" title="<?= $this->back ?>" class="btn"><?= $this->back ?></a></p>
-  <!-- indexer::continue -->
+  <div class="reader__footer">
+    <!-- indexer::stop -->
+    <a href="<?= $this->referer ?>" title="<?= $this->back ?>" class="btn-sm reader__back"><?= $this->back ?></a>
+    <!-- indexer::continue -->
 
-  <!-- indexer::stop -->
-  <div class="share-buttons__container"></div>
+    <!-- indexer::stop -->
+    <div class="share-buttons__container"></div>
+  </div>
   <!-- indexer::continue -->
 
   <?php if ($this->allowComments): ?>

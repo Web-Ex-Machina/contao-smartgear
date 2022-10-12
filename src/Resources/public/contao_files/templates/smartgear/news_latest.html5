@@ -10,9 +10,15 @@
           <div class="ribbon featured"><i class="fas fa-star"></i></div>
         <?php endif ?>
         <img src="<?= $this->picture['img']['src'] ?>" alt="<?= $this->headline ?>" itemprop="image">
+        <?php if ($this->hasMetaFields): ?>
+          <div class="block-card__headline">
+            <div class="block-card__category"><?= $this->archive->title ?></div>
+            <div class="block-card__date"><time datetime="<?= $this->datetime ?>" itemprop="datePublished"><?= $this->date ?></time></div>
+          </div>
+        <?php endif; ?>
       </figure>
     <?php endif; ?>
-    <?php if ($this->hasMetaFields): ?>
+    <?php if ($this->hasMetaFields && !$this->addImage): ?>
       <div class="block-card__headline">
         <div class="block-card__category"><?= $this->archive->title ?></div>
         <div class="block-card__date"><time datetime="<?= $this->datetime ?>" itemprop="datePublished"><?= $this->date ?></time></div>
@@ -36,6 +42,6 @@
   <?php endif; ?>
 </div>
 <?php if (strpos($this->class, "last") != false): ?>
-  <div class="block-card" data-preset="inline"></div>
-  <div class="block-card" data-preset="inline"></div>
+  <div class="block-card"></div>
+  <div class="block-card"></div>
 <?php endif ?>

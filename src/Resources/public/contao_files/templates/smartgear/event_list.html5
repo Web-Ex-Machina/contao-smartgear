@@ -10,12 +10,12 @@
       <?php if (strpos($this->classList, 'current') !== false): ?><div class="event__icon current"><i class="far fa-clock"></i></div><?php endif ?>
       <?php if (strpos($this->classList, 'upcoming') !== false): ?><div class="event__icon upcoming"><i class="far fa-calendar"></i></div><?php endif ?>
       <div class="block-card__title h2" title="<?= $this->title ?>" ><?= $this->link ?></div>
-      <div class="event__time">
+      <div class="reader__time">
         <?php if ($this->day) : echo $this->day . ' '; endif; ?>
         <time datetime="<?= $this->datetime ?>" itemprop="startDate"> <?= $this->date ?><?php if ($this->time): ?>, <?= $this->time ?><?php endif; ?></time>
       </div>
       <?php if ($this->location): ?>
-        <div class="event__location" itemprop="location" itemscope itemtype="http://schema.org/Place">
+        <div class="reader__location" itemprop="location" itemscope itemtype="http://schema.org/Place">
           <i class="fal fa-map-marker-alt"></i>&nbsp;
           <span itemprop="name"><?= $this->location ?></span>
           <?php if ($this->address): ?>

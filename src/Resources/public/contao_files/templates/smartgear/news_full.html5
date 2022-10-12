@@ -1,25 +1,33 @@
 <div class="layout_full block <?= $this->class ?>"<?= $this->cssID ?> itemscope itemtype="http://schema.org/Article">
 
-  <h1 itemprop="name" class="sep-bottom txt-center"><?= $this->newsHeadline ?></h1>
-
-  <?php if ($this->hasMetaFields): ?>
-    <p class="info"><time datetime="<?= $this->datetime ?>" itemprop="datePublished"><?= $this->date ?></time> <?= $this->author ?> <?= $this->commentCount ?></p>
+  <div class="reader__headline">
+    <h1 itemprop="name" class="ft-notrs m-bottom-0"><?= $this->newsHeadline ?></h1>
+  </div>
+  <?php if ($this->addImage): ?>
+    <div class="reader__picture img-container r_2-1">
+      <figure>
+        <img src="<?= $this->picture['img']['src'] ?>" alt="<?= $this->headline ?>" itemprop="image">
+      </figure>
+    </div>
   <?php endif; ?>
-
   <?php if ($this->hasSubHeadline): ?>
     <h2 itemprop="headline"><?= $this->subHeadline ?></h2>
   <?php endif; ?>
-
-  <?php if ($this->addImage): ?>
-    <figure class="img_container r_16-9">
-      <img src="<?= $this->picture['img']['src'] ?>" alt="<?= $this->headline ?>" itemprop="image">
-    </figure>
+  <?php if ($this->hasMetaFields): ?>
+    <div class="reader__time">
+      <time datetime="<?= $this->datetime ?>" itemprop="datePublished"><?= $this->date ?></time> <?= $this->commentCount ?>
+    </div>
   <?php endif; ?>
   <?php if ($this->hasText): ?>
     <?= $this->text ?>
   <?php else: ?>
-    <div class="ce_text block">
+    <div class="reader__text">
       <?= $this->teaser ?>
+    </div>
+  <?php endif; ?>
+  <?php if ($this->hasMetaFields && $this->author): ?>
+    <div class="reader__author">
+      <?= $this->author ?> 
     </div>
   <?php endif; ?>
 
