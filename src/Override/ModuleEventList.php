@@ -64,10 +64,16 @@ class ModuleEventList extends \Contao\ModuleEventlist
             ],
         ];
 
-        if (null !== Input::get('date', null)) {
+        if (null !== Input::get('date')
+        && ('' !== Input::get('date')['year'] || '' !== Input::get('date')['month'] || '' !== Input::get('date')['day'])
+        ) {
             $this->config['date']['year'] = Input::get('date')['year'];
             $this->config['date']['month'] = Input::get('date')['month'];
             $this->config['date']['day'] = Input::get('date')['day'];
+        } else {
+            $this->cal_format = 'next_all';
+            // $this->config['date']['year'] = date('Y');
+            // $this->config['date']['month'] = date('m');
         }
         $locations = $this->getEventsLocations();
         $this->filters['select']['location'] = [
@@ -77,7 +83,7 @@ class ModuleEventList extends \Contao\ModuleEventlist
         foreach ($locations as $location) {
             $this->filters['select']['location']['options'][] = ['value' => $location, 'label' => $location];
         }
-        if (null !== Input::get('location', null)) {
+        if (null !== Input::get('location')) {
             $this->config['location'] = Input::get('location');
         }
     }

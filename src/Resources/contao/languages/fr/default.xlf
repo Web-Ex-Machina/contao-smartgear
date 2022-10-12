@@ -1129,12 +1129,12 @@
 			<target>Aucun</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.EVENTS.INSTALL_DATASET.datasetOptionA">
-			<source>A - simple - 3 events</source>
-			<target>A - simple - 3 évènements</target>
+			<source>A - simple - 6 events</source>
+			<target>A - simple - 6 évènements</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.EVENTS.INSTALL_DATASET.datasetOptionB">
-			<source>B - complete - 18 events</source>
-			<target>B - complet - 18 évènements</target>
+			<source>B - complete - 36 events</source>
+			<target>B - complet - 36 évènements</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.EVENTS.INSTALL_DATASET.dataset">
 			<source>Dataset</source>

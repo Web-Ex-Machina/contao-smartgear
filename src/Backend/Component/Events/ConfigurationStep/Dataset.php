@@ -20,6 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 
 class Dataset extends ConfigurationStep
@@ -74,7 +75,7 @@ class Dataset extends ConfigurationStep
         $this->configurationManager = $configurationManager;
         $this->commandUtil = $commandUtil;
         $this->translator = $translator;
-        $this->sourceDirectory = $sourceDirectory;
+        $this->sourceDirectory = str_replace('[public_or_web]', Util::getPublicOrWebDirectory(true), $sourceDirectory);
 
         $this->title = $this->translator->trans('WEMSG.EVENTS.INSTALL_DATASET.title', [], 'contao_default');
         /** @var EventsConfig */
@@ -124,45 +125,72 @@ class Dataset extends ConfigurationStep
 
     protected function installDatasetA(): void
     {
-        $eventsConfig = $this->configurationManager->load()->getSgEvents();
+        $coreConfig = $this->configurationManager->load();
+        $eventsConfig = $coreConfig->getSgEvents();
         $filesDirectory = $eventsConfig->getSgEventsFolder();
         $calendarId = $eventsConfig->getSgCalendar();
         $fileNamesToCopy = ['fileA.png', 'fileB.png', 'fileC.png'];
+        $authorId = $coreConfig->getSgUserWebmaster();
 
         $this->copyFiles($fileNamesToCopy);
 
-        $this->createOrUpdateCalendarEvent($calendarId, 'Event Test A', 'event-test-a', 1, strtotime('-1 year'), strtotime('-1 year'), $this->getLoremIpsum(140), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileA.png', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Event Test B', 'event-test-b', 1, strtotime('-1 week'), strtotime('-1 week'), $this->getLoremIpsum(240), 'Super Bazar', $filesDirectory.\DIRECTORY_SEPARATOR.'fileB.png', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité C', 'évènement-c', 1, strtotime('-1 day'), strtotime('-1 day'), $this->getLoremIpsum(80), 'Chateau Puyferrat', $filesDirectory.\DIRECTORY_SEPARATOR.'fileC.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Event Test A', 'event-test-a', $authorId, strtotime('-1 year'), strtotime('-1 year'), $this->getLoremIpsum(140), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileA.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Event Test B', 'event-test-b', $authorId, strtotime('-1 week'), strtotime('-1 week'), $this->getLoremIpsum(240), 'Super Bazar', $filesDirectory.\DIRECTORY_SEPARATOR.'fileB.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité C', 'évènement-c', $authorId, strtotime('-1 day'), strtotime('-1 day'), $this->getLoremIpsum(80), 'Chateau Puyferrat', $filesDirectory.\DIRECTORY_SEPARATOR.'fileC.png', true);
+
+        $this->createOrUpdateCalendarEvent($calendarId, 'Event Test A #2', 'event-test-a-2', $authorId, strtotime('+1 day'), strtotime('+1 day'), $this->getLoremIpsum(140), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileA.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Event Test B #2', 'event-test-b-2', $authorId, strtotime('+1 week'), strtotime('+1 week'), $this->getLoremIpsum(240), 'Super Bazar', $filesDirectory.\DIRECTORY_SEPARATOR.'fileB.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité C #2', 'évènement-c-2', $authorId, strtotime('+1 year'), strtotime('+1 year'), $this->getLoremIpsum(80), 'Chateau Puyferrat', $filesDirectory.\DIRECTORY_SEPARATOR.'fileC.png', true);
     }
 
     protected function installDatasetB(): void
     {
-        $eventsConfig = $this->configurationManager->load()->getSgEvents();
+        $coreConfig = $this->configurationManager->load();
+        $eventsConfig = $coreConfig->getSgEvents();
         $filesDirectory = $eventsConfig->getSgEventsFolder();
         $calendarId = $eventsConfig->getSgCalendar();
         $fileNamesToCopy = ['fileA.png', 'fileB.png', 'fileC.png', 'fileD.png', 'fileE.png', 'fileF.png', 'fileG.png', 'fileH.png', 'fileI.png', 'fileJ.png', 'fileK.png', 'fileL.png', 'fileM.png', 'fileN.png'];
+        $authorId = $coreConfig->getSgUserWebmaster();
 
         $this->copyFiles($fileNamesToCopy);
 
-        $this->createOrUpdateCalendarEvent($calendarId, 'Event Test A', 'event-test-a', 1, strtotime('-1 year'), strtotime('-1 year'), $this->getLoremIpsum(140), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileA.png', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Event Test B', 'event-test-b', 1, strtotime('-340 days'), strtotime('-340 days'), $this->getLoremIpsum(240), 'Super Bazar', $filesDirectory.\DIRECTORY_SEPARATOR.'fileB.png', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité C', 'évènement-c', 1, strtotime('-300 days'), strtotime('-300 days'), $this->getLoremIpsum(80), 'Chateau Puyferrat', $filesDirectory.\DIRECTORY_SEPARATOR.'fileC.png', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité D', 'évènement-d', 1, strtotime('-300 days'), strtotime('-300 days +2 hours'), $this->getLoremIpsum(160), 'Sanctuaire Shinto', '', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité E', 'évènement-e', 1, strtotime('-280 days'), strtotime('-280 days'), $this->getLoremIpsum(380), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileD.png', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité F', 'évènement-f', 1, strtotime('-270 days'), strtotime('-270 days'), $this->getLoremIpsum(120), 'Chateau Puyferrat', '', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité G', 'évènement-g', 1, strtotime('-240 days'), strtotime('-240 days'), $this->getLoremIpsum(80), 'Chateau Puyferrat', '', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité H', 'évènement-h', 1, strtotime('-180 days'), strtotime('-180 days'), $this->getLoremIpsum(160), 'Chateau Puyferrat', $filesDirectory.\DIRECTORY_SEPARATOR.'fileE.png', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité I', 'évènement-i', 1, strtotime('-160 days'), strtotime('-160 days'), $this->getLoremIpsum(340), 'Sanctuaire Shinto', $filesDirectory.\DIRECTORY_SEPARATOR.'fileF.png', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité J', 'évènement-j', 1, strtotime('-140 days'), strtotime('-140 days'), $this->getLoremIpsum(80), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileG.png', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité K', 'évènement-k', 1, strtotime('-135 days'), strtotime('-135 days'), $this->getLoremIpsum(160), 'Super Bazar', $filesDirectory.\DIRECTORY_SEPARATOR.'fileH.png', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité L', 'évènement-l', 1, strtotime('-120 days'), strtotime('-120 days'), $this->getLoremIpsum(360), 'Sanctuaire Shinto', $filesDirectory.\DIRECTORY_SEPARATOR.'fileI.png', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité M', 'évènement-m', 1, strtotime('-90 days'), strtotime('-90 days'), $this->getLoremIpsum(80), 'Super Bazar', $filesDirectory.\DIRECTORY_SEPARATOR.'fileJ.png', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité N', 'évènement-n', 1, strtotime('-85 days'), strtotime('-85 days'), $this->getLoremIpsum(160), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileK.png', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité O', 'évènement-o', 1, strtotime('-70 days'), strtotime('-70 days'), $this->getLoremIpsum(600), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileL.png', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité P', 'évènement-p', 1, strtotime('-60 days'), strtotime('-60 days'), $this->getLoremIpsum(320), 'Chateau Puyferrat', $filesDirectory.\DIRECTORY_SEPARATOR.'fileM.png', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité Q', 'évènement-q', 1, strtotime('-30 days'), strtotime('-30 days'), $this->getLoremIpsum(80), 'Chateau Puyferrat', '', true);
-        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité R', 'évènement-r', 1, strtotime('-15 days'), strtotime('-15 days'), $this->getLoremIpsum(120), 'Sanctuaire Shinto', $filesDirectory.\DIRECTORY_SEPARATOR.'fileN.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Event Test A', 'event-test-a', $authorId, strtotime('-1 year'), strtotime('-1 year'), $this->getLoremIpsum(140), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileA.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Event Test B', 'event-test-b', $authorId, strtotime('-340 days'), strtotime('-340 days'), $this->getLoremIpsum(240), 'Super Bazar', $filesDirectory.\DIRECTORY_SEPARATOR.'fileB.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité C', 'évènement-c', $authorId, strtotime('-300 days'), strtotime('-300 days'), $this->getLoremIpsum(80), 'Chateau Puyferrat', $filesDirectory.\DIRECTORY_SEPARATOR.'fileC.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité D', 'évènement-d', $authorId, strtotime('-300 days'), strtotime('-300 days +2 hours'), $this->getLoremIpsum(160), 'Sanctuaire Shinto', '', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité E', 'évènement-e', $authorId, strtotime('-280 days'), strtotime('-280 days'), $this->getLoremIpsum(380), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileD.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité F', 'évènement-f', $authorId, strtotime('-270 days'), strtotime('-270 days'), $this->getLoremIpsum(120), 'Chateau Puyferrat', '', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité G', 'évènement-g', $authorId, strtotime('-240 days'), strtotime('-240 days'), $this->getLoremIpsum(80), 'Chateau Puyferrat', '', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité H', 'évènement-h', $authorId, strtotime('-180 days'), strtotime('-180 days'), $this->getLoremIpsum(160), 'Chateau Puyferrat', $filesDirectory.\DIRECTORY_SEPARATOR.'fileE.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité I', 'évènement-i', $authorId, strtotime('-160 days'), strtotime('-160 days'), $this->getLoremIpsum(340), 'Sanctuaire Shinto', $filesDirectory.\DIRECTORY_SEPARATOR.'fileF.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité J', 'évènement-j', $authorId, strtotime('-140 days'), strtotime('-140 days'), $this->getLoremIpsum(80), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileG.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité K', 'évènement-k', $authorId, strtotime('-135 days'), strtotime('-135 days'), $this->getLoremIpsum(160), 'Super Bazar', $filesDirectory.\DIRECTORY_SEPARATOR.'fileH.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité L', 'évènement-l', $authorId, strtotime('-120 days'), strtotime('-120 days'), $this->getLoremIpsum(360), 'Sanctuaire Shinto', $filesDirectory.\DIRECTORY_SEPARATOR.'fileI.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité M', 'évènement-m', $authorId, strtotime('-90 days'), strtotime('-90 days'), $this->getLoremIpsum(80), 'Super Bazar', $filesDirectory.\DIRECTORY_SEPARATOR.'fileJ.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité N', 'évènement-n', $authorId, strtotime('-85 days'), strtotime('-85 days'), $this->getLoremIpsum(160), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileK.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité O', 'évènement-o', $authorId, strtotime('-70 days'), strtotime('-70 days'), $this->getLoremIpsum(600), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileL.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité P', 'évènement-p', $authorId, strtotime('-60 days'), strtotime('-60 days'), $this->getLoremIpsum(320), 'Chateau Puyferrat', $filesDirectory.\DIRECTORY_SEPARATOR.'fileM.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité Q', 'évènement-q', $authorId, strtotime('-30 days'), strtotime('-30 days'), $this->getLoremIpsum(80), 'Chateau Puyferrat', '', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité R', 'évènement-r', $authorId, strtotime('-15 days'), strtotime('-15 days'), $this->getLoremIpsum(120), 'Sanctuaire Shinto', $filesDirectory.\DIRECTORY_SEPARATOR.'fileN.png', true);
+
+        $this->createOrUpdateCalendarEvent($calendarId, 'Event Test A #2', 'event-test-a-2', $authorId, strtotime('+15 days'), strtotime('+15 days'), $this->getLoremIpsum(140), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileA.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Event Test B #2', 'event-test-b-2', $authorId, strtotime('+30 days'), strtotime('+30 days'), $this->getLoremIpsum(240), 'Super Bazar', $filesDirectory.\DIRECTORY_SEPARATOR.'fileB.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité C #2', 'évènement-c-2', $authorId, strtotime('+60 days'), strtotime('+60 days'), $this->getLoremIpsum(80), 'Chateau Puyferrat', $filesDirectory.\DIRECTORY_SEPARATOR.'fileC.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité D #2', 'évènement-d-2', $authorId, strtotime('+70 days'), strtotime('+70 days +2 hours'), $this->getLoremIpsum(160), 'Sanctuaire Shinto', '', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité E #2', 'évènement-e-2', $authorId, strtotime('+85 days'), strtotime('+85 days'), $this->getLoremIpsum(380), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileD.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité F #2', 'évènement-f-2', $authorId, strtotime('+90 days'), strtotime('+90 days'), $this->getLoremIpsum(120), 'Chateau Puyferrat', '', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité G #2', 'évènement-g-2', $authorId, strtotime('+120 days'), strtotime('+120 days'), $this->getLoremIpsum(80), 'Chateau Puyferrat', '', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité H #2', 'évènement-h-2', $authorId, strtotime('+135 days'), strtotime('+135 days'), $this->getLoremIpsum(160), 'Chateau Puyferrat', $filesDirectory.\DIRECTORY_SEPARATOR.'fileE.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité I #2', 'évènement-i-2', $authorId, strtotime('+140 days'), strtotime('+140 days'), $this->getLoremIpsum(340), 'Sanctuaire Shinto', $filesDirectory.\DIRECTORY_SEPARATOR.'fileF.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité J #2', 'évènement-j-2', $authorId, strtotime('+160 days'), strtotime('+160 days'), $this->getLoremIpsum(80), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileG.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité K #2', 'évènement-k-2', $authorId, strtotime('+180 days'), strtotime('+180 days'), $this->getLoremIpsum(160), 'Super Bazar', $filesDirectory.\DIRECTORY_SEPARATOR.'fileH.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité L #2', 'évènement-l-2', $authorId, strtotime('+240 days'), strtotime('+240 days'), $this->getLoremIpsum(360), 'Sanctuaire Shinto', $filesDirectory.\DIRECTORY_SEPARATOR.'fileI.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité M #2', 'évènement-m-2', $authorId, strtotime('+270 days'), strtotime('+270 days'), $this->getLoremIpsum(80), 'Super Bazar', $filesDirectory.\DIRECTORY_SEPARATOR.'fileJ.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité N #2', 'évènement-n-2', $authorId, strtotime('+280 days'), strtotime('+280 days'), $this->getLoremIpsum(160), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileK.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité O #2', 'évènement-o-2', $authorId, strtotime('+300 days'), strtotime('+300 days'), $this->getLoremIpsum(600), 'Pulperia Heniz', $filesDirectory.\DIRECTORY_SEPARATOR.'fileL.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité P #2', 'évènement-p-2', $authorId, strtotime('+300 days'), strtotime('+300 days'), $this->getLoremIpsum(320), 'Chateau Puyferrat', $filesDirectory.\DIRECTORY_SEPARATOR.'fileM.png', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité Q #2', 'évènement-q-2', $authorId, strtotime('+340 days'), strtotime('+340 days'), $this->getLoremIpsum(80), 'Chateau Puyferrat', '', true);
+        $this->createOrUpdateCalendarEvent($calendarId, 'Actualité R #2', 'évènement-r-2', $authorId, strtotime('+1 year'), strtotime('+1 year'), $this->getLoremIpsum(120), 'Sanctuaire Shinto', $filesDirectory.\DIRECTORY_SEPARATOR.'fileN.png', true);
     }
 
     protected function cleanDatasets(): void
@@ -178,7 +206,7 @@ class Dataset extends ConfigurationStep
             }
         }
 
-        $eventsAliasesToDelete = ['event-test-a', 'event-test-b', 'évènement-c', 'évènement-d', 'évènement-e', 'évènement-f', 'évènement-g', 'évènement-h', 'évènement-i', 'évènement-j', 'évènement-k', 'évènement-l', 'évènement-m', 'évènement-n', 'évènement-o', 'évènement-p', 'évènement-q', 'évènement-r'];
+        $eventsAliasesToDelete = ['event-test-a', 'event-test-b', 'évènement-c', 'évènement-d', 'évènement-e', 'évènement-f', 'évènement-g', 'évènement-h', 'évènement-i', 'évènement-j', 'évènement-k', 'évènement-l', 'évènement-m', 'évènement-n', 'évènement-o', 'évènement-p', 'évènement-q', 'évènement-r', 'event-test-a-2', 'event-test-b-2', 'évènement-c-2', 'évènement-d-2', 'évènement-e-2', 'évènement-f-2', 'évènement-g-2', 'évènement-h-2', 'évènement-i-2', 'évènement-j-2', 'évènement-k-2', 'évènement-l-2', 'évènement-m-2', 'évènement-n-2', 'évènement-o-2', 'évènement-p-2', 'évènement-q-2', 'évènement-r-2'];
         foreach ($eventsAliasesToDelete as $eventsAliasToDelete) {
             $objNews = \Contao\CalendarEventsModel::findOneByAlias($eventsAliasToDelete);
             if ($objNews) {

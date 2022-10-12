@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\EventListener;
 
 use Contao\NewsModel;
+use WEM\SmartgearBundle\Classes\Util;
 
 class NewsListFetchItemsListener
 {
@@ -36,13 +37,24 @@ class NewsListFetchItemsListener
             }
 
             if (\array_key_exists('date', $searchConfig) && !empty($searchConfig['date'])
-            && \array_key_exists('month', $searchConfig['date']) && !empty($searchConfig['date']['month'])
-            && \array_key_exists('year', $searchConfig['date']) && !empty($searchConfig['date']['year'])
+            && (
+                (\array_key_exists('year', $searchConfig['date']) && !empty($searchConfig['date']['year']))
+                ||
+                \array_key_exists('month', $searchConfig['date']) && !empty($searchConfig['date']['month'])
+            )
             ) {
-                $date = \DateTime::createFromFormat('Y-m-d', $searchConfig['date']['year'].'-'.$searchConfig['date']['month'].'-01');
-                $col[] = 'date >= ? AND date <= ?';
-                $val[] = $date->setTime(0, 0, 0, 0)->getTimestamp();
-                $val[] = $date->setTime(0, 0, 0, 0)->add(new \DateInterval('P1M'))->getTimestamp();
+                $timestampsDuo = Util::getTimestampsFromDateConfig(
+                    \array_key_exists('year', $searchConfig['date']) && !empty($searchConfig['date']['year']) ? (int) $searchConfig['date']['year'] : null,
+                    \array_key_exists('month', $searchConfig['date']) && !empty($searchConfig['date']['month']) ? (int) $searchConfig['date']['month'] : null,
+                    null
+                );
+                $colConfig = [];
+                foreach ($timestampsDuo as $duo) {
+                    $colConfig[] = 'date >= ? AND date <= ?';
+                    $val[] = $duo[0];
+                    $val[] = $duo[1];
+                }
+                $col[] = implode(' OR ', $colConfig);
             }
 
             return NewsModel::findBy($col, $val, ['limit' => $limit, 'offset' => $offset]);

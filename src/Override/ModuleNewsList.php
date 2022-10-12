@@ -62,7 +62,7 @@ class ModuleNewsList extends \Contao\ModuleNewsList
                 $this->filters['select']['author']['options'][$objItems->current()->id] = ['label' => $objItems->current()->name, 'value' => $objItems->current()->id];
 
                 if ($objItems->current()->id === Input::get('author')) {
-                    $this->filters['select']['author']['options'][$objItems->current()->status]['selected'] = true;
+                    $this->filters['select']['author']['options'][$objItems->current()->id]['selected'] = true;
                     $this->config['author'] = $objItems->current()->id;
                 }
             }
@@ -75,10 +75,9 @@ class ModuleNewsList extends \Contao\ModuleNewsList
                 'stop' => (int) date('Y'),
             ],
         ];
-
-        if (null !== Input::get('date', null)) {
-            $this->config['date']['month'] = Input::get('date', null)['month'];
-            $this->config['date']['year'] = Input::get('date', null)['year'];
+        if (null !== Input::get('date')) {
+            $this->config['date']['month'] = Input::get('date')['month'];
+            $this->config['date']['year'] = Input::get('date')['year'];
         }
     }
 }
