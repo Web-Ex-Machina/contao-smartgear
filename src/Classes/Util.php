@@ -802,6 +802,73 @@ class Util
         throw new Exception(sprintf('Unable to find "%s" nor "%s".', $tplPath, $fallbackTplPath));
     }
 
+    public static function getTimestampsFromDateConfig(?int $year = null, ?int $month = null, ?int $day = null, ?int $startyear = 2000): array
+    {
+        $timestamps = [];
+        if ($day && $month && $year) {
+            // 24 hours gap
+            $date = \DateTime::createFromFormat('Y-m-d', $year.'-'.$month.'-'.$day);
+            $timestamps[] = [
+                $date->setTime(0, 0, 0, 0)->getTimestamp(),
+                $date->setTime(0, 0, 0, 0)->add(new \DateInterval('P1D'))->getTimestamp(),
+            ];
+        } elseif ($month && $year) {
+            // 1 month gap
+            $date = \DateTime::createFromFormat('Y-m-d', $year.'-'.$month.'-01');
+            $timestamps[] = [
+                $date->setTime(0, 0, 0, 0)->getTimestamp(),
+                $date->setTime(0, 0, 0, 0)->add(new \DateInterval('P1M'))->getTimestamp(),
+            ];
+        } elseif ($day && $year) {
+            // every 1st day of each month of the year
+            for ($i = 1; $i < 12; ++$i) {
+                $date = \DateTime::createFromFormat('Y-m-d', sprintf('%s-%02d-%s', $year, $i, $day));
+                $timestamps[] = [
+                    $date->setTime(0, 0, 0, 0)->getTimestamp(),
+                    $date->setTime(0, 0, 0, 0)->add(new \DateInterval('P1D'))->getTimestamp(),
+                ];
+            }
+        } elseif ($day && $month) {
+            // every 1st day of month of each years
+            for ($i = $startyear; $i <= date('Y'); ++$i) {
+                $date = \DateTime::createFromFormat('Y-m-d', sprintf('%d-%s-%s', $i, $month, $day));
+                $timestamps[] = [
+                    $date->setTime(0, 0, 0, 0)->getTimestamp(),
+                    $date->setTime(0, 0, 0, 0)->add(new \DateInterval('P1M'))->getTimestamp(),
+                ];
+            }
+        } elseif ($year) {
+            // 1 year gap
+            $date = \DateTime::createFromFormat('Y-m-d', sprintf('%d-01-01', $year));
+            $timestamps[] = [
+                $date->setTime(0, 0, 0, 0)->getTimestamp(),
+                $date->setTime(0, 0, 0, 0)->add(new \DateInterval('P1Y'))->getTimestamp(),
+            ];
+        } elseif ($month) {
+            // every one month of each years
+            for ($i = $startyear; $i <= date('Y'); ++$i) {
+                $date = \DateTime::createFromFormat('Y-m-d', sprintf('%d-%s-01', $i, $month));
+                $timestamps[] = [
+                    $date->setTime(0, 0, 0, 0)->getTimestamp(),
+                    $date->setTime(0, 0, 0, 0)->add(new \DateInterval('P1M'))->getTimestamp(),
+                ];
+            }
+        } elseif ($day) {
+            // every day of each month of each years
+            for ($i = $startyear; $i <= date('Y'); ++$i) {
+                for ($j = 1; $j < 12; ++$j) {
+                    $date = \DateTime::createFromFormat('Y-m-d', sprintf('%d-%02d-%s', $i, $j, $day));
+                    $timestamps[] = [
+                        $date->setTime(0, 0, 0, 0)->getTimestamp(),
+                        $date->setTime(0, 0, 0, 0)->add(new \DateInterval('P1D'))->getTimestamp(),
+                    ];
+                }
+            }
+        }
+
+        return $timestamps;
+    }
+
     /**
      * Check if a permission can be added into.
      *

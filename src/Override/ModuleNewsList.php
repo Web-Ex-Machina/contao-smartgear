@@ -75,10 +75,9 @@ class ModuleNewsList extends \Contao\ModuleNewsList
                 'stop' => (int) date('Y'),
             ],
         ];
-
-        if (null !== Input::get('date', null)) {
-            $this->config['date']['month'] = Input::get('date', null)['month'];
-            $this->config['date']['year'] = Input::get('date', null)['year'];
+        if (null !== Input::get('date')) {
+            $this->config['date']['month'] = Input::get('date')['month'];
+            $this->config['date']['year'] = Input::get('date')['year'];
         }
     }
 }

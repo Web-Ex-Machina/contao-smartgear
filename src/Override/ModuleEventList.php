@@ -64,7 +64,7 @@ class ModuleEventList extends \Contao\ModuleEventlist
             ],
         ];
 
-        if (null !== Input::get('date', null)) {
+        if (null !== Input::get('date')) {
             $this->config['date']['year'] = Input::get('date')['year'];
             $this->config['date']['month'] = Input::get('date')['month'];
             $this->config['date']['day'] = Input::get('date')['day'];
@@ -77,7 +77,7 @@ class ModuleEventList extends \Contao\ModuleEventlist
         foreach ($locations as $location) {
             $this->filters['select']['location']['options'][] = ['value' => $location, 'label' => $location];
         }
-        if (null !== Input::get('location', null)) {
+        if (null !== Input::get('location')) {
             $this->config['location'] = Input::get('location');
         }
     }
