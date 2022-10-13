@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Override;
 
 use Contao\CalendarEventsModel;
+use Contao\Config;
 use Contao\Input;
 
 class ModuleCalendar extends \Contao\ModuleCalendar
@@ -36,6 +37,16 @@ class ModuleCalendar extends \Contao\ModuleCalendar
     public function getConfig(): array
     {
         return $this->config;
+    }
+
+    public function generate()
+    {
+        // Show the event reader if an item has been selected
+        if ($this->cal_readerModule > 0 && (isset($_GET['events']) || (Config::get('useAutoItem') && isset($_GET['auto_item'])))) {
+            return $this->getFrontendModule($this->cal_readerModule, $this->strColumn);
+        }
+
+        return parent::generate();
     }
 
     /**
