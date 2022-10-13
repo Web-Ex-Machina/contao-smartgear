@@ -25,8 +25,10 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 class DataSet extends DataProvider implements DataSetInterface
 {
     protected $name = 'sample';
-    protected $type = 'component';
-    protected $module = 'core';
+    protected $requireSmartgear = ['core'];
+    protected $requireTables = [];
+    // protected $type = 'component';
+    // protected $module = 'core';
 
     public function import(): DataManagerDataSet
     {
@@ -60,7 +62,8 @@ class DataSet extends DataProvider implements DataSetInterface
             throw new Exception('DataSet not installed');
         }
         /** @var DataManagerDataSet */
-        $datasetConfig = $this->configurationManager->load()->getDataset($this->config->getType(), $this->config->getModule(), $this->config->getName());
+        // $datasetConfig = $this->configurationManager->load()->getDataset($this->config->getType(), $this->config->getModule(), $this->config->getName());
+        $datasetConfig = $this->configurationManager->load()->getDataset($this->config->getName());
 
         foreach ($datasetConfig->getItems() as $item) {
             $this->removeItem($item);

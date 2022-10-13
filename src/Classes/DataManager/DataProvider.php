@@ -35,24 +35,23 @@ class DataProvider
     protected $config;
     /** @var DataManagerConfig */
     protected $configurationManager;
+    /** @var array */
+    protected $requireTables = [];
+    /** @var array */
+    protected $requireSmartgear = [];
+    /** @var bool */
+    protected $uninstallable = false;
+    /** @var bool */
+    protected $allowMultipleInstall = false;
+    /** @var array */
+    protected $configuration = [];
 
     public function __construct(DataManagerConfig $configurationManager)
     {
         $this->configurationManager = $configurationManager;
         $this->config = new DataManagerDataSet();
-        $this->config->setModule($this->module);
-        $this->config->setType($this->type);
         $this->config->setName($this->name);
-    }
-
-    public function getModule(): string
-    {
-        return $this->module;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
+        $this->config->setName($this->name);
     }
 
     public function getName(): string
@@ -135,6 +134,56 @@ class DataProvider
         return $this->config;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRequireTables(): array
+    {
+        return $this->requireTables;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRequireSmartgear(): array
+    {
+        return $this->requireSmartgear;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUninstallable(): bool
+    {
+        return $this->uninstallable;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAllowMultipleInstall(): bool
+    {
+        return $this->allowMultipleInstall;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConfiguration(): array
+    {
+        return $this->configuration;
+    }
+
+    public function canBeImported(): bool
+    {
+        return true;
+    }
+
+    public function canBeRemoved(): bool
+    {
+        return true;
+    }
+
     protected function installItemDatabase(stdClass $item): DataManagerDataSetItem
     {
         $config = new DataManagerDataSetItem();
@@ -203,9 +252,10 @@ class DataProvider
                 if ('tl_files' === $datasetItem->getTable()
                 && $item->getId() === $datasetItem->getId()
                 && (
-                    $dataset->getType() !== $this->config->getType()
-                    || $dataset->getModule() !== $this->config->getModule()
-                    || $dataset->getName() !== $this->config->getName()
+                    // $dataset->getType() !== $this->config->getType()
+                    // || $dataset->getModule() !== $this->config->getModule()
+                    // || $dataset->getName() !== $this->config->getName()
+                    $dataset->getName() !== $this->config->getName()
                 )
                 ) {
                     throw new Exception('Media used by another dataset');

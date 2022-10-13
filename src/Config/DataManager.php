@@ -98,11 +98,12 @@ class DataManager implements ConfigJsonInterface
         return false;
     }
 
-    public function getDataset(string $type, string $module, string $name): DataManagerDataSet
+    // public function getDataset(string $type, string $module, string $name): DataManagerDataSet
+    public function getDataset(string $name): DataManagerDataSet
     {
         $item = (new DataManagerDataSet())
-            ->setType($type)
-            ->setModule($module)
+            // ->setType($type)
+            // ->setModule($module)
             ->setName($name)
         ;
         foreach ($this->datasets as $key => $dataset) {
@@ -116,6 +117,7 @@ class DataManager implements ConfigJsonInterface
 
     protected function buildDatasetAlias(DataManagerDataSet $item): string
     {
-        return sprintf('%s-%s-%s', $item->getType(), $item->getModule(), $item->getName());
+        return sprintf('%s', $item->getName());
+        // return sprintf('%s-%s-%s', $item->getType(), $item->getModule(), $item->getName());
     }
 }
