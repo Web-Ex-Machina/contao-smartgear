@@ -18,13 +18,27 @@ use WEM\SmartgearBundle\Config\DataManagerDataSet;
 
 interface DataSetInterface
 {
-    public function getModule(): string;
+    // public function getModule(): string;
 
-    public function getType(): string;
+    // public function getType(): string;
 
     public function getName(): string;
+
+    public function getRequireTables(): array;
+
+    public function getRequireSmartgear(): array;
+
+    public function getUninstallable(): bool;
+
+    public function getAllowMultipleInstall(): bool;
+
+    public function getConfiguration(): array;
 
     public function import(): DataManagerDataSet;
 
     public function remove();
+
+    public function canBeImported(): bool;
+
+    public function canBeRemoved(): bool;
 }

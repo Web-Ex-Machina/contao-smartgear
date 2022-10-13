@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Service;
 
+use Contao\System;
 use Exception;
 use stdClass;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson;
@@ -60,18 +61,8 @@ class DataManager
         foreach ($arrDatasetsFiles as $datasetPath) {
             $dtFile = $this->getDatasetClass($datasetPath);
 
-            if ($c['module'] && '' !== $c['module'] && $c['module'] !== $dtFile->getModule()) {
-                continue;
-            }
-
-            if ($c['type'] && '' !== $c['type'] && $c['type'] !== $dtFile->getType()) {
-                continue;
-            }
-
             $arrDatasets[$datasetPath] = [
                 'name' => $dtFile->getName(),
-                'type' => $dtFile->getType(),
-                'module' => $dtFile->getModule(),
                 'nb_elements' => 0,
                 'nb_media' => 0,
                 'date_installation' => 0,
@@ -80,15 +71,19 @@ class DataManager
             // handle status
             if ($datamanagerConfig->hasDataset($dtFile->getConfig())) {
                 $arrDatasets[$datasetPath]['status'] = $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusInstalled'];
-                $arrDatasets[$datasetPath]['date_installation'] = $datamanagerConfig->getDataset($arrDatasets[$datasetPath]['type'], $arrDatasets[$datasetPath]['module'], $arrDatasets[$datasetPath]['name'])->getDateInstallation();
+                // $arrDatasets[$datasetPath]['date_installation'] = $datamanagerConfig->getDataset($arrDatasets[$datasetPath]['type'], $arrDatasets[$datasetPath]['module'], $arrDatasets[$datasetPath]['name'])->getDateInstallation();
+                $arrDatasets[$datasetPath]['date_installation'] = $datamanagerConfig->getDataset($arrDatasets[$datasetPath]['name'])->getDateInstallation();
             } else {
                 try {
-                    if ('core' === $dtFile->getModule()) {
-                        $moduleConfig = $coreConfig;
-                    } else {
-                        $moduleConfig = $coreConfig->getSubmoduleConfig($dtFile->getModule());
-                    }
-                    if ($moduleConfig->getSgInstallComplete()) {
+                    // if ('core' === $dtFile->getModule()) {
+                    //     $moduleConfig = $coreConfig;
+                    // } else {
+                    //     $moduleConfig = $coreConfig->getSubmoduleConfig($dtFile->getModule());
+                    // }
+                    // if ($moduleConfig->getSgInstallComplete()) {
+                    // $arrDatasets[$datasetPath]['status'] = $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusNotInstalled'];
+                    // }
+                    if ($this->canBeImported($datasetPath)) {
                         $arrDatasets[$datasetPath]['status'] = $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusNotInstalled'];
                     }
                 } catch (Exception $e) {
@@ -156,12 +151,20 @@ class DataManager
     {
         $dtFile = $this->getDatasetClass($datasetPath);
 
+        if (!$this->canBeImported($datasetPath)) {
+            throw new Exception('Dataset can\'t be imported');
+        }
+
         $dtFile->import();
     }
 
     public function removeDataset(string $datasetPath): void
     {
         $dtFile = $this->getDatasetClass($datasetPath);
+
+        if (!$this->canBeRemoved($datasetPath)) {
+            throw new Exception('Dataset can\'t be removed');
+        }
 
         $dtFile->remove();
     }
@@ -177,5 +180,59 @@ class DataManager
     public function getDatasetJson(string $datasetPath): stdClass
     {
         return json_decode(file_get_contents(str_replace('DataSet.php', 'data.json', $datasetPath)));
+    }
+
+    public function canBeRemoved(string $datasetPath): bool
+    {
+        return true;
+    }
+
+    public function canBeImported(string $datasetPath): bool
+    {
+        $dtFile = $this->getDatasetClass($datasetPath);
+
+        return $this->checkPtables($dtFile->getRequireTables()) && $this->checkSmartgear($dtFile->getRequireSmartgear()) && $dtFile->canBeImported();
+    }
+
+    protected function checkPtables(array $ptables): bool
+    {
+        if (empty($ptables)) {
+            return true;
+        }
+        $connection = System::getContainer()->get('database_connection');
+        $schemaManager = $connection->createSchemaManager();
+
+        return $schemaManager->tablesExist($ptables);
+    }
+
+    protected function checkSmartgear(array $keys): bool
+    {
+        if (empty($keys)) {
+            return true;
+        }
+
+        try {
+            /** @var CoreConfig */
+            $coreConfig = $this->configurationManager->load();
+        } catch (Exception $e) {
+            $coreConfig = new CoreConfig();
+        }
+
+        foreach ($keys as $key) {
+            try {
+                if ('core' === $key) {
+                    $config = $coreConfig;
+                } else {
+                    $config = $coreConfig->getSubmoduleConfig($key);
+                }
+                if (!$config->getSgInstallComplete()) {
+                    return false;
+                }
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

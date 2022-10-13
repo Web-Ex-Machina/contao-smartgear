@@ -22,10 +22,6 @@ class DataManagerDataSet implements ConfigJsonInterface
 {
     /** @var string */
     protected $name = '';
-    /** @var string */
-    protected $type = '';
-    /** @var string */
-    protected $module = '';
     /** @var int */
     protected $dateInstallation = 0;
     /** @var array */
@@ -40,8 +36,6 @@ class DataManagerDataSet implements ConfigJsonInterface
     {
         $this
             ->setName($json->name ?? '')
-            ->setType($json->type ?? '')
-            ->setModule($json->module ?? '')
             ->setDateInstallation($json->date_installation ?? 0)
         ;
         if ($json->items) {
@@ -58,8 +52,6 @@ class DataManagerDataSet implements ConfigJsonInterface
         $json = new stdClass();
 
         $json->name = $this->getName();
-        $json->type = $this->getType();
-        $json->module = $this->getModule();
         $json->date_installation = $this->getDateInstallation();
 
         $arrItems = [];
@@ -80,30 +72,6 @@ class DataManagerDataSet implements ConfigJsonInterface
     public function setItems(array $items): self
     {
         $this->items = $items;
-
-        return $this;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    public function getModule(): string
-    {
-        return $this->module;
-    }
-
-    public function setModule(string $module): self
-    {
-        $this->module = $module;
 
         return $this;
     }
