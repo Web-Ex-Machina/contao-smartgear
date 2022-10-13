@@ -49,7 +49,7 @@
       <?php endif; ?>
     </div>
     <?php if (!empty($this->addressLat) && !empty($this->addressLon)): ?>
-      <div id="map" class="reader__map" style="height:512px;" data-lat="<?= $this->addressLat; ?>" data-lon="<?= $this->addressLon; ?>"></div>
+      <div id="map-<?= $this->id ?>" class="reader__map" style="height:512px;" data-lat="<?= $this->addressLat; ?>" data-lon="<?= $this->addressLon; ?>"></div>
     <?php endif; ?>
   <?php endif; ?>
 
@@ -61,8 +61,8 @@
 <link rel="stylesheet" href="assets/leaflet/leaflet.css" />
 <script src="assets/leaflet/leaflet.js"></script>
 <script type="text/javascript">
-  var mapContainer = document.querySelector('#map');
-  var map = L.map('map').setView([mapContainer.getAttribute('data-lat'),mapContainer.getAttribute('data-lon')], 16);
+  var mapContainer = document.querySelector('#map-<?= $this->id ?>');
+  var map = L.map('map-<?= $this->id ?>').setView([mapContainer.getAttribute('data-lat'),mapContainer.getAttribute('data-lon')], 16);
   var OpenStreetMap_Layer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
