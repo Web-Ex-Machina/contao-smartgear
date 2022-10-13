@@ -22,7 +22,7 @@
             <div class="header"><span><?= $day['label'] ?></span></div>
             <?php foreach ($day['events'] as $event): ?>
               <div class="event calendar__event cal_<?= $event['parent'] ?><?= $event['class'] ?>" itemscope itemtype="http://schema.org/Event">
-                <a href="<?= $event['href'] ?>" title="<?= $event['title'] ?> (<?php if ($event['day']) echo $event['day'] . ', '; ?><?= $event['date'] ?><?php if ($event['time']) echo ', ' .  $event['time']; ?>)" itemprop="url" class="" data-selector="#container" data-modal="event_<?= $event['id'] ?>" >
+                <a href="<?= $event['href'] ?>" title="<?= $event['title'] ?> (<?php if ($event['day']) echo $event['day'] . ', '; ?><?= $event['date'] ?><?php if ($event['time']) echo ', ' .  $event['time']; ?>)" itemprop="url" class="" data-selector=".mod_eventreader" data-modal="event_<?= $event['id'] ?>" >
                   <span itemprop="name"><?= $event['link'] ?></span>
                 </a>
               </div>
