@@ -104,6 +104,10 @@
       <source>"Form Data Manager" module not installed</source>
 			<target>Module "Form Data Manager" non installé</target>
     </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.passwordLost">
+      <source>Lost password ?</source>
+			<target>Mot de passe oublié ?</target>
+    </trans-unit>
 		<!-- Smartgear filter -->
 		<trans-unit id="WEMSG.FILTERS.title">
 			<source>Filter by :</source>
