@@ -16,10 +16,10 @@ use Contao\System;
 
 $bundles = System::getContainer()->getParameter('kernel.bundles');
 if (isset($bundles['ContaoNewsletterBundle'])) {
-    unset($GLOBALS['TL_DCA']['tl_newsletter_channel']['config']['ctable'][array_search('tl_newsletter', $GLOBALS['TL_DCA']['tl_newsletter_channel']['config']['ctable'], true)]);
+    // unset($GLOBALS['TL_DCA']['tl_newsletter_channel']['config']['ctable'][array_search('tl_newsletter', $GLOBALS['TL_DCA']['tl_newsletter_channel']['config']['ctable'], true)]);
 
-    $GLOBALS['TL_DCA']['tl_newsletter_channel']['list']['operations']['edit']['label'] = $GLOBALS['TL_DCA']['tl_newsletter_channel']['list']['operations']['editheader']['label'];
-    $GLOBALS['TL_DCA']['tl_newsletter_channel']['list']['operations']['edit']['href'] = $GLOBALS['TL_DCA']['tl_newsletter_channel']['list']['operations']['editheader']['href'];
-    $GLOBALS['TL_DCA']['tl_newsletter_channel']['list']['operations']['edit']['button_callback'] = $GLOBALS['TL_DCA']['tl_newsletter_channel']['list']['operations']['editheader']['button_callback'];
-    unset($GLOBALS['TL_DCA']['tl_newsletter_channel']['list']['operations']['editheader']);
+    // $GLOBALS['TL_DCA']['tl_newsletter_channel']['list']['operations']['edit']['label'] = $GLOBALS['TL_DCA']['tl_newsletter_channel']['list']['operations']['editheader']['label'];
+    // $GLOBALS['TL_DCA']['tl_newsletter_channel']['list']['operations']['edit']['href'] = $GLOBALS['TL_DCA']['tl_newsletter_channel']['list']['operations']['editheader']['href'];
+    // $GLOBALS['TL_DCA']['tl_newsletter_channel']['list']['operations']['edit']['button_callback'] = $GLOBALS['TL_DCA']['tl_newsletter_channel']['list']['operations']['editheader']['button_callback'];
+    // unset($GLOBALS['TL_DCA']['tl_newsletter_channel']['list']['operations']['editheader']);
 }
