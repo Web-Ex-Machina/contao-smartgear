@@ -64,8 +64,6 @@
             <th class="table-list__cell tl_folder_tlist" data-name="name"><?= $this->trans('WEMSG.DATAMANAGER.LIST.name',[],'contao_default'); ?></th>
             <th class="table-list__cell tl_folder_tlist" data-name="nb_elements"><?= $this->trans('WEMSG.DATAMANAGER.LIST.nb_elements',[],'contao_default'); ?></th>
             <th class="table-list__cell tl_folder_tlist" data-name="nb_media"><?= $this->trans('WEMSG.DATAMANAGER.LIST.nb_media',[],'contao_default'); ?></th>
-            <th class="table-list__cell tl_folder_tlist" data-name="type"><?= $this->trans('WEMSG.DATAMANAGER.LIST.type',[],'contao_default'); ?></th>
-            <th class="table-list__cell tl_folder_tlist" data-name="module"><?= $this->trans('WEMSG.DATAMANAGER.LIST.module',[],'contao_default'); ?></th>
             <th class="table-list__cell tl_folder_tlist" data-name="date_installation"><?= $this->trans('WEMSG.DATAMANAGER.LIST.date_installation',[],'contao_default'); ?></th>
             <th class="table-list__cell tl_folder_tlist tl_right_nowrap" data-name="actions"><i class="fa fa-pencil-ruler"></i></th>
           </tr>
