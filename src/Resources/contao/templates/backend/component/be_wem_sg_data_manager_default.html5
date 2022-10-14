@@ -3,8 +3,6 @@
     <td class="table-list__cell tl_file_list" data-name="name"><?= $this->name; ?></td>
     <td class="table-list__cell tl_file_list" data-name="nb_elements"><?= $this->nb_elements; ?></td>
     <td class="table-list__cell tl_file_list" data-name="nb_media"><?= $this->nb_media; ?></td>
-    <td class="table-list__cell tl_file_list" data-name="type"><?= $this->trans(sprintf('WEM.SMARTGEAR.DEFAULT.%s',$this->type),[],'contao_default'); ?></td>
-    <td class="table-list__cell tl_file_list" data-name="module"><?= $this->trans(sprintf('WEM.SMARTGEAR.DEFAULT.%s',$this->module),[],'contao_default'); ?></td>
     <td class="table-list__cell tl_file_list" data-name="date_installation"><?= $this->date_installation; ?></td>
 
 	<?php if($this->actions): ?>
