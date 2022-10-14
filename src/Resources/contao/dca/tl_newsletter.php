@@ -12,6 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+use Contao\System;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
 /*
@@ -22,6 +23,7 @@ use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 // unset($GLOBALS['TL_DCA']['tl_newsletter']['config']['sql']['keys']['pid']);
 // unset($GLOBALS['TL_DCA']['tl_newsletter']['fields']['pid']);
 
+$bundles = System::getContainer()->getParameter('kernel.bundles');
 if (isset($bundles['ContaoNewsletterBundle'])) {
     $GLOBALS['TL_DCA']['tl_newsletter']['list']['sorting']['mode'] = 1;
     $GLOBALS['TL_DCA']['tl_newsletter']['list']['sorting']['flag'] = 1;
