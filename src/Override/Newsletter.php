@@ -178,8 +178,9 @@ class Newsletter extends ContaoNewsletter
 
             $arrRecipientsEmails = array_map(function ($row) { return $row['email']; }, $objRecipientsEmails->fetchAllAssoc());
 
-            $objRecipients = Member::findItems(['email' => $arrRecipientsEmails]);
-
+            $objRecipients = $this->Database->prepare('SELECT * FROM tl_member WHERE email IN ("'.implode('","', $arrRecipientsEmails).'")')
+                ->execute()
+            ;
             echo '<div style="font-family:Verdana,sans-serif;font-size:11px;line-height:16px;margin-bottom:12px">';
 
             // Send newsletter
@@ -233,7 +234,7 @@ class Newsletter extends ContaoNewsletter
                 $url = preg_replace('/&(amp;)?(start|mpc|recipient)=[^&]*/', '', Environment::get('request')).'&start='.($intStart + $intPages).'&mpc='.$intPages;
 
                 echo '<script>setTimeout(\'window.location="'.Environment::get('base').$url.'"\','.($intTimeout * 1000).')</script>';
-                echo '<a href="'.Environment::get('base').$url.'">Please click here to proceed if you are not using JavaScript</a>';
+                echo '<a href="'.Environment::get('base').$url.'">Please click here to proceed if you are not using JavaScript '.$url.'</a>';
             }
 
             echo '</div></div>';
