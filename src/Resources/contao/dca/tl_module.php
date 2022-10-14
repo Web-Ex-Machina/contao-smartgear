@@ -287,10 +287,18 @@ DCAManipulator::create('tl_module')
         'eval' => ['tl_class' => 'w50 clr'],
         'sql' => "varchar(255) NOT NULL default ''",
     ])
+    ->addField('wem_sg_login_pwd_lost_jumpTo', [
+        'exclude' => true,
+        'inputType' => 'pageTree',
+        'foreignKey' => 'tl_page.title',
+        'eval' => ['fieldType' => 'radio'],
+        'sql' => 'int(10) unsigned NOT NULL default 0',
+        'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
+    ])
 ;
 
 $paletteManipulator = PaletteManipulator::create()
-    ->addField('wem_sg_display_share_buttons', 'config_legend')
+    ->addField('wem_sg_display_share_buttons', 'config_legend', PaletteManipulator::POSITION_APPEND)
 ;
 $palettesToUpdate = [
     'newsreader',
@@ -307,7 +315,7 @@ foreach ($palettesToUpdate as $paletteName) {
 }
 
 $paletteManipulator = PaletteManipulator::create()
-    ->addField('wem_sg_number_of_characters', 'config_legend')
+    ->addField('wem_sg_number_of_characters', 'config_legend', PaletteManipulator::POSITION_APPEND)
 ;
 $palettesToUpdate = [
     'newsreader',
@@ -317,6 +325,19 @@ $palettesToUpdate = [
     'faqpage',
     'faqreader',
     'newsletterreader',
+];
+foreach ($palettesToUpdate as $paletteName) {
+    if (\array_key_exists($paletteName, $GLOBALS['TL_DCA']['tl_module']['palettes'])) {
+        $paletteManipulator->applyToPalette($paletteName, 'tl_module');
+    }
+}
+
+$paletteManipulator = PaletteManipulator::create()
+    ->addLegend('password_lost_legend', 'redirect_legend')
+    ->addField('wem_sg_login_pwd_lost_jumpTo', 'password_lost_legend', PaletteManipulator::POSITION_APPEND)
+;
+$palettesToUpdate = [
+    'login',
 ];
 foreach ($palettesToUpdate as $paletteName) {
     if (\array_key_exists($paletteName, $GLOBALS['TL_DCA']['tl_module']['palettes'])) {

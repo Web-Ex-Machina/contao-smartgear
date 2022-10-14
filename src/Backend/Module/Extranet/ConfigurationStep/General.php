@@ -634,7 +634,7 @@ class General extends ConfigurationStep
         ];
     }
 
-    protected function createModuleLogin(CoreConfig $config, ExtranetConfig $extranetConfig): ModuleModel
+    protected function createModuleLogin(CoreConfig $config, ExtranetConfig $extranetConfig, PageModel $page): ModuleModel
     {
         $module = new ModuleModel();
 
@@ -650,6 +650,7 @@ class General extends ConfigurationStep
         $module->type = 'login';
         $module->autologin = 1;
         $module->redirectBack = 1;
+        $module->wem_sg_login_pwd_lost_jumpTo = $page->id;
         $module->tstamp = time();
         $module->save();
 
@@ -813,7 +814,7 @@ class General extends ConfigurationStep
         $extranetConfig = $config->getSgExtranet();
 
         return [
-            'login' => $this->createModuleLogin($config, $extranetConfig),
+            'login' => $this->createModuleLogin($config, $extranetConfig, $pages['password']),
             'logout' => $this->createModuleLogout($config, $extranetConfig, $pages['extranet']),
             'data' => $this->createModuleData($config, $extranetConfig, $pages['dataConfirm'], $notifications['changeData']),
             'password' => $this->createModulePassword($config, $extranetConfig, $pages['passwordConfirm'], $pages['passwordValidate'], $notifications['password']),

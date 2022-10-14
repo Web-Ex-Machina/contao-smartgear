@@ -141,6 +141,7 @@ $GLOBALS['FE_MOD']['news']['newslist'] = \WEM\SmartgearBundle\Override\ModuleNew
 $GLOBALS['FE_MOD']['events']['eventreader'] = \WEM\SmartgearBundle\Override\ModuleEventReader::class;
 $GLOBALS['FE_MOD']['events']['eventlist'] = \WEM\SmartgearBundle\Override\ModuleEventList::class;
 $GLOBALS['FE_MOD']['events']['calendar'] = \WEM\SmartgearBundle\Override\ModuleCalendar::class;
+$GLOBALS['FE_MOD']['user']['login'] = \WEM\SmartgearBundle\Override\ModuleLogin::class;
 /*
  * Models
  */

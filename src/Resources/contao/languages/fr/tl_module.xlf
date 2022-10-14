@@ -2,148 +2,149 @@
   <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/tl_module.php" source-language="en" target-language="fr">
     <body>
     	<trans-unit id="tl_module.wemsgheader_legend">
-			<source>Headbanner</source>
-			<target>Headbanner</target>
-		</trans-unit>
-
-		<trans-unit id="tl_module.wem_sg_header_preset.0">
-			<source>Preset</source>
-			<target>Preset</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_preset.1">
-			<source>Select a header preset</source>
-			<target>Sélectionnez un style de header</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_preset.classic">
-			<source>Default</source>
-			<target>Par défaut</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_preset.nav--arrowed">
-			<source>Arrowed navigation</source>
-			<target>Navigation fléchée</target>
-		</trans-unit>
-
-		<trans-unit id="tl_module.wem_sg_header_logo_legend">
-			<source>Logo</source>
-			<target>Logo</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_nav_legend">
-			<source>Navigation</source>
-			<target>Navigation</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_config_legend">
-		  <source>Header's configuration</source>
-		  <target>Configuration du header</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_appearance_legend">
-		  <source>Header's appearance</source>
-		  <target>Apparence du header</target>
-		</trans-unit>
-
-		<trans-unit id="tl_module.wem_sg_header_above.0">
-			<source>Logo and contents above</source>
-			<target>Logo et contenus au dessus</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_above.1">
-			<source>Check if you want to place the logo and other contents above the navigation</source>
-			<target>Cochez si vous souhaitez placer le logo et autres contenus au dessus du menu</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_sticky.0">
-			<source>Sticky ? test</source>
-			<target>Activer le mode "sticky"</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_sticky.1">
-			<source>Check if you want to make the header sticky</source>
-			<target>Cochez si vous souhaitez que le menu reste visible lors du scroll</target>
-		</trans-unit>
-
-		<trans-unit id="tl_module.wem_sg_header_logo.0">
-			<source>Logo</source>
-			<target>Logo</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_logo.1">
-			<source>Select the logo</source>
-			<target>Sélectionnez le logo</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_logo_size.0">
-			<source>Logo size</source>
-			<target>Taille du logo</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_logo_size.1">
-			<source>Define the logo size</source>
-			<target>Définissez la taille du logo</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_logo_alt.0">
-			<source>Alternative text</source>
-			<target>Texte alternatif du logo</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_logo_alt.1">
-			<source>Enter the value of the alt attribute for the logo</source>
-			<target>Saisissez la valeur de la balise alternative pour le logo</target>
-		</trans-unit>
-
-		<trans-unit id="tl_module.wem_sg_header_content.0">
-			<source>Add content</source>
-			<target>Ajouter du contenu</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_content.1">
-			<source>Check to add free content to the header</source>
-			<target>Cochez pour ajouter du contenu libre au header</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_content_html.0">
-			<source>HTML code</source>
-			<target>Code HTML</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_header_content_html.1">
-			<source>Enter the content as HTML</source>
-			<target>Saisissez le contenu HTML</target>
-		</trans-unit>
-
-		<trans-unit id="tl_module.wem_sg_navigation.0">
-			<source>Navigation type</source>
-			<target>Type de navigation</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_navigation.1">
-			<source>Pick the navigation type</source>
-			<target>Sélectionnez le type de navigation</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_navigation.classic">
-			<source>Default</source>
-			<target>Par défault</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_navigation.module">
-			<source>Module</source>
-			<target>Module</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_navigation_module.0">
-			<source>Navigation module</source>
-			<target>Module de navigation</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_navigation_module.1">
-			<source>Pick the module who's used as main navigation</source>
-			<target>Sélectionnez le menu utilisé comme navigation principale.</target>
-		</trans-unit>
-
-		<trans-unit id="tl_module.wem_sg_display_share_buttons.0">
-			<source>Display share buttons</source>
-			<target>Affichage des boutons de partage</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_display_share_buttons.1">
-			<source>Check if you want share buttons to be displayed</source>
-			<target>Cochez la case pour afficher les boutons de partages</target>
-		</trans-unit>
-
-		<trans-unit id="tl_module.wem_sg_number_of_characters.0">
-			<source>Number of character</source>
-			<target>Nombre de caractères</target>
-		</trans-unit>
-		<trans-unit id="tl_module.wem_sg_number_of_characters.1">
-			<source>Fill the number of characters</source>
-			<target>Renseignez le nombre de caractères</target>
-		</trans-unit>
-
-
-
+				<source>Headbanner</source>
+				<target>Headbanner</target>
+			</trans-unit>
+    	<trans-unit id="tl_module.password_lost_legend">
+				<source>Lost password recovery</source>
+				<target>Récupération de mot de passe</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_preset.0">
+				<source>Preset</source>
+				<target>Preset</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_preset.1">
+				<source>Select a header preset</source>
+				<target>Sélectionnez un style de header</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_preset.classic">
+				<source>Default</source>
+				<target>Par défaut</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_preset.nav--arrowed">
+				<source>Arrowed navigation</source>
+				<target>Navigation fléchée</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_logo_legend">
+				<source>Logo</source>
+				<target>Logo</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_nav_legend">
+				<source>Navigation</source>
+				<target>Navigation</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_config_legend">
+			  <source>Header's configuration</source>
+			  <target>Configuration du header</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_appearance_legend">
+			  <source>Header's appearance</source>
+			  <target>Apparence du header</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_above.0">
+				<source>Logo and contents above</source>
+				<target>Logo et contenus au dessus</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_above.1">
+				<source>Check if you want to place the logo and other contents above the navigation</source>
+				<target>Cochez si vous souhaitez placer le logo et autres contenus au dessus du menu</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_sticky.0">
+				<source>Sticky ? test</source>
+				<target>Activer le mode "sticky"</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_sticky.1">
+				<source>Check if you want to make the header sticky</source>
+				<target>Cochez si vous souhaitez que le menu reste visible lors du scroll</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_logo.0">
+				<source>Logo</source>
+				<target>Logo</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_logo.1">
+				<source>Select the logo</source>
+				<target>Sélectionnez le logo</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_logo_size.0">
+				<source>Logo size</source>
+				<target>Taille du logo</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_logo_size.1">
+				<source>Define the logo size</source>
+				<target>Définissez la taille du logo</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_logo_alt.0">
+				<source>Alternative text</source>
+				<target>Texte alternatif du logo</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_logo_alt.1">
+				<source>Enter the value of the alt attribute for the logo</source>
+				<target>Saisissez la valeur de la balise alternative pour le logo</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_content.0">
+				<source>Add content</source>
+				<target>Ajouter du contenu</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_content.1">
+				<source>Check to add free content to the header</source>
+				<target>Cochez pour ajouter du contenu libre au header</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_content_html.0">
+				<source>HTML code</source>
+				<target>Code HTML</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_header_content_html.1">
+				<source>Enter the content as HTML</source>
+				<target>Saisissez le contenu HTML</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_navigation.0">
+				<source>Navigation type</source>
+				<target>Type de navigation</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_navigation.1">
+				<source>Pick the navigation type</source>
+				<target>Sélectionnez le type de navigation</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_navigation.classic">
+				<source>Default</source>
+				<target>Par défault</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_navigation.module">
+				<source>Module</source>
+				<target>Module</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_navigation_module.0">
+				<source>Navigation module</source>
+				<target>Module de navigation</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_navigation_module.1">
+				<source>Pick the module who's used as main navigation</source>
+				<target>Sélectionnez le menu utilisé comme navigation principale.</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_display_share_buttons.0">
+				<source>Display share buttons</source>
+				<target>Affichage des boutons de partage</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_display_share_buttons.1">
+				<source>Check if you want share buttons to be displayed</source>
+				<target>Cochez la case pour afficher les boutons de partages</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_number_of_characters.0">
+				<source>Number of character</source>
+				<target>Nombre de caractères</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_number_of_characters.1">
+				<source>Fill the number of characters</source>
+				<target>Renseignez le nombre de caractères</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_login_pwd_lost_jumpTo.0">
+				<source>Link to lost password recovery form</source>
+				<target>Lien vers le formulaire de récupération de mot de passe</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_login_pwd_lost_jumpTo.1">
+				<source>Select the page contianing lost password recovery form</source>
+				<target>Sélectionnez la page contenant le formulaire de récupération de mot de passe</target>
+			</trans-unit>
     </body>
   </file>
 </xliff>
