@@ -33,7 +33,11 @@ if (isset($bundles['ContaoNewsletterBundle'])) {
             return;
         }
         $objNewsletter = NewsletterModel::findById($dc->id);
-        $objNewsletter->pid = unserialize($objNewsletter->channels)[0];
+        $channels = unserialize($objNewsletter->channels);
+        if (!$channels) {
+            return;
+        }
+        $objNewsletter->pid = $channels[0];
         $objNewsletter->save();
     };
 

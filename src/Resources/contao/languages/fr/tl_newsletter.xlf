@@ -18,14 +18,6 @@
         <source>Créer une nouvelle newsletter</source>
         <target>Créer une nouvelle newsletter</target>
       </trans-unit>
-      <!-- <trans-unit id="tl_newsletter.sent.0">
-        <source>AA</source>
-        <target>AAA</target>
-      </trans-unit>
-      <trans-unit id="tl_newsletter.sent.1">
-        <source>BBB</source>
-        <target>BBB</target>
-      </trans-unit> -->
 	</body>
   </file>
 </xliff>
