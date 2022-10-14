@@ -34,6 +34,5 @@ class ModuleLogin extends \Contao\ModuleLogin
             $this->Template->wem_sg_login_pwd_lost_jumpTo_label = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['passwordLost'];
             $this->Template->wem_sg_login_pwd_lost_jumpTo = $objTarget->getAbsoluteUrl();
         }
-        dump($this->Template);
     }
 }
