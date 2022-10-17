@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Backend\Module\Extranet\EventListener;
 use WEM\SmartgearBundle\Classes\Backend\Component\EventListener\ReplaceInsertTagsListener as AbstractReplaceInsertTagsListener;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Module\Extranet\Extranet as ExtranetConfig;
 
 class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
 {
@@ -57,9 +58,10 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
     ) {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
-        if ('sg' === $key && 'extranet' === substr($elements[1], 0, 3)) {
+        if ('sg' === $key && 'extranet' === substr($elements[1], 0, 8)) {
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
+            /** @var ExtranetConfig */
             $extranetConfig = $config->getSgExtranet();
 
             if (!$extranetConfig->getSgInstallComplete()) {

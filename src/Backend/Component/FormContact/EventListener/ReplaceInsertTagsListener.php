@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Backend\Component\FormContact\EventListener;
 use WEM\SmartgearBundle\Classes\Backend\Component\EventListener\ReplaceInsertTagsListener as AbstractReplaceInsertTagsListener;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
 
 class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
 {
@@ -60,6 +61,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
         if ('sg' === $key && 'formContact' === substr($elements[1], 0, 11)) {
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
+            /** @var FormContactConfig */
             $formContactConfig = $config->getSgFormContact();
 
             if (!$formContactConfig->getSgInstallComplete()) {
@@ -70,29 +72,68 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 case 'formContact_installComplete':
                     return $formContactConfig->getSgInstallComplete() ? '1' : '0';
                 break;
-                case 'formContact_formContactFolder':
-                    return $formContactConfig->getSgFormContactFolder();
+                case 'formContact_formContactTitle':
+                    return $formContactConfig->getSgFormContactTitle();
                 break;
                 case 'formContact_pageTitle':
                     return $formContactConfig->getSgPageTitle();
                 break;
-                case 'formContact_formContactTitle':
-                    return $formContactConfig->getSgFormContactTitle();
+                case 'formContact_pageForm':
+                    return $formContactConfig->getSgPageForm();
                 break;
-                case 'formContact_page':
-                    return $formContactConfig->getSgPage();
+                case 'formContact_pageFormSent':
+                    return $formContactConfig->getSgPageFormSent();
                 break;
-                case 'formContact_article':
-                    return (string) $formContactConfig->getSgArticle();
+                case 'formContact_articleForm':
+                    return $formContactConfig->getSgArticleForm();
                 break;
-                case 'formContact_content':
-                    return (string) $formContactConfig->getSgContent();
+                case 'formContact_articleFormSent':
+                    return $formContactConfig->getSgArticleFormSent();
                 break;
-                case 'formContact_moduleFormContact':
-                    return $formContactConfig->getSgModuleFormContact();
+                case 'formContact_contentHeadlineArticleForm':
+                    return $formContactConfig->getSgContentHeadlineArticleForm();
                 break;
-                case 'formContact_formContactCategory':
-                    return $formContactConfig->getSgFormContactCategory();
+                case 'formContact_contentFormArticleForm':
+                    return $formContactConfig->getSgContentFormArticleForm();
+                break;
+                case 'formContact_contentHeadlineArticleFormSent':
+                    return $formContactConfig->getSgContentHeadlineArticleFormSent();
+                break;
+                case 'formContact_contentTextArticleFormSent':
+                    return $formContactConfig->getSgContentTextArticleFormSent();
+                break;
+                case 'formContact_formContact':
+                    return $formContactConfig->getSgFormContact();
+                break;
+                case 'formContact_fieldName':
+                    return $formContactConfig->getSgFieldName();
+                break;
+                case 'formContact_fieldEmail':
+                    return $formContactConfig->getSgFieldEmail();
+                break;
+                case 'formContact_fieldMessage':
+                    return $formContactConfig->getSgFieldMessage();
+                break;
+                case 'formContact_fieldCaptcha':
+                    return $formContactConfig->getSgFieldCaptcha();
+                break;
+                case 'formContact_fieldSubmit':
+                    return $formContactConfig->getSgFieldSubmit();
+                break;
+                case 'formContact_notification':
+                    return $formContactConfig->getSgNotification();
+                break;
+                case 'formContact_notificationMessageUser':
+                    return $formContactConfig->getSgNotificationMessageUser();
+                break;
+                case 'formContact_notificationMessageAdmin':
+                    return $formContactConfig->getSgNotificationMessageAdmin();
+                break;
+                case 'formContact_notificationMessageUserLanguage':
+                    return $formContactConfig->getSgNotificationMessageUserLanguage();
+                break;
+                case 'formContact_notificationMessageAdminLanguage':
+                    return $formContactConfig->getSgNotificationMessageAdminLanguage();
                 break;
                 case 'formContact_archived':
                     return $formContactConfig->getSgArchived() ? '1' : '0';

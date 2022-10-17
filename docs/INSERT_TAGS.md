@@ -128,7 +128,7 @@ Extranet
 
 Tags | Value | Description
 --- | --- | ---
-`sg::extranet_installComplete` | string | `1` if the extranet component is installed, `0` otherwise
+`sg::extranet_installComplete` | string | `1` if the extranet module is installed, `0` otherwise
 `sg::extranet_canSubscribe` | string | `1` if users can register, `0` otherwise
 `sg::extranet_memberExample` | string | The example member's ID
 `sg::extranet_memberGroupMembers` | string | The group members' ID
@@ -220,6 +220,47 @@ Tags | Value | Description
 `sg::extranet_contentArticleUnsubscribeHeadline` | int | The Article Unsubscribe Headline content ID (`null` if users can't register)
 `sg::extranet_contentArticleUnsubscribeText` | int | The Article Unsubscribe Text content ID (`null` if users can't register)
 `sg::extranet_contentArticleUnsubscribeHyperlink` | int | The Article Unsubscribe Hyperlink content ID (`null` if users can't register)
-`sg::extranet_archived` | string |  `1` if the extranet component is archived, `0` otherwise
-`sg::extranet_archivedAt` | string | The timestamp the extranet component has been archived at
-`sg::extranet_archivedMode` | string | The mode the extranet component has been archived with (`archive`,`keep` or `delete`)
+`sg::extranet_archived` | string |  `1` if the extranet module is archived, `0` otherwise
+`sg::extranet_archivedAt` | string | The timestamp the extranet module has been archived at
+`sg::extranet_archivedMode` | string | The mode the extranet module has been archived with (`archive`,`keep` or `delete`)
+
+FormContact
+------------------
+
+Tags | Value | Description
+--- | --- | ---
+`sg::formContact_installComplete` | string | `1` if the Form Contact component is installed, `0` otherwise
+`sg::formContact_formContactTitle` |string | The form contact's title
+`sg::formContact_pageTitle` |string | The page containing the form title
+`sg::formContact_pageForm` | int | The page containing the form ID
+`sg::formContact_pageFormSent` | int | The page to redirect user after form submission ID
+`sg::formContact_articleForm` | int | The page containing the form's article ID
+`sg::formContact_articleFormSent` | int | The page to redirect user after form submission's article ID
+`sg::formContact_contentHeadlineArticleForm` | int | The headline in page's article containing form ID
+`sg::formContact_contentFormArticleForm` | int | The form in page's article containing form ID
+`sg::formContact_contentHeadlineArticleFormSent` | int | The headline in page's article redirected to after form submission ID
+`sg::formContact_contentTextArticleFormSent` | int | The text in page's article redirected to after form submission ID
+`sg::formContact_formContact` | int | The form's ID
+`sg::formContact_fieldName` | int | The "name" field ID
+`sg::formContact_fieldEmail` | int |  The "email" field ID
+`sg::formContact_fieldMessage` | int |  The "message" field ID
+`sg::formContact_fieldCaptcha` | int |  The "captcha" field ID
+`sg::formContact_fieldSubmit` | int |  The "submit" field ID
+`sg::formContact_notification` | int | The form submission notification's ID
+`sg::formContact_notificationMessageUser` | int | The form submission notification message to user ID
+`sg::formContact_notificationMessageAdmin` | int | The form submission notification message to admin ID
+`sg::formContact_notificationMessageUserLanguage` | int | The form submission notification message language to user ID
+`sg::formContact_notificationMessageAdminLanguage` | int |  The form submission notification message language to admin ID
+`sg::formContact_archived` |string |   `1` if the Form Contact component is archived, `0` otherwise
+`sg::formContact_archivedAt` |string |  The timestamp the Form Contact component has been archived at
+`sg::formContact_archivedMode` |string |  The mode the Form Contact component has been archived with (`archive`,`keep` or `delete`)
+
+FormDataManager
+------------------
+
+Tags | Value | Description
+--- | --- | ---
+`sg::formDataManager_installComplete` | string | `1` if the Form Data Manager module is installed, `0` otherwise
+`sg::formDataManager_archived` |string |   `1` if the Form Data Manager module is archived, `0` otherwise
+`sg::formDataManager_archivedAt` |string |  The timestamp the Form Data Manager module has been archived at
+`sg::formDataManager_archivedMode` |string |  The mode the Form Data Manager module has been archived with (`delete`)

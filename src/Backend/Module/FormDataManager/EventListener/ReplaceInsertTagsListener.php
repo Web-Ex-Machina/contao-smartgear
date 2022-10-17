@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Backend\Module\FormDataManager\EventListener;
 use WEM\SmartgearBundle\Classes\Backend\Component\EventListener\ReplaceInsertTagsListener as AbstractReplaceInsertTagsListener;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
 
 class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
 {
@@ -57,9 +58,10 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
     ) {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
-        if ('sg' === $key && 'formDataManager' === substr($elements[1], 0, 3)) {
+        if ('sg' === $key && 'formDataManager' === substr($elements[1], 0, 15)) {
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
+            /** @var FormDataManagerConfig */
             $formDataManagerConfig = $config->getSgFormDataManager();
 
             if (!$formDataManagerConfig->getSgInstallComplete()) {
@@ -69,9 +71,6 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
             switch ($elements[1]) {
                 case 'formDataManager_installComplete':
                     return $formDataManagerConfig->getSgInstallComplete() ? '1' : '0';
-                break;
-                case 'formDataManager_extranetFolder':
-                    return $formDataManagerConfig->getSgFormDataManagerFolder();
                 break;
                 case 'formDataManager_archived':
                     return $formDataManagerConfig->getSgArchived() ? '1' : '0';
