@@ -64,6 +64,11 @@ class LoadDataContainerListener
                         $this->dcaManipulator->removeFields(['wem_sg_header_add_lang_selector', 'wem_sg_header_lang_selector_bg', 'wem_sg_header_lang_selector_module']);
                     }
                 break;
+                case 'tl_nc_language':
+                    if ($config->getSgInstallComplete()) {
+                        $this->dcaManipulator->removeFields(['attachment_templates']);
+                    }
+                break;
             }
         } catch (FileNotFoundException $e) {
             //nothing
