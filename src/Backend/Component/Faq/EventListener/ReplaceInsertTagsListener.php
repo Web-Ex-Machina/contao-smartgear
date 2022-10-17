@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Backend\Component\Faq\EventListener;
 use WEM\SmartgearBundle\Classes\Backend\Component\EventListener\ReplaceInsertTagsListener as AbstractReplaceInsertTagsListener;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
 
 class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
 {
@@ -60,6 +61,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
         if ('sg' === $key && 'faq' === substr($elements[1], 0, 3)) {
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
+            /** @var FaqConfig */
             $faqConfig = $config->getSgFaq();
 
             if (!$faqConfig->getSgInstallComplete()) {

@@ -57,7 +57,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
     ) {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
-        if ('sg' === $key && 'events' === substr($elements[1], 0, 4)) {
+        if ('sg' === $key && 'events' === substr($elements[1], 0, 6)) {
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
             $eventsConfig = $config->getSgEvents();
