@@ -89,6 +89,10 @@
 			<source>Manage contacts</source>
 			<target>Gérer les contacts</target>
 		</trans-unit>
+    <trans-unit id="MOD.nc_notifications.0">
+      <source>Transactionnal emails</source>
+      <target>Emails transactionnels</target>
+    </trans-unit>
 
 		<trans-unit id="FMD.smartgear">
 			<source>Smartgear</source>
