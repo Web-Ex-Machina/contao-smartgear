@@ -93,6 +93,10 @@
       <source>Transactionnal emails</source>
       <target>Emails transactionnels</target>
     </trans-unit>
+    <trans-unit id="MOD.nc_notifications.1">
+      <source>Manage transactionnal emails.</source>
+      <target>Gérer les emails transactionnels.</target>
+    </trans-unit>
 
 		<trans-unit id="FMD.smartgear">
 			<source>Smartgear</source>
