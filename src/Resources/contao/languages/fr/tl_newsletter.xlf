@@ -2,22 +2,28 @@
   <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/tl_newsletter.php" source-language="en" target-language="fr">
     <body>
       <trans-unit id="tl_newsletter.channels.0">
-        <source>Listes d'abonnés</source>
+        <source>Recipients list</source>
         <target>Listes d'abonnés</target>
       </trans-unit>
       <trans-unit id="tl_newsletter.channels.1">
-        <source>Sélectionnez les listes d'abonnés à qui envoyer la newsletter</source>
+        <source>Select recipienst list whom will receive the newsletter</source>
         <target>Sélectionnez les listes d'abonnés à qui envoyer la newsletter</target>
       </trans-unit>
 
       <trans-unit id="tl_newsletter.new.0">
-        <source>Nouvelle newsletter</source>
+        <source>New newsletter</source>
         <target>Nouvelle newsletter</target>
       </trans-unit>
       <trans-unit id="tl_newsletter.new.1">
-        <source>Créer une nouvelle newsletter</source>
+        <source>Crate new newsletter</source>
         <target>Créer une nouvelle newsletter</target>
       </trans-unit>
+
+      <trans-unit id="tl_newsletter.notConnectedToAnyChannels">
+        <source>This newsletter is not linked to any channel</source>
+        <target>La newsletter n'est associée à aucune liste d'abonné(e)s</target>
+      </trans-unit>
+
 	</body>
   </file>
 </xliff>

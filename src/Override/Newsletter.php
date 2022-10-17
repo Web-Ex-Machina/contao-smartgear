@@ -14,15 +14,19 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Override;
 
+use Contao\BackendUser;
 use Contao\Config;
 use Contao\CoreBundle\Exception\InternalServerErrorException;
+use Contao\Database\Result;
 use Contao\DataContainer;
+use Contao\Email;
 use Contao\Environment;
 use Contao\FilesModel;
 use Contao\Idna;
 use Contao\Input;
 use Contao\Message;
 use Contao\Newsletter as ContaoNewsletter;
+use Contao\NewsletterChannelModel;
 use Contao\System;
 use Contao\Validator;
 use WEM\SmartgearBundle\Classes\StringUtil;
@@ -36,14 +40,14 @@ use WEM\SmartgearBundle\Model\Member;
 class Newsletter extends ContaoNewsletter
 {
     /**
-     * Return a form to choose an existing style sheet and import it.
+     * Return a form to choose an existing CSV file and import it.
      *
      * @return string
      */
     public function send(DataContainer $dc)
     {
         // OVERLOAD 1 : Kill the JOIN ON because the newsletter aren't connected to channels by PID anymore
-        $objNewsletter = $this->Database->prepare('SELECT n.* FROM tl_newsletter n WHERE n.id=?')
+        $objNewsletter = $this->Database->prepare('SELECT n.*,n.template as "template_source",n.sender as "sender_source",n.senderName as "senderName_source" FROM tl_newsletter n WHERE n.id=?')
                                         ->limit(1)
                                         ->execute($dc->id)
         ;
@@ -53,15 +57,19 @@ class Newsletter extends ContaoNewsletter
             return '';
         }
 
+        System::loadLanguageFile('tl_newsletter_channel');
+
         // Set the template
-        if ('' === $objNewsletter->template) {
-            $objNewsletter->template = $objNewsletter->channelTemplate;
-        }
+        // if (!$objNewsletter->template)
+        // {
+        //     $objNewsletter->template = $objNewsletter->channelTemplate;
+        // }
 
         // Set the sender address
-        if ('' === $objNewsletter->sender) {
-            $objNewsletter->sender = $objNewsletter->channelSender;
-        }
+        // if (!$objNewsletter->sender)
+        // {
+        //     $objNewsletter->sender = $objNewsletter->channelSender;
+        // }
 
         // Add a new fallback, since the newsletter are not connected to channels the same way than before
         if ('' === $objNewsletter->sender) {
@@ -69,12 +77,13 @@ class Newsletter extends ContaoNewsletter
         }
 
         // Set the sender name
-        if ('' === $objNewsletter->senderName) {
-            $objNewsletter->senderName = $objNewsletter->channelSenderName;
-        }
+        // if (!$objNewsletter->senderName)
+        // {
+        //     $objNewsletter->senderName = $objNewsletter->channelSenderName;
+        // }
 
         // No sender address given
-        if ('' === $objNewsletter->sender) {
+        if (!$objNewsletter->sender) {
             throw new InternalServerErrorException('No sender address given. Please check the newsletter channel settings.');
         }
 
@@ -88,8 +97,10 @@ class Newsletter extends ContaoNewsletter
                 $objFiles = FilesModel::findMultipleByUuids($files);
 
                 if (null !== $objFiles) {
+                    $projectDir = System::getContainer()->getParameter('kernel.project_dir');
+
                     while ($objFiles->next()) {
-                        if (is_file(TL_ROOT.'/'.$objFiles->path)) {
+                        if (is_file($projectDir.'/'.$objFiles->path)) {
                             $arrAttachments[] = $objFiles->path;
                         }
                     }
@@ -98,19 +109,19 @@ class Newsletter extends ContaoNewsletter
         }
 
         // Replace insert tags
-        $html = $this->replaceInsertTags($objNewsletter->content, false);
-        $text = $this->replaceInsertTags($objNewsletter->text, false);
+        $html = System::getContainer()->get('contao.insert_tag.parser')->replaceInline($objNewsletter->content ?? '');
+        $text = System::getContainer()->get('contao.insert_tag.parser')->replaceInline($objNewsletter->text ?? '');
 
         // Convert relative URLs
         if ($objNewsletter->externalImages) {
             $html = $this->convertRelativeUrls($html);
         }
 
-        /** @var SessionInterface $objSession */
         $objSession = System::getContainer()->get('session');
+        $token = Input::get('token');
 
         // Send newsletter
-        if ('' !== Input::get('token') && Input::get('token') === $objSession->get('tl_newsletter_send')) {
+        if ($token && $token === $objSession->get('tl_newsletter_send')) {
             $referer = preg_replace('/&(amp;)?(start|mpc|token|recipient|preview)=[^&]*/', '', Environment::get('request'));
 
             // Preview
@@ -125,10 +136,11 @@ class Newsletter extends ContaoNewsletter
 
                 // Send
                 $objEmail = $this->generateEmailObject($objNewsletter, $arrAttachments);
-                $this->sendNewsletter($objEmail, $objNewsletter, $arrRecipient, $text, $html);
 
-                // Redirect
-                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['tl_newsletter']['confirm'], 1));
+                if ($this->sendNewsletter($objEmail, $objNewsletter, $arrRecipient, $text, $html)) {
+                    Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['tl_newsletter']['confirm'], 1));
+                }
+
                 $this->redirect($referer);
             }
 
@@ -136,10 +148,12 @@ class Newsletter extends ContaoNewsletter
             $arrChannels = deserialize($objNewsletter->channels);
             if (!\is_array($arrChannels) || empty($arrChannels)) {
                 Message::addError("La newsletter n'est connectée à aucune liste d'abonnés");
+                Message::addError($GLOBALS['TL_LANG']['tl_newsletter']['notConnectedToAnyChannels']);
                 $this->redirect($referer);
             }
 
             $strWherePid = 'pid IN('.implode(',', array_map('intval', $arrChannels)).')';
+            $arrChannelsData = $this->prepareNewsletterChannelsData(array_map('intval', $arrChannels));
 
             // Get the total number of recipients
             // OVERLOAD 3.1 : Apply OVERLOAD 3.0
@@ -163,42 +177,49 @@ class Newsletter extends ContaoNewsletter
 
             // Get recipients
             // OVERLOAD 3.2 : Apply OVERLOAD 3.0
-            // $objRecipients = $this->Database->prepare("SELECT *, r.email FROM tl_newsletter_recipients r LEFT JOIN tl_member m ON(r.email=m.email) WHERE r.$strWherePid AND r.active=1 GROUP BY r.email ORDER BY r.email")
-            //                                 ->limit($intPages, $intStart)
-            //                                 ->execute()
-            // ;
-
-            // We have to do it in 2 steps :
-            // - retrieve X tl_newsletter_recipients mails
-            // - retrieve corresponding tl_member
-            $objRecipientsEmails = $this->Database->prepare("SELECT r.email FROM tl_newsletter_recipients r WHERE r.$strWherePid AND r.active=1 ORDER BY r.email")
-                ->limit($intPages, $intStart)
-                ->execute()
+            $objRecipients = $this->Database->prepare('SELECT *, r.email FROM tl_newsletter_recipients r LEFT JOIN tl_member m ON(r.email=m.email) WHERE r.'.$strWherePid.' AND r.active=1 ORDER BY r.email')
+                                            ->limit($intPages, $intStart)
+                                            // ->execute($objNewsletter->pid)
+                                            ->execute()
             ;
 
-            $arrRecipientsEmails = array_map(function ($row) { return $row['email']; }, $objRecipientsEmails->fetchAllAssoc());
-
-            $objRecipients = $this->Database->prepare('SELECT * FROM tl_member WHERE email IN ("'.implode('","', $arrRecipientsEmails).'")')
-                ->execute()
-            ;
             echo '<div style="font-family:Verdana,sans-serif;font-size:11px;line-height:16px;margin-bottom:12px">';
 
             // Send newsletter
             if ($objRecipients->numRows > 0) {
                 // Update status
                 if (0 === $intStart) {
-                    $this->Database->prepare('UPDATE tl_newsletter SET sent=1, date=? WHERE id=?')
+                    $this->Database->prepare("UPDATE tl_newsletter SET sent='1', date=? WHERE id=?")
                                    ->execute(time(), $objNewsletter->id)
                     ;
 
                     $_SESSION['REJECTED_RECIPIENTS'] = [];
+                    $_SESSION['SKIPPED_RECIPIENTS'] = [];
                 }
 
-                while ($objRecipients->next()) {
-                    $objEmail = $this->generateEmailObject($objNewsletter, $arrAttachments);
-                    $this->sendNewsletter($objEmail, $objNewsletter, $objRecipients->row(), $text, $html);
+                $time = time();
 
-                    echo 'Sending newsletter to <strong>'.Idna::decodeEmail($objRecipients->email).'</strong><br>';
+                while ($objRecipients->next()) {
+                    // Skip the recipient if the member is not active (see #8812)
+                    if (null !== $objRecipients->id && ($objRecipients->disable || ($objRecipients->start && $objRecipients->start > $time) || ($objRecipients->stop && $objRecipients->stop <= $time))) {
+                        --$intTotal;
+                        echo 'Skipping <strong>'.Idna::decodeEmail($objRecipients->email).'</strong> as the member is not active<br>';
+                        continue;
+                    }
+
+                    $objEmail = $this->generateEmailObject($objNewsletter, $arrAttachments);
+
+                    // OVERLOAD 4.0 : Apply channel settings to newsletter settings
+                    $objNewsletter = $this->applyChannelSettings($objNewsletter, $arrChannelsData[$objRecipients->pid]);
+
+                    if ($this->sendNewsletter($objEmail, $objNewsletter, $objRecipients->row(), $text, $html)) {
+                        echo 'Sending newsletter to <strong>'.Idna::decodeEmail($objRecipients->email).'</strong><br>';
+                    } else {
+                        $_SESSION['SKIPPED_RECIPIENTS'][] = $objRecipients->email;
+                        echo 'Skipping <strong>'.Idna::decodeEmail($objRecipients->email).'</strong><br>';
+                    }
+                    // OVERLOAD 5.0 : reset newsletter settings
+                    $objNewsletter = $this->removeChannelSettings($objNewsletter);
                 }
             }
 
@@ -219,9 +240,16 @@ class Newsletter extends ContaoNewsletter
                                        ->execute($strRecipient)
                         ;
 
-                        $this->log('Recipient address "'.Idna::decodeEmail($strRecipient).'" was rejected and has been deactivated', __METHOD__, TL_ERROR);
+                        System::getContainer()->get('monolog.logger.contao.error')->error('Recipient address "'.Idna::decodeEmail($strRecipient).'" was rejected and has been deactivated');
                     }
                 }
+
+                if ($intSkipped = \count($_SESSION['SKIPPED_RECIPIENTS'])) {
+                    $intTotal -= $intSkipped;
+                    Message::addInfo(sprintf($GLOBALS['TL_LANG']['tl_newsletter']['skipped'], $intSkipped));
+                }
+
+                unset($_SESSION['REJECTED_RECIPIENTS'], $_SESSION['SKIPPED_RECIPIENTS']);
 
                 Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['tl_newsletter']['confirm'], $intTotal));
 
@@ -234,7 +262,7 @@ class Newsletter extends ContaoNewsletter
                 $url = preg_replace('/&(amp;)?(start|mpc|recipient)=[^&]*/', '', Environment::get('request')).'&start='.($intStart + $intPages).'&mpc='.$intPages;
 
                 echo '<script>setTimeout(\'window.location="'.Environment::get('base').$url.'"\','.($intTimeout * 1000).')</script>';
-                echo '<a href="'.Environment::get('base').$url.'">Please click here to proceed if you are not using JavaScript '.$url.'</a>';
+                echo '<a href="'.Environment::get('base').$url.'">Please click here to proceed if you are not using JavaScript</a>';
             }
 
             echo '</div></div>';
@@ -243,8 +271,8 @@ class Newsletter extends ContaoNewsletter
 
         $strToken = md5(uniqid((string) mt_rand(), true));
         $objSession->set('tl_newsletter_send', $strToken);
-        $sprintf = ('' !== $objNewsletter->senderName) ? $objNewsletter->senderName.' &lt;%s&gt;' : '%s';
-        $this->import('BackendUser', 'User');
+        $sprintf = $objNewsletter->senderName ? $objNewsletter->senderName.' &lt;%s&gt;' : '%s';
+        $this->import(BackendUser::class, 'User');
 
         // Preview newsletter
         $return = Message::generate().'
@@ -268,8 +296,8 @@ class Newsletter extends ContaoNewsletter
     <td class="col_1">'.$objNewsletter->subject.'</td>
   </tr>
   <tr class="row_2">
-    <td class="col_0">'.$GLOBALS['TL_LANG']['tl_newsletter']['template'][0].'</td>
-    <td class="col_1">'.$objNewsletter->template.'</td>
+    <td class="col_0">'.$GLOBALS['TL_LANG']['tl_newsletter_channel']['template'][0].'</td>
+    <td class="col_1">'.($objNewsletter->template ?: 'mail_default').'</td>
   </tr>'.((!empty($arrAttachments) && \is_array($arrAttachments)) ? '
   <tr class="row_3">
     <td class="col_0">'.$GLOBALS['TL_LANG']['tl_newsletter']['attachments'].'</td>
@@ -322,5 +350,76 @@ class Newsletter extends ContaoNewsletter
         unset($_SESSION['TL_PREVIEW_MAIL_ERROR']);
 
         return $return;
+    }
+
+    /**
+     * Compile the newsletter and send it.
+     *
+     * @param array  $arrRecipient
+     * @param string $text
+     * @param string $html
+     * @param string $css
+     *
+     * @return bool
+     */
+    protected function sendNewsletter(Email $objEmail, Result $objNewsletter, $arrRecipient, $text, $html, $css = null)
+    {
+        if (\array_key_exists('id', $arrRecipient)) {
+            $objMember = Member::findByPk($arrRecipient['id']);
+        } elseif (\array_key_exists('email', $arrRecipient)) {
+            $objMember = Member::findByEmail($arrRecipient['email']);
+        }
+        if ($objMember) {
+            $arrRecipient = array_merge($arrRecipient, $objMember->row());
+        }
+
+        return parent::sendNewsletter($objEmail, $objNewsletter, $arrRecipient, $text, $html, $css);
+    }
+
+    protected function prepareNewsletterChannelsData(array $channelsIds): array
+    {
+        $arrChannels = [];
+        $channels = NewsletterChannelModel::findByIds($channelsIds);
+        if ($channels) {
+            while ($channels->next()) {
+                $arrChannels[$channels->id] = $channels->current()->row();
+            }
+        }
+
+        return $arrChannels;
+    }
+
+    protected function applyChannelSettings(Result $objNewsletter, array $channelData): Result
+    {
+        // Set the template
+        if (\array_key_exists('template', $channelData) && '' !== $channelData['template']) {
+            $objNewsletter->template = $channelData['template'];
+        }
+
+        // Set the sender address
+        if (\array_key_exists('sender', $channelData) && '' !== $channelData['sender']) {
+            $objNewsletter->sender = $channelData['sender'];
+        }
+
+        // Add a new fallback, since the newsletter are not connected to channels the same way than before
+        if ('' === $objNewsletter->sender) {
+            $objNewsletter->sender = Config::get('adminEmail');
+        }
+
+        // Set the sender name
+        if (\array_key_exists('senderName', $channelData) && '' !== $channelData['senderName']) {
+            $objNewsletter->senderName = $channelData['senderName'];
+        }
+
+        return $objNewsletter;
+    }
+
+    protected function removeChannelSettings(Result $objNewsletter): Result
+    {
+        $objNewsletter->template = $objNewsletter->template_source;
+        $objNewsletter->sender = $objNewsletter->sender_source;
+        $objNewsletter->senderName = $objNewsletter->senderName_source;
+
+        return $objNewsletter;
     }
 }
