@@ -23,6 +23,12 @@ use WEM\UtilsBundle\Model\Model as CoreModel;
 class Member extends CoreModel
 {
     use PDMTrait;
+    /**
+     * Default order column.
+     *
+     * @var string
+     */
+    protected static $strOrderColumn = 'dateAdded DESC';
 
     protected static $personalDataFieldsNames = [
         'firstname',
