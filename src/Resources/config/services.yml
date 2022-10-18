@@ -334,6 +334,10 @@ services:
             $translator: '@contao.translation.translator'
         public: true
 
+    smartgear.data_container.dataset:
+        class: WEM\SmartgearBundle\DataContainer\Dataset
+        public: true
+
     smartgear.service.data_manager:
         class: WEM\SmartgearBundle\Service\DataManager
         arguments:

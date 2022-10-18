@@ -23,6 +23,8 @@ use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\DataManager as DataManagerConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFound;
+use WEM\SmartgearBundle\Model\Dataset;
+use WEM\SmartgearBundle\Model\DatasetInstall;
 
 class DataManager
 {
@@ -172,6 +174,7 @@ class DataManager
     public function getDatasetClass(string $datasetPath): \WEM\SmartgearBundle\Classes\DataManager\DataProvider
     {
         $datasetClassName = Util::getDatasetFQDNFromPath($datasetPath);
+
         require_once $datasetPath;
 
         return new $datasetClassName($this->dataManagerConfigurationManager);
@@ -190,6 +193,14 @@ class DataManager
     public function canBeImported(string $datasetPath): bool
     {
         $dtFile = $this->getDatasetClass($datasetPath);
+
+        if (!$dtFile->getAllowMultipleInstall()) {
+            $objDataset = Dataset::findItems(['name' => $dtFile->getName()]);
+            $nbInstall = DatasetInstall::countBy('pid', $objDataset->id);
+            if ($nbInstall > 0) {
+                return false;
+            }
+        }
 
         return $this->checkPtables($dtFile->getRequireTables()) && $this->checkSmartgear($dtFile->getRequireSmartgear()) && $dtFile->canBeImported();
     }

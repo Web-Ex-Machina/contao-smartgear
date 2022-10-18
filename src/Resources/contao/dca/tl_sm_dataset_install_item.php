@@ -12,10 +12,12 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+use Contao\DC_Table;
+
 $GLOBALS['TL_DCA']['tl_sm_dataset_install_item'] = [
     // Config
     'config' => [
-        'dataContainer' => 'Table',
+        'dataContainer' => DC_Table::class,
         'ptable' => 'tl_sm_dataset_install',
         'switchToEdit' => false,
         'enableVersioning' => false,

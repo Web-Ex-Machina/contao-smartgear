@@ -26,6 +26,9 @@ use WEM\SmartgearBundle\Config\DataManager;
 use WEM\SmartgearBundle\Config\DataManagerDataSet;
 use WEM\SmartgearBundle\Config\DataManagerDataSetItem;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
+use WEM\SmartgearBundle\Model\Dataset;
+use WEM\SmartgearBundle\Model\DatasetInstall;
+use WEM\SmartgearBundle\Model\DatasetInstallItem;
 
 class DataProvider
 {
@@ -35,6 +38,8 @@ class DataProvider
     protected $config;
     /** @var DataManagerConfig */
     protected $configurationManager;
+    /** @var string */
+    protected $mainTable = '';
     /** @var array */
     protected $requireTables = [];
     /** @var array */
@@ -45,6 +50,10 @@ class DataProvider
     protected $allowMultipleInstall = false;
     /** @var array */
     protected $configuration = [];
+    /** @var Dataset */
+    protected $objDataset;
+    /** @var DatasetInstall */
+    protected $objDatasetInstall;
 
     public function __construct(DataManagerConfig $configurationManager)
     {
@@ -52,6 +61,7 @@ class DataProvider
         $this->config = new DataManagerDataSet();
         $this->config->setName($this->name);
         $this->config->setName($this->name);
+        $this->objDataset = $this->getDatasetDB();
     }
 
     public function getName(): string
@@ -61,14 +71,19 @@ class DataProvider
 
     public function isInstalled(): bool
     {
-        try {
-            /** @var DataManager */
-            $config = $this->configurationManager->load();
-        } catch (FileNotFoundException $e) {
-            $config = new DataManager();
+        if (!$this->objDataset) {
+            throw new Exception('Dataset not found');
         }
 
-        return $config->hasDataset($this->config);
+        return 0 < DatasetInstall::countBy('pid', $this->objDataset->id);
+        // try {
+        //     /** @var DataManager */
+        //     $config = $this->configurationManager->load();
+        // } catch (FileNotFoundException $e) {
+        //     $config = new DataManager();
+        // }
+
+        // return $config->hasDataset($this->config);
     }
 
     public function duplicateMediaToFiles(string $sourcePath, string $targetPath): FilesModel
@@ -126,49 +141,31 @@ class DataProvider
         }
     }
 
-    /**
-     * @return mixed
-     */
     public function getConfig(): DataManagerDataSet
     {
         return $this->config;
     }
 
-    /**
-     * @return mixed
-     */
     public function getRequireTables(): array
     {
         return $this->requireTables;
     }
 
-    /**
-     * @return mixed
-     */
     public function getRequireSmartgear(): array
     {
         return $this->requireSmartgear;
     }
 
-    /**
-     * @return mixed
-     */
     public function getUninstallable(): bool
     {
         return $this->uninstallable;
     }
 
-    /**
-     * @return mixed
-     */
     public function getAllowMultipleInstall(): bool
     {
         return $this->allowMultipleInstall;
     }
 
-    /**
-     * @return mixed
-     */
     public function getConfiguration(): array
     {
         return $this->configuration;
@@ -182,6 +179,67 @@ class DataProvider
     public function canBeRemoved(): bool
     {
         return true;
+    }
+
+    public function getMainTable(): string
+    {
+        return $this->mainTable;
+    }
+
+    public function import(): DataManagerDataSet
+    {
+        if ($this->isInstalled()) {
+            throw new Exception('DataSet already installed');
+        }
+
+        $this->objDatasetInstall = new DatasetInstall();
+        $this->objDatasetInstall->pid = $this->objDataset->id;
+        $this->objDatasetInstall->tstamp = time();
+        $this->objDatasetInstall->createdAt = time();
+        $this->objDatasetInstall->save();
+
+        // $this->config->setDateInstallation(time());
+
+        $json = $this->getDataAsObject();
+        foreach ($json->items as $item) {
+            /** @var DataManagerDataSetItem */
+            $itemConfig = $this->installItem($item);
+            // $this->config->addItem($itemConfig);
+        }
+
+        // try {
+        //     /** @var DataManager */
+        //     $datamanagerConfig = $this->configurationManager->load();
+        // } catch (FileNotFoundException $e) {
+        //     $datamanagerConfig = new DataManager();
+        // }
+        // $datamanagerConfig->addDataset($this->config);
+        // $this->configurationManager->save($datamanagerConfig);
+
+        return $this->config;
+    }
+
+    public function remove(): void
+    {
+        if (!$this->isInstalled()) {
+            throw new Exception('DataSet not installed');
+        }
+        /** @var DataManagerDataSet */
+        // $datasetConfig = $this->configurationManager->load()->getDataset($this->config->getType(), $this->config->getModule(), $this->config->getName());
+        $datasetConfig = $this->configurationManager->load()->getDataset($this->config->getName());
+
+        foreach ($datasetConfig->getItems() as $item) {
+            $this->removeItem($item);
+        }
+        /** @var DataManager */
+        $datamanagerConfig = $this->configurationManager->load();
+        $datamanagerConfig->removeDataset($datasetConfig);
+        $this->configurationManager->save($datamanagerConfig);
+    }
+
+    protected function getDatasetDB(): ?Dataset
+    {
+        return Dataset::findOneBy('name', $this->getName());
     }
 
     protected function installItemDatabase(stdClass $item): DataManagerDataSetItem
@@ -212,6 +270,18 @@ class DataProvider
         $config->setId((int) $this->references[$item->reference]->id);
         $config->setReference($item->reference);
 
+        $objDatasetInstallItem = new DatasetInstallItem();
+        $objDatasetInstallItem->pid = $this->objDatasetInstall->id;
+        $objDatasetInstallItem->tstamp = time();
+        $objDatasetInstallItem->createdAt = time();
+        $objDatasetInstallItem->reference = $item->reference;
+        $objDatasetInstallItem->item_table = $item->table;
+        $objDatasetInstallItem->item_id = $objItem->id;
+        $objDatasetInstallItem->type = $item->type;
+        $objDatasetInstallItem->canBeEdited = (bool) $item->canBeEdited;
+        $objDatasetInstallItem->fields = serialize($item->fields);
+        $objDatasetInstallItem->save();
+
         return $config;
     }
 
@@ -222,6 +292,18 @@ class DataProvider
         $config->setTable('tl_files');
         $config->setId((int) $this->references[$item->reference]->id);
         $config->setReference($item->reference);
+
+        $objDatasetInstallItem = new DatasetInstallItem();
+        $objDatasetInstallItem->pid = $this->objDatasetInstall->id;
+        $objDatasetInstallItem->tstamp = time();
+        $objDatasetInstallItem->createdAt = time();
+        $objDatasetInstallItem->reference = $item->reference;
+        $objDatasetInstallItem->item_table = 'tl_files';
+        $objDatasetInstallItem->item_id = $this->references[$item->reference]->id;
+        $objDatasetInstallItem->type = $item->type;
+        $objDatasetInstallItem->canBeEdited = false;
+        // $objDatasetInstallItem->fields = serialize($item->fields);
+        $objDatasetInstallItem->save();
 
         return $config;
     }

@@ -32,6 +32,8 @@ interface DataSetInterface
 
     public function getAllowMultipleInstall(): bool;
 
+    public function getMainTable(): string;
+
     public function getConfiguration(): array;
 
     public function import(): DataManagerDataSet;

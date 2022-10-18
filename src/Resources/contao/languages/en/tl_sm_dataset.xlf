@@ -1,0 +1,18 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" target-language="en">
+    <body>
+		<trans-unit id="tl_sm_dataset.name.0">
+			<source>Name</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_dataset.createdAt.0">
+			<source>Creation date</source>
+		</trans-unit>
+		<trans-unit id="tl_sm_dataset.title_legend">
+			<source>Informations</source>
+		</trans-unit>
+    </body>
+  </file>
+</xliff>
+
+
+

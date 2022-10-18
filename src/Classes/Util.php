@@ -981,7 +981,27 @@ class Util
 
     public static function getDatasetFQDNFromPath(string $filePath): string
     {
-        return '\WEM\SmartgearBundle\Dataset'.str_replace([\DIRECTORY_SEPARATOR, '.php'], ['\\', ''], str_replace(str_replace('{public_or_web}', self::getPublicOrWebDirectory(false), TL_ROOT.'/{public_or_web}/bundles/wemsmartgear/samples'), '', $filePath));
+        return '\WEM\SmartgearBundle\Dataset'.str_replace([\DIRECTORY_SEPARATOR, '.php'], ['\\', ''], str_replace(str_replace('{public_or_web}', self::getPublicOrWebDirectory(false), TL_ROOT.'/{public_or_web}/'.WEMSG_DATASET_ROOTPATH), '', $filePath));
+    }
+
+    public static function getDatasetRootPath(?bool $absolute = true): string
+    {
+        return str_replace('{public_or_web}', self::getPublicOrWebDirectory($absolute), '{public_or_web}/'.WEMSG_DATASET_ROOTPATH);
+    }
+
+    public static function getDatasetPathFromPath(string $path, ?bool $absolute = true): string
+    {
+        return self::getDatasetRootPath($absolute).'/'.$path;
+    }
+
+    public static function getDatasetPhpFileFromPath(string $path, ?bool $absolute = true): string
+    {
+        return self::getDatasetPathFromPath($path, $absolute).'/DataSet.php';
+    }
+
+    public static function getDatasetJsonFileFromPath(string $path, ?bool $absolute = true): string
+    {
+        return self::getDatasetPathFromPath($path, $absolute).'/data.json';
     }
 
     /**
