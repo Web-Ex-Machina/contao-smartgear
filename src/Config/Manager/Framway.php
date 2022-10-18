@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Config\Manager;
 
+use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\AbstractManager;
@@ -62,7 +63,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
     {
         $notJsonCompliant = $this->retrieveConfigurationFromFile();
         $notJsonCompliant = str_replace('module.exports = ', '', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/\/\/(.*)/', '', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/^([\s\t]*)\/\/(.*)/m', '', $notJsonCompliant);
         $notJsonCompliant = $this->specificPregReplaceForNotJsonCompliantConfigurationImport($notJsonCompliant);
 
         $notJsonCompliant = preg_replace('/\t/', '', $notJsonCompliant);
@@ -71,8 +72,11 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         $notJsonCompliant = preg_replace('/,([\s]*)\]/', ']', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/,([\s]*)\}/', '}', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/."com":/', '.com:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
-
-        return json_decode($notJsonCompliant, false, 512, \JSON_THROW_ON_ERROR);
+        try{
+            return json_decode($notJsonCompliant, false, 512, \JSON_THROW_ON_ERROR);
+        }catch(Exception $e){
+            throw new Exception($this->translator->trans('WEMSG.ERR.FRAMWAY.configJsonDecodeError',[\JSON_ERROR_NONE !== json_last_error() ? json_last_error_msg() : $e->getMessage()],'contao_default'));
+        }
     }
 
     /**
@@ -99,7 +103,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
 
     protected function specificPregReplaceForNotJsonCompliantConfigurationImport(string $notJsonCompliant): string
     {
-        $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):/', '"$2":', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([^\/])/', '"$2":', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/\'/', '"', $notJsonCompliant);
 
         return preg_replace('/([\"]+)([A-Za-z_\-0-9$]+)([\"]+)/', '"$2"', $notJsonCompliant);
