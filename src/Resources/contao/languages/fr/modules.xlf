@@ -49,6 +49,22 @@
       <source>Groups</source>
       <target>Groupes</target>
     </trans-unit>
+    <trans-unit id="MOD.user.0">
+      <source>Administrators</source>
+      <target>Administrateurs</target>
+    </trans-unit>
+    <trans-unit id="MOD.user.1">
+      <source>Manage administrators accounts (back end)</source>
+      <target>Gérer les comptes des administrateurs (back office).</target>
+    </trans-unit>
+    <trans-unit id="MOD.group.0">
+      <source>Administrators groups</source>
+      <target>Groupes d'administrateurs</target>
+    </trans-unit>
+    <trans-unit id="MOD.group.1">
+      <source>Manage administrators groups (back end)</source>
+      <target>Gérer les groupes d'administrateurs (back office).</target>
+    </trans-unit>
     <trans-unit id="MOD.extranet.0">
       <source>Extranet</source>
       <target>Extranet</target>
