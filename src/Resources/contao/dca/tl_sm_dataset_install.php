@@ -12,10 +12,13 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+use Contao\DC_Table;
+
 $GLOBALS['TL_DCA']['tl_sm_dataset_install'] = [
     // Config
     'config' => [
-        'dataContainer' => 'Table',
+        'dataContainer' => DC_Table::class,
+        'ptable' => 'tl_sm_dataset_install',
         'ctable' => ['tl_sm_dataset_install_item'],
         'switchToEdit' => false,
         'enableVersioning' => false,
@@ -40,29 +43,13 @@ $GLOBALS['TL_DCA']['tl_sm_dataset_install'] = [
             'flag' => 8,
             'sql' => "varchar(10) NOT NULL default ''",
         ],
-        'name' => [
-            'search' => true,
-            'inputType' => 'text',
-            'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
-            'sql' => "varchar(255) NOT NULL default ''",
-        ],
-        'path' => [
-            'search' => true,
-            'inputType' => 'text',
-            'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
-            'sql' => "varchar(255) NOT NULL default ''",
-        ],
-        'uninstallable' => [
-            'search' => true,
-            'inputType' => 'checkbox',
-            'eval' => ['tl_class' => 'w50 m12'],
-            'sql' => "char(1) NOT NULL default ''",
-        ],
-        'allowMultipleInstall' => [
-            'search' => true,
-            'inputType' => 'checkbox',
-            'eval' => ['tl_class' => 'w50 m12'],
-            'sql' => "char(1) NOT NULL default ''",
+        'pid' => [
+            'exclude' => true,
+            'inputType' => 'picker',
+            'foreignKey' => 'tl_sm_dataset.id',
+            'eval' => ['mandatory' => true, 'tl_class' => 'clr'],
+            'sql' => 'int(10) unsigned NOT NULL default 0',
+            'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
         ],
         'configuration' => [
             'inputType' => 'textarea',

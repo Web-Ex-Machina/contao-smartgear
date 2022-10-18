@@ -24,7 +24,9 @@ use Contao\System;
  * @author   Web ex Machina <contact@webexmachina.fr>
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
-
+if (!\defined('WEMSG_DATASET_ROOTPATH')) {
+    \define('WEMSG_DATASET_ROOTPATH', 'bundles/wemsmartgear/samples');
+}
 // Load icon in Contao 4.2 backend
 if ('BE' === TL_MODE) {
     $GLOBALS['TL_CSS'][] = 'bundles/wemsmartgear/backend/backend.css';
@@ -101,6 +103,10 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 0, [
     'smartgear' => [
         'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
     ],
+    'wem_sg_data_manager_new' => [
+        'tables' => ['tl_sm_dataset', 'tl_sm_dataset_install', 'tl_sm_dataset_install_item'],
+        'install' => ['smartgear.data_container.dataset', 'install'],
+    ],
     'wem_sg_data_manager' => [
         'callback' => "\WEM\SmartgearBundle\Backend\DataManager",
     ],
@@ -156,6 +162,7 @@ $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialLink::getTable()] = WEM\S
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Member::getTable()] = WEM\SmartgearBundle\Model\Member::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorage::getTable()] = WEM\SmartgearBundle\Model\FormStorage::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorageData::getTable()] = WEM\SmartgearBundle\Model\FormStorageData::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Dataset::getTable()] = WEM\SmartgearBundle\Model\Dataset::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\DatasetInstall::getTable()] = WEM\SmartgearBundle\Model\DatasetInstall::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\DatasetInstallItem::getTable()] = WEM\SmartgearBundle\Model\DatasetInstallItem::class;
 /*

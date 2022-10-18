@@ -1,9 +1,9 @@
 <?xml version="1.0" ?><xliff version="1.1">
   <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/tl_sm_dataset_install.php" source-language="en" target-language="fr">
     <body>
-		<trans-unit id="tl_sm_dataset_install.name.0">
-			<source>Name</source>
-			<target>Nom</target>
+		<trans-unit id="tl_sm_dataset_install.pid.0">
+			<source>Dataset</source>
+			<target>Jeu de données</target>
 		</trans-unit>
 		<trans-unit id="tl_sm_dataset_install.createdAt.0">
 			<source>Installation date</source>
