@@ -154,7 +154,7 @@ class Framway implements ConfigJsonInterface
             $json->error = $this->getError();
         }
 
-        return json_encode($json, \JSON_PRETTY_PRINT);
+        return json_encode($json, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES);
     }
 
     public function getDebug(): bool
