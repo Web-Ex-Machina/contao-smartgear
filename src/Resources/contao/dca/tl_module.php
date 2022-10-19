@@ -295,6 +295,14 @@ DCAManipulator::create('tl_module')
         'sql' => 'int(10) unsigned NOT NULL default 0',
         'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
     ])
+    ->addField('wem_sg_login_register_jumpTo', [
+        'exclude' => true,
+        'inputType' => 'pageTree',
+        'foreignKey' => 'tl_page.title',
+        'eval' => ['fieldType' => 'radio'],
+        'sql' => 'int(10) unsigned NOT NULL default 0',
+        'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
+    ])
 ;
 
 $paletteManipulator = PaletteManipulator::create()
@@ -335,6 +343,7 @@ foreach ($palettesToUpdate as $paletteName) {
 $paletteManipulator = PaletteManipulator::create()
     ->addLegend('password_lost_legend', 'redirect_legend')
     ->addField('wem_sg_login_pwd_lost_jumpTo', 'password_lost_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField('wem_sg_login_register_jumpTo', 'register_legend', PaletteManipulator::POSITION_APPEND)
 ;
 $palettesToUpdate = [
     'login',

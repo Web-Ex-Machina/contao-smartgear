@@ -114,6 +114,10 @@
       <source>Lost password ?</source>
 			<target>Mot de passe oublié ?</target>
     </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.register">
+      <source>Register</source>
+			<target>S'inscrire</target>
+    </trans-unit>
 		<!-- Smartgear filter -->
 		<trans-unit id="WEMSG.FILTERS.title">
 			<source>Filter by :</source>

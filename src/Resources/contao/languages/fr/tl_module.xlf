@@ -9,6 +9,10 @@
 				<source>Lost password recovery</source>
 				<target>Récupération de mot de passe</target>
 			</trans-unit>
+    	<trans-unit id="tl_module.register_legend">
+				<source>Register</source>
+				<target>Inscription</target>
+			</trans-unit>
 			<trans-unit id="tl_module.wem_sg_header_preset.0">
 				<source>Preset</source>
 				<target>Preset</target>
@@ -144,6 +148,14 @@
 			<trans-unit id="tl_module.wem_sg_login_pwd_lost_jumpTo.1">
 				<source>Select the page contianing lost password recovery form</source>
 				<target>Sélectionnez la page contenant le formulaire de récupération de mot de passe</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_login_register_jumpTo.0">
+				<source>Link to register form</source>
+				<target>Lien vers le formulaire d'inscription</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_login_register_jumpTo.1">
+				<source>Select the page contianing register form</source>
+				<target>Sélectionnez la page contenant le formulaire d'inscription</target>
 			</trans-unit>
     </body>
   </file>
