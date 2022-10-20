@@ -15,12 +15,11 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Model;
 
 use WEM\PersonalDataManagerBundle\Model\Traits\PersonalDataTrait as PDMTrait;
-use WEM\UtilsBundle\Model\Model as CoreModel;
 
 /**
  * Reads and writes items.
  */
-class Member extends CoreModel
+class Member extends \Contao\MemberModel
 {
     use PDMTrait;
     /**

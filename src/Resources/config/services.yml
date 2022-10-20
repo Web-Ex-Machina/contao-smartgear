@@ -334,24 +334,10 @@ services:
             $frontendField: 'firstname'
             $table: 'tl_member'
         public: true
-    smartgear.classes.dca.field.callback.save.tl_member.firstname:
-        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Save
-        arguments:
-            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
-            $frontendField: 'firstname'
-            $table: 'tl_member'
-        public: true
     smartgear.classes.dca.field.callback.load.tl_member.lastname:
         class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Load
         arguments:
             $pdmCallback: '@wem.personal_data_manager.dca.field.callback.load'
-            $frontendField: 'lastname'
-            $table: 'tl_member'
-        public: true
-    smartgear.classes.dca.field.callback.save.tl_member.lastname:
-        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Save
-        arguments:
-            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
             $frontendField: 'lastname'
             $table: 'tl_member'
         public: true
@@ -362,24 +348,10 @@ services:
             $frontendField: 'dateOfBirth'
             $table: 'tl_member'
         public: true
-    smartgear.classes.dca.field.callback.save.tl_member.dateOfBirth:
-        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Save
-        arguments:
-            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
-            $frontendField: 'dateOfBirth'
-            $table: 'tl_member'
-        public: true
     smartgear.classes.dca.field.callback.load.tl_member.gender:
         class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Load
         arguments:
             $pdmCallback: '@wem.personal_data_manager.dca.field.callback.load'
-            $frontendField: 'gender'
-            $table: 'tl_member'
-        public: true
-    smartgear.classes.dca.field.callback.save.tl_member.gender:
-        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Save
-        arguments:
-            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
             $frontendField: 'gender'
             $table: 'tl_member'
         public: true
@@ -390,24 +362,10 @@ services:
             $frontendField: 'company'
             $table: 'tl_member'
         public: true
-    smartgear.classes.dca.field.callback.save.tl_member.company:
-        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Save
-        arguments:
-            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
-            $frontendField: 'company'
-            $table: 'tl_member'
-        public: true
     smartgear.classes.dca.field.callback.load.tl_member.street:
         class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Load
         arguments:
             $pdmCallback: '@wem.personal_data_manager.dca.field.callback.load'
-            $frontendField: 'street'
-            $table: 'tl_member'
-        public: true
-    smartgear.classes.dca.field.callback.save.tl_member.street:
-        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Save
-        arguments:
-            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
             $frontendField: 'street'
             $table: 'tl_member'
         public: true
@@ -418,24 +376,10 @@ services:
             $frontendField: 'postal'
             $table: 'tl_member'
         public: true
-    smartgear.classes.dca.field.callback.save.tl_member.postal:
-        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Save
-        arguments:
-            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
-            $frontendField: 'postal'
-            $table: 'tl_member'
-        public: true
     smartgear.classes.dca.field.callback.load.tl_member.city:
         class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Load
         arguments:
             $pdmCallback: '@wem.personal_data_manager.dca.field.callback.load'
-            $frontendField: 'city'
-            $table: 'tl_member'
-        public: true
-    smartgear.classes.dca.field.callback.save.tl_member.city:
-        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Save
-        arguments:
-            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
             $frontendField: 'city'
             $table: 'tl_member'
         public: true
@@ -446,24 +390,10 @@ services:
             $frontendField: 'state'
             $table: 'tl_member'
         public: true
-    smartgear.classes.dca.field.callback.save.tl_member.state:
-        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Save
-        arguments:
-            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
-            $frontendField: 'state'
-            $table: 'tl_member'
-        public: true
     smartgear.classes.dca.field.callback.load.tl_member.country:
         class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Load
         arguments:
             $pdmCallback: '@wem.personal_data_manager.dca.field.callback.load'
-            $frontendField: 'country'
-            $table: 'tl_member'
-        public: true
-    smartgear.classes.dca.field.callback.save.tl_member.country:
-        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Save
-        arguments:
-            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
             $frontendField: 'country'
             $table: 'tl_member'
         public: true
@@ -474,13 +404,6 @@ services:
             $frontendField: 'phone'
             $table: 'tl_member'
         public: true
-    smartgear.classes.dca.field.callback.save.tl_member.phone:
-        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Save
-        arguments:
-            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
-            $frontendField: 'phone'
-            $table: 'tl_member'
-        public: true
     smartgear.classes.dca.field.callback.load.tl_member.mobile:
         class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Load
         arguments:
@@ -488,24 +411,10 @@ services:
             $frontendField: 'mobile'
             $table: 'tl_member'
         public: true
-    smartgear.classes.dca.field.callback.save.tl_member.mobile:
-        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Save
-        arguments:
-            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
-            $frontendField: 'mobile'
-            $table: 'tl_member'
-        public: true
     smartgear.classes.dca.field.callback.load.tl_member.fax:
         class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Load
         arguments:
             $pdmCallback: '@wem.personal_data_manager.dca.field.callback.load'
-            $frontendField: 'fax'
-            $table: 'tl_member'
-        public: true
-    smartgear.classes.dca.field.callback.save.tl_member.fax:
-        class: WEM\SmartgearBundle\Classes\Dca\Field\Callback\Save
-        arguments:
-            $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
             $frontendField: 'fax'
             $table: 'tl_member'
         public: true
