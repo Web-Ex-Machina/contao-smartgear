@@ -1710,6 +1710,31 @@
 			<source>Uninstall</source>
 			<target>Désinstallation</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.PWD.confirmPassword">
+			<source>Confirm password</source>
+			<target>Confirmez le mot de passe</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.PWD.helperTitle">
+			<source>Your password has to</source>
+			<target>Votre mot de passe doit</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.PWD.helperContainUppercase">
+			<source>Contain an uppercase letter</source>
+			<target>Contenir une majuscule</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.PWD.helperContainNumber">
+			<source>Contain a number</source>
+			<target>Contenir un chiffre</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.PWD.helperContainSpecialChar">
+			<source>Contain a special character</source>
+			<target>Contenir un caractère spécial</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.PWD.helperContainMinChar">
+			<source>Contain at least 8 characters</source>
+			<target>Être composé d'au moins 8 caractères</target>
+		</trans-unit>
+
 
 		<!-- Form Data Manager -->
 		<trans-unit id="WEMSG.FDM.INSTALL_GENERAL.title">
