@@ -925,9 +925,14 @@ class Util
         return $new_array;
     }
 
-    public static function getDatasetFQDNFromPath(string $filePath): string
+    public static function getDatasetFQDNFromFilePath(string $filePath): string
     {
         return '\WEM\SmartgearBundle\Dataset'.str_replace([\DIRECTORY_SEPARATOR, '.php'], ['\\', ''], str_replace(str_replace('{public_or_web}', self::getPublicOrWebDirectory(false), TL_ROOT.'/{public_or_web}/'.WEMSG_DATASET_ROOTPATH), '', $filePath));
+    }
+
+    public static function getDatasetRelativePathFromPath(string $path): string
+    {
+        return substr(str_replace(self::getDatasetRootPath(false), '', str_replace(self::getDatasetRootPath(true), '', $path)), 1);
     }
 
     public static function getDatasetRootPath(?bool $absolute = true): string
@@ -935,19 +940,19 @@ class Util
         return str_replace('{public_or_web}', self::getPublicOrWebDirectory($absolute), '{public_or_web}/'.WEMSG_DATASET_ROOTPATH);
     }
 
-    public static function getDatasetPathFromPath(string $path, ?bool $absolute = true): string
+    public static function getDatasetPathFromRelativePath(string $relative_path, ?bool $absolute = true): string
     {
-        return self::getDatasetRootPath($absolute).'/'.$path;
+        return self::getDatasetRootPath($absolute).'/'.$relative_path;
     }
 
-    public static function getDatasetPhpFileFromPath(string $path, ?bool $absolute = true): string
+    public static function getDatasetPhpFileFromRelativePath(string $relative_path, ?bool $absolute = true): string
     {
-        return self::getDatasetPathFromPath($path, $absolute).'/DataSet.php';
+        return self::getDatasetPathFromRelativePath($relative_path, $absolute).'/DataSet.php';
     }
 
-    public static function getDatasetJsonFileFromPath(string $path, ?bool $absolute = true): string
+    public static function getDatasetJsonFileFromRelativePath(string $relative_path, ?bool $absolute = true): string
     {
-        return self::getDatasetPathFromPath($path, $absolute).'/data.json';
+        return self::getDatasetPathFromRelativePath($relative_path, $absolute).'/data.json';
     }
 
     /**

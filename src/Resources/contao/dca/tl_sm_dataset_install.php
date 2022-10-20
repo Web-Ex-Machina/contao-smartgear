@@ -12,6 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+use Contao\DataContainer;
 use Contao\DC_Table;
 
 $GLOBALS['TL_DCA']['tl_sm_dataset_install'] = [
@@ -26,6 +27,21 @@ $GLOBALS['TL_DCA']['tl_sm_dataset_install'] = [
             'keys' => [
                 'id' => 'primary',
             ],
+        ],
+    ],
+
+    // List
+    'list' => [
+        'sorting' => [
+            'mode' => DataContainer::MODE_SORTED,
+            'fields' => ['name'],
+            'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
+            'panelLayout' => 'filter;search,limit',
+        ],
+        'label' => [
+            'showColumns' => true,
+            'fields' => ['tl_sm_dataset.name', 'tl_sm_dataset.path', 'tl_sm_dataset.nb_elements', 'tl_sm_dataset.nb_media', 'tstamp'],
+            // 'format' => '%s %s %s',
         ],
     ],
     // Fields

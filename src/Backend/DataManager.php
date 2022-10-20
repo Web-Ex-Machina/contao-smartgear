@@ -253,7 +253,7 @@ class DataManager extends BackendModule
 
     protected function retrieveItems(array $c, ?int $limit = 0, ?int $offset = 0, $options = []): array
     {
-        return $this->dataManagerService->getDatasetList($c, $limit, $offset);
+        return $this->dataManagerService->getDatasetListFromDisk($c, $limit, $offset);
     }
 
     /**

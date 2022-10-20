@@ -14,8 +14,6 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\DataManager;
 
-use WEM\SmartgearBundle\Config\DataManagerDataSet;
-
 interface DataSetInterface
 {
     // public function getModule(): string;
@@ -36,7 +34,7 @@ interface DataSetInterface
 
     public function getConfiguration(): array;
 
-    public function import(): DataManagerDataSet;
+    public function import(?array $config = []);
 
     public function remove();
 
