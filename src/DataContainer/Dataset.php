@@ -40,7 +40,16 @@ class Dataset extends Backend
         $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
     }
 
-    public function install(DataContainer $dc): void
+    public function synchronize(DataContainer $dc): void
+    {
+        $dataManagerService = System::getContainer()->get('smartgear.service.data_manager');
+        $dataManagerService->synchroniseDatasetListFromDiskToDb();
+        $referer = preg_replace('/&(amp;)?(key)=[^&]*/', '', Environment::get('request'));
+
+        self::redirect($referer);
+    }
+
+    public function install(DataContainer $dc)
     {
         if (!$dc->id) {
             throw new Exception('No dataset ID given');
@@ -51,26 +60,36 @@ class Dataset extends Backend
             throw new Exception('Dataset not found');
         }
 
-        // $path = Util::getDatasetPathFromPath($objDataset->path, false);
-        $path = Util::getDatasetPhpFileFromPath($objDataset->path, true);
+        $path = Util::getDatasetPhpFileFromRelativePath($objDataset->relative_path, true);
         /** @var DataManagerService */
         $dataManagerService = System::getContainer()->get('smartgear.service.data_manager');
-        $dataManagerService->installDataset($path);
+
+        // if we need a specific configuration, open a modal with the fiels
+        $dtFile = $dataManagerService->getDatasetClass($path);
+        if (!empty($dtFile->getConfiguration())) {
+            // open a modal with everything configured
+            return $this->generateConfigurationForm($dc);
+        }
+
+        $dataManagerService->installDataset($path, []);
         $referer = preg_replace('/&(amp;)?(key)=[^&]*/', '', Environment::get('request'));
 
-        self::redirect($referer.'&table=tl_sm_dataset_install');
+        // self::redirect($referer.'&table=tl_sm_dataset_install');
+        self::redirect($referer);
     }
 
     public function installButton(array $row, ?string $href = '', ?string $label = '', ?string $title = '', ?string $icon = '', ?string $attributes = ''): string
     {
-        $path = Util::getDatasetPhpFileFromPath($row['path'], true);
+        $path = Util::getDatasetPhpFileFromRelativePath($row['relative_path'], true);
         /** @var DataManagerService */
         $dataManagerService = System::getContainer()->get('smartgear.service.data_manager');
         if (!$dataManagerService->canBeImported($path)) {
             return '';
         }
+        $isPopup = $dataManagerService->needsConfiguration($path);
+        $popupCode = $isPopup ? 'onclick="Backend.openModalIframe({\'title\':\'Installer l\\\'élément\',\'url\':this.href});return false"' : '';
 
-        return '<a href="'.$this->addToUrl($href.'&id='.$row['id']).'" title="'.ClassesStringUtil::specialchars($title).'" '.$attributes.'>'.Image::getHtml($icon, $label).'</a>';
+        return '<a href="'.$this->addToUrl($href.'&id='.$row['id'].($isPopup ? '&amp;popup=1' : '')).'" title="'.ClassesStringUtil::specialchars($title).'" '.$attributes.' '.$popupCode.'>'.Image::getHtml($icon, $label).'</a>';
     }
 
     /**
@@ -109,6 +128,42 @@ class Dataset extends Backend
         }
 
         return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ';
+    }
+
+    protected function generateConfigurationForm(DataContainer $dc)
+    {
+        if (!$dc->id) {
+            throw new Exception('No dataset ID given');
+        }
+
+        $objDataset = DatasetModel::findByPk($dc->id);
+        if (!$objDataset) {
+            throw new Exception('Dataset not found');
+        }
+
+        $path = Util::getDatasetPhpFileFromRelativePath($objDataset->relative_path, true);
+        /** @var DataManagerService */
+        $dataManagerService = System::getContainer()->get('smartgear.service.data_manager');
+
+        $referer = preg_replace('/&(amp;)?(key)=[^&]*/', '', Environment::get('request'));
+        $str = '<form method="POST" action="'.$referer.'">';
+
+        // if we need a specific configuration, open a modal with the fiels
+        $dtFile = $dataManagerService->getDatasetClass($path);
+        foreach ($dtFile->getConfiguration() as $legendLabel => $fields) {
+            foreach ($fields as $fieldLabel => $fieldSettings) {
+                // do something
+            }
+        }
+
+        $str .= '<div class="tl_formbody_submit">
+<div class="tl_submit_container">
+  <input type="submit" value="'.$GLOBALS['TL_LANG']['MSC']['validate'].'">
+</div>
+</div>';
+        $str .= '</form>';
+
+        return $str;
     }
 
     /**

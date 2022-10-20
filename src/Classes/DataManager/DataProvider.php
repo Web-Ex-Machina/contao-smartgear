@@ -117,14 +117,14 @@ class DataProvider
         return json_decode(file_get_contents($jsonPath));
     }
 
-    public function installItem(stdClass $item): DataManagerDataSetItem
+    public function installItem(stdClass $item, array $config)
     {
         switch ($item->type) {
             case 'database':
-                return $this->installItemDatabase($item);
+                return $this->installItemDatabase($item, $config);
             break;
             case 'media':
-                return $this->installItemMedia($item);
+                return $this->installItemMedia($item, $config);
             break;
         }
     }
@@ -186,9 +186,9 @@ class DataProvider
         return $this->mainTable;
     }
 
-    public function import(): DataManagerDataSet
+    public function import(?array $configuration = []): void
     {
-        if ($this->isInstalled()) {
+        if ($this->isInstalled() && !$this->allowMultipleInstall) {
             throw new Exception('DataSet already installed');
         }
 
@@ -196,27 +196,13 @@ class DataProvider
         $this->objDatasetInstall->pid = $this->objDataset->id;
         $this->objDatasetInstall->tstamp = time();
         $this->objDatasetInstall->createdAt = time();
+        $this->objDatasetInstall->configuration = serialize($configuration);
         $this->objDatasetInstall->save();
-
-        // $this->config->setDateInstallation(time());
 
         $json = $this->getDataAsObject();
         foreach ($json->items as $item) {
-            /** @var DataManagerDataSetItem */
-            $itemConfig = $this->installItem($item);
-            // $this->config->addItem($itemConfig);
+            $this->installItem($item, $configuration);
         }
-
-        // try {
-        //     /** @var DataManager */
-        //     $datamanagerConfig = $this->configurationManager->load();
-        // } catch (FileNotFoundException $e) {
-        //     $datamanagerConfig = new DataManager();
-        // }
-        // $datamanagerConfig->addDataset($this->config);
-        // $this->configurationManager->save($datamanagerConfig);
-
-        return $this->config;
     }
 
     public function remove(): void
@@ -242,10 +228,8 @@ class DataProvider
         return Dataset::findOneBy('name', $this->getName());
     }
 
-    protected function installItemDatabase(stdClass $item): DataManagerDataSetItem
+    protected function installItemDatabase(stdClass $item, array $configuration): void
     {
-        $config = new DataManagerDataSetItem();
-
         $model = Model::getClassFromTable($item->table);
         $objItem = new $model();
 
@@ -256,9 +240,12 @@ class DataProvider
                 $reference = $this->getCleanedValueReference($value);
                 $referenceObjectName = $this->getValueReferenceObjectName($reference);
                 $referenceObjectField = $this->getValueReferenceObjectField($reference);
-                $objReference = $this->references[$referenceObjectName];
-
-                $value = $objReference->$referenceObjectField;
+                if ('configuration' === $referenceObjectName) {
+                    $value = $configuration[$referenceObjectField];
+                } else {
+                    $objReference = $this->references[$referenceObjectName];
+                    $value = $objReference->$referenceObjectField;
+                }
             }
 
             $objItem->$field = $value;
@@ -266,9 +253,6 @@ class DataProvider
         $objItem->save();
 
         $this->references[$item->reference] = $objItem;
-        $config->setTable($item->table);
-        $config->setId((int) $this->references[$item->reference]->id);
-        $config->setReference($item->reference);
 
         $objDatasetInstallItem = new DatasetInstallItem();
         $objDatasetInstallItem->pid = $this->objDatasetInstall->id;
@@ -281,17 +265,11 @@ class DataProvider
         $objDatasetInstallItem->canBeEdited = (bool) $item->canBeEdited;
         $objDatasetInstallItem->fields = serialize($item->fields);
         $objDatasetInstallItem->save();
-
-        return $config;
     }
 
-    protected function installItemMedia(stdClass $item): DataManagerDataSetItem
+    protected function installItemMedia(stdClass $item, array $configuration): void
     {
-        $config = new DataManagerDataSetItem();
         $this->references[$item->reference] = $this->duplicateMediaToFiles($item->source, $item->target);
-        $config->setTable('tl_files');
-        $config->setId((int) $this->references[$item->reference]->id);
-        $config->setReference($item->reference);
 
         $objDatasetInstallItem = new DatasetInstallItem();
         $objDatasetInstallItem->pid = $this->objDatasetInstall->id;
@@ -304,8 +282,6 @@ class DataProvider
         $objDatasetInstallItem->canBeEdited = false;
         // $objDatasetInstallItem->fields = serialize($item->fields);
         $objDatasetInstallItem->save();
-
-        return $config;
     }
 
     protected function removeItemDatabase(DataManagerDataSetItem $item): bool

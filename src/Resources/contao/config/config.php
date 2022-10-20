@@ -106,6 +106,7 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 0, [
     'wem_sg_data_manager_new' => [
         'tables' => ['tl_sm_dataset', 'tl_sm_dataset_install', 'tl_sm_dataset_install_item'],
         'install' => ['smartgear.data_container.dataset', 'install'],
+        'synchronize' => ['smartgear.data_container.dataset', 'synchronize'],
     ],
     'wem_sg_data_manager' => [
         'callback' => "\WEM\SmartgearBundle\Backend\DataManager",

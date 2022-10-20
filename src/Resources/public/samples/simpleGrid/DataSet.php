@@ -12,18 +12,27 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Dataset\Example;
+namespace WEM\SmartgearBundle\Dataset\SimpleGrid;
 
 use WEM\SmartgearBundle\Classes\DataManager\DataProvider;
 use WEM\SmartgearBundle\Classes\DataManager\DataSetInterface;
 
 class DataSet extends DataProvider implements DataSetInterface
 {
-    protected $name = 'sample';
+    protected $name = 'Simple grid';
     protected $requireSmartgear = ['core'];
-    protected $requireTables = [];
     protected $uninstallable = false;
     protected $allowMultipleInstall = true;
-    // protected $type = 'component';
-    // protected $module = 'core';
+    protected $requireTables = [];
+    protected $configuration = [
+        'legend' => [
+            'pid' => [
+                'inputType' => 'picker',
+                'foreignKey' => 'tl_sm_dataset_install.id',
+                'eval' => ['mandatory' => true, 'tl_class' => 'clr'],
+                'sql' => 'int(10) unsigned NOT NULL default 0',
+                'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
+            ],
+        ],
+    ];
 }

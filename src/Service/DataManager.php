@@ -21,8 +21,6 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson;
 use WEM\SmartgearBundle\Classes\DataManager\DataSetFinder;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
-use WEM\SmartgearBundle\Config\DataManager as DataManagerConfig;
-use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFound;
 use WEM\SmartgearBundle\Model\Dataset;
 use WEM\SmartgearBundle\Model\DatasetInstall;
 
@@ -45,53 +43,46 @@ class DataManager
         $this->finder = $finder;
     }
 
-    public function getDatasetList(array $c, ?int $limit = 0, ?int $offset = 0): array
+    public function synchroniseDatasetListFromDiskToDb(): void
     {
-        try {
-            /** @var DataManagerConfig */
-            $datamanagerConfig = $this->dataManagerConfigurationManager->load();
-        } catch (FileNotFound $e) {
-            $datamanagerConfig = new DataManagerConfig();
+        $arrDatasets = $this->getDatasetListFromDisk();
+        foreach ($arrDatasets as $arrDataset) {
+            $objDataset = Dataset::findItems(['relative_path' => $arrDataset['relative_path']]);
+            if (!$objDataset) {
+                $objDataset = new Dataset();
+            } else {
+                $objDataset = $objDataset->current();
+            }
+            // update dataset DB here
+            $objDataset->name = $arrDataset['name'];
+            $objDataset->relative_path = $arrDataset['relative_path'];
+            $objDataset->mainTable = $arrDataset['mainTable'];
+            $objDataset->uninstallable = (bool) $arrDataset['uninstallable'] ? 1 : 0;
+            $objDataset->allowMultipleInstall = (bool) $arrDataset['allowMultipleInstall'] ? 1 : 0;
+            $objDataset->nb_elements = $arrDataset['nb_elements'];
+            $objDataset->nb_media = $arrDataset['nb_media'];
+            $objDataset->tstamp = !empty($objDataset->tstamp) ? $objDataset->tstamp : time();
+            $objDataset->createdAt = !empty($objDataset->createdAt) ? $objDataset->createdAt : time();
+            $objDataset->save();
         }
-        try {
-            /** @var CoreConfig */
-            $coreConfig = $this->configurationManager->load();
-        } catch (FileNotFound $e) {
-            $coreConfig = new CoreConfig();
-        }
+    }
+
+    public function getDatasetListFromDisk(): array
+    {
         $arrDatasetsFiles = $this->finder->buildList();
         foreach ($arrDatasetsFiles as $datasetPath) {
             $dtFile = $this->getDatasetClass($datasetPath);
 
             $arrDatasets[$datasetPath] = [
                 'name' => $dtFile->getName(),
+                'relative_path' => Util::getDatasetRelativePathFromPath(\dirname($datasetPath)),
+                'mainTable' => $dtFile->getMainTable(),
+                'uninstallable' => $dtFile->getUninstallable(),
+                'allowMultipleInstall' => $dtFile->getAllowMultipleInstall(),
                 'nb_elements' => 0,
                 'nb_media' => 0,
-                'date_installation' => 0,
-                'status' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusUnavailable'],
             ];
-            // handle status
-            if ($datamanagerConfig->hasDataset($dtFile->getConfig())) {
-                $arrDatasets[$datasetPath]['status'] = $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusInstalled'];
-                // $arrDatasets[$datasetPath]['date_installation'] = $datamanagerConfig->getDataset($arrDatasets[$datasetPath]['type'], $arrDatasets[$datasetPath]['module'], $arrDatasets[$datasetPath]['name'])->getDateInstallation();
-                $arrDatasets[$datasetPath]['date_installation'] = $datamanagerConfig->getDataset($arrDatasets[$datasetPath]['name'])->getDateInstallation();
-            } else {
-                try {
-                    // if ('core' === $dtFile->getModule()) {
-                    //     $moduleConfig = $coreConfig;
-                    // } else {
-                    //     $moduleConfig = $coreConfig->getSubmoduleConfig($dtFile->getModule());
-                    // }
-                    // if ($moduleConfig->getSgInstallComplete()) {
-                    // $arrDatasets[$datasetPath]['status'] = $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusNotInstalled'];
-                    // }
-                    if ($this->canBeImported($datasetPath)) {
-                        $arrDatasets[$datasetPath]['status'] = $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusNotInstalled'];
-                    }
-                } catch (Exception $e) {
-                    //do nothing
-                }
-            }
+
             // handle nb of items & media
             $dataJson = $this->getDatasetJson($datasetPath);
             if ($dataJson) {
@@ -108,48 +99,11 @@ class DataManager
                 $arrDatasets[$datasetPath]['nb_media'] = $nbMedia;
             }
         }
-        // here we'll manage filters
-        foreach ($arrDatasets as $datasetPath => $dataset) {
-            if (\array_key_exists('status', $c) && '' !== (string) $c['status']) {
-                if (-1 === (int) $c['status'] && $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusUnavailable'] !== $dataset['status']) {
-                    unset($arrDatasets[$datasetPath]);
-                } elseif (0 === (int) $c['status'] && $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusNotInstalled'] !== $dataset['status']) {
-                    unset($arrDatasets[$datasetPath]);
-                } elseif (1 === (int) $c['status'] && $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusInstalled'] !== $dataset['status']) {
-                    unset($arrDatasets[$datasetPath]);
-                }
-            }
-        }
 
-        // here we'll manage ordering
-        // installed by date
-        // not installed by name
-        // not available by name
-        $arrDatasetsInstalled = [];
-        $arrDatasetsNotInstalled = [];
-        $arrDatasetsUnavailable = [];
-        foreach ($arrDatasets as $datasetPath => $dataset) {
-            switch ($dataset['status']) {
-                case $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusUnavailable']:
-                    $arrDatasetsUnavailable[$datasetPath] = $dataset;
-                break;
-                case $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusNotInstalled']:
-                    $arrDatasetsNotInstalled[$datasetPath] = $dataset;
-                    break;
-                case $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['statusInstalled']:
-                    $arrDatasetsInstalled[$datasetPath] = $dataset;
-                    break;
-            }
-        }
-
-        $arrDatasetsInstalled = Util::array_sort($arrDatasetsInstalled, 'date_installation', \SORT_DESC);
-        $arrDatasetsNotInstalled = Util::array_sort($arrDatasetsNotInstalled, 'name', \SORT_ASC);
-        $arrDatasetsUnavailable = Util::array_sort($arrDatasetsUnavailable, 'name', \SORT_ASC);
-
-        return $arrDatasetsInstalled + $arrDatasetsNotInstalled + $arrDatasetsUnavailable;
+        return $arrDatasets;
     }
 
-    public function installDataset(string $datasetPath): void
+    public function installDataset(string $datasetPath, ?array $configuration = []): void
     {
         $dtFile = $this->getDatasetClass($datasetPath);
 
@@ -157,7 +111,7 @@ class DataManager
             throw new Exception('Dataset can\'t be imported');
         }
 
-        $dtFile->import();
+        $dtFile->import($configuration);
     }
 
     public function removeDataset(string $datasetPath): void
@@ -173,7 +127,7 @@ class DataManager
 
     public function getDatasetClass(string $datasetPath): \WEM\SmartgearBundle\Classes\DataManager\DataProvider
     {
-        $datasetClassName = Util::getDatasetFQDNFromPath($datasetPath);
+        $datasetClassName = Util::getDatasetFQDNFromFilePath($datasetPath);
 
         require_once $datasetPath;
 
@@ -203,6 +157,13 @@ class DataManager
         }
 
         return $this->checkPtables($dtFile->getRequireTables()) && $this->checkSmartgear($dtFile->getRequireSmartgear()) && $dtFile->canBeImported();
+    }
+
+    public function needsConfiguration(string $datasetPath): bool
+    {
+        $dtFile = $this->getDatasetClass($datasetPath);
+
+        return !empty($dtFile->getConfiguration());
     }
 
     protected function checkPtables(array $ptables): bool

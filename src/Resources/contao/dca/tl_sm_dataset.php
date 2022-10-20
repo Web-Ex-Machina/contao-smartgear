@@ -50,6 +50,11 @@ $GLOBALS['TL_DCA']['tl_sm_dataset'] = [
                 'class' => 'header_edit_all',
                 'attributes' => 'onclick="Backend.getScrollOffset()" accesskey="e"',
             ],
+            'synchronize' => [
+                'href' => 'key=synchronize',
+                'class' => 'header_edit_all',
+                'attributes' => 'onclick="Backend.getScrollOffset()" accesskey="e"',
+            ],
         ],
         'operations' => [
             'edit' => [
@@ -79,6 +84,7 @@ $GLOBALS['TL_DCA']['tl_sm_dataset'] = [
                 'href' => 'key=install',
                 'icon' => 'header.svg',
                 'button_callback' => [\WEM\SmartgearBundle\DataContainer\Dataset::class, 'installButton'],
+                'attributes' => '',
             ],
             'showInstalls' => [
                 'href' => 'table=tl_sm_dataset_install',
@@ -88,7 +94,7 @@ $GLOBALS['TL_DCA']['tl_sm_dataset'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend},path;{configuration_legend},name,mainTable,nb_elements,nb_media,uninstallable,allowMultipleInstall;{code_legend},phpCode,jsonCode;',
+        'default' => '{title_legend},relative_path;{configuration_legend},name,mainTable,nb_elements,nb_media,uninstallable,allowMultipleInstall;{code_legend},phpCode,jsonCode;',
     ],
     // Fields
     'fields' => [
@@ -111,7 +117,7 @@ $GLOBALS['TL_DCA']['tl_sm_dataset'] = [
             'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50', 'readonly' => true],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
-        'path' => [
+        'relative_path' => [
             'search' => true,
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
@@ -158,7 +164,7 @@ $GLOBALS['TL_DCA']['tl_sm_dataset'] = [
 
                 $codeEditor = $objTemplate->parse();
 
-                $content = file_get_contents(Util::getDatasetPhpFileFromPath($dc->activeRecord->path));
+                $content = file_get_contents(Util::getDatasetPhpFileFromRelativePath($dc->activeRecord->relative_path));
 
                 return '<div class="widget w50">
     <h3><label for="ctrl_source">'.$label.'</label></h3>
@@ -176,7 +182,7 @@ $GLOBALS['TL_DCA']['tl_sm_dataset'] = [
 
                 $codeEditor = $objTemplate->parse();
 
-                $content = file_get_contents(Util::getDatasetJsonFileFromPath($dc->activeRecord->path));
+                $content = file_get_contents(Util::getDatasetJsonFileFromRelativePath($dc->activeRecord->relative_path));
 
                 return '<div class="widget w50">
     <h3><label for="ctrl_source">'.$label.'</label></h3>
