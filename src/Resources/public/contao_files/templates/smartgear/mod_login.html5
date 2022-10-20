@@ -1,0 +1,59 @@
+
+<!-- indexer::stop -->
+<div class="<?= $this->class ?> <?= $this->logout ? 'logout' : 'login' ?> block"<?= $this->cssID ?><?php if ($this->style): ?> style="<?= $this->style ?>"<?php endif; ?>>
+
+  <?php if ($this->headline): ?>
+    <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
+  <?php endif; ?>
+
+  <form<?php if ($this->action): ?> action="<?= $this->action ?>"<?php endif; ?> id="<?= $this->formId ?>" method="post">
+    <div class="formbody">
+      <?php if ($this->message): ?>
+        <p class="error"><?= $this->message ?></p>
+      <?php endif; ?>
+      <input type="hidden" name="FORM_SUBMIT" value="<?= $this->formId ?>">
+      <input type="hidden" name="REQUEST_TOKEN" value="<?= $this->requestToken ?>">
+      <input type="hidden" name="_target_path" value="<?= $this->targetPath ?>">
+      <input type="hidden" name="_always_use_target_path" value="<?= $this->forceTargetPath ?>">
+      <?php if ($this->logout): ?>
+        <p class="login_info"><?= $this->loggedInAs ?><br><?= $this->lastLogin ?></p>
+      <?php elseif ($this->twoFactorEnabled): ?>
+        <h3><?= $this->twoFactorAuthentication ?></h3>
+        <div class="widget widget-text">
+          <label for="verify"><?= $this->authCode ?></label>
+          <input type="text" name="verify" id="verify" class="text" value="" autocapitalize="off" autocomplete="one-time-code" required>
+        </div>
+        <div class="widget widget-checkbox">
+          <input type="checkbox" name="trusted" id="trusted" class="tl_checkbox" value="1">
+          <label for="trusted"><?= $this->trans('MSC.twoFactorTrustDevice') ?></label>
+        </div>
+      <?php else: ?>
+        <div class="widget widget-text">
+          <label for="username"><?= $this->username ?></label>
+          <input type="text" name="username" id="username" class="text" value="<?= $this->value ?>" autocapitalize="off" autocomplete="username" required>
+        </div>
+        <div class="widget widget-password">
+          <label for="password"><?= $this->password ?></label>
+          <input type="password" name="password" id="password" class="text password" value="" autocomplete="current-password" required>
+        </div>
+      <?php endif; ?>
+      <div class="login__submitwrapper">
+        <?php if (!$this->logout ): ?>
+          <div class="widget flexgrow--1">
+            <a class="login__forgottenpwd" href="<?= $this->wem_sg_login_pwd_lost_jumpTo ?>"><?= $this->wem_sg_login_pwd_lost_jumpTo_label ?></a>
+          </div>
+        <?php endif ?>
+        <div class="widget">
+          <?php if (!$this->logout ): ?>
+            <a href="<?= $this->wem_sg_login_register_jumpTo ?>" class="btn-bg-none"><?= $this->wem_sg_login_register_jumpTo_label ?></a>
+          <?php endif ?>
+          <button type="submit" class="submit"><?= $this->slabel ?></button>
+          <?php if ($this->twoFactorEnabled): ?>
+            <a href="<?= $this->route('contao_frontend_logout') ?>"><?= $this->cancel ?> ›</a>
+          <?php endif; ?>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- indexer::continue -->
