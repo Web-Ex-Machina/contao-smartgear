@@ -21,15 +21,37 @@ return [
         'singleSRC' => [
             'inputType' => 'standardField',
         ],
-        'alt' => [
-            'inputType' => 'standardField',
-            'eval' => ['tl_class' => 'w50'],
-        ],
         'image_size' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['size'], 'inputType' => 'imageSize', 'reference' => &$GLOBALS['TL_LANG']['MSC'], 'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50 clr'], 'options_callback' => function () {
                 return System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance());
             },
         ],
+        'alt' => [
+            'inputType' => 'standardField',
+            'eval' => ['tl_class' => 'w50'],
+        ],
+        'image_align_horizontal' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['image_align_horizontal'],
+            'inputType' => 'select',
+            'options' => array(
+                'img--left'   => &$GLOBALS['TL_LANG']['tl_content']['alignment']['left'],
+                'img--center' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['center'],
+                'img--right'  => &$GLOBALS['TL_LANG']['tl_content']['alignment']['right'],
+            ),
+            'default' =>  'img--center',
+            'eval' => array('tl_class'=>'w50 clr'),
+        ),
+        'image_align_vertical' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['image_align_vertical'],
+            'inputType' => 'select',
+            'options' => array(
+                'img--top'    => &$GLOBALS['TL_LANG']['tl_content']['alignment']['top'],
+                'img--center' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['center'],
+                'img--bottom' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['bottom'],
+            ),
+            'default' =>  'img--center',
+            'eval' => array('tl_class'=>'w50'),
+        ),
         'image_opacity' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['image_opacity'],
             'inputType' => 'select',
@@ -49,6 +71,35 @@ return [
             'default' => '10',
             'eval' => ['tl_class' => 'w50', 'isAssociative' => true],
         ],
+        'overlay_legend' => [
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['overlay_legend']],
+            'inputType' => 'group',
+        ],
+        'overlay_background' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['overlay_background'],
+            'inputType' => 'select',
+            'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
+            'eval' => array('tl_class'=>'w50 clr','includeBlankOption'=>true),
+        ),
+        'overlay_opacity' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['overlay_opacity'],
+            'inputType' => 'select',
+            'options' => [
+                '0'  => '0%',
+                '1'  => '10%',
+                '2'  => '20%',
+                '3'  => '30%',
+                '4'  => '40%',
+                '5'  => '50%',
+                '6'  => '60%',
+                '7'  => '70%',
+                '8'  => '80%',
+                '9'  => '90%',
+                '10' => '100%',
+            ],
+            'default' => '2',
+            'eval' => ['tl_class' => 'w50', 'isAssociative' => true ],
+        ),
         'content_legend' => [
             'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_hero']['content_legend']],
             'inputType' => 'group',
@@ -73,6 +124,12 @@ return [
             ],
             'eval' => ['tl_class' => 'w50', 'includeBlankOption' => true],
         ],
+        'content_fontcolor' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_slider']['content_fontcolor'],
+            'inputType' => 'select',
+            'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
+            'eval' => array('tl_class'=>'w50 clr','includeBlankOption'=>true),
+        ),
         'config_legend' => [
             'label' => [&$GLOBALS['TL_LANG']['tl_content']['config_legend']], 'inputType' => 'group',
         ],
