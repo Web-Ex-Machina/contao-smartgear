@@ -28,10 +28,31 @@ class DataSet extends DataProvider implements DataSetInterface
         'legend' => [
             'pid' => [
                 'inputType' => 'picker',
-                'foreignKey' => 'tl_sm_dataset_install.id',
+                // 'foreignKey' => 'tl_sm_dataset_install.id',
+                'foreignKey' => 'tl_article.id',
                 'eval' => ['mandatory' => true, 'tl_class' => 'clr'],
-                'sql' => 'int(10) unsigned NOT NULL default 0',
+                // 'sql' => 'int(10) unsigned NOT NULL default 0',
                 'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
+            ],
+            'toto' => [
+                'inputType' => 'text',
+                'label' => 'My text',
+                'attributes' => [
+                    'required' => true,
+                    'class' => 'tl_text',
+                ],
+            ],
+            'tata' => [
+                'inputType' => 'select',
+                'label' => 'My select',
+                'attributes' => [
+                    'required' => true,
+                    'class' => 'tl_select',
+                ],
+                'options' => [
+                    ['label' => '1', 'value' => 1],
+                    ['label' => '2', 'value' => 2],
+                ],
             ],
         ],
     ];

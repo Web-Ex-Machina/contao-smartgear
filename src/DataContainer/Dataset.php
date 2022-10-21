@@ -27,7 +27,6 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationM
 use WEM\SmartgearBundle\Classes\StringUtil as ClassesStringUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Model\Dataset as DatasetModel;
-use WEM\SmartgearBundle\Model\DatasetInstall as DatasetInstallModel;
 use WEM\SmartgearBundle\Service\DataManager as DataManagerService;
 
 class Dataset extends Backend
@@ -142,37 +141,15 @@ class Dataset extends Backend
         }
 
         $path = Util::getDatasetPhpFileFromRelativePath($objDataset->relative_path, true);
+        $pathDataset = Util::getDatasetPathFromRelativePath($objDataset->relative_path, false);
         /** @var DataManagerService */
         $dataManagerService = System::getContainer()->get('smartgear.service.data_manager');
 
         $referer = preg_replace('/&(amp;)?(key)=[^&]*/', '', Environment::get('request'));
-        $str = '<form method="POST" action="'.$referer.'">';
 
-        // if we need a specific configuration, open a modal with the fiels
+        // if we need a specific configuration, open a modal with the fields
         $dtFile = $dataManagerService->getDatasetClass($path);
-        foreach ($dtFile->getConfiguration() as $legendLabel => $fields) {
-            foreach ($fields as $fieldLabel => $fieldSettings) {
-                // do something
-            }
-        }
 
-        $str .= '<div class="tl_formbody_submit">
-<div class="tl_submit_container">
-  <input type="submit" value="'.$GLOBALS['TL_LANG']['MSC']['validate'].'">
-</div>
-</div>';
-        $str .= '</form>';
-
-        return $str;
-    }
-
-    /**
-     * Check if the social network is being used by Smartgear.
-     *
-     * @param int $id social network's ID
-     */
-    protected function isItemUsed(int $id): bool
-    {
-        return DatasetInstallModel::countBy('pid', $id) > 0;
+        return $dtFile->buildConfigurationForm($referer);
     }
 }
