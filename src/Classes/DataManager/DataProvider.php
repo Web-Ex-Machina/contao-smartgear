@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Classes\DataManager;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\Model;
+use Contao\System;
 use Exception;
 use ReflectionClass;
 use stdClass;
@@ -221,6 +222,72 @@ class DataProvider
         $datamanagerConfig = $this->configurationManager->load();
         $datamanagerConfig->removeDataset($datasetConfig);
         $this->configurationManager->save($datamanagerConfig);
+    }
+
+    public function buildConfigurationForm(string $referer): string
+    {
+        $str = '<form method="POST" action="'.$referer.'">';
+        $str = '<input type="hidden" name="FORM_SUBMIT" value="">
+        <input type="hidden" name="REQUEST_TOKEN" value="'.System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue().'">
+        ';
+
+        foreach ($this->getConfiguration() as $legendLabel => $fields) {
+            foreach ($fields as $fieldLabel => $fieldSettings) {
+                // do something
+                $str .= $this->buildConfigurationFormRow($fieldLabel, $fieldSettings);
+            }
+        }
+
+        $str .= '<div class="tl_formbody_submit">
+<div class="tl_submit_container">
+  <input type="submit" value="'.$GLOBALS['TL_LANG']['MSC']['validate'].'">
+</div>
+</div>';
+        $str .= '</form>';
+
+        return $str;
+    }
+
+    protected function buildConfigurationFormRow($fieldLabel, $fieldSettings): string
+    {
+        $str = '';
+        $strAttributes = '';
+        foreach ($fieldSettings['attributes'] ?? [] as $key => $value) {
+            $strAttributes .= sprintf(' %s="%s"', $key, $value);
+        }
+        $defaultValue = $fieldSettings['value'] ?? [];
+        if (!\is_array($defaultValue)) {
+            $defaultValue = [$defaultValue];
+        }
+
+        $strLabel = $fieldSettings['label'] ?? ($GLOBALS['TL_LANG']['WEMSG']['dataset'][$fieldLabel] ?? $fieldLabel);
+
+        switch ($fieldSettings['inputType']) {
+            case 'select':
+                $isMultiple = $fieldSettings['attributes']['multiple'] ?? false;
+                $str .= '<label for="'.$fieldLabel.($isMultiple ? '[]' : '').'">'.$strLabel.'</label>';
+                $str .= '<select name="'.$fieldLabel.($isMultiple ? '[]' : '').'" '.$strAttributes.'>';
+                foreach ($fieldSettings['options'] ?? [] as $option) {
+                    $str .= '<option value="'.$option['value'].'">'.$option['label'].'</option>';
+                }
+
+                $str .= '</select>';
+            break;
+            case 'textarea':
+                $str .= '<label for="'.$fieldLabel.'">'.$strLabel.'</label>';
+                $str .= '<textarea name="'.$fieldLabel.'" '.$strAttributes.'>'.$defaultValue[0].'</textarea>';
+            break;
+            case 'checkbox':
+            break;
+            case 'radio':
+            break;
+            default:
+                $str .= '<label for="'.$fieldLabel.'" class="tl_label">'.$strLabel.'</label>';
+                $str .= '<input type="'.$fieldSettings['type'].'" name="'.$fieldLabel.'" '.$strAttributes.'>'.$defaultValue[0].'</textarea>';
+            break;
+        }
+
+        return '<div class="widget">'.$str.'</div>';
     }
 
     protected function getDatasetDB(): ?Dataset
