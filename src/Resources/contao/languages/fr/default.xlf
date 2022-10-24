@@ -117,6 +117,45 @@
     <trans-unit id="WEM.SMARTGEAR.DEFAULT.register">
       <source>Register</source>
 			<target>S'inscrire</target>
+<<<<<<< Updated upstream
+=======
+		</trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.module">
+      <source>Module</source>
+			<target>Module</target>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.component">
+      <source>Component</source>
+			<target>Composant</target>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.core">
+      <source>Core</source>
+			<target>Core</target>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.blog">
+      <source>Blog</source>
+			<target>Blog</target>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.events">
+      <source>Events</source>
+			<target>Evènements</target>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.faq">
+      <source>FAQ</source>
+			<target>FAQ</target>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.form_contact">
+      <source>Contact Form</source>
+			<target>Formulaire de contact</target>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.extranet">
+      <source>Extranet</source>
+			<target>Espace Membre</target>
+    </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.form_data_manager">
+      <source>Form Data Manager</source>
+			<target>Contacts</target>
+>>>>>>> Stashed changes
     </trans-unit>
 		<!-- Smartgear filter -->
 		<trans-unit id="WEMSG.FILTERS.title">
@@ -2492,7 +2531,8 @@
 <trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.title">
 		<source>Ratio</source>
 <target>Ratio</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.description">
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.description">
 	<source>If desired, select an image ratio</source>
 <target>Si souhaité, sélectionnez un ratio d'image</target>
 </trans-unit>
@@ -2519,7 +2559,8 @@
 <trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.title">
 		<source>Zoom</source>
 <target>Zoom</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.description">
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.description">
 	<source>If desired, select a zoom effect</source>
 <target>Si souhaité, sélectionnez un effet de zoom</target>
 </trans-unit>
@@ -2534,7 +2575,8 @@
 <trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.title">
 		<source>Fade</source>
 <target>Fondu</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.description">
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.description">
 	<source>If desired, select a fade effect</source>
 <target>Si souhaité, sélectionnez un effet de fondu</target>
 </trans-unit>
@@ -2549,7 +2591,8 @@
 <trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.title">
 		<source>Vertical alignment</source>
 <target>Alignement vertical</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.description">
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.description">
 	<source>Define the picture's vertical alignment (default center)</source>
 <target>Définit l'alignement vertical de l'image (centré par défaut)</target>
 </trans-unit>
@@ -2566,7 +2609,8 @@
 <trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.title">
 	<source>Horizontal alignment</source>
 	<target>Alignement horizontal</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.description">
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.description">
 	<source>Define the picture's horizontal alignment (default center)</source>
 	<target>Définit l'alignement horizontal de l'image (centré par défaut)</target>
 </trans-unit>
@@ -2581,7 +2625,8 @@
 <trans-unit id="WEMSG.STYLEMANAGER.fwheroft.title">
 		<source>Font color</source>
 <target>Couleur de la police</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwheroft.description">
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwheroft.description">
 	<source>Change the font color</source>
 <target>Change la couleur de police du contenu</target>
 </trans-unit>
@@ -2592,7 +2637,8 @@
 <trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbg.title">
 		<source>Background color</source>
 <target>Couleur de fond du contenu</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbg.description">
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbg.description">
 	<source>Change the content's background color</source>
 <target>Change la couleur de fond du contenu</target>
 </trans-unit>
@@ -2603,7 +2649,8 @@
 <trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.title">
 		<source>Background's opacity</source>
 <target>Opacité du fond du contenu</target>
-</trans-unit><trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.description">
+</trans-unit>
+<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.description">
 	<source>Change the background opacity</source>
 <target>Change l'opacité de la couleur de fond du contenu</target>
 </trans-unit>
@@ -3098,10 +3145,12 @@
 			<source>Smartgear global - expert mode</source>
 			<target>Smartgear global - mode expert</target>
 		</trans-unit>
-		<!-- <trans-unit id="WEMSG.SECURITY.CORE.simple">
+		<!-- 
+		<trans-unit id="WEMSG.SECURITY.CORE.simple">
 			<source>Smartgear global - simplified mode</source>
 			<target>Smartgear global - mode simplifié</target>
-		</trans-unit> -->
+		</trans-unit> 
+	-->
 		<trans-unit id="WEMSG.SECURITY.BLOG.optGroup">
 			<source>Blog</source>
 			<target>Blog</target>
@@ -3110,10 +3159,12 @@
 			<source>Smartgear blog - expert mode</source>
 			<target>Smartgear blog - mode expert</target>
 		</trans-unit>
-		<!-- <trans-unit id="WEMSG.SECURITY.BLOG.simple">
+		<!-- 
+		<trans-unit id="WEMSG.SECURITY.BLOG.simple">
 			<source>Smartgear blog - simplified mode</source>
 			<target>Smartgear blog - mode simplifié</target>
-		</trans-unit> -->
+		</trans-unit> 
+	-->
 		<trans-unit id="WEMSG.SECURITY.EVENTS.optGroup">
 			<source>Events</source>
 			<target>Evènements</target>
