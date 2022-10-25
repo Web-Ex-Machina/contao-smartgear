@@ -117,8 +117,6 @@
     <trans-unit id="WEM.SMARTGEAR.DEFAULT.register">
       <source>Register</source>
 			<target>S'inscrire</target>
-<<<<<<< Updated upstream
-=======
 		</trans-unit>
     <trans-unit id="WEM.SMARTGEAR.DEFAULT.module">
       <source>Module</source>
@@ -155,7 +153,6 @@
     <trans-unit id="WEM.SMARTGEAR.DEFAULT.form_data_manager">
       <source>Form Data Manager</source>
 			<target>Contacts</target>
->>>>>>> Stashed changes
     </trans-unit>
 		<!-- Smartgear filter -->
 		<trans-unit id="WEMSG.FILTERS.title">
