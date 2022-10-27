@@ -63,7 +63,10 @@ class Framway extends AbstractManager implements ManagerJsonInterface
     {
         $notJsonCompliant = $this->retrieveConfigurationFromFile();
         $notJsonCompliant = str_replace('module.exports = ', '', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/^([\s\t]*)\/\/(.*)/m', '', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/^([\s\t]*)\/\/(.*)/m', '', $notJsonCompliant); // remove one liner comments
+        $notJsonCompliant = preg_replace('/^(.*)\'\,([\s\t]*)\/\/(.*)/m', '$1\',', $notJsonCompliant); // remove comments at the end of a line
+        $notJsonCompliant = preg_replace('/^(.*)\,([\s\t]*)\/\/(.*)/m', '$1,', $notJsonCompliant); // remove comments at the end of a line
+
         $notJsonCompliant = $this->specificPregReplaceForNotJsonCompliantConfigurationImport($notJsonCompliant);
 
         $notJsonCompliant = preg_replace('/\t/', '', $notJsonCompliant);
@@ -72,10 +75,11 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         $notJsonCompliant = preg_replace('/,([\s]*)\]/', ']', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/,([\s]*)\}/', '}', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/."com":/', '.com:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
-        try{
+        try {
             return json_decode($notJsonCompliant, false, 512, \JSON_THROW_ON_ERROR);
-        }catch(Exception $e){
-            throw new Exception($this->translator->trans('WEMSG.ERR.FRAMWAY.configJsonDecodeError',[\JSON_ERROR_NONE !== json_last_error() ? json_last_error_msg() : $e->getMessage()],'contao_default'));
+        } catch (Exception $e) {
+            // throw new Exception($this->translator->trans('WEMSG.ERR.FRAMWAY.configJsonDecodeError', [\JSON_ERROR_NONE !== json_last_error() ? json_last_error_msg() : $e->getMessage()], 'contao_default'));
+            throw new Exception($notJsonCompliant);
         }
     }
 
