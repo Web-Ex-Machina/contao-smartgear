@@ -78,8 +78,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         try {
             return json_decode($notJsonCompliant, false, 512, \JSON_THROW_ON_ERROR);
         } catch (Exception $e) {
-            // throw new Exception($this->translator->trans('WEMSG.ERR.FRAMWAY.configJsonDecodeError', [\JSON_ERROR_NONE !== json_last_error() ? json_last_error_msg() : $e->getMessage()], 'contao_default'));
-            throw new Exception($notJsonCompliant);
+            throw new Exception($this->translator->trans('WEMSG.ERR.FRAMWAY.configJsonDecodeError', [\JSON_ERROR_NONE !== json_last_error() ? json_last_error_msg() : $e->getMessage()], 'contao_default'));
         }
     }
 
