@@ -27,6 +27,7 @@ use tl_content_calendar;
 use tl_content_news;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Message;
+use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 // class Content extends \tl_content
@@ -43,9 +44,11 @@ class Content extends Backend
         $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
         switch (Input::get('do')) {
             case 'news':
+                $this->loadDataContainer('tl_content');
                 $this->parent = new tl_content_news();
             break;
             case 'calendar':
+                $this->loadDataContainer('tl_content');
                 $this->parent = new tl_content_calendar();
             break;
             default:
@@ -137,6 +140,32 @@ class Content extends Backend
                 break;
             }
         }
+    }
+
+    /**
+     * Clean the tinyMCE data, see rules below
+     * Rule #1 : Replace [nbsp] tags by ' '
+     * Rule #2 : Find special characters and add an [nbsp] just before.
+     *
+     * @param string        $varValue [description]
+     * @param DataContainer $objDc    [description]
+     */
+    public function cleanHeadline(string $varValue, DataContainer $objDc): string
+    {
+        return StringUtil::cleanSpaces($varValue);
+    }
+
+    /**
+     * Clean the tinyMCE data, see rules below
+     * Rule #1 : Replace [nbsp] tags by ' '
+     * Rule #2 : Find special characters and add an [nbsp] just before.
+     *
+     * @param string        $varValue [description]
+     * @param DataContainer $objDc    [description]
+     */
+    public function cleanText(string $varValue, DataContainer $objDc): string
+    {
+        return StringUtil::cleanSpaces($varValue);
     }
 
     /**
