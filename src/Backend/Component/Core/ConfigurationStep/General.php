@@ -19,6 +19,7 @@ use Exception;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\LocalConfig as LocalConfig;
 use WEM\SmartgearBundle\Config\Manager\LocalConfig as LocalConfigManager;
@@ -164,6 +165,19 @@ class General extends ConfigurationStep
     {
         \Contao\Config::set('wem_pdm_encryption_key', Input::post('sgEncryptionKey'));
         \Contao\Config::persist('wem_pdm_encryption_key', Input::post('sgEncryptionKey'));
+
+        // allow "onclick" on "<a>" tag
+        $allowedAttributes = StringUtil::deserialize(\Contao\Config::get('allowedAttributes'), true);
+        foreach ($allowedAttributes as $index => $allowedAttribute) {
+            if ('a' === $allowedAttribute['key']
+            && false === strpos($allowedAttribute['value'], 'onclick')
+            ) {
+                $allowedAttributes[$index]['value'] .= ',onclick';
+                \Contao\Config::set('allowedAttributes', serialize($allowedAttributes));
+                \Contao\Config::persist('allowedAttributes', serialize($allowedAttributes));
+                break;
+            }
+        }
     }
 
     protected function updateContaoConfiguration(): void
