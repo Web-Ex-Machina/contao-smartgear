@@ -447,9 +447,33 @@ class General extends ConfigurationStep
         $inputMessage->mandatory = 1;
         $inputMessage->tstamp = time();
         if ($config->getSgFormDataManager()->getSgInstallComplete()) {
-            $inputName->contains_personal_data = true;
+            $inputMessage->contains_personal_data = true;
         }
         $inputMessage->save();
+
+        $inputConsentDataTreatment = FormFieldModel::findOneById($formContactConfig->getSgFieldConsentDataTreatment()) ?? new FormFieldModel();
+        $inputConsentDataTreatment->pid = $form->id;
+        $inputConsentDataTreatment->sorting = 128;
+        $inputConsentDataTreatment->type = 'checkbox';
+        $inputConsentDataTreatment->name = 'consent_data_treatment';
+        $inputConsentDataTreatment->label = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputConsentDataTreatment', [], 'contao_default');
+        $inputConsentDataTreatment->options = serialize([['value' => 1, 'label' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.optionLabelFormInputConsentDataTreatment', [], 'contao_default')]]);
+        $inputConsentDataTreatment->mandatory = 1;
+        $inputConsentDataTreatment->tstamp = time();
+        $inputConsentDataTreatment->mandatory = true;
+        $inputConsentDataTreatment->save();
+
+        $inputConsentDataSave = FormFieldModel::findOneById($formContactConfig->getSgFieldConsentDataSave()) ?? new FormFieldModel();
+        $inputConsentDataSave->pid = $form->id;
+        $inputConsentDataSave->sorting = 128;
+        $inputConsentDataSave->type = 'checkbox';
+        $inputConsentDataSave->name = 'consent_data_save';
+        $inputConsentDataSave->label = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputConsentDataSave', [], 'contao_default');
+        $inputConsentDataSave->options = serialize([['value' => 1, 'label' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.optionLabelFormInputConsentDataSave', [], 'contao_default')]]);
+        $inputConsentDataSave->mandatory = 1;
+        $inputConsentDataSave->tstamp = time();
+        $inputConsentDataSave->invisible = !$config->getSgFormDataManager()->getSgInstallComplete();
+        $inputConsentDataSave->save();
 
         $inputCaptcha = FormFieldModel::findOneById($formContactConfig->getSgFieldCaptcha()) ?? new FormFieldModel();
         $inputCaptcha->pid = $form->id;
@@ -471,7 +495,7 @@ class General extends ConfigurationStep
         $inputSubmit->tstamp = time();
         $inputSubmit->save();
 
-        return ['name' => $inputName, 'email' => $inputEmail, 'message' => $inputMessage, 'captcha' => $inputCaptcha, 'submit' => $inputSubmit];
+        return ['name' => $inputName, 'email' => $inputEmail, 'message' => $inputMessage, 'consentDataTreatment' => $inputConsentDataTreatment, 'consentDataSave' => $inputConsentDataSave, 'captcha' => $inputCaptcha, 'submit' => $inputSubmit];
     }
 
     protected function updateModuleConfigurationAfterGenerations(array $pages, array $articles, array $contents, NotificationModel $notification, array $notificationGatewayMessages, array $notificationGatewayMessagesLanguages, FormModel $form, array $formInputs): void
@@ -494,6 +518,8 @@ class General extends ConfigurationStep
             ->setSgFieldName((int) $formInputs['name']->id)
             ->setSgFieldEmail((int) $formInputs['email']->id)
             ->setSgFieldMessage((int) $formInputs['message']->id)
+            ->setSgFieldConsentDataTreatment((int) $formInputs['consentDataTreatment']->id)
+            ->setSgFieldConsentDataSave((int) $formInputs['consentDataSave']->id)
             ->setSgFieldCaptcha((int) $formInputs['captcha']->id)
             ->setSgFieldSubmit((int) $formInputs['submit']->id)
             ->setSgNotification((int) $notification->id)

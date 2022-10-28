@@ -100,6 +100,12 @@ class General extends ConfigurationStep
                 $objFormFieldMessage->contains_personal_data = true;
                 $objFormFieldMessage->save();
             }
+
+            $objConsentDataSave = FormFieldModel::findById($formContactConfig->getSgFieldConsentDataSave());
+            if ($objConsentDataSave) {
+                $objConsentDataSave->invisible = false;
+                $objConsentDataSave->save();
+            }
         }
     }
 

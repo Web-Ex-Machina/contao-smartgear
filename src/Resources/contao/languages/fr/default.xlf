@@ -1370,26 +1370,43 @@
 			<source>Name</source>
 			<target>Nom</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputEmail">
-			<source>Email</source>
-			<target>Email</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputMessage">
-			<source>Message</source>
-			<target>Message</target>
-		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.placeholderFormInputName">
 			<source>Your name</source>
 			<target>Votre nom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputEmail">
+			<source>Email</source>
+			<target>Email</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.placeholderFormInputEmail">
 			<source>Your email address</source>
 			<target>Votre adresse e-mail</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputMessage">
+			<source>Message</source>
+			<target>Message</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.placeholderFormInputMessage">
 			<source>Your message</source>
 			<target>Votre message</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputConsentDataTreatment">
+			<source>Agreement to the treatment of this form's data</source>
+			<target>Consentement aux traitement des données de ce formulaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.optionLabelFormInputConsentDataTreatment">
+			<source>I agree to the treatment of this form's data</source>
+			<target>Je consent aux traitement des données de ce formulaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputConsentDataSave">
+			<source>Agreement to the storing of this form's data</source>
+			<target>Consentement à l'enregistrement des données de ce formulaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.optionLabelFormInputConsentDataSave">
+			<source>I agree to the storing of this form's data</source>
+			<target>Je consent à l'enregistrement des données de ce formulaire</target>
+		</trans-unit>
+
 		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputCaptcha">
 			<source>Captcha</source>
 			<target>Captcha</target>
