@@ -18,7 +18,6 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['options_callback'] = st
     return WEM\SmartgearBundle\Override\Controller::getTemplateGroup('ce_'.$dc->activeRecord->type.'_', [], 'ce_'.$dc->activeRecord->type);
 };
 $GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['eval']['includeBlankOption'] = true;
-$GLOBALS['TL_DCA']['tl_content']['fields']['cssID']['eval']['tl_class'] = 'hidden';
 
 updatePaletteHeadline();
 updatePaletteText();
