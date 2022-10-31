@@ -133,7 +133,9 @@ services:
         arguments:
             $module: 'core'
             $type: 'component'
+            $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
+            $updateManager: '@smartgear.update.update_manager'
             $commandUtil: '@smartgear.classes.command.util'
         public: true
 

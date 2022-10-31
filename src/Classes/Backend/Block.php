@@ -134,9 +134,6 @@ class Block extends Controller
 
         $blnCanManage = $this->checkRequirements();
 
-        // Always add messages
-        $objTemplate->messages = $this->messages;
-
         // Add actions only if we can manage the module
         if ($blnCanManage) {
             if (!$this->isInstalled()) {
@@ -144,6 +141,9 @@ class Block extends Controller
                 $this->configurationStepManager->setMode($this->configurationStepManager::MODE_INSTALL);
                 $objTemplate->steps = $this->configurationStepManager->parseSteps();
                 $objTemplate->content = $this->configurationStepManager->parse();
+
+                // Always add messages
+                $objTemplate->messages = $this->getMessages($this->module);
             } else {
                 $objTemplate = $this->parseDependingOnMode($objTemplate);
                 // $objTemplate->fields = $this->fields;
@@ -382,11 +382,12 @@ class Block extends Controller
             $this->configurationStepManager->setMode($this->configurationStepManager::MODE_CONFIGURE);
             $objTemplate->steps = $this->configurationStepManager->parseSteps();
             $objTemplate->content = $this->configurationStepManager->parse();
+            $objTemplate->messages = $this->getMessages($this->module);
         } elseif (self::MODE_DASHBOARD === $this->getMode()) {
             $objTemplate->content = $this->dashboard->parse();
             // $objTemplate->fields = $this->dashboard->fields;
             $objTemplate->logs = $this->dashboard->getLogs();
-            $objTemplate->messages = $this->dashboard->getMessages();
+            $objTemplate->messages = $this->dashboard->getMessages($this->module);
             $objTemplate->actions = $this->formatActions($this->dashboard->getActions());
         }
 

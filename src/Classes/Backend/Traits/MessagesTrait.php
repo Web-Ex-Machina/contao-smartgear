@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Backend\Traits;
 
+use Contao\System;
+
 trait MessagesTrait
 {
     /** @var array */
@@ -24,26 +26,57 @@ trait MessagesTrait
      *
      * @param mixed|null $strScope
      */
-    public function getMessages($strScope = null)
+    // public function getMessages(?string $scope = 'smartgear'): array
+    public function getMessages($strScope = null): array // needs to be the same as \Contao\System::getMessages, otherwise a warning is thrown "because"
     {
-        return $this->messages;
+        $scope = $strScope ?? 'smartgear';
+        $sfb = System::getContainer()->get('session')->getFlashBag();
+
+        return ($sfb->get($this->getFlashBagKey('tl_new', $scope)) ?? []) + ($sfb->get($this->getFlashBagKey('tl_info', $scope)) ?? []) + ($sfb->get($this->getFlashBagKey('tl_error', $scope)) ?? []) + ($sfb->get($this->getFlashBagKey('tl_confirm', $scope)) ?? []);
     }
 
     /**
-     * Reset the errors array.
+     * Return the flash bag key.
+     *
+     * @param string $strType The message type
+     *
+     * @return string The flash bag key
      */
-    protected function resetMessages(): void
+    public function getFlashBagKey(string $strType, ?string $scope = 'smartgear')
     {
-        $this->messages = [];
+        return 'wemsg.message.'.strtolower($scope).'.'.strtolower(str_replace('tl_', '', $strType));
+    }
+
+    /**
+     * Reset the messages array.
+     */
+    protected function resetMessages(?string $scope = 'smartgear'): void
+    {
+        $this->messages[$scope] = [];
+
+        $session = System::getContainer()->get('session');
+
+        if (!$session->isStarted()) {
+            return;
+        }
+
+        $flashBag = $session->getFlashBag();
+
+        // Find all wemsg.message.$scope. keys
+        $keys = preg_grep('(^wemsg\.message\.'.$scope.'\.)', $flashBag->keys());
+
+        foreach ($keys as $key) {
+            $flashBag->get($key); // clears the message
+        }
     }
 
     /**
      * Return true if there is errors in this block.
      */
-    protected function hasErrors(): bool
+    protected function hasErrors(?string $scope = 'smartgear'): bool
     {
-        if (!empty($this->messages)) {
-            foreach ($this->messages as $m) {
+        if (!empty($this->messages) && \array_key_exists($scope, $this->messages)) {
+            foreach ($this->messages[$scope] as $m) {
                 if ('tl_error' === $m['class']) {
                     return true;
                 }
@@ -56,10 +89,10 @@ trait MessagesTrait
     /**
      * Return true if there is updates in this block.
      */
-    protected function hasUpdates(): bool
+    protected function hasUpdates(?string $scope = 'smartgear'): bool
     {
-        if (!empty($this->messages)) {
-            foreach ($this->messages as $m) {
+        if (!empty($this->messages) && \array_key_exists($scope, $this->messages)) {
+            foreach ($this->messages[$scope] as $m) {
                 if ('tl_new' === $m['class']) {
                     return true;
                 }
@@ -72,67 +105,47 @@ trait MessagesTrait
     /**
      * Add an error.
      */
-    protected function addError(string $msg): void
+    protected function addError(string $msg, ?string $scope = 'smartgear'): void
     {
-        $this->messages[] = [
-            'class' => 'tl_error',
-            'text' => $msg,
-        ];
+        $this->addMessage($msg, 'tl_error', $scope);
     }
 
     /**
      * Add an info.
      */
-    protected function addInfo(string $msg): void
+    protected function addInfo(string $msg, ?string $scope = 'smartgear'): void
     {
-        $this->messages[] = [
-            'class' => 'tl_info',
-            'text' => $msg,
-        ];
+        $this->addMessage($msg, 'tl_info', $scope);
     }
 
     /**
      * Add an confirm.
      */
-    protected function addConfirm(string $msg): void
+    protected function addConfirm(string $msg, ?string $scope = 'smartgear'): void
     {
-        $this->messages[] = [
-            'class' => 'tl_confirm',
-            'text' => $msg,
-        ];
+        $this->addMessage($msg, 'tl_confirm', $scope);
     }
 
     /**
      * Add an new.
      */
-    protected function addNew(string $msg): void
+    protected function addNew(string $msg, ?string $scope = 'smartgear'): void
     {
-        $this->messages[] = [
-            'class' => 'tl_new',
-            'text' => $msg,
-        ];
+        $this->addMessage($msg, 'tl_new', $scope);
     }
 
     /**
      * Add a message.
      */
     // protected function addMessage(string $scope, string $msg): void
-    protected function addMessage($strMessage, $strType): void // needs to be the same as \Contao\System::addMessage, otherwise a warning is thrown "because"
+    protected function addMessage($strMessage, $strType, ?string $scope = 'smartgear'): void // needs to be the same as \Contao\System::addMessage, otherwise a warning is thrown "because"
     {
-        switch ($strType) {
-            case 'tl_new':
-                $this->addNew($strMessage);
-            break;
-            case 'tl_confirm':
-                $this->addConfirm($strMessage);
-            break;
-            case 'tl_info':
-                $this->addInfo($strMessage);
-            break;
-            case 'tl_error':
-                $this->addError($strMessage);
-            break;
-        }
+        $message = [
+            'class' => $strType,
+            'text' => $strMessage,
+        ];
+        $this->messages[$scope] = $message;
+        System::getContainer()->get('session')->getFlashBag()->add($this->getFlashBagKey($strType, $scope), $message);
     }
 
     /**
@@ -141,7 +154,7 @@ trait MessagesTrait
     protected function addMessages(array $messages): void
     {
         foreach ($messages as $scope => $message) {
-            $this->addMessage($scope, $message);
+            $this->addMessage($message['text'], $message['class'], $scope);
         }
     }
 }

@@ -66,7 +66,7 @@ class ProcessFormDataListener
                     $objFormStorage->pid = $form->getModel()->id;
                     $objFormStorage->status = FormStorage::STATUS_UNREAD;
                     $objFormStorage->token = REQUEST_TOKEN;
-                    $objFormStorage->completion_percentage = $this->calculateCompletionPercentage($submittedData, $files, $form);
+                    $objFormStorage->completion_percentage = $this->calculateCompletionPercentage($submittedData, $files ?? [], $form);
                     $objFormStorage->delay_to_first_interaction = $this->calculateDelayToFirstInteraction($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]']);
                     $objFormStorage->delay_to_submission = $this->calculateDelayToSubmission($submittedData['fdm[first_interaction]'], $form);
                     $objFormStorage->current_page = $submittedData['fdm[current_page]'];
@@ -123,7 +123,7 @@ class ProcessFormDataListener
         return (int) ((int) (microtime(true) * 1000) - (int) $firstInteractionMs);
     }
 
-    protected function calculateCompletionPercentage(array $submittedData, ?array $files, Form $form): float
+    protected function calculateCompletionPercentage(array $submittedData, array $files, Form $form): float
     {
         $formFields = FormFieldModel::findPublishedByPid($form->getModel()->id);
         $fieldsTotal = $formFields->count();

@@ -29,20 +29,27 @@ use Contao\ThemeModel;
 use Contao\UserGroupModel;
 use Contao\UserModel;
 use Exception;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Migration\Result as MigrationResult;
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Model\Module;
+use WEM\SmartgearBundle\Update\UpdateManager;
 use WEM\UtilsBundle\Classes\Files as WEMFiles;
 use WEM\UtilsBundle\Classes\StringUtil as WEMStringUtil;
 
 class Website extends ConfigurationStep
 {
+    /** @var TranslatorInterface */
+    protected $translator;
     /** @var ConfigurationManager */
     protected $configurationManager;
+    /** @var UpdateManager */
+    protected $updateManager;
     /** @var CommandUtil */
     protected $commandUtil;
 
@@ -51,11 +58,15 @@ class Website extends ConfigurationStep
     public function __construct(
         string $module,
         string $type,
+        TranslatorInterface $translator,
         ConfigurationManager $configurationManager,
+        UpdateManager $updateManager,
         CommandUtil $commandUtil
     ) {
         parent::__construct($module, $type);
+        $this->translator = $translator;
         $this->configurationManager = $configurationManager;
+        $this->updateManager = $updateManager;
         $this->commandUtil = $commandUtil;
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Title'];
         /** @var CoreConfig */
@@ -192,8 +203,41 @@ class Website extends ConfigurationStep
         $notificationGateways = $this->createNotificationGateways();
         $this->updateModuleConfigurationNotificationGateways($notificationGateways);
         $this->updateUserGroups();
+
         $this->commandUtil->executeCmdPHP('cache:clear');
         $this->commandUtil->executeCmdPHP('contao:symlinks');
+
+        $this->launchMigrations();
+    }
+
+    protected function launchMigrations(): void
+    {
+        $updateResult = $this->updateManager->update();
+        if ($updateResult->isSuccess()) {
+            $this->addConfirm($this->translator->trans('WEMSG.UPDATEMANAGER.RESULT.success', [], 'contao_default'), $this->module);
+        } else {
+            $this->addError($this->translator->trans('WEMSG.UPDATEMANAGER.RESULT.fail', [], 'contao_default'), $this->module);
+        }
+
+        foreach ($updateResult->getResults() as $singleMigrationResult) {
+            switch ($singleMigrationResult->getResult()->getStatus()) {
+                case MigrationResult::STATUS_NOT_EXCUTED_YET:
+                    $this->addInfo(sprintf('%s : %s', $singleMigrationResult->getName(), $this->translator->trans('WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusNotexecutedyet', [], 'contao_default')), $this->module);
+                break;
+                case MigrationResult::STATUS_SHOULD_RUN:
+                    $this->addInfo(sprintf('%s : %s', $singleMigrationResult->getName(), $this->translator->trans('WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusShouldrun', [], 'contao_default')), $this->module);
+                break;
+                case MigrationResult::STATUS_SKIPPED:
+                    $this->addInfo(sprintf('%s : %s', $singleMigrationResult->getName(), $this->translator->trans('WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusSkipped', [], 'contao_default')), $this->module);
+                break;
+                case MigrationResult::STATUS_FAIL:
+                    $this->addError(sprintf('%s : %s', $singleMigrationResult->getName(), $this->translator->trans('WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusFail', [], 'contao_default')), $this->module);
+                break;
+                case MigrationResult::STATUS_SUCCESS:
+                    $this->addConfirm(sprintf('%s : %s', $singleMigrationResult->getName(), $this->translator->trans('WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusSuccess', [], 'contao_default')), $this->module);
+                break;
+            }
+        }
     }
 
     protected function createClientFilesFolders(): void

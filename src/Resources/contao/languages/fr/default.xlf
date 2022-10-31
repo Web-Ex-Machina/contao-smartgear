@@ -646,6 +646,17 @@
 			<target>Email de service - Smartgear</target>
 		</trans-unit>
 
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.XXXXX">
+			<source>XXXXXX</source>
+			<target>XXXXXXXX</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.XXXXX">
+			<source>XXXXXX</source>
+			<target>XXXXXXXX</target>
+		</trans-unit>
+
+
+
 		<trans-unit id="WEMSG.RESET.GENERAL.Title">
 			<source>Global</source>
 			<target>Général</target>
@@ -1872,10 +1883,6 @@
 			<target>Fichier transmis introuvable</target>
     </trans-unit>
 
-
-
-
-
 		<!-- ConfigurationStepManager -->
 		<trans-unit id="WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish">
 			<source>Finish configuration</source>
@@ -2101,9 +2108,6 @@
 			<source>The specified backup "%s" has been restored</source>
 			<target>Le backup "%s" a bien été restauré</target>
 		</trans-unit>
-
-
-
 
 		<!-- Update manager -->
 		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.updateManagerBTTitle">
@@ -2463,7 +2467,6 @@
 			<source>Add a double sized margin on the right of the element</source>
 			<target>Ajoute une marge doublée à droite de l'élément</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.STYLEMANAGER.fwtable.tabTitle">
 			<source>Table</source>
 			<target>Table</target>
@@ -2480,7 +2483,6 @@
 			<source>Reduce spacing between columns and lines in order to reduce table global size</source>
 			<target>Réduit les espacements des colonnes et lignes afin de réduire la taille globale du tableau</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.STYLEMANAGER.fwtableborder.title">
 			<source>Table - Border</source>
 			<target>Table - Bordures</target>
@@ -2501,7 +2503,6 @@
 			<source>Remove all table's borders</source>
 			<target>Retire toutes les bordures du tableau</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.STYLEMANAGER.fwtablestriped.title">
 			<source>Table - Striped</source>
 			<target>Table - Couleurs alternées</target>
@@ -2514,7 +2515,6 @@
 			<source>Colors one line every two lines</source>
 			<target>Colore une ligne sur deux du tableau</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.STYLEMANAGER.fwtablehover.title">
 			<source>Table - Hover</source>
 			<target>Table - Survol</target>
@@ -2527,344 +2527,326 @@
 			<source>Colors the hovered line</source>
 			<target>Met en valeur une ligne du tableau lorsqu’elle est survolée</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.STYLEMANAGER.fwimage.tabTitle">
 			<source>Image</source>
 			<target>Image</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.STYLEMANAGER.fwhero.tabTitle">
 			<source>Hero - Global</source>
 			<target>Bannière - Global</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.STYLEMANAGER.fwheroimg.tabTitle">
 			<source>Hero - Image</source>
 			<target>Bannière - Image</target>
 		</trans-unit>
-
 		<trans-unit id="WEMSG.STYLEMANAGER.fwquote.tabTitle">
 			<source>Quotes</source>
 			<target>Citations</target>
 		</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.tabTitle">
-		<source>Image - Ratio</source>
-<target>Image - Ratio</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.title">
-		<source>Ratio</source>
-<target>Ratio</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.description">
-	<source>If desired, select an image ratio</source>
-<target>Si souhaité, sélectionnez un ratio d'image</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r169Label">
-		<source>16:1</source>
-<target>16:1</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r21Label">
-		<source>2:1</source>
-<target>2:1</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r11Label">
-		<source>1:1</source>
-<target>1:1</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r12Label">
-		<source>1:2</source>
-<target>1:2</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r43Label">
-		<source>4:3</source>
-<target>4:3</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.title">
-		<source>Zoom</source>
-<target>Zoom</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.description">
-	<source>If desired, select a zoom effect</source>
-<target>Si souhaité, sélectionnez un effet de zoom</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.inLabel">
-		<source>Zoom In</source>
-<target>Zoom In</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.outLabel">
-		<source>Zoom Out</source>
-<target>Zoom Out</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.title">
-		<source>Fade</source>
-<target>Fondu</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.description">
-	<source>If desired, select a fade effect</source>
-<target>Si souhaité, sélectionnez un effet de fondu</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.colorLabel">
-		<source>Fade to color</source>
-<target>Fondu vers la couleur</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.greyLabel">
-		<source>Fade to grey</source>
-<target>Fondu vers le gris</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.title">
-		<source>Vertical alignment</source>
-<target>Alignement vertical</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.description">
-	<source>Define the picture's vertical alignment (default center)</source>
-<target>Définit l'alignement vertical de l'image (centré par défaut)</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.topLabel">
-		<source>top</source>
-<target>Haut</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.bottomLabel">
-		<source>bottom</source>
-<target>Bas</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.title">
-	<source>Horizontal alignment</source>
-	<target>Alignement horizontal</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.description">
-	<source>Define the picture's horizontal alignment (default center)</source>
-	<target>Définit l'alignement horizontal de l'image (centré par défaut)</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.leftLabel">
-		<source>left</source>
-<target>Gauche</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.rightLabel">
-		<source>right</source>
-<target>Droite</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroft.title">
-		<source>Font color</source>
-<target>Couleur de la police</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroft.description">
-	<source>Change the font color</source>
-<target>Change la couleur de police du contenu</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwheroft.colorLabel">
-		<source>%s</source>
-<target>%s</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbg.title">
-		<source>Background color</source>
-<target>Couleur de fond du contenu</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbg.description">
-	<source>Change the content's background color</source>
-<target>Change la couleur de fond du contenu</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbg.colorLabel">
-		<source>%s</source>
-<target>%s</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.title">
-		<source>Background's opacity</source>
-<target>Opacité du fond du contenu</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.description">
-	<source>Change the background opacity</source>
-<target>Change l'opacité de la couleur de fond du contenu</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.0Label">
-		<source>0%</source>
-<target>0%</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.1Label">
-		<source>10%</source>
-<target>10%</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.2Label">
-		<source>20%</source>
-<target>20%</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.3Label">
-		<source>30%</source>
-<target>30%</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.4Label">
-		<source>40%</source>
-<target>40%</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.5Label">
-		<source>50%</source>
-<target>50%</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.6Label">
-		<source>60%</source>
-<target>60%</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.7Label">
-		<source>70%</source>
-<target>70%</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.8Label">
-		<source>80%</source>
-<target>80%</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.9Label">
-		<source>90%</source>
-<target>90%</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.10Label">
-		<source>100%</source>
-<target>100%</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.title">
-		<source>fwquoteimgh</source>
-<target>fwquoteimgh</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.description">
-		<source>fwquoteimgh description</source>
-<target>fwquoteimgh description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.leftLabel">
-		<source>fwquoteimgh - left</source>
-<target>fwquoteimgh - left</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.rightLabel">
-		<source>fwquoteimgh - right</source>
-<target>fwquoteimgh - right</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.title">
-		<source>fwquoteimgv</source>
-<target>fwquoteimgv</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.description">
-		<source>fwquoteimgv description</source>
-<target>fwquoteimgv description</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.topLabel">
-		<source>fwquoteimgv - top</source>
-<target>fwquoteimgv - top</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.bottomLabel">
-		<source>fwquoteimgv - bottom</source>
-<target>fwquoteimgv - bottom</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardtext.tabTitle">
-	<source>Text</source>
-		<target>Texte</target>
-	</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardbg.tabTitle">
-	<source>Background</source>
-		<target>Fond</target>
-	</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardft.title">
-	<source>Text color</source>
-		<target>Couleur du texte</target>
-	</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardft.description">
-	<source>If desired, adjust content's color</source>
-		<target>Si souhaité, ajustez la couleur du contenu</target>
-	</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardft.colorLabel">
-		<source>%s color</source>
-<target>Couleur %s</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbg.title">
-	<source>Background color</source>
-		<target>Couleur de fond</target>
-	</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbg.description">
-	<source>If desired, adjust background's color</source>
-		<target>Si souhaité, ajustez la couleur de fond</target>
-	</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbg.colorLabel">
-		<source>%s color</source>
-<target>Couleur %s</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.title">
-	<source>Background opacity</source>
-		<target>Opacité du fond</target>
-	</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.description">
-	<source>Adjust item's background opacity</source>
-		<target>Ajustez l'opacité du fond de l'item </target>
-	</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.0Label">
-		<source>00%</source>
-<target>00%</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.1Label">
-		<source>10%</source>
-<target>10%</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.2Label">
-		<source>20%</source>
-<target>20%</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.3Label">
-		<source>30%</source>
-<target>30%</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.4Label">
-		<source>40%</source>
-<target>40%</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.5Label">
-		<source>50%</source>
-<target>50%</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.6Label">
-		<source>60%</source>
-<target>60%</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.7Label">
-		<source>70%</source>
-<target>70%</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.8Label">
-		<source>80%</source>
-<target>80%</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.9Label">
-		<source>90%</source>
-<target>90%</target>
-</trans-unit>
-
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.10Label">
-		<source>100%</source>
-<target>100%</target>
-</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardtextalign.centerLabel">
-	<source>Center</source>
-		<target>Centré</target>
-	</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardtextalign.rightLabel">
-	<source>Right</source>
-		<target>Droite</target>
-	</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardtextalign.title">
-	<source>Text alignment</source>
-		<target>Alignement du texte</target>
-	</trans-unit>
-<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardtextalign.description">
-	<source>Adjust text alignment</source>
-		<target>Ajustez l'alignement du texte</target>
-	</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.tabTitle">
+			<source>Image - Ratio</source>
+			<target>Image - Ratio</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.title">
+			<source>Ratio</source>
+			<target>Ratio</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.description">
+			<source>If desired, select an image ratio</source>
+			<target>Si souhaité, sélectionnez un ratio d'image</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r169Label">
+			<source>16:1</source>
+			<target>16:1</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r21Label">
+			<source>2:1</source>
+			<target>2:1</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r11Label">
+			<source>1:1</source>
+			<target>1:1</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r12Label">
+			<source>1:2</source>
+			<target>1:2</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r43Label">
+			<source>4:3</source>
+			<target>4:3</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.title">
+			<source>Zoom</source>
+			<target>Zoom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.description">
+			<source>If desired, select a zoom effect</source>
+			<target>Si souhaité, sélectionnez un effet de zoom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.inLabel">
+			<source>Zoom In</source>
+			<target>Zoom In</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.outLabel">
+			<source>Zoom Out</source>
+			<target>Zoom Out</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.title">
+			<source>Fade</source>
+			<target>Fondu</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.description">
+			<source>If desired, select a fade effect</source>
+			<target>Si souhaité, sélectionnez un effet de fondu</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.colorLabel">
+			<source>Fade to color</source>
+			<target>Fondu vers la couleur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagefade.greyLabel">
+			<source>Fade to grey</source>
+			<target>Fondu vers le gris</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.title">
+			<source>Vertical alignment</source>
+			<target>Alignement vertical</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.description">
+			<source>Define the picture's vertical alignment (default center)</source>
+			<target>Définit l'alignement vertical de l'image (centré par défaut)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.topLabel">
+			<source>top</source>
+			<target>Haut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwheroimgvertical.bottomLabel">
+			<source>bottom</source>
+			<target>Bas</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.title">
+			<source>Horizontal alignment</source>
+			<target>Alignement horizontal</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.description">
+			<source>Define the picture's horizontal alignment (default center)</source>
+			<target>Définit l'alignement horizontal de l'image (centré par défaut)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.leftLabel">
+			<source>left</source>
+			<target>Gauche</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwheroimghorizontal.rightLabel">
+			<source>right</source>
+			<target>Droite</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwheroft.title">
+			<source>Font color</source>
+			<target>Couleur de la police</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwheroft.description">
+			<source>Change the font color</source>
+			<target>Change la couleur de police du contenu</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwheroft.colorLabel">
+			<source>%s</source>
+			<target>%s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbg.title">
+			<source>Background color</source>
+			<target>Couleur de fond du contenu</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbg.description">
+			<source>Change the content's background color</source>
+			<target>Change la couleur de fond du contenu</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbg.colorLabel">
+			<source>%s</source>
+			<target>%s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.title">
+			<source>Background's opacity</source>
+			<target>Opacité du fond du contenu</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.description">
+			<source>Change the background opacity</source>
+			<target>Change l'opacité de la couleur de fond du contenu</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.0Label">
+			<source>0%</source>
+			<target>0%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.1Label">
+			<source>10%</source>
+			<target>10%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.2Label">
+			<source>20%</source>
+			<target>20%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.3Label">
+			<source>30%</source>
+			<target>30%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.4Label">
+			<source>40%</source>
+			<target>40%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.5Label">
+			<source>50%</source>
+			<target>50%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.6Label">
+			<source>60%</source>
+			<target>60%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.7Label">
+			<source>70%</source>
+			<target>70%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.8Label">
+			<source>80%</source>
+			<target>80%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.9Label">
+			<source>90%</source>
+			<target>90%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwherocontentbgopacity.10Label">
+			<source>100%</source>
+			<target>100%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.title">
+			<source>fwquoteimgh</source>
+			<target>fwquoteimgh</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.description">
+			<source>fwquoteimgh description</source>
+			<target>fwquoteimgh description</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.leftLabel">
+			<source>fwquoteimgh - left</source>
+			<target>fwquoteimgh - left</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgh.rightLabel">
+			<source>fwquoteimgh - right</source>
+			<target>fwquoteimgh - right</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.title">
+			<source>fwquoteimgv</source>
+			<target>fwquoteimgv</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.description">
+			<source>fwquoteimgv description</source>
+			<target>fwquoteimgv description</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.topLabel">
+			<source>fwquoteimgv - top</source>
+			<target>fwquoteimgv - top</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwquoteimgv.bottomLabel">
+			<source>fwquoteimgv - bottom</source>
+			<target>fwquoteimgv - bottom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardtext.tabTitle">
+			<source>Text</source>
+			<target>Texte</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardbg.tabTitle">
+			<source>Background</source>
+			<target>Fond</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardft.title">
+			<source>Text color</source>
+			<target>Couleur du texte</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardft.description">
+			<source>If desired, adjust content's color</source>
+			<target>Si souhaité, ajustez la couleur du contenu</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardft.colorLabel">
+			<source>%s color</source>
+			<target>Couleur %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbg.title">
+			<source>Background color</source>
+			<target>Couleur de fond</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbg.description">
+			<source>If desired, adjust background's color</source>
+			<target>Si souhaité, ajustez la couleur de fond</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbg.colorLabel">
+			<source>%s color</source>
+			<target>Couleur %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.title">
+			<source>Background opacity</source>
+			<target>Opacité du fond</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.description">
+			<source>Adjust item's background opacity</source>
+			<target>Ajustez l'opacité du fond de l'item </target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.0Label">
+			<source>00%</source>
+			<target>00%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.1Label">
+			<source>10%</source>
+			<target>10%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.2Label">
+			<source>20%</source>
+			<target>20%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.3Label">
+			<source>30%</source>
+			<target>30%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.4Label">
+			<source>40%</source>
+			<target>40%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.5Label">
+			<source>50%</source>
+			<target>50%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.6Label">
+			<source>60%</source>
+			<target>60%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.7Label">
+			<source>70%</source>
+			<target>70%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.8Label">
+			<source>80%</source>
+			<target>80%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.9Label">
+			<source>90%</source>
+			<target>90%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.10Label">
+			<source>100%</source>
+			<target>100%</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardtextalign.centerLabel">
+			<source>Center</source>
+			<target>Centré</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardtextalign.rightLabel">
+			<source>Right</source>
+			<target>Droite</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardtextalign.title">
+			<source>Text alignment</source>
+			<target>Alignement du texte</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockcardtextalign.description">
+			<source>Adjust text alignment</source>
+			<target>Ajustez l'alignement du texte</target>
+		</trans-unit>
 
 		<!-- Migrations -->
 		<!-- General -->
