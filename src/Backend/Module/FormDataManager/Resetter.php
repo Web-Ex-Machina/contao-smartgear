@@ -133,6 +133,12 @@ class Resetter extends BackendResetter
                 $objConsentDataSave->invisible = 1;
                 $objConsentDataSave->save();
             }
+
+            $objConsentDataSaveExplanation = FormFieldModel::findById($formContactConfig->getSgFieldConsentDataSaveExplanation());
+            if ($objConsentDataSaveExplanation) {
+                $objConsentDataSaveExplanation->invisible = 1;
+                $objConsentDataSaveExplanation->save();
+            }
         }
     }
 

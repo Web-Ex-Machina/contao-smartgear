@@ -106,6 +106,12 @@ class General extends ConfigurationStep
                 $objConsentDataSave->invisible = false;
                 $objConsentDataSave->save();
             }
+
+            $objConsentDataSaveExplanation = FormFieldModel::findById($formContactConfig->getSgFieldConsentDataSaveExplanation());
+            if ($objConsentDataSaveExplanation) {
+                $objConsentDataSaveExplanation->invisible = false;
+                $objConsentDataSaveExplanation->save();
+            }
         }
     }
 
@@ -118,6 +124,9 @@ class General extends ConfigurationStep
 
         $formDataManagerConfig
             ->setSgInstallComplete(true)
+            ->setSgArchived(false)
+            ->setSgArchivedMode(FormDataManagerConfig::ARCHIVE_MODE_EMPTY)
+            ->setSgArchivedAt(0)
         ;
 
         $config->setSgFormDataManager($formDataManagerConfig);

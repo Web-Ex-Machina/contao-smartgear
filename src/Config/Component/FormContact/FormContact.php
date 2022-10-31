@@ -65,7 +65,11 @@ class FormContact implements ConfigModuleInterface
     /** @var int */
     protected $sgFieldConsentDataTreatment;
     /** @var int */
+    protected $sgFieldConsentDataTreatmentExplanation;
+    /** @var int */
     protected $sgFieldConsentDataSave;
+    /** @var int */
+    protected $sgFieldConsentDataSaveExplanation;
     /** @var int */
     protected $sgFieldCaptcha;
     /** @var int */
@@ -105,7 +109,9 @@ class FormContact implements ConfigModuleInterface
             ->setSgFieldEmail(null)
             ->setSgFieldMessage(null)
             ->setSgFieldConsentDataTreatment(null)
+            ->setSgFieldConsentDataTreatmentExplanation(null)
             ->setSgFieldConsentDataSave(null)
+            ->setSgFieldConsentDataSaveExplanation(null)
             ->setSgFieldMessage(null)
             ->setSgFieldCaptcha(null)
             ->setSgFieldSubmit(null)
@@ -140,7 +146,9 @@ class FormContact implements ConfigModuleInterface
             ->setSgFieldEmail($json->contao->fields->email ?? null)
             ->setSgFieldMessage($json->contao->fields->message ?? null)
             ->setSgFieldConsentDataTreatment($json->contao->fields->consentDataTreatment ?? null)
+            ->setSgFieldConsentDataTreatmentExplanation($json->contao->fields->consentDataTreatmentExplanation ?? null)
             ->setSgFieldConsentDataSave($json->contao->fields->consentDataSave ?? null)
+            ->setSgFieldConsentDataSaveExplanation($json->contao->fields->consentDataSaveExplanation ?? null)
             ->setSgFieldCaptcha($json->contao->fields->captcha ?? null)
             ->setSgFieldSubmit($json->contao->fields->submit ?? null)
             ->setSgNotification($json->contao->notification ?? null)
@@ -190,7 +198,9 @@ class FormContact implements ConfigModuleInterface
         $json->contao->fields->email = $this->getSgFieldEmail();
         $json->contao->fields->message = $this->getSgFieldMessage();
         $json->contao->fields->consentDataTreatment = $this->getSgFieldConsentDataTreatment();
+        $json->contao->fields->consentDataTreatmentExplanation = $this->getSgFieldConsentDataTreatmentExplanation();
         $json->contao->fields->consentDataSave = $this->getSgFieldConsentDataSave();
+        $json->contao->fields->consentDataSaveExplanation = $this->getSgFieldConsentDataSaveExplanation();
         $json->contao->fields->captcha = $this->getSgFieldCaptcha();
         $json->contao->fields->submit = $this->getSgFieldSubmit();
 
@@ -663,6 +673,30 @@ class FormContact implements ConfigModuleInterface
     public function setSgFieldConsentDataSave(?int $sgFieldConsentDataSave): self
     {
         $this->sgFieldConsentDataSave = $sgFieldConsentDataSave;
+
+        return $this;
+    }
+
+    public function getSgFieldConsentDataTreatmentExplanation(): ?int
+    {
+        return $this->sgFieldConsentDataTreatmentExplanation;
+    }
+
+    public function setSgFieldConsentDataTreatmentExplanation(?int $sgFieldConsentDataTreatmentExplanation): self
+    {
+        $this->sgFieldConsentDataTreatmentExplanation = $sgFieldConsentDataTreatmentExplanation;
+
+        return $this;
+    }
+
+    public function getSgFieldConsentDataSaveExplanation(): ?int
+    {
+        return $this->sgFieldConsentDataSaveExplanation;
+    }
+
+    public function setSgFieldConsentDataSaveExplanation(?int $sgFieldConsentDataSaveExplanation): self
+    {
+        $this->sgFieldConsentDataSaveExplanation = $sgFieldConsentDataSaveExplanation;
 
         return $this;
     }
