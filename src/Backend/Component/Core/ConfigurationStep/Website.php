@@ -181,6 +181,8 @@ class Website extends ConfigurationStep
         $articles = $this->createArticles($pages);
         $this->updateModuleConfigurationArticles($articles);
 
+        $this->updateLayouts($layouts, $pages);
+
         $contents = $this->createContents($pages, $articles, $modules);
         $this->updateModuleConfigurationContents($contents);
 
@@ -343,6 +345,20 @@ class Website extends ConfigurationStep
         $modules[$objPDMModule->type] = $objPDMModule;
 
         return $modules;
+    }
+
+    protected function updateLayouts(array $layouts, array $pages): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $objLayout = LayoutModel::findOneById($config->getSgLayoutStandard());
+        $objLayout->head = str_replace('{{config.core.page.privacy.url}}', $pages['privacy_politics']->getAbsoluteUrl(), $objLayout->head);
+        $objLayout->save();
+
+        $objLayout = LayoutModel::findOneById($config->getSgLayoutFullwidth());
+        $objLayout->head = str_replace('{{config.core.page.privacy.url}}', $pages['privacy_politics']->getAbsoluteUrl(), $objLayout->head);
+        $objLayout->save();
     }
 
     protected function createLayouts(int $themeId, array $modules): array
