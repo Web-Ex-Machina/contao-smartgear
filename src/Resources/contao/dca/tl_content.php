@@ -131,8 +131,8 @@ function updatePaletteImage(): void
     PaletteManipulator::create()
         ->removeField('headline')
         ->removeField('customTpl')
-        // ->removeField('guests')
-        ->removeField('cssID')
+        ->removeField('guests')
+        // ->removeField('cssID')
         ->removeField('imagemargin')
         ->applyToPalette('image', 'tl_content')
     ;
