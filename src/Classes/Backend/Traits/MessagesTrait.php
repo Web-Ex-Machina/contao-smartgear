@@ -151,9 +151,9 @@ trait MessagesTrait
     /**
      * Add a message.
      */
-    protected function addMessages(array $messages): void
+    protected function addMessages(array $messages, ?string $scope = 'smartgear'): void
     {
-        foreach ($messages as $scope => $message) {
+        foreach ($messages as $message) {
             $this->addMessage($message['text'], $message['class'], $scope);
         }
     }

@@ -16,10 +16,10 @@ namespace WEM\SmartgearBundle\Backend\Module\FormDataManager\ResetStep;
 
 use Contao\Input;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use WEM\SmartgearBundle\Backend\Module\FormDataManager\Resetter;
 use WEM\SmartgearBundle\Classes\Backend\AbstractStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
-use WEM\SmartgearBundle\Backend\Module\FormDataManager\Resetter;
 
 class General extends AbstractStep
 {
@@ -73,6 +73,6 @@ class General extends AbstractStep
     protected function reset(string $mode): void
     {
         $this->resetter->reset($mode);
-        $this->addMessages($this->resetter->getMessages());
+        $this->addMessages($this->resetter->getMessages(), $this->module);
     }
 }

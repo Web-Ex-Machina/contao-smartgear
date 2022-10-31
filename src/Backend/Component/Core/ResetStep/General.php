@@ -78,6 +78,6 @@ class General extends AbstractStep
     protected function reset(bool $keepFramway, bool $keepTemplates, bool $keepThemesModules, bool $keepPages, bool $keepFiles, bool $keepLocalconfig): void
     {
         $this->resetter->reset($keepFramway, $keepTemplates, $keepThemesModules, $keepPages, $keepFiles, $keepLocalconfig);
-        $this->addMessages($this->resetter->getMessages());
+        $this->addMessages($this->resetter->getMessages(), $this->module);
     }
 }
