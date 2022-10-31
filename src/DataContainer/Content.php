@@ -147,11 +147,15 @@ class Content extends Backend
      * Rule #1 : Replace [nbsp] tags by ' '
      * Rule #2 : Find special characters and add an [nbsp] just before.
      *
-     * @param string        $varValue [description]
+     * @param mixed         $varValue [description]
      * @param DataContainer $objDc    [description]
      */
-    public function cleanHeadline(string $varValue, DataContainer $objDc): string
+    public function cleanHeadline($varValue, DataContainer $objDc)
     {
+        if (!\is_string($varValue)) {
+            return $varValue;
+        }
+
         return StringUtil::cleanSpaces($varValue);
     }
 
@@ -160,11 +164,15 @@ class Content extends Backend
      * Rule #1 : Replace [nbsp] tags by ' '
      * Rule #2 : Find special characters and add an [nbsp] just before.
      *
-     * @param string        $varValue [description]
+     * @param mixed         $varValue [description]
      * @param DataContainer $objDc    [description]
      */
-    public function cleanText(string $varValue, DataContainer $objDc): string
+    public function cleanText($varValue, DataContainer $objDc)
     {
+        if (!\is_string($varValue)) {
+            return $varValue;
+        }
+
         return StringUtil::cleanSpaces($varValue);
     }
 
