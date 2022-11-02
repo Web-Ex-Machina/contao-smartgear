@@ -33,6 +33,12 @@ class Module extends CoreModel
      * @var string
      */
     protected static $strTable = 'tl_module';
+    /**
+     * Default order column.
+     *
+     * @var string
+     */
+    protected static $strOrderColumn = 'tstamp DESC';
 
     public static function getTypesByIds(array $ids): array
     {

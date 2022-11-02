@@ -1310,7 +1310,7 @@ class Website extends ConfigurationStep
                 } elseif ('events' === $submodule) {
                     $submoduleStep->updateUserGroups(\in_array(SmartgearPermissions::EVENTS_EXPERT, $this->userGroupWebmasterOldPermissions, true));
                 } elseif ('extranet' === $submodule) {
-                    $objModules = ModuleModel::findby('id', $submoduleConfig->getContaoModulesIds());
+                    $objModules = Module::findItems(['id' => $submoduleConfig->getContaoModulesIds()]);
                     $modules = [];
                     if ($objModules) {
                         while ($objModules->next()) {
