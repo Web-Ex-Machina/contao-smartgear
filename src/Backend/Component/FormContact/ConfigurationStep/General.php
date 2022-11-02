@@ -456,18 +456,19 @@ class General extends ConfigurationStep
         $inputConsentDataTreatment->sorting = 512;
         $inputConsentDataTreatment->type = 'checkbox';
         $inputConsentDataTreatment->name = 'consent_data_treatment';
-        // $inputConsentDataTreatment->label = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputConsentDataTreatment', [], 'contao_default');
         $inputConsentDataTreatment->options = serialize([['value' => 1, 'label' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.optionLabelFormInputConsentDataTreatment', [], 'contao_default')]]);
         $inputConsentDataTreatment->mandatory = 1;
         $inputConsentDataTreatment->tstamp = time();
         $inputConsentDataTreatment->mandatory = true;
         $inputConsentDataTreatment->save();
 
+        $strText = Util::getLocalizedTemplateContent('{public_or_web}/bundles/wemsmartgear/examples/formContact/{lang}/explanation_consent_data_treatment.html', $this->language, '{public_or_web}/bundles/wemsmartgear/examples/formContact/fr/explanation_consent_data_treatment.html');
+
         $inputConsentDataTreatmentExplanation = FormFieldModel::findOneById($formContactConfig->getSgFieldConsentDataTreatmentExplanation()) ?? new FormFieldModel();
         $inputConsentDataTreatmentExplanation->pid = $form->id;
         $inputConsentDataTreatmentExplanation->sorting = 768;
         $inputConsentDataTreatmentExplanation->type = 'explanation';
-        $inputConsentDataTreatmentExplanation->text = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.textFormInputConsentDataTreatmentExplanation', [], 'contao_default');
+        $inputConsentDataTreatmentExplanation->text = $strText;
         $inputConsentDataTreatmentExplanation->tstamp = time();
         $inputConsentDataTreatmentExplanation->save();
 
@@ -476,18 +477,18 @@ class General extends ConfigurationStep
         $inputConsentDataSave->sorting = 896;
         $inputConsentDataSave->type = 'checkbox';
         $inputConsentDataSave->name = 'consent_data_save';
-        // $inputConsentDataSave->label = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputConsentDataSave', [], 'contao_default');
         $inputConsentDataSave->options = serialize([['value' => 1, 'label' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.optionLabelFormInputConsentDataSave', [], 'contao_default')]]);
         $inputConsentDataSave->mandatory = 1;
         $inputConsentDataSave->tstamp = time();
         $inputConsentDataSave->invisible = !$config->getSgFormDataManager()->getSgInstallComplete();
         $inputConsentDataSave->save();
 
+        $strText = Util::getLocalizedTemplateContent('{public_or_web}/bundles/wemsmartgear/examples/formContact/{lang}/explanation_consent_data_save.html', $this->language, '{public_or_web}/bundles/wemsmartgear/examples/formContact/fr/explanation_consent_data_save.html');
         $inputConsentDataSaveExplanation = FormFieldModel::findOneById($formContactConfig->getSgFieldConsentDataSaveExplanation()) ?? new FormFieldModel();
         $inputConsentDataSaveExplanation->pid = $form->id;
         $inputConsentDataSaveExplanation->sorting = 1024;
         $inputConsentDataSaveExplanation->type = 'explanation';
-        $inputConsentDataSaveExplanation->text = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.textFormInputConsentDataSaveExplanation', [], 'contao_default');
+        $inputConsentDataSaveExplanation->text = $strText;
         $inputConsentDataSaveExplanation->tstamp = time();
         $inputConsentDataSaveExplanation->invisible = !$config->getSgFormDataManager()->getSgInstallComplete();
         $inputConsentDataSaveExplanation->save();
