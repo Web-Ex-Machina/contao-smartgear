@@ -93,6 +93,17 @@ class General extends ConfigurationStep
         $this->commandUtil->executeCmdPHP('contao:symlinks');
     }
 
+    public function updateUserGroups(): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        /** @var FaqConfig */
+        $faqConfig = $config->getSgFaq();
+
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $faqConfig);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $faqConfig);
+    }
+
     protected function updateModuleConfiguration(): void
     {
         /** @var CoreConfig */
@@ -240,17 +251,6 @@ class General extends ConfigurationStep
         $config->setSgFaq($faqConfig);
 
         $this->configurationManager->save($config);
-    }
-
-    protected function updateUserGroups(): void
-    {
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
-        /** @var FaqConfig */
-        $faqConfig = $config->getSgFaq();
-
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $faqConfig);
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $faqConfig);
     }
 
     protected function updateUserGroup(UserGroupModel $objUserGroup, FaqConfig $faqConfig): void

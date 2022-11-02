@@ -116,6 +116,17 @@ class General extends ConfigurationStep
         $this->commandUtil->executeCmdPHP('contao:symlinks');
     }
 
+    public function updateUserGroups(bool $expertMode): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        /** @var EventsConfig */
+        $eventsConfig = $config->getSgEvents();
+
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $expertMode, $eventsConfig);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), true, $eventsConfig);
+    }
+
     protected function updateModuleConfiguration(): void
     {
         /** @var CoreConfig */
@@ -323,17 +334,6 @@ class General extends ConfigurationStep
         $config->setSgEvents($eventsConfig);
 
         $this->configurationManager->save($config);
-    }
-
-    protected function updateUserGroups(bool $expertMode): void
-    {
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
-        /** @var EventsConfig */
-        $eventsConfig = $config->getSgEvents();
-
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $expertMode, $eventsConfig);
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), true, $eventsConfig);
     }
 
     protected function updateUserGroup(UserGroupModel $objUserGroup, bool $expertMode, EventsConfig $eventsConfig): void

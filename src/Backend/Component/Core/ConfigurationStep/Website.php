@@ -38,6 +38,7 @@ use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Model\Module;
+use WEM\SmartgearBundle\Security\SmartgearPermissions;
 use WEM\SmartgearBundle\Update\UpdateManager;
 use WEM\UtilsBundle\Classes\Files as WEMFiles;
 use WEM\UtilsBundle\Classes\StringUtil as WEMStringUtil;
@@ -52,6 +53,10 @@ class Website extends ConfigurationStep
     protected $updateManager;
     /** @var CommandUtil */
     protected $commandUtil;
+    /** array */
+    protected $userGroupUpdaters;
+    /** array */
+    protected $userGroupWebmasterOldPermissions = [];
 
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_website';
 
@@ -61,13 +66,15 @@ class Website extends ConfigurationStep
         TranslatorInterface $translator,
         ConfigurationManager $configurationManager,
         UpdateManager $updateManager,
-        CommandUtil $commandUtil
+        CommandUtil $commandUtil,
+        array $userGroupUpdaters
     ) {
         parent::__construct($module, $type);
         $this->translator = $translator;
         $this->configurationManager = $configurationManager;
         $this->updateManager = $updateManager;
         $this->commandUtil = $commandUtil;
+        $this->userGroupUpdaters = $userGroupUpdaters;
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Title'];
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
@@ -492,7 +499,7 @@ class Website extends ConfigurationStep
         $objUserGroup->filemounts = serialize([$objFolderClientFiles->uuid, $objFolderClientLogos->uuid]);
         $objUserGroup->fop = serialize(['f1', 'f2', 'f3', 'f4']);
         $objUserGroup->imageSizes = serialize(['proportional']);
-        $objUserGroup->alexf = Util::addPermissions($this->getCorePermissions());
+        $objUserGroup->alexf = serialize($this->getCorePermissions());
         $objUserGroup->elements = serialize([
             'headline',
             'text',
@@ -530,13 +537,14 @@ class Website extends ConfigurationStep
 
         if (null !== $config->getSgUserGroupAdministrators()) {
             $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupRedactors()) ?? new UserGroupModel();
+            $this->userGroupWebmasterOldPermissions = unserialize($objUserGroup->smartgear_permissions);
         } else {
             $objUserGroup = new UserGroupModel();
         }
         $objUserGroup->tstamp = time();
         $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName'];
         $objUserGroup->modules = serialize(['article', 'files']);
-        $objUserGroup->alexf = Util::addPermissions($this->getCorePermissions());
+        $objUserGroup->alexf = serialize($this->getCorePermissions());
         $objUserGroup->imageSizes = serialize(['proportional']);
         $objUserGroup->filemounts = serialize([$objFolderClientFiles->uuid, $objFolderClientLogos->uuid]);
         $objUserGroup->fop = serialize(['f1', 'f2', 'f3', 'f4']);
@@ -1263,6 +1271,8 @@ class Website extends ConfigurationStep
             154 => 'tl_user::stop',
             155 => 'tl_user::session',
             156 => 'tl_content::grid_gap',
+            157 => 'tl_article::styleManager',
+            158 => 'tl_content::styleManager',
         ];
     }
 
@@ -1273,6 +1283,29 @@ class Website extends ConfigurationStep
 
         $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $config);
         $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $config);
+
+        foreach ($this->userGroupUpdaters as $submoduleStep) {
+            $submodule = $submoduleStep->getModule();
+            $submoduleConfig = $config->getSubmoduleConfig($submodule);
+            if ($submoduleConfig->getSgInstallComplete()) {
+                if ('blog' === $submodule) {
+                    $submoduleStep->updateUserGroups(\in_array(SmartgearPermissions::BLOG_EXPERT, $this->userGroupWebmasterOldPermissions, true));
+                } elseif ('events' === $submodule) {
+                    $submoduleStep->updateUserGroups(\in_array(SmartgearPermissions::EVENTS_EXPERT, $this->userGroupWebmasterOldPermissions, true));
+                } elseif ('extranet' === $submodule) {
+                    $objModules = ModuleModel::findby('id', $submoduleConfig->getContaoModulesIds());
+                    $modules = [];
+                    if ($objModules) {
+                        while ($objModules->next()) {
+                            $modules[] = $objModules->current();
+                        }
+                    }
+                    $submoduleStep->updateUserGroups($modules);
+                } else {
+                    $submoduleStep->updateUserGroups();
+                }
+            }
+        }
     }
 
     protected function updateUserGroup(UserGroupModel $objUserGroup, CoreConfig $config): void

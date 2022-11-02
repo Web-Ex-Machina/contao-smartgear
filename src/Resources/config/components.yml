@@ -20,7 +20,7 @@ services:
             $dashboard: '@smartgear.backend.component.core.dashboard'
             $translator: '@contao.translation.translator'
         public: true
-
+    
     smartgear.backend.component.core.resetter:
         class: WEM\SmartgearBundle\Backend\Component\Core\Resetter
         arguments:
@@ -137,6 +137,14 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
             $updateManager: '@smartgear.update.update_manager'
             $commandUtil: '@smartgear.classes.command.util'
+            $userGroupUpdaters:
+                - '@smartgear.backend.component.blog.configuration_step.general'
+                - '@smartgear.backend.component.events.configuration_step.general'
+                - '@smartgear.backend.component.faq.configuration_step.general'
+                - '@smartgear.backend.component.form_contact.configuration_step.general'
+                - '@smartgear.backend.module.form_data_manager.configuration_step.general'
+                - '@smartgear.backend.module.extranet.configuration_step.general'
+                
         public: true
 
     smartgear.backend.component.core.reset_step.general:

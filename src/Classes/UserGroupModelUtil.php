@@ -260,6 +260,7 @@ class UserGroupModelUtil
      */
     public function addAllowedFields(array $fields): self
     {
+        Util::log($this->userGroup->alexf);
         $alexf = null !== $this->userGroup->alexf ? unserialize($this->userGroup->alexf) : [];
         $this->userGroup->alexf = serialize(array_unique(array_merge($alexf, $fields)));
 
@@ -292,9 +293,12 @@ class UserGroupModelUtil
                 $loader = new \Contao\DcaLoader($table);
                 $loader->load();
             }
-            $allowedFieldsWithoutPrefix = array_keys($GLOBALS['TL_DCA'][$table]['fields'] ?? []);
-            foreach ($allowedFieldsWithoutPrefix as $allowedFieldWithoutPrefix) {
-                $allowedFields[] = $table.'::'.$allowedFieldWithoutPrefix;
+            $dcaFields = $GLOBALS['TL_DCA'][$table]['fields'] ?? [];
+            foreach ($dcaFields as $key => $config) {
+                // see tl_user_group::getExcludedFields
+                if (($config['exclude'] ?? null) || ($config['orig_exclude'] ?? null)) {
+                    $allowedFields[] = $table.'::'.$key;
+                }
             }
         }
 
@@ -314,6 +318,10 @@ class UserGroupModelUtil
             $fieldNameKeyToDelete = $prefix;
             $fieldNameKeyToDeleteLength = \strlen($fieldNameKeyToDelete);
             foreach ($alexf as $index => $fieldName) {
+                if (!\is_string($fieldName)) {
+                    unset($alexf[$index]);
+                    continue;
+                }
                 if ($fieldNameKeyToDelete === substr($fieldName, 0, $fieldNameKeyToDeleteLength)) {
                     unset($alexf[$index]);
                 }

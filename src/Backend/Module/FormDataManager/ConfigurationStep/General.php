@@ -75,6 +75,16 @@ class General extends ConfigurationStep
         $this->commandUtil->executeCmdPHP('contao:symlinks');
     }
 
+    public function updateUserGroups(): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        /** @var FormDataManagerConfig */
+        $formDataManagerConfig = $config->getSgFormDataManager();
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $formDataManagerConfig);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $formDataManagerConfig);
+    }
+
     protected function updateFormContactFormIfInstalled(): void
     {
         /** @var CoreConfig */
@@ -132,16 +142,6 @@ class General extends ConfigurationStep
         $config->setSgFormDataManager($formDataManagerConfig);
 
         $this->configurationManager->save($config);
-    }
-
-    protected function updateUserGroups(): void
-    {
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
-        /** @var FormDataManagerConfig */
-        $formDataManagerConfig = $config->getSgFormDataManager();
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $formDataManagerConfig);
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $formDataManagerConfig);
     }
 
     protected function updateUserGroup(UserGroupModel $objUserGroup, FormDataManagerConfig $formDataManagerConfig): void

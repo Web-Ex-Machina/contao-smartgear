@@ -108,6 +108,18 @@ class General extends ConfigurationStep
         $this->commandUtil->executeCmdPHP('cache:clear');
     }
 
+    public function updateUserGroups(): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        /** @var FormContactConfig */
+        $formContactConfig = $config->getSgFormContact();
+
+        // retrieve the webmaster's group and update the permissions
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $formContactConfig);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $formContactConfig);
+    }
+
     protected function updateModuleConfiguration(): void
     {
         /** @var CoreConfig */
@@ -552,18 +564,6 @@ class General extends ConfigurationStep
         $config->setSgFormContact($formContactConfig);
 
         $this->configurationManager->save($config);
-    }
-
-    protected function updateUserGroups(): void
-    {
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
-        $formContactConfig = $config->getSgFormContact();
-
-        // retrieve the webmaster's group and update the permissions
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $formContactConfig);
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $formContactConfig);
     }
 
     protected function updateUserGroup(UserGroupModel $objUserGroup, FormContactConfig $formContactConfig): void
