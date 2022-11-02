@@ -206,6 +206,54 @@ class UserGroupModelUtil
     }
 
     /**
+     * Add allowed form permissions (do not assign fields).
+     *
+     * @param array $formp The formp permissions
+     */
+    public function addAllowedFormPermissions(array $formp): self
+    {
+        $this->userGroup->formp = $this->addAllowedItems($this->userGroup->formp, $formp);
+
+        return $this;
+    }
+
+    /**
+     * Remove allowed form permissions (do not remove fields).
+     *
+     * @param array $formp The formp permissions
+     */
+    public function removeAllowedFormPermissions(array $formp): self
+    {
+        $this->userGroup->formp = $this->removeAllowedItems($this->userGroup->formp, $formp);
+
+        return $this;
+    }
+
+    /**
+     * Add allowed elements.
+     *
+     * @param array $elements The elements
+     */
+    public function addAllowedElements(array $elements): self
+    {
+        $this->userGroup->elements = $this->addAllowedItems($this->userGroup->elements, $elements);
+
+        return $this;
+    }
+
+    /**
+     * Remove allowed elements.
+     *
+     * @param array $elements The elements
+     */
+    public function removeAllowedElements(array $elements): self
+    {
+        $this->userGroup->elements = $this->removeAllowedItems($this->userGroup->elements, $elements);
+
+        return $this;
+    }
+
+    /**
      * Add allowed filemounts (do not assign filemount permissions).
      *
      * @param array $folderUUIDs The folders'UUIDs
@@ -225,6 +273,30 @@ class UserGroupModelUtil
     public function removeAllowedFilemounts(array $folderUUIDs): self
     {
         $this->userGroup->filemounts = $this->removeAllowedItems($this->userGroup->filemounts, $folderUUIDs);
+
+        return $this;
+    }
+
+    /**
+     * Add allowed file operation permissions (do not assign filemounts).
+     *
+     * @param array $fop The file operation permissions
+     */
+    public function addAllowedFileOperationPermissions(array $fop): self
+    {
+        $this->userGroup->fop = $this->addAllowedItems($this->userGroup->fop, $fop);
+
+        return $this;
+    }
+
+    /**
+     * Remove allowed file operation permissions (do not remove filemounts).
+     *
+     * @param array $fop The file operation permissions
+     */
+    public function removeAllowedFileOperationPermissions(array $fop): self
+    {
+        $this->userGroup->fop = $this->removeAllowedItems($this->userGroup->fop, $fop);
 
         return $this;
     }
@@ -254,13 +326,36 @@ class UserGroupModelUtil
     }
 
     /**
+     * Add allowed imageSizes.
+     *
+     * @param array $imageSizes The pages'IDs
+     */
+    public function addAllowedImageSizes(array $imageSizes): self
+    {
+        $this->userGroup->imageSizes = $this->addAllowedItems($this->userGroup->imageSizes, $imageSizes);
+
+        return $this;
+    }
+
+    /**
+     * Remove allowed imageSizes.
+     *
+     * @param array $imageSizes The pages'IDs
+     */
+    public function removeAllowedImageSizes(array $imageSizes): self
+    {
+        $this->userGroup->imageSizes = $this->removeAllowedItems($this->userGroup->imageSizes, $imageSizes);
+
+        return $this;
+    }
+
+    /**
      * Add allowed fields.
      *
      * @param array $fields The fields name to remove (eg tl_news::title)
      */
     public function addAllowedFields(array $fields): self
     {
-        Util::log($this->userGroup->alexf);
         $alexf = null !== $this->userGroup->alexf ? unserialize($this->userGroup->alexf) : [];
         $this->userGroup->alexf = serialize(array_unique(array_merge($alexf, $fields)));
 

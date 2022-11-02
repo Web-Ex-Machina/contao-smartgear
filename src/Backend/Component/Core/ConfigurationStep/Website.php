@@ -493,45 +493,52 @@ class Website extends ConfigurationStep
         }
         $objUserGroup->tstamp = time();
         $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName'];
-        $objUserGroup->modules = serialize(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance', 'wem_sg_social_link']);
-        // $objUserGroup->pagemounts = '';
-        // $objUserGroup->alpty = 'a:3:{i:0;s:7:"regular";i:1;s:7:"forward";i:2;s:8:"redirect";}';
-        $objUserGroup->filemounts = serialize([$objFolderClientFiles->uuid, $objFolderClientLogos->uuid]);
-        $objUserGroup->fop = serialize(['f1', 'f2', 'f3', 'f4']);
-        $objUserGroup->imageSizes = serialize(['proportional']);
-        $objUserGroup->alexf = serialize($this->getCorePermissions());
-        $objUserGroup->elements = serialize([
-            'headline',
-            'text',
-            'html',
-            'table',
-            'rsce_listIcons',
-            'rsce_quote',
-            'accordionStart',
-            'accordionStop',
-            'hyperlink',
-            'image',
-            'player',
-            'youtube',
-            'vimeo',
-            'downloads',
-            'module',
-            'rsce_timeline',
-            'grid-start',
-            'grid-stop',
-            'rsce_accordion',
-            'rsce_counter',
-            'rsce_hero',
-            'rsce_heroStart',
-            'rsce_heroStop',
-            'rsce_ratings',
-            'rsce_priceCards',
-            'rsce_slider',
-            'rsce_tabs',
-            'rsce_testimonials',
-            'rsce_pdfViewer',
-            'rsce_blockCard',
-        ]);
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedModules(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance', 'wem_sg_social_link'])
+            ->addAllowedFields($this->getCorePermissions())
+            ->addAllowedImageSizes(['proportional'])
+            ->addAllowedFilemounts([$objFolderClientFiles->uuid, $objFolderClientLogos->uuid])
+            ->addAllowedFileOperationPermissions(['f1', 'f2', 'f3', 'f4'])
+            ->addAllowedElements([
+                'headline',
+                'text',
+                'html',
+                'table',
+                'rsce_listIcons',
+                'rsce_quote',
+                'accordionStart',
+                'accordionStop',
+                'hyperlink',
+                'image',
+                'player',
+                'youtube',
+                'vimeo',
+                'downloads',
+                'module',
+                'rsce_timeline',
+                'grid-start',
+                'grid-stop',
+                'rsce_accordion',
+                'rsce_counter',
+                'rsce_hero',
+                'rsce_heroStart',
+                'rsce_heroStop',
+                'rsce_ratings',
+                'rsce_priceCards',
+                'rsce_slider',
+                'rsce_tabs',
+                'rsce_testimonials',
+                'rsce_pdfViewer',
+                'rsce_blockCard',
+                'form',
+            ])
+            ->addAllowedFormFields(array_keys($GLOBALS['TL_FFL']))
+            ->addAllowedFieldsByTables(['tl_form', 'tl_form_field'])
+            ->addAllowedFormPermissions(['create', 'delete'])
+        ;
+        $objUserGroup->modules = serialize(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance', 'wem_sg_social_link', 'wem_sg_social_link_config_categories']);
+        $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->save();
         $userGroups['administrators'] = $objUserGroup;
 
@@ -541,45 +548,54 @@ class Website extends ConfigurationStep
         } else {
             $objUserGroup = new UserGroupModel();
         }
+
         $objUserGroup->tstamp = time();
         $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName'];
-        $objUserGroup->modules = serialize(['article', 'files']);
-        $objUserGroup->alexf = serialize($this->getCorePermissions());
-        $objUserGroup->imageSizes = serialize(['proportional']);
-        $objUserGroup->filemounts = serialize([$objFolderClientFiles->uuid, $objFolderClientLogos->uuid]);
-        $objUserGroup->fop = serialize(['f1', 'f2', 'f3', 'f4']);
-        $objUserGroup->elements = serialize([
-            'headline',
-            'text',
-            'html',
-            'table',
-            'rsce_listIcons',
-            'rsce_quote',
-            'accordionStart',
-            'accordionStop',
-            'hyperlink',
-            'image',
-            'player',
-            'youtube',
-            'vimeo',
-            'downloads',
-            'module',
-            'rsce_timeline',
-            'grid-start',
-            'grid-stop',
-            'rsce_accordion',
-            'rsce_counter',
-            'rsce_hero',
-            'rsce_heroStart',
-            'rsce_heroStop',
-            'rsce_ratings',
-            'rsce_priceCards',
-            'rsce_slider',
-            'rsce_tabs',
-            'rsce_testimonials',
-            'rsce_pdfViewer',
-            'rsce_blockCard',
-        ]);
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedModules(['article', 'files', 'form', 'wem_sg_social_link'])
+            ->addAllowedFields($this->getCorePermissions())
+            ->addAllowedImageSizes(['proportional'])
+            ->addAllowedFilemounts([$objFolderClientFiles->uuid, $objFolderClientLogos->uuid])
+            ->addAllowedFileOperationPermissions(['f1', 'f2', 'f3', 'f4'])
+            ->addAllowedElements([
+                'headline',
+                'text',
+                'html',
+                'table',
+                'rsce_listIcons',
+                'rsce_quote',
+                'accordionStart',
+                'accordionStop',
+                'hyperlink',
+                'image',
+                'player',
+                'youtube',
+                'vimeo',
+                'downloads',
+                'module',
+                'rsce_timeline',
+                'grid-start',
+                'grid-stop',
+                'rsce_accordion',
+                'rsce_counter',
+                'rsce_hero',
+                'rsce_heroStart',
+                'rsce_heroStop',
+                'rsce_ratings',
+                'rsce_priceCards',
+                'rsce_slider',
+                'rsce_tabs',
+                'rsce_testimonials',
+                'rsce_pdfViewer',
+                'rsce_blockCard',
+                'form',
+            ])
+            ->addAllowedFormFields(array_keys($GLOBALS['TL_FFL']))
+            ->addAllowedFieldsByTables(['tl_form', 'tl_form_field'])
+            ->addAllowedFormPermissions(['create', 'delete'])
+        ;
+        $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->save();
         $userGroups['redactors'] = $objUserGroup;
 
@@ -610,7 +626,8 @@ class Website extends ConfigurationStep
         // $objUser->password = \Contao\Encryption::hash('webmaster');
         $objUser->password = password_hash('webmaster', \PASSWORD_DEFAULT);
         $objUser->pwChange = 1;
-        $objUser->groups = serialize([0 => $groups['redactors']->id]);
+        // $objUser->groups = serialize([0 => $groups['redactors']->id]);
+        $objUser->groups = serialize([0 => $groups['administrators']->id]);
         $objUser->inherit = 'group';
         $objUser->save();
 

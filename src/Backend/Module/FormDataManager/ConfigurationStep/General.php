@@ -147,7 +147,9 @@ class General extends ConfigurationStep
     protected function updateUserGroup(UserGroupModel $objUserGroup, FormDataManagerConfig $formDataManagerConfig): void
     {
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
-
+        $userGroupManipulator
+            ->addAllowedModules(['wem_sg_form_data_manager'])
+        ;
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->save();
     }
