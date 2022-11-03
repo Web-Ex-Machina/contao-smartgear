@@ -474,16 +474,6 @@ class General extends ConfigurationStep
         $inputConsentDataTreatment->mandatory = true;
         $inputConsentDataTreatment->save();
 
-        $strText = Util::getLocalizedTemplateContent('{public_or_web}/bundles/wemsmartgear/examples/formContact/{lang}/explanation_consent_data_treatment.html', $this->language, '{public_or_web}/bundles/wemsmartgear/examples/formContact/fr/explanation_consent_data_treatment.html');
-
-        $inputConsentDataTreatmentExplanation = FormFieldModel::findOneById($formContactConfig->getSgFieldConsentDataTreatmentExplanation()) ?? new FormFieldModel();
-        $inputConsentDataTreatmentExplanation->pid = $form->id;
-        $inputConsentDataTreatmentExplanation->sorting = 768;
-        $inputConsentDataTreatmentExplanation->type = 'explanation';
-        $inputConsentDataTreatmentExplanation->text = $strText;
-        $inputConsentDataTreatmentExplanation->tstamp = time();
-        $inputConsentDataTreatmentExplanation->save();
-
         $inputConsentDataSave = FormFieldModel::findOneById($formContactConfig->getSgFieldConsentDataSave()) ?? new FormFieldModel();
         $inputConsentDataSave->pid = $form->id;
         $inputConsentDataSave->sorting = 896;
@@ -494,16 +484,6 @@ class General extends ConfigurationStep
         $inputConsentDataSave->tstamp = time();
         $inputConsentDataSave->invisible = !$config->getSgFormDataManager()->getSgInstallComplete();
         $inputConsentDataSave->save();
-
-        $strText = Util::getLocalizedTemplateContent('{public_or_web}/bundles/wemsmartgear/examples/formContact/{lang}/explanation_consent_data_save.html', $this->language, '{public_or_web}/bundles/wemsmartgear/examples/formContact/fr/explanation_consent_data_save.html');
-        $inputConsentDataSaveExplanation = FormFieldModel::findOneById($formContactConfig->getSgFieldConsentDataSaveExplanation()) ?? new FormFieldModel();
-        $inputConsentDataSaveExplanation->pid = $form->id;
-        $inputConsentDataSaveExplanation->sorting = 1024;
-        $inputConsentDataSaveExplanation->type = 'explanation';
-        $inputConsentDataSaveExplanation->text = $strText;
-        $inputConsentDataSaveExplanation->tstamp = time();
-        $inputConsentDataSaveExplanation->invisible = !$config->getSgFormDataManager()->getSgInstallComplete();
-        $inputConsentDataSaveExplanation->save();
 
         $inputCaptcha = FormFieldModel::findOneById($formContactConfig->getSgFieldCaptcha()) ?? new FormFieldModel();
         $inputCaptcha->pid = $form->id;
@@ -525,7 +505,7 @@ class General extends ConfigurationStep
         $inputSubmit->tstamp = time();
         $inputSubmit->save();
 
-        return ['name' => $inputName, 'email' => $inputEmail, 'message' => $inputMessage, 'consentDataTreatment' => $inputConsentDataTreatment, 'consentDataTreatmentExplanation' => $inputConsentDataTreatmentExplanation, 'consentDataSave' => $inputConsentDataSave, 'consentDataSaveExplanation' => $inputConsentDataSaveExplanation, 'captcha' => $inputCaptcha, 'submit' => $inputSubmit];
+        return ['name' => $inputName, 'email' => $inputEmail, 'message' => $inputMessage, 'consentDataTreatment' => $inputConsentDataTreatment, 'consentDataSave' => $inputConsentDataSave, 'captcha' => $inputCaptcha, 'submit' => $inputSubmit];
     }
 
     protected function updateModuleConfigurationAfterGenerations(array $pages, array $articles, array $contents, NotificationModel $notification, array $notificationGatewayMessages, array $notificationGatewayMessagesLanguages, FormModel $form, array $formInputs): void
@@ -549,9 +529,7 @@ class General extends ConfigurationStep
             ->setSgFieldEmail((int) $formInputs['email']->id)
             ->setSgFieldMessage((int) $formInputs['message']->id)
             ->setSgFieldConsentDataTreatment((int) $formInputs['consentDataTreatment']->id)
-            ->setSgFieldConsentDataTreatmentExplanation((int) $formInputs['consentDataTreatmentExplanation']->id)
             ->setSgFieldConsentDataSave((int) $formInputs['consentDataSave']->id)
-            ->setSgFieldConsentDataSaveExplanation((int) $formInputs['consentDataSaveExplanation']->id)
             ->setSgFieldCaptcha((int) $formInputs['captcha']->id)
             ->setSgFieldSubmit((int) $formInputs['submit']->id)
             ->setSgNotification((int) $notification->id)

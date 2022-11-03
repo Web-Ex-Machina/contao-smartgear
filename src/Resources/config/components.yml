@@ -157,7 +157,6 @@ services:
             $resetter: '@smartgear.backend.component.core.resetter'
         public: true
 
-        
     smartgear.backend.component.core.listener.replace_insert_tags:
         class: WEM\SmartgearBundle\Backend\Component\Core\EventListener\ReplaceInsertTagsListener
         arguments:
@@ -174,6 +173,12 @@ services:
 
     smartgear.backend.component.core.listener.create_new_user:
         class: WEM\SmartgearBundle\Backend\Component\Core\EventListener\CreateNewUserListener
+        public: true
+
+    smartgear.backend.component.core.listener.compile_form_fields:
+        class: WEM\SmartgearBundle\Backend\Component\Core\EventListener\CompileFormFieldsListener
+        arguments:
+            $coreConfigurationManager: '@smartgear.config.manager.core'
         public: true
 
     ############ BLOG ############

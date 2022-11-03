@@ -21,10 +21,8 @@ use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\FormUtil;
-use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
-use WEM\SmartgearBundle\Model\FormField;
 
 class CompileFormFieldsListener
 {
@@ -53,17 +51,6 @@ class CompileFormFieldsListener
                 if ((bool) $form->getModel()->storeViaFormDataManager) {
                     // current page
                     $objPage = FormUtil::getPageFromForm($form);
-
-                    $objFormFieldWarning = (new FormField());
-                    $objFormFieldWarning->pid = $form->getModel()->id;
-                    $objFormFieldWarning->sorting = 16;
-                    $objFormFieldWarning->type = 'html';
-                    $objFormFieldWarning->html = Util::getLocalizedTemplateContent('{public_or_web}/bundles/wemsmartgear/examples/formDataManager/{lang}/warning_message.html', 'FE' === TL_MODE ? $objPage->rootLanguage : \Contao\BackendUser::getInstance()->language, '{public_or_web}/bundles/wemsmartgear/examples/formDataManager/fr/warning_message.html');
-
-                    // add this field at the beginning of the array
-                    $arrFields = array_reverse($arrFields, true);
-                    $arrFields['warning'] = $objFormFieldWarning;
-                    $arrFields = array_reverse($arrFields, true);
 
                     $objFormFieldFirstAppearance = (new FormFieldModel());
                     $objFormFieldFirstAppearance->name = 'fdm[first_appearance]';

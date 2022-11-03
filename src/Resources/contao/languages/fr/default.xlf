@@ -1407,7 +1407,7 @@
 		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.optionLabelFormInputConsentDataTreatment">
 			<source>I agree to the treatment of this form's data*</source>
-			<target>Je consens aux traitement des données de ce formulaire*</target>
+			<target>Je consens à ce que les informations envoyées dans ce formulaire soient transmises par email à {{sg::websiteTitle}}*</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputConsentDataSave">
 			<source>Agreement to the storing of this form's data</source>
@@ -1415,7 +1415,7 @@
 		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.optionLabelFormInputConsentDataSave">
 			<source>I agree to the storing of this form's data*</source>
-			<target>Je consens à l'enregistrement des données de ce formulaire*</target>
+			<target>Je consens à ce que les informations envoyées dans ce formulaire soient stockées dans la base de données par {{sg::websiteTitle}}*</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputCaptcha">
 			<source>Captcha</source>
