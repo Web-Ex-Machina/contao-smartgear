@@ -1,0 +1,140 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SMARTGEAR for Contao Open Source CMS
+ * Copyright (c) 2015-2022 Web ex Machina
+ *
+ * @category ContaoBundle
+ * @package  Web-Ex-Machina/contao-smartgear
+ * @author   Web ex Machina <contact@webexmachina.fr>
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
+ */
+
+namespace WEM\SmartgearBundle\Config;
+
+use Exception;
+use stdClass;
+use WEM\SmartgearBundle\Classes\Config\ConfigJsonInterface;
+
+class DataManagerDataSet implements ConfigJsonInterface
+{
+    /** @var string */
+    protected $name = '';
+    /** @var int */
+    protected $dateInstallation = 0;
+    /** @var array */
+    protected $items = [];
+
+    public function reset(): self
+    {
+        return $this;
+    }
+
+    public function import(stdClass $json): self
+    {
+        $this
+            ->setName($json->name ?? '')
+            ->setDateInstallation($json->date_installation ?? 0)
+        ;
+        if ($json->items) {
+            foreach ($json->items as $item) {
+                $this->addItem((new DataManagerDataSetItem())->import($item));
+            }
+        }
+
+        return $this;
+    }
+
+    public function export(): stdClass
+    {
+        $json = new stdClass();
+
+        $json->name = $this->getName();
+        $json->date_installation = $this->getDateInstallation();
+
+        $arrItems = [];
+        foreach ($this->items as $item) {
+            $arrItems[] = $item->export();
+        }
+
+        $json->items = $arrItems;
+
+        return $json;
+    }
+
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
+    public function setItems(array $items): self
+    {
+        $this->items = $items;
+
+        return $this;
+    }
+
+    public function getDateInstallation(): int
+    {
+        return $this->dateInstallation;
+    }
+
+    public function setDateInstallation(int $dateInstallation): self
+    {
+        $this->dateInstallation = $dateInstallation;
+
+        return $this;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function addItem(DataManagerDataSetItem $item): self
+    {
+        $this->items[$item->getReference()] = $item;
+
+        return $this;
+    }
+
+    public function removeItem(DataManagerDataSetItem $item): self
+    {
+        if (\array_key_exists($item->getReference(), $this->items)) {
+            unset($this->items[$item->getReference()]);
+
+            return $this;
+        }
+        foreach ($this->items as $key => $existingItem) {
+            if ($this->buildItemAlias($existingItem) === $this->buildItemAlias($item)) {
+                unset($this->items[$key]);
+
+                return $this;
+            }
+        }
+
+        throw new Exception('Unable to find the item to remove');
+    }
+
+    public function getItem(string $reference)
+    {
+        if (\array_key_exists($reference, $this->items)) {
+            return $this->items[$reference];
+        }
+        throw new Exception('Unable to find the item');
+    }
+
+    protected function buildItemAlias(DataManagerDataSetItem $item): string
+    {
+        return sprintf('%s-%s', $item->getTable(), $item->getId());
+    }
+}

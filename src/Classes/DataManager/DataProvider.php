@@ -1,0 +1,415 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SMARTGEAR for Contao Open Source CMS
+ * Copyright (c) 2015-2022 Web ex Machina
+ *
+ * @category ContaoBundle
+ * @package  Web-Ex-Machina/contao-smartgear
+ * @author   Web ex Machina <contact@webexmachina.fr>
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
+ */
+
+namespace WEM\SmartgearBundle\Classes\DataManager;
+
+use Contao\File;
+use Contao\FilesModel;
+use Contao\Model;
+use Contao\System;
+use Exception;
+use ReflectionClass;
+use stdClass;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as DataManagerConfig;
+use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Config\DataManager;
+use WEM\SmartgearBundle\Config\DataManagerDataSet;
+use WEM\SmartgearBundle\Config\DataManagerDataSetItem;
+use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
+use WEM\SmartgearBundle\Model\Dataset;
+use WEM\SmartgearBundle\Model\DatasetInstall;
+use WEM\SmartgearBundle\Model\DatasetInstallItem;
+
+class DataProvider
+{
+    /** @var array */
+    protected $references = [];
+    /** @var DataManagerDataSet */
+    protected $config;
+    /** @var DataManagerConfig */
+    protected $configurationManager;
+    /** @var string */
+    protected $mainTable = '';
+    /** @var array */
+    protected $requireTables = [];
+    /** @var array */
+    protected $requireSmartgear = [];
+    /** @var bool */
+    protected $uninstallable = false;
+    /** @var bool */
+    protected $allowMultipleInstall = false;
+    /** @var array */
+    protected $configuration = [];
+    /** @var Dataset */
+    protected $objDataset;
+    /** @var DatasetInstall */
+    protected $objDatasetInstall;
+
+    public function __construct(DataManagerConfig $configurationManager)
+    {
+        $this->configurationManager = $configurationManager;
+        $this->config = new DataManagerDataSet();
+        $this->config->setName($this->name);
+        $this->config->setName($this->name);
+        $this->objDataset = $this->getDatasetDB();
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function isInstalled(): bool
+    {
+        if (!$this->objDataset) {
+            throw new Exception('Dataset not found');
+        }
+
+        return 0 < DatasetInstall::countBy('pid', $this->objDataset->id);
+        // try {
+        //     /** @var DataManager */
+        //     $config = $this->configurationManager->load();
+        // } catch (FileNotFoundException $e) {
+        //     $config = new DataManager();
+        // }
+
+        // return $config->hasDataset($this->config);
+    }
+
+    public function duplicateMediaToFiles(string $sourcePath, string $targetPath): FilesModel
+    {
+        $objFileModel = FilesModel::findByPath($targetPath);
+        $sourceFullPath = str_replace('{public_or_web}', Util::getPublicOrWebDirectory(false), TL_ROOT.'/{public_or_web}/bundles/wemsmartgear/samples/'.$sourcePath);
+        if (!$objFileModel) {
+            $objFile = new File($targetPath);
+            $objFile->write(file_get_contents($sourceFullPath));
+            $objFile->close();
+            $objFileModel = $objFile->getModel();
+        }
+
+        return $objFileModel;
+    }
+
+    public function getDataAsObject(): stdClass
+    {
+        // get reflection for the current class
+        $reflection = new ReflectionClass(static::class);
+
+        // get the filename where the class was defined
+        $definitionPath = $reflection->getFileName();
+
+        $jsonPath = realpath(\dirname($definitionPath).\DIRECTORY_SEPARATOR.'data.json');
+
+        if (!file_exists($jsonPath)) {
+            throw new FileNotFoundException('File not found');
+        }
+
+        return json_decode(file_get_contents($jsonPath));
+    }
+
+    public function installItem(stdClass $item, array $config)
+    {
+        switch ($item->type) {
+            case 'database':
+                return $this->installItemDatabase($item, $config);
+            break;
+            case 'media':
+                return $this->installItemMedia($item, $config);
+            break;
+        }
+    }
+
+    public function removeItem(DataManagerDataSetItem $item)
+    {
+        switch ($item->getTable()) {
+            case 'tl_files':
+                return $this->removeItemMedia($item);
+            break;
+            default:
+                return $this->removeItemDatabase($item);
+            break;
+        }
+    }
+
+    public function getConfig(): DataManagerDataSet
+    {
+        return $this->config;
+    }
+
+    public function getRequireTables(): array
+    {
+        return $this->requireTables;
+    }
+
+    public function getRequireSmartgear(): array
+    {
+        return $this->requireSmartgear;
+    }
+
+    public function getUninstallable(): bool
+    {
+        return $this->uninstallable;
+    }
+
+    public function getAllowMultipleInstall(): bool
+    {
+        return $this->allowMultipleInstall;
+    }
+
+    public function getConfiguration(): array
+    {
+        return $this->configuration;
+    }
+
+    public function canBeImported(): bool
+    {
+        return true;
+    }
+
+    public function canBeRemoved(): bool
+    {
+        return true;
+    }
+
+    public function getMainTable(): string
+    {
+        return $this->mainTable;
+    }
+
+    public function import(?array $configuration = []): void
+    {
+        if ($this->isInstalled() && !$this->allowMultipleInstall) {
+            throw new Exception('DataSet already installed');
+        }
+
+        $this->objDatasetInstall = new DatasetInstall();
+        $this->objDatasetInstall->pid = $this->objDataset->id;
+        $this->objDatasetInstall->tstamp = time();
+        $this->objDatasetInstall->createdAt = time();
+        $this->objDatasetInstall->configuration = serialize($configuration);
+        $this->objDatasetInstall->save();
+
+        $json = $this->getDataAsObject();
+        foreach ($json->items as $item) {
+            $this->installItem($item, $configuration);
+        }
+    }
+
+    public function remove(): void
+    {
+        if (!$this->isInstalled()) {
+            throw new Exception('DataSet not installed');
+        }
+        /** @var DataManagerDataSet */
+        // $datasetConfig = $this->configurationManager->load()->getDataset($this->config->getType(), $this->config->getModule(), $this->config->getName());
+        $datasetConfig = $this->configurationManager->load()->getDataset($this->config->getName());
+
+        foreach ($datasetConfig->getItems() as $item) {
+            $this->removeItem($item);
+        }
+        /** @var DataManager */
+        $datamanagerConfig = $this->configurationManager->load();
+        $datamanagerConfig->removeDataset($datasetConfig);
+        $this->configurationManager->save($datamanagerConfig);
+    }
+
+    public function buildConfigurationForm(string $referer): string
+    {
+        $str = '<form method="POST" action="'.$referer.'">';
+        $str = '<input type="hidden" name="FORM_SUBMIT" value="">
+        <input type="hidden" name="REQUEST_TOKEN" value="'.System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue().'">
+        ';
+
+        foreach ($this->getConfiguration() as $legendLabel => $fields) {
+            foreach ($fields as $fieldLabel => $fieldSettings) {
+                // do something
+                $str .= $this->buildConfigurationFormRow($fieldLabel, $fieldSettings);
+            }
+        }
+
+        $str .= '<div class="tl_formbody_submit">
+<div class="tl_submit_container">
+  <input type="submit" value="'.$GLOBALS['TL_LANG']['MSC']['validate'].'">
+</div>
+</div>';
+        $str .= '</form>';
+
+        return $str;
+    }
+
+    protected function buildConfigurationFormRow($fieldLabel, $fieldSettings): string
+    {
+        $str = '';
+        $strAttributes = '';
+        foreach ($fieldSettings['attributes'] ?? [] as $key => $value) {
+            $strAttributes .= sprintf(' %s="%s"', $key, $value);
+        }
+        $defaultValue = $fieldSettings['value'] ?? [];
+        if (!\is_array($defaultValue)) {
+            $defaultValue = [$defaultValue];
+        }
+
+        $strLabel = $fieldSettings['label'] ?? ($GLOBALS['TL_LANG']['WEMSG']['dataset'][$fieldLabel] ?? $fieldLabel);
+
+        switch ($fieldSettings['inputType']) {
+            case 'select':
+                $isMultiple = $fieldSettings['attributes']['multiple'] ?? false;
+                $str .= '<label for="'.$fieldLabel.($isMultiple ? '[]' : '').'">'.$strLabel.'</label>';
+                $str .= '<select name="'.$fieldLabel.($isMultiple ? '[]' : '').'" '.$strAttributes.'>';
+                foreach ($fieldSettings['options'] ?? [] as $option) {
+                    $str .= '<option value="'.$option['value'].'">'.$option['label'].'</option>';
+                }
+
+                $str .= '</select>';
+            break;
+            case 'textarea':
+                $str .= '<label for="'.$fieldLabel.'">'.$strLabel.'</label>';
+                $str .= '<textarea name="'.$fieldLabel.'" '.$strAttributes.'>'.$defaultValue[0].'</textarea>';
+            break;
+            case 'checkbox':
+            break;
+            case 'radio':
+            break;
+            default:
+                $str .= '<label for="'.$fieldLabel.'" class="tl_label">'.$strLabel.'</label>';
+                $str .= '<input type="'.$fieldSettings['type'].'" name="'.$fieldLabel.'" '.$strAttributes.'>'.$defaultValue[0].'</textarea>';
+            break;
+        }
+
+        return '<div class="widget">'.$str.'</div>';
+    }
+
+    protected function getDatasetDB(): ?Dataset
+    {
+        return Dataset::findOneBy('name', $this->getName());
+    }
+
+    protected function installItemDatabase(stdClass $item, array $configuration): void
+    {
+        $model = Model::getClassFromTable($item->table);
+        $objItem = new $model();
+
+        foreach ($item->fields as $fieldObject) {
+            $field = $fieldObject->field;
+            $value = $fieldObject->value;
+            if ($this->isValueAReferenceToAnotherObject($value)) {
+                $reference = $this->getCleanedValueReference($value);
+                $referenceObjectName = $this->getValueReferenceObjectName($reference);
+                $referenceObjectField = $this->getValueReferenceObjectField($reference);
+                if ('configuration' === $referenceObjectName) {
+                    $value = $configuration[$referenceObjectField];
+                } else {
+                    $objReference = $this->references[$referenceObjectName];
+                    $value = $objReference->$referenceObjectField;
+                }
+            }
+
+            $objItem->$field = $value;
+        }
+        $objItem->save();
+
+        $this->references[$item->reference] = $objItem;
+
+        $objDatasetInstallItem = new DatasetInstallItem();
+        $objDatasetInstallItem->pid = $this->objDatasetInstall->id;
+        $objDatasetInstallItem->tstamp = time();
+        $objDatasetInstallItem->createdAt = time();
+        $objDatasetInstallItem->reference = $item->reference;
+        $objDatasetInstallItem->item_table = $item->table;
+        $objDatasetInstallItem->item_id = $objItem->id;
+        $objDatasetInstallItem->type = $item->type;
+        $objDatasetInstallItem->canBeEdited = (bool) $item->canBeEdited;
+        $objDatasetInstallItem->fields = serialize($item->fields);
+        $objDatasetInstallItem->save();
+    }
+
+    protected function installItemMedia(stdClass $item, array $configuration): void
+    {
+        $this->references[$item->reference] = $this->duplicateMediaToFiles($item->source, $item->target);
+
+        $objDatasetInstallItem = new DatasetInstallItem();
+        $objDatasetInstallItem->pid = $this->objDatasetInstall->id;
+        $objDatasetInstallItem->tstamp = time();
+        $objDatasetInstallItem->createdAt = time();
+        $objDatasetInstallItem->reference = $item->reference;
+        $objDatasetInstallItem->item_table = 'tl_files';
+        $objDatasetInstallItem->item_id = $this->references[$item->reference]->id;
+        $objDatasetInstallItem->type = $item->type;
+        $objDatasetInstallItem->canBeEdited = false;
+        // $objDatasetInstallItem->fields = serialize($item->fields);
+        $objDatasetInstallItem->save();
+    }
+
+    protected function removeItemDatabase(DataManagerDataSetItem $item): bool
+    {
+        $model = Model::getClassFromTable($item->getTable());
+        $objItem = $model::findById($item->getId());
+
+        if (!$objItem) {
+            return true;
+        }
+
+        return 0 !== $objItem->delete();
+    }
+
+    protected function removeItemMedia(DataManagerDataSetItem $item): bool
+    {
+        // remove media only if not used elsewhere
+        $objFileModel = FilesModel::findById($item->getId());
+        if (!$objFileModel) {
+            return true;
+        }
+        /** @var DataManager */
+        $dataManagerConfig = $this->configurationManager->load();
+        foreach ($dataManagerConfig->getDatasets() as $dataset) {
+            foreach ($dataset->getItems() as $datasetItem) {
+                if ('tl_files' === $datasetItem->getTable()
+                && $item->getId() === $datasetItem->getId()
+                && (
+                    // $dataset->getType() !== $this->config->getType()
+                    // || $dataset->getModule() !== $this->config->getModule()
+                    // || $dataset->getName() !== $this->config->getName()
+                    $dataset->getName() !== $this->config->getName()
+                )
+                ) {
+                    throw new Exception('Media used by another dataset');
+                }
+            }
+        }
+
+        $objFile = new File($objFileModel->path);
+
+        return $objFile->delete();
+    }
+
+    protected function isValueAReferenceToAnotherObject($value): bool
+    {
+        return \is_string($value) && '[[' === substr($value, 0, 2) && ']]' === substr($value, -2, 2);
+    }
+
+    protected function getCleanedValueReference(string $value): string
+    {
+        return substr($value, 2, \strlen($value) - 4);
+    }
+
+    protected function getValueReferenceObjectName(string $value): string
+    {
+        return substr($value, 0, strpos($value, '.'));
+    }
+
+    protected function getValueReferenceObjectField(string $value): string
+    {
+        return substr($value, strpos($value, '.') + 1);
+    }
+}

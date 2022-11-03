@@ -1,0 +1,17 @@
+<tr class="table-list__line <?= $this->class; ?> hover-row" data-id="<?= $this->id ?>">
+    <td class="table-list__cell tl_file_list" data-name="status"><?= $this->status; ?></td>
+    <td class="table-list__cell tl_file_list" data-name="name"><?= $this->name; ?></td>
+    <td class="table-list__cell tl_file_list" data-name="nb_elements"><?= $this->nb_elements; ?></td>
+    <td class="table-list__cell tl_file_list" data-name="nb_media"><?= $this->nb_media; ?></td>
+    <td class="table-list__cell tl_file_list" data-name="date_installation"><?= $this->date_installation; ?></td>
+
+	<?php if($this->actions): ?>
+	<td class="table-list__cell tl_file_list tl_right_nowrap" data-name="actions">
+		<?php foreach($this->actions as $a): ?>
+		<a href="<?= $a['url'] ?: '#' ?>" class="table-list__action" data-action="<?= $a['name'] ?>" title="<?= $a['label'] ?>"<?php if($a['ajax']): ?> data-ajax="<?= $a['ajax'] ?>"<?php endif; ?><?php if($a['params']): ?> data-params="<?= $a['params'] ?>"<?php endif; ?><?php if($a['target']): ?> target="<?= $a['target'] ?>"<?php endif; ?>>
+			<i class="<?= $a['buttonClasses'] ?>"></i>
+		</a>
+		<?php endforeach; ?>
+	</td>
+	<?php endif; ?>
+</tr>

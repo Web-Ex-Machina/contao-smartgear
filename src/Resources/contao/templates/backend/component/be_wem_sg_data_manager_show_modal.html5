@@ -1,0 +1,75 @@
+<div class="tl_listing_container list_view">
+    <div class="table-list fix--shadow">
+		<table class="table-list__container tl_listing">
+			<thead class="table-list__headline">
+				<th class="table-list__cell tl_folder_tlist" data-name="type">
+					<?= $this->trans('WEMSG.DATAMANAGER.SHOW.type',[],'contao_default'); ?>
+				</th>
+				<th class="table-list__cell tl_folder_tlist" data-name="reference">
+					<?= $this->trans('WEMSG.DATAMANAGER.SHOW.reference',[],'contao_default'); ?>
+				</th>
+				<th class="table-list__cell tl_folder_tlist" data-name="table">
+					<?= $this->trans('WEMSG.DATAMANAGER.SHOW.table',[],'contao_default'); ?>
+				</th>
+				<th class="table-list__cell tl_folder_tlist" data-name="id">
+					<?= $this->trans('WEMSG.DATAMANAGER.SHOW.id',[],'contao_default'); ?>
+				</th>
+				<th class="table-list__cell tl_folder_tlist" data-name="fields">
+					<?= $this->trans('WEMSG.DATAMANAGER.SHOW.fields',[],'contao_default'); ?>
+				</th>
+				<th class="table-list__cell tl_folder_tlist tl_right_nowrap" data-name="actions"><i class="fa fa-pencil-ruler"></i></th>
+			</thead>
+			<tbody>
+				<?php foreach($this->items as $item): ?>
+				<tr class="table-list__line hover-row">
+					<td class="table-list__cell tl_file_list" data-name="type">
+						<?= $this->trans(sprintf('WEMSG.DATAMANAGER.type.%s',$item['type']),[],'contao_default'); ?>
+					</td>
+					<td class="table-list__cell tl_file_list" data-name="reference">
+						<?= $item['reference']; ?>
+					</td>
+					<td class="table-list__cell tl_file_list" data-name="table">
+						<?= $item['table']; ?>
+					</td>
+					<td class="table-list__cell tl_file_list" data-name="id">
+						<?= $item['id']; ?>
+					</td>
+					<td class="table-list__cell tl_file_list" data-name="fields">
+						<?php foreach($item['fields'] as $field => $value): ?>
+							<strong>
+								<?= sprintf('%s.%s.0',$item['table'],$field) === $this->trans(sprintf('%s.%s.0',$item['table'],$field),[],'contao_default') 
+									? $field 
+									: $this->trans(sprintf('%s.%s.0',$item['table'],$field),[],'contao_default') 
+								?> :
+							</strong>
+							<?= $value; ?>
+							<br />
+						<?php endforeach; ?>
+						<?php if(null!==$item['source']): ?>
+							<strong>
+								<?= $this->trans('WEMSG.DATAMANAGER.SHOW.source',[],'contao_default'); ?> :
+							</strong>
+							<?= $item['source']; ?>
+							<br />
+						<?php endif; ?>
+						<?php if(null!==$item['target']): ?>
+							<strong>
+								<?= $this->trans('WEMSG.DATAMANAGER.SHOW.target',[],'contao_default'); ?> :
+							</strong>
+							<?= $item['target']; ?>
+							<br />
+						<?php endif; ?>
+					</td>
+					<td class="table-list__cell tl_file_list tl_right_nowrap" data-name="actions">
+						<?php if($item['installed']): ?>
+							<a href="<?= $item['href']; ?>" target="_blank" title="<?= $this->trans('WEMSG.DATAMANAGER.SHOW.show',[],'contao_default'); ?>">
+								<i class="fa fa-eye"></i>
+							</a>
+						<?php endif; ?>
+					</td>
+				</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,37 @@
+{
+	"items":[{
+		"type":"database",
+		"reference":"grid_start",
+		"table":"tl_content",
+		"fields":[{
+			"field":"ptable",
+			"value":"tl_article"
+		},{
+			"field":"pid",
+			"value":"[[configuration.pid]]"
+		},{
+			"field":"type",
+			"value":"grid-start"
+		},{
+			"field":"tstamp",
+			"value":1
+		}]
+	},{
+		"type":"database",
+		"reference":"grid_stop",
+		"table":"tl_content",
+		"fields":[{
+			"field":"ptable",
+			"value":"tl_article"
+		},{
+			"field":"pid",
+			"value":"[[configuration.pid]]"
+		},{
+			"field":"type",
+			"value":"grid-stop"
+		},{
+			"field":"tstamp",
+			"value":1
+		}]
+	}]
+}

@@ -75,7 +75,7 @@ class Dataset extends ConfigurationStep
         $this->configurationManager = $configurationManager;
         $this->commandUtil = $commandUtil;
         $this->translator = $translator;
-        $this->sourceDirectory = str_replace('[public_or_web]', Util::getPublicOrWebDirectory(true), $sourceDirectory);
+        $this->sourceDirectory = str_replace('[public_or_web]', Util::getPublicOrWebDirectory(false), $sourceDirectory);
 
         $this->title = $this->translator->trans('WEMSG.EVENTS.INSTALL_DATASET.title', [], 'contao_default');
         /** @var EventsConfig */

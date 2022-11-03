@@ -1,0 +1,38 @@
+{
+	"items":[{
+		"type":"database",
+		"reference":"theme",
+		"table":"tl_theme",
+		"fields":[{
+			"field":"name",
+			"value":"SECOND THEME"
+		},{
+			"field":"tstamp",
+			"value":1
+		}]
+	},{
+		"type":"database",
+		"reference":"layout",
+		"table":"tl_layout",
+		"fields":[{
+			"field":"pid",
+			"value":"[[theme.id]]"
+		},{
+			"field":"name",
+			"value":"CECI EST UN LAYOUT"
+		},{
+			"field":"tstamp",
+			"value":1
+		}]
+	},{
+		"type":"media",
+		"reference":"media_A",
+		"source":"example/media/A.png",
+		"target":"files/core/A.png"
+	},{
+		"type":"media",
+		"reference":"media_B",
+		"source":"media/B.png",
+		"target":"files/core/B.png"
+	}]
+}

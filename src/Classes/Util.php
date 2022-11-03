@@ -577,14 +577,14 @@ class Util
     /**
      * Returns the public directory root (/path/to/contao/public or /path/to/contao/web).
      */
-    public static function getPublicOrWebDirectory(?bool $relative = false): string
+    public static function getPublicOrWebDirectory(?bool $absolute = true): string
     {
         $composerJson = json_decode(file_get_contents(TL_ROOT.'/composer.json'), true);
         if ($composerJson['extra']['public-dir'] ?? false) {
-            return $relative ? $composerJson['extra']['public-dir'] : TL_ROOT.\DIRECTORY_SEPARATOR.$composerJson['extra']['public-dir'];
+            return !$absolute ? $composerJson['extra']['public-dir'] : TL_ROOT.\DIRECTORY_SEPARATOR.$composerJson['extra']['public-dir'];
         }
 
-        return $relative ? 'public' : TL_ROOT.\DIRECTORY_SEPARATOR.'public';
+        return !$absolute ? 'public' : TL_ROOT.\DIRECTORY_SEPARATOR.'public';
     }
 
     /**
@@ -881,6 +881,78 @@ class Util
         }
 
         return $timestamps;
+    }
+
+    /**
+     * [array_sort description].
+     *
+     * @param array  $array The array to sort
+     * @param string $on    The key to sort on
+     * @param int    $order The order
+     */
+    public static function array_sort(array $array, string $on, ?int $order = \SORT_ASC): array
+    {
+        $new_array = [];
+        $sortable_array = [];
+
+        if (\count($array) > 0) {
+            foreach ($array as $k => $v) {
+                if (\is_array($v)) {
+                    foreach ($v as $k2 => $v2) {
+                        if ($k2 === $on) {
+                            $sortable_array[$k] = $v2;
+                        }
+                    }
+                } else {
+                    $sortable_array[$k] = $v;
+                }
+            }
+
+            switch ($order) {
+            case \SORT_ASC:
+                asort($sortable_array);
+            break;
+            case \SORT_DESC:
+                arsort($sortable_array);
+            break;
+        }
+
+            foreach ($sortable_array as $k => $v) {
+                $new_array[$k] = $array[$k];
+            }
+        }
+
+        return $new_array;
+    }
+
+    public static function getDatasetFQDNFromFilePath(string $filePath): string
+    {
+        return '\WEM\SmartgearBundle\Dataset'.str_replace([\DIRECTORY_SEPARATOR, '.php'], ['\\', ''], str_replace(str_replace('{public_or_web}', self::getPublicOrWebDirectory(false), TL_ROOT.'/{public_or_web}/'.WEMSG_DATASET_ROOTPATH), '', $filePath));
+    }
+
+    public static function getDatasetRelativePathFromPath(string $path): string
+    {
+        return substr(str_replace(self::getDatasetRootPath(false), '', str_replace(self::getDatasetRootPath(true), '', $path)), 1);
+    }
+
+    public static function getDatasetRootPath(?bool $absolute = true): string
+    {
+        return str_replace('{public_or_web}', self::getPublicOrWebDirectory($absolute), '{public_or_web}/'.WEMSG_DATASET_ROOTPATH);
+    }
+
+    public static function getDatasetPathFromRelativePath(string $relative_path, ?bool $absolute = true): string
+    {
+        return self::getDatasetRootPath($absolute).'/'.$relative_path;
+    }
+
+    public static function getDatasetPhpFileFromRelativePath(string $relative_path, ?bool $absolute = true): string
+    {
+        return self::getDatasetPathFromRelativePath($relative_path, $absolute).'/DataSet.php';
+    }
+
+    public static function getDatasetJsonFileFromRelativePath(string $relative_path, ?bool $absolute = true): string
+    {
+        return self::getDatasetPathFromRelativePath($relative_path, $absolute).'/data.json';
     }
 
     /**

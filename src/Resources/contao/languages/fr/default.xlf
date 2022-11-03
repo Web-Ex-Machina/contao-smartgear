@@ -183,6 +183,26 @@
 			<source>Location</source>
 			<target>Lieu</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.LBL.status">
+			<source>Status</source>
+			<target>Statut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.LBL.statusInstalled">
+			<source>Installed</source>
+			<target>Installé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.LBL.statusNotInstalled">
+			<source>Not installed</source>
+			<target>Non installé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.LBL.statusUnavailable">
+			<source>Unavailable</source>
+			<target>Indisponible</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.LBL.module">
+			<source>Module</source>
+			<target>Module</target>
+		</trans-unit>
 
 
 		<!-- Smartgear Backend -->
@@ -1488,6 +1508,107 @@
 			<target>Laissez vide pour utiliser l'icône du réseau social par défaut</target>
 		</trans-unit>
 
+		<!-- Data Manager -->
+		<trans-unit id="WEMSG.DATAMANAGER.LIST.empty">
+			<source>No dataset to show</source>
+			<target>Aucun jeu de données à afficher</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.LIST.status">
+			<source>Status</source>
+			<target>Statut</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.LIST.name">
+			<source>Name</source>
+			<target>Nom</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.LIST.nb_elements">
+			<source>Elements</source>
+			<target>Eléments</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.LIST.nb_media">
+			<source>Media</source>
+			<target>Médias</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.LIST.type">
+			<source>Type</source>
+			<target>Type</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.LIST.module">
+			<source>Module</source>
+			<target>Module</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.LIST.date_installation">
+			<source>Installation date</source>
+			<target>Date d'installation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.AJAX.noPathProvided">
+			<source>No path provided</source>
+			<target>Aucun chemin fourni</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.AJAX.installOk">
+			<source>Installation OK</source>
+			<target>Installation effectuée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.AJAX.removeOk">
+			<source>Remove OK</source>
+			<target>Suppression effectuée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.BTN.install">
+			<source>Install dataset</source>
+			<target>Installer le jeu de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.BTN.remove">
+			<source>Uninstall dataset</source>
+			<target>Désinstaller le jeu de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.BTN.show">
+			<source>Show dataset</source>
+			<target>Voir le jeu de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.modalTitle">
+			<source>Dataset : %s</source>
+			<target>Jeu de données : %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.type">
+			<source>Type</source>
+			<target>Type</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.reference">
+			<source>Reference</source>
+			<target>Référence</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.table">
+			<source>Table</source>
+			<target>Table</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.id">
+			<source>Id</source>
+			<target>Id</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.fields">
+			<source>Data</source>
+			<target>Données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.source">
+			<source>Source</source>
+			<target>Source</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.target">
+			<source>Target</source>
+			<target>Destination</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.SHOW.show">
+			<source>Show in another tab</source>
+			<target>Afficher dans un nouvel onglet</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.type.database">
+			<source>Database</source>
+			<target>Base de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DATAMANAGER.type.media">
+			<source>Media</source>
+			<target>Média</target>
+		</trans-unit>
 		<!-- Extranet -->
 		<trans-unit id="WEMSG.EXTRANET.INSTALL_GENERAL.title">
 			<source>Installation</source>
