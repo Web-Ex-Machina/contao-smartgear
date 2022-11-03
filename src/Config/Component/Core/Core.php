@@ -44,6 +44,7 @@ class Core implements ConfigModuleInterface
 
     public const DEFAULT_VERSION = '1.0.0';
     public const DEFAULT_ANALYTICS_SYSTEM = self::ANALYTICS_SYSTEM_NONE;
+    public const DEFAULT_ANALYTICS_SYSTEM_MATOMO_HOST = '//analytics.webexmachina.fr/';
     public const DEFAULT_MODE = self::MODE_DEV;
     public const DEFAULT_FRAMWAY_PATH = 'assets/framway';
     public const DEFAULT_OWNER_HOST = 'INFOMANIAK - 25 Eugène-Marziano 1227 Les Acacias - GENÈVE - SUISSE';
@@ -80,7 +81,7 @@ class Core implements ConfigModuleInterface
     /** @var string */
     protected $sgAnalyticsGoogleId = '';
     /** @var string */
-    protected $sgAnalyticsMatomoHost = '';
+    protected $sgAnalyticsMatomoHost = self::DEFAULT_ANALYTICS_SYSTEM_MATOMO_HOST;
     /** @var string */
     protected $sgAnalyticsMatomoId = '';
     /** @var string */
@@ -209,7 +210,7 @@ class Core implements ConfigModuleInterface
             ->setSgFramwayThemes([])
             ->setSgAnalytics(static::DEFAULT_ANALYTICS_SYSTEM)
             ->setSgAnalyticsGoogleId('')
-            ->setSgAnalyticsMatomoHost('')
+            ->setSgAnalyticsMatomoHost(self::DEFAULT_ANALYTICS_SYSTEM_MATOMO_HOST)
             ->setSgAnalyticsMatomoId('')
             ->setSgOwnerName('')
             ->setSgOwnerEmail('')
@@ -274,7 +275,7 @@ class Core implements ConfigModuleInterface
             ->setSgFramwayThemes($json->framway->themes ?? [])
             ->setSgAnalytics($json->analytics->system ?? static::DEFAULT_ANALYTICS_SYSTEM)
             ->setSgAnalyticsGoogleId($json->analytics->google->id ?? '')
-            ->setSgAnalyticsMatomoHost($json->analytics->matomo->host ?? '')
+            ->setSgAnalyticsMatomoHost($json->analytics->matomo->host ?? self::DEFAULT_ANALYTICS_SYSTEM_MATOMO_HOST)
             ->setSgAnalyticsMatomoId($json->analytics->matomo->id ?? '')
             ->setSgOwnerName($json->owner->name ?? '')
             ->setSgOwnerEmail($json->owner->email ?? '')

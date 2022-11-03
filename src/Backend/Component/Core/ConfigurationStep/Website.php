@@ -426,8 +426,28 @@ class Website extends ConfigurationStep
             ['mod' => $modules['wem_sg_footer']->id, 'col' => 'footer', 'enable' => '1'],
         ];
         $script = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
-        $script = str_replace('{{config.googleFonts}}', "'".implode("','", $config->getSgGoogleFonts())."'", $script);
+        if (\count($config->getSgGoogleFonts()) > 0) {
+            $script = str_replace('{{config.googleFonts}}', "'".implode("','", $config->getSgGoogleFonts())."'", $script);
+        } else {
+            $script = preg_replace('/\/\/ -- GFONT(.*)\/\/ -- \/GFONT/s', '', $script);
+        }
+
         $script = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $script);
+        switch ($config->getSgAnalytics()) {
+            case CoreConfig::ANALYTICS_SYSTEM_NONE:
+                $script = preg_replace('/\/\/ -- GTAG(.*)\/\/ -- \/GTAG/s', '', $script);
+                $script = preg_replace('/\/\/ -- MATOMO(.*)\/\/ -- \/MATOMO/s', '', $script);
+            break;
+            case CoreConfig::ANALYTICS_SYSTEM_GOOGLE:
+                $script = str_replace('{{config.analytics.google.id}}', $config->getSgAnalyticsGoogleId(), $script);
+                $script = preg_replace('/\/\/ -- MATOMO(.*)\/\/ -- \/MATOMO/s', '', $script);
+            break;
+            case CoreConfig::ANALYTICS_SYSTEM_MATOMO:
+                $script = str_replace('{{config.analytics.matomo.host}}', $config->getSgAnalyticsMatomoHost(), $script);
+                $script = str_replace('{{config.analytics.matomo.id}}', $config->getSgAnalyticsMatomoId(), $script);
+                $script = preg_replace('/\/\/ -- GTAG(.*)\/\/ -- \/GTAG/s', '', $script);
+            break;
+        }
 
         $head = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
         $head = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $head);
@@ -976,9 +996,12 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        $fonts = explode(',', Input::post('sgGoogleFonts'));
-        foreach ($fonts as $key => $value) {
-            $fonts[$key] = trim($value);
+        $fonts = [];
+        if (!empty(Input::post('sgGoogleFonts'))) {
+            $fonts = explode(',', Input::post('sgGoogleFonts'));
+            foreach ($fonts as $key => $value) {
+                $fonts[$key] = trim($value);
+            }
         }
 
         $config->setSgOwnerName(Input::post('sgOwnerName'));
