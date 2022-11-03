@@ -43,8 +43,8 @@ class Migration extends MigrationAbstract
         'accordion' => ['contentElements' => ['accordionStart', 'rsce_accordion']], //, 'accordionStop]'
         'image_other' => ['contentElements' => ['image']],
         'image_ratio' => ['contentElements' => ['image']],
-        'hero' => ['contentElements' => ['rsce_hero', 'rsce_heroStart']], //'rsce_heroStop]'
         'blockCard' => ['contentElements' => ['rsce_blockCard']],
+        'blockAlignement' => ['contentElements' => ['text', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_*']],
     ];
     /** @var array */
     private $archiveIdentifierToKeep = [];
@@ -88,11 +88,10 @@ class Migration extends MigrationAbstract
         $objArchiveImage = StyleManagerArchiveModel::findByIdentifier('fwimage');
         $objArchiveImageRatio = StyleManagerArchiveModel::findByIdentifier('fwimageratio');
 
-        $objArchiveHero = StyleManagerArchiveModel::findByIdentifier('fwhero');
-        $objArchiveHeroImg = StyleManagerArchiveModel::findByIdentifier('fwheroimg');
-
         $objArchiveBlockCardText = StyleManagerArchiveModel::findByIdentifier('fwblockcardtext');
         $objArchiveBlockCardBg = StyleManagerArchiveModel::findByIdentifier('fwblockcardbg');
+
+        $objArchiveBlockAlignement = StyleManagerArchiveModel::findByIdentifier('fwblockalignement');
 
         if (null === $objArchiveBackground
         && null !== $objArchiveButton
@@ -102,10 +101,9 @@ class Migration extends MigrationAbstract
         && null !== $objArchiveTable
         && null !== $objArchiveImage
         && null !== $objArchiveImageRatio
-        && null !== $objArchiveHero
-        && null !== $objArchiveHeroImg
         && null !== $objArchiveBlockCardText
         && null !== $objArchiveBlockCardBg
+        && null !== $objArchiveBlockAlignement
         ) {
             if (null !== StyleManagerModel::findByAliasAndPid('fwbackgroundcolor', $objArchiveBackground->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwbuttonsize', $objArchiveButton->id)
@@ -125,11 +123,6 @@ class Migration extends MigrationAbstract
             && null !== StyleManagerModel::findByAliasAndPid('fwtablesm', $objArchiveTable->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwtableborder', $objArchiveTable->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwtablestriped', $objArchiveTable->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwheroimgvertical', $objArchiveHeroImg->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwheroimghorizontal', $objArchiveHeroImg->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwheroft', $objArchiveHero->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentbg', $objArchiveHero->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwherocontentbgopacity', $objArchiveHero->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwimageratio', $objArchiveImageRatio->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwimagezoom', $objArchiveImage->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwimagefade', $objArchiveImage->id)
@@ -137,6 +130,7 @@ class Migration extends MigrationAbstract
             && null !== StyleManagerModel::findByAliasAndPid('fwblockcardtextalign', $objArchiveBlockCardText->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwblockcardcontentbg', $objArchiveBlockCardBg->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwblockcardcontentbgopacity', $objArchiveBlockCardBg->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwblockalignement', $objArchiveBlockAlignement->id)
             ) {
                 $result
                 ->setStatus(Result::STATUS_SKIPPED)
@@ -174,10 +168,10 @@ class Migration extends MigrationAbstract
             $this->manageImages();
             $this->manageImagesRatio();
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSImages'), [], 'contao_default'));
-            $this->manageHero();
-            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSHero'), [], 'contao_default'));
             $this->manageBlockCard();
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSBlockCard'), [], 'contao_default'));
+            $this->manageBlockAlignement();
+            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSBlockAlignement'), [], 'contao_default'));
             $this->deleteUnusedStyles();
             $this->deleteUnusedArchives();
             $this->deleteOrphanStyles();
@@ -255,6 +249,21 @@ class Migration extends MigrationAbstract
         }
     }
 
+    protected function manageBlockAlignement(?string $suffix = '', ?bool $passToTemplate = false): void
+    {
+        $contentElements = self::$elements['blockAlignement'.$suffix];
+        $objArchive = $this->fillObjArchive('fwblockalignement'.$suffix, 'WEMSG.STYLEMANAGER.fwblockalignement.tabTitle', 'FramwayBlockAlignement');
+        $objArchive->save();
+
+        $cssClasses = [
+            ['key' => 'm-left-auto', 'value' => 'WEMSG.STYLEMANAGER.fwblockalignement.leftLabel'],
+            ['key' => 'm-right-auto', 'value' => 'WEMSG.STYLEMANAGER.fwblockalignement.rightLabel'],
+            ['key' => 'm-center', 'value' => 'WEMSG.STYLEMANAGER.fwblockalignement.centerLabel'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwblockalignement'.$suffix, 'WEMSG.STYLEMANAGER.fwblockalignement.title', 'WEMSG.STYLEMANAGER.fwblockalignement.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle->save();
+    }
+
     protected function manageBlockCard(?string $suffix = '', ?bool $passToTemplate = false): void
     {
         $contentElements = self::$elements['blockCard'.$suffix];
@@ -288,38 +297,6 @@ class Migration extends MigrationAbstract
         $cssClasses = $this->buildMultipleCssClasses('content__bg__opacity--%s', 'fwblockcardcontentbgopacity', 1, 10);
         $objStyle = $this->fillObjStyle($objArchiveBg->id, 'fwblockcardcontentbgopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.title', 'WEMSG.STYLEMANAGER.fwblockcardcontentbgopacity.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
-    }
-
-    protected function manageHero(?string $suffix = '', ?bool $passToTemplate = false): void
-    {
-        $contentElements = self::$elements['hero'.$suffix];
-        // Hero
-        $objArchive = $this->fillObjArchive('fwhero'.$suffix, 'WEMSG.STYLEMANAGER.fwhero.tabTitle', 'FramwayHero');
-        $objArchiveImg = $this->fillObjArchive('fwheroimg'.$suffix, 'WEMSG.STYLEMANAGER.fwheroimg.tabTitle', 'FramwayHero');
-        // Hero - imgvertical
-        $cssClasses = [
-            ['key' => 'img--top', 'value' => 'WEMSG.STYLEMANAGER.fwheroimgvertical.topLabel'],
-            ['key' => 'img--bottom', 'value' => 'WEMSG.STYLEMANAGER.fwheroimgvertical.bottomLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwheroimgvertical'.$suffix, 'WEMSG.STYLEMANAGER.fwheroimgvertical.title', 'WEMSG.STYLEMANAGER.fwheroimgvertical.description', $contentElements, $cssClasses, $passToTemplate);
-        // Hero - imghorizontal
-        $cssClasses = [
-            ['key' => 'img--left', 'value' => 'WEMSG.STYLEMANAGER.fwheroimghorizontal.leftLabel'],
-            ['key' => 'img--right', 'value' => 'WEMSG.STYLEMANAGER.fwheroimghorizontal.rightLabel'],
-        ];
-        $objStyle = $this->fillObjStyle($objArchiveImg->id, 'fwheroimghorizontal'.$suffix, 'WEMSG.STYLEMANAGER.fwheroimghorizontal.title', 'WEMSG.STYLEMANAGER.fwheroimghorizontal.description', $contentElements, $cssClasses, $passToTemplate);
-
-        // Hero - text color
-        $cssClasses = $this->buildMeaningfulColorsCssClasses('ft-%s', 'fwheroft');
-        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('ft-%s', 'fwheroft'));
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwheroft'.$suffix, 'WEMSG.STYLEMANAGER.fwheroft.title', 'WEMSG.STYLEMANAGER.fwheroft.description', $contentElements, $cssClasses, $passToTemplate);
-        // Hero - bg color
-        $cssClasses = $this->buildMeaningfulColorsCssClasses('content__bg--%s', 'fwherocontentbg');
-        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('content__bg--%s', 'fwherocontentbg'));
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherocontentbg'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontentbg.title', 'WEMSG.STYLEMANAGER.fwherocontentbg.description', $contentElements, $cssClasses, $passToTemplate);
-        // Hero - bgopacity
-        $cssClasses = $this->buildMultipleCssClasses('content__bg__opacity--%s', 'fwherocontentbgopacity', 1, 10);
-        $objStyle = $this->fillObjStyle($objArchive->id, 'fwherocontentbgopacity'.$suffix, 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.title', 'WEMSG.STYLEMANAGER.fwherocontentbgopacity.description', $contentElements, $cssClasses, $passToTemplate);
     }
 
     protected function manageImages(?string $suffix = '', ?bool $passToTemplate = false): void
@@ -538,11 +515,11 @@ class Migration extends MigrationAbstract
         $objStyle->chosen = true;
         $objStyle->tstamp = time();
         if (\array_key_exists('contentElements', $contentElements)) {
-            $objStyle->contentElements = serialize($contentElements['contentElements']);
+            $objStyle->contentElements = $this->manageContentElements($contentElements['contentElements']);
             $objStyle->extendContentElement = true;
         }
         if (\array_key_exists('formFields', $contentElements)) {
-            $objStyle->formFields = serialize($contentElements['formFields']);
+            $objStyle->formFields = $this->manageFormFields($contentElements['formFields']);
             $objStyle->extendFormFields = true;
         }
 
@@ -574,5 +551,83 @@ class Migration extends MigrationAbstract
         $this->archiveIdentifierToKeep[$objArchive->id] = $identifier;
 
         return $objArchive;
+    }
+
+    private function manageContentElements(array $contentElements): string
+    {
+        if (\in_array('*', $contentElements, true)) {
+            unset($contentElements[array_search('*', $contentElements, true)]);
+            // insert all content elements
+            foreach ($GLOBALS['TL_CTE'] as $group => $elements) {
+                foreach ($elements as $key => $classPath) {
+                    if ('rsce_' !== substr($key, 0, 5)) {
+                        $contentElements[] = $key;
+                    }
+                }
+            }
+        }
+        if (\in_array('rsce_*', $contentElements, true)) {
+            unset($contentElements[array_search('rsce_*', $contentElements, true)]);
+            // insert all RSCE elements
+            foreach ($GLOBALS['TL_CTE'] as $group => $elements) {
+                foreach ($elements as $key => $classPath) {
+                    if ('rsce_' === substr($key, 0, 5)) {
+                        $contentElements[] = $key;
+                    }
+                }
+            }
+        }
+
+        return serialize($contentElements);
+    }
+
+    private function manageFormFields(array $formFields): string
+    {
+        if (\in_array('fe_*', $formFields, true)) {
+            unset($formFields[array_search('fe_*', $formFields, true)]);
+            // insert all form fields
+            foreach ($GLOBALS['TL_FFL'] as $group => $elements) {
+                foreach ($elements as $key => $classPath) {
+                    if ('rsce_' !== substr($key, 0, 5)) {
+                        $formFields[] = $key;
+                    }
+                }
+            }
+        }
+        if (\in_array('fe_rsce_*', $formFields, true)) {
+            unset($formFields[array_search('fe_rsce_*', $formFields, true)]);
+            // insert all RSCE elements
+            foreach ($GLOBALS['TL_FFL'] as $group => $elements) {
+                foreach ($elements as $key => $classPath) {
+                    if ('rsce_' === substr($key, 0, 5)) {
+                        $formFields[] = $key;
+                    }
+                }
+            }
+        }
+        if (\in_array('be_*', $formFields, true)) {
+            unset($formFields[array_search('be_*', $formFields, true)]);
+            // insert all form fields
+            foreach ($GLOBALS['BE_FFL'] as $group => $elements) {
+                foreach ($elements as $key => $classPath) {
+                    if ('rsce_' !== substr($key, 0, 5)) {
+                        $formFields[] = $key;
+                    }
+                }
+            }
+        }
+        if (\in_array('be_rsce_*', $formFields, true)) {
+            unset($formFields[array_search('be_rsce_*', $formFields, true)]);
+            // insert all RSCE elements
+            foreach ($GLOBALS['BE_FFL'] as $group => $elements) {
+                foreach ($elements as $key => $classPath) {
+                    if ('rsce_' === substr($key, 0, 5)) {
+                        $formFields[] = $key;
+                    }
+                }
+            }
+        }
+
+        return serialize($formFields);
     }
 }

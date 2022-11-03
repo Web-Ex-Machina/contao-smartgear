@@ -2837,6 +2837,30 @@
 			<source>Adjust text alignment</source>
 			<target>Ajustez l'alignement du texte</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockalignement.tabTitle">
+			<source>Alignement</source>
+			<target>Alignement</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockalignement.title">
+			<source>Alignement</source>
+			<target>Alignement</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockalignement.description">
+			<source>Block's alignement</source>
+			<target>Alignement du bloc</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockalignement.rightLabel">
+			<source>Aligned to the right</source>
+			<target>Aligné à droite</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockalignement.leftLabel">
+			<source>Aligned to the left</source>
+			<target>Aligné à gauche</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwblockalignement.centerLabel">
+			<source>Centered</source>
+			<target>Centré</target>
+		</trans-unit>
 
 		<!-- Migrations -->
 		<!-- General -->
@@ -2905,10 +2929,6 @@
 			<source>Adding sliders CSS classes in database.</source>
 			<target>Ajout des classes CSS de gestion des sliders.</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSHero">
-			<source>Adding hero CSS classes in database.</source>
-			<target>Ajout des classes CSS de gestion des bannières.</target>
-		</trans-unit>
 		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSQuotes">
 			<source>Adding quotes CSS classes in database.</source>
 			<target>Ajout des classes CSS de gestion des éléments de citations.</target>
@@ -2917,6 +2937,11 @@
 			<source>Adding block cards CSS classes in database.</source>
 			<target>Ajout des classes CSS de gestion des bloc de carte.</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSBlockAlignement">
+			<source>Adding block alignement CSS classes in database.</source>
+			<target>Ajout des classes CSS de gestion de l'alignement des blocs.</target>
+		</trans-unit>
+
 		<!-- V1_0_0/M202203231730 -->
 		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202205130814.name">
 			<source>Configures social networks</source>
