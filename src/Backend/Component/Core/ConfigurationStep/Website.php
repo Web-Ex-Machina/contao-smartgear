@@ -29,34 +29,52 @@ use Contao\ThemeModel;
 use Contao\UserGroupModel;
 use Contao\UserModel;
 use Exception;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Migration\Result as MigrationResult;
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Model\Module;
+use WEM\SmartgearBundle\Security\SmartgearPermissions;
+use WEM\SmartgearBundle\Update\UpdateManager;
 use WEM\UtilsBundle\Classes\Files as WEMFiles;
 use WEM\UtilsBundle\Classes\StringUtil as WEMStringUtil;
 
 class Website extends ConfigurationStep
 {
+    /** @var TranslatorInterface */
+    protected $translator;
     /** @var ConfigurationManager */
     protected $configurationManager;
+    /** @var UpdateManager */
+    protected $updateManager;
     /** @var CommandUtil */
     protected $commandUtil;
+    /** array */
+    protected $userGroupUpdaters;
+    /** array */
+    protected $userGroupWebmasterOldPermissions = [];
 
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_website';
 
     public function __construct(
         string $module,
         string $type,
+        TranslatorInterface $translator,
         ConfigurationManager $configurationManager,
-        CommandUtil $commandUtil
+        UpdateManager $updateManager,
+        CommandUtil $commandUtil,
+        array $userGroupUpdaters
     ) {
         parent::__construct($module, $type);
+        $this->translator = $translator;
         $this->configurationManager = $configurationManager;
+        $this->updateManager = $updateManager;
         $this->commandUtil = $commandUtil;
+        $this->userGroupUpdaters = $userGroupUpdaters;
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Title'];
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
@@ -181,6 +199,8 @@ class Website extends ConfigurationStep
         $articles = $this->createArticles($pages);
         $this->updateModuleConfigurationArticles($articles);
 
+        $this->updateLayouts($layouts, $pages);
+
         $contents = $this->createContents($pages, $articles, $modules);
         $this->updateModuleConfigurationContents($contents);
 
@@ -190,8 +210,41 @@ class Website extends ConfigurationStep
         $notificationGateways = $this->createNotificationGateways();
         $this->updateModuleConfigurationNotificationGateways($notificationGateways);
         $this->updateUserGroups();
+
         $this->commandUtil->executeCmdPHP('cache:clear');
         $this->commandUtil->executeCmdPHP('contao:symlinks');
+
+        $this->launchMigrations();
+    }
+
+    protected function launchMigrations(): void
+    {
+        $updateResult = $this->updateManager->update();
+        if ($updateResult->isSuccess()) {
+            $this->addConfirm($this->translator->trans('WEMSG.UPDATEMANAGER.RESULT.success', [], 'contao_default'), $this->module);
+        } else {
+            $this->addError($this->translator->trans('WEMSG.UPDATEMANAGER.RESULT.fail', [], 'contao_default'), $this->module);
+        }
+
+        foreach ($updateResult->getResults() as $singleMigrationResult) {
+            switch ($singleMigrationResult->getResult()->getStatus()) {
+                case MigrationResult::STATUS_NOT_EXCUTED_YET:
+                    $this->addInfo(sprintf('%s : %s', $singleMigrationResult->getName(), $this->translator->trans('WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusNotexecutedyet', [], 'contao_default')), $this->module);
+                break;
+                case MigrationResult::STATUS_SHOULD_RUN:
+                    $this->addInfo(sprintf('%s : %s', $singleMigrationResult->getName(), $this->translator->trans('WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusShouldrun', [], 'contao_default')), $this->module);
+                break;
+                case MigrationResult::STATUS_SKIPPED:
+                    $this->addInfo(sprintf('%s : %s', $singleMigrationResult->getName(), $this->translator->trans('WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusSkipped', [], 'contao_default')), $this->module);
+                break;
+                case MigrationResult::STATUS_FAIL:
+                    $this->addError(sprintf('%s : %s', $singleMigrationResult->getName(), $this->translator->trans('WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusFail', [], 'contao_default')), $this->module);
+                break;
+                case MigrationResult::STATUS_SUCCESS:
+                    $this->addConfirm(sprintf('%s : %s', $singleMigrationResult->getName(), $this->translator->trans('WEMSG.UPDATEMANAGER.SINGLEMIGRATIONRESULT.statusSuccess', [], 'contao_default')), $this->module);
+                break;
+            }
+        }
     }
 
     protected function createClientFilesFolders(): void
@@ -345,6 +398,20 @@ class Website extends ConfigurationStep
         return $modules;
     }
 
+    protected function updateLayouts(array $layouts, array $pages): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $objLayout = LayoutModel::findOneById($config->getSgLayoutStandard());
+        $objLayout->head = str_replace('{{config.core.page.privacy.url}}', $pages['privacy_politics']->getAbsoluteUrl(), $objLayout->head);
+        $objLayout->save();
+
+        $objLayout = LayoutModel::findOneById($config->getSgLayoutFullwidth());
+        $objLayout->head = str_replace('{{config.core.page.privacy.url}}', $pages['privacy_politics']->getAbsoluteUrl(), $objLayout->head);
+        $objLayout->save();
+    }
+
     protected function createLayouts(int $themeId, array $modules): array
     {
         /** @var CoreConfig */
@@ -359,8 +426,28 @@ class Website extends ConfigurationStep
             ['mod' => $modules['wem_sg_footer']->id, 'col' => 'footer', 'enable' => '1'],
         ];
         $script = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
-        $script = str_replace('{{config.googleFonts}}', "'".implode("','", $config->getSgGoogleFonts())."'", $script);
+        if (\count($config->getSgGoogleFonts()) > 0) {
+            $script = str_replace('{{config.googleFonts}}', "'".implode("','", $config->getSgGoogleFonts())."'", $script);
+        } else {
+            $script = preg_replace('/\/\/ -- GFONT(.*)\/\/ -- \/GFONT/s', '', $script);
+        }
+
         $script = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $script);
+        switch ($config->getSgAnalytics()) {
+            case CoreConfig::ANALYTICS_SYSTEM_NONE:
+                $script = preg_replace('/\/\/ -- GTAG(.*)\/\/ -- \/GTAG/s', '', $script);
+                $script = preg_replace('/\/\/ -- MATOMO(.*)\/\/ -- \/MATOMO/s', '', $script);
+            break;
+            case CoreConfig::ANALYTICS_SYSTEM_GOOGLE:
+                $script = str_replace('{{config.analytics.google.id}}', $config->getSgAnalyticsGoogleId(), $script);
+                $script = preg_replace('/\/\/ -- MATOMO(.*)\/\/ -- \/MATOMO/s', '', $script);
+            break;
+            case CoreConfig::ANALYTICS_SYSTEM_MATOMO:
+                $script = str_replace('{{config.analytics.matomo.host}}', $config->getSgAnalyticsMatomoHost(), $script);
+                $script = str_replace('{{config.analytics.matomo.id}}', $config->getSgAnalyticsMatomoId(), $script);
+                $script = preg_replace('/\/\/ -- GTAG(.*)\/\/ -- \/GTAG/s', '', $script);
+            break;
+        }
 
         $head = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
         $head = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $head);
@@ -426,92 +513,109 @@ class Website extends ConfigurationStep
         }
         $objUserGroup->tstamp = time();
         $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName'];
-        $objUserGroup->modules = serialize(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance', 'wem_sg_social_link']);
-        // $objUserGroup->pagemounts = '';
-        // $objUserGroup->alpty = 'a:3:{i:0;s:7:"regular";i:1;s:7:"forward";i:2;s:8:"redirect";}';
-        $objUserGroup->filemounts = serialize([$objFolderClientFiles->uuid, $objFolderClientLogos->uuid]);
-        $objUserGroup->fop = serialize(['f1', 'f2', 'f3', 'f4']);
-        $objUserGroup->imageSizes = serialize(['proportional']);
-        $objUserGroup->alexf = Util::addPermissions($this->getCorePermissions());
-        $objUserGroup->elements = serialize([
-            'headline',
-            'text',
-            'html',
-            'table',
-            'rsce_listIcons',
-            'rsce_quote',
-            'accordionStart',
-            'accordionStop',
-            'hyperlink',
-            'image',
-            'player',
-            'youtube',
-            'vimeo',
-            'downloads',
-            'module',
-            'rsce_timeline',
-            'grid-start',
-            'grid-stop',
-            'rsce_accordion',
-            'rsce_counter',
-            'rsce_hero',
-            'rsce_heroStart',
-            'rsce_heroStop',
-            'rsce_ratings',
-            'rsce_priceCards',
-            'rsce_slider',
-            'rsce_tabs',
-            'rsce_testimonials',
-            'rsce_pdfViewer',
-            'rsce_blockCard',
-        ]);
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedModules(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance', 'wem_sg_social_link'])
+            ->addAllowedFields($this->getCorePermissions())
+            ->addAllowedImageSizes(['proportional'])
+            ->addAllowedFilemounts([$objFolderClientFiles->uuid, $objFolderClientLogos->uuid])
+            ->addAllowedFileOperationPermissions(['f1', 'f2', 'f3', 'f4'])
+            ->addAllowedElements([
+                'headline',
+                'text',
+                'html',
+                'table',
+                'rsce_listIcons',
+                'rsce_quote',
+                'accordionStart',
+                'accordionStop',
+                'hyperlink',
+                'image',
+                'player',
+                'youtube',
+                'vimeo',
+                'downloads',
+                'module',
+                'rsce_timeline',
+                'grid-start',
+                'grid-stop',
+                'rsce_accordion',
+                'rsce_counter',
+                'rsce_hero',
+                'rsce_heroStart',
+                'rsce_heroStop',
+                'rsce_ratings',
+                'rsce_priceCards',
+                'rsce_slider',
+                'rsce_tabs',
+                'rsce_testimonials',
+                'rsce_pdfViewer',
+                'rsce_blockCard',
+                'form',
+            ])
+            ->addAllowedFormFields(array_keys($GLOBALS['TL_FFL']))
+            ->addAllowedFieldsByTables(['tl_form', 'tl_form_field'])
+            ->addAllowedFormPermissions(['create', 'delete'])
+        ;
+        $objUserGroup->modules = serialize(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance', 'wem_sg_social_link', 'wem_sg_social_link_config_categories']);
+        $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->save();
         $userGroups['administrators'] = $objUserGroup;
 
         if (null !== $config->getSgUserGroupAdministrators()) {
             $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupRedactors()) ?? new UserGroupModel();
+            $this->userGroupWebmasterOldPermissions = unserialize($objUserGroup->smartgear_permissions);
         } else {
             $objUserGroup = new UserGroupModel();
         }
+
         $objUserGroup->tstamp = time();
         $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName'];
-        $objUserGroup->modules = serialize(['article', 'files']);
-        $objUserGroup->alexf = Util::addPermissions($this->getCorePermissions());
-        $objUserGroup->imageSizes = serialize(['proportional']);
-        $objUserGroup->filemounts = serialize([$objFolderClientFiles->uuid, $objFolderClientLogos->uuid]);
-        $objUserGroup->fop = serialize(['f1', 'f2', 'f3', 'f4']);
-        $objUserGroup->elements = serialize([
-            'headline',
-            'text',
-            'html',
-            'table',
-            'rsce_listIcons',
-            'rsce_quote',
-            'accordionStart',
-            'accordionStop',
-            'hyperlink',
-            'image',
-            'player',
-            'youtube',
-            'vimeo',
-            'downloads',
-            'module',
-            'rsce_timeline',
-            'grid-start',
-            'grid-stop',
-            'rsce_accordion',
-            'rsce_counter',
-            'rsce_hero',
-            'rsce_heroStart',
-            'rsce_heroStop',
-            'rsce_ratings',
-            'rsce_priceCards',
-            'rsce_slider',
-            'rsce_tabs',
-            'rsce_testimonials',
-            'rsce_pdfViewer',
-            'rsce_blockCard',
-        ]);
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedModules(['article', 'files', 'form', 'wem_sg_social_link'])
+            ->addAllowedFields($this->getCorePermissions())
+            ->addAllowedImageSizes(['proportional'])
+            ->addAllowedFilemounts([$objFolderClientFiles->uuid, $objFolderClientLogos->uuid])
+            ->addAllowedFileOperationPermissions(['f1', 'f2', 'f3', 'f4'])
+            ->addAllowedElements([
+                'headline',
+                'text',
+                'html',
+                'table',
+                'rsce_listIcons',
+                'rsce_quote',
+                'accordionStart',
+                'accordionStop',
+                'hyperlink',
+                'image',
+                'player',
+                'youtube',
+                'vimeo',
+                'downloads',
+                'module',
+                'rsce_timeline',
+                'grid-start',
+                'grid-stop',
+                'rsce_accordion',
+                'rsce_counter',
+                'rsce_hero',
+                'rsce_heroStart',
+                'rsce_heroStop',
+                'rsce_ratings',
+                'rsce_priceCards',
+                'rsce_slider',
+                'rsce_tabs',
+                'rsce_testimonials',
+                'rsce_pdfViewer',
+                'rsce_blockCard',
+                'form',
+            ])
+            ->addAllowedFormFields(array_keys($GLOBALS['TL_FFL']))
+            ->addAllowedFieldsByTables(['tl_form', 'tl_form_field'])
+            ->addAllowedFormPermissions(['create', 'delete'])
+        ;
+        $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->save();
         $userGroups['redactors'] = $objUserGroup;
 
@@ -797,7 +901,7 @@ class Website extends ConfigurationStep
                 $config->getSgOwnerName() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
                 $config->getSgOwnerStreet().' '.$config->getSgOwnerPostal().' '.$config->getSgOwnerCity().' '.$config->getSgOwnerRegion().' '.$config->getSgOwnerCountry() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
                 $config->getSgOwnerSIRET() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
-                $config->getSgOwnerDomain().'/'.$page->alias.'.html',
+                $page->getAbsoluteUrl(),
                 date('d/m/Y'),
                 $config->getSgOwnerEmail() ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled']
             );
@@ -891,9 +995,12 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        $fonts = explode(',', Input::post('sgGoogleFonts'));
-        foreach ($fonts as $key => $value) {
-            $fonts[$key] = trim($value);
+        $fonts = [];
+        if (!empty(Input::post('sgGoogleFonts'))) {
+            $fonts = explode(',', Input::post('sgGoogleFonts'));
+            foreach ($fonts as $key => $value) {
+                $fonts[$key] = trim($value);
+            }
         }
 
         $config->setSgOwnerName(Input::post('sgOwnerName'));
@@ -1203,6 +1310,8 @@ class Website extends ConfigurationStep
             154 => 'tl_user::stop',
             155 => 'tl_user::session',
             156 => 'tl_content::grid_gap',
+            157 => 'tl_article::styleManager',
+            158 => 'tl_content::styleManager',
         ];
     }
 
@@ -1213,6 +1322,29 @@ class Website extends ConfigurationStep
 
         $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $config);
         $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $config);
+
+        foreach ($this->userGroupUpdaters as $submoduleStep) {
+            $submodule = $submoduleStep->getModule();
+            $submoduleConfig = $config->getSubmoduleConfig($submodule);
+            if ($submoduleConfig->getSgInstallComplete()) {
+                if ('blog' === $submodule) {
+                    $submoduleStep->updateUserGroups(\in_array(SmartgearPermissions::BLOG_EXPERT, $this->userGroupWebmasterOldPermissions, true));
+                } elseif ('events' === $submodule) {
+                    $submoduleStep->updateUserGroups(\in_array(SmartgearPermissions::EVENTS_EXPERT, $this->userGroupWebmasterOldPermissions, true));
+                } elseif ('extranet' === $submodule) {
+                    $objModules = Module::findItems(['id' => $submoduleConfig->getContaoModulesIds()]);
+                    $modules = [];
+                    if ($objModules) {
+                        while ($objModules->next()) {
+                            $modules[] = $objModules->current();
+                        }
+                    }
+                    $submoduleStep->updateUserGroups($modules);
+                } else {
+                    $submoduleStep->updateUserGroups();
+                }
+            }
+        }
     }
 
     protected function updateUserGroup(UserGroupModel $objUserGroup, CoreConfig $config): void

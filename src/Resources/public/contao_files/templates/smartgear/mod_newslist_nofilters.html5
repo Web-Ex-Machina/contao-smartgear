@@ -1,0 +1,11 @@
+
+<?php $this->block('content'); ?>
+  <div class="<?= $this->class ?>">
+    <?php if (empty($this->articles)): ?>
+      <p class="empty"><?= $this->empty ?></p>
+    <?php else: ?>
+      <?= implode('', $this->articles) ?>
+    <?php endif; ?>
+  </div>
+  <?= $this->pagination ?>
+<?php $this->endblock(); ?>

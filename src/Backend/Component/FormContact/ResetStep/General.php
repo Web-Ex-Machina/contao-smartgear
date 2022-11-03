@@ -83,6 +83,6 @@ class General extends AbstractStep
     protected function reset(string $mode): void
     {
         $this->resetter->reset($mode);
-        $this->addMessages($this->resetter->getMessages());
+        $this->addMessages($this->resetter->getMessages(), $this->module);
     }
 }

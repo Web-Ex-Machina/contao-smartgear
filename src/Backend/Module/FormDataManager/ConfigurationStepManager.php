@@ -37,9 +37,9 @@ class ConfigurationStepManager extends ConfigurationStepManagerBase
     public function setInstallAsComplete(): void
     {
         $config = $this->configurationManager->load();
-        $extranetConfig = $config->getSgFormDataManager();
-        $extranetConfig->setSgInstallComplete(true);
-        $config->setSgFormDataManager($extranetConfig);
+        $fdmConfig = $config->getSgFormDataManager();
+        $fdmConfig->setSgInstallComplete(true);
+        $config->setSgFormDataManager($fdmConfig);
         $this->configurationManager->save($config);
     }
 }

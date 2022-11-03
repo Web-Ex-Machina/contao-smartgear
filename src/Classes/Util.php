@@ -336,7 +336,7 @@ class Util
         $objPage->pid = $intPid;
         $objPage->sorting = (PageModel::countBy('pid', $intPid) + 1) * 128;
         $objPage->title = $strTitle;
-        $objPage->alias = StringUtil::generateAlias($objPage->title);
+        // $objPage->alias = StringUtil::generateAlias($objPage->title);
         $objPage->type = 'regular';
         $objPage->pageTitle = $strTitle;
         $objPage->robots = 'index,follow';
@@ -350,6 +350,19 @@ class Util
             }
         }
 
+        $objPage->save();
+
+        \Contao\Controller::loadDataContainer(PageModel::getTable());
+        $dc = new \Contao\DC_Table(PageModel::getTable());
+        $dc->id = $objPage->id;
+        $dc->activeRecord = $objPage;
+        $alias = System::getContainer()
+            ->get('contao.listener.data_container.page_url')
+            ->generateAlias($arrData['alias'] ?? '', $dc)
+        ;
+
+        $objPage = PageModel::findById($objPage->id);
+        $objPage->alias = $alias;
         $objPage->save();
 
         // Return the model
@@ -763,8 +776,9 @@ class Util
         return round($size, $precision).['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'][$i];
     }
 
-    public static function log(string $message, ?string $filename = 'debug.log'): void
+    public static function log($message, ?string $filename = 'debug.log'): void
     {
+        $message = \is_string($message) ? $message : print_r($message, true);
         file_put_contents(\Contao\System::getContainer()->getParameter('kernel.project_dir').'/vendor/webexmachina/contao-smartgear/'.$filename, $message.\PHP_EOL, \FILE_APPEND);
     }
 

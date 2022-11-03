@@ -74,6 +74,10 @@ class LoadDataContainerListener
                         $GLOBALS['TL_LANG'][$table]['teaser'][1] = &$GLOBALS['TL_LANG']['WEMSG']['EVENTS']['FORM']['fieldTeaserHelp'];
                         $this->dcaManipulator->setFieldSourceOptionCallback(CalendarEventsDCA::class, 'getSourceOptions');
                     }
+                    $this->dcaManipulator->addFieldSaveCallback('headline', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanHeadline']);
+                    $this->dcaManipulator->addFieldSaveCallback('title', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanHeadline']);
+                    $this->dcaManipulator->addFieldSaveCallback('teaser', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanText']);
+                    $this->dcaManipulator->addFieldSaveCallback('description', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanText']);
                 break;
                 case 'tl_content':
                     if ('calendar' !== $this->do) {

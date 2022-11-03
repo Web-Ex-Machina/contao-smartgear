@@ -244,6 +244,8 @@ Tags | Value | Description
 `sg::formContact_fieldName` | int | The "name" field ID
 `sg::formContact_fieldEmail` | int |  The "email" field ID
 `sg::formContact_fieldMessage` | int |  The "message" field ID
+`sg::formContact_fieldConsentDataTreatment` | int |  The "consent data treatment" field ID
+`sg::formContact_fieldConsentDataSave` | int |  The "consent data save" field ID
 `sg::formContact_fieldCaptcha` | int |  The "captcha" field ID
 `sg::formContact_fieldSubmit` | int |  The "submit" field ID
 `sg::formContact_notification` | int | The form submission notification's ID

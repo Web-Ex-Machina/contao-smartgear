@@ -75,6 +75,16 @@ class General extends ConfigurationStep
         $this->commandUtil->executeCmdPHP('contao:symlinks');
     }
 
+    public function updateUserGroups(): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        /** @var FormDataManagerConfig */
+        $formDataManagerConfig = $config->getSgFormDataManager();
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $formDataManagerConfig);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $formDataManagerConfig);
+    }
+
     protected function updateFormContactFormIfInstalled(): void
     {
         /** @var CoreConfig */
@@ -100,6 +110,18 @@ class General extends ConfigurationStep
                 $objFormFieldMessage->contains_personal_data = true;
                 $objFormFieldMessage->save();
             }
+
+            $objConsentDataSave = FormFieldModel::findById($formContactConfig->getSgFieldConsentDataSave());
+            if ($objConsentDataSave) {
+                $objConsentDataSave->invisible = false;
+                $objConsentDataSave->save();
+            }
+
+            $objConsentDataSaveExplanation = FormFieldModel::findById($formContactConfig->getSgFieldConsentDataSaveExplanation());
+            if ($objConsentDataSaveExplanation) {
+                $objConsentDataSaveExplanation->invisible = false;
+                $objConsentDataSaveExplanation->save();
+            }
         }
     }
 
@@ -112,6 +134,9 @@ class General extends ConfigurationStep
 
         $formDataManagerConfig
             ->setSgInstallComplete(true)
+            ->setSgArchived(false)
+            ->setSgArchivedMode(FormDataManagerConfig::ARCHIVE_MODE_EMPTY)
+            ->setSgArchivedAt(0)
         ;
 
         $config->setSgFormDataManager($formDataManagerConfig);
@@ -119,20 +144,12 @@ class General extends ConfigurationStep
         $this->configurationManager->save($config);
     }
 
-    protected function updateUserGroups(): void
-    {
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
-        /** @var FormDataManagerConfig */
-        $formDataManagerConfig = $config->getSgFormDataManager();
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $formDataManagerConfig);
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $formDataManagerConfig);
-    }
-
     protected function updateUserGroup(UserGroupModel $objUserGroup, FormDataManagerConfig $formDataManagerConfig): void
     {
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
-
+        $userGroupManipulator
+            ->addAllowedModules(['wem_sg_form_data_manager'])
+        ;
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->save();
     }

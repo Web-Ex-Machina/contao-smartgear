@@ -33,4 +33,22 @@ class StringUtil extends StringUtilBase
 
         return $formattedValue;
     }
+
+    /**
+     * Clean the tinyMCE data, see rules below
+     * Rule #1 : Replace [nbsp] tags by ' '
+     * Rule #2 : Find special characters and add an [nbsp] just before.
+     *
+     * @param string $varValue [Value to clean]
+     */
+    public static function cleanSpaces(string $varValue): string
+    {
+        // Rule #1
+        $varValue = str_replace(['[nbsp]', '&nbsp;'], [' ', ' '], $varValue);
+
+        // Rule #2
+        $varValue = preg_replace("/\s(\?|\!|\:|\;|\»)/", '&nbsp;\\1', $varValue);
+
+        return preg_replace("/(\«)\s/", '\\1&nbsp;', $varValue);
+    }
 }

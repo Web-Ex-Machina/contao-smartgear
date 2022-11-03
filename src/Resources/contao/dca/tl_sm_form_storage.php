@@ -185,7 +185,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
         ],
         'form_storage_data' => [
             'search' => false,
-            'exclude' => true,
+            'exclude' => false,
             'input_field_callback' => ['smartgear.data_container.form_storage', 'showData'],
         ],
         'sender' => [

@@ -5,7 +5,7 @@
 <script type="text/javascript">
 var tarteaucitronForceLanguage = '{{page::language}}';
 tarteaucitron.init({
-    "privacyUrl": "", /* Privacy policy url */
+    "privacyUrl": "{{config.core.page.privacy.url}}", /* Privacy policy url */
 
     "hashtag": "#tarteaucitron", /* Open the panel with this hashtag */
     "cookieName": "tarteaucitron", /* Cookie name */

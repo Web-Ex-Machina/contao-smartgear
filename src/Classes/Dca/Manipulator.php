@@ -287,6 +287,13 @@ class Manipulator
     //     return \array_key_exists($key, $GLOBALS['TL_DCA'][$this->table]['list']['operations']) ? $GLOBALS['TL_DCA'][$this->table]['list']['operations'][$key] : null;
     // }
 
+    public function getFieldProperty(string $field, string $property)
+    {
+        $this->checkConfiguration();
+
+        return $GLOBALS['TL_DCA'][$this->table]['fields'][$field][$property];
+    }
+
     public function setFieldProperty(string $field, string $property, $value)
     {
         $this->checkConfiguration();
@@ -303,10 +310,29 @@ class Manipulator
         return $this;
     }
 
+    public function addFieldLoadCallback(string $field, array $callback): self
+    {
+        return $this->addFieldCallback($field, 'load_callback', $callback);
+    }
+
+    public function addFieldSaveCallback(string $field, array $callback): self
+    {
+        return $this->addFieldCallback($field, 'save_callback', $callback);
+    }
+
     public function addField(string $field, array $configuration)
     {
         $this->checkConfiguration();
         $GLOBALS['TL_DCA'][$this->table]['fields'][$field] = $configuration;
+
+        return $this;
+    }
+
+    protected function addFieldCallback(string $field, string $callbackKey, array $callback): self
+    {
+        $cb = $this->getFieldProperty($field, $callbackKey);
+        $cb[] = $callback;
+        $this->setFieldProperty($field, $callbackKey, $cb);
 
         return $this;
     }

@@ -117,10 +117,37 @@ class General extends ConfigurationStep
         }
 
         $this->updateModuleConfigurationAfterGenerations($pages, $articles, $modules, $contents, $members, $memberGroups, $notifications, $notificationGatewayMessages, $notificationGatewayMessagesLanguages);
-        $this->updateUserGroups($modules);
+        // $this->updateUserGroups($modules);
+        $this->updateUserGroups();
 
         $this->commandUtil->executeCmdPHP('cache:clear');
         $this->commandUtil->executeCmdPHP('contao:symlinks');
+    }
+
+    public function updateUserGroups(array $modules): void
+    // protected function updateUserGroups(): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        /** @var ExtranetConfig */
+        $extranetConfig = $config->getSgExtranet();
+
+        $modulesTypes = [];
+        foreach ($modules as $module) {
+            if (null !== $module && null !== $module->type) {
+                $modulesTypes[] = $module->type;
+            }
+        }
+
+        // $modules = ModuleModel::findby('id', $extranetConfig->getContaoModulesIds());
+        // if ($modules) {
+        //     while ($modules->next()) {
+        //         $modulesTypes[] = $modules->type;
+        //     }
+        // }
+
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $extranetConfig, $modulesTypes);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $extranetConfig, $modulesTypes);
     }
 
     protected function cleanSubscriptionRelatedEntities(): void
@@ -651,10 +678,10 @@ class General extends ConfigurationStep
         $module->autologin = 1;
         $module->redirectBack = 1;
         $module->wem_sg_login_pwd_lost_jumpTo = $pagePwdLost->id;
-        if($extranetConfig->getSgCanSubscribe()){
+        if ($extranetConfig->getSgCanSubscribe()) {
             $module->wem_sg_login_register_jumpTo = $pageSubscribe->id;
         }
-        
+
         $module->tstamp = time();
         $module->save();
 
@@ -1832,24 +1859,6 @@ class General extends ConfigurationStep
         $config->setSgExtranet($extranetConfig);
 
         $this->configurationManager->save($config);
-    }
-
-    protected function updateUserGroups(array $modules): void
-    {
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
-        /** @var ExtranetConfig */
-        $extranetConfig = $config->getSgExtranet();
-
-        $modulesTypes = [];
-        foreach ($modules as $module) {
-            if (null !== $module && null !== $module->type) {
-                $modulesTypes[] = $module->type;
-            }
-        }
-
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $extranetConfig, $modulesTypes);
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $extranetConfig, $modulesTypes);
     }
 
     protected function updateUserGroup(UserGroupModel $objUserGroup, ExtranetConfig $extranetConfig, array $modules): void

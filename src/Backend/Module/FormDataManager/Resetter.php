@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Module\FormDataManager;
 
+use Contao\FormFieldModel;
+use Contao\FormModel;
 use Contao\UserGroupModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\Resetter as BackendResetter;
@@ -95,7 +97,49 @@ class Resetter extends BackendResetter
         FormStorageData::deleteAll();
         FormStorage::deleteAll();
 
+        $this->formContactUpdate();
+
         return $formDataManagerConfig;
+    }
+
+    protected function formContactUpdate(): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        /** @var FormContactConfig */
+        $formContactConfig = $config->getSgFormContact();
+
+        if ($formContactConfig->getSgInstallComplete()) {
+            $objForm = FormModel::findById($formContactConfig->getSgFormContact());
+            if ($objForm) {
+                $objForm->storeViaFormDataManager = 0;
+                $objForm->save();
+            }
+
+            $objFormFieldName = FormFieldModel::findById($formContactConfig->getSgFieldName());
+            if ($objFormFieldName) {
+                $objFormFieldName->contains_personal_data = 0;
+                $objFormFieldName->save();
+            }
+
+            $objFormFieldMessage = FormFieldModel::findById($formContactConfig->getSgFieldMessage());
+            if ($objFormFieldMessage) {
+                $objFormFieldMessage->contains_personal_data = 0;
+                $objFormFieldMessage->save();
+            }
+
+            $objConsentDataSave = FormFieldModel::findById($formContactConfig->getSgFieldConsentDataSave());
+            if ($objConsentDataSave) {
+                $objConsentDataSave->invisible = 1;
+                $objConsentDataSave->save();
+            }
+
+            $objConsentDataSaveExplanation = FormFieldModel::findById($formContactConfig->getSgFieldConsentDataSaveExplanation());
+            if ($objConsentDataSaveExplanation) {
+                $objConsentDataSaveExplanation->invisible = 1;
+                $objConsentDataSaveExplanation->save();
+            }
+        }
     }
 
     protected function resetUserGroupSettings(): void

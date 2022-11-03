@@ -159,6 +159,17 @@ class General extends ConfigurationStep
         return $this->configurationManager->load()->getSgBlog()->getPresetByIndex($id);
     }
 
+    public function updateUserGroups(bool $expertMode): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        /** @var BlogConfig */
+        $blogConfig = $config->getSgBlog();
+
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $expertMode, $blogConfig);
+        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), true, $blogConfig);
+    }
+
     protected function updateModuleConfiguration(): void
     {
         /** @var CoreConfig */
@@ -358,17 +369,6 @@ class General extends ConfigurationStep
         $config->setSgBlog($blogConfig);
 
         $this->configurationManager->save($config);
-    }
-
-    protected function updateUserGroups(bool $expertMode): void
-    {
-        /** @var CoreConfig */
-        $config = $this->configurationManager->load();
-        /** @var BlogConfig */
-        $blogConfig = $config->getSgBlog();
-
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $expertMode, $blogConfig);
-        $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), true, $blogConfig);
     }
 
     protected function updateUserGroup(UserGroupModel $objUserGroup, bool $expertMode, BlogConfig $blogConfig): void

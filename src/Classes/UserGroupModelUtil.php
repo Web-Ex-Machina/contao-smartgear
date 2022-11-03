@@ -206,6 +206,54 @@ class UserGroupModelUtil
     }
 
     /**
+     * Add allowed form permissions (do not assign fields).
+     *
+     * @param array $formp The formp permissions
+     */
+    public function addAllowedFormPermissions(array $formp): self
+    {
+        $this->userGroup->formp = $this->addAllowedItems($this->userGroup->formp, $formp);
+
+        return $this;
+    }
+
+    /**
+     * Remove allowed form permissions (do not remove fields).
+     *
+     * @param array $formp The formp permissions
+     */
+    public function removeAllowedFormPermissions(array $formp): self
+    {
+        $this->userGroup->formp = $this->removeAllowedItems($this->userGroup->formp, $formp);
+
+        return $this;
+    }
+
+    /**
+     * Add allowed elements.
+     *
+     * @param array $elements The elements
+     */
+    public function addAllowedElements(array $elements): self
+    {
+        $this->userGroup->elements = $this->addAllowedItems($this->userGroup->elements, $elements);
+
+        return $this;
+    }
+
+    /**
+     * Remove allowed elements.
+     *
+     * @param array $elements The elements
+     */
+    public function removeAllowedElements(array $elements): self
+    {
+        $this->userGroup->elements = $this->removeAllowedItems($this->userGroup->elements, $elements);
+
+        return $this;
+    }
+
+    /**
      * Add allowed filemounts (do not assign filemount permissions).
      *
      * @param array $folderUUIDs The folders'UUIDs
@@ -230,6 +278,30 @@ class UserGroupModelUtil
     }
 
     /**
+     * Add allowed file operation permissions (do not assign filemounts).
+     *
+     * @param array $fop The file operation permissions
+     */
+    public function addAllowedFileOperationPermissions(array $fop): self
+    {
+        $this->userGroup->fop = $this->addAllowedItems($this->userGroup->fop, $fop);
+
+        return $this;
+    }
+
+    /**
+     * Remove allowed file operation permissions (do not remove filemounts).
+     *
+     * @param array $fop The file operation permissions
+     */
+    public function removeAllowedFileOperationPermissions(array $fop): self
+    {
+        $this->userGroup->fop = $this->removeAllowedItems($this->userGroup->fop, $fop);
+
+        return $this;
+    }
+
+    /**
      * Add allowed pagemounts.
      *
      * @param array $pageIds The pages'IDs
@@ -249,6 +321,30 @@ class UserGroupModelUtil
     public function removeAllowedPagemounts(array $pageIds): self
     {
         $this->userGroup->pagemounts = $this->removeAllowedItems($this->userGroup->pagemounts, $pageIds);
+
+        return $this;
+    }
+
+    /**
+     * Add allowed imageSizes.
+     *
+     * @param array $imageSizes The pages'IDs
+     */
+    public function addAllowedImageSizes(array $imageSizes): self
+    {
+        $this->userGroup->imageSizes = $this->addAllowedItems($this->userGroup->imageSizes, $imageSizes);
+
+        return $this;
+    }
+
+    /**
+     * Remove allowed imageSizes.
+     *
+     * @param array $imageSizes The pages'IDs
+     */
+    public function removeAllowedImageSizes(array $imageSizes): self
+    {
+        $this->userGroup->imageSizes = $this->removeAllowedItems($this->userGroup->imageSizes, $imageSizes);
 
         return $this;
     }
@@ -292,9 +388,12 @@ class UserGroupModelUtil
                 $loader = new \Contao\DcaLoader($table);
                 $loader->load();
             }
-            $allowedFieldsWithoutPrefix = array_keys($GLOBALS['TL_DCA'][$table]['fields'] ?? []);
-            foreach ($allowedFieldsWithoutPrefix as $allowedFieldWithoutPrefix) {
-                $allowedFields[] = $table.'::'.$allowedFieldWithoutPrefix;
+            $dcaFields = $GLOBALS['TL_DCA'][$table]['fields'] ?? [];
+            foreach ($dcaFields as $key => $config) {
+                // see tl_user_group::getExcludedFields
+                if (($config['exclude'] ?? null) || ($config['orig_exclude'] ?? null)) {
+                    $allowedFields[] = $table.'::'.$key;
+                }
             }
         }
 
@@ -314,6 +413,10 @@ class UserGroupModelUtil
             $fieldNameKeyToDelete = $prefix;
             $fieldNameKeyToDeleteLength = \strlen($fieldNameKeyToDelete);
             foreach ($alexf as $index => $fieldName) {
+                if (!\is_string($fieldName)) {
+                    unset($alexf[$index]);
+                    continue;
+                }
                 if ($fieldNameKeyToDelete === substr($fieldName, 0, $fieldNameKeyToDeleteLength)) {
                     unset($alexf[$index]);
                 }

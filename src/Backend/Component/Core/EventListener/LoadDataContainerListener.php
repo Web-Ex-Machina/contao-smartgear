@@ -55,7 +55,10 @@ class LoadDataContainerListener
                     ) {
                         // do not display grid_gap settings
                         $this->dcaManipulator->removeFields(['grid_gap']);
+                        $this->dcaManipulator->setFieldEvalProperty('cssID', 'tl_class', 'hidden');
                     }
+                    $this->dcaManipulator->addFieldSaveCallback('headline', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanHeadline']);
+                    $this->dcaManipulator->addFieldSaveCallback('text', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanText']);
                 break;
                 case 'tl_module':
                     $nbChangeLanguageModules = ModuleModel::countByType('changelanguage');

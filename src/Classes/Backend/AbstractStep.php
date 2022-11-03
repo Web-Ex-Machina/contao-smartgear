@@ -70,4 +70,14 @@ class AbstractStep
     {
         return $this->title;
     }
+
+    public function getModule(): string
+    {
+        return $this->module;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
 }

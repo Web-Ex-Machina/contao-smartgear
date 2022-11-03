@@ -63,6 +63,10 @@ class FormContact implements ConfigModuleInterface
     /** @var int */
     protected $sgFieldMessage;
     /** @var int */
+    protected $sgFieldConsentDataTreatment;
+    /** @var int */
+    protected $sgFieldConsentDataSave;
+    /** @var int */
     protected $sgFieldCaptcha;
     /** @var int */
     protected $sgFieldSubmit;
@@ -100,6 +104,9 @@ class FormContact implements ConfigModuleInterface
             ->setSgFieldName(null)
             ->setSgFieldEmail(null)
             ->setSgFieldMessage(null)
+            ->setSgFieldConsentDataTreatment(null)
+            ->setSgFieldConsentDataSave(null)
+            ->setSgFieldMessage(null)
             ->setSgFieldCaptcha(null)
             ->setSgFieldSubmit(null)
             ->setSgNotification(null)
@@ -132,6 +139,8 @@ class FormContact implements ConfigModuleInterface
             ->setSgFieldName($json->contao->fields->name ?? null)
             ->setSgFieldEmail($json->contao->fields->email ?? null)
             ->setSgFieldMessage($json->contao->fields->message ?? null)
+            ->setSgFieldConsentDataTreatment($json->contao->fields->consentDataTreatment ?? null)
+            ->setSgFieldConsentDataSave($json->contao->fields->consentDataSave ?? null)
             ->setSgFieldCaptcha($json->contao->fields->captcha ?? null)
             ->setSgFieldSubmit($json->contao->fields->submit ?? null)
             ->setSgNotification($json->contao->notification ?? null)
@@ -180,6 +189,8 @@ class FormContact implements ConfigModuleInterface
         $json->contao->fields->name = $this->getSgFieldName();
         $json->contao->fields->email = $this->getSgFieldEmail();
         $json->contao->fields->message = $this->getSgFieldMessage();
+        $json->contao->fields->consentDataTreatment = $this->getSgFieldConsentDataTreatment();
+        $json->contao->fields->consentDataSave = $this->getSgFieldConsentDataSave();
         $json->contao->fields->captcha = $this->getSgFieldCaptcha();
         $json->contao->fields->submit = $this->getSgFieldSubmit();
 
@@ -628,6 +639,30 @@ class FormContact implements ConfigModuleInterface
     public function setSgNotificationMessageAdminLanguage(?int $sgNotificationMessageAdminLanguage): self
     {
         $this->sgNotificationMessageAdminLanguage = $sgNotificationMessageAdminLanguage;
+
+        return $this;
+    }
+
+    public function getSgFieldConsentDataTreatment(): ?int
+    {
+        return $this->sgFieldConsentDataTreatment;
+    }
+
+    public function setSgFieldConsentDataTreatment(?int $sgFieldConsentDataTreatment): self
+    {
+        $this->sgFieldConsentDataTreatment = $sgFieldConsentDataTreatment;
+
+        return $this;
+    }
+
+    public function getSgFieldConsentDataSave(): ?int
+    {
+        return $this->sgFieldConsentDataSave;
+    }
+
+    public function setSgFieldConsentDataSave(?int $sgFieldConsentDataSave): self
+    {
+        $this->sgFieldConsentDataSave = $sgFieldConsentDataSave;
 
         return $this;
     }

@@ -114,6 +114,12 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 case 'formContact_fieldMessage':
                     return $formContactConfig->getSgFieldMessage();
                 break;
+                case 'formContact_fieldConsentDataTreatment':
+                    return $formContactConfig->getSgFieldConsentDataTreatment();
+                break;
+                case 'formContact_fieldConsentDataSave':
+                    return $formContactConfig->getSgFieldConsentDataSave();
+                break;
                 case 'formContact_fieldCaptcha':
                     return $formContactConfig->getSgFieldCaptcha();
                 break;

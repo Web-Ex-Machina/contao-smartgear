@@ -55,6 +55,8 @@ class LoadDataContainerListener
                     }
                     // limiting singleSRC fierld to the blog folder
                     $this->dcaManipulator->setFieldSingleSRCPath($faqConfig->getSgFaqFolder());
+                    $this->dcaManipulator->addFieldSaveCallback('question', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanHeadline']);
+                    $this->dcaManipulator->addFieldSaveCallback('description', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanText']);
                 break;
             }
         } catch (FileNotFoundException $e) {

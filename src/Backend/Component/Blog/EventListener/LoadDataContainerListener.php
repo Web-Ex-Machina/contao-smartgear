@@ -54,6 +54,7 @@ class LoadDataContainerListener
                     if (!$blogConfig->getSgInstallComplete()) {
                         return;
                     }
+
                     // limiting singleSRC field to the blog folder
                     $this->dcaManipulator->setFieldSingleSRCPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
 
@@ -72,6 +73,9 @@ class LoadDataContainerListener
                         $GLOBALS['TL_LANG'][$table]['teaser'][0] = &$GLOBALS['TL_LANG']['WEMSG']['BLOG']['FORM']['fieldTeaserLabel'];
                         $GLOBALS['TL_LANG'][$table]['teaser'][1] = &$GLOBALS['TL_LANG']['WEMSG']['BLOG']['FORM']['fieldTeaserHelp'];
                     }
+                    $this->dcaManipulator->addFieldSaveCallback('headline', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanHeadline']);
+                    $this->dcaManipulator->addFieldSaveCallback('title', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanHeadline']);
+                    $this->dcaManipulator->addFieldSaveCallback('teaser', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanText']);
                 break;
                 case 'tl_content':
                     if ('news' !== $this->do) {
