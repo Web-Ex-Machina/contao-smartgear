@@ -564,7 +564,9 @@ class Website extends ConfigurationStep
 
         if (null !== $config->getSgUserGroupAdministrators()) {
             $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupRedactors()) ?? new UserGroupModel();
-            $this->userGroupWebmasterOldPermissions = unserialize($objUserGroup->smartgear_permissions);
+            $this->userGroupWebmasterOldPermissions = null !== $objUserGroup->smartgear_permissions
+            ? unserialize($objUserGroup->smartgear_permissions)
+            : [];
         } else {
             $objUserGroup = new UserGroupModel();
         }

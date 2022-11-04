@@ -116,12 +116,6 @@ class General extends ConfigurationStep
                 $objConsentDataSave->invisible = false;
                 $objConsentDataSave->save();
             }
-
-            $objConsentDataSaveExplanation = FormFieldModel::findById($formContactConfig->getSgFieldConsentDataSaveExplanation());
-            if ($objConsentDataSaveExplanation) {
-                $objConsentDataSaveExplanation->invisible = false;
-                $objConsentDataSaveExplanation->save();
-            }
         }
     }
 
