@@ -334,7 +334,14 @@ class Util
         }
         $objPage->tstamp = time();
         $objPage->pid = $intPid;
-        $objPage->sorting = (PageModel::countBy('pid', $intPid) + 1) * 128;
+        if (\array_key_exists('sorting', $arrData)) {
+            $objPage->sorting = $arrData['sorting'];
+        } elseif (0 !== $intPid) {
+            $objPage->sorting = self::getNextAvailablePageSortingByParentPage((int) $intPid);
+        } elseif (\array_key_exists('layout', $arrData)) {
+            $objPage->sorting = self::getNextAvailablePageSortingByLayout((int) $arrData['layout']);
+        }
+
         $objPage->title = $strTitle;
         // $objPage->alias = StringUtil::generateAlias($objPage->title);
         $objPage->type = 'regular';
@@ -881,6 +888,53 @@ class Util
         }
 
         return $timestamps;
+    }
+
+    /**
+     * Returns the next available sorting for a page based on its layout.
+     *
+     * @param int $layoutId The layout ID
+     *
+     * @return int The next available sorting
+     */
+    public static function getNextAvailablePageSortingByLayout(int $layoutId): int
+    {
+        $rootPage = PageModel::findBy(['layout = ?', 'type = ?'], [$layoutId, 'root']);
+        if (!$rootPage) {
+            return 128;
+        }
+
+        $pages = PageModel::findBy('pid', $rootPage, ['order' => 'sorting DESC']);
+        if (!$pages) {
+            // return (int) $rootPage->sorting + 128;
+            return 128;
+        }
+        $objPage = $pages->first()->current();
+
+        return (int) $objPage->sorting + 128;
+    }
+
+    /**
+     * Returns the next available page sorting for a page based on its parent page.
+     *
+     * @param int $parentPageId The page ID
+     *
+     * @return int The next available sorting
+     */
+    public static function getNextAvailablePageSortingByParentPage(int $parentPageId): int
+    {
+        $pidPage = PageModel::findById($parentPageId);
+        if (!$pidPage) {
+            return 128;
+        }
+        $pages = PageModel::findBy('pid', $parentPageId, ['order' => 'sorting DESC']);
+        if (!$pages) {
+            // return (int) $pidPage->sorting + 128;
+            return 128;
+        }
+        $objPage = $pages->first()->current();
+
+        return (int) $objPage->sorting + 128;
     }
 
     /**

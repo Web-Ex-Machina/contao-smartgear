@@ -168,13 +168,13 @@ class General extends ConfigurationStep
 
         return Util::createPage($eventsConfig->getSgPageTitle(), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => ((int) $rootPage->sorting) + 128,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'title' => $eventsConfig->getSgPageTitle(),
             'robots' => 'index,follow',
             'type' => 'regular',
             'published' => 1,
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createArticle(PageModel $page): ArticleModel

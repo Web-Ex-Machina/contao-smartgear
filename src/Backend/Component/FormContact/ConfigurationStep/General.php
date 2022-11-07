@@ -152,12 +152,12 @@ class General extends ConfigurationStep
 
         return Util::createPage($formContactConfig->getSgPageTitle(), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => ((int) $rootPage->sorting) + 128,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'type' => 'regular',
             'robots' => 'index,follow',
             'description' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormDescription', [$formContactConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
             'published' => 1,
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createPageFormSent(): PageModel
@@ -173,13 +173,13 @@ class General extends ConfigurationStep
 
         return Util::createPage($this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormSentTitle', [$formContactConfig->getSgPageTitle()], 'contao_default'), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => ((int) $rootPage->sorting) + 128,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'type' => 'regular',
             'robots' => 'index,follow',
             'description' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormSentDescription', [$formContactConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
             'published' => 1,
             'hide' => 1,
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createPages(): array

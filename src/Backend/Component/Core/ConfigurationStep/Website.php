@@ -689,11 +689,11 @@ class Website extends ConfigurationStep
         $config = $this->configurationManager->load();
         $page = PageModel::findOneById($config->getSgPageHome());
         $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageHomeTitle'], $rootPage->id, array_merge([
-            'sorting' => 128,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'alias' => 'index',
             'sitemap' => 'default',
             'hide' => 1,
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         return $page;
     }
@@ -704,11 +704,11 @@ class Website extends ConfigurationStep
         $config = $this->configurationManager->load();
         $page = PageModel::findOneById($config->getSgPage404());
         $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Title'], $rootPage->id, array_merge([
-            'sorting' => 256,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'sitemap' => 'default',
             'hide' => 1,
             'type' => 'error_404',
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         return $page;
     }
@@ -720,11 +720,11 @@ class Website extends ConfigurationStep
 
         $page = PageModel::findOneById($config->getSgPageLegalNotice());
         $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageLegalNoticeTitle'], $rootPage->id, array_merge([
-            'sorting' => 386,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'sitemap' => 'default',
             'description' => sprintf($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageLegalNoticeDescription'], $config->getSgWebsiteTitle()),
             'hide' => 1,
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         return $page;
     }
@@ -735,11 +735,11 @@ class Website extends ConfigurationStep
         $config = $this->configurationManager->load();
         $page = PageModel::findOneById($config->getSgPagePrivacyPolitics());
         $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PagePrivacyPoliticsTitle'], $rootPage->id, array_merge([
-            'sorting' => 512,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'sitemap' => 'default',
             'description' => sprintf($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PagePrivacyPoliticsDescription'], $config->getSgWebsiteTitle()),
             'hide' => 1,
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         return $page;
     }
@@ -751,11 +751,11 @@ class Website extends ConfigurationStep
 
         $page = PageModel::findOneById($config->getSgPageSitemap());
         $page = Util::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapTitle'], $rootPage->id, array_merge([
-            'sorting' => 640,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'sitemap' => 'default',
             'description' => sprintf($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapDescription'], $config->getSgWebsiteTitle()),
             'hide' => 1,
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         return $page;
     }
