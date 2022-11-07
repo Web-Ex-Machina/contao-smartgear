@@ -117,8 +117,8 @@ class General extends ConfigurationStep
         }
 
         $this->updateModuleConfigurationAfterGenerations($pages, $articles, $modules, $contents, $members, $memberGroups, $notifications, $notificationGatewayMessages, $notificationGatewayMessagesLanguages);
-        // $this->updateUserGroups($modules);
-        $this->updateUserGroups();
+        $this->updateUserGroups($modules);
+        // $this->updateUserGroups();
 
         $this->commandUtil->executeCmdPHP('cache:clear');
         $this->commandUtil->executeCmdPHP('contao:symlinks');
@@ -187,7 +187,7 @@ class General extends ConfigurationStep
 
         return Util::createPage($extranetConfig->getSgPageExtranetTitle(), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => ((int) $rootPage->sorting) + 128,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'title' => $title,
             'type' => 'regular',
@@ -195,7 +195,7 @@ class General extends ConfigurationStep
             'robots' => 'index,follow',
             'description' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.pageExtranetDescription', [$extranetConfig->getSgPageExtranetTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
             'published' => 1,
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createPageError401(PageModel $rootPage, CoreConfig $config, ExtranetConfig $extranetConfig): PageModel
@@ -205,12 +205,12 @@ class General extends ConfigurationStep
 
         return Util::createPage($this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.pageError401Title', [], 'contao_default'), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => ((int) $error404Page->sorting) + 128,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'type' => 'error_401',
             'robots' => 'noindex,nofollow',
             'published' => 1,
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createPageError403(PageModel $rootPage, CoreConfig $config, ExtranetConfig $extranetConfig, int $sorting401): PageModel
@@ -220,12 +220,13 @@ class General extends ConfigurationStep
 
         return Util::createPage($this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.pageError403Title', [], 'contao_default'), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => $sorting401 + 128,
+            // 'sorting' => $sorting401 + 128,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'type' => 'error_403',
             'robots' => 'noindex,nofollow',
             'published' => 1,
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createPageContent(PageModel $rootPage, CoreConfig $config, ExtranetConfig $extranetConfig, array $groups): PageModel
@@ -234,7 +235,7 @@ class General extends ConfigurationStep
 
         return Util::createPage($this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.pageContentTitle', [], 'contao_default'), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => 128,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'type' => 'regular',
             'robots' => 'noindex,nofollow',
@@ -243,7 +244,7 @@ class General extends ConfigurationStep
             'noSearch' => 1,
             'published' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createPageData(PageModel $rootPage, CoreConfig $config, ExtranetConfig $extranetConfig, array $groups): PageModel
@@ -252,7 +253,7 @@ class General extends ConfigurationStep
 
         return Util::createPage($this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.pageDataTitle', [], 'contao_default'), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => 256,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'type' => 'regular',
             'robots' => 'noindex,nofollow',
@@ -261,7 +262,7 @@ class General extends ConfigurationStep
             'noSearch' => 1,
             'published' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createPageDataConfirm(PageModel $rootPage, CoreConfig $config, ExtranetConfig $extranetConfig, array $groups): PageModel
@@ -270,7 +271,7 @@ class General extends ConfigurationStep
 
         return Util::createPage($this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.pageDataConfirmTitle', [], 'contao_default'), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => 256,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'type' => 'regular',
             'robots' => 'noindex,nofollow',
@@ -279,7 +280,7 @@ class General extends ConfigurationStep
             'noSearch' => 1,
             'published' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createPagePassword(PageModel $rootPage, CoreConfig $config, ExtranetConfig $extranetConfig): PageModel
@@ -288,7 +289,7 @@ class General extends ConfigurationStep
 
         return Util::createPage($this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.pagePasswordTitle', [], 'contao_default'), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => 384,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'type' => 'regular',
             'robots' => 'noindex,nofollow',
@@ -296,7 +297,7 @@ class General extends ConfigurationStep
             'published' => 1,
             'hide' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createPagePasswordConfirm(PageModel $rootPage, CoreConfig $config, ExtranetConfig $extranetConfig): PageModel
@@ -305,7 +306,7 @@ class General extends ConfigurationStep
 
         return Util::createPage($this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.pagePasswordConfirmTitle', [], 'contao_default'), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => 128,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'type' => 'regular',
             'robots' => 'noindex,nofollow',
@@ -313,7 +314,7 @@ class General extends ConfigurationStep
             'published' => 1,
             'hide' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createPagePasswordValidate(PageModel $rootPage, CoreConfig $config, ExtranetConfig $extranetConfig): PageModel
@@ -322,7 +323,7 @@ class General extends ConfigurationStep
 
         return Util::createPage($this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.pagePasswordValidateTitle', [], 'contao_default'), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => 256,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'type' => 'regular',
             'robots' => 'noindex,nofollow',
@@ -330,7 +331,7 @@ class General extends ConfigurationStep
             'published' => 1,
             'hide' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createPageLogout(PageModel $rootPage, CoreConfig $config, ExtranetConfig $extranetConfig): PageModel
@@ -339,7 +340,7 @@ class General extends ConfigurationStep
 
         return Util::createPage($this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.pageLogoutTitle', [], 'contao_default'), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => 512,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'type' => 'regular',
             'robots' => 'noindex,nofollow',
@@ -347,7 +348,7 @@ class General extends ConfigurationStep
             'published' => 1,
             'hide' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createPageSubscribe(PageModel $rootPage, CoreConfig $config, ExtranetConfig $extranetConfig): ?PageModel
@@ -364,7 +365,7 @@ class General extends ConfigurationStep
 
         return Util::createPage($this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.pageSubscribeTitle', [], 'contao_default'), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => 640,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'type' => 'regular',
             'robots' => 'noindex,nofollow',
@@ -372,7 +373,7 @@ class General extends ConfigurationStep
             'published' => 1,
             'hide' => 1,
             'guests' => 1,
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createPageSubscribeConfirm(?PageModel $rootPage, CoreConfig $config, ExtranetConfig $extranetConfig): ?PageModel
@@ -389,7 +390,7 @@ class General extends ConfigurationStep
 
         return Util::createPage($this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.pageSubscribeConfirmTitle', [], 'contao_default'), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => 128,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'type' => 'regular',
             'robots' => 'noindex,nofollow',
@@ -398,7 +399,7 @@ class General extends ConfigurationStep
             'hide' => 1,
             'guests' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createPageSubscribeValidate(?PageModel $rootPage, CoreConfig $config, ExtranetConfig $extranetConfig): ?PageModel
@@ -415,7 +416,7 @@ class General extends ConfigurationStep
 
         return Util::createPage($this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.pageSubscribeValidateTitle', [], 'contao_default'), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => 256,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'type' => 'regular',
             'robots' => 'noindex,nofollow',
@@ -424,7 +425,7 @@ class General extends ConfigurationStep
             'hide' => 1,
             'guests' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createPageUnsubscribeConfirm(?PageModel $rootPage, CoreConfig $config, ExtranetConfig $extranetConfig): ?PageModel
@@ -441,14 +442,14 @@ class General extends ConfigurationStep
 
         return Util::createPage($this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.pageUnsubscribeTitle', [], 'contao_default'), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => 768,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'type' => 'regular',
             'robots' => 'noindex,nofollow',
             'noSearch' => 1,
             'published' => 1,
             'hide' => 1,
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createPages(string $pageTitle, array $groups): array

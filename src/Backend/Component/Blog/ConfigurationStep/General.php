@@ -218,14 +218,14 @@ class General extends ConfigurationStep
 
         return Util::createPage($presetConfig->getSgPageTitle(), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => ((int) $rootPage->sorting) + 128,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'title' => $presetConfig->getSgPageTitle(),
             'robots' => 'index,follow',
             'type' => 'regular',
             'published' => 1,
             'description' => $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.pageDescription', [$presetConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
-        ], null !== $page ? ['id' => $page->id] : []));
+        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
     protected function createArticle(PageModel $page): ArticleModel
