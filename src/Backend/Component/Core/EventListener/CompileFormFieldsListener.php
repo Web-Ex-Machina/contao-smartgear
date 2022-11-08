@@ -42,8 +42,9 @@ class CompileFormFieldsListener
             /** @var CoreConfig */
             $coreConfig = $this->coreConfigurationManager->load();
             if ($coreConfig->getSgInstallComplete()) {
+                global $objPage;
                 // current page
-                $objPage = FormUtil::getPageFromForm($form);
+                $objPage = FormUtil::getPageFromForm($form) ?? $objPage;
 
                 $objFormFieldWarning = (new FormField());
                 $objFormFieldWarning->pid = $form->getModel()->id;

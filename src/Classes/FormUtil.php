@@ -29,7 +29,11 @@ class FormUtil
     public static function getPageFromForm(Form $form): ?PageModel
     {
         $objParent = $form->getParent();
+        if (null === $objParent->ptable) {
+            return null;
+        }
         $model = Model::getClassFromTable($objParent->ptable);
+
         $objGreatParent = $model::findOneById($objParent->pid);
 
         return PageModel::findOneById($objGreatParent->pid);
