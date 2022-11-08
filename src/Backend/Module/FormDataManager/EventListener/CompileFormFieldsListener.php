@@ -20,7 +20,6 @@ use Contao\FormFieldModel;
 use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
-use WEM\SmartgearBundle\Classes\FormUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
 
@@ -50,7 +49,7 @@ class CompileFormFieldsListener
             ) {
                 if ((bool) $form->getModel()->storeViaFormDataManager) {
                     // current page
-                    $objPage = FormUtil::getPageFromForm($form);
+                    global $objPage;
 
                     $objFormFieldFirstAppearance = (new FormFieldModel());
                     $objFormFieldFirstAppearance->name = 'fdm[first_appearance]';
