@@ -14,10 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes;
 
-use Contao\Form;
 use Contao\FormModel;
-use Contao\Model;
-use Contao\PageModel;
 use Exception;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\EmailFieldNotMandatoryInForm;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\FormNotConfiguredToStoreValues;
@@ -26,15 +23,6 @@ use WEM\SmartgearBundle\Model\FormField;
 
 class FormUtil
 {
-    public static function getPageFromForm(Form $form): ?PageModel
-    {
-        $objParent = $form->getParent();
-        $model = Model::getClassFromTable($objParent->ptable);
-        $objGreatParent = $model::findOneById($objParent->pid);
-
-        return PageModel::findOneById($objGreatParent->pid);
-    }
-
     public static function checkFormConfigurationCompliantForFormDataManager($formId): void
     {
         $objForm = FormModel::findById($formId);

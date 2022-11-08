@@ -17,7 +17,6 @@ namespace WEM\SmartgearBundle\Backend\Component\Core\EventListener;
 use Contao\Form;
 use Exception;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
-use WEM\SmartgearBundle\Classes\FormUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Model\FormField;
@@ -43,7 +42,7 @@ class CompileFormFieldsListener
             $coreConfig = $this->coreConfigurationManager->load();
             if ($coreConfig->getSgInstallComplete()) {
                 // current page
-                $objPage = FormUtil::getPageFromForm($form);
+                global $objPage;
 
                 $objFormFieldWarning = (new FormField());
                 $objFormFieldWarning->pid = $form->getModel()->id;

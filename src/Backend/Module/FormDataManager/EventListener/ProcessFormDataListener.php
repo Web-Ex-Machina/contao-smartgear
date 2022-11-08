@@ -69,7 +69,7 @@ class ProcessFormDataListener
                     $objFormStorage->completion_percentage = $this->calculateCompletionPercentage($submittedData, $files ?? [], $form);
                     $objFormStorage->delay_to_first_interaction = $this->calculateDelayToFirstInteraction($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]']);
                     $objFormStorage->delay_to_submission = $this->calculateDelayToSubmission($submittedData['fdm[first_interaction]'], $form);
-                    $objFormStorage->current_page = $submittedData['fdm[current_page]'];
+                    $objFormStorage->current_page = (int) $submittedData['fdm[current_page]'];
                     $objFormStorage->current_page_url = $submittedData['fdm[current_page_url]'];
                     $objFormStorage->referer_page = $this->getRefererPageId($submittedData['fdm[referer_page_url]']) ?? 0;
                     $objFormStorage->referer_page_url = $submittedData['fdm[referer_page_url]'];
