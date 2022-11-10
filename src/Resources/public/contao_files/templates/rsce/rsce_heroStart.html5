@@ -7,6 +7,7 @@
   // Prepare the main block classes
   $arrClasses = [];
   switch($this->hero_width){
+    case 'container' : 
     case 'viewport' : $arrClasses[] = 'w-full'; break;
     case 'content'  : $arrClasses[] = 'width--content'; break;
   }
@@ -48,5 +49,5 @@
       <img src="<?= $strFile ?>" alt="<?= $this->alt ?>">
     </div>
     <div class="heroFW__content">
-      <div class="heroFW__content__wrapper">
+      <div class="heroFW__content__wrapper <?= $this->hero_width=='container'?'container':'' ?>">
 <?php endif; ?>

@@ -69,6 +69,10 @@
         <source>Vertical alignment</source>
         <target>Alignement vertical</target>
       </trans-unit>
+      <trans-unit id="tl_content.default">
+        <source>Default</source>
+        <target>Par défaut</target>
+      </trans-unit>
       <trans-unit id="tl_content.content_horizontal.optionCenter">
         <source>Center</source>
         <target>Centré</target>
@@ -140,6 +144,10 @@
       <trans-unit id="tl_content.hero_width.viewport">
         <source>Viewport's width</source>
         <target>Toute la largeur d'écran disponible</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_width.container">
+        <source>Viewport's width for the picture, limited to page body width for the content</source>
+        <target>Toute la largeur d'écran pour le fond, contenu limitée à la largeur du corps de la page</target>
       </trans-unit>
       <trans-unit id="tl_content.hero_width.content">
         <source>Content relative</source>

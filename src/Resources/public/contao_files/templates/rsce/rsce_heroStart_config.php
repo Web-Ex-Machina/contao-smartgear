@@ -108,21 +108,23 @@ return [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['content_horizontal'],
             'inputType' => 'select',
             'options' => [
+                '' => &$GLOBALS['TL_LANG']['tl_content']['default'],
                 'center' => &$GLOBALS['TL_LANG']['tl_content']['content_horizontal']['optionCenter'],
                 'left' => &$GLOBALS['TL_LANG']['tl_content']['content_horizontal']['optionLeft'],
                 'right' => &$GLOBALS['TL_LANG']['tl_content']['content_horizontal']['optionRight'],
             ],
-            'eval' => ['tl_class' => 'w50', 'includeBlankOption' => true],
+            'eval' => ['tl_class' => 'w50'],
         ],
         'content_vertical' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['content_vertical'],
             'inputType' => 'select',
             'options' => [
+                '' => &$GLOBALS['TL_LANG']['tl_content']['default'],
                 'center' => &$GLOBALS['TL_LANG']['tl_content']['content_vertical']['optionCenter'],
                 'top' => &$GLOBALS['TL_LANG']['tl_content']['content_vertical']['optionTop'],
                 'bottom' => &$GLOBALS['TL_LANG']['tl_content']['content_vertical']['optionBottom'],
             ],
-            'eval' => ['tl_class' => 'w50', 'includeBlankOption' => true],
+            'eval' => ['tl_class' => 'w50'],
         ],
         'content_fontcolor' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_slider']['content_fontcolor'],
@@ -160,6 +162,7 @@ return [
             'options' => [
                 'default' => &$GLOBALS['TL_LANG']['tl_content']['hero_width']['default'],
                 'viewport' => &$GLOBALS['TL_LANG']['tl_content']['hero_width']['viewport'],
+                'container' => &$GLOBALS['TL_LANG']['tl_content']['hero_width']['container'],
                 'content' => &$GLOBALS['TL_LANG']['tl_content']['hero_width']['content'],
             ],
             'default' => 'default',
