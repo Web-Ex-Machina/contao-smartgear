@@ -1,42 +1,41 @@
 <?php
 
 /**
- * rsce_block-img_config.php
+ * rsce_modal_config.php
  * https://demo.smartgear.webexmachina.fr/guidelines.html
  */
-return array(
-    'label' => array('Popup / Modal', 'Générez une fenêtre popup'),
+return [
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal'], 
     'contentCategory' => 'links',
     'standardFields' => array('cssID'),
-    'fields' => array(
+    'fields' => [
         'modal_legend' => array(
-            'label' => array('Paramètres modal'),
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['modal_legend']], 
             'inputType' => 'group',
         ),
         'modal_title' => array(
-            'label' => array('Titre', 'Titre de la modal, facultatif')
-            ,'inputType' => 'text'
-            ,'eval' => array('tl_class'=>'w50')
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['modal_title'], 
+            'inputType' => 'text',
+            'eval' => array('tl_class'=>'w50')
         ),
         'content_legend' => array(
-            'label' => array('Contenu'),
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['content_legend']],
             'inputType' => 'group',
         ),
         'content_type' => array(
-            'label' => array('Type de contenu', 'type de contenu a utiliser dans la modal'),
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['content_type'], 
             'inputType' => 'select',
             'options' => array(
-                'text' => 'Texte',
-                'picture' => 'Image',
-                'article' => 'Article',
-                'form' => 'Formulaire',
-                'module' => 'Module',
-                'html' => 'HTML',
+                'text'    => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['content_type']['text'],
+                'picture' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['content_type']['picture'],
+                'article' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['content_type']['article'],
+                'form'    => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['content_type']['form'],
+                'module'  => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['content_type']['module'],
+                'html'    => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['content_type']['html'],
             ),
             'eval' => array('tl_class'=>'w50'),
         ),
         'text' => array(
-            'label' => array('Texte', 'Texte affiché dans la modal'),
             'inputType' => 'standardField',
             'eval' => array('mandatory'=>false, 'tl_class'=>'clr'),
             'dependsOn' => array(
@@ -45,7 +44,6 @@ return array(
             ),
         ),
         'html' => array(
-            'label' => array('HTML', 'Code HTML affiché dans la modal'),
             'inputType' => 'standardField',
             'eval' => array('mandatory'=>false, 'tl_class'=>'clr'),
             'dependsOn' => array(
@@ -54,7 +52,6 @@ return array(
             ),
         ),
         'article' => array(
-            'label' => array('Article','Selectionnez un article à afficher dans la modal'),
             'inputType' => 'standardField',
             'eval' => array('mandatory'=>false, 'tl_class'=>'clr'),
             'dependsOn' => array(
@@ -63,7 +60,6 @@ return array(
             ),
         ),
         'form' => array(
-            'label' => array('Form','Selectionnez un formulaire à afficher dans la modal'),
             'inputType' => 'standardField',
             'eval' => array('mandatory'=>false, 'tl_class'=>'clr'),
             'dependsOn' => array(
@@ -72,7 +68,6 @@ return array(
             ),
         ),
         'module' => array(
-            'label' => array('Module','Selectionnez un module à afficher dans la modal'),
             'inputType' => 'standardField',
             'eval' => array('mandatory'=>false, 'tl_class'=>'clr'),
             'dependsOn' => array(
@@ -81,7 +76,6 @@ return array(
             ),
         ),
         'singleSRC' => array(
-            'label' => array('Image','Selectionnez une image à afficher dans la modal'),
             'inputType' => 'standardField',
             'eval' => array('mandatory'=>false,'extensions'=>Config::get('validImageTypes'), 'tl_class'=>'clr'),
             'dependsOn' => array(
@@ -90,7 +84,6 @@ return array(
             ),
         ),
         'size' => array(
-            // 'label' => array('Taille de l\'image','Selectionnez un fichier à afficher dans la modal'),
             'inputType' => 'standardField',
             'eval' => array('mandatory'=>false,'includeBlankOption'=>true, 'nospace'=>true, 'tl_class'=>'w50 clr'),
             'dependsOn' => array(
@@ -99,7 +92,6 @@ return array(
             ),
         ),
         'alt' => array(
-            // 'label' => array('Taille de l\'image','Selectionnez un fichier à afficher dans la modal'),
             'inputType' => 'standardField',
             'eval' => array('mandatory'=>false, 'tl_class'=>'w50 clr'),
             'dependsOn' => array(
@@ -108,7 +100,6 @@ return array(
             ),
         ),
         'imageTitle' => array(
-            // 'label' => array('Taille de l\'image','Selectionnez un fichier à afficher dans la modal'),
             'inputType' => 'standardField',
             'eval' => array('mandatory'=>false, 'tl_class'=>'w50'),
             'dependsOn' => array(
@@ -117,22 +108,21 @@ return array(
             ),
         ),
         'trigger_legend' => array(
-            'label' => array('Déclenchement'),
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['trigger_legend']], 
             'inputType' => 'group',
         ),
         'trigger_type' => array(
-            'label' => array('Type de déclenchement', 'Sélectionnez la façon dont la modal s\'ouvre'),
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['trigger_type'], 
             'inputType' => 'select',
             'options' => array(
-                'button' => 'Bouton',
-                'link'   => 'Lien',
-                'onload' => 'Ouverture au chargement de la page',
-                'custom' => 'Custom script',
+                'button' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['trigger_type']['button'], 
+                'link'   => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['trigger_type']['link'], 
+                'onload' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['trigger_type']['onload'], 
+                'custom' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['trigger_type']['custom'], 
             ),
             'eval' => array('tl_class'=>'w50'),
         ),
         'linkTitle' => array(
-            // 'label' => array('Custom script', 'Utilisez ce champ pour programmer un script personnalisé'),
             'inputType' => 'standardField',
             'eval' => array('mandatory'=>false, 'tl_class'=>'clr w50'),
             'dependsOn' => array(
@@ -141,7 +131,6 @@ return array(
             ),
         ),
         'titleText' => array(
-            // 'label' => array('Custom script', 'Utilisez ce champ pour programmer un script personnalisé'),
             'inputType' => 'standardField',
             'eval' => array('mandatory'=>false, 'tl_class'=>' w50'),
             'dependsOn' => array(
@@ -150,7 +139,7 @@ return array(
             ),
         ),
         'trigger_css' => array(
-            'label' => array('Classe(s) css supplémentaire', 'Si souhaité, ajouter des classes css à l\'élément'),
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['trigger_css'], 
             'inputType' => 'text',
             'eval' => array('mandatory'=>false, 'tl_class'=>' w50'),
             'dependsOn' => array(
@@ -159,7 +148,7 @@ return array(
             ),
         ),
         'trigger_custom' => array(
-            'label' => array('Custom script', 'Utilisez ce champ pour programmer un script personnalisé'),
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['trigger_custom'], 
             'inputType' => 'text',
             'eval' => array('mandatory'=>false, 'class'=>'monospace', 'rte'=>'ace|html','tl_class'=>'clr'),
             'dependsOn' => array(
@@ -168,29 +157,29 @@ return array(
             ),
         ),
         'advanced_legend' => array(
-            'label' => array('Paramètres avancés'),
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['advanced_legend']],
             'inputType' => 'group',
         ),
         'modal_name' => array(
-            'label' => array('Nom', 'Nom de la modal, facultatif. Sert a identifier la modal dans un script personnalisé'),
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['modal_name'], 
             'inputType' => 'text',
             'eval' => array('tl_class'=>'w50'),
         ),
         'modal_autoload' => array(
-            'label' => array("Préchargement", "Cochez pour charger le contenu de la modal en arrière-plan"),
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['modal_autoload'], 
             'inputType' => 'checkbox',
             'eval' => array( 'tl_class' => 'w50 clr'),
             'default' => true
         ),
         'modal_autodestroy' => array(
-            'label' => array("Autodestruction", "Cochez pour détruire la modal lors de sa fermeture"),
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['modal_autodestroy'], 
             'inputType' => 'checkbox',
             'eval' => array( 'tl_class' => 'w50 clr'),
         ),
         'modal_refresh' => array(
-            'label' => array("Bouton rafraichir", "Cochez pour ajouter un bouton permettant de rafraichir le contenu de la modal"),
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal']['modal_refresh'], 
             'inputType' => 'checkbox',
             'eval' => array( 'tl_class' => 'w50 clr'),
         ),
-    ),
-);
+    ]
+];
