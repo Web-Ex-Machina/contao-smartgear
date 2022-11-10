@@ -203,6 +203,136 @@
         <target>Droite</target>
       </trans-unit>
 
+      <trans-unit id="tl_content.rsce_modal.0">
+        <source>Popup / Modal</source>
+        <target>Popup / Modal</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.1">
+        <source>Generate a popup window</source>
+        <target>Générez une fenêtre popup</target>
+      </trans-unit>
+
+      <trans-unit id="tl_content.rsce_modal.modal_legend">        
+        <source>Modal parameters</source>
+        <target>Paramètres modal</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_title.0">       
+        <source>Title</source>
+        <target>Titre</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_title.1">       
+        <source>Modal title, optional</source>
+        <target>Titre de la modal, facultatif</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.content_type.0">      
+        <source>Content type</source>
+        <target>Type de contenu</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.content_type.1">      
+        <source>Content type to use in the modal</source>
+        <target>Type de contenu a utiliser dans la modal</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.content_type.text">   
+        <source>Text</source>
+        <target>Texte</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.content_type.picture">
+        <source>Image</source>
+        <target>Image</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.content_type.article">
+        <source>Article</source>
+        <target>Article</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.content_type.form">   
+        <source>Form</source>
+        <target>Formulaire</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.content_type.module"> 
+        <source>Module</source>
+        <target>Module</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.content_type.html">   
+        <source>HTML</source>
+        <target>HTML</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_legend">      
+        <source>Triggering</source>
+        <target>Déclenchement</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_type.0">      
+        <source>Trigger type</source>
+        <target>Type de déclenchement</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_type.1">      
+        <source>Select how the modal opens</source>
+        <target>Sélectionnez la façon dont la modal s'ouvre</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_type.button"> 
+        <source>Button</source>
+        <target>Bouton</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_type.link">   
+        <source>Link</source>
+        <target>Lien</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_type.onload"> 
+        <source>Open on page load</source>
+        <target>Ouverture au chargement de la page</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_type.custom"> 
+        <source>custom-script</source>
+        <target>Custom script</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_css.0">       
+        <source>Additional css class(es)</source>
+        <target>Classe(s) css supplémentaire</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_css.1">       
+        <source>If desired, add css classes to the element</source>
+        <target>Si souhaité, ajouter des classes css à l'élément</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_custom.0">    
+        <source>custom-script</source>
+        <target>Custom script</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_custom.1">    
+        <source>Use this field to program a custom script</source>
+        <target>Utilisez ce champ pour programmer un script personnalisé</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_name.0">        
+        <source>Last name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_name.1">        
+        <source>Modal name, optional. Used to identify the modal in a custom script</source>
+        <target>Nom de la modal, facultatif. Sert a identifier la modal dans un script personnalisé</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_autoload.0">    
+        <source>Preload</source>
+        <target>Préchargement</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_autoload.1">    
+        <source>Check to load modal content in background</source>
+        <target>Cochez pour charger le contenu de la modal en arrière-plan</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_autodestroy.0"> 
+        <source>Self destruct</source>
+        <target>Autodestruction</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_autodestroy.1"> 
+        <source>Check to destroy the modal when closing it</source>
+        <target>Cochez pour détruire la modal lors de sa fermeture</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_refresh.0">     
+        <source>Refresh button</source>
+        <target>Bouton rafraichir</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_refresh.1">     
+        <source>Check to add a button to refresh the content of the modal</source>
+        <target>Cochez pour ajouter un bouton permettant de rafraichir le contenu de la modal</target>
+      </trans-unit>
+
       <trans-unit id="tl_content.rsce_accordion.0">
         <source>Accordion (alone)</source>
         <target>Accordéon (seul)</target>
