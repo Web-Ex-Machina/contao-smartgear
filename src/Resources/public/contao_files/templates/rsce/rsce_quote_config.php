@@ -35,11 +35,11 @@ return [
             'eval' => ['mandatory' => false]
         ],
         'image_pos' => array(
-            'label' => array('Positionnement', 'Sélectionnez la position de l\'image (gauche ou droite de la citation)'),
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['image_pos'],
             'inputType' => 'select',
             'options' => array(
-                'before' => 'Gauche',
-                'after' => 'Droite',
+                'before' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['left'],
+                'after' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['right'],
             ),
             'eval' => array('tl_class'=>'w50'),
         ),
@@ -61,12 +61,12 @@ return [
             'eval' => array('tl_class'=>'w50'),
         ),
         'image_displaymode' => array(
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['image_displaymode'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['image_displaymode'],
             'inputType' => 'select',
             'options' => array(
-                'fit--cover'    => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['image_displaymode']['cover'],
-                'fit--contain'  => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['image_displaymode']['contain'],
-                // 'img--natural'  => &$GLOBALS['TL_LANG']['tl_content']['rsce_blockcard']['image_displaymode']['natural'],
+                'fit--cover'    => &$GLOBALS['TL_LANG']['tl_content']['image_displaymode']['cover'],
+                'fit--contain'  => &$GLOBALS['TL_LANG']['tl_content']['image_displaymode']['contain'],
+                // 'fit--natural'  => &$GLOBALS['TL_LANG']['tl_content']['image_displaymode']['natural'],
             ),
             'default' => 'fit--cover',
             'dependsOn' => array(
@@ -89,7 +89,7 @@ return [
                 'img--center' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['center'],
                 'img--right'  => &$GLOBALS['TL_LANG']['tl_content']['alignment']['right'],
             ),
-            'default' =>  'center',
+            'default' =>  'img--center',
             // 'dependsOn' => array(
             //     'field' => 'image_displaymode', 
             //     'value' => 'img--cover',
@@ -101,10 +101,10 @@ return [
             'inputType' => 'select',
             'options' => array(
                 'img--top'    => &$GLOBALS['TL_LANG']['tl_content']['alignment']['top'],
-                'img--center'       => &$GLOBALS['TL_LANG']['tl_content']['alignment']['center'],
+                'img--center' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['center'],
                 'img--bottom' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['bottom'],
             ),
-            'default' =>  'center',
+            'default' =>  'img--center',
             // 'dependsOn' => array(
             //     'field' => 'image_displaymode', 
             //     'value' => 'img--cover',
@@ -112,7 +112,7 @@ return [
             'eval' => array('tl_class'=>'w50'),
         ),
         'content_legend' => [
-            'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['content_legend']],
+            'label' => [&$GLOBALS['TL_LANG']['tl_content']['content_legend']],
             'inputType' => 'group',
         ],
         'text' => [
@@ -120,7 +120,9 @@ return [
             'eval' => ['mandatory' => true, 'tl_class' => 'clr'],
         ],
         'author' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['author'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50 clr', 'mandatory' => false],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['author'], 
+            'inputType' => 'text', 
+            'eval' => ['tl_class' => 'w50 clr', 'mandatory' => false],
         ],
     ],
 ];

@@ -712,18 +712,6 @@
         <source>Choose the picture position (on the left/right side of the quote)</source>
         <target>Sélectionnez la position de l'image (gauche ou droite de la citation)</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_quote.image_pos.optionBefore">
-        <source>Left</source>
-        <target>Gauche</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_quote.image_pos.optionAfter">
-        <source>Right</source>
-        <target>Droite</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_quote.content_legend">
-        <source>Content</source>
-        <target>Contenu</target>
-      </trans-unit>
       <trans-unit id="tl_content.rsce_quote.author.0">
         <source>Author</source>
         <target>Auteur</target>
