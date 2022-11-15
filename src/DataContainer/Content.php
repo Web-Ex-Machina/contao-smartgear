@@ -152,11 +152,14 @@ class Content extends Backend
      */
     public function cleanHeadline($varValue, DataContainer $objDc)
     {
-        if (!\is_string($varValue)) {
-            return $varValue;
+        $arrValue = StringUtil::deserialize($varValue);
+        if ($arrValue === $varValue) {
+            return StringUtil::cleanSpaces($varValue);
         }
 
-        return StringUtil::cleanSpaces($varValue);
+        $arrValue['value'] = StringUtil::cleanSpaces($arrValue['value']);
+
+        return serialize($arrValue);
     }
 
     /**
