@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/373ba659bc.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="{{config.framway.path}}/build/css/vendor.css">
 <link rel="stylesheet" href="{{config.framway.path}}/build/css/framway.css">
 <script type="text/javascript" src="assets/tarteaucitron/tarteaucitron.js"></script>
