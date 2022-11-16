@@ -136,6 +136,7 @@ class Content extends Backend
                 case 'accordionSingle':
                 case 'accordionStart':
                 case 'accordionStop':
+                case 'gallery':
                     Message::removeLatest();
                 break;
             }

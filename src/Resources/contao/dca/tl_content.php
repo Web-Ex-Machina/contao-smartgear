@@ -30,6 +30,7 @@ updatePalettePlayer();
 updatePaletteYoutube();
 updatePaletteVimeo();
 updatePaletteDownloads();
+updatePaletteGallery();
 
 function updatePaletteHeadline(): void
 {
@@ -179,5 +180,20 @@ function updatePaletteDownloads(): void
         ->removeField('guests')
         // ->removeField('cssID')
         ->applyToPalette('downloads', 'tl_content')
+    ;
+}
+
+function updatePaletteGallery(): void
+{
+    PaletteManipulator::create()
+        ->removeField('headline')
+        ->removeField('customTpl')
+        ->removeField('guests')
+        ->removeField('sortBy')
+        ->removeField('metaIgnore')
+        ->removeField('imagemargin')
+        ->removeField('perPage')
+        ->removeField('numberOfItems')
+        ->applyToPalette('gallery', 'tl_content')
     ;
 }

@@ -34,7 +34,7 @@ class Migration extends MigrationAbstract
     protected $configurationFramwayCombinedManager;
 
     protected static $elements = [
-        'margin' => ['contentElements' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_timeline', 'grid-start', 'rsce_accordion', 'rsce_counter', 'rsce_hero', 'rsce_heroStart', 'rsce_priceCards', 'rsce_slider', 'rsce_tabs', 'rsce_testimonials', 'rsce_ratings', 'rsce_pdfViewer', 'rsce_blockCard']], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroStop', 'rsce_gridGallery'
+        'margin' => ['contentElements' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'gallery', 'rsce_timeline', 'grid-start', 'rsce_accordion', 'rsce_counter', 'rsce_hero', 'rsce_heroStart', 'rsce_priceCards', 'rsce_slider', 'rsce_tabs', 'rsce_testimonials', 'rsce_ratings', 'rsce_pdfViewer', 'rsce_blockCard']], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroStop', 'rsce_gridGallery'
         'button' => ['contentElements' => ['hyperlink'], 'formFields' => ['submit']],
         'button_manual' => ['contentElements' => ['rsce_pdfViewer']],
         'background' => ['contentElements' => ['headline', 'text', 'rsce_quote']],
@@ -42,9 +42,11 @@ class Migration extends MigrationAbstract
         'table' => ['contentElements' => ['table']],
         'accordion' => ['contentElements' => ['accordionStart', 'rsce_accordion']], //, 'accordionStop]'
         'image_other' => ['contentElements' => ['image']],
-        'image_ratio' => ['contentElements' => ['image']],
+        'image_ratio' => ['contentElements' => ['image', 'gallery']],
         'blockCard' => ['contentElements' => ['rsce_blockCard']],
         'blockAlignement' => ['contentElements' => ['text', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_*']],
+        'grid_gap' => ['contentElements' => ['gallery']],
+        'grid_cols_breakpoint' => ['contentElements' => ['gallery']],
     ];
     /** @var array */
     private $archiveIdentifierToKeep = [];
@@ -92,6 +94,8 @@ class Migration extends MigrationAbstract
         $objArchiveBlockCardBg = StyleManagerArchiveModel::findByIdentifier('fwblockcardbg');
 
         $objArchiveBlockAlignement = StyleManagerArchiveModel::findByIdentifier('fwblockalignement');
+        $objArchiveGridGap = StyleManagerArchiveModel::findByIdentifier('fwgridgap');
+        $objArchiveGridColsBreakpoint = StyleManagerArchiveModel::findByIdentifier('fwgridcolsbreakpoints');
 
         if (null === $objArchiveBackground
         && null !== $objArchiveButton
@@ -104,6 +108,8 @@ class Migration extends MigrationAbstract
         && null !== $objArchiveBlockCardText
         && null !== $objArchiveBlockCardBg
         && null !== $objArchiveBlockAlignement
+        && null !== $objArchiveGridGap
+        && null !== $objArchiveGridColsBreakpoint
         ) {
             if (null !== StyleManagerModel::findByAliasAndPid('fwbackgroundcolor', $objArchiveBackground->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwbuttonsize', $objArchiveButton->id)
@@ -131,6 +137,13 @@ class Migration extends MigrationAbstract
             && null !== StyleManagerModel::findByAliasAndPid('fwblockcardcontentbg', $objArchiveBlockCardBg->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwblockcardcontentbgopacity', $objArchiveBlockCardBg->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwblockalignement', $objArchiveBlockAlignement->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridgap', $objArchiveGridGap->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsbreakpointsxxs', $objArchiveGridColsBreakpoint->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsbreakpointsxs', $objArchiveGridColsBreakpoint->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsbreakpointssm', $objArchiveGridColsBreakpoint->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsbreakpointsmd', $objArchiveGridColsBreakpoint->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsbreakpointslg', $objArchiveGridColsBreakpoint->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolsbreakpointsxxl', $objArchiveGridColsBreakpoint->id)
             ) {
                 $result
                 ->setStatus(Result::STATUS_SKIPPED)
@@ -172,6 +185,10 @@ class Migration extends MigrationAbstract
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSBlockCard'), [], 'contao_default'));
             $this->manageBlockAlignement();
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSBlockAlignement'), [], 'contao_default'));
+            $this->manageBlockGridGap();
+            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSGridGap'), [], 'contao_default'));
+            $this->manageBlockGridColsBreakpoint();
+            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSGridColsBreakpoint'), [], 'contao_default'));
             $this->deleteUnusedStyles();
             $this->deleteUnusedArchives();
             $this->deleteOrphanStyles();
@@ -247,6 +264,76 @@ class Migration extends MigrationAbstract
                 }
             }
         }
+    }
+
+    protected function manageBlockGridColsBreakpoint(?string $suffix = '', ?bool $passToTemplate = false): void
+    {
+        $contentElements = self::$elements['grid_cols_breakpoint'.$suffix];
+        $objArchive = $this->fillObjArchive('fwgridcolsbreakpoints'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolsbreakpoints.tabTitle', 'FramwayGridColsBreakpoint');
+        $objArchive->save();
+
+        // cols breakpoints XXS
+        $cssClasses = $this->buildMultipleCssClasses('cols-xxs-%s', 'fwgridcolsbreakpoints', 1, 12);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcolsbreakpointsxxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolsbreakpointsxxs.title', 'WEMSG.STYLEMANAGER.fwgridcolsbreakpointsxxs.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle->save();
+
+        // cols breakpoints XS
+        $cssClasses = $this->buildMultipleCssClasses('cols-xs-%s', 'fwgridcolsbreakpoints', 1, 12);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcolsbreakpointsxs'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolsbreakpointsxs.title', 'WEMSG.STYLEMANAGER.fwgridcolsbreakpointsxs.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle->save();
+
+        // cols breakpoints SM
+        $cssClasses = $this->buildMultipleCssClasses('cols-sm-%s', 'fwgridcolsbreakpoints', 1, 12);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcolsbreakpointssm'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolsbreakpointssm.title', 'WEMSG.STYLEMANAGER.fwgridcolsbreakpointssm.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle->save();
+
+        // cols breakpoints MD
+        $cssClasses = $this->buildMultipleCssClasses('cols-md-%s', 'fwgridcolsbreakpoints', 1, 12);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcolsbreakpointsmd'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolsbreakpointsmd.title', 'WEMSG.STYLEMANAGER.fwgridcolsbreakpointsmd.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle->save();
+
+        // cols breakpoints LG
+        $cssClasses = $this->buildMultipleCssClasses('cols-lg-%s', 'fwgridcolsbreakpoints', 1, 12);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcolsbreakpointslg'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolsbreakpointslg.title', 'WEMSG.STYLEMANAGER.fwgridcolsbreakpointslg.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle->save();
+
+        // cols breakpoints XXL
+        $cssClasses = $this->buildMultipleCssClasses('cols-xxl-%s', 'fwgridcolsbreakpoints', 1, 12);
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcolsbreakpointsxxl'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolsbreakpointsxxl.title', 'WEMSG.STYLEMANAGER.fwgridcolsbreakpointsxxl.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle->save();
+    }
+
+    protected function manageBlockGridGap(?string $suffix = '', ?bool $passToTemplate = false): void
+    {
+        $contentElements = self::$elements['grid_gap'.$suffix];
+        $objArchive = $this->fillObjArchive('fwgridgap'.$suffix, 'WEMSG.STYLEMANAGER.fwgridgap.tabTitle', 'FramwayGridGap');
+        $objArchive->save();
+
+        $cssClasses = [
+            ['key' => 'gap-0', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.0Label'],
+            ['key' => 'gap-0-em', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.0emLabel'],
+            ['key' => 'gap-0-rem', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.0remLabel'],
+            ['key' => 'gap-1', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.1Label'],
+            ['key' => 'gap-1-em', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.1emLabel'],
+            ['key' => 'gap-1-rem', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.1remLabel'],
+            ['key' => 'gap-2', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.2Label'],
+            ['key' => 'gap-2-em', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.2emLabel'],
+            ['key' => 'gap-2-rem', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.2remLabel'],
+            ['key' => 'gap-3', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.3Label'],
+            ['key' => 'gap-3-em', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.3emLabel'],
+            ['key' => 'gap-3-rem', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.3remLabel'],
+            ['key' => 'gap-4', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.4Label'],
+            ['key' => 'gap-4-em', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.4emLabel'],
+            ['key' => 'gap-4-rem', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.4remLabel'],
+            ['key' => 'gap-5', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.5Label'],
+            ['key' => 'gap-5-em', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.5emLabel'],
+            ['key' => 'gap-5-rem', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.5remLabel'],
+            ['key' => 'gap-6', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.6Label'],
+            ['key' => 'gap-6-em', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.6emLabel'],
+            ['key' => 'gap-6-rem', 'value' => 'WEMSG.STYLEMANAGER.fwgridgap.6remLabel'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridgap'.$suffix, 'WEMSG.STYLEMANAGER.fwgridgap.title', 'WEMSG.STYLEMANAGER.fwgridgap.description', $contentElements, $cssClasses, $passToTemplate);
+        $objStyle->save();
     }
 
     protected function manageBlockAlignement(?string $suffix = '', ?bool $passToTemplate = false): void
