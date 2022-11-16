@@ -2546,8 +2546,8 @@
 			<target>Si souhaité, sélectionnez un ratio d'image</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r169Label">
-			<source>16:1</source>
-			<target>16:1</target>
+			<source>16:9</source>
+			<target>16:9</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r21Label">
 			<source>2:1</source>
