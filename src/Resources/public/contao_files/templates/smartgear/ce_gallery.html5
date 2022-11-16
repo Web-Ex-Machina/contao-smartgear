@@ -1,0 +1,7 @@
+<div class="<?= $this->class ?> d-grid cols-<?= $this->perRow ?>"<?= $this->cssID ?>>
+<?php $this->block('content'); ?>
+
+  <?= $this->images ?>
+
+<?php $this->endblock(); ?>
+</div>

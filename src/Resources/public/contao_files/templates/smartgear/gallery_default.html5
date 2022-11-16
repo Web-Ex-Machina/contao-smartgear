@@ -1,0 +1,9 @@
+<?php foreach ($this->body as $class => $row): ?>
+  <?php foreach ($row as $col): ?>
+    <?php if ($col->addImage): ?>
+      <div class="ce_gallery__item  <?= $class ?> <?= $col->class ?>">
+        <?php $this->insert('image', (array) $col); ?>
+      </div>
+    <?php endif; ?>
+  <?php endforeach; ?>
+<?php endforeach; ?>

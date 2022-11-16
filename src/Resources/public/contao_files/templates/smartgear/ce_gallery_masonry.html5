@@ -1,0 +1,7 @@
+<div class="<?= $this->class ?> masonry cols-<?= $this->perRow ?>"<?= $this->cssID ?>>
+<?php $this->block('content'); ?>
+
+  <?= $this->images ?>
+
+<?php $this->endblock(); ?>
+</div>
