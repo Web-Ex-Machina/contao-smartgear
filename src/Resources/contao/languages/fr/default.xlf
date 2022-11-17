@@ -2546,8 +2546,8 @@
 			<target>Si souhaité, sélectionnez un ratio d'image</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r169Label">
-			<source>16:1</source>
-			<target>16:1</target>
+			<source>16:9</source>
+			<target>16:9</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwimageratio.r21Label">
 			<source>2:1</source>
@@ -2862,6 +2862,198 @@
 			<target>Centré</target>
 		</trans-unit>
 
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpoints.tabTitle">
+			<source>Grid cols breakpoints</source>
+			<target>Grid cols breakpoints</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpointsxxs.title">
+			<source>XXS</source>
+			<target>XXS</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpointsxxs.description">
+			<source>Breakpoints for XXS size</source>
+			<target>Breakpoints pour taille XXS</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpointsxs.title">
+			<source>XS</source>
+			<target>XS</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpointsxs.description">
+			<source>Breakpoints for XS size</source>
+			<target>Breakpoints pour taille XS</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpointssm.title">
+			<source>SM</source>
+			<target>SM</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpointssm.description">
+			<source>Breakpoints for SM size</source>
+			<target>Breakpoints pour taille SM</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpointsmd.title">
+			<source>MD</source>
+			<target>MD</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpointsmd.description">
+			<source>Breakpoints for MD size</source>
+			<target>Breakpoints pour taille MD</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpointslg.title">
+			<source>LG</source>
+			<target>LG</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpointslg.description">
+			<source>Breakpoints for LG size</source>
+			<target>Breakpoints pour taille LG</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpointsxxl.title">
+			<source>XXL</source>
+			<target>XXL</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpointsxxl.description">
+			<source>Breakpoints for XXL size</source>
+			<target>Breakpoints pour taille XXL</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpoints.1Label">
+			<source>1</source>
+			<target>1</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpoints.2Label">
+			<source>2</source>
+			<target>2</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpoints.3Label">
+			<source>3</source>
+			<target>3</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpoints.4Label">
+			<source>4</source>
+			<target>4</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpoints.5Label">
+			<source>5</source>
+			<target>5</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpoints.6Label">
+			<source>6</source>
+			<target>6</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpoints.7Label">
+			<source>7</source>
+			<target>7</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpoints.8Label">
+			<source>8</source>
+			<target>8</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpoints.9Label">
+			<source>9</source>
+			<target>9</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpoints.10Label">
+			<source>10</source>
+			<target>10</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpoints.11Label">
+			<source>11</source>
+			<target>11</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridcolsbreakpoints.12Label">
+			<source>12</source>
+			<target>12</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.tabTitle">
+			<source>Grid gap</source>
+			<target>Grid gap</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.title">
+			<source>Grid gap - Size</source>
+			<target>Grid gap - Taille</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.0Label">
+			<source>0</source>
+			<target>0</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.0emLabel">
+			<source>0 em</source>
+			<target>0 em</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.0remLabel">
+			<source>0 rem</source>
+			<target>0 rem</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.1Label">
+			<source>1</source>
+			<target>1</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.1emLabel">
+			<source>1 em</source>
+			<target>1 em</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.1remLabel">
+			<source>1 rem</source>
+			<target>1 rem</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.2Label">
+			<source>2</source>
+			<target>2</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.2emLabel">
+			<source>2 em</source>
+			<target>2 em</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.2remLabel">
+			<source>2 rem</source>
+			<target>2 rem</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.3Label">
+			<source>3</source>
+			<target>3</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.3emLabel">
+			<source>3 em</source>
+			<target>3 em</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.3remLabel">
+			<source>3 rem</source>
+			<target>3 rem</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.4Label">
+			<source>4</source>
+			<target>4</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.4emLabel">
+			<source>4 em</source>
+			<target>4 em</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.4remLabel">
+			<source>4 rem</source>
+			<target>4 rem</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.5Label">
+			<source>5</source>
+			<target>5</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.5emLabel">
+			<source>5 em</source>
+			<target>5 em</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.5remLabel">
+			<source>5 rem</source>
+			<target>5 rem</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.6Label">
+			<source>6</source>
+			<target>6</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.6emLabel">
+			<source>6 em</source>
+			<target>6 em</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwgridgap.6remLabel">
+			<source>6 rem</source>
+			<target>6 rem</target>
+		</trans-unit>
 		<!-- Migrations -->
 		<!-- General -->
 		<trans-unit id="WEMSG.MIGRATIONS.VERSIONCOMPARATOR.currentVersionHigher">
@@ -2940,6 +3132,14 @@
 		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSBlockAlignement">
 			<source>Adding block alignement CSS classes in database.</source>
 			<target>Ajout des classes CSS de gestion de l'alignement des blocs.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSGridGap">
+			<source>Adding grid gaps CSS classes in database.</source>
+			<target>Ajout des classes CSS de gestion de l'espacement dans les grilles.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSGridColsBreakpoint">
+			<source>Adding grid cols breakpoints CSS classes in database.</source>
+			<target>Ajout des classes CSS de gestion des breakpoints de colonnes dans les grilles.</target>
 		</trans-unit>
 
 		<!-- V1_0_0/M202203231730 -->
