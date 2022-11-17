@@ -187,9 +187,7 @@ function updatePaletteGallery(): void
 {
     PaletteManipulator::create()
         ->removeField('headline')
-        ->removeField('customTpl')
         ->removeField('guests')
-        ->removeField('sortBy')
         ->removeField('metaIgnore')
         ->removeField('imagemargin')
         ->removeField('perPage')
