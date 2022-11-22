@@ -1108,10 +1108,10 @@ class Core implements ConfigModuleInterface
         return $this;
     }
 
-    public function getSgModuleByType(string $moduleType): ?int
+    public function getSgModuleByKey(string $moduleKey): ?int
     {
         foreach ($this->sgModules as $module) {
-            if ($moduleType === $module->type) {
+            if ($moduleKey === $module->key) {
                 return (int) $module->id;
             }
         }

@@ -549,6 +549,10 @@
 			<source>Breadcrumb</source>
 			<target>Fil d'ariane</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.ModuleFooterName">
+			<source>Footer</source>
+			<target>Footer</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.ModuleSitemapName">
 			<source>Sitemap</source>
 			<target>Plan du site</target>

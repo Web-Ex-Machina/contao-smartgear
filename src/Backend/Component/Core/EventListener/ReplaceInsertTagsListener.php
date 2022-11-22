@@ -229,7 +229,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
     protected function generateSocialLinks(CoreConfig $config): string
     {
         if ($config->getSgInstallComplete()) {
-            $objModule = \Contao\ModuleModel::findById($config->getSgModuleByType('wem_sg_social_link'));
+            $objModule = \Contao\ModuleModel::findById($config->getSgModuleByKey('wem_sg_social_link'));
 
             return (new \WEM\SmartgearBundle\Module\SocialLink($objModule))->generate();
         }
