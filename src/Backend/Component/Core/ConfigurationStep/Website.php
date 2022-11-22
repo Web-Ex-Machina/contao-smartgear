@@ -340,11 +340,11 @@ class Website extends ConfigurationStep
                             ;
         $objFooterModule->pid = $themeId;
         $objFooterModule->tstamp = time();
-        $objFooterModule->type = 'wem_sg_footer';
-        $objFooterModule->name = 'FOOTER';
+        $objFooterModule->type = 'html';
+        $objFooterModule->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleFooterName'];
         $objFooterModule->html = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/footer_1.html');
         $objFooterModule->save();
-        $modules[$objFooterModule->type] = $objFooterModule;
+        $modules['wem_sg_footer'] = $objFooterModule;
 
         // Sitemap
         $objSitemapModule = \array_key_exists('sitemap', $registeredModules)
@@ -942,8 +942,8 @@ class Website extends ConfigurationStep
     {
         $registeredModules = $this->getConfigModulesAsFormattedArray();
         $modules = [];
-        // Header - Logo
 
+        // Custom Nav
         $objCustomNavModule = \array_key_exists('customnav', $registeredModules)
                             ? ModuleModel::findOneById($registeredModules['customnav']) ?? new ModuleModel()
                             : new ModuleModel()
@@ -956,6 +956,19 @@ class Website extends ConfigurationStep
         $objCustomNavModule->navigationTpl = 'nav_default';
         $objCustomNavModule->save();
         $modules[$objCustomNavModule->type] = $objCustomNavModule;
+
+        // Footer - add content
+        $objFooterModule = \array_key_exists('wem_sg_footer', $registeredModules)
+                            ? ModuleModel::findOneById($registeredModules['wem_sg_footer']) ?? new ModuleModel()
+                            : new ModuleModel()
+                            ;
+        $html = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/footer_1.html');
+        $html = str_replace('link::plan-du-site', 'link::'.$pages['sitemap']->id, $html);
+        $html = str_replace('link::mentions-legales', 'link::'.$pages['legal_notice']->id, $html);
+        $html = str_replace('link::confidentialite', 'link::'.$pages['privacy_politics']->id, $html);
+        $objFooterModule->html = $html;
+        $objFooterModule->save();
+        $modules['wem_sg_footer'] = $objFooterModule;
 
         return $modules;
     }
@@ -1050,7 +1063,7 @@ class Website extends ConfigurationStep
 
         $formattedModules = [];
         foreach ($modules as $key => $objModule) {
-            $formattedModules[] = ['type' => $objModule->type, 'id' => $objModule->id];
+            $formattedModules[] = ['key' => $key, 'type' => $objModule->type, 'id' => $objModule->id];
         }
 
         $config->setSgModules($formattedModules);
@@ -1141,7 +1154,7 @@ class Website extends ConfigurationStep
         $registeredModules = [];
         $registeredModulesRaw = $config->getSgModules();
         foreach ($registeredModulesRaw as $registeredModuleRaw) {
-            $registeredModules[$registeredModuleRaw->type] = (int) $registeredModuleRaw->id;
+            $registeredModules[$registeredModuleRaw->key] = (int) $registeredModuleRaw->id;
         }
 
         return $registeredModules;
