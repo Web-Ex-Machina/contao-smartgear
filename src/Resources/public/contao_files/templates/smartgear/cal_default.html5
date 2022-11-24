@@ -21,7 +21,7 @@
           <div class="td__wrapper">
             <div class="header"><span><?= $day['label'] ?></span></div>
             <?php foreach ($day['events'] as $event): ?>
-              <div class="event calendar__event cal_<?= $event['parent'] ?><?= $event['class'] ?>" itemscope itemtype="http://schema.org/Event">
+              <div class="event calendar__event cal_<?= $event['parent'] ?><?= $event['class'] ?>" itemscope itemtype="http://schema.org/Event" data-event="<?= $event['id'] ?>">
                 <a href="<?= $event['href'] ?>" title="<?= $event['title'] ?> (<?php if ($event['day']) echo $event['day'] . ', '; ?><?= $event['date'] ?><?php if ($event['time']) echo ', ' .  $event['time']; ?>)" itemprop="url" class="" data-selector=".mod_eventreader" data-modal="event_<?= $event['id'] ?>" >
                   <span itemprop="name"><?= $event['link'] ?></span>
                 </a>
@@ -29,8 +29,7 @@
             <?php endforeach; ?>
             <?php if (count($day['events']) > 1): ?>
               <div class="toggler" data-modal="event_day_<?= $day['label'] ?>"><?= count($day['events'])?></div>
-              <div class="modalFW" data-name="event_day_<?= $day['label'] ?>">
-                <h3 class="sep-bottom"><?= $day['label'] ?> <?= $this->current ?></h3>
+              <div class="modalFW" data-name="event_day_<?= $day['label'] ?>" data-title="<?= $day['label'] ?> <?= $this->current ?>">
                 <?php foreach ($day['events'] as $event): ?>
                   <div title="<?= $event['title'] ?> (<?php if ($event['day']) echo $event['day'] . ', '; ?><?= $event['date'] ?><?php if ($event['time']) echo ', ' .  $event['time']; ?>)" class="calendar__event" data-modal="event_<?= $event['id'] ?>" >
                     <span><?= $event['link'] ?></span>
