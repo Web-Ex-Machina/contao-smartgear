@@ -66,4 +66,6 @@
       <?php endif; ?>
     </div>
   <?php endforeach; ?>
+  <div class="block-icon empty"></div>
+  <div class="block-icon empty"></div>
 </div>
