@@ -1,6 +1,7 @@
 /*global tarteaucitron */
 tarteaucitron.lang = {
-    "adblock": "Hello! This site is transparent and lets you chose the 3rd party services you want to allow.",
+    "middleBarHead": "☝ 🍪",
+    "adblock": "Hello! This site is transparent and lets you choose the 3rd party services you want to allow.",
     "adblock_call": "Please disable your adblocker to start customizing.",
     "reload": "Refresh the page",
     
@@ -29,16 +30,22 @@ tarteaucitron.lang = {
     "more": "Read more",
     "source": "View the official website",
     "credit": "Cookies manager by tarteaucitron.js",
+    "noServices": "This website does not use any cookie requiring your consent.",
 
     "toggleInfoBox": "Show/hide informations about cookie storage",
     "title": "Cookies management panel",
     "cookieDetail": "Cookie detail for",
     "ourSite": "on our site",
+    "modalWindow": "(modal window)",
     "newWindow": "(new window)",
     "allowAll": "Allow all cookies",
     "denyAll": "Deny all cookies",
+
+    "icon": "Cookies",
     
     "fallback": "is disabled.",
+    "allowed": "allowed",
+    "disallowed": "disallowed",
 
     "ads": {
         "title": "Advertising network",
@@ -71,6 +78,8 @@ tarteaucitron.lang = {
     "other": {
         "title": "Other",
         "details": "Services to display web content."
-    }
+    },
+    
+    "mandatoryTitle": "Mandatory cookies",
+    "mandatoryText": "This site uses cookies necessary for its proper functioning which cannot be deactivated."
 };
-

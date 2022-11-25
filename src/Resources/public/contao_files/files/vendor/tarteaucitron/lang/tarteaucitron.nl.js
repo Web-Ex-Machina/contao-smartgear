@@ -1,5 +1,6 @@
 /*global tarteaucitron */
 tarteaucitron.lang = {
+    "middleBarHead": "☝ 🍪",
     "adblock": "Hallo! Deze site is transparant en laat u de services van derden kiezen die u wilt toestaan.",
     "adblock_call": "Schakel uw adblocker uit om te beginnen met aanpassen.",
     "reload": "Ververs de pagina",
@@ -31,14 +32,19 @@ tarteaucitron.lang = {
     "credit": "Cookie manager mogelijk gemaakt door tarteaucitron.js",
     
     "fallback": "is uitgeschakeld.",
+    "allowed": "toegestaan",
+    "disallowed": "niet toegestaan",
 
-    "toggleInfoBox": "Show/hide informations about cookie storage",
-    "title": "Cookies management panel",
-    "cookieDetail": "Cookie detail for",
-    "ourSite": "on our site",
-    "newWindow": "(new window)",
-    "allowAll": "Allow all cookies",
-    "denyAll": "Deny all cookies",
+    "toggleInfoBox": "Toon/verberg informatie over cookie opslag",
+    "title": "Cookies beheer paneel",
+    "cookieDetail": "Cookie detail voor",
+    "ourSite": "op onze site",
+    "modalWindow": "(modaal venster)",
+    "newWindow": "(nieuw venster)",
+    "allowAll": "Sta alle cookies toe",
+    "denyAll": "Weiger alle cookies",
+
+    "icon": "Cookies",
 
     "ads": {
         "title": "Advertentienetwerk",
@@ -71,6 +77,8 @@ tarteaucitron.lang = {
     "other": {
         "title": "Overig",
         "details": "Diensten om webinhoud weer te geven."
-    }
+    },
+    
+    "mandatoryTitle": "Verplichte cookies",
+    "mandatoryText": "Deze site maakt gebruik van cookies die nodig zijn voor de goede werking ervan en die niet kunnen worden gedeactiveerd."
 };
-
