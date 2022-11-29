@@ -345,7 +345,7 @@ class Migration extends MigrationAbstract
         $cssClasses = [
             ['key' => 'm-left-auto', 'value' => 'WEMSG.STYLEMANAGER.fwblockalignement.leftLabel'],
             ['key' => 'm-right-auto', 'value' => 'WEMSG.STYLEMANAGER.fwblockalignement.rightLabel'],
-            ['key' => 'm-center', 'value' => 'WEMSG.STYLEMANAGER.fwblockalignement.centerLabel'],
+            ['key' => 'center', 'value' => 'WEMSG.STYLEMANAGER.fwblockalignement.centerLabel'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwblockalignement'.$suffix, 'WEMSG.STYLEMANAGER.fwblockalignement.title', 'WEMSG.STYLEMANAGER.fwblockalignement.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
