@@ -536,7 +536,7 @@ class Website extends ConfigurationStep
                 'vimeo',
                 'downloads',
                 'module',
-                'rsce_timeline',
+                // 'rsce_timeline',
                 'grid-start',
                 'grid-stop',
                 'rsce_accordion',
@@ -548,11 +548,12 @@ class Website extends ConfigurationStep
                 'rsce_priceCards',
                 'rsce_slider',
                 'rsce_tabs',
-                'rsce_testimonials',
+                // 'rsce_testimonials',
                 'rsce_pdfViewer',
                 'rsce_blockCard',
                 'form',
             ])
+            ->removeAllowedElements(['rsce_timeline', 'rsce_testimonials'])
             ->addAllowedFormFields(array_keys($GLOBALS['TL_FFL']))
             ->addAllowedFieldsByTables(['tl_form', 'tl_form_field'])
             ->addAllowedFormPermissions(['create', 'delete'])
@@ -596,7 +597,7 @@ class Website extends ConfigurationStep
                 'vimeo',
                 'downloads',
                 'module',
-                'rsce_timeline',
+                // 'rsce_timeline',
                 'grid-start',
                 'grid-stop',
                 'rsce_accordion',
@@ -608,11 +609,12 @@ class Website extends ConfigurationStep
                 'rsce_priceCards',
                 'rsce_slider',
                 'rsce_tabs',
-                'rsce_testimonials',
+                // 'rsce_testimonials',
                 'rsce_pdfViewer',
                 'rsce_blockCard',
                 'form',
             ])
+            ->removeAllowedElements(['rsce_timeline', 'rsce_testimonials'])
             ->addAllowedFormFields(array_keys($GLOBALS['TL_FFL']))
             ->addAllowedFieldsByTables(['tl_form', 'tl_form_field'])
             ->addAllowedFormPermissions(['create', 'delete'])
