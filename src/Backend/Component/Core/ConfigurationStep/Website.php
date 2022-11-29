@@ -552,6 +552,7 @@ class Website extends ConfigurationStep
                 'rsce_pdfViewer',
                 'rsce_blockCard',
                 'form',
+                'gallery',
             ])
             ->removeAllowedElements(['rsce_timeline', 'rsce_testimonials'])
             ->addAllowedFormFields(array_keys($GLOBALS['TL_FFL']))
@@ -613,6 +614,7 @@ class Website extends ConfigurationStep
                 'rsce_pdfViewer',
                 'rsce_blockCard',
                 'form',
+                'gallery',
             ])
             ->removeAllowedElements(['rsce_timeline', 'rsce_testimonials'])
             ->addAllowedFormFields(array_keys($GLOBALS['TL_FFL']))
