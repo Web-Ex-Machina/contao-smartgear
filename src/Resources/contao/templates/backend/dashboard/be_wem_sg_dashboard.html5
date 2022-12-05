@@ -1,0 +1,14 @@
+<div id="tl_soverview">
+	<?php if($this->messages): ?>
+	<div id="tl_messages">
+		<h2><?= $this->systemMessages ?></h2>
+		<?= $this->messages ?>
+	</div>
+	<?php endif; ?>
+	<div id="tl_wem_sg_dashboard">
+		<div class="blocks">
+			<?php echo $this->shortcutInternal; ?>
+			<?php echo $this->shortcutExternal; ?>
+		</div>
+	</div>
+</div>

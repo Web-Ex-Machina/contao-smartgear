@@ -104,6 +104,9 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 0, [
     'wem_sg_social_link_config_categories' => [
         'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
     ],
+    'wem_sg_dashboard' => [
+        'callback' => "\WEM\SmartgearBundle\Backend\Dashboard",
+    ],
 ]);
 ArrayUtil::arrayInsert(
     $GLOBALS['BE_MOD']['content'],

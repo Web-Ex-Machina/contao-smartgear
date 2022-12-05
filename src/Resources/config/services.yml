@@ -21,6 +21,24 @@ services:
         class: WEM\SmartgearBundle\Backend\Smartgear
         public: true
 
+    smartgear.backend.dashboard:
+        class: WEM\SmartgearBundle\Backend\Dashboard
+        public: true
+
+    smartgear.backend.dashboard.shortcut_internal:
+        class: WEM\SmartgearBundle\Backend\Dashboard\ShortcutInternal
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.backend.dashboard.shortcut_external:
+        class: WEM\SmartgearBundle\Backend\Dashboard\ShortcutExternal
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
     smartgear.classes.directories_synchronizer.templates.rsce:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:

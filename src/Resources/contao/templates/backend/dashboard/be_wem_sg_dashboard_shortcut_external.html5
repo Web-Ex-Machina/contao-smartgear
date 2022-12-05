@@ -1,0 +1,33 @@
+<div class="block block-default wem_module">
+	<h2 class="title"><?php echo $this->title; ?></h2>
+	<div class="content_container">
+		<ul>
+			<li>
+				<?php echo Image::getHtml('page.gif'); ?>
+				<a href="<?php echo $this->manualsUrl; ?>" title="<?php echo $this->linkManualsTitle; ?>" target="_blank">
+					<?php echo $this->linkManualsText; ?>
+				</a>
+			</li>
+			<li>
+				<?php echo Image::getHtml('page.gif'); ?>
+				<a href="<?php echo $this->demosUrl; ?>" title="<?php echo $this->linkDemosTitle; ?>" target="_blank">
+					<?php echo $this->linkDemosText; ?>
+				</a>
+			</li>
+			<?php if($this->analyticsUrl): ?>
+			<li>
+				<?php echo Image::getHtml('page.gif'); ?>
+				<a href="<?php echo $this->analyticsUrl; ?>" title="<?php echo $this->linkAnalyticsTitle; ?>" target="_blank">
+					<?php echo $this->linkAnalyticsText; ?>
+				</a>
+			</li>
+			<?php endif; ?>
+			<li>
+				<?php echo Image::getHtml('page.gif'); ?>
+				<a href="<?php echo $this->googleSearchConsoleUrl; ?>" title="<?php echo $this->linkGoogleSearchConsoleTitle; ?>" target="_blank">
+					<?php echo $this->linkGoogleSearchConsoleText; ?>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>

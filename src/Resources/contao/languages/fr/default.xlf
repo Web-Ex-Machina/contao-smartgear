@@ -154,6 +154,7 @@
       <source>Form Data Manager</source>
 			<target>Contacts</target>
     </trans-unit>
+
 		<!-- Smartgear filter -->
 		<trans-unit id="WEMSG.FILTERS.title">
 			<source>Filter by :</source>
@@ -184,7 +185,6 @@
 			<target>Lieu</target>
 		</trans-unit>
 
-
 		<!-- Smartgear Backend -->
 		<trans-unit id="WEM.SMARTGEAR.BACKEND.missingPackage">
 			<source>The %s module is missing. Please use the <a href="contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> for that.</source>
@@ -198,6 +198,90 @@
 			<source>The %s package has been found and is installed.</source>
 			<target>Le module %s a été trouvé et est installé.</target>
 		</trans-unit>
+
+		<!-- Smartgear dashboard -->
+		<trans-unit id="WEMSG.DASHBOARD.title">
+			<source>Dashboard</source>
+			<target>Tableau de bord</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.title">
+			<source>Internal shortcuts</source>
+			<target>Raccourcis internes</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.msgBlogNotInstalled">
+			<source>The Smartgear's blog component is not installed</source>
+			<target>Le blog Smartgear n'est pas installé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkPageText">
+			<source>Pages</source>
+			<target>Pages</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkPageTitle">
+			<source>Pages &amp; navigation menu management</source>
+			<target>Gestion des pages et des menus de navigation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkArticleText">
+			<source>Contents</source>
+			<target>Contenus</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkArticleTitle">
+			<source>Content management</source>
+			<target>Gestion des contenus du site</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkNewsText">
+			<source>News</source>
+			<target>Blog</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkNewsTitle">
+			<source>News management</source>
+			<target>Gestion des actualité</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkFilesText">
+			<source>Files</source>
+			<target>Fichiers</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkFilesTitle">
+			<source>Manage files &amp; folders</source>
+			<target>Gestion des fichiers présents sur le serveur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.title">
+			<source>External shortcuts</source>
+			<target>Raccourcis externes</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkManualsText">
+			<source>Manuals</source>
+			<target>Manuels</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkManualsTitle">
+			<source>Access the Smartgear's manuals</source>
+			<target>Accès aux manuels Smartgear</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkDemosText">
+			<source>Smartgear's demos</source>
+			<target>Démos Smartgear</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkDemosTitle">
+			<source>Visit the Smartgear's demos</source>
+			<target>Accès aux démonstration de modules Smartgear</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkAnalyticsText">
+			<source>Analytics (%s)</source>
+			<target>Analytics (%s)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkAnalyticsTitle">
+			<source>Access your website' statistics (via %s)</source>
+			<target>Accès aux statistiques détaillés de votre site (via %s)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkGoogleSearchConsoleText">
+			<source>Google Search Console</source>
+			<target>Google Search Console</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkGoogleSearchConsoleTitle">
+			<source>Access the Google Search Console</source>
+			<target>Accès à la console d'indexation Google</target>
+		</trans-unit>
+
+
 
 		<!-- Install l10n -->
 		<trans-unit id="WEM.SMARTGEAR.INSTALL.framway">

@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Override;
 
+use WEM\SmartgearBundle\Classes\Util;
+
 /**
  * Override Controller Contao Class.
  *
@@ -32,6 +34,7 @@ class Controller extends \Contao\Controller
      */
     public static function getTemplateGroup($strPrefix, array $arrAdditionalMapper = [], $strDefaultTemplate = '')
     {
+        Util::log('getTemplateGroup');
         $arrTemplates = parent::getTemplateGroup($strPrefix, $arrAdditionalMapper, $strDefaultTemplate);
 
         $strGlobPrefix = $strPrefix;
