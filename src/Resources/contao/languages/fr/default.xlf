@@ -204,6 +204,10 @@
 			<source>Dashboard</source>
 			<target>Tableau de bord</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.smartgearNotInstalled">
+			<source>Smartgear is not installed</source>
+			<target>Smartgear n'est pas installé</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.title">
 			<source>Internal shortcuts</source>
 			<target>Raccourcis internes</target>

@@ -15,8 +15,11 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend;
 
 use Contao\BackendModule;
+use Contao\Message;
 use Contao\System;
 use WEM\SmartgearBundle\Backend\Dashboard\ShortcutInternal;
+use WEM\SmartgearBundle\Config\Component\Core as CoreConfig;
+use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
 class Dashboard extends BackendModule
 {
@@ -45,6 +48,19 @@ class Dashboard extends BackendModule
 
     public function compile(): void
     {
+        $configurationManager = System::getContainer()->get('smartgear.config.manager.core');
+        try {
+            /** @var CoreConfig */
+            $config = $configurationManager->load();
+        } catch (NotFound $e) {
+            return;
+        }
+
+        if (!$config->getSgInstallComplete()) {
+            Message::add($GLOBALS['TL_LANG']['WEMSG']['DASHBOARD']['smartgearNotInstalled'], 'TL_ERROR');
+
+            return;
+        }
         $this->Template->title = 'ciou';
         /** @var ShortcutInternal */
         $modShortcutInternal = System::getContainer()->get('smartgear.backend.dashboard.shortcut_internal');
