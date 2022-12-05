@@ -118,5 +118,11 @@ services:
             - { name: kernel.event_listener, event: security.interactive_login }
         public: true
 
+    smartgear.listener.generate_page:
+        class: WEM\SmartgearBundle\EventListener\GeneratePageListener
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
 
     
