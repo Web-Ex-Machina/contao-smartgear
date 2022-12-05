@@ -1,6 +1,7 @@
 <div class="block block-default wem_module">
 	<h2 class="title"><?php echo $this->title; ?></h2>
 	<div class="content_container">
+		<h3>Visitse</h3>
 		<div id="chartdiv" style="height:200px;">
 			
 		</div>
@@ -22,6 +23,7 @@
 	var yAxis = chart.yAxes.push(
 		am5xy.ValueAxis.new(root, {
 			min: 0,
+			maxPrecision: 0,
 			renderer: am5xy.AxisRendererY.new(root, {})
 		})
 	);
@@ -41,11 +43,13 @@
 	);
 	var series = chart.series.push(
 		am5xy.ColumnSeries.new(root, {
-			name: "Series",
+			name: "This week",
 			xAxis: xAxis,
 			yAxis: yAxis,
-			valueYField: "value",
-			valueXField: "date",
+			valueYField: "valueThisWeek",
+			valueXField: "tstamp",
+		    fill: am5.color('#00FF00'),
+		    stroke: am5.color('#00AA00')
 		})
 	);
 
@@ -56,5 +60,36 @@
 		cornerRadiusTR: 5
 	});
 
-	series.data.setAll(<?php echo $this->visitsThisWeek; ?>);
+	series.columns.template.setAll({
+	    tooltipText: "{name}, {dateThisWeek}: {valueY}",
+	    width: am5.percent(90),
+	    tooltipY: 0
+	  });
+	var series2 = chart.series.push(
+		am5xy.ColumnSeries.new(root, {
+			name: "Last week",
+			xAxis: xAxis,
+			yAxis: yAxis,
+			valueYField: "valueLastWeek",
+			valueXField: "tstamp",
+		    fill: am5.color('#0000FF'),
+		    stroke: am5.color('#0000AA')
+		})
+	);
+
+	series2.columns.template.setAll({
+		fillOpacity: 0.5,
+		strokeWidth: 2,
+		cornerRadiusTL: 5,
+		cornerRadiusTR: 5
+	});
+
+	series2.columns.template.setAll({
+	    tooltipText: "{name}, {dateLastWeek}: {valueY}",
+	    width: am5.percent(90),
+	    tooltipY: 0
+	  });
+
+	series.data.setAll(<?php echo $this->visitsMerged; ?>);
+	series2.data.setAll(<?php echo $this->visitsMerged; ?>);
 </script>
