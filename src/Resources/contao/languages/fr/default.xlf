@@ -284,6 +284,10 @@
 			<source>Access the Google Search Console</source>
 			<target>Accès à la console d'indexation Google</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.title">
+			<source>Smartgear statistics</source>
+			<target>Statistiques Smartgear</target>
+		</trans-unit>
 
 
 

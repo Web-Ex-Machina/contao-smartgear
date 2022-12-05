@@ -61,9 +61,9 @@ class ShortcutInternal extends BackendModule
             return;
         }
         $this->Template->title = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.title', [], 'contao_default');
+
         // pages
         $this->Template->modPageUrl = System::getContainer()->get('router')->generate('contao_backend', ['do' => 'page']);
-
         $this->Template->linkPageText = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkPageText', [], 'contao_default');
         $this->Template->linkPageTitle = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkPageTitle', [], 'contao_default');
 

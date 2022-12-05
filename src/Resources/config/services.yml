@@ -39,6 +39,13 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
         public: true
 
+    smartgear.backend.dashboard.analytics_internal:
+        class: WEM\SmartgearBundle\Backend\Dashboard\AnalyticsInternal
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
     smartgear.classes.directories_synchronizer.templates.rsce:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:

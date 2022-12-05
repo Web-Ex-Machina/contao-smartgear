@@ -68,5 +68,8 @@ class Dashboard extends BackendModule
         /** @var ShortcutExternal */
         $modShortcutExternal = System::getContainer()->get('smartgear.backend.dashboard.shortcut_external');
         $this->Template->shortcutExternal = $modShortcutExternal->generate();
+        /** @var AnalyticsInternal */
+        $modAnalyticsInternal = System::getContainer()->get('smartgear.backend.dashboard.analytics_internal');
+        $this->Template->analyticsInternal = $modAnalyticsInternal->generate();
     }
 }

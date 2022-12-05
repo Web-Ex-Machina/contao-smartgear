@@ -4,6 +4,7 @@
 		<div class="blocks">
 			<?php echo $this->shortcutInternal; ?>
 			<?php echo $this->shortcutExternal; ?>
+			<?php echo $this->analyticsInternal; ?>
 		</div>
 	</div>
 </div>
