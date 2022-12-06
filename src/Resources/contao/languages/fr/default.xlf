@@ -304,9 +304,57 @@
 			<source>Most common referers (all time)</source>
 			<target>Referers les plus communs (depuis toujours)</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersUrlHeader">
+			<source>URL</source>
+			<target>URL</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersAmountHeader">
+			<source>Number</source>
+			<target>Nombre</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlTitle">
 			<source>Most viewed pages (all time)</source>
 			<target>Pages les plus visitées (depuis toujours)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlUrlHeader">
+			<source>URL</source>
+			<target>URL</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlAmountHeader">
+			<source>Views</source>
+			<target>Vues</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.title">
+			<source>Usages statistics</source>
+			<target>Statistiques d'usage</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.informationsTitle">
+			<source>Informations</source>
+			<target>Informations</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.birthdayLabel">
+			<source>Birthday date</source>
+			<target>Date anniversaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoicesTitle">
+			<source>Invoices</source>
+			<target>Factures</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoiceDateHeader">
+			<source>Date</source>
+			<target>Date</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoicePriceHeader">
+			<source>Price</source>
+			<target>Montant</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoiceUrlHeader">
+			<source>Link</source>
+			<target>Lien</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoiceUrlTitle">
+			<source>Display invoice</source>
+			<target>Voir la facture</target>
 		</trans-unit>
 
 
@@ -442,8 +490,6 @@
 			<target>Fichiers contrôlés pour vérifier la présence du Framway</target>
 		</trans-unit>
 
-
-
 		<trans-unit id="WEMSG.INSTALL.GENERAL.Title">
 			<source>Global</source>
 			<target>Général</target>
@@ -495,6 +541,14 @@
 		<trans-unit id="WEMSG.INSTALL.GENERAL.sgEncryptionKeyHelp">
 			<source>The encryption key is used to encrypt and decrypt personal data. Do not change it once set !</source>
 			<target>Cette clef de chiffrement est utilisée pour chiffrer/déchiffrer les données personnelles. Ne la changez pas une fois qu'elle a été définie !</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAirtableApiKey">
+			<source>Airtable API Key</source>
+			<target>Clef API Airtable</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAirtableApiKeyHelp">
+			<source>The Airtable API key is used for the Smartgear's dashboard.</source>
+			<target>La clef API Airtable est utilisée dans le tableau de bord Smartgear.</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.GENERAL.sgWebsiteTitleEmpty">
 			<source>Website's title is missing</source>

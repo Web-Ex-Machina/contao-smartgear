@@ -5,6 +5,7 @@
 			<?php echo $this->shortcutInternal; ?>
 			<?php echo $this->shortcutExternal; ?>
 			<?php echo $this->analyticsInternal; ?>
+			<?php echo $this->analyticsExternal; ?>
 		</div>
 	</div>
 </div>

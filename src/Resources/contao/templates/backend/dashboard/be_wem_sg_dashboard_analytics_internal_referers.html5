@@ -3,8 +3,8 @@
 	<table class="tl_listing showColumns">
 		<thead>
 			<tr>
-				<th class="tl_folder_tlist">URL</td>
-				<td class="tl_folder_tlist">Amount</td>
+				<td class="tl_folder_tlist"><?php echo $this->referersUrlHeader; ?></td>
+				<td class="tl_folder_tlist"><?php echo $this->referersAmountHeader; ?></td>
 			</tr>
 		</thead>
 		<tbody>

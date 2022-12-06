@@ -180,6 +180,9 @@ class AnalyticsInternal extends BackendModule
         $objTemplate->referers = PageVisit::getReferersAnalytics($arrConfig, $limit, 0, $arrOptions)->fetchAllAssoc();
         $objTemplate->referersTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersTitle', [], 'contao_default');
 
+        $objTemplate->referersUrlHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersUrlHeader', [], 'contao_default');
+        $objTemplate->referersAmountHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersAmountHeader', [], 'contao_default');
+
         // $objTemplate->pagination = (new Pagination(PageVisit::countReferersAnalytics($arrConfig, $arrOptions), $limit))->generate();
 
         return $objTemplate->parse();
@@ -194,6 +197,8 @@ class AnalyticsInternal extends BackendModule
         $objTemplate = new BackendTemplate('be_wem_sg_dashboard_analytics_internal_pagesurl');
         $objTemplate->pagesUrl = PageVisit::getPagesUrlAnalytics($arrConfig, $limit, 0, $arrOptions)->fetchAllAssoc();
         $objTemplate->pagesUrlTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlTitle', [], 'contao_default');
+        $objTemplate->pagesUrlUrlHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlUrlHeader', [], 'contao_default');
+        $objTemplate->pagesUrlAmountHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlAmountHeader', [], 'contao_default');
         // $objTemplate->pagination = (new Pagination(PageVisit::countPagesUrlAnalytics($arrConfig, $arrOptions), $limit))->generate();
 
         return $objTemplate->parse();
