@@ -288,6 +288,26 @@
 			<source>Smartgear statistics</source>
 			<target>Statistiques Smartgear</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.visitsTitle">
+			<source>Visits (last 7 days)</source>
+			<target>Visites (ces 7 derniers jours)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.thisWeekSerieTitle">
+			<source>This week</source>
+			<target>Cette semaine</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.previousWeekSerieTitle">
+			<source>Last week</source>
+			<target>Semaine dernière</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersTitle">
+			<source>Most common referers (all time)</source>
+			<target>Referers les plus communs (depuis toujours)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlTitle">
+			<source>Most viewed pages (all time)</source>
+			<target>Pages les plus visitées (depuis toujours)</target>
+		</trans-unit>
 
 
 

@@ -15,9 +15,10 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Dashboard;
 
 use Contao\BackendModule;
+use Contao\BackendTemplate;
 use Contao\Config;
 use Contao\Date;
-use Contao\System;
+use Contao\Pagination;
 use DateInterval;
 use DateTime;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -67,6 +68,20 @@ class AnalyticsInternal extends BackendModule
         }
         $this->Template->title = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.title', [], 'contao_default');
 
+        // visits
+        $this->Template->visits = $this->getVisitsAnalytics();
+
+        // referers
+        $this->Template->referers = $this->getReferersAnalytics();
+
+        // most viewed pages
+        $this->Template->pagesUrl = $this->getPagesUrlAnalytics();
+    }
+
+    protected function getVisitsAnalytics(): string
+    {
+        $objTemplate = new BackendTemplate('be_wem_sg_dashboard_analytics_internal_visits');
+
         // visits this week
         $today = new DateTime('now');
         $arrVisitsThisWeek = [
@@ -78,7 +93,7 @@ class AnalyticsInternal extends BackendModule
             ['index' => 2, 'tstamp' => (int) $today->sub(new DateInterval('P1D'))->getTimestamp(), 'value' => $this->getPageVisitsForDay($today)],
             ['index' => 1, 'tstamp' => (int) $today->sub(new DateInterval('P1D'))->getTimestamp(), 'value' => $this->getPageVisitsForDay($today)],
         ];
-        $this->Template->visitsThisWeek = json_encode(array_reverse($arrVisitsThisWeek));
+        $objTemplate->visitsThisWeek = json_encode(array_reverse($arrVisitsThisWeek));
         // visits last week
         $today = new DateTime('now');
         $today->sub(new DateInterval('P7D'));
@@ -91,10 +106,10 @@ class AnalyticsInternal extends BackendModule
             ['index' => 2, 'tstamp' => (int) $today->sub(new DateInterval('P1D'))->getTimestamp(), 'value' => $this->getPageVisitsForDay($today)],
             ['index' => 1, 'tstamp' => (int) $today->sub(new DateInterval('P1D'))->getTimestamp(), 'value' => $this->getPageVisitsForDay($today)],
         ];
-        $this->Template->visitsLastWeek = json_encode(array_reverse($arrVisitsLastWeek));
+        $objTemplate->visitsLastWeek = json_encode(array_reverse($arrVisitsLastWeek));
 
         // merged visits
-        $this->Template->visitsMerged = json_encode(array_reverse([
+        $objTemplate->visitsMerged = json_encode(array_reverse([
             [
                 'tstamp' => $arrVisitsThisWeek[0]['tstamp'] * 1000,
                 'dateThisWeek' => Date::parse(Config::get('dateFormat'), (int) $arrVisitsThisWeek[0]['tstamp']),
@@ -139,11 +154,11 @@ class AnalyticsInternal extends BackendModule
                 'valueLastWeek' => $arrVisitsLastWeek[6]['value'],
             ], ]));
 
-        // referers
-        // most viewed pages
-        $this->Template->modPageUrl = System::getContainer()->get('router')->generate('contao_backend', ['do' => 'page']);
-        $this->Template->linkPageText = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkPageText', [], 'contao_default');
-        $this->Template->linkPageTitle = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkPageTitle', [], 'contao_default');
+        $objTemplate->visitsTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.visitsTitle', [], 'contao_default');
+        $objTemplate->thisWeekSerieTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.thisWeekSerieTitle', [], 'contao_default');
+        $objTemplate->previousWeekSerieTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.previousWeekSerieTitle', [], 'contao_default');
+
+        return $objTemplate->parse();
     }
 
     protected function getPageVisitsForDay(DateTime $dt): int
@@ -152,6 +167,35 @@ class AnalyticsInternal extends BackendModule
             'where' => [sprintf('createdAt BETWEEN %d AND %d',
                     $dt->setTime(0, 0, 0, 0)->getTimestamp(),
                     $dt->setTime(23, 59, 59, 999)->getTimestamp()
-                )], ]) + 3;
+                )], ]);
+    }
+
+    protected function getReferersAnalytics(): string
+    {
+        $arrConfig = [];
+        $arrOptions = ['group' => 'referer', 'order' => 'amount DESC'];
+        $limit = 1;
+
+        $objTemplate = new BackendTemplate('be_wem_sg_dashboard_analytics_internal_referers');
+        $objTemplate->referers = PageVisit::getReferersAnalytics($arrConfig, $limit, 0, $arrOptions)->fetchAllAssoc();
+        $objTemplate->referersTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersTitle', [], 'contao_default');
+
+        // $objTemplate->pagination = (new Pagination(PageVisit::countReferersAnalytics($arrConfig, $arrOptions), $limit))->generate();
+
+        return $objTemplate->parse();
+    }
+
+    protected function getPagesUrlAnalytics(): string
+    {
+        $arrConfig = [];
+        $arrOptions = ['group' => 'page_url', 'order' => 'amount DESC'];
+        $limit = 5;
+
+        $objTemplate = new BackendTemplate('be_wem_sg_dashboard_analytics_internal_pagesurl');
+        $objTemplate->pagesUrl = PageVisit::getPagesUrlAnalytics($arrConfig, $limit, 0, $arrOptions)->fetchAllAssoc();
+        $objTemplate->pagesUrlTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlTitle', [], 'contao_default');
+        // $objTemplate->pagination = (new Pagination(PageVisit::countPagesUrlAnalytics($arrConfig, $arrOptions), $limit))->generate();
+
+        return $objTemplate->parse();
     }
 }

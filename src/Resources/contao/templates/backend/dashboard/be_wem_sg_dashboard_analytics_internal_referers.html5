@@ -1,0 +1,19 @@
+<h3><?php echo $this->referersTitle; ?></h3>
+<div class="tl_listing_container list_view">
+	<table class="tl_listing showColumns">
+		<thead>
+			<tr>
+				<th class="tl_folder_tlist">URL</td>
+				<td class="tl_folder_tlist">Amount</td>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach($this->referers as $referer): ?>
+			<tr>
+				<td class="tl_file_list"><?php echo $referer['referer']; ?></td>
+				<td class="tl_file_list"><?php echo $referer['amount']; ?></td>
+			</tr>
+			<?php endforeach;?>
+		</tbody>
+	</table>
+</div>
