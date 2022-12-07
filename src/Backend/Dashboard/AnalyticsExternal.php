@@ -15,9 +15,12 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Dashboard;
 
 use Contao\BackendModule;
+use Contao\Database;
+use Contao\System;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Api\Airtable\V0\Api as AirtableApi;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
@@ -93,5 +96,50 @@ class AnalyticsExternal extends BackendModule
         $this->Template->invoicePriceHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoicePriceHeader', [], 'contao_default');
         $this->Template->invoiceUrlHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoiceUrlHeader', [], 'contao_default');
         $this->Template->invoiceUrlTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoiceUrlTitle', [], 'contao_default');
+
+        // DB usage
+        $query = sprintf('
+            SELECT SUM(DATA_LENGTH) + SUM(INDEX_LENGTH) AS usage_estimate
+            FROM INFORMATION_SCHEMA.tables
+            WHERE table_schema = \'%s\'',
+            System::getContainer()->get('database_connection')->getDatabase()
+        );
+        $result = Database::getInstance()->execute($query);
+
+        $this->Template->dbUsageLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.dbUsageLabel', [], 'contao_default');
+        $this->Template->dbUsage = $result->fetchAllAssoc()[0]['usage_estimate'];
+
+        // File usage
+        // $size = $this->folderSize(realpath('../'));
+        // dump(Util::humanReadableFilesize($size, 2));
+
+        // $size2 = $this->GetDirectorySize('../');
+        // dump(Util::humanReadableFilesize($size2, 2));
+    }
+
+    protected function folderSize($dir)
+    {
+        $size = 0;
+
+        foreach (glob(rtrim($dir, '/').'/*', \GLOB_NOSORT) as $each) {
+            Util::log($each);
+            $size += is_file($each) ? filesize($each) : $this->folderSize($each);
+        }
+
+        return $size;
+    }
+
+    protected function GetDirectorySize($path)
+    {
+        $bytestotal = 0;
+        $path = realpath($path);
+        if (false !== $path && '' !== $path && file_exists($path)) {
+            foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS)) as $object) {
+                Util::log($object->key());
+                $bytestotal += $object->getSize();
+            }
+        }
+
+        return $bytestotal;
     }
 }
