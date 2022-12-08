@@ -6,6 +6,7 @@
 			<?php echo $this->shortcutExternal; ?>
 			<?php echo $this->analyticsInternal; ?>
 			<?php echo $this->analyticsExternal; ?>
+			<?php echo $this->support; ?>
 		</div>
 	</div>
 </div>

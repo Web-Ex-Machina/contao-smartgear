@@ -397,7 +397,34 @@
 			<target>Membres inscrit</target>
 		</trans-unit>
 
-
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.title">
+			<source>Support</source>
+			<target>Support</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.helpText">
+			<source>Need help ? You can contact us by mail or using the form below.</source>
+			<target>Besoin d'aide ? Vous pouvez nous contacter par email ou bien via le formulaire ci-dessous.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.mailTitle">
+			<source>Email</source>
+			<target>Email</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.mailLinkTitle">
+			<source>Write a support email</source>
+			<target>Rédiger une demande de support par email</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.mailSubject">
+			<source>[SMARTGEAR] Support request</source>
+			<target>[SMARTGEAR] Demande de support</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.mailContent">
+			<source>Hello, \r\n\r\n your content here \r\n\r\n %s</source>
+			<target>Bonjour, \r\n\r\n votre message ici \r\n\r\n %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formTitle">
+			<source>Form</source>
+			<target>Formulaire</target>
+		</trans-unit>
 		<!-- Install l10n -->
 		<trans-unit id="WEM.SMARTGEAR.INSTALL.framway">
 			<source>Framway</source>

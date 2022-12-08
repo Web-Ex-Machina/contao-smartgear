@@ -74,5 +74,8 @@ class Dashboard extends BackendModule
         /** @var AnalyticsExternal */
         $modAnalyticsExternal = System::getContainer()->get('smartgear.backend.dashboard.analytics_external');
         $this->Template->analyticsExternal = $modAnalyticsExternal->generate();
+        /** @var Support */
+        $modSupport = System::getContainer()->get('smartgear.backend.dashboard.support');
+        $this->Template->support = $modSupport->generate();
     }
 }
