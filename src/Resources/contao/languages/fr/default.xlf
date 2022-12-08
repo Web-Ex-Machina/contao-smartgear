@@ -425,6 +425,59 @@
 			<source>Form</source>
 			<target>Formulaire</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formSubjectLabel">
+			<source>Subject</source>
+			<target>Sujet</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formSubjectHelp">
+			<source></source>
+			<target></target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formUrlLabel">
+			<source>URL</source>
+			<target>URL</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formUrlHelp">
+			<source>The page's URL where the error occurs</source>
+			<target>URL de la page rencontrant un problème</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formMessageLabel">
+			<source>Message</source>
+			<target>Message</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formMessageHelp">
+			<source>Please be as precise as possible</source>
+			<target>Merci d'être aussi précis que possible</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formScreenshotLabel">
+			<source>Screenshot</source>
+			<target>Capture d'écran</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formScreenshotHelp">
+			<source>If applicable</source>
+			<target>Si pertinent</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formMailLabel">
+			<source>Contact email</source>
+			<target>Mail de contact</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formMailHelp">
+			<source></source>
+			<target></target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formScreenshotPlaceholder">
+			<source>Screenshot</source>
+			<target>Capture d'écran</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formSendLabel">
+			<source>Send</source>
+			<target>Envoyer</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formSendSuccess">
+			<source>Your help request has been transmitted</source>
+			<target>Votre demande de support a bien été transmise</target>
+		</trans-unit>
 		<!-- Install l10n -->
 		<trans-unit id="WEM.SMARTGEAR.INSTALL.framway">
 			<source>Framway</source>

@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Api\Airtable\V0;
 
+use DateTime;
+use Exception;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\Api\ResponseContentException;
@@ -25,7 +27,7 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound;
  */
 class Api
 {
-    public const BASE_URL = 'https://api.airtable.com/v0/appgIyjWEM42B7t7k/';
+    public const BASE_URL = 'https://api.airtable.com/v0/';
     public const CACHE_PATH = 'assets/smartgear/';
     /** @var CoreConfigManager */
     protected $configurationManager;
@@ -47,13 +49,14 @@ class Api
 
     public function getHostingInformations(string $hostname): array
     {
+        $base = 'appgIyjWEM42B7t7k';
         $filename = 'airtable_hosting_informations.json';
         if ($this->cacheFileExists($filename) && $this->hasValidCache($filename)) {
             return $this->retrieveFromCache($filename)['data'];
         }
 
-        $url = sprintf('%s%s?maxRecords=1&view=All&filterByFormula=%s', self::BASE_URL, urlencode('Hébergements'), urlencode(sprintf('{Domaines concernés} = "%s"', $hostname)));
-        $arrRecords = $this->call($url);
+        $url = sprintf('%s%s/%s?maxRecords=1&view=All&filterByFormula=%s', self::BASE_URL, $base, urlencode('Hébergements'), urlencode(sprintf('{Domaines concernés} = "%s"', $hostname)));
+        $arrRecords = $this->call($url)->records;
 
         if (!$arrRecords) {
             return [];
@@ -83,6 +86,36 @@ class Api
         $this->saveCacheFile($filename, $data);
 
         return $data;
+    }
+
+    public function createTicket(string $clientId, string $subject, string $url, string $message, string $mail, ?string $screenshotFileUrl = null): void
+    {
+        $base = 'appnCkg7yADMSvVAz';
+        $apiUrl = sprintf('%s%s/%s', self::BASE_URL, $base, urlencode('Tickets'));
+        $data = [
+            'records' => [
+                [
+                    'fields' => [
+                        'Client' => $clientId,
+                        'Sujet' => $subject,
+                        'URL' => $url,
+                        'Message' => $message,
+                        'Mail' => $mail,
+                        'Date' => (new DateTime())->format('m/d/Y H:i'), // Yup, american style
+                        'Status' => 'Todo',
+                    ],
+                ],
+            ],
+        ];
+        if (null !== $screenshotFileUrl) {
+            $data['records'][0]['fields']['Capture d\'écran'][] = ['url' => $screenshotFileUrl];
+        }
+
+        $result = $this->call($apiUrl, $data);
+
+        if ($result->error) {
+            throw new Exception('['.$result->error->type.'] '.$result->error->message);
+        }
     }
 
     protected function cacheFileExists(string $name): bool
@@ -117,7 +150,7 @@ class Api
         return self::CACHE_PATH.$name;
     }
 
-    protected function call(string $url)
+    protected function call(string $url, array $data = [])
     {
         $baseUrl = static::BASE_URL;
 
@@ -126,11 +159,16 @@ class Api
         }
 
         $curl = curl_init();
+        $httpHeaders = [sprintf('Authorization: Bearer %s', $this->apiKey)];
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, [sprintf('Authorization: Bearer %s', $this->apiKey)]);
         curl_setopt($curl, CURLOPT_USERAGENT, 'webexmachina/1.0 +'.\Contao\Environment::get('base'));
-        sleep(1);
+        if (!empty($data)) {
+            $httpHeaders['Content-Type'] = 'application/json';
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+        }
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $httpHeaders);
         $jsonRaw = curl_exec($curl);
         curl_close($curl);
         $json = json_decode($jsonRaw);
@@ -145,6 +183,6 @@ class Api
             throw new ResponseContentException($json->message);
         }
 
-        return $json->records;
+        return $json;
     }
 }

@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend;
 
 use Contao\BackendModule;
+use Contao\Input;
 use Contao\Message;
 use Contao\System;
 use WEM\SmartgearBundle\Backend\Dashboard\ShortcutInternal;
@@ -37,6 +38,22 @@ class Dashboard extends BackendModule
      * @var string
      */
     protected $strBasePath = 'bundles/wemsmartgear';
+
+    public function __construct($dc = null)
+    {
+        parent::__construct($dc);
+
+        /* @var ShortcutInternal */
+        $this->modShortcutInternal = System::getContainer()->get('smartgear.backend.dashboard.shortcut_internal');
+        /* @var ShortcutExternal */
+        $this->modShortcutExternal = System::getContainer()->get('smartgear.backend.dashboard.shortcut_external');
+        /* @var AnalyticsInternal */
+        $this->modAnalyticsInternal = System::getContainer()->get('smartgear.backend.dashboard.analytics_internal');
+        /* @var AnalyticsExternal */
+        $this->modAnalyticsExternal = System::getContainer()->get('smartgear.backend.dashboard.analytics_external');
+        /* @var Support */
+        $this->modSupport = System::getContainer()->get('smartgear.backend.dashboard.support');
+    }
 
     public function generate(): string
     {
@@ -61,21 +78,30 @@ class Dashboard extends BackendModule
 
             return;
         }
+
         $this->Template->title = 'ciou';
-        /** @var ShortcutInternal */
-        $modShortcutInternal = System::getContainer()->get('smartgear.backend.dashboard.shortcut_internal');
-        $this->Template->shortcutInternal = $modShortcutInternal->generate();
-        /** @var ShortcutExternal */
-        $modShortcutExternal = System::getContainer()->get('smartgear.backend.dashboard.shortcut_external');
-        $this->Template->shortcutExternal = $modShortcutExternal->generate();
-        /** @var AnalyticsInternal */
-        $modAnalyticsInternal = System::getContainer()->get('smartgear.backend.dashboard.analytics_internal');
-        $this->Template->analyticsInternal = $modAnalyticsInternal->generate();
-        /** @var AnalyticsExternal */
-        $modAnalyticsExternal = System::getContainer()->get('smartgear.backend.dashboard.analytics_external');
-        $this->Template->analyticsExternal = $modAnalyticsExternal->generate();
-        /** @var Support */
-        $modSupport = System::getContainer()->get('smartgear.backend.dashboard.support');
-        $this->Template->support = $modSupport->generate();
+        $this->Template->shortcutInternal = $this->modShortcutInternal->generate();
+        $this->Template->shortcutExternal = $this->modShortcutExternal->generate();
+        $this->Template->analyticsInternal = $this->modAnalyticsInternal->generate();
+        $this->Template->analyticsExternal = $this->modAnalyticsExternal->generate();
+        $this->Template->support = $this->modSupport->generate();
+    }
+
+    /**
+     * Process AJAX actions.
+     *
+     * @param [String] $strAction - Ajax action wanted
+     *
+     * @return string - Ajax response, as String or JSON
+     */
+    public function processAjaxRequest($strAction)
+    {
+        if (Input::post('TL_WEM_AJAX')) {
+            switch (Input::post('wem_module')) {
+                case $this->modSupport->getStrId():
+                    $this->modSupport->processAjaxRequest(Input::post('action'));
+                break;
+            }
+        }
     }
 }

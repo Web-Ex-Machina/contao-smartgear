@@ -17,8 +17,8 @@ namespace WEM\SmartgearBundle\Backend\Dashboard;
 use Contao\BackendModule;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
-use WEM\SmartgearBundle\Config\Component\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\Core\Core;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
 class ShortcutExternal extends BackendModule
