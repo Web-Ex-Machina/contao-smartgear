@@ -1,0 +1,29 @@
+<h3><?php echo $this->invoicesTitle; ?></h3>
+<br />
+<p>
+	<?php echo $this->birthdayLabel; ?>: <?php echo $this->birthday; ?>
+</p>		
+<div class="tl_listing_container list_view">
+	<table class="tl_listing showColumns">
+		<thead>
+			<tr>
+				<td class="tl_folder_tlist"><?php echo $this->invoiceDateHeader; ?></td>
+				<td class="tl_folder_tlist"><?php echo $this->invoicePriceHeader; ?></td>
+				<td class="tl_folder_tlist"><?php echo $this->invoiceUrlHeader; ?></td>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach($this->invoices as $invoice): ?>
+			<tr>
+				<td class="tl_file_list"><?php echo $invoice['date']; ?></td>
+				<td class="tl_file_list"><?php echo $invoice['price']; ?> &euro;</td>
+				<td class="tl_file_list">
+					<a href="<?php echo $invoice['url']; ?>" title="<?php echo $this->invoiceUrlTitle; ?>" target="_blank">
+						<?php echo basename($invoice['url']); ?>
+					</a>
+				</td>
+			</tr>
+			<?php endforeach;?>
+		</tbody>
+	</table>
+</div>

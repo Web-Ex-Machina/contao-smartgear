@@ -1,34 +1,8 @@
 <div class="block block-default wem_module">
 	<h2 class="title"><?php echo $this->title; ?></h2>
 	<div class="content_container">
-		<h3><?php echo $this->informationsTitle; ?></h3>
-		<p>
-			<?php echo $this->birthdayLabel; ?>: <?php echo $this->birthday; ?>
-		</p>		
-		<h3><?php echo $this->invoicesTitle; ?></h3>
-		<div class="tl_listing_container list_view">
-			<table class="tl_listing showColumns">
-				<thead>
-					<tr>
-						<td class="tl_folder_tlist"><?php echo $this->invoiceDateHeader; ?></td>
-						<td class="tl_folder_tlist"><?php echo $this->invoicePriceHeader; ?></td>
-						<td class="tl_folder_tlist"><?php echo $this->invoiceUrlHeader; ?></td>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach($this->invoices as $invoice): ?>
-					<tr>
-						<td class="tl_file_list"><?php echo $invoice['date']; ?></td>
-						<td class="tl_file_list"><?php echo $invoice['price']; ?> &euro;</td>
-						<td class="tl_file_list">
-							<a href="<?php echo $invoice['url']; ?>" title="<?php echo $this->invoiceUrlTitle; ?>" target="_blank">
-								<?php echo basename($invoice['url']); ?>
-							</a>
-						</td>
-					</tr>
-					<?php endforeach;?>
-				</tbody>
-			</table>
-		</div>
+		<?php echo $this->diskUsage; ?>
+		<?php echo $this->invoices; ?>
+		<?php echo $this->contentAnalytics; ?>
 	</div>
 </div>

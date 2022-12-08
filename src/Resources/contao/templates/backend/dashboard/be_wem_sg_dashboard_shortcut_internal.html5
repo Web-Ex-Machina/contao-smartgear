@@ -3,24 +3,29 @@
 	<div class="content_container">
 		<ul>
 			<li>
+				<?php echo Image::getHtml('manager.gif'); ?>
 				<a href="<?php echo $this->modPageUrl; ?>" title="<?php echo $this->linkPageTitle; ?>" target="_blank">
 					<?php echo $this->linkPageText; ?>
 				</a>
 			</li>
 			<li>
+				<?php echo Image::getHtml('manager.gif'); ?>
 				<a href="<?php echo $this->modArticleUrl; ?>" title="<?php echo $this->linkArticleTitle; ?>" target="_blank">
 					<?php echo $this->linkArticleText; ?>
 				</a>
 			</li>
 			<li>
-				<?php if($this->isNewsInstalled): ?>
+				<?php if(!$this->isNewsInstalled): ?>
 					<?php echo Image::getHtml('important.gif','','title="'.$this->msgBlogNotInstalled.'"'); ?>
+				<?php else: ?>
+					<?php echo Image::getHtml('manager.gif'); ?>
 				<?php endif; ?>
 				<a href="<?php echo $this->modNewsUrl; ?>" title="<?php echo $this->linkNewsTitle; ?>" target="_blank">
 					<?php echo $this->linkNewsText; ?>
 				</a>
 			</li>
 			<li>
+				<?php echo Image::getHtml('manager.gif'); ?>
 				<a href="<?php echo $this->modFilesUrl; ?>" title="<?php echo $this->linkFilesTitle; ?>" target="_blank">
 					<?php echo $this->linkFilesText; ?>
 				</a>

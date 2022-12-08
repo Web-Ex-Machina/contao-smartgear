@@ -15,7 +15,12 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Dashboard;
 
 use Contao\BackendModule;
+use Contao\BackendTemplate;
+use Contao\CalendarEventsModel;
 use Contao\Database;
+use Contao\FilesModel;
+use Contao\MemberModel;
+use Contao\NewsModel;
 use Contao\System;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Api\Airtable\V0\Api as AirtableApi;
@@ -23,6 +28,7 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
+use WEM\SmartgearBundle\Model\Backup;
 
 class AnalyticsExternal extends BackendModule
 {
@@ -68,11 +74,17 @@ class AnalyticsExternal extends BackendModule
             return;
         }
 
-        // $hostingInfos = $this->airtableApi->getHostingInformations($_SERVER['SERVER_NAME']);
-        $hostingInfos = $this->airtableApi->getHostingInformations('altrad.com');
+        $hostingInfos = $this->airtableApi->getHostingInformations($config->getSgOwnerDomain());
 
-        $this->Template->allowed_space = $hostingInfos['allowed_space'];
+        $this->Template->title = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.title', [], 'contao_default');
 
+        $this->Template->invoices = $this->getInvoices($hostingInfos);
+        $this->Template->diskUsage = $this->getDiskUsageBlock($hostingInfos);
+        $this->Template->contentAnalytics = $this->getContentAnalytics($hostingInfos);
+    }
+
+    protected function getInvoices(array $hostingInfos): string
+    {
         $arrInvoices = [];
         foreach ($hostingInfos['invoices_ids'] as $index => $id) {
             $arrInvoices[] = [
@@ -83,21 +95,103 @@ class AnalyticsExternal extends BackendModule
             ];
         }
 
-        $this->Template->invoices = $arrInvoices;
+        $objTemplate = new BackendTemplate('be_wem_sg_dashboard_analytics_external_invoices');
+        $objTemplate->invoicesTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoicesTitle', [], 'contao_default');
 
-        $this->Template->title = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.title', [], 'contao_default');
+        $objTemplate->birthdayLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.birthdayLabel', [], 'contao_default');
+        $objTemplate->birthday = $hostingInfos['birthday'];
 
-        $this->Template->informationsTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.informationsTitle', [], 'contao_default');
-        $this->Template->birthdayLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.birthdayLabel', [], 'contao_default');
-        $this->Template->birthday = $hostingInfos['birthday'];
+        $objTemplate->invoices = $arrInvoices;
+        $objTemplate->invoiceDateHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoiceDateHeader', [], 'contao_default');
+        $objTemplate->invoicePriceHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoicePriceHeader', [], 'contao_default');
+        $objTemplate->invoiceUrlHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoiceUrlHeader', [], 'contao_default');
+        $objTemplate->invoiceUrlTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoiceUrlTitle', [], 'contao_default');
 
-        $this->Template->invoicesTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoicesTitle', [], 'contao_default');
-        $this->Template->invoiceDateHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoiceDateHeader', [], 'contao_default');
-        $this->Template->invoicePriceHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoicePriceHeader', [], 'contao_default');
-        $this->Template->invoiceUrlHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoiceUrlHeader', [], 'contao_default');
-        $this->Template->invoiceUrlTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoiceUrlTitle', [], 'contao_default');
+        return $objTemplate->parse();
+    }
+
+    protected function getDiskUsageBlock(array $hostingInfos): string
+    {
+        $diskUsage = $this->getDiskUsage($hostingInfos);
+        $dbUsage = $this->getDatabaseUsage();
+        $diskSpaceAllowed = (int) ((float) $hostingInfos['allowed_space']) * 1024 * 1024 * 1024;
+
+        $objTemplate = new BackendTemplate('be_wem_sg_dashboard_analytics_external_diskusage');
+        $objTemplate->informationsTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.informationsTitle', [], 'contao_default');
 
         // DB usage
+        $objTemplate->dbUsageLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.dbUsageLabel', [], 'contao_default');
+        $objTemplate->dbUsage = Util::humanReadableFilesize($dbUsage, 2);
+
+        // Disk usage
+        $objTemplate->diskUsageLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.diskUsageLabel', [], 'contao_default');
+        $objTemplate->diskUsage = Util::humanReadableFilesize($diskUsage, 2);
+        $objTemplate->diskSpaceAllowedLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.diskSpaceAllowedLabel', [], 'contao_default');
+
+        $objTemplate->diskSpaceAllowed = Util::humanReadableFilesize($diskSpaceAllowed, 2);
+
+        $objTemplate->diskUsagePercentLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.diskUsagePercentLabel', [], 'contao_default');
+        $objTemplate->diskUsagePercent = round($diskUsage * 100 / ($diskSpaceAllowed), 2);
+
+        if ($objTemplate->diskUsagePercent < 75) {
+            $objTemplate->diskUsageBarColor = 'green';
+        } elseif ($objTemplate->diskUsagePercent < 90) {
+            $objTemplate->diskUsageBarColor = 'orange';
+        } else {
+            $objTemplate->diskUsageBarColor = 'red';
+        }
+
+        return $objTemplate->parse();
+    }
+
+    protected function getContentAnalytics(array $hostingInfos): string
+    {
+        $objTemplate = new BackendTemplate('be_wem_sg_dashboard_analytics_external_contentanalytics');
+        $objTemplate->contentAnalyticsTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.contentAnalyticsTitle', [], 'contao_default');
+
+        try {
+            /** @var CoreConfig */
+            $config = $this->configurationManager->load();
+
+            // Core
+            $objTemplate->isCoreInstalled = $config->getSgInstallComplete();
+            if ($objTemplate->isCoreInstalled) {
+                $objTemplate->coreNbBackups = Backup::countAll();
+                $objTemplate->coreNbBackupsLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.coreNbBackupsLabel', [], 'contao_default');
+
+                $objTemplate->coreNbFiles = FilesModel::countAll();
+                $objTemplate->coreNbFilesLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.coreNbFilesLabel', [], 'contao_default');
+            }
+
+            // Blog
+            $objTemplate->isBlogInstalled = $config->getSgInstallComplete() && $config->getSgBlog()->getSgInstallComplete();
+            if ($objTemplate->isBlogInstalled) {
+                $objTemplate->blogNbNews = NewsModel::countBy(['pid' => $config->getSgBlog()->getSgNewsArchive()]);
+                $objTemplate->blogNbNewsLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.blogNbNewsLabel', [], 'contao_default');
+            }
+
+            // Events
+            $objTemplate->isEventsInstalled = $config->getSgInstallComplete() && $config->getSgEvents()->getSgInstallComplete();
+            if ($objTemplate->isEventsInstalled) {
+                $objTemplate->eventsNbEvents = CalendarEventsModel::countBy(['pid' => $config->getSgEvents()->getSgCalendar()]);
+                $objTemplate->eventsNbEventsLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.eventsNbEventsLabel', [], 'contao_default');
+            }
+
+            // Extranet
+            $objTemplate->isExtranetInstalled = $config->getSgInstallComplete() && $config->getSgExtranet()->getSgInstallComplete();
+            if ($objTemplate->isExtranetInstalled) {
+                $objTemplate->extranetNbMembers = MemberModel::countAll();
+                $objTemplate->extranetNbMembersLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.extranetNbMembersLabel', [], 'contao_default');
+            }
+        } catch (NotFound $e) {
+            // return;
+        }
+
+        return $objTemplate->parse();
+    }
+
+    protected function getDatabaseUsage(): int
+    {
         $query = sprintf('
             SELECT SUM(DATA_LENGTH) + SUM(INDEX_LENGTH) AS usage_estimate
             FROM INFORMATION_SCHEMA.tables
@@ -106,40 +200,63 @@ class AnalyticsExternal extends BackendModule
         );
         $result = Database::getInstance()->execute($query);
 
-        $this->Template->dbUsageLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.dbUsageLabel', [], 'contao_default');
-        $this->Template->dbUsage = $result->fetchAllAssoc()[0]['usage_estimate'];
+        if (0 === $result->count()) {
+            return 0;
+        }
 
-        // File usage
-        // $size = $this->folderSize(realpath('../'));
-        // dump(Util::humanReadableFilesize($size, 2));
-
-        // $size2 = $this->GetDirectorySize('../');
-        // dump(Util::humanReadableFilesize($size2, 2));
+        return (int) $result->fetchAllAssoc()[0]['usage_estimate'];
     }
 
-    protected function folderSize($dir)
+    protected function folderSize($dir): int
     {
         $size = 0;
 
-        foreach (glob(rtrim($dir, '/').'/*', \GLOB_NOSORT) as $each) {
-            Util::log($each);
+        // foreach (glob(rtrim($dir, '/').'/*', \GLOB_NOSORT) as $each) {
+        foreach (glob(rtrim($dir, '/').'/{*,.[!.]*,..?*}', \GLOB_BRACE | \GLOB_NOSORT) as $each) {
             $size += is_file($each) ? filesize($each) : $this->folderSize($each);
         }
 
         return $size;
     }
 
-    protected function GetDirectorySize($path)
+    protected function GetDirectorySize($path): int
     {
         $bytestotal = 0;
         $path = realpath($path);
         if (false !== $path && '' !== $path && file_exists($path)) {
             foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS)) as $object) {
-                Util::log($object->key());
                 $bytestotal += $object->getSize();
             }
         }
 
         return $bytestotal;
+    }
+
+    protected function getDiskUsage(): int
+    {
+        $cacheFilename = 'assets/smartgear/dashboard_file_usage.json';
+        // check for cache
+        if (file_exists($cacheFilename)) {
+            $cacheData = json_decode(file_get_contents($cacheFilename), true);
+            if ((int) $cacheData['expiration_timestamp'] < time()) {
+                return $cacheData['data']['size'];
+            }
+        }
+        //  get disk usage
+        $size = (int) $this->folderSize(realpath('../'));
+
+        $size2 = (int) $this->GetDirectorySize('../');
+
+        $size = $size > $size2 ? $size : $size2;
+
+        // write cache
+        file_put_contents($cacheFilename, json_encode([
+            'expiration_timestamp' => time() + 86400,
+            'data' => [
+                'size' => $size,
+            ],
+        ]));
+
+        return $size;
     }
 }

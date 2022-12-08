@@ -1,0 +1,22 @@
+<h3><?php echo $this->contentAnalyticsTitle; ?></h3>
+<br />
+<p>
+<?php if($this->isCoreInstalled): ?>
+	<?php echo $this->coreNbBackupsLabel; ?> : <?php echo $this->coreNbBackups; ?>
+	<br />
+	<?php echo $this->coreNbFilesLabel; ?> : <?php echo $this->coreNbFiles; ?>
+	<br />
+<?php endif; ?>
+<?php if($this->isBlogInstalled): ?>
+	<?php echo $this->blogNbNewsLabel; ?> : <?php echo $this->blogNbNews; ?>
+	<br />
+<?php endif; ?>
+<?php if($this->isEventsInstalled): ?>
+	<?php echo $this->eventsNbEventsLabel; ?> : <?php echo $this->eventsNbEvents; ?>
+	<br />
+<?php endif; ?>
+<?php if($this->isExtranetInstalled): ?>
+	<?php echo $this->extranetNbMembersLabel; ?> : <?php echo $this->extranetNbMembers; ?>
+	<br />
+<?php endif; ?>
+</p>		

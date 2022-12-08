@@ -356,7 +356,46 @@
 			<source>Display invoice</source>
 			<target>Voir la facture</target>
 		</trans-unit>
-
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.dbUsageLabel">
+			<source>Database usage</source>
+			<target>Poids base de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.diskUsageLabel">
+			<source>Disk usage</source>
+			<target>Poids du site web</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.diskSpaceAllowedLabel">
+			<source>Disk space allowed</source>
+			<target>Taille maximale du site web</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.diskUsagePercentLabel">
+			<source>Disk usage (%)</source>
+			<target>Quota (%)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.contentAnalyticsTitle">
+			<source>Content analytics</source>
+			<target>Statistiques de contenu</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.coreNbBackupsLabel">
+			<source>Backups</source>
+			<target>Sauvegardes</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.coreNbFilesLabel">
+			<source>Files</source>
+			<target>Fichiers</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.blogNbNewsLabel">
+			<source>News</source>
+			<target>Articles de blog</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.eventsNbEventsLabel">
+			<source>Events</source>
+			<target>Evènements</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.extranetNbMembersLabel">
+			<source>Subscribed members</source>
+			<target>Membres inscrit</target>
+		</trans-unit>
 
 
 		<!-- Install l10n -->
