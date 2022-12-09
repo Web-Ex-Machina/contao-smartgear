@@ -24,6 +24,7 @@ use Contao\NewsModel;
 use Contao\System;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Api\Airtable\V0\Api as AirtableApi;
+use WEM\SmartgearBundle\Classes\CacheFileManager;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -196,13 +197,11 @@ class AnalyticsExternal extends BackendModule
 
     protected function getDatabaseUsage(): int
     {
-        $cacheFilename = 'assets/smartgear/dashboard_db_usage.json';
+        $cacheManager = new CacheFileManager('assets/smartgear/dashboard_db_usage.json', 86400);
+
         // check for cache
-        if (file_exists($cacheFilename)) {
-            $cacheData = json_decode(file_get_contents($cacheFilename), true);
-            if ((int) $cacheData['expiration_timestamp'] < time()) {
-                return $cacheData['data']['size'];
-            }
+        if ($cacheManager->cacheFileExists() && $cacheManager->hasValidCache()) {
+            return (int) $cacheManager->retrieveFromCache()['data']['size'];
         }
 
         $query = sprintf('
@@ -220,12 +219,7 @@ class AnalyticsExternal extends BackendModule
         $size = (int) $result->fetchAllAssoc()[0]['usage_estimate'];
 
         // write cache
-        file_put_contents($cacheFilename, json_encode([
-            'expiration_timestamp' => time() + 86400,
-            'data' => [
-                'size' => $size,
-            ],
-        ]));
+        $cacheManager->saveCacheFile(['size' => $size]);
 
         return $size;
     }
@@ -257,13 +251,10 @@ class AnalyticsExternal extends BackendModule
 
     protected function getDiskUsage(): int
     {
-        $cacheFilename = 'assets/smartgear/dashboard_file_usage.json';
+        $cacheManager = new CacheFileManager('assets/smartgear/dashboard_file_usage.json', 86400);
         // check for cache
-        if (file_exists($cacheFilename)) {
-            $cacheData = json_decode(file_get_contents($cacheFilename), true);
-            if ((int) $cacheData['expiration_timestamp'] < time()) {
-                return $cacheData['data']['size'];
-            }
+        if ($cacheManager->cacheFileExists() && $cacheManager->hasValidCache()) {
+            return (int) $cacheManager->retrieveFromCache()['data']['size'];
         }
         //  get disk usage
         $size = (int) $this->folderSize(realpath('../'));
@@ -273,12 +264,7 @@ class AnalyticsExternal extends BackendModule
         $size = $size > $size2 ? $size : $size2;
 
         // write cache
-        file_put_contents($cacheFilename, json_encode([
-            'expiration_timestamp' => time() + 86400,
-            'data' => [
-                'size' => $size,
-            ],
-        ]));
+        $cacheManager->saveCacheFile(['size' => $size]);
 
         return $size;
     }

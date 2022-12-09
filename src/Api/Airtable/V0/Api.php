@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Api\Airtable\V0;
 
 use DateTime;
 use Exception;
+use WEM\SmartgearBundle\Classes\CacheFileManager;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\Api\ResponseContentException;
@@ -52,8 +53,11 @@ class Api
         $base = 'appgIyjWEM42B7t7k'; // TMA
         $tableId = 'tblf16abZvAYcYTsF'; // Hébergement
         $filename = 'airtable_hosting_informations.json';
-        if ($this->cacheFileExists($filename) && $this->hasValidCache($filename)) {
-            return $this->retrieveFromCache($filename)['data'];
+
+        $cacheManager = new CacheFileManager(self::CACHE_PATH.'airtable_hosting_informations.json', 86400);
+
+        if ($cacheManager->cacheFileExists() && $cacheManager->hasValidCache()) {
+            return $cacheManager->retrieveFromCache()['data'];
         }
 
         $url = sprintf('%s%s/%s?maxRecords=1&view=All&filterByFormula=%s&returnFieldsByFieldId=1', self::BASE_URL, $base, $tableId, urlencode(sprintf('{Domaines concernés} = "%s"', $hostname)));
@@ -105,7 +109,7 @@ class Api
             'services_other' => $fields[$fieldIds['Services annexe']] ?? [],
         ];
 
-        $this->saveCacheFile($filename, $data);
+        $cacheManager->saveCacheFile($data);
 
         return $data;
     }
@@ -155,38 +159,6 @@ class Api
         if ($result->error) {
             throw new Exception('['.$result->error->type.'] '.$result->error->message);
         }
-    }
-
-    protected function cacheFileExists(string $name): bool
-    {
-        return file_exists($this->buildFilePath($name));
-    }
-
-    protected function saveCacheFile(string $name, array $data): void
-    {
-        $data = [
-            'expiration_timestamp' => time() + 86400,
-            'data' => $data,
-        ];
-
-        file_put_contents($this->buildFilePath($name), json_encode($data));
-    }
-
-    protected function hasValidCache(string $name): bool
-    {
-        $data = $this->retrieveFromCache($name);
-
-        return $data['expiration_timestamp'] > time();
-    }
-
-    protected function retrieveFromCache(string $name): array
-    {
-        return json_decode(file_get_contents($this->buildFilePath($name)), true);
-    }
-
-    protected function buildFilePath(string $name): string
-    {
-        return self::CACHE_PATH.$name;
     }
 
     protected function call(string $url, array $data = [])
