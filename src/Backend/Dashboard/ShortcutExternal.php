@@ -62,7 +62,7 @@ class ShortcutExternal extends BackendModule
         }
         $this->Template->title = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTEXTERNAL.title', [], 'contao_default');
         // manuals
-        $this->Template->manualsUrl = 'https://manuels.smartgear.fr';
+        $this->Template->manualsUrl = 'https://docs.smartgear.fr';
         $this->Template->linkManualsText = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkManualsText', [], 'contao_default');
         $this->Template->linkManualsTitle = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkManualsTitle', [], 'contao_default');
 
