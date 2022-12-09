@@ -21,6 +21,7 @@ use Contao\File;
 use Contao\FileUpload;
 use Contao\Folder;
 use Contao\Input;
+use Contao\Message;
 use Contao\RequestToken;
 use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -138,17 +139,13 @@ class Support extends BackendModule
             $fileUploader = new FileUpload();
             $arrFiles = $fileUploader->uploadTo($objFolder->path);
             if ($fileUploader->hasError()) {
-                throw new Exception('ezdfsdf');
+                throw new Exception(Message::generateUnwrapped(TL_MODE, true));
             }
             $objFile = new File($arrFiles[0]);
             $fileUrl = $config->getSgOwnerDomain().$objFile->path;
         }
 
         $this->airtableApi->createTicket($clientId, $subject, $url, $message, $mail, $fileUrl);
-
-        // if ($objFile) {
-        //     $objFile->delete();
-        // }
     }
 
     protected function getSupportMail(): string
