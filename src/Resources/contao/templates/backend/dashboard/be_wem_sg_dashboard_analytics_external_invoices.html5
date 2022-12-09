@@ -1,5 +1,10 @@
 <h3><?php echo $this->invoicesTitle; ?></h3>
 <br />
+<?php if(!$this->airtableClientFound): ?>
+	<p class="tl_error">
+		<?php echo $this->msgAirtableClientNotFound; ?>
+	</p>
+<?php else: ?>
 <p>
 	<?php echo $this->birthdayLabel; ?>: <?php echo $this->birthday; ?>
 </p>		
@@ -27,3 +32,4 @@
 		</tbody>
 	</table>
 </div>
+<?php endif; ?>

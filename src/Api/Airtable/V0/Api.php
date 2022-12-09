@@ -88,7 +88,7 @@ class Api
         return $data;
     }
 
-    public function createTicket(string $clientId, string $subject, string $url, string $message, string $mail, ?string $screenshotFileUrl = null): void
+    public function createTicket(?string $clientId, string $subject, string $url, string $message, string $mail, ?string $screenshotFileUrl = null): void
     {
         $base = 'appnCkg7yADMSvVAz';
         $apiUrl = sprintf('%s%s/%s', self::BASE_URL, $base, urlencode('Tickets'));
@@ -96,7 +96,7 @@ class Api
             'records' => [
                 [
                     'fields' => [
-                        'Client' => $clientId,
+                        'Client' => $clientId ?? '',
                         'Sujet' => $subject,
                         'URL' => $url,
                         'Message' => $message,

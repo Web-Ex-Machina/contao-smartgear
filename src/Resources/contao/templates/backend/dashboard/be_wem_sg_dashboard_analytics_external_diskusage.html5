@@ -4,6 +4,12 @@
 	<?php echo $this->dbUsageLabel; ?>: <?php echo $this->dbUsage; ?>
 	<br />
 	<?php echo $this->diskUsageLabel; ?>: <?php echo $this->diskUsage; ?>
+<?php if(!$this->airtableClientFound): ?>
+</p>
+	<p class="tl_error">
+		<?php echo $this->msgAirtableClientNotFound; ?>
+	</p>
+<?php else: ?>
 	<br />
 	<?php echo $this->diskSpaceAllowedLabel; ?>: <?php echo $this->diskSpaceAllowed; ?>
 	<br />
@@ -14,3 +20,4 @@
 		</div>
 	</div>
 </p>		
+<?php endif; ?>

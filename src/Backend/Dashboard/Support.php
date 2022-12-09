@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Backend\Dashboard;
 
 use Contao\BackendModule;
 use Contao\BackendTemplate;
+use Contao\BackendUser;
 use Contao\File;
 use Contao\FileUpload;
 use Contao\Folder;
@@ -129,6 +130,7 @@ class Support extends BackendModule
         $clientId = $hostingInformations['client_id'];
 
         // save screenshot as file
+        $objFile = null;
         $fileUrl = null;
         if (!empty($screenshotFile)) {
             $objFolder = new Folder(CoreConfig::DEFAULT_CLIENT_FILES_FOLDER.\DIRECTORY_SEPARATOR.'tickets');
@@ -143,6 +145,10 @@ class Support extends BackendModule
         }
 
         $this->airtableApi->createTicket($clientId, $subject, $url, $message, $mail, $fileUrl);
+
+        if ($objFile) {
+            $objFile->delete();
+        }
     }
 
     protected function getSupportMail(): string
@@ -158,7 +164,8 @@ class Support extends BackendModule
         $urlMailtoParams = [
             'cc' => $config->getSgOwnerEmail(),
             'subject' => $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.mailSubject', [], 'contao_default'),
-            'body' => str_replace("\r\n", '%0D%0A', $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.mailContent', [$config->getSgOwnerName()], 'contao_default')),
+            'body' => str_replace("\r\n", '%0D%0A', $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.mailContent', [
+                BackendUser::getInstance()->name ?? $config->getSgOwnerName(), ], 'contao_default')),
         ];
         foreach ($urlMailtoParams as $key => $value) {
             $urlMailto .= '&'.$key.'='.$value;

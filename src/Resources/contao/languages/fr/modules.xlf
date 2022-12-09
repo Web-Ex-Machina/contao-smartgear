@@ -79,6 +79,10 @@
 			<target>Configurer votre Smartgear</target>
 		</trans-unit>
 
+		<trans-unit id="MOD.wem_smartgear">
+			<source>Smartgear</source>
+			<target>Smartgear</target>
+		</trans-unit>
 		<trans-unit id="MOD.wem_sg_dashboard.0">
 			<source>Dashboard</source>
 			<target>Tableau de bord</target>

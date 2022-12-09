@@ -328,6 +328,10 @@
 			<source>Usages statistics</source>
 			<target>Statistiques d'usage</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.msgAirtableClientNotFound">
+			<source>Your client data were not found</source>
+			<target>Vos données client n'ont pas été trouvées.</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.informationsTitle">
 			<source>Informations</source>
 			<target>Informations</target>

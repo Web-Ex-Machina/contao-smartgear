@@ -97,6 +97,8 @@ class AnalyticsExternal extends BackendModule
 
         $objTemplate = new BackendTemplate('be_wem_sg_dashboard_analytics_external_invoices');
         $objTemplate->invoicesTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoicesTitle', [], 'contao_default');
+        $objTemplate->airtableClientFound = !empty($hostingInfos['client_id']);
+        $objTemplate->msgAirtableClientNotFound = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.msgAirtableClientNotFound', [], 'contao_default');
 
         $objTemplate->birthdayLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.birthdayLabel', [], 'contao_default');
         $objTemplate->birthday = $hostingInfos['birthday'];
@@ -118,6 +120,8 @@ class AnalyticsExternal extends BackendModule
 
         $objTemplate = new BackendTemplate('be_wem_sg_dashboard_analytics_external_diskusage');
         $objTemplate->informationsTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.informationsTitle', [], 'contao_default');
+        $objTemplate->airtableClientFound = !empty($hostingInfos['client_id']);
+        $objTemplate->msgAirtableClientNotFound = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.msgAirtableClientNotFound', [], 'contao_default');
 
         // DB usage
         $objTemplate->dbUsageLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.dbUsageLabel', [], 'contao_default');
