@@ -146,9 +146,9 @@ class Support extends BackendModule
 
         $this->airtableApi->createTicket($clientId, $subject, $url, $message, $mail, $fileUrl);
 
-        if ($objFile) {
-            $objFile->delete();
-        }
+        // if ($objFile) {
+        //     $objFile->delete();
+        // }
     }
 
     protected function getSupportMail(): string
