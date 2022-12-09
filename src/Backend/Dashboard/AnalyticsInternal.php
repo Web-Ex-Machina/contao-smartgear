@@ -55,6 +55,11 @@ class AnalyticsInternal extends BackendModule
 
     public function generate(): string
     {
+        $GLOBALS['TL_JAVASCRIPT'][] = 'https://cdn.amcharts.com/lib/5/index.js';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'https://cdn.amcharts.com/lib/5/xy.js';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'https://cdn.amcharts.com/lib/5/themes/Animated.js';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'https://cdn.amcharts.com/lib/5/locales/fr_FR.js';
+
         return parent::generate();
     }
 
@@ -172,7 +177,12 @@ class AnalyticsInternal extends BackendModule
 
     protected function getReferersAnalytics(): string
     {
-        $arrConfig = [];
+        $dt = new DateTime();
+        $arrConfig = [
+            'where' => [sprintf('createdAt BETWEEN %d AND %d',
+                    $dt->setTime(0, 0, 0, 0)->getTimestamp(),
+                    $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp()
+                )], ];
         $arrOptions = ['group' => 'referer', 'order' => 'amount DESC'];
         $limit = 1;
 
@@ -190,7 +200,12 @@ class AnalyticsInternal extends BackendModule
 
     protected function getPagesUrlAnalytics(): string
     {
-        $arrConfig = [];
+        $dt = new DateTime();
+        $arrConfig = [
+            'where' => [sprintf('createdAt BETWEEN %d AND %d',
+                    $dt->setTime(0, 0, 0, 0)->getTimestamp(),
+                    $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp()
+                )], ];
         $arrOptions = ['group' => 'page_url', 'order' => 'amount DESC'];
         $limit = 5;
 

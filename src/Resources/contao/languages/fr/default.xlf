@@ -301,8 +301,8 @@
 			<target>Semaine dernière</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersTitle">
-			<source>Most common referers (all time)</source>
-			<target>Referers les plus communs (depuis toujours)</target>
+			<source>Most common referers (last 7 days)</source>
+			<target>Referers les plus communs (ces 7 derniers jours)</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersUrlHeader">
 			<source>URL</source>
@@ -313,8 +313,8 @@
 			<target>Nombre</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlTitle">
-			<source>Most viewed pages (all time)</source>
-			<target>Pages les plus visitées (depuis toujours)</target>
+			<source>Most viewed pages (last 7 days)</source>
+			<target>Pages les plus visitées (ces 7 derniers jours)</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlUrlHeader">
 			<source>URL</source>
