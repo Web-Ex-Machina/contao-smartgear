@@ -118,6 +118,8 @@
 					// Handle actions errors
 					if("error" === results["status"]){
 						toastr.error(results["msg"], "Une erreur est survenue :");
+					}else if("success" === results["status"]){
+						document.querySelector('#wem_sg_dashboard_support_form form').reset();
 					}
 
 					// Display a toastr if asked
