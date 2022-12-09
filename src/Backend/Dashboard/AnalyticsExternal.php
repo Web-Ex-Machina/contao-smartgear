@@ -196,6 +196,15 @@ class AnalyticsExternal extends BackendModule
 
     protected function getDatabaseUsage(): int
     {
+        $cacheFilename = 'assets/smartgear/dashboard_db_usage.json';
+        // check for cache
+        if (file_exists($cacheFilename)) {
+            $cacheData = json_decode(file_get_contents($cacheFilename), true);
+            if ((int) $cacheData['expiration_timestamp'] < time()) {
+                return $cacheData['data']['size'];
+            }
+        }
+
         $query = sprintf('
             SELECT SUM(DATA_LENGTH) + SUM(INDEX_LENGTH) AS usage_estimate
             FROM INFORMATION_SCHEMA.tables
@@ -208,7 +217,17 @@ class AnalyticsExternal extends BackendModule
             return 0;
         }
 
-        return (int) $result->fetchAllAssoc()[0]['usage_estimate'];
+        $size = (int) $result->fetchAllAssoc()[0]['usage_estimate'];
+
+        // write cache
+        file_put_contents($cacheFilename, json_encode([
+            'expiration_timestamp' => time() + 86400,
+            'data' => [
+                'size' => $size,
+            ],
+        ]));
+
+        return $size;
     }
 
     protected function folderSize($dir): int

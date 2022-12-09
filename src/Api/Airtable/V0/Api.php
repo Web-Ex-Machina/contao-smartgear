@@ -49,13 +49,14 @@ class Api
 
     public function getHostingInformations(string $hostname): array
     {
-        $base = 'appgIyjWEM42B7t7k';
+        $base = 'appgIyjWEM42B7t7k'; // TMA
+        $tableId = 'tblf16abZvAYcYTsF'; // Hébergement
         $filename = 'airtable_hosting_informations.json';
         if ($this->cacheFileExists($filename) && $this->hasValidCache($filename)) {
             return $this->retrieveFromCache($filename)['data'];
         }
 
-        $url = sprintf('%s%s/%s?maxRecords=1&view=All&filterByFormula=%s', self::BASE_URL, $base, urlencode('Hébergements'), urlencode(sprintf('{Domaines concernés} = "%s"', $hostname)));
+        $url = sprintf('%s%s/%s?maxRecords=1&view=All&filterByFormula=%s&returnFieldsByFieldId=1', self::BASE_URL, $base, $tableId, urlencode(sprintf('{Domaines concernés} = "%s"', $hostname)));
         $arrRecords = $this->call($url)->records;
 
         if (!$arrRecords) {
@@ -63,24 +64,45 @@ class Api
         }
         $fields = json_decode(json_encode($arrRecords[0]->fields), true);
 
+        $fieldIds = [
+            'Projet' => 'fldC39iGcNGHzyfdA',
+            'Client' => 'flduTTwPIQHud0qRh',
+            'Anniversaire' => 'fldNu6ZtRQH8lezMX',
+            'Doit passer à la caisse' => 'fldAa1tchPLPbnydU',
+            'Notes' => 'fldgBBz3o2A59VojO',
+            'Typologie' => 'fldMhHO1uY5gVZbhh',
+            'Montant annuel' => 'fldvCAyI5s0mEix0Y',
+            'Domaines concernés' => 'fldiVZrQbzjQ450t6',
+            'Emplacement' => 'fldcv1eUW7DATxCM0',
+            'Date de création' => 'fldEKOa7FaWVGm2bx',
+            'Emails' => 'fldIIpUyY87tbukf8',
+            'Renew Domain' => 'fldxGXfhDYF0Rovvq',
+            'Factures' => 'fldHIfoCw4foRQY3F',
+            'HT (from Factures)' => 'fldf4wpDljGU9glky',
+            'Date (from Factures)' => 'fldv9QNTK6cW2PrDy',
+            'Services annexe' => 'fldF76sjf0r6ldFlK',
+            'Espace disponible (Go)' => 'fldx29zhDInO5Ntdu',
+            'URLs Factures' => 'fldF5euVenVb70IpN',
+        ];
+
         $data = [
-            'project' => $fields['Projet'] ?? '',
-            'notes' => $fields['Notes'] ?? '',
-            'typology' => $fields['Typologie'] ?? '',
-            'yearly_price' => $fields['Montant annuel'] ?? '',
-            'domains' => $fields['Domaines concernés'] ?? '',
-            'location' => $fields['Emplacement'] ?? '',
-            'emails' => $fields['Emails'] ?? '',
-            'renew_domain' => $fields['Renew Domain'] ?? '',
-            'allowed_space' => $fields['Espace disponible (Go)'] ?? '',
-            'must_pay' => $fields['Doit passer à la caisse'] ?? '',
-            'birthday' => $fields['Anniversaire'] ?? '',
-            'client_id' => $fields['Client'][0] ?? '',
-            'invoices_ids' => $fields['Factures'] ?? '',
-            'invoices_dates' => $fields['Date (from Factures)'] ?? '',
-            'invoices_prices' => $fields['HT (from Factures)'] ?? '',
-            'invoices_urls' => $fields['URLs Factures'] ?? '',
-            'services_other' => $fields['Services annexe'] ?? '',
+            'project' => $fields[$fieldIds['Projet']] ?? '',
+            'notes' => $fields[$fieldIds['Notes']] ?? '',
+            'typology' => $fields[$fieldIds['Typologie']] ?? '',
+            'yearly_price' => $fields[$fieldIds['Montant annuel']] ?? '',
+            'domains' => $fields[$fieldIds['Domaines concernés']] ?? '',
+            'location' => $fields[$fieldIds['Emplacement']] ?? '',
+            'emails' => $fields[$fieldIds['Emails']] ?? '',
+            'renew_domain' => $fields[$fieldIds['Renew Domain']] ?? '',
+            'allowed_space' => $fields[$fieldIds['Espace disponible (Go)']] ?? '',
+            'must_pay' => $fields[$fieldIds['Doit passer à la caisse']] ?? '',
+            'birthday' => $fields[$fieldIds['Anniversaire']] ?? '',
+            'client_id' => implode(',', $fields[$fieldIds['Client']]) ?? '',
+            'invoices_ids' => $fields[$fieldIds['Factures']] ?? [],
+            'invoices_dates' => $fields[$fieldIds['Date (from Factures)']] ?? [],
+            'invoices_prices' => $fields[$fieldIds['HT (from Factures)']] ?? [],
+            'invoices_urls' => $fields[$fieldIds['URLs Factures']] ?? [],
+            'services_other' => $fields[$fieldIds['Services annexe']] ?? [],
         ];
 
         $this->saveCacheFile($filename, $data);
@@ -90,25 +112,42 @@ class Api
 
     public function createTicket(?string $clientId, string $subject, string $url, string $message, string $mail, ?string $screenshotFileUrl = null): void
     {
-        $base = 'appnCkg7yADMSvVAz';
-        $apiUrl = sprintf('%s%s/%s', self::BASE_URL, $base, urlencode('Tickets'));
+        $base = 'appnCkg7yADMSvVAz'; // Support
+        $tableId = 'tblSIbNnP1grnbZ53'; // Tickets
+        $apiUrl = sprintf('%s%s/%s', self::BASE_URL, $base, $tableId);
+
+        $fieldIds = [
+            'Client' => 'fldqMCI8mqp1njQvJ',
+            'Date' => 'fldItb12OJnNCC1rI',
+            'Sujet' => 'fldNeIZNtYgWxnEcf',
+            'Message' => 'fldV6wiIQqAhExbnY',
+            'URL' => 'fldfT0Jw4jSrgv293',
+            'Capture d\'écran' => 'fldWg89FPw5rBkFvT',
+            'Mail' => 'fldS1XUp1VaWVXK9X',
+            'Assignee' => 'flddgcEFglHG9nSjG',
+            'Status' => 'flddJ2bDXFeBZGcy6',
+            'Notes' => 'fldeDgrJoPC9tseuZ',
+            'Temps estimé' => 'fldVQoDXRrVHy3dxV',
+            'Temps passé' => 'fldbj3RJ05161kuZK',
+        ];
+
         $data = [
             'records' => [
                 [
                     'fields' => [
-                        'Client' => $clientId ?? '',
-                        'Sujet' => $subject,
-                        'URL' => $url,
-                        'Message' => $message,
-                        'Mail' => $mail,
-                        'Date' => (new DateTime())->format('m/d/Y H:i'), // Yup, american style
-                        'Status' => 'Todo',
+                        $fieldIds['Client'] => $clientId ? explode($clientId, ',') : '',
+                        $fieldIds['Sujet'] => $subject,
+                        $fieldIds['URL'] => $url,
+                        $fieldIds['Message'] => $message,
+                        $fieldIds['Mail'] => $mail,
+                        $fieldIds['Date'] => (new DateTime())->format('m/d/Y H:i'), // Yup, american style
+                        $fieldIds['Status'] => 'Todo',
                     ],
                 ],
             ],
         ];
         if (null !== $screenshotFileUrl) {
-            $data['records'][0]['fields']['Capture d\'écran'][] = ['url' => $screenshotFileUrl];
+            $data['records'][0]['fields'][$fieldIds['Capture d\'écran']][] = ['url' => $screenshotFileUrl];
         }
 
         $result = $this->call($apiUrl, $data);
