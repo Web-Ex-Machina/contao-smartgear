@@ -2,12 +2,6 @@
 <div id="chartdiv" style="height:200px;">
 	
 </div>
-<!-- 
-<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/locales/fr_FR.js"></script> 
--->
 <script type="text/javascript">
 	var root = am5.Root.new("chartdiv");
 	root.setThemes([
