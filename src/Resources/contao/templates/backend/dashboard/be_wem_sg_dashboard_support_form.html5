@@ -38,7 +38,9 @@
 			<input type="file" name="files" data-allowed="jpg,jpeg,png,gif,pdf" accept="image/*,application/*" placeholder="<?php echo $this->screenshotPlaceholder; ?>" data-classlabel="btn-sm btn-bd-primary" data-classwrapper="m-bottom-x2" data-maxfiles="1" data-helper="true" data-maxsize="1500" data-onfileadded="" data-onfiledeleted=""/>
 			<p class="tl_help"><?php echo $this->screenshotHelp;?></p>
 		</div>
-		<input type="submit" name="send" class="tl_submit" value="<?php echo $this->sendLabel; ?>">
+		<div class="widget">
+			<input type="submit" name="send" class="tl_submit" value="<?php echo $this->sendLabel; ?>">
+		</div>
 	</form> 
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
