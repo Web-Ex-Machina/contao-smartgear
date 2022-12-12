@@ -1,3 +1,4 @@
+#main.dashboard .content{background: none; border: 0; margin: 0;}
 #tl_soverview>#tl_wem_sg_dashboard{padding: 0; line-height: 1.4;}
 
 #tl_wem_sg_install .block.module .content_container,
@@ -15,7 +16,7 @@
 #tl_wem_sg_install .block.component .content_container li
 {list-style-type:disc !important;}
 
-#tl_wem_sg_dashboard .wem_module .content_container{padding:15px;overflow-y:auto;}
+#tl_wem_sg_dashboard .wem_module .content_container{padding: 1em 2em 2em;overflow-y:auto;}
 #tl_wem_sg_dashboard .wem_module .content_container h2{margin-bottom:1em;}
 #tl_wem_sg_dashboard .wem_module .content_container ul{margin-left:1em;}
 #tl_wem_sg_dashboard .wem_module .content_container ul,
@@ -35,7 +36,10 @@
 
 #tl_wem_sg_install .blocks,
 #tl_wem_sg_dashboard .blocks
-{display:flex;flex-direction:row;justify-content:space-between;flex-wrap:wrap;border-bottom:5px solid #f3f3f5;padding:1em;margin-bottom:1em;gap: 1em;}
+{display:flex;flex-direction:row;justify-content:space-between;flex-wrap:wrap;padding:2em;gap: 2em;
+    border-bottom:5px solid #f3f3f5;
+    margin-bottom:1em;
+}
 #tl_wem_sg_install .blocks:last-of-type,
 #tl_wem_sg_dashboard .blocks:last-of-type
 {margin-bottom:0;border:none;}
@@ -46,8 +50,9 @@
     #tl_wem_sg_install .blocks .block,
     #tl_wem_sg_dashboard .blocks .block{flex-basis: 100%; min-width: 0}
 }
+#tl_wem_sg_dashboard .blocks .block{background: #fff;}
 #tl_wem_sg_install .blocks .block.empty,
-#tl_wem_sg_dashboard .blocks .block.empty{border: none;}
+#tl_wem_sg_dashboard .blocks .block.empty{border: none; background: none;}
 #tl_wem_sg_install .blocks .block.full,
 #tl_wem_sg_dashboard .blocks .block.full
 {flex-basis: 100%;}
@@ -57,9 +62,11 @@
 #tl_wem_sg_install .blocks .block .title,
 #tl_wem_sg_dashboard .blocks .block .title
 {background:#f3f3f5;padding:0.55em 1em;position:relative;}
+#tl_wem_sg_dashboard .blocks .block .title{background: #fff; padding: 0.75em 1em 0.5em; font-size: 1.75em;}
 #tl_wem_sg_install .blocks .block .title i,
 #tl_wem_sg_dashboard .blocks .block .title i
 {display: inline-block; width:40px;height:40px;color:#fff;text-align:center;line-height:40px; margin: -0.55em 1em -0.55em -1em;}
+#tl_wem_sg_dashboard .blocks .block .title i{margin: -0.75em 1em -0.5em -1em; width: 55px; height: 55px; line-height: 55px; }
 #tl_wem_sg_install .blocks .block.core .title i,
 #tl_wem_sg_install .blocks .block.install .title i,
 #tl_wem_sg_dashboard .blocks .block.core .title i,
@@ -84,8 +91,8 @@
 {visibility:visible;opacity:1;}
 
 
-#tl_wem_sg_dashboard .tl_listing_container{margin: 2em 0;}
-#tl_wem_sg_dashboard *+h3{margin-top: 1em;}
+#tl_wem_sg_dashboard .tl_listing_container{margin: 1em 0 2em;}
+#tl_wem_sg_dashboard *+h3{margin-top: 1.5em;}
 #wem_sg_dashboard_support_form .widget{margin: 0;}
 #wem_sg_dashboard_support_form *+.widget{margin-top: 7px;}
 #wem_sg_dashboard_support_form .tl_submit{height: auto; margin-top: 0.5em;}
