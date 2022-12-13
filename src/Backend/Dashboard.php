@@ -18,6 +18,7 @@ use Contao\BackendModule;
 use Contao\Input;
 use Contao\Message;
 use Contao\System;
+use WEM\SmartgearBundle\Api\Airtable\V0\Api as AirtableApi;
 use WEM\SmartgearBundle\Backend\Dashboard\ShortcutInternal;
 use WEM\SmartgearBundle\Config\Component\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
@@ -42,6 +43,25 @@ class Dashboard extends BackendModule
     public function __construct($dc = null)
     {
         parent::__construct($dc);
+
+        $configurationManager = System::getContainer()->get('smartgear.config.manager.core');
+
+        try {
+            /** @var CoreConfig */
+            $config = $configurationManager->load();
+
+            /** @var AirtableApi */
+            $airtableApi = System::getContainer()->get('smartgear.api.airtable.v0.api');
+
+            $hostingInformations = $airtableApi->getHostingInformations($config->getSgOwnerDomain());
+            if (!empty($hostingInformations)
+            && !empty($hostingInformations['client_reference'])
+            && '' !== $hostingInformations['client_reference'][0]
+            ) {
+                $airtableApi->getSupportClientInformations($hostingInformations['client_reference'][0]);
+            }
+        } catch (NotFound $e) {
+        }
 
         /* @var ShortcutInternal */
         $this->modShortcutInternal = System::getContainer()->get('smartgear.backend.dashboard.shortcut_internal');

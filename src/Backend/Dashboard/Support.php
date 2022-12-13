@@ -127,8 +127,16 @@ class Support extends BackendModule
         }
 
         // retrieve client ID
+        $clientId = null;
+        $clientRef = null;
         $hostingInformations = $this->airtableApi->getHostingInformations($config->getSgOwnerDomain());
-        $clientId = $hostingInformations['client_id'];
+        if (!empty($hostingInformations)
+        && !empty($hostingInformations['client_reference'])
+        ) {
+            $supportClientInformations = $this->airtableApi->getSupportClientInformations($hostingInformations['client_reference'][0]);
+            $clientId = $supportClientInformations['id'];
+            $clientRef = $hostingInformations['client_reference'][0];
+        }
 
         // save screenshot as file
         $objFile = null;
@@ -145,7 +153,7 @@ class Support extends BackendModule
             $fileUrl = $config->getSgOwnerDomain().$objFile->path;
         }
 
-        $this->airtableApi->createTicket($clientId, $subject, $url, $message, $mail, $fileUrl);
+        $this->airtableApi->createTicket($subject, $url, $message, $mail, $config->getSgVersion(), $clientId, $clientRef, $fileUrl);
     }
 
     protected function getSupportMail(): string

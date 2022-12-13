@@ -52,15 +52,16 @@ class Api
     {
         $base = 'appgIyjWEM42B7t7k'; // TMA
         $tableId = 'tblf16abZvAYcYTsF'; // Hébergement
+        $viewName = 'All'; // All
         $filename = 'airtable_hosting_informations.json';
 
-        $cacheManager = new CacheFileManager(self::CACHE_PATH.'airtable_hosting_informations.json', 86400);
+        $cacheManager = new CacheFileManager(self::CACHE_PATH.$filename, 86400);
 
         if ($cacheManager->cacheFileExists() && $cacheManager->hasValidCache()) {
             return $cacheManager->retrieveFromCache()['data'];
         }
 
-        $url = sprintf('%s%s/%s?maxRecords=1&view=All&filterByFormula=%s&returnFieldsByFieldId=1', self::BASE_URL, $base, $tableId, urlencode(sprintf('{Domaines concernés} = "%s"', $hostname)));
+        $url = sprintf('%s%s/%s?maxRecords=1&view=%s&filterByFormula=%s&returnFieldsByFieldId=1', self::BASE_URL, $base, $tableId, urlencode($viewName), urlencode(sprintf('{Domaines concernés} = "%s"', $hostname)));
         $arrRecords = $this->call($url)->records;
 
         if (!$arrRecords) {
@@ -87,6 +88,7 @@ class Api
             'Services annexe' => 'fldF76sjf0r6ldFlK',
             'Espace disponible (Go)' => 'fldx29zhDInO5Ntdu',
             'URLs Factures' => 'fldF5euVenVb70IpN',
+            'RefClient' => 'fldKHIomEovveYM77',
         ];
 
         $data = [
@@ -107,6 +109,7 @@ class Api
             'invoices_prices' => $fields[$fieldIds['HT (from Factures)']] ?? [],
             'invoices_urls' => $fields[$fieldIds['URLs Factures']] ?? [],
             'services_other' => $fields[$fieldIds['Services annexe']] ?? [],
+            'client_reference' => $fields[$fieldIds['RefClient']] ?? '',
         ];
 
         $cacheManager->saveCacheFile($data);
@@ -114,7 +117,62 @@ class Api
         return $data;
     }
 
-    public function createTicket(?string $clientId, string $subject, string $url, string $message, string $mail, ?string $screenshotFileUrl = null): void
+    public function getSupportClientInformations(string $clientRef): array
+    {
+        $base = 'appnCkg7yADMSvVAz'; // Support
+        $tableId = 'tblJqg149TWDoZCCm'; // Client
+        $viewName = 'Grid view'; // Grid view
+        $filename = 'airtable_support_client_informations.json';
+        $apiUrl = sprintf('%s%s/%s', self::BASE_URL, $base, $tableId);
+
+        $cacheManager = new CacheFileManager(self::CACHE_PATH.$filename, 86400);
+
+        if ($cacheManager->cacheFileExists() && $cacheManager->hasValidCache()) {
+            return $cacheManager->retrieveFromCache()['data'];
+        }
+
+        $url = sprintf('%s%s/%s?maxRecords=1&view=%s&filterByFormula=%s&returnFieldsByFieldId=1', self::BASE_URL, $base, $tableId, urlencode($viewName), urlencode(sprintf('{Reference} = "%s"', $clientRef)));
+        $arrRecords = $this->call($url)->records;
+
+        if (!$arrRecords) {
+            return [];
+        }
+        $record = json_decode(json_encode($arrRecords[0]), true);
+        $fields = $record['fields'];
+
+        $fieldIds = [
+            'Name' => 'fldSciizZjeSyHQxW',
+            'Temps restant' => 'fldALXGLmS6cNHEpk',
+            'Alerte' => 'flddOEa7IWxIRbMbC',
+            'Devis link' => 'fldsqFOUFKrChA4ll',
+            'Facture Link' => 'fldvJC5lKN4YMWeh8',
+            'Notes' => 'fldrqY5IGx51aC3p0',
+            'Contrats de TMA' => 'fldAeqnOpYOyL789T',
+            'Contact' => 'fld6cEY9TPXufdo1r',
+            'Reference' => 'fldVuxcGmTE6obZsY',
+            'Tickets' => 'fld9j8dpyBQomnGr6',
+        ];
+
+        $data = [
+            'id' => $record['id'],
+            'name' => $fields[$fieldIds['Name']] ?? '',
+            'time_remaining' => $fields[$fieldIds['Temps restant']] ?? '',
+            'alert' => $fields[$fieldIds['Alerte']] ?? '',
+            'quotation_links' => $fields[$fieldIds['Devis link']] ?? '',
+            'invoices_links' => $fields[$fieldIds['Facture Link']] ?? '',
+            'notes' => $fields[$fieldIds['Notes']] ?? '',
+            'contracts_maintenance' => $fields[$fieldIds['Contrats de TMA']] ?? '',
+            'contact' => $fields[$fieldIds['Contact']] ?? '',
+            'reference' => $fields[$fieldIds['Reference']] ?? '',
+            'tickets_ids' => $fields[$fieldIds['Tickets']] ?? '',
+        ];
+
+        $cacheManager->saveCacheFile($data);
+
+        return $data;
+    }
+
+    public function createTicket(string $subject, string $url, string $message, string $mail, string $version, ?string $clientId, ?string $clientRef, ?string $screenshotFileUrl = null): void
     {
         $base = 'appnCkg7yADMSvVAz'; // Support
         $tableId = 'tblSIbNnP1grnbZ53'; // Tickets
@@ -123,11 +181,13 @@ class Api
         $fieldIds = [
             'Client' => 'fldqMCI8mqp1njQvJ',
             'Date' => 'fldItb12OJnNCC1rI',
+            'Client ref' => 'fldH9RpuOdCa9rtyk',
             'Sujet' => 'fldNeIZNtYgWxnEcf',
             'Message' => 'fldV6wiIQqAhExbnY',
             'URL' => 'fldfT0Jw4jSrgv293',
             'Capture d\'écran' => 'fldWg89FPw5rBkFvT',
             'Mail' => 'fldS1XUp1VaWVXK9X',
+            'Version' => 'fldaGltrHBsz7alt4',
             'Assignee' => 'flddgcEFglHG9nSjG',
             'Status' => 'flddJ2bDXFeBZGcy6',
             'Notes' => 'fldeDgrJoPC9tseuZ',
@@ -139,11 +199,13 @@ class Api
             'records' => [
                 [
                     'fields' => [
-                        $fieldIds['Client'] => $clientId ? explode($clientId, ',') : '',
+                        $fieldIds['Client'] => $clientId ? [$clientId] : '',
+                        $fieldIds['Client ref'] => $clientRef ?? '',
                         $fieldIds['Sujet'] => $subject,
                         $fieldIds['URL'] => $url,
                         $fieldIds['Message'] => $message,
                         $fieldIds['Mail'] => $mail,
+                        $fieldIds['Version'] => $version,
                         $fieldIds['Date'] => (new DateTime())->format('m/d/Y H:i'), // Yup, american style
                         $fieldIds['Status'] => 'Todo',
                     ],
