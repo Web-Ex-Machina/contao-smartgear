@@ -11,3 +11,6 @@
 		</div>
 	</div>
 </div>
+<script>
+	document.querySelector('#main').classList.add('dashboard')
+</script>
