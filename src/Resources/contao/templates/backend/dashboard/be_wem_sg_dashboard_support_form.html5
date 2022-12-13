@@ -1,0 +1,156 @@
+<h3><?php echo $this->title; ?></h3>
+<div id="wem_sg_dashboard_support_form">
+	<div class="loader"></div>
+	<form>
+		<input type="hidden" name="action" value="ticketCreate" />
+		<div class="widget">
+			<h3>
+				<label for="subject"><?php echo $this->subjectLabel; ?>&nbsp;<span class="required">*</span></label>
+			</h3>
+			<input type="text" name="subject" class="tl_text" value="<?php echo $this->subject; ?>" required/>
+			<p class="tl_help"><?php echo $this->subjectHelp;?></p>
+		</div>
+		<div class="widget">
+			<h3>
+				<label for="mail"><?php echo $this->mailLabel; ?>&nbsp;<span class="required">*</span></label>
+			</h3>
+			<input type="text" name="mail" class="tl_text" value="<?php echo $this->mail; ?>" required/>
+			<p class="tl_help"><?php echo $this->mailHelp;?></p>
+		</div>
+		<div class="widget">
+			<h3>
+				<label for="url"><?php echo $this->urlLabel; ?>&nbsp;<span class="required">*</span></label>
+			</h3>
+			<input type="text" name="url" class="tl_text" value="<?php echo $this->url; ?>" required/>
+			<p class="tl_help"><?php echo $this->urlHelp;?></p>
+		</div>
+		<div class="widget">
+			<h3>
+				<label for="message"><?php echo $this->messageLabel; ?>&nbsp;<span class="required">*</span></label>
+			</h3>
+			<textarea name="message" class="tl_textarea noresize" rows="6" required></textarea>
+			<p class="tl_help"><?php echo $this->messageHelp;?></p>
+		</div>
+		<div class="widget">
+			<h3>
+				<label for="files"><?php echo $this->screenshotLabel; ?></label>
+			</h3>
+			<input type="file" name="files" data-allowed="jpg,jpeg,png,gif,pdf" accept="image/*,application/*" placeholder="<?php echo $this->screenshotPlaceholder; ?>" data-classlabel="btn-sm btn-bd-primary" data-classwrapper="m-bottom-x2" data-maxfiles="1" data-helper="true" data-maxsize="1500" data-onfileadded="" data-onfiledeleted=""/>
+			<p class="tl_help"><?php echo $this->screenshotHelp;?></p>
+		</div>
+		<div class="widget">
+			<input type="submit" name="send" class="tl_submit" value="<?php echo $this->sendLabel; ?>">
+		</div>
+	</form> 
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script type="text/javascript">
+	var j = jQuery.noConflict();
+
+	// Toastr Options
+	toastr.options.closeButton = true;
+	toastr.options.timeOut = 5000;
+	toastr.options.extendedTimeOut = 0;
+
+	j(document).ready(function(){
+		j('#wem_sg_dashboard_support_form form').on('submit',function(e){
+			e.preventDefault();
+			var isUpload = false;
+			var ctn = j(this).closest('#wem_sg_dashboard_support_form');
+			ctn.find('.loader').addClass("active");
+
+			var objFields = new FormData();
+			objFields.append("TL_WEM_AJAX", 1 );
+			objFields.append("wem_module", '<?php echo $this->moduleId; ?>' );
+
+			j(this).find('input').each(function(){
+				switch(j(this).attr('type')){
+					case "file":
+						var files = j(this)[0].files;
+						isUpload = true;
+			        
+				        // Check file selected or not
+				        for(let i in files){
+							objFields.append(j(this).attr('name'),files[i]);
+				        }
+						break;
+					case "checkbox":
+						if(j(this).prop('checked')){
+							objFields.append(j(this).attr('name'),j(this).val());
+						}
+					break;
+					default:
+
+						objFields.append(j(this).attr('name'),j(this).val());
+					break;
+				}
+			});
+
+
+
+			j(this).find('select').each(function(){
+				if(j(this).attr('multiple')){
+					j(this).val().forEach((item) => objFields.append(j(this).attr('name'), item))
+				}else{
+					objFields.append(j(this).attr('name'),j(this).val());
+				}
+			});
+
+			j(this).find('textarea').each(function(){
+				objFields.append(j(this).attr('name'),j(this).val());
+			});
+
+			var ajaxOptions = {
+				method: "POST"
+				,timeout:60000
+				,data: objFields
+			};
+			if(isUpload){
+				ajaxOptions = Object.assign(ajaxOptions,{contentType: false,processData: false});
+			}
+
+			j.ajax(ajaxOptions)
+			.done(function(msg){
+				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+				try{
+					var results = j.parseJSON(msg);
+
+					// Handle actions errors
+					if("error" === results["status"]){
+						toastr.error(results["msg"], "Une erreur est survenue :");
+					}else if("success" === results["status"]){
+						document.querySelector('#wem_sg_dashboard_support_form form').reset();
+					}
+
+					// Display a toastr if asked
+					if(results["toastr"]){
+						toastr[results["toastr"]["status"]](results["toastr"]["msg"]);
+					}
+
+					// Callbakcs if asked
+					if(results["callbacks"]){
+						for(var i in results["callbacks"]){
+							if("object" == typeof(results["callbacks"][i])){
+								window[results["callbacks"][i].method].apply(null, results["callbacks"][i].args);
+							}
+						}
+					}
+				}
+				catch(err){
+	       			toastr.error(err);
+				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				toastr.error(textStatus+"<br>"+errorThrown);
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+			})
+			.always(function(){
+				ctn.find('.loader').removeClass("active");
+			});
+		});
+	});
+</script>

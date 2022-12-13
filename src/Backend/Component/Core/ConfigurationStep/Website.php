@@ -515,7 +515,7 @@ class Website extends ConfigurationStep
         $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName'];
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
         $userGroupManipulator
-            ->addAllowedModules(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance', 'wem_sg_social_link'])
+            ->addAllowedModules(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance', 'wem_sg_social_link', 'wem_sg_social_link_config_categories', 'wem_sg_dashboard'])
             ->addAllowedFields($this->getCorePermissions())
             ->addAllowedImageSizes(['proportional'])
             ->addAllowedFilemounts([$objFolderClientFiles->uuid, $objFolderClientLogos->uuid])
@@ -559,7 +559,7 @@ class Website extends ConfigurationStep
             ->addAllowedFieldsByTables(['tl_form', 'tl_form_field'])
             ->addAllowedFormPermissions(['create', 'delete'])
         ;
-        $objUserGroup->modules = serialize(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance', 'wem_sg_social_link', 'wem_sg_social_link_config_categories']);
+        $objUserGroup->modules = serialize(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance', 'wem_sg_social_link', 'wem_sg_social_link_config_categories', 'wem_sg_dashboard']);
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->save();
         $userGroups['administrators'] = $objUserGroup;
@@ -577,7 +577,7 @@ class Website extends ConfigurationStep
         $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName'];
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
         $userGroupManipulator
-            ->addAllowedModules(['article', 'files', 'form', 'wem_sg_social_link'])
+            ->addAllowedModules(['article', 'files', 'form', 'wem_sg_social_link', 'wem_sg_dashboard'])
             ->addAllowedFields($this->getCorePermissions())
             ->addAllowedImageSizes(['proportional'])
             ->addAllowedFilemounts([$objFolderClientFiles->uuid, $objFolderClientLogos->uuid])

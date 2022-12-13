@@ -162,6 +162,8 @@ class Core implements ConfigModuleInterface
     protected $sgApiKey = self::DEFAULT_API_KEY;
     /** @var string */
     protected $sgEncryptionKey = self::DEFAULT_ENCRYPTION_KEY;
+    /** @var string */
+    protected $sgAirtableApiKey = '';
     /** @var BlogConfig */
     protected $sgBlog;
     /** @var EventsConfig */
@@ -229,6 +231,7 @@ class Core implements ConfigModuleInterface
             ->setSgGoogleFonts(self::DEFAULT_GOOGLE_FONTS)
             ->setSgApiKey(self::DEFAULT_API_KEY)
             ->setSgEncryptionKey(self::DEFAULT_ENCRYPTION_KEY)
+            ->setSgAirtableApiKey('')
             ->setSgBlog((new BlogConfig())->reset())
             ->setSgEvents((new EventsConfig())->reset())
             ->setSgFaq((new FaqConfig())->reset())
@@ -294,6 +297,7 @@ class Core implements ConfigModuleInterface
             ->setSgGoogleFonts($json->googleFonts ?? self::DEFAULT_GOOGLE_FONTS)
             ->setSgApiKey($json->api->key ?? self::DEFAULT_API_KEY)
             ->setSgEncryptionKey($json->encryption->key ?? self::DEFAULT_ENCRYPTION_KEY)
+            ->setSgAirtableApiKey($json->airtable->api->key ?? '')
             ->setSgBlog(
                 property_exists($json, 'blog')
                 ? (new BlogConfig())->import($json->blog)
@@ -413,6 +417,10 @@ class Core implements ConfigModuleInterface
 
         $json->encryption = new \stdClass();
         $json->encryption->key = $this->getSgEncryptionKey();
+
+        $json->airtable = new \stdClass();
+        $json->airtable->api = new \stdClass();
+        $json->airtable->api->key = $this->getSgAirtableApiKey();
 
         $json->blog = $this->getSgBlog()->export();
         $json->events = $this->getSgEvents()->export();
@@ -1511,6 +1519,18 @@ class Core implements ConfigModuleInterface
     public function setSgFormDataManager(FormDataManagerConfig $sgFormDataManager): self
     {
         $this->sgFormDataManager = $sgFormDataManager;
+
+        return $this;
+    }
+
+    public function getSgAirtableApiKey(): string
+    {
+        return $this->sgAirtableApiKey;
+    }
+
+    public function setSgAirtableApiKey(string $sgAirtableApiKey): self
+    {
+        $this->sgAirtableApiKey = $sgAirtableApiKey;
 
         return $this;
     }

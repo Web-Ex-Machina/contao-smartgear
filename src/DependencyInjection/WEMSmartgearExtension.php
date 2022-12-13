@@ -44,5 +44,6 @@ class WEMSmartgearExtension extends Extension
         $loader->load('components.yml');
         $loader->load('modules.yml');
         $loader->load('apis.yml');
+        $loader->load('crons.yml');
     }
 }

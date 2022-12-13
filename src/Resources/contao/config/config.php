@@ -105,6 +105,13 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 0, [
         'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
     ],
 ]);
+ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
+    'wem_smartgear' => [
+        'wem_sg_dashboard' => [
+            'callback' => "\WEM\SmartgearBundle\Backend\Dashboard",
+        ],
+    ],
+]);
 ArrayUtil::arrayInsert(
     $GLOBALS['BE_MOD']['content'],
     array_search('article', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
@@ -153,11 +160,13 @@ $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialLink::getTable()] = WEM\S
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Member::getTable()] = WEM\SmartgearBundle\Model\Member::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorage::getTable()] = WEM\SmartgearBundle\Model\FormStorage::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorageData::getTable()] = WEM\SmartgearBundle\Model\FormStorageData::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\PageVisit::getTable()] = WEM\SmartgearBundle\Model\PageVisit::class;
 /*
  * Add BE Hooks
  */
 if ('BE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Backend\Smartgear', 'processAjaxRequest'];
+    $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Backend\Dashboard', 'processAjaxRequest'];
     $GLOBALS['TL_HOOKS']['loadDataContainer'][] = ['smartgear.listener.load_data_container', '__invoke'];
     $GLOBALS['TL_HOOKS']['initializeSystem'][] = ['smartgear.listener.initialize_system', '__invoke'];
     $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['smartgear.listener.replace_insert_tags', 'onReplaceInsertTags'];
@@ -180,6 +189,7 @@ if ('FE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['createNewUser'][] = ['smartgear.listener.create_new_user', '__invoke'];
     $GLOBALS['TL_HOOKS']['processFormData'][] = ['smartgear.listener.process_form_data', '__invoke'];
     $GLOBALS['TL_HOOKS']['compileFormFields'][] = ['smartgear.listener.compile_form_fields', '__invoke'];
+    $GLOBALS['TL_HOOKS']['generatePage'][] = ['smartgear.listener.generate_page', '__invoke'];
 }
 
 /*

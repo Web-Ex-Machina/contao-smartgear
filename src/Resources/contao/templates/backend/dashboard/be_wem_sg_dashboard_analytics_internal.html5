@@ -1,0 +1,8 @@
+<div class="block block-default wem_module">
+	<h2 class="title"><?php echo $this->title; ?></h2>
+	<div class="content_container">
+		<?php echo $this->visits; ?>
+		<?php echo $this->referers; ?>
+		<?php echo $this->pagesUrl; ?>
+	</div>
+</div>

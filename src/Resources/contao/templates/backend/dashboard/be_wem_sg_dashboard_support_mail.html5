@@ -1,0 +1,7 @@
+<h3><?php echo $this->title; ?></h3>
+<p>
+	<a href="<?php echo $this->url; ?>" title="<?php echo $this->mailLinkTitle; ?>">
+		<?php echo Image::getHtml('article.gif'); ?>
+		<?php echo $this->mail; ?>
+	</a>
+</p>

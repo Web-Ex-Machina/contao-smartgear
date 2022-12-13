@@ -79,6 +79,19 @@
 			<target>Configurer votre Smartgear</target>
 		</trans-unit>
 
+		<trans-unit id="MOD.wem_smartgear">
+			<source>Smartgear</source>
+			<target>Smartgear</target>
+		</trans-unit>
+		<trans-unit id="MOD.wem_sg_dashboard.0">
+			<source>Dashboard</source>
+			<target>Tableau de bord</target>
+		</trans-unit>
+		<trans-unit id="MOD.wem_sg_dashboard.1">
+			<source>Smartgear's dashboard</source>
+			<target>Tableau de bord Smartgear</target>
+		</trans-unit>
+
 		<trans-unit id="MOD.wem_sg_social_link_config_categories.0">
 			<source>Social network categories</source>
 			<target>Catégories réseaux sociaux</target>

@@ -21,6 +21,47 @@ services:
         class: WEM\SmartgearBundle\Backend\Smartgear
         public: true
 
+    smartgear.backend.dashboard:
+        class: WEM\SmartgearBundle\Backend\Dashboard
+        public: true
+
+    smartgear.backend.dashboard.shortcut_internal:
+        class: WEM\SmartgearBundle\Backend\Dashboard\ShortcutInternal
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.backend.dashboard.shortcut_external:
+        class: WEM\SmartgearBundle\Backend\Dashboard\ShortcutExternal
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.backend.dashboard.analytics_internal:
+        class: WEM\SmartgearBundle\Backend\Dashboard\AnalyticsInternal
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.backend.dashboard.analytics_external:
+        class: WEM\SmartgearBundle\Backend\Dashboard\AnalyticsExternal
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+            $airtableApi: '@smartgear.api.airtable.v0.api'
+        public: true
+
+    smartgear.backend.dashboard.support:
+        class: WEM\SmartgearBundle\Backend\Dashboard\Support
+        arguments:
+            $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
+            $airtableApi: '@smartgear.api.airtable.v0.api'
+        public: true
+
     smartgear.classes.directories_synchronizer.templates.rsce:
         class: WEM\SmartgearBundle\Classes\DirectoriesSynchronizer
         arguments:

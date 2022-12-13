@@ -1,0 +1,16 @@
+<div id="tl_soverview">
+	<div id="tl_wem_sg_dashboard">
+		<?php echo Message::generate(); ?>
+		<div class="blocks">
+			<?php echo $this->shortcutInternal; ?>
+			<?php echo $this->shortcutExternal; ?>
+			<?php echo $this->analyticsInternal; ?>
+			<?php echo $this->analyticsExternal; ?>
+			<?php echo $this->support; ?>
+			<div class="block block-default wem_module empty"></div>
+		</div>
+	</div>
+</div>
+<script>
+	document.querySelector('#main').classList.add('dashboard')
+</script>

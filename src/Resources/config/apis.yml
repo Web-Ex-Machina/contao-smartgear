@@ -77,3 +77,11 @@ services:
     smartgear.api.nominatim.v4.model.mapper.std_class_to_search_response:
         class: WEM\SmartgearBundle\Api\Nominatim\V4\Model\Mapper\StdClassToSearchResponse
         public: true
+    
+    ############ API AIRTABLE V0 ############
+
+    smartgear.api.airtable.v0.api:
+        class: WEM\SmartgearBundle\Api\Airtable\V0\Api
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true

@@ -154,6 +154,7 @@
       <source>Form Data Manager</source>
 			<target>Contacts</target>
     </trans-unit>
+
 		<!-- Smartgear filter -->
 		<trans-unit id="WEMSG.FILTERS.title">
 			<source>Filter by :</source>
@@ -184,7 +185,6 @@
 			<target>Lieu</target>
 		</trans-unit>
 
-
 		<!-- Smartgear Backend -->
 		<trans-unit id="WEM.SMARTGEAR.BACKEND.missingPackage">
 			<source>The %s module is missing. Please use the <a href="contao-manager.phar.php" title="Contao Manager" target="_blank">Contao Manager</a> for that.</source>
@@ -199,6 +199,289 @@
 			<target>Le module %s a été trouvé et est installé.</target>
 		</trans-unit>
 
+		<!-- Smartgear dashboard -->
+		<trans-unit id="WEMSG.DASHBOARD.title">
+			<source>Dashboard</source>
+			<target>Tableau de bord</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.smartgearNotInstalled">
+			<source>Smartgear is not installed</source>
+			<target>Smartgear n'est pas installé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.title">
+			<source>Internal shortcuts</source>
+			<target>Raccourcis internes</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.msgBlogNotInstalled">
+			<source>The Smartgear's blog component is not installed</source>
+			<target>Le blog Smartgear n'est pas installé</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkPageText">
+			<source>Pages</source>
+			<target>Pages</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkPageTitle">
+			<source>Pages &amp; navigation menu management</source>
+			<target>Gestion des pages et des menus de navigation</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkArticleText">
+			<source>Contents</source>
+			<target>Contenus</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkArticleTitle">
+			<source>Content management</source>
+			<target>Gestion des contenus du site</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkNewsText">
+			<source>News</source>
+			<target>Blog</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkNewsTitle">
+			<source>News management</source>
+			<target>Gestion des actualité</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkFilesText">
+			<source>Files</source>
+			<target>Fichiers</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkFilesTitle">
+			<source>Manage files &amp; folders</source>
+			<target>Gestion des fichiers présents sur le serveur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.title">
+			<source>External shortcuts</source>
+			<target>Raccourcis externes</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkManualsText">
+			<source>Manuals</source>
+			<target>Manuels</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkManualsTitle">
+			<source>Access the Smartgear's manuals</source>
+			<target>Accès aux manuels Smartgear</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkDemosText">
+			<source>Smartgear's demos</source>
+			<target>Démos Smartgear</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkDemosTitle">
+			<source>Visit the Smartgear's demos</source>
+			<target>Accès aux démonstration de modules Smartgear</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkAnalyticsText">
+			<source>Analytics (%s)</source>
+			<target>Analytics (%s)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkAnalyticsTitle">
+			<source>Access your website' statistics (via %s)</source>
+			<target>Accès aux statistiques détaillés de votre site (via %s)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkGoogleSearchConsoleText">
+			<source>Google Search Console</source>
+			<target>Google Search Console</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkGoogleSearchConsoleTitle">
+			<source>Access the Google Search Console</source>
+			<target>Accès à la console d'indexation Google</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.title">
+			<source>Smartgear statistics</source>
+			<target>Statistiques Smartgear</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.visitsTitle">
+			<source>Visits (last 7 days)</source>
+			<target>Visites (ces 7 derniers jours)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.thisWeekSerieTitle">
+			<source>This week</source>
+			<target>Cette semaine</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.previousWeekSerieTitle">
+			<source>Last week</source>
+			<target>Semaine dernière</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersTitle">
+			<source>Most common referers (last 7 days)</source>
+			<target>Referers les plus communs (ces 7 derniers jours)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersUrlHeader">
+			<source>URL</source>
+			<target>URL</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersAmountHeader">
+			<source>Number</source>
+			<target>Nombre</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlTitle">
+			<source>Most viewed pages (last 7 days)</source>
+			<target>Pages les plus visitées (ces 7 derniers jours)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlUrlHeader">
+			<source>URL</source>
+			<target>URL</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlAmountHeader">
+			<source>Views</source>
+			<target>Vues</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.title">
+			<source>Usages statistics</source>
+			<target>Statistiques d'usage</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.msgAirtableClientNotFound">
+			<source>Your client data were not found</source>
+			<target>Vos données client n'ont pas été trouvées.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.informationsTitle">
+			<source>Informations</source>
+			<target>Informations</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.birthdayLabel">
+			<source>Birthday date</source>
+			<target>Date anniversaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoicesTitle">
+			<source>Invoices</source>
+			<target>Factures</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoiceDateHeader">
+			<source>Date</source>
+			<target>Date</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoicePriceHeader">
+			<source>Price</source>
+			<target>Montant</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoiceUrlHeader">
+			<source>Link</source>
+			<target>Lien</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoiceUrlTitle">
+			<source>Display invoice</source>
+			<target>Voir la facture</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.dbUsageLabel">
+			<source>Database usage</source>
+			<target>Poids base de données</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.diskUsageLabel">
+			<source>Disk usage</source>
+			<target>Poids du site web</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.diskSpaceAllowedLabel">
+			<source>Disk space allowed</source>
+			<target>Taille maximale du site web</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.diskUsagePercentLabel">
+			<source>Disk usage (%)</source>
+			<target>Quota (%)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.contentAnalyticsTitle">
+			<source>Content analytics</source>
+			<target>Statistiques de contenu</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.coreNbBackupsLabel">
+			<source>Backups</source>
+			<target>Sauvegardes</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.coreNbFilesLabel">
+			<source>Files</source>
+			<target>Fichiers</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.blogNbNewsLabel">
+			<source>News</source>
+			<target>Articles de blog</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.eventsNbEventsLabel">
+			<source>Events</source>
+			<target>Evènements</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSEXTERNAL.extranetNbMembersLabel">
+			<source>Subscribed members</source>
+			<target>Membres inscrit</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.title">
+			<source>Support</source>
+			<target>Support</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.helpText">
+			<source>Need help ? You can contact us by mail or using the form below.</source>
+			<target>Besoin d'aide ? Vous pouvez nous contacter par email ou bien via le formulaire ci-dessous.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.mailTitle">
+			<source>Email</source>
+			<target>Email</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.mailLinkTitle">
+			<source>Write a support email</source>
+			<target>Rédiger une demande de support par email</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.mailSubject">
+			<source>[SMARTGEAR] Support request</source>
+			<target>[SMARTGEAR] Demande de support</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.mailContent">
+			<source>Hello, \r\n\r\n your content here \r\n\r\n %s</source>
+			<target>Bonjour, \r\n\r\n votre message ici \r\n\r\n %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formTitle">
+			<source>Form</source>
+			<target>Formulaire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formSubjectLabel">
+			<source>Subject</source>
+			<target>Sujet</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formSubjectHelp">
+			<source></source>
+			<target></target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formUrlLabel">
+			<source>URL</source>
+			<target>URL</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formUrlHelp">
+			<source>The page's URL where the error occurs</source>
+			<target>URL de la page rencontrant un problème</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formMessageLabel">
+			<source>Message</source>
+			<target>Message</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formMessageHelp">
+			<source>Please be as precise as possible</source>
+			<target>Merci d'être aussi précis que possible</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formScreenshotLabel">
+			<source>Screenshot</source>
+			<target>Capture d'écran</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formScreenshotHelp">
+			<source>If applicable</source>
+			<target>Si pertinent</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formMailLabel">
+			<source>Contact email</source>
+			<target>Mail de contact</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formMailHelp">
+			<source></source>
+			<target></target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formScreenshotPlaceholder">
+			<source>Screenshot</source>
+			<target>Capture d'écran</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formSendLabel">
+			<source>Send</source>
+			<target>Envoyer</target>
+		</trans-unit>
+
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formSendSuccess">
+			<source>Your help request has been transmitted</source>
+			<target>Votre demande de support a bien été transmise</target>
+		</trans-unit>
 		<!-- Install l10n -->
 		<trans-unit id="WEM.SMARTGEAR.INSTALL.framway">
 			<source>Framway</source>
@@ -330,8 +613,6 @@
 			<target>Fichiers contrôlés pour vérifier la présence du Framway</target>
 		</trans-unit>
 
-
-
 		<trans-unit id="WEMSG.INSTALL.GENERAL.Title">
 			<source>Global</source>
 			<target>Général</target>
@@ -383,6 +664,14 @@
 		<trans-unit id="WEMSG.INSTALL.GENERAL.sgEncryptionKeyHelp">
 			<source>The encryption key is used to encrypt and decrypt personal data. Do not change it once set !</source>
 			<target>Cette clef de chiffrement est utilisée pour chiffrer/déchiffrer les données personnelles. Ne la changez pas une fois qu'elle a été définie !</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAirtableApiKey">
+			<source>Airtable API Key</source>
+			<target>Clef API Airtable</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAirtableApiKeyHelp">
+			<source>The Airtable API key is used for the Smartgear's dashboard.</source>
+			<target>La clef API Airtable est utilisée dans le tableau de bord Smartgear.</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.GENERAL.sgWebsiteTitleEmpty">
 			<source>Website's title is missing</source>

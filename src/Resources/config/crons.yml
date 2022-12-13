@@ -1,0 +1,8 @@
+services:
+  smartgear.cron.purge_ticket_screenshots:
+    class : WEM\SmartgearBundle\Cron\PurgeTicketScreenshotsCron
+    public: true
+    tags:
+      -
+        name: contao.cronjob
+        interval: 'daily'
