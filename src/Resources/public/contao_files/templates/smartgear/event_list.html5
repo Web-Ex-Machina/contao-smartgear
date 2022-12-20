@@ -1,15 +1,17 @@
 <div class="block-card event layout_list<?= $this->classList ?>"<?= $this->cssID ?> data-preset="inline" itemscope itemtype="http://schema.org/Event">
   <div class="block-card__wrapper">
     <?php if ($this->addImage): ?>
-      <div class="block-card__figure">
+      <<?php echo $this->href?'a href="'.$this->href.'" title="'.$GLOBALS['TL_LANG']['MSC']['more'].'"':'div' ?> class="block-card__figure">
         <img src="<?= $this->picture['img']['src'] ?>" alt="<?= $this->headline ?>" itemprop="image">
-      </div>
+      </<?php echo $this->href?'a':'div' ?> >
     <?php endif; ?>
     <div class="block-card__content">
       <?php if (strpos($this->classList, 'bygone') !== false): ?><div class="event__icon bygone"><i class="far fa-calendar-times"></i></div><?php endif ?>
       <?php if (strpos($this->classList, 'current') !== false): ?><div class="event__icon current"><i class="far fa-clock"></i></div><?php endif ?>
       <?php if (strpos($this->classList, 'upcoming') !== false): ?><div class="event__icon upcoming"><i class="far fa-calendar"></i></div><?php endif ?>
-      <div class="block-card__title h2" title="<?= $this->title ?>" ><?= $this->link ?></div>
+      <<?php echo $this->href?'a href="'.$this->href.'"':'div' ?>  class="block-card__title h2" title="<?= $this->title ?>" >
+        <?= $this->link ?>
+        </<?php echo $this->href?'a':'div' ?> >
       <div class="reader__time">
         <?php if ($this->day) : echo $this->day . ' '; endif; ?>
         <time datetime="<?= $this->datetime ?>" itemprop="startDate"> <?= $this->date ?><?php if ($this->time): ?>, <?= $this->time ?><?php endif; ?></time>
