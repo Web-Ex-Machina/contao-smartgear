@@ -36,6 +36,8 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_header_a
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_header_add_lang_selector';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_header_add_topbar';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_header_add_postnav_content';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_breadcrumb_auto_placement';
+// $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'wem_sg_breadcrumb_auto_placement_after_templates';
 
 $GLOBALS['TL_DCA']['tl_module']['palettes']['wem_sg_header'] = '
 {wem_sg_header_logo_legend},singleSRC,imgSize,wem_sg_header_alt,wem_sg_header_add_catchline;
@@ -51,6 +53,7 @@ $GLOBALS['TL_DCA']['tl_module']['subpalettes']['wem_sg_header_add_search'] = 'we
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['wem_sg_header_add_lang_selector'] = 'wem_sg_header_lang_selector_module,wem_sg_header_lang_selector_bg';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['wem_sg_header_add_topbar'] = 'wem_sg_header_topbar,wem_sg_header_topbar_bg';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['wem_sg_header_add_postnav_content'] = 'wem_sg_header_postnav_content';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['wem_sg_breadcrumb_auto_placement'] = 'wem_sg_breadcrumb_auto_placement_after_templates';
 DCAManipulator::create('tl_module')
     ->addField('wem_sg_navigation', [
         'label' => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_navigation'],
@@ -303,6 +306,20 @@ DCAManipulator::create('tl_module')
         'sql' => 'int(10) unsigned NOT NULL default 0',
         'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
     ])
+    ->addField('wem_sg_breadcrumb_auto_placement', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['breadcrumb']['auto_placement'],
+        'inputType' => 'checkbox',
+        'eval' => ['tl_class' => 'w50', 'submitOnChange' => true],
+        'sql' => "CHAR(1) NOT NULL default '0'",
+    ])
+    ->addField('wem_sg_breadcrumb_auto_placement_after_templates', [
+        'label' => &$GLOBALS['TL_LANG']['tl_content']['breadcrumb']['auto_placement_after_templates'],
+        'inputType' => 'select',
+        'eval' => ['tl_class' => 'w50 clr', 'multiple' => true, 'mandatory' => true, 'chosen' => true],
+        'options_callback' => [WEM\SmartgearBundle\DataContainer\Module::class, 'getOptionsForBreadcrumbAutoPlacementAfterTemplates'],
+        'sql' => 'TEXT NULL',
+    ])
+
 ;
 
 $paletteManipulator = PaletteManipulator::create()
@@ -347,6 +364,20 @@ $paletteManipulator = PaletteManipulator::create()
 ;
 $palettesToUpdate = [
     'login',
+];
+foreach ($palettesToUpdate as $paletteName) {
+    if (\array_key_exists($paletteName, $GLOBALS['TL_DCA']['tl_module']['palettes'])) {
+        $paletteManipulator->applyToPalette($paletteName, 'tl_module');
+    }
+}
+
+$paletteManipulator = PaletteManipulator::create()
+    ->addLegend('auto_placement_legend', 'nav_legend')
+    ->addField('wem_sg_breadcrumb_auto_placement', 'auto_placement_legend', PaletteManipulator::POSITION_APPEND)
+    // ->addField('wem_sg_breadcrumb_auto_placement_after_templates', 'auto_placement_legend', PaletteManipulator::POSITION_APPEND)
+;
+$palettesToUpdate = [
+    'breadcrumb',
 ];
 foreach ($palettesToUpdate as $paletteName) {
     if (\array_key_exists($paletteName, $GLOBALS['TL_DCA']['tl_module']['palettes'])) {

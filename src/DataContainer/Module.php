@@ -103,6 +103,24 @@ class Module extends \tl_module
     }
 
     /**
+     * Return the list of templates for breadcrumb placement.
+     */
+    public function getOptionsForBreadcrumbAutoPlacementAfterTemplates(DataContainer $dc): array
+    {
+        $arrOptions = [];
+        $arrTemplates = \Contao\TemplateLoader::getFiles();
+
+        // foreach ($arrTemplates as $template => $path) {
+        //     $arrOptions[$path][] = $template;
+        // }
+
+        $arrTemplates = array_unique(array_keys($arrTemplates));
+        sort($arrTemplates);
+
+        return $arrTemplates;
+    }
+
+    /**
      * Check if the module is being used by Smartgear.
      *
      * @param int $id module's ID
