@@ -355,6 +355,7 @@ class Website extends ConfigurationStep
         $objSitemapModule->tstamp = time();
         $objSitemapModule->type = 'sitemap';
         $objSitemapModule->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSitemapName'];
+        $objSitemapModule->headline = serialize(['value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSitemapTitle'], 'unit' => 'h2']);
         $objSitemapModule->save();
         $modules[$objSitemapModule->type] = $objSitemapModule;
 
