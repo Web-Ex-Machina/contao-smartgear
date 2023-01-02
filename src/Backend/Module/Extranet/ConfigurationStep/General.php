@@ -279,6 +279,7 @@ class General extends ConfigurationStep
             'groups' => serialize([0 => $groups['members']->id]),
             'noSearch' => 1,
             'published' => 1,
+            'hide' => 1,
             'sitemap' => 'map_never',
         ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
