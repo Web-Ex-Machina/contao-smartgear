@@ -197,6 +197,9 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 case 'contentPrivacyPolitics':
                     return (string) $config->getSgContentPrivacyPolitics();
                 break;
+                case 'contentSitemapHeadline':
+                    return (string) $config->getSgContentSitemapHeadline();
+                break;
                 case 'contentSitemap':
                     return (string) $config->getSgContentSitemap();
                 break;

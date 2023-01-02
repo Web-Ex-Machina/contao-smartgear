@@ -355,7 +355,6 @@ class Website extends ConfigurationStep
         $objSitemapModule->tstamp = time();
         $objSitemapModule->type = 'sitemap';
         $objSitemapModule->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSitemapName'];
-        $objSitemapModule->headline = serialize(['value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSitemapTitle'], 'unit' => 'h2']);
         $objSitemapModule->save();
         $modules[$objSitemapModule->type] = $objSitemapModule;
 
@@ -920,16 +919,25 @@ class Website extends ConfigurationStep
         return $objContent;
     }
 
-    protected function createContentSitemap(ArticleModel $article, array $modules): ContentModel
+    protected function createContentSitemap(ArticleModel $article, array $modules): array
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
+        $contents = [];
+
+        $content = ContentModel::findById($config->getSgContentSitemapHeadline());
+        $contents['headline'] = Util::createContent($article, array_merge([
+            'headline' => serialize(['unit' => 'h1', 'value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapHeadline']]),
+        ], ['id' => null !== $content ? $content->id : null]));
+
         $content = ContentModel::findById($config->getSgContentSitemap());
 
-        return Util::createContent($article, array_merge([
+        $contents['module'] = Util::createContent($article, array_merge([
             'type' => 'module', 'module' => $modules['sitemap']->id,
         ], ['id' => null !== $content ? $content->id : null]));
+
+        return $contents;
     }
 
     protected function createContents(array $pages, array $articles, array $modules): array
@@ -1126,7 +1134,8 @@ class Website extends ConfigurationStep
         $config->setSgContent404Sitemap((int) $contents['404']['sitemap']->id);
         $config->setSgContentLegalNotice((int) $contents['legal_notice']->id);
         $config->setSgContentPrivacyPolitics((int) $contents['privacy_politics']->id);
-        $config->setSgContentSitemap((int) $contents['sitemap']->id);
+        $config->setSgContentSitemapHeadline((int) $contents['sitemap']['headline']->id);
+        $config->setSgContentSitemap((int) $contents['sitemap']['module']->id);
 
         $this->configurationManager->save($config);
     }

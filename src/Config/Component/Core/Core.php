@@ -143,6 +143,8 @@ class Core implements ConfigModuleInterface
     /** @var int */
     protected $sgContentPrivacyPolitics;
     /** @var int */
+    protected $sgContentSitemapHeadline;
+    /** @var int */
     protected $sgContentSitemap;
     /** @var int */
     protected $sgUserWebmaster;
@@ -199,6 +201,7 @@ class Core implements ConfigModuleInterface
             ->setSgContent404Sitemap(null)
             ->setSgContentLegalNotice(null)
             ->setSgContentPrivacyPolitics(null)
+            ->setSgContentSitemapHeadline(null)
             ->setSgContentSitemap(null)
             ->setSgUserWebmaster(null)
             ->setSgUserGroupRedactors(null)
@@ -265,6 +268,7 @@ class Core implements ConfigModuleInterface
             ->setSgContent404Sitemap($json->contao->contents->error404Sitemap ?? null)
             ->setSgContentLegalNotice($json->contao->contents->legalNotice ?? null)
             ->setSgContentPrivacyPolitics($json->contao->contents->privacyPolitics ?? null)
+            ->setSgContentSitemapHeadline($json->contao->contents->sitemapHeadline ?? null)
             ->setSgContentSitemap($json->contao->contents->sitemap ?? null)
             ->setSgUserWebmaster($json->contao->users->webmaster ?? null)
             ->setSgUserGroupRedactors($json->contao->userGroups->redactors ?? null)
@@ -367,6 +371,7 @@ class Core implements ConfigModuleInterface
         $json->contao->contents->error404Sitemap = $this->getSgContent404Sitemap();
         $json->contao->contents->legalNotice = $this->getSgContentLegalNotice();
         $json->contao->contents->privacyPolitics = $this->getSgContentPrivacyPolitics();
+        $json->contao->contents->sitemapHeadline = $this->getSgContentSitemapHeadline();
         $json->contao->contents->sitemap = $this->getSgContentSitemap();
 
         $json->contao->users = new \stdClass();
@@ -590,6 +595,7 @@ class Core implements ConfigModuleInterface
             $this->getSgContent404Sitemap(),
             $this->getSgContentLegalNotice(),
             $this->getSgContentPrivacyPolitics(),
+            $this->getSgContentSitemapHeadline(),
             $this->getSgContentSitemap(),
         ];
     }
@@ -1531,6 +1537,18 @@ class Core implements ConfigModuleInterface
     public function setSgAirtableApiKey(string $sgAirtableApiKey): self
     {
         $this->sgAirtableApiKey = $sgAirtableApiKey;
+
+        return $this;
+    }
+
+    public function getSgContentSitemapHeadline(): ?int
+    {
+        return $this->sgContentSitemapHeadline;
+    }
+
+    public function setSgContentSitemapHeadline(?int $sgContentSitemapHeadline): self
+    {
+        $this->sgContentSitemapHeadline = $sgContentSitemapHeadline;
 
         return $this;
     }

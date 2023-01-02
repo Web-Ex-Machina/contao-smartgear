@@ -52,6 +52,7 @@ Tags | Value | Description
 `sg::content404Sitemap` | string | The Contao's 404 page sitemap content ID
 `sg::contentLegalNotice` | string | The Contao's legal notice page content ID
 `sg::contentPrivacyPolitics` | string | The Contao's privacy politics page content ID
+`sg::contentSitemapHeadline` | string | The Contao's sitemap page content headline ID
 `sg::contentSitemap` | string | The Contao's sitemap page content ID
 `sg::notificationGatewayEmail` | int | The Contao's email notification gateway ID
 `sg::modules` | string | Comma separated list of modules
