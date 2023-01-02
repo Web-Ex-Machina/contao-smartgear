@@ -89,7 +89,7 @@ class Files extends \tl_files
         return false;
     }
 
-    protected function canItemBeDeleted(int $id): bool
+    protected function canItemBeDeleted(string $id): bool
     {
         return $this->User->admin || !$this->isItemUsedBySmartgear($id);
     }
