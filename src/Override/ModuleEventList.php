@@ -59,8 +59,12 @@ class ModuleEventList extends \Contao\ModuleEventlist
         $this->filters['month']['date'] = [
             'label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['date'],
             'year' => [
+                'label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['dateYear'],
                 'start' => $datesBounds['start'],
                 'stop' => $datesBounds['stop'],
+            ],
+            'month' => [
+                'label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['dateMonth'],
             ],
         ];
 

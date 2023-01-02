@@ -176,6 +176,14 @@
 			<source>Date</source>
 			<target>Date</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.LBL.dateMonth">
+			<source>Month</source>
+			<target>Mois</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.LBL.dateYear">
+			<source>Year</source>
+			<target>Année</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.FILTERS.LBL.time">
 			<source>Time</source>
 			<target>Heure</target>
