@@ -43,7 +43,7 @@ class NotificationMessage extends tl_nc_message
         // Check current action
         switch (Input::get('act')) {
             case 'delete':
-                if ($this->isItemUsedBySmartgear((int) Input::get('id'))) {
+                if (!$this->canItemBeDeleted((int) Input::get('id'))) {
                     throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' notification message ID '.Input::get('id').'.');
                 }
             break;
@@ -64,7 +64,7 @@ class NotificationMessage extends tl_nc_message
      */
     public function deleteItem($row, $href, $label, $title, $icon, $attributes)
     {
-        if ($this->isItemUsedBySmartgear((int) $row['id'])) {
+        if (!$this->canItemBeDeleted((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.gif$/i', '_.gif', $icon)).' '; // yup, gif not svg
         }
 
@@ -106,5 +106,10 @@ class NotificationMessage extends tl_nc_message
         }
 
         return false;
+    }
+
+    protected function canItemBeDeleted(int $id): bool
+    {
+        return $this->User->admin || !$this->isItemUsedBySmartgear($id);
     }
 }
