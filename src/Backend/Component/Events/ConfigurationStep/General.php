@@ -250,7 +250,7 @@ class General extends ConfigurationStep
         $moduleList->cal_calendar = serialize([$calendar->id]);
         $moduleList->numberOfItems = 0;
         $moduleList->cal_format = 'cal_month';
-        $moduleList->cal_order = 'order_date_desc';
+        $moduleList->cal_order = 'descending';
         $moduleList->cal_readerModule = $moduleReader->id;
         $moduleList->perPage = $eventsConfig->getSgEventsListPerPage();
         $moduleList->imgSize = serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]);
@@ -270,7 +270,7 @@ class General extends ConfigurationStep
         $moduleCalendar->cal_calendar = serialize([$calendar->id]);
         $moduleCalendar->numberOfItems = 0;
         $moduleCalendar->cal_format = 'cal_month';
-        $moduleCalendar->cal_order = 'order_date_desc';
+        $moduleCalendar->cal_order = 'descending';
         $moduleCalendar->cal_readerModule = $moduleReader->id;
         $moduleCalendar->perPage = $eventsConfig->getSgEventsListPerPage();
         $moduleCalendar->imgSize = serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]);
