@@ -16,8 +16,10 @@ namespace WEM\SmartgearBundle\EventListener;
 
 use Contao\Environment;
 use Contao\LayoutModel;
+use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\PageRegular;
+use Contao\StringUtil;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -36,6 +38,34 @@ class GeneratePageListener
     }
 
     public function __invoke(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
+    {
+        $this->registerPageVisit($pageModel);
+        $this->manageBreadcrumbBehaviour($pageModel, $layout, $pageRegular);
+    }
+
+    protected function manageBreadcrumbBehaviour(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
+    {
+        // at this point, the page is already built, no way to interfere with module rendering
+        // so let's redo the main colum ...
+        // $arrModules = StringUtil::deserialize($layout->modules);
+        // $arrModulesMain = [];
+        // $arrModulesMainIds = [];
+        // foreach ($arrModules as $arrModule) {
+        //     if ('main' === $arrModule['col'] && '1' === $arrModule['enable']) {
+        //         $arrModulesMain[] = $arrModule;
+        //         $arrModulesMainIds[] = $arrModule['mod'];
+        //     }
+        // }
+        // $arrModulesMain = ModuleModel::findMultipleByIds($arrModulesMainIds);
+        // dump($arrModulesMain);
+    }
+
+    /**
+     * Register the visit into statistics.
+     *
+     * @param PageModel $pageModel The current page model
+     */
+    protected function registerPageVisit(PageModel $pageModel): void
     {
         try {
             /** @var CoreConfig */

@@ -124,5 +124,11 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
         public: true
 
+    smartgear.listener.parse_frontend_template:
+        class: WEM\SmartgearBundle\EventListener\ParseFrontendTemplateListener
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
 
     
