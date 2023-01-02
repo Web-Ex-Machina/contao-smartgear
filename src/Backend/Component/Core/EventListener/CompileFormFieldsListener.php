@@ -48,7 +48,7 @@ class CompileFormFieldsListener
                 $objFormFieldWarning->pid = $form->getModel()->id;
                 $objFormFieldWarning->sorting = 16;
                 $objFormFieldWarning->type = 'html';
-                $objFormFieldWarning->html = Util::getLocalizedTemplateContent('{root}/templates/smartgear/settings/{lang}/form_warning_message.html5', 'FE' === TL_MODE ? $objPage->rootLanguage : \Contao\BackendUser::getInstance()->language, '{root}/templates/smartgear/settings/fr/form_warning_message.html5');
+                $objFormFieldWarning->html = '<div class="mt-2">'.Util::getLocalizedTemplateContent('{root}/templates/smartgear/settings/{lang}/form_warning_message.html5', 'FE' === TL_MODE ? $objPage->rootLanguage : \Contao\BackendUser::getInstance()->language, '{root}/templates/smartgear/settings/fr/form_warning_message.html5').'</div>';
 
                 $arrFields['warning'] = $objFormFieldWarning;
             }
