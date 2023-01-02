@@ -243,9 +243,6 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 case 'extranet_contentArticleExtranetGridStopB':
                     return $extranetConfig->getSgContentArticleExtranetGridStopB();
                 break;
-                case 'extranet_contentArticleExtranetText':
-                    return $extranetConfig->getSgContentArticleExtranetText();
-                break;
                 case 'extranet_contentArticleExtranetGridStopA':
                     return $extranetConfig->getSgContentArticleExtranetGridStopA();
                 break;

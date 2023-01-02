@@ -185,7 +185,6 @@ Tags | Value | Description
 `sg::extranet_contentArticleExtranetModuleLoginLogged` | int | The Article Extranet Module Login (Logged users) content ID
 `sg::extranet_contentArticleExtranetModuleNav` | int | The Article Extranet Module Nav content ID
 `sg::extranet_contentArticleExtranetGridStopB` | int | The Article Extranet Grid Stop B content ID
-`sg::extranet_contentArticleExtranetText` | int | The Article Extranet Text content ID
 `sg::extranet_contentArticleExtranetGridStopA` | int | The Article Extranet Grid Stop A content ID
 `sg::extranet_contentArticle401Headline` | int | The Article 401 Headline content ID
 `sg::extranet_contentArticle401Text` | int | The Article 401 Text content ID

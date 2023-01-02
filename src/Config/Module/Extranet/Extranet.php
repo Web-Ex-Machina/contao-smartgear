@@ -151,8 +151,6 @@ class Extranet implements ConfigModuleInterface
     /** @var int */
     protected $sgContentArticleExtranetGridStopB;
     /** @var int */
-    protected $sgContentArticleExtranetText;
-    /** @var int */
     protected $sgContentArticleExtranetGridStopA;
     /** @var int */
     protected $sgContentArticle401Headline;
@@ -287,7 +285,6 @@ class Extranet implements ConfigModuleInterface
             ->setSgContentArticleExtranetModuleLoginLogged(null)
             ->setSgContentArticleExtranetModuleNav(null)
             ->setSgContentArticleExtranetGridStopB(null)
-            ->setSgContentArticleExtranetText(null)
             ->setSgContentArticleExtranetGridStopA(null)
             ->setSgContentArticle401Headline(null)
             ->setSgContentArticle401Text(null)
@@ -390,7 +387,6 @@ class Extranet implements ConfigModuleInterface
             ->setSgContentArticleExtranetModuleLoginLogged($json->contao->contents->extranet->moduleLoginLogged ?? null)
             ->setSgContentArticleExtranetModuleNav($json->contao->contents->extranet->moduleNav ?? null)
             ->setSgContentArticleExtranetGridStopB($json->contao->contents->extranet->gridStopB ?? null)
-            ->setSgContentArticleExtranetText($json->contao->contents->extranet->text ?? null)
             ->setSgContentArticleExtranetGridStopA($json->contao->contents->extranet->gridStopA ?? null)
             ->setSgContentArticle401Headline($json->contao->contents->error401->headline ?? null)
             ->setSgContentArticle401Text($json->contao->contents->error401->text ?? null)
@@ -509,7 +505,6 @@ class Extranet implements ConfigModuleInterface
         $json->contao->contents->extranet->moduleLoginLogged = $this->getSgContentArticleExtranetModuleLoginLogged();
         $json->contao->contents->extranet->moduleNav = $this->getSgContentArticleExtranetModuleNav();
         $json->contao->contents->extranet->gridStopB = $this->getSgContentArticleExtranetGridStopB();
-        $json->contao->contents->extranet->text = $this->getSgContentArticleExtranetText();
         $json->contao->contents->extranet->gridStopA = $this->getSgContentArticleExtranetGridStopA();
         $json->contao->contents->error401->headline = $this->getSgContentArticle401Headline();
         $json->contao->contents->error401->text = $this->getSgContentArticle401Text();
@@ -626,7 +621,6 @@ class Extranet implements ConfigModuleInterface
             $this->getSgContentArticleExtranetModuleLoginLogged(),
             $this->getSgContentArticleExtranetModuleNav(),
             $this->getSgContentArticleExtranetGridStopB(),
-            $this->getSgContentArticleExtranetText(),
             $this->getSgContentArticleExtranetGridStopA(),
             $this->getSgContentArticle401Headline(),
             $this->getSgContentArticle401Text(),
@@ -780,7 +774,6 @@ class Extranet implements ConfigModuleInterface
             ->setSgContentArticleExtranetModuleLoginLogged(null)
             ->setSgContentArticleExtranetModuleNav(null)
             ->setSgContentArticleExtranetGridStopB(null)
-            ->setSgContentArticleExtranetText(null)
             ->setSgContentArticleExtranetGridStopA(null)
             ->setSgContentArticle401Headline(null)
             ->setSgContentArticle401Text(null)
@@ -1673,21 +1666,6 @@ class Extranet implements ConfigModuleInterface
     public function setSgContentArticleExtranetGridStopB(?int $sgContentArticleExtranetGridStopB): self
     {
         $this->sgContentArticleExtranetGridStopB = $sgContentArticleExtranetGridStopB;
-
-        return $this;
-    }
-
-    /**
-     * @return ?int
-     */
-    public function getSgContentArticleExtranetText(): ?int
-    {
-        return $this->sgContentArticleExtranetText;
-    }
-
-    public function setSgContentArticleExtranetText(?int $sgContentArticleExtranetText): self
-    {
-        $this->sgContentArticleExtranetText = $sgContentArticleExtranetText;
 
         return $this;
     }
