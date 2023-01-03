@@ -16,12 +16,11 @@ namespace WEM\SmartgearBundle\EventListener;
 
 use Contao\Environment;
 use Contao\LayoutModel;
-use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\PageRegular;
-use Contao\StringUtil;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Classes\RenderStack;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 use WEM\SmartgearBundle\Model\PageVisit;
@@ -45,19 +44,10 @@ class GeneratePageListener
 
     protected function manageBreadcrumbBehaviour(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
     {
-        // at this point, the page is already built, no way to interfere with module rendering
-        // so let's redo the main colum ...
-        // $arrModules = StringUtil::deserialize($layout->modules);
-        // $arrModulesMain = [];
-        // $arrModulesMainIds = [];
-        // foreach ($arrModules as $arrModule) {
-        //     if ('main' === $arrModule['col'] && '1' === $arrModule['enable']) {
-        //         $arrModulesMain[] = $arrModule;
-        //         $arrModulesMainIds[] = $arrModule['mod'];
-        //     }
-        // }
-        // $arrModulesMain = ModuleModel::findMultipleByIds($arrModulesMainIds);
-        // dump($arrModulesMain);
+        $mainBreadcrumItems = RenderStack::getBreadcrumbItems('main');
+        $mainItems = RenderStack::getItems('main');
+        dump($mainBreadcrumItems);
+        dump($mainItems);
     }
 
     /**

@@ -191,6 +191,8 @@ if ('FE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['processFormData'][] = ['smartgear.listener.process_form_data', '__invoke'];
     $GLOBALS['TL_HOOKS']['compileFormFields'][] = ['smartgear.listener.compile_form_fields', '__invoke'];
     $GLOBALS['TL_HOOKS']['generatePage'][] = ['smartgear.listener.generate_page', '__invoke'];
+    $GLOBALS['TL_HOOKS']['getContentElement'][] = ['smartgear.listener.get_content_element', '__invoke'];
+    $GLOBALS['TL_HOOKS']['getFrontendModule'][] = ['smartgear.listener.get_frontend_module', '__invoke'];
 }
 
 /*
