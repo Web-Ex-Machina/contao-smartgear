@@ -51,9 +51,13 @@ class RenderStackTest extends \Util\SmartgearTestCase
         $container->set('session', $this->createConfiguredMock(\Symfony\Component\HttpFoundation\Session\Session::class, []));
         $container->set('security.authentication.trust_resolver', $this->createConfiguredMock(\Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolver::class, []));
         $container->set('security.access.simple_role_voter', $this->createConfiguredMock(\Symfony\Component\Security\Core\Authorization\Voter\Voter::class, []));
+        $container->set('router', $this->createConfiguredMock(\Symfony\Component\Routing\Router::class, []));
 
         \Contao\System::setContainer($container);
         $this->getFreshSut();
+
+        global $objPage;
+        $objPage = new \Contao\PageModel();
     }
 
     /**
@@ -74,12 +78,33 @@ class RenderStackTest extends \Util\SmartgearTestCase
         $this->assertSame($getItems, $expectedItems['items']);
     }
 
-    public function dpForTestAdd(): array
+    /**
+     * [testAdd description].
+     *
+     * @dataProvider dpForTestGetBreadcrumbIndexes
+     */
+    public function testGetBreadcrumbIndexes(array $items, array $expectedIndexes, ?string $column, array $indexes): void
+    {
+        $this->getFreshSut();
+
+        foreach ($items as $item) {
+            $this->sut->add($item['model'], $item['buffer'], $item['contentOrModule']);
+        }
+
+        $this->assertSame($this->sut->getBreadcrumbIndexes(), $expectedIndexes);
+        $this->assertSame($this->sut->getBreadcrumbIndexes($column), $indexes);
+    }
+
+    public function dpForTestGetBreadcrumbIndexes(): array
     {
         $this->setUp();
 
         $moduleModel = new \Contao\ModuleModel();
         $moduleModel->id = 1;
+
+        $moduleBreadcrumbModel = new \Contao\ModuleModel();
+        $moduleBreadcrumbModel->type = 'breadcrumb';
+        $moduleBreadcrumbModel->id = 2;
 
         $contentModel = new \Contao\ContentModel();
         $contentModel->id = 1;
@@ -90,7 +115,121 @@ class RenderStackTest extends \Util\SmartgearTestCase
         $contentHtml = new \Contao\ContentHtml($contentModel);
         $contentHtml->generate();
 
-        $moduleBreadcrumb = new \Contao\ModuleHtml($moduleModel);
+        $moduleBreadcrumb = new \Contao\ModuleBreadcrumb($moduleBreadcrumbModel);
+        $moduleBreadcrumb->type = 'breadcrumb';
+        $moduleBreadcrumb->generate();
+
+        $dp1 = [
+            'items' => [
+                [
+                    'model' => $moduleModel,
+                    'buffer' => 'foo',
+                    'contentOrModule' => $moduleHtml,
+                ],
+                [
+                    'model' => $contentModel,
+                    'buffer' => 'bar',
+                    'contentOrModule' => $contentHtml,
+                ],
+            ],
+            'expectedIndexes' => [],
+            'column' => 'all',
+            'indexes' => [],
+        ];
+        $dp2 = [
+            'items' => [
+                [
+                    'model' => $moduleBreadcrumbModel,
+                    'buffer' => 'breadcrumb_foobar',
+                    'contentOrModule' => $moduleBreadcrumb,
+                ],
+                [
+                    'model' => $moduleModel,
+                    'buffer' => 'foo',
+                    'contentOrModule' => $moduleHtml,
+                ],
+                [
+                    'model' => $contentModel,
+                    'buffer' => 'bar',
+                    'contentOrModule' => $contentHtml,
+                ],
+            ],
+            'expectedIndexes' => [0 => 0],
+            'column' => 'all',
+            'indexes' => [0],
+        ];
+
+        $moduleModel = new \Contao\ModuleModel();
+        $moduleModel->id = 1;
+
+        $moduleBreadcrumbModel = new \Contao\ModuleModel();
+        $moduleBreadcrumbModel->type = 'breadcrumb';
+        $moduleBreadcrumbModel->id = 2;
+
+        $contentModel = new \Contao\ContentModel();
+        $contentModel->id = 1;
+
+        $moduleHtml = new \Contao\ModuleHtml($moduleModel);
+        $moduleHtml->generate();
+
+        $contentHtml = new \Contao\ContentHtml($contentModel, 'left');
+        $contentHtml->generate();
+
+        $moduleBreadcrumb = new \Contao\ModuleBreadcrumb($moduleBreadcrumbModel, 'left');
+        $moduleBreadcrumb->type = 'breadcrumb';
+        $moduleBreadcrumb->generate();
+
+        $dp3 = [
+            'items' => [
+                [
+                    'model' => $contentModel,
+                    'buffer' => 'bar',
+                    'contentOrModule' => $contentHtml,
+                ],
+                [
+                    'model' => $moduleModel,
+                    'buffer' => 'foo',
+                    'contentOrModule' => $moduleHtml,
+                ],
+                [
+                    'model' => $moduleBreadcrumbModel,
+                    'buffer' => 'breadcrumb_foobar',
+                    'contentOrModule' => $moduleBreadcrumb,
+                ],
+            ],
+            'expectedIndexes' => [0 => 2],
+            'column' => 'left',
+            'indexes' => [1],
+        ];
+
+        return [
+            'scenario_1_no_breadcrumb' => $dp1,
+            'scenario_2_breadcrumb_in_first_place' => $dp2,
+            'scenario_3_breadcrumb_in_second_place_left_column' => $dp3,
+        ];
+    }
+
+    public function dpForTestAdd(): array
+    {
+        $this->setUp();
+
+        $moduleModel = new \Contao\ModuleModel();
+        $moduleModel->id = 1;
+
+        $moduleBreadcrumbModel = new \Contao\ModuleModel();
+        $moduleBreadcrumbModel->type = 'breadcrumb';
+        $moduleBreadcrumbModel->id = 2;
+
+        $contentModel = new \Contao\ContentModel();
+        $contentModel->id = 1;
+
+        $moduleHtml = new \Contao\ModuleHtml($moduleModel);
+        $moduleHtml->generate();
+
+        $contentHtml = new \Contao\ContentHtml($contentModel);
+        $contentHtml->generate();
+
+        $moduleBreadcrumb = new \Contao\ModuleHtml($moduleBreadcrumbModel);
         $moduleBreadcrumb->type = 'breadcrumb';
         $moduleBreadcrumb->generate();
 
@@ -140,7 +279,7 @@ class RenderStackTest extends \Util\SmartgearTestCase
         $dp2 = [
             'items' => [
                 [
-                    'model' => $moduleModel,
+                    'model' => $moduleBreadcrumbModel,
                     'buffer' => 'breadcrumb_foobar',
                     'contentOrModule' => $moduleBreadcrumb,
                 ],
@@ -165,7 +304,7 @@ class RenderStackTest extends \Util\SmartgearTestCase
                     [
                         'index' => 0,
                         'index_in_column' => 0,
-                        'model' => $moduleModel,
+                        'model' => $moduleBreadcrumbModel,
                         'buffer' => 'breadcrumb_foobar',
                         'contentOrModule' => $moduleBreadcrumb,
                         'column' => 'main',
@@ -199,6 +338,10 @@ class RenderStackTest extends \Util\SmartgearTestCase
         $moduleModel = new \Contao\ModuleModel();
         $moduleModel->id = 1;
 
+        $moduleBreadcrumbModel = new \Contao\ModuleModel();
+        $moduleBreadcrumbModel->type = 'breadcrumb';
+        $moduleBreadcrumbModel->id = 2;
+
         $contentModel = new \Contao\ContentModel();
         $contentModel->id = 1;
 
@@ -208,7 +351,7 @@ class RenderStackTest extends \Util\SmartgearTestCase
         $contentHtml = new \Contao\ContentHtml($contentModel, 'left');
         $contentHtml->generate();
 
-        $moduleBreadcrumb = new \Contao\ModuleHtml($moduleModel, 'left');
+        $moduleBreadcrumb = new \Contao\ModuleBreadcrumb($moduleBreadcrumbModel, 'left');
         $moduleBreadcrumb->type = 'breadcrumb';
         $moduleBreadcrumb->generate();
 
@@ -225,7 +368,7 @@ class RenderStackTest extends \Util\SmartgearTestCase
                     'contentOrModule' => $moduleHtml,
                 ],
                 [
-                    'model' => $moduleModel,
+                    'model' => $moduleBreadcrumbModel,
                     'buffer' => 'breadcrumb_foobar',
                     'contentOrModule' => $moduleBreadcrumb,
                 ],
@@ -256,7 +399,7 @@ class RenderStackTest extends \Util\SmartgearTestCase
                     [
                         'index' => 2,
                         'index_in_column' => 1,
-                        'model' => $moduleModel,
+                        'model' => $moduleBreadcrumbModel,
                         'buffer' => 'breadcrumb_foobar',
                         'contentOrModule' => $moduleBreadcrumb,
                         'column' => 'left',
