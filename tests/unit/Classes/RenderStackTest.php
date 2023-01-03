@@ -83,7 +83,7 @@ class RenderStackTest extends \Util\SmartgearTestCase
      *
      * @dataProvider dpForTestGetBreadcrumbIndexes
      */
-    public function testGetBreadcrumbIndexes(array $items, array $expectedIndexes, ?string $column, array $indexes): void
+    public function testGetBreadcrumbIndexes(array $items, array $expectedIndexes, ?string $column, array $expectedIndexesInColumn): void
     {
         $this->getFreshSut();
 
@@ -92,7 +92,174 @@ class RenderStackTest extends \Util\SmartgearTestCase
         }
 
         $this->assertSame($this->sut->getBreadcrumbIndexes(), $expectedIndexes);
-        $this->assertSame($this->sut->getBreadcrumbIndexes($column), $indexes);
+        $this->assertSame($this->sut->getBreadcrumbIndexes($column), $expectedIndexesInColumn);
+    }
+
+    /**
+     * [testAdd description].
+     *
+     * @dataProvider dpForTestGetBreadcrumbItems
+     */
+    public function testGetBreadcrumbItems(array $items, array $expectedItems, string $column, array $expectedItemsInColumn): void
+    {
+        $this->getFreshSut();
+
+        foreach ($items as $item) {
+            $this->sut->add($item['model'], $item['buffer'], $item['contentOrModule']);
+        }
+
+        $this->assertSame($this->sut->getBreadcrumbItems(), $expectedItems);
+        $this->assertSame($this->sut->getBreadcrumbItems($column), $expectedItemsInColumn);
+    }
+
+    public function dpForTestGetBreadcrumbItems(): array
+    {
+        $this->setUp();
+
+        $moduleModel = new \Contao\ModuleModel();
+        $moduleModel->id = 1;
+
+        $moduleBreadcrumbModel = new \Contao\ModuleModel();
+        $moduleBreadcrumbModel->type = 'breadcrumb';
+        $moduleBreadcrumbModel->id = 2;
+
+        $contentModel = new \Contao\ContentModel();
+        $contentModel->id = 1;
+
+        $moduleHtml = new \Contao\ModuleHtml($moduleModel);
+        $moduleHtml->generate();
+
+        $contentHtml = new \Contao\ContentHtml($contentModel);
+        $contentHtml->generate();
+
+        $moduleBreadcrumb = new \Contao\ModuleBreadcrumb($moduleBreadcrumbModel);
+        $moduleBreadcrumb->type = 'breadcrumb';
+        $moduleBreadcrumb->generate();
+
+        $dp1 = [
+            'items' => [
+                [
+                    'model' => $moduleModel,
+                    'buffer' => 'foo',
+                    'contentOrModule' => $moduleHtml,
+                ],
+                [
+                    'model' => $contentModel,
+                    'buffer' => 'bar',
+                    'contentOrModule' => $contentHtml,
+                ],
+            ],
+            'expectedItems' => [],
+            'column' => 'all',
+            'expectedItemsInColumn' => [],
+        ];
+        $dp2 = [
+            'items' => [
+                [
+                    'model' => $moduleBreadcrumbModel,
+                    'buffer' => 'breadcrumb_foobar',
+                    'contentOrModule' => $moduleBreadcrumb,
+                ],
+                [
+                    'model' => $moduleModel,
+                    'buffer' => 'foo',
+                    'contentOrModule' => $moduleHtml,
+                ],
+                [
+                    'model' => $contentModel,
+                    'buffer' => 'bar',
+                    'contentOrModule' => $contentHtml,
+                ],
+            ],
+            'expectedItems' => [
+                [
+                    'index' => 0,
+                    'index_in_column' => 0,
+                    'model' => $moduleBreadcrumbModel,
+                    'buffer' => 'breadcrumb_foobar',
+                    'contentOrModule' => $moduleBreadcrumb,
+                    'column' => 'main',
+                ],
+            ],
+            'column' => 'all',
+            'expectedItemsInColumn' => [
+                [
+                    'index' => 0,
+                    'index_in_column' => 0,
+                    'model' => $moduleBreadcrumbModel,
+                    'buffer' => 'breadcrumb_foobar',
+                    'contentOrModule' => $moduleBreadcrumb,
+                    'column' => 'main',
+                ],
+            ],
+        ];
+
+        $moduleModel = new \Contao\ModuleModel();
+        $moduleModel->id = 1;
+
+        $moduleBreadcrumbModel = new \Contao\ModuleModel();
+        $moduleBreadcrumbModel->type = 'breadcrumb';
+        $moduleBreadcrumbModel->id = 2;
+
+        $contentModel = new \Contao\ContentModel();
+        $contentModel->id = 1;
+
+        $moduleHtml = new \Contao\ModuleHtml($moduleModel);
+        $moduleHtml->generate();
+
+        $contentHtml = new \Contao\ContentHtml($contentModel, 'left');
+        $contentHtml->generate();
+
+        $moduleBreadcrumb = new \Contao\ModuleBreadcrumb($moduleBreadcrumbModel, 'left');
+        $moduleBreadcrumb->type = 'breadcrumb';
+        $moduleBreadcrumb->generate();
+
+        $dp3 = [
+            'items' => [
+                [
+                    'model' => $contentModel,
+                    'buffer' => 'bar',
+                    'contentOrModule' => $contentHtml,
+                ],
+                [
+                    'model' => $moduleModel,
+                    'buffer' => 'foo',
+                    'contentOrModule' => $moduleHtml,
+                ],
+                [
+                    'model' => $moduleBreadcrumbModel,
+                    'buffer' => 'breadcrumb_foobar',
+                    'contentOrModule' => $moduleBreadcrumb,
+                ],
+            ],
+            'expectedItems' => [
+                [
+                    'index' => 2,
+                    'index_in_column' => 1,
+                    'model' => $moduleBreadcrumbModel,
+                    'buffer' => 'breadcrumb_foobar',
+                    'contentOrModule' => $moduleBreadcrumb,
+                    'column' => 'left',
+                ],
+            ],
+            'column' => 'left',
+            'expectedItemsInColumn' => [
+                [
+                    'index' => 2,
+                    'index_in_column' => 1,
+                    'model' => $moduleBreadcrumbModel,
+                    'buffer' => 'breadcrumb_foobar',
+                    'contentOrModule' => $moduleBreadcrumb,
+                    'column' => 'left',
+                ],
+            ],
+        ];
+
+        return [
+            'scenario_1_no_breadcrumb' => $dp1,
+            'scenario_2_breadcrumb_in_first_place' => $dp2,
+            'scenario_3_breadcrumb_in_second_place_left_column' => $dp3,
+        ];
     }
 
     public function dpForTestGetBreadcrumbIndexes(): array
@@ -134,7 +301,7 @@ class RenderStackTest extends \Util\SmartgearTestCase
             ],
             'expectedIndexes' => [],
             'column' => 'all',
-            'indexes' => [],
+            'expectedIndexesInColumn' => [],
         ];
         $dp2 = [
             'items' => [
@@ -156,7 +323,7 @@ class RenderStackTest extends \Util\SmartgearTestCase
             ],
             'expectedIndexes' => [0 => 0],
             'column' => 'all',
-            'indexes' => [0],
+            'expectedIndexesInColumn' => [0],
         ];
 
         $moduleModel = new \Contao\ModuleModel();
@@ -199,7 +366,7 @@ class RenderStackTest extends \Util\SmartgearTestCase
             ],
             'expectedIndexes' => [0 => 2],
             'column' => 'left',
-            'indexes' => [1],
+            'expectedIndexesInColumn' => [1],
         ];
 
         return [

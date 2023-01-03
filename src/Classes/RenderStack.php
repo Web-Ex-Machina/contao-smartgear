@@ -84,7 +84,7 @@ class RenderStack
 
         if (is_a($model, ModuleModel::class) && 'breadcrumb' === $model->type) {
             $this->stack['breadcrumb_indexes']['all'][] = $this->stack['current_index']['all'];
-            $this->stack['breadcrumb_indexes'][$contentOrModule->Template->inColumn][] = $this->stack['current_index'][$column];
+            $this->stack['breadcrumb_indexes'][$column][] = $this->stack['current_index'][$column];
         }
 
         ++$this->stack['current_index']['all'];
@@ -152,7 +152,7 @@ class RenderStack
     {
         $column = null === $column ? 'all' : $column;
         $breadcrumbItems = [];
-        $indexes = $this->stack['breadcrumb_indexes']['all'];
+        $indexes = $this->getBreadcrumbIndexes();
 
         foreach ($indexes as $index) {
             if ('all' === $column || $column === $this->stack['items'][$index]['column']) {
