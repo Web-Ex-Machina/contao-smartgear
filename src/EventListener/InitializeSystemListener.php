@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\EventListener;
 
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
-use WEM\SmartgearBundle\Classes\RenderStack;
 use WEM\SmartgearBundle\Classes\TemplateFinder;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
@@ -48,6 +47,5 @@ class InitializeSystemListener
         }
 
         \Contao\TemplateLoader::addFiles($this->templateFinder->buildList());
-        RenderStack::init();
     }
 }

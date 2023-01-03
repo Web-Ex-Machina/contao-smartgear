@@ -31,7 +31,8 @@ class GetFrontendModuleListener
 
     public function __invoke(ModuleModel $model, string $buffer, $module): string
     {
-        RenderStack::add($model, $buffer, $module);
+        $renderStack = RenderStack::getInstance();
+        $renderStack->add($model, $buffer, $module);
 
         return $buffer;
     }

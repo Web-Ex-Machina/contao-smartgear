@@ -31,7 +31,8 @@ class GetContentElementListener
 
     public function __invoke(ContentModel $contentModel, string $buffer, $element): string
     {
-        RenderStack::add($contentModel, $buffer, $element);
+        $renderStack = RenderStack::getInstance();
+        $renderStack->add($contentModel, $buffer, $element);
 
         return $buffer;
     }

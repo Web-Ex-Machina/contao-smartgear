@@ -19,27 +19,50 @@ use Contao\Model;
 use Contao\ModuleModel;
 use Exception;
 
+/**
+ * This class aim to retain all generated elements.
+ *
+ * Warning : it will weight nearly as much as the rendered page itself.
+ * Use with caution.
+ */
 class RenderStack
 {
-    public static function init(): void
+    /** @var self */
+    protected static $instance;
+    /** @var array */
+    protected $stack = [
+        'current_index' => [
+            'all' => 0,
+            //other columns will go here
+        ],
+        'items' => [],
+        'breadcrumb_indexes' => [
+            'all' => [],
+            //other columns will go here
+        ],
+    ];
+
+    public function __construct()
     {
-        if (!\array_key_exists('WEMSG', $GLOBALS)) {
-            $GLOBALS['WEMSG'] = [];
-        }
-        if (!\array_key_exists('RenderStack', $GLOBALS['WEMSG'])) {
-            $GLOBALS['WEMSG']['RenderStack'] = [
-                'current_index' => [
-                    'all' => 0,
-                ],
-                'items' => [],
-                'breadcrumb_indexes' => [
-                    'all' => [],
-                ],
-            ];
-        }
     }
 
-    public static function add(Model $model, string $buffer, $contentOrModule): void
+    public static function getInstance()
+    {
+        if (null === self::$instance) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
+
+    /**
+     * Add a ModuleModel/ContentModel to the stack.
+     *
+     * @param \Contao\ModuleModel|\Contao\ContentModel $model           The model (either ModuleModel or ContentModel)
+     * @param string                                   $buffer          The generated HTML
+     * @param \Contao\Module|\Contao\ContentElement    $contentOrModule The module or content element
+     */
+    public function add(Model $model, string $buffer, $contentOrModule): void
     {
         if (!is_a($model, ModuleModel::class) && !is_a($model, ContentModel::class)) {
             return;
@@ -47,12 +70,12 @@ class RenderStack
 
         $column = $contentOrModule->Template->inColumn;
 
-        if (!\array_key_exists($column, $GLOBALS['WEMSG']['RenderStack']['current_index'])) {
-            $GLOBALS['WEMSG']['RenderStack']['current_index'][$column] = 0;
+        if (!\array_key_exists($column, $this->stack['current_index'])) {
+            $this->stack['current_index'][$column] = 0;
         }
-        $GLOBALS['WEMSG']['RenderStack']['items'][$GLOBALS['WEMSG']['RenderStack']['current_index']['all']] = [
-            'index' => $GLOBALS['WEMSG']['RenderStack']['current_index']['all'],
-            'index_in_column' => $GLOBALS['WEMSG']['RenderStack']['current_index'][$column],
+        $this->stack['items'][$this->stack['current_index']['all']] = [
+            'index' => $this->stack['current_index']['all'],
+            'index_in_column' => $this->stack['current_index'][$column],
             'model' => $model,
             'buffer' => $buffer,
             'contentOrModule' => $contentOrModule,
@@ -60,41 +83,58 @@ class RenderStack
         ];
 
         if (is_a($model, ModuleModel::class) && 'breadcrumb' === $model->type) {
-            $GLOBALS['WEMSG']['RenderStack']['breadcrumb_indexes']['all'][] = $GLOBALS['WEMSG']['RenderStack']['current_index']['all'];
-            $GLOBALS['WEMSG']['RenderStack']['breadcrumb_indexes'][$contentOrModule->Template->inColumn][] = $GLOBALS['WEMSG']['RenderStack']['current_index'][$column];
+            $this->stack['breadcrumb_indexes']['all'][] = $this->stack['current_index']['all'];
+            $this->stack['breadcrumb_indexes'][$contentOrModule->Template->inColumn][] = $this->stack['current_index'][$column];
         }
 
-        ++$GLOBALS['WEMSG']['RenderStack']['current_index']['all'];
-        ++$GLOBALS['WEMSG']['RenderStack']['current_index'][$column];
+        ++$this->stack['current_index']['all'];
+        ++$this->stack['current_index'][$column];
     }
 
-    public static function get(int $index): array
+    /**
+     * Get an element in the stack by its index.
+     *
+     * @param int $index The element's index
+     *
+     * @throws Exception if index value is out of bounds
+     */
+    public function get(int $index): array
     {
-        if (!\array_key_exists($index, $GLOBALS['WEMSG']['RenderStack']['items'])) {
+        if (!\array_key_exists($index, $this->stack['items'])) {
             throw new Exception('Out of bounds');
         }
 
-        return $GLOBALS['WEMSG']['RenderStack']['items'][$index];
+        return $this->stack['items'][$index];
     }
 
-    public static function getBreadcrumbIndexes(?string $column = null): array
+    /**
+     * Return all the breadcrumb elements indexes.
+     *
+     * @param string|null $column If given, will only returns breadcrumbs from that column
+     */
+    public function getBreadcrumbIndexes(?string $column = null): array
     {
         $column = null === $column ? 'all' : $column;
-        if (!\array_key_exists($column, $GLOBALS['WEMSG']['RenderStack']['breadcrumb_indexes'])) {
+        if (!\array_key_exists($column, $this->stack['breadcrumb_indexes'])) {
             return [];
         }
 
-        return $GLOBALS['WEMSG']['RenderStack']['breadcrumb_indexes'][$column];
+        return $this->stack['breadcrumb_indexes'][$column];
     }
 
-    public static function getItems(?string $column = null): array
+    /**
+     * Return all items.
+     *
+     * @param string|null $column If given, will only returns items from that column
+     */
+    public function getItems(?string $column = null): array
     {
         if (null === $column) {
-            return $GLOBALS['WEMSG']['RenderStack']['items'];
+            return $this->stack['items'];
         }
 
         $items = [];
-        foreach ($GLOBALS['WEMSG']['RenderStack']['items'] as $item) {
+        foreach ($this->stack['items'] as $item) {
             if ($column === $item['column']) {
                 $items[] = $item;
             }
@@ -103,15 +143,20 @@ class RenderStack
         return $items;
     }
 
-    public static function getBreadcrumbItems(?string $column = null): array
+    /**
+     * Return all the breadcrumb items.
+     *
+     * @param string|null $column If given, will only returns breadcrumbs from that column
+     */
+    public function getBreadcrumbItems(?string $column = null): array
     {
         $column = null === $column ? 'all' : $column;
         $breadcrumbItems = [];
-        $indexes = $GLOBALS['WEMSG']['RenderStack']['breadcrumb_indexes']['all'];
+        $indexes = $this->stack['breadcrumb_indexes']['all'];
 
         foreach ($indexes as $index) {
-            if ('all' === $column || $column === $GLOBALS['WEMSG']['RenderStack']['items'][$index]['column']) {
-                $breadcrumbItems[] = $GLOBALS['WEMSG']['RenderStack']['items'][$index];
+            if ('all' === $column || $column === $this->stack['items'][$index]['column']) {
+                $breadcrumbItems[] = $this->stack['items'][$index];
             }
         }
 

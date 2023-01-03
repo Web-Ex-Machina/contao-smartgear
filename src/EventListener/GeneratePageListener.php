@@ -45,7 +45,8 @@ class GeneratePageListener
 
     protected function manageBreadcrumbBehaviour(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
     {
-        $mainBreadcrumItems = RenderStack::getBreadcrumbItems('main');
+        $renderStack = RenderStack::getInstance();
+        $mainBreadcrumItems = $renderStack->getBreadcrumbItems('main');
 
         if (empty($mainBreadcrumItems)
         || 0 !== $mainBreadcrumItems[0]['index_in_column']
@@ -55,7 +56,7 @@ class GeneratePageListener
         }
 
         $breadcrumb = $mainBreadcrumItems[0];
-        $mainItems = RenderStack::getItems('main');
+        $mainItems = $renderStack->getItems('main');
         $firstItemAfterBreadcrumb = $mainItems[1];
         $breadcrumbItemsToPlaceAfterContentElements = StringUtil::deserialize($breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_content_elements);
         $breadcrumbItemsToPlaceAfterModules = StringUtil::deserialize($breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_modules);
