@@ -21,6 +21,7 @@ use Contao\PageRegular;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\RenderStack;
+use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 use WEM\SmartgearBundle\Model\PageVisit;
@@ -45,9 +46,26 @@ class GeneratePageListener
     protected function manageBreadcrumbBehaviour(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
     {
         $mainBreadcrumItems = RenderStack::getBreadcrumbItems('main');
+
+        if (empty($mainBreadcrumItems)
+        || 0 !== $mainBreadcrumItems[0]['index_in_column']
+        || false === (bool) $mainBreadcrumItems[0]['model']->wem_sg_breadcrumb_auto_placement
+        ) {
+            return;
+        }
+
+        $breadcrumb = $mainBreadcrumItems[0];
         $mainItems = RenderStack::getItems('main');
-        dump($mainBreadcrumItems);
-        dump($mainItems);
+        $firstItemAfterBreadcrumb = $mainItems[1];
+        $breadcrumbItemsToPlaceAfterContentElements = StringUtil::deserialize($breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_content_elements);
+        $breadcrumbItemsToPlaceAfterModules = StringUtil::deserialize($breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_modules);
+
+        if (\in_array($firstItemAfterBreadcrumb['model']->type, $breadcrumbItemsToPlaceAfterContentElements, true)
+        || \in_array($firstItemAfterBreadcrumb['model']->type, $breadcrumbItemsToPlaceAfterModules, true)
+        ) {
+            $pageRegular->Template->main = str_replace($breadcrumb['buffer'], '', $pageRegular->Template->main);
+            $pageRegular->Template->main = str_replace($firstItemAfterBreadcrumb['buffer'], $firstItemAfterBreadcrumb['buffer'].$breadcrumb['buffer'], $pageRegular->Template->main);
+        }
     }
 
     /**

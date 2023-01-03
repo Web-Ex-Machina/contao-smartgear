@@ -169,13 +169,21 @@
 				<source>Depending on the content right after it, allow the breadcrumb to swap its position</source>
 				<target>Selon le contenu placé juste après, autoriser le fil d'arianne à échanger sa place</target>
 			</trans-unit>
-			<trans-unit id="tl_module.wem_sg_breadcrumb_auto_placement_after_templates.0">
-				<source>Templates triggering a replacement</source>
-				<target>Templates déclenchant un replacement automatique</target>
+			<trans-unit id="tl_module.wem_sg_breadcrumb_auto_placement_after_content_elements.0">
+				<source>Content elements triggering a replacement</source>
+				<target>Elements de contenu déclenchant un replacement automatique</target>
 			</trans-unit>
-			<trans-unit id="tl_module.wem_sg_breadcrumb_auto_placement_after_templates.1">
-				<source>Select the templates triggering a replacement</source>
-				<target>Sélectionnez le(s) template(s) déclenchant un replacement automatique</target>
+			<trans-unit id="tl_module.wem_sg_breadcrumb_auto_placement_after_content_elements.1">
+				<source>Select the content elements triggering a replacement</source>
+				<target>Sélectionnez les éléments de contenu déclenchant un replacement automatique</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_breadcrumb_auto_placement_after_modules.0">
+				<source>Modules triggering a replacement</source>
+				<target>Modules déclenchant un replacement automatique</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_breadcrumb_auto_placement_after_modules.1">
+				<source>Select the modules triggering a replacement</source>
+				<target>Sélectionnez les modules déclenchant un replacement automatique</target>
 			</trans-unit>
     </body>
   </file>

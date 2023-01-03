@@ -107,9 +107,12 @@ class RenderStack
     {
         $column = null === $column ? 'all' : $column;
         $breadcrumbItems = [];
-        $indexes = $GLOBALS['WEMSG']['RenderStack']['breadcrumb_indexes'][$column];
+        $indexes = $GLOBALS['WEMSG']['RenderStack']['breadcrumb_indexes']['all'];
+
         foreach ($indexes as $index) {
-            $breadcrumbItems[] = $GLOBALS['WEMSG']['RenderStack']['items'][$index];
+            if ('all' === $column || $column === $GLOBALS['WEMSG']['RenderStack']['items'][$index]['column']) {
+                $breadcrumbItems[] = $GLOBALS['WEMSG']['RenderStack']['items'][$index];
+            }
         }
 
         return $breadcrumbItems;
