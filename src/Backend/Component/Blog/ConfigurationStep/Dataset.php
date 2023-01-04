@@ -102,13 +102,13 @@ class Dataset extends ConfigurationStep
         $blogConfig = $coreConfig->getSgBlog();
         $filesDirectory = $blogConfig->getCurrentPreset()->getSgNewsFolder();
         $newsArchiveId = $blogConfig->getSgNewsArchive();
-        $fileNamesToCopy = ['fileA.png', 'fileB.png', 'fileC.png'];
+        $fileNamesToCopy = ['fileA.jpg', 'fileB.jpg', 'fileC.jpg'];
         $authorId = $coreConfig->getSgUserWebmaster();
         $this->copyFiles($fileNamesToCopy);
 
-        $this->createOrUpdateNews($newsArchiveId, 'News Test A', 'news-test-a', $authorId, strtotime('-1 year'), strtotime('-1 year'), $this->getLoremIpsum(140), $filesDirectory.\DIRECTORY_SEPARATOR.'fileA.png', true);
-        $this->createOrUpdateNews($newsArchiveId, 'News Test B', 'news-test-b', $authorId, strtotime('-1 week'), strtotime('-1 week'), $this->getLoremIpsum(240), $filesDirectory.\DIRECTORY_SEPARATOR.'fileB.png', true);
-        $this->createOrUpdateNews($newsArchiveId, 'Actualité C', 'actualité-c', $authorId, strtotime('-1 day'), strtotime('-1 day'), $this->getLoremIpsum(80), $filesDirectory.\DIRECTORY_SEPARATOR.'fileC.png', true);
+        $this->createOrUpdateNews($newsArchiveId, 'News Test A', 'news-test-a', $authorId, strtotime('-1 year'), strtotime('-1 year'), $this->getLoremIpsum(140), $filesDirectory.\DIRECTORY_SEPARATOR.'fileA.jpg', true);
+        $this->createOrUpdateNews($newsArchiveId, 'News Test B', 'news-test-b', $authorId, strtotime('-1 week'), strtotime('-1 week'), $this->getLoremIpsum(240), $filesDirectory.\DIRECTORY_SEPARATOR.'fileB.jpg', true);
+        $this->createOrUpdateNews($newsArchiveId, 'Actualité C', 'actualité-c', $authorId, strtotime('-1 day'), strtotime('-1 day'), $this->getLoremIpsum(80), $filesDirectory.\DIRECTORY_SEPARATOR.'fileC.jpg', true);
     }
 
     protected function installDatasetB(): void
@@ -117,29 +117,29 @@ class Dataset extends ConfigurationStep
         $blogConfig = $coreConfig->getSgBlog();
         $filesDirectory = $blogConfig->getCurrentPreset()->getSgNewsFolder();
         $newsArchiveId = $blogConfig->getSgNewsArchive();
-        $fileNamesToCopy = ['fileA.png', 'fileB.png', 'fileC.png', 'fileD.png', 'fileE.png', 'fileF.png', 'fileG.png', 'fileH.png', 'fileI.png', 'fileJ.png', 'fileK.png', 'fileL.png', 'fileM.png', 'fileN.png'];
+        $fileNamesToCopy = ['fileA.jpg', 'fileB.jpg', 'fileC.jpg', 'fileD.jpg', 'fileE.jpg', 'fileF.jpg', 'fileG.jpg', 'fileH.jpg', 'fileI.jpg', 'fileJ.jpg', 'fileK.jpg', 'fileL.jpg', 'fileM.jpg', 'fileN.jpg'];
         $authorId = $coreConfig->getSgUserWebmaster();
 
         $this->copyFiles($fileNamesToCopy);
 
-        $this->createOrUpdateNews($newsArchiveId, 'News Test A', 'news-test-a', $authorId, strtotime('-1 year'), strtotime('-1 year'), $this->getLoremIpsum(140), $filesDirectory.\DIRECTORY_SEPARATOR.'fileA.png', true);
-        $this->createOrUpdateNews($newsArchiveId, 'News Test B', 'news-test-b', $authorId, strtotime('-340 days'), strtotime('-340 days'), $this->getLoremIpsum(240), $filesDirectory.\DIRECTORY_SEPARATOR.'fileB.png', true);
-        $this->createOrUpdateNews($newsArchiveId, 'Actualité C', 'actualité-c', $authorId, strtotime('-300 days'), strtotime('-300 days'), $this->getLoremIpsum(80), $filesDirectory.\DIRECTORY_SEPARATOR.'fileC.png', true);
+        $this->createOrUpdateNews($newsArchiveId, 'News Test A', 'news-test-a', $authorId, strtotime('-1 year'), strtotime('-1 year'), $this->getLoremIpsum(140), $filesDirectory.\DIRECTORY_SEPARATOR.'fileA.jpg', true);
+        $this->createOrUpdateNews($newsArchiveId, 'News Test B', 'news-test-b', $authorId, strtotime('-340 days'), strtotime('-340 days'), $this->getLoremIpsum(240), $filesDirectory.\DIRECTORY_SEPARATOR.'fileB.jpg', true);
+        $this->createOrUpdateNews($newsArchiveId, 'Actualité C', 'actualité-c', $authorId, strtotime('-300 days'), strtotime('-300 days'), $this->getLoremIpsum(80), $filesDirectory.\DIRECTORY_SEPARATOR.'fileC.jpg', true);
         $this->createOrUpdateNews($newsArchiveId, 'Actualité D', 'actualité-d', $authorId, strtotime('-300 days'), strtotime('-300 days +2 hours'), $this->getLoremIpsum(160), '', true);
-        $this->createOrUpdateNews($newsArchiveId, 'Actualité E', 'actualité-e', $authorId, strtotime('-280 days'), strtotime('-280 days'), $this->getLoremIpsum(380), $filesDirectory.\DIRECTORY_SEPARATOR.'fileD.png', true);
+        $this->createOrUpdateNews($newsArchiveId, 'Actualité E', 'actualité-e', $authorId, strtotime('-280 days'), strtotime('-280 days'), $this->getLoremIpsum(380), $filesDirectory.\DIRECTORY_SEPARATOR.'fileD.jpg', true);
         $this->createOrUpdateNews($newsArchiveId, 'Actualité F', 'actualité-f', $authorId, strtotime('-270 days'), strtotime('-270 days'), $this->getLoremIpsum(120), '', true);
         $this->createOrUpdateNews($newsArchiveId, 'Actualité G', 'actualité-g', $authorId, strtotime('-240 days'), strtotime('-240 days'), $this->getLoremIpsum(80), '', true);
-        $this->createOrUpdateNews($newsArchiveId, 'Actualité H', 'actualité-h', $authorId, strtotime('-180 days'), strtotime('-180 days'), $this->getLoremIpsum(160), $filesDirectory.\DIRECTORY_SEPARATOR.'fileE.png', true);
-        $this->createOrUpdateNews($newsArchiveId, 'Actualité I', 'actualité-i', $authorId, strtotime('-160 days'), strtotime('-160 days'), $this->getLoremIpsum(340), $filesDirectory.\DIRECTORY_SEPARATOR.'fileF.png', true);
-        $this->createOrUpdateNews($newsArchiveId, 'Actualité J', 'actualité-j', $authorId, strtotime('-140 days'), strtotime('-140 days'), $this->getLoremIpsum(80), $filesDirectory.\DIRECTORY_SEPARATOR.'fileG.png', true);
-        $this->createOrUpdateNews($newsArchiveId, 'Actualité K', 'actualité-k', $authorId, strtotime('-135 days'), strtotime('-135 days'), $this->getLoremIpsum(160), $filesDirectory.\DIRECTORY_SEPARATOR.'fileH.png', true);
-        $this->createOrUpdateNews($newsArchiveId, 'Actualité L', 'actualité-l', $authorId, strtotime('-120 days'), strtotime('-120 days'), $this->getLoremIpsum(360), $filesDirectory.\DIRECTORY_SEPARATOR.'fileI.png', true);
-        $this->createOrUpdateNews($newsArchiveId, 'Actualité M', 'actualité-m', $authorId, strtotime('-90 days'), strtotime('-90 days'), $this->getLoremIpsum(80), $filesDirectory.\DIRECTORY_SEPARATOR.'fileJ.png', true);
-        $this->createOrUpdateNews($newsArchiveId, 'Actualité N', 'actualité-n', $authorId, strtotime('-85 days'), strtotime('-85 days'), $this->getLoremIpsum(160), $filesDirectory.\DIRECTORY_SEPARATOR.'fileK.png', true);
-        $this->createOrUpdateNews($newsArchiveId, 'Actualité O', 'actualité-o', $authorId, strtotime('-70 days'), strtotime('-70 days'), $this->getLoremIpsum(600), $filesDirectory.\DIRECTORY_SEPARATOR.'fileL.png', true);
-        $this->createOrUpdateNews($newsArchiveId, 'Actualité P', 'actualité-p', $authorId, strtotime('-60 days'), strtotime('-60 days'), $this->getLoremIpsum(320), $filesDirectory.\DIRECTORY_SEPARATOR.'fileM.png', true);
+        $this->createOrUpdateNews($newsArchiveId, 'Actualité H', 'actualité-h', $authorId, strtotime('-180 days'), strtotime('-180 days'), $this->getLoremIpsum(160), $filesDirectory.\DIRECTORY_SEPARATOR.'fileE.jpg', true);
+        $this->createOrUpdateNews($newsArchiveId, 'Actualité I', 'actualité-i', $authorId, strtotime('-160 days'), strtotime('-160 days'), $this->getLoremIpsum(340), $filesDirectory.\DIRECTORY_SEPARATOR.'fileF.jpg', true);
+        $this->createOrUpdateNews($newsArchiveId, 'Actualité J', 'actualité-j', $authorId, strtotime('-140 days'), strtotime('-140 days'), $this->getLoremIpsum(80), $filesDirectory.\DIRECTORY_SEPARATOR.'fileG.jpg', true);
+        $this->createOrUpdateNews($newsArchiveId, 'Actualité K', 'actualité-k', $authorId, strtotime('-135 days'), strtotime('-135 days'), $this->getLoremIpsum(160), $filesDirectory.\DIRECTORY_SEPARATOR.'fileH.jpg', true);
+        $this->createOrUpdateNews($newsArchiveId, 'Actualité L', 'actualité-l', $authorId, strtotime('-120 days'), strtotime('-120 days'), $this->getLoremIpsum(360), $filesDirectory.\DIRECTORY_SEPARATOR.'fileI.jpg', true);
+        $this->createOrUpdateNews($newsArchiveId, 'Actualité M', 'actualité-m', $authorId, strtotime('-90 days'), strtotime('-90 days'), $this->getLoremIpsum(80), $filesDirectory.\DIRECTORY_SEPARATOR.'fileJ.jpg', true);
+        $this->createOrUpdateNews($newsArchiveId, 'Actualité N', 'actualité-n', $authorId, strtotime('-85 days'), strtotime('-85 days'), $this->getLoremIpsum(160), $filesDirectory.\DIRECTORY_SEPARATOR.'fileK.jpg', true);
+        $this->createOrUpdateNews($newsArchiveId, 'Actualité O', 'actualité-o', $authorId, strtotime('-70 days'), strtotime('-70 days'), $this->getLoremIpsum(600), $filesDirectory.\DIRECTORY_SEPARATOR.'fileL.jpg', true);
+        $this->createOrUpdateNews($newsArchiveId, 'Actualité P', 'actualité-p', $authorId, strtotime('-60 days'), strtotime('-60 days'), $this->getLoremIpsum(320), $filesDirectory.\DIRECTORY_SEPARATOR.'fileM.jpg', true);
         $this->createOrUpdateNews($newsArchiveId, 'Actualité Q', 'actualité-q', $authorId, strtotime('-30 days'), strtotime('-30 days'), $this->getLoremIpsum(80), '', true);
-        $this->createOrUpdateNews($newsArchiveId, 'Actualité R', 'actualité-r', $authorId, strtotime('-15 days'), strtotime('-15 days'), $this->getLoremIpsum(120), $filesDirectory.\DIRECTORY_SEPARATOR.'fileN.png', true);
+        $this->createOrUpdateNews($newsArchiveId, 'Actualité R', 'actualité-r', $authorId, strtotime('-15 days'), strtotime('-15 days'), $this->getLoremIpsum(120), $filesDirectory.\DIRECTORY_SEPARATOR.'fileN.jpg', true);
     }
 
     protected function cleanDatasets(): void
@@ -147,7 +147,7 @@ class Dataset extends ConfigurationStep
         $blogConfig = $this->configurationManager->load()->getSgBlog();
         $directory = $blogConfig->getCurrentPreset()->getSgNewsFolder();
         $newsArchiveId = $blogConfig->getSgNewsArchive();
-        $fileNamesToDelete = ['fileA.png', 'fileB.png', 'fileC.png', 'fileD.png', 'fileE.png', 'fileF.png', 'fileG.png', 'fileH.png', 'fileI.png', 'fileJ.png', 'fileK.png', 'fileL.png', 'fileM.png', 'fileN.png'];
+        $fileNamesToDelete = ['fileA.jpg', 'fileB.jpg', 'fileC.jpg', 'fileD.jpg', 'fileE.jpg', 'fileF.jpg', 'fileG.jpg', 'fileH.jpg', 'fileI.jpg', 'fileJ.jpg', 'fileK.jpg', 'fileL.jpg', 'fileM.jpg', 'fileN.jpg'];
         foreach ($fileNamesToDelete as $filenameToDelete) {
             $objFile = new \Contao\File($directory.\DIRECTORY_SEPARATOR.$filenameToDelete);
             if ($objFile->exists()) {

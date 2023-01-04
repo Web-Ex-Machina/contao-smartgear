@@ -276,7 +276,7 @@ class Migration extends MigrationAbstract
         // cols breakpoints default
         $contentElements2 = $contentElements;
         $contentElements2['contentElements'] = array_diff($contentElements2['contentElements'], ['gallery']);
-        $cssClasses = $this->buildMultipleCssClasses('cols-%s', 'fwgridcolumns', 1, 12);
+        $cssClasses = $this->buildMultipleCssClasses('d-grid cols-%s', 'fwgridcolumns', 1, 12);
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwgridcolumns'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolumns.title', 'WEMSG.STYLEMANAGER.fwgridcolumns.description', $contentElements2, $cssClasses, $passToTemplate);
         $objStyle->save();
 

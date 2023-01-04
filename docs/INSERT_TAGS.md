@@ -52,6 +52,7 @@ Tags | Value | Description
 `sg::content404Sitemap` | string | The Contao's 404 page sitemap content ID
 `sg::contentLegalNotice` | string | The Contao's legal notice page content ID
 `sg::contentPrivacyPolitics` | string | The Contao's privacy politics page content ID
+`sg::contentSitemapHeadline` | string | The Contao's sitemap page content headline ID
 `sg::contentSitemap` | string | The Contao's sitemap page content ID
 `sg::notificationGatewayEmail` | int | The Contao's email notification gateway ID
 `sg::modules` | string | Comma separated list of modules
@@ -91,7 +92,6 @@ Tags | Value | Description
 `sg::events_calendar` | int | The calendar's calendar ID
 `sg::events_page` | int | The calendar's page ID
 `sg::events_article` | string | The calendar's page article ID
-`sg::events_contentHeadline` | string | The calendar's page article headline content ID
 `sg::events_contentList` | string | The calendar's page article list content ID
 `sg::events_moduleReader` | int | The calendar's module reader ID
 `sg::events_moduleList` | int | The calendar's module list ID
@@ -185,7 +185,6 @@ Tags | Value | Description
 `sg::extranet_contentArticleExtranetModuleLoginLogged` | int | The Article Extranet Module Login (Logged users) content ID
 `sg::extranet_contentArticleExtranetModuleNav` | int | The Article Extranet Module Nav content ID
 `sg::extranet_contentArticleExtranetGridStopB` | int | The Article Extranet Grid Stop B content ID
-`sg::extranet_contentArticleExtranetText` | int | The Article Extranet Text content ID
 `sg::extranet_contentArticleExtranetGridStopA` | int | The Article Extranet Grid Stop A content ID
 `sg::extranet_contentArticle401Headline` | int | The Article 401 Headline content ID
 `sg::extranet_contentArticle401Text` | int | The Article 401 Text content ID

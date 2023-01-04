@@ -279,6 +279,7 @@ class General extends ConfigurationStep
             'groups' => serialize([0 => $groups['members']->id]),
             'noSearch' => 1,
             'published' => 1,
+            'hide' => 1,
             'sitemap' => 'map_never',
         ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
@@ -865,7 +866,6 @@ class General extends ConfigurationStep
         $moduleLoginLogged = ContentModel::findById($extranetConfig->getSgContentArticleExtranetModuleLoginLogged());
         $moduleNav = ContentModel::findById($extranetConfig->getSgContentArticleExtranetModuleNav());
         $gridStopB = ContentModel::findById($extranetConfig->getSgContentArticleExtranetGridStopB());
-        $text = ContentModel::findById($extranetConfig->getSgContentArticleExtranetText());
         $gridStopA = ContentModel::findById($extranetConfig->getSgContentArticleExtranetGridStopA());
 
         $headline = Util::createContent($article, array_merge([
@@ -917,12 +917,6 @@ class General extends ConfigurationStep
             'sorting' => 896,
         ], ['id' => null !== $gridStopB ? $gridStopB->id : null]));
 
-        $text = Util::createContent($article, array_merge([
-            'type' => 'text',
-            'text' => 'random',
-            'sorting' => 1024,
-        ], ['id' => null !== $text ? $text->id : null]));
-
         $gridStopA = Util::createContent($article, array_merge([
             'type' => 'grid-stop',
             'sorting' => 1152,
@@ -934,7 +928,6 @@ class General extends ConfigurationStep
             ->recalculateElementsForAllGridSharingTheSamePidAndPtable()
             ->setGridColsAll(3)
             ->setGridColsSm(1)
-            ->setGridItemColsAll((int) $text->id, 'cols-span-2')
         ;
 
         $gridStartA = $gsm->getGridStart();
@@ -956,7 +949,6 @@ class General extends ConfigurationStep
             'moduleLoginLogged' => $moduleLoginLogged,
             'moduleNav' => $moduleNav,
             'gridStopA' => $gridStopA,
-            'text' => $text,
             'gridStopB' => $gridStopB,
         ];
     }
@@ -1768,7 +1760,6 @@ class General extends ConfigurationStep
             ->setSgContentArticleExtranetModuleLoginLogged((int) $contents['extranet']['moduleLoginLogged']->id)
             ->setSgContentArticleExtranetModuleNav((int) $contents['extranet']['moduleNav']->id)
             ->setSgContentArticleExtranetGridStopA((int) $contents['extranet']['gridStopA']->id)
-            ->setSgContentArticleExtranetText((int) $contents['extranet']['text']->id)
             ->setSgContentArticleExtranetGridStopB((int) $contents['extranet']['gridStopB']->id)
             ->setSgContentArticle401Headline((int) $contents['error401']['headline']->id)
             ->setSgContentArticle401Text((int) $contents['error401']['text']->id)

@@ -176,6 +176,14 @@
 			<source>Date</source>
 			<target>Date</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.LBL.dateMonth">
+			<source>Month</source>
+			<target>Mois</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.FILTERS.LBL.dateYear">
+			<source>Year</source>
+			<target>Année</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.FILTERS.LBL.time">
 			<source>Time</source>
 			<target>Heure</target>
@@ -934,21 +942,14 @@
 			<source>Sitemap for %s</source>
 			<target>Plan du site de %s</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.PageSitemapHeadline">
+			<source>Sitemap</source>
+			<target>Plan du site</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.NotificationGatewayEmailSmartgearTitle">
 			<source>Service email - Smartgear</source>
 			<target>Email de service - Smartgear</target>
 		</trans-unit>
-
-		<trans-unit id="WEMSG.INSTALL.WEBSITE.XXXXX">
-			<source>XXXXXX</source>
-			<target>XXXXXXXX</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.INSTALL.WEBSITE.XXXXX">
-			<source>XXXXXX</source>
-			<target>XXXXXXXX</target>
-		</trans-unit>
-
-
 
 		<trans-unit id="WEMSG.RESET.GENERAL.Title">
 			<source>Global</source>

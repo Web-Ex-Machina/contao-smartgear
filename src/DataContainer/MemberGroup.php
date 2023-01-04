@@ -43,7 +43,7 @@ class MemberGroup extends \tl_member_group
         // Check current action
         switch (Input::get('act')) {
             case 'delete':
-                if ($this->isItemUsedBySmartgear((int) Input::get('id'))) {
+                if (!$this->canItemBeDeleted((int) Input::get('id'))) {
                     throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' member group ID '.Input::get('id').'.');
                 }
             break;
@@ -64,7 +64,7 @@ class MemberGroup extends \tl_member_group
      */
     public function deleteItem($row, $href, $label, $title, $icon, $attributes)
     {
-        if ($this->isItemUsedBySmartgear((int) $row['id'])) {
+        if (!$this->canItemBeDeleted((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
@@ -88,5 +88,10 @@ class MemberGroup extends \tl_member_group
         }
 
         return false;
+    }
+
+    protected function canItemBeDeleted(int $id): bool
+    {
+        return $this->User->admin || !$this->isItemUsedBySmartgear($id);
     }
 }

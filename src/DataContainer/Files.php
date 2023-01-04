@@ -44,7 +44,7 @@ class Files extends \tl_files
         // Check current action
         switch (Input::get('act')) {
             case 'delete':
-                if ($this->isItemUsedBySmartgear(Input::get('id'))) {
+                if (!$this->canItemBeDeleted(Input::get('id'))) {
                     throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' files ID '.Input::get('id').'.');
                 }
             break;
@@ -65,7 +65,7 @@ class Files extends \tl_files
      */
     public function deleteItem($row, $href, $label, $title, $icon, $attributes)
     {
-        if ($this->isItemUsedBySmartgear($row['id'])) {
+        if (!$this->canItemBeDeleted($row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
@@ -87,5 +87,10 @@ class Files extends \tl_files
         }
 
         return false;
+    }
+
+    protected function canItemBeDeleted(string $id): bool
+    {
+        return $this->User->admin || !$this->isItemUsedBySmartgear($id);
     }
 }

@@ -66,6 +66,12 @@
     <trans-unit id="WEMSG.FILTERS.LBL.date">
       <source>Date</source>
     </trans-unit>
+    <trans-unit id="WEMSG.FILTERS.LBL.dateMonth">
+      <source>Month</source>
+    </trans-unit>
+    <trans-unit id="WEMSG.FILTERS.LBL.dateYear">
+      <source>Year</source>
+    </trans-unit>
     <trans-unit id="WEMSG.FILTERS.LBL.time">
       <source>Time</source>
     </trans-unit>

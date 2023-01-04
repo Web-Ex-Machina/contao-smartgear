@@ -357,7 +357,6 @@ class Resetter extends BackendResetter
                 ->setSgContentArticleExtranetHeadline(null)
                 ->setSgContentArticleExtranetGridStartA(null)
                 ->setSgContentArticleExtranetGridStartB(null)
-                ->setSgContentArticleExtranetText(null)
                 ->setSgContentArticleExtranetModuleNav(null)
                 ->setSgContentArticleExtranetModuleLoginGuests(null)
                 ->setSgContentArticleExtranetModuleLoginLogged(null)

@@ -245,12 +245,13 @@ class General extends ConfigurationStep
             $moduleList->id = $eventsConfig->getSgModuleList();
         }
         $moduleList->name = $page->title.' - List';
+        $moduleList->headline = serialize(['unit' => 'h1', 'value' => $page->title]);
         $moduleList->pid = $config->getSgTheme();
         $moduleList->type = 'eventlist';
         $moduleList->cal_calendar = serialize([$calendar->id]);
         $moduleList->numberOfItems = 0;
         $moduleList->cal_format = 'cal_month';
-        $moduleList->cal_order = 'order_date_desc';
+        $moduleList->cal_order = 'descending';
         $moduleList->cal_readerModule = $moduleReader->id;
         $moduleList->perPage = $eventsConfig->getSgEventsListPerPage();
         $moduleList->imgSize = serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]);
@@ -270,7 +271,7 @@ class General extends ConfigurationStep
         $moduleCalendar->cal_calendar = serialize([$calendar->id]);
         $moduleCalendar->numberOfItems = 0;
         $moduleCalendar->cal_format = 'cal_month';
-        $moduleCalendar->cal_order = 'order_date_desc';
+        $moduleCalendar->cal_order = 'descending';
         $moduleCalendar->cal_readerModule = $moduleReader->id;
         $moduleCalendar->perPage = $eventsConfig->getSgEventsListPerPage();
         $moduleCalendar->imgSize = serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]);
@@ -286,15 +287,6 @@ class General extends ConfigurationStep
         $config = $this->configurationManager->load();
         $eventsConfig = $config->getSgEvents();
 
-        $headline = ContentModel::findById($eventsConfig->getSgContentHeadline());
-        $headline = Util::createContent($article, array_merge([
-            'type' => 'headline',
-            'pid' => $article->id,
-            'ptable' => 'tl_article',
-            'headline' => serialize(['unit' => 'h1', 'value' => $page->title]),
-            'cssID' => 'sep-bottom',
-        ], ['id' => null !== $headline ? $headline->id : null]));
-
         $list = ContentModel::findById($eventsConfig->getSgContentList());
         $list = Util::createContent($article, array_merge([
             'type' => 'module',
@@ -305,7 +297,7 @@ class General extends ConfigurationStep
 
         $article->save();
 
-        return ['headline' => $headline, 'list' => $list];
+        return ['list' => $list];
     }
 
     protected function importLeaflet(): void
@@ -323,7 +315,6 @@ class General extends ConfigurationStep
         $eventsConfig
             ->setSgPage((int) $page->id)
             ->setSgArticle((int) $article->id)
-            ->setSgContentHeadline((int) $contents['headline']->id)
             ->setSgContentList((int) $contents['list']->id)
             ->setSgCalendar((int) $calendar->id)
             ->setSgModuleReader((int) $modules['reader']->id)

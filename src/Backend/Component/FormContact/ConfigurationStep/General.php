@@ -160,20 +160,18 @@ class General extends ConfigurationStep
         ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
     }
 
-    protected function createPageFormSent(): PageModel
+    protected function createPageFormSent(PageModel $pageFormContact): PageModel
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
         /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
-        $rootPage = PageModel::findById($config->getSgPageRoot());
-
         $page = PageModel::findById($formContactConfig->getSgPageFormSent());
 
         return Util::createPage($this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormSentTitle', [$formContactConfig->getSgPageTitle()], 'contao_default'), 0, array_merge([
-            'pid' => $rootPage->id,
-            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
+            'pid' => $pageFormContact->id,
+            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $pageFormContact->id),
             'type' => 'regular',
             'robots' => 'index,follow',
             'description' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormSentDescription', [$formContactConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
@@ -184,7 +182,9 @@ class General extends ConfigurationStep
 
     protected function createPages(): array
     {
-        return ['form' => $this->createPageForm(), 'formSent' => $this->createPageFormSent()];
+        $pageForm = $this->createPageForm();
+
+        return ['form' => $pageForm, 'formSent' => $this->createPageFormSent($pageForm)];
     }
 
     protected function createArticlePageForm(PageModel $page): ArticleModel
