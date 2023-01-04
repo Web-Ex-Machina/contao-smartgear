@@ -34,7 +34,7 @@
 
 	var seriesLastPeriod = chart.series.push(
 		am5xy.ColumnSeries.new(root, {
-			name: "<?php echo $this->lastWeekSerieTitle; ?>",
+			name: "<?php echo $this->previousWeekSerieTitle; ?>",
 			xAxis: xAxis,
 			yAxis: yAxis,
 			valueYField: "valueLastWeek",
