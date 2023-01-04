@@ -85,23 +85,30 @@ class AnalyticsInternal extends BackendModule
 
         // visits this week
         $today = new DateTime('now');
+        $todayLastWeek = new DateTime('now');
+        $todayLastWeek->sub(new DateInterval('P7D'));
         $dateFormat = Config::get('dateFormat');
+        $dateIntervalOneDay = new DateInterval('P1D');
+
         for ($i = 0; $i < 7; ++$i) {
             $arrDays[] = $today->format('d/m');
-            $arrVisitsThisWeek[] = ['visits' => $this->getPageVisitsForDay($today), 'date' => $today->format($dateFormat), 'x' => $arrDays[$i]];
-            $today->sub(new DateInterval('P1D'));
-        }
-        // visits last week
-        $today = new DateTime('now');
-        $today->sub(new DateInterval('P7D'));
-        for ($i = 0; $i < 7; ++$i) {
-            $arrVisitsPreviousWeek[] = ['visits' => $this->getPageVisitsForDay($today), 'date' => $today->format($dateFormat), 'x' => $arrDays[$i]];
-            $today->sub(new DateInterval('P1D'));
+            $arrVisits[] = [
+                'this_week' => [
+                    'visits' => $this->getPageVisitsForDay($today),
+                    'date' => $today->format($dateFormat),
+                ],
+                'previous_week' => [
+                    'visits' => $this->getPageVisitsForDay($todayLastWeek),
+                    'date' => $todayLastWeek->format($dateFormat),
+                ],
+                'x' => $arrDays[$i],
+            ];
+            $today->sub($dateIntervalOneDay);
+            $todayLastWeek->sub($dateIntervalOneDay);
         }
 
         $objTemplate->arrDays = json_encode(array_reverse($arrDays));
-        $objTemplate->visitsThisWeekJsCharts = json_encode(array_reverse($arrVisitsThisWeek));
-        $objTemplate->visitsPreviousWeekJsCharts = json_encode(array_reverse($arrVisitsPreviousWeek));
+        $objTemplate->arrVisits = json_encode(array_reverse($arrVisits));
         $objTemplate->visitsTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.visitsTitle', [], 'contao_default');
         $objTemplate->thisWeekSerieTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.thisWeekSerieTitle', [], 'contao_default');
         $objTemplate->previousWeekSerieTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.previousWeekSerieTitle', [], 'contao_default');

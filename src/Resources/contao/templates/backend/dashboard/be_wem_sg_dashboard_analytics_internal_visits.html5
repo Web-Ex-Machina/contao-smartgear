@@ -8,21 +8,21 @@
 			labels: <?php echo $this->arrDays; ?>,
 			datasets: [{
 				label: "<?php echo $this->previousWeekSerieTitle; ?>",
-				data: <?php echo $this->visitsPreviousWeekJsCharts; ?>,
+				data: <?php echo $this->arrVisits; ?>,
 				backgroundColor: "#ADD8E6",
                 borderDash: [2, 2],
                 barThickness: 30,
 				parsing: {
-					yAxisKey: 'visits'
+					yAxisKey: 'previous_week.visits'
 				}
 			},{
 				label: "<?php echo $this->thisWeekSerieTitle; ?>",
-				data: <?php echo $this->visitsThisWeekJsCharts; ?>,
+				data: <?php echo $this->arrVisits; ?>,
 				backgroundColor: "#90ee90",
                 borderDash: [2, 2],
                 barThickness: 30,
 				parsing: {
-					yAxisKey: 'visits'
+					yAxisKey: 'this_week.visits'
 				}
 			}]
 		},
@@ -33,17 +33,19 @@
 				}
 			},
 	        plugins: {
-	            title: {
-	                display: true,
-	                text: '<?php echo $this->visitsTitle; ?>'
-	            },
+	            // title: {
+	            //     display: true,
+	            //     text: '<?php echo $this->visitsTitle; ?>'
+	            // },
 	            tooltip:{
 					callbacks:{
 						title: function(contextArray){
-							return contextArray[0].raw.date;
+							let context = contextArray[0];
+
+							return 0 === context.datasetIndex ? context.raw.previous_week.date : context.raw.this_week.date;
 						},
 						label: function(context){
-							return context.formattedValue;
+							return context.formattedValue + " <?php echo $this->trans('WEM.SMARTGEAR.DEFAULT.visits',[],'contao_default'); ?>";
 						}
 					}
 				}
