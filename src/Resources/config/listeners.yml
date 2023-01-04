@@ -114,6 +114,7 @@ services:
         class: WEM\SmartgearBundle\EventListener\Security\InteractiveLoginListener
         arguments:
             $configurationManager: '@smartgear.config.manager.core'
+            $scopeMatcher: '@smartgear.classes.scope_matcher'
         tags:
             - { name: kernel.event_listener, event: security.interactive_login }
         public: true

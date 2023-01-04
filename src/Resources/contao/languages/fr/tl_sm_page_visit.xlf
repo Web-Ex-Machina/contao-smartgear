@@ -6,7 +6,7 @@
 			<target>Informations</target>
 		</trans-unit>
     <trans-unit id="tl_sm_page_visit.pid.0">
-      <source>Pagge</source>
+      <source>Page</source>
       <target>Page</target>
     </trans-unit>
     <trans-unit id="tl_sm_page_visit.page_url.0">
@@ -16,6 +16,10 @@
     <trans-unit id="tl_sm_page_visit.referer.0">
       <source>Referer</source>
       <target>Referer</target>
+    </trans-unit>
+    <trans-unit id="tl_sm_page_visit.ip.0">
+      <source>Visitor IP</source>
+      <target>IP du visiteur</target>
     </trans-unit>
     </body>
   </file>

@@ -92,6 +92,8 @@ class GeneratePageListener
         $objItem->pid = $pageModel->id;
         $objItem->page_url = Environment::get('uri');
         $objItem->referer = System::getReferer();
+        $objItem->url = System::getReferer();
+        $objItem->ip = Environment::get('ip');
         $objItem->createdAt = time();
         $objItem->tstamp = time();
         $objItem->save();
