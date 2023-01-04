@@ -213,6 +213,13 @@ services:
             $configurationManager : '@smartgear.config.manager.core'
         public: true
 
+    smartgear.classes.scope_matcher:
+        class: WEM\SmartgearBundle\Classes\ScopeMatcher
+        arguments:
+            $requestStack: '@request_stack'
+            $scopeMatcher : '@contao.routing.scope_matcher'
+        public: true
+
     smartgear.config.manager.framway:
         class: WEM\SmartgearBundle\Config\Manager\Framway
         arguments:

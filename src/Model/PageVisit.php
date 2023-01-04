@@ -35,6 +35,41 @@ class PageVisit extends CoreModel
      */
     protected static $strOrderColumn = 'tstamp DESC';
 
+    /**
+     * Generic statements format.
+     *
+     * @param string $strField    [Column to format]
+     * @param mixed  $varValue    [Value to use]
+     * @param string $strOperator [Operator to use, default "="]
+     *
+     * @return array
+     */
+    public static function formatStatement($strField, $varValue, $strOperator = '=')
+    {
+        $arrColumns = [];
+        $t = static::$strTable;
+
+        switch ($strField) {
+            case 'exclude_be_login':
+                $arrColumns[] = sprintf("$t.ip NOT IN (
+                    SELECT l.ip
+                    FROM %s l
+                    WHERE l.createdAt BETWEEN (%s.createdAt - 86400) AND (%s.createdAt + 86400)
+                    AND l.context = '%s'
+                )",
+                Login::getTable(),
+                self::getTable(),
+                self::getTable(),
+                Login::CONTEXT_BE
+                );
+                break;
+            default:
+                return parent::formatStatement($strField, $varValue, $strOperator);
+        }
+
+        return $arrColumns;
+    }
+
     public static function getReferersAnalytics(?array $arrConfig = [], ?int $limit = 5, ?int $offset = 0, ?array $arrOptions = [])
     {
         $t = self::getTable();

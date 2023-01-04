@@ -15,23 +15,54 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\EventListener\Security;
 
 use Contao\Controller;
+use Contao\Environment;
 use Contao\System;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\ScopeMatcher;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
+use WEM\SmartgearBundle\Model\Login;
 
 class InteractiveLoginListener
 {
+    /** @var ConfigurationManager */
+    protected $configurationManager;
+
+    /** @var ScopeMatcher */
+    protected $scopeMatcher;
+
     /**
      * Initialize the object.
      */
     public function __construct(
-        configurationManager $configurationManager
+        configurationManager $configurationManager,
+        ScopeMatcher $scopeMatcher
     ) {
         $this->configurationManager = $configurationManager;
+        $this->scopeMatcher = $scopeMatcher;
     }
 
     public function __invoke(InteractiveLoginEvent $event): void
+    {
+        $this->registerBackendLoginInformations();
+        $this->redirectToSmargearDashboard();
+    }
+
+    protected function registerBackendLoginInformations(): void
+    {
+        if (!$this->scopeMatcher->isBackend()) {
+            return;
+        }
+        // add a new backend login
+        $objItem = new Login();
+        $objItem->ip = Environment::get('ip');
+        $objItem->context = $this->scopeMatcher->isBackend() ? Login::CONTEXT_BE : Login::CONTEXT_FE;
+        $objItem->createdAt = time();
+        $objItem->tstamp = time();
+        $objItem->save();
+    }
+
+    protected function redirectToSmargearDashboard(): void
     {
         try {
             $config = $this->configurationManager->load();

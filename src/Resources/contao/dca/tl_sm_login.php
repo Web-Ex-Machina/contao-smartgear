@@ -13,13 +13,14 @@ declare(strict_types=1);
  */
 
 use Contao\DataContainer;
+use Contao\DC_Table;
 
-$GLOBALS['TL_DCA']['tl_sm_page_visit'] = [
+$GLOBALS['TL_DCA']['tl_sm_login'] = [
     // Config
     'config' => [
-        'dataContainer' => 'Table',
+        'dataContainer' => DC_Table::class,
         'ctable' => [],
-        'ptable' => 'tl_page',
+        'ptable' => '',
         'switchToEdit' => false,
         'enableVersioning' => false,
         'sql' => [
@@ -38,7 +39,7 @@ $GLOBALS['TL_DCA']['tl_sm_page_visit'] = [
             'panelLayout' => 'filter;search,limit',
         ],
         'label' => [
-            'fields' => ['createdAt', 'pid', 'page_url', 'referer', 'ip'],
+            'fields' => ['createdAt', 'ip', 'context'],
             'showColumns' => true,
         ],
         'global_operations' => [],
@@ -51,7 +52,7 @@ $GLOBALS['TL_DCA']['tl_sm_page_visit'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend},pid,page_url,referer,ip;',
+        'default' => '{title_legend},ip,context,createdAt;',
     ],
     // Fields
     'fields' => [
@@ -68,25 +69,6 @@ $GLOBALS['TL_DCA']['tl_sm_page_visit'] = [
             'flag' => 8,
             'sql' => "varchar(10) NOT NULL default ''",
         ],
-        'pid' => [
-            'search' => true,
-            'inputType' => 'picker',
-            'foreignKey' => 'tl_page.name',
-            'eval' => ['mandatory' => true, 'tl_class' => 'w50'],
-            'sql' => 'int(10) unsigned NOT NULL default 0',
-        ],
-        'page_url' => [
-            'search' => true,
-            'inputType' => 'text',
-            'eval' => ['mandatory' => true, 'rgxp' => 'url', 'tl_class' => 'w50'],
-            'sql' => 'TEXT NULL',
-        ],
-        'referer' => [
-            'search' => true,
-            'inputType' => 'text',
-            'eval' => ['mandatory' => false, 'rgxp' => 'url', 'tl_class' => 'w50'],
-            'sql' => 'TEXT NULL',
-        ],
         'ip' => [
             'search' => true,
             'inputType' => 'text',
@@ -97,6 +79,13 @@ $GLOBALS['TL_DCA']['tl_sm_page_visit'] = [
                 'customRgxp' => '/^((^\s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))\s*$)|(^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$))$/',
                 'tl_class' => 'w50', ],
             'sql' => "varchar(45) NOT NULL default ''",
+        ],
+        'context' => [
+            'search' => true,
+            'inputType' => 'select',
+            'options' => ['FE', 'BE'],
+            'eval' => ['mandatory' => true, 'tl_class' => 'w50'],
+            'sql' => 'varchar(2) NOT NULL default ""',
         ],
     ],
 ];

@@ -43,6 +43,9 @@ class GeneratePageListener
         $this->manageBreadcrumbBehaviour($pageModel, $layout, $pageRegular);
     }
 
+    /**
+     * Manage the breadcrumb's behaviour.
+     */
     protected function manageBreadcrumbBehaviour(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
     {
         $renderStack = RenderStack::getInstance();
@@ -92,6 +95,8 @@ class GeneratePageListener
         $objItem->pid = $pageModel->id;
         $objItem->page_url = Environment::get('uri');
         $objItem->referer = System::getReferer();
+        $objItem->url = System::getReferer();
+        $objItem->ip = Environment::get('ip');
         $objItem->createdAt = time();
         $objItem->tstamp = time();
         $objItem->save();
