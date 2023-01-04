@@ -19,14 +19,22 @@ namespace WEM\SmartgearBundle\Classes;
 
 class ScopeMatcher
 {
+    /** @var \Symfony\Component\HttpFoundation\RequestStack */
     private $requestStack;
+
+    /** @var \Contao\CoreBundle\Routing\ScopeMatcher */
     private $scopeMatcher;
 
-    // public function __construct(RequestStack $requestStack, ScopeMatcherBase $scopeMatcher)
+    /**
+     * I use FQDN because PHP doesn't care about the "use".
+     *
+     * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack [description]
+     * @param \Contao\CoreBundle\Routing\ScopeMatcher        $scopeMatcher [description]
+     */
     public function __construct(
         \Symfony\Component\HttpFoundation\RequestStack $requestStack,
-        \Contao\CoreBundle\Routing\ScopeMatcher $scopeMatcher)
-    {
+        \Contao\CoreBundle\Routing\ScopeMatcher $scopeMatcher
+    ) {
         $this->requestStack = $requestStack;
         $this->scopeMatcher = $scopeMatcher;
     }

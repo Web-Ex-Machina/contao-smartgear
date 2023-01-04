@@ -43,6 +43,9 @@ class GeneratePageListener
         $this->manageBreadcrumbBehaviour($pageModel, $layout, $pageRegular);
     }
 
+    /**
+     * Manage the breadcrumb's behaviour.
+     */
     protected function manageBreadcrumbBehaviour(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
     {
         $renderStack = RenderStack::getInstance();
