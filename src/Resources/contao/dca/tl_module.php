@@ -314,14 +314,14 @@ DCAManipulator::create('tl_module')
     ->addField('wem_sg_breadcrumb_auto_placement_after_content_elements', [
         'label' => &$GLOBALS['TL_LANG']['tl_content']['breadcrumb']['auto_placement_after_content_elements'],
         'inputType' => 'select',
-        'eval' => ['tl_class' => 'w50 clr', 'multiple' => true, 'mandatory' => true, 'chosen' => true],
+        'eval' => ['tl_class' => 'w50 clr', 'multiple' => true, 'mandatory' => false, 'chosen' => true],
         'options_callback' => [WEM\SmartgearBundle\DataContainer\Module::class, 'getOptionsForBreadcrumbAutoPlacementAfterContentElements'],
         'sql' => 'TEXT NULL',
     ])
     ->addField('wem_sg_breadcrumb_auto_placement_after_modules', [
         'label' => &$GLOBALS['TL_LANG']['tl_content']['breadcrumb']['auto_placement_after_modules'],
         'inputType' => 'select',
-        'eval' => ['tl_class' => 'w50 clr', 'multiple' => true, 'mandatory' => true, 'chosen' => true],
+        'eval' => ['tl_class' => 'w50 clr', 'multiple' => true, 'mandatory' => false, 'chosen' => true],
         'options_callback' => [WEM\SmartgearBundle\DataContainer\Module::class, 'getOptionsForBreadcrumbAutoPlacementAfterModules'],
         'sql' => 'TEXT NULL',
     ])
