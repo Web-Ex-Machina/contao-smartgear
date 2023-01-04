@@ -17,6 +17,7 @@ namespace Classes;
 use Doctrine\DBAL\Connection;
 
 require_once realpath(__DIR__.'/../Util/SmartgearTestCase.php');
+
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use WEM\SmartgearBundle\Classes\RenderStack;
 
@@ -32,8 +33,14 @@ class RenderStackTest extends \Util\SmartgearTestCase
 
     protected function setUp(): void
     {
+        // Because \Contao\PageModel requires it to be defined
+        // I don't set it to FE because it requires even more trickeries
+        if (!\defined('TL_MODE')) {
+            \define('TL_MODE', 'BE');
+        }
+
         if (!\defined('TL_ROOT')) {
-            \define('TL_ROOT', sys_get_temp_dir());
+            \define('TL_ROOT', codecept_data_dir());
         }
 
         $GLOBALS['TL_CONFIG']['uploadPath'] = sys_get_temp_dir();
@@ -256,9 +263,9 @@ class RenderStackTest extends \Util\SmartgearTestCase
         ];
 
         return [
-            'scenario_1_no_breadcrumb' => $dp1,
-            'scenario_2_breadcrumb_in_first_place' => $dp2,
-            'scenario_3_breadcrumb_in_second_place_left_column' => $dp3,
+            'scenario 1 : no breadcrumb' => $dp1,
+            'scenario 2 : breadcrumb in first place' => $dp2,
+            'scenario 3 : breadcrumb in second place left column' => $dp3,
         ];
     }
 
@@ -370,9 +377,9 @@ class RenderStackTest extends \Util\SmartgearTestCase
         ];
 
         return [
-            'scenario_1_no_breadcrumb' => $dp1,
-            'scenario_2_breadcrumb_in_first_place' => $dp2,
-            'scenario_3_breadcrumb_in_second_place_left_column' => $dp3,
+            'scenario 1 : no breadcrumb' => $dp1,
+            'scenario 2 : breadcrumb in first place' => $dp2,
+            'scenario 3 : breadcrumb in second place left column' => $dp3,
         ];
     }
 
@@ -585,9 +592,9 @@ class RenderStackTest extends \Util\SmartgearTestCase
         ];
 
         return [
-            'scenario_1_no_breadcrumb' => $dp1,
-            'scenario_2_breadcrumb_in_first_place' => $dp2,
-            'scenario_3_breadcrumb_in_second_place_left_column' => $dp3,
+            'scenario 1 : no breadcrumb' => $dp1,
+            'scenario 2 : breadcrumb in first place' => $dp2,
+            'scenario 3 : breadcrumb in second place left column' => $dp3,
         ];
     }
 
