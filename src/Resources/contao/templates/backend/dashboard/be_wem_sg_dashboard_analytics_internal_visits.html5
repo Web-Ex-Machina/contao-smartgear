@@ -1,87 +1,53 @@
 <h3><?php echo $this->visitsTitle; ?></h3>
-<div id="chartdiv" style="height:200px;">
-	
-</div>
+<canvas id="jschartdiv" style="height:200px;"></canvas>
 <script type="text/javascript">
-	var root = am5.Root.new("chartdiv");
-	root.setThemes([
-		am5themes_Animated.new(root)
-	]);
-	var chart = root.container.children.push(
-		am5xy.XYChart.new(root, {})
-	);
-	var yAxis = chart.yAxes.push(
-		am5xy.ValueAxis.new(root, {
-			min: 0,
-			maxPrecision: 0,
-			renderer: am5xy.AxisRendererY.new(root, {})
-		})
-	);
-	var xAxis = chart.xAxes.push(
-		am5xy.DateAxis.new(root, {
-			baseInterval: { timeUnit: "day", count: 1 },
-			renderer: am5xy.AxisRendererX.new(root, {
-				minGridDistance: 20
-			}),
-			dateFormats:{
-				day: "dd/MM"
+  	const ctx = document.getElementById('jschartdiv');
+	new Chart(ctx, {
+		type: 'bar',
+		data: {
+			labels: <?php echo $this->arrDays; ?>,
+			datasets: [{
+				label: "<?php echo $this->previousWeekSerieTitle; ?>",
+				data: <?php echo $this->visitsPreviousWeekJsCharts; ?>,
+				backgroundColor: "#ADD8E6",
+                borderDash: [2, 2],
+                barThickness: 30,
+				parsing: {
+					yAxisKey: 'visits'
+				}
+			},{
+				label: "<?php echo $this->thisWeekSerieTitle; ?>",
+				data: <?php echo $this->visitsThisWeekJsCharts; ?>,
+				backgroundColor: "#90ee90",
+                borderDash: [2, 2],
+                barThickness: 30,
+				parsing: {
+					yAxisKey: 'visits'
+				}
+			}]
+		},
+		options: {
+			scales: {
+				y: {
+					beginAtZero: true
+				}
 			},
-			periodChangeDateFormats:{
-				day: "dd/MM"
-			}
-		})
-	);
-
-	var seriesLastPeriod = chart.series.push(
-		am5xy.ColumnSeries.new(root, {
-			name: "<?php echo $this->previousWeekSerieTitle; ?>",
-			xAxis: xAxis,
-			yAxis: yAxis,
-			valueYField: "valueLastWeek",
-			valueXField: "tstamp",
-		    fill: am5.color('#0000FF'),
-		    stroke: am5.color('#0000AA')
-		})
-	);
-
-	seriesLastPeriod.columns.template.setAll({
-		fillOpacity: 0.5,
-		strokeWidth: 2,
-		cornerRadiusTL: 5,
-		cornerRadiusTR: 5
+	        plugins: {
+	            title: {
+	                display: true,
+	                text: '<?php echo $this->visitsTitle; ?>'
+	            },
+	            tooltip:{
+					callbacks:{
+						title: function(contextArray){
+							return contextArray[0].raw.date;
+						},
+						label: function(context){
+							return context.formattedValue;
+						}
+					}
+				}
+	        }
+		}
 	});
-
-	seriesLastPeriod.columns.template.setAll({
-	    tooltipText: "{name}, {dateLastWeek}: {valueY}",
-	    width: am5.percent(90),
-	    tooltipY: 0
-	  });
-
-	var seriesCurrentPeriod = chart.series.push(
-		am5xy.ColumnSeries.new(root, {
-			name: "<?php echo $this->thisWeekSerieTitle; ?>",
-			xAxis: xAxis,
-			yAxis: yAxis,
-			valueYField: "valueThisWeek",
-			valueXField: "tstamp",
-		    fill: am5.color('#00FF00'),
-		    stroke: am5.color('#00AA00')
-		})
-	);
-
-	seriesCurrentPeriod.columns.template.setAll({
-		fillOpacity: 0.5,
-		strokeWidth: 2,
-		cornerRadiusTL: 5,
-		cornerRadiusTR: 5
-	});
-
-	seriesCurrentPeriod.columns.template.setAll({
-	    tooltipText: "{name}, {dateThisWeek}: {valueY}",
-	    width: am5.percent(90),
-	    tooltipY: 0
-	  });
-
-	seriesCurrentPeriod.data.setAll(<?php echo $this->visitsMerged; ?>);
-	seriesLastPeriod.data.setAll(<?php echo $this->visitsMerged; ?>);
 </script>

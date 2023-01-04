@@ -10,7 +10,7 @@
 		<tbody>
 			<?php foreach($this->referers as $referer): ?>
 			<tr>
-				<td class="tl_file_list"><?php echo $referer['referer']; ?></td>
+				<td class="tl_file_list"><?php echo urldecode($referer['referer']); ?></td>
 				<td class="tl_file_list"><?php echo $referer['amount']; ?></td>
 			</tr>
 			<?php endforeach;?>
