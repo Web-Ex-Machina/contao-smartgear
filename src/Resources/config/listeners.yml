@@ -124,5 +124,17 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
         public: true
 
+    smartgear.listener.get_content_element:
+        class: WEM\SmartgearBundle\EventListener\GetContentElementListener
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
+    smartgear.listener.get_frontend_module:
+        class: WEM\SmartgearBundle\EventListener\GetFrontendModuleListener
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+        public: true
+
 
     

@@ -146,7 +146,7 @@
 				<target>Lien vers le formulaire de récupération de mot de passe</target>
 			</trans-unit>
 			<trans-unit id="tl_module.wem_sg_login_pwd_lost_jumpTo.1">
-				<source>Select the page contianing lost password recovery form</source>
+				<source>Select the page containing lost password recovery form</source>
 				<target>Sélectionnez la page contenant le formulaire de récupération de mot de passe</target>
 			</trans-unit>
 			<trans-unit id="tl_module.wem_sg_login_register_jumpTo.0">
@@ -154,8 +154,36 @@
 				<target>Lien vers le formulaire d'inscription</target>
 			</trans-unit>
 			<trans-unit id="tl_module.wem_sg_login_register_jumpTo.1">
-				<source>Select the page contianing register form</source>
+				<source>Select the page containing register form</source>
 				<target>Sélectionnez la page contenant le formulaire d'inscription</target>
+			</trans-unit>
+			<trans-unit id="tl_module.auto_placement_legend">
+				<source>Automatic placement</source>
+				<target>Placement automatique</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_breadcrumb_auto_placement.0">
+				<source>Automatically place breadcrumb</source>
+				<target>Placement automatique</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_breadcrumb_auto_placement.1">
+				<source>Depending on the content right after it, allow the breadcrumb to swap its position</source>
+				<target>Selon le contenu placé juste après, autoriser le fil d'arianne à échanger sa place</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_breadcrumb_auto_placement_after_content_elements.0">
+				<source>Content elements triggering a replacement</source>
+				<target>Elements de contenu déclenchant un replacement automatique</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_breadcrumb_auto_placement_after_content_elements.1">
+				<source>Select the content elements triggering a replacement</source>
+				<target>Sélectionnez les éléments de contenu déclenchant un replacement automatique</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_breadcrumb_auto_placement_after_modules.0">
+				<source>Modules triggering a replacement</source>
+				<target>Modules déclenchant un replacement automatique</target>
+			</trans-unit>
+			<trans-unit id="tl_module.wem_sg_breadcrumb_auto_placement_after_modules.1">
+				<source>Select the modules triggering a replacement</source>
+				<target>Sélectionnez les modules déclenchant un replacement automatique</target>
 			</trans-unit>
     </body>
   </file>

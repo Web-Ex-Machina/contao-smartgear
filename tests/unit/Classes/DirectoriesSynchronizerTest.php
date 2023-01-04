@@ -34,13 +34,12 @@ class DirectoriesSynchronizerTest extends \Util\SmartgearTestCase
     protected function setUp(): void
     {
         if (!\defined('TL_ROOT')) {
-            \define('TL_ROOT', sys_get_temp_dir());
+            \define('TL_ROOT', codecept_data_dir());
         }
-
         $GLOBALS['TL_CONFIG']['uploadPath'] = sys_get_temp_dir();
 
         $container = $this->getContainerWithContaoConfiguration();
-        $container->setParameter('kernel.project_dir', realpath(__DIR__.'/../../../tests/_data'));
+        $container->setParameter('kernel.project_dir', codecept_data_dir());
         \Contao\System::setContainer($container);
         $this->getTempDir();
 

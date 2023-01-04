@@ -103,6 +103,38 @@ class Module extends \tl_module
     }
 
     /**
+     * Return the list of content elements for breadcrumb placement.
+     */
+    public function getOptionsForBreadcrumbAutoPlacementAfterContentElements(DataContainer $dc): array
+    {
+        $arrOptions = [];
+
+        foreach ($GLOBALS['TL_CTE'] as $k => $v) {
+            foreach (array_keys($v) as $kk) {
+                $arrOptions[$GLOBALS['TL_LANG']['CTE'][$k]][$kk] = $GLOBALS['TL_LANG']['CTE'][$kk][0].' ('.$kk.')';
+            }
+        }
+
+        return $arrOptions;
+    }
+
+    /**
+     * Return the list of modules for breadcrumb placement.
+     */
+    public function getOptionsForBreadcrumbAutoPlacementAfterModules(DataContainer $dc): array
+    {
+        $arrOptions = [];
+
+        foreach ($GLOBALS['FE_MOD'] as $k => $v) {
+            foreach (array_keys($v) as $kk) {
+                $arrOptions[$GLOBALS['TL_LANG']['FMD'][$k]][$kk] = $GLOBALS['TL_LANG']['FMD'][$kk][0].' ('.$kk.')';
+            }
+        }
+
+        return $arrOptions;
+    }
+
+    /**
      * Check if the module is being used by Smartgear.
      *
      * @param int $id module's ID

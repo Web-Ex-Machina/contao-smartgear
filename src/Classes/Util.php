@@ -586,12 +586,14 @@ class Util
      */
     public static function getPublicOrWebDirectory(?bool $relative = false): string
     {
-        $composerJson = json_decode(file_get_contents(TL_ROOT.'/composer.json'), true);
+        $rootDir = System::getContainer()->getParameter('kernel.project_dir');
+
+        $composerJson = json_decode(file_get_contents($rootDir.'/composer.json'), true);
         if ($composerJson['extra']['public-dir'] ?? false) {
-            return $relative ? $composerJson['extra']['public-dir'] : TL_ROOT.\DIRECTORY_SEPARATOR.$composerJson['extra']['public-dir'];
+            return $relative ? $composerJson['extra']['public-dir'] : $rootDir.\DIRECTORY_SEPARATOR.$composerJson['extra']['public-dir'];
         }
 
-        return $relative ? 'public' : TL_ROOT.\DIRECTORY_SEPARATOR.'public';
+        return $relative ? 'public' : $rootDir.\DIRECTORY_SEPARATOR.'public';
     }
 
     /**

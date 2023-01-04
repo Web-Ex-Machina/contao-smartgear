@@ -44,7 +44,7 @@ class CacheFileManager
 
     public function hasValidCache(): bool
     {
-        $data = $this->retrieveFromCache($name);
+        $data = $this->retrieveFromCache();
 
         return $data['expiration_timestamp'] > time();
     }
