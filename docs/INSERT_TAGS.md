@@ -92,7 +92,6 @@ Tags | Value | Description
 `sg::events_calendar` | int | The calendar's calendar ID
 `sg::events_page` | int | The calendar's page ID
 `sg::events_article` | string | The calendar's page article ID
-`sg::events_contentHeadline` | string | The calendar's page article headline content ID
 `sg::events_contentList` | string | The calendar's page article list content ID
 `sg::events_moduleReader` | int | The calendar's module reader ID
 `sg::events_moduleList` | int | The calendar's module list ID

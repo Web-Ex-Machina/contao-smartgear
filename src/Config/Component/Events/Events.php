@@ -58,8 +58,6 @@ class Events implements ConfigModuleInterface
     /** @var int */
     protected $sgArticle;
     /** @var int */
-    protected $sgContentHeadline;
-    /** @var int */
     protected $sgContentList;
     /** @var int */
     protected $sgCalendar;
@@ -86,7 +84,6 @@ class Events implements ConfigModuleInterface
             ->setSgPageTitle(self::DEFAULT_PAGE_TITLE)
             ->setSgPage(null)
             ->setSgArticle(null)
-            ->setSgContentHeadline(null)
             ->setSgContentList(null)
             ->setSgCalendar(null)
             ->setSgModuleReader(null)
@@ -110,7 +107,6 @@ class Events implements ConfigModuleInterface
             ->setSgPageTitle($json->page_title ?? self::DEFAULT_PAGE_TITLE)
             ->setSgPage($json->contao->page ?? null)
             ->setSgArticle($json->contao->article ?? null)
-            ->setSgContentHeadline($json->contao->contents->headline ?? null)
             ->setSgContentList($json->contao->contents->list ?? null)
             ->setSgCalendar($json->contao->calendar ?? null)
             ->setSgModuleReader($json->contao->modules->reader ?? null)
@@ -141,7 +137,6 @@ class Events implements ConfigModuleInterface
         $json->contao->calendar = $this->getSgCalendar();
 
         $json->contao->contents = new \stdClass();
-        $json->contao->contents->headline = $this->getSgContentHeadline();
         $json->contao->contents->list = $this->getSgContentList();
 
         $json->contao->modules = new \stdClass();
@@ -191,7 +186,7 @@ class Events implements ConfigModuleInterface
             return [];
         }
 
-        return [$this->getSgContentHeadline(), $this->getSgContentList()];
+        return [$this->getSgContentList()];
     }
 
     public function getContaoArticlesIds(): array
@@ -250,7 +245,6 @@ class Events implements ConfigModuleInterface
 
     public function resetContaoContentsIds(): void
     {
-        $this->setSgContentHeadline(null);
         $this->setSgContentList(null);
     }
 
@@ -469,18 +463,6 @@ class Events implements ConfigModuleInterface
     public function setSgArticle(?int $sgArticle): self
     {
         $this->sgArticle = $sgArticle;
-
-        return $this;
-    }
-
-    public function getSgContentHeadline(): ?int
-    {
-        return $this->sgContentHeadline;
-    }
-
-    public function setSgContentHeadline(?int $sgContentHeadline): self
-    {
-        $this->sgContentHeadline = $sgContentHeadline;
 
         return $this;
     }
