@@ -173,7 +173,7 @@ class AnalyticsInternal extends BackendModule
                     $dt->setTime(0, 0, 0, 0)->getTimestamp(),
                     $dt->setTime(23, 59, 59, 999)->getTimestamp()
                 )],
-            'exclude_fe_login' => true,
+            'exclude_be_login' => true,
         ]);
     }
 
@@ -185,7 +185,7 @@ class AnalyticsInternal extends BackendModule
                     $dt->setTime(0, 0, 0, 0)->getTimestamp(),
                     $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp()
                 )],
-            'exclude_fe_login' => true,
+            'exclude_be_login' => true,
         ];
         $arrOptions = ['group' => 'referer', 'order' => 'amount DESC'];
         $limit = 1;
@@ -210,7 +210,7 @@ class AnalyticsInternal extends BackendModule
                     $dt->setTime(0, 0, 0, 0)->getTimestamp(),
                     $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp()
                 )],
-            'exclude_fe_login' => true,
+            'exclude_be_login' => true,
         ];
         $arrOptions = ['group' => 'page_url', 'order' => 'amount DESC'];
         $limit = 5;

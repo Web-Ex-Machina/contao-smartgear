@@ -50,12 +50,18 @@ class PageVisit extends CoreModel
         $t = static::$strTable;
 
         switch ($strField) {
-            case 'exclude_fe_login':
+            case 'exclude_be_login':
                 $arrColumns[] = sprintf("$t.ip NOT IN (
                     SELECT l.ip
                     FROM %s l
                     WHERE l.createdAt BETWEEN (%s.createdAt - 86400) AND (%s.createdAt + 86400)
-                )", Login::getTable(), self::getTable(), self::getTable());
+                    AND l.context = '%s'
+                )",
+                Login::getTable(),
+                self::getTable(),
+                self::getTable(),
+                Login::CONTEXT_BE
+                );
                 break;
             default:
                 return parent::formatStatement($strField, $varValue, $strOperator);
