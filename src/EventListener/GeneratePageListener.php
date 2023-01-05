@@ -61,8 +61,12 @@ class GeneratePageListener
         $breadcrumb = $mainBreadcrumItems[0];
         $mainItems = $renderStack->getItems('main');
         $firstItemAfterBreadcrumb = $mainItems[1];
-        $breadcrumbItemsToPlaceAfterContentElements = StringUtil::deserialize($breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_content_elements);
-        $breadcrumbItemsToPlaceAfterModules = StringUtil::deserialize($breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_modules);
+        $breadcrumbItemsToPlaceAfterContentElements = null !== $breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_content_elements
+        ? StringUtil::deserialize($breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_content_elements)
+        : [];
+        $breadcrumbItemsToPlaceAfterModules = null !== $breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_modules
+        ? StringUtil::deserialize($breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_modules)
+        : [];
 
         if (\in_array($firstItemAfterBreadcrumb['model']->type, $breadcrumbItemsToPlaceAfterContentElements, true)
         || \in_array($firstItemAfterBreadcrumb['model']->type, $breadcrumbItemsToPlaceAfterModules, true)

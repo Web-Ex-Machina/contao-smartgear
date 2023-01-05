@@ -154,6 +154,10 @@
       <source>Form Data Manager</source>
 			<target>Contacts</target>
     </trans-unit>
+    <trans-unit id="WEM.SMARTGEAR.DEFAULT.visits">
+      <source>visit(s)</source>
+			<target>visite(s)</target>
+    </trans-unit>
 
 		<!-- Smartgear filter -->
 		<trans-unit id="WEMSG.FILTERS.title">

@@ -330,6 +330,9 @@ class Website extends ConfigurationStep
         $objBreadcrumbModule->tstamp = time();
         $objBreadcrumbModule->type = 'breadcrumb';
         $objBreadcrumbModule->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleBreadcrumbName'];
+        $objBreadcrumbModule->wem_sg_breadcrumb_auto_placement = 1;
+        $objBreadcrumbModule->wem_sg_breadcrumb_auto_placement_after_content_elements = serialize(['rsce_hero', 'rsce_heroStart']);
+        $objBreadcrumbModule->wem_sg_breadcrumb_auto_placement_after_modules = serialize(['rsce_hero', 'rsce_heroStart']);
         $objBreadcrumbModule->save();
         $modules[$objBreadcrumbModule->type] = $objBreadcrumbModule;
 

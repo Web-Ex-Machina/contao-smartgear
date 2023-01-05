@@ -10,7 +10,12 @@
 		<tbody>
 			<?php foreach($this->pagesUrl as $pageUrl): ?>
 			<tr>
-				<td class="tl_file_list"><?php echo $pageUrl['page_url']; ?></td>
+				<td class="tl_file_list">
+					<a href="<?php echo $pageUrl['page_url']; ?>" target="_blank">
+						<?php echo Image::getHtml('page.gif'); ?>
+						<?php echo urldecode($pageUrl['page_url']); ?>
+					</a>
+				</td>
 				<td class="tl_file_list"><?php echo $pageUrl['amount']; ?></td>
 			</tr>
 			<?php endforeach;?>
