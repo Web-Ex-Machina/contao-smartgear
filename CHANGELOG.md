@@ -1,5 +1,30 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
+1.0.1 - 2023-01-05
+- Events : items in event list now have a link in their picture
+- Events : year & month filters in list
+- Events : day filter in list has been removed
+- Events : headline in reader page have been removed, replaced by a headline in the event reader module
+- Smartgear : FormContactSent page now has FormContact page as PID
+- Smartgear : replacing placeholder images by lorempicsum ones
+- Extranet : removed the "random" text
+- Extranet : DataModified page removed from navigation
+- FormDataManager : warning text added to forms now have a margin top
+- Smartgear : Sitemap page now has an headline
+- Smartgear : super admins can now delete elements used by Smartgear
+- StyleManager : default grid column size implements `d-grid` CSS class
+- Smartgear : If the first element of a page is a "hero", Breadcrumb module is now automatically moved under it (this behavious is customizable) 
+- Smartgear : some unit tests were fixed
+- Smartgear : login actions in backend are logged in a specific table
+- Dashboard : statistics do not take into accounts actions done by users logged in backend
+- Dashboard : page visits statistics graph now use chartjs library
+- Smartgear : added logo for Smartgear, Extranet & Newsletter backend menu entries
+- Smartgear : backend menu entries hidden if it contains no item
+
+
+1.0.0 - 2022-12-14
+- 1.0.0-rc2 version is considered stable, releasing 1.0.0
+
 1.0.0-rc2 - 2022-12-14
 - Composer: now only have stable dependencies
 
