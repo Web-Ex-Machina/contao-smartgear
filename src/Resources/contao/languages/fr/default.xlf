@@ -713,9 +713,13 @@
 			<source>API key is missing</source>
 			<target>La clef API n'est pas renseignée.</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.INSTALL.GENERAL.sgApiKeyEmpty">
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgEncryptionKeyEmpty">
 			<source>Encryption key is missing</source>
 			<target>La clef de chiffrement n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAirtableApiKeyEmpty">
+			<source>Airtable API key is missing</source>
+			<target>La clef API Airtable n'est pas renseignée.</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.Title">
 			<source>Informations</source>

@@ -201,6 +201,6 @@ class Content extends Backend
 
     protected function canItemBeDeleted(int $id): bool
     {
-        return $this->User->admin || !$this->isItemUsedBySmartgear($id);
+        return $this->parent->User->admin || !$this->isItemUsedBySmartgear($id);
     }
 }
