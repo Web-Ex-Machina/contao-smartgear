@@ -137,5 +137,13 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
         public: true
 
+    smartgear.listener.backend_menu_build:
+        class: WEM\SmartgearBundle\EventListener\BackendMenuBuildListener
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+        tags:
+            - { name: kernel.event_listener, event: contao.backend_menu_build }
+        public: true
+
 
     
