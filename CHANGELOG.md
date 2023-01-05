@@ -1,5 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
+1.0.2 - 2023-01-05
+- Smartgear : added missing translation key
+- Smartgear : super admins can now delete content elements used by Smartgear (fixed)
+
 1.0.1 - 2023-01-05
 - Events : items in event list now have a link in their picture
 - Events : year & month filters in list
