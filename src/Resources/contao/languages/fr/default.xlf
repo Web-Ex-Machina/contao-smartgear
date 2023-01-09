@@ -3470,6 +3470,34 @@
 			<target>Ajout des réseaux sociaux.</target>
 		</trans-unit>
 
+		<!-- V1_0_1/M202301050800 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_1_M202301050800.name">
+			<source>Smartgear v1.0.1</source>
+			<target>Smartgear v1.0.1</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_1_M202301050800.description">
+			<source>Update Smartgear to version 1.0.1.</source>
+			<target>Met à jour Smartgear vers la version 1.0.1.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_1_M202301050800.done">
+			<source>Smartgear updated to version 1.0.1.</source>
+			<target>Smartgear mis à jour vers la version 1.0.1.</target>
+		</trans-unit>
+
+		<!-- V1_0_2/M202301051700 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_2_M202301051700.name">
+			<source>Smartgear v1.0.2</source>
+			<target>Smartgear v1.0.2</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_2_M202301051700.description">
+			<source>Update Smartgear to version 1.0.2.</source>
+			<target>Met à jour Smartgear vers la version 1.0.2.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_2_M202301051700.done">
+			<source>Smartgear updated to version 1.0.2.</source>
+			<target>Smartgear mis à jour vers la version 1.0.2.</target>
+		</trans-unit>
+
 		<!-- Social networks -->
 		<trans-unit id="WEMSG.SOCIALNETWORK.CATEGORY.social">
 			<source>Socials</source>
