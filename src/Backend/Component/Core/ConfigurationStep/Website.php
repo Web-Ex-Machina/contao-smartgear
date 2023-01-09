@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep;
 
+use Contao\ArrayUtil;
 use Contao\ArticleModel;
 use Contao\ContentModel;
 use Contao\File;
@@ -34,6 +35,7 @@ use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\Migration\Result as MigrationResult;
+use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -422,7 +424,7 @@ class Website extends ConfigurationStep
 
         $layouts = [];
 
-        $arrLayoutModules = [
+        $arrLayoutModulesDefault = [
             ['mod' => $modules['wem_sg_header']->id, 'col' => 'header', 'enable' => '1'],
             ['mod' => $modules['breadcrumb']->id, 'col' => 'main', 'enable' => '1'],
             ['mod' => 0, 'col' => 'main', 'enable' => '1'],
@@ -458,6 +460,7 @@ class Website extends ConfigurationStep
         $objLayout = null !== $config->getSgLayoutStandard()
             ? LayoutModel::findOneById($config->getSgLayoutStandard()) ?? new LayoutModel()
             : new LayoutModel();
+        $arrLayoutModules = $this->reorderLayoutModules($this->mergeLayoutsModules(StringUtil::deserialize($objLayout->modules ?? []), $arrLayoutModulesDefault), $modules);
         $objLayout->pid = $themeId;
         $objLayout->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardName'];
         $objLayout->rows = '3rw';
@@ -479,6 +482,7 @@ class Website extends ConfigurationStep
         $objLayout = null !== $config->getSgLayoutFullwidth()
             ? LayoutModel::findOneById($config->getSgLayoutFullwidth()) ?? new LayoutModel()
             : new LayoutModel();
+        $arrLayoutModules = $this->reorderLayoutModules($this->mergeLayoutsModules(StringUtil::deserialize($objLayout->modules ?? []), $arrLayoutModulesDefault), $modules);
         $objLayout->pid = $themeId;
         $objLayout->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardFullwidthName'];
         $objLayout->rows = '3rw';
@@ -486,7 +490,7 @@ class Website extends ConfigurationStep
         $objLayout->loadingOrder = 'external_first';
         $objLayout->combineScripts = 1;
         $objLayout->viewport = 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0';
-        $objLayout->modules = serialize($arrLayoutModules);
+        $objLayout->modules = serialize($arrLayoutModulesDefault);
         $objLayout->template = 'fe_page_full';
         $objLayout->webfonts = $config->getSgGoogleFonts();
         $objLayout->head = $head;
@@ -1399,5 +1403,71 @@ class Website extends ConfigurationStep
 
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->save();
+    }
+
+    /**
+     * Merge layout modules with default ones.
+     *
+     * @param array $currentLayoutModules Current layout's modules
+     * @param array $defaultLayoutModules Default layout's modules
+     */
+    protected function mergeLayoutsModules(array $currentLayoutModules, array $defaultLayoutModules): array
+    {
+        if (empty($currentLayoutModules)) {
+            return $defaultLayoutModules;
+        }
+
+        foreach ($defaultLayoutModules as $layoutModuleDefault) {
+            $layoutMOduleDefaultFoundInLayoutModule = false;
+            foreach ($currentLayoutModules as $layoutModule) {
+                if ((int) $layoutModule['mod'] === (int) $layoutModuleDefault['mod']) {
+                    $layoutMOduleDefaultFoundInLayoutModule = true;
+                    break;
+                }
+            }
+            if (!$layoutMOduleDefaultFoundInLayoutModule) {
+                $currentLayoutModules[] = $layoutModuleDefault;
+            }
+        }
+
+        return $currentLayoutModules;
+    }
+
+    /**
+     * Reorder layout's modules.
+     *
+     * @param array $layoutModules The layout's modules
+     * @param array $modules       The modules
+     */
+    protected function reorderLayoutModules(array $layoutModules, array $modules): array
+    {
+        $layoutModuleHeader = null;
+        $layoutModuleFooter = null;
+        $layoutModuleBreadcrumb = null;
+        $layoutModuleContentIndex = null;
+        foreach ($layoutModules as $index => $layoutModule) {
+            if ((int) $layoutModule['mod'] === (int) $modules['wem_sg_header']->id) {
+                $layoutModuleHeader = $layoutModule;
+                unset($layoutModules[$index]);
+            } elseif ((int) $layoutModule['mod'] === (int) $modules['wem_sg_footer']->id) {
+                $layoutModuleFooter = $layoutModule;
+                unset($layoutModules[$index]);
+            } elseif ((int) $layoutModule['mod'] === (int) $modules['breadcrumb']->id) {
+                $layoutModuleBreadcrumb = $layoutModule;
+                unset($layoutModules[$index]);
+            } elseif (0 === (int) $layoutModule['mod']) { // content
+                $layoutModuleContentIndex = $index;
+            }
+        }
+
+        // breadcrumb is always placed before content
+        ArrayUtil::arrayInsert($layoutModules, $layoutModuleContentIndex - 1, [$layoutModuleBreadcrumb]);
+
+        // Header is always first
+        array_unshift($layoutModules, $layoutModuleHeader);
+        // Footer is always last
+        $layoutModules[] = $layoutModuleFooter;
+
+        return $layoutModules;
     }
 }

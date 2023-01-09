@@ -3,6 +3,7 @@ SMARTGEAR Project for Contao Open Source CMS
 1.0.3 - 2023-01-09
 - Extranet : updated test member's default password to 12345678
 - Smartgear : do not redirect user to Smartgear's dashboard after a backend login if a Contao's redirection is already happening 
+- Smartgear : do not reset layouts' modules on Smartgear reconfigure
 
 1.0.2 - 2023-01-05
 - Smartgear : added missing translation key
