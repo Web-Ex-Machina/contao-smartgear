@@ -80,8 +80,8 @@
             </div>
           <?php endif ?>
           <?php if ($this->filters['month']): ?>
-              <div class="filters__group">
                 <?php foreach ($this->filters['month'] as $property => $month): ?>
+                <div class="filters__group">
                   <label for="month-month-<?= $property ?>"><?= $month['label']?:$property ?></label>
                   <select name="<?= $property ?>[year]" id="month-year--<?= $property ?>">
                     <option value="" class="ft-i opa-4" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == '' )?'selected':'' ?> >
@@ -102,6 +102,8 @@
                     <?php endfor; ?>
                     <?php endif; ?>
                   </select>
+                </div>
+                <div class="filters__group">
                   <select name="<?= $property ?>[month]" id="month-month--<?= $property ?>">
                     <option value="" class="ft-i opa-4" <?= ($this->config[$property]['month'] && $this->config[$property]['month'] == '' )?'selected':'' ?> >
                       - <?= $month['month']['label']?:$property ?> -
@@ -113,8 +115,8 @@
                       </option>
                     <?php endfor; ?>
                   </select>
+                </div>
                 <?php endforeach ?>
-              </div>
             <?php endif; ?>
           <?php if ($this->filters['date_decomposed']): ?>
             <?php foreach ($this->filters['date_decomposed'] as $property => $date_decomposed): ?>
