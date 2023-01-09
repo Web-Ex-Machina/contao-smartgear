@@ -5,9 +5,9 @@
 			<source>Informations</source>
 			<target>Informations</target>
 		</trans-unit>
-    <trans-unit id="tl_sm_login.ip.0">
-      <source>Visitor IP</source>
-      <target>IP du visiteur</target>
+    <trans-unit id="tl_sm_login.hash.0">
+      <source>Visitor hash</source>
+      <target>Hash du visiteur</target>
     </trans-unit>
     <trans-unit id="tl_sm_login.context.0">
       <source>Context</source>

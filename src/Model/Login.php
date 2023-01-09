@@ -28,7 +28,7 @@ class Login extends CoreModel
      *
      * @var array
      */
-    public static $arrSearchFields = ['tstamp', 'ip'];
+    public static $arrSearchFields = ['tstamp', 'hash'];
     /**
      * Table name.
      *
