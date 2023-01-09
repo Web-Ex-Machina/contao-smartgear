@@ -36,7 +36,7 @@ class Api
 
     public function search(string $search): SearchResponse
     {
-        $apiResponse = $this->call(sprintf('%ssearch?q=%s&format=jsonv2', self::BASE_URL, $search))[0];
+        $apiResponse = $this->call(sprintf('%ssearch?q=%s&format=jsonv2', self::BASE_URL, urlencode($search)))[0];
 
         return null !== $apiResponse
         ? $this->stdClassToSearchResponseMapper->map(
