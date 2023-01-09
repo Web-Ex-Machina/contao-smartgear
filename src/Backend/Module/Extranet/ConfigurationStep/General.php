@@ -1413,7 +1413,7 @@ class General extends ConfigurationStep
         $objUser->login = 1;
         $objUser->groups = serialize([0 => $groups['members']->id]);
         $objUser->username = 'test@webexmachina.fr';
-        $objUser->password = password_hash('webexmachina69', \PASSWORD_DEFAULT);
+        $objUser->password = password_hash('12345678', \PASSWORD_DEFAULT);
         $objUser->save();
 
         return ['example' => $objUser];
