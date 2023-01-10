@@ -3396,16 +3396,16 @@
 		<!-- Migrations -->
 		<!-- General -->
 		<trans-unit id="WEMSG.MIGRATIONS.VERSIONCOMPARATOR.currentVersionHigher">
-			<source>Current version is higher than the migration's one (v%s &#155; v%s).</source>
-			<target>La version installée est plus récente que celle de la mise à jour (v%s &#155; v%s).</target>
+			<source>Current version is higher than the migration's one (v%s &gt; v%s).</source>
+			<target>La version installée est plus récente que celle de la mise à jour (v%s &gt; v%s).</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.MIGRATIONS.VERSIONCOMPARATOR.versionsEquals">
 			<source>Current version is equal to the migration's one (v%s == v%s).</source>
 			<target>La version installée est égale à celle de la mise à jour (v%s == v%s).</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.MIGRATIONS.VERSIONCOMPARATOR.currentVersionLower">
-			<source>Current version is lower than the migration's one (v%s &#139; v%s).</source>
-			<target>La version installée est plus ancienne que celle de la mise à jour (v%s &#139; v%s).</target>
+			<source>Current version is lower than the migration's one (v%s &lt; v%s).</source>
+			<target>La version installée est plus ancienne que celle de la mise à jour (v%s &lt; v%s).</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.MIGRATIONS.shouldBeRun">
 			<source>Migration should be ran.</source>
@@ -3525,6 +3525,20 @@
 		<trans-unit id="WEMSG.MIGRATIONS.V1_0_2_M202301051700.done">
 			<source>Smartgear updated to version 1.0.2.</source>
 			<target>Smartgear mis à jour vers la version 1.0.2.</target>
+		</trans-unit>
+
+		<!-- V1_0_3/M202301100950 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_3_M202301100950.name">
+			<source>Smartgear v1.0.3</source>
+			<target>Smartgear v1.0.3</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_3_M202301100950.description">
+			<source>Update Smartgear to version 1.0.3.</source>
+			<target>Met à jour Smartgear vers la version 1.0.3.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_3_M202301100950.done">
+			<source>Smartgear updated to version 1.0.3.</source>
+			<target>Smartgear mis à jour vers la version 1.0.3.</target>
 		</trans-unit>
 
 		<!-- Social networks -->

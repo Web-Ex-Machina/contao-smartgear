@@ -36,3 +36,12 @@ services:
       $coreConfigurationManager: '@smartgear.config.manager.core'
       $versionComparator: '@smartgear.classes.version.comparator'
     public: true
+
+  smartgear.migrations.v1_0_3.m202301100950.migration:
+    class: WEM\SmartgearBundle\Migrations\V1_0_3\M202301100950\Migration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+    public: true

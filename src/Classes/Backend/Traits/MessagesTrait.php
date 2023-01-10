@@ -32,7 +32,7 @@ trait MessagesTrait
         $scope = $strScope ?? 'smartgear';
         $sfb = System::getContainer()->get('session')->getFlashBag();
 
-        return ($sfb->get($this->getFlashBagKey('tl_new', $scope)) ?? []) + ($sfb->get($this->getFlashBagKey('tl_info', $scope)) ?? []) + ($sfb->get($this->getFlashBagKey('tl_error', $scope)) ?? []) + ($sfb->get($this->getFlashBagKey('tl_confirm', $scope)) ?? []);
+        return array_merge(($sfb->get($this->getFlashBagKey('tl_new', $scope)) ?? []), ($sfb->get($this->getFlashBagKey('tl_info', $scope)) ?? []), ($sfb->get($this->getFlashBagKey('tl_error', $scope)) ?? []), ($sfb->get($this->getFlashBagKey('tl_confirm', $scope)) ?? []));
     }
 
     /**
