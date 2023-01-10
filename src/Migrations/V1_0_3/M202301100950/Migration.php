@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Migrations\V1_0_3\M202301100950;
 use Doctrine\DBAL\Connection;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 use WEM\SmartgearBundle\Classes\Migration\Result;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -28,14 +29,18 @@ class Migration extends MigrationAbstract
     protected static $description = 'Set Smartgear to version 1.0.3';
     protected static $version = '1.0.3';
     protected static $translation_key = 'WEMSG.MIGRATIONS.V1_0_3_M202301100950';
+    /** @var DirectoriesSynchronizer */
+    protected static $templatesSmartgearSynchronizer;
 
     public function __construct(
         Connection $connection,
         TranslatorInterface $translator,
         CoreConfigurationManager $coreConfigurationManager,
-        VersionComparator $versionComparator
+        VersionComparator $versionComparator,
+        DirectoriesSynchronizer $templatesSmartgearSynchronizer
     ) {
         parent::__construct($connection, $translator, $coreConfigurationManager, $versionComparator);
+        $this->templatesSmartgearSynchronizer = $templatesSmartgearSynchronizer;
     }
 
     public function shouldRun(): Result
@@ -62,6 +67,9 @@ class Migration extends MigrationAbstract
         try {
             /** @var CoreConfig */
             $coreConfig = $this->coreConfigurationManager->load();
+
+            // copy templates needing to be updated
+            $this->templatesSmartgearSynchronizer->synchronize();
 
             $coreConfig->setSgVersion(self::$version);
 

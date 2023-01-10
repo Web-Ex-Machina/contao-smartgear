@@ -44,4 +44,5 @@ services:
       $translator: '@contao.translation.translator'
       $coreConfigurationManager: '@smartgear.config.manager.core'
       $versionComparator: '@smartgear.classes.version.comparator'
+      $templatesSmartgearSynchronizer: '@smartgear.classes.directories_synchronizer.templates.smartgear'
     public: true
