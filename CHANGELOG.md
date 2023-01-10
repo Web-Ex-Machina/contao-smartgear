@@ -7,6 +7,7 @@ SMARTGEAR Project for Contao Open Source CMS
 - Smartgear : do not redirect user to Smartgear's dashboard after a backend login if a Contao's redirection is already happening 
 - Smartgear : do not reset layouts' modules on Smartgear reconfigure
 - Smartgear : do not use visitor IP address for pages visits statistics
+- Smartgear : property "guests" made available again for content element (fixed)
 
 1.0.2 - 2023-01-05
 - Smartgear : added missing translation key
