@@ -2,143 +2,142 @@
   <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/modules.php" source-language="en" target-language="fr">
     <body>
     	<trans-unit id="MOD.article.0">
-			<source>Contenus</source>
-			<target>Contenus</target>
-		</trans-unit>
+				<source>Contenus</source>
+				<target>Contenus</target>
+			</trans-unit>
     	<trans-unit id="MOD.form.0">
-			<source>Forms</source>
-			<target>Formulaires</target>
-		</trans-unit>
-		<trans-unit id="MOD.page.0">
-			<source>Site structure</source>
-			<target>Pages</target>
-		</trans-unit>
-		<trans-unit id="MOD.undo.0">
-			<source>Trash</source>
-			<target>Corbeille</target>
-		</trans-unit>
-		<trans-unit id="MOD.files.0">
-			<source>Files</source>
-			<target>Fichiers</target>
-		</trans-unit>
-		<trans-unit id="MOD.calendar.0">
-			<source>Events</source>
-			<target>Événements</target>
-		</trans-unit>
-		<trans-unit id="MOD.channels.0">
-			<source>Subscribers lists</source>
-			<target>Listes d'abonnés</target>
-		</trans-unit>
-		<trans-unit id="MOD.channels.1">
-			<source>Manage newsletters channels</source>
-			<target>Gérer les listes d'abonnés.</target>
-		</trans-unit>
-		<trans-unit id="MOD.newsletter.0">
-			<source>Newsletters</source>
-			<target>Newsletters</target>
-		</trans-unit>
-		<trans-unit id="MOD.newsletter.1">
-			<source>Manage subscriptions and send newsletters</source>
-			<target>Gérer les abonnements et envoyer des newsletters.</target>
-		</trans-unit>
-    <trans-unit id="MOD.news.0">
-      <source>News</source>
-      <target>Blog</target>
-    </trans-unit>
-    <trans-unit id="MOD.mgroup.0">
-      <source>Groups</source>
-      <target>Groupes</target>
-    </trans-unit>
-    <trans-unit id="MOD.user.0">
-      <source>Administrators</source>
-      <target>Administrateurs</target>
-    </trans-unit>
-    <trans-unit id="MOD.user.1">
-      <source>Manage administrators accounts (back end)</source>
-      <target>Gérer les comptes des administrateurs (back office).</target>
-    </trans-unit>
-    <trans-unit id="MOD.group.0">
-      <source>Administrators groups</source>
-      <target>Groupes d'administrateurs</target>
-    </trans-unit>
-    <trans-unit id="MOD.group.1">
-      <source>Manage administrators groups (back end)</source>
-      <target>Gérer les groupes d'administrateurs (back office).</target>
-    </trans-unit>
-    <trans-unit id="MOD.extranet.0">
-      <source>Extranet</source>
-      <target>Extranet</target>
-    </trans-unit>
-
-		<trans-unit id="MOD.smartgear.0">
-			<source>Smartgear</source>
-			<target>Smartgear</target>
-		</trans-unit>
-		<trans-unit id="MOD.smartgear.1">
-			<source>Configurer votre Smartgear</source>
-			<target>Configurer votre Smartgear</target>
-		</trans-unit>
-
-		<trans-unit id="MOD.wem_smartgear">
-			<source>Smartgear</source>
-			<target>Smartgear</target>
-		</trans-unit>
-		<trans-unit id="MOD.wem_sg_dashboard.0">
-			<source>Dashboard</source>
-			<target>Tableau de bord</target>
-		</trans-unit>
-		<trans-unit id="MOD.wem_sg_dashboard.1">
-			<source>Smartgear's dashboard</source>
-			<target>Tableau de bord Smartgear</target>
-		</trans-unit>
-
-		<trans-unit id="MOD.wem_sg_social_link_config_categories.0">
-			<source>Social network categories</source>
-			<target>Catégories réseaux sociaux</target>
-		</trans-unit>
-		<trans-unit id="MOD.wem_sg_social_link_config_categories.1">
-			<source>Manage social networks categories</source>
-			<target>Gérer les catégories de réseaux sociaux</target>
-		</trans-unit>
-
-		<trans-unit id="MOD.wem_sg_social_link.0">
-			<source>Social links</source>
-			<target>Réseaux sociaux</target>
-		</trans-unit>
-		<trans-unit id="MOD.wem_sg_social_link.1">
-			<source>Configure links to your social networks</source>
-			<target>Configurer vos liens vers vos réseaux sociaux</target>
-		</trans-unit>
-
-		<trans-unit id="MOD.wem_sg_form_data_manager.0">
-			<source>Contacts</source>
-			<target>Contacts</target>
-		</trans-unit>
-		<trans-unit id="MOD.wem_sg_form_data_manager.1">
-			<source>Manage contacts</source>
-			<target>Gérer les contacts</target>
-		</trans-unit>
-    <trans-unit id="MOD.nc_notifications.0">
-      <source>Transactionnal emails</source>
-      <target>Emails transactionnels</target>
-    </trans-unit>
-    <trans-unit id="MOD.nc_notifications.1">
-      <source>Manage transactionnal emails.</source>
-      <target>Gérer les emails transactionnels.</target>
-    </trans-unit>
-
-		<trans-unit id="FMD.smartgear">
-			<source>Smartgear</source>
-			<target>Smartgear</target>
-		</trans-unit>
-		<trans-unit id="FMD.wem_sg_header.0">
-			<source>Header</source>
-			<target>Header</target>
-		</trans-unit>
-		<trans-unit id="FMD.wem_sg_header.1">
-			<source>Afficher un header conçu pour Smartgear</source>
-			<target>Afficher un header conçu pour Smartgear</target>
-		</trans-unit>
+				<source>Forms</source>
+				<target>Formulaires</target>
+			</trans-unit>
+			<trans-unit id="MOD.page.0">
+				<source>Site structure</source>
+				<target>Pages</target>
+			</trans-unit>
+			<trans-unit id="MOD.undo.0">
+				<source>Trash</source>
+				<target>Corbeille</target>
+			</trans-unit>
+			<trans-unit id="MOD.files.0">
+				<source>Files</source>
+				<target>Fichiers</target>
+			</trans-unit>
+			<trans-unit id="MOD.calendar.0">
+				<source>Events</source>
+				<target>Événements</target>
+			</trans-unit>
+			<trans-unit id="MOD.channels.0">
+				<source>Subscribers lists</source>
+				<target>Listes d'abonnés</target>
+			</trans-unit>
+			<trans-unit id="MOD.channels.1">
+				<source>Manage newsletters channels</source>
+				<target>Gérer les listes d'abonnés.</target>
+			</trans-unit>
+			<trans-unit id="MOD.newsletter.0">
+				<source>Newsletters</source>
+				<target>Newsletters</target>
+			</trans-unit>
+			<trans-unit id="MOD.newsletter.1">
+				<source>Manage subscriptions and send newsletters</source>
+				<target>Gérer les abonnements et envoyer des newsletters.</target>
+			</trans-unit>
+	    <trans-unit id="MOD.news.0">
+	      <source>News</source>
+	      <target>Blog</target>
+	    </trans-unit>
+	    <trans-unit id="MOD.mgroup.0">
+	      <source>Groups</source>
+	      <target>Groupes</target>
+	    </trans-unit>
+	    <trans-unit id="MOD.user.0">
+	      <source>Administrators</source>
+	      <target>Administrateurs</target>
+	    </trans-unit>
+	    <trans-unit id="MOD.user.1">
+	      <source>Manage administrators accounts (back end)</source>
+	      <target>Gérer les comptes des administrateurs (back office).</target>
+	    </trans-unit>
+	    <trans-unit id="MOD.group.0">
+	      <source>Administrators groups</source>
+	      <target>Groupes d'administrateurs</target>
+	    </trans-unit>
+	    <trans-unit id="MOD.group.1">
+	      <source>Manage administrators groups (back end)</source>
+	      <target>Gérer les groupes d'administrateurs (back office).</target>
+	    </trans-unit>
+	    <trans-unit id="MOD.extranet.0">
+	      <source>Extranet</source>
+	      <target>Extranet</target>
+	    </trans-unit>
+			<trans-unit id="MOD.smartgear.0">
+				<source>Smartgear</source>
+				<target>Smartgear</target>
+			</trans-unit>
+			<trans-unit id="MOD.smartgear.1">
+				<source>Configurer votre Smartgear</source>
+				<target>Configurer votre Smartgear</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_smartgear">
+				<source>General</source>
+				<target>Général</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_dashboard.0">
+				<source>Dashboard</source>
+				<target>Tableau de bord</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_dashboard.1">
+				<source>Smartgear's dashboard</source>
+				<target>Tableau de bord Smartgear</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_social_link_config_categories.0">
+				<source>Social network categories</source>
+				<target>Catégories réseaux sociaux</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_social_link_config_categories.1">
+				<source>Manage social networks categories</source>
+				<target>Gérer les catégories de réseaux sociaux</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_social_link.0">
+				<source>Social links</source>
+				<target>Réseaux sociaux</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_social_link.1">
+				<source>Configure links to your social networks</source>
+				<target>Configurer vos liens vers vos réseaux sociaux</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_form_data_manager.0">
+				<source>Contacts</source>
+				<target>Contacts</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_form_data_manager.1">
+				<source>Manage contacts</source>
+				<target>Gérer les contacts</target>
+			</trans-unit>
+	    <trans-unit id="MOD.nc_notifications.0">
+	      <source>Transactionnal emails</source>
+	      <target>Emails transactionnels</target>
+	    </trans-unit>
+	    <trans-unit id="MOD.nc_notifications.1">
+	      <source>Manage transactionnal emails.</source>
+	      <target>Gérer les emails transactionnels.</target>
+	    </trans-unit>
+			<trans-unit id="FMD.smartgear">
+				<source>Smartgear</source>
+				<target>Smartgear</target>
+			</trans-unit>
+			<trans-unit id="FMD.wem_sg_header.0">
+				<source>Header</source>
+				<target>Header</target>
+			</trans-unit>
+			<trans-unit id="FMD.wem_sg_header.1">
+				<source>Afficher un header conçu pour Smartgear</source>
+				<target>Afficher un header conçu pour Smartgear</target>
+			</trans-unit>
+    	<!-- Override menu entry -->
+	    <trans-unit id="MOD.wem_pdm">
+	      <source>GDPR</source>
+	      <target>RGPD</target>
+	    </trans-unit>
     </body>
   </file>
 </xliff>

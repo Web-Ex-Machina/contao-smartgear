@@ -83,7 +83,7 @@
                 <?php foreach ($this->filters['month'] as $property => $month): ?>
                 <div class="filters__group">
                   <label for="month-month-<?= $property ?>"><?= $month['label']?:$property ?></label>
-                  <select name="<?= $property ?>[year]" id="month-year--<?= $property ?>">
+                  <select name="<?= $property ?>[year]" id="month-year--<?= $property ?>" data-property="<?= $property; ?>" data-field="year" data-filter="month">
                     <option value="" class="ft-i opa-4" <?= ($this->config[$property]['year'] && $this->config[$property]['year'] == '' )?'selected':'' ?> >
                       - <?= $month['year']['label']?:$property ?> -
                     </option>
@@ -104,7 +104,12 @@
                   </select>
                 </div>
                 <div class="filters__group">
-                  <select name="<?= $property ?>[month]" id="month-month--<?= $property ?>">
+                  <select name="<?= $property ?>[month]" id="month-month--<?= $property ?>"
+                    <?= $this->config[$property]['year'] == '' ?'disabled':'';?> 
+                    data-property="<?= $property; ?>" 
+                    data-field="month" 
+                    data-filter="month"
+                  >
                     <option value="" class="ft-i opa-4" <?= ($this->config[$property]['month'] && $this->config[$property]['month'] == '' )?'selected':'' ?> >
                       - <?= $month['month']['label']?:$property ?> -
                     </option>
@@ -176,6 +181,18 @@
     </form>
   <?php endif ?>
 <script type="text/javascript">
+  document.querySelectorAll('select[data-field="year"][data-filter="month"]').forEach(function(select, index){
+    select.onchange = function(e){
+      let selectMonth = document.querySelector('select[data-field="month"][data-filter="month"][data-property="'+e.target.getAttribute('data-property')+'"]');
+      if('' != e.target.value){
+        selectMonth.removeAttribute('disabled');
+      }else{
+        selectMonth.setAttribute('disabled',true);
+        selectMonth.value = '';
+      }
+    }
+  });
+  /////
   const selectsYear = document.querySelector('.filters--date_decomposed').querySelectorAll('select[data-type="year"]');
   const selectsMonth = document.querySelector('.filters--date_decomposed').querySelectorAll('select[data-type="month"]');
   const selectsDay = document.querySelector('.filters--date_decomposed').querySelectorAll('select[data-type="day"]');

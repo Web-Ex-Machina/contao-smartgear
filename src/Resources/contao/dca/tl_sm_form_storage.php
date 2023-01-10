@@ -137,7 +137,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
         'completion_percentage' => [
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,3}),([0-9]{2})$/', 'tl_class' => 'w50 clr', 'disabled' => true, 'maxval' => 100, 'minval' => 0],
-            'sql' => 'DECIMAL(5,2) unsigned NOT NULL default 0',
+            'sql' => "DECIMAL(5,2) unsigned NOT NULL default '0.00'",
         ],
         'delay_to_first_interaction' => [
             'inputType' => 'text',

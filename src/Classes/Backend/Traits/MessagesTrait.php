@@ -32,7 +32,8 @@ trait MessagesTrait
         $scope = $strScope ?? 'smartgear';
         $sfb = System::getContainer()->get('session')->getFlashBag();
 
-        return ($sfb->get($this->getFlashBagKey('tl_new', $scope)) ?? []) + ($sfb->get($this->getFlashBagKey('tl_info', $scope)) ?? []) + ($sfb->get($this->getFlashBagKey('tl_error', $scope)) ?? []) + ($sfb->get($this->getFlashBagKey('tl_confirm', $scope)) ?? []);
+        // return array_merge(($sfb->get($this->getFlashBagKey('tl_new', $scope)) ?? []), ($sfb->get($this->getFlashBagKey('tl_info', $scope)) ?? []), ($sfb->get($this->getFlashBagKey('tl_error', $scope)) ?? []), ($sfb->get($this->getFlashBagKey('tl_confirm', $scope)) ?? []));
+        return $sfb->get($this->getFlashBagKeyWithoutType($scope));
     }
 
     /**
@@ -44,7 +45,17 @@ trait MessagesTrait
      */
     public function getFlashBagKey(string $strType, ?string $scope = 'smartgear')
     {
-        return 'wemsg.message.'.strtolower($scope).'.'.strtolower(str_replace('tl_', '', $strType));
+        return $this->getFlashBagKeyWithoutType($scope).strtolower(str_replace('tl_', '', $strType));
+    }
+
+    /**
+     * Return the flash bag key without type.
+     *
+     * @return string The flash bag key
+     */
+    public function getFlashBagKeyWithoutType(?string $scope = 'smartgear')
+    {
+        return 'wemsg.message.'.strtolower($scope).'.'; // do not remove this end dot
     }
 
     /**
@@ -144,8 +155,9 @@ trait MessagesTrait
             'class' => $strType,
             'text' => $strMessage,
         ];
-        $this->messages[$scope] = $message;
+        $this->messages[$scope][] = $message;
         System::getContainer()->get('session')->getFlashBag()->add($this->getFlashBagKey($strType, $scope), $message);
+        System::getContainer()->get('session')->getFlashBag()->add($this->getFlashBagKeyWithoutType($scope), $message);
     }
 
     /**

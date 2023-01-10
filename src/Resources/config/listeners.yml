@@ -123,6 +123,7 @@ services:
         class: WEM\SmartgearBundle\EventListener\GeneratePageListener
         arguments:
             $configurationManager: '@smartgear.config.manager.core'
+            $scopeMatcher: '@smartgear.classes.scope_matcher'
         public: true
 
     smartgear.listener.get_content_element:

@@ -51,8 +51,8 @@ class PageVisit extends CoreModel
 
         switch ($strField) {
             case 'exclude_be_login':
-                $arrColumns[] = sprintf("$t.ip NOT IN (
-                    SELECT l.ip
+                $arrColumns[] = sprintf("$t.hash NOT IN (
+                    SELECT l.hash
                     FROM %s l
                     WHERE l.createdAt BETWEEN (%s.createdAt - 86400) AND (%s.createdAt + 86400)
                     AND l.context = '%s'

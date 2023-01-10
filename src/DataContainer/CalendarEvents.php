@@ -45,13 +45,13 @@ class CalendarEvents extends \tl_calendar_events
             return;
         }
 
-        $arrSet['addressLat'] = $dc->activeRecord->addressLat;
-        $arrSet['addressLon'] = $dc->activeRecord->addressLon;
-
-        // if coordinates are already calculated, skip
-        if (!empty($arrSet['addressLat']) && !empty($arrSet['addressLon'])) {
+        // if address did not change, skip
+        if ($dc->activeRecord->address === $dc->activeRecord->fetchAllAssoc()[0]['address']) {
             return;
         }
+
+        $arrSet['addressLat'] = $dc->activeRecord->addressLat;
+        $arrSet['addressLon'] = $dc->activeRecord->addressLon;
 
         // check if there are other events with same address and filled coordinates
         $otherItemsWithSameAddressAndCoordinatesFilled = \Contao\CalendarEventsModel::findBy(['address = ?', 'addressLat != ""', 'addressLon != ""'], $dc->activeRecord->address);

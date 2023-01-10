@@ -96,7 +96,7 @@ class ModuleEventList extends \Contao\ModuleEventlist
     {
         if (\array_key_exists('date', $this->config)) {
             if (\array_key_exists('month', $this->config['date']) && !empty($this->config['date']['month'])) {
-                $_GET['month'] = sprintf('%s%s', $this->config['date']['year'], $this->config['date']['month']);
+                $_GET['month'] = sprintf('%s%s', !empty($this->config['date']['year']) ? $this->config['date']['year'] : date('Y'), $this->config['date']['month']);
             } elseif (\array_key_exists('year', $this->config['date']) && !empty($this->config['date']['year'])) {
                 $_GET['year'] = $this->config['date']['year'];
             }

@@ -21,7 +21,9 @@ use Contao\PageRegular;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\RenderStack;
+use WEM\SmartgearBundle\Classes\ScopeMatcher;
 use WEM\SmartgearBundle\Classes\StringUtil;
+use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 use WEM\SmartgearBundle\Model\PageVisit;
@@ -31,10 +33,15 @@ class GeneratePageListener
     /** @var CoreConfigurationManager */
     protected $configurationManager;
 
+    /** @var ScopeMatcher */
+    protected $scopeMatcher;
+
     public function __construct(
-        CoreConfigurationManager $configurationManager
+        CoreConfigurationManager $configurationManager,
+        ScopeMatcher $scopeMatcher
     ) {
         $this->configurationManager = $configurationManager;
+        $this->scopeMatcher = $scopeMatcher;
     }
 
     public function __invoke(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
@@ -90,8 +97,12 @@ class GeneratePageListener
             return;
         }
 
-        if (\defined('TL_MODE') && TL_MODE !== 'FE') {
+        if (!$this->scopeMatcher->isFrontend()) {
             return;
+        }
+
+        if (null === Util::getCookieVisitorUniqIdHash()) {
+            Util::setCookieVisitorUniqIdHash();
         }
 
         // add a new visit
@@ -100,7 +111,7 @@ class GeneratePageListener
         $objItem->page_url = Environment::get('uri');
         $objItem->referer = System::getReferer();
         $objItem->url = System::getReferer();
-        $objItem->ip = Environment::get('ip');
+        $objItem->hash = Util::getCookieVisitorUniqIdHash();
         $objItem->createdAt = time();
         $objItem->tstamp = time();
         $objItem->save();

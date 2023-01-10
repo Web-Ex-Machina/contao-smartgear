@@ -16,10 +16,13 @@ namespace WEM\SmartgearBundle\EventListener\Security;
 
 use Contao\Controller;
 use Contao\Environment;
+use Contao\Input;
 use Contao\System;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\ScopeMatcher;
+use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 use WEM\SmartgearBundle\Model\Login;
 
@@ -53,9 +56,14 @@ class InteractiveLoginListener
         if (!$this->scopeMatcher->isBackend()) {
             return;
         }
+
+        if (null === Util::getCookieVisitorUniqIdHash()) {
+            Util::setCookieVisitorUniqIdHash();
+        }
         // add a new backend login
         $objItem = new Login();
-        $objItem->ip = Environment::get('ip');
+        // $objItem->ip = Environment::get('ip');
+        $objItem->hash = Util::getCookieVisitorUniqIdHash();
         $objItem->context = $this->scopeMatcher->isBackend() ? Login::CONTEXT_BE : Login::CONTEXT_FE;
         $objItem->createdAt = time();
         $objItem->tstamp = time();
@@ -64,13 +72,22 @@ class InteractiveLoginListener
 
     protected function redirectToSmargearDashboard(): void
     {
+        if (!$this->scopeMatcher->isBackend()) {
+            return;
+        }
+
         try {
+            /** @var CoreConfig */
             $config = $this->configurationManager->load();
         } catch (NotFound $e) {
             return;
         }
 
         if (!$config->getSgInstallComplete()) {
+            return;
+        }
+
+        if (null !== Input::get('redirect')) {
             return;
         }
 

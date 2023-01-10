@@ -1,5 +1,19 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
+1.0.3 - 2023-01-10
+- Dashboard : internal links do not opent in a "\_blank" target anymore
+- Extranet : updated test member's default password to 12345678
+- Events : filters for year & month (fixed)
+- Events : geographic coordinates correctly updates when an event's address is changed (fixed)
+- Smartgear : do not redirect user to Smartgear's dashboard after a backend login if a Contao's redirection is already happening 
+- Smartgear : do not reset layouts' modules on Smartgear reconfigure
+- Smartgear : do not use visitor IP address for pages visits statistics
+- Smartgear : property "guests" made available again for content element (fixed)
+- Smartgear : backend menu "Smartgear" now named "General"
+- Smartgear : backend menu entry "undo" now under "General" menu
+- Smartgear : backend menu "System" now at the bottom of the list
+- Smartgear : backend menu "Personal data" now named "GDPR"
+
 1.0.2 - 2023-01-05
 - Smartgear : added missing translation key
 - Smartgear : super admins can now delete content elements used by Smartgear (fixed)

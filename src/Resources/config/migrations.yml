@@ -18,3 +18,31 @@ services:
       $coreConfigurationManager: '@smartgear.config.manager.core'
       $versionComparator: '@smartgear.classes.version.comparator'
     public: true
+
+  smartgear.migrations.v1_0_1.m202301050800.migration:
+    class: WEM\SmartgearBundle\Migrations\V1_0_1\M202301050800\Migration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+    public: true
+
+  smartgear.migrations.v1_0_2.m202301051700.migration:
+    class: WEM\SmartgearBundle\Migrations\V1_0_2\M202301051700\Migration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+    public: true
+
+  smartgear.migrations.v1_0_3.m202301100950.migration:
+    class: WEM\SmartgearBundle\Migrations\V1_0_3\M202301100950\Migration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+      $templatesSmartgearSynchronizer: '@smartgear.classes.directories_synchronizer.templates.smartgear'
+    public: true
