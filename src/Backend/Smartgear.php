@@ -211,6 +211,8 @@ class Smartgear extends \Contao\BackendModule
             // Retrieve number of updates to play if session key is undefined
             // @todo : find a way to update this value after an update by the Contao-Manager
             if ($this->objSession->get('wem_sg_update_to_play_number')) {
+                $this->Template->update_to_play_number = $this->objSession->get('wem_sg_update_to_play_number');
+            } else {
                 $listResults = $this->updateManager->list();
                 $this->Template->update_to_play_number = $listResults->getNumbersOfUpdatesToPlay();
                 $this->objSession->set('wem_sg_update_to_play_number', $this->Template->update_to_play_number);
