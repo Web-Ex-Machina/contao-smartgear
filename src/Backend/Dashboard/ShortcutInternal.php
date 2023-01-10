@@ -61,27 +61,81 @@ class ShortcutInternal extends BackendModule
             return;
         }
         $this->Template->title = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.title', [], 'contao_default');
+        $links = [];
 
         // pages
-        $this->Template->modPageUrl = System::getContainer()->get('router')->generate('contao_backend', ['do' => 'page']);
-        $this->Template->linkPageText = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkPageText', [], 'contao_default');
-        $this->Template->linkPageTitle = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkPageTitle', [], 'contao_default');
+        $links['pages'] = [
+            'href' => System::getContainer()->get('router')->generate('contao_backend', ['do' => 'page']),
+            'text' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkPageText', [], 'contao_default'),
+            'title' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkPageTitle', [], 'contao_default'),
+            'icon' => 'manager.gif',
+        ];
 
         // articles
-        $this->Template->modArticleUrl = System::getContainer()->get('router')->generate('contao_backend', ['do' => 'article']);
-        $this->Template->linkArticleText = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkArticleText', [], 'contao_default');
-        $this->Template->linkArticleTitle = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkArticleTitle', [], 'contao_default');
+        $links['articles'] = [
+            'href' => System::getContainer()->get('router')->generate('contao_backend', ['do' => 'article']),
+            'text' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkArticleText', [], 'contao_default'),
+            'title' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkArticleTitle', [], 'contao_default'),
+            'icon' => 'manager.gif',
+        ];
 
         // news
-        $this->Template->modNewsUrl = System::getContainer()->get('router')->generate('contao_backend', ['do' => 'news']);
-        $this->Template->linkNewsText = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkNewsText', [], 'contao_default');
-        $this->Template->linkNewsTitle = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkNewsTitle', [], 'contao_default');
-        $this->Template->isNewsInstalled = $config->getSgInstallComplete() && $config->getSgBlog()->getSgInstallComplete();
-        $this->Template->msgBlogNotInstalled = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.msgBlogNotInstalled', [], 'contao_default');
+        if ($config->getSgInstallComplete() && $config->getSgBlog()->getSgInstallComplete()) {
+            $links['news'] = [
+                'href' => System::getContainer()->get('router')->generate('contao_backend', ['do' => 'news']),
+                'text' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkNewsText', [], 'contao_default'),
+                'title' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkNewsTitle', [], 'contao_default'),
+                'icon' => 'manager.gif',
+            ];
+        }
 
         // files
-        $this->Template->modFilesUrl = System::getContainer()->get('router')->generate('contao_backend', ['do' => 'files']);
-        $this->Template->linkFilesText = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkFilesText', [], 'contao_default');
-        $this->Template->linkFilesTitle = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkFilesTitle', [], 'contao_default');
+        $links['files'] = [
+            'href' => System::getContainer()->get('router')->generate('contao_backend', ['do' => 'files']),
+            'text' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkFilesText', [], 'contao_default'),
+            'title' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkFilesTitle', [], 'contao_default'),
+            'icon' => 'manager.gif',
+        ];
+
+        // events
+        if ($config->getSgInstallComplete() && $config->getSgEvents()->getSgInstallComplete()) {
+            $links['events'] = [
+                'href' => System::getContainer()->get('router')->generate('contao_backend', ['do' => 'calendar']),
+                'text' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkCalendarText', [], 'contao_default'),
+                'title' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkCalendarTitle', [], 'contao_default'),
+                'icon' => 'manager.gif',
+            ];
+        }
+
+        // FAQ
+        if ($config->getSgInstallComplete() && $config->getSgFaq()->getSgInstallComplete()) {
+            $links['faq'] = [
+                'href' => System::getContainer()->get('router')->generate('contao_backend', ['do' => 'faq']),
+                'text' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkFaqText', [], 'contao_default'),
+                'title' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkFaqTitle', [], 'contao_default'),
+                'icon' => 'manager.gif',
+            ];
+        }
+
+        // contacts
+        if ($config->getSgInstallComplete() && $config->getSgFaq()->getSgInstallComplete()) {
+            $links['contacts'] = [
+                'href' => System::getContainer()->get('router')->generate('contao_backend', ['do' => 'wem_sg_form_data_manager']),
+                'text' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkContactsText', [], 'contao_default'),
+                'title' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkContactsTitle', [], 'contao_default'),
+                'icon' => 'manager.gif',
+            ];
+        }
+        // extranet
+        if ($config->getSgInstallComplete() && $config->getSgFaq()->getSgInstallComplete()) {
+            $links['extranet'] = [
+                'href' => System::getContainer()->get('router')->generate('contao_backend', ['do' => 'member']),
+                'text' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkMemberText', [], 'contao_default'),
+                'title' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkMemberTitle', [], 'contao_default'),
+                'icon' => 'manager.gif',
+            ];
+        }
+
+        $this->Template->links = $links;
     }
 }

@@ -224,10 +224,6 @@
 			<source>Internal shortcuts</source>
 			<target>Raccourcis internes</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.msgBlogNotInstalled">
-			<source>The Smartgear's blog component is not installed</source>
-			<target>Le blog Smartgear n'est pas installé</target>
-		</trans-unit>
 		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkPageText">
 			<source>Pages</source>
 			<target>Pages</target>
@@ -250,7 +246,7 @@
 		</trans-unit>
 		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkNewsTitle">
 			<source>News management</source>
-			<target>Gestion des actualité</target>
+			<target>Gestion des actualités</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkFilesText">
 			<source>Files</source>
@@ -260,6 +256,39 @@
 			<source>Manage files &amp; folders</source>
 			<target>Gestion des fichiers présents sur le serveur</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkCalendarText">
+			<source>Calendar</source>
+			<target>Evènements</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkCalendarTitle">
+			<source>Calendar management</source>
+			<target>Gestion des évènements</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkFaqText">
+			<source>Faq</source>
+			<target>FAQ</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkFaqTitle">
+			<source>Faq management</source>
+			<target>Gestion de la FAQ</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkContactsText">
+			<source>Contacts</source>
+			<target>Contacts</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkContactsTitle">
+			<source>Contacts management</source>
+			<target>Gestion des contacts</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkMemberText">
+			<source>Members</source>
+			<target>Membres</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkMemberTitle">
+			<source>Extranet' members management</source>
+			<target>Gestion des membres de l'extranet</target>
+		</trans-unit>
+
 		<trans-unit id="WEMSG.DASHBOARD.SHORTCUTEXTERNAL.title">
 			<source>External shortcuts</source>
 			<target>Raccourcis externes</target>

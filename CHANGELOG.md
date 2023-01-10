@@ -1,6 +1,7 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 1.0.3 - 2023-01-09
+- Dashboard : internal links do not opent in a "\_blank" target anymore
 - Extranet : updated test member's default password to 12345678
 - Events : filters for year & month (fixed)
 - Events : geographic coordinates correctly updates when an event's address is changed (fixed)
