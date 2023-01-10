@@ -69,7 +69,7 @@ class Migration extends MigrationAbstract
             $coreConfig = $this->coreConfigurationManager->load();
 
             // copy templates needing to be updated
-            $this->templatesSmartgearSynchronizer->synchronize();
+            $this->templatesSmartgearSynchronizer->synchronize(false);
 
             $coreConfig->setSgVersion(self::$version);
 

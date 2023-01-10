@@ -1,5 +1,8 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
+1.0.4 - 2023-01-11
+- Smartgear : user id hash sometimes empty (fixed)
+
 1.0.3 - 2023-01-10
 - Dashboard : internal links do not opent in a "\_blank" target anymore
 - Extranet : updated test member's default password to 12345678
