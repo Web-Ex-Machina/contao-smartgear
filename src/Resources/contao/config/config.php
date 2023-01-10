@@ -110,8 +110,10 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
         'wem_sg_dashboard' => [
             'callback' => "\WEM\SmartgearBundle\Backend\Dashboard",
         ],
+        'undo' => $GLOBALS['BE_MOD']['system']['undo'],
     ],
 ]);
+unset($GLOBALS['BE_MOD']['system']['undo']);
 ArrayUtil::arrayInsert(
     $GLOBALS['BE_MOD']['content'],
     array_search('article', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
@@ -134,6 +136,7 @@ ArrayUtil::arrayInsert(
 );
 $GLOBALS['BE_MOD']['content']['form']['export_all'] = ['smartgear.backend.module.form_data_manager.backend_controller', 'exportAllFromForm'];
 $GLOBALS['BE_MOD']['content']['form']['export'] = ['smartgear.backend.module.form_data_manager.backend_controller', 'exportSingle'];
+
 /*
  * Frontend modules
  */

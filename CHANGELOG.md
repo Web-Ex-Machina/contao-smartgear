@@ -9,6 +9,9 @@ SMARTGEAR Project for Contao Open Source CMS
 - Smartgear : do not reset layouts' modules on Smartgear reconfigure
 - Smartgear : do not use visitor IP address for pages visits statistics
 - Smartgear : property "guests" made available again for content element (fixed)
+- Smartgear : backend menu "Smartgear" now named "General"
+- Smartgear : backend menu entry "undo" now under "General" menu
+- Smartgear : backend menu "System" now at the bottom of the list
 
 1.0.2 - 2023-01-05
 - Smartgear : added missing translation key

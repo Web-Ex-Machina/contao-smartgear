@@ -80,8 +80,8 @@
 		</trans-unit>
 
 		<trans-unit id="MOD.wem_smartgear">
-			<source>Smartgear</source>
-			<target>Smartgear</target>
+			<source>General</source>
+			<target>Général</target>
 		</trans-unit>
 		<trans-unit id="MOD.wem_sg_dashboard.0">
 			<source>Dashboard</source>

@@ -35,6 +35,7 @@ class BackendMenuBuildListener
         $tree = $event->getTree();
 
         $tree = $this->hideEmptySubMenus($tree);
+        $tree = $this->putSystemMenuAtTheEnd($tree);
     }
 
     /**
@@ -44,7 +45,7 @@ class BackendMenuBuildListener
      *
      * @return ItemInterface The modified menu tree
      */
-    protected function hideEmptySubMenus($tree): ItemInterface
+    protected function hideEmptySubMenus(ItemInterface $tree): ItemInterface
     {
         if ('mainMenu' !== $tree->getName()) {
             return $tree;
@@ -57,6 +58,29 @@ class BackendMenuBuildListener
             $subMenus[$index] = $subMenu;
         }
         $tree->setChildren($subMenus);
+
+        return $tree;
+    }
+
+    /**
+     * Put the "system" entry at the back.
+     *
+     * @param ItemInterface $tree The menu tree
+     *
+     * @return ItemInterface The modified menu tree
+     */
+    protected function putSystemMenuAtTheEnd(ItemInterface $tree): ItemInterface
+    {
+        if ('mainMenu' !== $tree->getName()) {
+            return $tree;
+        }
+
+        $children = $tree->getChildren();
+        unset($children['system']);
+        $order = array_keys($children);
+        $order[] = 'system';
+
+        $tree->reorderChildren($order);
 
         return $tree;
     }
