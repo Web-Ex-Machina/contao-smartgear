@@ -12,6 +12,7 @@ SMARTGEAR Project for Contao Open Source CMS
 - Smartgear : backend menu "Smartgear" now named "General"
 - Smartgear : backend menu entry "undo" now under "General" menu
 - Smartgear : backend menu "System" now at the bottom of the list
+- Smartgear : backend menu "Personal data" now named "GDPR"
 
 1.0.2 - 2023-01-05
 - Smartgear : added missing translation key
