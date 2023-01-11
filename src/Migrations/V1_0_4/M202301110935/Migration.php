@@ -17,10 +17,14 @@ namespace WEM\SmartgearBundle\Migrations\V1_0_4\M202301110935;
 use Doctrine\DBAL\Connection;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 use WEM\SmartgearBundle\Classes\Migration\Result;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Migrations\V1_0_0\MigrationAbstract;
+use WEM\SmartgearBundle\Model\Article;
+use WEM\SmartgearBundle\Model\Content;
+use WEM\SmartgearBundle\Model\Module;
 
 class Migration extends MigrationAbstract
 {
@@ -28,14 +32,18 @@ class Migration extends MigrationAbstract
     protected static $description = 'Set Smartgear to version 1.0.4';
     protected static $version = '1.0.4';
     protected static $translation_key = 'WEMSG.MIGRATIONS.V1_0_4_M202301110935';
+    /** @var DirectoriesSynchronizer */
+    protected static $templatesSmartgearSynchronizer;
 
     public function __construct(
         Connection $connection,
         TranslatorInterface $translator,
         CoreConfigurationManager $coreConfigurationManager,
-        VersionComparator $versionComparator
+        VersionComparator $versionComparator,
+        DirectoriesSynchronizer $templatesSmartgearSynchronizer
     ) {
         parent::__construct($connection, $translator, $coreConfigurationManager, $versionComparator);
+        $this->templatesSmartgearSynchronizer = $templatesSmartgearSynchronizer;
     }
 
     public function shouldRun(): Result
@@ -63,6 +71,11 @@ class Migration extends MigrationAbstract
             /** @var CoreConfig */
             $coreConfig = $this->coreConfigurationManager->load();
 
+            // copy templates needing to be updated
+            $this->templatesSmartgearSynchronizer->synchronize(false);
+
+            $this->updateElementsUsingRemovedTemplate();
+
             $coreConfig->setSgVersion(self::$version);
 
             $this->coreConfigurationManager->save($coreConfig);
@@ -79,5 +92,38 @@ class Migration extends MigrationAbstract
         }
 
         return $result;
+    }
+
+    protected function updateElementsUsingRemovedTemplate(): void
+    {
+        $oldTemplate = 'mod_newslist_without_filters';
+        $newTemplate = 'mod_newslist_nofilters';
+
+        $modules = Module::findItems(['customTpl' => $oldTemplate]);
+        if ($modules) {
+            while ($modules->next()) {
+                $module = $modules->current();
+                $module->customTpl = $newTemplate;
+                $module->save();
+            }
+        }
+
+        $contents = Content::findItems(['customTpl' => $oldTemplate]);
+        if ($contents) {
+            while ($contents->next()) {
+                $content = $contents->current();
+                $content->customTpl = $newTemplate;
+                $content->save();
+            }
+        }
+
+        $articles = Article::findItems(['customTpl' => $oldTemplate]);
+        if ($articles) {
+            while ($articles->next()) {
+                $article = $articles->current();
+                $article->customTpl = $newTemplate;
+                $article->save();
+            }
+        }
     }
 }
