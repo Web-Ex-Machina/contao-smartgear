@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\EventListener\Security;
 
 use Contao\Controller;
-use Contao\Environment;
 use Contao\Input;
 use Contao\System;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
@@ -57,13 +56,15 @@ class InteractiveLoginListener
             return;
         }
 
-        if (null === Util::getCookieVisitorUniqIdHash()) {
-            Util::setCookieVisitorUniqIdHash();
+        $hash = Util::getCookieVisitorUniqIdHash();
+        if (null === $hash) {
+            $hash = Util::buildCookieVisitorUniqIdHash();
+            Util::setCookieVisitorUniqIdHash($hash);
         }
+
         // add a new backend login
         $objItem = new Login();
-        // $objItem->ip = Environment::get('ip');
-        $objItem->hash = Util::getCookieVisitorUniqIdHash();
+        $objItem->hash = $hash;
         $objItem->context = $this->scopeMatcher->isBackend() ? Login::CONTEXT_BE : Login::CONTEXT_FE;
         $objItem->createdAt = time();
         $objItem->tstamp = time();

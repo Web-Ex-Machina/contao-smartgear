@@ -939,15 +939,22 @@ class Util
         return (int) $objPage->sorting + 128;
     }
 
-    public static function setCookieVisitorUniqIdHash(): void
+    public static function buildCookieVisitorUniqIdHash(): string
     {
-        unset($_COOKIE['wem_sg_visitor_uniq_id_hash']);
-        if (!\array_key_exists('wem_sg_visitor_uniq_id_hash', $_COOKIE)) {
-            // GPDR states 13 month is the maximum duration
-            // we can store a cookie for statistics
-            // @see https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/cookies-solutions-pour-les-outils-de-mesure-daudience
-            System::setCookie('wem_sg_visitor_uniq_id_hash', sha1(System::getContainer()->get('session')->getId().time()), strtotime('+13 month'));
-        }
+        return sha1(System::getContainer()->get('session')->getId().time());
+    }
+
+    public static function setCookieVisitorUniqIdHash(string $value): void
+    {
+        // if (!\array_key_exists('wem_sg_visitor_uniq_id_hash', $_COOKIE)) {
+        /*
+         * GPDR states 13 month is the maximum duration
+         * we can store a cookie for statistics.
+         *
+         * @see https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/cookies-solutions-pour-les-outils-de-mesure-daudience
+         */
+        System::setCookie('wem_sg_visitor_uniq_id_hash', $value, strtotime('+13 month'));
+        // }
     }
 
     public static function getCookieVisitorUniqIdHash(): ?string

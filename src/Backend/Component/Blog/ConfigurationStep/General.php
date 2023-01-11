@@ -301,6 +301,7 @@ class General extends ConfigurationStep
             $moduleList->id = $blogConfig->getSgModuleList();
         }
         $moduleList->name = $page->title.' - List';
+        $moduleList->headline = serialize(['value' => $page->title, 'unit' => 'h1']);
         $moduleList->pid = $config->getSgTheme();
         $moduleList->type = 'newslist';
         $moduleList->news_archives = serialize([$newsArchive->id]);
@@ -327,15 +328,6 @@ class General extends ConfigurationStep
         $config = $this->configurationManager->load();
         $blogConfig = $config->getSgBlog();
 
-        $headline = ContentModel::findById($blogConfig->getSgContentHeadline());
-        $headline = Util::createContent($article, array_merge([
-            'type' => 'headline',
-            'pid' => $article->id,
-            'ptable' => 'tl_article',
-            'headline' => serialize(['unit' => 'h1', 'value' => $page->title]),
-            'cssID' => 'sep-bottom',
-        ], ['id' => null !== $headline ? $headline->id : null]));
-
         $list = ContentModel::findById($blogConfig->getSgContentList());
         $list = Util::createContent($article, array_merge([
             'type' => 'module',
@@ -359,7 +351,6 @@ class General extends ConfigurationStep
         $blogConfig
             ->setSgPage((int) $page->id)
             ->setSgArticle((int) $article->id)
-            ->setSgContentHeadline((int) $contents['headline']->id)
             ->setSgContentList((int) $contents['list']->id)
             ->setSgNewsArchive((int) $newsArchive->id)
             ->setSgModuleReader((int) $modules['reader']->id)

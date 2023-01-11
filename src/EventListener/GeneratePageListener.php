@@ -97,12 +97,14 @@ class GeneratePageListener
             return;
         }
 
-        if (!$this->scopeMatcher->isFrontend()) {
-            return;
+        $hash = Util::getCookieVisitorUniqIdHash();
+        if (null === $hash) {
+            $hash = Util::buildCookieVisitorUniqIdHash();
+            Util::setCookieVisitorUniqIdHash($hash);
         }
 
-        if (null === Util::getCookieVisitorUniqIdHash()) {
-            Util::setCookieVisitorUniqIdHash();
+        if (!$this->scopeMatcher->isFrontend()) {
+            return;
         }
 
         // add a new visit
@@ -111,7 +113,7 @@ class GeneratePageListener
         $objItem->page_url = Environment::get('uri');
         $objItem->referer = System::getReferer();
         $objItem->url = System::getReferer();
-        $objItem->hash = Util::getCookieVisitorUniqIdHash();
+        $objItem->hash = $hash;
         $objItem->createdAt = time();
         $objItem->tstamp = time();
         $objItem->save();

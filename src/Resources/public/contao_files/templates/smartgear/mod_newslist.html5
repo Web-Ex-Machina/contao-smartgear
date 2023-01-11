@@ -1,5 +1,10 @@
 
 <?php $this->block('content'); ?>
+
+  <?php if ($this->headline): ?>
+    <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
+  <?php endif; ?>
+  
   <?php $this->insert('filters', ['filters'=>$this->filters ?? [],'config'=>$this->config ?? [],'dataContainer'=>'listNews']); ?>
   <div class="<?= $this->class ?>">
     <?php if (empty($this->articles)): ?>
