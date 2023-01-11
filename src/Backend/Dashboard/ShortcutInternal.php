@@ -118,7 +118,7 @@ class ShortcutInternal extends BackendModule
         }
 
         // contacts
-        if ($config->getSgInstallComplete() && $config->getSgFaq()->getSgInstallComplete()) {
+        if ($config->getSgInstallComplete() && $config->getSgFormDataManager()->getSgInstallComplete()) {
             $links['contacts'] = [
                 'href' => System::getContainer()->get('router')->generate('contao_backend', ['do' => 'wem_sg_form_data_manager']),
                 'text' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkContactsText', [], 'contao_default'),
@@ -127,7 +127,7 @@ class ShortcutInternal extends BackendModule
             ];
         }
         // extranet
-        if ($config->getSgInstallComplete() && $config->getSgFaq()->getSgInstallComplete()) {
+        if ($config->getSgInstallComplete() && $config->getSgExtranet()->getSgInstallComplete()) {
             $links['extranet'] = [
                 'href' => System::getContainer()->get('router')->generate('contao_backend', ['do' => 'member']),
                 'text' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkMemberText', [], 'contao_default'),
