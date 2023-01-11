@@ -1,6 +1,7 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 1.0.4 - 2023-01-11
+- News : headline in reader page have been removed, replaced by a headline in the event reader module (fixed - same problem as Events before version 1.0.1)
 - Smartgear : user id hash sometimes empty (fixed)
 
 1.0.3 - 2023-01-10
