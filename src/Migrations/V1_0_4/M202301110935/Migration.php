@@ -14,12 +14,14 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Migrations\V1_0_4\M202301110935;
 
+use Contao\PageModel;
 use Doctrine\DBAL\Connection;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 use WEM\SmartgearBundle\Classes\Migration\Result;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
+use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Migrations\V1_0_0\MigrationAbstract;
 use WEM\SmartgearBundle\Model\Article;
@@ -75,6 +77,7 @@ class Migration extends MigrationAbstract
             $this->templatesSmartgearSynchronizer->synchronize(false);
 
             $this->updateElementsUsingRemovedTemplate();
+            $this->updateBlogComponent();
 
             $coreConfig->setSgVersion(self::$version);
 
@@ -123,6 +126,38 @@ class Migration extends MigrationAbstract
                 $article = $articles->current();
                 $article->customTpl = $newTemplate;
                 $article->save();
+            }
+        }
+    }
+
+    protected function updateBlogComponent(): void
+    {
+        /** @var CoreConfig */
+        $coreConfig = $this->coreConfigurationManager->load();
+
+        /** @var BlogConfig */
+        $blogConfig = $coreConfig->getSgBlog();
+
+        if (!$blogConfig->getSgInstallComplete()) {
+            return;
+        }
+
+        $page = PageModel::findById($blogConfig->getSgPage());
+        if ($page) {
+            // remove headline from page
+            $article = Article::findItems(['pid' => $page->id], 1);
+            if ($article) {
+                $headline = Content::findItems(['pid' => $article->id, 'ptable' => 'tl_article', 'type' => 'headline'], 1);
+                if ($headline) {
+                    $headline->delete();
+                }
+            }
+
+            // set header in list module
+            $module = Module::findItems(['id' => $blogConfig->getSgModuleList()], 1);
+            if ($module) {
+                $module->headline = serialize(['unit' => 'h1', 'value' => $page->title]);
+                $module->save();
             }
         }
     }

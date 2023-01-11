@@ -69,7 +69,6 @@ Tags | Value | Description
 `sg::blog_newsArchive` | string | The blog's news archive ID
 `sg::blog_page` | string | The blog's page ID
 `sg::blog_article` | string | The blog's page article ID
-`sg::blog_contentHeadline` | string | The blog's page article headline content ID
 `sg::blog_contentList` | string | The blog's page article list content ID
 `sg::blog_moduleReader` | string | The blog's module reader ID
 `sg::blog_moduleList` | string | The blog's module list ID

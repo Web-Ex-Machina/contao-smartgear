@@ -49,8 +49,6 @@ class Blog implements ConfigModuleInterface
     /** @var int */
     protected $sgArticle;
     /** @var int */
-    protected $sgContentHeadline;
-    /** @var int */
     protected $sgContentList;
     /** @var int */
     protected $sgModuleReader;
@@ -73,7 +71,6 @@ class Blog implements ConfigModuleInterface
             ->setSgMode(static::DEFAULT_MODE)
             ->setSgPage(null)
             ->setSgArticle(null)
-            ->setSgContentHeadline(null)
             ->setSgContentList(null)
             ->setSgModuleReader(null)
             ->setSgModuleList(null)
@@ -94,7 +91,6 @@ class Blog implements ConfigModuleInterface
             ->setSgMode($json->mode ?? static::DEFAULT_MODE)
             ->setSgPage($json->contao->page ?? null)
             ->setSgArticle($json->contao->article ?? null)
-            ->setSgContentHeadline($json->contao->contents->headline ?? null)
             ->setSgContentList($json->contao->contents->list ?? null)
             ->setSgModuleReader($json->contao->modules->reader ?? null)
             ->setSgModuleList($json->contao->modules->list ?? null)
@@ -130,7 +126,6 @@ class Blog implements ConfigModuleInterface
         $json->contao->archive = $this->getSgNewsArchive();
 
         $json->contao->contents = new \stdClass();
-        $json->contao->contents->headline = $this->getSgContentHeadline();
         $json->contao->contents->list = $this->getSgContentList();
 
         $json->contao->modules = new \stdClass();
@@ -179,7 +174,6 @@ class Blog implements ConfigModuleInterface
         }
 
         return [
-            $this->getSgContentHeadline(),
             $this->getSgContentList(),
         ];
     }
@@ -470,18 +464,6 @@ class Blog implements ConfigModuleInterface
     public function setSgArticle(?int $sgArticle): self
     {
         $this->sgArticle = $sgArticle;
-
-        return $this;
-    }
-
-    public function getSgContentHeadline(): ?int
-    {
-        return $this->sgContentHeadline;
-    }
-
-    public function setSgContentHeadline(?int $sgContentHeadline): self
-    {
-        $this->sgContentHeadline = $sgContentHeadline;
 
         return $this;
     }
