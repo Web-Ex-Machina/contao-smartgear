@@ -97,14 +97,14 @@ class GeneratePageListener
             return;
         }
 
-        if (!$this->scopeMatcher->isFrontend()) {
-            return;
-        }
-
         $hash = Util::getCookieVisitorUniqIdHash();
         if (null === $hash) {
             $hash = Util::buildCookieVisitorUniqIdHash();
             Util::setCookieVisitorUniqIdHash($hash);
+        }
+
+        if (!$this->scopeMatcher->isFrontend()) {
+            return;
         }
 
         // add a new visit

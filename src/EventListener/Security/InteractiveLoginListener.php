@@ -61,6 +61,7 @@ class InteractiveLoginListener
             $hash = Util::buildCookieVisitorUniqIdHash();
             Util::setCookieVisitorUniqIdHash($hash);
         }
+
         // add a new backend login
         $objItem = new Login();
         $objItem->hash = $hash;

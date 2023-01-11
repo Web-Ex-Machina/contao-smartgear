@@ -941,20 +941,20 @@ class Util
 
     public static function buildCookieVisitorUniqIdHash(): string
     {
-        return sha1(System::getContainer()->get('session')->getId());
+        return sha1(System::getContainer()->get('session')->getId().time());
     }
 
     public static function setCookieVisitorUniqIdHash(string $value): void
     {
-        if (!\array_key_exists('wem_sg_visitor_uniq_id_hash', $_COOKIE)) {
-            /*
-             * GPDR states 13 month is the maximum duration
-             * we can store a cookie for statistics.
-             *
-             * @see https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/cookies-solutions-pour-les-outils-de-mesure-daudience
-             */
-            System::setCookie('wem_sg_visitor_uniq_id_hash', $value, strtotime('+13 month'));
-        }
+        // if (!\array_key_exists('wem_sg_visitor_uniq_id_hash', $_COOKIE)) {
+        /*
+         * GPDR states 13 month is the maximum duration
+         * we can store a cookie for statistics.
+         *
+         * @see https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/cookies-solutions-pour-les-outils-de-mesure-daudience
+         */
+        System::setCookie('wem_sg_visitor_uniq_id_hash', $value, strtotime('+13 month'));
+        // }
     }
 
     public static function getCookieVisitorUniqIdHash(): ?string
