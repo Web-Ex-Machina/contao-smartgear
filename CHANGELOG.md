@@ -4,6 +4,8 @@ SMARTGEAR Project for Contao Open Source CMS
 - Smartgear : fix breadcrumb auto-placement
 - Events : do not override list `cal_format` if no filters enabled (fix)
 - Events : do override list `cal_format` according to active filters (fix)
+- News : translation keys for date filters (fix)
+- News : entries for date year filters (fix)
 
 1.0.4 - 2023-01-11
 - News : headline in reader page have been removed, replaced by a headline in the event reader module (fixed - same problem as Events before version 1.0.1)
