@@ -1,5 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
+1.0.5 - 2023-01-13
+- Smartgear : fix breadcrumb auto-placement
+- Events : do not override list `cal_format` if no filters enabled (fix)
+
 1.0.4 - 2023-01-11
 - News : headline in reader page have been removed, replaced by a headline in the event reader module (fixed - same problem as Events before version 1.0.1)
 - Smartgear : user id hash sometimes empty (fixed)
