@@ -2,6 +2,7 @@ SMARTGEAR Project for Contao Open Source CMS
 ========
 1.0.5 - 2023-01-13
 - Smartgear : fix breadcrumb auto-placement
+- Smartgear : updated embedded Framway's version
 - Dashboard : internal analytics now features most viewed pages without URL parameters
 - Dashboard : internal analytics now features most common referers without URL parameters
 - Events : do not override list `cal_format` if no filters enabled (fix)
