@@ -23,6 +23,7 @@
 	link: #{inspect($link)};
 	btn: #{inspect($btn)};
 	breakpoints: #{inspect($breakpoints)};
+	container: #{inspect($container)};
 	enable-bg: $enable-bg;
 	enable-bd: $enable-bd;
 }

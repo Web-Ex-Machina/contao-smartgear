@@ -1,6 +1,6 @@
 module.exports = {
     themes: [
-        'smartgear2',
+        'git@github.com:Web-Ex-Machina/framway-theme-smartgear2.git'
     ],
     components: [
         'dashboard',
@@ -30,7 +30,7 @@ module.exports = {
         'countUpFW',
         // 'splitForm',
     ],
-    useFA: false,
+    useFA: false, // false || 'free' || 'pro'
     useToastr: true,
     useOutdatebrowser: true,
     useTarteaucitron: true,
