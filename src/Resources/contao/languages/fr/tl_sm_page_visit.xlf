@@ -13,9 +13,17 @@
       <source>Page URL</source>
       <target>URL de la page</target>
     </trans-unit>
+    <trans-unit id="tl_sm_page_visit.page_url_base.0">
+      <source>Page URL (without fragments)</source>
+      <target>URL de la page (sans paramètres)</target>
+    </trans-unit>
     <trans-unit id="tl_sm_page_visit.referer.0">
       <source>Referer</source>
       <target>Referer</target>
+    </trans-unit>
+    <trans-unit id="tl_sm_page_visit.referer_base.0">
+      <source>Referer (without fragments)</source>
+      <target>Referer (sans paramètres)</target>
     </trans-unit>
     <trans-unit id="tl_sm_page_visit.hash.0">
       <source>Visitor hash</source>

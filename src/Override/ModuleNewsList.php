@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Override;
 
 use Contao\Input;
+use Contao\NewsModel;
 use Contao\UserModel;
 
 class ModuleNewsList extends \Contao\ModuleNewsList
@@ -68,16 +69,35 @@ class ModuleNewsList extends \Contao\ModuleNewsList
             }
         }
 
+        $datesBounds = $this->getNewsDatesBound();
+
         $this->filters['month']['date'] = [
             'label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['date'],
             'year' => [
-                'start' => 2000,
-                'stop' => (int) date('Y'),
+                'label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['dateYear'],
+                'start' => $datesBounds['start'],
+                'stop' => $datesBounds['stop'],
+            ],
+            'month' => [
+                'label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['dateMonth'],
             ],
         ];
         if (null !== Input::get('date')) {
             $this->config['date']['month'] = Input::get('date')['month'];
             $this->config['date']['year'] = Input::get('date')['year'];
         }
+    }
+
+    protected function getNewsDatesBound(): array
+    {
+        $col = ['pid IN (?)', 'published = ?'];
+        $val = [implode(',', $this->news_archives), 1];
+        $firstEvent = NewsModel::findBy($col, $val, ['limit' => 1, 'order' => 'published ASC, tstamp ASC']);
+        $lastEvent = NewsModel::findBy($col, $val, ['limit' => 1, 'order' => 'published DESC, tstamp DESC']);
+
+        return [
+            'start' => (new \DateTime())->setTimestamp((int) ('' !== $firstEvent->start ? $firstEvent->start : $firstEvent->tstamp))->format('Y'),
+            'stop' => (new \DateTime())->setTimestamp((int) ('' !== $lastEvent->start ? $lastEvent->start : $lastEvent->tstamp))->format('Y'),
+        ];
     }
 }

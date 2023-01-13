@@ -56,3 +56,15 @@ services:
       $versionComparator: '@smartgear.classes.version.comparator'
       $templatesSmartgearSynchronizer: '@smartgear.classes.directories_synchronizer.templates.smartgear'
     public: true
+
+  smartgear.migrations.v1_0_5.m202301131435.migration:
+    class: WEM\SmartgearBundle\Migrations\V1_0_5\M202301131435\Migration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+      $templatesSmartgearSynchronizer: '@smartgear.classes.directories_synchronizer.templates.smartgear'
+    public: true
+
+

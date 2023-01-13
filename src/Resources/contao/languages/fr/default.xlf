@@ -353,6 +353,18 @@
 			<source>Number</source>
 			<target>Nombre</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersBaseTitle">
+			<source>Most common referers (without parameters) (last 7 days)</source>
+			<target>Referers les plus communs (sans paramètres) (ces 7 derniers jours)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersBaseUrlHeader">
+			<source>URL (without parameters)</source>
+			<target>URL (sans paramètres)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersBaseAmountHeader">
+			<source>Number</source>
+			<target>Nombre</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlTitle">
 			<source>Most viewed pages (last 7 days)</source>
 			<target>Pages les plus visitées (ces 7 derniers jours)</target>
@@ -362,6 +374,18 @@
 			<target>URL</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlAmountHeader">
+			<source>Views</source>
+			<target>Vues</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlBaseTitle">
+			<source>Most viewed pages (without parameters) (last 7 days)</source>
+			<target>Pages les plus visitées (sans paramètres) (ces 7 derniers jours)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlBaseUrlHeader">
+			<source>URL (without parameters)</source>
+			<target>URL (sans paramètres)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlBaseAmountHeader">
 			<source>Views</source>
 			<target>Vues</target>
 		</trans-unit>
@@ -3553,6 +3577,20 @@
 		<trans-unit id="WEMSG.MIGRATIONS.V1_0_4_M202301110935.done">
 			<source>Smartgear updated to version 1.0.4.</source>
 			<target>Smartgear mis à jour vers la version 1.0.4.</target>
+		</trans-unit>
+
+		<!-- V1_0_5/M202301131435 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_5_M202301131435.name">
+			<source>Smartgear v1.0.5</source>
+			<target>Smartgear v1.0.5</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_5_M202301131435.description">
+			<source>Update Smartgear to version 1.0.5.</source>
+			<target>Met à jour Smartgear vers la version 1.0.5.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_5_M202301131435.done">
+			<source>Smartgear updated to version 1.0.5.</source>
+			<target>Smartgear mis à jour vers la version 1.0.5.</target>
 		</trans-unit>
 
 		<!-- Social networks -->

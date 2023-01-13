@@ -68,7 +68,7 @@ class RenderStack
             return;
         }
 
-        $column = $contentOrModule->Template->inColumn;
+        $column = $contentOrModule->Template->inColumn ?? 'main';
 
         if (!\array_key_exists($column, $this->stack['current_index'])) {
             $this->stack['current_index'][$column] = 0;

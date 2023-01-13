@@ -51,7 +51,7 @@ $GLOBALS['TL_DCA']['tl_sm_page_visit'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend},pid,page_url,referer,hash;',
+        'default' => '{title_legend},pid,page_url,page_url_base,referer,referer_base,hash;',
     ],
     // Fields
     'fields' => [
@@ -81,7 +81,19 @@ $GLOBALS['TL_DCA']['tl_sm_page_visit'] = [
             'eval' => ['mandatory' => true, 'rgxp' => 'url', 'tl_class' => 'w50'],
             'sql' => 'TEXT NULL',
         ],
+        'page_url_base' => [
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['mandatory' => false, 'rgxp' => 'url', 'tl_class' => 'w50'],
+            'sql' => 'TEXT NULL',
+        ],
         'referer' => [
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['mandatory' => false, 'rgxp' => 'url', 'tl_class' => 'w50'],
+            'sql' => 'TEXT NULL',
+        ],
+        'referer_base' => [
             'search' => true,
             'inputType' => 'text',
             'eval' => ['mandatory' => false, 'rgxp' => 'url', 'tl_class' => 'w50'],

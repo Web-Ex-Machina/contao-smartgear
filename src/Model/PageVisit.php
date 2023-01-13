@@ -77,11 +77,25 @@ class PageVisit extends CoreModel
         return self::getAnalytics(['count(*) as amount', $t.'.referer'], $arrConfig, $limit, $offset, $arrOptions);
     }
 
+    public static function getReferersBaseAnalytics(?array $arrConfig = [], ?int $limit = 5, ?int $offset = 0, ?array $arrOptions = [])
+    {
+        $t = self::getTable();
+
+        return self::getAnalytics(['count(*) as amount', $t.'.referer_base'], $arrConfig, $limit, $offset, $arrOptions);
+    }
+
     public static function getPagesUrlAnalytics(?array $arrConfig = [], ?int $limit = 5, ?int $offset = 0, ?array $arrOptions = [])
     {
         $t = self::getTable();
 
         return self::getAnalytics(['count(*) as amount', $t.'.page_url'], $arrConfig, $limit, $offset, $arrOptions);
+    }
+
+    public static function getPagesUrlBaseAnalytics(?array $arrConfig = [], ?int $limit = 5, ?int $offset = 0, ?array $arrOptions = [])
+    {
+        $t = self::getTable();
+
+        return self::getAnalytics(['count(*) as amount', $t.'.page_url_base'], $arrConfig, $limit, $offset, $arrOptions);
     }
 
     public static function countReferersAnalytics(?array $arrConfig = [], ?array $arrOptions = []): int
@@ -91,11 +105,25 @@ class PageVisit extends CoreModel
         return self::countAnalytics(['count(*) as amount', $t.'.referer'], $arrConfig, $arrOptions);
     }
 
+    public static function countReferersBaseAnalytics(?array $arrConfig = [], ?array $arrOptions = []): int
+    {
+        $t = self::getTable();
+
+        return self::countAnalytics(['count(*) as amount', $t.'.referer_base'], $arrConfig, $arrOptions);
+    }
+
     public static function countPagesUrlAnalytics(?array $arrConfig = [], ?array $arrOptions = []): int
     {
         $t = self::getTable();
 
         return self::countAnalytics(['count(*) as amount', $t.'.page_url'], $arrConfig, $arrOptions);
+    }
+
+    public static function countPagesUrlBaseAnalytics(?array $arrConfig = [], ?array $arrOptions = []): int
+    {
+        $t = self::getTable();
+
+        return self::countAnalytics(['count(*) as amount', $t.'.page_url_base'], $arrConfig, $arrOptions);
     }
 
     public static function getAnalytics(array $arrSelect, ?array $arrConfig = [], ?int $limit = 5, ?int $offset = 0, ?array $arrOptions = [])
