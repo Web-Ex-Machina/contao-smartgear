@@ -107,11 +107,16 @@ class GeneratePageListener
             return;
         }
 
+        $uri = Environment::get('uri');
+        $referer = System::getReferer();
+
         // add a new visit
         $objItem = new PageVisit();
         $objItem->pid = $pageModel->id;
-        $objItem->page_url = Environment::get('uri');
-        $objItem->referer = System::getReferer();
+        $objItem->page_url = $uri;
+        $objItem->page_url_base = false !== strpos($uri, '?') ? substr($uri, 0, strpos($uri, '?')) : $uri;
+        $objItem->referer = $referer;
+        $objItem->referer_base = false !== strpos($referer, '?') ? substr($referer, 0, strpos($referer, '?')) : $referer;
         $objItem->url = System::getReferer();
         $objItem->hash = $hash;
         $objItem->createdAt = time();

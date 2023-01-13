@@ -3,6 +3,8 @@
 	<div class="content_container">
 		<?php echo $this->visits; ?>
 		<?php echo $this->referers; ?>
+		<?php echo $this->referersBase; ?>
 		<?php echo $this->pagesUrl; ?>
+		<?php echo $this->pagesUrlBase; ?>
 	</div>
 </div>

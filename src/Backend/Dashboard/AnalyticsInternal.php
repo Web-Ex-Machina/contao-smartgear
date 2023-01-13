@@ -75,8 +75,14 @@ class AnalyticsInternal extends BackendModule
         // referers
         $this->Template->referers = $this->getReferersAnalytics();
 
+        // referers (without parameters)
+        $this->Template->referersBase = $this->getReferersBaseAnalytics();
+
         // most viewed pages
         $this->Template->pagesUrl = $this->getPagesUrlAnalytics();
+
+        // most viewed pages (without parameters)
+        $this->Template->pagesUrlBase = $this->getPagesUrlBaseAnalytics();
     }
 
     protected function getVisitsAnalytics(): string
@@ -138,7 +144,7 @@ class AnalyticsInternal extends BackendModule
             'exclude_be_login' => true,
         ];
         $arrOptions = ['group' => 'referer', 'order' => 'amount DESC'];
-        $limit = 1;
+        $limit = 5;
 
         $objTemplate = new BackendTemplate('be_wem_sg_dashboard_analytics_internal_referers');
         $objTemplate->referers = PageVisit::getReferersAnalytics($arrConfig, $limit, 0, $arrOptions)->fetchAllAssoc();
@@ -148,6 +154,31 @@ class AnalyticsInternal extends BackendModule
         $objTemplate->referersAmountHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersAmountHeader', [], 'contao_default');
 
         // $objTemplate->pagination = (new Pagination(PageVisit::countReferersAnalytics($arrConfig, $arrOptions), $limit))->generate();
+
+        return $objTemplate->parse();
+    }
+
+    protected function getReferersBaseAnalytics(): string
+    {
+        $dt = new DateTime();
+        $arrConfig = [
+            'where' => [sprintf('createdAt BETWEEN %d AND %d',
+                    $dt->setTime(0, 0, 0, 0)->getTimestamp(),
+                    $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp()
+                )],
+            'exclude_be_login' => true,
+        ];
+        $arrOptions = ['group' => 'referer_base', 'order' => 'amount DESC'];
+        $limit = 5;
+
+        $objTemplate = new BackendTemplate('be_wem_sg_dashboard_analytics_internal_referers_base');
+        $objTemplate->referersBase = PageVisit::getReferersBaseAnalytics($arrConfig, $limit, 0, $arrOptions)->fetchAllAssoc();
+        $objTemplate->referersBaseTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersBaseTitle', [], 'contao_default');
+
+        $objTemplate->referersBaseUrlHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersBaseUrlHeader', [], 'contao_default');
+        $objTemplate->referersBaseAmountHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.referersBaseAmountHeader', [], 'contao_default');
+
+        // $objTemplate->pagination = (new Pagination(PageVisit::countReferersBaseAnalytics($arrConfig, $arrOptions), $limit))->generate();
 
         return $objTemplate->parse();
     }
@@ -171,6 +202,29 @@ class AnalyticsInternal extends BackendModule
         $objTemplate->pagesUrlUrlHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlUrlHeader', [], 'contao_default');
         $objTemplate->pagesUrlAmountHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlAmountHeader', [], 'contao_default');
         // $objTemplate->pagination = (new Pagination(PageVisit::countPagesUrlAnalytics($arrConfig, $arrOptions), $limit))->generate();
+
+        return $objTemplate->parse();
+    }
+
+    protected function getPagesUrlBaseAnalytics(): string
+    {
+        $dt = new DateTime();
+        $arrConfig = [
+            'where' => [sprintf('createdAt BETWEEN %d AND %d',
+                    $dt->setTime(0, 0, 0, 0)->getTimestamp(),
+                    $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp()
+                )],
+            'exclude_be_login' => true,
+        ];
+        $arrOptions = ['group' => 'page_url_base', 'order' => 'amount DESC'];
+        $limit = 5;
+
+        $objTemplate = new BackendTemplate('be_wem_sg_dashboard_analytics_internal_pagesurl_base');
+        $objTemplate->pagesUrlBase = PageVisit::getPagesUrlBaseAnalytics($arrConfig, $limit, 0, $arrOptions)->fetchAllAssoc();
+        $objTemplate->pagesUrlBaseTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlBaseTitle', [], 'contao_default');
+        $objTemplate->pagesUrlBaseUrlHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlBaseUrlHeader', [], 'contao_default');
+        $objTemplate->pagesUrlBaseAmountHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.pagesUrlBaseAmountHeader', [], 'contao_default');
+        // $objTemplate->pagination = (new Pagination(PageVisit::countPagesUrlBaseAnalytics($arrConfig, $arrOptions), $limit))->generate();
 
         return $objTemplate->parse();
     }
