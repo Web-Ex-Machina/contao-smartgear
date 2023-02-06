@@ -46,8 +46,11 @@ class GeneratePageListener
 
     public function __invoke(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
     {
-        $this->registerPageVisit($pageModel);
-        $this->manageBreadcrumbBehaviour($pageModel, $layout, $pageRegular);
+        $this->loadCustomLanguageFile($pageModel);
+        if ($this->scopeMatcher->isFrontend()) {
+            $this->registerPageVisit($pageModel);
+            $this->manageBreadcrumbBehaviour($pageModel, $layout, $pageRegular);
+        }
     }
 
     /**
@@ -122,5 +125,54 @@ class GeneratePageListener
         $objItem->createdAt = time();
         $objItem->tstamp = time();
         $objItem->save();
+    }
+
+    /**
+     * Load custom language file.
+     *
+     * @param PageModel $pageModel The current page model
+     */
+    protected function loadCustomLanguageFile(PageModel $pageModel): void
+    {
+        // check if assets/smartgear/languages/{lang}/custom.json exists
+        // if so, include it
+        $container = System::getContainer();
+        $strLanguage = $container->get('request_stack')->getCurrentRequest()->getLocale();
+        $filePath = System::getContainer()->getParameter('kernel.project_dir').'/assets/smartgear/languages/'.$strLanguage.'/custom.json';
+        if (file_exists($filePath)) {
+            $content = file_get_contents($filePath);
+            if (!$content) {
+                return;
+            }
+            $json = json_decode($content, true);
+            if (!$json) {
+                return;
+            }
+            $this->JSONFileToLangArray($json);
+        }
+    }
+
+    protected function JSONFileToLangArray(array $json): void
+    {
+        foreach ($json as $key => $value) {
+            // check if key is 4 chunks long max
+            $keys = explode('.', $key);
+            switch (\count($keys)) {
+                case 1:
+                    $GLOBALS['TL_LANG'][$keys[0]] = $value;
+                break;
+                case 2:
+                    $GLOBALS['TL_LANG'][$keys[0]][$keys[1]] = $value;
+                break;
+                case 3:
+                    $GLOBALS['TL_LANG'][$keys[0]][$keys[1]][$keys[2]] = $value;
+                break;
+                case 4:
+                    $GLOBALS['TL_LANG'][$keys[0]][$keys[1]][$keys[2]][$keys[3]] = $value;
+                break;
+                default:
+                break;
+            }
+        }
     }
 }
