@@ -2,7 +2,8 @@
   // Get the file
   $arrCrop = deserialize($this->image_size);
   $objFile = FilesModel::findByUuid($this->singleSRC);
-  $strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
+  $strFile = \Image::get($objFile->path, (!$arrCrop[0] && !$arrCrop[1]) ? 1920 : $arrCrop[0] , $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
+  $isVideo = strstr(mime_content_type($objFile->path), "video/")?true:false;
 
   // Prepare the main block classes
   $arrClasses = [];
@@ -45,7 +46,14 @@
 <div class="heroFW <?= implode(' ', $arrClasses) ?> <?= $this->class ?>"<?= $this->cssID ?> data-height="<?= $height ?>" <?= ($height!="viewport"&&$height!="content") ? 'style="height:'.$height.';"' : '' ?> <?= ($height=="viewport") ? 'style="height:80vh;"' : '' ?>>
   <div class="heroFW__wrapper">
     <div class="heroFW__figure">
-      <img src="<?= $strFile ?>" alt="<?= $this->alt ?>">
+      <?php if (!$isVideo): ?>
+        <img src="<?= $strFile ?>" alt="<?= $this->alt ?>">
+      <?php else: ?>
+        <video width="100%" height="100%" autoplay muted loop style="object-fit: cover;">
+          <source src="<?= $objFile->path ?>" type="video/mp4">
+            video
+        </video>
+      <?php endif ?>
     </div>
     <div class="heroFW__content ">
       <div class="heroFW__content__wrapper <?= $this->hero_width=='container'?'container':'' ?>">
