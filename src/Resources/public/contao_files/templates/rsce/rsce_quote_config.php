@@ -111,6 +111,12 @@ return [
             // ),
             'eval' => array('tl_class'=>'w50'),
         ),
+        'rounded' => [
+            'label'     => &$GLOBALS['TL_LANG']['tl_content']['picture_rounded'],
+            'inputType' => 'checkbox', 
+            'default' => false,
+            'eval'      => ['tl_class' => 'w50 clr'],
+        ],
         'content_legend' => [
             'label' => [&$GLOBALS['TL_LANG']['tl_content']['content_legend']],
             'inputType' => 'group',

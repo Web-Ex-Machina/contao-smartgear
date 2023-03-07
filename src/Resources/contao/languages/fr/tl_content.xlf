@@ -13,6 +13,14 @@
         <source>Set the picture size</source>
         <target>Choisissez les dimensions de l'image</target>
       </trans-unit>
+      <trans-unit id="tl_content.picture_rounded.0">
+        <source>Rounded picture</source>
+        <target>Image arrondie</target>
+      </trans-unit>
+      <trans-unit id="tl_content.picture_rounded.1">
+        <source>Crop the picture as a circle</source>
+        <target>Recadre l'image en cercle</target>
+      </trans-unit>
       <trans-unit id="tl_content.force_fullheight.0">
         <source>Full height</source>
         <target>Toute la hauteur</target>

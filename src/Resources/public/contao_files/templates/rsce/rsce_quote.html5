@@ -18,7 +18,7 @@
 ?>
 <div class="<?= $this->class ?> <?= implode(' ', $arrClasses)  ?> block-std ">
   <?php if ($strFile && $this->image_pos == 'before'): ?>
-    <div class="quote__picture <?= $this->image_ratio ? 'img-container':'' ?>" <?= $this->image_ratio && $arrCrop[0] ? 'style="width:'.$arrCrop[0].'px"':'' ?>>
+    <div class="quote__picture <?= $this->image_ratio ? 'img-container':'' ?><?= $this->rounded?' rounded-circle':'' ?>" <?= $this->image_ratio && $arrCrop[0] ? 'style="width:'.$arrCrop[0].'px"':'' ?>>
       <img src="<?= $strFile ?>" alt="<?= $this->alt ?>" width="<?= $arrCrop[0] ?>" height="<?= $arrCrop[1] ?>" >
     </div>
   <?php endif ?>
@@ -29,7 +29,7 @@
     </div>
   </div>
   <?php if ($strFile && $this->image_pos == 'after'): ?>
-    <div class="quote__picture <?= $this->image_ratio ? 'img-container':'' ?>" <?= $this->image_ratio && $arrCrop[0] ? 'style="width:'.$arrCrop[0].'px"':'' ?>>
+    <div class="quote__picture <?= $this->image_ratio ? 'img-container':'' ?><?= $this->rounded?' rounded-circle':'' ?>" <?= $this->image_ratio && $arrCrop[0] ? 'style="width:'.$arrCrop[0].'px"':'' ?>>
       <img src="<?= $strFile ?>" alt="<?= $this->alt ?>" width="<?= $arrCrop[0] ?>" height="<?= $arrCrop[1] ?>" >
     </div>
   <?php endif ?>
