@@ -518,6 +518,22 @@
         <source>Generate an element composed of a text over an image</source>
         <target>Générez un élément stylisé composé d'un texte sur une image</target>
       </trans-unit>
+      <trans-unit id="tl_content.rsce_listlogos.0">
+        <source>Logos gallery</source>
+        <target>Gallerie de logos</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listlogos.1">
+        <source>Generate a gallery dedicated to display logos</source>
+        <target>Générez une gallerie dédiée à l'affichage de logos</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listlogos.items_legend.0">
+        <source>Logos</source>
+        <target>Logos</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listlogos.items_legend.1">
+        <source>Edit logos</source>
+        <target>Editez les logos</target>
+      </trans-unit>
       <trans-unit id="tl_content.rsce_listicons.0">
         <source>Icons list</source>
         <target>Liste d'icônes</target>

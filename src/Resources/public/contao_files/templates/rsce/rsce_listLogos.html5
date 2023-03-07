@@ -1,0 +1,59 @@
+<?php
+  if($this->listItems){
+    $arrItems = [];
+    foreach($this->listItems as $item){
+      $arrItem = [];
+      // Get the file
+      $arrCrop = deserialize($item->image_size);
+      $objFile = FilesModel::findByUuid($item->image_src) ?: FilesModel::findOneByPath($item->image_src);
+      $strFile = \Image::get($objFile->path, (!$arrCrop[0] && !$arrCrop[1]) ? 1920 : $arrCrop[0] , $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
+      $arrItem['src'] = $strFile;
+      $arrItem['alt'] = $item->image_alt ?: $objFile->name;
+
+      $arrItem['classes'] = [];
+      if($item->image_displaymode)
+        $arrItem['classes'][] = $item->image_displaymode;
+      if ($item->image_background) {
+        $arrItem['classes'][] = 'bg--'.$item->image_background;
+        $arrItem['classes'][] = 'r_1-1';
+      } else {
+        $arrItem['classes'][] = 'r_16-9';
+      }
+
+      if($item->classes)
+        $arrItem['item_classes'] = $item->classes;
+      if($item->image_css)
+        $arrItem['image_css'] = $item->image_css;
+
+      $arrItem['text']    = $item->text;
+      if ($item->href){
+        $arrItem["url"]   = 1;
+        $arrItem["href"]  = $item->href;
+        $arrItem["title"] = $item->title;
+      }
+      if($item->target)
+        $arrItem['target'] = 1;
+      $arrItems[] = $arrItem;
+    }
+  }
+?>
+<div class="<?= $this->class ?>">
+  <?php foreach($arrItems as $item): ?>
+    <div class="block-logo <?= implode(' ',$item['classes']) ?><?= $item['item_classes'] ? ' '.$item['item_classes']:'' ?>">
+      <?php if ($item['url']): ?>
+        <a href="<?= $item['href'] ?>" title="<?= $item['title'] ?>" <?= ($item['target']) ? 'target="_blank"':'' ?>>
+      <?php endif; ?>
+      <div class="block-logo__figure img-container fit--contain <?= $item['image_css'] ? $item['image_css']:'' ?>">
+        <?php if ($item['src']): ?>
+          <img class="block-logo__img" src="<?= $item['src'] ?>" alt="<?= $item['alt'] ?>">
+        <?php endif; ?>
+        <?php if($item['icon']): ?>
+          <?= $item['icon'] ?>
+        <?php endif; ?>
+      </div>
+      <?php if ($item['url']): ?>
+        </a>
+      <?php endif; ?>
+    </div>
+  <?php endforeach; ?>
+</div>
