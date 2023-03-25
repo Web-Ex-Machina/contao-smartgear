@@ -31,17 +31,21 @@ class CustomLanguageFileLoader
         }
 
         $filePath = System::getContainer()->getParameter('kernel.project_dir').'/assets/smartgear/languages/'.$currentLanguage.'/custom.json';
-        if (file_exists($filePath)) {
-            $content = file_get_contents($filePath);
-            if (!$content) {
-                return;
-            }
-            $json = json_decode($content, true);
-            if (!$json) {
-                return;
-            }
-            $this->JSONFileToLangArray($json);
+        if (!file_exists($filePath)) {
+            return;
         }
+
+        $content = file_get_contents($filePath);
+        if (!$content) {
+            return;
+        }
+
+        $json = json_decode($content, true);
+        if (!$json) {
+            return;
+        }
+        
+        $this->JSONFileToLangArray($json);
     }
 
     protected function JSONFileToLangArray(array $json): void
