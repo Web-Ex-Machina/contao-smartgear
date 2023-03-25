@@ -124,6 +124,7 @@ services:
         arguments:
             $configurationManager: '@smartgear.config.manager.core'
             $scopeMatcher: '@smartgear.classes.scope_matcher'
+            $customLanguageFileLoader : '@smartgear.classes.custom_language_file_loader'
         public: true
 
     smartgear.listener.get_content_element:
@@ -144,6 +145,12 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
         tags:
             - { name: kernel.event_listener, event: contao.backend_menu_build }
+        public: true
+
+    smartgear.listener.load_language_file:
+        class: WEM\SmartgearBundle\EventListener\LoadLanguageFileListener
+        arguments:
+            $customLanguageFileLoader : '@smartgear.classes.custom_language_file_loader'
         public: true
 
 

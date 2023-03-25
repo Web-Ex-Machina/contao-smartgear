@@ -20,6 +20,7 @@ use Contao\PageModel;
 use Contao\PageRegular;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Classes\CustomLanguageFileLoader;
 use WEM\SmartgearBundle\Classes\RenderStack;
 use WEM\SmartgearBundle\Classes\ScopeMatcher;
 use WEM\SmartgearBundle\Classes\StringUtil;
@@ -36,12 +37,17 @@ class GeneratePageListener
     /** @var ScopeMatcher */
     protected $scopeMatcher;
 
+    /** @var CustomLanguageFileLoader */
+    protected $customLanguageFileLoader;
+
     public function __construct(
         CoreConfigurationManager $configurationManager,
-        ScopeMatcher $scopeMatcher
+        ScopeMatcher $scopeMatcher,
+        CustomLanguageFileLoader $customLanguageFileLoader
     ) {
         $this->configurationManager = $configurationManager;
         $this->scopeMatcher = $scopeMatcher;
+        $this->customLanguageFileLoader = $customLanguageFileLoader;
     }
 
     public function __invoke(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
@@ -134,45 +140,6 @@ class GeneratePageListener
      */
     protected function loadCustomLanguageFile(PageModel $pageModel): void
     {
-        // check if assets/smartgear/languages/{lang}/custom.json exists
-        // if so, include it
-        $container = System::getContainer();
-        $strLanguage = $container->get('request_stack')->getCurrentRequest()->getLocale();
-        $filePath = System::getContainer()->getParameter('kernel.project_dir').'/assets/smartgear/languages/'.$strLanguage.'/custom.json';
-        if (file_exists($filePath)) {
-            $content = file_get_contents($filePath);
-            if (!$content) {
-                return;
-            }
-            $json = json_decode($content, true);
-            if (!$json) {
-                return;
-            }
-            $this->JSONFileToLangArray($json);
-        }
-    }
-
-    protected function JSONFileToLangArray(array $json): void
-    {
-        foreach ($json as $key => $value) {
-            // check if key is 4 chunks long max
-            $keys = explode('.', $key);
-            switch (\count($keys)) {
-                case 1:
-                    $GLOBALS['TL_LANG'][$keys[0]] = $value;
-                break;
-                case 2:
-                    $GLOBALS['TL_LANG'][$keys[0]][$keys[1]] = $value;
-                break;
-                case 3:
-                    $GLOBALS['TL_LANG'][$keys[0]][$keys[1]][$keys[2]] = $value;
-                break;
-                case 4:
-                    $GLOBALS['TL_LANG'][$keys[0]][$keys[1]][$keys[2]][$keys[3]] = $value;
-                break;
-                default:
-                break;
-            }
-        }
+        $this->customLanguageFileLoader->loadCustomLanguageFile();
     }
 }

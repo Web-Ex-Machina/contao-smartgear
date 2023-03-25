@@ -200,6 +200,10 @@ if ('FE' === TL_MODE) {
 }
 
 /*
+ * Add globals Hooks
+ */
+$GLOBALS['TL_HOOKS']['loadLanguageFile'][] = ['smartgear.listener.load_language_file', '__invoke'];
+/*
  * Add custom rights
  */
 $GLOBALS['TL_PERMISSIONS'][] = 'smartgear_permissions';

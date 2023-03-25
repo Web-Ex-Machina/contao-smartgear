@@ -220,6 +220,11 @@ services:
             $scopeMatcher : '@contao.routing.scope_matcher'
         public: true
 
+    smartgear.classes.custom_language_file_loader:
+        class: WEM\SmartgearBundle\Classes\CustomLanguageFileLoader
+        public: true
+        
+
     smartgear.config.manager.framway:
         class: WEM\SmartgearBundle\Config\Manager\Framway
         arguments:
