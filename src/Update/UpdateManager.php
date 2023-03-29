@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Update;
 use WEM\SmartgearBundle\Backup\BackupManager;
 use WEM\SmartgearBundle\Backup\Model\Results\CreateResult as BackupResult;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigManager;
+use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 use WEM\SmartgearBundle\Classes\Migration\MigrationInterface;
 use WEM\SmartgearBundle\Classes\Migration\Result as MigrationResult;
 use WEM\SmartgearBundle\Update\Results\ListResult;
@@ -29,16 +30,28 @@ class UpdateManager
     protected $configurationManager;
     /** @var BackupManager */
     protected $backupManager;
+    /** @var DirectoriesSynchronizer */
+    protected static $templatesSmartgearSynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected static $templatesRsceSynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected static $templatesGeneralSynchronizer;
     /** @var array */
     protected $migrations;
 
     public function __construct(
         CoreConfigManager $configurationManager,
         BackupManager $backupManager,
+        DirectoriesSynchronizer $templatesSmartgearSynchronizer,
+        DirectoriesSynchronizer $templatesRsceSynchronizer,
+        DirectoriesSynchronizer $templatesGeneralSynchronizer,
         array $migrations
     ) {
         $this->configurationManager = $configurationManager;
         $this->backupManager = $backupManager;
+        $this->templatesSmartgearSynchronizer = $templatesSmartgearSynchronizer;
+        $this->templatesRsceSynchronizer = $templatesRsceSynchronizer;
+        $this->templatesGeneralSynchronizer = $templatesGeneralSynchronizer;
         $this->migrations = $migrations;
     }
 
@@ -57,6 +70,11 @@ class UpdateManager
     {
         $updateResult = new UpdateResult();
         $updateResult->setBackupResult($this->doBackup());
+
+        // synchronize templates
+        $this->templatesSmartgearSynchronizer->synchronize(true);
+        $this->templatesRsceSynchronizer->synchronize(true);
+        $this->templatesGeneralSynchronizer->synchronize(true);
 
         foreach ($this->migrations as $migration) {
             $singleMigrationResult = $this->updateSingle($migration);
