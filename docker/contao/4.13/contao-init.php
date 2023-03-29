@@ -47,6 +47,8 @@ $contaoComposerJsonContent['repositories'] = array_values(unique_multidim_array(
     ]
 ), 'url'));
 
+$contaoComposerJsonContent['config']['allow-plugins'] = array_merge($contaoComposerJsonContent['config']['allow-plugins'] ?? [], $additionnalComposerJsonContent['config']['allow-plugins'] ?? []);
+
 if (\array_key_exists('github-oauth', $bundleAuthJsonContent)) {
     file_put_contents('/var/www/.config/composer/auth.json', '{"github-oauth":'.json_encode($bundleAuthJsonContent['github-oauth'], \JSON_PRETTY_PRINT).'}');
     $contaoComposerJsonContent['github-oauth'] = $bundleAuthJsonContent['github-oauth'] ?? '';

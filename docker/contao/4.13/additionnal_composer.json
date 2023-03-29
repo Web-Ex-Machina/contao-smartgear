@@ -36,5 +36,10 @@
             "type": "vcs",
             "url": "git@github.com:web-ex-machina/contao-personal-data-manager.git"
         }
-    ]
+    ],
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
 }
