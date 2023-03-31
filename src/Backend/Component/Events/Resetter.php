@@ -175,8 +175,14 @@ class Resetter extends BackendResetter
         /** @var EventsConfig */
         $eventsConfig = $config->getSgEvents();
 
-        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $eventsConfig);
-        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $eventsConfig);
+        $objGroupRedactors = UserGroupModel::findOneById($config->getSgUserGroupRedactors());
+        if ($objGroupRedactors) {
+            $this->resetUserGroup($objGroupRedactors, $eventsConfig);
+        }
+        $objGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
+        if ($objGroupAdministrators) {
+            $this->resetUserGroup($objGroupAdministrators, $eventsConfig);
+        }
     }
 
     protected function resetUserGroup(UserGroupModel $objUserGroup, EventsConfig $eventsConfig): void

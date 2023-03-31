@@ -239,8 +239,14 @@ class Resetter extends BackendResetter
         /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
-        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $formContactConfig);
-        $this->resetUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $formContactConfig);
+        $objGroupRedactors = UserGroupModel::findOneById($config->getSgUserGroupRedactors());
+        if ($objGroupRedactors) {
+            $this->resetUserGroup($objGroupRedactors, $formContactConfig);
+        }
+        $objGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
+        if ($objGroupAdministrators) {
+            $this->resetUserGroup($objGroupAdministrators, $formContactConfig);
+        }
     }
 
     protected function resetUserGroup(UserGroupModel $objUserGroup, FormContactConfig $formContactConfig): void
