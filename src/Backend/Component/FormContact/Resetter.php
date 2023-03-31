@@ -136,27 +136,27 @@ class Resetter extends BackendResetter
                     $objFormContact->delete();
                 }
 
-                $objField = FormFieldModel::findByIdOrAlias($formContactConfig->getSgFieldName());
+                $objField = FormFieldModel::findOneById($formContactConfig->getSgFieldName());
                 if ($objField) {
                     $objField->delete();
                 }
 
-                $objField = FormFieldModel::findByIdOrAlias($formContactConfig->getSgFieldEmail());
+                $objField = FormFieldModel::findOneById($formContactConfig->getSgFieldEmail());
                 if ($objField) {
                     $objField->delete();
                 }
 
-                $objField = FormFieldModel::findByIdOrAlias($formContactConfig->getSgFieldMessage());
+                $objField = FormFieldModel::findOneById($formContactConfig->getSgFieldMessage());
                 if ($objField) {
                     $objField->delete();
                 }
 
-                $objField = FormFieldModel::findByIdOrAlias($formContactConfig->getSgFieldCaptcha());
+                $objField = FormFieldModel::findOneById($formContactConfig->getSgFieldCaptcha());
                 if ($objField) {
                     $objField->delete();
                 }
 
-                $objField = FormFieldModel::findByIdOrAlias($formContactConfig->getSgFieldSubmit());
+                $objField = FormFieldModel::findOneById($formContactConfig->getSgFieldSubmit());
                 if ($objField) {
                     $objField->delete();
                 }
