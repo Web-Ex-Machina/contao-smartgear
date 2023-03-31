@@ -593,6 +593,14 @@ class Util
             return $relative ? $composerJson['extra']['public-dir'] : $rootDir.\DIRECTORY_SEPARATOR.$composerJson['extra']['public-dir'];
         }
 
+        if (is_dir($rootDir.\DIRECTORY_SEPARATOR.'web')) {
+            if (is_dir($rootDir.\DIRECTORY_SEPARATOR.'public')) {
+                return $relative ? 'public' : $rootDir.\DIRECTORY_SEPARATOR.'public';
+            }
+
+            return $relative ? 'web' : $rootDir.\DIRECTORY_SEPARATOR.'web';
+        }
+
         return $relative ? 'public' : $rootDir.\DIRECTORY_SEPARATOR.'public';
     }
 
