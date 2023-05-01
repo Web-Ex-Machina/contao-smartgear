@@ -3607,6 +3607,20 @@
 			<target>Smartgear mis à jour vers la version 1.0.7.</target>
 		</trans-unit>
 
+		<!-- V1_0_7/M202305012112 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_8_M202305012112.name">
+			<source>Smartgear v1.0.8</source>
+			<target>Smartgear v1.0.8</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_8_M202305012112.description">
+			<source>Update Smartgear to version 1.0.8.</source>
+			<target>Met à jour Smartgear vers la version 1.0.8.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_8_M202305012112.done">
+			<source>Smartgear updated to version 1.0.8.</source>
+			<target>Smartgear mis à jour vers la version 1.0.8.</target>
+		</trans-unit>
+
 		<!-- Social networks -->
 		<trans-unit id="WEMSG.SOCIALNETWORK.CATEGORY.social">
 			<source>Socials</source>
