@@ -136,7 +136,7 @@ class AnalyticsExternal extends BackendModule
         $objTemplate->diskSpaceAllowed = Util::humanReadableFilesize($diskSpaceAllowed, 2);
 
         $objTemplate->diskUsagePercentLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.diskUsagePercentLabel', [], 'contao_default');
-        $objTemplate->diskUsagePercent = round($diskUsage * 100 / ($diskSpaceAllowed), 2);
+        $objTemplate->diskUsagePercent = 0 !== $diskSpaceAllowed ? round($diskUsage * 100 / ($diskSpaceAllowed), 2) : 0;
 
         if ($objTemplate->diskUsagePercent < 75) {
             $objTemplate->diskUsageBarColor = 'green';

@@ -252,7 +252,7 @@ class Api
         // @TODO : find a working way to test the response' http code
         // https://www.php.net/manual/fr/function.curl-getinfo.php
         // (official method responds "0" which isn't helpful)
-        if (1 === \count($json) && !empty($json->message)) {
+        if (1 === \count(get_object_vars($json)) && !empty($json->message)) {
             throw new ResponseContentException($json->message);
         }
 
