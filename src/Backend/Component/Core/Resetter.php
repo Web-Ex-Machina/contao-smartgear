@@ -16,8 +16,11 @@ namespace WEM\SmartgearBundle\Backend\Component\Core;
 
 use Contao\ArticleModel;
 use Contao\ContentModel;
+use Contao\ImageSizeModel;
+use Contao\LayoutModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
+use Contao\StyleSheetModel;
 use Contao\ThemeModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Analyzer\Htaccess as HtaccessAnalyzer;
@@ -189,6 +192,25 @@ class Resetter extends BackendResetter
         $themes = ThemeModel::findAll();
         if ($themes) {
             while ($themes->next()) {
+                $layouts = LayoutModel::findBy('pid', $themes->id);
+                if ($layouts) {
+                    while ($layouts->next()) {
+                        $layouts->delete();
+                    }
+                }
+                $imageSizes = ImageSizeModel::findBy('pid', $themes->id);
+                if ($imageSizes) {
+                    while ($imageSizes->next()) {
+                        $imageSizes->delete();
+                    }
+                }
+                /**  @deprecated in Contao 5.0  */
+                $stylesheets = StyleSheetModel::findBy('pid', $themes->id);
+                if ($stylesheets) {
+                    while ($stylesheets->next()) {
+                        $stylesheets->delete();
+                    }
+                }
                 $themes->delete();
             }
         }
