@@ -174,6 +174,7 @@ if ('BE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['loadDataContainer'][] = ['smartgear.listener.load_data_container', '__invoke'];
     $GLOBALS['TL_HOOKS']['initializeSystem'][] = ['smartgear.listener.initialize_system', '__invoke'];
     $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['smartgear.listener.replace_insert_tags', 'onReplaceInsertTags'];
+    $GLOBALS['TL_HOOKS']['generatePage'][] = ['smartgear.listener.generate_page', '__invoke'];
 }
 
 /*
@@ -198,6 +199,10 @@ if ('FE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['getFrontendModule'][] = ['smartgear.listener.get_frontend_module', '__invoke'];
 }
 
+/*
+ * Add globals Hooks
+ */
+$GLOBALS['TL_HOOKS']['loadLanguageFile'][] = ['smartgear.listener.load_language_file', '__invoke'];
 /*
  * Add custom rights
  */

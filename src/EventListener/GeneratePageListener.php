@@ -20,6 +20,7 @@ use Contao\PageModel;
 use Contao\PageRegular;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Classes\CustomLanguageFileLoader;
 use WEM\SmartgearBundle\Classes\RenderStack;
 use WEM\SmartgearBundle\Classes\ScopeMatcher;
 use WEM\SmartgearBundle\Classes\StringUtil;
@@ -36,18 +37,26 @@ class GeneratePageListener
     /** @var ScopeMatcher */
     protected $scopeMatcher;
 
+    /** @var CustomLanguageFileLoader */
+    protected $customLanguageFileLoader;
+
     public function __construct(
         CoreConfigurationManager $configurationManager,
-        ScopeMatcher $scopeMatcher
+        ScopeMatcher $scopeMatcher,
+        CustomLanguageFileLoader $customLanguageFileLoader
     ) {
         $this->configurationManager = $configurationManager;
         $this->scopeMatcher = $scopeMatcher;
+        $this->customLanguageFileLoader = $customLanguageFileLoader;
     }
 
     public function __invoke(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
     {
-        $this->registerPageVisit($pageModel);
-        $this->manageBreadcrumbBehaviour($pageModel, $layout, $pageRegular);
+        $this->loadCustomLanguageFile($pageModel);
+        if ($this->scopeMatcher->isFrontend()) {
+            $this->registerPageVisit($pageModel);
+            $this->manageBreadcrumbBehaviour($pageModel, $layout, $pageRegular);
+        }
     }
 
     /**
@@ -122,5 +131,15 @@ class GeneratePageListener
         $objItem->createdAt = time();
         $objItem->tstamp = time();
         $objItem->save();
+    }
+
+    /**
+     * Load custom language file.
+     *
+     * @param PageModel $pageModel The current page model
+     */
+    protected function loadCustomLanguageFile(PageModel $pageModel): void
+    {
+        $this->customLanguageFileLoader->loadCustomLanguageFile();
     }
 }
