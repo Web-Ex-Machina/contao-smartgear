@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Migrations\V1_0_8\M202305012112;
+namespace WEM\SmartgearBundle\Migrations\V1_0_9\M202305012112;
 
 use Doctrine\DBAL\Connection;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -24,10 +24,10 @@ use WEM\SmartgearBundle\Migrations\V1_0_0\MigrationAbstract;
 
 class Migration extends MigrationAbstract
 {
-    protected static $name = 'Smargear update to v1.0.8';
-    protected static $description = 'Set Smartgear to version 1.0.8';
-    protected static $version = '1.0.8';
-    protected static $translation_key = 'WEMSG.MIGRATIONS.V1_0_8_M202305012112';
+    protected static $name = 'Smargear update to v1.0.9';
+    protected static $description = 'Set Smartgear to version 1.0.9';
+    protected static $version = '1.0.9';
+    protected static $translation_key = 'WEMSG.MIGRATIONS.V1_0_9_M202305012112';
 
     public function __construct(
         Connection $connection,

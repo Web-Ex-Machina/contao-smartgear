@@ -76,8 +76,17 @@ services:
       $versionComparator: '@smartgear.classes.version.comparator'
     public: true
 
-  smartgear.migrations.v1_0_8.m202305012112.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_8\M202305012112\Migration
+  smartgear.migrations.v1_0_8.m202303291542.migration:
+    class: WEM\SmartgearBundle\Migrations\V1_0_8\M202303291542\Migration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+    public: true
+
+  smartgear.migrations.v1_0_9.m202305012112.migration:
+    class: WEM\SmartgearBundle\Migrations\V1_0_9\M202305012112\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'

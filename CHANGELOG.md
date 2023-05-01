@@ -1,8 +1,14 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
-1.0.8 - 2023-05-01
+1.0.9 - 2023-05-01
 - Smartgear : fixes for smartgear reset
 - Smartgear : custom language file support in `assets/smartgear/languages/{lang}/custom.json`
+
+1.0.8 - 2023-03-29
+- Smartgear : added a logo gallery RSCE
+- Smartgear : updated quote RSCE - add an option to make the picture rounded
+- Smartgear : updated hero RSCE - allow to have a video as background
+- Smartgear : various fix for forms errors
 
 1.0.7 - 2023-03-29
 - Smartgear : UpdateManager now synchronize "templates/rsce" & "templates/smartgear" directories

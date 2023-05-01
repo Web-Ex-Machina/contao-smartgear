@@ -3607,18 +3607,32 @@
 			<target>Smartgear mis à jour vers la version 1.0.7.</target>
 		</trans-unit>
 
-		<!-- V1_0_7/M202305012112 -->
-		<trans-unit id="WEMSG.MIGRATIONS.V1_0_8_M202305012112.name">
+		<!-- V1_0_8/M202303291542 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_8_M202303291542.name">
 			<source>Smartgear v1.0.8</source>
 			<target>Smartgear v1.0.8</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.MIGRATIONS.V1_0_8_M202305012112.description">
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_8_M202303291542.description">
 			<source>Update Smartgear to version 1.0.8.</source>
 			<target>Met à jour Smartgear vers la version 1.0.8.</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.MIGRATIONS.V1_0_8_M202305012112.done">
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_8_M202303291542.done">
 			<source>Smartgear updated to version 1.0.8.</source>
 			<target>Smartgear mis à jour vers la version 1.0.8.</target>
+		</trans-unit>
+
+		<!-- V1_0_9/M202305012112 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_9_M202305012112.name">
+			<source>Smartgear v1.0.9</source>
+			<target>Smartgear v1.0.9</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_9_M202305012112.description">
+			<source>Update Smartgear to version 1.0.9.</source>
+			<target>Met à jour Smartgear vers la version 1.0.9.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_9_M202305012112.done">
+			<source>Smartgear updated to version 1.0.9.</source>
+			<target>Smartgear mis à jour vers la version 1.0.9.</target>
 		</trans-unit>
 
 		<!-- Social networks -->
