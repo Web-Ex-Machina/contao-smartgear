@@ -587,21 +587,24 @@ class Util
     public static function getPublicOrWebDirectory(?bool $relative = false): string
     {
         $rootDir = System::getContainer()->getParameter('kernel.project_dir');
+        $webDir = System::getContainer()->getParameter('contao.web_dir');
 
-        $composerJson = json_decode(file_get_contents($rootDir.'/composer.json'), true);
-        if ($composerJson['extra']['public-dir'] ?? false) {
-            return $relative ? $composerJson['extra']['public-dir'] : $rootDir.\DIRECTORY_SEPARATOR.$composerJson['extra']['public-dir'];
-        }
+        return $relative ? str_replace($rootDir.\DIRECTORY_SEPARATOR, '', $webDir) : $webDir;
 
-        if (is_dir($rootDir.\DIRECTORY_SEPARATOR.'web')) {
-            if (is_dir($rootDir.\DIRECTORY_SEPARATOR.'public')) {
-                return $relative ? 'public' : $rootDir.\DIRECTORY_SEPARATOR.'public';
-            }
+        // $composerJson = json_decode(file_get_contents($rootDir.'/composer.json'), true);
+        // if ($composerJson['extra']['public-dir'] ?? false) {
+        //     return $relative ? $composerJson['extra']['public-dir'] : $rootDir.\DIRECTORY_SEPARATOR.$composerJson['extra']['public-dir'];
+        // }
 
-            return $relative ? 'web' : $rootDir.\DIRECTORY_SEPARATOR.'web';
-        }
+        // if (is_dir($rootDir.\DIRECTORY_SEPARATOR.'web')) {
+        //     if (is_dir($rootDir.\DIRECTORY_SEPARATOR.'public')) {
+        //         return $relative ? 'public' : $rootDir.\DIRECTORY_SEPARATOR.'public';
+        //     }
 
-        return $relative ? 'public' : $rootDir.\DIRECTORY_SEPARATOR.'public';
+        //     return $relative ? 'web' : $rootDir.\DIRECTORY_SEPARATOR.'web';
+        // }
+
+        // return $relative ? 'public' : $rootDir.\DIRECTORY_SEPARATOR.'public';
     }
 
     /**
