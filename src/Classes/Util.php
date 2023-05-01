@@ -582,7 +582,7 @@ class Util
     }
 
     /**
-     * Returns the public directory root (/path/to/contao/public or /path/to/contao/web).
+     * Returns the public directory root in full or relative path (/path/to/contao/public or /path/to/contao/web).
      */
     public static function getPublicOrWebDirectory(?bool $relative = false): string
     {
@@ -590,21 +590,6 @@ class Util
         $webDir = System::getContainer()->getParameter('contao.web_dir');
 
         return $relative ? str_replace($rootDir.\DIRECTORY_SEPARATOR, '', $webDir) : $webDir;
-
-        // $composerJson = json_decode(file_get_contents($rootDir.'/composer.json'), true);
-        // if ($composerJson['extra']['public-dir'] ?? false) {
-        //     return $relative ? $composerJson['extra']['public-dir'] : $rootDir.\DIRECTORY_SEPARATOR.$composerJson['extra']['public-dir'];
-        // }
-
-        // if (is_dir($rootDir.\DIRECTORY_SEPARATOR.'web')) {
-        //     if (is_dir($rootDir.\DIRECTORY_SEPARATOR.'public')) {
-        //         return $relative ? 'public' : $rootDir.\DIRECTORY_SEPARATOR.'public';
-        //     }
-
-        //     return $relative ? 'web' : $rootDir.\DIRECTORY_SEPARATOR.'web';
-        // }
-
-        // return $relative ? 'public' : $rootDir.\DIRECTORY_SEPARATOR.'public';
     }
 
     /**
