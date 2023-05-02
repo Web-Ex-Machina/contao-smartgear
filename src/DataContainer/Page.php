@@ -69,7 +69,7 @@ class Page extends \tl_page
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
-        return parent::deletePage($row, $href, $label, $title, $icon, $attributes);
+        return parent::deletePage(...\func_get_args());
     }
 
     /**
