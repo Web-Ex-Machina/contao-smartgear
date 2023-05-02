@@ -68,7 +68,7 @@ class Member extends \tl_member
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
-        return '<a href="'.$href.'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ';
+        return '<a href="'.\Contao\Backend::addToUrl(($href ?? '').'&amp;id='.$row['id'].(Input::get('nb') ? '&amp;nc=1' : '')).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ';
     }
 
     /**
