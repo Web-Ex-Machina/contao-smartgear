@@ -18,7 +18,7 @@
     },
     "require":
     {
-        "php": ">=7.4",
+        "php": "^7.4 || ^8.0",
         "contao/core-bundle": "~4.13",
         "contao/news-bundle": "^4.13",
         "contao/calendar-bundle": "^4.13",

@@ -209,15 +209,15 @@ verify_parameter_type(){
 }
 
 verify_parameter_image_php(){
-    while [[ "$image_php" != "php:7.4-fpm" ]] && [[ "$image_php" != "php:8.0-fpm" ]]
+    while [[ "$image_php" != "php:7.4-fpm" ]] && [[ "$image_php" != "php:8.0-fpm" ]] && [[ "$image_php" != "php:8.2-fpm" ]]
     do
         manual_parameters=true
-        echo -e "${fg_green}Choose the PHP image (${fg_yellow}php:7.4-fpm/${fg_white}php:8.0-fpm${fg_green}) [default is '${fg_yellow}$image_php_default${fg_green}']:${normal}";
+        echo -e "${fg_green}Choose the PHP image (${fg_yellow}php:7.4-fpm/${fg_white}php:8.0-fpm/php:8.2-fpm${fg_green}) [default is '${fg_yellow}$image_php_default${fg_green}']:${normal}";
         read -p "> " image_php
         if [ -z "$image_php" ]
         then
             image_php=$image_php_default;
-        elif [[ "$image_php" != "php:7.4-fpm" ]] && [[ "$image_php" != "php:8.0-fpm" ]]
+        elif [[ "$image_php" != "php:7.4-fpm" ]] && [[ "$image_php" != "php:8.0-fpm" ]] && [[ "$image_php" != "php:8.2-fpm" ]]
         then
             echo -e "${fg_red}Error :${normal} '$image_php' is not a valid value."
         fi
