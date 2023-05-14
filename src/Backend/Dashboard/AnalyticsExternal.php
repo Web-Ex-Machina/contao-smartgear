@@ -236,7 +236,7 @@ class AnalyticsExternal extends BackendModule
         return $size;
     }
 
-    protected function GetDirectorySize($path): int
+    protected function getDirectorySize($path): int
     {
         $bytestotal = 0;
         $path = realpath($path);
@@ -259,7 +259,7 @@ class AnalyticsExternal extends BackendModule
         //  get disk usage
         $size = (int) $this->folderSize(realpath('../'));
 
-        $size2 = (int) $this->GetDirectorySize('../');
+        $size2 = (int) $this->getDirectorySize('../');
 
         $size = $size > $size2 ? $size : $size2;
 
