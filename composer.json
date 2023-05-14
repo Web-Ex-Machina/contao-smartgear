@@ -38,7 +38,7 @@
         "webexmachina/contao-utils": "^0.3",
         "webexmachina/contao-grid": "dev-feat-php8",
         "webexmachina/contao-component-style-manager": "dev-feat-php8",
-        "webexmachina/contao-personal-data-manager": "^1.0"
+        "webexmachina/contao-personal-data-manager": "dev-feat-php8"
     },
     "require-dev":
     {
