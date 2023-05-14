@@ -18,6 +18,7 @@ use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 DCAManipulator::create('tl_form_field')
     ->addField('contains_personal_data', [
         'inputType' => 'checkbox',
+        'eval' => ['tl_class' => 'cbx m12'],
         'sql' => 'TINYINT(1) unsigned NOT NULL DEFAULT 0',
     ])
 ;
