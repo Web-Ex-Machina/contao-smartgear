@@ -96,7 +96,7 @@ class ProcessFormDataListener
         }
     }
 
-    protected function getRefererPageId(string $url): ?string
+    protected function getRefererPageId(string $url): ?int
     {
         $refererPageId = null;
         try {

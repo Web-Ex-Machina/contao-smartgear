@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "441bfdcf1420dfa59328cf4de70123cb",
+    "content-hash": "5e85124c4b38c756eed0e97284601926",
     "packages": [
         {
             "name": "ausi/slug-generator",
@@ -13441,21 +13441,21 @@
         },
         {
             "name": "webexmachina/contao-personal-data-manager",
-            "version": "v1.0.1",
+            "version": "dev-feat-php8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Web-Ex-Machina/contao-personal-data-manager.git",
-                "reference": "a79a8c930a6f91c25602ffe2024a099891c9cc82"
+                "reference": "c0331e9e5193e6d6d9496bf3517abe33ea32972b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Web-Ex-Machina/contao-personal-data-manager/zipball/a79a8c930a6f91c25602ffe2024a099891c9cc82",
-                "reference": "a79a8c930a6f91c25602ffe2024a099891c9cc82",
+                "url": "https://api.github.com/repos/Web-Ex-Machina/contao-personal-data-manager/zipball/c0331e9e5193e6d6d9496bf3517abe33ea32972b",
+                "reference": "c0331e9e5193e6d6d9496bf3517abe33ea32972b",
                 "shasum": ""
             },
             "require": {
                 "contao/core-bundle": "~4.13",
-                "php": ">=7.4",
+                "php": "^7.4 || ^8.0",
                 "plenta/contao-encryption": "^2.1",
                 "webexmachina/contao-utils": "^0.3"
             },
@@ -13510,7 +13510,7 @@
                 "issues": "https://github.com/webexmachina/contao-personal-data-manager/issues",
                 "source": "https://github.com/webexmachina/contao-personal-data-manager"
             },
-            "time": "2023-05-03T16:54:02+00:00"
+            "time": "2023-05-14T18:54:52+00:00"
         },
         {
             "name": "webexmachina/contao-utils",
@@ -14338,16 +14338,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.5.1",
+            "version": "7.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "b964ca597e86b752cd994f27293e9fa6b6a95ed9"
+                "reference": "733dd89533dd371a0987172727df15f500dab0ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/b964ca597e86b752cd994f27293e9fa6b6a95ed9",
-                "reference": "b964ca597e86b752cd994f27293e9fa6b6a95ed9",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/733dd89533dd371a0987172727df15f500dab0ef",
+                "reference": "733dd89533dd371a0987172727df15f500dab0ef",
                 "shasum": ""
             },
             "require": {
@@ -14378,9 +14378,6 @@
                 "bamarni-bin": {
                     "bin-links": true,
                     "forward-command": false
-                },
-                "branch-alias": {
-                    "dev-master": "7.5-dev"
                 }
             },
             "autoload": {
@@ -14446,7 +14443,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.5.1"
+                "source": "https://github.com/guzzle/guzzle/tree/7.6.0"
             },
             "funding": [
                 {
@@ -14462,7 +14459,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-04-17T16:30:08+00:00"
+            "time": "2023-05-14T11:23:39+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -16456,7 +16453,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "webexmachina/contao-grid": 20,
-        "webexmachina/contao-component-style-manager": 20
+        "webexmachina/contao-component-style-manager": 20,
+        "webexmachina/contao-personal-data-manager": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
