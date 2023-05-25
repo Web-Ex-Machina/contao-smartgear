@@ -18,6 +18,12 @@ services:
         db_database: ${DB_DATABASE}
         db_user: ${DB_USER}
         db_password: ${DB_PASSWORD}
+        php_ini_max_execution_time: ${PHP_INI_MAX_EXECUTION_TIME}
+        php_ini_memory_limit: ${PHP_INI_MEMORY_LIMIT}
+        php_ini_disable_functions: ${PHP_INI_DISABLE_FUNCTIONS}
+        php_ini_post_max_size: ${PHP_INI_POST_MAX_SIZE}
+        php_ini_upload_max_filesize: ${PHP_INI_UPLOAD_MAX_FILESIZE}
+        php_ini_max_input_vars: ${PHP_INI_MAX_INPUT_VARS}
     environment:
       PRJ_NAME: ${PRJ_NAME}
       DB_HOST: 'db'

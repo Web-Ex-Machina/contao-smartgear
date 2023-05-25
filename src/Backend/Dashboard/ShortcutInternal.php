@@ -136,6 +136,8 @@ class ShortcutInternal extends BackendModule
             ];
         }
 
+        dump(phpinfo());
+
         $this->Template->links = $links;
     }
 }

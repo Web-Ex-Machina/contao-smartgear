@@ -5,6 +5,12 @@ ARG image
 FROM $image AS php_base
 ARG workdir_bundle
 ARG workdir_bundle_end_slash
+ARG php_ini_max_execution_time
+ARG php_ini_memory_limit
+ARG php_ini_disable_functions
+ARG php_ini_post_max_size
+ARG php_ini_upload_max_filesize
+ARG php_ini_max_input_vars
 
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
@@ -33,6 +39,12 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install zip
     # Use the default development configuration
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \
+    && sed -i -r -e "s/([;]{0,1})max_execution_time =(.*)/max_execution_time = $php_ini_max_execution_time/" "$PHP_INI_DIR/php.ini" \
+    && sed -i -r -e "s/([;]{0,1})memory_limit =(.*)/memory_limit = $php_ini_memory_limit/" "$PHP_INI_DIR/php.ini" \
+    && sed -i -r -e "s/([;]{0,1})disable_functions =(.*)/disable_functions = $php_ini_disable_functions/" "$PHP_INI_DIR/php.ini" \
+    && sed -i -r -e "s/([;]{0,1})post_max_size =(.*)/post_max_size = $php_ini_post_max_size/" "$PHP_INI_DIR/php.ini" \
+    && sed -i -r -e "s/([;]{0,1})upload_max_filesize =(.*)/upload_max_filesize = $php_ini_upload_max_filesize/" "$PHP_INI_DIR/php.ini" \
+    && sed -i -r -e "s/([;]{0,1})max_input_vars =(.*)/max_input_vars = $php_ini_max_input_vars/" "$PHP_INI_DIR/php.ini" \
     # Install Composer
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && mkdir -p $workdir_bundle \
