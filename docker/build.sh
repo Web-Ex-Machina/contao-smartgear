@@ -31,6 +31,7 @@ image_webserver=""
 image_db=""
 contao_version=""
 cache=""
+env_file=""
 
 type_default="dev"
 mode_default="up"
@@ -39,18 +40,20 @@ image_webserver_default="httpd:2.4"
 image_db_default="mysql:5.7"
 contao_version_default="4.13"
 cache_default="yes"
+env_file_default=".env"
 
 manual_parameters=false
 
 helpFunction()
 {
     echo ""
-    echo "Usage: $0 --type type --image_php image_php --image_webserver image_webserver --image_db image_db [--contao_version contao_version] [--cache cache] "
+    echo "Usage: $0 --type type --image_php image_php --image_webserver image_webserver --image_db image_db [--env_file env_file] [--contao_version contao_version] [--cache cache] "
     echo -e "\t--type                The type to use (dev/test/test-unit)"
     echo -e "\t--mode                The mode to use (up/down/destroy)"
     echo -e "\t--image_php           The docker image to use for PHP container"
     echo -e "\t--image_webserver     The docker image to use for webserver container"
     echo -e "\t--image_db            The docker image to use for webserver container"
+    echo -e "\t--${fg_cyan}env_file${normal}      The .env file to use (${fg_cyan}optionnal${normal} - default ${contao_version_default})"
     echo -e "\t--${fg_cyan}contao_version${normal}      The Contao version to use (${fg_cyan}optionnal${normal} - default ${contao_version_default})"
     echo -e "\t--${fg_cyan}cache${normal}            Prevent docker from using cache (yes/no - ${fg_cyan}optionnal${normal} - default ${cache_default})"
     echo ""
@@ -124,16 +127,16 @@ defineDockerComposeFilename(){
 modeUp(){
     if [[ "$cache" = "yes" ]]
     then
-        echo -e "> docker-compose -f ./docker/${filename}.yml build;"
-        docker-compose -f ./docker/${filename}.yml build;
+        echo -e "> docker compose -f ./docker/${filename}.yml --env-file ./docker/${env_file} build;"
+        docker compose -f ./docker/${filename}.yml --env-file ./docker/${env_file} build;
     elif [[ "$cache" = "no" ]]
     then
-        echo -e "> docker-compose -f ./docker/${filename}.yml build --no-cache;"
-        docker-compose -f ./docker/${filename}.yml build --no-cache;
+        echo -e "> docker compose -f ./docker/${filename}.yml --env-file ./docker/${env_file} build --no-cache;"
+        docker compose -f ./docker/${filename}.yml --env-file ./docker/${env_file} build --no-cache;
     fi
 
-    echo -e "> docker-compose -f ./docker/${filename}.yml up -d --renew-anon-volumes;"
-    docker-compose -f ./docker/${filename}.yml up -d;
+    echo -e "> docker compose -f ./docker/${filename}.yml --env-file ./docker/${env_file} up -d --renew-anon-volumes;"
+    docker compose -f ./docker/${filename}.yml --env-file ./docker/${env_file} up -d;
 
     if [[ "$type" = "test-unit" ]]
     then
@@ -147,13 +150,13 @@ modeUp(){
 }
 
 modeDown(){
-    echo -e "> docker-compose -f docker/${filename}.yml stop;"
-    docker-compose -f docker/${filename}.yml stop; # stop only stops containers defined in the docker-compose.yml
+    echo -e "> docker compose -f docker/${filename}.yml stop;"
+    docker compose -f docker/${filename}.yml stop; # stop only stops containers defined in the docker-compose.yml
 }
 
 modeDestroy(){
-    echo -e "> docker-compose -f docker/docker-compose-base.yml down --remove-orphans --volumes;"
-    docker-compose -f docker/docker-compose-base.yml down --remove-orphans --volumes;
+    echo -e "> docker compose -f docker/docker-compose-base.yml down --remove-orphans --volumes;"
+    docker compose -f docker/docker-compose-base.yml down --remove-orphans --volumes;
 }
 
 
@@ -164,6 +167,7 @@ function apply_parameters(){
         --image_php) image_php="$2";;
         --image_webserver) image_webserver="$2";;
         --image_db) image_db="$2";;
+        --env_file) env_file="$2";;
         --contao_version) contao_version="$2";;
         --cache) cache="$2";;
         *) break;
@@ -252,6 +256,22 @@ verify_parameter_image_webserver(){
     done
 }
 
+verify_parameter_env_file(){
+    while [[ "$env_file" != ".env" ]] && [[ "$env_file" != ".env.ik" ]]
+    do
+        manual_parameters=true
+        echo -e "${fg_green}Choose the Contao version (${fg_yellow}.env${fg_green}/${fg_white}.env.ik${fg_green}) [default is '${fg_yellow}$env_file_default${fg_green}']:${normal}";
+        read -p "> " env_file
+        if [ -z "$env_file" ]
+        then
+            env_file=$env_file_default;
+        elif [[ "$env_file" != ".env" ]] && [[ "$env_file" != ".env.ik" ]]
+        then
+            echo -e "${fg_red}Error :${normal} '$env_file' is not a valid value."
+        fi
+    done
+}
+
 verify_parameter_contao_version(){
     while [[ "$contao_version" != "4.13" ]]
     do
@@ -304,6 +324,8 @@ function verify_parameters(){
             verify_parameter_contao_version;
             echo -e "> Contao version : $contao_version";   
         fi
+        verify_parameter_env_file;
+        echo -e "> Env file : $env_file";
         verify_parameter_cache;
         echo -e "> Cache usage : $cache";
         if [[ true = $manual_parameters ]]
@@ -312,9 +334,9 @@ function verify_parameters(){
             echo -e "[${fg_cyan}INFO${normal}] To reproduce this behaviour without manually re-entering parameters, use :"
             if [[ "dev" = "$type" ]]
             then
-                echo -e "\t $0 --type ${type} --mode ${mode} --image_php ${image_php} --image_webserver ${image_webserver} --image_db ${image_db} --contao_version ${contao_version} --cache ${cache}"
+                echo -e "\t $0 --type ${type} --mode ${mode} --image_php ${image_php} --image_webserver ${image_webserver} --image_db ${image_db} --env_file ${env_file} --contao_version ${contao_version} --cache ${cache}"
             else
-                echo -e "\t $0 --type ${type} --mode ${mode} --image_php ${image_php} --image_webserver ${image_webserver} --image_db ${image_db} --cache ${cache}"
+                echo -e "\t $0 --type ${type} --mode ${mode} --image_php ${image_php} --image_webserver ${image_webserver} --image_db ${image_db} --env_file ${env_file} --cache ${cache}"
             fi
             echo -e ""
         fi

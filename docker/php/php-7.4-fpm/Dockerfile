@@ -56,6 +56,12 @@ ARG workdir_contao
 ARG workdir_simlink_base
 ARG workdir_bundle
 ARG workdir_init
+ARG php_ini_max_execution_time
+ARG php_ini_memory_limit
+ARG php_ini_disable_functions
+ARG php_ini_post_max_size
+ARG php_ini_upload_max_filesize
+ARG php_ini_max_input_vars
 
 # Here we can have additional work to be done specifically for the test container
 RUN apt-get update && apt-get install -y \
@@ -79,9 +85,10 @@ RUN apt-get update && apt-get install -y \
     && cd /fake \
     && composer create-project contao/managed-edition . $contao_version \
     # if "public" directory is present (contao >= 4.12)
-    && [ -d /fake/public ] && [ -f /fake/public/contao-manager.phar.php ] && echo "contao manager already present." || curl -o /fake/public/contao-manager.phar.php https://download.contao.org/contao-manager/stable/contao-manager.phar \
+    && [ -d /fake/public ] && [ -f /fake/public/contao-manager.phar.php ] && echo "contao manager already present." || mkdir -p /fake/public && curl -o /fake/public/contao-manager.phar.php https://download.contao.org/contao-manager/stable/contao-manager.phar \
     && rm -r $workdir_contao/* \
     && cp -ar /fake/. $workdir_contao \
+    && chown -R www-data:www-data $workdir_contao \
     && cd $workdir_contao \
     # Also clean up cache
     && rm -fr /var/cache/*
@@ -93,7 +100,13 @@ RUN sed -i "s~{{DB_USER}}~$db_user~g" $workdir_contao/.env \
     && sed -i "s~{{DB_DATABASE}}~$db_database~g" $workdir_contao/.env \
     && sed -i "s~{{DB_HOST}}~$db_host~g" $workdir_contao/.env \
     && sed -i "s~{{APP_SECRET}}~$app_secret~g" $workdir_contao/.env \
-    && chown -R www-data:www-data $workdir_contao
+    && chown -R www-data:www-data $workdir_contao \
+    && sed -i -r -e "s/([;]{0,1})max_execution_time =(.*)/max_execution_time = $php_ini_max_execution_time/" $PHP_INI_DIR/php.ini \
+    && sed -i -r -e "s/([;]{0,1})memory_limit =(.*)/memory_limit = $php_ini_memory_limit/" $PHP_INI_DIR/php.ini \
+    && sed -i -r -e "s/([;]{0,1})disable_functions =(.*)/disable_functions = $php_ini_disable_functions/" $PHP_INI_DIR/php.ini \
+    && sed -i -r -e "s/([;]{0,1})post_max_size =(.*)/post_max_size = $php_ini_post_max_size/" $PHP_INI_DIR/php.ini \
+    && sed -i -r -e "s/([;]{0,1})upload_max_filesize =(.*)/upload_max_filesize = $php_ini_upload_max_filesize/" $PHP_INI_DIR/php.ini \
+    && sed -i -r -e "s/([;]{0,1})max_input_vars =(.*)/max_input_vars = $php_ini_max_input_vars/" $PHP_INI_DIR/php.ini
 
 WORKDIR $workdir_contao
 
