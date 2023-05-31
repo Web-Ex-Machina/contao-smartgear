@@ -88,7 +88,6 @@ RUN apt-get update && apt-get install -y \
     && [ -d /fake/public ] && [ -f /fake/public/contao-manager.phar.php ] && echo "contao manager already present." || mkdir -p /fake/public && curl -o /fake/public/contao-manager.phar.php https://download.contao.org/contao-manager/stable/contao-manager.phar \
     && rm -r $workdir_contao/* \
     && cp -ar /fake/. $workdir_contao \
-    && chown -R www-data:www-data $workdir_contao \
     && cd $workdir_contao \
     # Also clean up cache
     && rm -fr /var/cache/*
