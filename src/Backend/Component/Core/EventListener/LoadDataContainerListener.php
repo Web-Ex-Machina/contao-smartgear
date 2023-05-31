@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Core\EventListener;
 
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\ModuleModel;
 use Symfony\Component\Security\Core\Security;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
@@ -56,6 +57,17 @@ class LoadDataContainerListener
                         // do not display grid_gap settings
                         $this->dcaManipulator->removeFields(['grid_gap']);
                         $this->dcaManipulator->setFieldEvalProperty('cssID', 'tl_class', 'hidden');
+                        $this->updatePaletteHeadline();
+                        $this->updatePaletteText();
+                        $this->updatePaletteTable();
+                        $this->updatePaletteAccordion();
+                        $this->updatePaletteHyperlink();
+                        $this->updatePaletteImage();
+                        $this->updatePalettePlayer();
+                        $this->updatePaletteYoutube();
+                        $this->updatePaletteVimeo();
+                        $this->updatePaletteDownloads();
+                        $this->updatePaletteGallery();
                     }
                     $this->dcaManipulator->addFieldSaveCallback('headline', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanHeadline']);
                     $this->dcaManipulator->addFieldSaveCallback('text', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanText']);
@@ -84,5 +96,124 @@ class LoadDataContainerListener
         $this->do = $do;
 
         return $this;
+    }
+
+    protected function updatePaletteHeadline(): void
+    {
+        PaletteManipulator::create()
+        ->removeField('customTpl')
+        ->applyToPalette('headline', 'tl_content')
+    ;
+    }
+
+    protected function updatePaletteText(): void
+    {
+        PaletteManipulator::create()
+        ->removeField('headline')
+        ->removeField('customTpl')
+        ->applyToPalette('text', 'tl_content')
+    ;
+        PaletteManipulator::create()
+        ->removeField('imagemargin')
+        ->applyToSubpalette('addImage', 'tl_content')
+    ;
+    }
+
+    protected function updatePaletteTable(): void
+    {
+        PaletteManipulator::create()
+        ->removeField('headline')
+        ->removeField('customTpl')
+        ->removeField('sortable')
+        ->applyToPalette('table', 'tl_content')
+    ;
+    }
+
+    protected function updatePaletteAccordion(): void
+    {
+        PaletteManipulator::create()
+        ->removeField('headline')
+        ->removeField('customTpl')
+        ->removeField('mooStyle')
+        ->removeField('mooClasses')
+        ->applyToPalette('accordionStart', 'tl_content')
+    ;
+        PaletteManipulator::create()
+        ->removeField('headline')
+        ->removeField('customTpl')
+        ->removeField('mooStyle')
+        ->removeField('mooClasses')
+        ->applyToPalette('accordionStop', 'tl_content')
+    ;
+    }
+
+    protected function updatePaletteHyperlink(): void
+    {
+        PaletteManipulator::create()
+        ->removeField('headline')
+        ->removeField('customTpl')
+        ->removeField('embed')
+        ->removeField('rel')
+        ->removeField('useImage')
+        ->applyToPalette('hyperlink', 'tl_content')
+    ;
+    }
+
+    protected function updatePaletteImage(): void
+    {
+        PaletteManipulator::create()
+        ->removeField('headline')
+        ->removeField('customTpl')
+        ->removeField('imagemargin')
+        ->applyToPalette('image', 'tl_content')
+    ;
+    }
+
+    protected function updatePalettePlayer(): void
+    {
+        PaletteManipulator::create()
+        ->removeField('headline')
+        ->removeField('customTpl')
+        ->applyToPalette('player', 'tl_content')
+    ;
+    }
+
+    protected function updatePaletteYoutube(): void
+    {
+        PaletteManipulator::create()
+        ->removeField('headline')
+        ->removeField('customTpl')
+        ->applyToPalette('youtube', 'tl_content')
+    ;
+    }
+
+    protected function updatePaletteVimeo(): void
+    {
+        PaletteManipulator::create()
+        ->removeField('headline')
+        ->removeField('customTpl')
+        ->applyToPalette('vimeo', 'tl_content')
+    ;
+    }
+
+    protected function updatePaletteDownloads(): void
+    {
+        PaletteManipulator::create()
+        ->removeField('headline')
+        ->removeField('customTpl')
+        ->applyToPalette('downloads', 'tl_content')
+    ;
+    }
+
+    protected function updatePaletteGallery(): void
+    {
+        PaletteManipulator::create()
+        ->removeField('headline')
+        ->removeField('metaIgnore')
+        ->removeField('imagemargin')
+        ->removeField('perPage')
+        ->removeField('numberOfItems')
+        ->applyToPalette('gallery', 'tl_content')
+    ;
     }
 }

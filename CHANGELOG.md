@@ -1,5 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
+
+1.0.10 - 2023-05-31
+- Smartgear : limitations to some `tl_content` fields are only applied if Smartgear is installed and user isn't a super admin or doesn't have the SG's Core Expert role
+
 1.0.9 - 2023-05-01
 - Smartgear : fixes for smartgear reset
 - Smartgear : custom language file support in `assets/smartgear/languages/{lang}/custom.json`
