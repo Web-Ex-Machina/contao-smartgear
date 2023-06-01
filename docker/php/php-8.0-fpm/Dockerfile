@@ -6,6 +6,9 @@ FROM $image AS php_base
 ARG workdir_bundle
 ARG workdir_bundle_end_slash
 
+RUN usermod -u 1000 www-data \
+    && groupmod -g 1000 www-data
+
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
@@ -86,6 +89,7 @@ RUN apt-get update && apt-get install -y \
     && composer create-project contao/managed-edition . $contao_version \
     # if "public" directory is present (contao >= 4.12)
     && [ -d /fake/public ] && [ -f /fake/public/contao-manager.phar.php ] && echo "contao manager already present." || curl -o /fake/public/contao-manager.phar.php https://download.contao.org/contao-manager/stable/contao-manager.phar \
+    && chown -R www-data:www-data /fake \
     && rm -r $workdir_contao/* \
     && cp -ar /fake/. $workdir_contao \
     && cd $workdir_contao \

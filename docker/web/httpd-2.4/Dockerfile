@@ -4,6 +4,9 @@ ARG prj_name
 ARG workdir_contao_public
 ARG ssl_port
 
+RUN usermod -u 1000 www-data \
+    && groupmod -g 1000 www-data
+
 EXPOSE 80
 EXPOSE 443
 EXPOSE $ssl_port
@@ -28,9 +31,9 @@ RUN  sed -i 's~#Include conf/extra/httpd-vhosts.conf~Include conf/extra/httpd-vh
 	&& sed -i "s~{{ssl_port}}~$ssl_port~g" /usr/local/apache2/conf/extra/httpd-vhosts.conf \
 	&& sed -i "s~Listen 443~Listen 443\nListen $ssl_port~g" /usr/local/apache2/conf/extra/httpd-ssl.conf \
 	&& sed -i "s~conf/server.crt~ssl/server.crt~g" /usr/local/apache2/conf/extra/httpd-ssl.conf \
-	&& sed -i "s~conf/server.key~ssl/server.key~g" /usr/local/apache2/conf/extra/httpd-ssl.conf \
+	&& sed -i "s~conf/server.key~ssl/server.key~g" /usr/local/apache2/conf/extra/httpd-ssl.conf
 	# We give the www-data the same user UUID as ours
-	&& usermod -u 1000 www-data \
+RUN usermod -u 1000 www-data \
     && groupmod -g 1000 www-data
 
 CMD apachectl -D FOREGROUND
