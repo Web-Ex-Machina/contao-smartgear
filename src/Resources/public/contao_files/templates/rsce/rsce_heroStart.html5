@@ -28,7 +28,7 @@
   
   if($this->overlay_background)
     $arrClasses[] = 'content__bg--'.$this->overlay_background;
-  if($this->overlay_opacity)
+  if(isset($this->overlay_opacity))
     $arrClasses[] = 'content__bg__opacity--'.$this->overlay_opacity;
   
   if($this->content_horizontal || $this->content_vertical)
