@@ -69,13 +69,6 @@ $input-focus: (
 );
 @function input-focus($item) {@return map-get($input-focus, '#{$item}');}
 
-$input-invalid: (
-	'background': input(background),
-	'font-color': input(font-color),
-	'border-color': $error,
-);
-@function input-invalid($item) {@return map-get($input-invalid, '#{$item}');}
-
 $link: (
 	'font-color': $primary,
 	'font-color-hover': $primary,
@@ -90,7 +83,7 @@ $btn: (
 	'font-color': contrastFW(color(white),$primary),
 	'border-size': $border-default-size,
 	'radius': true,
-	'uppercase': true,
+	'uppercase': false,
 	'font-weight': 300,
 	'exclude': ['.exclude'],
 );
@@ -118,3 +111,5 @@ $container: (
 
 $enable-bg: true;
 $enable-bd: true;
+$track-color: rgba($primary,0.2);
+$filll-color: rgba($primary,0.5);
