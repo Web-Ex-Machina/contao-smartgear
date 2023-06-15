@@ -36,9 +36,9 @@
         "heimseiten/contao-sticky-footer-backend-bundle": "^1.0",
         "heimrichhannot/contao-email2username-bundle": "^1.4",
         "webexmachina/contao-utils": "^0.3",
-        "webexmachina/contao-grid": "dev-feat-php8",
-        "webexmachina/contao-component-style-manager": "dev-feat-php8",
-        "webexmachina/contao-personal-data-manager": "dev-feat-php8"
+        "webexmachina/contao-grid": "^1.0",
+        "webexmachina/contao-component-style-manager": "^2.6",
+        "webexmachina/contao-personal-data-manager": "^1.0"
     },
     "require-dev":
     {
