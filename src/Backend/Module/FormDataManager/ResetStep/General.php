@@ -27,6 +27,8 @@ class General extends AbstractStep
     protected $configurationManager;
     /** @var Resetter */
     protected $resetter;
+    /** @var TranslatorInterface */
+    protected $translator;
 
     protected $strTemplate = 'be_wem_sg_install_block_reset_step_fdm_general';
 

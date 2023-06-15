@@ -47,7 +47,7 @@ class General extends AbstractStep
 
         $this->addCheckboxField('localconfig', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['localconfig'], 'localconfig', false, false, '', '', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['localconfigHelp']);
         $this->addCheckboxField('framway', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['framway'], 'framway', false, false, '', '', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['framwayHelp']);
-        $this->addCheckboxField('templates', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['templates'], 'templates', false, false, '', '', sprintf($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['templatesHelp'], implode(',', $this->templatesDirs)));
+        $this->addCheckboxField('templates', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['templates'], 'templates', false, false, '', '', sprintf($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['templatesHelp'], implode(',', $this->templatesDirs ?? [])));
         $this->addCheckboxField('themes_modules', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['themes_modules'], 'themes_modules', false, false, '', '', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['themes_modulesHelp']);
         $this->addCheckboxField('pages', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['pages'], 'pages', false, false, '', '', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['pagesHelp']);
         $this->addCheckboxField('files', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['files'], 'files', false, false, '', '', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['filesHelp']);

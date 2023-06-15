@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SMARTGEAR for Contao Open Source CMS
- *
- * Copyright (c) 2015-2019 Web ex Machina
+ * Copyright (c) 2015-2022 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -16,14 +17,14 @@ namespace WEM\SmartgearBundle\Hooks;
 use WEM\SmartgearBundle\Backend\Updater;
 
 /**
- * Class ExecutePreActionsHook
+ * Class ExecutePreActionsHook.
  *
  * Handle Smartgear executePreActions hooks
  */
 class ExecutePreActionsHook
 {
     /**
-     * Catch requests from external websites
+     * Catch requests from external websites.
      *
      * @return mixed|string
      */
@@ -34,20 +35,20 @@ class ExecutePreActionsHook
                 switch (\Input::post('SG_ACTION')) {
                     case 'getSmartgearVersion':
                         $objUpdater = new Updater(false);
-                        $arrResponse = ["status"=>"success", "version"=>$objUpdater->getCurrentVersion()];
+                        $arrResponse = ['status' => 'success', 'version' => $objUpdater->getCurrentVersion()];
                         break;
 
                     default:
-                        throw new \Exception(sprintf("Unknown request called : %s", \Input::post('SG_ACTION')));
+                        throw new \Exception(sprintf('Unknown request called : %s', \Input::post('SG_ACTION')));
                 }
             }
         } catch (\Exception $e) {
-            $arrResponse = ["status"=>"error", "msg"=>$e->getMessage(), "trace"=>$e->getTrace()];
+            $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
         }
-        
+
         // Add Request Token to JSON answer and return
-        $arrResponse["rt"] = \RequestToken::get();
+        $arrResponse['rt'] = \Contao\RequestToken::get();
         echo json_encode($arrResponse);
-        die;
+        exit;
     }
 }

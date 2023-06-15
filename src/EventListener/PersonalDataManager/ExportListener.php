@@ -30,7 +30,7 @@ class ExportListener
         $this->translator = $translator;
     }
 
-    public function exportByPidAndPtableAndEmail(string $pid, string $ptable, string $email, ?\Contao\Model\Collection $pdms): ?\Contao\Model\Collection
+    public function exportByPidAndPtableAndEmail(int $pid, string $ptable, string $email, ?\Contao\Model\Collection $pdms): ?\Contao\Model\Collection
     {
         switch ($ptable) {
             case FormStorage::getTable():
@@ -38,7 +38,7 @@ class ExportListener
                 $formStorageData = FormStorageData::findBy('pid', $pid);
                 if ($formStorageData) {
                     while ($formStorageData->next()) {
-                        $objPersonalData = PersonalData::findOneByPidAndPTableAndEmail($formStorageData->id, FormStorageData::getTable(), $email);
+                        $objPersonalData = PersonalData::findOneByPidAndPTableAndEmail((int) $formStorageData->id, FormStorageData::getTable(), $email);
                         if ($objPersonalData) {
                             $arrModels[] = $objPersonalData;
                         }

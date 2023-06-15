@@ -66,7 +66,7 @@ class Migration extends MigrationAbstract
 
     public function shouldRun(): Result
     {
-        $result = parent::shouldRun();
+        $result = parent::shouldRunWithoutCheckingVersion();
 
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
             return $result;

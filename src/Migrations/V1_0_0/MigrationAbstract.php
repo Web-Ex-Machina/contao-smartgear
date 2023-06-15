@@ -48,6 +48,32 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
     public function shouldRun(): Result
     {
         $result = new Result();
+        $result->setStatus(Result::STATUS_SHOULD_RUN);
+        $result = $this->shouldRunCheckConfiguration($result);
+
+        return $this->shouldRunCheckVersion($result);
+    }
+
+    public function shouldRunWithoutCheckingVersion(): Result
+    {
+        $result = new Result();
+        $result->setStatus(Result::STATUS_SHOULD_RUN);
+
+        return $this->shouldRunCheckConfiguration($result);
+    }
+
+    public function do(): Result
+    {
+        $result = $this->shouldRun();
+        if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
+            return $result;
+        }
+
+        return $result;
+    }
+
+    protected function shouldRunCheckConfiguration(Result $result): Result
+    {
         try {
             $config = $this->coreConfigurationManager->load();
         } catch (FileNotFoundException $e) {
@@ -56,6 +82,23 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
                 $this->translator->trans($this->buildTranslationKeyLocal('WEMSG.MIGRATIONS.skippedBecauseSmartgearNotInstalled'), [], 'contao_default')
             )
             ;
+        }
+
+        return $result;
+    }
+
+    protected function shouldRunCheckVersion(Result $result): Result
+    {
+        try {
+            $config = $this->coreConfigurationManager->load();
+        } catch (FileNotFoundException $e) {
+            $result->setStatus(Result::STATUS_SKIPPED)
+            ->addLog(
+                $this->translator->trans($this->buildTranslationKeyLocal('WEMSG.MIGRATIONS.skippedBecauseSmartgearNotInstalled'), [], 'contao_default')
+            )
+            ;
+
+            return $result;
         }
 
         $currentVersion = (new Version())->fromString($config->getSgVersion());
@@ -84,16 +127,6 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
                 ->addLog($this->translator->trans('WEMSG.MIGRATIONS.shouldBeRun', [], 'contao_default'))
                 ;
             break;
-        }
-
-        return $result;
-    }
-
-    public function do(): Result
-    {
-        $result = $this->shouldRun();
-        if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
-            return $result;
         }
 
         return $result;

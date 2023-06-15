@@ -3883,6 +3883,18 @@
 			<target>Smartgear évènements - mode expert</target>
 		</trans-unit>
 
+
+		<trans-unit id="WEMSG.SECURITY.SOCIALLINK.optGroup">
+			<source>Social Networks</source>
+			<target>Réseaux sociaux</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.SECURITY.SOCIALLINK.expert">
+			<source>Smartgear social networks - expert mode</source>
+			<target>Smartgear réseaux sociaux - mode expert</target>
+		</trans-unit>
+
+		
+
 		<!-- heimrichhannot/contao-backend-lost-password-bundle -->
 		<trans-unit id="MSC.backendLostPassword.messageSubjectResetPassword">
 			<target>Réinitialisation de votre mot de passe Contao</target>

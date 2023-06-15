@@ -22,6 +22,8 @@ use Contao\FilesModel;
 use Contao\MemberModel;
 use Contao\NewsModel;
 use Contao\System;
+use Exception;
+use Psr\Log\LogLevel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Api\Airtable\V0\Api as AirtableApi;
 use WEM\SmartgearBundle\Classes\CacheFileManager;
@@ -136,7 +138,7 @@ class AnalyticsExternal extends BackendModule
         $objTemplate->diskSpaceAllowed = Util::humanReadableFilesize($diskSpaceAllowed, 2);
 
         $objTemplate->diskUsagePercentLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.diskUsagePercentLabel', [], 'contao_default');
-        $objTemplate->diskUsagePercent = round($diskUsage * 100 / ($diskSpaceAllowed), 2);
+        $objTemplate->diskUsagePercent = 0 !== $diskSpaceAllowed ? round($diskUsage * 100 / ($diskSpaceAllowed), 2) : 0;
 
         if ($objTemplate->diskUsagePercent < 75) {
             $objTemplate->diskUsageBarColor = 'green';
@@ -236,13 +238,18 @@ class AnalyticsExternal extends BackendModule
         return $size;
     }
 
-    protected function GetDirectorySize($path): int
+    protected function getDirectorySize($path): int
     {
         $bytestotal = 0;
         $path = realpath($path);
         if (false !== $path && '' !== $path && file_exists($path)) {
             foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS)) as $object) {
-                $bytestotal += $object->getSize();
+                try {
+                    $bytestotal += $object->getSize();
+                } catch (Exception $e) {
+                    // $logger = static::getContainer()->get('monolog.logger.contao');
+                    // $logger->log(LogLevel::ERROR, 'TEXT.TO.FIND', ['contao' => new \Contao\CoreBundle\Monolog\ContaoContext('getDirectorySize', 'ERROR')]);
+                }
             }
         }
 
@@ -259,7 +266,7 @@ class AnalyticsExternal extends BackendModule
         //  get disk usage
         $size = (int) $this->folderSize(realpath('../'));
 
-        $size2 = (int) $this->GetDirectorySize('../');
+        $size2 = (int) $this->getDirectorySize('../');
 
         $size = $size > $size2 ? $size : $size2;
 

@@ -59,6 +59,7 @@ class UiListener
                 case FormStorageData::getTable():
                     foreach ($ptableDatas as $id => $idDatas) {
                         $objFormStorageData = FormStorageData::findOneBy('id', $idDatas['personalDatas'][0]->pid);
+                        /** @var FormStorage */
                         $objFormStorage = $objFormStorageData->getRelated('pid');
 
                         if (!\array_key_exists(FormStorage::getTable(), $sorted2)) {
@@ -190,6 +191,18 @@ class UiListener
     public function renderSingleItemBodyPersonalDataSingleFieldValue(int $pid, string $ptable, string $email, PersonalData $personalData, array $personalDatas, Model $originalModel, string $buffer): string
     {
         switch ($ptable) {
+            case 'tl_member':
+                switch ($personalData->field) {
+                    case 'dateOfBirth':
+                        $buffer = !empty($buffer) ? \Contao\Date::parse(\Contao\Config::get('dateFormat'), (int) $buffer) : $buffer;
+                    break;
+                    default:
+                        if (empty($buffer)) {
+                            return sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
+                        }
+                    break;
+                }
+            break;
             case FormStorage::getTable():
                 $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
             break;
@@ -286,7 +299,7 @@ class UiListener
         return $buttons;
     }
 
-    protected function getPersonalDataForFormStorage($objFormStorage): array
+    protected function getPersonalDataForFormStorage(FormStorage $objFormStorage): array
     {
         $formStorageDatas = FormStorageData::findItems(['pid' => $objFormStorage->id]);
         // make personalDatas all personal datas attached to this form

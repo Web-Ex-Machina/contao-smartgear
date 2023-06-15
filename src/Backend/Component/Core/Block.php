@@ -143,7 +143,7 @@ class Block extends BackendBlock
 
         // return $arrResponse;
         // Add Request Token to JSON answer and return
-        $arrResponse['rt'] = \RequestToken::get();
+        $arrResponse['rt'] = \Contao\RequestToken::get();
         echo json_encode($arrResponse);
         exit;
     }

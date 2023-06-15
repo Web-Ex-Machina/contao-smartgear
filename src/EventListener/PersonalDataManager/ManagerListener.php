@@ -31,7 +31,7 @@ class ManagerListener
         $this->translator = $translator;
     }
 
-    public function getFileByPidAndPtableAndEmailAndField(string $pid, string $ptable, string $email, string $field, PersonalData $personalData, $value, ?FilesModel $objFileModel): ?FilesModel
+    public function getFileByPidAndPtableAndEmailAndField(int $pid, string $ptable, string $email, string $field, PersonalData $personalData, $value, ?FilesModel $objFileModel): ?FilesModel
     {
         switch ($ptable) {
             case FormStorageData::getTable():

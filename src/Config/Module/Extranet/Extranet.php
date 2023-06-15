@@ -498,6 +498,7 @@ class Extranet implements ConfigModuleInterface
         $json->contao->notificationMessagesLanguages->subscription = $this->getSgNotificationSubscriptionMessageLanguage();
 
         $json->contao->contents = new \stdClass();
+        $json->contao->contents->extranet = new \stdClass();
         $json->contao->contents->extranet->headline = $this->getSgContentArticleExtranetHeadline();
         $json->contao->contents->extranet->moduleLoginGuests = $this->getSgContentArticleExtranetModuleLoginGuests();
         $json->contao->contents->extranet->gridStartA = $this->getSgContentArticleExtranetGridStartA();
@@ -506,36 +507,62 @@ class Extranet implements ConfigModuleInterface
         $json->contao->contents->extranet->moduleNav = $this->getSgContentArticleExtranetModuleNav();
         $json->contao->contents->extranet->gridStopB = $this->getSgContentArticleExtranetGridStopB();
         $json->contao->contents->extranet->gridStopA = $this->getSgContentArticleExtranetGridStopA();
+
+        $json->contao->contents->error401 = new \stdClass();
         $json->contao->contents->error401->headline = $this->getSgContentArticle401Headline();
         $json->contao->contents->error401->text = $this->getSgContentArticle401Text();
         $json->contao->contents->error401->moduleLoginGuests = $this->getSgContentArticle401ModuleLoginGuests();
+
+        $json->contao->contents->error403 = new \stdClass();
         $json->contao->contents->error403->headline = $this->getSgContentArticle403Headline();
         $json->contao->contents->error403->text = $this->getSgContentArticle403Text();
         $json->contao->contents->error403->hyperlink = $this->getSgContentArticle403Hyperlink();
+
+        $json->contao->contents->content = new \stdClass();
         $json->contao->contents->content->headline = $this->getSgContentArticleContentHeadline();
         $json->contao->contents->content->text = $this->getSgContentArticleContentText();
+
+        $json->contao->contents->data = new \stdClass();
         $json->contao->contents->data->headline = $this->getSgContentArticleDataHeadline();
         $json->contao->contents->data->moduleData = $this->getSgContentArticleDataModuleData();
         $json->contao->contents->data->headlineCloseAccount = $this->getSgContentArticleDataHeadlineCloseAccount();
         $json->contao->contents->data->textCloseAccount = $this->getSgContentArticleDataTextCloseAccount();
         $json->contao->contents->data->moduleCloseAccount = $this->getSgContentArticleDataModuleCloseAccount();
+
+        $json->contao->contents->dataConfirm = new \stdClass();
         $json->contao->contents->dataConfirm->headline = $this->getSgContentArticleDataConfirmHeadline();
         $json->contao->contents->dataConfirm->text = $this->getSgContentArticleDataConfirmText();
         $json->contao->contents->dataConfirm->hyperlink = $this->getSgContentArticleDataConfirmHyperlink();
+
+        $json->contao->contents->password = new \stdClass();
         $json->contao->contents->password->headline = $this->getSgContentArticlePasswordHeadline();
         $json->contao->contents->password->modulePassword = $this->getSgContentArticlePasswordModulePassword();
+
+        $json->contao->contents->passwordConfirm = new \stdClass();
         $json->contao->contents->passwordConfirm->headline = $this->getSgContentArticlePasswordConfirmHeadline();
         $json->contao->contents->passwordConfirm->text = $this->getSgContentArticlePasswordConfirmText();
+
+        $json->contao->contents->passwordValidate = new \stdClass();
         $json->contao->contents->passwordValidate->headline = $this->getSgContentArticlePasswordValidateHeadline();
         $json->contao->contents->passwordValidate->modulePassword = $this->getSgContentArticlePasswordValidateModulePassword();
+
+        $json->contao->contents->logout = new \stdClass();
         $json->contao->contents->logout->moduleLogout = $this->getSgContentArticleLogoutModuleLogout();
+
+        $json->contao->contents->subscribe = new \stdClass();
         $json->contao->contents->subscribe->headline = $this->getSgContentArticleSubscribeHeadline();
         $json->contao->contents->subscribe->moduleSubscribe = $this->getSgContentArticleSubscribeModuleSubscribe();
+
+        $json->contao->contents->subscribeConfirm = new \stdClass();
         $json->contao->contents->subscribeConfirm->headline = $this->getSgContentArticleSubscribeConfirmHeadline();
         $json->contao->contents->subscribeConfirm->text = $this->getSgContentArticleSubscribeConfirmText();
+
+        $json->contao->contents->subscribeValidate = new \stdClass();
         $json->contao->contents->subscribeValidate->headline = $this->getSgContentArticleSubscribeValidateHeadline();
         $json->contao->contents->subscribeValidate->text = $this->getSgContentArticleSubscribeValidateText();
         $json->contao->contents->subscribeValidate->moduleLoginGuests = $this->getSgContentArticleSubscribeValidateModuleLoginGuests();
+
+        $json->contao->contents->unsubscribe = new \stdClass();
         $json->contao->contents->unsubscribe->headline = $this->getSgContentArticleUnsubscribeHeadline();
         $json->contao->contents->unsubscribe->text = $this->getSgContentArticleUnsubscribeText();
         $json->contao->contents->unsubscribe->hyperlink = $this->getSgContentArticleUnsubscribeHyperlink();

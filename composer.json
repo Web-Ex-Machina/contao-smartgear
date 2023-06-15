@@ -18,7 +18,7 @@
     },
     "require":
     {
-        "php": ">=7.4",
+        "php": "^7.4 || ^8.0",
         "contao/core-bundle": "~4.13",
         "contao/news-bundle": "^4.13",
         "contao/calendar-bundle": "^4.13",
@@ -33,12 +33,12 @@
         "do-while/contao-backupdb-bundle": "^1.4",
         "numero2/contao-opengraph3": "^4.2",
         "terminal42/notification_center": "^1.6",
+        "heimseiten/contao-sticky-footer-backend-bundle": "^1.0",
+        "heimrichhannot/contao-email2username-bundle": "^1.4",
         "webexmachina/contao-utils": "^0.3",
         "webexmachina/contao-grid": "^1.0",
-        "heimseiten/contao-sticky-footer-backend-bundle": "^1.0",
         "webexmachina/contao-component-style-manager": "^2.6",
-        "webexmachina/contao-personal-data-manager": "^1.0",
-        "heimrichhannot/contao-email2username-bundle": "^1.4"
+        "webexmachina/contao-personal-data-manager": "^1.0"
     },
     "require-dev":
     {

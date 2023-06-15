@@ -193,11 +193,11 @@ class LocalConfig implements ConfigYamlInterface
             $config['contao']['image']['sizes'] = $this->getImageSizes();
         }
 
-        if (0 === \count($config['contao']['localconfig'])) {
+        if (0 === \count($config['contao']['localconfig'] ?? [])) {
             unset($config['contao']['localconfig']);
         }
 
-        if (0 === \count($config['contao']['image'])) {
+        if (0 === \count($config['contao']['image'] ?? [])) {
             unset($config['contao']['image']);
         }
 
