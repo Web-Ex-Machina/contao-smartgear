@@ -21,6 +21,8 @@ abstract class AbstractManager implements ManagerInterface
 {
     /** @var TranslatorInterface */
     protected $translator;
+    /** @var string */
+    protected $configurationFilePath;
 
     public function __construct(
         TranslatorInterface $translator

@@ -38,6 +38,7 @@ class Dashboard
     protected $translator;
     /** @var string */
     protected $strTemplate = 'be_wem_sg_install_block_dashboard';
+    protected $objSession;
 
     /**
      * Generic array of logs.

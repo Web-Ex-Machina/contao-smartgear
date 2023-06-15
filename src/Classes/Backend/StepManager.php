@@ -35,6 +35,7 @@ class StepManager
     protected $stepSessionKey = '';
 
     protected $strStepsTemplate = 'be_wem_sg_install_steps';
+    protected $objSession;
 
     public function __construct(
         TranslatorInterface $translator,
