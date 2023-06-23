@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.12 - 2023-06-23
+- Smartgear : Updated `rsce_hero`
+
 1.0.11 - 2023-06-15
 - Global : PHP 8.2 compatibility
 

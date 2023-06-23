@@ -59,7 +59,7 @@
       <div class="heroFW__content__wrapper <?= $this->hero_width=='container'?'container':'' ?>">
         <?= $this->hl?'<'.$this->hl.' class="heroFW__title">':'<div class="heroFW__title">' ?><?= $this->headline ?><?= $this->hl?'</'.$this->hl.'>':'</div>' ?>
         <div class="heroFW__text">
-          <?= $this->link_href ?>
+          <?= $this->text ?>
           <?php if($this->url): ?>
             <a class="btn <?= $this->link_classes ?>" href="<?= $this->link_href ?>" title="<?= $this->link_title ?>"<?= $this->link_target ? ' target="_blank"' : '' ?>><?= $this->link_text ?></a>
           <?php endif; ?>
