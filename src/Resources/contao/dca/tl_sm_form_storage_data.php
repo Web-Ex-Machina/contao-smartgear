@@ -103,11 +103,11 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage_data'] = [
         ],
         'value' => [
             'search' => true,
-            'inputType' => 'text',
-            'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
+            'inputType' => 'textarea',
+            'eval' => ['tl_class' => 'w50'],
             'load_callback' => [['smartgear.classes.dca.field.callback.load.tl_sm_form_storage_data.value', '__invoke']],
             'save_callback' => [['smartgear.classes.dca.field.callback.save.tl_sm_form_storage_data.value', '__invoke']],
-            'sql' => "varchar(255) NOT NULL default ''",
+            'sql' => "TEXT NOT NULL default ''",
         ],
         'contains_personal_data' => [
             'search' => true,

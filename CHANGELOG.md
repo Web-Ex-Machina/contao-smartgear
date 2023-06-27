@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.13 - 2023-06-27
+- FormDataManager : The field storing the form field's value is now a `TEXT`
+
 1.0.12 - 2023-06-23
 - Smartgear : Updated `rsce_hero`
 

@@ -152,6 +152,7 @@ class ProcessFormDataListener
         if (!$objFormField) {
             throw new Exception(sprintf('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('pid')->name));
         }
+
         $objFormStorageData = new FormStorageData();
         $objFormStorageData->tstamp = time();
         $objFormStorageData->createdAt = time();
