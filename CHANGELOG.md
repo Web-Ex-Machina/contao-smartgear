@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.14 - 2023-07-06
+- FormDataManager : The function returning the referer page's ID now has the correct return type
+
 1.0.13 - 2023-06-27
 - FormDataManager : The field storing the form field's value is now a `TEXT`
 

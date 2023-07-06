@@ -110,7 +110,7 @@ class ProcessFormDataListener
         } catch (Exception $e) {
         }
 
-        return $refererPageId;
+        return $refererPageId ? (int) $refererPageId : $refererPageId;
     }
 
     protected function calculateDelayToFirstInteraction(string $firstAppearanceMs, string $firstInteractionMs): int
