@@ -1,0 +1,48 @@
+<div class="<?php echo $this->class ?> pricecard block-std rad<?php echo $this->color?' color--'.$this->color:'' ?><?php echo $this->bordered?' bordered':'' ?><?php echo $this->bordered_on_hover?' bordered--hover':'' ?><?php echo $this->bg_title?' title--bg':'' ?><?php echo $this->dropshadow?' drop-shadow':'' ?>">
+  <?php if ($this->title): ?>
+    <div class="pricecard__title"><?php echo $this->title ?></div>
+  <?php endif ?>
+  <div class="pricecard__wrapper">
+    <div class="pricecard__content">
+      <?php if ($this->text): ?>
+        <div class="pricecard__text <?= $this->text_classes ?>"><?php echo $this->text ?></div>
+      <?php endif ?>
+      <?php if (count($this->lines)): ?>
+        <ul class="pricecard__lines <?php echo $this->lines_alignement ?>">
+          <?php foreach ($this->lines as $key => $line): ?>
+            <li class="pricecard__line">
+              <?php if ($this->icon_location=='before'): ?><span class="line__icon"><?php echo $line->icon ?></span><?php endif ?>
+              <span class="line__text">
+                <?php echo $line->text ?>
+                <?php if ($line->tooltip): ?>
+                  &nbsp;<span class="ft-1-2-em ft-info" tooltip="<?php echo $line->tooltip ?>"><i class="far fa-info-circle" style="vertical-align: middle;"></i></span>
+                <?php endif ?>
+              </span>
+              <?php if ($this->icon_location=='after'): ?><span class="line__icon"><?php echo $line->icon ?></span><?php endif ?>
+            </li>
+          <?php endforeach ?>
+        </ul>
+      <?php endif ?>
+    </div>
+    <?php if ($this->amount || $this->cta_href): ?>
+      <div class="pricecard__footer">
+          <div class="pricecard__price__wrapper">
+            <?php if ($this->amount): ?>
+                <!-- <span>Tarif</span> -->
+                <div class="pricecard__price">
+                  <span class="amount"><?php echo $this->amount ?></span><?php if ($this->currency): ?> <span class="currency"><?php echo $this->currency ?></span><?php endif ?>
+                </div>
+                <?php if ($this->frequency): ?>
+                  <span class="pricecard__frequency"><?php echo $this->frequency ?></span>
+                <?php endif ?>
+            <?php endif ?>
+          </div>
+        <?php if ($this->cta_href): ?>
+          <div class="pricecard__cta">
+            <a href="<?= $this->cta_href ?>" title="<?= $this->cta_title ?>" class="<?= $this->cta_classes ?>" <?= ($this->cta_target) ? 'target="_blank"':'' ?>><?= $this->cta_text ?> <i class="fa-light fa-chevron-right fa-sharp"></i></a>
+          </div>
+        <?php endif ?>
+      </div>
+    <?php endif ?>
+  </div>
+</div>
