@@ -722,14 +722,6 @@
         <source>After</source>
         <target>Après</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.content_mode.0">
-        <source>Content type</source>
-        <target>Type de contenu</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.content_mode.1">
-        <source>Choose the type of content displayed in the block</source>
-        <target>Choisissez le type de contenu affiché dans le bloc</target>
-      </trans-unit>
       <trans-unit id="tl_content.rsce_pricecard.content_mode.lines">
         <source>List</source>
         <target>Liste</target>
@@ -737,34 +729,6 @@
       <trans-unit id="tl_content.rsce_pricecard.content_mode.text">
         <source>Text</source>
         <target>Texte</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.bg_color_default.0">
-        <source>Default background</source>
-        <target>Couleur de fond par défaut</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.bg_color_default.1">
-        <source>Define a background color for all blocks in the list</source>
-        <target>Définit une couleur de fond pour tous les blocs</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.font_color_default.0">
-        <source>Default font color</source>
-        <target>Couleur du texte par défaut</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.font_color_default.1">
-        <source>Define a font color for all blocks in the list</source>
-        <target>Définit une couleur de texte pour tous les blocs</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.list_items.0">
-        <source>Price Cards</source>
-        <target>Blocs de prix</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.list_items.1">
-        <source>Edit cards</source>
-        <target>Editez les blocs</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.list_item">
-        <source>%s. price card</source>
-        <target>%s. bloc de prix</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_pricecard.price_legend">
         <source>Price</source>
@@ -854,47 +818,6 @@
         <source>Appearance</source>
         <target>Apparence</target>
       </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.bg_color.0">
-        <source>Background</source>
-        <target>Couleur de fond</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.bg_color.1">
-        <source>Define a background color for this block alone</source>
-        <target>Définit une couleur de fond pour ce bloc uniquement</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.font_color.0">
-        <source>Font color</source>
-        <target>Couleur du texte</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.font_color.1">
-        <source>Define a font color for this block alone</source>
-        <target>Définit une couleur de texte pour ce bloc uniquement</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.isMain.0">
-        <source>Is main</source>
-        <target>Vedette</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.isMain.1">
-        <source>Set the block as a main block</source>
-        <target>Met en valeur le bloc</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.isMain_text.0">
-        <source>Text label</source>
-        <target>Texte de l'étiquette</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.isMain_text.1">
-        <source>If filled, add a very noticeable label, making this bloc stand out from the others </source>
-        <target>Si rempli, ajoute un encart très voyant, distinguant ce bloc des autres</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.isMain_classes.0">
-        <source>Additional classes</source>
-        <target>Classes supplémentaires</target>
-      </trans-unit>
-      <trans-unit id="tl_content.rsce_pricecard.isMain_classes.1">
-        <source>Add css classes to the label</source>
-        <target>Indiquez, si souhaité, la ou les classes CSS à ajouter à l'encart</target>
-      </trans-unit>
-
       <trans-unit id="tl_content.rsce_pricecard.bg_title.0">
         <source>Background title</source>
         <target>Fond titre</target>
