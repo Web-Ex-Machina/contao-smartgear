@@ -858,6 +858,22 @@
         <source>Generate a quote block, with or without picture</source>
         <target>Générez un block citation, avec ou sans photo</target>
       </trans-unit>
+      <trans-unit id="tl_content.rsce_quoteWrating.0">
+        <source>Quote w/ rating </source>
+        <target>Citation w/ note</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quoteWrating.1">
+        <source>Generate a block quote, with notation</source>
+        <target>Générer un bloc citation, avec une notation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.rating.0">
+        <source>Rating </source>
+        <target>Note</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.rating.1">
+        <source>Indicate a rating out of 5</source>
+        <target>Indiquez une note sur 5</target>
+      </trans-unit>
       <trans-unit id="tl_content.rsce_quote.image_pos.0">
         <source>Position</source>
         <target>Positionnement</target>
@@ -873,6 +889,14 @@
       <trans-unit id="tl_content.rsce_quote.author.1">
         <source>If desired, enter the quote's author</source>
         <target>Si souhaité, indiquez l'auteur de la citation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.author_position.0">
+        <source>Author position</source>
+        <target>Fonction auteur</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.author_position.1">
+        <source>If desired, indicate the function the author of the quote</source>
+        <target>Si souhaité, indiquez la fonction de l'auteur de la citation</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_slider.0">
         <source>Slider (alone)</source>

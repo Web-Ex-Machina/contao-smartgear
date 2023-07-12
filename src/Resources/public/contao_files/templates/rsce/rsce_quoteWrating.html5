@@ -1,0 +1,40 @@
+<?php
+  if ($this->rating) 
+    $rating = (round($this->rating * 2) / 2);
+?>
+
+<div class="<?= $this->class ?>">
+  <i class="quote--icon fas fa-quote-right"></i>
+  <div class="quote--wrapper">
+    <?php if ($this->rating): ?>
+      <div class="rating">
+        <span class="rating--text ft-2-em"><?php echo str_replace('.',',',$rating) ?>/5</span>
+        <div class="rating--stars ft-1-2-em">
+        <?php 
+          for ($i=0; $i < 5; $i++) {
+            if ($rating > $i) {
+              if ($rating > $i+0.5) 
+                echo '<i class="fas fa-star"></i>'; 
+              else 
+                echo '<i class="fad fa-star-half"></i>'; 
+            } else {
+              echo '<i class="fas fa-star empty"></i>';
+            }
+          }
+        ?>
+        </div>
+      </div>
+    <?php endif ?>
+    <div class="quote no-pbreak"><?= $this->text ?></div>
+    <?php if ($this->author): ?>
+      <div class="author">
+        <strong><?= $this->author ?></strong>
+      </div>
+    <?php endif ?>
+    <?php if ($this->author_position): ?>
+      <div class="author_position">
+        <?= $this->author_position ?>
+      </div>
+    <?php endif ?>
+  </div>
+</div>
