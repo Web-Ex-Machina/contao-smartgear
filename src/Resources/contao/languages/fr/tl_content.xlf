@@ -874,6 +874,30 @@
         <source>Indicate a rating out of 5</source>
         <target>Indiquez une note sur 5</target>
       </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.rating_max.0">
+        <source>Max rating </source>
+        <target>Note maximale</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.rating_max.1">
+        <source>Define a maximum rating (default 5)</source>
+        <target>Définissez la note maximale (par défaut 5)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.display_numbers.0">
+        <source>Display numbers </source>
+        <target>Afficher nombres</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.display_numbers.1">
+        <source>Display rating in numeric format</source>
+        <target>Afficher la note sous forme numérique</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.display_stars.0">
+        <source>Display stars </source>
+        <target>Afficher étoiles</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.display_stars.1">
+        <source>Display rating with star icons</source>
+        <target>Afficher la note sous forme d'étoiles</target>
+      </trans-unit>
       <trans-unit id="tl_content.rsce_quote.image_pos.0">
         <source>Position</source>
         <target>Positionnement</target>

@@ -25,11 +25,29 @@ return [
         'rating' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['rating'], 
             'inputType' => 'text', 
-            'eval' => ['tl_class'=>'w50 clr', 'mandatory' => false, 'rgxp' => 'digit', 'minval' => 0, 'maxval' => 5],
+            'eval' => ['tl_class'=>'w50 clr', 'mandatory' => false, 'rgxp' => 'digit', 'minval' => 0],
+        ],
+        'rating_max' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['rating_max'], 
+            'inputType' => 'text',
+            'default'=> 5, 
+            'eval' => ['tl_class'=>'w50', 'mandatory' => false, 'rgxp' => 'digit', 'minval' => 0],
+        ],
+        'display_numbers' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['display_numbers'],
+            'inputType' => 'checkbox', 
+            'eval' => ['tl_class' => 'clr cbx'],
+            'default' => true,
+        ],
+        'display_stars' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['display_numbers'],
+            'inputType' => 'checkbox', 
+            'eval' => ['tl_class' => 'clr cbx'],
+            'default' => true,
         ],
         'text' => [
             'inputType' => 'standardField',
-            'eval' => ['mandatory' => true, 'tl_class' => 'clr'],
+            'eval' => ['mandatory' => true, 'tl_class' => 'clr '],
         ],
         'author' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['author'], 

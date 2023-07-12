@@ -8,21 +8,25 @@
   <div class="quote--wrapper">
     <?php if ($this->rating): ?>
       <div class="rating">
-        <span class="rating--text ft-2-em"><?php echo str_replace('.',',',$rating) ?>/5</span>
-        <div class="rating--stars ft-1-2-em">
-        <?php 
-          for ($i=0; $i < 5; $i++) {
-            if ($rating > $i) {
-              if ($rating > $i+0.5) 
-                echo '<i class="fas fa-star"></i>'; 
-              else 
-                echo '<i class="fad fa-star-half"></i>'; 
-            } else {
-              echo '<i class="fas fa-star empty"></i>';
-            }
-          }
-        ?>
-        </div>
+        <?php if ($this->display_numbers): ?>
+          <span class="rating--text ft-2-em"><?php echo str_replace('.',',',$rating) ?>/<?php echo ($this->rating_max?:5) ?></span>
+        <?php endif ?>
+        <?php if ($this->display_stars): ?>
+          <div class="rating--stars ft-1-2-em">
+            <?php 
+              for ($i=0; $i < ($this->rating_max?:5); $i++) {
+                if ($rating > $i) {
+                  if ($rating > $i+0.5) 
+                    echo '<i class="fas fa-star"></i>'; 
+                  else 
+                    echo '<i class="fad fa-star-half"></i>'; 
+                } else {
+                  echo '<i class="fas fa-star empty"></i>';
+                }
+              }
+            ?>
+          </div>
+        <?php endif ?>
       </div>
     <?php endif ?>
     <div class="quote no-pbreak"><?= $this->text ?></div>
