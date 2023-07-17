@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.15 - 2023-07-17
+- Smartgear : Fixing some missing english translation keys
+
 1.0.14 - 2023-07-06
 - FormDataManager : The function returning the referer page's ID now has the correct return type
 

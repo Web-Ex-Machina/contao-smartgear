@@ -3439,6 +3439,21 @@
 			<source>Migration skipped because Smartgear isn't installed.</source>
 			<target>La mise à jour ne sera pas installée car Smartgear n'est pas installé.</target>
 		</trans-unit>
+
+		<!-- PLACEHOLDER -->
+		<trans-unit id="WEMSG.MIGRATIONS.PLACEHOLDER.name">
+			<source>Smartgear v%s</source>
+			<target>Smartgear v%s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.PLACEHOLDER.description">
+			<source>Update Smartgear to version %s.</source>
+			<target>Met à jour Smartgear vers la version %s.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.PLACEHOLDER.done">
+			<source>Smartgear updated to version %s.</source>
+			<target>Smartgear mis à jour vers la version %s.</target>
+		</trans-unit>
+
 		<!-- V1_0_0/M202203231730 -->
 		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.name">
 			<source>Configures CSS classes</source>
