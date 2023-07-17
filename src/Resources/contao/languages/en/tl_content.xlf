@@ -1,0 +1,1258 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" target-language="en">
+    <body>
+      <trans-unit id="tl_content.playerSRC.1">
+        <source>Here you can add the video/audio file or multiple files if you are using different codecs. If your video file is heavy, use Youtube instead</source>
+      </trans-unit>
+      <trans-unit id="tl_content.size.0">
+        <source>Picture size</source>
+      </trans-unit>
+      <trans-unit id="tl_content.size.1">
+        <source>Set the picture size</source>
+      </trans-unit>
+      <trans-unit id="tl_content.picture_rounded.0">
+        <source>Rounded picture</source>
+      </trans-unit>
+      <trans-unit id="tl_content.picture_rounded.1">
+        <source>Crop the picture as a circle</source>
+      </trans-unit>
+      <trans-unit id="tl_content.force_fullheight.0">
+        <source>Full height</source>
+      </trans-unit>
+      <trans-unit id="tl_content.force_fullheight.1">
+        <source>Tick to force the element to take all screen height</source>
+      </trans-unit>
+      <trans-unit id="tl_content.force_fullwidth.0">
+        <source>Full width</source>
+      </trans-unit>
+      <trans-unit id="tl_content.force_fullwidth.1">
+        <source>Tick to force the element to take all screen width</source>
+      </trans-unit>
+      <trans-unit id="tl_content.block_height.0">
+        <source>Element height</source>
+      </trans-unit>
+      <trans-unit id="tl_content.block_height.1">
+        <source>Set the desired element's height</source>
+      </trans-unit>
+      <trans-unit id="tl_content.content_legend">
+        <source>Content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_legend">
+        <source>Picture</source>
+      </trans-unit>
+      <trans-unit id="tl_content.icon_legend">
+        <source>Icon</source>
+      </trans-unit>
+      <trans-unit id="tl_content.background_legend">
+        <source>Background color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.config_legend">
+        <source>Block settings</source>
+      </trans-unit>
+      <trans-unit id="tl_content.link_legend">
+        <source>Link settings</source>
+      </trans-unit>
+      <trans-unit id="tl_content.content_horizontal.0">
+        <source>Horizontal alignment</source>
+      </trans-unit>
+      <trans-unit id="tl_content.content_vertical.0">
+        <source>Vertical alignment</source>
+      </trans-unit>
+      <trans-unit id="tl_content.default">
+        <source>Default</source>
+      </trans-unit>
+      <trans-unit id="tl_content.content_horizontal.optionCenter">
+        <source>Center</source>
+      </trans-unit>
+      <trans-unit id="tl_content.content_horizontal.optionLeft">
+        <source>Left</source>
+      </trans-unit>
+      <trans-unit id="tl_content.content_horizontal.optionRight">
+        <source>Right</source>
+      </trans-unit>
+      <trans-unit id="tl_content.content_vertical.optionCenter">
+        <source>Center</source>
+      </trans-unit>
+      <trans-unit id="tl_content.content_vertical.optionTop">
+        <source>Top</source>
+      </trans-unit>
+      <trans-unit id="tl_content.content_vertical.optionBottom">
+        <source>Bottom</source>
+      </trans-unit>
+      <trans-unit id="tl_content.overlay_legend">
+        <source>Overlay configuration</source>
+      </trans-unit>
+      <trans-unit id="tl_content.overlay_background.0">
+        <source>Overlay color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.overlay_background.1">
+        <source>Change overlay color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.overlay_opacity.0">
+        <source>Overlay opacity</source>
+      </trans-unit>
+      <trans-unit id="tl_content.overlay_opacity.1">
+        <source>Change overlay opacity</source>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_height.0">
+        <source>Hero's height</source>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_height.custom">
+        <source>Custom</source>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_height.viewport">
+        <source>Viewport's height</source>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_height.content">
+        <source>Content relative</source>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_width.0">
+        <source>Hero's width</source>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_width.default">
+        <source>Default (all available space)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_width.viewport">
+        <source>Viewport's width</source>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_width.container">
+        <source>Viewport's width for the picture, limited to page body width for the content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.hero_width.content">
+        <source>Content relative</source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_opacity.0">
+        <source>Image opacity</source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_opacity.1">
+        <source>Change the picture opacity</source>
+      </trans-unit>
+      <trans-unit id="tl_content.title_modifier.0">
+        <source>Title modifier</source>
+      </trans-unit>
+      <trans-unit id="tl_content.title_modifier.option">
+        <source>Style %s</source>
+      </trans-unit>
+      <trans-unit id="tl_content.advanced_legend">
+        <source>Advanced parameters</source>
+      </trans-unit>
+
+      <trans-unit id="tl_content.alignment.0">
+        <source>alignment</source>
+      </trans-unit>
+      <trans-unit id="tl_content.alignment.1">
+        <source></source>
+      </trans-unit>
+      <trans-unit id="tl_content.alignment.center">
+        <source>center</source>
+      </trans-unit>
+      <trans-unit id="tl_content.alignment.top">
+        <source>top</source>
+      </trans-unit>
+      <trans-unit id="tl_content.alignment.bottom">
+        <source>bottom</source>
+      </trans-unit>
+      <trans-unit id="tl_content.alignment.left">
+        <source>left</source>
+      </trans-unit>
+      <trans-unit id="tl_content.alignment.right">
+        <source>right</source>
+      </trans-unit>
+
+      <trans-unit id="tl_content.rsce_modal.0">
+        <source>Popup / Modal</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.1">
+        <source>Generate a popup window</source>
+      </trans-unit>
+
+      <trans-unit id="tl_content.rsce_modal.modal_legend">        
+        <source>Modal parameters</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_title.0">       
+        <source>Title</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_title.1">       
+        <source>Modal title, optional</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.content_type.0">      
+        <source>Content type</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.content_type.1">      
+        <source>Content type to use in the modal</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.content_type.text">   
+        <source>Text</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.content_type.picture">
+        <source>Image</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.content_type.article">
+        <source>Article</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.content_type.form">   
+        <source>Form</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.content_type.module"> 
+        <source>Module</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.content_type.html">   
+        <source>HTML</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_legend">      
+        <source>Triggering</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_type.0">      
+        <source>Trigger type</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_type.1">      
+        <source>Select how the modal opens</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_type.button"> 
+        <source>Button</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_type.link">   
+        <source>Link</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_type.onload"> 
+        <source>Open on page load</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_type.custom"> 
+        <source>custom-script</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_css.0">       
+        <source>Additional css class(es)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_css.1">       
+        <source>If desired, add css classes to the element</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_custom.0">    
+        <source>custom-script</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.trigger_custom.1">    
+        <source>Use this field to program a custom script</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_name.0">        
+        <source>Last name</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_name.1">        
+        <source>Modal name, optional. Used to identify the modal in a custom script</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_autoload.0">    
+        <source>Preload</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_autoload.1">    
+        <source>Check to load modal content in background</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_autodestroy.0"> 
+        <source>Self destruct</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_autodestroy.1"> 
+        <source>Check to destroy the modal when closing it</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_refresh.0">     
+        <source>Refresh button</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_modal.modal_refresh.1">     
+        <source>Check to add a button to refresh the content of the modal</source>
+      </trans-unit>
+
+      <trans-unit id="tl_content.rsce_accordion.0">
+        <source>Accordion (alone)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.1">
+        <source>Generate an accordion and configure its elements</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.config_legend">
+        <source>Accordion configuration</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.deploy_all.0">
+        <source>Deploy all</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.deploy_all.1">
+        <source>Tick to automatically deploy all elements</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.disable_collapse.0">
+        <source>Disable deploy/collapse</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.disable_collapse.1">
+        <source>Tick to disable deploy/collapse actions (automatically deploy all elements)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.auto_collapse.0">
+        <source>Auto collapse</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.auto_collapse.1">
+        <source>Tick to automatically collapse other elements when one is deployed</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.items_legend.0">
+        <source>Elements</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.items_legend.1">
+        <source>Edit elements</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.item_legend">
+        <source>%s. element</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.content.0">
+        <source>Content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.content.1">
+        <source>Type the element's text content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.lock.0">
+        <source>Lock</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.lock.1">
+        <source>Tick to make the element always visible (disable deploy/collapse actions)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.active.0">
+        <source>Active</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_accordion.active.1">
+        <source>Tick to make the element automatically deployed on page load</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.0">
+        <source>Animated counter</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.1">
+        <source>Generate an animated counter</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.config_legend">
+        <source>Counter configuration</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.startVal.0">
+        <source>Start value</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.startVal.1">
+        <source>Define the counter' start value</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.endVal.0">
+        <source>End value</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.endVal.1">
+        <source>Define the counter's end value</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.decimals.0">
+        <source>Decimal numbers</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.decimals.1">
+        <source>Definez the number of decimals for the counter (0 by default)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.duration.0">
+        <source>Duration</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.duration.1">
+        <source>Define animation duration in seconds (2 by default)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.delay.0">
+        <source>Delay</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.delay.1">
+        <source>Define a delay before the counter animation starts in seconds (0 by default)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.unit.0">
+        <source>Unit</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.unit.1">
+        <source>Define the unit which will be display aside the counter (example: m²)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.label.0">
+        <source>Label</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.label.1">
+        <source>Define a short text which will be displayed under the counter</source>
+      </trans-unit>
+  
+      <trans-unit id="tl_content.rsce_hero.0">
+        <source>Hero (alone)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_hero.1">
+        <source>Generate an element composed of a text over an image</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_hero.content_legend">
+        <source>Content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_hero.link_css.0">
+        <source>Link's CSS classes</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_hero.link_css.1">
+        <source>Type one or more CSS classes to add to the link (separated by space)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_hero_start.0">
+        <source>Hero - Start</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_hero_start.1">
+        <source>Generate an element composed of a text over an image</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_hero_stop.0">
+        <source>Hero - End</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_hero_stop.1">
+        <source>Generate an element composed of a text over an image</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listlogos.0">
+        <source>Logos gallery</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listlogos.1">
+        <source>Generate a gallery dedicated to display logos</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listlogos.items_legend.0">
+        <source>Logos</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listlogos.items_legend.1">
+        <source>Edit logos</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.0">
+        <source>Icons list</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.1">
+        <source>Generate an icons list paired with text</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.icon_type.0">
+        <source>Image type</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.icon_type.1">
+        <source>Choose the type of image to display in the block</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.icon_type.image">
+        <source>Image</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.icon_type.icon">
+        <source>Icon</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.items_legend.0">
+        <source>Thumbnails</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.items_legend.1">
+        <source>Edit thumbnails</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.item_legend">
+        <source>%s. thumbnail</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.icon_html.0">
+        <source>font-awesome icon</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.icon_html.1">
+        <source>aaa</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.text.0">
+        <source>Text</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.image_background.0">
+        <source>Background color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.image_background.1">
+        <source>If desired, define a background color for the icon</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.text.1">
+        <source>Type the text to be displayed under the icon</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.classes.0">
+        <source>Additionnal classes</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_listicons.classes.1">
+        <source>If desired, add one or more CSS classes to the item</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_ratings.0">
+        <source>Notes</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_ratings.1">
+        <source>Generate a star rating list</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_ratings.note_max.0">
+        <source>Maximal note</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_ratings.note_max.1">
+        <source>Define the highest rating possible</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_ratings.ratings.0">
+        <source>Ratings</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_ratings.ratings.1">
+        <source>Edit the ratings</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_ratings.label.0">
+        <source>Label</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_ratings.label.1">
+        <source>Type the rating's label</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_ratings.note.0">
+        <source>Note</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_ratings.note.1">
+        <source>Type the rating</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_ratings.text.0">
+        <source>Additionnal text</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_ratings.text.1">
+        <source>Type a short text to be displayed after the rating</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewer.0">
+        <source>PDF Viewer</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewer.1">
+        <source>PDF Viewer block</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewer.source.0">
+        <source>PDF file</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewer.source.1">
+        <source>Select the PDF file to display</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewer.downloadable.0">
+        <source>File can be downloaded</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewer.downloadable.1">
+        <source>Define if the file can be downloaded</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewer.player_ratio.0">
+        <source>Display ratio</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewer.player_ratio.1">
+        <source>Define a display ratio for the player (responsive)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewer.center.0">
+        <source>Center the player</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pdfviewer.center.1">
+        <source>Center the player in the page (work only if a width as been defined)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.0">
+        <source>Price cards</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.1">
+        <source>Generate a list of price cards</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.amount_position.0">
+        <source>Price position</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.amount_position.1">
+        <source>Define the price tag position in blocks</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.amount_position.before">
+        <source>Before content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.amount_position.after">
+        <source>After content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.content_mode.0">
+        <source>Content type</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.content_mode.1">
+        <source>Choose the type of content displayed in the block</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.content_mode.lines">
+        <source>List</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.content_mode.text">
+        <source>Text</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.bg_color_default.0">
+        <source>Default background</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.bg_color_default.1">
+        <source>Define a background color for all blocks in the list</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.font_color_default.0">
+        <source>Default font color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.font_color_default.1">
+        <source>Define a font color for all blocks in the list</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.list_items.0">
+        <source>Price Cards</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.list_items.1">
+        <source>Edit cards</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.list_item">
+        <source>%s. price card</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.price_legend">
+        <source>Price</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.amount.0">
+        <source>Price</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.amount.1">
+        <source>Type the price/amount</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.currency.0">
+        <source>Currency</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.currency.1">
+        <source>Type the currency/unit (€,$,£,...)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.period.0">
+        <source>Periodicity</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.period.1">
+        <source>Type the periodicity (by month, day, ...)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.content_legend">
+        <source>Content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.lines.0">
+        <source>Lines</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.lines.1">
+        <source>Add multiple content lines (html authorized)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.cta_classes.0">
+        <source>Additionnal classes</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.cta_classes.1">
+        <source>If desired, add one or more CSS classes to the button</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.style_legend">
+        <source>Appearance</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.bg_color.0">
+        <source>Background</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.bg_color.1">
+        <source>Define a background color for this block alone</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.font_color.0">
+        <source>Font color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.font_color.1">
+        <source>Define a font color for this block alone</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.isMain.0">
+        <source>Is main</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.isMain.1">
+        <source>Set the block as a main block</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.isMain_text.0">
+        <source>Text label</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.isMain_text.1">
+        <source>If filled, add a very noticeable label, making this bloc stand out from the others </source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.isMain_classes.0">
+        <source>Additional classes</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_pricecards.isMain_classes.1">
+        <source>Add css classes to the label</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.0">
+        <source>Quote</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.1">
+        <source>Generate a quote block, with or without picture</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.image_pos.0">
+        <source>Position</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.image_pos.1">
+        <source>Choose the picture position (on the left/right side of the quote)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.author.0">
+        <source>Author</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.author.1">
+        <source>If desired, enter the quote's author</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.0">
+        <source>Slider (alone)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.1">
+        <source>Generate a slider and configure your pictures</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.config_label">
+        <source>Slider configuration</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.height.0">
+        <source>Slider height</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.height.1">
+        <source>Configure the slider height. Default height is relative to the slider content.</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.itemsPerRow.0">
+        <source>Items per row</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.itemsPerRow.1">
+        <source>Indicate the number of objects to display per slide</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.autoplay.0">
+        <source>Autoplay</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.autoplay.1">
+        <source>Check to make the slider plays automatically</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.loop.0">
+        <source>Loop</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.loop.1">
+        <source>Check to make the slider start over when finished</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.transition.0">
+        <source>Transition</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.transition.1">
+        <source>Choose the desired transition type between slides</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.transition.optionTranslate">
+        <source>Translation</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.transition.optionFade">
+        <source>Fading</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.transition.optionNone">
+        <source>None</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.transition_duration.0">
+        <source>Transition duration</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.transition_duration.1">
+        <source>Set the execution time of the transitions (ms)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.transition_delay.0">
+        <source>Transition delay</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.transition_delay.1">
+        <source>Set the time interval between each transition (ms)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.config_nav_legend">
+        <source>Navigation configuration</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.nav_display.0">
+        <source>Nav display</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.nav_display.1">
+        <source></source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.nav_display.default">
+        <source>Default</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.nav_display.below">
+        <source>Below</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.nav_display.hidden">
+        <source>Hidden</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.nav_arrows.0">
+        <source>Use arrows to navigate</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.nav_arrows.1">
+        <source>Check to activate navigation throught arrows (disable classic navigation)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.swipe.0">
+        <source>Enable swipe</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.swipe.1">
+        <source>Check to enable navigation throught swipe</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.keypress.0">
+        <source>Enable keyboard navigation</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.keypress.1">
+        <source>Check to enable navigation throught keyboard</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.items_legend.0">
+        <source>Slides</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.items_legend.1">
+        <source>Edit the slides</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.item_legend">
+        <source>%s. slide</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.img_src.0">
+        <source>Background</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.img_src.1">
+        <source>Insert thhe background image for this item</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.content.0">
+        <source>Content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.content.1">
+        <source>Type the slide's textual content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.content_fontcolor.0">
+        <source>Font color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.content_fontcolor.1">
+        <source>If needed, adjust the text font color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.link_classes.0">
+        <source>Link's CSS classes</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_slider.link_classes.1">
+        <source>Type one or more CSS classes to add to the link (separated by space)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_tabs.0">
+        <source>Tabs</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_tabs.1">
+        <source>Generate a group of deployable tabs</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_tabs.items_legend.0">
+        <source>Tabs</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_tabs.items_legend.1">
+        <source>Edit tabs</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_tabs.item_legend">
+        <source>%s. Tab</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_tabs.content.0">
+        <source>Content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_tabs.content.1">
+        <source>Type the tab's textual content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.0">
+        <source>Testimonials</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.1">
+        <source>Generate a slider to show testimonials/quotes</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.config_legend">
+        <source>Slider configuration</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_height.0">
+        <source>Slider height</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_height.1">
+        <source>Set the slider's heigth</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_autoplay.0">
+        <source>Autoplay</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_autoplay.1">
+        <source>Check to make the contents slide automatically</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slider_loop.0">
+        <source>Loop</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slider_loop.1">
+        <source>Tick to make content loop</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.config_nav_legend">
+        <source>Navigation configuration</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.nav_arrows.0">
+        <source>Navigation throught arrows</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.nav_arrows.1">
+        <source>Tick to replace navigation by lateral arrows</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.items_legend.0">
+        <source>Testimonials</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.items_legend.1">
+        <source>Edit testimonials</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.item_legend">
+        <source>%s. testimonials</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_img_src.0">
+        <source>Background</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_img_src.1">
+        <source>Insert a background image for this element</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_content.0">
+        <source>Testimonial</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_content.1">
+        <source>Type this element's text</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_author.0">
+        <source>Author</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.slide_author.1">
+        <source>Type the element's author</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.author_classes.0">
+        <source>Additionnal author CSS classes</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_testimonials.author_classes.1">
+        <source>If desired, add one or more CSS classes to add to the author's block</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.0">
+        <source>Timeline</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.1">
+        <source>Generate a timeline</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.timeline_style.0">
+        <source>Style</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.timeline_style.1">
+        <source>Choose a style to apply to the timeline</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.timeline_style.optionDefault">
+        <source>By default</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.timeline_style.optionCondensed">
+        <source>Condensed</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.timeline_color.0">
+        <source>Timeline color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.timeline_color.1">
+        <source>Change the timeline's color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.title_color.0">
+        <source>Titles color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.title_color.1">
+        <source>Change the titles and years colors</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.image.0">
+        <source>Picture</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.image.1">
+        <source>Insert an image to illustrate your timeline</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.imageCrop.0">
+        <source>Resizing</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.imageCrop.1">
+        <source>If desired, adjust your illustration</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.imagePos.0">
+        <source>Position</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.imagePos.1">
+        <source>Select the illustration position, on the timeline's right or left</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.items_legend.0">
+        <source>Items</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.items_legend.1">
+        <source>Edit your timeline's items</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.item_legend">
+        <source>%s. item</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.item_year.0">
+        <source>Year</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.item_year.1">
+        <source>Type the year to display</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.item_headline.0">
+        <source>Title</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.item_headline.1">
+        <source>If desired, type a title for this date</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.item_text.0">
+        <source>Content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_timeline.item_text.1">
+        <source>Type the text to display for this date</source>
+      </trans-unit>
+
+      <trans-unit id="tl_content.rsce_blockcard.0">
+        <source>Block Card</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.1">
+        <source>Generate a conten block composed of a text and an image</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.content_order.0">
+        <source>Display order</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.content_order.1">
+        <source>Adjust contents' display order</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.content_order.optionImg_first">
+        <source>Image > Text</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.content_order.optionTxt_first">
+        <source>Text > Image</source>
+      </trans-unit>
+
+      <trans-unit id="tl_content.rsce_blockcard.addRadius.0">
+        <source>Rounded borders</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.addRadius.1">
+        <source>Check to make rounded borders</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.preset.0">
+        <source>Preset</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.preset.1">
+        <source>Select a predefined and peculiar style for the block</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.preset.optionLight">
+        <source>Light</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.preset.optionThumbnail">
+        <source>Thumbnail</source>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_blockcard.preset.optionInline">
+        <source>Inline</source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_legend">
+        <source>Image</source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_css.0">
+        <source>Image CSS class(es)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_css.1">
+        <source>CSS class(es) to add to the image</source>
+      </trans-unit>
+      <trans-unit id="tl_content.content_legend">
+        <source>Content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.title_css.0">
+        <source>Title CSS class(es)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.title_css.1">
+        <source>CSS class(es) to add to the title</source>
+      </trans-unit>
+      <trans-unit id="tl_content.text_css.0">
+        <source>Text CSS class(es)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.text_css.1">
+        <source>CSS class(es) to add to the text</source>
+      </trans-unit>
+      <trans-unit id="tl_content.link_css.0">
+        <source>Link CSS class(es)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.link_css.1">
+        <source>CSS class(es) to add to the link</source>
+      </trans-unit>
+      <trans-unit id="tl_content.link_legend">
+        <source>Link</source>
+      </trans-unit>
+      <trans-unit id="tl_content.link_mode.0">
+        <source>Mode</source>
+      </trans-unit>
+      <trans-unit id="tl_content.link_mode.1">
+        <source>Change the link's display mode</source>
+      </trans-unit>
+      <trans-unit id="tl_content.link_mode.optionWrapper">
+        <source>Wrapper</source>
+      </trans-unit>
+      <trans-unit id="tl_content.link_mode.optionBtn">
+        <source>Button</source>
+      </trans-unit>
+      <trans-unit id="tl_content.link_mode.optionLink">
+        <source>Text link</source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_ratio.0">
+        <source>Picture ratio</source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_ratio.1">
+        <source>Change the picture displayed ratio</source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_align_horizontal.0">
+        <source>Picture horizontal alignment</source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_align_horizontal.1">
+        <source></source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_align_vertical.0">
+        <source>Picture vertical alignment</source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_align_vertical.1">
+        <source></source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_displaymode.0">
+        <source>Display mode</source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_displaymode.1">
+        <source>Change the way the picture will be displayed in the block</source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_displaymode.cover">
+        <source>Automatic filling</source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_displaymode.contain">
+        <source>Adjusted fit</source>
+      </trans-unit>
+      <trans-unit id="tl_content.image_displaymode.natural">
+        <source>Natural</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.0">
+        <source>Header</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.1">
+        <source>Configure a header for the site (logo, navigation, contact, etc.)</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.header_alt.0">
+        <source>Alt logo text</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.header_alt.1">
+        <source>Text to display if the logo is not displayable</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_catchline.0">
+        <source>Add catchline</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_catchline.1">
+        <source>Add free content displayed beside the logo</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.catchline.0">
+        <source>Catchline</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.catchline.1">
+        <source>Catchline content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.catchline_position.optionSide">
+        <source>Beside logo</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.catchline_position.optionBelow">
+        <source>Below logo</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_module.0">
+        <source>Navigation</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_module.1">
+        <source>Choose the module used for navigation</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_module.optionDefault">
+        <source>Default</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_module.optionModule">
+        <source>Custom module</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_custom_module.0">
+        <source>Custom nav module</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_custom_module.1">
+        <source>Choose the module used for navigation</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_position.0">
+        <source>Nav position</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.nav_position.1">
+        <source>Choose nav's position</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.sticky.0">
+        <source>Sticky header</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.sticky.1">
+        <source>If checked, the header will stay fixed on top of the page while scrolling</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_search.0">
+        <source>Add search field</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_search.1">
+        <source>Add a search field to the far end of the navigation</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.search_page.0">
+        <source>Search engine page</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.search_page.1">
+        <source>Select the page where to redirect the user on submit</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.search_bg.0">
+        <source>Background color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.search_bg.1">
+        <source>Select the search block background color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.search_parameter.0">
+        <source>GET argument name</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.search_parameter.1">
+        <source>Define the name of the argument used by the search engine</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_lang_selector.0">
+        <source>Add lang selector</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_lang_selector.1">
+        <source>Add a lang selector to the far end of the navigation</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.lang_selector_module.0">
+        <source>Lang selector module</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.lang_selector_module.1">
+        <source>Select the lang selector module</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.lang_selector_bg.0">
+        <source>Background color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.lang_selector_bg.1">
+        <source>Select the langage block background color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_topbar.0">
+        <source>Add top bar</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_topbar.1">
+        <source>Add free content displayed in a bar placed on top of the header</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.topbar.0">
+        <source>Top bar</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.topbar.1">
+        <source>Top bar content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.topbar_bg.0">
+        <source>Background color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.topbar_bg.1">
+        <source>Select the topbar background color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_postnav_content.0">
+        <source>Add post nav content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.add_postnav_content.1">
+        <source>Add free content displayed at the far end of the navigation</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.postnav_content.0">
+        <source>Post nav content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.postnav_content.1">
+        <source>Post nav content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.panel_position.0">
+        <source>Reponsive panel position</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.panel_position.1">
+        <source>Defines the side on which the mobile navigation will be displayed</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.width.0">
+        <source>Width</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.width.1">
+        <source>Choose the header's width</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.width.optionFullsize">
+        <source>Viewport width</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.width.optionContainer">
+        <source>Page body width</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.background.0">
+        <source>Background color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.background.1">
+        <source>Change the header's background color</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.bottom_style.0">
+        <source>Demarcation style</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.bottom_style.1">
+        <source>Choose the appearance of the demarcation between header and page content</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.bottom_style.optionShadow">
+        <source>Shadow</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.bottom_style.optionBorder">
+        <source>Border</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.hover_style.0">
+        <source>Hovering style</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.hover_style.1">
+        <source>Choose the appearance of the hover effect on menu items</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.hover_style.optionUnderline">
+        <source>Underline</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header.hover_style.optionBackground">
+        <source>Background</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
