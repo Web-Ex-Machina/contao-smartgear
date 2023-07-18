@@ -1,5 +1,4 @@
 services:
-
     # smartgear.backend.backupservice:
     #     class: WEM\SmartgearBundle\Backup\BackupService
     #     arguments:
@@ -358,6 +357,7 @@ services:
                 - '@smartgear.migrations.v1_0_13.m202306271601.migration'
                 - '@smartgear.migrations.v1_0_14.m202307061615.migration'
                 - '@smartgear.migrations.v1_0_15.m202307171545.migration'
+                - '@smartgear.migrations.v1_0_16.m202307181107.migration'
         public: true
 
     smartgear.model.backup:

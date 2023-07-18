@@ -1,6 +1,10 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.16 - 2023-07-18
+- RSCE : Fixing `rsce_hero_config` using translation keys not yet defined when loaded
+- RSCE : Fixing `rsce_slider_config` using translation keys not yet defined when loaded
+
 1.0.15 - 2023-07-17
 - Smartgear : Fixing some missing english translation keys
 
