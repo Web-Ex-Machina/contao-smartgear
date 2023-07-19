@@ -77,7 +77,7 @@ return [
         ),
         'singleSRC' => array(
             'inputType' => 'standardField',
-            'eval' => array('mandatory'=>false,'extensions'=>Config::get('validImageTypes'), 'tl_class'=>'clr'),
+            'eval' => array('mandatory'=>false,'extensions'=>\Contao\Config::get('validImageTypes'), 'tl_class'=>'clr'),
             'dependsOn' => array(
                 'field' => 'content_type', 
                 'value' => 'picture',      

@@ -27,7 +27,7 @@ return [
                     'inputType' => 'fileTree',
                     'eval' => ['filesOnly' => true,
                         'fieldType' => 'radio',
-                        'extensions' => Config::get('validImageTypes'), ],
+                        'extensions' => \Contao\Config::get('validImageTypes'), ],
                 ],
                 'img_size' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['size'],
@@ -89,7 +89,7 @@ return [
                 'overlay_background' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['overlay_background'],
                     'inputType' => 'select',
-                    'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
+                    'options_callback' => function () {return \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(); },
                     'eval' => ['tl_class' => 'w50 clr', 'includeBlankOption' => true],
                 ],
                 'overlay_opacity' => [
@@ -133,12 +133,12 @@ return [
                 'title_modifier' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['title_modifier'],
                     'inputType' => 'select',
-                    'options' => [
+                    'options_callback' => function(){return [
                         'title--1' => !$GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'] ? '1' : sprintf($GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'], '1'),
                         'title--2' => !$GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'] ? '2' : sprintf($GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'], '2'),
                         'title--3' => !$GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'] ? '3' : sprintf($GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'], '3'),
                         'title--4' => !$GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'] ? '4' : sprintf($GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'], '4'),
-                    ],
+                    ];},
                     'eval' => ['tl_class' => 'w50', 'mandatory' => false, 'includeBlankOption' => true],
                 ],
                 'content' => [
@@ -169,7 +169,7 @@ return [
                 'content_fontcolor' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_slider']['content_fontcolor'],
                     'inputType' => 'select',
-                    'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
+                    'options_callback' => function () {return \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(); },
                     'eval' => ['tl_class' => 'w50 clr', 'includeBlankOption' => true],
                 ],
 

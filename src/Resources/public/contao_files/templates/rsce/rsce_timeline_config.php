@@ -48,12 +48,12 @@ return [
         'image' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['image'],
             'inputType' => 'fileTree',
-            'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => Config::get('validImageTypes')],
+            'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => \Contao\Config::get('validImageTypes')],
         ],
         'imageCrop' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['imageCrop'],
             'inputType' => 'imageSize',
-            'options' => System::getImageSizes(),
+            'options' => \Contao\System::getImageSizes(),
             'reference' => &$GLOBALS['TL_LANG']['MSC'],
             'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50'],
         ],

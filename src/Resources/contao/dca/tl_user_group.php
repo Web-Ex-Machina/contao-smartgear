@@ -21,7 +21,7 @@ DCAManipulator::create('tl_user_group')
         'exclude' => true,
         'inputType' => 'checkbox',
         'eval' => ['multiple' => true, 'helpwizard' => true],
-        'options' => [
+        'options_callback' => function(){return [
             $GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['optGroup'] => [
                 // SmartgearPermissions::CORE_SIMPLE => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['simple'],
                 SmartgearPermissions::CORE_EXPERT => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['expert'],
@@ -38,7 +38,7 @@ DCAManipulator::create('tl_user_group')
                 // SmartgearPermissions::BLOG_SIMPLE => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['BLOG']['simple'],
                 SmartgearPermissions::SOCIALLINK_EXPERT => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['SOCIALLINK']['expert'],
             ],
-        ],
+        ];},
         'sql' => ['type' => 'blob', 'notnull' => false],
         'explanation' => 'smartgear_permissions',
     ])

@@ -13,19 +13,19 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => [$GLOBALS['TL_LANG']['tl_content']['rsce_pricecard'][0], $GLOBALS['TL_LANG']['tl_content']['rsce_pricecard'][1]],
+    'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_pricecard'][0], &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecard'][1]],
     'contentCategory' => 'miscellaneous',
     'standardFields' => ['cssID'],
     'fields' => [
-        'title' => array(
+        'title' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['headline'],
             'inputType' => 'text',
-            'eval' => array('mandatory'=>false,'allowHtml'=>true)
-        ),
-        'content_legend' => array(
+            'eval' => ['mandatory' => false, 'allowHtml' => true],
+        ],
+        'content_legend' => [
             'label' => [&$GLOBALS['TL_LANG']['tl_content']['content_legend']],
-            'inputType' => 'group'
-        ),
+            'inputType' => 'group',
+        ],
         'text' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['text'],
             'inputType' => 'textarea',
@@ -34,7 +34,7 @@ return [
         'text_classes' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecard']['text_classes'],
             'inputType' => 'text',
-            'eval' => array('tl_class'=>'w50 clr'),
+            'eval' => ['tl_class' => 'w50 clr'],
         ],
         'lines' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecard']['lines'],
@@ -43,19 +43,19 @@ return [
                 'text' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecard']['lines_text'],
                     'inputType' => 'text',
-                    'eval' => ['tl_class' => '', 'mandatory' => false, 'allowHtml'=>true],
+                    'eval' => ['tl_class' => '', 'mandatory' => false, 'allowHtml' => true],
                 ],
                 'icon' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecard']['lines_icon'],
                     'inputType' => 'text',
-                    'eval' => ['tl_class' => 'w50', 'mandatory' => false, 'allowHtml'=>true],
+                    'eval' => ['tl_class' => 'w50', 'mandatory' => false, 'allowHtml' => true],
                 ],
                 'tooltip' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecard']['lines_tooltip'],
                     'inputType' => 'text',
-                    'eval' => ['tl_class' => 'w50', 'mandatory' => false, 'allowHtml'=>true],
+                    'eval' => ['tl_class' => 'w50', 'mandatory' => false, 'allowHtml' => true],
                 ],
-            ]
+            ],
         ],
         'icon_location' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecard']['icon_location'],
@@ -70,9 +70,9 @@ return [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecard']['lines_alignment'],
             'inputType' => 'select',
             'options' => [
-                ''                               => &$GLOBALS['TL_LANG']['tl_content']['alignment']['left'],
+                '' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['left'],
                 'm-left-auto m-right-auto w-fit' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['center'],
-                'm-left-auto w-fit'              => &$GLOBALS['TL_LANG']['tl_content']['alignment']['right'],
+                'm-left-auto w-fit' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['right'],
             ],
             'eval' => ['tl_class' => 'w50'],
         ],
@@ -132,28 +132,28 @@ return [
         'color' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['dominant_color'],
             'inputType' => 'select',
-            'options' => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(),
-            'eval' => ['tl_class'=>'w50','includeBlankOption'=>true]
+            'options_callback' => function () {return \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(); },
+            'eval' => ['tl_class' => 'w50', 'includeBlankOption' => true],
         ],
         'bg_title' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecard']['bg_title'],
             'inputType' => 'checkbox',
-            'eval' => ['tl_class'=>'w50 clr']
+            'eval' => ['tl_class' => 'w50 clr'],
         ],
         'bordered' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecard']['bordered'],
             'inputType' => 'checkbox',
-            'eval' => ['tl_class'=>'w50 clr']
+            'eval' => ['tl_class' => 'w50 clr'],
         ],
         'bordered_on_hover' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecard']['bordered_on_hover'],
             'inputType' => 'checkbox',
-            'eval' => ['tl_class'=>'w50 clr']
+            'eval' => ['tl_class' => 'w50 clr'],
         ],
         'dropshadow' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecard']['dropshadow'],
             'inputType' => 'checkbox',
-            'eval' => ['tl_class'=>'w50 clr']
+            'eval' => ['tl_class' => 'w50 clr'],
         ],
     ],
 ];
