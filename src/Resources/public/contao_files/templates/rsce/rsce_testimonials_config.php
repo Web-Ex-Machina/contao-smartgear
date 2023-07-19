@@ -35,10 +35,10 @@ return [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['items_legend'], 'elementLabel' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['item_legend'], 'inputType' => 'list', 'fields' => [
                 // Background
                 'slide_img_src' => [
-                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['slide_img_src'], 'inputType' => 'fileTree', 'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => Config::get('validImageTypes')],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['slide_img_src'], 'inputType' => 'fileTree', 'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => \Contao\Config::get('validImageTypes')],
                 ], 'slide_img_size' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['size'], 'inputType' => 'imageSize', 'reference' => &$GLOBALS['TL_LANG']['MSC'], 'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50 clr'], 'options_callback' => function () {
-                        return System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance());
+                        return \Contao\System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(\Contao\BackendUser::getInstance());
                     },
                 ], 'slide_img_alt' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['alt'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],

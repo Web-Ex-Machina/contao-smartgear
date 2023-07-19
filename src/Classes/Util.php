@@ -152,11 +152,11 @@ class Util
                     }
                     $colors = [
                         $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['meaningfulLabel'] => [
-                            'ft-primary' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['primary'],
-                            'ft-secondary' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['secondary'],
-                            'ft-success' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['success'],
-                            'ft-error' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['error'],
-                            'ft-warning' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['warning'],
+                            'ft-primary' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['primary'],
+                            'ft-secondary' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['secondary'],
+                            'ft-success' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['success'],
+                            'ft-error' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['error'],
+                            'ft-warning' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['warning'],
                         ],
                         $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['rawLabel'] => $colors,
                     ];
@@ -172,11 +172,11 @@ class Util
                     }
                     $colors = [
                         $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['meaningfulLabel'] => [
-                            'primary' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['primary'],
-                            'secondary' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['secondary'],
-                            'success' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['success'],
-                            'error' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['error'],
-                            'warning' => $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['warning'],
+                            'primary' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['primary'],
+                            'secondary' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['secondary'],
+                            'success' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['success'],
+                            'error' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['error'],
+                            'warning' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['warning'],
                         ],
                         $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['rawLabel'] => $colors,
                     ];
