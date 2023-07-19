@@ -858,6 +858,46 @@
         <source>Generate a quote block, with or without picture</source>
         <target>Générez un block citation, avec ou sans photo</target>
       </trans-unit>
+      <trans-unit id="tl_content.rsce_quoteWrating.0">
+        <source>Quote w/ rating </source>
+        <target>Citation w/ note</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quoteWrating.1">
+        <source>Generate a block quote, with notation</source>
+        <target>Générer un bloc citation, avec une notation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.rating.0">
+        <source>Rating </source>
+        <target>Note</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.rating.1">
+        <source>Indicate a rating out of 5</source>
+        <target>Indiquez une note sur 5</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.rating_max.0">
+        <source>Max rating </source>
+        <target>Note maximale</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.rating_max.1">
+        <source>Define a maximum rating (default 5)</source>
+        <target>Définissez la note maximale (par défaut 5)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.display_numbers.0">
+        <source>Display numbers </source>
+        <target>Afficher nombres</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.display_numbers.1">
+        <source>Display rating in numeric format</source>
+        <target>Afficher la note sous forme numérique</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.display_stars.0">
+        <source>Display stars </source>
+        <target>Afficher étoiles</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.display_stars.1">
+        <source>Display rating with star icons</source>
+        <target>Afficher la note sous forme d'étoiles</target>
+      </trans-unit>
       <trans-unit id="tl_content.rsce_quote.image_pos.0">
         <source>Position</source>
         <target>Positionnement</target>
@@ -873,6 +913,14 @@
       <trans-unit id="tl_content.rsce_quote.author.1">
         <source>If desired, enter the quote's author</source>
         <target>Si souhaité, indiquez l'auteur de la citation</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.author_position.0">
+        <source>Author position</source>
+        <target>Fonction auteur</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_quote.author_position.1">
+        <source>If desired, indicate the function the author of the quote</source>
+        <target>Si souhaité, indiquez la fonction de l'auteur de la citation</target>
       </trans-unit>
       <trans-unit id="tl_content.rsce_slider.0">
         <source>Slider (alone)</source>
