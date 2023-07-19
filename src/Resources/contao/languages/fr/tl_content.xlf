@@ -45,6 +45,14 @@
         <source>Set the desired element's height</source>
         <target>Indiquez la hauteur voulue de l'élément</target>
       </trans-unit>
+      <trans-unit id="tl_content.dominant_color.0">
+        <source>Main color</source>
+        <target>Couleur dominante</target>
+      </trans-unit>
+      <trans-unit id="tl_content.dominant_color.1">
+        <source>If desired, specify a color used to customize various elements of the block</source>
+        <target>Si souhaité, indiquez une couleur utilisée pour personnaliser divers éléments du bloc</target>
+      </trans-unit>
       <trans-unit id="tl_content.content_legend">
         <source>Content</source>
         <target>Contenu</target>
@@ -481,6 +489,38 @@
         <source>Define a short text which will be displayed under the counter</source>
         <target>Définissez un court texte qui sera affiché en dessous du compteur</target>
       </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.prefix.0">
+        <source>Prefix</source>
+        <target>Prefixe</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.prefix.1">
+        <source>Indicate a prefix to be displayed next to the counter (example: +)</source>
+        <target>Indiquez un prefixe à afficher à côté du compteur (exemple: +)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.decimal.0">
+        <source>Decimal's symbol</source>
+        <target>Symbole décimales</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.decimal.1">
+        <source>Set the decimal separator symbol ( . by default)</source>
+        <target>Définissez le symbole de séparation des décimales ( . par défaut)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.separator.0">
+        <source>Separator</source>
+        <target>Séparateur milliers</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.separator.1">
+        <source>Check to display a thousands separator space</source>
+        <target>Cochez pour afficher un espace de séparation des milliers</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.icon.0">
+        <source>Icon</source>
+        <target>Icone</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rsce_counter.icon.1">
+        <source>Define a short text which will be displayed under the counter</source>
+        <target>Indiquez si souhaité le &lt;b&gt;code html&lt;/b&gt; d'une icone &lt;a style=&quot;text-decoration: underline&quot; href=&quot;https://fontawesome.com/search&quot; target=&quot;_blank&quot;&gt;Font Awesome&lt;/a&gt; à placer au dessus du compteur</target>
+      </trans-unit>      
   
       <trans-unit id="tl_content.rsce_hero.0">
         <source>Hero (alone)</source>
