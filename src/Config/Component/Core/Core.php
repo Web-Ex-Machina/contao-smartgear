@@ -166,6 +166,10 @@ class Core implements ConfigModuleInterface
     protected $sgEncryptionKey = self::DEFAULT_ENCRYPTION_KEY;
     /** @var string */
     protected $sgAirtableApiKey = '';
+    /** @var string */
+    protected $sgAirtableApiKeyForRead = '';
+    /** @var string */
+    protected $sgAirtableApiKeyForWrite = '';
     /** @var BlogConfig */
     protected $sgBlog;
     /** @var EventsConfig */
@@ -235,6 +239,8 @@ class Core implements ConfigModuleInterface
             ->setSgApiKey(self::DEFAULT_API_KEY)
             ->setSgEncryptionKey(self::DEFAULT_ENCRYPTION_KEY)
             ->setSgAirtableApiKey('')
+            ->setSgAirtableApiKeyForRead('')
+            ->setSgAirtableApiKeyForWrite('')
             ->setSgBlog((new BlogConfig())->reset())
             ->setSgEvents((new EventsConfig())->reset())
             ->setSgFaq((new FaqConfig())->reset())
@@ -302,6 +308,8 @@ class Core implements ConfigModuleInterface
             ->setSgApiKey($json->api->key ?? self::DEFAULT_API_KEY)
             ->setSgEncryptionKey($json->encryption->key ?? self::DEFAULT_ENCRYPTION_KEY)
             ->setSgAirtableApiKey($json->airtable->api->key ?? '')
+            ->setSgAirtableApiKeyForRead($json->airtable->api->key_read ?? '')
+            ->setSgAirtableApiKeyForWrite($json->airtable->api->key_write ?? '')
             ->setSgBlog(
                 property_exists($json, 'blog')
                 ? (new BlogConfig())->import($json->blog)
@@ -426,6 +434,8 @@ class Core implements ConfigModuleInterface
         $json->airtable = new \stdClass();
         $json->airtable->api = new \stdClass();
         $json->airtable->api->key = $this->getSgAirtableApiKey();
+        $json->airtable->api->key_read = $this->getSgAirtableApiKeyForRead();
+        $json->airtable->api->key_write = $this->getSgAirtableApiKeyForWrite();
 
         $json->blog = $this->getSgBlog()->export();
         $json->events = $this->getSgEvents()->export();
@@ -1549,6 +1559,36 @@ class Core implements ConfigModuleInterface
     public function setSgContentSitemapHeadline(?int $sgContentSitemapHeadline): self
     {
         $this->sgContentSitemapHeadline = $sgContentSitemapHeadline;
+
+        return $this;
+    }
+
+    public function getSgAirtableApiKeyForRead()
+    {
+        return $this->sgAirtableApiKeyForRead;
+    }
+
+    /**
+     * @return self
+     */
+    public function setSgAirtableApiKeyForRead(mixed $sgAirtableApiKeyForRead)
+    {
+        $this->sgAirtableApiKeyForRead = $sgAirtableApiKeyForRead;
+
+        return $this;
+    }
+
+    public function getSgAirtableApiKeyForWrite()
+    {
+        return $this->sgAirtableApiKeyForWrite;
+    }
+
+    /**
+     * @return self
+     */
+    public function setSgAirtableApiKeyForWrite(mixed $sgAirtableApiKeyForWrite)
+    {
+        $this->sgAirtableApiKeyForWrite = $sgAirtableApiKeyForWrite;
 
         return $this;
     }

@@ -80,6 +80,8 @@ class General extends ConfigurationStep
         $this->addTextField('sgApiKey', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgApiKey'], $config->getSgApiKey(), false);
         $this->addTextField('sgEncryptionKey', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgEncryptionKey'], $config->getSgEncryptionKey(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgEncryptionKeyHelp']);
         $this->addTextField('sgAirtableApiKey', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKey'], $config->getSgAirtableApiKey(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKey']);
+        $this->addTextField('sgAirtableApiKeyForRead', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKeyForRead'], $config->getSgAirtableApiKeyForRead(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKeyForRead']);
+        $this->addTextField('sgAirtableApiKeyForWrite', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKeyForWrite'], $config->getSgAirtableApiKeyForWrite(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKeyForWrite']);
     }
 
     public function isStepValid(): bool
@@ -120,7 +122,15 @@ class General extends ConfigurationStep
             throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgEncryptionKeyEmpty']);
         }
 
-        if (empty(Input::post('sgAirtableApiKey'))) {
+        if (empty(Input::post('sgAirtableApiKeyForRead')) && empty(Input::post('sgAirtableApiKey'))) {
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKeyForReadEmpty']);
+        }
+
+        if (empty(Input::post('sgAirtableApiKeyForWrite')) && empty(Input::post('sgAirtableApiKey'))) {
+            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKeyForWriteEmpty']);
+        }
+
+        if (empty(Input::post('sgAirtableApiKey')) && empty(Input::post('sgAirtableApiKeyForRead')) && empty(Input::post('sgAirtableApiKeyForWrite'))) {
             throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKeyEmpty']);
         }
 
@@ -163,6 +173,8 @@ class General extends ConfigurationStep
         $config->setSgApiKey(Input::post('sgApiKey'));
         $config->setSgEncryptionKey(Input::post('sgEncryptionKey'));
         $config->setSgAirtableApiKey(Input::post('sgAirtableApiKey'));
+        $config->setSgAirtableApiKeyForRead(Input::post('sgAirtableApiKeyForRead'));
+        $config->setSgAirtableApiKeyForWrite(Input::post('sgAirtableApiKeyForWrite'));
 
         $this->configurationManager->save($config);
     }

@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.17 - 2023-07-24
+- Smartgear : Airtable API now uses 2 different keys. Current functionning with one unified key still works. Support for this will be dropped in Smartgear 2.0
+
 1.0.16 - 2023-07-19
 - Smartgear : Fixing some DCA using translation keys not yet defined when loaded
 - RSCE : Fixing some RSCE using translation keys not yet defined when loaded
