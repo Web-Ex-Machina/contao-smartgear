@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Api\Airtable\V0;
 
 use DateTime;
 use Exception;
+use stdClass;
 use WEM\SmartgearBundle\Classes\CacheFileManager;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -32,8 +33,16 @@ class Api
     public const CACHE_PATH = 'assets/smartgear/';
     /** @var CoreConfigManager */
     protected $configurationManager;
+    /**
+     * @var string
+     *
+     * @deprecated
+     * */
+    protected $apiKeyUnified;
     /** @var string */
-    protected $apiKey;
+    protected $apiKeyRead;
+    /** @var string */
+    protected $apiKeyWrite;
 
     public function __construct(CoreConfigManager $configurationManager)
     {
@@ -42,7 +51,9 @@ class Api
             /** @var CoreConfig */
             $config = $this->configurationManager->load();
 
-            $this->apiKey = $config->getSgAirtableApiKey();
+            $this->apiKeyUnified = $config->getSgAirtableApiKey();
+            $this->apiKeyRead = $config->getSgAirtableApiKeyForRead();
+            $this->apiKeyWrite = $config->getSgAirtableApiKeyForWrite();
         } catch (NotFound $e) {
             // nothing
         }
@@ -62,7 +73,7 @@ class Api
         }
 
         $url = sprintf('%s%s/%s?maxRecords=1&view=%s&filterByFormula=%s&returnFieldsByFieldId=1', self::BASE_URL, $base, $tableId, urlencode($viewName), urlencode(sprintf('{Domaines concernés} = "%s"', $hostname)));
-        $arrRecords = $this->call($url)->records;
+        $arrRecords = $this->callForRead($url)->records;
 
         if (!$arrRecords) {
             return [];
@@ -103,7 +114,7 @@ class Api
             'allowed_space' => $fields[$fieldIds['Espace disponible (Go)']] ?? '',
             'must_pay' => $fields[$fieldIds['Doit passer à la caisse']] ?? '',
             'birthday' => $fields[$fieldIds['Anniversaire']] ?? '',
-            'client_id' => implode(',', $fields[$fieldIds['Client']]) ?? '',
+            'client_id' => implode(',', $fields[$fieldIds['Client']] ?? []) ?? '',
             'invoices_ids' => $fields[$fieldIds['Factures']] ?? [],
             'invoices_dates' => $fields[$fieldIds['Date (from Factures)']] ?? [],
             'invoices_prices' => $fields[$fieldIds['HT (from Factures)']] ?? [],
@@ -132,7 +143,7 @@ class Api
         }
 
         $url = sprintf('%s%s/%s?maxRecords=1&view=%s&filterByFormula=%s&returnFieldsByFieldId=1', self::BASE_URL, $base, $tableId, urlencode($viewName), urlencode(sprintf('{Reference} = "%s"', $clientRef)));
-        $arrRecords = $this->call($url)->records;
+        $arrRecords = $this->callForRead($url)->records;
 
         if (!$arrRecords) {
             return [];
@@ -216,14 +227,64 @@ class Api
             $data['records'][0]['fields'][$fieldIds['Capture d\'écran']][] = ['url' => $screenshotFileUrl];
         }
 
-        $result = $this->call($apiUrl, $data);
+        $result = $this->callForWrite($apiUrl, $data);
 
         if ($result->error) {
             throw new Exception('['.$result->error->type.'] '.$result->error->message);
         }
     }
 
-    protected function call(string $url, array $data = [])
+    /**
+     * Call Airtable API in reading context.
+     *
+     * @param string $url  The URL to call
+     * @param array  $data The data to transmit
+     *
+     * @return \stdClass The decoded response JSON
+     */
+    protected function callForRead(string $url, array $data = [])
+    {
+        if (!$this->apiKeyRead) {
+            trigger_deprecation('webexmachina/contao-smartgear', '1.0.17', 'Falling back to using the old unified API key will be removed in Smartgear 2.0');
+
+            return $this->call($url, $this->apiKeyUnified, $data);
+        }
+
+        return $this->call($url, $this->apiKeyRead, $data);
+    }
+
+    /**
+     * Call Airtable API in writing context.
+     *
+     * @param string $url  The URL to call
+     * @param array  $data The data to transmit
+     *
+     * @return \stdClass The decoded response JSON
+     */
+    protected function callForWrite(string $url, array $data = [])
+    {
+        if (!$this->apiKeyRead) {
+            trigger_deprecation('webexmachina/contao-smartgear', '1.0.17', 'Falling back to using the old unified API key will be removed in Smartgear 2.0');
+
+            return $this->call($url, $this->apiKeyUnified, $data);
+        }
+
+        return $this->call($url, $this->apiKeyWrite, $data);
+    }
+
+    /**
+     * Call Airtable API.
+     *
+     * @param string $url    The URL to call
+     * @param string $apiKey The API key to use
+     * @param array  $data   The data to transmit
+     *
+     * @throws ResponseSyntaxException  If the response isn't a valid JSON
+     * @throws ResponseContentException If the response contains an error
+     *
+     * @return \stdClass The decoded response JSON
+     */
+    protected function call(string $url, string $apiKey, array $data = []): stdClass
     {
         $baseUrl = static::BASE_URL;
 
@@ -232,7 +293,7 @@ class Api
         }
 
         $curl = curl_init();
-        $httpHeaders = [sprintf('Authorization: Bearer %s', $this->apiKey)];
+        $httpHeaders = [sprintf('Authorization: Bearer %s', $apiKey)];
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_USERAGENT, 'webexmachina/1.0 +'.\Contao\Environment::get('base'));

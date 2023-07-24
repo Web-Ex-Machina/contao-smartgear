@@ -731,12 +731,28 @@
 			<target>Cette clef de chiffrement est utilisée pour chiffrer/déchiffrer les données personnelles. Ne la changez pas une fois qu'elle a été définie !</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAirtableApiKey">
-			<source>Airtable API Key</source>
-			<target>Clef API Airtable</target>
+			<source>Airtable API Key (unified - deprecated)</source>
+			<target>Clef API Airtable (unifiée - dépréciée)</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAirtableApiKeyHelp">
-			<source>The Airtable API key is used for the Smartgear's dashboard.</source>
-			<target>La clef API Airtable est utilisée dans le tableau de bord Smartgear.</target>
+			<source>The Airtable API key is used for the Smartgear's dashboard (deprecated).</source>
+			<target>La clef API Airtable est utilisée dans le tableau de bord Smartgear (dépréciée).</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAirtableApiKeyForRead">
+			<source>Airtable API Key (Read)</source>
+			<target>Clef API Airtable (Lecture)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAirtableApiKeyForReadHelp">
+			<source>This Airtable API key is used for the Smartgear's dashboard in order to read your clients data.</source>
+			<target>Cette clef API Airtable est utilisée dans le tableau de bord Smartgear pour récupérer vos données client.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAirtableApiKeyForWrite">
+			<source>Airtable API Key (Write)</source>
+			<target>Clef API Airtable (Ecriture)</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAirtableApiKeyForWriteHelp">
+			<source>This Airtable API key is used for the Smartgear's dashboard in order to write support tickets.</source>
+			<target>Cette clef API Airtable est utilisée dans le tableau de bord Smartgear pour envoyer les tickets de support.</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.GENERAL.sgWebsiteTitleEmpty">
 			<source>Website's title is missing</source>
@@ -771,8 +787,16 @@
 			<target>La clef de chiffrement n'est pas renseignée.</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAirtableApiKeyEmpty">
-			<source>Airtable API key is missing</source>
-			<target>La clef API Airtable n'est pas renseignée.</target>
+			<source>Unified airtable API key is missing (deprecated)</source>
+			<target>La clef API unifiée Airtable n'est pas renseignée (dépréciée).</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAirtableApiKeyForReadEmpty">
+			<source>Airtable API key for reading is missing</source>
+			<target>La clef API Airtable de lecture n'est pas renseignée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgAirtableApiKeyForWriteEmpty">
+			<source>Airtable API key for writing is missing</source>
+			<target>La clef API Airtable d'écriture n'est pas renseignée.</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.Title">
 			<source>Informations</source>
