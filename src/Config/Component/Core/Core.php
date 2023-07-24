@@ -1563,7 +1563,7 @@ class Core implements ConfigModuleInterface
         return $this;
     }
 
-    public function getSgAirtableApiKeyForRead()
+    public function getSgAirtableApiKeyForRead(): string
     {
         return $this->sgAirtableApiKeyForRead;
     }
@@ -1571,14 +1571,14 @@ class Core implements ConfigModuleInterface
     /**
      * @return self
      */
-    public function setSgAirtableApiKeyForRead(mixed $sgAirtableApiKeyForRead)
+    public function setSgAirtableApiKeyForRead(string $sgAirtableApiKeyForRead)
     {
         $this->sgAirtableApiKeyForRead = $sgAirtableApiKeyForRead;
 
         return $this;
     }
 
-    public function getSgAirtableApiKeyForWrite()
+    public function getSgAirtableApiKeyForWrite(): string
     {
         return $this->sgAirtableApiKeyForWrite;
     }
@@ -1586,7 +1586,7 @@ class Core implements ConfigModuleInterface
     /**
      * @return self
      */
-    public function setSgAirtableApiKeyForWrite(mixed $sgAirtableApiKeyForWrite)
+    public function setSgAirtableApiKeyForWrite(string $sgAirtableApiKeyForWrite)
     {
         $this->sgAirtableApiKeyForWrite = $sgAirtableApiKeyForWrite;
 

@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Api\Airtable\V0;
 
 use DateTime;
 use Exception;
+use stdClass;
 use WEM\SmartgearBundle\Classes\CacheFileManager;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -32,7 +33,11 @@ class Api
     public const CACHE_PATH = 'assets/smartgear/';
     /** @var CoreConfigManager */
     protected $configurationManager;
-    /** @var string */
+    /**
+     * @var string
+     *
+     * @deprecated
+     * */
     protected $apiKeyUnified;
     /** @var string */
     protected $apiKeyRead;
@@ -229,6 +234,14 @@ class Api
         }
     }
 
+    /**
+     * Call Airtable API in reading context.
+     *
+     * @param string $url  The URL to call
+     * @param array  $data The data to transmit
+     *
+     * @return \stdClass The decoded response JSON
+     */
     protected function callForRead(string $url, array $data = [])
     {
         if (!$this->apiKeyRead) {
@@ -240,6 +253,14 @@ class Api
         return $this->call($url, $this->apiKeyRead, $data);
     }
 
+    /**
+     * Call Airtable API in writing context.
+     *
+     * @param string $url  The URL to call
+     * @param array  $data The data to transmit
+     *
+     * @return \stdClass The decoded response JSON
+     */
     protected function callForWrite(string $url, array $data = [])
     {
         if (!$this->apiKeyRead) {
@@ -251,7 +272,19 @@ class Api
         return $this->call($url, $this->apiKeyWrite, $data);
     }
 
-    protected function call(string $url, string $apiKey, array $data = [])
+    /**
+     * Call Airtable API.
+     *
+     * @param string $url    The URL to call
+     * @param string $apiKey The API key to use
+     * @param array  $data   The data to transmit
+     *
+     * @throws ResponseSyntaxException  If the response isn't a valid JSON
+     * @throws ResponseContentException If the response contains an error
+     *
+     * @return \stdClass The decoded response JSON
+     */
+    protected function call(string $url, string $apiKey, array $data = []): stdClass
     {
         $baseUrl = static::BASE_URL;
 
