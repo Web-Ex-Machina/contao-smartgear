@@ -18,7 +18,8 @@
     $arrClasses[] = 'hover--'.$this->wem_sg_header_hover_style;
 
 ?>
-<div class="headerFW <?= $this->wem_sg_header_class ?> <?= implode(' ', $arrClasses) ?>" data-stick="<?= $this->wem_sg_header_sticky?'true':'false' ?>" data-watchnav="true">
+
+<div class="headerFW <?= $this->wem_sg_header_class ?> <?= implode(' ', $arrClasses) ?>" data-stick="<?= 1 == $this->wem_sg_header_sticky?'true':(!$this->wem_sg_header_sticky ? 'false' : $this->wem_sg_header_sticky) ?>" data-watchnav="true">
   <div class="headerFW__wrapper <?= $this->wem_sg_header_width ?>">
     <div class="headerFW__logo__wrapper">
       <<?= $this->isRoot?'h1':'a href="{{env::url}}"' ?> id="logo" class="headerFW__logo" title="<?= $this->wem_sg_header_alt ? $this->wem_sg_header_alt : '{{page::rootTitle}}' ?>">
