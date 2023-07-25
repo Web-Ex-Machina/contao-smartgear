@@ -6,14 +6,11 @@
 /* Core styles */
 @import '../core/scss/core';
 /* Components styles */
-@import '../components/dashboard/dashboard';
-@import '../components/sampler/sampler';
-@import '../components/documentation/documentation';
-@import '../components/factory/factory';
 @import '../components/accordionFW/accordionFW';
 @import '../components/block-std/block-std';
 @import '../components/block-card/block-card';
 @import '../components/btn-load/btn-load';
+@import '../components/countUpFW/countUpFW';
 @import '../components/datepicker/datepicker';
 @import '../components/filters/filters';
 @import '../components/goto/goto';
@@ -22,6 +19,7 @@
 @import '../components/input-number/input-number';
 @import '../components/input-range/input-range';
 @import '../components/modalFW/modalFW';
+@import '../components/pricecard/pricecard';
 @import '../components/select2FW/select2FW';
 @import '../components/sidepanel/sidepanel';
 @import '../components/sliderFW/sliderFW';
