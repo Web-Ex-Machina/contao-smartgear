@@ -277,6 +277,8 @@ class Website extends ConfigurationStep
         $objTheme->templates = sprintf('templates/%s', WEMStringUtil::generateAlias($config->getSgWebsiteTitle()));
         $objTheme->save();
 
+        $this->setConfigKey('setSgTheme', (int) $objTheme->id);
+
         return (int) $objTheme->id;
     }
 
@@ -297,6 +299,8 @@ class Website extends ConfigurationStep
         $objNavMain->name = 'Nav - main';
         $objNavMain->save();
         $modules[$objNavMain->type] = $objNavMain;
+
+        $this->setConfigModuleKey($objNavMain->type, (int) $objNavMain->id);
 
         // Header
         $objHeaderModule = \array_key_exists('wem_sg_header', $registeredModules)
@@ -323,6 +327,8 @@ class Website extends ConfigurationStep
         $objHeaderModule->save();
         $modules[$objHeaderModule->type] = $objHeaderModule;
 
+        $this->setConfigModuleKey($objHeaderModule->type, (int) $objHeaderModule->id);
+
         // Breadcrumb
         $objBreadcrumbModule = \array_key_exists('breadcrumb', $registeredModules)
                             ? ModuleModel::findOneById($registeredModules['breadcrumb']) ?? new ModuleModel()
@@ -338,6 +344,8 @@ class Website extends ConfigurationStep
         $objBreadcrumbModule->save();
         $modules[$objBreadcrumbModule->type] = $objBreadcrumbModule;
 
+        $this->setConfigModuleKey($objBreadcrumbModule->type, (int) $objBreadcrumbModule->id);
+
         // Footer
         $objFooterModule = \array_key_exists('wem_sg_footer', $registeredModules)
                             ? ModuleModel::findOneById($registeredModules['wem_sg_footer']) ?? new ModuleModel()
@@ -351,6 +359,8 @@ class Website extends ConfigurationStep
         $objFooterModule->save();
         $modules['wem_sg_footer'] = $objFooterModule;
 
+        $this->setConfigModuleKey('wem_sg_footer', (int) $objFooterModule->id);
+
         // Sitemap
         $objSitemapModule = \array_key_exists('sitemap', $registeredModules)
                             ? ModuleModel::findOneById($registeredModules['sitemap']) ?? new ModuleModel()
@@ -362,6 +372,8 @@ class Website extends ConfigurationStep
         $objSitemapModule->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSitemapName'];
         $objSitemapModule->save();
         $modules[$objSitemapModule->type] = $objSitemapModule;
+
+        $this->setConfigModuleKey($objSitemapModule->type, (int) $objSitemapModule->id);
 
         // Social link
         $objSocialLinkModule = \array_key_exists('wem_sg_social_link', $registeredModules)
@@ -375,6 +387,8 @@ class Website extends ConfigurationStep
         $objSocialLinkModule->save();
         $modules[$objSocialLinkModule->type] = $objSocialLinkModule;
 
+        $this->setConfigModuleKey($objSocialLinkModule->type, (int) $objSocialLinkModule->id);
+
         // Social Link Categories
         $objSocialLinkCategoriesModule = \array_key_exists('wem_sg_social_link_config_categories', $registeredModules)
                             ? ModuleModel::findOneById($registeredModules['wem_sg_social_link_config_categories']) ?? new ModuleModel()
@@ -386,6 +400,8 @@ class Website extends ConfigurationStep
         $objSocialLinkCategoriesModule->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSocialLinkConfigCategoriesName'];
         $objSocialLinkCategoriesModule->save();
         $modules[$objSocialLinkCategoriesModule->type] = $objSocialLinkCategoriesModule;
+
+        $this->setConfigModuleKey($objSocialLinkCategoriesModule->type, (int) $objSocialLinkCategoriesModule->id);
 
         // Personal Data Manager
         $objPDMModule = \array_key_exists('wem_personaldatamanager', $registeredModules)
@@ -399,6 +415,8 @@ class Website extends ConfigurationStep
         $objPDMModule->tstamp = time();
         $objPDMModule->save();
         $modules[$objPDMModule->type] = $objPDMModule;
+
+        $this->setConfigModuleKey($objPDMModule->type, (int) $objPDMModule->id);
 
         return $modules;
     }
@@ -479,6 +497,8 @@ class Website extends ConfigurationStep
 
         $layouts['standard'] = $objLayout;
 
+        $this->setConfigKey('setSgLayoutStandard', (int) $objLayout->id);
+
         $objLayout = null !== $config->getSgLayoutFullwidth()
             ? LayoutModel::findOneById($config->getSgLayoutFullwidth()) ?? new LayoutModel()
             : new LayoutModel();
@@ -500,6 +520,8 @@ class Website extends ConfigurationStep
         $objLayout->save();
 
         $layouts['fullwidth'] = $objLayout;
+
+        $this->setConfigKey('setSgLayoutFullwidth', (int) $objLayout->id);
 
         return $layouts;
     }
@@ -571,6 +593,8 @@ class Website extends ConfigurationStep
         $objUserGroup->save();
         $userGroups['administrators'] = $objUserGroup;
 
+        $this->setConfigKey('setSgUserGroupAdministrators', (int) $objUserGroup->id);
+
         if (null !== $config->getSgUserGroupAdministrators()) {
             $objUserGroup = UserGroupModel::findOneById($config->getSgUserGroupRedactors()) ?? new UserGroupModel();
             $this->userGroupWebmasterOldPermissions = null !== $objUserGroup->smartgear_permissions
@@ -632,6 +656,8 @@ class Website extends ConfigurationStep
         $objUserGroup->save();
         $userGroups['redactors'] = $objUserGroup;
 
+        $this->setConfigKey('setSgUserGroupRedactors', (int) $objUserGroup->id);
+
         return $userGroups;
     }
 
@@ -663,6 +689,8 @@ class Website extends ConfigurationStep
         $objUser->inherit = 'group';
         $objUser->save();
 
+        $this->setConfigKey('setSgUserWebmaster', (int) $objUser->id);
+
         return ['webmaster' => $objUser];
     }
 
@@ -676,7 +704,7 @@ class Website extends ConfigurationStep
             $page = PageModel::findOneBy('title', $config->getSgwebsiteTitle());
         }
 
-        return Util::createPage($config->getSgwebsiteTitle(), 0, array_merge([
+        $page = Util::createPage($config->getSgwebsiteTitle(), 0, array_merge([
             'sorting' => 128,
             'type' => 'root',
             'language' => 'fr',
@@ -692,6 +720,10 @@ class Website extends ConfigurationStep
             'cgroup' => $groups['administrators']->id,
             'chmod' => CoreConfig::DEFAULT_ROOTPAGE_CHMOD,
         ], null !== $page ? ['id' => $page->id] : []));
+
+        $this->setConfigKey('setSgPageRoot', (int) $page->id);
+
+        return $page;
     }
 
     protected function createPageHome(PageModel $rootPage): PageModel
@@ -705,6 +737,8 @@ class Website extends ConfigurationStep
             'sitemap' => 'default',
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+
+        $this->setConfigKey('setSgPageHome', (int) $page->id);
 
         return $page;
     }
@@ -720,6 +754,8 @@ class Website extends ConfigurationStep
             'hide' => 1,
             'type' => 'error_404',
         ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+
+        $this->setConfigKey('setSgPage404', (int) $page->id);
 
         return $page;
     }
@@ -737,6 +773,8 @@ class Website extends ConfigurationStep
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
+        $this->setConfigKey('setSgPageLegalNotice', (int) $page->id);
+
         return $page;
     }
 
@@ -751,6 +789,8 @@ class Website extends ConfigurationStep
             'description' => sprintf($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PagePrivacyPoliticsDescription'], $config->getSgWebsiteTitle()),
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+
+        $this->setConfigKey('setSgPagePrivacyPolitics', (int) $page->id);
 
         return $page;
     }
@@ -767,6 +807,8 @@ class Website extends ConfigurationStep
             'description' => sprintf($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapDescription'], $config->getSgWebsiteTitle()),
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+
+        $this->setConfigKey('setSgPageSitemap', (int) $page->id);
 
         return $page;
     }
@@ -789,7 +831,11 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        return ArticleModel::findOneById($config->getSgArticleHome()) ?? Util::createArticle($page);
+        $article = ArticleModel::findOneById($config->getSgArticleHome()) ?? Util::createArticle($page);
+
+        $this->setConfigKey('setSgArticleHome', (int) $article->id);
+
+        return $article;
     }
 
     protected function createArticle404(PageModel $page): ArticleModel
@@ -797,7 +843,11 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        return ArticleModel::findOneById($config->getSgArticle404()) ?? Util::createArticle($page);
+        $article = ArticleModel::findOneById($config->getSgArticle404()) ?? Util::createArticle($page);
+
+        $this->setConfigKey('setSgArticle404', (int) $article->id);
+
+        return $article;
     }
 
     protected function createArticleLegalNotice(PageModel $page): ArticleModel
@@ -805,7 +855,11 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        return ArticleModel::findOneById($config->getSgArticleLegalNotice()) ?? Util::createArticle($page);
+        $article = ArticleModel::findOneById($config->getSgArticleLegalNotice()) ?? Util::createArticle($page);
+
+        $this->setConfigKey('setSgArticleLegalNotice', (int) $article->id);
+
+        return $article;
     }
 
     protected function createArticlePrivacyPolitics(PageModel $page): ArticleModel
@@ -813,7 +867,11 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        return ArticleModel::findOneById($config->getSgArticlePrivacyPolitics()) ?? Util::createArticle($page);
+        $article = ArticleModel::findOneById($config->getSgArticlePrivacyPolitics()) ?? Util::createArticle($page);
+
+        $this->setConfigKey('setSgArticlePrivacyPolitics', (int) $article->id);
+
+        return $article;
     }
 
     protected function createArticleSitemap(PageModel $page): ArticleModel
@@ -821,7 +879,11 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        return ArticleModel::findOneById($config->getSgArticleSitemap()) ?? Util::createArticle($page);
+        $article = ArticleModel::findOneById($config->getSgArticleSitemap()) ?? Util::createArticle($page);
+
+        $this->setConfigKey('setSgArticleSitemap', (int) $article->id);
+
+        return $article;
     }
 
     protected function createArticles(array $pages): array
@@ -846,10 +908,14 @@ class Website extends ConfigurationStep
             'headline' => serialize(['unit' => 'h1', 'value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Headline']]), 'text' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Text'],
         ], ['id' => null !== $content ? $content->id : null]));
 
+        $this->setConfigKey('setSgContent404Headline', (int) $content->id);
+
         $content = ContentModel::findById($config->getSgContent404Sitemap());
         $contents['sitemap'] = Util::createContent($article, array_merge([
             'type' => 'module', 'module' => $modules['sitemap']->id,
         ], ['id' => null !== $content ? $content->id : null]));
+
+        $this->setConfigKey('setSgContent404Sitemap', (int) $content->id);
 
         return $contents;
     }
@@ -889,6 +955,8 @@ class Website extends ConfigurationStep
             'headline' => serialize(['unit' => 'h1', 'value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageLegalNoticeHeadline']]), 'text' => $strHtml,
         ], ['id' => null !== $content ? $content->id : null]));
 
+        $this->setConfigKey('setSgContentLegalNotice', (int) $objContent->id);
+
         return $objContent;
     }
 
@@ -923,6 +991,8 @@ class Website extends ConfigurationStep
             'text' => $strHtml,
         ], ['id' => null !== $content ? $content->id : null]));
 
+        $this->setConfigKey('setSgContentPrivacyPolitics', (int) $objContent->id);
+
         return $objContent;
     }
 
@@ -938,11 +1008,15 @@ class Website extends ConfigurationStep
             'headline' => serialize(['unit' => 'h1', 'value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapHeadline']]),
         ], ['id' => null !== $content ? $content->id : null]));
 
+        $this->setConfigKey('setSgContentSitemapHeadline', (int) $objContent->id);
+
         $content = ContentModel::findById($config->getSgContentSitemap());
 
         $contents['module'] = Util::createContent($article, array_merge([
             'type' => 'module', 'module' => $modules['sitemap']->id,
         ], ['id' => null !== $content ? $content->id : null]));
+
+        $this->setConfigKey('setSgContentSitemap', (int) $objContent->id);
 
         return $contents;
     }
@@ -977,6 +1051,8 @@ class Website extends ConfigurationStep
         $objCustomNavModule->save();
         $modules[$objCustomNavModule->type] = $objCustomNavModule;
 
+        $this->setConfigModuleKey($objCustomNavModule->type, (int) $objCustomNavModule->id);
+
         // Footer - add content
         $objFooterModule = \array_key_exists('wem_sg_footer', $registeredModules)
                             ? ModuleModel::findOneById($registeredModules['wem_sg_footer']) ?? new ModuleModel()
@@ -989,6 +1065,8 @@ class Website extends ConfigurationStep
         $objFooterModule->html = $html;
         $objFooterModule->save();
         $modules['wem_sg_footer'] = $objFooterModule;
+
+        $this->setConfigModuleKey('wem_sg_footer', (int) $objFooterModule->id);
 
         return $modules;
     }
@@ -1006,6 +1084,8 @@ class Website extends ConfigurationStep
         $objGateway->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['NotificationGatewayEmailSmartgearTitle'];
         $objGateway->type = 'email';
         $objGateway->save();
+
+        $this->setConfigKey('setSgNotificationGatewayEmail', (int) $objGateway->id);
 
         $nc['email'] = $objGateway;
 
@@ -1469,5 +1549,36 @@ class Website extends ConfigurationStep
         $layoutModules[] = $layoutModuleFooter;
 
         return $layoutModules;
+    }
+
+    private function setConfigKey(string $key, $value): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $config->{$key}($value);
+
+        $this->configurationManager->save($config);
+    }
+
+    private function setConfigModuleKey(string $moduleType, int $moduleId): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $modules = $config->getSgModules();
+
+        $formattedModules = [];
+        foreach ($modules as $module) {
+            if ($module->type === $moduleType) {
+                $formattedModules[] = ['key' => $module->key, 'type' => $moduleType, 'id' => $moduleId];
+            } else {
+                $formattedModules[] = ['key' => $module->key, 'type' => $module->type, 'id' => $module->id];
+            }
+        }
+
+        $config->setSgModules($formattedModules);
+
+        $this->configurationManager->save($config);
     }
 }
