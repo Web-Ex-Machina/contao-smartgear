@@ -1,6 +1,10 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.18 - 2023-07-25
+- Smartgear : better `framway.config.js` file management
+- Components : `header` now has a 3rd option for its "sticky" behaviour : "scroll". It allows header to be hidden when scrolling down, and to be shown when scrolling up
+
 1.0.17 - 2023-07-24
 - Smartgear : Airtable API now uses 2 different keys. Current functionning with one unified key still works. Support for this will be dropped in Smartgear 2.0
 
