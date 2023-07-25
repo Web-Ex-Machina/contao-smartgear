@@ -205,10 +205,19 @@ DCAManipulator::create('tl_module')
     ])
     ->addField('wem_sg_header_sticky', [
         'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['sticky'],
-        'inputType' => 'checkbox',
+        // 'inputType' => 'checkbox',
+        'inputType' => 'select',
+        'options' => [
+            '0' => &$GLOBALS['TL_LANG']['tl_content']['header']['sticky_value']['0'],
+            '1' => &$GLOBALS['TL_LANG']['tl_content']['header']['sticky_value']['1'],
+            'scroll' => &$GLOBALS['TL_LANG']['tl_content']['header']['sticky_value']['scroll'],
+        ],
+        // 'explanation' => &$GLOBALS['TL_LANG']['XPL']['header_sticky_value'],
+        'explanation' => 'header_sticky_value',
         'default' => true,
-        'eval' => ['tl_class' => 'w50 clr'],
-        'sql' => "CHAR(1) NOT NULL default '0'",
+        'eval' => ['isAssociative' => true, 'helpwizard' => true, 'tl_class' => 'w50 clr'],
+        // 'sql' => "CHAR(1) NOT NULL default '0'",
+        'sql' => "VARCHAR(6) NOT NULL default '0'",
     ])
     ->addField('wem_sg_header_add_topbar', [
         'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['add_topbar'],

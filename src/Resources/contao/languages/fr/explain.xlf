@@ -33,6 +33,40 @@
 			<source>Tick to make Smartgear's blog available in expert mode for this user/group</source>
 			<target>Cochez pour activer le mode expert pour le blog Smartgear</target>
 		</trans-unit>
+		<trans-unit id="XPL.header_sticky_value.0.0">
+			<source>headspan</source>
+			<target>headspan</target>
+		</trans-unit>
+		<trans-unit id="XPL.header_sticky_value.0.1">
+			<source>Header sticky behaviour</source>
+			<target>Comportement du header flottant</target>
+		</trans-unit>
+		<trans-unit id="XPL.header_sticky_value.1.0">
+			<source>No</source>
+			<target>Non</target>
+		</trans-unit>
+		<trans-unit id="XPL.header_sticky_value.1.1">
+			<source>Header will not be sticky. It will behave like any other standard element on the page.</source>
+			<target>Header non flottant. Il se comportera comme n'importe quel autre élément standard de la page.</target>
+		</trans-unit>
+		<trans-unit id="XPL.header_sticky_value.2.0">
+			<source>Yes</source>
+			<target>Oui</target>
+		</trans-unit>
+		<trans-unit id="XPL.header_sticky_value.2.1">
+			<source>Header will be sticky. It will stay fixed on top of the page while scrolling.</source>
+			<target>Header flottant. Il restera fixe en haut de la page pendant le défilement.</target>
+		</trans-unit>
+		<trans-unit id="XPL.header_sticky_value.3.0">
+			<source>Scroll</source>
+			<target>Scroll</target>
+		</trans-unit>
+		<trans-unit id="XPL.header_sticky_value.3.1">
+			<source>Header will be sticky in a scrolling manner (TBD).</source>
+			<target>Header flottant collant (A remplir).</target>
+		</trans-unit>
+
+
     </body>
   </file>
 </xliff>
