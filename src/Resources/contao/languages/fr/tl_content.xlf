@@ -1586,8 +1586,20 @@
         <target>Header flottant</target>
       </trans-unit>
       <trans-unit id="tl_content.header.sticky.1">
-        <source>If checked, the header will stay fixed on top of the page while scrolling</source>
-        <target>Si coché, le header restera fixe en haut de la page pendant le défilement</target>
+        <source>Choose header's stickyness behaviour</source>
+        <target>Choisissez le comportement du header</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.sticky_value.0">
+        <source>No</source>
+        <target>Non</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.sticky_value.1">
+        <source>Yes</source>
+        <target>Oui</target>
+      </trans-unit>
+      <trans-unit id="tl_content.header.sticky_value.scroll">
+        <source>Scroll</source>
+        <target>Défilement</target>
       </trans-unit>
       <trans-unit id="tl_content.header.add_search.0">
         <source>Add search field</source>
