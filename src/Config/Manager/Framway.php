@@ -74,7 +74,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         $notJsonCompliant = preg_replace('/\s\s/', '', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/,([\s]*)\]/', ']', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/,([\s]*)\}/', '}', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/."com":/', '.com:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
+        $notJsonCompliant = preg_replace('/\.\"com\":/', '.com:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
         try {
             return json_decode($notJsonCompliant, false, 512, \JSON_THROW_ON_ERROR);
         } catch (Exception $e) {
@@ -106,8 +106,12 @@ class Framway extends AbstractManager implements ManagerJsonInterface
 
     protected function specificPregReplaceForNotJsonCompliantConfigurationImport(string $notJsonCompliant): string
     {
-        $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([^\/])/', '"$2":', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([\{]{1})/', '$1"$2":{', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([\[]{1})/', '$1"$2":[', $notJsonCompliant);
+        // $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([^\/\:])/', '$1"$2":', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/\'/', '"', $notJsonCompliant);
+        // $notJsonCompliant = preg_replace('/\"([A-Za-z_\-0-9$]*)\":[\s]\[/', '"$1":[', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([A-Za-z_\-0-9$]*)/', '$1"$2":$5', $notJsonCompliant);
 
         return preg_replace('/([\"]+)([A-Za-z_\-0-9$]+)([\"]+)/', '"$2"', $notJsonCompliant);
     }
