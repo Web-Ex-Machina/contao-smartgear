@@ -59,14 +59,12 @@
 		</trans-unit>
 		<trans-unit id="XPL.header_sticky_value.3.0">
 			<source>Scroll</source>
-			<target>Scroll</target>
+			<target>Défilement</target>
 		</trans-unit>
 		<trans-unit id="XPL.header_sticky_value.3.1">
-			<source>Header will be sticky in a scrolling manner (TBD).</source>
-			<target>Header flottant collant (A remplir).</target>
+			<source>Header will be sticky depending on the scroll. Allow header to be hidden while scrolling down a page, but visible while scrolling up</source>
+			<target>Header flottant selon le défilement de page. Le header sera caché lors d'un défilement vers le bas, mais visible lors d'un défilement vers le haut.</target>
 		</trans-unit>
-
-
     </body>
   </file>
 </xliff>

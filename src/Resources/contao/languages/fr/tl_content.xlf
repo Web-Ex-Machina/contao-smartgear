@@ -1587,7 +1587,7 @@
       </trans-unit>
       <trans-unit id="tl_content.header.sticky.1">
         <source>Choose header's stickyness behaviour</source>
-        <target>Si coché, le header </target>
+        <target>Choisissez le comportement du header</target>
       </trans-unit>
       <trans-unit id="tl_content.header.sticky_value.0">
         <source>No</source>
@@ -1599,7 +1599,7 @@
       </trans-unit>
       <trans-unit id="tl_content.header.sticky_value.scroll">
         <source>Scroll</source>
-        <target>Scroll</target>
+        <target>Défilement</target>
       </trans-unit>
       <trans-unit id="tl_content.header.add_search.0">
         <source>Add search field</source>
