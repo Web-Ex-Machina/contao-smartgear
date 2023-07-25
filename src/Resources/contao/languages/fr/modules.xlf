@@ -133,6 +133,14 @@
 				<source>Afficher un header conçu pour Smartgear</source>
 				<target>Afficher un header conçu pour Smartgear</target>
 			</trans-unit>
+			<trans-unit id="FMD.wem_sg_social_link.0">
+				<source>Social links</source>
+				<target>Liens réseaux sociaux</target>
+			</trans-unit>
+		<!-- 	<trans-unit id="FMD.wem_sg_social_link.1">
+				<source>Afficher un header conçu pour Smartgear</source>
+				<target>Afficher un header conçu pour Smartgear</target>
+			</trans-unit> -->
     	<!-- Override menu entry -->
 	    <trans-unit id="MOD.wem_pdm">
 	      <source>GDPR</source>

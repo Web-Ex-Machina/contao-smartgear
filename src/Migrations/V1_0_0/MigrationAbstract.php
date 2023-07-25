@@ -112,8 +112,8 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
                 ;
             break;
             case VersionComparator::VERSIONS_EQUALS:
-                // $result->setStatus(Result::STATUS_SKIPPED)
-                $result->setStatus(Result::STATUS_SHOULD_RUN)
+                $result->setStatus(Result::STATUS_SKIPPED)
+                // $result->setStatus(Result::STATUS_SHOULD_RUN)
                 ->addLog(
                     $this->translator->trans($this->buildTranslationKeyLocal('VERSIONCOMPARATOR.versionsEquals'), [$currentVersion, $migrationVersion], 'contao_default')
                 )
