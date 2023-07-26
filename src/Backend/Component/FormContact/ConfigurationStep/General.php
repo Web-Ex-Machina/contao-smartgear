@@ -150,7 +150,7 @@ class General extends ConfigurationStep
 
         $page = PageModel::findById($formContactConfig->getSgPageForm());
 
-        return Util::createPage($formContactConfig->getSgPageTitle(), 0, array_merge([
+        $page = Util::createPage($formContactConfig->getSgPageTitle(), 0, array_merge([
             'pid' => $rootPage->id,
             'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'type' => 'regular',
@@ -158,6 +158,10 @@ class General extends ConfigurationStep
             'description' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormDescription', [$formContactConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
             'published' => 1,
         ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+
+        $this->setFormContactConfigKey('setSgPageForm', (int) $page->id);
+
+        return $page;
     }
 
     protected function createPageFormSent(PageModel $pageFormContact): PageModel
@@ -169,7 +173,7 @@ class General extends ConfigurationStep
 
         $page = PageModel::findById($formContactConfig->getSgPageFormSent());
 
-        return Util::createPage($this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormSentTitle', [$formContactConfig->getSgPageTitle()], 'contao_default'), 0, array_merge([
+        $page = Util::createPage($this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormSentTitle', [$formContactConfig->getSgPageTitle()], 'contao_default'), 0, array_merge([
             'pid' => $pageFormContact->id,
             'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $pageFormContact->id),
             'type' => 'regular',
@@ -178,6 +182,10 @@ class General extends ConfigurationStep
             'published' => 1,
             'hide' => 1,
         ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+
+        $this->setFormContactConfigKey('setSgPageFormSent', (int) $page->id);
+
+        return $page;
     }
 
     protected function createPages(): array
@@ -196,7 +204,11 @@ class General extends ConfigurationStep
 
         $article = ArticleModel::findById($formContactConfig->getSgArticleForm());
 
-        return Util::createArticle($page, null !== $article ? ['id' => $article->id] : []);
+        $article = Util::createArticle($page, null !== $article ? ['id' => $article->id] : []);
+
+        $this->setFormContactConfigKey('setSgArticleForm', (int) $article->id);
+
+        return $article;
     }
 
     protected function createArticlePageFormSent(PageModel $page): ArticleModel
@@ -208,7 +220,11 @@ class General extends ConfigurationStep
 
         $article = ArticleModel::findById($formContactConfig->getSgArticleFormSent());
 
-        return Util::createArticle($page, null !== $article ? ['id' => $article->id] : []);
+        $article = Util::createArticle($page, null !== $article ? ['id' => $article->id] : []);
+
+        $this->setFormContactConfigKey('setSgArticleFormSent', (int) $article->id);
+
+        return $article;
     }
 
     protected function createArticles(array $pages): array
@@ -232,11 +248,15 @@ class General extends ConfigurationStep
             'cssID' => ',sep-bottom',
         ], null !== $headline ? ['id' => $headline->id] : []));
 
+        $this->setFormContactConfigKey('setSgContentHeadlineArticleForm', (int) $headline->id);
+
         $contentForm = ContentModel::findOneById((int) $formContactConfig->getSgContentFormArticleForm());
         $contentForm = Util::createContent($article, array_merge([
             'type' => 'form',
             'form' => $form->id,
         ], null !== $contentForm ? ['id' => $contentForm->id] : []));
+
+        $this->setFormContactConfigKey('setSgContentFormArticleForm', (int) $contentForm->id);
 
         return ['headline' => $headline, 'form' => $contentForm];
     }
@@ -254,10 +274,14 @@ class General extends ConfigurationStep
             'cssID' => ',sep-bottom',
         ], null !== $headline ? ['id' => $headline->id] : []));
 
+        $this->setFormContactConfigKey('setSgContentHeadlineArticleFormSent', (int) $headline->id);
+
         $text = ContentModel::findOneById((int) $formContactConfig->getSgContentTextArticleFormSent());
         $text = Util::createContent($article, array_merge([
             'text' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.contentTextPageFormSent', [], 'contao_default'),
         ], null !== $text ? ['id' => $text->id] : []));
+
+        $this->setFormContactConfigKey('setSgContentTextArticleFormSent', (int) $text->id);
 
         return ['headline' => $headline, 'text' => $text];
     }
@@ -283,6 +307,8 @@ class General extends ConfigurationStep
         $nc->type = 'core_form';
         $nc->save();
 
+        $this->setFormContactConfigKey('setSgNotification', (int) $nc->id);
+
         return $nc;
     }
 
@@ -302,6 +328,8 @@ class General extends ConfigurationStep
         $nm->published = 1;
         $nm->save();
 
+        $this->setFormContactConfigKey('setSgNotificationMessageUser', (int) $nm->id);
+
         return $nm;
     }
 
@@ -320,6 +348,8 @@ class General extends ConfigurationStep
         $nm->title = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.titleNotificationGatewayMessageAdmin', [], 'contao_default');
         $nm->published = 1;
         $nm->save();
+
+        $this->setFormContactConfigKey('setSgNotificationMessageAdmin', (int) $nm->id);
 
         return $nm;
     }
@@ -356,6 +386,8 @@ class General extends ConfigurationStep
         $nl->email_html = $strText;
         $nl->save();
 
+        $this->setFormContactConfigKey('setSgNotificationMessageUserLanguage', (int) $nl->id);
+
         return $nl;
     }
 
@@ -383,6 +415,8 @@ class General extends ConfigurationStep
         $nl->email_html = $strText;
         $nl->email_replyTo = '##form_email##';
         $nl->save();
+
+        $this->setFormContactConfigKey('setSgNotificationMessageAdminLanguage', (int) $nl->id);
 
         return $nl;
     }
@@ -413,6 +447,8 @@ class General extends ConfigurationStep
         }
         $form->save();
 
+        $this->setFormContactConfigKey('setSgFormContact', (int) $form->id);
+
         return $form;
     }
 
@@ -437,6 +473,8 @@ class General extends ConfigurationStep
         }
         $inputName->save();
 
+        $this->setFormContactConfigKey('setSgFieldName', (int) $inputName->id);
+
         $inputEmail = FormFieldModel::findOneById($formContactConfig->getSgFieldEmail()) ?? new FormFieldModel();
         $inputEmail->pid = $form->id;
         $inputEmail->sorting = 256;
@@ -448,6 +486,8 @@ class General extends ConfigurationStep
         $inputEmail->rgxp = 'email';
         $inputEmail->tstamp = time();
         $inputEmail->save();
+
+        $this->setFormContactConfigKey('setSgFieldEmail', (int) $inputEmail->id);
 
         $inputMessage = FormFieldModel::findOneById($formContactConfig->getSgFieldMessage()) ?? new FormFieldModel();
         $inputMessage->pid = $form->id;
@@ -463,6 +503,8 @@ class General extends ConfigurationStep
         }
         $inputMessage->save();
 
+        $this->setFormContactConfigKey('setSgFieldMessage', (int) $inputMessage->id);
+
         $inputConsentDataTreatment = FormFieldModel::findOneById($formContactConfig->getSgFieldConsentDataTreatment()) ?? new FormFieldModel();
         $inputConsentDataTreatment->pid = $form->id;
         $inputConsentDataTreatment->sorting = 512;
@@ -473,6 +515,8 @@ class General extends ConfigurationStep
         $inputConsentDataTreatment->tstamp = time();
         $inputConsentDataTreatment->mandatory = true;
         $inputConsentDataTreatment->save();
+
+        $this->setFormContactConfigKey('setSgFieldConsentDataTreatment', (int) $inputConsentDataTreatment->id);
 
         $inputConsentDataSave = FormFieldModel::findOneById($formContactConfig->getSgFieldConsentDataSave()) ?? new FormFieldModel();
         $inputConsentDataSave->pid = $form->id;
@@ -485,6 +529,8 @@ class General extends ConfigurationStep
         $inputConsentDataSave->invisible = !$config->getSgFormDataManager()->getSgInstallComplete();
         $inputConsentDataSave->save();
 
+        $this->setFormContactConfigKey('setSgFieldConsentDataSave', (int) $inputConsentDataSave->id);
+
         $inputCaptcha = FormFieldModel::findOneById($formContactConfig->getSgFieldCaptcha()) ?? new FormFieldModel();
         $inputCaptcha->pid = $form->id;
         $inputCaptcha->sorting = 1152;
@@ -495,6 +541,8 @@ class General extends ConfigurationStep
         $inputCaptcha->tstamp = time();
         $inputCaptcha->save();
 
+        $this->setFormContactConfigKey('setSgFieldCaptcha', (int) $inputCaptcha->id);
+
         $inputSubmit = FormFieldModel::findOneById($formContactConfig->getSgFieldSubmit()) ?? new FormFieldModel();
         $inputSubmit->pid = $form->id;
         $inputSubmit->sorting = 1280;
@@ -504,6 +552,8 @@ class General extends ConfigurationStep
         $inputSubmit->mandatory = 1;
         $inputSubmit->tstamp = time();
         $inputSubmit->save();
+
+        $this->setFormContactConfigKey('setSgFieldSubmit', (int) $inputSubmit->id);
 
         return ['name' => $inputName, 'email' => $inputEmail, 'message' => $inputMessage, 'consentDataTreatment' => $inputConsentDataTreatment, 'consentDataSave' => $inputConsentDataSave, 'captcha' => $inputCaptcha, 'submit' => $inputSubmit];
     }
@@ -558,5 +608,20 @@ class General extends ConfigurationStep
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->formp = serialize(['create', 'delete']);
         $objUserGroup->save();
+    }
+
+    private function setFormContactConfigKey(string $key, $value): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        /** @var FormContactConfig */
+        $formContactConfig = $config->getSgFormContact();
+
+        $formContactConfig->{$key}($value);
+
+        $config->setSgFormContact($formContactConfig);
+
+        $this->configurationManager->save($config);
     }
 }
