@@ -2595,6 +2595,35 @@
 			<source>Success</source>
 			<target>Succès</target>
 		</trans-unit>
+
+
+
+		<!-- Configuration manager -->
+		<trans-unit id="WEM.SMARTGEAR.CONFIGURATIONMANAGER.configurationManagerBTTitle">
+			<source>Access Smartgear Configuration</source>
+			<target>Accéder à la configuration Smartgear</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.CONFIGURATIONMANAGER.configurationManagerBT">
+			<source>Configuration</source>
+			<target>Configuration</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.CONFIGURATIONMANAGER.saveBTTitle">
+			<source>Save</source>
+			<target>Enregistrer</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.CONFIGURATIONMANAGER.saveBT">
+			<source>Save</source>
+			<target>Enregistrer</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.CONFIGURATIONMANAGER.messageSaveDone">
+			<source>Save complete</source>
+			<target>sauvegarde effectuée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.title">
+			<source>Configuration Manager</source>
+			<target>Gestionnaire de configuration</target>
+		</trans-unit>
+
 		<!-- style manager -->
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbackground.tabTitle">
 			<source>Background</source>

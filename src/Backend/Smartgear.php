@@ -14,17 +14,25 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend;
 
+use Contao\ArticleModel;
 use Contao\BackendTemplate;
 use Contao\Config;
+use Contao\ContentModel;
 use Contao\Environment;
 use Contao\Input;
+use Contao\LayoutModel;
 use Contao\Message;
+use Contao\ModuleModel;
+use Contao\PageModel;
 use Contao\RequestToken;
 use Contao\System;
+use Contao\ThemeModel;
 use Exception;
 use WEM\SmartgearBundle\Backup\BackupManager;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Override\Controller;
@@ -183,6 +191,12 @@ class Smartgear extends \Contao\BackendModule
 
             return;
         }
+
+        if ('configurationmanager' === Input::get('key')) {
+            $this->getConfigurationManager();
+
+            return;
+        }
         // Catch Modal Calls
         if ('modal' === Input::get('act')) {
             // Catch Errors
@@ -221,6 +235,7 @@ class Smartgear extends \Contao\BackendModule
             // Load buttons
             $this->getBackupManagerButton();
             $this->getUpdateManagerButton();
+            $this->getConfigurationManagerButton();
 
             // Parse Smartgear components
             foreach ($this->modules as $type => $blocks) {
@@ -384,6 +399,42 @@ class Smartgear extends \Contao\BackendModule
         $this->Template->playUpdatesButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesBT'];
     }
 
+    /**
+     * Configuration manager behaviour.
+     */
+    protected function getConfigurationManager(): void
+    {
+        $this->Template = new BackendTemplate('be_wem_sg_configurationmanager');
+        if ('save' === Input::post('act')) {
+            try {
+                $this->saveConfigurationManagerForm();
+
+                // Add Message
+                Message::addConfirmation($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['messageSaveDone']);
+            } catch (Exception $e) {
+                Message::addError($e->getMessage());
+            }
+        }
+
+        // Retrieve eventual logs
+        // if ($this->objSession->get('wem_sg_configuration_update_result')) {
+        //     $this->Template->update_result = $this->objSession->get('wem_sg_configuration_update_result');
+        //     $this->objSession->set('wem_sg_configuration_update_result', '');
+        // }
+
+        $this->fillConfigurationManagerForm();
+
+        // Back button
+        $this->getBackButton(str_replace('&key=configurationmanager', '', Environment::get('request')));
+
+        // play updates button
+        $this->Template->saveButtonHref = $this->addToUrl('&act=save');
+        $this->Template->saveButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['saveBTTitle']);
+        $this->Template->saveButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['saveBT'];
+
+        $this->Template->token = RequestToken::get();
+    }
+
     protected function getBackButton($strHref = ''): void
     {
         // Back button
@@ -406,5 +457,246 @@ class Smartgear extends \Contao\BackendModule
         $this->Template->updateManagerBtnHref = $this->addToUrl('&key=updatemanager');
         $this->Template->updateManagerBtnTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['updateManagerBTTitle']);
         $this->Template->updateManagerBtnButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['updateManagerBT'];
+    }
+
+    protected function getConfigurationManagerButton(): void
+    {
+        // Backup manager button
+        $this->Template->configurationManagerBtnHref = $this->addToUrl('&key=configurationmanager');
+        $this->Template->configurationManagerBtnTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['configurationManagerBTTitle']);
+        $this->Template->configurationManagerBtnButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['configurationManagerBT'];
+    }
+
+    private function saveConfigurationManagerForm(): void
+    {
+        /** @var CoreConfig */
+        $coreConfig = $this->coreConfigurationManager->load();
+
+        if (Input::post('blog')) {
+            /** @var BlogConfig */
+            $blogConfig = $coreConfig->getSgBlog();
+
+            $blogConfig
+                ->setSgInstallComplete(Input::post('blog')['installComplete'] ? true : false)
+                ->setSgArchived(Input::post('blog')['archived'] ? true : false)
+                ->setSgArchivedAt((int) Input::post('blog')['archivedAt'])
+                ->setSgArchivedMode(Input::post('blog')['archivedMode'])
+            ;
+
+            $coreConfig->setSgBlog($blogConfig);
+        }
+
+        $this->coreConfigurationManager->save($coreConfig);
+    }
+
+    private function fillConfigurationManagerForm(): void
+    {
+        $themes = ThemeModel::findAll(['order' => 'name ASC']);
+        $arrThemes = [];
+        $arrModules = [];
+        $arrLayouts = [];
+        $arrPages = [];
+        $arrArticles = [];
+        $arrContents = [];
+        if ($themes) {
+            while ($themes->next()) {
+                $objTheme = $themes->current();
+                $arrThemes[$objTheme->id] = [
+                    'value' => $objTheme->id,
+                    'text' => $objTheme->name,
+                    'selected' => false,
+                ];
+
+                $modules = ModuleModel::findBy('pid', $objTheme->id, ['order' => 'name ASC']);
+                if ($modules) {
+                    while ($modules->next()) {
+                        $objModule = $modules->current();
+                        // $arrLayouts[$objTheme->id]['options'][$objModule->id] = [
+                        $arrModules[$objModule->id] = [
+                            'value' => $objModule->id,
+                            'text' => $objTheme->name.' - '.$objModule->name.' ('.$objModule->type.')',
+                            'selected' => false,
+                        ];
+                    }
+                }
+
+                // $arrLayouts[$objTheme->id] = [
+                //     'text' => $objTheme->name,
+                //     'options' => [],
+                // ];
+
+                $layouts = LayoutModel::findBy('pid', $objTheme->id, ['order' => 'name ASC']);
+                if ($layouts) {
+                    while ($layouts->next()) {
+                        $objLayout = $layouts->current();
+                        // $arrLayouts[$objTheme->id]['options'][$objLayout->id] = [
+                        $arrLayouts[$objLayout->id] = [
+                            'value' => $objLayout->id,
+                            'text' => $objTheme->name.' - '.$objLayout->name,
+                            'selected' => false,
+                        ];
+
+                        // if (!$arrPages[$objTheme->id]) {
+                        //     $arrPages[$objTheme->id] = [
+                        //         'text' => $objTheme->name.' ('.$objLayout->name.')',
+                        //         'options' => [],
+                        //     ];
+                        // }
+
+                        $pages = PageModel::findBy('layout', $objLayout->id, ['order' => 'sorting ASC']);
+                        if ($pages) {
+                            while ($pages->next()) {
+                                $objPage = $pages->current();
+                                // $arrPages[$objTheme->id]['options'][$objPage->id] = [
+                                $arrPages[$objPage->id] = [
+                                    'value' => $objPage->id,
+                                    // 'text' => $objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.')',
+                                    'text' => $objTheme->name.' - '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.')',
+                                    'selected' => false,
+                                ];
+
+                                // if (!$arrArticles[$objPage->id]) {
+                                //     $arrArticles[$objPage->id] = [
+                                //         'text' => $objPage->title.' ('.$objPage->title.')',
+                                //         'options' => [],
+                                //     ];
+                                // }
+
+                                $articles = ArticleModel::findBy('pid', $objPage->id, ['order' => 'sorting ASC']);
+                                if ($articles) {
+                                    while ($articles->next()) {
+                                        $objArticle = $articles->current();
+                                        // $arrArticles[$objPage->id]['options'][$objArticle->id] = [
+                                        $arrArticles[$objArticle->id] = [
+                                            'value' => $objArticle->id,
+                                            // 'text' => $objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->type.')',
+                                            'text' => $objTheme->name.' - '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.') '.$objArticle->sorting.' - '.$objArticle->title,
+                                            'selected' => false,
+                                        ];
+
+                                        // if (!$arrContents[$objArticle->id]) {
+                                        //     $arrContents[$objArticle->id] = [
+                                        //         'text' => $objArticle->title.' ('.$objArticle->inColumn.')',
+                                        //         'options' => [],
+                                        //     ];
+                                        // }
+
+                                        $contents = ContentModel::findBy('pid', $objArticle->id, ['order' => 'sorting ASC']);
+                                        if ($contents) {
+                                            while ($contents->next()) {
+                                                $objContent = $contents->current();
+                                                // $arrContents[$objArticle->id]['options'][$objContent->id] = [
+                                                $arrContents[$objContent->id] = [
+                                                    'value' => $objContent->id,
+                                                    // 'text' => $objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
+                                                    'text' => $objTheme->name.' - '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.') '.$objArticle->sorting.' - '.$objArticle->title.' '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
+                                                    'selected' => false,
+                                                ];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // $arrPages[0] = [
+        //     'text' => 'No theme (No layout)',
+        //     'options' => [],
+        // ];
+        $pages = PageModel::findBy('layout', 0, ['order' => 'sorting ASC']);
+        if ($pages) {
+            while ($pages->next()) {
+                $objPage = $pages->current();
+                // $arrPages[0]['options'][$pages->id] = [
+                $arrPages[$pages->id] = [
+                    'value' => $objPage->id,
+                    'text' => 'No theme - '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.')',
+                    'selected' => false,
+                ];
+                // if (!$arrArticles[$objPage->id]) {
+                //     $arrArticles[$objPage->id] = [
+                //         'text' => $objPage->title.' ('.$objPage->title.')',
+                //         'options' => [],
+                //     ];
+                // }
+
+                $articles = ArticleModel::findBy('pid', $objPage->id, ['order' => 'sorting ASC']);
+                if ($articles) {
+                    while ($articles->next()) {
+                        $objArticle = $articles->current();
+                        // $arrArticles[$objPage->id]['options'][$objArticle->id] = [
+                        $arrArticles[$objArticle->id] = [
+                            'value' => $objArticle->id,
+                            // 'text' => $objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->type.')',
+                            'text' => 'No theme - '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.') '.$objArticle->sorting.' - '.$objArticle->title,
+                            'selected' => false,
+                        ];
+
+                        // if (!$arrContents[$objArticle->id]) {
+                        //     $arrContents[$objArticle->id] = [
+                        //         'text' => $objArticle->title.' ('.$objArticle->inColumn.')',
+                        //         'options' => [],
+                        //     ];
+                        // }
+
+                        $contents = ContentModel::findBy('pid', $objArticle->id, ['order' => 'sorting ASC']);
+                        if ($contents) {
+                            while ($contents->next()) {
+                                $objContent = $contents->current();
+                                // $arrContents[$objArticle->id]['options'][$objContent->id] = [
+                                $arrContents[$objContent->id] = [
+                                    'value' => $objContent->id,
+                                    // 'text' => $objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
+                                    'text' => 'No theme - '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.') '.$objArticle->sorting.' - '.$objArticle->title.' '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
+                                    'selected' => false,
+                                ];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        $this->Template->xxxx = $arrPages;
+        $this->Template->xxxx = $arrArticles;
+        $this->Template->xxxx = $arrContents;
+        $this->Template->xxxx = $arrModules;
+
+        // core
+        /** @var CoreConfig */
+        $coreConfig = $this->coreConfigurationManager->load();
+        $core = [
+            'installComplete' => $coreConfig->getSgInstallComplete(),
+            'version' => $coreConfig->getSgVersion(),
+        ];
+        $this->Template->core = $core;
+
+        /** @var BlogConfig */
+        $blogConfig = $coreConfig->getSgBlog();
+        $archivedModeRaw = BlogConfig::ARCHIVE_MODES_ALLOWED;
+        $archivedMode = [];
+        foreach ($archivedModeRaw as $mode) {
+            $archivedMode[$mode] = [
+                'text' => $mode,
+                'value' => $mode,
+                'selected' => false,
+            ];
+        }
+        if ($archivedMode[$blogConfig->getSgArchivedMode()]) {
+            $archivedMode[$blogConfig->getSgArchivedMode()]['selected'] = true;
+        }
+
+        $blog = [
+            'installComplete' => $blogConfig->getSgInstallComplete(),
+            'archived' => $blogConfig->getSgArchived(),
+            'archivedAt' => $blogConfig->getSgArchivedAt(),
+            'archivedMode' => $archivedMode,
+        ];
+
+        $this->Template->blog = $blog;
     }
 }

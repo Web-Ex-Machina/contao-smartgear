@@ -1,0 +1,57 @@
+<div id="tl_buttons">
+  <a href="<?= ampersand($this->saveButtonHref) ?>" class="header_save" title="<?= Contao\StringUtil::specialchars($this->saveButtonTitle) ?>" accesskey="b"><?= $this->saveButtonButton ?></a>
+  <a href="<?= ampersand($this->backButtonHref) ?>" class="header_back" title="<?= Contao\StringUtil::specialchars($this->backButtonTitle) ?>" accesskey="b"><?= $this->backButtonButton ?></a>
+</div>
+
+<!-- Display messages -->
+<?= Message::generate(); ?>
+
+<!-- Display Module -->
+<div id="tl_wem_sg_updatemanager" class="wem_module">
+	<h2 class="sub_headline"><?= $this->trans('WEMSG.CONFIGURATIONMANAGER.FORM.title'); ?></h2>
+   	<form method="post" class="tl_form tl_edit_form" name="tl_wem_configuiration_manager">
+   		<div class="tl_formbody_edit">
+			<input name="FORM_SUBMIT" value="tl_wem_configuiration_manager" type="hidden">
+			<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
+			<input name="act" value="save" type="hidden">
+
+			<fieldset class="tl_box">
+				<legend>
+					<?php 
+						$key ='WEMSG.CONFIGURATIONMANAGER.FORM.legend_core'; 
+						$trans = $this->trans($key); 
+						echo $trans != $key ? $trans : 'legend_core';
+					?>
+				</legend>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'core_installComplete','name'=>'core[installComplete]','value'=>'1','checked'=>(bool) $this->core['installComplete']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_version','name'=>'core[version]','type'=>'text','value'=>$this->core['version']]); ?>
+
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['options'=>$this->xxxx,'label'=>'aaa','name'=>'aaa']); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['options'=>$this->xxxx,'label'=>'aaa','name'=>'bbb']); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'date','name'=>'ccc','type'=>'datetime','input_class'=>'','class'=>'wizard']); ?>
+			</fieldset>
+
+			<fieldset class="tl_box">
+				<legend>
+					<?php 
+						$key ='WEMSG.CONFIGURATIONMANAGER.FORM.legend_blog'; 
+						$trans = $this->trans($key); 
+						echo $trans != $key ? $trans : 'legend_blog';
+					?>
+				</legend>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'blog_installComplete','name'=>'blog[installComplete]','value'=>'1','checked'=>(bool) $this->blog['installComplete']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'blog_archived','name'=>'blog[archived]','value'=>'1','checked'=>(bool) $this->blog['blog_archived']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'blog_archivedAt','name'=>'blog[archivedAt]','type'=>'text','value'=>$this->blog['archivedAt']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'blog_archivedMode','name'=>'blog[archivedMode]','options'=>$this->blog['archivedMode']]); ?>
+			</fieldset>
+			<div class="tl_formbody_submit">
+				<button type="submit" name="save" title="<?= Contao\StringUtil::specialchars($this->saveButtonTitle) ?>" class="tl_submit">
+					<?= $this->saveButtonButton; ?>
+				</button>
+			</div>
+		</div>
+	</form>
+</div>

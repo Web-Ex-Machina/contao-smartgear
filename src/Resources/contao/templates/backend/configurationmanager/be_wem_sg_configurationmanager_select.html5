@@ -1,0 +1,28 @@
+<div class="widget <?php echo $this->class ?? ''; ?>">
+	<h3>
+		<label for="<?php echo $this->name; ?>">
+			<?php 
+				$key ='WEMSG.CONFIGURATIONMANAGER.FORM.field_'.$this->label;
+				$trans = $this->trans($key); 
+				echo $trans != $key ? $trans : $this->label;
+			?>
+		</label>
+	</h3>
+	<select name="<?php echo $this->name; ?>" id="<?php echo $this->name; ?>" <?php echo $this->multiple ? 'multiple' : ''; ?> class="tl_select tl_chosen">
+		<?php foreach($this->options as $option): ?>
+			<?php if($option['options']): ?>
+				<optgroup label="<?php echo $option['text']; ?>">
+					<?php foreach($option['options'] as $subOption): ?>
+							<option value="<?php echo $subOption['value']; ?>" <?php echo $subOption['selected'] ? 'selected' : ''; ?>>
+								<?php echo $subOption['text']; ?>
+							</option>
+					<?php endforeach; ?>
+				</optgroup>
+			<?php else: ?>
+				<option value="<?php echo $option['value']; ?>" <?php echo $option['selected'] ? 'selected' : ''; ?>>
+					<?php echo $option['text']; ?>
+				</option>
+			<?php endif; ?>
+		<?php endforeach; ?>
+	</select>
+</div>
