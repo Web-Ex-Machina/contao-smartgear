@@ -30,10 +30,10 @@ use WEM\SmartgearBundle\Model\Module;
 
 class Migration extends MigrationAbstract
 {
-    protected static $name = 'Smargear update to v1.0.4';
-    protected static $description = 'Set Smartgear to version 1.0.4';
-    protected static $version = '1.0.4';
-    protected static $translation_key = 'WEMSG.MIGRATIONS.V1_0_4_M202301110935';
+    protected $name = 'Smargear update to v1.0.4';
+    protected $description = 'Set Smartgear to version 1.0.4';
+    protected $version = '1.0.4';
+    protected $translation_key = 'WEMSG.MIGRATIONS.V1_0_4_M202301110935';
     /** @var DirectoriesSynchronizer */
     protected static $templatesSmartgearSynchronizer;
 
@@ -79,7 +79,7 @@ class Migration extends MigrationAbstract
             $this->updateElementsUsingRemovedTemplate();
             $this->updateBlogComponent();
 
-            $coreConfig->setSgVersion(self::$version);
+            $coreConfig->setSgVersion($this->version);
 
             $this->coreConfigurationManager->save($coreConfig);
 

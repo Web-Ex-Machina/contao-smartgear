@@ -25,10 +25,10 @@ use WEM\SmartgearBundle\Model\SocialNetworkCategory as SocialNetworkCategoryMode
 
 class Migration extends MigrationAbstract
 {
-    protected static $name = 'Configures social networks';
-    protected static $description = 'Configures social networks';
-    protected static $version = '1.0.0';
-    protected static $translation_key = 'WEMSG.MIGRATIONS.V1_0_0_M202205130814';
+    protected $name = 'Configures social networks';
+    protected $description = 'Configures social networks';
+    protected $version = '1.0.0';
+    protected $translation_key = 'WEMSG.MIGRATIONS.V1_0_0_M202205130814';
 
     public function __construct(
         Connection $connection,

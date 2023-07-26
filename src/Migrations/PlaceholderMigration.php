@@ -24,10 +24,10 @@ use WEM\SmartgearBundle\Migrations\V1_0_0\MigrationAbstract;
 
 class PlaceholderMigration extends MigrationAbstract
 {
-    protected static $name;
-    protected static $description;
-    protected static $version;
-    protected static $translation_key = 'WEMSG.MIGRATIONS.PLACEHOLDER';
+    protected $name;
+    protected $description;
+    protected $version;
+    protected $translation_key = 'WEMSG.MIGRATIONS.PLACEHOLDER';
 
     public function __construct(
         Connection $connection,
@@ -38,9 +38,9 @@ class PlaceholderMigration extends MigrationAbstract
         int $y,
         int $z
     ) {
-        self::$name = sprintf('Smargear update to v%s.%s.%s', $x, $y, $z);
-        self::$description = sprintf('Set Smartgear to version %s.%s.%s', $x, $y, $z);
-        self::$version = sprintf('%s.%s.%s', $x, $y, $z);
+        $this->name = sprintf('Smargear update to v%s.%s.%s', $x, $y, $z);
+        $this->description = sprintf('Set Smartgear to version %s.%s.%s', $x, $y, $z);
+        $this->version = sprintf('%s.%s.%s', $x, $y, $z);
         parent::__construct($connection, $translator, $coreConfigurationManager, $versionComparator);
     }
 
@@ -69,13 +69,13 @@ class PlaceholderMigration extends MigrationAbstract
             /** @var CoreConfig */
             $coreConfig = $this->coreConfigurationManager->load();
 
-            $coreConfig->setSgVersion(self::$version);
+            $coreConfig->setSgVersion($this->version);
 
             $this->coreConfigurationManager->save($coreConfig);
 
             $result
                 ->setStatus(Result::STATUS_SUCCESS)
-                ->addLog($this->translator->trans($this->buildTranslationKey('done'), [self::$version], 'contao_default'))
+                ->addLog($this->translator->trans($this->buildTranslationKey('done'), [$this->version], 'contao_default'))
             ;
         } catch (\Exception $e) {
             $result
@@ -89,11 +89,11 @@ class PlaceholderMigration extends MigrationAbstract
 
     public function getTranslatedName(): string
     {
-        return $this->translator->trans($this->buildTranslationKey('name'), [self::$version], 'contao_default');
+        return $this->translator->trans($this->buildTranslationKey('name'), [$this->version], 'contao_default');
     }
 
     public function getTranslatedDescription(): string
     {
-        return $this->translator->trans($this->buildTranslationKey('description'), [self::$version], 'contao_default');
+        return $this->translator->trans($this->buildTranslationKey('description'), [$this->version], 'contao_default');
     }
 }

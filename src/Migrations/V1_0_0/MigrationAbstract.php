@@ -21,6 +21,7 @@ use WEM\SmartgearBundle\Classes\Migration\MigrationAbstract as BaseMigrationAbst
 use WEM\SmartgearBundle\Classes\Migration\Result;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
 use WEM\SmartgearBundle\Classes\Version\Version;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 abstract class MigrationAbstract extends BaseMigrationAbstract
@@ -31,7 +32,7 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
     protected $coreConfigurationManager;
     /** @var VersionComparator */
     protected $versionComparator;
-    protected static $translation_key = 'WEMSG.MIGRATIONS';
+    protected $translation_key = 'WEMSG.MIGRATIONS';
 
     public function __construct(
         Connection $connection,
@@ -75,6 +76,7 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
     protected function shouldRunCheckConfiguration(Result $result): Result
     {
         try {
+            /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
         } catch (FileNotFoundException $e) {
             $result->setStatus(Result::STATUS_SKIPPED)
@@ -90,6 +92,7 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
     protected function shouldRunCheckVersion(Result $result): Result
     {
         try {
+            /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
         } catch (FileNotFoundException $e) {
             $result->setStatus(Result::STATUS_SKIPPED)
@@ -107,7 +110,7 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
             case VersionComparator::CURRENT_VERSION_HIGHER:
                 $result->setStatus(Result::STATUS_SKIPPED)
                 ->addLog(
-                    $this->translator->trans($this->buildTranslationKeyLocal('VERSIONCOMPARATOR.currentVersionHigher'), [$currentVersion, $migrationVersion], 'contao_default')
+                    $this->translator->trans('WEMSG.MIGRATIONS.VERSIONCOMPARATOR.currentVersionHigher', [$currentVersion, $migrationVersion], 'contao_default')
                 )
                 ;
             break;
@@ -115,14 +118,14 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
                 $result->setStatus(Result::STATUS_SKIPPED)
                 // $result->setStatus(Result::STATUS_SHOULD_RUN)
                 ->addLog(
-                    $this->translator->trans($this->buildTranslationKeyLocal('VERSIONCOMPARATOR.versionsEquals'), [$currentVersion, $migrationVersion], 'contao_default')
+                    $this->translator->trans('WEMSG.MIGRATIONS.VERSIONCOMPARATOR.versionsEquals', [$currentVersion, $migrationVersion], 'contao_default')
                 )
                 ;
             break;
             case VersionComparator::CURRENT_VERSION_LOWER:
                 $result->setStatus(Result::STATUS_SHOULD_RUN)
                 ->addLog(
-                    $this->translator->trans($this->buildTranslationKeyLocal('VERSIONCOMPARATOR.currentVersionLower'), [$currentVersion, $migrationVersion], 'contao_default')
+                    $this->translator->trans('WEMSG.MIGRATIONS.VERSIONCOMPARATOR.currentVersionLower', [$currentVersion, $migrationVersion], 'contao_default')
                 )
                 ->addLog($this->translator->trans('WEMSG.MIGRATIONS.shouldBeRun', [], 'contao_default'))
                 ;
@@ -134,6 +137,6 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
 
     protected function buildTranslationKeyLocal(string $property): string
     {
-        return self::$translation_key.'.'.$property;
+        return $this->translation_key.'.'.$property;
     }
 }

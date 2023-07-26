@@ -26,10 +26,10 @@ use WEM\SmartgearBundle\Migrations\V1_0_0\MigrationAbstract;
 
 class Migration extends MigrationAbstract
 {
-    protected static $name = 'Configures CSS classes';
-    protected static $description = 'Configures CSS classes available for contents';
-    protected static $version = '1.0.0';
-    protected static $translation_key = 'WEMSG.MIGRATIONS.V1_0_0_M202203231730';
+    protected $name = 'Configures CSS classes';
+    protected $description = 'Configures CSS classes available for contents';
+    protected $version = '1.0.0';
+    protected $translation_key = 'WEMSG.MIGRATIONS.V1_0_0_M202203231730';
     /** @var configurationFramwayCombinedManager */
     protected $configurationFramwayCombinedManager;
 

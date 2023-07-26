@@ -26,10 +26,10 @@ use WEM\SmartgearBundle\Model\PageVisit;
 
 class Migration extends MigrationAbstract
 {
-    protected static $name = 'Smargear update to v1.0.5';
-    protected static $description = 'Set Smartgear to version 1.0.5';
-    protected static $version = '1.0.5';
-    protected static $translation_key = 'WEMSG.MIGRATIONS.V1_0_5_M202301131435';
+    protected $name = 'Smargear update to v1.0.5';
+    protected $description = 'Set Smartgear to version 1.0.5';
+    protected $version = '1.0.5';
+    protected $translation_key = 'WEMSG.MIGRATIONS.V1_0_5_M202301131435';
     /** @var DirectoriesSynchronizer */
     protected static $templatesSmartgearSynchronizer;
 
@@ -72,7 +72,7 @@ class Migration extends MigrationAbstract
             // copy templates needing to be updated
             $this->templatesSmartgearSynchronizer->synchronize(false);
 
-            $coreConfig->setSgVersion(self::$version);
+            $coreConfig->setSgVersion($this->version);
 
             $this->coreConfigurationManager->save($coreConfig);
 

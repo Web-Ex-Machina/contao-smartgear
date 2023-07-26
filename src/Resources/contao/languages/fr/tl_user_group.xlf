@@ -5,11 +5,11 @@
         <source>Smartgear permissions</source>
         <target>Permissions Smartgear</target>
       </trans-unit>
-      <trans-unit id="tl_user.smartgear_permissions.0">
+      <trans-unit id="tl_user_group.smartgear_permissions.0">
         <source>Smartgear permissions</source>
         <target>Permissions Smartgear</target>
       </trans-unit>
-      <trans-unit id="tl_user.smartgear_permissions.1">
+      <trans-unit id="tl_user_group.smartgear_permissions.1">
         <source>Tick Smartgear permissions</source>
         <target>Cochez les permissions Smartgear</target>
       </trans-unit>
