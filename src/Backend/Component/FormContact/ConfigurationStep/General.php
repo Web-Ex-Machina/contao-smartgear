@@ -177,7 +177,7 @@ class General extends ConfigurationStep
             'pid' => $pageFormContact->id,
             'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $pageFormContact->id),
             'type' => 'regular',
-            'robots' => 'index,follow',
+            'robots' => 'noindex,nofollow',
             'description' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormSentDescription', [$formContactConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
             'published' => 1,
             'hide' => 1,
