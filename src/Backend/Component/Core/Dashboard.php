@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Core;
 
+use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\PageModel;
@@ -153,8 +154,21 @@ class Dashboard extends BackendDashboard
             if (empty($rootPage->language)) {
                 $this->addError(sprintf($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeRootpageLanguageMissing'], $rootPage->title));
             }
-            if (empty($rootPage->sitemapName)) {
-                $this->addError(sprintf($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeRootpageSitemapMissing'], $rootPage->title));
+            // only for Contao < 4.11
+            $contaoVersion = ContaoCoreBundle::getVersion();
+            $contaoXVersion = (int) substr($contaoVersion, 0, strpos($contaoVersion, '.'));
+            $contaoYVersion = (int) substr(substr($contaoVersion, \strlen((string) $contaoXVersion) + 1), 0, strpos(substr($contaoVersion, \strlen((string) $contaoXVersion) + 1), '.'));
+
+            if (
+                $contaoXVersion < 4
+                || (
+                    4 === $contaoXVersion
+                    && $contaoYVersion < 11
+                )
+            ) {
+                if (empty($rootPage->sitemapName)) {
+                    $this->addError(sprintf($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeRootpageSitemapMissing'], $rootPage->title));
+                }
             }
         }
 
