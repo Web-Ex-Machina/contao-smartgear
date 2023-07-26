@@ -166,7 +166,7 @@ class General extends ConfigurationStep
 
         $page = PageModel::findById($eventsConfig->getSgPage());
 
-        return Util::createPage($eventsConfig->getSgPageTitle(), 0, array_merge([
+        $page = Util::createPage($eventsConfig->getSgPageTitle(), 0, array_merge([
             'pid' => $rootPage->id,
             'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
@@ -175,6 +175,10 @@ class General extends ConfigurationStep
             'type' => 'regular',
             'published' => 1,
         ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+
+        $this->setEventConfigKey('setSgPage', (int) $page->id);
+
+        return $page;
     }
 
     protected function createArticle(PageModel $page): ArticleModel
@@ -186,9 +190,13 @@ class General extends ConfigurationStep
 
         $article = ArticleModel::findById($eventsConfig->getSgArticle());
 
-        return Util::createArticle($page, array_merge([
+        $article = Util::createArticle($page, array_merge([
             'title' => $eventsConfig->getSgPageTitle(),
         ], null !== $article ? ['id' => $article->id] : []));
+
+        $this->setEventConfigKey('setSgArticle', (int) $article->id);
+
+        return $article;
     }
 
     protected function createCalendarFeed(PageModel $page): CalendarModel
@@ -207,6 +215,8 @@ class General extends ConfigurationStep
         $calendar->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupRedactors->id]);
         $calendar->tstamp = time();
         $calendar->save();
+
+        $this->setEventConfigKey('setSgCalendar', (int) $calendar->id);
 
         return $calendar;
     }
@@ -237,6 +247,8 @@ class General extends ConfigurationStep
         $moduleReader->tstamp = time();
         $moduleReader->save();
 
+        $this->setEventConfigKey('setSgModuleReader', (int) $moduleReader->id);
+
         if (null !== $eventsConfig->getSgModuleList()) {
             $moduleListOld = ModuleModel::findById($eventsConfig->getSgModuleList());
             if ($moduleListOld) {
@@ -258,6 +270,8 @@ class General extends ConfigurationStep
         $moduleList->tstamp = time();
         $moduleList->save();
 
+        $this->setEventConfigKey('setSgModuleList', (int) $moduleList->id);
+
         if (null !== $eventsConfig->getSgModuleCalendar()) {
             $moduleListOld = ModuleModel::findById($eventsConfig->getSgModuleCalendar());
             if ($moduleListOld) {
@@ -278,6 +292,8 @@ class General extends ConfigurationStep
         $moduleCalendar->tstamp = time();
         $moduleCalendar->save();
 
+        $this->setEventConfigKey('setSgModuleCalendar', (int) $moduleCalendar->id);
+
         return ['reader' => $moduleReader, 'list' => $moduleList, 'calendar' => $moduleCalendar];
     }
 
@@ -296,6 +312,8 @@ class General extends ConfigurationStep
         ], ['id' => null !== $list ? $list->id : null]));
 
         $article->save();
+
+        $this->setEventConfigKey('setSgContentList', (int) $list->id);
 
         return ['list' => $list];
     }
@@ -351,5 +369,20 @@ class General extends ConfigurationStep
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->calendarp = serialize(['create', 'delete']);
         $objUserGroup->save();
+    }
+
+    private function setEventConfigKey(string $key, $value): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        /** @var EventsConfig */
+        $eventsConfig = $config->getSgEvents();
+
+        $eventsConfig->{$key}($value);
+
+        $config->setSgEvents($eventsConfig);
+
+        $this->configurationManager->save($config);
     }
 }
