@@ -48,6 +48,8 @@ use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
 use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
+use WEM\SmartgearBundle\Config\Module\Extranet\Extranet as ExtranetConfig;
+use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Override\Controller;
@@ -680,6 +682,20 @@ class Smartgear extends \Contao\BackendModule
             $coreConfig->setSgFormContact($fcConfig);
         }
 
+        if (Input::post('formDataManager')) {
+            /** @var FormDataManagerConfig */
+            $fdmConfig = $coreConfig->getSgFormDataManager();
+
+            $fdmConfig
+                ->setSgInstallComplete((bool) Input::post('formDataManager')['installComplete'])
+                ->setSgArchived((bool) Input::post('formDataManager')['archived'])
+                ->setSgArchivedAt((int) Input::post('formDataManager')['archivedAt'])
+                ->setSgArchivedMode(Input::post('formDataManager')['archivedMode'])
+            ;
+
+            $coreConfig->setSgFormDataManager($fdmConfig);
+        }
+
         $this->coreConfigurationManager->save($coreConfig);
     }
 
@@ -1023,7 +1039,7 @@ class Smartgear extends \Contao\BackendModule
         $archivedMode = [];
         foreach ($archivedModeRaw as $mode) {
             $archivedMode[$mode] = [
-                'text' => $mode,
+                'text' => !empty($mode) ? $mode : 'N/A',
                 'value' => $mode,
                 'selected' => false,
             ];
@@ -1114,7 +1130,7 @@ class Smartgear extends \Contao\BackendModule
         $archivedMode = [];
         foreach ($archivedModeRaw as $mode) {
             $archivedMode[$mode] = [
-                'text' => $mode,
+                'text' => !empty($mode) ? $mode : 'N/A',
                 'value' => $mode,
                 'selected' => false,
             ];
@@ -1179,7 +1195,7 @@ class Smartgear extends \Contao\BackendModule
         $archivedMode = [];
         foreach ($archivedModeRaw as $mode) {
             $archivedMode[$mode] = [
-                'text' => $mode,
+                'text' => !empty($mode) ? $mode : 'N/A',
                 'value' => $mode,
                 'selected' => false,
             ];
@@ -1227,7 +1243,7 @@ class Smartgear extends \Contao\BackendModule
         $archivedMode = [];
         foreach ($archivedModeRaw as $mode) {
             $archivedMode[$mode] = [
-                'text' => $mode,
+                'text' => !empty($mode) ? $mode : 'N/A',
                 'value' => $mode,
                 'selected' => false,
             ];
@@ -1296,5 +1312,169 @@ class Smartgear extends \Contao\BackendModule
         $this->Template->formContact = $formContact;
         $this->Template->forms = $empty + $arrForms;
         $this->Template->fields = $empty + $arrFields;
+
+        // FormDataManager
+        /** @var FormDataManagerConfig */
+        $fdmConfig = $coreConfig->getSgFormDataManager();
+        $archivedModeRaw = FormDataManagerConfig::ARCHIVE_MODES_ALLOWED;
+        $archivedMode = [];
+        foreach ($archivedModeRaw as $mode) {
+            $archivedMode[$mode] = [
+                'text' => !empty($mode) ? $mode : 'N/A',
+                'value' => $mode,
+                'selected' => false,
+            ];
+        }
+        if ($archivedMode[$fdmConfig->getSgArchivedMode()]) {
+            $archivedMode[$fdmConfig->getSgArchivedMode()]['selected'] = true;
+        }
+
+        $formDataManager = [
+            'installComplete' => $fdmConfig->getSgInstallComplete(),
+            'archived' => $fdmConfig->getSgArchived(),
+            'archivedAt' => $fdmConfig->getSgArchivedAt(),
+            'archivedMode' => $archivedMode,
+        ];
+
+        $this->Template->formDataManager = $formDataManager;
+
+        // Extranet
+        /** @var ExtranetConfig */
+        $extranetConfig = $coreConfig->getSgExtranet();
+        $archivedModeRaw = ExtranetConfig::ARCHIVE_MODES_ALLOWED;
+        $archivedMode = [];
+        foreach ($archivedModeRaw as $mode) {
+            $archivedMode[$mode] = [
+                'text' => !empty($mode) ? $mode : 'N/A',
+                'value' => $mode,
+                'selected' => false,
+            ];
+        }
+        if ($archivedMode[$extranetConfig->getSgArchivedMode()]) {
+            $archivedMode[$extranetConfig->getSgArchivedMode()]['selected'] = true;
+        }
+
+        $formDataManager = [
+            'installComplete' => $extranetConfig->getSgInstallComplete(),
+            'archived' => $extranetConfig->getSgArchived(),
+            'archivedAt' => $extranetConfig->getSgArchivedAt(),
+            'archivedMode' => $archivedMode,
+
+            'extranetFolder' => $extranetConfig->getSgExtranetFolder() ?? ExtranetConfig::DEFAULT_FOLDER_PATH,
+            'canSubscribe' => $extranetConfig->getSgCanSubscribe() ?? ExtranetConfig::DEFAULT_CAN_SUBSCRIBE,
+            'memberGroupMembersTitle' => $extranetConfig->getSgMemberGroupMembersTitle() ?? ExtranetConfig::DEFAULT_MEMBER_GROUP_MEMBERS_TITLE,
+            'pageExtranetTitle' => $extranetConfig->getSgPageExtranetTitle() ?? ExtranetConfig::DEFAULT_PAGE_EXTRANET_TITLE,
+
+            'pageExtranet' => $extranetConfig->getSgPageExtranet(),
+            'page401' => $extranetConfig->getSgPage401(),
+            'page403' => $extranetConfig->getSgPage403(),
+            'pageContent' => $extranetConfig->getSgPageContent(),
+            'pageData' => $extranetConfig->getSgPageData(),
+            'pageDataConfirm' => $extranetConfig->getSgPageDataConfirm(),
+            'pagePassword' => $extranetConfig->getSgPagePassword(),
+            'pagePasswordConfirm' => $extranetConfig->getSgPagePasswordConfirm(),
+            'pagePasswordValidate' => $extranetConfig->getSgPagePasswordValidate(),
+            'pageLogout' => $extranetConfig->getSgPageLogout(),
+            'pageSubscribe' => $extranetConfig->getSgPageSubscribe(),
+            'pageSubscribeConfirm' => $extranetConfig->getSgPageSubscribeConfirm(),
+            'pageSubscribeValidate' => $extranetConfig->getSgPageSubscribeValidate(),
+            'pageUnsubscribeConfirm' => $extranetConfig->getSgPageUnsubscribeConfirm(),
+
+            'articleExtranet' => $extranetConfig->getSgArticleExtranet(),
+            'article401' => $extranetConfig->getSgArticle401(),
+            'article403' => $extranetConfig->getSgArticle403(),
+            'articleContent' => $extranetConfig->getSgArticleContent(),
+            'articleData' => $extranetConfig->getSgArticleData(),
+            'articleDataConfirm' => $extranetConfig->getSgArticleDataConfirm(),
+            'articlePassword' => $extranetConfig->getSgArticlePassword(),
+            'articlePasswordConfirm' => $extranetConfig->getSgArticlePasswordConfirm(),
+            'articlePasswordValidate' => $extranetConfig->getSgArticlePasswordValidate(),
+            'articleLogout' => $extranetConfig->getSgArticleLogout(),
+            'articleSubscribe' => $extranetConfig->getSgArticleSubscribe(),
+            'articleSubscribeConfirm' => $extranetConfig->getSgArticleSubscribeConfirm(),
+            'articleSubscribeValidate' => $extranetConfig->getSgArticleSubscribeValidate(),
+            'articleUnsubscribeConfirm' => $extranetConfig->getSgArticleUnsubscribeConfirm(),
+
+            'moduleLogin' => $extranetConfig->getSgModuleLogin(),
+            'moduleLogout' => $extranetConfig->getSgModuleLogout(),
+            'moduleData' => $extranetConfig->getSgModuleData(),
+            'modulePassword' => $extranetConfig->getSgModulePassword(),
+            'moduleNav' => $extranetConfig->getSgModuleNav(),
+            'moduleSubscribe' => $extranetConfig->getSgModuleSubscribe(),
+            'moduleCloseAccount' => $extranetConfig->getSgModuleCloseAccount(),
+
+            'notificationChangeData' => $extranetConfig->getSgNotificationChangeData(),
+            'notificationPassword' => $extranetConfig->getSgNotificationPassword(),
+            'notificationSubscription' => $extranetConfig->getSgNotificationSubscription(),
+
+            'notificationChangeDataMessage' => $extranetConfig->getSgNotificationChangeDataMessage(),
+            'notificationPasswordMessage' => $extranetConfig->getSgNotificationPasswordMessage(),
+            'notificationSubscriptionMessage' => $extranetConfig->getSgNotificationSubscriptionMessage(),
+
+            'notificationChangeDataMessageLanguage' => $extranetConfig->getSgNotificationChangeDataMessageLanguage(),
+            'notificationPasswordMessageLanguage' => $extranetConfig->getSgNotificationPasswordMessageLanguage(),
+            'notificationSubscriptionMessageLanguage' => $extranetConfig->getSgNotificationSubscriptionMessageLanguage(),
+
+            'contentArticleExtranetHeadline' => $extranetConfig->getSgContentArticleExtranetHeadline(),
+            'contentArticleExtranetModuleLoginGuests' => $extranetConfig->getSgContentArticleExtranetModuleLoginGuests(),
+            'contentArticleExtranetGridStartA' => $extranetConfig->getSgContentArticleExtranetGridStartA(),
+            'contentArticleExtranetGridStartB' => $extranetConfig->getSgContentArticleExtranetGridStartB(),
+            'contentArticleExtranetModuleLoginLogged' => $extranetConfig->getSgContentArticleExtranetModuleLoginLogged(),
+            'contentArticleExtranetModuleNav' => $extranetConfig->getSgContentArticleExtranetModuleNav(),
+            'contentArticleExtranetGridStopB' => $extranetConfig->getSgContentArticleExtranetGridStopB(),
+            'contentArticleExtranetGridStopA' => $extranetConfig->getSgContentArticleExtranetGridStopA(),
+
+            'contentArticle401Headline' => $extranetConfig->getSgContentArticle401Headline(),
+            'contentArticle401Text' => $extranetConfig->getSgContentArticle401Text(),
+            'contentArticle401ModuleLoginGuests' => $extranetConfig->getSgContentArticle401ModuleLoginGuests(),
+
+            'contentArticle403Headline' => $extranetConfig->getSgContentArticle403Headline(),
+            'contentArticle403Text' => $extranetConfig->getSgContentArticle403Text(),
+            'contentArticle403Hyperlink' => $extranetConfig->getSgContentArticle403Hyperlink(),
+
+            'contentArticleContentHeadline' => $extranetConfig->getSgContentArticleContentHeadline(),
+            'contentArticleContentText' => $extranetConfig->getSgContentArticleContentText(),
+
+            'contentArticleDataHeadline' => $extranetConfig->getSgContentArticleDataHeadline(),
+            'contentArticleDataModuleData' => $extranetConfig->getSgContentArticleDataModuleData(),
+            'contentArticleDataHeadlineCloseAccount' => $extranetConfig->getSgContentArticleDataHeadlineCloseAccount(),
+            'contentArticleDataTextCloseAccount' => $extranetConfig->getSgContentArticleDataTextCloseAccount(),
+            'contentArticleDataModuleCloseAccount' => $extranetConfig->getSgContentArticleDataModuleCloseAccount(),
+
+            'contentArticleDataConfirmHeadline' => $extranetConfig->getSgContentArticleDataConfirmHeadline(),
+            'contentArticleDataConfirmText' => $extranetConfig->getSgContentArticleDataConfirmText(),
+            'contentArticleDataConfirmHyperlink' => $extranetConfig->getSgContentArticleDataConfirmHyperlink(),
+
+            'contentArticlePasswordHeadline' => $extranetConfig->getSgContentArticlePasswordHeadline(),
+            'contentArticlePasswordModulePassword' => $extranetConfig->getSgContentArticlePasswordModulePassword(),
+
+            'contentArticlePasswordConfirmHeadline' => $extranetConfig->getSgContentArticlePasswordConfirmHeadline(),
+            'contentArticlePasswordConfirmText' => $extranetConfig->getSgContentArticlePasswordConfirmText(),
+
+            'contentArticlePasswordValidateHeadline' => $extranetConfig->getSgContentArticlePasswordValidateHeadline(),
+            'contentArticlePasswordValidateModulePassword' => $extranetConfig->getSgContentArticlePasswordValidateModulePassword(),
+
+            'contentArticleLogoutModuleLogout' => $extranetConfig->getSgContentArticleLogoutModuleLogout(),
+
+            'contentArticleSubscribeHeadline' => $extranetConfig->getSgContentArticleSubscribeHeadline(),
+            'contentArticleSubscribeModuleSubscribe' => $extranetConfig->getSgContentArticleSubscribeModuleSubscribe(),
+
+            'contentArticleSubscribeConfirmHeadline' => $extranetConfig->getSgContentArticleSubscribeConfirmHeadline(),
+            'contentArticleSubscribeConfirmText' => $extranetConfig->getSgContentArticleSubscribeConfirmText(),
+
+            'contentArticleSubscribeValidateHeadline' => $extranetConfig->getSgContentArticleSubscribeValidateHeadline(),
+            'contentArticleSubscribeValidateText' => $extranetConfig->getSgContentArticleSubscribeValidateText(),
+            'contentArticleSubscribeValidateModuleLoginGuests' => $extranetConfig->getSgContentArticleSubscribeValidateModuleLoginGuests(),
+
+            'contentArticleUnsubscribeHeadline' => $extranetConfig->getSgContentArticleUnsubscribeHeadline(),
+            'contentArticleUnsubscribeText' => $extranetConfig->getSgContentArticleUnsubscribeText(),
+            'contentArticleUnsubscribeHyperlink' => $extranetConfig->getSgContentArticleUnsubscribeHyperlink(),
+
+            'memberExample' => $extranetConfig->getSgMemberExample(),
+
+            'memberGroupMembers' => $extranetConfig->getSgMemberGroupMembers(),
+        ];
+
+        $this->Template->formDataManager = $formDataManager;
     }
 }
