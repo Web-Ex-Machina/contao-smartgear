@@ -210,6 +210,56 @@
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'faq_pageTitle','name'=>'faq[pageTitle]','value'=>$this->faq['pageTitle']]); ?>
 			</fieldset>
 
+			<fieldset class="tl_box">
+				<legend onclick="return toggleFieldset(this);">
+					<?php 
+						$key ='WEMSG.CONFIGURATIONMANAGER.FORM.legend_formContact'; 
+						$trans = $this->trans($key); 
+						echo $trans != $key ? $trans : 'legend_formContact';
+					?>
+				</legend>
+				<!-- install -->
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'formContact_installComplete','name'=>'formContact[installComplete]','value'=>'1','checked'=>(bool) $this->formContact['installComplete']]); ?>
+				
+				<!-- archive -->
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'formContact_archived','name'=>'formContact[archived]','value'=>'1','checked'=>(bool) $this->formContact['formContact_archived']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'formContact_archivedAt','name'=>'formContact[archivedAt]','type'=>'text','value'=>$this->formContact['archivedAt']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_archivedMode','name'=>'formContact[archivedMode]','options'=>$this->formContact['archivedMode']]); ?>
+
+				<!-- page & stuff -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_pageForm','name'=>'formContact[pageForm]','value'=>$this->formContact['pageForm'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_articleForm','name'=>'formContact[articleForm]','value'=>$this->formContact['articleForm'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_contentHeadlineArticleForm','name'=>'formContact[contentHeadlineArticleForm]','value'=>$this->formContact['contentHeadlineArticleForm'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_contentFormArticleForm','name'=>'formContact[contentFormArticleForm]','value'=>$this->formContact['contentFormArticleForm'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_pageFormSent','name'=>'formContact[pageFormSent]','value'=>$this->formContact['pageFormSent'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_articleFormSent','name'=>'formContact[articleFormSent]','value'=>$this->formContact['articleFormSent'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_contentHeadlineArticleFormSent','name'=>'formContact[contentHeadlineArticleFormSent]','value'=>$this->formContact['contentHeadlineArticleFormSent'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_contentTextArticleFormSent','name'=>'formContact[contentTextArticleFormSent]','value'=>$this->formContact['contentTextArticleFormSent'],'options'=>$this->contents]); ?>
+				
+				<!-- form & fields -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_formContact','name'=>'formContact[formContact]','value'=>$this->formContact['formContact'],'options'=>$this->forms]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_fieldName','name'=>'formContact[fieldName]','value'=>$this->formContact['fieldName'],'options'=>$this->fields]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_fieldEmail','name'=>'formContact[fieldEmail]','value'=>$this->formContact['fieldEmail'],'options'=>$this->fields]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_fieldMessage','name'=>'formContact[fieldMessage]','value'=>$this->formContact['fieldMessage'],'options'=>$this->fields]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_fieldConsentDataTreatment','name'=>'formContact[fieldConsentDataTreatment]','value'=>$this->formContact['fieldConsentDataTreatment'],'options'=>$this->fields]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_fieldConsentDataSave','name'=>'formContact[fieldConsentDataSave]','value'=>$this->formContact['fieldConsentDataSave'],'options'=>$this->fields]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_fieldCaptcha','name'=>'formContact[fieldCaptcha]','value'=>$this->formContact['fieldCaptcha'],'options'=>$this->fields]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_fieldSubmit','name'=>'formContact[fieldSubmit]','value'=>$this->formContact['fieldSubmit'],'options'=>$this->fields]); ?>
+
+
+				<!-- notifications -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_notificationMessageUser','name'=>'formContact[notificationMessageUser]','value'=>$this->formContact['notificationMessageUser'],'options'=>$this->ncMessages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_notificationMessageUserLanguage','name'=>'formContact[notificationMessageUserLanguage]','value'=>$this->formContact['notificationMessageUserLanguage'],'options'=>$this->ncLanguages]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_notificationMessageAdmin','name'=>'formContact[notificationMessageAdmin]','value'=>$this->formContact['notificationMessageAdmin'],'options'=>$this->ncMessages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_notificationMessageAdminLanguage','name'=>'formContact[notificationMessageAdminLanguage]','value'=>$this->formContact['notificationMessageAdminLanguage'],'options'=>$this->ncLanguages]); ?>
+
+				<!-- configuration -->
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'formContact_formContactTitle','name'=>'formContact[formContactTitle]','value'=>$this->formContact['formContactTitle']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'formContact_pageTitle','name'=>'formContact[pageTitle]','value'=>$this->formContact['pageTitle']]); ?>
+			</fieldset>
+
 			<div class="tl_formbody_submit">
 				<button type="submit" name="save" title="<?= Contao\StringUtil::specialchars($this->saveButtonTitle) ?>" class="tl_submit">
 					<?= $this->saveButtonButton; ?>

@@ -21,6 +21,8 @@ use Contao\Config;
 use Contao\ContentModel;
 use Contao\Environment;
 use Contao\FaqCategoryModel;
+use Contao\FormFieldModel;
+use Contao\FormModel;
 use Contao\Input;
 use Contao\LayoutModel;
 use Contao\Message;
@@ -45,6 +47,7 @@ use WEM\SmartgearBundle\Config\Component\Blog\Preset as BlogPresetConfig;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
+use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Override\Controller;
@@ -635,6 +638,48 @@ class Smartgear extends \Contao\BackendModule
             $coreConfig->setSgFaq($faqConfig);
         }
 
+        if (Input::post('formContact')) {
+            /** @var FormContactConfig */
+            $fcConfig = $coreConfig->getSgFormContact();
+
+            $fcConfig
+                ->setSgInstallComplete((bool) Input::post('formContact')['installComplete'])
+                ->setSgArchived((bool) Input::post('formContact')['archived'])
+                ->setSgArchivedAt((int) Input::post('formContact')['archivedAt'])
+                ->setSgArchivedMode(Input::post('formContact')['archivedMode'])
+
+                ->setSgPageForm(Input::post('formContact')['pageForm'] ? (int) Input::post('formContact')['pageForm'] : null)
+                ->setSgPageFormSent(Input::post('formContact')['pageFormSent'] ? (int) Input::post('formContact')['pageFormSent'] : null)
+                ->setSgArticleForm(Input::post('formContact')['articleForm'] ? (int) Input::post('formContact')['articleForm'] : null)
+                ->setSgArticleFormSent(Input::post('formContact')['articleFormSent'] ? (int) Input::post('formContact')['articleFormSent'] : null)
+                ->setSgContentHeadlineArticleForm(Input::post('formContact')['contentHeadlineArticleForm'] ? (int) Input::post('formContact')['contentHeadlineArticleForm'] : null)
+                ->setSgContentFormArticleForm(Input::post('formContact')['contentFormArticleForm'] ? (int) Input::post('formContact')['contentFormArticleForm'] : null)
+                ->setSgContentHeadlineArticleFormSent(Input::post('formContact')['contentHeadlineArticleFormSent'] ? (int) Input::post('formContact')['contentHeadlineArticleFormSent'] : null)
+                ->setSgContentTextArticleFormSent(Input::post('formContact')['contentTextArticleFormSent'] ? (int) Input::post('formContact')['contentTextArticleFormSent'] : null)
+
+                ->setSgFormContact(Input::post('formContact')['formContact'] ? (int) Input::post('formContact')['formContact'] : null)
+                ->setSgFieldName(Input::post('formContact')['fieldName'] ? (int) Input::post('formContact')['fieldName'] : null)
+                ->setSgFieldEmail(Input::post('formContact')['fieldEmail'] ? (int) Input::post('formContact')['fieldEmail'] : null)
+                ->setSgFieldMessage(Input::post('formContact')['fieldMessage'] ? (int) Input::post('formContact')['fieldMessage'] : null)
+                ->setSgFieldConsentDataTreatment(Input::post('formContact')['fieldConsentDataTreatment'] ? (int) Input::post('formContact')['fieldConsentDataTreatment'] : null)
+                ->setSgFieldConsentDataSave(Input::post('formContact')['fieldConsentDataSave'] ? (int) Input::post('formContact')['fieldConsentDataSave'] : null)
+                ->setSgFieldCaptcha(Input::post('formContact')['fieldCaptcha'] ? (int) Input::post('formContact')['fieldCaptcha'] : null)
+                ->setSgFieldSubmit(Input::post('formContact')['fieldSubmit'] ? (int) Input::post('formContact')['fieldSubmit'] : null)
+
+                ->setSgNotificationMessageUser(Input::post('formContact')['notificationMessageUser'] ? (int) Input::post('formContact')['notificationMessageUser'] : null)
+                ->setSgNotificationMessageAdmin(Input::post('formContact')['notificationMessageAdmin'] ? (int) Input::post('formContact')['notificationMessageAdmin'] : null)
+
+                ->setSgNotificationMessageUserLanguage(Input::post('formContact')['notificationMessageUserLanguage'] ? (int) Input::post('formContact')['notificationMessageUserLanguage'] : null)
+                ->setSgNotificationMessageAdminLanguage(Input::post('formContact')['notificationMessageAdminLanguage'] ? (int) Input::post('formContact')['notificationMessageAdminLanguage'] : null)
+
+                ->setSgFormContactTitle(Input::post('formContact')['formContactTitle'] ?? FormContactConfig::DEFAULT_FEED_TITLE)
+                ->setSgPageTitle(Input::post('formContact')['pageTitle'] ?? FormContactConfig::DEFAULT_PAGE_TITLE)
+
+            ;
+
+            $coreConfig->setSgFormContact($fcConfig);
+        }
+
         $this->coreConfigurationManager->save($coreConfig);
     }
 
@@ -1174,5 +1219,82 @@ class Smartgear extends \Contao\BackendModule
 
         $this->Template->faq = $faq;
         $this->Template->faqCategories = $empty + $arrFaqCategories;
+
+        // FormContact
+        /** @var FormContactConfig */
+        $fcConfig = $coreConfig->getSgFormContact();
+        $archivedModeRaw = FormContactConfig::ARCHIVE_MODES_ALLOWED;
+        $archivedMode = [];
+        foreach ($archivedModeRaw as $mode) {
+            $archivedMode[$mode] = [
+                'text' => $mode,
+                'value' => $mode,
+                'selected' => false,
+            ];
+        }
+        if ($archivedMode[$fcConfig->getSgArchivedMode()]) {
+            $archivedMode[$fcConfig->getSgArchivedMode()]['selected'] = true;
+        }
+
+        $arrForms = [];
+        $arrFields = [];
+        $forms = FormModel::findAll();
+        if ($forms) {
+            while ($forms->next()) {
+                $objForm = $forms->current();
+                $arrForms[$objForm->id] = [
+                    'value' => $objForm->id,
+                    'text' => $objForm->title,
+                ];
+                $fields = FormFieldModel::findBy('pid', $objForm->id);
+                if ($fields) {
+                    while ($fields->next()) {
+                        $objField = $fields->current();
+                        $arrFields[$objField->id] = [
+                            'value' => $objField->id,
+                            'text' => $objForm->title.' | '.$objField->name.' ('.$objField->type.')',
+                        ];
+                    }
+                }
+            }
+        }
+
+        $formContact = [
+            'installComplete' => $fcConfig->getSgInstallComplete(),
+            'archived' => $fcConfig->getSgArchived(),
+            'archivedAt' => $fcConfig->getSgArchivedAt(),
+            'archivedMode' => $archivedMode,
+
+            'pageForm' => $fcConfig->getSgPageForm(),
+            'pageFormSent' => $fcConfig->getSgPageFormSent(),
+            'articleForm' => $fcConfig->getSgArticleForm(),
+            'articleFormSent' => $fcConfig->getSgArticleFormSent(),
+            'contentHeadlineArticleForm' => $fcConfig->getSgContentHeadlineArticleForm(),
+            'contentFormArticleForm' => $fcConfig->getSgContentFormArticleForm(),
+            'contentHeadlineArticleFormSent' => $fcConfig->getSgContentHeadlineArticleFormSent(),
+            'contentTextArticleFormSent' => $fcConfig->getSgContentTextArticleFormSent(),
+
+            'formContact' => $fcConfig->getSgFormContact(),
+            'fieldName' => $fcConfig->getSgFieldName(),
+            'fieldEmail' => $fcConfig->getSgFieldEmail(),
+            'fieldMessage' => $fcConfig->getSgFieldMessage(),
+            'fieldConsentDataTreatment' => $fcConfig->getSgFieldConsentDataTreatment(),
+            'fieldConsentDataSave' => $fcConfig->getSgFieldConsentDataSave(),
+            'fieldCaptcha' => $fcConfig->getSgFieldCaptcha(),
+            'fieldSubmit' => $fcConfig->getSgFieldSubmit(),
+
+            'notificationMessageUser' => $fcConfig->getSgNotificationMessageUser(),
+            'notificationMessageAdmin' => $fcConfig->getSgNotificationMessageAdmin(),
+
+            'notificationMessageUserLanguage' => $fcConfig->getSgNotificationMessageUserLanguage(),
+            'notificationMessageAdminLanguage' => $fcConfig->getSgNotificationMessageAdminLanguage(),
+
+            'formContactTitle' => $fcConfig->getSgFormContactTitle() ?? FormContactConfig::DEFAULT_FEED_TITLE,
+            'pageTitle' => $fcConfig->getSgPageTitle() ?? FormContactConfig::DEFAULT_PAGE_TITLE,
+        ];
+
+        $this->Template->formContact = $formContact;
+        $this->Template->forms = $empty + $arrForms;
+        $this->Template->fields = $empty + $arrFields;
     }
 }
