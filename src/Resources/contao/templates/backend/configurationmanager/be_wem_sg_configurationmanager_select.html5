@@ -13,13 +13,13 @@
 			<?php if($option['options']): ?>
 				<optgroup label="<?php echo $option['text']; ?>">
 					<?php foreach($option['options'] as $subOption): ?>
-							<option value="<?php echo $subOption['value']; ?>" <?php echo $subOption['selected'] ? 'selected' : ''; ?>>
+							<option value="<?php echo $subOption['value']; ?>" <?php echo $this->value ? ($subOption['value'] === $this->value ? 'selected' : '') : ($subOption['selected'] ? 'selected' : ''); ?>>
 								<?php echo $subOption['text']; ?>
 							</option>
 					<?php endforeach; ?>
 				</optgroup>
 			<?php else: ?>
-				<option value="<?php echo $option['value']; ?>" <?php echo $option['selected'] ? 'selected' : ''; ?>>
+				<option value="<?php echo $option['value']; ?>" <?php echo $this->value ? ($option['value'] === $this->value ? 'selected' : '') : ($option['selected'] ? 'selected' : ''); ?>>
 					<?php echo $option['text']; ?>
 				</option>
 			<?php endif; ?>
