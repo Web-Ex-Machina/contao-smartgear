@@ -25,6 +25,7 @@ use Contao\FormFieldModel;
 use Contao\FormModel;
 use Contao\Input;
 use Contao\LayoutModel;
+use Contao\MemberGroupModel;
 use Contao\Message;
 use Contao\ModuleModel;
 use Contao\NewsArchiveModel;
@@ -52,6 +53,7 @@ use WEM\SmartgearBundle\Config\Module\Extranet\Extranet as ExtranetConfig;
 use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
+use WEM\SmartgearBundle\Model\Member;
 use WEM\SmartgearBundle\Override\Controller;
 use WEM\SmartgearBundle\Update\UpdateManager;
 use WEM\UtilsBundle\Classes\StringUtil;
@@ -694,6 +696,134 @@ class Smartgear extends \Contao\BackendModule
             ;
 
             $coreConfig->setSgFormDataManager($fdmConfig);
+        }
+
+        if (Input::post('extranet')) {
+            /** @var ExtranetConfig */
+            $extranetConfig = $coreConfig->getSgExtranet();
+
+            $extranetConfig
+                ->setSgInstallComplete((bool) Input::post('extranet')['installComplete'])
+                ->setSgArchived((bool) Input::post('extranet')['archived'])
+                ->setSgArchivedAt((int) Input::post('extranet')['archivedAt'])
+                ->setSgArchivedMode(Input::post('extranet')['archivedMode'])
+
+                ->setSgExtranetFolder(Input::post('extranet')['extranetFolder'] ?? ExtranetConfig::DEFAULT_FOLDER_PATH)
+                ->setSgCanSubscribe((bool) Input::post('extranet')['canSubscribe'])
+                ->setSgMemberGroupMembersTitle(Input::post('extranet')['memberGroupMembersTitle'] ?? ExtranetConfig::DEFAULT_MEMBER_GROUP_MEMBERS_TITLE)
+                ->setSgPageExtranetTitle(Input::post('extranet')['pageExtranetTitle'] ?? ExtranetConfig::DEFAULT_PAGE_EXTRANET_TITLE)
+
+                ->setSgPageExtranet(Input::post('extranet')['pageExtranet'] ? (int) Input::post('extranet')['pageExtranet'] : null)
+                ->setSgPage401(Input::post('extranet')['page401'] ? (int) Input::post('extranet')['page401'] : null)
+                ->setSgPage403(Input::post('extranet')['page403'] ? (int) Input::post('extranet')['page403'] : null)
+                ->setSgPageContent(Input::post('extranet')['pageContent'] ? (int) Input::post('extranet')['pageContent'] : null)
+                ->setSgPageData(Input::post('extranet')['pageData'] ? (int) Input::post('extranet')['pageData'] : null)
+                ->setSgPageDataConfirm(Input::post('extranet')['pageDataConfirm'] ? (int) Input::post('extranet')['pageDataConfirm'] : null)
+                ->setSgPagePassword(Input::post('extranet')['pagePassword'] ? (int) Input::post('extranet')['pagePassword'] : null)
+                ->setSgPagePasswordConfirm(Input::post('extranet')['pagePasswordConfirm'] ? (int) Input::post('extranet')['pagePasswordConfirm'] : null)
+                ->setSgPagePasswordValidate(Input::post('extranet')['pagePasswordValidate'] ? (int) Input::post('extranet')['pagePasswordValidate'] : null)
+                ->setSgPageLogout(Input::post('extranet')['pageLogout'] ? (int) Input::post('extranet')['pageLogout'] : null)
+                ->setSgPageSubscribe(Input::post('extranet')['pageSubscribe'] ? (int) Input::post('extranet')['pageSubscribe'] : null)
+                ->setSgPageSubscribeConfirm(Input::post('extranet')['pageSubscribeConfirm'] ? (int) Input::post('extranet')['pageSubscribeConfirm'] : null)
+                ->setSgPageSubscribeValidate(Input::post('extranet')['pageSubscribeValidate'] ? (int) Input::post('extranet')['pageSubscribeValidate'] : null)
+                ->setSgPageUnsubscribeConfirm(Input::post('extranet')['pageUnsubscribeConfirm'] ? (int) Input::post('extranet')['pageUnsubscribeConfirm'] : null)
+
+                ->setSgArticleExtranet(Input::post('extranet')['articleExtranet'] ? (int) Input::post('extranet')['articleExtranet'] : null)
+                ->setSgArticle401(Input::post('extranet')['article401'] ? (int) Input::post('extranet')['article401'] : null)
+                ->setSgArticle403(Input::post('extranet')['article403'] ? (int) Input::post('extranet')['article403'] : null)
+                ->setSgArticleContent(Input::post('extranet')['articleContent'] ? (int) Input::post('extranet')['articleContent'] : null)
+                ->setSgArticleData(Input::post('extranet')['articleData'] ? (int) Input::post('extranet')['articleData'] : null)
+                ->setSgArticleDataConfirm(Input::post('extranet')['articleDataConfirm'] ? (int) Input::post('extranet')['articleDataConfirm'] : null)
+                ->setSgArticlePassword(Input::post('extranet')['articlePassword'] ? (int) Input::post('extranet')['articlePassword'] : null)
+                ->setSgArticlePasswordConfirm(Input::post('extranet')['articlePasswordConfirm'] ? (int) Input::post('extranet')['articlePasswordConfirm'] : null)
+                ->setSgArticlePasswordValidate(Input::post('extranet')['articlePasswordValidate'] ? (int) Input::post('extranet')['articlePasswordValidate'] : null)
+                ->setSgArticleLogout(Input::post('extranet')['articleLogout'] ? (int) Input::post('extranet')['articleLogout'] : null)
+                ->setSgArticleSubscribe(Input::post('extranet')['articleSubscribe'] ? (int) Input::post('extranet')['articleSubscribe'] : null)
+                ->setSgArticleSubscribeConfirm(Input::post('extranet')['articleSubscribeConfirm'] ? (int) Input::post('extranet')['articleSubscribeConfirm'] : null)
+                ->setSgArticleSubscribeValidate(Input::post('extranet')['articleSubscribeValidate'] ? (int) Input::post('extranet')['articleSubscribeValidate'] : null)
+                ->setSgArticleUnsubscribeConfirm(Input::post('extranet')['articleUnsubscribeConfirm'] ? (int) Input::post('extranet')['articleUnsubscribeConfirm'] : null)
+
+                ->setSgModuleLogin(Input::post('extranet')['moduleLogin'] ? (int) Input::post('extranet')['moduleLogin'] : null)
+                ->setSgModuleLogout(Input::post('extranet')['moduleLogout'] ? (int) Input::post('extranet')['moduleLogout'] : null)
+                ->setSgModuleData(Input::post('extranet')['moduleData'] ? (int) Input::post('extranet')['moduleData'] : null)
+                ->setSgModulePassword(Input::post('extranet')['modulePassword'] ? (int) Input::post('extranet')['modulePassword'] : null)
+                ->setSgModuleNav(Input::post('extranet')['moduleNav'] ? (int) Input::post('extranet')['moduleNav'] : null)
+                ->setSgModuleSubscribe(Input::post('extranet')['moduleSubscribe'] ? (int) Input::post('extranet')['moduleSubscribe'] : null)
+                ->setSgModuleCloseAccount(Input::post('extranet')['moduleCloseAccount'] ? (int) Input::post('extranet')['moduleCloseAccount'] : null)
+
+                ->setSgNotificationChangeData(Input::post('extranet')['notificationChangeData'] ? (int) Input::post('extranet')['notificationChangeData'] : null)
+                ->setSgNotificationPassword(Input::post('extranet')['notificationPassword'] ? (int) Input::post('extranet')['notificationPassword'] : null)
+                ->setSgNotificationSubscription(Input::post('extranet')['notificationSubscription'] ? (int) Input::post('extranet')['notificationSubscription'] : null)
+
+                ->setSgNotificationChangeDataMessage(Input::post('extranet')['notificationChangeDataMessage'] ? (int) Input::post('extranet')['notificationChangeDataMessage'] : null)
+                ->setSgNotificationPasswordMessage(Input::post('extranet')['notificationPasswordMessage'] ? (int) Input::post('extranet')['notificationPasswordMessage'] : null)
+                ->setSgNotificationSubscriptionMessage(Input::post('extranet')['notificationSubscriptionMessage'] ? (int) Input::post('extranet')['notificationSubscriptionMessage'] : null)
+
+                ->setSgNotificationChangeDataMessageLanguage(Input::post('extranet')['notificationChangeDataMessageLanguage'] ? (int) Input::post('extranet')['notificationChangeDataMessageLanguage'] : null)
+                ->setSgNotificationPasswordMessageLanguage(Input::post('extranet')['notificationPasswordMessageLanguage'] ? (int) Input::post('extranet')['notificationPasswordMessageLanguage'] : null)
+                ->setSgNotificationSubscriptionMessageLanguage(Input::post('extranet')['notificationSubscriptionMessageLanguage'] ? (int) Input::post('extranet')['notificationSubscriptionMessageLanguage'] : null)
+
+                ->setSgContentArticleExtranetHeadline(Input::post('extranet')['contentArticleExtranetHeadline'] ? (int) Input::post('extranet')['contentArticleExtranetHeadline'] : null)
+                ->setSgContentArticleExtranetModuleLoginGuests(Input::post('extranet')['contentArticleExtranetModuleLoginGuests'] ? (int) Input::post('extranet')['contentArticleExtranetModuleLoginGuests'] : null)
+                ->setSgContentArticleExtranetGridStartA(Input::post('extranet')['contentArticleExtranetGridStartA'] ? (int) Input::post('extranet')['contentArticleExtranetGridStartA'] : null)
+                ->setSgContentArticleExtranetGridStartB(Input::post('extranet')['contentArticleExtranetGridStartB'] ? (int) Input::post('extranet')['contentArticleExtranetGridStartB'] : null)
+                ->setSgContentArticleExtranetModuleLoginLogged(Input::post('extranet')['contentArticleExtranetModuleLoginLogged'] ? (int) Input::post('extranet')['contentArticleExtranetModuleLoginLogged'] : null)
+                ->setSgContentArticleExtranetModuleNav(Input::post('extranet')['contentArticleExtranetModuleNav'] ? (int) Input::post('extranet')['contentArticleExtranetModuleNav'] : null)
+                ->setSgContentArticleExtranetGridStopB(Input::post('extranet')['contentArticleExtranetGridStopB'] ? (int) Input::post('extranet')['contentArticleExtranetGridStopB'] : null)
+                ->setSgContentArticleExtranetGridStopA(Input::post('extranet')['contentArticleExtranetGridStopA'] ? (int) Input::post('extranet')['contentArticleExtranetGridStopA'] : null)
+
+                ->setSgContentArticle401Headline(Input::post('extranet')['contentArticle401Headline'] ? (int) Input::post('extranet')['contentArticle401Headline'] : null)
+                ->setSgContentArticle401Text(Input::post('extranet')['contentArticle401Text'] ? (int) Input::post('extranet')['contentArticle401Text'] : null)
+                ->setSgContentArticle401ModuleLoginGuests(Input::post('extranet')['contentArticle401ModuleLoginGuests'] ? (int) Input::post('extranet')['contentArticle401ModuleLoginGuests'] : null)
+
+                ->setSgContentArticle403Headline(Input::post('extranet')['contentArticle403Headline'] ? (int) Input::post('extranet')['contentArticle403Headline'] : null)
+                ->setSgContentArticle403Text(Input::post('extranet')['contentArticle403Text'] ? (int) Input::post('extranet')['contentArticle403Text'] : null)
+                ->setSgContentArticle403Hyperlink(Input::post('extranet')['contentArticle403Hyperlink'] ? (int) Input::post('extranet')['contentArticle403Hyperlink'] : null)
+
+                ->setSgContentArticleContentHeadline(Input::post('extranet')['contentArticleContentHeadline'] ? (int) Input::post('extranet')['contentArticleContentHeadline'] : null)
+                ->setSgContentArticleContentText(Input::post('extranet')['contentArticleContentText'] ? (int) Input::post('extranet')['contentArticleContentText'] : null)
+
+                ->setSgContentArticleDataHeadline(Input::post('extranet')['contentArticleDataHeadline'] ? (int) Input::post('extranet')['contentArticleDataHeadline'] : null)
+                ->setSgContentArticleDataModuleData(Input::post('extranet')['contentArticleDataModuleData'] ? (int) Input::post('extranet')['contentArticleDataModuleData'] : null)
+                ->setSgContentArticleDataHeadlineCloseAccount(Input::post('extranet')['contentArticleDataHeadlineCloseAccount'] ? (int) Input::post('extranet')['contentArticleDataHeadlineCloseAccount'] : null)
+                ->setSgContentArticleDataTextCloseAccount(Input::post('extranet')['contentArticleDataTextCloseAccount'] ? (int) Input::post('extranet')['contentArticleDataTextCloseAccount'] : null)
+                ->setSgContentArticleDataModuleCloseAccount(Input::post('extranet')['contentArticleDataModuleCloseAccount'] ? (int) Input::post('extranet')['contentArticleDataModuleCloseAccount'] : null)
+
+                ->setSgContentArticleDataConfirmHeadline(Input::post('extranet')['contentArticleDataConfirmHeadline'] ? (int) Input::post('extranet')['contentArticleDataConfirmHeadline'] : null)
+                ->setSgContentArticleDataConfirmText(Input::post('extranet')['contentArticleDataConfirmText'] ? (int) Input::post('extranet')['contentArticleDataConfirmText'] : null)
+                ->setSgContentArticleDataConfirmHyperlink(Input::post('extranet')['contentArticleDataConfirmHyperlink'] ? (int) Input::post('extranet')['contentArticleDataConfirmHyperlink'] : null)
+
+                ->setSgContentArticlePasswordHeadline(Input::post('extranet')['contentArticlePasswordHeadline'] ? (int) Input::post('extranet')['contentArticlePasswordHeadline'] : null)
+                ->setSgContentArticlePasswordModulePassword(Input::post('extranet')['contentArticlePasswordModulePassword'] ? (int) Input::post('extranet')['contentArticlePasswordModulePassword'] : null)
+
+                ->setSgContentArticlePasswordConfirmHeadline(Input::post('extranet')['contentArticlePasswordConfirmHeadline'] ? (int) Input::post('extranet')['contentArticlePasswordConfirmHeadline'] : null)
+                ->setSgContentArticlePasswordConfirmText(Input::post('extranet')['contentArticlePasswordConfirmText'] ? (int) Input::post('extranet')['contentArticlePasswordConfirmText'] : null)
+
+                ->setSgContentArticlePasswordValidateHeadline(Input::post('extranet')['contentArticlePasswordValidateHeadline'] ? (int) Input::post('extranet')['contentArticlePasswordValidateHeadline'] : null)
+                ->setSgContentArticlePasswordValidateModulePassword(Input::post('extranet')['contentArticlePasswordValidateModulePassword'] ? (int) Input::post('extranet')['contentArticlePasswordValidateModulePassword'] : null)
+
+                ->setSgContentArticleLogoutModuleLogout(Input::post('extranet')['contentArticleLogoutModuleLogout'] ? (int) Input::post('extranet')['contentArticleLogoutModuleLogout'] : null)
+
+                ->setSgContentArticleSubscribeHeadline(Input::post('extranet')['contentArticleSubscribeHeadline'] ? (int) Input::post('extranet')['contentArticleSubscribeHeadline'] : null)
+                ->setSgContentArticleSubscribeModuleSubscribe(Input::post('extranet')['contentArticleSubscribeModuleSubscribe'] ? (int) Input::post('extranet')['contentArticleSubscribeModuleSubscribe'] : null)
+
+                ->setSgContentArticleSubscribeConfirmHeadline(Input::post('extranet')['contentArticleSubscribeConfirmHeadline'] ? (int) Input::post('extranet')['contentArticleSubscribeConfirmHeadline'] : null)
+                ->setSgContentArticleSubscribeConfirmText(Input::post('extranet')['contentArticleSubscribeConfirmText'] ? (int) Input::post('extranet')['contentArticleSubscribeConfirmText'] : null)
+
+                ->setSgContentArticleSubscribeValidateHeadline(Input::post('extranet')['contentArticleSubscribeValidateHeadline'] ? (int) Input::post('extranet')['contentArticleSubscribeValidateHeadline'] : null)
+                ->setSgContentArticleSubscribeValidateText(Input::post('extranet')['contentArticleSubscribeValidateText'] ? (int) Input::post('extranet')['contentArticleSubscribeValidateText'] : null)
+                ->setSgContentArticleSubscribeValidateModuleLoginGuests(Input::post('extranet')['contentArticleSubscribeValidateModuleLoginGuests'] ? (int) Input::post('extranet')['contentArticleSubscribeValidateModuleLoginGuests'] : null)
+
+                ->setSgContentArticleUnsubscribeHeadline(Input::post('extranet')['contentArticleUnsubscribeHeadline'] ? (int) Input::post('extranet')['contentArticleUnsubscribeHeadline'] : null)
+                ->setSgContentArticleUnsubscribeText(Input::post('extranet')['contentArticleUnsubscribeText'] ? (int) Input::post('extranet')['contentArticleUnsubscribeText'] : null)
+                ->setSgContentArticleUnsubscribeHyperlink(Input::post('extranet')['contentArticleUnsubscribeHyperlink'] ? (int) Input::post('extranet')['contentArticleUnsubscribeHyperlink'] : null)
+
+                ->setSgMemberExample(Input::post('extranet')['memberExample'] ? (int) Input::post('extranet')['memberExample'] : null)
+
+                ->setSgMemberGroupMembers(Input::post('extranet')['memberGroupMembers'] ? (int) Input::post('extranet')['memberGroupMembers'] : null)
+            ;
+
+            $coreConfig->setSgExtranet($extranetConfig);
         }
 
         $this->coreConfigurationManager->save($coreConfig);
@@ -1354,7 +1484,31 @@ class Smartgear extends \Contao\BackendModule
             $archivedMode[$extranetConfig->getSgArchivedMode()]['selected'] = true;
         }
 
-        $formDataManager = [
+        $arrMembers = [];
+        $members = Member::findAll();
+        if ($members) {
+            while ($members->next()) {
+                $objMember = $members->current();
+                $arrMembers[$objMember->id] = [
+                    'value' => $objMember->id,
+                    'text' => $objMember->firstname.' '.$objMember->lastname.' ('.$objMember->email.')',
+                ];
+            }
+        }
+
+        $arrMemberGroups = [];
+        $memberGroups = MemberGroupModel::findAll();
+        if ($memberGroups) {
+            while ($memberGroups->next()) {
+                $objMemberGroup = $memberGroups->current();
+                $arrMemberGroups[$objMemberGroup->id] = [
+                    'value' => $objMemberGroup->id,
+                    'text' => $objMemberGroup->name,
+                ];
+            }
+        }
+
+        $extranet = [
             'installComplete' => $extranetConfig->getSgInstallComplete(),
             'archived' => $extranetConfig->getSgArchived(),
             'archivedAt' => $extranetConfig->getSgArchivedAt(),
@@ -1475,6 +1629,8 @@ class Smartgear extends \Contao\BackendModule
             'memberGroupMembers' => $extranetConfig->getSgMemberGroupMembers(),
         ];
 
-        $this->Template->formDataManager = $formDataManager;
+        $this->Template->extranet = $extranet;
+        $this->Template->members = $empty + $arrMembers;
+        $this->Template->memberGroups = $empty + $arrMemberGroups;
     }
 }

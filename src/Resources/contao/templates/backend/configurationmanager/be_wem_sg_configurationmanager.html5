@@ -277,6 +277,147 @@
 				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formDataManager_archivedMode','name'=>'formDataManager[archivedMode]','options'=>$this->formDataManager['archivedMode']]); ?>
 			</fieldset>
 
+			<fieldset class="tl_box">
+				<legend onclick="return toggleFieldset(this);">
+					<?php 
+						$key ='WEMSG.CONFIGURATIONMANAGER.FORM.legend_extranet'; 
+						$trans = $this->trans($key); 
+						echo $trans != $key ? $trans : 'legend_extranet';
+					?>
+				</legend>
+				<!-- install -->
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'extranet_installComplete','name'=>'extranet[installComplete]','value'=>'1','checked'=>(bool) $this->extranet['installComplete']]); ?>
+				
+				<!-- archive -->
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'extranet_archived','name'=>'extranet[archived]','value'=>'1','checked'=>(bool) $this->extranet['extranet_archived']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'extranet_archivedAt','name'=>'extranet[archivedAt]','type'=>'text','value'=>$this->extranet['archivedAt']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_archivedMode','name'=>'extranet[archivedMode]','options'=>$this->extranet['archivedMode']]); ?>
+				
+				<!-- modules -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_moduleLogin','name'=>'extranet[moduleLogin]','value'=>$this->extranet['moduleLogin'],'options'=>$this->modules]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_moduleLogout','name'=>'extranet[moduleLogout]','value'=>$this->extranet['moduleLogout'],'options'=>$this->modules]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_moduleData','name'=>'extranet[moduleData]','value'=>$this->extranet['moduleData'],'options'=>$this->modules]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_modulePassword','name'=>'extranet[modulePassword]','value'=>$this->extranet['modulePassword'],'options'=>$this->modules]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_moduleNav','name'=>'extranet[moduleNav]','value'=>$this->extranet['moduleNav'],'options'=>$this->modules]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_moduleSubscribe','name'=>'extranet[moduleSubscribe]','value'=>$this->extranet['moduleSubscribe'],'options'=>$this->modules]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_moduleCloseAccount','name'=>'extranet[moduleCloseAccount]','value'=>$this->extranet['moduleCloseAccount'],'options'=>$this->modules]); ?>
+
+
+				<!-- page & stuff -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageExtranet','name'=>'extranet[pageExtranet]','value'=>$this->extranet['pageExtranet'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleExtranet','name'=>'extranet[articleExtranet]','value'=>$this->extranet['articleExtranet'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleExtranetHeadline','name'=>'extranet[contentArticleExtranetHeadline]','value'=>$this->extranet['contentArticleExtranetHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleExtranetModuleLoginGuests','name'=>'extranet[contentArticleExtranetModuleLoginGuests]','value'=>$this->extranet['contentArticleExtranetModuleLoginGuests'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleExtranetGridStartA','name'=>'extranet[contentArticleExtranetGridStartA]','value'=>$this->extranet['contentArticleExtranetGridStartA'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleExtranetGridStartB','name'=>'extranet[contentArticleExtranetGridStartB]','value'=>$this->extranet['contentArticleExtranetGridStartB'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleExtranetModuleLoginLogged','name'=>'extranet[contentArticleExtranetModuleLoginLogged]','value'=>$this->extranet['contentArticleExtranetModuleLoginLogged'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleExtranetModuleNav','name'=>'extranet[contentArticleExtranetModuleNav]','value'=>$this->extranet['contentArticleExtranetModuleNav'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleExtranetGridStopB','name'=>'extranet[contentArticleExtranetGridStopB]','value'=>$this->extranet['contentArticleExtranetGridStopB'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleExtranetGridStopA','name'=>'extranet[contentArticleExtranetGridStopA]','value'=>$this->extranet['contentArticleExtranetGridStopA'],'options'=>$this->contents]); ?>
+
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_page401','name'=>'extranet[page401]','value'=>$this->extranet['page401'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_article401','name'=>'extranet[article401]','value'=>$this->extranet['article401'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle401Headline','name'=>'extranet[contentArticle401Headline]','value'=>$this->extranet['contentArticle401Headline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle401Text','name'=>'extranet[contentArticle401Text]','value'=>$this->extranet['contentArticle401Text'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle401ModuleLoginGuests','name'=>'extranet[contentArticle401ModuleLoginGuests]','value'=>$this->extranet['contentArticle401ModuleLoginGuests'],'options'=>$this->contents]); ?>
+
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_page403','name'=>'extranet[page403]','value'=>$this->extranet['page403'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_article403','name'=>'extranet[article403]','value'=>$this->extranet['article403'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle403Headline','name'=>'extranet[contentArticle403Headline]','value'=>$this->extranet['contentArticle403Headline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle403Text','name'=>'extranet[contentArticle403Text]','value'=>$this->extranet['contentArticle403Text'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle403ModuleLoginGuests','name'=>'extranet[contentArticle403ModuleLoginGuests]','value'=>$this->extranet['contentArticle403ModuleLoginGuests'],'options'=>$this->contents]); ?>
+
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageContent','name'=>'extranet[pageContent]','value'=>$this->extranet['pageContent'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleContent','name'=>'extranet[articleContent]','value'=>$this->extranet['articleContent'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleContentHeadline','name'=>'extranet[contentArticleContentHeadline]','value'=>$this->extranet['contentArticleContentHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleContentText','name'=>'extranet[contentArticleContentText]','value'=>$this->extranet['contentArticleContentText'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageData','name'=>'extranet[pageData]','value'=>$this->extranet['pageData'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleData','name'=>'extranet[articleData]','value'=>$this->extranet['articleData'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleDataHeadline','name'=>'extranet[contentArticleDataHeadline]','value'=>$this->extranet['contentArticleDataHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleDataModuleData','name'=>'extranet[contentArticleDataModuleData]','value'=>$this->extranet['contentArticleDataModuleData'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleDataHeadlineCloseAccount','name'=>'extranet[contentArticleDataHeadlineCloseAccount]','value'=>$this->extranet['contentArticleDataHeadlineCloseAccount'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleDataTextCloseAccount','name'=>'extranet[contentArticleDataTextCloseAccount]','value'=>$this->extranet['contentArticleDataTextCloseAccount'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleDataModuleCloseAccount','name'=>'extranet[contentArticleDataModuleCloseAccount]','value'=>$this->extranet['contentArticleDataModuleCloseAccount'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageDataConfirm','name'=>'extranet[pageDataConfirm]','value'=>$this->extranet['pageDataConfirm'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleDataConfirm','name'=>'extranet[articleDataConfirm]','value'=>$this->extranet['articleDataConfirm'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleDataConfirmHeadline','name'=>'extranet[contentArticleDataConfirmHeadline]','value'=>$this->extranet['contentArticleDataConfirmHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleDataConfirmText','name'=>'extranet[contentArticleDataConfirmText]','value'=>$this->extranet['contentArticleDataConfirmText'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleDataConfirmHyperlink','name'=>'extranet[contentArticleDataConfirmHyperlink]','value'=>$this->extranet['contentArticleDataConfirmHyperlink'],'options'=>$this->contents]); ?>
+
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pagePassword','name'=>'extranet[pagePassword]','value'=>$this->extranet['pagePassword'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articlePassword','name'=>'extranet[articlePassword]','value'=>$this->extranet['articlePassword'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticlePasswordHeadline','name'=>'extranet[contentArticlePasswordHeadline]','value'=>$this->extranet['contentArticlePasswordHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticlePasswordModulePassword','name'=>'extranet[contentArticlePasswordModulePassword]','value'=>$this->extranet['contentArticlePasswordModulePassword'],'options'=>$this->contents]); ?>
+
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pagePasswordConfirm','name'=>'extranet[pagePasswordConfirm]','value'=>$this->extranet['pagePasswordConfirm'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articlePasswordConfirm','name'=>'extranet[articlePasswordConfirm]','value'=>$this->extranet['articlePasswordConfirm'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticlePasswordConfirmHeadline','name'=>'extranet[contentArticlePasswordConfirmHeadline]','value'=>$this->extranet['contentArticlePasswordConfirmHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticlePasswordConfirmText','name'=>'extranet[contentArticlePasswordConfirmText]','value'=>$this->extranet['contentArticlePasswordConfirmText'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pagePasswordValidate','name'=>'extranet[pagePasswordValidate]','value'=>$this->extranet['pagePasswordValidate'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articlePasswordValidate','name'=>'extranet[articlePasswordValidate]','value'=>$this->extranet['articlePasswordValidate'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticlePasswordValidateHeadline','name'=>'extranet[contentArticlePasswordValidateHeadline]','value'=>$this->extranet['contentArticlePasswordValidateHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticlePasswordValidateModulePassword','name'=>'extranet[contentArticlePasswordValidateModulePassword]','value'=>$this->extranet['contentArticlePasswordValidateModulePassword'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageLogout','name'=>'extranet[pageLogout]','value'=>$this->extranet['pageLogout'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleLogout','name'=>'extranet[articleLogout]','value'=>$this->extranet['articleLogout'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleLogoutModuleLogout','name'=>'extranet[contentArticleLogoutModuleLogout]','value'=>$this->extranet['contentArticleLogoutModuleLogout'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageSubscribe','name'=>'extranet[pageSubscribe]','value'=>$this->extranet['pageSubscribe'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleSubscribe','name'=>'extranet[articleSubscribe]','value'=>$this->extranet['articleSubscribe'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleSubscribeHeadline','name'=>'extranet[contentArticleSubscribeHeadline]','value'=>$this->extranet['contentArticleSubscribeHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleSubscribeModuleSubscribe','name'=>'extranet[contentArticleSubscribeModuleSubscribe]','value'=>$this->extranet['contentArticleSubscribeModuleSubscribe'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageSubscribeConfirm','name'=>'extranet[pageSubscribeConfirm]','value'=>$this->extranet['pageSubscribeConfirm'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleSubscribeConfirm','name'=>'extranet[articleSubscribeConfirm]','value'=>$this->extranet['articleSubscribeConfirm'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleSubscribeConfirmHeadline','name'=>'extranet[contentArticleSubscribeConfirmHeadline]','value'=>$this->extranet['contentArticleSubscribeConfirmHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleSubscribeConfirmText','name'=>'extranet[contentArticleSubscribeConfirmText]','value'=>$this->extranet['contentArticleSubscribeConfirmText'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageSubscribeValidate','name'=>'extranet[pageSubscribeValidate]','value'=>$this->extranet['pageSubscribeValidate'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleSubscribeValidate','name'=>'extranet[articleSubscribeValidate]','value'=>$this->extranet['articleSubscribeValidate'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleSubscribeValidateHeadline','name'=>'extranet[contentArticleSubscribeValidateHeadline]','value'=>$this->extranet['contentArticleSubscribeValidateHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleSubscribeValidateText','name'=>'extranet[contentArticleSubscribeValidateText]','value'=>$this->extranet['contentArticleSubscribeValidateText'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleSubscribeValidateModuleLoginGuests','name'=>'extranet[contentArticleSubscribeValidateModuleLoginGuests]','value'=>$this->extranet['contentArticleSubscribeValidateModuleLoginGuests'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageUnsubscribeConfirm','name'=>'extranet[pageUnsubscribeConfirm]','value'=>$this->extranet['pageUnsubscribeConfirm'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleUnsubscribeConfirm','name'=>'extranet[articleUnsubscribeConfirm]','value'=>$this->extranet['articleUnsubscribeConfirm'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleUnsubscribeHeadline','name'=>'extranet[contentArticleUnsubscribeHeadline]','value'=>$this->extranet['contentArticleUnsubscribeHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleUnsubscribeText','name'=>'extranet[contentArticleUnsubscribeText]','value'=>$this->extranet['contentArticleUnsubscribeText'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleUnsubscribeHyperlink','name'=>'extranet[contentArticleUnsubscribeHyperlink]','value'=>$this->extranet['contentArticleUnsubscribeHyperlink'],'options'=>$this->contents]); ?>
+
+				<!-- notifications -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationChangeData','name'=>'extranet[notificationChangeData]','value'=>$this->extranet['notificationChangeData'],'options'=>$this->ncNotifications]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationChangeDataMessage','name'=>'extranet[notificationChangeDataMessage]','value'=>$this->extranet['notificationChangeDataMessage'],'options'=>$this->ncMessages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationChangeDataMessageLanguage','name'=>'extranet[notificationChangeDataMessageLanguage]','value'=>$this->extranet['notificationChangeDataMessageLanguage'],'options'=>$this->ncLanguages]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationPassword','name'=>'extranet[notificationPassword]','value'=>$this->extranet['notificationPassword'],'options'=>$this->ncNotifications]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationPasswordMessage','name'=>'extranet[notificationPasswordMessage]','value'=>$this->extranet['notificationPasswordMessage'],'options'=>$this->ncMessages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationPasswordMessageLanguage','name'=>'extranet[notificationPasswordMessageLanguage]','value'=>$this->extranet['notificationPasswordMessageLanguage'],'options'=>$this->ncLanguages]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationSubscription','name'=>'extranet[notificationSubscription]','value'=>$this->extranet['notificationSubscription'],'options'=>$this->ncNotifications]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationSubscriptionMessage','name'=>'extranet[notificationSubscriptionMessage]','value'=>$this->extranet['notificationSubscriptionMessage'],'options'=>$this->ncMessages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationSubscriptionMessageLanguage','name'=>'extranet[notificationSubscriptionMessageLanguage]','value'=>$this->extranet['notificationSubscriptionMessageLanguage'],'options'=>$this->ncLanguages]); ?>
+
+				<!-- member & group -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_memberExample','name'=>'extranet[memberExample]','value'=>$this->extranet['memberExample'],'options'=>$this->members]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_memberGroupMembers','name'=>'extranet[memberGroupMembers]','value'=>$this->extranet['memberGroupMembers'],'options'=>$this->memberGroups]); ?>
+
+				<!-- configuration -->
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'extranet_canSubscribe','name'=>'extranet[canSubscribe]','value'=>'1','checked'=>(bool) $this->extranet['canSubscribe']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'extranet_extranetFolder','name'=>'extranet[extranetFolder]','value'=>$this->extranet['extranetFolder']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'extranet_memberGroupMembersTitle','name'=>'extranet[memberGroupMembersTitle]','value'=>$this->extranet['memberGroupMembersTitle']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'extranet_pageExtranetTitle','name'=>'extranet[pageExtranetTitle]','value'=>$this->extranet['pageExtranetTitle']]); ?>
+
+
+			</fieldset>
+
 			<div class="tl_formbody_submit">
 				<button type="submit" name="save" title="<?= Contao\StringUtil::specialchars($this->saveButtonTitle) ?>" class="tl_submit">
 					<?= $this->saveButtonButton; ?>
