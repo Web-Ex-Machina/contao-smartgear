@@ -97,7 +97,8 @@ class Dashboard extends BackendDashboard
         }
         /** @var EnvFileConfig */
         $envConfig = $this->configurationEnvFileManager->load();
-        $envConfig->setAPPENV(EnvFileConfig::MODE_DEV);
+        // $envConfig->setAPPENV(EnvFileConfig::MODE_DEV);
+        $envConfig->setAPPENV(null);
         $this->configurationEnvFileManager->save($envConfig);
     }
 
