@@ -4,6 +4,7 @@ SMARTGEAR Project for Contao Open Source CMS
 1.0.19 - 2023-07-XX
 - Smartgear : if a migration's version equals SG one, do not play it
 - Smartgear : installation - configuration is updated after each element is created/updated.
+- Smartgear : form to update configuration file.
 - Form Data Manager : fix an `illegal offset` error when displaying a contact's details.
 
 1.0.18 - 2023-07-25

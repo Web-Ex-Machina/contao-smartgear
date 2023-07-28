@@ -1003,54 +1003,67 @@ class Smartgear extends \Contao\BackendModule
 
         $arrUserGroups = [];
         $userGroups = UserGroupModel::findAll();
-        while ($userGroups->next()) {
-            $arrUserGroups[$userGroups->id] = [
-                'value' => $userGroups->id,
-                'text' => $userGroups->name,
-            ];
+        if ($userGroups) {
+            while ($userGroups->next()) {
+                $arrUserGroups[$userGroups->id] = [
+                    'value' => $userGroups->id,
+                    'text' => $userGroups->name,
+                ];
+            }
         }
 
         $arrUsers = [];
         $users = UserModel::findAll();
-        while ($users->next()) {
-            $arrUsers[$users->id] = [
-                'value' => $users->id,
-                'text' => $users->name,
-            ];
+        if ($users) {
+            while ($users->next()) {
+                $arrUsers[$users->id] = [
+                    'value' => $users->id,
+                    'text' => $users->name,
+                ];
+            }
         }
 
         $arrNcGateways = [];
         $gateways = NcGatewayModel::findAll();
-        while ($gateways->next()) {
-            $arrNcGateways[$gateways->id] = [
-                'value' => $gateways->id,
-                'text' => $gateways->title.' ('.$gateways->type.')',
-            ];
+        if ($gateways) {
+            while ($gateways->next()) {
+                $arrNcGateways[$gateways->id] = [
+                    'value' => $gateways->id,
+                    'text' => $gateways->title.' ('.$gateways->type.')',
+                ];
+            }
         }
 
         $arrNcNotifications = [];
         $arrNcMessages = [];
         $arrNcLanguages = [];
         $notifications = NcNotificationModel::findAll();
-        while ($notifications->next()) {
-            $arrNcNotifications[$notifications->id] = [
-                'value' => $notifications->id,
-                'text' => $notifications->title.' ('.$notifications->type.')',
-            ];
 
-            $messages = NcMessageModel::findBy('pid', $notifications->id);
-            while ($messages->next()) {
-                $arrNcMessages[$messages->id] = [
-                    'value' => $messages->id,
-                    'text' => $notifications->title.' ('.$notifications->type.') | '.$messages->title.' ('.$messages->gateway_type.')',
+        if ($notifications) {
+            while ($notifications->next()) {
+                $arrNcNotifications[$notifications->id] = [
+                    'value' => $notifications->id,
+                    'text' => $notifications->title.' ('.$notifications->type.')',
                 ];
 
-                $languages = NcLanguageModel::findBy('pid', $messages->id);
-                while ($languages->next()) {
-                    $arrNcLanguages[$languages->id] = [
-                        'value' => $languages->id,
-                        'text' => $notifications->title.' ('.$notifications->type.') | '.$messages->title.' ('.$messages->gateway_type.') | '.$languages->language,
-                    ];
+                $messages = NcMessageModel::findBy('pid', $notifications->id);
+                if ($messages) {
+                    while ($messages->next()) {
+                        $arrNcMessages[$messages->id] = [
+                            'value' => $messages->id,
+                            'text' => $notifications->title.' ('.$notifications->type.') | '.$messages->title.' ('.$messages->gateway_type.')',
+                        ];
+
+                        $languages = NcLanguageModel::findBy('pid', $messages->id);
+                        if ($languages) {
+                            while ($languages->next()) {
+                                $arrNcLanguages[$languages->id] = [
+                                    'value' => $languages->id,
+                                    'text' => $notifications->title.' ('.$notifications->type.') | '.$messages->title.' ('.$messages->gateway_type.') | '.$languages->language,
+                                ];
+                            }
+                        }
+                    }
                 }
             }
         }

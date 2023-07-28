@@ -38,11 +38,14 @@
 <!-- Display Module -->
 <div id="tl_wem_sg_updatemanager" class="wem_module">
 	<h2 class="sub_headline"><?= $this->trans('WEMSG.CONFIGURATIONMANAGER.FORM.title'); ?></h2>
-		<p>
-			Attention !<br />
-			Ce formulaire ne fait qu'altérer le fichier de configuration.<br />
-			Aucun traitement n'est fait pour vérifier la cohérence de ce qui est saisi ici.<br />
-		</p>
+		<div class="widget clr">
+			<p>
+				Attention !<br />
+				Ce formulaire ne fait qu'altérer le fichier de configuration.<br />
+				Aucun traitement n'est fait pour vérifier la cohérence de ce qui est saisi ici.<br />
+				Aucun traitement n'est fait pour créer/modifier/supprimer les éléments.<br />
+			</p>
+		</div>
    	<form method="post" class="tl_form tl_edit_form" name="tl_wem_configuiration_manager">
    		<div class="tl_formbody_edit">
 			<input name="FORM_SUBMIT" value="tl_wem_configuiration_manager" type="hidden">
