@@ -110,7 +110,8 @@ class Website extends ConfigurationStep
         $config = $this->configurationManager->load();
 
         if (!empty($config->getSgOwnerLogo())) {
-            $objTemplate->logo = WEMFiles::imageToBase64(new File($config->getSgOwnerLogo()));
+            $objFileLogo = new File($config->getSgOwnerLogo());
+            $objTemplate->logo = $objFileLogo->exists() ? WEMFiles::imageToBase64($objFileLogo) : '';
         } else {
             $objTemplate->logo = '';
         }
@@ -1467,11 +1468,11 @@ class Website extends ConfigurationStep
     {
         $objFolderClient = FilesModel::findByPath(CoreConfig::DEFAULT_CLIENT_FILES_FOLDER);
         if (!$objFolderClient) {
-            throw new Exception('Unable to find the folder');
+            throw new Exception('Unable to find the "'.CoreConfig::DEFAULT_CLIENT_FILES_FOLDER.'" folder');
         }
         $objFolderLogos = FilesModel::findByPath(CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER);
         if (!$objFolderLogos) {
-            throw new Exception('Unable to find the folder');
+            throw new Exception('Unable to find the "'.CoreConfig::DEFAULT_CLIENT_LOGOS_FOLDER.'" folder');
         }
 
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);

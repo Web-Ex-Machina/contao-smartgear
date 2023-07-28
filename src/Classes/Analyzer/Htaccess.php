@@ -209,6 +209,13 @@ class Htaccess
 
     protected function writeFile(array $lines): bool
     {
+        $this->createBackupFile();
+
         return false !== file_put_contents($this->filepath, implode('', $lines));
+    }
+
+    protected function createBackupFile(): bool
+    {
+        return false !== file_put_contents($this->filepath.'_'.date('Ymd_his'), file_get_contents($this->filepath));
     }
 }

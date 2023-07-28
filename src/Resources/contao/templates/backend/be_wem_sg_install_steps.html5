@@ -1,10 +1,10 @@
 <div id="sg_steps" class="steps">
 <?php foreach ($this->steps as $step): ?>
 	<div class="step-block">
-		<?php if($step['active'] || $step['disabled']): ?>
-		<span class="step<?= $step['active'] ? ' active' : '' ?>"><?= $step['number'] ?>. <?= $step['label'] ?></span>
+		<?php if($step['active'] ?? false || $step['disabled'] ?? false): ?>
+			<span class="step<?= $step['active'] ? ' active' : '' ?>"><?= $step['number'] ?>. <?= $step['label'] ?></span>
 		<?php else: ?>
-		<a href="<?= $step['href'] ?>" title="<?= $step['label'] ?>" class="step" data-type="<?= $step['type'] ?>" data-module="<?= $step['name'] ?>" data-index="<?= $step['index'] ?>"><?= $step['number'] ?>. <?= $step['label'] ?></a>
+			<a href="<?= $step['href'] ?? '' ?>" title="<?= $step['label'] ?>" class="step" data-type="<?= $step['type'] ?>" data-module="<?= $step['name'] ?>" data-index="<?= $step['index'] ?>"><?= $step['number'] ?>. <?= $step['label'] ?></a>
 		<?php endif; ?>
 	</div>
 <?php endforeach; ?>

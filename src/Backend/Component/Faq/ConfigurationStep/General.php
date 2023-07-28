@@ -271,7 +271,7 @@ class General extends ConfigurationStep
     {
         $objFolder = FilesModel::findByPath($faqConfig->getSgFaqFolder());
         if (!$objFolder) {
-            throw new Exception('Unable to find the folder');
+            throw new Exception('Unable to find the "'.$faqConfig->getSgFaqFolder().'" folder');
         }
 
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);

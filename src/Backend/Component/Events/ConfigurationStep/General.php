@@ -349,7 +349,7 @@ class General extends ConfigurationStep
     {
         $objFolder = FilesModel::findByPath($eventsConfig->getSgEventsFolder());
         if (!$objFolder) {
-            throw new Exception('Unable to find the folder');
+            throw new Exception('Unable to find the "'.$eventsConfig->getSgEventsFolder().'" folder');
         }
 
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);

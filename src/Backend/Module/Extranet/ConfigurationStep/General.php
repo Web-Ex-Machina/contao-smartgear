@@ -2128,7 +2128,7 @@ class General extends ConfigurationStep
     {
         $objFolder = FilesModel::findByPath($extranetConfig->getSgExtranetFolder());
         if (!$objFolder) {
-            throw new Exception('Unable to find the folder');
+            throw new Exception('Unable to find the "'.$extranetConfig->getSgExtranetFolder().'" folder');
         }
 
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
