@@ -1,3 +1,32 @@
+<style type="text/css">
+	.d-grid{
+		display: grid;
+	}
+
+	.cols-2{
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.cols-3{
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.cols-4{
+		grid-template-columns: repeat(4, 1fr);
+	}
+
+	.colspan-2{
+		grid-column: span 2;
+	}
+
+	.colspan-3{
+		grid-column: span 3;
+	}
+
+	.colspan-4{
+		grid-column: span 4;
+	}
+</style>
 <div id="tl_buttons">
   <a href="<?= ampersand($this->saveButtonHref) ?>" class="header_save" title="<?= Contao\StringUtil::specialchars($this->saveButtonTitle) ?>" accesskey="b"><?= $this->saveButtonButton ?></a>
   <a href="<?= ampersand($this->backButtonHref) ?>" class="header_back" title="<?= Contao\StringUtil::specialchars($this->backButtonTitle) ?>" accesskey="b"><?= $this->backButtonButton ?></a>
@@ -29,32 +58,38 @@
 					?>
 				</legend>
 
+				<div class="d-grid cols-3">
 				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'core_installComplete','name'=>'core[installComplete]','value'=>'1','checked'=>(bool) $this->core['installComplete']]); ?>
 
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_version','name'=>'core[version]','type'=>'text','value'=>$this->core['version']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_mode','name'=>'core[mode]','options'=>$this->core['mode']]); ?>
+				</div>
+				
+				<div class="d-grid cols-2">
 				<!-- <?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_framwayThemes','name'=>'core[framwayThemes]','type'=>'text','value'=>$this->core['framwayThemes']]); ?> -->
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_framwayPath','name'=>'core[framwayPath]','type'=>'text','value'=>$this->core['framwayPath']]); ?>
 				<!-- <?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_selectedModules','name'=>'core[selectedModules]','type'=>'text','value'=>$this->core['selectedModules']]); ?> -->
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_googleFonts','name'=>'core[googleFonts]','type'=>'text','value'=>$this->core['googleFonts']]); ?>
-				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_mode','name'=>'core[mode]','options'=>$this->core['mode']]); ?>
-				
+			</div>
 				<!-- analytics -->
-				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_analytics','name'=>'core[analytics]','options'=>$this->core['analytics']]); ?>
-				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_analyticsGoogleId','name'=>'core[analyticsGoogleId]','type'=>'text','value'=>$this->core['analyticsGoogleId']]); ?>
-				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_analyticsMatomoHost','name'=>'core[analyticsMatomoHost]','type'=>'text','value'=>$this->core['analyticsMatomoHost']]); ?>
-				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_analyticsMatomoId','name'=>'core[analyticsMatomoId]','type'=>'text','value'=>$this->core['analyticsMatomoId']]); ?>
+				<div class="d-grid cols-4">
+						<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_analytics','name'=>'core[analytics]','options'=>$this->core['analytics']]); ?>
+						<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_analyticsGoogleId','name'=>'core[analyticsGoogleId]','type'=>'text','value'=>$this->core['analyticsGoogleId']]); ?>
+						<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_analyticsMatomoHost','name'=>'core[analyticsMatomoHost]','type'=>'text','value'=>$this->core['analyticsMatomoHost']]); ?>
+						<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_analyticsMatomoId','name'=>'core[analyticsMatomoId]','type'=>'text','value'=>$this->core['analyticsMatomoId']]); ?>
+			</div>
 				
 				<!-- owner -->
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerName','name'=>'core[ownerName]','type'=>'text','value'=>$this->core['ownerName']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerDomain','name'=>'core[ownerDomain]','type'=>'text','value'=>$this->core['ownerDomain']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerHost','name'=>'core[ownerHost]','type'=>'text','value'=>$this->core['ownerHost']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerLogo','name'=>'core[ownerLogo]','type'=>'text','value'=>$this->core['ownerLogo']]); ?>
-				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerStatus','name'=>'core[ownerStatus]','type'=>'text','value'=>$this->core['ownerStatus']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerStreet','name'=>'core[ownerStreet]','type'=>'text','value'=>$this->core['ownerStreet']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerPostal','name'=>'core[ownerPostal]','type'=>'text','value'=>$this->core['ownerPostal']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerCity','name'=>'core[ownerCity]','type'=>'text','value'=>$this->core['ownerCity']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerRegion','name'=>'core[ownerRegion]','type'=>'text','value'=>$this->core['ownerRegion']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerCountry','name'=>'core[ownerCountry]','type'=>'text','value'=>$this->core['ownerCountry']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerStatus','name'=>'core[ownerStatus]','type'=>'text','value'=>$this->core['ownerStatus']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerSiret','name'=>'core[ownerSiret]','type'=>'text','value'=>$this->core['ownerSiret']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerDpoName','name'=>'core[ownerDpoName]','type'=>'text','value'=>$this->core['ownerDpoName']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerDpoEmail','name'=>'core[ownerDpoEmail]','type'=>'text','value'=>$this->core['ownerDpoEmail']]); ?>
@@ -69,7 +104,7 @@
 
 				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_pageHome','name'=>'core[pageHome]','value'=>$this->core['pageHome'],'options'=>$this->pages]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_articleHome','name'=>'core[articleHome]','value'=>$this->core['articleHome'],'options'=>$this->articles]); ?>
-				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_contentHome','name'=>'core[contentHome]','value'=>$this->core['contentHome'],'options'=>$this->contents]); ?>
+			
 
 				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_page404','name'=>'core[page404]','value'=>$this->core['page404'],'options'=>$this->pages]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_article404','name'=>'core[article404]','value'=>$this->core['article404'],'options'=>$this->articles]); ?>
@@ -134,10 +169,17 @@
 				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'blog_currentPresetIndex','name'=>'blog[currentPresetIndex]','value'=>$this->blog['currentPresetIndex'],'options'=>$this->blogPresets]); ?>
 				<!-- presets -->
 				<?php foreach($this->blog['presets'] as $key => $preset): ?>
-					<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'blog_presets_'.$key.'_newsFolder','name'=>'blog[presets]['.$key.'][newsFolder]','value'=>$preset['newsFolder']]); ?>
-					<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'blog_presets_'.$key.'_newsArchiveTitle','name'=>'blog[presets]['.$key.'][newsArchiveTitle]','value'=>$preset['newsArchiveTitle']]); ?>
-					<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'blog_presets_'.$key.'_newsListPerPage','name'=>'blog[presets]['.$key.'][newsListPerPage]','value'=>$preset['newsListPerPage']]); ?>
-					<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'blog_presets_'.$key.'_pageTitle','name'=>'blog[presets]['.$key.'][pageTitle]','value'=>$preset['pageTitle']]); ?>
+				<div class="widget">
+					<h3>
+						<?php echo $this->trans('WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_preset_title',[$key]); ?>
+					</h3>
+				</div>
+				<div class="d-grid cols-4">
+					<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'blog_presets_newsFolder','name'=>'blog[presets]['.$key.'][newsFolder]','value'=>$preset['newsFolder']]); ?>
+					<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'blog_presets_newsArchiveTitle','name'=>'blog[presets]['.$key.'][newsArchiveTitle]','value'=>$preset['newsArchiveTitle']]); ?>
+					<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'blog_presets_newsListPerPage','name'=>'blog[presets]['.$key.'][newsListPerPage]','value'=>$preset['newsListPerPage']]); ?>
+					<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'blog_presets_pageTitle','name'=>'blog[presets]['.$key.'][pageTitle]','value'=>$preset['pageTitle']]); ?>
+				</div>
 				<?php endforeach; ?>
 
 			</fieldset>
