@@ -447,7 +447,6 @@ class Smartgear extends \Contao\BackendModule
         $this->getBackButton(str_replace('&key=configurationmanager', '', Environment::get('request')));
 
         // play updates button
-        $this->Template->saveButtonHref = $this->addToUrl('&act=save');
         $this->Template->saveButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['saveBTTitle']);
         $this->Template->saveButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['saveBT'];
 
@@ -826,6 +825,7 @@ class Smartgear extends \Contao\BackendModule
             $coreConfig->setSgExtranet($extranetConfig);
         }
 
+        $this->coreConfigurationManager->createBackupFile();
         $this->coreConfigurationManager->save($coreConfig);
     }
 

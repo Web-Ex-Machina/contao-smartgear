@@ -1,7 +1,7 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
-1.0.19 - 2023-07-28
+1.0.19 - 2023-07-31
 - Smartgear : if a migration's version equals SG one, do not play it
 - Smartgear : installation - configuration is updated after each element is created/updated.
 - Smartgear : form to update configuration file.

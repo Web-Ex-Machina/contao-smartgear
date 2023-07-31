@@ -28,7 +28,6 @@
 	}
 </style>
 <div id="tl_buttons">
-  <a href="<?= ampersand($this->saveButtonHref) ?>" class="header_save" title="<?= Contao\StringUtil::specialchars($this->saveButtonTitle) ?>" accesskey="b"><?= $this->saveButtonButton ?></a>
   <a href="<?= ampersand($this->backButtonHref) ?>" class="header_back" title="<?= Contao\StringUtil::specialchars($this->backButtonTitle) ?>" accesskey="b"><?= $this->backButtonButton ?></a>
 </div>
 
@@ -38,12 +37,16 @@
 <!-- Display Module -->
 <div id="tl_wem_sg_updatemanager" class="wem_module">
 	<h2 class="sub_headline"><?= $this->trans('WEMSG.CONFIGURATIONMANAGER.FORM.title'); ?></h2>
-		<div class="widget clr">
-			<p>
+		<!-- <div class="widget clr"> -->
+		<div class="tl_message">
+			<p class="tl_info">
 				Attention !<br />
 				Ce formulaire ne fait qu'altérer le fichier de configuration.<br />
 				Aucun traitement n'est fait pour vérifier la cohérence de ce qui est saisi ici.<br />
 				Aucun traitement n'est fait pour créer/modifier/supprimer les éléments.<br />
+			</p>
+			<p class="tl_info">
+				Un backup de la configuration actuelle sera effectué avant d'enregistrer celle renseignée ici.
 			</p>
 		</div>
    	<form method="post" class="tl_form tl_edit_form" name="tl_wem_configuiration_manager">
@@ -464,9 +467,11 @@
 			</fieldset>
 
 			<div class="tl_formbody_submit">
-				<button type="submit" name="save" title="<?= Contao\StringUtil::specialchars($this->saveButtonTitle) ?>" class="tl_submit">
-					<?= $this->saveButtonButton; ?>
-				</button>
+				<div class="tl_submit_container">
+					<button type="submit" name="save" title="<?= Contao\StringUtil::specialchars($this->saveButtonTitle) ?>" class="tl_submit">
+						<?= $this->saveButtonButton; ?>
+					</button>
+				</div>
 			</div>
 		</div>
 	</form>
