@@ -145,6 +145,10 @@ class Block extends Controller
                 // Always add messages
                 $objTemplate->messages = $this->getMessages($this->module);
             } else {
+                // if module installed but mode install, nope, dashboard mode
+                if (self::MODE_INSTALL === $this->getMode()) {
+                    $this->setMode(self::MODE_DASHBOARD);
+                }
                 $objTemplate = $this->parseDependingOnMode($objTemplate);
                 // $objTemplate->fields = $this->fields;
                 // $arrActions = [];

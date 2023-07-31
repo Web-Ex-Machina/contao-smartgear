@@ -216,7 +216,7 @@ class General extends ConfigurationStep
 
         $page = PageModel::findById($blogConfig->getSgPage());
 
-        return Util::createPage($presetConfig->getSgPageTitle(), 0, array_merge([
+        $page = Util::createPage($presetConfig->getSgPageTitle(), 0, array_merge([
             'pid' => $rootPage->id,
             'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
@@ -226,6 +226,10 @@ class General extends ConfigurationStep
             'published' => 1,
             'description' => $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.pageDescription', [$presetConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
         ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+
+        $this->setBlogConfigKey('setSgPage', (int) $page->id);
+
+        return $page;
     }
 
     protected function createArticle(PageModel $page): ArticleModel
@@ -238,9 +242,13 @@ class General extends ConfigurationStep
 
         $article = ArticleModel::findById($blogConfig->getSgArticle());
 
-        return Util::createArticle($page, array_merge([
+        $article = Util::createArticle($page, array_merge([
             'title' => $presetConfig->getSgPageTitle(),
         ], null !== $article ? ['id' => $article->id] : []));
+
+        $this->setBlogConfigKey('setSgArticle', (int) $article->id);
+
+        return $article;
     }
 
     protected function createNewsArchive(PageModel $page): NewsArchiveModel
@@ -260,6 +268,8 @@ class General extends ConfigurationStep
         $newsArchive->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupRedactors->id]);
         $newsArchive->tstamp = time();
         $newsArchive->save();
+
+        $this->setBlogConfigKey('setSgNewsArchive', (int) $newsArchive->id);
 
         return $newsArchive;
     }
@@ -293,6 +303,8 @@ class General extends ConfigurationStep
         $moduleReader->tstamp = time();
         $moduleReader->save();
 
+        $this->setBlogConfigKey('setSgModuleReader', (int) $moduleReader->id);
+
         if (null !== $blogConfig->getSgModuleList()) {
             $moduleListOld = ModuleModel::findById($blogConfig->getSgModuleList());
             if ($moduleListOld) {
@@ -319,6 +331,8 @@ class General extends ConfigurationStep
         $moduleList->wem_sg_number_of_characters = 200;
         $moduleList->save();
 
+        $this->setBlogConfigKey('setSgModuleList', (int) $moduleList->id);
+
         return ['reader' => $moduleReader, 'list' => $moduleList];
     }
 
@@ -334,11 +348,13 @@ class General extends ConfigurationStep
             'pid' => $article->id,
             'ptable' => 'tl_article',
             'module' => $modules['list']->id,
-        ], ['id' => null !== $headline ? $list->id : null]));
+        ], ['id' => null !== $list ? $list->id : null]));
 
         $article->save();
 
-        return ['headline' => $headline, 'list' => $list];
+        $this->setBlogConfigKey('setSgContentList', (int) $list->id);
+
+        return ['list' => $list];
     }
 
     protected function updateModuleConfigurationAfterGenerations(PageModel $page, ArticleModel $article, NewsArchiveModel $newsArchive, array $modules, array $contents): void
@@ -366,7 +382,7 @@ class General extends ConfigurationStep
     {
         $objFolder = FilesModel::findByPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
         if (!$objFolder) {
-            throw new Exception('Unable to find the folder');
+            throw new Exception('Unable to find the "'.$blogConfig->getCurrentPreset()->getSgNewsFolder().'" folder');
         }
 
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
@@ -387,5 +403,20 @@ class General extends ConfigurationStep
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->newp = serialize(['create', 'delete']);
         $objUserGroup->save();
+    }
+
+    private function setBlogConfigKey(string $key, $value): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        /** @var BlogConfig */
+        $blogConfig = $config->getSgBlog();
+
+        $blogConfig->{$key}($value);
+
+        $config->setSgBlog($blogConfig);
+
+        $this->configurationManager->save($config);
     }
 }

@@ -34,6 +34,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage_data'] = [
     'list' => [
         'sorting' => [
             'mode' => DataContainer::MODE_PARENT,
+            'fields' => ['pid'],
             'headerFields' => ['form', 'tstamp', 'status'],
             // 'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
             'panelLayout' => 'filter;search,limit',

@@ -97,7 +97,8 @@ class Dashboard extends BackendDashboard
         }
         /** @var EnvFileConfig */
         $envConfig = $this->configurationEnvFileManager->load();
-        $envConfig->setAPPENV(EnvFileConfig::MODE_DEV);
+        // $envConfig->setAPPENV(EnvFileConfig::MODE_DEV);
+        $envConfig->setAPPENV(null);
         $this->configurationEnvFileManager->save($envConfig);
     }
 
@@ -122,9 +123,6 @@ class Dashboard extends BackendDashboard
             }
             if (empty($rootPage->language)) {
                 $rootPage->language = 'fr';
-            }
-            if (empty($rootPage->sitemapName)) {
-                $rootPage->sitemapName = 'sitemap';
             }
             $rootPage->useSSL = 1;
             $rootPage->createSitemap = 1;
@@ -152,9 +150,6 @@ class Dashboard extends BackendDashboard
             }
             if (empty($rootPage->language)) {
                 $this->addError(sprintf($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeRootpageLanguageMissing'], $rootPage->title));
-            }
-            if (empty($rootPage->sitemapName)) {
-                $this->addError(sprintf($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeRootpageSitemapMissing'], $rootPage->title));
             }
         }
 

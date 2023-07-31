@@ -25,10 +25,10 @@ use WEM\SmartgearBundle\Migrations\V1_0_0\MigrationAbstract;
 
 class Migration extends MigrationAbstract
 {
-    protected static $name = 'Smargear update to v1.0.3';
-    protected static $description = 'Set Smartgear to version 1.0.3';
-    protected static $version = '1.0.3';
-    protected static $translation_key = 'WEMSG.MIGRATIONS.V1_0_3_M202301100950';
+    protected $name = 'Smargear update to v1.0.3';
+    protected $description = 'Set Smartgear to version 1.0.3';
+    protected $version = '1.0.3';
+    protected $translation_key = 'WEMSG.MIGRATIONS.V1_0_3_M202301100950';
     /** @var DirectoriesSynchronizer */
     protected static $templatesSmartgearSynchronizer;
 
@@ -71,7 +71,7 @@ class Migration extends MigrationAbstract
             // copy templates needing to be updated
             $this->templatesSmartgearSynchronizer->synchronize(false);
 
-            $coreConfig->setSgVersion(self::$version);
+            $coreConfig->setSgVersion($this->version);
 
             $this->coreConfigurationManager->save($coreConfig);
 

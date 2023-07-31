@@ -141,7 +141,7 @@ class General extends ConfigurationStep
 
         $page = PageModel::findById($faqConfig->getSgPage());
 
-        return Util::createPage($faqConfig->getSgPageTitle(), 0, array_merge([
+        $page = Util::createPage($faqConfig->getSgPageTitle(), 0, array_merge([
             'pid' => $rootPage->id,
             'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
@@ -150,6 +150,10 @@ class General extends ConfigurationStep
             'type' => 'regular',
             'published' => 1,
         ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+
+        $this->setFAQConfigKey('setSgPage', (int) $page->id);
+
+        return $page;
     }
 
     protected function createArticle(PageModel $page): ArticleModel
@@ -161,9 +165,13 @@ class General extends ConfigurationStep
 
         $article = ArticleModel::findById($faqConfig->getSgArticle());
 
-        return Util::createArticle($page, array_merge([
+        $article = Util::createArticle($page, array_merge([
             'title' => $faqConfig->getSgPageTitle(),
         ], null !== $article ? ['id' => $article->id] : []));
+
+        $this->setFAQConfigKey('setSgArticle', (int) $article->id);
+
+        return $article;
     }
 
     protected function createFaqCategory(PageModel $page): FaqCategoryModel
@@ -182,6 +190,8 @@ class General extends ConfigurationStep
         $faqCategory->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupRedactors->id]);
         $faqCategory->tstamp = time();
         $faqCategory->save();
+
+        $this->setFAQConfigKey('setSgFaqCategory', (int) $faqCategory->id);
 
         return $faqCategory;
     }
@@ -211,6 +221,8 @@ class General extends ConfigurationStep
         $moduleFaq->tstamp = time();
         $moduleFaq->save();
 
+        $this->setFAQConfigKey('setSgModuleFaq', (int) $moduleFaq->id);
+
         return ['faq' => $moduleFaq];
     }
 
@@ -229,6 +241,8 @@ class General extends ConfigurationStep
         ], ['id' => null !== $faq ? $faq->id : null]));
 
         $article->save();
+
+        $this->setFAQConfigKey('setSgContent', (int) $faq->id);
 
         return ['faq' => $faq];
     }
@@ -257,7 +271,7 @@ class General extends ConfigurationStep
     {
         $objFolder = FilesModel::findByPath($faqConfig->getSgFaqFolder());
         if (!$objFolder) {
-            throw new Exception('Unable to find the folder');
+            throw new Exception('Unable to find the "'.$faqConfig->getSgFaqFolder().'" folder');
         }
 
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
@@ -273,5 +287,20 @@ class General extends ConfigurationStep
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->faqp = serialize(['create', 'delete']);
         $objUserGroup->save();
+    }
+
+    private function setFAQConfigKey(string $key, $value): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        /** @var FaqConfig */
+        $faqConfig = $config->getSgFaq();
+
+        $faqConfig->{$key}($value);
+
+        $config->setSgFaq($faqConfig);
+
+        $this->configurationManager->save($config);
     }
 }

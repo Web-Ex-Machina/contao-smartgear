@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\BackendUser;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
@@ -29,6 +30,7 @@ class NotificationGateway extends tl_nc_gateway
 
     public function __construct()
     {
+        $this->import(BackendUser::class, 'User');
         $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
     }
 

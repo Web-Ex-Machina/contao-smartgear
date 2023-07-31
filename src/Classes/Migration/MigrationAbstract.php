@@ -21,7 +21,10 @@ abstract class MigrationAbstract implements MigrationInterface
 {
     /** @var TranslatorInterface */
     protected $translator;
-    protected static $translation_key = '';
+    protected $name;
+    protected $description;
+    protected $version;
+    protected $translation_key = '';
 
     public function __construct(
         TranslatorInterface $translator
@@ -31,7 +34,7 @@ abstract class MigrationAbstract implements MigrationInterface
 
     public function getName(): string
     {
-        return static::$name;
+        return $this->name;
     }
 
     public function getTranslatedName(): string
@@ -41,7 +44,7 @@ abstract class MigrationAbstract implements MigrationInterface
 
     public function getDescription(): string
     {
-        return static::$description;
+        return $this->description;
     }
 
     public function getTranslatedDescription(): string
@@ -51,12 +54,12 @@ abstract class MigrationAbstract implements MigrationInterface
 
     public function getVersion(): Version
     {
-        return (new Version())->fromString(static::$version);
+        return (new Version())->fromString($this->version);
     }
 
     public function getTranslationKey(): string
     {
-        return static::$translation_key;
+        return $this->translation_key;
     }
 
     abstract public function shouldRun(): Result;
@@ -86,6 +89,6 @@ abstract class MigrationAbstract implements MigrationInterface
      */
     protected function buildTranslationKeyLocal(string $property): string
     {
-        return self::$translation_key.'.'.$property;
+        return $this->translation_key.'.'.$property;
     }
 }

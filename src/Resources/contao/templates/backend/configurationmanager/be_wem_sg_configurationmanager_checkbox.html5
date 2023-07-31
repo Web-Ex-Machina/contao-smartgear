@@ -1,0 +1,12 @@
+<div class="widget m12 <?php echo $this->class ?? ''; ?>">
+	<div class="tl_checkbox_single_container">
+		<input type="<?php echo $this->type ?? 'checkbox'; ?>" name="<?php echo $this->name; ?>" id="<?php echo $this->name; ?>" value="<?php echo $this->value; ?>" <?php echo $this->checked ? 'checked' : ''; ?> class="tl_checkbox"/>
+		<label for="<?php echo $this->name; ?>">
+			<?php 
+				$key ='WEMSG.CONFIGURATIONMANAGER.FORM.field_'.$this->label; 
+				$trans = $this->trans($key); 
+				echo $trans != $key ? $trans : $this->label;
+			?>
+		</label>
+	</div>
+</div>

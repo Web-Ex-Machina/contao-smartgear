@@ -35,7 +35,7 @@ env_file=""
 
 type_default="dev"
 mode_default="up"
-image_php_default="php:7.4-fpm"
+image_php_default="php:8.2-fpm"
 image_webserver_default="httpd:2.4"
 image_db_default="mysql:5.7"
 contao_version_default="4.13"
@@ -212,7 +212,7 @@ verify_parameter_image_php(){
     while [[ "$image_php" != "php:7.4-fpm" ]] && [[ "$image_php" != "php:8.0-fpm" ]] && [[ "$image_php" != "php:8.2-fpm" ]]
     do
         manual_parameters=true
-        echo -e "${fg_green}Choose the PHP image (${fg_yellow}php:7.4-fpm/${fg_white}php:8.0-fpm/php:8.2-fpm${fg_green}) [default is '${fg_yellow}$image_php_default${fg_green}']:${normal}";
+        echo -e "${fg_green}Choose the PHP image (${fg_white}php:7.4-fpm/php:8.0-fpm/${fg_yellow}php:8.2-fpm${fg_green}) [default is '${fg_yellow}$image_php_default${fg_green}']:${normal}";
         read -p "> " image_php
         if [ -z "$image_php" ]
         then

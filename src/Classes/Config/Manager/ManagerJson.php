@@ -63,6 +63,19 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
     }
 
     /**
+     * Backup a configuration.
+     *
+     * @return string|bool The backup file's path if all goes well, false otherwise
+     */
+    public function createBackupFile()
+    {
+        $backupFilePath = $this->configurationFilePath.'_'.date('Ymd_His');
+        $this->configuration = $this->load();
+
+        return $this->file_force_contents($backupFilePath, $this->configuration->export()) ? $path : false;
+    }
+
+    /**
      * Retrieve the configuration from the file, but as an importable format.
      */
     public function retrieveConfigurationAsImportableFormatFromFile(): \stdClass

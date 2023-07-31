@@ -33,6 +33,38 @@
 			<source>Tick to make Smartgear's blog available in expert mode for this user/group</source>
 			<target>Cochez pour activer le mode expert pour le blog Smartgear</target>
 		</trans-unit>
+		<trans-unit id="XPL.smartgear_permissions.4.0">
+			<source>headspan</source>
+			<target>headspan</target>
+		</trans-unit>
+		<trans-unit id="XPL.smartgear_permissions.4.1">
+			<source>Smartgear calendar</source>
+			<target>Evènements Smartgear</target>
+		</trans-unit>
+		<trans-unit id="XPL.smartgear_permissions.5.0">
+			<source>expert mode</source>
+			<target>mode expert</target>
+		</trans-unit>
+		<trans-unit id="XPL.smartgear_permissions.5.1">
+			<source>Tick to make Smartgear's calendar available in expert mode for this user/group</source>
+			<target>Cochez pour activer le mode expert pour les évènements Smartgear</target>
+		</trans-unit>
+		<trans-unit id="XPL.smartgear_permissions.6.0">
+			<source>headspan</source>
+			<target>headspan</target>
+		</trans-unit>
+		<trans-unit id="XPL.smartgear_permissions.6.1">
+			<source>Smartgear social networks</source>
+			<target>Réseaux sociaux Smartgear</target>
+		</trans-unit>
+		<trans-unit id="XPL.smartgear_permissions.7.0">
+			<source>expert mode</source>
+			<target>mode expert</target>
+		</trans-unit>
+		<trans-unit id="XPL.smartgear_permissions.7.1">
+			<source>Tick to make Smartgear's social networks available in expert mode for this user/group</source>
+			<target>Cochez pour activer le mode expert pour les réseaux sociaux Smartgear</target>
+		</trans-unit>
 		<trans-unit id="XPL.header_sticky_value.0.0">
 			<source>headspan</source>
 			<target>headspan</target>

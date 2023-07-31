@@ -1,0 +1,484 @@
+<style type="text/css">
+	.d-grid{
+		display: grid;
+	}
+
+	.cols-2{
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.cols-3{
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.cols-4{
+		grid-template-columns: repeat(4, 1fr);
+	}
+
+	.colspan-2{
+		grid-column: span 2;
+	}
+
+	.colspan-3{
+		grid-column: span 3;
+	}
+
+	.colspan-4{
+		grid-column: span 4;
+	}
+</style>
+<div id="tl_buttons">
+  <a href="<?= ampersand($this->backButtonHref) ?>" class="header_back" title="<?= Contao\StringUtil::specialchars($this->backButtonTitle) ?>" accesskey="b"><?= $this->backButtonButton ?></a>
+</div>
+
+<!-- Display messages -->
+<?= Message::generate(); ?>
+
+<!-- Display Module -->
+<div id="tl_wem_sg_updatemanager" class="wem_module">
+	<h2 class="sub_headline"><?= $this->trans('WEMSG.CONFIGURATIONMANAGER.FORM.title'); ?></h2>
+		<!-- <div class="widget clr"> -->
+		<div class="tl_message">
+			<p class="tl_info">
+				Attention !<br />
+				Ce formulaire ne fait qu'altérer le fichier de configuration.<br />
+				Aucun traitement n'est fait pour vérifier la cohérence de ce qui est saisi ici.<br />
+				Aucun traitement n'est fait pour créer/modifier/supprimer les éléments.<br />
+			</p>
+			<p class="tl_info">
+				Un backup de la configuration actuelle sera effectué avant d'enregistrer celle renseignée ici.
+			</p>
+		</div>
+   	<form method="post" class="tl_form tl_edit_form" name="tl_wem_configuiration_manager">
+   		<div class="tl_formbody_edit">
+			<input name="FORM_SUBMIT" value="tl_wem_configuiration_manager" type="hidden">
+			<input name="REQUEST_TOKEN" value="<?= $this->token ?>" type="hidden">
+			<input name="act" value="save" type="hidden">
+
+			<fieldset class="tl_box">
+				<legend onclick="return toggleFieldset(this);">
+					<?php 
+						$key ='WEMSG.CONFIGURATIONMANAGER.FORM.legend_core'; 
+						$trans = $this->trans($key); 
+						echo $trans != $key ? $trans : 'legend_core';
+					?>
+				</legend>
+
+				<div class="d-grid cols-3">
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'core_installComplete','name'=>'core[installComplete]','value'=>'1','checked'=>(bool) $this->core['installComplete']]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_version','name'=>'core[version]','type'=>'text','value'=>$this->core['version']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_mode','name'=>'core[mode]','options'=>$this->core['mode']]); ?>
+				</div>
+				
+				<div class="d-grid cols-2">
+				<!-- <?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_framwayThemes','name'=>'core[framwayThemes]','type'=>'text','value'=>$this->core['framwayThemes']]); ?> -->
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_framwayPath','name'=>'core[framwayPath]','type'=>'text','value'=>$this->core['framwayPath']]); ?>
+				<!-- <?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_selectedModules','name'=>'core[selectedModules]','type'=>'text','value'=>$this->core['selectedModules']]); ?> -->
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_googleFonts','name'=>'core[googleFonts]','type'=>'text','value'=>$this->core['googleFonts']]); ?>
+			</div>
+				<!-- analytics -->
+				<div class="d-grid cols-4">
+						<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_analytics','name'=>'core[analytics]','options'=>$this->core['analytics']]); ?>
+						<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_analyticsGoogleId','name'=>'core[analyticsGoogleId]','type'=>'text','value'=>$this->core['analyticsGoogleId']]); ?>
+						<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_analyticsMatomoHost','name'=>'core[analyticsMatomoHost]','type'=>'text','value'=>$this->core['analyticsMatomoHost']]); ?>
+						<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_analyticsMatomoId','name'=>'core[analyticsMatomoId]','type'=>'text','value'=>$this->core['analyticsMatomoId']]); ?>
+			</div>
+				
+				<!-- owner -->
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerName','name'=>'core[ownerName]','type'=>'text','value'=>$this->core['ownerName']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerDomain','name'=>'core[ownerDomain]','type'=>'text','value'=>$this->core['ownerDomain']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerHost','name'=>'core[ownerHost]','type'=>'text','value'=>$this->core['ownerHost']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerLogo','name'=>'core[ownerLogo]','type'=>'text','value'=>$this->core['ownerLogo']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerStreet','name'=>'core[ownerStreet]','type'=>'text','value'=>$this->core['ownerStreet']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerPostal','name'=>'core[ownerPostal]','type'=>'text','value'=>$this->core['ownerPostal']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerCity','name'=>'core[ownerCity]','type'=>'text','value'=>$this->core['ownerCity']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerRegion','name'=>'core[ownerRegion]','type'=>'text','value'=>$this->core['ownerRegion']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerCountry','name'=>'core[ownerCountry]','type'=>'text','value'=>$this->core['ownerCountry']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerStatus','name'=>'core[ownerStatus]','type'=>'text','value'=>$this->core['ownerStatus']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerSiret','name'=>'core[ownerSiret]','type'=>'text','value'=>$this->core['ownerSiret']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerDpoName','name'=>'core[ownerDpoName]','type'=>'text','value'=>$this->core['ownerDpoName']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerDpoEmail','name'=>'core[ownerDpoEmail]','type'=>'text','value'=>$this->core['ownerDpoEmail']]); ?>
+
+				<!-- theme & layouts -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_theme','name'=>'core[theme]','value'=>$this->core['theme'],'options'=>$this->themes]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_layoutFullwidth','name'=>'core[layoutFullwidth]','value'=>$this->core['layoutFullwidth'],'options'=>$this->layouts]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_layoutStandard','name'=>'core[layoutStandard]','value'=>$this->core['layoutStandard'],'options'=>$this->layouts]); ?>
+
+				<!-- pages -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_pageRoot','name'=>'core[pageRoot]','value'=>$this->core['pageRoot'],'options'=>$this->pages]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_pageHome','name'=>'core[pageHome]','value'=>$this->core['pageHome'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_articleHome','name'=>'core[articleHome]','value'=>$this->core['articleHome'],'options'=>$this->articles]); ?>
+			
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_page404','name'=>'core[page404]','value'=>$this->core['page404'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_article404','name'=>'core[article404]','value'=>$this->core['article404'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_content404Headline','name'=>'core[content404Headline]','value'=>$this->core['content404Headline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_content404Sitemap','name'=>'core[content404Sitemap]','value'=>$this->core['content404Sitemap'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_pageLegalNotice','name'=>'core[pageLegalNotice]','value'=>$this->core['pageLegalNotice'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_articleLegalNotice','name'=>'core[articleLegalNotice]','value'=>$this->core['articleLegalNotice'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_contentLegalNotice','name'=>'core[contentLegalNotice]','value'=>$this->core['contentLegalNotice'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_pagePrivacyPolitics','name'=>'core[pagePrivacyPolitics]','value'=>$this->core['pagePrivacyPolitics'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_articlePrivacyPolitics','name'=>'core[articlePrivacyPolitics]','value'=>$this->core['articlePrivacyPolitics'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_contentPrivacyPolitics','name'=>'core[contentPrivacyPolitics]','value'=>$this->core['contentPrivacyPolitics'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_pageSitemap','name'=>'core[pageSitemap]','value'=>$this->core['pageSitemap'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_articleSitemap','name'=>'core[articleSitemap]','value'=>$this->core['articleSitemap'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_contentSitemap','name'=>'core[contentSitemap]','value'=>$this->core['contentSitemap'],'options'=>$this->contents]); ?>
+
+				<!-- user & groups -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_userWebmaster','name'=>'core[userWebmaster]','value'=>$this->core['userWebmaster'],'options'=>$this->users]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_userGroupRedactors','name'=>'core[userGroupRedactors]','value'=>$this->core['userGroupRedactors'],'options'=>$this->userGroups]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_userGroupAdministrators','name'=>'core[userGroupAdministrators]','value'=>$this->core['userGroupAdministrators'],'options'=>$this->userGroups]); ?>
+
+				<!-- notifications -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_notificationGatewayEmail','name'=>'core[notificationGatewayEmail]','value'=>$this->core['notificationGatewayEmail'],'options'=>$this->ncGateways]); ?>
+				<!-- modules -->
+
+				<?php foreach($this->core['modules'] as $key => $id): ?>
+					<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_module_'.$key,'name'=>'core[modules]['.$key.']','value'=>$id,'options'=>$this->modules]); ?>
+				<?php endforeach; ?>
+
+				<!-- api keys -->
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_apiKey','name'=>'core[apiKey]','type'=>'text','value'=>$this->core['apiKey']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_encryptionKey','name'=>'core[encryptionKey]','type'=>'text','value'=>$this->core['encryptionKey']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_airtableApiKey','name'=>'core[airtableApiKey]','type'=>'text','value'=>$this->core['airtableApiKey']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_airtableApiKeyForRead','name'=>'core[airtableApiKeyForRead]','type'=>'text','value'=>$this->core['airtableApiKeyForRead']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_airtableApiKeyForWrite','name'=>'core[airtableApiKeyForWrite]','type'=>'text','value'=>$this->core['airtableApiKeyForWrite']]); ?>
+
+			</fieldset>
+
+			<fieldset class="tl_box">
+				<legend onclick="return toggleFieldset(this);">
+					<?php 
+						$key ='WEMSG.CONFIGURATIONMANAGER.FORM.legend_blog'; 
+						$trans = $this->trans($key); 
+						echo $trans != $key ? $trans : 'legend_blog';
+					?>
+				</legend>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'blog_installComplete','name'=>'blog[installComplete]','value'=>'1','checked'=>(bool) $this->blog['installComplete']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'blog_archived','name'=>'blog[archived]','value'=>'1','checked'=>(bool) $this->blog['blog_archived']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'blog_archivedAt','name'=>'blog[archivedAt]','type'=>'text','value'=>$this->blog['archivedAt']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'blog_archivedMode','name'=>'blog[archivedMode]','options'=>$this->blog['archivedMode']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'blog_mode','name'=>'blog[mode]','options'=>$this->blog['mode']]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'blog_newsArchive','name'=>'blog[newsArchive]','value'=>$this->blog['newsArchive'],'options'=>$this->newsArchives]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'blog_page','name'=>'blog[page]','value'=>$this->blog['page'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'blog_article','name'=>'blog[article]','value'=>$this->blog['article'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'blog_contentList','name'=>'blog[contentList]','value'=>$this->blog['contentList'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'blog_moduleReader','name'=>'blog[moduleReader]','value'=>$this->blog['moduleReader'],'options'=>$this->modules]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'blog_moduleList','name'=>'blog[moduleList]','value'=>$this->blog['moduleList'],'options'=>$this->modules]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'blog_currentPresetIndex','name'=>'blog[currentPresetIndex]','value'=>$this->blog['currentPresetIndex'],'options'=>$this->blogPresets]); ?>
+				<!-- presets -->
+				<?php foreach($this->blog['presets'] as $key => $preset): ?>
+				<div class="widget">
+					<h3>
+						<?php echo $this->trans('WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_preset_title',[$key]); ?>
+					</h3>
+				</div>
+				<div class="d-grid cols-4">
+					<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'blog_presets_newsFolder','name'=>'blog[presets]['.$key.'][newsFolder]','value'=>$preset['newsFolder']]); ?>
+					<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'blog_presets_newsArchiveTitle','name'=>'blog[presets]['.$key.'][newsArchiveTitle]','value'=>$preset['newsArchiveTitle']]); ?>
+					<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'blog_presets_newsListPerPage','name'=>'blog[presets]['.$key.'][newsListPerPage]','value'=>$preset['newsListPerPage']]); ?>
+					<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'blog_presets_pageTitle','name'=>'blog[presets]['.$key.'][pageTitle]','value'=>$preset['pageTitle']]); ?>
+				</div>
+				<?php endforeach; ?>
+
+			</fieldset>
+
+			<fieldset class="tl_box">
+				<legend onclick="return toggleFieldset(this);">
+					<?php 
+						$key ='WEMSG.CONFIGURATIONMANAGER.FORM.legend_events'; 
+						$trans = $this->trans($key); 
+						echo $trans != $key ? $trans : 'legend_events';
+					?>
+				</legend>
+				<!-- install -->
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'events_installComplete','name'=>'events[installComplete]','value'=>'1','checked'=>(bool) $this->events['installComplete']]); ?>
+				
+				<!-- archive -->
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'events_archived','name'=>'events[archived]','value'=>'1','checked'=>(bool) $this->events['events_archived']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'events_archivedAt','name'=>'events[archivedAt]','type'=>'text','value'=>$this->events['archivedAt']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'events_archivedMode','name'=>'events[archivedMode]','options'=>$this->events['archivedMode']]); ?>
+				
+				<!-- mode -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'events_mode','name'=>'events[mode]','options'=>$this->events['mode']]); ?>
+
+				<!-- page & stuff -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'events_calendar','name'=>'events[calendar]','value'=>$this->events['calendar'],'options'=>$this->calendars]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'events_page','name'=>'events[page]','value'=>$this->events['page'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'events_article','name'=>'events[article]','value'=>$this->events['article'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'events_contentList','name'=>'events[contentList]','value'=>$this->events['contentList'],'options'=>$this->contents]); ?>
+				
+				<!-- modules -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'events_moduleReader','name'=>'events[moduleReader]','value'=>$this->events['moduleReader'],'options'=>$this->modules]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'events_moduleList','name'=>'events[moduleList]','value'=>$this->events['moduleList'],'options'=>$this->modules]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'events_moduleCalendar','name'=>'events[moduleCalendar]','value'=>$this->events['moduleCalendar'],'options'=>$this->modules]); ?>
+
+				<!-- configuration -->
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'events_eventsFolder','name'=>'events[eventsFolder]','value'=>$this->events['eventsFolder']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'events_calendarTitle','name'=>'events[calendarTitle]','value'=>$this->events['calendarTitle']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'events_eventsListPerPage','name'=>'events[eventsListPerPage]','value'=>$this->events['eventsListPerPage']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'events_pageTitle','name'=>'events[pageTitle]','value'=>$this->events['pageTitle']]); ?>
+			</fieldset>
+
+			<fieldset class="tl_box">
+				<legend onclick="return toggleFieldset(this);">
+					<?php 
+						$key ='WEMSG.CONFIGURATIONMANAGER.FORM.legend_faq'; 
+						$trans = $this->trans($key); 
+						echo $trans != $key ? $trans : 'legend_faq';
+					?>
+				</legend>
+				<!-- install -->
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'faq_installComplete','name'=>'faq[installComplete]','value'=>'1','checked'=>(bool) $this->faq['installComplete']]); ?>
+				
+				<!-- archive -->
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'faq_archived','name'=>'faq[archived]','value'=>'1','checked'=>(bool) $this->faq['faq_archived']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'faq_archivedAt','name'=>'faq[archivedAt]','type'=>'text','value'=>$this->faq['archivedAt']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'faq_archivedMode','name'=>'faq[archivedMode]','options'=>$this->faq['archivedMode']]); ?>
+
+				<!-- page & stuff -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'faq_faqCategory','name'=>'faq[faqCategory]','value'=>$this->faq['faqCategory'],'options'=>$this->faqCategories]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'faq_page','name'=>'faq[page]','value'=>$this->faq['page'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'faq_article','name'=>'faq[article]','value'=>$this->faq['article'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'faq_content','name'=>'faq[content]','value'=>$this->faq['content'],'options'=>$this->contents]); ?>
+				
+				<!-- modules -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'faq_moduleFaq','name'=>'faq[moduleFaq]','value'=>$this->faq['moduleFaq'],'options'=>$this->modules]); ?>
+
+				<!-- configuration -->
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'faq_faqFolder','name'=>'faq[faqFolder]','value'=>$this->faq['faqFolder']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'faq_faqTitle','name'=>'faq[faqTitle]','value'=>$this->faq['faqTitle']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'faq_pageTitle','name'=>'faq[pageTitle]','value'=>$this->faq['pageTitle']]); ?>
+			</fieldset>
+
+			<fieldset class="tl_box">
+				<legend onclick="return toggleFieldset(this);">
+					<?php 
+						$key ='WEMSG.CONFIGURATIONMANAGER.FORM.legend_formContact'; 
+						$trans = $this->trans($key); 
+						echo $trans != $key ? $trans : 'legend_formContact';
+					?>
+				</legend>
+				<!-- install -->
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'formContact_installComplete','name'=>'formContact[installComplete]','value'=>'1','checked'=>(bool) $this->formContact['installComplete']]); ?>
+				
+				<!-- archive -->
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'formContact_archived','name'=>'formContact[archived]','value'=>'1','checked'=>(bool) $this->formContact['formContact_archived']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'formContact_archivedAt','name'=>'formContact[archivedAt]','type'=>'text','value'=>$this->formContact['archivedAt']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_archivedMode','name'=>'formContact[archivedMode]','options'=>$this->formContact['archivedMode']]); ?>
+
+				<!-- page & stuff -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_pageForm','name'=>'formContact[pageForm]','value'=>$this->formContact['pageForm'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_articleForm','name'=>'formContact[articleForm]','value'=>$this->formContact['articleForm'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_contentHeadlineArticleForm','name'=>'formContact[contentHeadlineArticleForm]','value'=>$this->formContact['contentHeadlineArticleForm'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_contentFormArticleForm','name'=>'formContact[contentFormArticleForm]','value'=>$this->formContact['contentFormArticleForm'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_pageFormSent','name'=>'formContact[pageFormSent]','value'=>$this->formContact['pageFormSent'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_articleFormSent','name'=>'formContact[articleFormSent]','value'=>$this->formContact['articleFormSent'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_contentHeadlineArticleFormSent','name'=>'formContact[contentHeadlineArticleFormSent]','value'=>$this->formContact['contentHeadlineArticleFormSent'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_contentTextArticleFormSent','name'=>'formContact[contentTextArticleFormSent]','value'=>$this->formContact['contentTextArticleFormSent'],'options'=>$this->contents]); ?>
+				
+				<!-- form & fields -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_formContact','name'=>'formContact[formContact]','value'=>$this->formContact['formContact'],'options'=>$this->forms]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_fieldName','name'=>'formContact[fieldName]','value'=>$this->formContact['fieldName'],'options'=>$this->fields]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_fieldEmail','name'=>'formContact[fieldEmail]','value'=>$this->formContact['fieldEmail'],'options'=>$this->fields]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_fieldMessage','name'=>'formContact[fieldMessage]','value'=>$this->formContact['fieldMessage'],'options'=>$this->fields]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_fieldConsentDataTreatment','name'=>'formContact[fieldConsentDataTreatment]','value'=>$this->formContact['fieldConsentDataTreatment'],'options'=>$this->fields]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_fieldConsentDataSave','name'=>'formContact[fieldConsentDataSave]','value'=>$this->formContact['fieldConsentDataSave'],'options'=>$this->fields]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_fieldCaptcha','name'=>'formContact[fieldCaptcha]','value'=>$this->formContact['fieldCaptcha'],'options'=>$this->fields]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_fieldSubmit','name'=>'formContact[fieldSubmit]','value'=>$this->formContact['fieldSubmit'],'options'=>$this->fields]); ?>
+
+
+				<!-- notifications -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_notificationMessageUser','name'=>'formContact[notificationMessageUser]','value'=>$this->formContact['notificationMessageUser'],'options'=>$this->ncMessages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_notificationMessageUserLanguage','name'=>'formContact[notificationMessageUserLanguage]','value'=>$this->formContact['notificationMessageUserLanguage'],'options'=>$this->ncLanguages]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_notificationMessageAdmin','name'=>'formContact[notificationMessageAdmin]','value'=>$this->formContact['notificationMessageAdmin'],'options'=>$this->ncMessages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formContact_notificationMessageAdminLanguage','name'=>'formContact[notificationMessageAdminLanguage]','value'=>$this->formContact['notificationMessageAdminLanguage'],'options'=>$this->ncLanguages]); ?>
+
+				<!-- configuration -->
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'formContact_formContactTitle','name'=>'formContact[formContactTitle]','value'=>$this->formContact['formContactTitle']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'formContact_pageTitle','name'=>'formContact[pageTitle]','value'=>$this->formContact['pageTitle']]); ?>
+			</fieldset>
+
+			<fieldset class="tl_box">
+				<legend onclick="return toggleFieldset(this);">
+					<?php 
+						$key ='WEMSG.CONFIGURATIONMANAGER.FORM.legend_formDataManager'; 
+						$trans = $this->trans($key); 
+						echo $trans != $key ? $trans : 'legend_formDataManager';
+					?>
+				</legend>
+				<!-- install -->
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'formDataManager_installComplete','name'=>'formDataManager[installComplete]','value'=>'1','checked'=>(bool) $this->formDataManager['installComplete']]); ?>
+				
+				<!-- archive -->
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'formDataManager_archived','name'=>'formDataManager[archived]','value'=>'1','checked'=>(bool) $this->formDataManager['formDataManager_archived']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'formDataManager_archivedAt','name'=>'formDataManager[archivedAt]','type'=>'text','value'=>$this->formDataManager['archivedAt']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'formDataManager_archivedMode','name'=>'formDataManager[archivedMode]','options'=>$this->formDataManager['archivedMode']]); ?>
+			</fieldset>
+
+			<fieldset class="tl_box">
+				<legend onclick="return toggleFieldset(this);">
+					<?php 
+						$key ='WEMSG.CONFIGURATIONMANAGER.FORM.legend_extranet'; 
+						$trans = $this->trans($key); 
+						echo $trans != $key ? $trans : 'legend_extranet';
+					?>
+				</legend>
+				<!-- install -->
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'extranet_installComplete','name'=>'extranet[installComplete]','value'=>'1','checked'=>(bool) $this->extranet['installComplete']]); ?>
+				
+				<!-- archive -->
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'extranet_archived','name'=>'extranet[archived]','value'=>'1','checked'=>(bool) $this->extranet['extranet_archived']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'extranet_archivedAt','name'=>'extranet[archivedAt]','type'=>'text','value'=>$this->extranet['archivedAt']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_archivedMode','name'=>'extranet[archivedMode]','options'=>$this->extranet['archivedMode']]); ?>
+				
+				<!-- modules -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_moduleLogin','name'=>'extranet[moduleLogin]','value'=>$this->extranet['moduleLogin'],'options'=>$this->modules]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_moduleLogout','name'=>'extranet[moduleLogout]','value'=>$this->extranet['moduleLogout'],'options'=>$this->modules]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_moduleData','name'=>'extranet[moduleData]','value'=>$this->extranet['moduleData'],'options'=>$this->modules]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_modulePassword','name'=>'extranet[modulePassword]','value'=>$this->extranet['modulePassword'],'options'=>$this->modules]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_moduleNav','name'=>'extranet[moduleNav]','value'=>$this->extranet['moduleNav'],'options'=>$this->modules]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_moduleSubscribe','name'=>'extranet[moduleSubscribe]','value'=>$this->extranet['moduleSubscribe'],'options'=>$this->modules]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_moduleCloseAccount','name'=>'extranet[moduleCloseAccount]','value'=>$this->extranet['moduleCloseAccount'],'options'=>$this->modules]); ?>
+
+
+				<!-- page & stuff -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageExtranet','name'=>'extranet[pageExtranet]','value'=>$this->extranet['pageExtranet'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleExtranet','name'=>'extranet[articleExtranet]','value'=>$this->extranet['articleExtranet'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleExtranetHeadline','name'=>'extranet[contentArticleExtranetHeadline]','value'=>$this->extranet['contentArticleExtranetHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleExtranetModuleLoginGuests','name'=>'extranet[contentArticleExtranetModuleLoginGuests]','value'=>$this->extranet['contentArticleExtranetModuleLoginGuests'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleExtranetGridStartA','name'=>'extranet[contentArticleExtranetGridStartA]','value'=>$this->extranet['contentArticleExtranetGridStartA'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleExtranetGridStartB','name'=>'extranet[contentArticleExtranetGridStartB]','value'=>$this->extranet['contentArticleExtranetGridStartB'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleExtranetModuleLoginLogged','name'=>'extranet[contentArticleExtranetModuleLoginLogged]','value'=>$this->extranet['contentArticleExtranetModuleLoginLogged'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleExtranetModuleNav','name'=>'extranet[contentArticleExtranetModuleNav]','value'=>$this->extranet['contentArticleExtranetModuleNav'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleExtranetGridStopB','name'=>'extranet[contentArticleExtranetGridStopB]','value'=>$this->extranet['contentArticleExtranetGridStopB'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleExtranetGridStopA','name'=>'extranet[contentArticleExtranetGridStopA]','value'=>$this->extranet['contentArticleExtranetGridStopA'],'options'=>$this->contents]); ?>
+
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_page401','name'=>'extranet[page401]','value'=>$this->extranet['page401'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_article401','name'=>'extranet[article401]','value'=>$this->extranet['article401'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle401Headline','name'=>'extranet[contentArticle401Headline]','value'=>$this->extranet['contentArticle401Headline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle401Text','name'=>'extranet[contentArticle401Text]','value'=>$this->extranet['contentArticle401Text'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle401ModuleLoginGuests','name'=>'extranet[contentArticle401ModuleLoginGuests]','value'=>$this->extranet['contentArticle401ModuleLoginGuests'],'options'=>$this->contents]); ?>
+
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_page403','name'=>'extranet[page403]','value'=>$this->extranet['page403'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_article403','name'=>'extranet[article403]','value'=>$this->extranet['article403'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle403Headline','name'=>'extranet[contentArticle403Headline]','value'=>$this->extranet['contentArticle403Headline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle403Text','name'=>'extranet[contentArticle403Text]','value'=>$this->extranet['contentArticle403Text'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle403ModuleLoginGuests','name'=>'extranet[contentArticle403ModuleLoginGuests]','value'=>$this->extranet['contentArticle403ModuleLoginGuests'],'options'=>$this->contents]); ?>
+
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageContent','name'=>'extranet[pageContent]','value'=>$this->extranet['pageContent'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleContent','name'=>'extranet[articleContent]','value'=>$this->extranet['articleContent'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleContentHeadline','name'=>'extranet[contentArticleContentHeadline]','value'=>$this->extranet['contentArticleContentHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleContentText','name'=>'extranet[contentArticleContentText]','value'=>$this->extranet['contentArticleContentText'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageData','name'=>'extranet[pageData]','value'=>$this->extranet['pageData'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleData','name'=>'extranet[articleData]','value'=>$this->extranet['articleData'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleDataHeadline','name'=>'extranet[contentArticleDataHeadline]','value'=>$this->extranet['contentArticleDataHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleDataModuleData','name'=>'extranet[contentArticleDataModuleData]','value'=>$this->extranet['contentArticleDataModuleData'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleDataHeadlineCloseAccount','name'=>'extranet[contentArticleDataHeadlineCloseAccount]','value'=>$this->extranet['contentArticleDataHeadlineCloseAccount'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleDataTextCloseAccount','name'=>'extranet[contentArticleDataTextCloseAccount]','value'=>$this->extranet['contentArticleDataTextCloseAccount'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleDataModuleCloseAccount','name'=>'extranet[contentArticleDataModuleCloseAccount]','value'=>$this->extranet['contentArticleDataModuleCloseAccount'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageDataConfirm','name'=>'extranet[pageDataConfirm]','value'=>$this->extranet['pageDataConfirm'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleDataConfirm','name'=>'extranet[articleDataConfirm]','value'=>$this->extranet['articleDataConfirm'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleDataConfirmHeadline','name'=>'extranet[contentArticleDataConfirmHeadline]','value'=>$this->extranet['contentArticleDataConfirmHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleDataConfirmText','name'=>'extranet[contentArticleDataConfirmText]','value'=>$this->extranet['contentArticleDataConfirmText'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleDataConfirmHyperlink','name'=>'extranet[contentArticleDataConfirmHyperlink]','value'=>$this->extranet['contentArticleDataConfirmHyperlink'],'options'=>$this->contents]); ?>
+
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pagePassword','name'=>'extranet[pagePassword]','value'=>$this->extranet['pagePassword'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articlePassword','name'=>'extranet[articlePassword]','value'=>$this->extranet['articlePassword'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticlePasswordHeadline','name'=>'extranet[contentArticlePasswordHeadline]','value'=>$this->extranet['contentArticlePasswordHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticlePasswordModulePassword','name'=>'extranet[contentArticlePasswordModulePassword]','value'=>$this->extranet['contentArticlePasswordModulePassword'],'options'=>$this->contents]); ?>
+
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pagePasswordConfirm','name'=>'extranet[pagePasswordConfirm]','value'=>$this->extranet['pagePasswordConfirm'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articlePasswordConfirm','name'=>'extranet[articlePasswordConfirm]','value'=>$this->extranet['articlePasswordConfirm'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticlePasswordConfirmHeadline','name'=>'extranet[contentArticlePasswordConfirmHeadline]','value'=>$this->extranet['contentArticlePasswordConfirmHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticlePasswordConfirmText','name'=>'extranet[contentArticlePasswordConfirmText]','value'=>$this->extranet['contentArticlePasswordConfirmText'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pagePasswordValidate','name'=>'extranet[pagePasswordValidate]','value'=>$this->extranet['pagePasswordValidate'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articlePasswordValidate','name'=>'extranet[articlePasswordValidate]','value'=>$this->extranet['articlePasswordValidate'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticlePasswordValidateHeadline','name'=>'extranet[contentArticlePasswordValidateHeadline]','value'=>$this->extranet['contentArticlePasswordValidateHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticlePasswordValidateModulePassword','name'=>'extranet[contentArticlePasswordValidateModulePassword]','value'=>$this->extranet['contentArticlePasswordValidateModulePassword'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageLogout','name'=>'extranet[pageLogout]','value'=>$this->extranet['pageLogout'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleLogout','name'=>'extranet[articleLogout]','value'=>$this->extranet['articleLogout'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleLogoutModuleLogout','name'=>'extranet[contentArticleLogoutModuleLogout]','value'=>$this->extranet['contentArticleLogoutModuleLogout'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageSubscribe','name'=>'extranet[pageSubscribe]','value'=>$this->extranet['pageSubscribe'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleSubscribe','name'=>'extranet[articleSubscribe]','value'=>$this->extranet['articleSubscribe'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleSubscribeHeadline','name'=>'extranet[contentArticleSubscribeHeadline]','value'=>$this->extranet['contentArticleSubscribeHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleSubscribeModuleSubscribe','name'=>'extranet[contentArticleSubscribeModuleSubscribe]','value'=>$this->extranet['contentArticleSubscribeModuleSubscribe'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageSubscribeConfirm','name'=>'extranet[pageSubscribeConfirm]','value'=>$this->extranet['pageSubscribeConfirm'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleSubscribeConfirm','name'=>'extranet[articleSubscribeConfirm]','value'=>$this->extranet['articleSubscribeConfirm'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleSubscribeConfirmHeadline','name'=>'extranet[contentArticleSubscribeConfirmHeadline]','value'=>$this->extranet['contentArticleSubscribeConfirmHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleSubscribeConfirmText','name'=>'extranet[contentArticleSubscribeConfirmText]','value'=>$this->extranet['contentArticleSubscribeConfirmText'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageSubscribeValidate','name'=>'extranet[pageSubscribeValidate]','value'=>$this->extranet['pageSubscribeValidate'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleSubscribeValidate','name'=>'extranet[articleSubscribeValidate]','value'=>$this->extranet['articleSubscribeValidate'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleSubscribeValidateHeadline','name'=>'extranet[contentArticleSubscribeValidateHeadline]','value'=>$this->extranet['contentArticleSubscribeValidateHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleSubscribeValidateText','name'=>'extranet[contentArticleSubscribeValidateText]','value'=>$this->extranet['contentArticleSubscribeValidateText'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleSubscribeValidateModuleLoginGuests','name'=>'extranet[contentArticleSubscribeValidateModuleLoginGuests]','value'=>$this->extranet['contentArticleSubscribeValidateModuleLoginGuests'],'options'=>$this->contents]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageUnsubscribeConfirm','name'=>'extranet[pageUnsubscribeConfirm]','value'=>$this->extranet['pageUnsubscribeConfirm'],'options'=>$this->pages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_articleUnsubscribeConfirm','name'=>'extranet[articleUnsubscribeConfirm]','value'=>$this->extranet['articleUnsubscribeConfirm'],'options'=>$this->articles]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleUnsubscribeHeadline','name'=>'extranet[contentArticleUnsubscribeHeadline]','value'=>$this->extranet['contentArticleUnsubscribeHeadline'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleUnsubscribeText','name'=>'extranet[contentArticleUnsubscribeText]','value'=>$this->extranet['contentArticleUnsubscribeText'],'options'=>$this->contents]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticleUnsubscribeHyperlink','name'=>'extranet[contentArticleUnsubscribeHyperlink]','value'=>$this->extranet['contentArticleUnsubscribeHyperlink'],'options'=>$this->contents]); ?>
+
+				<!-- notifications -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationChangeData','name'=>'extranet[notificationChangeData]','value'=>$this->extranet['notificationChangeData'],'options'=>$this->ncNotifications]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationChangeDataMessage','name'=>'extranet[notificationChangeDataMessage]','value'=>$this->extranet['notificationChangeDataMessage'],'options'=>$this->ncMessages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationChangeDataMessageLanguage','name'=>'extranet[notificationChangeDataMessageLanguage]','value'=>$this->extranet['notificationChangeDataMessageLanguage'],'options'=>$this->ncLanguages]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationPassword','name'=>'extranet[notificationPassword]','value'=>$this->extranet['notificationPassword'],'options'=>$this->ncNotifications]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationPasswordMessage','name'=>'extranet[notificationPasswordMessage]','value'=>$this->extranet['notificationPasswordMessage'],'options'=>$this->ncMessages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationPasswordMessageLanguage','name'=>'extranet[notificationPasswordMessageLanguage]','value'=>$this->extranet['notificationPasswordMessageLanguage'],'options'=>$this->ncLanguages]); ?>
+
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationSubscription','name'=>'extranet[notificationSubscription]','value'=>$this->extranet['notificationSubscription'],'options'=>$this->ncNotifications]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationSubscriptionMessage','name'=>'extranet[notificationSubscriptionMessage]','value'=>$this->extranet['notificationSubscriptionMessage'],'options'=>$this->ncMessages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_notificationSubscriptionMessageLanguage','name'=>'extranet[notificationSubscriptionMessageLanguage]','value'=>$this->extranet['notificationSubscriptionMessageLanguage'],'options'=>$this->ncLanguages]); ?>
+
+				<!-- member & group -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_memberExample','name'=>'extranet[memberExample]','value'=>$this->extranet['memberExample'],'options'=>$this->members]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_memberGroupMembers','name'=>'extranet[memberGroupMembers]','value'=>$this->extranet['memberGroupMembers'],'options'=>$this->memberGroups]); ?>
+
+				<!-- configuration -->
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'extranet_canSubscribe','name'=>'extranet[canSubscribe]','value'=>'1','checked'=>(bool) $this->extranet['canSubscribe']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'extranet_extranetFolder','name'=>'extranet[extranetFolder]','value'=>$this->extranet['extranetFolder']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'extranet_memberGroupMembersTitle','name'=>'extranet[memberGroupMembersTitle]','value'=>$this->extranet['memberGroupMembersTitle']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'extranet_pageExtranetTitle','name'=>'extranet[pageExtranetTitle]','value'=>$this->extranet['pageExtranetTitle']]); ?>
+
+
+			</fieldset>
+
+			<div class="tl_formbody_submit">
+				<div class="tl_submit_container">
+					<button type="submit" name="save" title="<?= Contao\StringUtil::specialchars($this->saveButtonTitle) ?>" class="tl_submit">
+						<?= $this->saveButtonButton; ?>
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+	function toggleFieldset(legend){
+		legend.parentNode.classList.toggle('collapsed');
+	}
+</script>

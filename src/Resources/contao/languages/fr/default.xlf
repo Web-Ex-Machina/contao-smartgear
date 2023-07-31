@@ -2595,6 +2595,35 @@
 			<source>Success</source>
 			<target>Succès</target>
 		</trans-unit>
+
+
+
+		<!-- Configuration manager -->
+		<trans-unit id="WEM.SMARTGEAR.CONFIGURATIONMANAGER.configurationManagerBTTitle">
+			<source>Access Smartgear Configuration</source>
+			<target>Accéder à la configuration Smartgear</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.CONFIGURATIONMANAGER.configurationManagerBT">
+			<source>Configuration</source>
+			<target>Configuration</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.CONFIGURATIONMANAGER.saveBTTitle">
+			<source>Save</source>
+			<target>Enregistrer</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.CONFIGURATIONMANAGER.saveBT">
+			<source>Save</source>
+			<target>Enregistrer</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.CONFIGURATIONMANAGER.messageSaveDone">
+			<source>Save complete</source>
+			<target>sauvegarde effectuée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.title">
+			<source>Configuration Manager</source>
+			<target>Gestionnaire de configuration</target>
+		</trans-unit>
+
 		<!-- style manager -->
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbackground.tabTitle">
 			<source>Background</source>
@@ -3988,6 +4017,959 @@
 			<target>Smartgear réseaux sociaux - mode expert</target>
 		</trans-unit>
 
+		<!-- configuration manager -->
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.legend_core">
+			<source>Smartgear</source>
+			<target>Smartgear</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.legend_blog">
+			<source>Blog</source>
+			<target>Blog</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.legend_events">
+			<source>Events</source>
+			<target>Evènements</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.legend_faq">
+			<source>FAQ</source>
+			<target>FAQ</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.legend_formContact">
+			<source>Contact Form</source>
+			<target>Formulaire de contact</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.legend_formDataManager">
+			<source>Form Data Manager</source>
+			<target>Form Data Manager</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.legend_extranet">
+			<source>Extranet</source>
+			<target>Extranet</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_installComplete">
+			<source>Is installed</source>
+			<target>Est installé</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_version">
+			<source>Version</source>
+			<target>Version</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_framwayThemes">
+			<source>Framway Themes</source>
+			<target>Thèmes Framway</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_framwayPath">
+			<source>Framway Path</source>
+			<target>Chemin d'installation du Framway</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_selectedModules">
+			<source>Selected Framway's modules</source>
+			<target>Modules Framway sélectionnés</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_googleFonts">
+			<source>Google Fonts (separated by comma)</source>
+			<target>Polices Google (séparées par une virgule)</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_mode">
+			<source>Mode</source>
+			<target>Mode</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_analytics">
+			<source>Analytics solution</source>
+			<target>Solution de statistiques</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_analyticsGoogleId">
+			<source>ID Google</source>
+			<target>ID Google</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_analyticsMatomoHost">
+			<source>Matomo Host</source>
+			<target>Matomo Host</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_analyticsMatomoId">
+			<source>Matomo ID</source>
+			<target>Matomo ID</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerName">
+			<source>Owner name</source>
+			<target>Proprétaire</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerDomain">
+			<source>Owner Domain</source>
+			<target>Domaine</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerHost">
+			<source>Owner Host</source>
+			<target>Hébergeur</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerLogo">
+			<source>Owner Logo</source>
+			<target>Logo</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerStatus">
+			<source>Owner Status</source>
+			<target>Statut</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerStreet">
+			<source>Owner Street</source>
+			<target>Rue</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerPostal">
+			<source>Owner Postal</source>
+			<target>Code Postal</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerCity">
+			<source>Owner City</source>
+			<target>Ville</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerRegion">
+			<source>Owner Region</source>
+			<target>Région</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerCountry">
+			<source>Owner Country</source>
+			<target>Pays</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerSiret">
+			<source>Owner Siret</source>
+			<target>SIRET</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerDpoName">
+			<source>Owner Dpo's Name</source>
+			<target>DPO Nom</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerDpoEmail">
+			<source>Owner Dpo's Email</source>
+			<target>DPO Email</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_theme">
+			<source>Theme</source>
+			<target>Thème</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_layoutFullwidth">
+			<source>Layout "Fullwidth"</source>
+			<target>Layout "Fullwidth"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_layoutStandard">
+			<source>Layout "Standard"</source>
+			<target>Layout "Standard"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_pageRoot">
+			<source>Root page</source>
+			<target>Page racine</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_pageHome">
+			<source>Homepage</source>
+			<target>Page d'accueil</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_articleHome">
+			<source>Homepage - article</source>
+			<target>Page d'accueil - article</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_page404">
+			<source>Page 404</source>
+			<target>Page 404</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_article404">
+			<source>Page 404 - article</source>
+			<target>Page 404 - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_content404Headline">
+			<source>Page 404 - headline</source>
+			<target>Page 404 - headline</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_content404Sitemap">
+			<source>Page 404 - sitemap</source>
+			<target>Page 404 - sitemap</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_pageLegalNotice">
+			<source>Page "Legal Notice"</source>
+			<target>Page "Mentions Légales"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_articleLegalNotice">
+			<source>Page "Legal Notice" - article</source>
+			<target>Page "Mentions Légales" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_contentLegalNotice">
+			<source>Page "Legal Notice" - content</source>
+			<target>Page "Mentions Légales" - contenu</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_pagePrivacyPolitics">
+			<source>Page "Privacy Politics"</source>
+			<target>Page "Confidentialité"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_articlePrivacyPolitics">
+			<source>Page "Privacy Politics" - article</source>
+			<target>Page "Confidentialité" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_contentPrivacyPolitics">
+			<source>Page "Privacy Politics" - content</source>
+			<target>Page "Confidentialité" - contenu</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_pageSitemap">
+			<source>Page "Sitemap"</source>
+			<target>Page "Plan du site"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_articleSitemap">
+			<source>Page "sitemap" - article</source>
+			<target>Page "Plan du site" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_contentSitemap">
+			<source>Page "sitemap" - content</source>
+			<target>Page "Plan du site" - contenu</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_userWebmaster">
+			<source>User "Webmaster"</source>
+			<target>Utilisateur "Webmaster"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_userGroupRedactors">
+			<source>User Group "Redactors"</source>
+			<target>Groupe d'utilisateurs "Rédacteurs"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_userGroupAdministrators">
+			<source>User Group "Administrators"</source>
+			<target>Groupe d'utilisateurs "Administrateurs"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_notificationGatewayEmail">
+			<source>Notification Gateway Email</source>
+			<target>Passerelle email</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_customnav">
+			<source>Footer nav</source>
+			<target>Nav footer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_wem_sg_footer">
+			<source>Footer</source>
+			<target>Footer</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_navigation">
+			<source>Nav</source>
+			<target>Nav</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_wem_sg_header">
+			<source>Header SG</source>
+			<target>Header SG</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_breadcrumb">
+			<source>Breadcrumb</source>
+			<target>Fil d'arianne</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_sitemap">
+			<source>Sitemap</source>
+			<target>Plan du site</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_wem_sg_social_link">
+			<source>Social Links SG</source>
+			<target>Réseaux sociaux SG</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_wem_sg_social_link_config_categories">
+			<source>Social Links SG categories</source>
+			<target>Catégories réseaux sociaux SG</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_wem_personaldatamanager">
+			<source>Personal Data Manager</source>
+			<target>Gestionnaire données personnelles</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_apiKey">
+			<source>API key SG</source>
+			<target>Clef API SG</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_encryptionKey">
+			<source>Encryption key</source>
+			<target>Clef d'encryptage</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_airtableApiKey">
+			<source>Airtable API key (deprecated)</source>
+			<target>Clef API Airtable (dépréciée)</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_airtableApiKeyForRead">
+			<source>Airtable API key for read</source>
+			<target>Clef API Airtable pour lecture</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_airtableApiKeyForWrite">
+			<source>Airtable API key for write</source>
+			<target>Clef API Airtable pour écriture</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_installComplete">
+			<source>Is installed</source>
+			<target>Est installé</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_archived">
+			<source>Is archived</source>
+			<target>Est archivé</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_archivedAt">
+			<source>Archived at</source>
+			<target>Archivé le</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_archivedMode">
+			<source>Archived mode</source>
+			<target>Mode d'archivage</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_mode">
+			<source>Mode</source>
+			<target>Mode</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_newsArchive">
+			<source>News Archive</source>
+			<target>News Archive</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_page">
+			<source>Page blog</source>
+			<target>Page blog</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_article">
+			<source>Page blog - article</source>
+			<target>Page blog - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_contentList">
+			<source>Page blog - content list</source>
+			<target>Page blog - contentu liste</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_moduleReader">
+			<source>Module reader</source>
+			<target>Module lecteur</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_moduleList">
+			<source>Module list</source>
+			<target>Module liste</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_currentPresetIndex">
+			<source>Current preset</source>
+			<target>Preset sélectionné</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_preset_title">
+			<source>Preset "%s"</source>
+			<target>Preset "%s"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_presets_newsFolder">
+			<source>Folder</source>
+			<target>Dossier</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_presets_newsArchiveTitle">
+			<source>News Archive Title</source>
+			<target>Titre de l'archive</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_presets_newsListPerPage">
+			<source>News per page</source>
+			<target>News par page</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_blog_presets_pageTitle">
+			<source>Page title</source>
+			<target>Titre de la page</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_events_installComplete">
+			<source>Is installed</source>
+			<target>Est installé</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_events_archived">
+			<source>Is archived</source>
+			<target>Est archivé</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_events_archivedAt">
+			<source>Archived at</source>
+			<target>Archivé le</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_events_archivedMode">
+			<source>Archived mode</source>
+			<target>Mode d'archivage</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_events_mode">
+			<source>Mode</source>
+			<target>Mode</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_events_calendar">
+			<source>Calendar</source>
+			<target>Calendrier</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_events_page">
+			<source>Page "Events"</source>
+			<target>Page "Evènements"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_events_article">
+			<source>Page "Events" - article</source>
+			<target>Page "Evènements" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_events_contentList">
+			<source>Page "Events" - content list</source>
+			<target>Page "Evènements" - contenu liste</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_events_moduleReader">
+			<source>Module reader</source>
+			<target>Module lecteur</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_events_moduleList">
+			<source>Module list</source>
+			<target>Module liste</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_events_moduleCalendar">
+			<source>Module calendar</source>
+			<target>Module calendrier</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_events_eventsFolder">
+			<source>Folder</source>
+			<target>Dossier</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_events_calendarTitle">
+			<source>Calendar title</source>
+			<target>Titre du calendrier</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_events_eventsListPerPage">
+			<source>Events per page</source>
+			<target>Evènements par page</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_events_pageTitle">
+			<source>Page title</source>
+			<target>Titre de la page</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_faq_installComplete">
+			<source>Is installed</source>
+			<target>Est installé</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_faq_archived">
+			<source>Is archived</source>
+			<target>Est archivé</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_faq_archivedAt">
+			<source>Archived at</source>
+			<target>Archivé le</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_faq_archivedMode">
+			<source>Archived mode</source>
+			<target>Mode d'archivage</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_faq_faqCategory">
+			<source>FAQ Category</source>
+			<target>Catégorie FAQ</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_faq_page">
+			<source>Page "FAQ"</source>
+			<target>Page "FAQ"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_faq_article">
+			<source>Page "FAQ" - article</source>
+			<target>Page "FAQ" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_faq_content">
+			<source>Page "FAQ" - content</source>
+			<target>Page "FAQ" - contenu</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_faq_moduleFaq">
+			<source>Module FAQ</source>
+			<target>Module FAQ</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_faq_faqFolder">
+			<source>Folder</source>
+			<target>Dossier</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_faq_faqTitle">
+			<source>FAQ title</source>
+			<target>Titre de la FAQ</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_faq_pageTitle">
+			<source>Page title</source>
+			<target>Titre de la page</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_installComplete">
+			<source>Is installed</source>
+			<target>Est installé</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_archived">
+			<source>Is archived</source>
+			<target>Est archivé</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_archivedAt">
+			<source>Archived at</source>
+			<target>Archivé le</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_archivedMode">
+			<source>Archived mode</source>
+			<target>Mode d'archivage</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_pageForm">
+			<source>Page "Contact"</source>
+			<target>Page "Contact"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_articleForm">
+			<source>Page "Contact" - article</source>
+			<target>Page "Contact" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_contentHeadlineArticleForm">
+			<source>Page "Contact" - content headline</source>
+			<target>Page "Contact" - contenu headline</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_contentFormArticleForm">
+			<source>Page "Contact" - content form</source>
+			<target>Page "Contact" - contenu formulaire</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_pageFormSent">
+			<source>Page "Contact Sent"</source>
+			<target>Page "Contact Envoyé"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_articleFormSent">
+			<source>Page "Contact Sent" - article</source>
+			<target>Page "Contact Envoyé" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_contentHeadlineArticleFormSent">
+			<source>Page "Contact Sent" - content headline</source>
+			<target>Page "Contact Envoyé" - contenu headline</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_contentTextArticleFormSent">
+			<source>Page "Contact Sent" - content text</source>
+			<target>Page "Contact Envoyé" - contenu texte</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_formContact">
+			<source>Form</source>
+			<target>Formulaire</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_fieldName">
+			<source>Field "Name"</source>
+			<target>Champ "Nom"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_fieldEmail">
+			<source>Field "Email"</source>
+			<target>Champ "Email"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_fieldMessage">
+			<source>Field "Message"</source>
+			<target>Champ "Message"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_fieldConsentDataTreatment">
+			<source>Field "Consent data treatment"</source>
+			<target>Champ "Consentement traitement données"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_fieldConsentDataSave">
+			<source>Field "Consent data save"</source>
+			<target>Champ "Consentement enregistrement données"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_fieldCaptcha">
+			<source>Field "Captcha"</source>
+			<target>Champ "Captcha"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_fieldSubmit">
+			<source>Button "Submit"</source>
+			<target>Bouton "Envoyer"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_notificationMessageUser">
+			<source>User notification</source>
+			<target>Notification utilisateur</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_notificationMessageUserLanguage">
+			<source>User notification - language</source>
+			<target>NOtification utilisateur - langue</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_notificationMessageAdmin">
+			<source>Administrator notification</source>
+			<target>NOtification administrateur</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_notificationMessageAdminLanguage">
+			<source>Administrator notification - language</source>
+			<target>NOtification administrateur - langue</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_formContactTitle">
+			<source>Form contact title</source>
+			<target>Titre formulaire de contact</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_pageTitle">
+			<source>Page title</source>
+			<target>Titre de la page</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formDataManager_installComplete">
+			<source>Is installed</source>
+			<target>Est installé</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formDataManager_archived">
+			<source>Is archived</source>
+			<target>Est archivé</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formDataManager_archivedAt">
+			<source>Archived at</source>
+			<target>Archivé le</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formDataManager_archivedMode">
+			<source>Archived mode</source>
+			<target>Mode d'archivage</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_installComplete">
+			<source>Is installed</source>
+			<target>Est installé</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_archived">
+			<source>Is archived</source>
+			<target>Est archivé</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_archivedAt">
+			<source>Archived at</source>
+			<target>Archivé le</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_archivedMode">
+			<source>Archived mode</source>
+			<target>Mode d'archivage</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_moduleLogin">
+			<source>Module Login</source>
+			<target>Module Connexion</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_moduleLogout">
+			<source>Module Logout</source>
+			<target>Module Déconnexion</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_moduleData">
+			<source>Module Data</source>
+			<target>Module Changement de données</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_modulePassword">
+			<source>Module Password</source>
+			<target>Module Changement de MdP</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_moduleNav">
+			<source>Module Nav</source>
+			<target>Module Nav</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_moduleSubscribe">
+			<source>Module Subscribe</source>
+			<target>Module Inscription</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_moduleCloseAccount">
+			<source>Module Close account</source>
+			<target>Module Clôture compte</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_pageExtranet">
+			<source>Page "Extranet"</source>
+			<target>Page "Extranet"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_articleExtranet">
+			<source>Page "Extranet" - article</source>
+			<target>Page "Extranet" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleExtranetHeadline">
+			<source>Page "Extranet" - content headline</source>
+			<target>Page "Extranet" - contenu headline</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleExtranetModuleLoginGuests">
+			<source>Page "Extranet" - content module Login (guests)</source>
+			<target>Page "Extranet" - contenu module Login (invités)</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleExtranetGridStartA">
+			<source>Page "Extranet" - content Grid Start A</source>
+			<target>Page "Extranet" - contenu Grid Start A</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleExtranetGridStartB">
+			<source>Page "Extranet" - content Grid Start B</source>
+			<target>Page "Extranet" - contenu Grid Start B</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleExtranetModuleLoginLogged">
+			<source>Page "Extranet" - content module Login (logged user)</source>
+			<target>Page "Extranet" - contenu module Login (utilisateur connecté)</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleExtranetModuleNav">
+			<source>Page "Extranet" - content module Nav</source>
+			<target>Page "Extranet" - contenu module Nav</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleExtranetGridStopB">
+			<source>Page "Extranet" - content Grid Stop B</source>
+			<target>Page "Extranet" - contenu Grid Stop B</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleExtranetGridStopA">
+			<source>Page "Extranet" - content Grid Stop A</source>
+			<target>Page "Extranet" - contenu Grid Stop A</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_page401">
+			<source>Page "401"</source>
+			<target>Page "401"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_article401">
+			<source>Page "401" - article</source>
+			<target>Page "401" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticle401Headline">
+			<source>Page "401" - content headline</source>
+			<target>Page "401" - contenu headline</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticle401Text">
+			<source>Page "401" - content text</source>
+			<target>Page "401" - contenu text</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticle401ModuleLoginGuests">
+			<source>Page "401" - content module Login (guests)</source>
+			<target>Page "401" - contenu module Login (invités)</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_page403">
+			<source>Page "403"</source>
+			<target>Page "403"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_article403">
+			<source>Page "403" - article</source>
+			<target>Page "403" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticle403Headline">
+			<source>Page "403" - content headline</source>
+			<target>Page "403" - contenu headline</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticle403Text">
+			<source>Page "403" - content text</source>
+			<target>Page "403" - contenu text</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticle403ModuleLoginGuests">
+			<source>Page "403" - content module Login (guests)</source>
+			<target>Page "403" - contenu module Login (invités)</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_pageContent">
+			<source>Page "Content"</source>
+			<target>Page "Contenu"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_articleContent">
+			<source>Page "Content" - article</source>
+			<target>Page "Contenu" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleContentHeadline">
+			<source>Page "Content" - content headline</source>
+			<target>Page "Contenu" - contenu headline</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleContentText">
+			<source>Page "Content" - content text</source>
+			<target>Page "Contenu" - contenu text</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_pageData">
+			<source>Page "Data"</source>
+			<target>Page "Mes données"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_articleData">
+			<source>Page "Data" - article</source>
+			<target>Page "Mes données" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleDataHeadline">
+			<source>Page "Data" - content headline</source>
+			<target>Page "Mes données" - contenu headline</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleDataModuleData">
+			<source>Page "Data" - content module Data</source>
+			<target>Page "Mes données" - contenu module Data</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleDataHeadlineCloseAccount">
+			<source>Page "Data" - content headline Close account</source>
+			<target>Page "Mes données" - contenu headline Close account</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleDataTextCloseAccount">
+			<source>Page "Data" - content text Close account</source>
+			<target>Page "Mes données" - contenu text Close account</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleDataModuleCloseAccount">
+			<source>Page "Data" - content module Close account</source>
+			<target>Page "Mes données" - contenu module Close account</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_pageDataConfirm">
+			<source>Page "Data Confirm"</source>
+			<target>Page "Confirmation changement données"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_articleDataConfirm">
+			<source>Page "Data Confirm" - article</source>
+			<target>Page "Confirmation changement données" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleDataConfirmHeadline">
+			<source>Page "Data Confirm" - content headline</source>
+			<target>Page "Confirmation changement données" - contenu headline</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleDataConfirmText">
+			<source>Page "Data Confirm" - content text</source>
+			<target>Page "Confirmation changement données" - contenu text</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleDataConfirmHyperlink">
+			<source>Page "Data Confirm" - content hyperlink</source>
+			<target>Page "Confirmation changement données" - contenu hyperlien</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_pagePassword">
+			<source>Page "Password"</source>
+			<target>Page "Changer de mot de passe"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_articlePassword">
+			<source>Page "Password" - article</source>
+			<target>Page "Changer de mot de passe" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticlePasswordHeadline">
+			<source>Page "Password" - content headline</source>
+			<target>Page "Changer de mot de passe" - contenu headline</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticlePasswordModulePassword">
+			<source>Page "Password" - content module Password</source>
+			<target>Page "Changer de mot de passe" - contenu module Mot de passe</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_pagePasswordConfirm">
+			<source>Page "Password Confirm"</source>
+			<target>Page "Confirmation changement MdP"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_articlePasswordConfirm">
+			<source>Page "Password Confirm" - article</source>
+			<target>Page "Confirmation changement MdP" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticlePasswordConfirmHeadline">
+			<source>Page "Password Confirm" - content headline</source>
+			<target>Page "Confirmation changement MdP" - contenu headline</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticlePasswordConfirmText">
+			<source>Page "Password Confirm" - content text</source>
+			<target>Page "Confirmation changement MdP" - contenu text</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_pagePasswordValidate">
+			<source>Page "Password Validate"</source>
+			<target>Page "Validation changement MdP"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_articlePasswordValidate">
+			<source>Page "Password Validate" - article</source>
+			<target>Page "Validation changement MdP" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticlePasswordValidateHeadline">
+			<source>Page "Password Validate" - content headline</source>
+			<target>Page "Validation changement MdP" - contenu headline</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticlePasswordValidateModulePassword">
+			<source>Page "Password Validate" - content module password</source>
+			<target>Page "Validation changement MdP" - contenu module Mot de passe</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_pageLogout">
+			<source>Page "Logout"</source>
+			<target>Page "Déconnexion"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_articleLogout">
+			<source>Page "Logout" - article</source>
+			<target>Page "Déconnexion" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleLogoutModuleLogout">
+			<source>Page "Logout" - content module Logout</source>
+			<target>Page "Déconnexion" - content module Déconnexion</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_pageSubscribe">
+			<source>Page "Subscribe"</source>
+			<target>Page "Inscription"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_articleSubscribe">
+			<source>Page "Subscribe" - article</source>
+			<target>Page "Inscription" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleSubscribeHeadline">
+			<source>Page "Subscribe" - content headline</source>
+			<target>Page "Inscription" - contenu headline</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleSubscribeModuleSubscribe">
+			<source>Page "Subscribe" - content module Subscribe</source>
+			<target>Page "Inscription" - content module Inscription</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_pageSubscribeConfirm">
+			<source>Page "Subscribe Confirm"</source>
+			<target>Page "Confirmation d'inscription"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_articleSubscribeConfirm">
+			<source>Page "Subscribe Confirm" - article</source>
+			<target>Page "Confirmation d'inscription" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleSubscribeConfirmHeadline">
+			<source>Page "Subscribe Confirm" - content headline</source>
+			<target>Page "Confirmation d'inscription" - contenu headline</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleSubscribeConfirmText">
+			<source>Page "Subscribe Confirm" - content text</source>
+			<target>Page "Confirmation d'inscription" - contenu text</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_pageSubscribeValidate">
+			<source>Page "Subscribe Validate"</source>
+			<target>Page "Validation d'inscription"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_articleSubscribeValidate">
+			<source>Page "Subscribe Validate" - article</source>
+			<target>Page "Validation d'inscription" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleSubscribeValidateHeadline">
+			<source>Page "Subscribe Validate" - content headline</source>
+			<target>Page "Validation d'inscription" - contenu headline</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleSubscribeValidateText">
+			<source>Page "Subscribe Validate" - content text</source>
+			<target>Page "Validation d'inscription" - contenu text</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleSubscribeValidateModuleLoginGuests">
+			<source>Page "Subscribe Validate" - content module Login (guests)</source>
+			<target>Page "Validation d'inscription" - content module Connexion (invités)</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_pageUnsubscribeConfirm">
+			<source>Page "Unubscribe Confirm"</source>
+			<target>Page "Confirmation de clôture de compte"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_articleUnsubscribeConfirm">
+			<source>Page "Unubscribe Confirm" - article</source>
+			<target>Page "Confirmation de clôture de compte" - article</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleUnsubscribeHeadline">
+			<source>Page "Unubscribe Confirm" - content headline</source>
+			<target>Page "Confirmation de clôture de compte" - contenu headline</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleUnsubscribeText">
+			<source>Page "Unubscribe Confirm" - content text</source>
+			<target>Page "Confirmation de clôture de compte" - contenu text</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_contentArticleUnsubscribeHyperlink">
+			<source>Page "Unubscribe Confirm" - content hyperlink</source>
+			<target>Page "Confirmation de clôture de compte" - contenu hyperlien</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_notificationChangeData">
+			<source>Notification "Change data"</source>
+			<target>Notification "Changement de données"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_notificationChangeDataMessage">
+			<source>Notification "Change data" - Message</source>
+			<target>Notification "Changement de données" - Message</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_notificationChangeDataMessageLanguage">
+			<source>Notification "Change data" - Message language</source>
+			<target>Notification "Changement de données" - Message langue</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_notificationPassword">
+			<source>Notification "Password"</source>
+			<target>Notification "Changement de MdP"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_notificationPasswordMessage">
+			<source>Notification "Password" - Message</source>
+			<target>Notification "Changement de MdP" - Message</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_notificationPasswordMessageLanguage">
+			<source>Notification "Password" - Message language</source>
+			<target>Notification "Changement de MdP" - Message langue</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_notificationSubscription">
+			<source>Notification "Subscription"</source>
+			<target>Notification "Insciption"</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_notificationSubscriptionMessage">
+			<source>Notification "Subscription" - Message</source>
+			<target>Notification "Insciption" - Message</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_notificationSubscriptionMessageLanguage">
+			<source>Notification "Subscription" - Message language</source>
+			<target>Notification "Insciption" - Message langue</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_memberExample">
+			<source>Member example</source>
+			<target>Member d'exemple</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_memberGroupMembers">
+			<source>Members group</source>
+			<target>Groupe de membres</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_canSubscribe">
+			<source>Users can subscribe</source>
+			<target>Les utilisateurs peuvent s'inscrire</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_extranetFolder">
+			<source>Folder</source>
+			<target>Dossier</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_memberGroupMembersTitle">
+			<source>Group members's title</source>
+			<target>Titre du groupe de membres</target>
+		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_pageExtranetTitle">
+			<source>Page title</source>
+			<target>Titre de la page</target>
+		</trans-unit>	
 		
 
 		<!-- heimrichhannot/contao-backend-lost-password-bundle -->

@@ -30,6 +30,9 @@ trait ActionsTrait
         $arrActions = [];
         if (\is_array($unformattedActions) && !empty($unformattedActions)) {
             foreach ($unformattedActions as $action) {
+                if (!\array_key_exists('v', $action)) {
+                    $action['v'] = '???';
+                }
                 switch ($action['v']) {
                     case 2:
                         $arrAttributes = [];
@@ -56,7 +59,7 @@ trait ActionsTrait
                         $arrActions[] = sprintf(
                             '<button type="submit" name="action" value="%s" class="tl_submit" %s>%s</button>',
                             $action['action'],
-                            ($action['attributes']) ?: $action['attributes'],
+                            $action['attributes'] ?? '',
                             $action['label']
                         );
                 }

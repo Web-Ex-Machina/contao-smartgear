@@ -77,6 +77,9 @@ class EnvFile extends AbstractManager implements ManagerEnvInterface
         $arrLines = explode("\n", $content);
         $arrFinal = [];
         foreach ($arrLines as $line) {
+            if (empty($line)) {
+                continue;
+            }
             $arrLineSeparated = explode('=', $line);
             $arrFinal[$arrLineSeparated[0]] = $arrLineSeparated[1];
         }
