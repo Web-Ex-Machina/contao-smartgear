@@ -45,10 +45,18 @@ paths:
               schema:
                 type: object 
                 properties:
-                  package:
+                  smartegar:
+                    type: object
+                    properties: 
+                      package:
+                        type: string
+                      installed:
+                        type: string
+                  php:
                     type: string
-                  installed:
+                  framway:
                     type: string
+                    nullable: true
         '400':
           description: Invalid request
           content:
