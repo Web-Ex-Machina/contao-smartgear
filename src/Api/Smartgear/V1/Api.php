@@ -63,6 +63,7 @@ class Api
                 'package' => Util::getPackageVersion(),
             ],
             'php' => \PHP_VERSION,
+            'contao' => Util::getCustomPackageVersion('contao/core-bundle'),
             'framway' => $fwPackageJSON ? $fwPackageJSON->version : null,
         ]);
     }

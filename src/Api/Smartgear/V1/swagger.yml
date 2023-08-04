@@ -54,6 +54,8 @@ paths:
                         type: string
                   php:
                     type: string
+                  contao:
+                    type: string
                   framway:
                     type: string
                     nullable: true
