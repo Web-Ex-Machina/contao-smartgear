@@ -74,7 +74,7 @@ class UpdateManager
         // synchronize templates
         $this->templatesSmartgearSynchronizer->synchronize(true);
         $this->templatesRsceSynchronizer->synchronize(true);
-        $this->templatesGeneralSynchronizer->synchronize(true);
+        $this->templatesGeneralSynchronizer->synchronize(false);
 
         foreach ($this->migrations as $migration) {
             $singleMigrationResult = $this->updateSingle($migration);

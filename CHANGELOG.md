@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.20 - 2023-08-04
+- Smartgear : fixing files at `/templates`'s root being deleted when updating Smartgear.
+
 1.0.19 - 2023-07-31
 - Smartgear : if a migration's version equals SG one, do not play it
 - Smartgear : installation - configuration is updated after each element is created/updated.
