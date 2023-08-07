@@ -958,6 +958,42 @@ class Util
         return \array_key_exists('wem_sg_visitor_uniq_id_hash', $_COOKIE) ? $_COOKIE['wem_sg_visitor_uniq_id_hash'] : null;
     }
 
+    public static function transformHostnameForAirtableUse(string $hostname)
+    {
+        return str_replace(['https://', 'www.'], '', $hostname);
+    }
+
+    public static function getRootPagesDomains(?bool $publishedOnly = false): array
+    {
+        $rootPages = PageModel::findBy('type', 'root');
+        $arrDomains = [];
+        if ($rootPages) {
+            while ($rootPages->next()) {
+                if (!$publishedOnly || ($publishedOnly && $rootPages->current()->published)) {
+                    $arrDomains[] = self::transformHostnameForAirtableUse($rootPages->current()->dns);
+                }
+            }
+        }
+
+        return $arrDomains;
+    }
+
+    public static function getAirtableClientsRef(array $hostingInformations): array
+    {
+        $clientsRef = [];
+        if (!empty($hostingInformations)) {
+            foreach ($hostingInformations as $hostname => $hostnameHostingInformations) {
+                if (!empty($hostnameHostingInformations['client_reference'])
+                    && '' !== $hostnameHostingInformations['client_reference'][0]
+                    ) {
+                    $clientsRef[] = $hostnameHostingInformations['client_reference'][0];
+                }
+            }
+        }
+
+        return $clientsRef;
+    }
+
     /**
      * Check if a permission can be added into.
      *

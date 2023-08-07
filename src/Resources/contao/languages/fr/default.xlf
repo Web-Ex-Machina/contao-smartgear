@@ -494,6 +494,14 @@
 			<source>Form</source>
 			<target>Formulaire</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formDomainLabel">
+			<source>Domain</source>
+			<target>Domaine</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formDomainHelp">
+			<source></source>
+			<target></target>
+		</trans-unit>
 		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formSubjectLabel">
 			<source>Subject</source>
 			<target>Sujet</target>

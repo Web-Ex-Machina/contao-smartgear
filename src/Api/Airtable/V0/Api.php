@@ -59,7 +59,23 @@ class Api
         }
     }
 
-    public function getHostingInformations(string $hostname): array
+    public function getHostingInformations(array $hostnames): array
+    {
+        $filename = 'airtable_hosting_informations.json';
+
+        $cacheManager = new CacheFileManager(self::CACHE_PATH.$filename, 86400);
+        $data = [];
+
+        foreach ($hostnames as $hostname) {
+            $data[$hostname] = $this->getHostingInformationsSingleDomain($hostname);
+        }
+
+        $cacheManager->saveCacheFile($data);
+
+        return $data;
+    }
+
+    public function getHostingInformationsSingleDomain(string $hostname): array
     {
         $base = 'appgIyjWEM42B7t7k'; // TMA
         $tableId = 'tblf16abZvAYcYTsF'; // Hébergement
@@ -67,9 +83,14 @@ class Api
         $filename = 'airtable_hosting_informations.json';
 
         $cacheManager = new CacheFileManager(self::CACHE_PATH.$filename, 86400);
+        $cacheData = [];
 
         if ($cacheManager->cacheFileExists() && $cacheManager->hasValidCache()) {
-            return $cacheManager->retrieveFromCache()['data'];
+            $cacheData = $cacheManager->retrieveFromCache()['data'];
+        }
+
+        if (\array_key_exists($hostname, $cacheData)) {
+            return $cacheData[$hostname];
         }
 
         $url = sprintf('%s%s/%s?maxRecords=1&view=%s&filterByFormula=%s&returnFieldsByFieldId=1', self::BASE_URL, $base, $tableId, urlencode($viewName), urlencode(sprintf('{Domaines concernés} = "%s"', $hostname)));
@@ -78,6 +99,7 @@ class Api
         if (!$arrRecords) {
             return [];
         }
+
         $fields = json_decode(json_encode($arrRecords[0]->fields), true);
 
         $fieldIds = [
@@ -102,7 +124,7 @@ class Api
             'RefClient' => 'fldKHIomEovveYM77',
         ];
 
-        $data = [
+        return [
             'project' => $fields[$fieldIds['Projet']] ?? '',
             'notes' => $fields[$fieldIds['Notes']] ?? '',
             'typology' => $fields[$fieldIds['Typologie']] ?? '',
@@ -122,24 +144,39 @@ class Api
             'services_other' => $fields[$fieldIds['Services annexe']] ?? [],
             'client_reference' => $fields[$fieldIds['RefClient']] ?? '',
         ];
+    }
+
+    public function getSupportClientInformations(array $clientsRef): array
+    {
+        $filename = 'airtable_support_client_informations.json';
+
+        $cacheManager = new CacheFileManager(self::CACHE_PATH.$filename, 86400);
+        $data = [];
+
+        foreach ($clientsRef as $clientRef) {
+            $data[$clientRef] = $this->getSupportClientInformationsSingleClientRef($clientRef);
+        }
 
         $cacheManager->saveCacheFile($data);
 
         return $data;
     }
 
-    public function getSupportClientInformations(string $clientRef): array
+    public function getSupportClientInformationsSingleClientRef(string $clientRef): array
     {
         $base = 'appnCkg7yADMSvVAz'; // Support
         $tableId = 'tblJqg149TWDoZCCm'; // Client
         $viewName = 'Grid view'; // Grid view
         $filename = 'airtable_support_client_informations.json';
-        $apiUrl = sprintf('%s%s/%s', self::BASE_URL, $base, $tableId);
 
         $cacheManager = new CacheFileManager(self::CACHE_PATH.$filename, 86400);
+        $cacheData = [];
 
         if ($cacheManager->cacheFileExists() && $cacheManager->hasValidCache()) {
-            return $cacheManager->retrieveFromCache()['data'];
+            $cacheData = $cacheManager->retrieveFromCache()['data'];
+        }
+        if (\array_key_exists($clientRef, $cacheData)) {
+            return $cacheData[$clientRef];
         }
 
         $url = sprintf('%s%s/%s?maxRecords=1&view=%s&filterByFormula=%s&returnFieldsByFieldId=1', self::BASE_URL, $base, $tableId, urlencode($viewName), urlencode(sprintf('{Reference} = "%s"', $clientRef)));
@@ -164,7 +201,7 @@ class Api
             'Tickets' => 'fld9j8dpyBQomnGr6',
         ];
 
-        $data = [
+        return [
             'id' => $record['id'],
             'name' => $fields[$fieldIds['Name']] ?? '',
             'time_remaining' => $fields[$fieldIds['Temps restant']] ?? '',
@@ -177,10 +214,6 @@ class Api
             'reference' => $fields[$fieldIds['Reference']] ?? '',
             'tickets_ids' => $fields[$fieldIds['Tickets']] ?? '',
         ];
-
-        $cacheManager->saveCacheFile($data);
-
-        return $data;
     }
 
     public function createTicket(string $subject, string $url, string $message, string $mail, string $version, ?string $clientId, ?string $clientRef, ?string $screenshotFileUrl = null): void

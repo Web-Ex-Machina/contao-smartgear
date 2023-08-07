@@ -27,6 +27,7 @@ use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Api\Airtable\V0\Api as AirtableApi;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
@@ -97,7 +98,7 @@ class Support extends BackendModule
         try {
             switch ($strAction) {
                 case 'ticketCreate':
-                    $this->ticketCreate(Input::post('subject', true), Input::post('url'), Input::post('message', true), Input::post('mail'), $_FILES['files'] ?? []);
+                    $this->ticketCreate(Input::post('domain', true), Input::post('subject', true), Input::post('url'), Input::post('message', true), Input::post('mail'), $_FILES['files'] ?? []);
 
                     $arrResponse = ['status' => 'success', 'toastr' => ['status' => 'success', 'msg' => $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.formSendSuccess', [], 'contao_default')]];
                 break;
@@ -117,7 +118,7 @@ class Support extends BackendModule
         return $this->strId;
     }
 
-    protected function ticketCreate(string $subject, string $url, string $message, string $mail, array $screenshotFile): void
+    protected function ticketCreate(string $domain, string $subject, string $url, string $message, string $mail, array $screenshotFile): void
     {
         try {
             /** @var CoreConfig */
@@ -127,15 +128,17 @@ class Support extends BackendModule
         }
 
         // retrieve client ID
+        $arrDomains = Util::getRootPagesDomains();
+        $hostingInformations = $this->airtableApi->getHostingInformations($arrDomains);
         $clientId = null;
         $clientRef = null;
-        $hostingInformations = $this->airtableApi->getHostingInformations($config->getSgOwnerDomain());
         if (!empty($hostingInformations)
-        && !empty($hostingInformations['client_reference'])
+        && \array_key_exists($domain, $hostingInformations)
+        && !empty($hostingInformations[$domain]['client_reference'])
         ) {
-            $supportClientInformations = $this->airtableApi->getSupportClientInformations($hostingInformations['client_reference'][0]);
+            $supportClientInformations = $this->airtableApi->getSupportClientInformationsSingleClientRef($hostingInformations[$domain]['client_reference'][0]);
             $clientId = $supportClientInformations['id'];
-            $clientRef = $hostingInformations['client_reference'][0];
+            $clientRef = $hostingInformations[$domain]['client_reference'][0];
         }
 
         // save screenshot as file
@@ -195,9 +198,29 @@ class Support extends BackendModule
             return '';
         }
 
+        $arrDomains = Util::getRootPagesDomains();
+        $hostingInformations = $this->airtableApi->getHostingInformations($arrDomains);
+        $arrDomainsHavingClientRef = [];
+        if (!empty($hostingInformations)) {
+            // $clientsRef = Util::getAirtableClientsRef($hostingInformations);
+            // $this->airtableApi->getSupportClientInformations($clientsRef);
+            foreach ($hostingInformations as $domain => $hostnameHostingInformations) {
+                if ($hostnameHostingInformations['client_reference']
+                && \is_array($hostnameHostingInformations['client_reference'])
+                && $hostnameHostingInformations['client_reference'][0]
+                ) {
+                    $arrDomainsHavingClientRef[] = $domain;
+                }
+            }
+        }
+
         $objTemplate = new BackendTemplate('be_wem_sg_dashboard_support_form');
         $objTemplate->title = $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.formTitle', [], 'contao_default');
         $objTemplate->moduleId = $this->strId;
+
+        $objTemplate->domainLabel = $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.formDomainLabel', [], 'contao_default');
+        $objTemplate->domainHelp = $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.formDomainHelp', [], 'contao_default');
+        $objTemplate->domains = $arrDomainsHavingClientRef;
 
         $objTemplate->subjectLabel = $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.formSubjectLabel', [], 'contao_default');
         $objTemplate->subjectHelp = $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.formSubjectHelp', [], 'contao_default');
