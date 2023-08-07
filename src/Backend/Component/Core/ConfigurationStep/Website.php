@@ -22,6 +22,7 @@ use Contao\Files;
 use Contao\FilesModel;
 use Contao\Folder;
 use Contao\FrontendTemplate;
+use Contao\ImageSizeModel;
 use Contao\Input;
 use Contao\LayoutModel;
 use Contao\ModuleModel;
@@ -187,6 +188,9 @@ class Website extends ConfigurationStep
         $themeId = $this->createTheme();
         $this->updateModuleConfigurationTheme($themeId);
 
+        $imageSizes = $this->createImageSizes($themeId);
+        $this->updateModuleConfigurationImageSizes($imageSizes);
+
         $modules = $this->createModules($themeId);
 
         $layouts = $this->createLayouts($themeId, $modules);
@@ -281,6 +285,101 @@ class Website extends ConfigurationStep
         $this->setConfigKey('setSgTheme', (int) $objTheme->id);
 
         return (int) $objTheme->id;
+    }
+
+    protected function createImageSizes(int $themeId): array
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        $registeredImageSizes = $this->getConfigImageSizesAsFormattedArray();
+        $imageSizes = [];
+
+        $obj16_9 = \array_key_exists('16:9', $registeredImageSizes)
+                            ? ModuleModel::findOneById($registeredImageSizes['16:9']) ?? new ImageSizeModel()
+                            : new ImageSizeModel()
+                            ;
+        $obj16_9->pid = $themeId;
+        $obj16_9->tstamp = time();
+        $obj16_9->name = '16:9';
+        $obj16_9->width = '1920';
+        $obj16_9->height = '1080';
+        $obj16_9->densities = '0.5x, 1x, 2x';
+        $obj16_9->resizeMode = 'crop';
+        $obj16_9->lazyLoading = 1;
+        $obj16_9->save();
+        $imageSizes[$obj16_9->name] = $obj16_9;
+
+        $this->setConfigImageSizeKey($obj16_9->name, (int) $obj16_9->id);
+
+        $obj2_1 = \array_key_exists('2:1', $registeredImageSizes)
+                            ? ModuleModel::findOneById($registeredImageSizes['2:1']) ?? new ImageSizeModel()
+                            : new ImageSizeModel()
+                            ;
+        $obj2_1->pid = $themeId;
+        $obj2_1->tstamp = time();
+        $obj2_1->name = '2:1';
+        $obj2_1->width = '1920';
+        $obj2_1->height = '960';
+        $obj2_1->densities = '2x';
+        $obj2_1->resizeMode = 'crop';
+        $obj2_1->lazyLoading = 1;
+        $obj2_1->save();
+        $imageSizes[$obj2_1->name] = $obj2_1;
+
+        $this->setConfigImageSizeKey($obj2_1->name, (int) $obj2_1->id);
+
+        $obj1_2 = \array_key_exists('1:2', $registeredImageSizes)
+                            ? ModuleModel::findOneById($registeredImageSizes['1:2']) ?? new ImageSizeModel()
+                            : new ImageSizeModel()
+                            ;
+        $obj1_2->pid = $themeId;
+        $obj1_2->tstamp = time();
+        $obj1_2->name = '1:2';
+        $obj1_2->width = '960';
+        $obj1_2->height = '1920';
+        $obj1_2->densities = '0.5x';
+        $obj1_2->resizeMode = 'crop';
+        $obj1_2->lazyLoading = 1;
+        $obj1_2->save();
+        $imageSizes[$obj1_2->name] = $obj1_2;
+
+        $this->setConfigImageSizeKey($obj1_2->name, (int) $obj1_2->id);
+
+        $obj1_1 = \array_key_exists('1:1', $registeredImageSizes)
+                            ? ModuleModel::findOneById($registeredImageSizes['1:1']) ?? new ImageSizeModel()
+                            : new ImageSizeModel()
+                            ;
+        $obj1_1->pid = $themeId;
+        $obj1_1->tstamp = time();
+        $obj1_1->name = '1:1';
+        $obj1_1->width = '1920';
+        $obj1_1->height = '1920';
+        $obj1_1->densities = '1x';
+        $obj1_1->resizeMode = 'crop';
+        $obj1_1->lazyLoading = 1;
+        $obj1_1->save();
+        $imageSizes[$obj1_1->name] = $obj1_1;
+
+        $this->setConfigImageSizeKey($obj1_1->name, (int) $obj1_1->id);
+
+        $obj4_3 = \array_key_exists('4:3', $registeredImageSizes)
+                            ? ModuleModel::findOneById($registeredImageSizes['4:3']) ?? new ImageSizeModel()
+                            : new ImageSizeModel()
+                            ;
+        $obj4_3->pid = $themeId;
+        $obj4_3->tstamp = time();
+        $obj4_3->name = '4:3';
+        $obj4_3->width = '1920';
+        $obj4_3->height = '1440';
+        $obj4_3->densities = '0.5x, 1x, 2x';
+        $obj4_3->resizeMode = 'crop';
+        $obj4_3->lazyLoading = 1;
+        $obj4_3->save();
+        $imageSizes[$obj4_3->name] = $obj4_3;
+
+        $this->setConfigImageSizeKey($obj4_3->name, (int) $obj4_3->id);
+
+        return $imageSizes;
     }
 
     protected function createModules(int $themeId): array
@@ -1172,6 +1271,21 @@ class Website extends ConfigurationStep
         $this->configurationManager->save($config);
     }
 
+    protected function updateModuleConfigurationImageSizes(array $imageSizes): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $formattedImageSizes = [];
+        foreach ($imageSizes as $key => $objImageSize) {
+            $formattedImageSizes[] = ['key' => $key, 'type' => $objImageSize->name, 'id' => $objImageSize->id];
+        }
+
+        $config->setSgImageSizes($formattedImageSizes);
+
+        $this->configurationManager->save($config);
+    }
+
     protected function updateModuleConfigurationUserAndGroups(array $users, array $groups): void
     {
         /** @var CoreConfig */
@@ -1260,6 +1374,19 @@ class Website extends ConfigurationStep
         }
 
         return $registeredModules;
+    }
+
+    protected function getConfigImageSizesAsFormattedArray(): array
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        $registeredImageSizes = [];
+        $registeredImageSizesRaw = $config->getSgImageSizes();
+        foreach ($registeredImageSizesRaw as $registeredImageSizeRaw) {
+            $registeredImageSizes[$registeredImageSizeRaw->key] = (int) $registeredImageSizeRaw->id;
+        }
+
+        return $registeredImageSizes;
     }
 
     /**
@@ -1579,6 +1706,27 @@ class Website extends ConfigurationStep
         }
 
         $config->setSgModules($formattedModules);
+
+        $this->configurationManager->save($config);
+    }
+
+    private function setConfigImageSizeKey(string $imageSizeName, int $imageSizeId): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $imageSizes = $config->getSgImageSizes();
+
+        $formattedImageSizes = [];
+        foreach ($imageSizes as $imageSize) {
+            if ($imageSize->name === $imageSizeName) {
+                $formattedImageSizes[] = ['key' => $imageSize->name, 'name' => $imageSizeName, 'id' => $imageSizeId];
+            } else {
+                $formattedImageSizes[] = ['key' => $imageSize->name, 'name' => $imageSize->name, 'id' => $imageSize->id];
+            }
+        }
+
+        $config->setSgImageSizes($formattedImageSizes);
 
         $this->configurationManager->save($config);
     }

@@ -28,6 +28,8 @@ class General extends ConfigurationStep
 {
     /** @var ConfigurationManager */
     protected $configurationManager;
+    /** @var LocalConfigManager */
+    protected $localConfigManager;
     /** @var CommandUtil */
     protected $commandUtil;
     /** @var array */
@@ -147,6 +149,10 @@ class General extends ConfigurationStep
         $this->commandUtil->executeCmdPHP('cache:clear');
     }
 
+    public function updateImageSizeConfiguration(): void
+    {
+    }
+
     protected function createPublicFolders(): void
     {
         foreach ($this->foldersToCreate as $folderToCreate) {
@@ -225,42 +231,42 @@ class General extends ConfigurationStep
         ->setRejectLargeUploads(true)
         ->setFileusageSkipReplaceInsertTags(true)
         ->setFileusageSkipDatabase(true)
-        ->setImageSizes([
-            '_defaults' => [
-                'formats' => [
-                    'jpg' => ['jpg', 'jpeg'],
-                    'png' => ['png'],
-                    'gif' => ['gif'],
-                ],
-                'lazy_loading' => true,
-                'resize_mode' => 'crop',
-            ],
-            '16-9' => [
-                'width' => 1920,
-                'height' => 1080,
-                'densities' => '0.5x, 1x, 2x',
-            ],
-            '2-1' => [
-                'width' => 1920,
-                'height' => 960,
-                'densities' => '2x',
-            ],
-            '1-2' => [
-                'width' => 960,
-                'height' => 1920,
-                'densities' => '0.5x',
-            ],
-            '1-1' => [
-                'width' => 1920,
-                'height' => 1920,
-                'densities' => '1x',
-            ],
-            '4-3' => [
-                'width' => 1920,
-                'height' => 1440,
-                'densities' => '0.5x, 1x, 2x',
-            ],
-        ])
+        // ->setImageSizes([
+        //     '_defaults' => [
+        //         'formats' => [
+        //             'jpg' => ['jpg', 'jpeg'],
+        //             'png' => ['png'],
+        //             'gif' => ['gif'],
+        //         ],
+        //         'lazy_loading' => true,
+        //         'resize_mode' => 'crop',
+        //     ],
+        //     '16-9' => [
+        //         'width' => 1920,
+        //         'height' => 1080,
+        //         'densities' => '0.5x, 1x, 2x',
+        //     ],
+        //     '2-1' => [
+        //         'width' => 1920,
+        //         'height' => 960,
+        //         'densities' => '2x',
+        //     ],
+        //     '1-2' => [
+        //         'width' => 960,
+        //         'height' => 1920,
+        //         'densities' => '0.5x',
+        //     ],
+        //     '1-1' => [
+        //         'width' => 1920,
+        //         'height' => 1920,
+        //         'densities' => '1x',
+        //     ],
+        //     '4-3' => [
+        //         'width' => 1920,
+        //         'height' => 1440,
+        //         'densities' => '0.5x, 1x, 2x',
+        //     ],
+        // ])
         ;
 
         $this->localConfigManager->save($config);

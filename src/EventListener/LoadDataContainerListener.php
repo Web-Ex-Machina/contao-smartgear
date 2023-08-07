@@ -28,6 +28,7 @@ use WEM\SmartgearBundle\DataContainer\Content as ContentDCA;
 use WEM\SmartgearBundle\DataContainer\FaqCategory as FaqCategoryDCA;
 use WEM\SmartgearBundle\DataContainer\Files as FilesDCA;
 use WEM\SmartgearBundle\DataContainer\Form as FormDCA;
+use WEM\SmartgearBundle\DataContainer\ImageSize as ImageSizeDCA;
 use WEM\SmartgearBundle\DataContainer\Layout as LayoutDCA;
 use WEM\SmartgearBundle\DataContainer\Member as MemberDCA;
 use WEM\SmartgearBundle\DataContainer\MemberGroup as MemberGroupDCA;
@@ -126,6 +127,12 @@ class LoadDataContainerListener
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(FormDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(FormDCA::class, 'deleteItem')
+                ;
+            break;
+            case 'tl_image_size':
+                DCAManipulator::create($table)
+                    ->addConfigOnloadCallback(ImageSizeDCA::class, 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback(ImageSizeDCA::class, 'deleteItem')
                 ;
             break;
             case 'tl_layout':

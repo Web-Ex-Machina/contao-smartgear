@@ -170,6 +170,8 @@ class Core implements ConfigModuleInterface
     protected $sgAirtableApiKeyForRead = '';
     /** @var string */
     protected $sgAirtableApiKeyForWrite = '';
+    /** @var array */
+    protected $sgImageSizes = [];
     /** @var BlogConfig */
     protected $sgBlog;
     /** @var EventsConfig */
@@ -188,6 +190,7 @@ class Core implements ConfigModuleInterface
         $this->setSgInstallComplete(false)
             ->setSgVersion(static::DEFAULT_VERSION)
             ->setSgTheme(null)
+            ->setSgImageSizes([])
             ->setSgLayoutStandard(null)
             ->setSgLayoutFullwidth(null)
             ->setSgPageRoot(null)
@@ -257,6 +260,7 @@ class Core implements ConfigModuleInterface
         $this->setSgInstallComplete($json->installComplete ?? false)
             ->setSgVersion($json->version ?? static::DEFAULT_VERSION)
             ->setSgTheme($json->contao->theme ?? null)
+            ->setSgImageSizes($json->contao->imageSizes ?? [])
             ->setSgLayoutStandard($json->contao->layouts->standard ?? null)
             ->setSgLayoutFullwidth($json->contao->layouts->fullwidth ?? null)
             ->setSgPageRoot($json->contao->pages->root ?? null)
@@ -357,6 +361,7 @@ class Core implements ConfigModuleInterface
 
         $json->contao = new \stdClass();
         $json->contao->theme = $this->getSgTheme();
+        $json->contao->imageSizes = $this->getSgImageSizes();
         $json->contao->modules = $this->getSgModules();
 
         $json->contao->pages = new \stdClass();
@@ -754,6 +759,28 @@ class Core implements ConfigModuleInterface
         }
 
         return [];
+    }
+
+    public function getContaoImageSizesIds(): array
+    {
+        $imageSizes = [];
+        foreach ($this->getSgImageSizes() as $imageSize) {
+            if (null !== $imageSize->id) {
+                $imageSizes[] = (int) $imageSize->id;
+            }
+        }
+
+        return $imageSizes;
+    }
+
+    public function getContaoImageSizesIdsForAll(): array
+    {
+        return $this->getContaoImageSizesIds();
+    }
+
+    public function resetContaoImageSizesIds(): void
+    {
+        $this->setSgImageSizes([]);
     }
 
     public function resetContaoModulesIds(): void
@@ -1568,10 +1595,7 @@ class Core implements ConfigModuleInterface
         return $this->sgAirtableApiKeyForRead;
     }
 
-    /**
-     * @return self
-     */
-    public function setSgAirtableApiKeyForRead(string $sgAirtableApiKeyForRead)
+    public function setSgAirtableApiKeyForRead(string $sgAirtableApiKeyForRead): self
     {
         $this->sgAirtableApiKeyForRead = $sgAirtableApiKeyForRead;
 
@@ -1583,12 +1607,21 @@ class Core implements ConfigModuleInterface
         return $this->sgAirtableApiKeyForWrite;
     }
 
-    /**
-     * @return self
-     */
-    public function setSgAirtableApiKeyForWrite(string $sgAirtableApiKeyForWrite)
+    public function setSgAirtableApiKeyForWrite(string $sgAirtableApiKeyForWrite): self
     {
         $this->sgAirtableApiKeyForWrite = $sgAirtableApiKeyForWrite;
+
+        return $this;
+    }
+
+    public function getSgImageSizes(): array
+    {
+        return $this->sgImageSizes;
+    }
+
+    public function setSgImageSizes(array $sgImageSizes): self
+    {
+        $this->sgImageSizes = $sgImageSizes;
 
         return $this;
     }
