@@ -60,7 +60,7 @@
         <?= $this->hl?'<'.$this->hl.' class="heroFW__title">':'<div class="heroFW__title">' ?><?= $this->headline ?><?= $this->hl?'</'.$this->hl.'>':'</div>' ?>
         <div class="heroFW__text">
           <?= $this->text ?>
-          <?php if($this->url): ?>
+          <?php if($this->link_href): ?>
             <a class="btn <?= $this->link_classes ?>" href="<?= $this->link_href ?>" title="<?= $this->link_title ?>"<?= $this->link_target ? ' target="_blank"' : '' ?>><?= $this->link_text ?></a>
           <?php endif; ?>
         </div>
