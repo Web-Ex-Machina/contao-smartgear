@@ -295,7 +295,7 @@ class Website extends ConfigurationStep
         $imageSizes = [];
 
         $obj16_9 = \array_key_exists('16:9', $registeredImageSizes)
-                            ? ModuleModel::findOneById($registeredImageSizes['16:9']) ?? new ImageSizeModel()
+                            ? ImageSizeModel::findOneById($registeredImageSizes['16:9']) ?? new ImageSizeModel()
                             : new ImageSizeModel()
                             ;
         $obj16_9->pid = $themeId;
@@ -312,7 +312,7 @@ class Website extends ConfigurationStep
         $this->setConfigImageSizeKey($obj16_9->name, (int) $obj16_9->id);
 
         $obj2_1 = \array_key_exists('2:1', $registeredImageSizes)
-                            ? ModuleModel::findOneById($registeredImageSizes['2:1']) ?? new ImageSizeModel()
+                            ? ImageSizeModel::findOneById($registeredImageSizes['2:1']) ?? new ImageSizeModel()
                             : new ImageSizeModel()
                             ;
         $obj2_1->pid = $themeId;
@@ -329,7 +329,7 @@ class Website extends ConfigurationStep
         $this->setConfigImageSizeKey($obj2_1->name, (int) $obj2_1->id);
 
         $obj1_2 = \array_key_exists('1:2', $registeredImageSizes)
-                            ? ModuleModel::findOneById($registeredImageSizes['1:2']) ?? new ImageSizeModel()
+                            ? ImageSizeModel::findOneById($registeredImageSizes['1:2']) ?? new ImageSizeModel()
                             : new ImageSizeModel()
                             ;
         $obj1_2->pid = $themeId;
@@ -346,7 +346,7 @@ class Website extends ConfigurationStep
         $this->setConfigImageSizeKey($obj1_2->name, (int) $obj1_2->id);
 
         $obj1_1 = \array_key_exists('1:1', $registeredImageSizes)
-                            ? ModuleModel::findOneById($registeredImageSizes['1:1']) ?? new ImageSizeModel()
+                            ? ImageSizeModel::findOneById($registeredImageSizes['1:1']) ?? new ImageSizeModel()
                             : new ImageSizeModel()
                             ;
         $obj1_1->pid = $themeId;
@@ -363,7 +363,7 @@ class Website extends ConfigurationStep
         $this->setConfigImageSizeKey($obj1_1->name, (int) $obj1_1->id);
 
         $obj4_3 = \array_key_exists('4:3', $registeredImageSizes)
-                            ? ModuleModel::findOneById($registeredImageSizes['4:3']) ?? new ImageSizeModel()
+                            ? ImageSizeModel::findOneById($registeredImageSizes['4:3']) ?? new ImageSizeModel()
                             : new ImageSizeModel()
                             ;
         $obj4_3->pid = $themeId;
@@ -420,7 +420,7 @@ class Website extends ConfigurationStep
         $objHeaderModule->imgSize = 'a:3:{i:0;s:0:"";i:1;s:3:"100";i:2;s:12:"proportional";}';
         $objHeaderModule->wem_sg_header_sticky = 1;
         $objHeaderModule->wem_sg_header_nav_module = $objNavMain->id;
-        $objHeaderModule->wem_sg_header_alt = 'Logo '.$this->sgConfig['websiteTitle'];
+        $objHeaderModule->wem_sg_header_alt = 'Logo '.$config['websiteTitle'];
         $objHeaderModule->wem_sg_header_search_parameter = 'keywords';
         $objHeaderModule->wem_sg_header_nav_position = 'right';
         $objHeaderModule->wem_sg_header_panel_position = 'right';
@@ -1606,6 +1606,7 @@ class Website extends ConfigurationStep
         $userGroupManipulator
             ->addAllowedFilemounts($config->getContaoFoldersIds())
             ->addAllowedPagemounts($config->getContaoPagesIds())
+            ->addAllowedImageSizes($config->getContaoImageSizesIds())
             // ->addAllowedModules(Module::getTypesByIds($config->getContaoModulesIds()))
         ;
 

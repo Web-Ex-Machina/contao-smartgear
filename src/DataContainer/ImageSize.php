@@ -92,7 +92,6 @@ class ImageSize extends \tl_image_size
 
     protected function canItemBeDeleted(int $id): bool
     {
-        // return $this->User->admin || !$this->isItemUsedBySmartgear($id);
-        return !$this->isItemUsedBySmartgear($id);
+        return $this->User->admin || !$this->isItemUsedBySmartgear($id);
     }
 }
