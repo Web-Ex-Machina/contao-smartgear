@@ -842,7 +842,7 @@ class Smartgear extends \Contao\BackendModule
             while ($themes->next()) {
                 $objTheme = $themes->current();
                 $arrThemes[$objTheme->id] = [
-                    'value' => $objTheme->id,
+                    'value' => (int) $objTheme->id,
                     'text' => $objTheme->name,
                     'selected' => false,
                 ];
@@ -853,7 +853,7 @@ class Smartgear extends \Contao\BackendModule
                         $objModule = $modules->current();
                         // $arrLayouts[$objTheme->id]['options'][$objModule->id] = [
                         $arrModules[$objModule->id] = [
-                            'value' => $objModule->id,
+                            'value' => (int) $objModule->id,
                             'text' => $objTheme->name.' | '.$objModule->name.' ('.$objModule->type.')',
                             'selected' => false,
                         ];
@@ -871,7 +871,7 @@ class Smartgear extends \Contao\BackendModule
                         $objLayout = $layouts->current();
                         // $arrLayouts[$objTheme->id]['options'][$objLayout->id] = [
                         $arrLayouts[$objLayout->id] = [
-                            'value' => $objLayout->id,
+                            'value' => (int) $objLayout->id,
                             'text' => $objTheme->name.' | '.$objLayout->name,
                             'selected' => false,
                         ];
@@ -889,7 +889,7 @@ class Smartgear extends \Contao\BackendModule
                                 $objPage = $pages->current();
                                 // $arrPages[$objTheme->id]['options'][$objPage->id] = [
                                 $arrPages[$objPage->id] = [
-                                    'value' => $objPage->id,
+                                    'value' => (int) $objPage->id,
                                     // 'text' => $objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.')',
                                     'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.')',
                                     'selected' => false,
@@ -908,7 +908,7 @@ class Smartgear extends \Contao\BackendModule
                                         $objArticle = $articles->current();
                                         // $arrArticles[$objPage->id]['options'][$objArticle->id] = [
                                         $arrArticles[$objArticle->id] = [
-                                            'value' => $objArticle->id,
+                                            'value' => (int) $objArticle->id,
                                             // 'text' => $objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->type.')',
                                             'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.') | '.$objArticle->sorting.' - '.$objArticle->title,
                                             'selected' => false,
@@ -927,7 +927,7 @@ class Smartgear extends \Contao\BackendModule
                                                 $objContent = $contents->current();
                                                 // $arrContents[$objArticle->id]['options'][$objContent->id] = [
                                                 $arrContents[$objContent->id] = [
-                                                    'value' => $objContent->id,
+                                                    'value' => (int) $objContent->id,
                                                     // 'text' => $objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
                                                     'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.') | '.$objArticle->sorting.' - '.$objArticle->title.' | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
                                                     'selected' => false,
@@ -953,7 +953,7 @@ class Smartgear extends \Contao\BackendModule
                 $objPage = $pages->current();
                 // $arrPages[0]['options'][$pages->id] = [
                 $arrPages[$pages->id] = [
-                    'value' => $objPage->id,
+                    'value' => (int) $objPage->id,
                     'text' => 'No theme | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.')',
                     'selected' => false,
                 ];
@@ -970,7 +970,7 @@ class Smartgear extends \Contao\BackendModule
                         $objArticle = $articles->current();
                         // $arrArticles[$objPage->id]['options'][$objArticle->id] = [
                         $arrArticles[$objArticle->id] = [
-                            'value' => $objArticle->id,
+                            'value' => (int) $objArticle->id,
                             // 'text' => $objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->type.')',
                             'text' => 'No theme | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.') | '.$objArticle->sorting.' - '.$objArticle->title,
                             'selected' => false,
@@ -989,7 +989,7 @@ class Smartgear extends \Contao\BackendModule
                                 $objContent = $contents->current();
                                 // $arrContents[$objArticle->id]['options'][$objContent->id] = [
                                 $arrContents[$objContent->id] = [
-                                    'value' => $objContent->id,
+                                    'value' => (int) $objContent->id,
                                     // 'text' => $objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
                                     'text' => 'No theme | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.') | '.$objArticle->sorting.' - '.$objArticle->title.' | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
                                     'selected' => false,
@@ -1006,7 +1006,7 @@ class Smartgear extends \Contao\BackendModule
         if ($userGroups) {
             while ($userGroups->next()) {
                 $arrUserGroups[$userGroups->id] = [
-                    'value' => $userGroups->id,
+                    'value' => (int) $userGroups->id,
                     'text' => $userGroups->name,
                 ];
             }
@@ -1017,7 +1017,7 @@ class Smartgear extends \Contao\BackendModule
         if ($users) {
             while ($users->next()) {
                 $arrUsers[$users->id] = [
-                    'value' => $users->id,
+                    'value' => (int) $users->id,
                     'text' => $users->name,
                 ];
             }
@@ -1028,7 +1028,7 @@ class Smartgear extends \Contao\BackendModule
         if ($gateways) {
             while ($gateways->next()) {
                 $arrNcGateways[$gateways->id] = [
-                    'value' => $gateways->id,
+                    'value' => (int) $gateways->id,
                     'text' => $gateways->title.' ('.$gateways->type.')',
                 ];
             }
@@ -1042,7 +1042,7 @@ class Smartgear extends \Contao\BackendModule
         if ($notifications) {
             while ($notifications->next()) {
                 $arrNcNotifications[$notifications->id] = [
-                    'value' => $notifications->id,
+                    'value' => (int) $notifications->id,
                     'text' => $notifications->title.' ('.$notifications->type.')',
                 ];
 
@@ -1050,7 +1050,7 @@ class Smartgear extends \Contao\BackendModule
                 if ($messages) {
                     while ($messages->next()) {
                         $arrNcMessages[$messages->id] = [
-                            'value' => $messages->id,
+                            'value' => (int) $messages->id,
                             'text' => $notifications->title.' ('.$notifications->type.') | '.$messages->title.' ('.$messages->gateway_type.')',
                         ];
 
@@ -1058,7 +1058,7 @@ class Smartgear extends \Contao\BackendModule
                         if ($languages) {
                             while ($languages->next()) {
                                 $arrNcLanguages[$languages->id] = [
-                                    'value' => $languages->id,
+                                    'value' => (int) $languages->id,
                                     'text' => $notifications->title.' ('.$notifications->type.') | '.$messages->title.' ('.$messages->gateway_type.') | '.$languages->language,
                                 ];
                             }
@@ -1170,7 +1170,7 @@ class Smartgear extends \Contao\BackendModule
             'airtableApiKeyForWrite' => $coreConfig->getSgAirtableApiKeyForWrite(),
         ];
         foreach ($coreConfig->getSgModules() as $module) {
-            $core['modules'][$module->key] = $module->id;
+            $core['modules'][$module->key] = (int) $module->id;
         }
 
         $this->Template->core = $core;
@@ -1211,7 +1211,7 @@ class Smartgear extends \Contao\BackendModule
                 $objNA = $newsArchives->current();
                 $arrNewsArchives[$objNA->id] = [
                     'text' => $objNA->title,
-                    'value' => $objNA->id,
+                    'value' => (int) $objNA->id,
                     'selected' => false,
                 ];
             }
@@ -1301,7 +1301,7 @@ class Smartgear extends \Contao\BackendModule
             while ($calendars->next()) {
                 $objCalendar = $calendars->current();
                 $arrCalendars[$objCalendar->id] = [
-                    'value' => $objCalendar->id,
+                    'value' => (int) $objCalendar->id,
                     'text' => $objCalendar->title,
                 ];
             }
@@ -1353,7 +1353,7 @@ class Smartgear extends \Contao\BackendModule
             while ($faqCategories->next()) {
                 $objFaqCategory = $faqCategories->current();
                 $arrFaqCategories[$objFaqCategory->id] = [
-                    'value' => $objFaqCategory->id,
+                    'value' => (int) $objFaqCategory->id,
                     'text' => $objFaqCategory->title,
                 ];
             }
@@ -1402,7 +1402,7 @@ class Smartgear extends \Contao\BackendModule
             while ($forms->next()) {
                 $objForm = $forms->current();
                 $arrForms[$objForm->id] = [
-                    'value' => $objForm->id,
+                    'value' => (int) $objForm->id,
                     'text' => $objForm->title,
                 ];
                 $fields = FormFieldModel::findBy('pid', $objForm->id);
@@ -1410,7 +1410,7 @@ class Smartgear extends \Contao\BackendModule
                     while ($fields->next()) {
                         $objField = $fields->current();
                         $arrFields[$objField->id] = [
-                            'value' => $objField->id,
+                            'value' => (int) $objField->id,
                             'text' => $objForm->title.' | '.$objField->name.' ('.$objField->type.')',
                         ];
                     }
@@ -1503,7 +1503,7 @@ class Smartgear extends \Contao\BackendModule
             while ($members->next()) {
                 $objMember = $members->current();
                 $arrMembers[$objMember->id] = [
-                    'value' => $objMember->id,
+                    'value' => (int) $objMember->id,
                     'text' => $objMember->firstname.' '.$objMember->lastname.' ('.$objMember->email.')',
                 ];
             }
@@ -1515,7 +1515,7 @@ class Smartgear extends \Contao\BackendModule
             while ($memberGroups->next()) {
                 $objMemberGroup = $memberGroups->current();
                 $arrMemberGroups[$objMemberGroup->id] = [
-                    'value' => $objMemberGroup->id,
+                    'value' => (int) $objMemberGroup->id,
                     'text' => $objMemberGroup->name,
                 ];
             }

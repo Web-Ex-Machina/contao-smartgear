@@ -375,7 +375,6 @@
 				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_article403','name'=>'extranet[article403]','value'=>$this->extranet['article403'],'options'=>$this->articles]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle403Headline','name'=>'extranet[contentArticle403Headline]','value'=>$this->extranet['contentArticle403Headline'],'options'=>$this->contents]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle403Text','name'=>'extranet[contentArticle403Text]','value'=>$this->extranet['contentArticle403Text'],'options'=>$this->contents]); ?>
-				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle403ModuleLoginGuests','name'=>'extranet[contentArticle403ModuleLoginGuests]','value'=>$this->extranet['contentArticle403ModuleLoginGuests'],'options'=>$this->contents]); ?>
 
 
 				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageContent','name'=>'extranet[pageContent]','value'=>$this->extranet['pageContent'],'options'=>$this->pages]); ?>
