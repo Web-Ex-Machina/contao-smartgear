@@ -40,7 +40,8 @@ class LocalConfig implements ConfigYamlInterface
     protected $rejectLargeUploads;
     protected $untouchedConfig;
     protected $imageSizes;
-    protected $fileusageSkipReplaceInsertTags;
+    /** @var bool Default on true because package have troubles @todo : do not manage this settings here once the package is corrected */
+    protected $fileusageSkipReplaceInsertTags = true;
     protected $fileusageSkipDatabase;
 
     public function reset(): self
@@ -68,7 +69,7 @@ class LocalConfig implements ConfigYamlInterface
             ->setSgOwnerHost(null)
             ->setRejectLargeUploads(null)
             ->setImageSizes(null)
-            ->setFileusageSkipReplaceInsertTags(null)
+            ->setFileusageSkipReplaceInsertTags(true)
             ->setFileusageSkipDatabase(null)
         ;
 
@@ -99,7 +100,7 @@ class LocalConfig implements ConfigYamlInterface
             ->setSgOwnerHost($content['contao']['localconfig']['sgOwnerHost'] ?? null)
             ->setRejectLargeUploads($content['contao']['image']['reject_large_uploads'] ?? null)
             ->setImageSizes($content['contao']['image']['sizes'] ?? null)
-            ->setFileusageSkipReplaceInsertTags($content['contao']['localconfig']['fileusageSkipReplaceInsertTags'] ?? null)
+            ->setFileusageSkipReplaceInsertTags($content['contao']['localconfig']['fileusageSkipReplaceInsertTags'] ?? true)
             ->setFileusageSkipDatabase($content['contao']['localconfig']['fileusageSkipDatabase'] ?? null)
         ;
 
@@ -466,12 +467,12 @@ class LocalConfig implements ConfigYamlInterface
         return $this;
     }
 
-    public function getFileusageSkipReplaceInsertTags()
+    public function getFileusageSkipReplaceInsertTags(): bool
     {
         return $this->fileusageSkipReplaceInsertTags;
     }
 
-    public function setFileusageSkipReplaceInsertTags($fileusageSkipReplaceInsertTags): self
+    public function setFileusageSkipReplaceInsertTags(bool $fileusageSkipReplaceInsertTags): self
     {
         $this->fileusageSkipReplaceInsertTags = $fileusageSkipReplaceInsertTags;
 

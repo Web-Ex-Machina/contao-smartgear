@@ -225,6 +225,7 @@ class General extends ConfigurationStep
         ->setSgOwnerDomain(\Contao\Environment::get('base'))
         ->setSgOwnerHost(CoreConfig::DEFAULT_OWNER_HOST)
         ->setRejectLargeUploads(true)
+        ->setFileusageSkipReplaceInsertTags(true) // Still needed on some installations
         ;
 
         $this->localConfigManager->save($config);

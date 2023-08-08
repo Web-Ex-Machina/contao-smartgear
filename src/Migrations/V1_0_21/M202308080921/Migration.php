@@ -75,7 +75,7 @@ class Migration extends MigrationAbstract
             /** @var LocalConfig */
             $config = $this->localConfigurationManager->load();
             $config
-                ->setFileusageSkipReplaceInsertTags(null)
+                // ->setFileusageSkipReplaceInsertTags(null) // Still needed on some installations
                 ->setFileusageSkipDatabase(null)
             ;
 
