@@ -149,10 +149,6 @@ class General extends ConfigurationStep
         $this->commandUtil->executeCmdPHP('cache:clear');
     }
 
-    public function updateImageSizeConfiguration(): void
-    {
-    }
-
     protected function createPublicFolders(): void
     {
         foreach ($this->foldersToCreate as $folderToCreate) {

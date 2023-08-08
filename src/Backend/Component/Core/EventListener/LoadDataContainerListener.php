@@ -57,8 +57,7 @@ class LoadDataContainerListener
                         // do not display grid_gap settings
                         $this->dcaManipulator->removeFields(['grid_gap']);
                         $this->dcaManipulator->setFieldEvalProperty('cssID', 'tl_class', 'hidden');
-                        // $this->dcaManipulator->setFieldEvalProperty('size', 'includeBlankOption', 'false');
-                        unset($GLOBALS['TL_DCA']['tl_content']['fields']['size']['eval']['includeBlankOption']);
+                        unset($GLOBALS['TL_DCA']['tl_content']['fields']['size']['eval']['includeBlankOption']); // yep, we have to remove the key to remove the blank option...
                         $this->dcaManipulator->setFieldEvalProperty('size', 'mandatory', 'true');
                         $this->updatePaletteHeadline();
                         $this->updatePaletteText();
