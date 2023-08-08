@@ -1,10 +1,11 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
-1.0.21 - 2023-08-07
+1.0.21 - 2023-08-08
 - Smartgear : Smartgear's API `version` endpoint now returns PHP, Contao `core-bundle` & Framway's version
 - Smartgear : Do not register visits if not pointing on a page
 - Smartgear : Dashboard now show informations about all root pages domains instead of the one filled in Smartgear's configuration
+- Smartgear : Users have to select an image size for contents, unless they are granted the expert role
 - FormContact : Sender's address is now `##admin_email##` token instead of Smartgear's Owner' email address
 
 1.0.20 - 2023-08-04
