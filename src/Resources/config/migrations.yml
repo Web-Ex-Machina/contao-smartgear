@@ -212,13 +212,11 @@ services:
     public: true
 
   smartgear.migrations.v1_0_21.m202308080921.migration:
-    class: WEM\SmartgearBundle\Migrations\PlaceholderMigration
+    class: WEM\SmartgearBundle\Migrations\V1_0_21\M202308080921\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
       $coreConfigurationManager: '@smartgear.config.manager.core'
       $versionComparator: '@smartgear.classes.version.comparator'
-      $x: 1
-      $y: 0
-      $z: 21
+      $localConfigurationManager: '@smartgear.config.manager.local_config'
     public: true
