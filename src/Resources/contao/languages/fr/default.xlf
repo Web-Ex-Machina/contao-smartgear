@@ -2642,8 +2642,8 @@
 			<target>Background - Color</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.colorLabel">
-			<source>background color %s</source>
-			<target>fond couleur %s</target>
+			<source>%s</source>
+			<target>%s</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.description">
 			<source>Apply a background using the "%s" color to the item</source>
