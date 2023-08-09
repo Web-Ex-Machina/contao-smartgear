@@ -203,6 +203,18 @@ if ('FE' === TL_MODE) {
  * Add globals Hooks
  */
 $GLOBALS['TL_HOOKS']['loadLanguageFile'][] = ['smartgear.listener.load_language_file', '__invoke'];
+$GLOBALS['TL_HOOKS']['sendNotificationMessage'][] = ['smartgear.listener.send_notification_message', '__invoke'];
+
+/*
+ * NC hooks
+ */
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data';
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_filled';
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data';
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data_filled';
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data';
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data_filled';
+
 /*
  * Add custom rights
  */

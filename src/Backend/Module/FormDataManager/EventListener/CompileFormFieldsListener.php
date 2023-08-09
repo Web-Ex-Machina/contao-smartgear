@@ -54,22 +54,26 @@ class CompileFormFieldsListener
                     $objFormFieldFirstAppearance = (new FormFieldModel());
                     $objFormFieldFirstAppearance->name = 'fdm[first_appearance]';
                     $objFormFieldFirstAppearance->type = 'hidden';
+                    $objFormFieldFirstAppearance->is_technical_field = 1;
                     $arrFields['first_appearance'] = $objFormFieldFirstAppearance;
 
                     $objFormFieldFirstInteraction = (new FormFieldModel());
                     $objFormFieldFirstInteraction->name = 'fdm[first_interaction]';
                     $objFormFieldFirstInteraction->type = 'hidden';
+                    $objFormFieldFirstInteraction->is_technical_field = 1;
                     $arrFields['first_interaction'] = $objFormFieldFirstInteraction;
 
                     $objFormFieldCurrentPage = (new FormFieldModel());
                     $objFormFieldCurrentPage->name = 'fdm[current_page]';
                     $objFormFieldCurrentPage->type = 'hidden';
+                    $objFormFieldCurrentPage->is_technical_field = 1;
                     $objFormFieldCurrentPage->value = $objPage ? $objPage->id : 0;
                     $arrFields['current_page'] = $objFormFieldCurrentPage;
 
                     $objFormFieldCurrentPage = (new FormFieldModel());
                     $objFormFieldCurrentPage->name = 'fdm[current_page_url]';
                     $objFormFieldCurrentPage->type = 'hidden';
+                    $objFormFieldCurrentPage->is_technical_field = 1;
                     $objFormFieldCurrentPage->value = Environment::get('uri');
                     $arrFields['current_page_url'] = $objFormFieldCurrentPage;
 
@@ -77,6 +81,7 @@ class CompileFormFieldsListener
                     $objFormFieldRefererPage = (new FormFieldModel());
                     $objFormFieldRefererPage->name = 'fdm[referer_page_url]';
                     $objFormFieldRefererPage->type = 'hidden';
+                    $objFormFieldRefererPage->is_technical_field = 1;
                     $objFormFieldRefererPage->value = System::getReferer();
                     $arrFields['referer_page_url'] = $objFormFieldRefererPage;
                 }
