@@ -824,9 +824,16 @@ class Smartgear extends \Contao\BackendModule
 
             $coreConfig->setSgExtranet($extranetConfig);
         }
+        /**
+         * Even if $coreConfig is a copy by value and not by reference
+         * Reloading the configuration when doing a backup
+         * do have an influence on $coreConfig ...
+         * So let's clone it to avoid any trouble.
+         */
+        $coreConfig2 = clone $coreConfig;
 
         $this->coreConfigurationManager->createBackupFile();
-        $this->coreConfigurationManager->save($coreConfig);
+        $this->coreConfigurationManager->save($coreConfig2);
     }
 
     private function fillConfigurationManagerForm(): void

@@ -460,6 +460,7 @@ class Core implements ConfigModuleInterface
             'faq' => $this->getSubmoduleConfig('faq'),
             'form_contact' => $this->getSubmoduleConfig('form_contact'),
             'extranet' => $this->getSubmoduleConfig('extranet'),
+            'form_data_manager' => $this->getSubmoduleConfig('form_data_manager'),
         ];
     }
 
