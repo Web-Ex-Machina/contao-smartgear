@@ -89,6 +89,14 @@
 				<source>Smartgear's dashboard</source>
 				<target>Tableau de bord Smartgear</target>
 			</trans-unit>
+			<trans-unit id="MOD.wem_sg_reminder.0">
+				<source>Reminders</source>
+				<target>Rappels</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_reminder.1">
+				<source>Contents' udpates reminders</source>
+				<target>Rappels de mise à jour de contenus</target>
+			</trans-unit>
 			<trans-unit id="MOD.wem_sg_social_link_config_categories.0">
 				<source>Social network categories</source>
 				<target>Catégories réseaux sociaux</target>

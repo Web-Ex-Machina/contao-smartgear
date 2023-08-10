@@ -16,14 +16,9 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\DcaLoader;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
-(new DcaLoader('tl_content'))->load();
+(new DcaLoader('tl_page'))->load();
 
-$GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['options_callback'] = static function (Contao\DataContainer $dc) {
-    return WEM\SmartgearBundle\Override\Controller::getTemplateGroup('ce_'.$dc->activeRecord->type.'_', [], 'ce_'.$dc->activeRecord->type);
-};
-$GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['eval']['includeBlankOption'] = true;
-
-DCAManipulator::create('tl_content')
+DCAManipulator::create('tl_page')
     ->addField('update_reminder', [
         'label' => &$GLOBALS['TL_LANG']['WEMSG']['DCA']['update_reminder'],
         'inputType' => 'checkbox',
@@ -57,14 +52,14 @@ DCAManipulator::create('tl_content')
     ->addConfigOnloadCallback(\WEM\SmartgearBundle\DataContainer\Core::class, 'displayReminderMessage')
 ;
 
-foreach ($GLOBALS['TL_DCA']['tl_content']['palettes'] as $paletteName => $paletteConfig) {
+foreach ($GLOBALS['TL_DCA']['tl_page']['palettes'] as $paletteName => $paletteConfig) {
     if ('__selector__' !== $paletteName) {
         PaletteManipulator::create()
             ->addLegend('update_reminder_legend')
             ->addField('update_reminder', 'update_reminder_legend')
             ->addField('update_reminder_period', 'update_reminder_legend')
             ->addField('update_reminder_date', 'update_reminder_legend')
-            ->applyToPalette($paletteName, 'tl_content')
+            ->applyToPalette($paletteName, 'tl_page')
         ;
     }
 }

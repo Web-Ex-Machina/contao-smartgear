@@ -5000,6 +5000,93 @@
 			<source>Page title</source>
 			<target>Titre de la page</target>
 		</trans-unit>	
+
+		<!-- DCA -->
+    <trans-unit id="WEMSG.DCA.update_reminder_legend">
+      <source>Reminder parameters</source>
+      <target>Paramètre de rappel</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder.0">
+      <source>Activate reminder</source>
+      <target>Activer le rappel</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_period.0">
+      <source>Remind in</source>
+      <target>Rappeler dans</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_date.0">
+      <source>Reminder date</source>
+      <target>Date de rappel</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_period.PT1S">
+      <source>1 second</source>
+      <target>1 seconde</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_period.PT1M">
+      <source>1 minute</source>
+      <target>1 minute</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_period.P1D">
+      <source>1 day</source>
+      <target>1 jour</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_period.P1W">
+      <source>1 week</source>
+      <target>1 semaine</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_period.P1M">
+      <source>1 month</source>
+      <target>1 mois</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_period.P6M">
+      <source>6 month</source>
+      <target>6 mois</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_period.P1Y">
+      <source>1 year</source>
+      <target>1 an</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.MESSAGE.updateReminderFuture">
+      <source>This content will be considered obsolete on the %s</source>
+      <target>Ce contenu sera considéré comme obsolète le %s</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.MESSAGE.updateReminderPast">
+      <source>This content is considered obsolete since the %s</source>
+      <target>Ce contenu est considéré comme obsolète depuis le %s</target>
+    </trans-unit>
+
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.title">
+      <source>Content updates reminders</source>
+      <target>Rappels de mise à jour de contenus</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.ptable">
+      <source>Table</source>
+      <target>Table</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.pid">
+      <source>ID</source>
+      <target>ID</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.name">
+      <source>Name</source>
+      <target>Libellé</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.last_update">
+      <source>Last update</source>
+      <target>Dernière MaJ</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.obsolete_since">
+      <source>Obsolete since</source>
+      <target>Obsolète depuis</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.period">
+      <source>Reminder delay</source>
+      <target>Délais de rappel</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.actions">
+      <source>Actions</source>
+      <target>Actions</target>
+    </trans-unit>
 		
 
 		<!-- heimrichhannot/contao-backend-lost-password-bundle -->

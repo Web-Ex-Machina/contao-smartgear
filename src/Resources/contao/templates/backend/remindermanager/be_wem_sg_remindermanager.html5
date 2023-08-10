@@ -1,0 +1,152 @@
+<!-- Load Libraries -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<div id="tl_buttons">
+
+</div>
+
+<!-- Display messages -->
+<?= Message::generate(); ?>
+
+<!-- Display Module -->
+<div id="tl_wem_sg_remindermanager" class="wem_module">
+
+	<h2 class="sub_headline"><?= $this->trans('WEMSG.REMINDERMANAGER.LIST.title'); ?></h2>
+	<div class="tl_listing_container list_view" id="tl_listing">
+		<table class="tl_listing showColumns">
+  			<tbody>
+  				<tr>
+					<th class="tl_folder_tlist col_ptable"><?= $this->trans('WEMSG.REMINDERMANAGER.LIST.ptable'); ?></th>
+					<th class="tl_folder_tlist col_pid"><?= $this->trans('WEMSG.REMINDERMANAGER.LIST.pid'); ?></th>
+					<th class="tl_folder_tlist col_name"><?= $this->trans('WEMSG.REMINDERMANAGER.LIST.name'); ?></th>
+					<th class="tl_folder_tlist col_last_update"><?= $this->trans('WEMSG.REMINDERMANAGER.LIST.last_update'); ?></th>
+					<th class="tl_folder_tlist col_obsolete_since"><?= $this->trans('WEMSG.REMINDERMANAGER.LIST.obsolete_since'); ?></th>
+					<th class="tl_folder_tlist col_period"><?= $this->trans('WEMSG.REMINDERMANAGER.LIST.period'); ?></th>
+					<th class="tl_folder_tlist col_actions"><?= $this->trans('WEMSG.REMINDERMANAGER.LIST.actions'); ?></th>
+				</tr>
+				<?php foreach($this->arrItems as $item): ?>
+					<?php $this->insert('be_wem_sg_remindermanager_default', ['item'=>$item]); ?>
+				<?php endforeach; ?>
+				<?php if($this->empty): ?>
+				<tr>
+					<td colspan="7"><?= $this->trans('WEMSG.REMINDERMANAGER.LIST.noItemsToDisplay'); ?></td>
+				</tr>
+				<?php endif; ?>
+			</tbody>
+		</table>
+	</div>
+	<?= $this->pagination; ?>
+</div>
+
+<script type="text/javascript">
+	var j = jQuery.noConflict();
+	
+	j('#tl_wem_sg_remindermanager .reset').on('click', function(e){
+		e.preventDefault();
+		toastr.info('doing ...');
+		var self = j(this);
+		resetReminder(j(this).data('ptable'),j(this).data('pid')).then(function(r) {
+			toastr[r["status"]](r["msg"]);
+			if('success' === r["status"]){
+				self.closest('tr').addClass('hidden');
+			}
+		}).catch(function(e) {
+			toastr.error(e, "Une erreur est survenue :");
+		});
+	});
+	
+	j('#tl_wem_sg_remindermanager .disable').on('click', function(e){
+		e.preventDefault();
+		toastr.info('doing ...');
+		var self = j(this);
+		disableReminder(j(this).data('ptable'),j(this).data('pid')).then(function(r) {
+			toastr[r["status"]](r["msg"]);
+			if('success' === r["status"]){
+				self.closest('tr').addClass('hidden');
+			}
+		}).catch(function(e) {
+			toastr.error(e, "Une erreur est survenue :");
+		});
+	});
+
+	function resetReminder(ptable, pid) {
+		return new Promise((resolve, reject) => {
+			var objFields = {
+				'TL_WEM_AJAX':1
+				,'REQUEST_TOKEN':"<?= $this->token; ?>"
+				,'wem_module':"<?= $this->strId; ?>"
+				,'action':'resetReminder'
+				,'ptable':ptable
+				,'pid':pid
+			};
+
+			j.ajax({
+				method: "POST"
+				,timeout:10000
+				,data: objFields
+			})
+			.done(function(msg){
+				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+				try{
+					var results = j.parseJSON(msg);
+
+					// Handle actions errors
+					if("error" === results["status"]) {
+						reject(results["msg"]);
+					}
+
+					// Notify everything goes well
+					resolve(results);
+				}
+				catch(err){
+	       			reject(err); 
+				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				reject(textStatus+"<br>"+errorThrown);
+			})
+		});
+	}
+
+	function disableReminder(ptable, pid) {
+		return new Promise((resolve, reject) => {
+			var objFields = {
+				'TL_WEM_AJAX':1
+				,'REQUEST_TOKEN':"<?= $this->token; ?>"
+				,'wem_module':"<?= $this->strId; ?>"
+				,'action':'disableReminder'
+				,'ptable':ptable
+				,'pid':pid
+			};
+
+			j.ajax({
+				method: "POST"
+				,timeout:10000
+				,data: objFields
+			})
+			.done(function(msg){
+				// We expect a JSON, so send error if this is not a JSON. Yep, Racist, I know.
+				try{
+					var results = j.parseJSON(msg);
+
+					// Handle actions errors
+					if("error" === results["status"]) {
+						reject(results["msg"]);
+					}
+
+					// Notify everything goes well
+					resolve(results);
+				}
+				catch(err){
+	       			reject(err); 
+				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				reject(textStatus+"<br>"+errorThrown);
+			})
+		});
+	}
+</script>

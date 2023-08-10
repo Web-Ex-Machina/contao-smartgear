@@ -11,6 +11,7 @@ SMARTGEAR Project for Contao Open Source CMS
 - Smartgear : Form to update configuration file available even if SG is not installed
 - Smartgear : When checking Framway's installation, the `assets/framway/build/combined/_config.scss` file existence is now checked
 - Smartgear : A warning message is displayed in files management in BE, reminding the user that she/he must own the rights to the file before uploading it
+- Smartgear : A system to tag items as "to update before"
 - FormContact : Sender's address is now `##admin_email##` token instead of Smartgear's Owner' email address
 - StyleManager : the `rsce_listLogos` now has the same options as `rsce_listIcons`
 - StyleManager : the `headline` now has an `alignement` option
