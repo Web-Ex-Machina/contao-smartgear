@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -240,6 +240,7 @@ class Smartgear extends \Contao\BackendModule
         if (!$coreConfig->getSgInstallComplete()) {
             $coreBlock = System::getContainer()->get('smartgear.backend.component.core.block');
             $arrBlocks[$coreBlock->getType()][] = $coreBlock->parse();
+            $this->getConfigurationManagerButton();
         } else {
             // Retrieve number of updates to play if session key is undefined
             // @todo : find a way to update this value after an update by the Contao-Manager
@@ -574,22 +575,37 @@ class Smartgear extends \Contao\BackendModule
                 ->setSgContentList(Input::post('blog')['contentList'] ? (int) Input::post('blog')['contentList'] : null)
                 ->setSgModuleReader(Input::post('blog')['moduleReader'] ? (int) Input::post('blog')['moduleReader'] : null)
                 ->setSgModuleList(Input::post('blog')['moduleList'] ? (int) Input::post('blog')['moduleList'] : null)
-                ->setSgCurrentPresetIndex((int) Input::post('blog')['currentPresetIndex'])
             ;
+
             $arrBlogPresets = [];
-            foreach ($blogConfig->getSgPresets() as $index => $preset) {
-                /** @var BlogPresetConfig */
-                $preset = $preset;
-                $preset
-                    ->setSgNewsFolder(Input::post('blog')['presets'][$index]['newsFolder'] ?? BlogPresetConfig::DEFAULT_FOLDER_PATH)
-                    ->setSgNewsArchiveTitle(Input::post('blog')['presets'][$index]['newsArchiveTitle'] ?? BlogPresetConfig::DEFAULT_ARCHIVE_TITLE)
-                    ->setSgNewsListPerPage((int) Input::post('blog')['presets'][$index]['newsListPerPage'])
-                    ->setSgPageTitle(Input::post('blog')['presets'][$index]['pageTitle'] ?? BlogPresetConfig::DEFAULT_PAGE_TITLE)
-                ;
-                $arrBlogPresets[] = $preset;
+            $arrBlogPresetsExisting = $blogConfig->getSgPresets();
+            if (!empty($arrBlogPresetsExisting)) {
+                foreach ($arrBlogPresetsExisting as $index => $preset) {
+                    /** @var BlogPresetConfig */
+                    $preset = $preset;
+                    $preset
+                        ->setSgNewsFolder(Input::post('blog')['presets'][$index]['newsFolder'] ?? BlogPresetConfig::DEFAULT_FOLDER_PATH)
+                        ->setSgNewsArchiveTitle(Input::post('blog')['presets'][$index]['newsArchiveTitle'] ?? BlogPresetConfig::DEFAULT_ARCHIVE_TITLE)
+                        ->setSgNewsListPerPage((int) Input::post('blog')['presets'][$index]['newsListPerPage'])
+                        ->setSgPageTitle(Input::post('blog')['presets'][$index]['pageTitle'] ?? BlogPresetConfig::DEFAULT_PAGE_TITLE)
+                    ;
+                    $arrBlogPresets[] = $preset;
+                }
+            } else {
+                foreach (Input::post('blog')['presets'] as $index => $presetConfig) {
+                    $preset = new BlogPresetConfig();
+                    $preset
+                        ->setSgNewsFolder($presetConfig['newsFolder'] ?? BlogPresetConfig::DEFAULT_FOLDER_PATH)
+                        ->setSgNewsArchiveTitle($presetConfig['newsArchiveTitle'] ?? BlogPresetConfig::DEFAULT_ARCHIVE_TITLE)
+                        ->setSgNewsListPerPage((int) $presetConfig['newsListPerPage'])
+                        ->setSgPageTitle($presetConfig['pageTitle'] ?? BlogPresetConfig::DEFAULT_PAGE_TITLE)
+                    ;
+                    $arrBlogPresets[] = $preset;
+                }
             }
 
             $blogConfig->setSgPresets($arrBlogPresets);
+            $blogConfig->setSgCurrentPresetIndex((int) Input::post('blog')['currentPresetIndex']); // wait for presets to be saved
             $coreConfig->setSgBlog($blogConfig);
         }
 

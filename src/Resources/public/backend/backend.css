@@ -44,3 +44,26 @@
 {
     padding: 5px;
 }
+
+.header_button{
+    padding: 3px 0 3px 16px;
+    background-position: left center;
+    background-repeat: no-repeat;
+    margin-left: 12px;
+}
+
+.header_sg_cache_clear{
+    background-image: url('../../../system/themes/flexible/icons/sync.svg');
+}
+
+.header_sg_configuration{
+    background-image: url('../../../system/themes/flexible/icons/wrench.svg');
+}
+
+.header_sg_backup{
+    background-image: url('../../../system/themes/flexible/icons/filemanager.svg');
+}
+
+.header_sg_update{
+    background-image: url('../../../system/themes/flexible/icons/changelog.svg');
+}

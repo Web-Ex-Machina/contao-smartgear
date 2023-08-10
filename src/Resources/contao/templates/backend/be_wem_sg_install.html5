@@ -8,10 +8,16 @@
 <?= Message::generate(); ?>
 
 <div id="tl_buttons">
-  <a href="<?= $this->request ?>" class="executeCmdPhp" data-cmd="cache:clear" title="Refresh Cache" accesskey="r">Refresh Cache</a>
-  <a href="<?= ampersand($this->configurationManagerBtnHref) ?>" title="<?= Contao\StringUtil::specialchars($this->configurationManagerBtnTitle) ?>" accesskey="b"><?= $this->configurationManagerBtnButton ?></a>
-  <a href="<?= ampersand($this->backupManagerBtnHref) ?>" title="<?= Contao\StringUtil::specialchars($this->backupManagerBtnTitle) ?>" accesskey="b"><?= $this->backupManagerBtnButton ?></a>
-  <a href="<?= ampersand($this->updateManagerBtnHref) ?>" title="<?= Contao\StringUtil::specialchars($this->updateManagerBtnTitle) ?>" accesskey="b"><?= $this->updateManagerBtnButton ?> (<?= $this->update_to_play_number ?? "0"; ?>)</a>
+  <a class="header_button header_sg_cache_clear executeCmdPhp" href="<?= $this->request ?>" data-cmd="cache:clear" title="Refresh Cache" accesskey="r">Refresh Cache</a>
+  <?php if($this->configurationManagerBtnHref): ?>
+  	<a class="header_button header_sg_configuration" href="<?= ampersand($this->configurationManagerBtnHref) ?>" title="<?= Contao\StringUtil::specialchars($this->configurationManagerBtnTitle) ?>" accesskey="b"><?= $this->configurationManagerBtnButton ?></a>
+  <?php endif; ?>
+  <?php if($this->backupManagerBtnHref): ?>
+  	<a class="header_button header_sg_backup" href="<?= ampersand($this->backupManagerBtnHref) ?>" title="<?= Contao\StringUtil::specialchars($this->backupManagerBtnTitle) ?>" accesskey="b"><?= $this->backupManagerBtnButton ?></a>
+  <?php endif; ?>
+  <?php if($this->updateManagerBtnHref): ?>
+  	<a  class="header_button header_sg_update" href="<?= ampersand($this->updateManagerBtnHref) ?>" title="<?= Contao\StringUtil::specialchars($this->updateManagerBtnTitle) ?>" accesskey="b"><?= $this->updateManagerBtnButton ?> (<?= $this->update_to_play_number ?? "0"; ?>)</a>
+  <?php endif; ?>
 </div>
 
 
@@ -110,6 +116,7 @@
 		 */
 		j('#tl_buttons').on('click', '.executeCmdPhp', function(e){
 			e.preventDefault();
+			toastr.info('doing ...')
 			executeCmdPhp(j(this).data('cmd')).then(function(r) {
 				toastr[r["status"]](r["msg"]);
 			}).catch(function(e) {

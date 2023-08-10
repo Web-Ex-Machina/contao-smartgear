@@ -8,6 +8,7 @@ SMARTGEAR Project for Contao Open Source CMS
 - Smartgear : Users have to select an image size for contents, unless they are granted the expert role
 - Smartgear : FileUsage bundle configuration updated
 - Smartgear : Adding `##useful_data##` & `##useful_data_filled##` tokens for forms' notifications
+- Smartgear : Form to update configuration file available even if SG is not installed
 - FormContact : Sender's address is now `##admin_email##` token instead of Smartgear's Owner' email address
 - StyleManager : the `rsce_listLogos` now has the same options as `rsce_listIcons`
 - StyleManager : the `headline` now has an `alignement` option
