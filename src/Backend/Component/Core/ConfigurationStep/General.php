@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -79,8 +79,8 @@ class General extends ConfigurationStep
         $this->addTextField('sgAnalyticsGoogleId', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsGoogleId'], $config->getSgAnalyticsGoogleId(), false);
         $this->addTextField('sgAnalyticsMatomoId', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsMatomoId'], $config->getSgAnalyticsMatomoId(), false);
         $this->addTextField('sgAnalyticsMatomoHost', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsMatomoHost'], $config->getSgAnalyticsMatomoHost(), false);
-        $this->addTextField('sgApiKey', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgApiKey'], $config->getSgApiKey(), false);
-        $this->addTextField('sgEncryptionKey', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgEncryptionKey'], $config->getSgEncryptionKey(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgEncryptionKeyHelp']);
+        $this->addTextField('sgApiKey', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgApiKey'], !empty($config->getSgApiKey()) ? $config->getSgApiKey() : StringUtil::generateKey(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgApiKeyHelp']);
+        $this->addTextField('sgEncryptionKey', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgEncryptionKey'], !empty($config->getSgEncryptionKey()) ? $config->getSgEncryptionKey() : StringUtil::generateKey(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgEncryptionKeyHelp']);
         $this->addTextField('sgAirtableApiKey', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKey'], $config->getSgAirtableApiKey(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKey']);
         $this->addTextField('sgAirtableApiKeyForRead', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKeyForRead'], $config->getSgAirtableApiKeyForRead(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKeyForRead']);
         $this->addTextField('sgAirtableApiKeyForWrite', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKeyForWrite'], $config->getSgAirtableApiKeyForWrite(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKeyForWrite']);

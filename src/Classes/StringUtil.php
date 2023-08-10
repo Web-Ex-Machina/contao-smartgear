@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -50,5 +50,25 @@ class StringUtil extends StringUtilBase
         $varValue = preg_replace("/\s(\?|\!|\:|\;|\»)/", '&nbsp;\\1', $varValue);
 
         return preg_replace("/(\«)\s/", '\\1&nbsp;', $varValue);
+    }
+
+    /**
+     * Generate a random key.
+     *
+     * @param int $length Optional password length
+     *
+     * @return string
+     *
+     * @todo Add pattern rules
+     */
+    public static function generateKey(?int $length = 16)
+    {
+        $characters = 'abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789_-';
+        $randstring = '';
+        for ($i = 0; $i < $length; ++$i) {
+            $randstring .= $characters[random_int(0, \strlen($characters) - 1)];
+        }
+
+        return $randstring;
     }
 }

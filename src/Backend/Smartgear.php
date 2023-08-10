@@ -42,6 +42,7 @@ use NotificationCenter\Model\Message as NcMessageModel;
 use NotificationCenter\Model\Notification as NcNotificationModel;
 use WEM\SmartgearBundle\Backup\BackupManager;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
+use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Blog\Preset as BlogPresetConfig;
@@ -56,7 +57,6 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Model\Member;
 use WEM\SmartgearBundle\Override\Controller;
 use WEM\SmartgearBundle\Update\UpdateManager;
-use WEM\UtilsBundle\Classes\StringUtil;
 
 /**
  * Back end module "smartgear".
@@ -1186,8 +1186,8 @@ class Smartgear extends \Contao\BackendModule
             'userGroupAdministrators' => $coreConfig->getSgUserGroupAdministrators() ?? CoreConfig::DEFAULT_USER_GROUP_ADMIN_NAME,
             'notificationGatewayEmail' => $coreConfig->getSgNotificationGatewayEmail(),
             // 'modules' => $coreConfig->getSgModules(),
-            'apiKey' => $coreConfig->getSgApiKey() ?? CoreConfig::DEFAULT_API_KEY,
-            'encryptionKey' => $coreConfig->getSgEncryptionKey() ?? CoreConfig::DEFAULT_ENCRYPTION_KEY,
+            'apiKey' => $coreConfig->getSgApiKey() ?? StringUtil::generateKey(),
+            'encryptionKey' => $coreConfig->getSgEncryptionKey() ?? StringUtil::generateKey(),
             'airtableApiKey' => $coreConfig->getSgAirtableApiKey(),
             'airtableApiKeyForRead' => $coreConfig->getSgAirtableApiKeyForRead(),
             'airtableApiKeyForWrite' => $coreConfig->getSgAirtableApiKeyForWrite(),

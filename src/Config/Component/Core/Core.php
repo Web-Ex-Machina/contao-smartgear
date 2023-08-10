@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -53,8 +53,6 @@ class Core implements ConfigModuleInterface
     public const DEFAULT_USER_GROUP_ADMIN_NAME = 'Administrateurs';
     public const DEFAULT_ROOTPAGE_CHMOD = 'a:12:{i:0;s:2:"u1";i:1;s:2:"u2";i:2;s:2:"u3";i:3;s:2:"u4";i:4;s:2:"u5";i:5;s:2:"u6";i:6;s:2:"g1";i:7;s:2:"g2";i:8;s:2:"g3";i:9;s:2:"g4";i:10;s:2:"g5";i:11;s:2:"g6";}';
 
-    public const DEFAULT_API_KEY = 'api-key-to-change';
-    public const DEFAULT_ENCRYPTION_KEY = 'encryption-key-to-change';
     public const DEFAULT_CLIENT_FILES_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media';
     public const DEFAULT_CLIENT_LOGOS_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media'.\DIRECTORY_SEPARATOR.'logos';
     public const SUBMODULES_KEYS = ['blog', 'events', 'faq', 'form_contact', 'extranet', 'form_data_manager'];
@@ -161,9 +159,9 @@ class Core implements ConfigModuleInterface
     /** @var array */
     protected $sgModules = [];
     /** @var string */
-    protected $sgApiKey = self::DEFAULT_API_KEY;
+    protected $sgApiKey = '';
     /** @var string */
-    protected $sgEncryptionKey = self::DEFAULT_ENCRYPTION_KEY;
+    protected $sgEncryptionKey = '';
     /** @var string */
     protected $sgAirtableApiKey = '';
     /** @var string */
@@ -239,8 +237,8 @@ class Core implements ConfigModuleInterface
             ->setSgOwnerDpoName('')
             ->setSgOwnerDpoEmail('')
             ->setSgGoogleFonts(self::DEFAULT_GOOGLE_FONTS)
-            ->setSgApiKey(self::DEFAULT_API_KEY)
-            ->setSgEncryptionKey(self::DEFAULT_ENCRYPTION_KEY)
+            ->setSgApiKey('')
+            ->setSgEncryptionKey('')
             ->setSgAirtableApiKey('')
             ->setSgAirtableApiKeyForRead('')
             ->setSgAirtableApiKeyForWrite('')
@@ -309,8 +307,8 @@ class Core implements ConfigModuleInterface
             ->setSgOwnerDpoName($json->owner->dpo->name ?? '')
             ->setSgOwnerDpoEmail($json->owner->dpo->email ?? '')
             ->setSgGoogleFonts($json->googleFonts ?? self::DEFAULT_GOOGLE_FONTS)
-            ->setSgApiKey($json->api->key ?? self::DEFAULT_API_KEY)
-            ->setSgEncryptionKey($json->encryption->key ?? self::DEFAULT_ENCRYPTION_KEY)
+            ->setSgApiKey($json->api->key ?? '')
+            ->setSgEncryptionKey($json->encryption->key ?? '')
             ->setSgAirtableApiKey($json->airtable->api->key ?? '')
             ->setSgAirtableApiKeyForRead($json->airtable->api->key_read ?? '')
             ->setSgAirtableApiKeyForWrite($json->airtable->api->key_write ?? '')

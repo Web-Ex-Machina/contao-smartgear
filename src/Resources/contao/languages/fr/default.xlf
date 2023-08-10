@@ -730,6 +730,10 @@
 			<source>API Key</source>
 			<target>Clef API</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgApiKeyHelp">
+			<source>This API key is used to authenticate calls to this Smartgear's API</source>
+			<target>Cette clef API sert à authentifier les appels aux APIs de ce Smartgear</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.GENERAL.sgEncryptionKey">
 			<source>Encryption Key</source>
 			<target>Clef de chiffrement</target>
@@ -4302,7 +4306,7 @@
 		</trans-unit>	
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_encryptionKey">
 			<source>Encryption key</source>
-			<target>Clef d'encryptage</target>
+			<target>Clef de chiffrement</target>
 		</trans-unit>	
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_airtableApiKey">
 			<source>Airtable API key (deprecated)</source>
