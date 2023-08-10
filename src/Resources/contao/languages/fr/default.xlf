@@ -2172,6 +2172,10 @@
 			<source>Contain an uppercase letter</source>
 			<target>Contenir une majuscule</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.PWD.helperContainLowercase">
+			<source>Contain a lowercase letter</source>
+			<target>Contenir une minuscule</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.EXTRANET.PWD.helperContainNumber">
 			<source>Contain a number</source>
 			<target>Contenir un chiffre</target>
