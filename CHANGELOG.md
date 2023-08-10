@@ -15,6 +15,9 @@ SMARTGEAR Project for Contao Open Source CMS
 - FormContact : Sender's address is now `##admin_email##` token instead of Smartgear's Owner' email address
 - StyleManager : the `rsce_listLogos` now has the same options as `rsce_listIcons`
 - StyleManager : the `headline` now has an `alignement` option
+- StyleManager : Fix color translation
+- Extranet : Fix password requirements
+- Extranet : Fix data lost when editing member in FE
 
 1.0.20 - 2023-08-04
 - Smartgear : fixing files at `/templates`'s root being deleted when updating Smartgear.
