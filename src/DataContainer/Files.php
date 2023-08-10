@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -18,7 +18,9 @@ use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
+use Exception;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class Files extends \tl_files
@@ -30,6 +32,19 @@ class Files extends \tl_files
     {
         parent::__construct();
         $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
+    }
+
+    public function uploadWarningMessage(): void
+    {
+        $strText = '';
+        try {
+            $strText = Util::getLocalizedTemplateContent('{public_or_web}/bundles/wemsmartgear/backend/tl_files/{lang}/upload_warning.html5', \Contao\BackendUser::getInstance()->language, '{public_or_web}/bundles/wemsmartgear/backend/tl_files/fr/upload_warning.html5');
+        } catch (Exception $e) {
+            // do nothing
+        }
+        if (!empty($strText)) {
+            \Contao\Message::addInfo($strText);
+        }
     }
 
     /**
