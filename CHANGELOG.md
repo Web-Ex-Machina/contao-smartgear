@@ -9,6 +9,7 @@ SMARTGEAR Project for Contao Open Source CMS
 - Smartgear : FileUsage bundle configuration updated
 - Smartgear : Adding `##useful_data##` & `##useful_data_filled##` tokens for forms' notifications
 - Smartgear : Form to update configuration file available even if SG is not installed
+- Smartgear : When checking Framway's installation, the `assets/framway/build/combined/_config.scss` file existence is now checked
 - FormContact : Sender's address is now `##admin_email##` token instead of Smartgear's Owner' email address
 - StyleManager : the `rsce_listLogos` now has the same options as `rsce_listIcons`
 - StyleManager : the `headline` now has an `alignement` option
