@@ -57,7 +57,9 @@
     </div>
     <div class="heroFW__content ">
       <div class="heroFW__content__wrapper <?= $this->hero_width=='container'?'container':'' ?>">
-        <?= $this->hl?'<'.$this->hl.' class="heroFW__title">':'<div class="heroFW__title">' ?><?= $this->headline ?><?= $this->hl?'</'.$this->hl.'>':'</div>' ?>
+        <?php if ($this->headline): ?>
+          <?= $this->hl?'<'.$this->hl.' class="heroFW__title">':'<div class="heroFW__title">' ?><?= $this->headline ?><?= $this->hl?'</'.$this->hl.'>':'</div>' ?>
+        <?php endif ?>
         <div class="heroFW__text">
           <?= $this->text ?>
           <?php if($this->link_href): ?>
