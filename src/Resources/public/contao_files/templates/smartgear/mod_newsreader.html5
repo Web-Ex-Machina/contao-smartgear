@@ -8,9 +8,10 @@
     <!-- indexer::stop -->
     <a href="<?= $this->referer ?>" title="<?= $this->back ?>" class="btn-sm reader__back"><?= $this->back ?></a>
     <!-- indexer::continue -->
-
     <!-- indexer::stop -->
-    <div class="share-buttons__container"></div>
+    <?php if ($this->wem_sg_display_share_buttons): ?>
+      <div class="share-buttons__container"></div>
+    <?php endif ?>
   </div>
   <!-- indexer::continue -->
 
