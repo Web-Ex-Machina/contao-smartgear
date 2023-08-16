@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -94,7 +94,7 @@ class AnalyticsExternal extends BackendModule
         $arrBirthdays = [];
         $arrInvoices = [];
         foreach ($hostingInfos as $domain => $hostnameHostingInfos) {
-            foreach ($hostnameHostingInfos['invoices_ids'] as $index => $id) {
+            foreach ($hostnameHostingInfos['invoices_ids'] ?? [] as $index => $id) {
                 $arrInvoices[] = [
                     'id' => $id,
                     'date' => $hostnameHostingInfos['invoices_dates'][$index],
@@ -106,7 +106,7 @@ class AnalyticsExternal extends BackendModule
             }
         }
 
-        $arrInvoices = array_unique($arrInvoices);
+        $arrInvoices = array_unique($arrInvoices, \SORT_REGULAR);
 
         $objTemplate = new BackendTemplate('be_wem_sg_dashboard_analytics_external_invoices');
         $objTemplate->invoicesTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoicesTitle', [], 'contao_default');
@@ -133,6 +133,9 @@ class AnalyticsExternal extends BackendModule
         $blnAirtableClientFound = false;
         $diskSpaceAllowed = 0;
         foreach ($hostingInfos as $domain => $hostnameHostingInfos) {
+            if (empty($hostnameHostingInfos)) {
+                continue;
+            }
             $diskSpaceAllowed += (float) $hostnameHostingInfos['allowed_space'];
             $blnAirtableClientFound = $blnAirtableClientFound || !empty($hostnameHostingInfos['client_id']);
             continue;
