@@ -51,7 +51,7 @@ class Core extends Backend
 
     public function displayReminderMessage(DataContainer $dc): void
     {
-        if (!$dc->id) {
+        if (!$dc->id || null === \Contao\Input::get('act')) {
             return;
         }
         $model = \Contao\Model::getClassFromTable($dc->table);

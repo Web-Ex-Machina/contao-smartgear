@@ -27,7 +27,7 @@ DCAManipulator::create('tl_content')
     ->addField('update_reminder', [
         'label' => &$GLOBALS['TL_LANG']['WEMSG']['DCA']['update_reminder'],
         'inputType' => 'checkbox',
-        'eval' => ['submitOnChange' => true, 'tl_class' => 'w50 m12'],
+        'eval' => ['submitOnChange' => true, 'tl_class' => 'clr m12'],
         'sql' => "char(1) NOT NULL default '0'",
     ])
     ->addField('update_reminder_period', [
@@ -44,13 +44,13 @@ DCAManipulator::create('tl_content')
             'P6M' => &$GLOBALS['TL_LANG']['WEMSG']['DCA']['update_reminder_period']['P6M'],
             'P1Y' => &$GLOBALS['TL_LANG']['WEMSG']['DCA']['update_reminder_period']['P1Y'],
         ],
-        'eval' => ['mandatory' => true, 'chosen' => true, 'tl_class' => 'w50 wizard'],
+        'eval' => ['mandatory' => true, 'chosen' => true, 'tl_class' => 'w50'],
         'sql' => "varchar(4) NOT NULL default 'P6M'",
     ])
     ->addField('update_reminder_date', [
         'label' => &$GLOBALS['TL_LANG']['WEMSG']['DCA']['update_reminder_date'],
         'inputType' => 'text',
-        'eval' => ['rgxp'=>'datim', 'datepicker'=>true, 'tl_class'=>'w50 wizard'],
+        'eval' => ['rgxp'=>'datim', 'datepicker'=>true, 'tl_class'=>'w50', 'readonly'=>true],
         'sql' => "int(10) unsigned NOT NULL default '0'",
     ])
     ->addConfigOnsubmitCallback(\WEM\SmartgearBundle\DataContainer\Core::class, 'updateReminder')
