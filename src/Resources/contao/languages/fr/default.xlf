@@ -1095,6 +1095,29 @@
 			<source>Service email - Smartgear</source>
 			<target>Email de service - Smartgear</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayNotification">
+			<source>SG - support ticket creation notification</source>
+			<target>SG - création d'un ticket de support</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayMessageAdmin">
+			<source>Admin message</source>
+			<target>Message administrateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayMessageUser">
+			<source>User message</source>
+			<target>Message utilisateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.subjectNotificationSupportGatewayMessageLanguageUser">
+			<source>Your Smartgear's support ticket - ##ticket_subject##</source>
+			<target>Votre demande de support Smartgear - ##ticket_subject##</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.subjectNotificationSupportGatewayMessageLanguageAdmin">
+			<source>Smartgear "%s" - support ticket - ##ticket_subject##</source>
+			<target>Smartgear "%s" - demande de support - ##ticket_subject##</target>
+		</trans-unit>
+
+
+
 
 		<trans-unit id="WEMSG.RESET.GENERAL.Title">
 			<source>Global</source>
@@ -4171,7 +4194,11 @@
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerName">
 			<source>Owner name</source>
 			<target>Proprétaire</target>
-		</trans-unit>	
+		</trans-unit>		
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerEmail">
+			<source>Owner email</source>
+			<target>Mail administrateur</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerDomain">
 			<source>Owner Domain</source>
 			<target>Domaine</target>
@@ -4312,6 +4339,28 @@
 			<source>Notification Gateway Email</source>
 			<target>Passerelle email</target>
 		</trans-unit>
+
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_notificationSupport">
+			<source>Support Notification</source>
+			<target>Notification Support</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_notificationSupportMessageAdmin">
+			<source>Support Notification - Admin message</source>
+			<target>Notification Support - Message admin</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_notificationSupportMessageAdminLanguage">
+			<source>Support Notification - Admin message language</source>
+			<target>Notification Support - Langue message admin</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_notificationSupportMessageUser">
+			<source>Support Notification - User message</source>
+			<target>Notification Support - Message utilisateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_notificationSupportMessageUserLanguage">
+			<source>Support Notification - User message language</source>
+			<target>Notification Support - Langue message utilisateur</target>
+		</trans-unit>
+
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_customnav">
 			<source>Footer nav</source>
 			<target>Nav footer</target>

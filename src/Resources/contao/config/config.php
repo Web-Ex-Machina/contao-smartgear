@@ -220,6 +220,19 @@ $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['fil
 $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data_filled';
 
 /*
+ * Notifications
+ */
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['smartgear']['ticket_creation'] = [
+    'email_sender_address' => ['sg_owner_email'],
+    'recipients' => ['support_email'],
+    'email_subject' => ['ticket_*'],
+    'email_text' => ['ticket_*', 'sg_owner_name'],
+    'email_html' => ['ticket_*', 'sg_owner_name'],
+    'email_replyTo' => ['sg_owner_email'],
+    'attachment_tokens' => ['ticket_file'],
+];
+
+/*
  * Add custom rights
  */
 $GLOBALS['TL_PERMISSIONS'][] = 'smartgear_permissions';

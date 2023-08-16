@@ -144,6 +144,7 @@ services:
                 - '@smartgear.backend.component.form_contact.configuration_step.general'
                 - '@smartgear.backend.module.form_data_manager.configuration_step.general'
                 - '@smartgear.backend.module.extranet.configuration_step.general'
+            $htmlDecoder: '@contao.string.html_decoder'
                 
         public: true
 

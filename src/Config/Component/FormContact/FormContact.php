@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -284,6 +284,33 @@ class FormContact implements ConfigModuleInterface
         return [];
     }
 
+    public function getContaoNotificationsIds(): array
+    {
+        if (!$this->getSgInstallComplete()) {
+            return [];
+        }
+
+        return [$this->getSgNotification()];
+    }
+
+    public function getContaoNotificationsMessagesIds(): array
+    {
+        if (!$this->getSgInstallComplete()) {
+            return [];
+        }
+
+        return [$this->getSgNotificationMessageAdmin(), $this->getSgNotificationMessageUser()];
+    }
+
+    public function getContaoNotificationsLanguagesIds(): array
+    {
+        if (!$this->getSgInstallComplete()) {
+            return [];
+        }
+
+        return [$this->getSgNotificationMessageAdminLanguage(), $this->getSgNotificationMessageUserLanguage()];
+    }
+
     public function resetContaoModulesIds(): void
     {
     }
@@ -326,6 +353,11 @@ class FormContact implements ConfigModuleInterface
 
     public function resetContaoMemberGroupsIds(): void
     {
+    }
+
+    public function resetContaoNotificationsIds(): void
+    {
+        $this->setSgNotification(null);
     }
 
     public function getSgInstallComplete(): bool

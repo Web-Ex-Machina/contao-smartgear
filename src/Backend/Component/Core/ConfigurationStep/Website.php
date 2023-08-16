@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep;
 use Contao\ArrayUtil;
 use Contao\ArticleModel;
 use Contao\ContentModel;
+use Contao\CoreBundle\String\HtmlDecoder;
 use Contao\File;
 use Contao\Files;
 use Contao\FilesModel;
@@ -31,6 +32,9 @@ use Contao\ThemeModel;
 use Contao\UserGroupModel;
 use Contao\UserModel;
 use Exception;
+use NotificationCenter\Model\Language as NotificationLanguageModel;
+use NotificationCenter\Model\Message as NotificationMessageModel;
+use NotificationCenter\Model\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
@@ -60,6 +64,10 @@ class Website extends ConfigurationStep
     protected $userGroupUpdaters;
     /** array */
     protected $userGroupWebmasterOldPermissions = [];
+    /** @var HtmlDecoder */
+    protected $htmlDecoder;
+    /** @var string */
+    protected $language;
 
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_website';
 
@@ -70,7 +78,8 @@ class Website extends ConfigurationStep
         ConfigurationManager $configurationManager,
         UpdateManager $updateManager,
         CommandUtil $commandUtil,
-        array $userGroupUpdaters
+        array $userGroupUpdaters,
+        HtmlDecoder $htmlDecoder
     ) {
         parent::__construct($module, $type);
         $this->translator = $translator;
@@ -78,6 +87,8 @@ class Website extends ConfigurationStep
         $this->updateManager = $updateManager;
         $this->commandUtil = $commandUtil;
         $this->userGroupUpdaters = $userGroupUpdaters;
+        $this->htmlDecoder = $htmlDecoder;
+        $this->language = \Contao\BackendUser::getInstance()->language;
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Title'];
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
@@ -216,6 +227,16 @@ class Website extends ConfigurationStep
 
         $notificationGateways = $this->createNotificationGateways();
         $this->updateModuleConfigurationNotificationGateways($notificationGateways);
+
+        $notificationSupport = $this->createNotificationSupportGatewayNotification();
+        $this->updateModuleConfigurationNotificationSupportGatewayNotification($notificationSupport);
+
+        $notificationSupportGatewayMessages = $this->createNotificationSupportGatewayMessages($notificationSupport);
+        $this->updateModuleConfigurationNotificationSupportGatewayMessages($notificationSupportGatewayMessages);
+
+        $notificationSupportGatewayMessagesLanguages = $this->createNotificationSupportGatewayMessagesLanguages($notificationSupportGatewayMessages);
+        $this->updateModuleConfigurationNotificationSupportGatewayMessagesLanguages($notificationSupportGatewayMessagesLanguages);
+
         $this->updateUserGroups();
 
         $this->commandUtil->executeCmdPHP('cache:clear');
@@ -420,7 +441,7 @@ class Website extends ConfigurationStep
         $objHeaderModule->imgSize = 'a:3:{i:0;s:0:"";i:1;s:3:"100";i:2;s:12:"proportional";}';
         $objHeaderModule->wem_sg_header_sticky = 1;
         $objHeaderModule->wem_sg_header_nav_module = $objNavMain->id;
-        $objHeaderModule->wem_sg_header_alt = 'Logo '.$config['websiteTitle'];
+        $objHeaderModule->wem_sg_header_alt = 'Logo '.$config->getSgWebsiteTitle();
         $objHeaderModule->wem_sg_header_search_parameter = 'keywords';
         $objHeaderModule->wem_sg_header_nav_position = 'right';
         $objHeaderModule->wem_sg_header_panel_position = 'right';
@@ -1108,7 +1129,7 @@ class Website extends ConfigurationStep
             'headline' => serialize(['unit' => 'h1', 'value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapHeadline']]),
         ], ['id' => null !== $content ? $content->id : null]));
 
-        $this->setConfigKey('setSgContentSitemapHeadline', (int) $objContent->id);
+        $this->setConfigKey('setSgContentSitemapHeadline', (int) $contents['headline']->id);
 
         $content = ContentModel::findById($config->getSgContentSitemap());
 
@@ -1116,7 +1137,7 @@ class Website extends ConfigurationStep
             'type' => 'module', 'module' => $modules['sitemap']->id,
         ], ['id' => null !== $content ? $content->id : null]));
 
-        $this->setConfigKey('setSgContentSitemap', (int) $objContent->id);
+        $this->setConfigKey('setSgContentSitemap', (int) $contents['module']->id);
 
         return $contents;
     }
@@ -1190,6 +1211,141 @@ class Website extends ConfigurationStep
         $nc['email'] = $objGateway;
 
         return $nc;
+    }
+
+    protected function createNotificationSupportGatewayNotification(): NotificationModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        /** @var FormContactConfig */
+        $formContactConfig = $config->getSgFormContact();
+
+        $nc = NotificationModel::findOneById($formContactConfig->getSgNotification()) ?? new NotificationModel();
+        $nc->tstamp = time();
+        $nc->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayNotification', [], 'contao_default');
+        $nc->type = 'ticket_creation';
+        $nc->save();
+
+        $this->setConfigKey('setSgNotificationSupport', (int) $nc->id);
+
+        return $nc;
+    }
+
+    protected function createNotificationSupportGatewayMessagesUser(NotificationModel $gateway): NotificationMessageModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        /** @var FormContactConfig */
+        $formContactConfig = $config->getSgFormContact();
+
+        $nm = NotificationMessageModel::findOneById($formContactConfig->getSgNotificationMessageUser()) ?? new NotificationMessageModel();
+        $nm->pid = $gateway->id;
+        $nm->gateway = $config->getSgNotificationGatewayEmail();
+        $nm->gateway_type = 'email';
+        $nm->tstamp = time();
+        $nm->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayMessageUser', [], 'contao_default');
+        $nm->published = 1;
+        $nm->save();
+
+        $this->setConfigKey('setSgNotificationSupportMessageUser', (int) $nm->id);
+
+        return $nm;
+    }
+
+    protected function createNotificationSupportGatewayMessagesAdmin(NotificationModel $gateway): NotificationMessageModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        /** @var FormContactConfig */
+        $formContactConfig = $config->getSgFormContact();
+
+        $nm = NotificationMessageModel::findOneById($formContactConfig->getSgNotificationMessageAdmin()) ?? new NotificationMessageModel();
+        $nm->pid = $gateway->id;
+        $nm->gateway = $config->getSgNotificationGatewayEmail();
+        $nm->gateway_type = 'email';
+        $nm->tstamp = time();
+        $nm->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayMessageAdmin', [], 'contao_default');
+        $nm->published = 1;
+        $nm->save();
+
+        $this->setConfigKey('setSgNotificationSupportMessageAdmin', (int) $nm->id);
+
+        return $nm;
+    }
+
+    protected function createNotificationSupportGatewayMessages(NotificationModel $gateway): array
+    {
+        return [
+            'user' => $this->createNotificationSupportGatewayMessagesUser($gateway),
+            'admin' => $this->createNotificationSupportGatewayMessagesAdmin($gateway),
+        ];
+    }
+
+    protected function createNotificationSupportGatewayMessagesLanguagesUser(NotificationMessageModel $gatewayMessage): NotificationLanguageModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        /** @var FormContactConfig */
+        $formContactConfig = $config->getSgFormContact();
+
+        $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/dashboard/%s/ticket_mail_user.html', Util::getPublicOrWebDirectory(), $this->language));
+
+        $nl = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageUserLanguage()) ?? new NotificationLanguageModel();
+        $nl->pid = $gatewayMessage->id;
+        $nl->tstamp = time();
+        $nl->language = $this->language;
+        $nl->fallback = 1;
+        $nl->recipients = '##sg_owner_email##';
+        $nl->gateway_type = 'email';
+        $nl->email_sender_name = $config->getSgWebsiteTitle();
+        $nl->email_sender_address = '##sg_owner_email##';
+        $nl->email_subject = $this->translator->trans('WEMSG.INSTALL.WEBSITE.subjectNotificationSupportGatewayMessageLanguageUser', [$config->getSgWebsiteTitle()], 'contao_default');
+        $nl->email_mode = 'textAndHtml';
+        $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, false);
+        $nl->email_html = $strText;
+        $nl->save();
+
+        $this->setConfigKey('setSgNotificationSupportMessageUserLanguage', (int) $nl->id);
+
+        return $nl;
+    }
+
+    protected function createNotificationSupportGatewayMessagesLanguagesAdmin(NotificationMessageModel $gatewayMessage): NotificationLanguageModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        /** @var FormContactConfig */
+        $formContactConfig = $config->getSgFormContact();
+
+        $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/dashboard/%s/ticket_mail_admin.html', Util::getPublicOrWebDirectory(), $this->language));
+
+        $nl = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageAdminLanguage()) ?? new NotificationLanguageModel();
+        $nl->pid = $gatewayMessage->id;
+        $nl->tstamp = time();
+        $nl->language = $this->language;
+        $nl->fallback = 1;
+        $nl->recipients = '##admin_email##';
+        $nl->gateway_type = 'email';
+        $nl->email_sender_name = $config->getSgWebsiteTitle();
+        $nl->email_sender_address = '##sg_owner_email##';
+        $nl->email_subject = $this->translator->trans('WEMSG.INSTALL.WEBSITE.subjectNotificationSupportGatewayMessageLanguageUser', [$config->getSgWebsiteTitle()], 'contao_default');
+        $nl->email_mode = 'textAndHtml';
+        $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, false);
+        $nl->email_html = $strText;
+        $nl->email_replyTo = '##sg_owner_email##';
+        $nl->save();
+
+        $this->setConfigKey('setSgNotificationSupportMessageAdminLanguage', (int) $nl->id);
+
+        return $nl;
+    }
+
+    protected function createNotificationSupportGatewayMessagesLanguages(array $gatewayMessages): array
+    {
+        return [
+            'user' => $this->createNotificationSupportGatewayMessagesLanguagesUser($gatewayMessages['user']),
+            'admin' => $this->createNotificationSupportGatewayMessagesLanguagesAdmin($gatewayMessages['admin']),
+        ];
     }
 
     protected function uploadLogo(): File
@@ -1359,6 +1515,38 @@ class Website extends ConfigurationStep
         $config = $this->configurationManager->load();
 
         $config->setSgNotificationGatewayEmail((int) $nc['email']->id);
+
+        $this->configurationManager->save($config);
+    }
+
+    protected function updateModuleConfigurationNotificationSupportGatewayNotification(NotificationModel $notificationSupport): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $config->setSgNotificationSupport((int) $notificationSupport->id);
+
+        $this->configurationManager->save($config);
+    }
+
+    protected function updateModuleConfigurationNotificationSupportGatewayMessages(array $notificationSupportMessages): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $config->setSgNotificationSupportMessageUser((int) $notificationSupportMessages['user']->id);
+        $config->setSgNotificationSupportMessageAdmin((int) $notificationSupportMessages['admin']->id);
+
+        $this->configurationManager->save($config);
+    }
+
+    protected function updateModuleConfigurationNotificationSupportGatewayMessagesLanguages(array $notificationSupportMessagesLanguages): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $config->setSgNotificationSupportMessageUserLanguage((int) $notificationSupportMessagesLanguages['user']->id);
+        $config->setSgNotificationSupportMessageAdminLanguage((int) $notificationSupportMessagesLanguages['admin']->id);
 
         $this->configurationManager->save($config);
     }

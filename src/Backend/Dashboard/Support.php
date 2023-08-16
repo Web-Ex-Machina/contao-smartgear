@@ -24,6 +24,7 @@ use Contao\Input;
 use Contao\Message;
 use Contao\RequestToken;
 use Exception;
+use NotificationCenter\Model\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Api\Airtable\V0\Api as AirtableApi;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
@@ -157,6 +158,25 @@ class Support extends BackendModule
         }
 
         $this->airtableApi->createTicket($subject, $url, $message, $mail, $config->getSgVersion(), $clientId, $clientRef, $fileUrl);
+
+        // send email
+        $notification = NotificationModel::findByPk((int) $config->getSgNotificationSupport());
+        if (!$notification) {
+            return;
+        }
+
+        $arrTokens = [
+            'sg_owner_email' => $config->getSgOwnerEmail(),
+            'sg_owner_name' => $config->getSgOwnerName(),
+            'support_email' => 'support.smartgear@webexmachina.fr',
+            'ticket_domain' => $domain,
+            'ticket_subject' => $subject,
+            'ticket_url' => $url,
+            'ticket_message' => $message,
+            'ticket_file' => $fileUrl,
+        ];
+
+        $notification->send($arrTokens);
     }
 
     protected function getSupportMail(): string

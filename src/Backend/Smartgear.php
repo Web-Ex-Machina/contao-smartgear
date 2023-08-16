@@ -504,6 +504,7 @@ class Smartgear extends \Contao\BackendModule
                 ->setSgAnalyticsMatomoHost(Input::post('core')['analyticsMatomoHost'])
                 ->setSgAnalyticsMatomoId(Input::post('core')['analyticsMatomoId'])
                 ->setSgOwnerName(Input::post('core')['ownerName'])
+                ->setSgOwnerEmail(Input::post('core')['ownerEmail'])
                 ->setSgOwnerDomain(Input::post('core')['ownerDomain'])
                 ->setSgOwnerHost(Input::post('core')['ownerHost'])
                 ->setSgOwnerLogo(Input::post('core')['ownerLogo'])
@@ -540,6 +541,12 @@ class Smartgear extends \Contao\BackendModule
                 ->setSgUserGroupRedactors(Input::post('core')['userGroupRedactors'] ? (int) Input::post('core')['userGroupRedactors'] : null)
                 ->setSgUserGroupAdministrators(Input::post('core')['userGroupAdministrators'] ? (int) Input::post('core')['userGroupAdministrators'] : null)
                 ->setSgNotificationGatewayEmail(Input::post('core')['notificationGatewayEmail'] ? (int) Input::post('core')['notificationGatewayEmail'] : null)
+                ->setSgNotificationSupport(Input::post('core')['notificationSupport'] ? (int) Input::post('core')['notificationSupport'] : null)
+                ->setSgNotificationSupportMessageAdmin(Input::post('core')['notificationSupportMessageAdmin'] ? (int) Input::post('core')['notificationSupportMessageAdmin'] : null)
+                ->setSgNotificationSupportMessageAdminLanguage(Input::post('core')['notificationSupportMessageAdminLanguage'] ? (int) Input::post('core')['notificationSupportMessageAdminLanguage'] : null)
+                ->setSgNotificationSupportMessageUser(Input::post('core')['notificationSupportMessageUser'] ? (int) Input::post('core')['notificationSupportMessageUser'] : null)
+                ->setSgNotificationSupportMessageUserLanguage(Input::post('core')['notificationSupportMessageUserLanguage'] ? (int) Input::post('core')['notificationSupportMessageUserLanguage'] : null)
+
                 // ->setSgModules(Input::post('core')['modules'])
                 ->setSgApiKey(Input::post('core')['apiKey'])
                 ->setSgEncryptionKey(Input::post('core')['encryptionKey'])
@@ -1149,6 +1156,7 @@ class Smartgear extends \Contao\BackendModule
             'analyticsMatomoHost' => $coreConfig->getSgAnalyticsMatomoHost() ?? CoreConfig::DEFAULT_ANALYTICS_SYSTEM_MATOMO_HOST,
             'analyticsMatomoId' => $coreConfig->getSgAnalyticsMatomoId(),
             'ownerName' => $coreConfig->getSgOwnerName(),
+            'ownerEmail' => $coreConfig->getSgOwnerEmail(),
             'ownerDomain' => $coreConfig->getSgOwnerDomain(),
             'ownerHost' => $coreConfig->getSgOwnerHost() ?? CoreConfig::DEFAULT_OWNER_HOST,
             'ownerLogo' => $coreConfig->getSgOwnerLogo(),
@@ -1185,6 +1193,11 @@ class Smartgear extends \Contao\BackendModule
             'userGroupRedactors' => $coreConfig->getSgUserGroupRedactors(),
             'userGroupAdministrators' => $coreConfig->getSgUserGroupAdministrators() ?? CoreConfig::DEFAULT_USER_GROUP_ADMIN_NAME,
             'notificationGatewayEmail' => $coreConfig->getSgNotificationGatewayEmail(),
+            'notificationSupport' => $coreConfig->getSgNotificationSupport(),
+            'notificationSupportMessageAdmin' => $coreConfig->getSgNotificationSupportMessageAdmin(),
+            'notificationSupportMessageAdminLanguage' => $coreConfig->getSgNotificationSupportMessageAdminLanguage(),
+            'notificationSupportMessageUser' => $coreConfig->getSgNotificationSupportMessageUser(),
+            'notificationSupportMessageUserLanguage' => $coreConfig->getSgNotificationSupportMessageUserLanguage(),
             // 'modules' => $coreConfig->getSgModules(),
             'apiKey' => $coreConfig->getSgApiKey() ?? StringUtil::generateKey(),
             'encryptionKey' => $coreConfig->getSgEncryptionKey() ?? StringUtil::generateKey(),
