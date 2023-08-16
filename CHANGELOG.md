@@ -18,6 +18,7 @@ SMARTGEAR Project for Contao Open Source CMS
 - StyleManager : Fix color translation
 - Extranet : Fix password requirements
 - Extranet : Fix data lost when editing member in FE
+- General : bundle now requires [webexmachina/contao-utils](https://github.com/Web-Ex-Machina/contao-utils) ^1.0
 
 1.0.20 - 2023-08-04
 - Smartgear : fixing files at `/templates`'s root being deleted when updating Smartgear.
