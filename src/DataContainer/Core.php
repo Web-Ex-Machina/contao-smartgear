@@ -21,6 +21,7 @@ use Contao\Date;
 use Contao\Message;
 use DateInterval;
 use DateTime;
+use WEM\SmartgearBundle\Classes\Util;
 
 class Core extends Backend
 {
@@ -60,10 +61,13 @@ class Core extends Backend
             return;
         }
         if ((bool) $objItem->update_reminder) {
+            $dtReminder = (new DateTime())->setTimestamp((int) $objItem->update_reminder_date);
+            $dtNow = (new DateTime());
+
             if (time() < (int) $objItem->update_reminder_date) {
-                Message::addInfo(sprintf($GLOBALS['TL_LANG']['WEMSG']['DCA']['MESSAGE']['updateReminderFuture'], Date::parse(Config::get('datimFormat'), (int) $objItem->update_reminder_date)));
+                Message::addInfo(sprintf($GLOBALS['TL_LANG']['WEMSG']['DCA']['MESSAGE']['updateReminderFuture'], Date::parse(Config::get('datimFormat'), (int) $objItem->update_reminder_date), Util::formatDateInterval($dtReminder->diff($dtNow))));
             } else {
-                Message::addError(sprintf($GLOBALS['TL_LANG']['WEMSG']['DCA']['MESSAGE']['updateReminderPast'], Date::parse(Config::get('datimFormat'), (int) $objItem->update_reminder_date)));
+                Message::addError(sprintf($GLOBALS['TL_LANG']['WEMSG']['DCA']['MESSAGE']['updateReminderPast'], Date::parse(Config::get('datimFormat'), (int) $objItem->update_reminder_date), Util::formatDateInterval($dtReminder->diff($dtNow))));
             }
         }
     }

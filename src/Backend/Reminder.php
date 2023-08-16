@@ -26,6 +26,7 @@ use Contao\System;
 use DateInterval;
 use DateTime;
 use Exception;
+use WEM\SmartgearBundle\Classes\Util;
 
 class Reminder extends BackendModule
 {
@@ -53,6 +54,9 @@ class Reminder extends BackendModule
         if (Input::post('TL_AJAX') && $this->strId === Input::post('wem_module')) {
             $this->processAjaxRequest(Input::post('action'));
         }
+
+        $this->dtNow = new DateTime();
+
         $arrItems = array_merge($this->getContents(), $this->getArticles(), $this->getPages(), $this->getNews(), $this->getFAQ());
         usort($arrItems, function ($itemA, $itemB) {
             return (int) $itemA['obsolete_since'] < (int) $itemB['obsolete_since'];
@@ -128,25 +132,28 @@ class Reminder extends BackendModule
         if ($contents) {
             while ($contents->next()) {
                 $objItem = $contents->current();
+                $obsoleteSinceText = $this->calculateObsoleteSinceText((int) $objItem->update_reminder_date);
+                $obsoleteSinceText = \strlen($obsoleteSinceText) > 0 ? $obsoleteSinceText : $GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['obsoleteSinceTextLessThanAMinute'];
                 $arrItems[] = [
                     'ptable' => ContentModel::getTable(),
                     'pid' => $objItem->id,
                     'label' => $objItem->type,
                     'last_update' => $objItem->tstamp,
                     'obsolete_since' => $objItem->update_reminder_date,
+                    'obsolete_since_text' => $obsoleteSinceText,
                     'period' => $objItem->update_reminder_period,
                     'actions' => [
                         'edit' => [
                             'class' => 'edit',
                             'icon' => 'system/themes/flexible/icons/edit.svg',
-                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
+                            // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
                             'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=article&table='.ContentModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.RequestToken::get(),
                         ],
                         'reset' => [
                             'class' => 'reset',
                             'icon' => 'system/themes/flexible/icons/sync.svg',
-                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionReset'],
+                            // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionReset'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionResetTitle'],
                             'data' => [
                                 'ptable' => ContentModel::getTable(),
@@ -157,7 +164,7 @@ class Reminder extends BackendModule
                         'disable' => [
                             'class' => 'disable',
                             'icon' => 'system/themes/flexible/icons/delete.svg',
-                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisable'],
+                            // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisable'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisableTitle'],
                             'data' => [
                                 'ptable' => ContentModel::getTable(),
@@ -181,25 +188,28 @@ class Reminder extends BackendModule
         if ($contents) {
             while ($contents->next()) {
                 $objItem = $contents->current();
+                $obsoleteSinceText = $this->calculateObsoleteSinceText((int) $objItem->update_reminder_date);
+                $obsoleteSinceText = \strlen($obsoleteSinceText) > 0 ? $obsoleteSinceText : $GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['obsoleteSinceTextLessThanAMinute'];
                 $arrItems[] = [
                     'ptable' => ArticleModel::getTable(),
                     'pid' => $objItem->id,
                     'label' => $objItem->title,
                     'last_update' => $objItem->tstamp,
                     'obsolete_since' => $objItem->update_reminder_date,
+                    'obsolete_since_text' => $obsoleteSinceText,
                     'period' => $objItem->update_reminder_period,
                     'actions' => [
                         'edit' => [
                             'class' => 'edit',
                             'icon' => 'system/themes/flexible/icons/edit.svg',
-                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
+                            // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
                             'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=article&act=edit&id='.$objItem->id.'&rt='.RequestToken::get(),
                         ],
                         'reset' => [
                             'class' => 'reset',
                             'icon' => 'system/themes/flexible/icons/sync.svg',
-                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionReset'],
+                            // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionReset'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionResetTitle'],
                             'data' => [
                                 'ptable' => ArticleModel::getTable(),
@@ -209,7 +219,7 @@ class Reminder extends BackendModule
                         'disable' => [
                             'class' => 'disable',
                             'icon' => 'system/themes/flexible/icons/delete.svg',
-                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisable'],
+                            // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisable'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisableTitle'],
                             'data' => [
                                 'ptable' => ArticleModel::getTable(),
@@ -232,25 +242,28 @@ class Reminder extends BackendModule
         if ($contents) {
             while ($contents->next()) {
                 $objItem = $contents->current();
+                $obsoleteSinceText = $this->calculateObsoleteSinceText((int) $objItem->update_reminder_date);
+                $obsoleteSinceText = \strlen($obsoleteSinceText) > 0 ? $obsoleteSinceText : $GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['obsoleteSinceTextLessThanAMinute'];
                 $arrItems[] = [
                     'ptable' => PageModel::getTable(),
                     'pid' => $objItem->id,
                     'label' => $objItem->title,
                     'last_update' => $objItem->tstamp,
                     'obsolete_since' => $objItem->update_reminder_date,
+                    'obsolete_since_text' => $obsoleteSinceText,
                     'period' => $objItem->update_reminder_period,
                     'actions' => [
                         'edit' => [
                             'class' => 'edit',
                             'icon' => 'system/themes/flexible/icons/edit.svg',
-                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
+                            // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
                             'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=page&act=edit&id='.$objItem->id.'&rt='.RequestToken::get(),
                         ],
                         'reset' => [
                             'class' => 'reset',
                             'icon' => 'system/themes/flexible/icons/sync.svg',
-                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionReset'],
+                            // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionReset'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionResetTitle'],
                             'data' => [
                                 'ptable' => PageModel::getTable(),
@@ -260,7 +273,7 @@ class Reminder extends BackendModule
                         'disable' => [
                             'class' => 'disable',
                             'icon' => 'system/themes/flexible/icons/delete.svg',
-                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisable'],
+                            // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisable'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisableTitle'],
                             'data' => [
                                 'ptable' => PageModel::getTable(),
@@ -283,25 +296,28 @@ class Reminder extends BackendModule
         if ($contents) {
             while ($contents->next()) {
                 $objItem = $contents->current();
+                $obsoleteSinceText = $this->calculateObsoleteSinceText((int) $objItem->update_reminder_date);
+                $obsoleteSinceText = \strlen($obsoleteSinceText) > 0 ? $obsoleteSinceText : $GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['obsoleteSinceTextLessThanAMinute'];
                 $arrItems[] = [
                     'ptable' => NewsModel::getTable(),
                     'pid' => $objItem->id,
                     'label' => $objItem->headline,
                     'last_update' => $objItem->tstamp,
                     'obsolete_since' => $objItem->update_reminder_date,
+                    'obsolete_since_text' => $obsoleteSinceText,
                     'period' => $objItem->update_reminder_period,
                     'actions' => [
                         'edit' => [
                             'class' => 'edit',
                             'icon' => 'system/themes/flexible/icons/edit.svg',
-                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
+                            // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
                             'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=news&table='.NewsModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.RequestToken::get(),
                         ],
                         'reset' => [
                             'class' => 'reset',
                             'icon' => 'system/themes/flexible/icons/sync.svg',
-                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionReset'],
+                            // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionReset'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionResetTitle'],
                             'data' => [
                                 'ptable' => NewsModel::getTable(),
@@ -311,7 +327,7 @@ class Reminder extends BackendModule
                         'disable' => [
                             'class' => 'disable',
                             'icon' => 'system/themes/flexible/icons/delete.svg',
-                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisable'],
+                            // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisable'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisableTitle'],
                             'data' => [
                                 'ptable' => NewsModel::getTable(),
@@ -334,25 +350,28 @@ class Reminder extends BackendModule
         if ($contents) {
             while ($contents->next()) {
                 $objItem = $contents->current();
+                $obsoleteSinceText = $this->calculateObsoleteSinceText((int) $objItem->update_reminder_date);
+                $obsoleteSinceText = \strlen($obsoleteSinceText) > 0 ? $obsoleteSinceText : $GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['obsoleteSinceTextLessThanAMinute'];
                 $arrItems[] = [
                     'ptable' => FaqModel::getTable(),
                     'pid' => $objItem->id,
                     'label' => $objItem->question,
                     'last_update' => $objItem->tstamp,
                     'obsolete_since' => $objItem->update_reminder_date,
+                    'obsolete_since_text' => $obsoleteSinceText,
                     'period' => $objItem->update_reminder_period,
                     'actions' => [
                         'edit' => [
                             'class' => 'edit',
                             'icon' => 'system/themes/flexible/icons/edit.svg',
-                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
+                            // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
                             'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=faq&table='.FaqModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.RequestToken::get(),
                         ],
                         'reset' => [
                             'class' => 'reset',
                             'icon' => 'system/themes/flexible/icons/sync.svg',
-                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionReset'],
+                            // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionReset'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionResetTitle'],
                             'data' => [
                                 'ptable' => FaqModel::getTable(),
@@ -362,7 +381,7 @@ class Reminder extends BackendModule
                         'disable' => [
                             'class' => 'disable',
                             'icon' => 'system/themes/flexible/icons/delete.svg',
-                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisable'],
+                            // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisable'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisableTitle'],
                             'data' => [
                                 'ptable' => FaqModel::getTable(),
@@ -375,5 +394,12 @@ class Reminder extends BackendModule
         }
 
         return $arrItems;
+    }
+
+    protected function calculateObsoleteSinceText(int $timestamp): string
+    {
+        $dtReminder = (new DateTime())->setTimestamp($timestamp);
+
+        return Util::formatDateInterval($dtReminder->diff($this->dtNow));
     }
 }

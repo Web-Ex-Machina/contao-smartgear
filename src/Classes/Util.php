@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -24,6 +24,7 @@ use Contao\Files;
 use Contao\PageModel;
 use Contao\System;
 use Contao\UserGroupModel;
+use DateInterval;
 use Exception;
 use InvalidArgumentException;
 use Psr\Log\LogLevel;
@@ -992,6 +993,31 @@ class Util
         }
 
         return $clientsRef;
+    }
+
+    public static function formatDateInterval(DateInterval $interval, ?bool $includeSeconds = false): string
+    {
+        $result = '';
+        if ($interval->y) {
+            $result .= $interval->format('%y '.strtolower($GLOBALS['TL_LANG']['MSC']['year'.($interval->d > 1 ? 's' : '')]).' ');
+        }
+        if ($interval->m) {
+            $result .= $interval->format('%m '.strtolower($GLOBALS['TL_LANG']['MSC']['month'.($interval->d > 1 ? 's' : '')]).' ');
+        }
+        if ($interval->d) {
+            $result .= $interval->format('%d '.strtolower($GLOBALS['TL_LANG']['MSC']['day'.($interval->d > 1 ? 's' : '')]).' ');
+        }
+        if ($interval->h) {
+            $result .= $interval->format('%h '.strtolower($GLOBALS['TL_LANG']['MSC']['hour'.($interval->d > 1 ? 's' : '')]).' ');
+        }
+        if ($interval->i) {
+            $result .= $interval->format('%i '.strtolower($GLOBALS['TL_LANG']['MSC']['minute'.($interval->d > 1 ? 's' : '')]).' ');
+        }
+        if ($includeSeconds && $interval->s) {
+            $result .= $interval->format('%s '.strtolower($GLOBALS['TL_LANG']['MSC']['second'.($interval->d > 1 ? 's' : '')]).' ');
+        }
+
+        return trim($result);
     }
 
     /**

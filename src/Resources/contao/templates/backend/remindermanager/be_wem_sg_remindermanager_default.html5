@@ -3,7 +3,7 @@
 	<td colspan="1" class="tl_file_list col_pid"><?= $this->item['pid'] ?></td>
 	<td colspan="1" class="tl_file_list col_name"><?= $this->item['label'] ?></td>
 	<td colspan="1" class="tl_file_list col_last_update"><?= \Contao\Date::parse(\Contao\Config::get('datimFormat'), (int) $this->item['last_update']); ?></td>
-	<td colspan="1" class="tl_file_list col_obsolete_since"><?= \Contao\Date::parse(\Contao\Config::get('datimFormat'), (int) $this->item['obsolete_since']); ?></td>
+	<td colspan="1" class="tl_file_list col_obsolete_since"><?= \Contao\Date::parse(\Contao\Config::get('datimFormat'), (int) $this->item['obsolete_since']); ?> (<?= $this->item['obsolete_since_text']; ?>)</td>
 	<td colspan="1" class="tl_file_list col_period"><?= $this->trans('WEMSG.DCA.update_reminder_period.'.$this->item['period'],[],'contao_default'); ?></td>
 	<td colspan="1" class="tl_file_list col_actions">
 		<?php foreach($this->item['actions'] as $action): ?>
