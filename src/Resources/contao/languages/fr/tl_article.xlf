@@ -9,6 +9,12 @@
 			<source>Create a new content block</source>
 			<target>Créer un nouveau bloc de contenus</target>
 		</trans-unit>
+
+      <!-- update reminder -->
+      <trans-unit id="tl_article.update_reminder_legend">
+        <source>Update reminder</source>
+        <target>Rappel de mise à jour</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

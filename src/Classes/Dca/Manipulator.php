@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -291,7 +291,7 @@ class Manipulator
     {
         $this->checkConfiguration();
 
-        return $GLOBALS['TL_DCA'][$this->table]['fields'][$field][$property];
+        return $GLOBALS['TL_DCA'][$this->table]['fields'][$field][$property] ?? null;
     }
 
     public function setFieldProperty(string $field, string $property, $value)

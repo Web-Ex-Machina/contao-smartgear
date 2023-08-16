@@ -50,11 +50,11 @@ class Reminder extends BackendModule
 
     public function compile(): void
     {
-        if(Input::post('TL_AJAX') && $this->strId === Input::post('wem_module')){
+        if (Input::post('TL_AJAX') && $this->strId === Input::post('wem_module')) {
             $this->processAjaxRequest(Input::post('action'));
         }
-        $arrItems = array_merge($this->getContents(),$this->getArticles(),$this->getPages(),$this->getNews(),$this->getFAQ());
-        usort($arrItems,function($itemA,$itemB){
+        $arrItems = array_merge($this->getContents(), $this->getArticles(), $this->getPages(), $this->getNews(), $this->getFAQ());
+        usort($arrItems, function ($itemA, $itemB) {
             return (int) $itemA['obsolete_since'] < (int) $itemB['obsolete_since'];
         });
         $this->Template->arrItems = $arrItems;
@@ -62,7 +62,8 @@ class Reminder extends BackendModule
         $this->Template->token = REQUEST_TOKEN;
     }
 
-    public function processAjaxRequest($strAction){
+    public function processAjaxRequest($strAction): void
+    {
         try {
             switch (Input::post('action')) {
                 case 'resetReminder':
@@ -119,10 +120,11 @@ class Reminder extends BackendModule
         exit;
     }
 
-    protected function getContents():array {
+    protected function getContents(): array
+    {
         $arrItems = [];
 
-        $contents = ContentModel::findBy(['update_reminder = ?', 'update_reminder_date <= ?'], [1, time()],['order'=>'update_reminder_date DESC']);
+        $contents = ContentModel::findBy(['update_reminder = ?', 'update_reminder_date <= ?'], [1, time()], ['order' => 'update_reminder_date DESC']);
         if ($contents) {
             while ($contents->next()) {
                 $objItem = $contents->current();
@@ -137,30 +139,30 @@ class Reminder extends BackendModule
                         'edit' => [
                             'class' => 'edit',
                             'icon' => 'system/themes/flexible/icons/edit.svg',
-                            'label' => 'Edit',
-                            'title' => 'Edit item',
+                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
+                            'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
                             'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=article&table='.ContentModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.RequestToken::get(),
                         ],
                         'reset' => [
                             'class' => 'reset',
                             'icon' => 'system/themes/flexible/icons/sync.svg',
-                            'label' => 'Reset',
-                            'title' => 'Reset item update reminder',
-                            'data'=>[
-                                'ptable'=>ContentModel::getTable(),
-                                'pid'=>$objItem->id
-                            ]
+                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionReset'],
+                            'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionResetTitle'],
+                            'data' => [
+                                'ptable' => ContentModel::getTable(),
+                                'pid' => $objItem->id,
+                            ],
                             // 'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=article&table='.ContentModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.REQUEST_TOKEN,
                         ],
                         'disable' => [
                             'class' => 'disable',
                             'icon' => 'system/themes/flexible/icons/delete.svg',
-                            'label' => 'Disable',
-                            'title' => 'Disable item update reminder',
-                            'data'=>[
-                                'ptable'=>ContentModel::getTable(),
-                                'pid'=>$objItem->id
-                            ]
+                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisable'],
+                            'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisableTitle'],
+                            'data' => [
+                                'ptable' => ContentModel::getTable(),
+                                'pid' => $objItem->id,
+                            ],
                             // 'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=article&table='.ContentModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.REQUEST_TOKEN,
                         ],
                     ],
@@ -171,10 +173,11 @@ class Reminder extends BackendModule
         return $arrItems;
     }
 
-    protected function getArticles():array {
+    protected function getArticles(): array
+    {
         $arrItems = [];
 
-        $contents = ArticleModel::findBy(['update_reminder = ?', 'update_reminder_date <= ?'], [1, time()],['order'=>'update_reminder_date DESC']);
+        $contents = ArticleModel::findBy(['update_reminder = ?', 'update_reminder_date <= ?'], [1, time()], ['order' => 'update_reminder_date DESC']);
         if ($contents) {
             while ($contents->next()) {
                 $objItem = $contents->current();
@@ -189,29 +192,29 @@ class Reminder extends BackendModule
                         'edit' => [
                             'class' => 'edit',
                             'icon' => 'system/themes/flexible/icons/edit.svg',
-                            'label' => 'Edit',
-                            'title' => 'Edit item',
+                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
+                            'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
                             'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=article&act=edit&id='.$objItem->id.'&rt='.RequestToken::get(),
                         ],
                         'reset' => [
                             'class' => 'reset',
                             'icon' => 'system/themes/flexible/icons/sync.svg',
-                            'label' => 'Reset',
-                            'title' => 'Reset item update reminder',
-                            'data'=>[
-                                'ptable'=>ArticleModel::getTable(),
-                                'pid'=>$objItem->id
-                            ]
+                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionReset'],
+                            'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionResetTitle'],
+                            'data' => [
+                                'ptable' => ArticleModel::getTable(),
+                                'pid' => $objItem->id,
+                            ],
                         ],
                         'disable' => [
                             'class' => 'disable',
                             'icon' => 'system/themes/flexible/icons/delete.svg',
-                            'label' => 'Disable',
-                            'title' => 'Disable item update reminder',
-                            'data'=>[
-                                'ptable'=>ArticleModel::getTable(),
-                                'pid'=>$objItem->id
-                            ]
+                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisable'],
+                            'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisableTitle'],
+                            'data' => [
+                                'ptable' => ArticleModel::getTable(),
+                                'pid' => $objItem->id,
+                            ],
                         ],
                     ],
                 ];
@@ -221,10 +224,11 @@ class Reminder extends BackendModule
         return $arrItems;
     }
 
-    protected function getPages():array {
+    protected function getPages(): array
+    {
         $arrItems = [];
 
-        $contents = PageModel::findBy(['update_reminder = ?', 'update_reminder_date <= ?'], [1, time()],['order'=>'update_reminder_date DESC']);
+        $contents = PageModel::findBy(['update_reminder = ?', 'update_reminder_date <= ?'], [1, time()], ['order' => 'update_reminder_date DESC']);
         if ($contents) {
             while ($contents->next()) {
                 $objItem = $contents->current();
@@ -239,29 +243,29 @@ class Reminder extends BackendModule
                         'edit' => [
                             'class' => 'edit',
                             'icon' => 'system/themes/flexible/icons/edit.svg',
-                            'label' => 'Edit',
-                            'title' => 'Edit item',
+                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
+                            'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
                             'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=page&act=edit&id='.$objItem->id.'&rt='.RequestToken::get(),
                         ],
                         'reset' => [
                             'class' => 'reset',
                             'icon' => 'system/themes/flexible/icons/sync.svg',
-                            'label' => 'Reset',
-                            'title' => 'Reset item update reminder',
-                            'data'=>[
-                                'ptable'=>PageModel::getTable(),
-                                'pid'=>$objItem->id
-                            ]
+                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionReset'],
+                            'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionResetTitle'],
+                            'data' => [
+                                'ptable' => PageModel::getTable(),
+                                'pid' => $objItem->id,
+                            ],
                         ],
                         'disable' => [
                             'class' => 'disable',
                             'icon' => 'system/themes/flexible/icons/delete.svg',
-                            'label' => 'Disable',
-                            'title' => 'Disable item update reminder',
-                            'data'=>[
-                                'ptable'=>PageModel::getTable(),
-                                'pid'=>$objItem->id
-                            ]
+                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisable'],
+                            'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisableTitle'],
+                            'data' => [
+                                'ptable' => PageModel::getTable(),
+                                'pid' => $objItem->id,
+                            ],
                         ],
                     ],
                 ];
@@ -271,10 +275,11 @@ class Reminder extends BackendModule
         return $arrItems;
     }
 
-    protected function getNews():array {
+    protected function getNews(): array
+    {
         $arrItems = [];
 
-        $contents = NewsModel::findBy(['update_reminder = ?', 'update_reminder_date <= ?'], [1, time()],['order'=>'update_reminder_date DESC']);
+        $contents = NewsModel::findBy(['update_reminder = ?', 'update_reminder_date <= ?'], [1, time()], ['order' => 'update_reminder_date DESC']);
         if ($contents) {
             while ($contents->next()) {
                 $objItem = $contents->current();
@@ -289,29 +294,29 @@ class Reminder extends BackendModule
                         'edit' => [
                             'class' => 'edit',
                             'icon' => 'system/themes/flexible/icons/edit.svg',
-                            'label' => 'Edit',
-                            'title' => 'Edit item',
+                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
+                            'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
                             'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=news&table='.NewsModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.RequestToken::get(),
                         ],
                         'reset' => [
                             'class' => 'reset',
                             'icon' => 'system/themes/flexible/icons/sync.svg',
-                            'label' => 'Reset',
-                            'title' => 'Reset item update reminder',
-                            'data'=>[
-                                'ptable'=>NewsModel::getTable(),
-                                'pid'=>$objItem->id
-                            ]
+                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionReset'],
+                            'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionResetTitle'],
+                            'data' => [
+                                'ptable' => NewsModel::getTable(),
+                                'pid' => $objItem->id,
+                            ],
                         ],
                         'disable' => [
                             'class' => 'disable',
                             'icon' => 'system/themes/flexible/icons/delete.svg',
-                            'label' => 'Disable',
-                            'title' => 'Disable item update reminder',
-                            'data'=>[
-                                'ptable'=>NewsModel::getTable(),
-                                'pid'=>$objItem->id
-                            ]
+                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisable'],
+                            'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisableTitle'],
+                            'data' => [
+                                'ptable' => NewsModel::getTable(),
+                                'pid' => $objItem->id,
+                            ],
                         ],
                     ],
                 ];
@@ -321,10 +326,11 @@ class Reminder extends BackendModule
         return $arrItems;
     }
 
-    protected function getFAQ():array {
+    protected function getFAQ(): array
+    {
         $arrItems = [];
 
-        $contents = FaqModel::findBy(['update_reminder = ?', 'update_reminder_date <= ?'], [1, time()],['order'=>'update_reminder_date DESC']);
+        $contents = FaqModel::findBy(['update_reminder = ?', 'update_reminder_date <= ?'], [1, time()], ['order' => 'update_reminder_date DESC']);
         if ($contents) {
             while ($contents->next()) {
                 $objItem = $contents->current();
@@ -339,29 +345,29 @@ class Reminder extends BackendModule
                         'edit' => [
                             'class' => 'edit',
                             'icon' => 'system/themes/flexible/icons/edit.svg',
-                            'label' => 'Edit',
-                            'title' => 'Edit item',
+                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
+                            'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
                             'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=faq&table='.FaqModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.RequestToken::get(),
                         ],
                         'reset' => [
                             'class' => 'reset',
                             'icon' => 'system/themes/flexible/icons/sync.svg',
-                            'label' => 'Reset',
-                            'title' => 'Reset item update reminder',
-                            'data'=>[
-                                'ptable'=>FaqModel::getTable(),
-                                'pid'=>$objItem->id
-                            ]
+                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionReset'],
+                            'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionResetTitle'],
+                            'data' => [
+                                'ptable' => FaqModel::getTable(),
+                                'pid' => $objItem->id,
+                            ],
                         ],
                         'disable' => [
                             'class' => 'disable',
                             'icon' => 'system/themes/flexible/icons/delete.svg',
-                            'label' => 'Disable',
-                            'title' => 'Disable item update reminder',
-                            'data'=>[
-                                'ptable'=>FaqModel::getTable(),
-                                'pid'=>$objItem->id
-                            ]
+                            'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisable'],
+                            'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionDisableTitle'],
+                            'data' => [
+                                'ptable' => FaqModel::getTable(),
+                                'pid' => $objItem->id,
+                            ],
                         ],
                     ],
                 ];

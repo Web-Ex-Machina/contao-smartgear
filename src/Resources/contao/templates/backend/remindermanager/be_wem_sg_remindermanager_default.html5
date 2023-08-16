@@ -7,7 +7,7 @@
 	<td colspan="1" class="tl_file_list col_period"><?= $this->trans('WEMSG.DCA.update_reminder_period.'.$this->item['period'],[],'contao_default'); ?></td>
 	<td colspan="1" class="tl_file_list col_actions">
 		<?php foreach($this->item['actions'] as $action): ?>
-			<a href="<?= $action['href']; ?>"
+			<a href="<?= $action['href'] ?? ''; ?>"
 				title="<?= $action['title'] ?? '' ?>"
 				class="<?= $action['class'] ?? '' ?>"
 				<?php foreach($action['data'] ?? [] as $key => $value): ?>

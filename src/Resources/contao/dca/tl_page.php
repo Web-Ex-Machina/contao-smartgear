@@ -45,7 +45,7 @@ DCAManipulator::create('tl_page')
     ->addField('update_reminder_date', [
         'label' => &$GLOBALS['TL_LANG']['WEMSG']['DCA']['update_reminder_date'],
         'inputType' => 'text',
-        'eval' => ['rgxp'=>'datim', 'datepicker'=>true, 'tl_class'=>'w50 wizard'],
+        'eval' => ['rgxp' => 'datim', 'datepicker' => true, 'tl_class' => 'w50 wizard'],
         'sql' => "int(10) unsigned NOT NULL default '0'",
     ])
     ->addConfigOnsubmitCallback(\WEM\SmartgearBundle\DataContainer\Core::class, 'updateReminder')

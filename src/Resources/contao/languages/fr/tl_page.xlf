@@ -5,6 +5,12 @@
 			<source>SEO</source>
 			<target>Référencement</target>
 		</trans-unit>
+
+      <!-- update reminder -->
+      <trans-unit id="tl_page.update_reminder_legend">
+        <source>Update reminder</source>
+        <target>Rappel de mise à jour</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -1761,6 +1761,12 @@
         <source>Background</source>
         <target>Fond coloré</target>
       </trans-unit>
+
+      <!-- update reminder -->
+      <trans-unit id="tl_content.update_reminder_legend">
+        <source>Update reminder</source>
+        <target>Rappel de mise à jour</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
