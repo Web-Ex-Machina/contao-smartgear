@@ -1,0 +1,30 @@
+{
+    "themes": [
+        "git@github.com:Web-Ex-Machina/framway-theme-smartgear2.git"
+    ],
+    "components": [
+        "accordionFW",
+        "block-std",
+        "block-card",
+        "btn-load",
+        "countUpFW",
+        "datepicker",
+        "filters",
+        "goto",
+        "headerFW",
+        "heroFW",
+        "input-number",
+        "input-range",
+        "modalFW",
+        "pricecard",
+        "select2FW",
+        "sidepanel",
+        "sliderFW",
+        "splitForm",
+        "table-list",
+        "tabs"
+    ],
+    "useToastr": true,
+    "useOutdatebrowser": true,
+    "debug": false
+}

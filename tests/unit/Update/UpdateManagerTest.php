@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -18,6 +18,7 @@ use Contao\TestCase\ContaoTestCase;
 use WEM\SmartgearBundle\Backup\BackupManager;
 use WEM\SmartgearBundle\Backup\Model\Results\CreateResult as BackupResult;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 use WEM\SmartgearBundle\Classes\Migration\Result as MigrationResult;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
 use WEM\SmartgearBundle\Update\Results\SingleMigrationResult;
@@ -38,6 +39,12 @@ class UpdateManagerTest extends ContaoTestCase
     protected $configManager;
     /** @var BackupManager */
     protected $backupManager;
+    /** @var DirectoriesSynchronizer */
+    protected $templatesSmartgearSynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected $templatesRsceSynchronizer;
+    /** @var DirectoriesSynchronizer */
+    protected $templatesGeneralSynchronizer;
     /** @var array */
     protected $migrations = [];
 
@@ -54,6 +61,9 @@ class UpdateManagerTest extends ContaoTestCase
 
         $this->configManager = $this->createMock(CoreConfigurationManager::class);
         $this->backupManager = $this->createMock(BackupManager::class);
+        $this->templatesSmartgearSynchronizer = $this->createMock(DirectoriesSynchronizer::class);
+        $this->templatesRsceSynchronizer = $this->createMock(DirectoriesSynchronizer::class);
+        $this->templatesGeneralSynchronizer = $this->createMock(DirectoriesSynchronizer::class);
     }
 
     /**
@@ -67,6 +77,9 @@ class UpdateManagerTest extends ContaoTestCase
         $this->sut = new UpdateManager(
             $this->configManager,
             $this->backupManager,
+            $this->templatesSmartgearSynchronizer,
+            $this->templatesRsceSynchronizer,
+            $this->templatesGeneralSynchronizer,
             $migrations
         );
         $expectedUpdateResult = $expectedUpdateResultGen();

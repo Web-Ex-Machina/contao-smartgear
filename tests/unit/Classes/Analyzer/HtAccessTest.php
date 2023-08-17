@@ -29,8 +29,8 @@ class HtAccessTest extends \Codeception\Test\Unit
 
     protected function setUp(): void
     {
-        $this->originalFilePath = codecept_data_dir().'/public/.htaccess';
-        $this->saveFilePath = codecept_data_dir().'/public/.htaccess_save';
+        $this->originalFilePath = codecept_data_dir().'public/.htaccess';
+        $this->saveFilePath = codecept_data_dir().'public/.htaccess_save';
         file_put_contents($this->saveFilePath, file_get_contents($this->originalFilePath));
         $this->sut = new Htaccess($this->saveFilePath);
     }
@@ -38,6 +38,14 @@ class HtAccessTest extends \Codeception\Test\Unit
     protected function tearDown(): void
     {
         unlink($this->saveFilePath);
+        // unlink all backup files too !!
+        $arrFiles = glob($this->saveFilePath.'_*');
+        if(!$arrFiles){
+            return;
+        }
+        foreach($arrFiles as $filepath){
+           unlink($filepath);
+        }
     }
 
     public function testHasRedirectToWwwAndHttps(): void
