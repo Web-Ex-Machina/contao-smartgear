@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -21,6 +21,8 @@ use Contao\File;
 use Contao\Folder;
 use Contao\ZipReader;
 use Contao\ZipWriter;
+use Exception;
+use SplFileInfo;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Backup\Model\Backup as BackupBusinessModel;
 use WEM\SmartgearBundle\Backup\Model\Results\CreateResult;
@@ -160,22 +162,73 @@ class BackupManager
             $i = 0;
             $databaseBackupPath = $backup->first()->current()['file_name'];
             $backup->reset();
+
+            $arrBigFiles = [];
+
             while ($backup->next()) {
                 $strFilename = $backup->current()['file_name'];
 
-                $strContent = $backup->unzip();
+                if (preg_match('/(.*)\.parts\_index/', $strFilename, $matches)) {
+                    $strFilenameOrig = str_replace('.parts_index', '', $matches[1]);
+                    if (!\in_array($strFilenameOrig, $arrBigFiles, true)) {
+                        $arrBigFiles[$strFilenameOrig] = [
+                            'index' => 0,
+                            'chunks_done' => 0,
+                            'chunks' => [],
+                        ];
+                    }
 
-                $objFile = new File($strFilename);
-                $objFile->truncate();
-                $objFile->write($strContent);
+                    $arrBigFiles[$strFilenameOrig]['index'] = (int) $backup->unzip();
+                    $result->addFileRestored($strFilename);
+                } elseif (preg_match('/(.*)\.part\_([0-9]{8})/', $strFilename, $matches)) {
+                    // continue;
+                    // biiiig file chuncked
+                    $strFilenameOrig = $matches[1];
+                    $chunckIndex = $matches[2];
 
-                if ($strContent !== $objFile->getContent()) {
+                    if (!\in_array($strFilenameOrig, $arrBigFiles, true)) {
+                        $arrBigFiles[$strFilenameOrig] = [
+                            'index' => 0,
+                            'chunks_done' => 0,
+                            'chunks' => [],
+                        ];
+                    }
+
+                    $arrBigFiles[$strFilenameOrig]['chunks'][] = $chunckIndex;
+                    ++$arrBigFiles[$strFilenameOrig]['chunks_done'];
+
+                    $strContent = $backup->unzip();
+
+                    $objFile = new File($strFilenameOrig);
+                    // $objFile->truncate();
+                    $objFile->append($strContent);
+                    $objFile->close();
+                // how to know we have finished with this ? prrrrt.
+                } else {
+                    $strContent = $backup->unzip();
+
+                    $objFile = new File($strFilename);
+                    $objFile->truncate();
+                    $objFile->write($strContent);
+
+                    if ($strContent !== $objFile->getContent()) {
+                        $result->addFileInError($strFilename);
+                    } else {
+                        $result->addFileRestored($strFilename);
+                        ++$i;
+                    }
+                    $objFile->close();
+                }
+            }
+
+            // 2b) check if all big files have been restored correctly
+            foreach ($arrBigFiles as $strFilename => $stats) {
+                if ((int) $stats['index'] === (int) $stats['chunks_done']) {
                     $result->addFileInError($strFilename);
                 } else {
                     $result->addFileRestored($strFilename);
                     ++$i;
                 }
-                $objFile->close();
             }
 
             // 3) now files are in place, time to play our DB backup
@@ -234,13 +287,11 @@ class BackupManager
 
             foreach ($this->artifactsToBackup as $artifactPath) {
                 if (is_file($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath)) {
-                    $backupArchive->addFile($artifactPath);
-                    $result->addFileBackuped($artifactPath);
+                    $this->addArtifactToBackup($backupArchive, $result, $artifactPath);
                 } else {
                     $files = Util::getFileList($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath);
                     foreach ($files as $filePath) {
-                        $backupArchive->addFile(str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath));
-                        $result->addFileBackuped(str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath));
+                        $this->addArtifactToBackup($backupArchive, $result, str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath));
                     }
                 }
             }
@@ -265,6 +316,39 @@ class BackupManager
         }
 
         return $result;
+    }
+
+    protected function addArtifactToBackup(ZipWriter &$backupArchive, CreateResult &$result, string $artifactPath): void
+    {
+        $artifactFullPath = $this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath;
+        if (!is_file($artifactFullPath)) {
+            throw new Exception($artifactPath.' is not a file');
+        }
+        $fileInfo = new SplFileInfo($artifactFullPath);
+        $fileSize = $fileInfo->getSize();
+        // if ($fileSize > 524288000) { // 500 Mo
+        if ($fileSize > 2684354560) { // 2,5 Go
+            unset($fileInfo);
+            $i = 0;
+            // new
+            $chunkSize = 52428800; // 50Mo
+            $readBytes = 0;
+            while ($readBytes < $fileSize) {
+                ++$i;
+                $strContent = file_get_contents($artifactFullPath, false, null, $readBytes, $chunkSize);
+                $chunkFileName = $artifactPath.'.part_'.sprintf('%08d', $i);
+                $backupArchive->addString($strContent, $chunkFileName);
+                $result->addFileBackuped($chunkFileName);
+                unset($strContent);
+                $readBytes += $chunkSize;
+            }
+
+            $backupArchive->addString($i, $artifactPath.'.parts_index');
+            $result->addFileBackuped($artifactPath.'.parts_index');
+        } else {
+            $backupArchive->addFile($artifactPath);
+            $result->addFileBackuped($artifactPath);
+        }
     }
 
     protected function cleanArtifactsBeforeRestore(): array

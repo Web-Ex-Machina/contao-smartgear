@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -28,6 +28,9 @@ class UpdateCommand extends AbstractUpdateCommand
     {
         $io = new SymfonyStyle($input, $output);
         $io->title('Play updates');
+        // $io->error($input->getOption('backup'));
+
+        // return 1;
         try {
             /** @var UpdateResult */
             $updateResult = $this->updateManager->update();

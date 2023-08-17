@@ -381,7 +381,7 @@ class Smartgear extends \Contao\BackendModule
         if ('play' === Input::get('act')) {
             try {
                 set_time_limit(0);
-                $result = $this->updateManager->update();
+                $result = $this->updateManager->update((bool) Input::get('backup'));
                 $this->objSession->set('wem_sg_update_update_result', $result);
 
                 // Add Message
@@ -391,7 +391,7 @@ class Smartgear extends \Contao\BackendModule
             }
 
             // And redirect
-            Controller::redirect(str_replace('&act=play', '', Environment::get('request')));
+            Controller::redirect(str_replace(['&act=play', '&backup=1', '&backup=0'], '', Environment::get('request')));
         }
 
         // Retrieve eventual logs
@@ -414,9 +414,12 @@ class Smartgear extends \Contao\BackendModule
         $this->getBackButton(str_replace('&key=updatemanager', '', Environment::get('request')));
 
         // play updates button
-        $this->Template->playUpdatesButtonHref = $this->addToUrl('&act=play');
-        $this->Template->playUpdatesButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesBTTitle']);
-        $this->Template->playUpdatesButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesBT'];
+        $this->Template->playUpdatesWithoutBackupButtonHref = $this->addToUrl('&act=play&backup=0');
+        $this->Template->playUpdatesWithoutBackupButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBTTitle']);
+        $this->Template->playUpdatesWithoutBackupButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBT'];
+        $this->Template->playUpdatesWithBackupButtonHref = $this->addToUrl('&act=play&backup=1');
+        $this->Template->playUpdatesWithBackupButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithBackupBTTitle']);
+        $this->Template->playUpdatesWithBackupButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithBackupBT'];
     }
 
     /**
@@ -456,7 +459,6 @@ class Smartgear extends \Contao\BackendModule
 
     protected function getBackButton($strHref = ''): void
     {
-        // Back button
         $this->Template->backButtonHref = $strHref ?: Environment::get('request');
         $this->Template->backButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']);
         $this->Template->backButtonButton = $GLOBALS['TL_LANG']['MSC']['backBT'];
@@ -464,7 +466,6 @@ class Smartgear extends \Contao\BackendModule
 
     protected function getBackupManagerButton(): void
     {
-        // Backup manager button
         $this->Template->backupManagerBtnHref = $this->addToUrl('&key=backupmanager');
         $this->Template->backupManagerBtnTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['backupManagerBTTitle']);
         $this->Template->backupManagerBtnButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['backupManagerBT'];
@@ -472,7 +473,6 @@ class Smartgear extends \Contao\BackendModule
 
     protected function getUpdateManagerButton(): void
     {
-        // Backup manager button
         $this->Template->updateManagerBtnHref = $this->addToUrl('&key=updatemanager');
         $this->Template->updateManagerBtnTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['updateManagerBTTitle']);
         $this->Template->updateManagerBtnButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['updateManagerBT'];
@@ -480,7 +480,6 @@ class Smartgear extends \Contao\BackendModule
 
     protected function getConfigurationManagerButton(): void
     {
-        // Backup manager button
         $this->Template->configurationManagerBtnHref = $this->addToUrl('&key=configurationmanager');
         $this->Template->configurationManagerBtnTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['configurationManagerBTTitle']);
         $this->Template->configurationManagerBtnButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['configurationManagerBT'];

@@ -37,13 +37,13 @@
 					<td colspan="1" class="tl_file_list col_size"><?= WEM\SmartgearBundle\Classes\Util::humanReadableFilesize((int) $backup->getFile()->size) ?></td>
 					<td colspan="1" class="tl_file_list col_source"><?= $this->trans(sprintf('WEMSG.BACKUPMANAGER.LIST.source%s',ucfirst(str_replace(' ','',$backup->getSource())))); ?></td>
 					<td class="tl_file_list tl_right_nowrap">
-						<a href="<?= $this->addToUrl('&act=download&backup='.$backup->getFile()->basename) ?>" title="" target="_blank">
-							<img src="bundles/wemsmartgear/icons/icon_zip.png" alt="Télécharger le back-up" width="12" height="16">
+						<a href="<?= $this->addToUrl('&act=download&backup='.$backup->getFile()->basename) ?>" title="<?= $this->trans('WEMSG.BACKUPMANAGER.LIST.actionDownload'); ?>" target="_blank">
+							<img src="bundles/wemsmartgear/icons/icon_zip.png" alt="<?= $this->trans('WEMSG.BACKUPMANAGER.LIST.actionDownload'); ?>" width="12" height="16">
 						</a>
-						<a href="<?= $this->addToUrl('&act=restore&backup='.$backup->getFile()->basename) ?>" title="">
-							<img src="bundles/wemsmartgear/icons/icon_restore.png" alt="Restaurer le back-up" width="14" height="16">
+						<a href="<?= $this->addToUrl('&act=restore&backup='.$backup->getFile()->basename) ?>" title="<?= $this->trans('WEMSG.BACKUPMANAGER.LIST.actionRestore'); ?>">
+							<img src="bundles/wemsmartgear/icons/icon_restore.png" alt="<?= $this->trans('WEMSG.BACKUPMANAGER.LIST.actionRestore'); ?>" width="14" height="16">
 						</a>
-						<a href="<?= $this->addToUrl('&act=delete&backup='.$backup->getFile()->basename) ?>" title="" onclick="return confirm('<?= $this->trans('WEMSG.BACKUPMANAGER.LIST.messageDeleteConfirm'); ?>')">
+						<a href="<?= $this->addToUrl('&act=delete&backup='.$backup->getFile()->basename) ?>" title="<?= $this->trans('WEMSG.BACKUPMANAGER.LIST.actionDelete'); ?>" onclick="return confirm('<?= $this->trans('WEMSG.BACKUPMANAGER.LIST.messageDeleteConfirm'); ?>')">
 							<i class="fa fa-trash"></i>&nbsp;
 						</a>
 					</td>

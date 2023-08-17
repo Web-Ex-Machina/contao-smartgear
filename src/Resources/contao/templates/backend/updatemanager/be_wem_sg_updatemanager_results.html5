@@ -1,4 +1,4 @@
-	<?php if($this->update_result): ?>
+<?php if($this->update_result): ?>
 	<?php if($this->update_result->isSuccess()): ?>
 	<div class="tl_confirm">
 		<?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.success'); ?>
@@ -9,7 +9,11 @@
 	</div>
 	<?php endif; ?>
 	<div class="tl_info">
-		<?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupInfo',[$this->update_result->getBackupResult()->getBackup()->getFile()->basename]); ?>
+		<?php if(null != $this->update_result->getBackupResult()): ?>
+			<?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupInfo',[$this->update_result->getBackupResult()->getBackup()->getFile()->basename]); ?>
+		<?php else: ?>
+			<?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupInfoNone'); ?>
+		<?php endif; ?>
 	</div>
 		<div class="tl_listing_container list_view">
 		<table class="tl_listing showColumns">
@@ -33,30 +37,32 @@
 			<?php endforeach; ?> 
 		</table>
 	</div>
-	<div class="tl_listing_container list_view">
-		<table class="tl_listing showColumns">
-				<tbody>
-					<tr>
-					<th class="tl_folder_tlist col_name"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsName'); ?></th>
-					<th class="tl_folder_tlist col_status"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsStatus'); ?></th>
-				</tr>
-			</tbody>
-			<?php foreach($this->update_result->getBackupResult()->getFilesBackuped() as $path): ?>
-				<tr class="even click2edit toggle_select hover-row tl_confirm">
-					<td colspan="1" class="tl_file_list col_name">
-						<?= $path ?>
-					</td>
-					<td colspan="1" class="tl_file_list col_status"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsStatusBackuped'); ?></td>
-				</tr>
-			<?php endforeach; ?> 
-			<?php foreach($this->update_result->getBackupResult()->getFilesInError() as $path): ?>
-				<tr class="even click2edit toggle_select hover-row tl_error">
-					<td colspan="1" class="tl_file_list col_name">
-						<?= $path ?>
-					</td>
-					<td colspan="1" class="tl_file_list col_status"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsStatusInError'); ?></td>
-				</tr>
-			<?php endforeach; ?> 
-		</table>
-	</div>
+	<?php if(null != $this->update_result->getBackupResult()): ?>
+		<div class="tl_listing_container list_view">
+			<table class="tl_listing showColumns">
+					<tbody>
+						<tr>
+						<th class="tl_folder_tlist col_name"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsName'); ?></th>
+						<th class="tl_folder_tlist col_status"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsStatus'); ?></th>
+					</tr>
+				</tbody>
+				<?php foreach($this->update_result->getBackupResult()->getFilesBackuped() as $path): ?>
+					<tr class="even click2edit toggle_select hover-row tl_confirm">
+						<td colspan="1" class="tl_file_list col_name">
+							<?= $path ?>
+						</td>
+						<td colspan="1" class="tl_file_list col_status"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsStatusBackuped'); ?></td>
+					</tr>
+				<?php endforeach; ?> 
+				<?php foreach($this->update_result->getBackupResult()->getFilesInError() as $path): ?>
+					<tr class="even click2edit toggle_select hover-row tl_error">
+						<td colspan="1" class="tl_file_list col_name">
+							<?= $path ?>
+						</td>
+						<td colspan="1" class="tl_file_list col_status"><?= $this->trans('WEMSG.UPDATEMANAGER.RESULT.backupFilesDetailsStatusInError'); ?></td>
+					</tr>
+				<?php endforeach; ?> 
+			</table>
+		</div>
 	<?php endif; ?>
+<?php endif; ?>

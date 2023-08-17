@@ -2469,6 +2469,18 @@
 			<source>Are you sure ?</source>
 			<target>Êtes vous sûr de vouloir supprimer ce backup ?</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.actionDownload">
+			<source>Download backup</source>
+			<target>Télécharger le backup</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.actionRestore">
+			<source>Restore backup</source>
+			<target>Restaurer le backup</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.actionDelete">
+			<source>Delete backup</source>
+			<target>Supprimer le backup</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.title">
 			<source>Backup restoration result :</source>
 			<target>Résultat de la restauration du backup :</target>
@@ -2574,11 +2586,19 @@
 			<source>Updates</source>
 			<target>Mises à jour</target>
 		</trans-unit>
-		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesBTTitle">
+		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesWithoutBackupBTTitle">
+			<source>Play updates without backup</source>
+			<target>Executer les mises à jour sans créer de backup</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesWithoutBackupBT">
+			<source>Play updates (no backup)</source>
+			<target>Executer les mises à jour (pas de backup)</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesWithBackupBTTitle">
 			<source>Play updates</source>
 			<target>Executer les mises à jour</target>
 		</trans-unit>
-		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesBT">
+		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesWithBackupBT">
 			<source>Play updates</source>
 			<target>Executer les mises à jour</target>
 		</trans-unit>
@@ -2625,6 +2645,10 @@
 		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.backupInfo">
 			<source>The backup %s has been created</source>
 			<target>Le back-up %s a été effectué</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.backupInfoNone">
+			<source>No backup was created</source>
+			<target>Aucun back-up n'a été effectué</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.version">
 			<source>Version</source>
