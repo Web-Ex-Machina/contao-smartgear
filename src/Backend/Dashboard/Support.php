@@ -168,12 +168,12 @@ class Support extends BackendModule
         $arrTokens = [
             'sg_owner_email' => $config->getSgOwnerEmail(),
             'sg_owner_name' => $config->getSgOwnerName(),
-            'support_email' => 'support.smartgear@webexmachina.fr',
-            'ticket_domain' => $domain,
+            'support_email' => 'support@webexmachina.fr',
+            'ticket_domain' => $domain && \strlen($domain) > 0 ? $domain : 'N/A',
             'ticket_subject' => $subject,
             'ticket_url' => $url,
             'ticket_message' => $message,
-            'ticket_file' => $fileUrl,
+            'ticket_file' => $objFile ? $objFile->path : '',
         ];
 
         $notification->send($arrTokens);
@@ -187,7 +187,7 @@ class Support extends BackendModule
         } catch (NotFound $e) {
             return '';
         }
-        $mail = 'support.smartgear@webexmachina.fr';
+        $mail = 'support@webexmachina.fr';
         $urlMailto = '';
         $urlMailtoParams = [
             'cc' => $config->getSgOwnerEmail(),

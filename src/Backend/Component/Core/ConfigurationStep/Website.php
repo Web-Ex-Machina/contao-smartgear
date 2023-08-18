@@ -1296,6 +1296,7 @@ class Website extends ConfigurationStep
         $nl->email_mode = 'textAndHtml';
         $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, false);
         $nl->email_html = $strText;
+        $nl->attachment_tokens = '##ticket_file##';
         $nl->save();
 
         $this->setConfigKey('setSgNotificationSupportMessageUserLanguage', (int) $nl->id);
@@ -1315,7 +1316,7 @@ class Website extends ConfigurationStep
         $nl->tstamp = time();
         $nl->language = $this->language;
         $nl->fallback = 1;
-        $nl->recipients = '##admin_email##';
+        $nl->recipients = '##support_email##';
         $nl->gateway_type = 'email';
         $nl->email_sender_name = $config->getSgWebsiteTitle();
         $nl->email_sender_address = '##sg_owner_email##';
@@ -1324,6 +1325,7 @@ class Website extends ConfigurationStep
         $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, false);
         $nl->email_html = $strText;
         $nl->email_replyTo = '##sg_owner_email##';
+        $nl->attachment_tokens = '##ticket_file##';
         $nl->save();
 
         $this->setConfigKey('setSgNotificationSupportMessageAdminLanguage', (int) $nl->id);

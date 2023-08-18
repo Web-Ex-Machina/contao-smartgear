@@ -5,6 +5,7 @@ SMARTGEAR Project for Contao Open Source CMS
 - Smartgear : Smartgear's API `version` endpoint now returns PHP, Contao `core-bundle` & Framway's version
 - Smartgear : Do not register visits if not pointing on a page
 - Smartgear : Dashboard now show informations about all root pages domains instead of the one filled in Smartgear's configuration
+- Smartgear : Dashboard ticket's creation now sends a confirmation to user + ticket copy to admins
 - Smartgear : Users have to select an image size for contents, unless they are granted the expert role
 - Smartgear : FileUsage bundle configuration updated
 - Smartgear : Adding `##useful_data##` & `##useful_data_filled##` tokens for forms' notifications

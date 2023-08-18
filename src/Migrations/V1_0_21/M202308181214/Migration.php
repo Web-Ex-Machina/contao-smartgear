@@ -191,6 +191,7 @@ class Migration extends MigrationAbstract
         $nl->email_mode = 'textAndHtml';
         $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, false);
         $nl->email_html = $strText;
+        $nl->attachment_tokens = '##ticket_file##';
         $nl->save();
 
         $config->setSgNotificationSupportMessageUserLanguage((int) $nl->id);
@@ -211,7 +212,7 @@ class Migration extends MigrationAbstract
         $nl->tstamp = time();
         $nl->language = \Contao\BackendUser::getInstance()->language;
         $nl->fallback = 1;
-        $nl->recipients = '##admin_email##';
+        $nl->recipients = '##support_email##';
         $nl->gateway_type = 'email';
         $nl->email_sender_name = $config->getSgWebsiteTitle();
         $nl->email_sender_address = '##sg_owner_email##';
@@ -220,6 +221,7 @@ class Migration extends MigrationAbstract
         $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, false);
         $nl->email_html = $strText;
         $nl->email_replyTo = '##sg_owner_email##';
+        $nl->attachment_tokens = '##ticket_file##';
         $nl->save();
 
         $config->setSgNotificationSupportMessageAdminLanguage((int) $nl->id);
