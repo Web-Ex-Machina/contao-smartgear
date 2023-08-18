@@ -1832,6 +1832,7 @@ class Website extends ConfigurationStep
         $layoutModuleHeader = null;
         $layoutModuleFooter = null;
         $layoutModuleBreadcrumb = null;
+        $layoutModuleBreadcrumbIndex = null;
         $layoutModuleContentIndex = null;
         foreach ($layoutModules as $index => $layoutModule) {
             if ((int) $layoutModule['mod'] === (int) $modules['wem_sg_header']->id) {
@@ -1842,14 +1843,17 @@ class Website extends ConfigurationStep
                 unset($layoutModules[$index]);
             } elseif ((int) $layoutModule['mod'] === (int) $modules['breadcrumb']->id) {
                 $layoutModuleBreadcrumb = $layoutModule;
-                unset($layoutModules[$index]);
+                $layoutModuleBreadcrumbIndex = $index;
             } elseif (0 === (int) $layoutModule['mod']) { // content
                 $layoutModuleContentIndex = $index;
             }
         }
 
         // breadcrumb is always placed before content
-        ArrayUtil::arrayInsert($layoutModules, $layoutModuleContentIndex - 1, [$layoutModuleBreadcrumb]);
+        if ($layoutModuleBreadcrumbIndex > $layoutModuleContentIndex) {
+            unset($layoutModules[$layoutModuleBreadcrumbIndex]);
+            ArrayUtil::arrayInsert($layoutModules, $layoutModuleContentIndex - 1, [$layoutModuleBreadcrumb]);
+        }
 
         // Header is always first
         array_unshift($layoutModules, $layoutModuleHeader);
