@@ -926,6 +926,14 @@
 			<source>Google Fonts' fonts list, separated by comma</source>
 			<target>Liste des noms de polices Google Fonts, séparées par des virgules</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.doBackup">
+			<source>Do a backup</source>
+			<target>Faire un backup</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.doBackupHelp">
+			<source>Check to do a backup before playing migrations</source>
+			<target>Cochez pour effectuer un backup avant de jouer les mises à jour</target>
+		</trans-unit>
 
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgWebsiteLogoEmpty">
 			<source>Website logo is missing</source>
@@ -3896,6 +3904,20 @@
 		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202308080921.done">
 			<source>Smartgear updated to version 1.0.21.</source>
 			<target>Smartgear mis à jour vers la version 1.0.21.</target>
+		</trans-unit>
+
+		<!-- V1_0_21/M202308181214 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202308181214.name">
+			<source>Smartgear v1.0.21 - support ticket creation notification</source>
+			<target>Smartgear v1.0.21 - notification création ticket support</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202308181214.description">
+			<source>Add support ticket creation from dashboard's notification.</source>
+			<target>Ajout de la notification pour les créations de ticket de support via le tableau de bord.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202308181214.done">
+			<source>Support ticket creation from dashboard's notification added.</source>
+			<target>Notification pour les créations de ticket de support via le tableau de bord ajoutée.</target>
 		</trans-unit>
 
 		<!-- Social networks -->

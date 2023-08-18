@@ -112,6 +112,7 @@ class Website extends ConfigurationStep
         $this->addTextField('sgOwnerDpoName', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerDpoName'], $config->getSgOwnerDpoName(), true);
         $this->addTextField('sgOwnerDpoEmail', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerDpoEmail'], $config->getSgOwnerDpoEmail(), true);
         $this->addTextField('sgGoogleFonts', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgGoogleFonts'], implode(',', $config->getSgGoogleFonts()), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgGoogleFontsHelp']);
+        $this->addCheckboxField('doBackup', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['doBackup'], '1', true, false, '', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['doBackupHelp']);
     }
 
     public function getFilledTemplate(): FrontendTemplate
@@ -242,12 +243,12 @@ class Website extends ConfigurationStep
         $this->commandUtil->executeCmdPHP('cache:clear');
         $this->commandUtil->executeCmdPHP('contao:symlinks');
 
-        $this->launchMigrations();
+        $this->launchMigrations((bool) Input::post('doBackupHelp'));
     }
 
-    protected function launchMigrations(): void
+    protected function launchMigrations(bool $doBackup): void
     {
-        $updateResult = $this->updateManager->update();
+        $updateResult = $this->updateManager->update($doBackup);
         if ($updateResult->isSuccess()) {
             $this->addConfirm($this->translator->trans('WEMSG.UPDATEMANAGER.RESULT.success', [], 'contao_default'), $this->module);
         } else {
@@ -1217,10 +1218,8 @@ class Website extends ConfigurationStep
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
-        $formContactConfig = $config->getSgFormContact();
 
-        $nc = NotificationModel::findOneById($formContactConfig->getSgNotification()) ?? new NotificationModel();
+        $nc = NotificationModel::findOneById($config->getSgNotificationSupport()) ?? new NotificationModel();
         $nc->tstamp = time();
         $nc->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayNotification', [], 'contao_default');
         $nc->type = 'ticket_creation';
@@ -1235,10 +1234,8 @@ class Website extends ConfigurationStep
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
-        $formContactConfig = $config->getSgFormContact();
 
-        $nm = NotificationMessageModel::findOneById($formContactConfig->getSgNotificationMessageUser()) ?? new NotificationMessageModel();
+        $nm = NotificationMessageModel::findOneById($config->getSgNotificationSupportMessageUser()) ?? new NotificationMessageModel();
         $nm->pid = $gateway->id;
         $nm->gateway = $config->getSgNotificationGatewayEmail();
         $nm->gateway_type = 'email';
@@ -1256,10 +1253,8 @@ class Website extends ConfigurationStep
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
-        $formContactConfig = $config->getSgFormContact();
 
-        $nm = NotificationMessageModel::findOneById($formContactConfig->getSgNotificationMessageAdmin()) ?? new NotificationMessageModel();
+        $nm = NotificationMessageModel::findOneById($config->getSgNotificationSupportMessageAdmin()) ?? new NotificationMessageModel();
         $nm->pid = $gateway->id;
         $nm->gateway = $config->getSgNotificationGatewayEmail();
         $nm->gateway_type = 'email';
@@ -1285,12 +1280,10 @@ class Website extends ConfigurationStep
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
-        $formContactConfig = $config->getSgFormContact();
 
         $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/dashboard/%s/ticket_mail_user.html', Util::getPublicOrWebDirectory(), $this->language));
 
-        $nl = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageUserLanguage()) ?? new NotificationLanguageModel();
+        $nl = NotificationLanguageModel::findOneById($config->getSgNotificationSupportMessageUserLanguage()) ?? new NotificationLanguageModel();
         $nl->pid = $gatewayMessage->id;
         $nl->tstamp = time();
         $nl->language = $this->language;
@@ -1314,12 +1307,10 @@ class Website extends ConfigurationStep
     {
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
-        $formContactConfig = $config->getSgFormContact();
 
         $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/dashboard/%s/ticket_mail_admin.html', Util::getPublicOrWebDirectory(), $this->language));
 
-        $nl = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageAdminLanguage()) ?? new NotificationLanguageModel();
+        $nl = NotificationLanguageModel::findOneById($config->getSgNotificationSupportMessageAdminLanguage()) ?? new NotificationLanguageModel();
         $nl->pid = $gatewayMessage->id;
         $nl->tstamp = time();
         $nl->language = $this->language;
