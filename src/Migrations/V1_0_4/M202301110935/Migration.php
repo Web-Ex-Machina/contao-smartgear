@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -35,7 +35,7 @@ class Migration extends MigrationAbstract
     protected $version = '1.0.4';
     protected $translation_key = 'WEMSG.MIGRATIONS.V1_0_4_M202301110935';
     /** @var DirectoriesSynchronizer */
-    protected static $templatesSmartgearSynchronizer;
+    protected $templatesSmartgearSynchronizer;
 
     public function __construct(
         Connection $connection,

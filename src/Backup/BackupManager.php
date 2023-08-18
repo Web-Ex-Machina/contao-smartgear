@@ -51,6 +51,8 @@ class BackupManager
     protected $artifactsToBackup = [];
     /** @var array */
     protected $tablesToIgnore = [];
+    /** @var int */
+    protected $memoryLimitInBytes;
 
     public function __construct(
         string $rootDir,
@@ -70,6 +72,8 @@ class BackupManager
         $this->translator = $translator;
         $this->artifactsToBackup = $artifactsToBackup;
         $this->tablesToIgnore = $tablesToIgnore;
+
+        $this->memoryLimitInBytes = Util::formatPhpMemoryLimitToBytes(ini_get('memory_limit'));
     }
 
     public function newFromCommand(): CreateResult
@@ -324,30 +328,35 @@ class BackupManager
         if (!is_file($artifactFullPath)) {
             throw new Exception($artifactPath.' is not a file');
         }
-        $fileInfo = new SplFileInfo($artifactFullPath);
-        $fileSize = $fileInfo->getSize();
-        // if ($fileSize > 524288000) { // 500 Mo
-        if ($fileSize > 2684354560) { // 2,5 Go
-            unset($fileInfo);
-            $i = 0;
-            // new
-            $chunkSize = 52428800; // 50Mo
-            $readBytes = 0;
-            while ($readBytes < $fileSize) {
-                ++$i;
-                $strContent = file_get_contents($artifactFullPath, false, null, $readBytes, $chunkSize);
-                $chunkFileName = $artifactPath.'.part_'.sprintf('%08d', $i);
-                $backupArchive->addString($strContent, $chunkFileName);
-                $result->addFileBackuped($chunkFileName);
-                unset($strContent);
-                $readBytes += $chunkSize;
-            }
 
-            $backupArchive->addString($i, $artifactPath.'.parts_index');
-            $result->addFileBackuped($artifactPath.'.parts_index');
-        } else {
+        if (-1 === $this->memoryLimitInBytes) {
             $backupArchive->addFile($artifactPath);
             $result->addFileBackuped($artifactPath);
+        } else {
+            $fileInfo = new SplFileInfo($artifactFullPath);
+            $fileSize = $fileInfo->getSize();
+            if ($fileSize > $this->memoryLimitInBytes) { // 2,5 Go
+                unset($fileInfo);
+                $i = 0;
+                // new
+                $chunkSize = 52428800; // 50Mo
+                $readBytes = 0;
+                while ($readBytes < $fileSize) {
+                    ++$i;
+                    $strContent = file_get_contents($artifactFullPath, false, null, $readBytes, $chunkSize);
+                    $chunkFileName = $artifactPath.'.part_'.sprintf('%08d', $i);
+                    $backupArchive->addString($strContent, $chunkFileName);
+                    $result->addFileBackuped($chunkFileName);
+                    unset($strContent);
+                    $readBytes += $chunkSize;
+                }
+
+                $backupArchive->addString($i, $artifactPath.'.parts_index');
+                $result->addFileBackuped($artifactPath.'.parts_index');
+            } else {
+                $backupArchive->addFile($artifactPath);
+                $result->addFileBackuped($artifactPath);
+            }
         }
     }
 

@@ -544,6 +544,7 @@ class Util
      */
     public static function getFileList($strDir)
     {
+        $result = [];
         $root = scandir($strDir);
         foreach ($root as $value) {
             if ('.' === $value || '..' === $value) {
@@ -1018,6 +1019,35 @@ class Util
         }
 
         return trim($result);
+    }
+
+    public static function formatPhpMemoryLimitToBytes($value): int
+    {
+        if ('-1' === (string) $value) {
+            return -1;
+        }
+
+        if (\is_int($value) || preg_match('/^([0-9]*)$/', $value)) {
+            return (int) $value;
+        }
+
+        // now parse to find G (value in gigabytes), k/m/g (value in kilobytes, megabytes, gigabytes because shorthand is case-insensitive)
+        $value = trim($value);
+        $last = strtolower($value[\strlen($value) - 1]);
+        $value = substr($value, 0, -1);
+        switch ($last) {
+            // The 'G' modifier is available since PHP 5.1.0
+            case 'g':
+                $value *= 1024;
+                // no break
+            case 'm':
+                $value *= 1024;
+                // no break
+            case 'k':
+                $value *= 1024;
+        }
+
+        return $value;
     }
 
     /**

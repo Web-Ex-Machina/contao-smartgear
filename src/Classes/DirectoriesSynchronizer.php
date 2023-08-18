@@ -50,8 +50,8 @@ class DirectoriesSynchronizer
     ) {
         $this->rootDir = $rootDir; // must be first !!!
         $this->manageSubfolders = $manageSubfolders;
-        $this->sourceDirectory = $this->stripRootPathFromPath(str_replace('[public_or_web]', Util::getPublicOrWebDirectory(), $sourceDirectory));
-        $this->destinationDirectory = $this->stripRootPathFromPath(str_replace('[public_or_web]', Util::getPublicOrWebDirectory(), $destinationDirectory));
+        $this->sourceDirectory = $sourceDirectory;
+        $this->destinationDirectory = $destinationDirectory;
     }
 
     /**
@@ -61,6 +61,8 @@ class DirectoriesSynchronizer
      */
     public function synchronize(?bool $withDeletions = true): void
     {
+        $this->sourceDirectory = $this->stripRootPathFromPath(str_replace('[public_or_web]', Util::getPublicOrWebDirectory(), $this->sourceDirectory));
+        $this->destinationDirectory = $this->stripRootPathFromPath(str_replace('[public_or_web]', Util::getPublicOrWebDirectory(), $this->destinationDirectory));
         $this->checkFiles(
             $this->getSourceDirectoryFiles(),
             $this->getDestinationDirectoryFiles()
