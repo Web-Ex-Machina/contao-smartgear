@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\EventListener;
 
 use Contao\Environment;
+use Contao\Input;
 use Contao\LayoutModel;
 use Contao\PageModel;
 use Contao\PageRegular;
@@ -116,7 +117,11 @@ class GeneratePageListener
             Util::setCookieVisitorUniqIdHash($hash);
         }
 
-        if (!$this->scopeMatcher->isFrontend()) {
+        if (!$this->scopeMatcher->isFrontend() 
+        || Environment::get('isAjaxRequest')
+        || Input::get('TL_AJAX')
+        || Input::post('TL_AJAX')
+        ) {
             return;
         }
 

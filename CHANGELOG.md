@@ -3,6 +3,7 @@ SMARTGEAR Project for Contao Open Source CMS
 
 1.0.21 - 2023-08-XX
 - Smartgear : Content deletion unallowed even by admin fix
+- Smartgear : Dashboard statistics for visits do not register AJAX requests anymore
 - Smartgear : Smartgear's API `version` endpoint now returns PHP, Contao `core-bundle` & Framway's version
 - Smartgear : Do not register visits if not pointing on a page
 - Smartgear : Dashboard now show informations about all root pages domains instead of the one filled in Smartgear's configuration
