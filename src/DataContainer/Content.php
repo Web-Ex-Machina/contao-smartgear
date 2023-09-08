@@ -15,16 +15,12 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\DataContainer;
 
 use Contao\Backend;
-use Contao\Config;
 use Contao\ContentModel;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\DataContainer;
-use Contao\Date;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
-use DateInterval;
-use DateTime;
 use Exception;
 use tl_content;
 use tl_content_calendar;
@@ -205,6 +201,6 @@ class Content extends Backend
 
     protected function canItemBeDeleted(int $id): bool
     {
-        return $this->parent->User->admin || !$this->isItemUsedBySmartgear($id);
+        return $this->parent->User->isAdmin || !$this->isItemUsedBySmartgear($id);
     }
 }
