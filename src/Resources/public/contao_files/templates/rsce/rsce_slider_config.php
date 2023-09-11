@@ -25,9 +25,13 @@ return [
                 'img_src' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_slider']['img_src'],
                     'inputType' => 'fileTree',
-                    'eval' => ['filesOnly' => true,
+                    'eval' => [
+                        'files' => true,
                         'fieldType' => 'radio',
-                        'extensions' => \Contao\Config::get('validImageTypes'), ],
+                        'isGallery' => true,
+                        // 'isSortable' => true, // doesn't work
+                        'extensions' => \Contao\Config::get('validImageTypes'), 
+                    ],
                 ],
                 'img_size' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['size'],
