@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -50,8 +50,8 @@ class DirectoriesSynchronizer
     ) {
         $this->rootDir = $rootDir; // must be first !!!
         $this->manageSubfolders = $manageSubfolders;
-        $this->sourceDirectory = $this->stripRootPathFromPath(str_replace('[public_or_web]', Util::getPublicOrWebDirectory(), $sourceDirectory));
-        $this->destinationDirectory = $this->stripRootPathFromPath(str_replace('[public_or_web]', Util::getPublicOrWebDirectory(), $destinationDirectory));
+        $this->sourceDirectory = $sourceDirectory;
+        $this->destinationDirectory = $destinationDirectory;
     }
 
     /**
@@ -61,6 +61,8 @@ class DirectoriesSynchronizer
      */
     public function synchronize(?bool $withDeletions = true): void
     {
+        $this->sourceDirectory = $this->stripRootPathFromPath(str_replace('[public_or_web]', Util::getPublicOrWebDirectory(), $this->sourceDirectory));
+        $this->destinationDirectory = $this->stripRootPathFromPath(str_replace('[public_or_web]', Util::getPublicOrWebDirectory(), $this->destinationDirectory));
         $this->checkFiles(
             $this->getSourceDirectoryFiles(),
             $this->getDestinationDirectoryFiles()

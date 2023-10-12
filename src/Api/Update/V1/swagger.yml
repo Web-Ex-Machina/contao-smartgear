@@ -32,6 +32,13 @@ paths:
     post:
       summary: Play all updates
       operationId: update
+      parameters:
+      - name: "nobackup"
+        in: "query"
+        description: True to not create a backup before playing updates
+        required: false
+        schema:
+          type: boolean
       responses:
         '200':
           description: "successful operation"

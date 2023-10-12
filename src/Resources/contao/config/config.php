@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -110,6 +110,9 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
         'wem_sg_dashboard' => [
             'callback' => "\WEM\SmartgearBundle\Backend\Dashboard",
         ],
+        'wem_sg_reminder' => [
+            'callback' => "\WEM\SmartgearBundle\Backend\Reminder",
+        ],
         'undo' => $GLOBALS['BE_MOD']['system']['undo'],
     ],
 ]);
@@ -171,6 +174,7 @@ $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Login::getTable()] = WEM\Smartg
 if ('BE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Backend\Smartgear', 'processAjaxRequest'];
     $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Backend\Dashboard', 'processAjaxRequest'];
+    $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Backend\Reminder', 'processAjaxRequest'];
     $GLOBALS['TL_HOOKS']['loadDataContainer'][] = ['smartgear.listener.load_data_container', '__invoke'];
     $GLOBALS['TL_HOOKS']['initializeSystem'][] = ['smartgear.listener.initialize_system', '__invoke'];
     $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['smartgear.listener.replace_insert_tags', 'onReplaceInsertTags'];
@@ -203,6 +207,31 @@ if ('FE' === TL_MODE) {
  * Add globals Hooks
  */
 $GLOBALS['TL_HOOKS']['loadLanguageFile'][] = ['smartgear.listener.load_language_file', '__invoke'];
+$GLOBALS['TL_HOOKS']['sendNotificationMessage'][] = ['smartgear.listener.send_notification_message', '__invoke'];
+
+/*
+ * NC hooks
+ */
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data';
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_filled';
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data';
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data_filled';
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data';
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data_filled';
+
+/*
+ * Notifications
+ */
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['smartgear']['ticket_creation'] = [
+    'email_sender_address' => ['sg_owner_email'],
+    'recipients' => ['support_email', 'sg_owner_email'],
+    'email_subject' => ['ticket_*'],
+    'email_text' => ['ticket_*', 'sg_owner_name'],
+    'email_html' => ['ticket_*', 'sg_owner_name'],
+    'email_replyTo' => ['sg_owner_email'],
+    'attachment_tokens' => ['ticket_file'],
+];
+
 /*
  * Add custom rights
  */

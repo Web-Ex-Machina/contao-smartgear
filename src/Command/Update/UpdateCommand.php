@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Command\Update;
 
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use WEM\SmartgearBundle\Update\Results\UpdateResult;
@@ -24,13 +25,21 @@ class UpdateCommand extends AbstractUpdateCommand
     protected static $defaultName = 'smartgear:update:update';
     protected static $defaultDescription = 'Play updates';
 
+    protected function configure(): void
+    {
+        parent::configure();
+        $this
+            ->addOption('nobackup', null, InputOption::VALUE_NONE, 'This option prevents the creation of a backup before playing migrations')
+        ;
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $io->title('Play updates');
         try {
             /** @var UpdateResult */
-            $updateResult = $this->updateManager->update();
+            $updateResult = $this->updateManager->update((bool) !$input->getOption('nobackup'));
         } catch (\Exception $e) {
             if ($this->isJson($input)) {
                 $io->writeln(json_encode(['error' => $e->getMessage()]));
@@ -53,7 +62,17 @@ class UpdateCommand extends AbstractUpdateCommand
             $io->error('Updates not played');
         }
 
-        $io->success(sprintf('Backup : %s', $updateResult->getBackupResult()->getBackup()->getFile()->basename));
+        if ((bool) $input->getOption('nobackup')) {
+            $io->info('No backup created because of the "--nobackup" option');
+        } else {
+            if (null === $updateResult->getBackupResult()
+            || null === $updateResult->getBackupResult()->getBackup()
+            ) {
+                $io->error('An error occured when creating the backup');
+            } else {
+                $io->success(sprintf('Backup : %s', $updateResult->getBackupResult()->getBackup()->getFile()->basename));
+            }
+        }
 
         $io->table(['Version', 'Name', 'Description', 'Status', 'Logs'], $this->formatForTable($updateResult->getResults()));
 
@@ -80,10 +99,12 @@ class UpdateCommand extends AbstractUpdateCommand
     {
         $json = [
             'status' => $updateResult->getStatus(),
-            'backup' => [
-                'timestamp' => $updateResult->getBackupResult()->getBackup()->getFile()->ctime,
-                'path' => $updateResult->getBackupResult()->getBackup()->getFile()->basename,
-            ],
+            'backup' => null !== $updateResult->getBackupResult()
+                ? [
+                    'timestamp' => $updateResult->getBackupResult()->getBackup()->getFile()->ctime,
+                    'path' => $updateResult->getBackupResult()->getBackup()->getFile()->basename,
+                ]
+                : null,
             'updates' => [],
         ];
 

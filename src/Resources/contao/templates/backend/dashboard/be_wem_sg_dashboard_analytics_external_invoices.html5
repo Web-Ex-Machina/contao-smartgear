@@ -6,7 +6,20 @@
 	</p>
 <?php else: ?>
 <p>
-	<?php echo $this->birthdayLabel; ?>: <?php echo $this->birthday; ?>
+	<?php echo $this->birthdayLabel; ?>: 
+	<?php if(empty($this->birthday)): ?>
+		/
+	<?php elseif(1 === count($this->birthday)): ?>
+		<?php echo $this->birthday; ?>
+	<?php else: ?>
+		<ul>
+			<?php foreach($this->birthday as $domain => $birthday): ?>
+				<li>
+					<?php echo $birthday; ?> (<?php echo $domain; ?>)
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	<?php endif; ?>
 </p>		
 <div class="tl_listing_container list_view">
 	<table class="tl_listing showColumns">

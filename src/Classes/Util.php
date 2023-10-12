@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -24,6 +24,7 @@ use Contao\Files;
 use Contao\PageModel;
 use Contao\System;
 use Contao\UserGroupModel;
+use DateInterval;
 use Exception;
 use InvalidArgumentException;
 use Psr\Log\LogLevel;
@@ -543,6 +544,7 @@ class Util
      */
     public static function getFileList($strDir)
     {
+        $result = [];
         $root = scandir($strDir);
         foreach ($root as $value) {
             if ('.' === $value || '..' === $value) {
@@ -956,6 +958,96 @@ class Util
     public static function getCookieVisitorUniqIdHash(): ?string
     {
         return \array_key_exists('wem_sg_visitor_uniq_id_hash', $_COOKIE) ? $_COOKIE['wem_sg_visitor_uniq_id_hash'] : null;
+    }
+
+    public static function transformHostnameForAirtableUse(string $hostname)
+    {
+        return str_replace(['https://', 'www.'], '', $hostname);
+    }
+
+    public static function getRootPagesDomains(?bool $publishedOnly = false): array
+    {
+        $rootPages = PageModel::findBy('type', 'root');
+        $arrDomains = [];
+        if ($rootPages) {
+            while ($rootPages->next()) {
+                if (!$publishedOnly || ($publishedOnly && $rootPages->current()->published)) {
+                    $arrDomains[] = self::transformHostnameForAirtableUse($rootPages->current()->dns);
+                }
+            }
+        }
+
+        return $arrDomains;
+    }
+
+    public static function getAirtableClientsRef(array $hostingInformations): array
+    {
+        $clientsRef = [];
+        if (!empty($hostingInformations)) {
+            foreach ($hostingInformations as $hostname => $hostnameHostingInformations) {
+                if (!empty($hostnameHostingInformations['client_reference'])
+                    && '' !== $hostnameHostingInformations['client_reference'][0]
+                    ) {
+                    $clientsRef[] = $hostnameHostingInformations['client_reference'][0];
+                }
+            }
+        }
+
+        return $clientsRef;
+    }
+
+    public static function formatDateInterval(DateInterval $interval, ?bool $includeSeconds = false): string
+    {
+        $result = '';
+        if ($interval->y) {
+            $result .= $interval->format('%y '.strtolower($GLOBALS['TL_LANG']['MSC']['year'.($interval->d > 1 ? 's' : '')]).' ');
+        }
+        if ($interval->m) {
+            $result .= $interval->format('%m '.strtolower($GLOBALS['TL_LANG']['MSC']['month'.($interval->d > 1 ? 's' : '')]).' ');
+        }
+        if ($interval->d) {
+            $result .= $interval->format('%d '.strtolower($GLOBALS['TL_LANG']['MSC']['day'.($interval->d > 1 ? 's' : '')]).' ');
+        }
+        if ($interval->h) {
+            $result .= $interval->format('%h '.strtolower($GLOBALS['TL_LANG']['MSC']['hour'.($interval->d > 1 ? 's' : '')]).' ');
+        }
+        if ($interval->i) {
+            $result .= $interval->format('%i '.strtolower($GLOBALS['TL_LANG']['MSC']['minute'.($interval->d > 1 ? 's' : '')]).' ');
+        }
+        if ($includeSeconds && $interval->s) {
+            $result .= $interval->format('%s '.strtolower($GLOBALS['TL_LANG']['MSC']['second'.($interval->d > 1 ? 's' : '')]).' ');
+        }
+
+        return trim($result);
+    }
+
+    public static function formatPhpMemoryLimitToBytes($value): int
+    {
+        if ('-1' === (string) $value) {
+            return -1;
+        }
+
+        if (\is_int($value) || preg_match('/^([0-9]*)$/', $value)) {
+            return (int) $value;
+        }
+
+        // now parse to find G (value in gigabytes), k/m/g (value in kilobytes, megabytes, gigabytes because shorthand is case-insensitive)
+        $value = trim($value);
+        $last = strtolower($value[\strlen($value) - 1]);
+        $value = substr($value, 0, -1);
+        switch ($last) {
+            // The 'G' modifier is available since PHP 5.1.0
+            case 'g':
+                $value *= 1024;
+                // no break
+            case 'm':
+                $value *= 1024;
+                // no break
+            case 'k':
+                $value *= 1024;
+        }
+
+        return $value;
     }
 
     /**

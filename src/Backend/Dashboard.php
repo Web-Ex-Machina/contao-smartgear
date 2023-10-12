@@ -20,6 +20,7 @@ use Contao\Message;
 use Contao\System;
 use WEM\SmartgearBundle\Api\Airtable\V0\Api as AirtableApi;
 use WEM\SmartgearBundle\Backend\Dashboard\ShortcutInternal;
+use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
@@ -53,12 +54,11 @@ class Dashboard extends BackendModule
             /** @var AirtableApi */
             $airtableApi = System::getContainer()->get('smartgear.api.airtable.v0.api');
 
-            $hostingInformations = $airtableApi->getHostingInformations($config->getSgOwnerDomain());
-            if (!empty($hostingInformations)
-            && !empty($hostingInformations['client_reference'])
-            && '' !== $hostingInformations['client_reference'][0]
-            ) {
-                $airtableApi->getSupportClientInformations($hostingInformations['client_reference'][0]);
+            $arrDomains = Util::getRootPagesDomains();
+            $hostingInformations = $airtableApi->getHostingInformations($arrDomains);
+            if (!empty($hostingInformations)) {
+                $clientsRef = Util::getAirtableClientsRef($hostingInformations);
+                $airtableApi->getSupportClientInformations($clientsRef);
             }
         } catch (NotFound $e) {
         }

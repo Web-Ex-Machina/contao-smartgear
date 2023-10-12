@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -62,19 +62,8 @@ class Framway extends AbstractManager implements ManagerJsonInterface
     public function retrieveConfigurationAsImportableFormatFromFile(): \stdClass
     {
         $notJsonCompliant = $this->retrieveConfigurationFromFile();
-        $notJsonCompliant = str_replace('module.exports = ', '', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/^([\s\t]*)\/\/(.*)/m', '', $notJsonCompliant); // remove one liner comments
-        $notJsonCompliant = preg_replace('/^(.*)\'\,([\s\t]*)\/\/(.*)/m', '$1\',', $notJsonCompliant); // remove comments at the end of a line
-        $notJsonCompliant = preg_replace('/^(.*)\,([\s\t]*)\/\/(.*)/m', '$1,', $notJsonCompliant); // remove comments at the end of a line
 
         $notJsonCompliant = $this->specificPregReplaceForNotJsonCompliantConfigurationImport($notJsonCompliant);
-
-        $notJsonCompliant = preg_replace('/\t/', '', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/\n/', '', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/\s\s/', '', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/,([\s]*)\]/', ']', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/,([\s]*)\}/', '}', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/\.\"com\":/', '.com:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
         try {
             return json_decode($notJsonCompliant, false, 512, \JSON_THROW_ON_ERROR);
         } catch (Exception $e) {
@@ -106,6 +95,12 @@ class Framway extends AbstractManager implements ManagerJsonInterface
 
     protected function specificPregReplaceForNotJsonCompliantConfigurationImport(string $notJsonCompliant): string
     {
+        $notJsonCompliant = str_replace('module.exports = ', '', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/^([\s\t]*)\/\/(.*)/m', '', $notJsonCompliant); // remove one liner comments
+        $notJsonCompliant = preg_replace('/^(.*)\'\,([\s\t]*)\/\/(.*)/m', '$1\',', $notJsonCompliant); // remove comments at the end of a line
+        $notJsonCompliant = preg_replace('/^(.*)\,([\s\t]*)\/\/(.*)/m', '$1,', $notJsonCompliant); // remove comments at the end of a line
+
+        ////////
         $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([\{]{1})/', '$1"$2":{', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([\[]{1})/', '$1"$2":[', $notJsonCompliant);
         // $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([^\/\:])/', '$1"$2":', $notJsonCompliant);
@@ -113,7 +108,20 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         // $notJsonCompliant = preg_replace('/\"([A-Za-z_\-0-9$]*)\":[\s]\[/', '"$1":[', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([A-Za-z_\-0-9$]*)/', '$1"$2":$5', $notJsonCompliant);
 
-        return preg_replace('/([\"]+)([A-Za-z_\-0-9$]+)([\"]+)/', '"$2"', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/([\"]+)([A-Za-z_\-0-9$]+)([\"]+)/', '"$2"', $notJsonCompliant);
+        ////////
+
+        $notJsonCompliant = preg_replace('/\t/', '', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/\n/', '', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/\s\s/', '', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/,([\s]*)\]/', ']', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/,([\s]*)\}/', '}', $notJsonCompliant);
+
+        $notJsonCompliant =  preg_replace('/\.\"com\":/', '.com:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
+        $notJsonCompliant =  preg_replace('/\"https\":/', '"https:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
+        $notJsonCompliant =  preg_replace('/\"http\":/', '"http:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
+
+        return $notJsonCompliant;
     }
 
     protected function retrieveConfigurationFromFile(): string

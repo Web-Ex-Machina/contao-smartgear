@@ -1,0 +1,26 @@
+<tr class="even click2edit toggle_select hover-row">
+	<td colspan="1" class="tl_file_list col_ptable"><?= $this->item['ptable'] ?></td>
+	<td colspan="1" class="tl_file_list col_pid"><?= $this->item['pid'] ?></td>
+	<td colspan="1" class="tl_file_list col_name"><?= $this->item['label'] ?></td>
+	<td colspan="1" class="tl_file_list col_last_update"><?= \Contao\Date::parse(\Contao\Config::get('datimFormat'), (int) $this->item['last_update']); ?></td>
+	<td colspan="1" class="tl_file_list col_obsolete_since"><?= \Contao\Date::parse(\Contao\Config::get('datimFormat'), (int) $this->item['obsolete_since']); ?> (<?= $this->item['obsolete_since_text']; ?>)</td>
+	<td colspan="1" class="tl_file_list col_period"><?= $this->trans('WEMSG.DCA.update_reminder_period.'.$this->item['period'],[],'contao_default'); ?></td>
+	<td colspan="1" class="tl_file_list col_actions">
+		<?php foreach($this->item['actions'] as $action): ?>
+			<a href="<?= $action['href'] ?? ''; ?>"
+				title="<?= $action['title'] ?? '' ?>"
+				class="<?= $action['class'] ?? '' ?>"
+				<?php foreach($action['data'] ?? [] as $key => $value): ?>
+					data-<?= $key; ?>="<?= $value; ?>"
+				<?php endforeach; ?>
+			>
+			<?php if($action['icon']): ?>
+				<img src="<?= $action['icon']; ?>" width="16" height="16" alt="<?= $action['icon_alt'] ?? '' ?>" />
+			<?php endif; ?>
+			<?php if($action['label']): ?>
+				<?= $action['label']; ?>
+			<?php endif; ?>
+			</a>
+		<?php endforeach; ?>
+	</td>
+</tr>

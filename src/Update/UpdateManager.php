@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -31,11 +31,11 @@ class UpdateManager
     /** @var BackupManager */
     protected $backupManager;
     /** @var DirectoriesSynchronizer */
-    protected static $templatesSmartgearSynchronizer;
+    protected $templatesSmartgearSynchronizer;
     /** @var DirectoriesSynchronizer */
-    protected static $templatesRsceSynchronizer;
+    protected $templatesRsceSynchronizer;
     /** @var DirectoriesSynchronizer */
-    protected static $templatesGeneralSynchronizer;
+    protected $templatesGeneralSynchronizer;
     /** @var array */
     protected $migrations;
 
@@ -66,10 +66,12 @@ class UpdateManager
         return $listResult;
     }
 
-    public function update(): UpdateResult
+    public function update(?bool $doBackup = true): UpdateResult
     {
         $updateResult = new UpdateResult();
-        $updateResult->setBackupResult($this->doBackup());
+        if ($doBackup) {
+            $updateResult->setBackupResult($this->doBackup());
+        }
 
         // synchronize templates
         $this->templatesSmartgearSynchronizer->synchronize(true);

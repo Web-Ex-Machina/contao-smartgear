@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -17,11 +17,13 @@ namespace WEM\SmartgearBundle\Backend\Component\Core\ConfigurationStep;
 use Contao\ArrayUtil;
 use Contao\ArticleModel;
 use Contao\ContentModel;
+use Contao\CoreBundle\String\HtmlDecoder;
 use Contao\File;
 use Contao\Files;
 use Contao\FilesModel;
 use Contao\Folder;
 use Contao\FrontendTemplate;
+use Contao\ImageSizeModel;
 use Contao\Input;
 use Contao\LayoutModel;
 use Contao\ModuleModel;
@@ -30,6 +32,9 @@ use Contao\ThemeModel;
 use Contao\UserGroupModel;
 use Contao\UserModel;
 use Exception;
+use NotificationCenter\Model\Language as NotificationLanguageModel;
+use NotificationCenter\Model\Message as NotificationMessageModel;
+use NotificationCenter\Model\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
@@ -59,6 +64,10 @@ class Website extends ConfigurationStep
     protected $userGroupUpdaters;
     /** array */
     protected $userGroupWebmasterOldPermissions = [];
+    /** @var HtmlDecoder */
+    protected $htmlDecoder;
+    /** @var string */
+    protected $language;
 
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_website';
 
@@ -69,7 +78,8 @@ class Website extends ConfigurationStep
         ConfigurationManager $configurationManager,
         UpdateManager $updateManager,
         CommandUtil $commandUtil,
-        array $userGroupUpdaters
+        array $userGroupUpdaters,
+        HtmlDecoder $htmlDecoder
     ) {
         parent::__construct($module, $type);
         $this->translator = $translator;
@@ -77,6 +87,8 @@ class Website extends ConfigurationStep
         $this->updateManager = $updateManager;
         $this->commandUtil = $commandUtil;
         $this->userGroupUpdaters = $userGroupUpdaters;
+        $this->htmlDecoder = $htmlDecoder;
+        $this->language = \Contao\BackendUser::getInstance()->language;
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Title'];
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
@@ -100,6 +112,7 @@ class Website extends ConfigurationStep
         $this->addTextField('sgOwnerDpoName', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerDpoName'], $config->getSgOwnerDpoName(), true);
         $this->addTextField('sgOwnerDpoEmail', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgOwnerDpoEmail'], $config->getSgOwnerDpoEmail(), true);
         $this->addTextField('sgGoogleFonts', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgGoogleFonts'], implode(',', $config->getSgGoogleFonts()), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['sgGoogleFontsHelp']);
+        $this->addCheckboxField('doBackup', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['doBackup'], '1', true, false, '', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['doBackupHelp']);
     }
 
     public function getFilledTemplate(): FrontendTemplate
@@ -187,6 +200,9 @@ class Website extends ConfigurationStep
         $themeId = $this->createTheme();
         $this->updateModuleConfigurationTheme($themeId);
 
+        $imageSizes = $this->createImageSizes($themeId);
+        $this->updateModuleConfigurationImageSizes($imageSizes);
+
         $modules = $this->createModules($themeId);
 
         $layouts = $this->createLayouts($themeId, $modules);
@@ -212,17 +228,27 @@ class Website extends ConfigurationStep
 
         $notificationGateways = $this->createNotificationGateways();
         $this->updateModuleConfigurationNotificationGateways($notificationGateways);
+
+        $notificationSupport = $this->createNotificationSupportGatewayNotification();
+        $this->updateModuleConfigurationNotificationSupportGatewayNotification($notificationSupport);
+
+        $notificationSupportGatewayMessages = $this->createNotificationSupportGatewayMessages($notificationSupport);
+        $this->updateModuleConfigurationNotificationSupportGatewayMessages($notificationSupportGatewayMessages);
+
+        $notificationSupportGatewayMessagesLanguages = $this->createNotificationSupportGatewayMessagesLanguages($notificationSupportGatewayMessages);
+        $this->updateModuleConfigurationNotificationSupportGatewayMessagesLanguages($notificationSupportGatewayMessagesLanguages);
+
         $this->updateUserGroups();
 
         $this->commandUtil->executeCmdPHP('cache:clear');
         $this->commandUtil->executeCmdPHP('contao:symlinks');
 
-        $this->launchMigrations();
+        $this->launchMigrations((bool) Input::post('doBackupHelp'));
     }
 
-    protected function launchMigrations(): void
+    protected function launchMigrations(bool $doBackup): void
     {
-        $updateResult = $this->updateManager->update();
+        $updateResult = $this->updateManager->update($doBackup);
         if ($updateResult->isSuccess()) {
             $this->addConfirm($this->translator->trans('WEMSG.UPDATEMANAGER.RESULT.success', [], 'contao_default'), $this->module);
         } else {
@@ -283,6 +309,101 @@ class Website extends ConfigurationStep
         return (int) $objTheme->id;
     }
 
+    protected function createImageSizes(int $themeId): array
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        $registeredImageSizes = $this->getConfigImageSizesAsFormattedArray();
+        $imageSizes = [];
+
+        $obj16_9 = \array_key_exists('16:9', $registeredImageSizes)
+                            ? ImageSizeModel::findOneById($registeredImageSizes['16:9']) ?? new ImageSizeModel()
+                            : new ImageSizeModel()
+                            ;
+        $obj16_9->pid = $themeId;
+        $obj16_9->tstamp = time();
+        $obj16_9->name = '16:9';
+        $obj16_9->width = '1920';
+        $obj16_9->height = '1080';
+        $obj16_9->densities = '0.5x, 1x, 2x';
+        $obj16_9->resizeMode = 'crop';
+        $obj16_9->lazyLoading = 1;
+        $obj16_9->save();
+        $imageSizes[$obj16_9->name] = $obj16_9;
+
+        $this->setConfigImageSizeKey($obj16_9->name, (int) $obj16_9->id);
+
+        $obj2_1 = \array_key_exists('2:1', $registeredImageSizes)
+                            ? ImageSizeModel::findOneById($registeredImageSizes['2:1']) ?? new ImageSizeModel()
+                            : new ImageSizeModel()
+                            ;
+        $obj2_1->pid = $themeId;
+        $obj2_1->tstamp = time();
+        $obj2_1->name = '2:1';
+        $obj2_1->width = '1920';
+        $obj2_1->height = '960';
+        $obj2_1->densities = '2x';
+        $obj2_1->resizeMode = 'crop';
+        $obj2_1->lazyLoading = 1;
+        $obj2_1->save();
+        $imageSizes[$obj2_1->name] = $obj2_1;
+
+        $this->setConfigImageSizeKey($obj2_1->name, (int) $obj2_1->id);
+
+        $obj1_2 = \array_key_exists('1:2', $registeredImageSizes)
+                            ? ImageSizeModel::findOneById($registeredImageSizes['1:2']) ?? new ImageSizeModel()
+                            : new ImageSizeModel()
+                            ;
+        $obj1_2->pid = $themeId;
+        $obj1_2->tstamp = time();
+        $obj1_2->name = '1:2';
+        $obj1_2->width = '960';
+        $obj1_2->height = '1920';
+        $obj1_2->densities = '0.5x';
+        $obj1_2->resizeMode = 'crop';
+        $obj1_2->lazyLoading = 1;
+        $obj1_2->save();
+        $imageSizes[$obj1_2->name] = $obj1_2;
+
+        $this->setConfigImageSizeKey($obj1_2->name, (int) $obj1_2->id);
+
+        $obj1_1 = \array_key_exists('1:1', $registeredImageSizes)
+                            ? ImageSizeModel::findOneById($registeredImageSizes['1:1']) ?? new ImageSizeModel()
+                            : new ImageSizeModel()
+                            ;
+        $obj1_1->pid = $themeId;
+        $obj1_1->tstamp = time();
+        $obj1_1->name = '1:1';
+        $obj1_1->width = '1920';
+        $obj1_1->height = '1920';
+        $obj1_1->densities = '1x';
+        $obj1_1->resizeMode = 'crop';
+        $obj1_1->lazyLoading = 1;
+        $obj1_1->save();
+        $imageSizes[$obj1_1->name] = $obj1_1;
+
+        $this->setConfigImageSizeKey($obj1_1->name, (int) $obj1_1->id);
+
+        $obj4_3 = \array_key_exists('4:3', $registeredImageSizes)
+                            ? ImageSizeModel::findOneById($registeredImageSizes['4:3']) ?? new ImageSizeModel()
+                            : new ImageSizeModel()
+                            ;
+        $obj4_3->pid = $themeId;
+        $obj4_3->tstamp = time();
+        $obj4_3->name = '4:3';
+        $obj4_3->width = '1920';
+        $obj4_3->height = '1440';
+        $obj4_3->densities = '0.5x, 1x, 2x';
+        $obj4_3->resizeMode = 'crop';
+        $obj4_3->lazyLoading = 1;
+        $obj4_3->save();
+        $imageSizes[$obj4_3->name] = $obj4_3;
+
+        $this->setConfigImageSizeKey($obj4_3->name, (int) $obj4_3->id);
+
+        return $imageSizes;
+    }
+
     protected function createModules(int $themeId): array
     {
         /** @var CoreConfig */
@@ -321,7 +442,7 @@ class Website extends ConfigurationStep
         $objHeaderModule->imgSize = 'a:3:{i:0;s:0:"";i:1;s:3:"100";i:2;s:12:"proportional";}';
         $objHeaderModule->wem_sg_header_sticky = 1;
         $objHeaderModule->wem_sg_header_nav_module = $objNavMain->id;
-        $objHeaderModule->wem_sg_header_alt = 'Logo '.$this->sgConfig['websiteTitle'];
+        $objHeaderModule->wem_sg_header_alt = 'Logo '.$config->getSgWebsiteTitle();
         $objHeaderModule->wem_sg_header_search_parameter = 'keywords';
         $objHeaderModule->wem_sg_header_nav_position = 'right';
         $objHeaderModule->wem_sg_header_panel_position = 'right';
@@ -1009,7 +1130,7 @@ class Website extends ConfigurationStep
             'headline' => serialize(['unit' => 'h1', 'value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapHeadline']]),
         ], ['id' => null !== $content ? $content->id : null]));
 
-        $this->setConfigKey('setSgContentSitemapHeadline', (int) $objContent->id);
+        $this->setConfigKey('setSgContentSitemapHeadline', (int) $contents['headline']->id);
 
         $content = ContentModel::findById($config->getSgContentSitemap());
 
@@ -1017,7 +1138,7 @@ class Website extends ConfigurationStep
             'type' => 'module', 'module' => $modules['sitemap']->id,
         ], ['id' => null !== $content ? $content->id : null]));
 
-        $this->setConfigKey('setSgContentSitemap', (int) $objContent->id);
+        $this->setConfigKey('setSgContentSitemap', (int) $contents['module']->id);
 
         return $contents;
     }
@@ -1091,6 +1212,133 @@ class Website extends ConfigurationStep
         $nc['email'] = $objGateway;
 
         return $nc;
+    }
+
+    protected function createNotificationSupportGatewayNotification(): NotificationModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $nc = NotificationModel::findOneById($config->getSgNotificationSupport()) ?? new NotificationModel();
+        $nc->tstamp = time();
+        $nc->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayNotification', [], 'contao_default');
+        $nc->type = 'ticket_creation';
+        $nc->save();
+
+        $this->setConfigKey('setSgNotificationSupport', (int) $nc->id);
+
+        return $nc;
+    }
+
+    protected function createNotificationSupportGatewayMessagesUser(NotificationModel $gateway): NotificationMessageModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $nm = NotificationMessageModel::findOneById($config->getSgNotificationSupportMessageUser()) ?? new NotificationMessageModel();
+        $nm->pid = $gateway->id;
+        $nm->gateway = $config->getSgNotificationGatewayEmail();
+        $nm->gateway_type = 'email';
+        $nm->tstamp = time();
+        $nm->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayMessageUser', [], 'contao_default');
+        $nm->published = 1;
+        $nm->save();
+
+        $this->setConfigKey('setSgNotificationSupportMessageUser', (int) $nm->id);
+
+        return $nm;
+    }
+
+    protected function createNotificationSupportGatewayMessagesAdmin(NotificationModel $gateway): NotificationMessageModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $nm = NotificationMessageModel::findOneById($config->getSgNotificationSupportMessageAdmin()) ?? new NotificationMessageModel();
+        $nm->pid = $gateway->id;
+        $nm->gateway = $config->getSgNotificationGatewayEmail();
+        $nm->gateway_type = 'email';
+        $nm->tstamp = time();
+        $nm->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayMessageAdmin', [], 'contao_default');
+        $nm->published = 1;
+        $nm->save();
+
+        $this->setConfigKey('setSgNotificationSupportMessageAdmin', (int) $nm->id);
+
+        return $nm;
+    }
+
+    protected function createNotificationSupportGatewayMessages(NotificationModel $gateway): array
+    {
+        return [
+            'user' => $this->createNotificationSupportGatewayMessagesUser($gateway),
+            'admin' => $this->createNotificationSupportGatewayMessagesAdmin($gateway),
+        ];
+    }
+
+    protected function createNotificationSupportGatewayMessagesLanguagesUser(NotificationMessageModel $gatewayMessage): NotificationLanguageModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/dashboard/%s/ticket_mail_user.html', Util::getPublicOrWebDirectory(), $this->language));
+
+        $nl = NotificationLanguageModel::findOneById($config->getSgNotificationSupportMessageUserLanguage()) ?? new NotificationLanguageModel();
+        $nl->pid = $gatewayMessage->id;
+        $nl->tstamp = time();
+        $nl->language = $this->language;
+        $nl->fallback = 1;
+        $nl->recipients = '##sg_owner_email##';
+        $nl->gateway_type = 'email';
+        $nl->email_sender_name = $config->getSgWebsiteTitle();
+        $nl->email_sender_address = '##sg_owner_email##';
+        $nl->email_subject = $this->translator->trans('WEMSG.INSTALL.WEBSITE.subjectNotificationSupportGatewayMessageLanguageUser', [$config->getSgWebsiteTitle()], 'contao_default');
+        $nl->email_mode = 'textAndHtml';
+        $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, false);
+        $nl->email_html = $strText;
+        $nl->attachment_tokens = '##ticket_file##';
+        $nl->save();
+
+        $this->setConfigKey('setSgNotificationSupportMessageUserLanguage', (int) $nl->id);
+
+        return $nl;
+    }
+
+    protected function createNotificationSupportGatewayMessagesLanguagesAdmin(NotificationMessageModel $gatewayMessage): NotificationLanguageModel
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/dashboard/%s/ticket_mail_admin.html', Util::getPublicOrWebDirectory(), $this->language));
+
+        $nl = NotificationLanguageModel::findOneById($config->getSgNotificationSupportMessageAdminLanguage()) ?? new NotificationLanguageModel();
+        $nl->pid = $gatewayMessage->id;
+        $nl->tstamp = time();
+        $nl->language = $this->language;
+        $nl->fallback = 1;
+        $nl->recipients = '##support_email##';
+        $nl->gateway_type = 'email';
+        $nl->email_sender_name = $config->getSgWebsiteTitle();
+        $nl->email_sender_address = '##sg_owner_email##';
+        $nl->email_subject = $this->translator->trans('WEMSG.INSTALL.WEBSITE.subjectNotificationSupportGatewayMessageLanguageUser', [$config->getSgWebsiteTitle()], 'contao_default');
+        $nl->email_mode = 'textAndHtml';
+        $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, false);
+        $nl->email_html = $strText;
+        $nl->email_replyTo = '##sg_owner_email##';
+        $nl->attachment_tokens = '##ticket_file##';
+        $nl->save();
+
+        $this->setConfigKey('setSgNotificationSupportMessageAdminLanguage', (int) $nl->id);
+
+        return $nl;
+    }
+
+    protected function createNotificationSupportGatewayMessagesLanguages(array $gatewayMessages): array
+    {
+        return [
+            'user' => $this->createNotificationSupportGatewayMessagesLanguagesUser($gatewayMessages['user']),
+            'admin' => $this->createNotificationSupportGatewayMessagesLanguagesAdmin($gatewayMessages['admin']),
+        ];
     }
 
     protected function uploadLogo(): File
@@ -1172,6 +1420,21 @@ class Website extends ConfigurationStep
         $this->configurationManager->save($config);
     }
 
+    protected function updateModuleConfigurationImageSizes(array $imageSizes): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $formattedImageSizes = [];
+        foreach ($imageSizes as $key => $objImageSize) {
+            $formattedImageSizes[] = ['key' => $key, 'type' => $objImageSize->name, 'id' => $objImageSize->id];
+        }
+
+        $config->setSgImageSizes($formattedImageSizes);
+
+        $this->configurationManager->save($config);
+    }
+
     protected function updateModuleConfigurationUserAndGroups(array $users, array $groups): void
     {
         /** @var CoreConfig */
@@ -1249,6 +1512,38 @@ class Website extends ConfigurationStep
         $this->configurationManager->save($config);
     }
 
+    protected function updateModuleConfigurationNotificationSupportGatewayNotification(NotificationModel $notificationSupport): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $config->setSgNotificationSupport((int) $notificationSupport->id);
+
+        $this->configurationManager->save($config);
+    }
+
+    protected function updateModuleConfigurationNotificationSupportGatewayMessages(array $notificationSupportMessages): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $config->setSgNotificationSupportMessageUser((int) $notificationSupportMessages['user']->id);
+        $config->setSgNotificationSupportMessageAdmin((int) $notificationSupportMessages['admin']->id);
+
+        $this->configurationManager->save($config);
+    }
+
+    protected function updateModuleConfigurationNotificationSupportGatewayMessagesLanguages(array $notificationSupportMessagesLanguages): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $config->setSgNotificationSupportMessageUserLanguage((int) $notificationSupportMessagesLanguages['user']->id);
+        $config->setSgNotificationSupportMessageAdminLanguage((int) $notificationSupportMessagesLanguages['admin']->id);
+
+        $this->configurationManager->save($config);
+    }
+
     protected function getConfigModulesAsFormattedArray(): array
     {
         /** @var CoreConfig */
@@ -1260,6 +1555,19 @@ class Website extends ConfigurationStep
         }
 
         return $registeredModules;
+    }
+
+    protected function getConfigImageSizesAsFormattedArray(): array
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+        $registeredImageSizes = [];
+        $registeredImageSizesRaw = $config->getSgImageSizes();
+        foreach ($registeredImageSizesRaw as $registeredImageSizeRaw) {
+            $registeredImageSizes[$registeredImageSizeRaw->key] = (int) $registeredImageSizeRaw->id;
+        }
+
+        return $registeredImageSizes;
     }
 
     /**
@@ -1479,6 +1787,7 @@ class Website extends ConfigurationStep
         $userGroupManipulator
             ->addAllowedFilemounts($config->getContaoFoldersIds())
             ->addAllowedPagemounts($config->getContaoPagesIds())
+            ->addAllowedImageSizes($config->getContaoImageSizesIds())
             // ->addAllowedModules(Module::getTypesByIds($config->getContaoModulesIds()))
         ;
 
@@ -1525,6 +1834,7 @@ class Website extends ConfigurationStep
         $layoutModuleHeader = null;
         $layoutModuleFooter = null;
         $layoutModuleBreadcrumb = null;
+        $layoutModuleBreadcrumbIndex = null;
         $layoutModuleContentIndex = null;
         foreach ($layoutModules as $index => $layoutModule) {
             if ((int) $layoutModule['mod'] === (int) $modules['wem_sg_header']->id) {
@@ -1535,14 +1845,17 @@ class Website extends ConfigurationStep
                 unset($layoutModules[$index]);
             } elseif ((int) $layoutModule['mod'] === (int) $modules['breadcrumb']->id) {
                 $layoutModuleBreadcrumb = $layoutModule;
-                unset($layoutModules[$index]);
+                $layoutModuleBreadcrumbIndex = $index;
             } elseif (0 === (int) $layoutModule['mod']) { // content
                 $layoutModuleContentIndex = $index;
             }
         }
 
         // breadcrumb is always placed before content
-        ArrayUtil::arrayInsert($layoutModules, $layoutModuleContentIndex - 1, [$layoutModuleBreadcrumb]);
+        if ($layoutModuleBreadcrumbIndex > $layoutModuleContentIndex) {
+            unset($layoutModules[$layoutModuleBreadcrumbIndex]);
+            ArrayUtil::arrayInsert($layoutModules, $layoutModuleContentIndex - 1, [$layoutModuleBreadcrumb]);
+        }
 
         // Header is always first
         array_unshift($layoutModules, $layoutModuleHeader);
@@ -1579,6 +1892,27 @@ class Website extends ConfigurationStep
         }
 
         $config->setSgModules($formattedModules);
+
+        $this->configurationManager->save($config);
+    }
+
+    private function setConfigImageSizeKey(string $imageSizeName, int $imageSizeId): void
+    {
+        /** @var CoreConfig */
+        $config = $this->configurationManager->load();
+
+        $imageSizes = $config->getSgImageSizes();
+
+        $formattedImageSizes = [];
+        foreach ($imageSizes as $imageSize) {
+            if ($imageSize->name === $imageSizeName) {
+                $formattedImageSizes[] = ['key' => $imageSize->name, 'name' => $imageSizeName, 'id' => $imageSizeId];
+            } else {
+                $formattedImageSizes[] = ['key' => $imageSize->name, 'name' => $imageSize->name, 'id' => $imageSize->id];
+            }
+        }
+
+        $config->setSgImageSizes($formattedImageSizes);
 
         $this->configurationManager->save($config);
     }

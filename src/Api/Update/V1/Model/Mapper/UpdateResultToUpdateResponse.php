@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -23,15 +23,17 @@ class UpdateResultToUpdateResponse
     public function map(UpdateResult $updateResult, UpdateResponse $updateResponse): UpdateResponse
     {
         $updateResponse->setStatus($updateResult->getStatus());
-        $updateResponse->setBackup([
-            'timestamp' => $updateResult->getBackupResult()->getBackup()->getFile()->ctime,
-            'path' => $updateResult->getBackupResult()->getBackup()->getFile()->basename,
-            'source' => $updateResult->getBackupResult()->getBackup()->getSource(),
-            'size' => [
-                'raw' => $updateResult->getBackupResult()->getBackup()->getFile()->size,
-                'human_readable' => Util::humanReadableFilesize((int) $updateResult->getBackupResult()->getBackup()->getFile()->size),
-            ],
-        ]);
+        if ($updateResult->getBackupResult()) {
+            $updateResponse->setBackup([
+                'timestamp' => $updateResult->getBackupResult()->getBackup()->getFile()->ctime,
+                'path' => $updateResult->getBackupResult()->getBackup()->getFile()->basename,
+                'source' => $updateResult->getBackupResult()->getBackup()->getSource(),
+                'size' => [
+                    'raw' => $updateResult->getBackupResult()->getBackup()->getFile()->size,
+                    'human_readable' => Util::humanReadableFilesize((int) $updateResult->getBackupResult()->getBackup()->getFile()->size),
+                ],
+            ]);
+        }
         foreach ($updateResult->getResults() as $item) {
             $updateResponse->addUpdate([
                 // 'update' => \get_class($item->getMigration()),

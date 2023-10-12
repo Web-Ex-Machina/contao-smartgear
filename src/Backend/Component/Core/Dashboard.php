@@ -127,8 +127,8 @@ class Dashboard extends BackendDashboard
             $rootPage->useSSL = 1;
             $rootPage->createSitemap = 1;
             $rootPage->includeCache = 1;
-            $rootPage->clientCache = 84600;
-            $rootPage->cache = 84600;
+            $rootPage->clientCache = 86400;
+            $rootPage->cache = 86400;
             $rootPage->includeChmod = 1;
             $rootPage->cuser = UserModel::findOneById($config->getSgUserWebmaster())->id;
             $rootPage->cgroup = UserGroupModel::findOneById($config->getSgUserGroupAdministrators())->id;

@@ -379,7 +379,7 @@ class General extends ConfigurationStep
         $nl->recipients = '##form_email##';
         $nl->gateway_type = 'email';
         $nl->email_sender_name = $config->getSgWebsiteTitle();
-        $nl->email_sender_address = $config->getSgOwnerEmail();
+        $nl->email_sender_address = '##admin_email##';
         $nl->email_subject = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageUser', [$config->getSgWebsiteTitle(), $formTitle], 'contao_default');
         $nl->email_mode = 'textAndHtml';
         $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, false);

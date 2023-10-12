@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -28,6 +28,8 @@ class General extends ConfigurationStep
 {
     /** @var ConfigurationManager */
     protected $configurationManager;
+    /** @var LocalConfigManager */
+    protected $localConfigManager;
     /** @var CommandUtil */
     protected $commandUtil;
     /** @var array */
@@ -77,8 +79,8 @@ class General extends ConfigurationStep
         $this->addTextField('sgAnalyticsGoogleId', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsGoogleId'], $config->getSgAnalyticsGoogleId(), false);
         $this->addTextField('sgAnalyticsMatomoId', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsMatomoId'], $config->getSgAnalyticsMatomoId(), false);
         $this->addTextField('sgAnalyticsMatomoHost', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsMatomoHost'], $config->getSgAnalyticsMatomoHost(), false);
-        $this->addTextField('sgApiKey', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgApiKey'], $config->getSgApiKey(), false);
-        $this->addTextField('sgEncryptionKey', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgEncryptionKey'], $config->getSgEncryptionKey(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgEncryptionKeyHelp']);
+        $this->addTextField('sgApiKey', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgApiKey'], !empty($config->getSgApiKey()) ? $config->getSgApiKey() : StringUtil::generateKey(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgApiKeyHelp']);
+        $this->addTextField('sgEncryptionKey', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgEncryptionKey'], !empty($config->getSgEncryptionKey()) ? $config->getSgEncryptionKey() : StringUtil::generateKey(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgEncryptionKeyHelp']);
         $this->addTextField('sgAirtableApiKey', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKey'], $config->getSgAirtableApiKey(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKey']);
         $this->addTextField('sgAirtableApiKeyForRead', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKeyForRead'], $config->getSgAirtableApiKeyForRead(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKeyForRead']);
         $this->addTextField('sgAirtableApiKeyForWrite', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKeyForWrite'], $config->getSgAirtableApiKeyForWrite(), false, '', 'text', '', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAirtableApiKeyForWrite']);
@@ -223,44 +225,7 @@ class General extends ConfigurationStep
         ->setSgOwnerDomain(\Contao\Environment::get('base'))
         ->setSgOwnerHost(CoreConfig::DEFAULT_OWNER_HOST)
         ->setRejectLargeUploads(true)
-        ->setFileusageSkipReplaceInsertTags(true)
-        ->setFileusageSkipDatabase(true)
-        ->setImageSizes([
-            '_defaults' => [
-                'formats' => [
-                    'jpg' => ['jpg', 'jpeg'],
-                    'png' => ['png'],
-                    'gif' => ['gif'],
-                ],
-                'lazy_loading' => true,
-                'resize_mode' => 'crop',
-            ],
-            '16-9' => [
-                'width' => 1920,
-                'height' => 1080,
-                'densities' => '0.5x, 1x, 2x',
-            ],
-            '2-1' => [
-                'width' => 1920,
-                'height' => 960,
-                'densities' => '2x',
-            ],
-            '1-2' => [
-                'width' => 960,
-                'height' => 1920,
-                'densities' => '0.5x',
-            ],
-            '1-1' => [
-                'width' => 1920,
-                'height' => 1920,
-                'densities' => '1x',
-            ],
-            '4-3' => [
-                'width' => 1920,
-                'height' => 1440,
-                'densities' => '0.5x, 1x, 2x',
-            ],
-        ])
+        ->setFileusageSkipReplaceInsertTags(true) // Still needed on some installations
         ;
 
         $this->localConfigManager->save($config);

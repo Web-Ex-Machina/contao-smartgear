@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -42,6 +42,7 @@ use NotificationCenter\Model\Message as NcMessageModel;
 use NotificationCenter\Model\Notification as NcNotificationModel;
 use WEM\SmartgearBundle\Backup\BackupManager;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
+use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Blog\Preset as BlogPresetConfig;
@@ -56,7 +57,6 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Model\Member;
 use WEM\SmartgearBundle\Override\Controller;
 use WEM\SmartgearBundle\Update\UpdateManager;
-use WEM\UtilsBundle\Classes\StringUtil;
 
 /**
  * Back end module "smartgear".
@@ -240,6 +240,7 @@ class Smartgear extends \Contao\BackendModule
         if (!$coreConfig->getSgInstallComplete()) {
             $coreBlock = System::getContainer()->get('smartgear.backend.component.core.block');
             $arrBlocks[$coreBlock->getType()][] = $coreBlock->parse();
+            $this->getConfigurationManagerButton();
         } else {
             // Retrieve number of updates to play if session key is undefined
             // @todo : find a way to update this value after an update by the Contao-Manager
@@ -380,7 +381,7 @@ class Smartgear extends \Contao\BackendModule
         if ('play' === Input::get('act')) {
             try {
                 set_time_limit(0);
-                $result = $this->updateManager->update();
+                $result = $this->updateManager->update((bool) Input::get('backup'));
                 $this->objSession->set('wem_sg_update_update_result', $result);
 
                 // Add Message
@@ -390,7 +391,7 @@ class Smartgear extends \Contao\BackendModule
             }
 
             // And redirect
-            Controller::redirect(str_replace('&act=play', '', Environment::get('request')));
+            Controller::redirect(str_replace(['&act=play', '&backup=1', '&backup=0'], '', Environment::get('request')));
         }
 
         // Retrieve eventual logs
@@ -413,9 +414,12 @@ class Smartgear extends \Contao\BackendModule
         $this->getBackButton(str_replace('&key=updatemanager', '', Environment::get('request')));
 
         // play updates button
-        $this->Template->playUpdatesButtonHref = $this->addToUrl('&act=play');
-        $this->Template->playUpdatesButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesBTTitle']);
-        $this->Template->playUpdatesButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesBT'];
+        $this->Template->playUpdatesWithoutBackupButtonHref = $this->addToUrl('&act=play&backup=0');
+        $this->Template->playUpdatesWithoutBackupButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBTTitle']);
+        $this->Template->playUpdatesWithoutBackupButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBT'];
+        $this->Template->playUpdatesWithBackupButtonHref = $this->addToUrl('&act=play&backup=1');
+        $this->Template->playUpdatesWithBackupButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithBackupBTTitle']);
+        $this->Template->playUpdatesWithBackupButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithBackupBT'];
     }
 
     /**
@@ -455,7 +459,6 @@ class Smartgear extends \Contao\BackendModule
 
     protected function getBackButton($strHref = ''): void
     {
-        // Back button
         $this->Template->backButtonHref = $strHref ?: Environment::get('request');
         $this->Template->backButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']);
         $this->Template->backButtonButton = $GLOBALS['TL_LANG']['MSC']['backBT'];
@@ -463,7 +466,6 @@ class Smartgear extends \Contao\BackendModule
 
     protected function getBackupManagerButton(): void
     {
-        // Backup manager button
         $this->Template->backupManagerBtnHref = $this->addToUrl('&key=backupmanager');
         $this->Template->backupManagerBtnTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['backupManagerBTTitle']);
         $this->Template->backupManagerBtnButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['backupManagerBT'];
@@ -471,7 +473,6 @@ class Smartgear extends \Contao\BackendModule
 
     protected function getUpdateManagerButton(): void
     {
-        // Backup manager button
         $this->Template->updateManagerBtnHref = $this->addToUrl('&key=updatemanager');
         $this->Template->updateManagerBtnTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['updateManagerBTTitle']);
         $this->Template->updateManagerBtnButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['updateManagerBT'];
@@ -479,7 +480,6 @@ class Smartgear extends \Contao\BackendModule
 
     protected function getConfigurationManagerButton(): void
     {
-        // Backup manager button
         $this->Template->configurationManagerBtnHref = $this->addToUrl('&key=configurationmanager');
         $this->Template->configurationManagerBtnTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['configurationManagerBTTitle']);
         $this->Template->configurationManagerBtnButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['configurationManagerBT'];
@@ -503,6 +503,7 @@ class Smartgear extends \Contao\BackendModule
                 ->setSgAnalyticsMatomoHost(Input::post('core')['analyticsMatomoHost'])
                 ->setSgAnalyticsMatomoId(Input::post('core')['analyticsMatomoId'])
                 ->setSgOwnerName(Input::post('core')['ownerName'])
+                ->setSgOwnerEmail(Input::post('core')['ownerEmail'])
                 ->setSgOwnerDomain(Input::post('core')['ownerDomain'])
                 ->setSgOwnerHost(Input::post('core')['ownerHost'])
                 ->setSgOwnerLogo(Input::post('core')['ownerLogo'])
@@ -539,6 +540,12 @@ class Smartgear extends \Contao\BackendModule
                 ->setSgUserGroupRedactors(Input::post('core')['userGroupRedactors'] ? (int) Input::post('core')['userGroupRedactors'] : null)
                 ->setSgUserGroupAdministrators(Input::post('core')['userGroupAdministrators'] ? (int) Input::post('core')['userGroupAdministrators'] : null)
                 ->setSgNotificationGatewayEmail(Input::post('core')['notificationGatewayEmail'] ? (int) Input::post('core')['notificationGatewayEmail'] : null)
+                ->setSgNotificationSupport(Input::post('core')['notificationSupport'] ? (int) Input::post('core')['notificationSupport'] : null)
+                ->setSgNotificationSupportMessageAdmin(Input::post('core')['notificationSupportMessageAdmin'] ? (int) Input::post('core')['notificationSupportMessageAdmin'] : null)
+                ->setSgNotificationSupportMessageAdminLanguage(Input::post('core')['notificationSupportMessageAdminLanguage'] ? (int) Input::post('core')['notificationSupportMessageAdminLanguage'] : null)
+                ->setSgNotificationSupportMessageUser(Input::post('core')['notificationSupportMessageUser'] ? (int) Input::post('core')['notificationSupportMessageUser'] : null)
+                ->setSgNotificationSupportMessageUserLanguage(Input::post('core')['notificationSupportMessageUserLanguage'] ? (int) Input::post('core')['notificationSupportMessageUserLanguage'] : null)
+
                 // ->setSgModules(Input::post('core')['modules'])
                 ->setSgApiKey(Input::post('core')['apiKey'])
                 ->setSgEncryptionKey(Input::post('core')['encryptionKey'])
@@ -574,22 +581,37 @@ class Smartgear extends \Contao\BackendModule
                 ->setSgContentList(Input::post('blog')['contentList'] ? (int) Input::post('blog')['contentList'] : null)
                 ->setSgModuleReader(Input::post('blog')['moduleReader'] ? (int) Input::post('blog')['moduleReader'] : null)
                 ->setSgModuleList(Input::post('blog')['moduleList'] ? (int) Input::post('blog')['moduleList'] : null)
-                ->setSgCurrentPresetIndex((int) Input::post('blog')['currentPresetIndex'])
             ;
+
             $arrBlogPresets = [];
-            foreach ($blogConfig->getSgPresets() as $index => $preset) {
-                /** @var BlogPresetConfig */
-                $preset = $preset;
-                $preset
-                    ->setSgNewsFolder(Input::post('blog')['presets'][$index]['newsFolder'] ?? BlogPresetConfig::DEFAULT_FOLDER_PATH)
-                    ->setSgNewsArchiveTitle(Input::post('blog')['presets'][$index]['newsArchiveTitle'] ?? BlogPresetConfig::DEFAULT_ARCHIVE_TITLE)
-                    ->setSgNewsListPerPage((int) Input::post('blog')['presets'][$index]['newsListPerPage'])
-                    ->setSgPageTitle(Input::post('blog')['presets'][$index]['pageTitle'] ?? BlogPresetConfig::DEFAULT_PAGE_TITLE)
-                ;
-                $arrBlogPresets[] = $preset;
+            $arrBlogPresetsExisting = $blogConfig->getSgPresets();
+            if (!empty($arrBlogPresetsExisting)) {
+                foreach ($arrBlogPresetsExisting as $index => $preset) {
+                    /** @var BlogPresetConfig */
+                    $preset = $preset;
+                    $preset
+                        ->setSgNewsFolder(Input::post('blog')['presets'][$index]['newsFolder'] ?? BlogPresetConfig::DEFAULT_FOLDER_PATH)
+                        ->setSgNewsArchiveTitle(Input::post('blog')['presets'][$index]['newsArchiveTitle'] ?? BlogPresetConfig::DEFAULT_ARCHIVE_TITLE)
+                        ->setSgNewsListPerPage((int) Input::post('blog')['presets'][$index]['newsListPerPage'])
+                        ->setSgPageTitle(Input::post('blog')['presets'][$index]['pageTitle'] ?? BlogPresetConfig::DEFAULT_PAGE_TITLE)
+                    ;
+                    $arrBlogPresets[] = $preset;
+                }
+            } else {
+                foreach (Input::post('blog')['presets'] as $index => $presetConfig) {
+                    $preset = new BlogPresetConfig();
+                    $preset
+                        ->setSgNewsFolder($presetConfig['newsFolder'] ?? BlogPresetConfig::DEFAULT_FOLDER_PATH)
+                        ->setSgNewsArchiveTitle($presetConfig['newsArchiveTitle'] ?? BlogPresetConfig::DEFAULT_ARCHIVE_TITLE)
+                        ->setSgNewsListPerPage((int) $presetConfig['newsListPerPage'])
+                        ->setSgPageTitle($presetConfig['pageTitle'] ?? BlogPresetConfig::DEFAULT_PAGE_TITLE)
+                    ;
+                    $arrBlogPresets[] = $preset;
+                }
             }
 
             $blogConfig->setSgPresets($arrBlogPresets);
+            $blogConfig->setSgCurrentPresetIndex((int) Input::post('blog')['currentPresetIndex']); // wait for presets to be saved
             $coreConfig->setSgBlog($blogConfig);
         }
 
@@ -824,9 +846,16 @@ class Smartgear extends \Contao\BackendModule
 
             $coreConfig->setSgExtranet($extranetConfig);
         }
+        /**
+         * Even if $coreConfig is a copy by value and not by reference
+         * Reloading the configuration when doing a backup
+         * do have an influence on $coreConfig ...
+         * So let's clone it to avoid any trouble.
+         */
+        $coreConfig2 = clone $coreConfig;
 
         $this->coreConfigurationManager->createBackupFile();
-        $this->coreConfigurationManager->save($coreConfig);
+        $this->coreConfigurationManager->save($coreConfig2);
     }
 
     private function fillConfigurationManagerForm(): void
@@ -842,7 +871,7 @@ class Smartgear extends \Contao\BackendModule
             while ($themes->next()) {
                 $objTheme = $themes->current();
                 $arrThemes[$objTheme->id] = [
-                    'value' => $objTheme->id,
+                    'value' => (int) $objTheme->id,
                     'text' => $objTheme->name,
                     'selected' => false,
                 ];
@@ -853,7 +882,7 @@ class Smartgear extends \Contao\BackendModule
                         $objModule = $modules->current();
                         // $arrLayouts[$objTheme->id]['options'][$objModule->id] = [
                         $arrModules[$objModule->id] = [
-                            'value' => $objModule->id,
+                            'value' => (int) $objModule->id,
                             'text' => $objTheme->name.' | '.$objModule->name.' ('.$objModule->type.')',
                             'selected' => false,
                         ];
@@ -871,7 +900,7 @@ class Smartgear extends \Contao\BackendModule
                         $objLayout = $layouts->current();
                         // $arrLayouts[$objTheme->id]['options'][$objLayout->id] = [
                         $arrLayouts[$objLayout->id] = [
-                            'value' => $objLayout->id,
+                            'value' => (int) $objLayout->id,
                             'text' => $objTheme->name.' | '.$objLayout->name,
                             'selected' => false,
                         ];
@@ -889,7 +918,7 @@ class Smartgear extends \Contao\BackendModule
                                 $objPage = $pages->current();
                                 // $arrPages[$objTheme->id]['options'][$objPage->id] = [
                                 $arrPages[$objPage->id] = [
-                                    'value' => $objPage->id,
+                                    'value' => (int) $objPage->id,
                                     // 'text' => $objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.')',
                                     'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.')',
                                     'selected' => false,
@@ -908,7 +937,7 @@ class Smartgear extends \Contao\BackendModule
                                         $objArticle = $articles->current();
                                         // $arrArticles[$objPage->id]['options'][$objArticle->id] = [
                                         $arrArticles[$objArticle->id] = [
-                                            'value' => $objArticle->id,
+                                            'value' => (int) $objArticle->id,
                                             // 'text' => $objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->type.')',
                                             'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.') | '.$objArticle->sorting.' - '.$objArticle->title,
                                             'selected' => false,
@@ -927,7 +956,7 @@ class Smartgear extends \Contao\BackendModule
                                                 $objContent = $contents->current();
                                                 // $arrContents[$objArticle->id]['options'][$objContent->id] = [
                                                 $arrContents[$objContent->id] = [
-                                                    'value' => $objContent->id,
+                                                    'value' => (int) $objContent->id,
                                                     // 'text' => $objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
                                                     'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.') | '.$objArticle->sorting.' - '.$objArticle->title.' | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
                                                     'selected' => false,
@@ -953,7 +982,7 @@ class Smartgear extends \Contao\BackendModule
                 $objPage = $pages->current();
                 // $arrPages[0]['options'][$pages->id] = [
                 $arrPages[$pages->id] = [
-                    'value' => $objPage->id,
+                    'value' => (int) $objPage->id,
                     'text' => 'No theme | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.')',
                     'selected' => false,
                 ];
@@ -970,7 +999,7 @@ class Smartgear extends \Contao\BackendModule
                         $objArticle = $articles->current();
                         // $arrArticles[$objPage->id]['options'][$objArticle->id] = [
                         $arrArticles[$objArticle->id] = [
-                            'value' => $objArticle->id,
+                            'value' => (int) $objArticle->id,
                             // 'text' => $objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->type.')',
                             'text' => 'No theme | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.') | '.$objArticle->sorting.' - '.$objArticle->title,
                             'selected' => false,
@@ -989,7 +1018,7 @@ class Smartgear extends \Contao\BackendModule
                                 $objContent = $contents->current();
                                 // $arrContents[$objArticle->id]['options'][$objContent->id] = [
                                 $arrContents[$objContent->id] = [
-                                    'value' => $objContent->id,
+                                    'value' => (int) $objContent->id,
                                     // 'text' => $objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
                                     'text' => 'No theme | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.') | '.$objArticle->sorting.' - '.$objArticle->title.' | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
                                     'selected' => false,
@@ -1006,7 +1035,7 @@ class Smartgear extends \Contao\BackendModule
         if ($userGroups) {
             while ($userGroups->next()) {
                 $arrUserGroups[$userGroups->id] = [
-                    'value' => $userGroups->id,
+                    'value' => (int) $userGroups->id,
                     'text' => $userGroups->name,
                 ];
             }
@@ -1017,7 +1046,7 @@ class Smartgear extends \Contao\BackendModule
         if ($users) {
             while ($users->next()) {
                 $arrUsers[$users->id] = [
-                    'value' => $users->id,
+                    'value' => (int) $users->id,
                     'text' => $users->name,
                 ];
             }
@@ -1028,7 +1057,7 @@ class Smartgear extends \Contao\BackendModule
         if ($gateways) {
             while ($gateways->next()) {
                 $arrNcGateways[$gateways->id] = [
-                    'value' => $gateways->id,
+                    'value' => (int) $gateways->id,
                     'text' => $gateways->title.' ('.$gateways->type.')',
                 ];
             }
@@ -1042,7 +1071,7 @@ class Smartgear extends \Contao\BackendModule
         if ($notifications) {
             while ($notifications->next()) {
                 $arrNcNotifications[$notifications->id] = [
-                    'value' => $notifications->id,
+                    'value' => (int) $notifications->id,
                     'text' => $notifications->title.' ('.$notifications->type.')',
                 ];
 
@@ -1050,7 +1079,7 @@ class Smartgear extends \Contao\BackendModule
                 if ($messages) {
                     while ($messages->next()) {
                         $arrNcMessages[$messages->id] = [
-                            'value' => $messages->id,
+                            'value' => (int) $messages->id,
                             'text' => $notifications->title.' ('.$notifications->type.') | '.$messages->title.' ('.$messages->gateway_type.')',
                         ];
 
@@ -1058,7 +1087,7 @@ class Smartgear extends \Contao\BackendModule
                         if ($languages) {
                             while ($languages->next()) {
                                 $arrNcLanguages[$languages->id] = [
-                                    'value' => $languages->id,
+                                    'value' => (int) $languages->id,
                                     'text' => $notifications->title.' ('.$notifications->type.') | '.$messages->title.' ('.$messages->gateway_type.') | '.$languages->language,
                                 ];
                             }
@@ -1126,6 +1155,7 @@ class Smartgear extends \Contao\BackendModule
             'analyticsMatomoHost' => $coreConfig->getSgAnalyticsMatomoHost() ?? CoreConfig::DEFAULT_ANALYTICS_SYSTEM_MATOMO_HOST,
             'analyticsMatomoId' => $coreConfig->getSgAnalyticsMatomoId(),
             'ownerName' => $coreConfig->getSgOwnerName(),
+            'ownerEmail' => $coreConfig->getSgOwnerEmail(),
             'ownerDomain' => $coreConfig->getSgOwnerDomain(),
             'ownerHost' => $coreConfig->getSgOwnerHost() ?? CoreConfig::DEFAULT_OWNER_HOST,
             'ownerLogo' => $coreConfig->getSgOwnerLogo(),
@@ -1162,15 +1192,20 @@ class Smartgear extends \Contao\BackendModule
             'userGroupRedactors' => $coreConfig->getSgUserGroupRedactors(),
             'userGroupAdministrators' => $coreConfig->getSgUserGroupAdministrators() ?? CoreConfig::DEFAULT_USER_GROUP_ADMIN_NAME,
             'notificationGatewayEmail' => $coreConfig->getSgNotificationGatewayEmail(),
+            'notificationSupport' => $coreConfig->getSgNotificationSupport(),
+            'notificationSupportMessageAdmin' => $coreConfig->getSgNotificationSupportMessageAdmin(),
+            'notificationSupportMessageAdminLanguage' => $coreConfig->getSgNotificationSupportMessageAdminLanguage(),
+            'notificationSupportMessageUser' => $coreConfig->getSgNotificationSupportMessageUser(),
+            'notificationSupportMessageUserLanguage' => $coreConfig->getSgNotificationSupportMessageUserLanguage(),
             // 'modules' => $coreConfig->getSgModules(),
-            'apiKey' => $coreConfig->getSgApiKey() ?? CoreConfig::DEFAULT_API_KEY,
-            'encryptionKey' => $coreConfig->getSgEncryptionKey() ?? CoreConfig::DEFAULT_ENCRYPTION_KEY,
+            'apiKey' => $coreConfig->getSgApiKey() ?? StringUtil::generateKey(),
+            'encryptionKey' => $coreConfig->getSgEncryptionKey() ?? StringUtil::generateKey(),
             'airtableApiKey' => $coreConfig->getSgAirtableApiKey(),
             'airtableApiKeyForRead' => $coreConfig->getSgAirtableApiKeyForRead(),
             'airtableApiKeyForWrite' => $coreConfig->getSgAirtableApiKeyForWrite(),
         ];
         foreach ($coreConfig->getSgModules() as $module) {
-            $core['modules'][$module->key] = $module->id;
+            $core['modules'][$module->key] = (int) $module->id;
         }
 
         $this->Template->core = $core;
@@ -1211,7 +1246,7 @@ class Smartgear extends \Contao\BackendModule
                 $objNA = $newsArchives->current();
                 $arrNewsArchives[$objNA->id] = [
                     'text' => $objNA->title,
-                    'value' => $objNA->id,
+                    'value' => (int) $objNA->id,
                     'selected' => false,
                 ];
             }
@@ -1301,7 +1336,7 @@ class Smartgear extends \Contao\BackendModule
             while ($calendars->next()) {
                 $objCalendar = $calendars->current();
                 $arrCalendars[$objCalendar->id] = [
-                    'value' => $objCalendar->id,
+                    'value' => (int) $objCalendar->id,
                     'text' => $objCalendar->title,
                 ];
             }
@@ -1353,7 +1388,7 @@ class Smartgear extends \Contao\BackendModule
             while ($faqCategories->next()) {
                 $objFaqCategory = $faqCategories->current();
                 $arrFaqCategories[$objFaqCategory->id] = [
-                    'value' => $objFaqCategory->id,
+                    'value' => (int) $objFaqCategory->id,
                     'text' => $objFaqCategory->title,
                 ];
             }
@@ -1402,7 +1437,7 @@ class Smartgear extends \Contao\BackendModule
             while ($forms->next()) {
                 $objForm = $forms->current();
                 $arrForms[$objForm->id] = [
-                    'value' => $objForm->id,
+                    'value' => (int) $objForm->id,
                     'text' => $objForm->title,
                 ];
                 $fields = FormFieldModel::findBy('pid', $objForm->id);
@@ -1410,7 +1445,7 @@ class Smartgear extends \Contao\BackendModule
                     while ($fields->next()) {
                         $objField = $fields->current();
                         $arrFields[$objField->id] = [
-                            'value' => $objField->id,
+                            'value' => (int) $objField->id,
                             'text' => $objForm->title.' | '.$objField->name.' ('.$objField->type.')',
                         ];
                     }
@@ -1503,7 +1538,7 @@ class Smartgear extends \Contao\BackendModule
             while ($members->next()) {
                 $objMember = $members->current();
                 $arrMembers[$objMember->id] = [
-                    'value' => $objMember->id,
+                    'value' => (int) $objMember->id,
                     'text' => $objMember->firstname.' '.$objMember->lastname.' ('.$objMember->email.')',
                 ];
             }
@@ -1515,7 +1550,7 @@ class Smartgear extends \Contao\BackendModule
             while ($memberGroups->next()) {
                 $objMemberGroup = $memberGroups->current();
                 $arrMemberGroups[$objMemberGroup->id] = [
-                    'value' => $objMemberGroup->id,
+                    'value' => (int) $objMemberGroup->id,
                     'text' => $objMemberGroup->name,
                 ];
             }

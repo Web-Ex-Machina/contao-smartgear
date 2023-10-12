@@ -87,6 +87,7 @@
 				
 				<!-- owner -->
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerName','name'=>'core[ownerName]','type'=>'text','value'=>$this->core['ownerName']]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerEmail','name'=>'core[ownerEmail]','type'=>'text','value'=>$this->core['ownerEmail']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerDomain','name'=>'core[ownerDomain]','type'=>'text','value'=>$this->core['ownerDomain']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerHost','name'=>'core[ownerHost]','type'=>'text','value'=>$this->core['ownerHost']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerLogo','name'=>'core[ownerLogo]','type'=>'text','value'=>$this->core['ownerLogo']]); ?>
@@ -136,8 +137,13 @@
 
 				<!-- notifications -->
 				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_notificationGatewayEmail','name'=>'core[notificationGatewayEmail]','value'=>$this->core['notificationGatewayEmail'],'options'=>$this->ncGateways]); ?>
-				<!-- modules -->
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_notificationSupport','name'=>'core[notificationSupport]','value'=>$this->core['notificationSupport'],'options'=>$this->ncNotifications]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_notificationSupportMessageAdmin','name'=>'core[notificationSupportMessageAdmin]','value'=>$this->core['notificationSupportMessageAdmin'],'options'=>$this->ncMessages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_notificationSupportMessageAdminLanguage','name'=>'core[notificationSupportMessageAdminLanguage]','value'=>$this->core['notificationSupportMessageAdminLanguage'],'options'=>$this->ncLanguages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_notificationSupportMessageUser','name'=>'core[notificationSupportMessageUser]','value'=>$this->core['notificationSupportMessageUser'],'options'=>$this->ncMessages]); ?>
+				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_notificationSupportMessageUserLanguage','name'=>'core[notificationSupportMessageUserLanguage]','value'=>$this->core['notificationSupportMessageUserLanguage'],'options'=>$this->ncLanguages]); ?>
 
+				<!-- modules -->
 				<?php foreach($this->core['modules'] as $key => $id): ?>
 					<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_module_'.$key,'name'=>'core[modules]['.$key.']','value'=>$id,'options'=>$this->modules]); ?>
 				<?php endforeach; ?>
@@ -375,7 +381,6 @@
 				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_article403','name'=>'extranet[article403]','value'=>$this->extranet['article403'],'options'=>$this->articles]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle403Headline','name'=>'extranet[contentArticle403Headline]','value'=>$this->extranet['contentArticle403Headline'],'options'=>$this->contents]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle403Text','name'=>'extranet[contentArticle403Text]','value'=>$this->extranet['contentArticle403Text'],'options'=>$this->contents]); ?>
-				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_contentArticle403ModuleLoginGuests','name'=>'extranet[contentArticle403ModuleLoginGuests]','value'=>$this->extranet['contentArticle403ModuleLoginGuests'],'options'=>$this->contents]); ?>
 
 
 				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'extranet_pageContent','name'=>'extranet[pageContent]','value'=>$this->extranet['pageContent'],'options'=>$this->pages]); ?>

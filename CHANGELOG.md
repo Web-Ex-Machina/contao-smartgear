@@ -1,6 +1,33 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.21 - 2023-10-12
+- Smartgear : Content deletion unallowed even by admin fix
+- Smartgear : Dashboard statistics for visits do not register AJAX requests anymore
+- Smartgear : Smartgear's API `version` endpoint now returns PHP, Contao `core-bundle` & Framway's version
+- Smartgear : Do not register visits if not pointing on a page
+- Smartgear : Dashboard now show informations about all root pages domains instead of the one filled in Smartgear's configuration
+- Smartgear : Dashboard ticket's creation now sends a confirmation to user + ticket copy to admins
+- Smartgear : Users have to select an image size for contents, unless they are granted the expert role
+- Smartgear : FileUsage bundle configuration updated
+- Smartgear : Adding `##useful_data##` & `##useful_data_filled##` tokens for forms' notifications
+- Smartgear : Form to update configuration file available even if SG is not installed
+- Smartgear : When checking Framway's installation, the `assets/framway/build/combined/_config.scss` file existence is now checked
+- Smartgear : A warning message is displayed in files management in BE, reminding the user that she/he must own the rights to the file before uploading it
+- Smartgear : A system to tag items as "to update before"
+- Smartgear : Update Manager can now plays migrations without creating a backup
+- Smartgear : Backup Manager now split files > 2,5Go in smaller files (avoid memory limit overflow, but isn't faster)
+- Smartgear : `smartgear:udpate:update` now accepts `--nobackup` option
+- Smartgear : `smartgear:backup:list` now shows backup's source
+- Smartgear : reverted to previous rules for `https` & `www` redirections in `.htaccess`
+- FormContact : Sender's address is now `##admin_email##` token instead of Smartgear's Owner' email address
+- StyleManager : the `rsce_listLogos` now has the same options as `rsce_listIcons`
+- StyleManager : the `headline` now has an `alignement` option
+- StyleManager : Fix color translation
+- Extranet : Fix password requirements
+- Extranet : Fix data lost when editing member in FE
+- General : bundle now requires [webexmachina/contao-utils](https://github.com/Web-Ex-Machina/contao-utils) ^1.0
+
 1.0.20 - 2023-08-04
 - Smartgear : fixing files at `/templates`'s root being deleted when updating Smartgear.
 

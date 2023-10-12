@@ -3,6 +3,7 @@ FROM $image AS web_base
 ARG prj_name
 ARG workdir_contao_public
 ARG ssl_port
+ARG php_port
 
 RUN usermod -u 1000 www-data \
     && groupmod -g 1000 www-data
@@ -29,6 +30,7 @@ RUN  sed -i 's~#Include conf/extra/httpd-vhosts.conf~Include conf/extra/httpd-vh
 	&& sed -i "s~{{workdir_contao_public}}~$workdir_contao_public~g" /usr/local/apache2/conf/extra/httpd-vhosts.conf \
 	&& sed -i "s~{{prj_name}}~$prj_name~g" /usr/local/apache2/conf/extra/httpd-vhosts.conf \
 	&& sed -i "s~{{ssl_port}}~$ssl_port~g" /usr/local/apache2/conf/extra/httpd-vhosts.conf \
+	# && sed -i "s~php:9000~php:$php_port~g" /usr/local/apache2/conf/extra/httpd-vhosts.conf \
 	&& sed -i "s~Listen 443~Listen 443\nListen $ssl_port~g" /usr/local/apache2/conf/extra/httpd-ssl.conf \
 	&& sed -i "s~conf/server.crt~ssl/server.crt~g" /usr/local/apache2/conf/extra/httpd-ssl.conf \
 	&& sed -i "s~conf/server.key~ssl/server.key~g" /usr/local/apache2/conf/extra/httpd-ssl.conf

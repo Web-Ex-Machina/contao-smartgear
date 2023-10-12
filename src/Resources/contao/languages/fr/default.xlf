@@ -3,41 +3,89 @@
     <body>
     	<!-- Contao Overrides -->
     	<trans-unit id="MSC.clearClipboard">
-			<source>Cancel</source>
-			<target>Annuler</target>
-		</trans-unit>
-    <trans-unit id="CTE.table.0">
-      <source>Table</source>
-      <target>Tableau</target>
-    </trans-unit>
-    <trans-unit id="CTE.accordionStart.0">
-      <source>Wrapper start</source>
-      <target>Accordéon - Début</target>
-    </trans-unit>
-    <trans-unit id="CTE.accordionStop.0">
-      <source>Wrapper stop</source>
-      <target>Accordéon - Fin</target>
-    </trans-unit>
-    <trans-unit id="CTE.slider">
-      <source>Content slider</source>
-      <target>Slider</target>
-    </trans-unit>
-    <trans-unit id="CTE.sliderStart.0">
-      <source>Wrapper start</source>
-      <target>Slider - Début</target>
-    </trans-unit>
-    <trans-unit id="CTE.sliderStop.0">
-      <source>Wrapper stop</source>
-      <target>Slider - Fin</target>
-    </trans-unit>
-    <trans-unit id="CTE.hyperlink.0">
-      <source>Hyperlink</source>
-      <target>Lien</target>
-    </trans-unit>
-    <trans-unit id="CTE.banner">
-      <source>Banner</source>
-      <target>Bannière</target>
-    </trans-unit>
+				<source>Cancel</source>
+				<target>Annuler</target>
+			</trans-unit>
+    	<trans-unit id="MSC.second">
+				<source>Second</source>
+				<target>Seconde</target>
+			</trans-unit>
+    	<trans-unit id="MSC.seconds">
+				<source>Seconds</source>
+				<target>Secondes</target>
+			</trans-unit>
+    	<trans-unit id="MSC.minute">
+				<source>Minute</source>
+				<target>Minute</target>
+			</trans-unit>
+    	<trans-unit id="MSC.minutes">
+				<source>Minutes</source>
+				<target>Minutes</target>
+			</trans-unit>
+    	<trans-unit id="MSC.hour">
+				<source>Hour</source>
+				<target>Heure</target>
+			</trans-unit>
+    	<trans-unit id="MSC.hours">
+				<source>Hours</source>
+				<target>Heures</target>
+			</trans-unit>
+    	<trans-unit id="MSC.day">
+				<source>Day</source>
+				<target>Jour</target>
+			</trans-unit>
+    	<trans-unit id="MSC.days">
+				<source>Days</source>
+				<target>Jours</target>
+			</trans-unit>
+    	<trans-unit id="MSC.month">
+				<source>Month</source>
+				<target>Mois</target>
+			</trans-unit>
+    	<trans-unit id="MSC.months">
+				<source>Months</source>
+				<target>Mois</target>
+			</trans-unit>
+    	<trans-unit id="MSC.year">
+				<source>Year</source>
+				<target>Année</target>
+			</trans-unit>
+    	<trans-unit id="MSC.years">
+				<source>Years</source>
+				<target>Années</target>
+			</trans-unit>
+	    <trans-unit id="CTE.table.0">
+	      <source>Table</source>
+	      <target>Tableau</target>
+	    </trans-unit>
+	    <trans-unit id="CTE.accordionStart.0">
+	      <source>Wrapper start</source>
+	      <target>Accordéon - Début</target>
+	    </trans-unit>
+	    <trans-unit id="CTE.accordionStop.0">
+	      <source>Wrapper stop</source>
+	      <target>Accordéon - Fin</target>
+	    </trans-unit>
+	    <trans-unit id="CTE.slider">
+	      <source>Content slider</source>
+	      <target>Slider</target>
+	    </trans-unit>
+	    <trans-unit id="CTE.sliderStart.0">
+	      <source>Wrapper start</source>
+	      <target>Slider - Début</target>
+	    </trans-unit>
+	    <trans-unit id="CTE.sliderStop.0">
+	      <source>Wrapper stop</source>
+	      <target>Slider - Fin</target>
+	    </trans-unit>
+	    <trans-unit id="CTE.hyperlink.0">
+	      <source>Hyperlink</source>
+	      <target>Lien</target>
+	    </trans-unit>
+	    <trans-unit id="CTE.banner">
+	      <source>Banner</source>
+	      <target>Bannière</target>
+	    </trans-unit>
 
 		<!-- Smartgear errors -->
 		<trans-unit id="WEMSG.ERR.FRAMWAY.configJsonDecodeError">
@@ -494,6 +542,14 @@
 			<source>Form</source>
 			<target>Formulaire</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formDomainLabel">
+			<source>Domain</source>
+			<target>Domaine</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formDomainHelp">
+			<source></source>
+			<target></target>
+		</trans-unit>
 		<trans-unit id="WEMSG.DASHBOARD.SUPPORT.formSubjectLabel">
 			<source>Subject</source>
 			<target>Sujet</target>
@@ -722,6 +778,10 @@
 			<source>API Key</source>
 			<target>Clef API</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.GENERAL.sgApiKeyHelp">
+			<source>This API key is used to authenticate calls to this Smartgear's API</source>
+			<target>Cette clef API sert à authentifier les appels aux APIs de ce Smartgear</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.GENERAL.sgEncryptionKey">
 			<source>Encryption Key</source>
 			<target>Clef de chiffrement</target>
@@ -865,6 +925,14 @@
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgGoogleFontsHelp">
 			<source>Google Fonts' fonts list, separated by comma</source>
 			<target>Liste des noms de polices Google Fonts, séparées par des virgules</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.doBackup">
+			<source>Do a backup</source>
+			<target>Faire un backup</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.doBackupHelp">
+			<source>Check to do a backup before playing migrations</source>
+			<target>Cochez pour effectuer un backup avant de jouer les mises à jour</target>
 		</trans-unit>
 
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.sgWebsiteLogoEmpty">
@@ -1035,6 +1103,29 @@
 			<source>Service email - Smartgear</source>
 			<target>Email de service - Smartgear</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayNotification">
+			<source>SG - support ticket creation notification</source>
+			<target>SG - création d'un ticket de support</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayMessageAdmin">
+			<source>Admin message</source>
+			<target>Message administrateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayMessageUser">
+			<source>User message</source>
+			<target>Message utilisateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.subjectNotificationSupportGatewayMessageLanguageUser">
+			<source>Your Smartgear's support ticket - ##ticket_subject##</source>
+			<target>Votre demande de support Smartgear - ##ticket_subject##</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.INSTALL.WEBSITE.subjectNotificationSupportGatewayMessageLanguageAdmin">
+			<source>Smartgear "%s" - support ticket - ##ticket_subject##</source>
+			<target>Smartgear "%s" - demande de support - ##ticket_subject##</target>
+		</trans-unit>
+
+
+
 
 		<trans-unit id="WEMSG.RESET.GENERAL.Title">
 			<source>Global</source>
@@ -2164,6 +2255,10 @@
 			<source>Contain an uppercase letter</source>
 			<target>Contenir une majuscule</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.EXTRANET.PWD.helperContainLowercase">
+			<source>Contain a lowercase letter</source>
+			<target>Contenir une minuscule</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.EXTRANET.PWD.helperContainNumber">
 			<source>Contain a number</source>
 			<target>Contenir un chiffre</target>
@@ -2382,6 +2477,18 @@
 			<source>Are you sure ?</source>
 			<target>Êtes vous sûr de vouloir supprimer ce backup ?</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.actionDownload">
+			<source>Download backup</source>
+			<target>Télécharger le backup</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.actionRestore">
+			<source>Restore backup</source>
+			<target>Restaurer le backup</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.BACKUPMANAGER.LIST.actionDelete">
+			<source>Delete backup</source>
+			<target>Supprimer le backup</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.BACKUPMANAGER.RESTORERESULT.title">
 			<source>Backup restoration result :</source>
 			<target>Résultat de la restauration du backup :</target>
@@ -2487,11 +2594,19 @@
 			<source>Updates</source>
 			<target>Mises à jour</target>
 		</trans-unit>
-		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesBTTitle">
+		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesWithoutBackupBTTitle">
+			<source>Play updates without backup</source>
+			<target>Executer les mises à jour sans créer de backup</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesWithoutBackupBT">
+			<source>Play updates (no backup)</source>
+			<target>Executer les mises à jour (pas de backup)</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesWithBackupBTTitle">
 			<source>Play updates</source>
 			<target>Executer les mises à jour</target>
 		</trans-unit>
-		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesBT">
+		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesWithBackupBT">
 			<source>Play updates</source>
 			<target>Executer les mises à jour</target>
 		</trans-unit>
@@ -2538,6 +2653,10 @@
 		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.backupInfo">
 			<source>The backup %s has been created</source>
 			<target>Le back-up %s a été effectué</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.backupInfoNone">
+			<source>No backup was created</source>
+			<target>Aucun back-up n'a été effectué</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.UPDATEMANAGER.RESULT.version">
 			<source>Version</source>
@@ -2634,8 +2753,8 @@
 			<target>Background - Color</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.colorLabel">
-			<source>background color %s</source>
-			<target>fond couleur %s</target>
+			<source>%s</source>
+			<target>%s</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.STYLEMANAGER.fwbackgroundcolor.description">
 			<source>Apply a background using the "%s" color to the item</source>
@@ -3773,6 +3892,49 @@
 			<target>Smartgear mis à jour vers la version 1.0.14.</target>
 		</trans-unit>
 
+		<!-- V1_0_21/M202308080921 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202308080921.name">
+			<source>Smartgear v1.0.21</source>
+			<target>Smartgear v1.0.21</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202308080921.description">
+			<source>Update Smartgear to version 1.0.21.</source>
+			<target>Met à jour Smartgear vers la version 1.0.21.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202308080921.done">
+			<source>Smartgear updated to version 1.0.21.</source>
+			<target>Smartgear mis à jour vers la version 1.0.21.</target>
+		</trans-unit>
+
+		<!-- V1_0_21/M202308181214 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202308181214.name">
+			<source>Smartgear v1.0.21 - support ticket creation notification</source>
+			<target>Smartgear v1.0.21 - notification création ticket support</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202308181214.description">
+			<source>Add support ticket creation from dashboard's notification.</source>
+			<target>Ajout de la notification pour les créations de ticket de support via le tableau de bord.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202308181214.done">
+			<source>Support ticket creation from dashboard's notification added.</source>
+			<target>Notification pour les créations de ticket de support via le tableau de bord ajoutée.</target>
+		</trans-unit>
+		<!-- V1_0_21/M202310121049 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202310121049.name">
+			<source>Smartgear v1.0.21 - htaccess update</source>
+			<target>Smartgear v1.0.21 - mise à jour htaccess</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202310121049.description">
+			<source>Update .htaccess file management for "https" and "www" redirections rules.</source>
+			<target>Met à jour la gestion du fichier .htaccess pour les redirections "https" et "www".</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202310121049.done">
+			<source>.htaccess file management updated.</source>
+			<target>Gestion du fichier .htaccess mise à jour.</target>
+		</trans-unit>
+
+
+
 		<!-- Social networks -->
 		<trans-unit id="WEMSG.SOCIALNETWORK.CATEGORY.social">
 			<source>Socials</source>
@@ -4093,7 +4255,11 @@
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerName">
 			<source>Owner name</source>
 			<target>Proprétaire</target>
-		</trans-unit>	
+		</trans-unit>		
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerEmail">
+			<source>Owner email</source>
+			<target>Mail administrateur</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerDomain">
 			<source>Owner Domain</source>
 			<target>Domaine</target>
@@ -4234,6 +4400,28 @@
 			<source>Notification Gateway Email</source>
 			<target>Passerelle email</target>
 		</trans-unit>
+
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_notificationSupport">
+			<source>Support Notification</source>
+			<target>Notification Support</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_notificationSupportMessageAdmin">
+			<source>Support Notification - Admin message</source>
+			<target>Notification Support - Message admin</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_notificationSupportMessageAdminLanguage">
+			<source>Support Notification - Admin message language</source>
+			<target>Notification Support - Langue message admin</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_notificationSupportMessageUser">
+			<source>Support Notification - User message</source>
+			<target>Notification Support - Message utilisateur</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_notificationSupportMessageUserLanguage">
+			<source>Support Notification - User message language</source>
+			<target>Notification Support - Langue message utilisateur</target>
+		</trans-unit>
+
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_customnav">
 			<source>Footer nav</source>
 			<target>Nav footer</target>
@@ -4276,7 +4464,7 @@
 		</trans-unit>	
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_encryptionKey">
 			<source>Encryption key</source>
-			<target>Clef d'encryptage</target>
+			<target>Clef de chiffrement</target>
 		</trans-unit>	
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_airtableApiKey">
 			<source>Airtable API key (deprecated)</source>
@@ -4970,6 +5158,121 @@
 			<source>Page title</source>
 			<target>Titre de la page</target>
 		</trans-unit>	
+
+		<!-- DCA -->
+    <trans-unit id="WEMSG.DCA.update_reminder_legend">
+      <source>Reminder parameters</source>
+      <target>Paramètre de rappel</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder.0">
+      <source>Activate reminder</source>
+      <target>Activer le rappel</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_period.0">
+      <source>Remind in</source>
+      <target>Rappeler dans</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_date.0">
+      <source>Reminder date</source>
+      <target>Date de rappel</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_period.PT1S">
+      <source>1 second</source>
+      <target>1 seconde</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_period.PT1M">
+      <source>1 minute</source>
+      <target>1 minute</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_period.P1D">
+      <source>1 day</source>
+      <target>1 jour</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_period.P1W">
+      <source>1 week</source>
+      <target>1 semaine</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_period.P1M">
+      <source>1 month</source>
+      <target>1 mois</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_period.P6M">
+      <source>6 month</source>
+      <target>6 mois</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.update_reminder_period.P1Y">
+      <source>1 year</source>
+      <target>1 an</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.MESSAGE.updateReminderFuture">
+      <source>This content will be considered obsolete on the %s (%s)</source>
+      <target>Ce contenu sera considéré comme obsolète le %s (%s)</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.DCA.MESSAGE.updateReminderPast">
+      <source>This content is considered obsolete since the %s (%s)</source>
+      <target>Ce contenu est considéré comme obsolète depuis le %s (%s)</target>
+    </trans-unit>
+
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.title">
+      <source>Content updates reminders</source>
+      <target>Rappels de mise à jour de contenus</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.ptable">
+      <source>Table</source>
+      <target>Table</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.pid">
+      <source>ID</source>
+      <target>ID</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.name">
+      <source>Name</source>
+      <target>Libellé</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.last_update">
+      <source>Last update</source>
+      <target>Dernière MaJ</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.obsolete_since">
+      <source>Obsolete since</source>
+      <target>Obsolète depuis</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.period">
+      <source>Reminder delay</source>
+      <target>Délais de rappel</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.actions">
+      <source>Actions</source>
+      <target>Actions</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.actionEdit">
+      <source>Edit</source>
+      <target>Editer</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.actionEditTitle">
+      <source>Edit item</source>
+      <target>Editer l'élément</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.actionReset">
+      <source>Reset</source>
+      <target>Réinitialiser</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.actionResetTitle">
+      <source>Reset reminder</source>
+      <target>Réinitialiser le rappel</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.actionDisable">
+      <source>Disable</source>
+      <target>Désactiver</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.actionDisableTitle">
+      <source>Disable reminder</source>
+      <target>Désactiver le rappel</target>
+    </trans-unit>
+    <trans-unit id="WEMSG.REMINDERMANAGER.LIST.obsoleteSinceTextLessThanAMinute">
+      <source>Less than a minute</source>
+      <target>Moins d'une minute</target>
+    </trans-unit>
 		
 
 		<!-- heimrichhannot/contao-backend-lost-password-bundle -->

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -18,6 +18,7 @@ use Contao\BackendModule;
 use Contao\BackendTemplate;
 use Contao\CalendarEventsModel;
 use Contao\Database;
+use Contao\Date;
 use Contao\FilesModel;
 use Contao\MemberModel;
 use Contao\NewsModel;
@@ -77,7 +78,8 @@ class AnalyticsExternal extends BackendModule
             return;
         }
 
-        $hostingInfos = $this->airtableApi->getHostingInformations($config->getSgOwnerDomain());
+        $arrDomains = Util::getRootPagesDomains();
+        $hostingInfos = $this->airtableApi->getHostingInformations($arrDomains);
 
         $this->Template->title = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.title', [], 'contao_default');
 
@@ -88,23 +90,31 @@ class AnalyticsExternal extends BackendModule
 
     protected function getInvoices(array $hostingInfos): string
     {
+        $blnAirtableClientFound = false;
+        $arrBirthdays = [];
         $arrInvoices = [];
-        foreach ($hostingInfos['invoices_ids'] as $index => $id) {
-            $arrInvoices[] = [
-                'id' => $id,
-                'date' => $hostingInfos['invoices_dates'][$index],
-                'price' => $hostingInfos['invoices_prices'][$index],
-                'url' => $hostingInfos['invoices_urls'][$index],
-            ];
+        foreach ($hostingInfos as $domain => $hostnameHostingInfos) {
+            foreach ($hostnameHostingInfos['invoices_ids'] ?? [] as $index => $id) {
+                $arrInvoices[] = [
+                    'id' => $id,
+                    'date' => $hostnameHostingInfos['invoices_dates'][$index],
+                    'price' => $hostnameHostingInfos['invoices_prices'][$index],
+                    'url' => $hostnameHostingInfos['invoices_urls'][$index],
+                ];
+                $blnAirtableClientFound = $blnAirtableClientFound || !empty($hostnameHostingInfos['client_id']);
+                $arrBirthdays[$domain] = (new Date($hostnameHostingInfos['birthday'], 'Y-m-d'))->date;
+            }
         }
+
+        $arrInvoices = array_unique($arrInvoices, \SORT_REGULAR);
 
         $objTemplate = new BackendTemplate('be_wem_sg_dashboard_analytics_external_invoices');
         $objTemplate->invoicesTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoicesTitle', [], 'contao_default');
-        $objTemplate->airtableClientFound = !empty($hostingInfos['client_id']);
+        $objTemplate->airtableClientFound = $blnAirtableClientFound;
         $objTemplate->msgAirtableClientNotFound = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.msgAirtableClientNotFound', [], 'contao_default');
 
         $objTemplate->birthdayLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.birthdayLabel', [], 'contao_default');
-        $objTemplate->birthday = $hostingInfos['birthday'];
+        $objTemplate->birthday = $arrBirthdays;
 
         $objTemplate->invoices = $arrInvoices;
         $objTemplate->invoiceDateHeader = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoiceDateHeader', [], 'contao_default');
@@ -117,13 +127,24 @@ class AnalyticsExternal extends BackendModule
 
     protected function getDiskUsageBlock(array $hostingInfos): string
     {
-        $diskUsage = $this->getDiskUsage($hostingInfos);
+        $diskUsage = $this->getDiskUsage();
         $dbUsage = $this->getDatabaseUsage();
-        $diskSpaceAllowed = (int) ((float) $hostingInfos['allowed_space']) * 1024 * 1024 * 1024;
 
+        $blnAirtableClientFound = false;
+        $diskSpaceAllowed = 0;
+        foreach ($hostingInfos as $domain => $hostnameHostingInfos) {
+            if (empty($hostnameHostingInfos)) {
+                continue;
+            }
+            $diskSpaceAllowed += (float) $hostnameHostingInfos['allowed_space'];
+            $blnAirtableClientFound = $blnAirtableClientFound || !empty($hostnameHostingInfos['client_id']);
+            continue;
+        }
+
+        $diskSpaceAllowed = (int) $diskSpaceAllowed * 1024 * 1024 * 1024;
         $objTemplate = new BackendTemplate('be_wem_sg_dashboard_analytics_external_diskusage');
         $objTemplate->informationsTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.informationsTitle', [], 'contao_default');
-        $objTemplate->airtableClientFound = !empty($hostingInfos['client_id']);
+        $objTemplate->airtableClientFound = $blnAirtableClientFound;
         $objTemplate->msgAirtableClientNotFound = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.msgAirtableClientNotFound', [], 'contao_default');
 
         // DB usage

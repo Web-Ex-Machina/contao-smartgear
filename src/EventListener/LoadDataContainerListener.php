@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -28,6 +28,7 @@ use WEM\SmartgearBundle\DataContainer\Content as ContentDCA;
 use WEM\SmartgearBundle\DataContainer\FaqCategory as FaqCategoryDCA;
 use WEM\SmartgearBundle\DataContainer\Files as FilesDCA;
 use WEM\SmartgearBundle\DataContainer\Form as FormDCA;
+use WEM\SmartgearBundle\DataContainer\ImageSize as ImageSizeDCA;
 use WEM\SmartgearBundle\DataContainer\Layout as LayoutDCA;
 use WEM\SmartgearBundle\DataContainer\Member as MemberDCA;
 use WEM\SmartgearBundle\DataContainer\MemberGroup as MemberGroupDCA;
@@ -120,12 +121,19 @@ class LoadDataContainerListener
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(FilesDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(FilesDCA::class, 'deleteItem')
+                    ->addConfigOnloadCallback(FilesDCA::class, 'uploadWarningMessage')
                 ;
             break;
             case 'tl_form':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(FormDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(FormDCA::class, 'deleteItem')
+                ;
+            break;
+            case 'tl_image_size':
+                DCAManipulator::create($table)
+                    ->addConfigOnloadCallback(ImageSizeDCA::class, 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback(ImageSizeDCA::class, 'deleteItem')
                 ;
             break;
             case 'tl_layout':

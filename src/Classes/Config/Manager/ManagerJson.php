@@ -70,7 +70,7 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
     public function createBackupFile()
     {
         $backupFilePath = $this->configurationFilePath.'_'.date('Ymd_His');
-        $this->configuration = $this->load();
+        $this->load();
 
         return $this->file_force_contents($backupFilePath, $this->configuration->export()) ? $path : false;
     }
@@ -87,7 +87,8 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
      * Write content in a file.
      * If the file doesn't exists, it is created.
      *
-     * @param  [type] $content [description]
+     * @param string $filepath The file's path
+     * @param mixed  $content  The content to write
      */
     protected function file_force_contents(string $filepath, $content): bool
     {

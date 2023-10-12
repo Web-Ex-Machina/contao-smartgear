@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -22,6 +22,9 @@ use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\StyleSheetModel;
 use Contao\ThemeModel;
+use NotificationCenter\Model\Language as NotificationLanguageModel;
+use NotificationCenter\Model\Message as NotificationMessageModel;
+use NotificationCenter\Model\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Analyzer\Htaccess as HtaccessAnalyzer;
 use WEM\SmartgearBundle\Classes\Backend\Resetter as BackendResetter;
@@ -212,6 +215,25 @@ class Resetter extends BackendResetter
                     }
                 }
                 $themes->delete();
+            }
+        }
+
+        $notifications = NotificationModel::findAll();
+        if ($notifications) {
+            while ($notifications->next()) {
+                $messages = NotificationMessageModel::findBy('pid', $notifications->id);
+                if ($messages) {
+                    while ($messages->next()) {
+                        $languages = NotificationLanguageModel::findBy('pid', $messages->id);
+                        if ($languages) {
+                            while ($languages->next()) {
+                                $languages->delete();
+                            }
+                        }
+                        $messages->delete();
+                    }
+                }
+                $notifications->delete();
             }
         }
     }

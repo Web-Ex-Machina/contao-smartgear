@@ -18,59 +18,75 @@
   if($this->fullheight)
     $sliderHeight = 'viewport';
 
+
+  function formatSlide($slide, $objFile){
+    $arrSlide = [
+      "src"=>\Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional")
+      ,"alt"=> $slide->img_alt?:deserialize($objFile->meta)[$GLOBALS['TL_LANGUAGE']]['alt']?:explode('.',$objFile->name)[0]
+    ];
+    // var_dump($objFile);
+    // var_dump($slide->img_alt?:deserialize($objFile->meta)[$GLOBALS['TL_LANGUAGE']]['alt']?:explode('.',$objFile->name)[0]);
+    $arrSlide['arrClasses'] = [];
+    if($slide->image_align_horizontal)
+      $arrSlide['arrClasses'][] = $slide->image_align_horizontal;
+    if($slide->image_align_vertical)
+      $arrSlide['arrClasses'][] = $slide->image_align_vertical;
+    if($slide->image_opacity)
+      $arrSlide['arrClasses'][] = 'img__opacity--'.$slide->image_opacity;
+
+    if($slide->overlay_background)
+      $arrSlide['arrClasses'][] = 'content__bg--'.$slide->overlay_background;
+    if($slide->overlay_opacity)
+      $arrSlide['arrClasses'][] = 'content__bg__opacity--'.$slide->overlay_opacity;
+
+    if($slide->content_align_horizontal)
+      $arrSlide['arrClasses'][] = $slide->content_align_horizontal;
+    if($slide->content_align_vertical)
+      $arrSlide['arrClasses'][] = $slide->content_align_vertical;
+
+    if($slide->content_fontcolor)
+      $arrSlide['arrClasses'][] = 'ft-'.$slide->content_fontcolor;
+    if($slide->title_modifier)
+      $arrSlide['arrClasses'][] = $slide->title_modifier;
+    
+
+    $arrSlide["content"] = '';
+    if($slide->headline['value'])
+      $arrSlide["content"] .= '<'.($slide->headline['unit'] ?: 'div').' class="sliderFW__item__title">'.$slide->headline['value'].'</'.($slide->headline['unit'] ?: 'div').'>';
+    if($slide->content)
+      $arrSlide["content"] .= $slide->content;
+
+    if($slide->link_href){
+      $arrSlide["content"] .= sprintf(
+        '<a href="%s" title="%s" class="%s"%s>%s</a>'
+        ,$slide->link_href
+        ,$slide->link_title
+        ,$slide->link_classes
+        ,($slide->link_target ? ' target="_blank"' : '')
+        ,$slide->link_text
+      );
+    }
+    return $arrSlide;
+  }
+
   // Prepare the slides
   if($this->items){
     $arrSlides = [];
     foreach($this->items as $slide){
       $arrCrop = deserialize($slide->img_size);
       $objFile = FilesModel::findByUuid($slide->img_src);
-      $strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
-      $arrSlide = [
-        "src"=>$strFile
-        ,"alt"=>$slide->img_alt
-      ];
-      $arrSlide['arrClasses'] = [];
-      if($slide->image_align_horizontal)
-        $arrSlide['arrClasses'][] = $slide->image_align_horizontal;
-      if($slide->image_align_vertical)
-        $arrSlide['arrClasses'][] = $slide->image_align_vertical;
-      if($slide->image_opacity)
-        $arrSlide['arrClasses'][] = 'img__opacity--'.$slide->image_opacity;
 
-      if($slide->overlay_background)
-        $arrSlide['arrClasses'][] = 'content__bg--'.$slide->overlay_background;
-      if($slide->overlay_opacity)
-        $arrSlide['arrClasses'][] = 'content__bg__opacity--'.$slide->overlay_opacity;
-
-      if($slide->content_align_horizontal)
-        $arrSlide['arrClasses'][] = $slide->content_align_horizontal;
-      if($slide->content_align_vertical)
-        $arrSlide['arrClasses'][] = $slide->content_align_vertical;
-
-      if($slide->content_fontcolor)
-        $arrSlide['arrClasses'][] = 'ft-'.$slide->content_fontcolor;
-      if($slide->title_modifier)
-        $arrSlide['arrClasses'][] = $slide->title_modifier;
-      
-
-      $arrSlide["content"] = '';
-      if($slide->headline['value'])
-        $arrSlide["content"] .= '<'.($slide->headline['unit'] ?: 'div').' class="sliderFW__item__title">'.$slide->headline['value'].'</'.($slide->headline['unit'] ?: 'div').'>';
-      if($slide->content)
-        $arrSlide["content"] .= $slide->content;
-
-      if($slide->link_href){
-        $arrSlide["content"] .= sprintf(
-          '<a href="%s" title="%s" class="%s"%s>%s</a>'
-          ,$slide->link_href
-          ,$slide->link_title
-          ,$slide->link_classes
-          ,($slide->link_target ? ' target="_blank"' : '')
-          ,$slide->link_text
-        );
+      if ($objFile->type === 'file' ){
+        $arrSlides[] = formatSlide($slide, $objFile);
+      } else if ($objFile->type === 'folder'){
+        // Retrieve all files from the folder
+        $objFiles = FilesModel::findMultipleFilesByFolder($objFile->path);
+        if (!$objFiles){continue;}
+        while ($objFiles->next()) {
+          if ($objFiles->type === 'file' && in_array($objFiles->extension,explode(',',\Config::get('validImageTypes'))))
+            $arrSlides[] = formatSlide($slide, $objFiles);
+        }
       }
-
-      $arrSlides[] = $arrSlide;
     }
   }
 ?>
@@ -80,7 +96,7 @@
     <div class="sliderFW__rail">
     <?php if(!empty($arrSlides)): ?>
       <?php foreach($arrSlides as $slide): ?>
-      <div class="sliderFW__item  <?= implode(' ', $slide['arrClasses']) ?>">
+      <div class="sliderFW__item <?php echo implode(' ', $slide['arrClasses']) ?>">
         <div class="sliderFW__item__bg">
           <img src="<?= $slide['src'] ?>" alt="<?= $slide['alt'] ?>">
         </div>

@@ -210,3 +210,35 @@ services:
       $y: 0
       $z: 20
     public: true
+
+  smartgear.migrations.v1_0_21.m202308080921.migration:
+    class: WEM\SmartgearBundle\Migrations\V1_0_21\M202308080921\Migration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+      $localConfigurationManager: '@smartgear.config.manager.local_config'
+    public: true
+
+  smartgear.migrations.v1_0_21.m202308181214.migration:
+    class: WEM\SmartgearBundle\Migrations\V1_0_21\M202308181214\Migration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+      $htmlDecoder: '@contao.string.html_decoder'
+    public: true
+
+  smartgear.migrations.v1_0_21.m202310121049.migration:
+    class: WEM\SmartgearBundle\Migrations\V1_0_21\M202310121049\Migration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+      $htaccessAnalyzer: '@smartgear.classes.analyzer.htaccess'
+    public: true
+
+

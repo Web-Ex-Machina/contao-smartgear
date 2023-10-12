@@ -5,6 +5,20 @@
 		<input type="hidden" name="action" value="ticketCreate" />
 		<div class="widget">
 			<h3>
+				<label for="domain"><?php echo $this->domainLabel; ?>&nbsp;<span class="required">*</span></label>
+			</h3>
+			<select name="domain" class="tl_select">
+				<?php foreach($this->domains as $domain): ?>
+					<option value="<?php echo $domain; ?>">
+						<?php echo $domain; ?>
+					</option>
+				<?php endforeach; ?>
+			</select>
+			<!-- <input type="text" name="subject" class="tl_text" value="<?php echo $this->subject; ?>" required/> -->
+			<p class="tl_help"><?php echo $this->subjectHelp;?></p>
+		</div>
+		<div class="widget">
+			<h3>
 				<label for="subject"><?php echo $this->subjectLabel; ?>&nbsp;<span class="required">*</span></label>
 			</h3>
 			<input type="text" name="subject" class="tl_text" value="<?php echo $this->subject; ?>" required/>
@@ -82,7 +96,6 @@
 						}
 					break;
 					default:
-
 						objFields.append(j(this).attr('name'),j(this).val());
 					break;
 				}

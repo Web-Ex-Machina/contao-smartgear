@@ -151,7 +151,8 @@ services:
         class: WEM\SmartgearBundle\EventListener\LoadLanguageFileListener
         arguments:
             $customLanguageFileLoader : '@smartgear.classes.custom_language_file_loader'
-        public: true
+        public: true    
 
-
-    
+    smartgear.listener.send_notification_message:
+        class: WEM\SmartgearBundle\EventListener\SendNotificationMessageListener
+        public: true    

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -49,7 +49,7 @@ class BackupListCommand extends AbstractBackupCommand
             return 0;
         }
 
-        $io->table(['filename', 'size', 'date'], $this->formatForTable($listResult->getBackups()));
+        $io->table(['filename', 'size', 'source', 'date'], $this->formatForTable($listResult->getBackups()));
 
         return 0;
     }
@@ -61,6 +61,7 @@ class BackupListCommand extends AbstractBackupCommand
             $formatted[] = [
                 $backup->getFile()->basename,
                 Util::humanReadableFilesize($backup->getFile()->size),
+                $backup->getSource(),
                 \DateTime::createFromFormat('U', (string) $backup->getFile()->ctime)->format('d/m/Y H:i:s'),
             ];
         }
@@ -76,6 +77,7 @@ class BackupListCommand extends AbstractBackupCommand
             $json[] = [
                 'filename' => $backup->getFile()->basename,
                 'size' => Util::humanReadableFilesize($backup->getFile()->size),
+                'source' => $backup->getSource(),
                 'date' => \DateTime::createFromFormat('U', (string) $backup->getFile()->ctime)->format('d/m/Y H:i:s'),
             ];
         }

@@ -42,8 +42,7 @@ class LocalConfig implements ConfigYamlInterface
     protected $imageSizes;
     /** @var bool Default on true because package have troubles @todo : do not manage this settings here once the package is corrected */
     protected $fileusageSkipReplaceInsertTags = true;
-    /** @var bool Default on true because package have troubles @todo : do not manage this settings here once the package is corrected */
-    protected $fileusageSkipDatabase = true;
+    protected $fileusageSkipDatabase;
 
     public function reset(): self
     {
@@ -71,7 +70,7 @@ class LocalConfig implements ConfigYamlInterface
             ->setRejectLargeUploads(null)
             ->setImageSizes(null)
             ->setFileusageSkipReplaceInsertTags(true)
-            ->setFileusageSkipDatabase(true)
+            ->setFileusageSkipDatabase(null)
         ;
 
         return $this;
@@ -99,10 +98,10 @@ class LocalConfig implements ConfigYamlInterface
             ->setAllowedTags($content['contao']['localconfig']['allowedTags'] ?? null)
             ->setSgOwnerDomain($content['contao']['localconfig']['sgOwnerDomain'] ?? null)
             ->setSgOwnerHost($content['contao']['localconfig']['sgOwnerHost'] ?? null)
-            ->setFileusageSkipReplaceInsertTags($content['contao']['localconfig']['fileusageSkipReplaceInsertTags'] ?? true)
-            ->setFileusageSkipDatabase($content['contao']['localconfig']['fileusageSkipDatabase'] ?? true)
             ->setRejectLargeUploads($content['contao']['image']['reject_large_uploads'] ?? null)
             ->setImageSizes($content['contao']['image']['sizes'] ?? null)
+            ->setFileusageSkipReplaceInsertTags($content['contao']['localconfig']['fileusageSkipReplaceInsertTags'] ?? true)
+            ->setFileusageSkipDatabase($content['contao']['localconfig']['fileusageSkipDatabase'] ?? null)
         ;
 
         unset($content['contao']['localconfig']['dateFormat'], $content['contao']['localconfig']['timeFormat'], $content['contao']['localconfig']['datimFormat'], $content['contao']['localconfig']['timeZone'], $content['contao']['localconfig']['characterSet'], $content['contao']['localconfig']['useAutoItem'], $content['contao']['localconfig']['folderUrl'], $content['contao']['localconfig']['maxResultsPerPage'], $content['contao']['localconfig']['privacyAnonymizeIp'], $content['contao']['localconfig']['privacyAnonymizeGA'], $content['contao']['localconfig']['gdMaxImgWidth'], $content['contao']['localconfig']['gdMaxImgHeight'], $content['contao']['localconfig']['maxFileSize'], $content['contao']['localconfig']['undoPeriod'], $content['contao']['localconfig']['versionPeriod'], $content['contao']['localconfig']['logPeriod'], $content['contao']['localconfig']['allowedTags'], $content['contao']['localconfig']['sgOwnerDomain'], $content['contao']['localconfig']['sgOwnerHost'], $content['contao']['image']['reject_large_uploads'], $content['contao']['image']['sizes'],$content['contao']['localconfig']['fileusageSkipReplaceInsertTags'],$content['contao']['localconfig']['fileusageSkipDatabase']
@@ -180,17 +179,17 @@ class LocalConfig implements ConfigYamlInterface
         if (null !== $this->getSgOwnerHost()) {
             $config['contao']['localconfig']['sgOwnerHost'] = $this->getSgOwnerHost();
         }
-        if (null !== $this->getFileusageSkipReplaceInsertTags()) {
-            $config['contao']['localconfig']['fileusageSkipReplaceInsertTags'] = $this->getFileusageSkipReplaceInsertTags();
-        }
-        if (null !== $this->getFileusageSkipDatabase()) {
-            $config['contao']['localconfig']['fileusageSkipDatabase'] = $this->getFileusageSkipDatabase();
-        }
         if (null !== $this->getRejectLargeUploads()) {
             $config['contao']['image']['reject_large_uploads'] = $this->getRejectLargeUploads();
         }
         if (null !== $this->getImageSizes()) {
             $config['contao']['image']['sizes'] = $this->getImageSizes();
+        }
+        if (null !== $this->getFileusageSkipReplaceInsertTags()) {
+            $config['contao']['localconfig']['fileusageSkipReplaceInsertTags'] = $this->getFileusageSkipReplaceInsertTags();
+        }
+        if (null !== $this->getFileusageSkipDatabase()) {
+            $config['contao']['localconfig']['fileusageSkipDatabase'] = $this->getFileusageSkipDatabase();
         }
 
         if (0 === \count($config['contao']['localconfig'] ?? [])) {
@@ -480,12 +479,12 @@ class LocalConfig implements ConfigYamlInterface
         return $this;
     }
 
-    public function getFileusageSkipDatabase(): bool
+    public function getFileusageSkipDatabase()
     {
         return $this->fileusageSkipDatabase;
     }
 
-    public function setFileusageSkipDatabase(bool $fileusageSkipDatabase): self
+    public function setFileusageSkipDatabase($fileusageSkipDatabase): self
     {
         $this->fileusageSkipDatabase = $fileusageSkipDatabase;
 

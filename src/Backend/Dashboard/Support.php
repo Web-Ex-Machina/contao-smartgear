@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -24,9 +24,11 @@ use Contao\Input;
 use Contao\Message;
 use Contao\RequestToken;
 use Exception;
+use NotificationCenter\Model\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Api\Airtable\V0\Api as AirtableApi;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
@@ -97,7 +99,7 @@ class Support extends BackendModule
         try {
             switch ($strAction) {
                 case 'ticketCreate':
-                    $this->ticketCreate(Input::post('subject', true), Input::post('url'), Input::post('message', true), Input::post('mail'), $_FILES['files'] ?? []);
+                    $this->ticketCreate(Input::post('domain', true), Input::post('subject', true), Input::post('url'), Input::post('message', true), Input::post('mail'), $_FILES['files'] ?? []);
 
                     $arrResponse = ['status' => 'success', 'toastr' => ['status' => 'success', 'msg' => $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.formSendSuccess', [], 'contao_default')]];
                 break;
@@ -117,7 +119,7 @@ class Support extends BackendModule
         return $this->strId;
     }
 
-    protected function ticketCreate(string $subject, string $url, string $message, string $mail, array $screenshotFile): void
+    protected function ticketCreate(string $domain, string $subject, string $url, string $message, string $mail, array $screenshotFile): void
     {
         try {
             /** @var CoreConfig */
@@ -127,15 +129,17 @@ class Support extends BackendModule
         }
 
         // retrieve client ID
+        $arrDomains = Util::getRootPagesDomains();
+        $hostingInformations = $this->airtableApi->getHostingInformations($arrDomains);
         $clientId = null;
         $clientRef = null;
-        $hostingInformations = $this->airtableApi->getHostingInformations($config->getSgOwnerDomain());
         if (!empty($hostingInformations)
-        && !empty($hostingInformations['client_reference'])
+        && \array_key_exists($domain, $hostingInformations)
+        && !empty($hostingInformations[$domain]['client_reference'])
         ) {
-            $supportClientInformations = $this->airtableApi->getSupportClientInformations($hostingInformations['client_reference'][0]);
+            $supportClientInformations = $this->airtableApi->getSupportClientInformationsSingleClientRef($hostingInformations[$domain]['client_reference'][0]);
             $clientId = $supportClientInformations['id'];
-            $clientRef = $hostingInformations['client_reference'][0];
+            $clientRef = $hostingInformations[$domain]['client_reference'][0];
         }
 
         // save screenshot as file
@@ -154,6 +158,25 @@ class Support extends BackendModule
         }
 
         $this->airtableApi->createTicket($subject, $url, $message, $mail, $config->getSgVersion(), $clientId, $clientRef, $fileUrl);
+
+        // send email
+        $notification = NotificationModel::findByPk((int) $config->getSgNotificationSupport());
+        if (!$notification) {
+            return;
+        }
+
+        $arrTokens = [
+            'sg_owner_email' => $config->getSgOwnerEmail(),
+            'sg_owner_name' => $config->getSgOwnerName(),
+            'support_email' => 'support@webexmachina.fr',
+            'ticket_domain' => $domain && \strlen($domain) > 0 ? $domain : 'N/A',
+            'ticket_subject' => $subject,
+            'ticket_url' => $url,
+            'ticket_message' => $message,
+            'ticket_file' => $objFile ? $objFile->path : '',
+        ];
+
+        $notification->send($arrTokens);
     }
 
     protected function getSupportMail(): string
@@ -164,7 +187,7 @@ class Support extends BackendModule
         } catch (NotFound $e) {
             return '';
         }
-        $mail = 'support.smartgear@webexmachina.fr';
+        $mail = 'support@webexmachina.fr';
         $urlMailto = '';
         $urlMailtoParams = [
             'cc' => $config->getSgOwnerEmail(),
@@ -195,9 +218,27 @@ class Support extends BackendModule
             return '';
         }
 
+        $arrDomains = Util::getRootPagesDomains();
+        $hostingInformations = $this->airtableApi->getHostingInformations($arrDomains);
+        $arrDomainsHavingClientRef = [];
+        if (!empty($hostingInformations)) {
+            foreach ($hostingInformations as $domain => $hostnameHostingInformations) {
+                if ($hostnameHostingInformations['client_reference'] ?? null
+                && \is_array($hostnameHostingInformations['client_reference'])
+                && $hostnameHostingInformations['client_reference'][0]
+                ) {
+                    $arrDomainsHavingClientRef[] = $domain;
+                }
+            }
+        }
+
         $objTemplate = new BackendTemplate('be_wem_sg_dashboard_support_form');
         $objTemplate->title = $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.formTitle', [], 'contao_default');
         $objTemplate->moduleId = $this->strId;
+
+        $objTemplate->domainLabel = $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.formDomainLabel', [], 'contao_default');
+        $objTemplate->domainHelp = $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.formDomainHelp', [], 'contao_default');
+        $objTemplate->domains = $arrDomainsHavingClientRef;
 
         $objTemplate->subjectLabel = $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.formSubjectLabel', [], 'contao_default');
         $objTemplate->subjectHelp = $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.formSubjectHelp', [], 'contao_default');

@@ -87,7 +87,7 @@ class V1Controller extends Controller
         try{
             $this->validateToken($request);
             return new Response(
-                $this->api->update()->toJson(),
+                $this->api->update($request->query->getBoolean('nobackup'))->toJson(),
                 200,
                 ['Content-Type'=>'application/json']
              );

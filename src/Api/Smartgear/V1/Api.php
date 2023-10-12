@@ -14,24 +14,27 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Api\Smartgear\V1;
 
-use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use Exception;
 use WEM\SmartgearBundle\Classes\Api\Security\ApiKey;
 use WEM\SmartgearBundle\Classes\Api\Security\Token;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson;
 use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class Api
 {
-    protected ManagerJson $coreConfigurationManager;
-    protected ApiKey $securityApiKey;
-    protected Token $securityToken;
+    /** @var ManagerJson */
+    protected $coreConfigurationManager;
+    /** @var ApiKey */
+    protected $securityApiKey;
+    /** @var Token */
+    protected $securityToken;
 
     public function __construct(
         ManagerJson $coreConfigurationManager,
         ApiKey $securityApiKey,
         Token $securityToken
-    )
-    {
+    ) {
         $this->coreConfigurationManager = $coreConfigurationManager;
         $this->securityApiKey = $securityApiKey;
         $this->securityToken = $securityToken;
@@ -39,16 +42,29 @@ class Api
 
     public function token(): string
     {
-        return json_encode(['token'=>$this->securityToken->define()]);
+        return json_encode(['token' => $this->securityToken->define()]);
     }
 
     public function version(): string
     {
         /** @var CoreConfig */
         $config = $this->coreConfigurationManager->load();
+
+        $fwPackageJSON = null;
+        try {
+            $fwPackageJSON = json_decode(file_get_contents('./assets/framway/package.json'));
+        } catch (Exception $e) {
+            // nothing
+        }
+
         return json_encode([
-            'installed'=>$config->getSgVersion(),
-            'package'=>Util::getPackageVersion()
+            'smartgear' => [
+                'installed' => $config->getSgVersion(),
+                'package' => Util::getPackageVersion(),
+            ],
+            'php' => \PHP_VERSION,
+            'contao' => Util::getCustomPackageVersion('contao/core-bundle'),
+            'framway' => $fwPackageJSON ? $fwPackageJSON->version : null,
         ]);
     }
 }

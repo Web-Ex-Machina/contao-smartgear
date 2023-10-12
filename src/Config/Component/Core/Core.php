@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -53,8 +53,6 @@ class Core implements ConfigModuleInterface
     public const DEFAULT_USER_GROUP_ADMIN_NAME = 'Administrateurs';
     public const DEFAULT_ROOTPAGE_CHMOD = 'a:12:{i:0;s:2:"u1";i:1;s:2:"u2";i:2;s:2:"u3";i:3;s:2:"u4";i:4;s:2:"u5";i:5;s:2:"u6";i:6;s:2:"g1";i:7;s:2:"g2";i:8;s:2:"g3";i:9;s:2:"g4";i:10;s:2:"g5";i:11;s:2:"g6";}';
 
-    public const DEFAULT_API_KEY = 'api-key-to-change';
-    public const DEFAULT_ENCRYPTION_KEY = 'encryption-key-to-change';
     public const DEFAULT_CLIENT_FILES_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media';
     public const DEFAULT_CLIENT_LOGOS_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media'.\DIRECTORY_SEPARATOR.'logos';
     public const SUBMODULES_KEYS = ['blog', 'events', 'faq', 'form_contact', 'extranet', 'form_data_manager'];
@@ -161,15 +159,27 @@ class Core implements ConfigModuleInterface
     /** @var array */
     protected $sgModules = [];
     /** @var string */
-    protected $sgApiKey = self::DEFAULT_API_KEY;
+    protected $sgApiKey = '';
     /** @var string */
-    protected $sgEncryptionKey = self::DEFAULT_ENCRYPTION_KEY;
+    protected $sgEncryptionKey = '';
     /** @var string */
     protected $sgAirtableApiKey = '';
     /** @var string */
     protected $sgAirtableApiKeyForRead = '';
     /** @var string */
     protected $sgAirtableApiKeyForWrite = '';
+    /** @var array */
+    protected $sgImageSizes = [];
+    /** @var int */
+    protected $sgNotificationSupport;
+    /** @var int */
+    protected $sgNotificationSupportMessageUser;
+    /** @var int */
+    protected $sgNotificationSupportMessageAdmin;
+    /** @var int */
+    protected $sgNotificationSupportMessageUserLanguage;
+    /** @var int */
+    protected $sgNotificationSupportMessageAdminLanguage;
     /** @var BlogConfig */
     protected $sgBlog;
     /** @var EventsConfig */
@@ -188,6 +198,7 @@ class Core implements ConfigModuleInterface
         $this->setSgInstallComplete(false)
             ->setSgVersion(static::DEFAULT_VERSION)
             ->setSgTheme(null)
+            ->setSgImageSizes([])
             ->setSgLayoutStandard(null)
             ->setSgLayoutFullwidth(null)
             ->setSgPageRoot(null)
@@ -236,11 +247,16 @@ class Core implements ConfigModuleInterface
             ->setSgOwnerDpoName('')
             ->setSgOwnerDpoEmail('')
             ->setSgGoogleFonts(self::DEFAULT_GOOGLE_FONTS)
-            ->setSgApiKey(self::DEFAULT_API_KEY)
-            ->setSgEncryptionKey(self::DEFAULT_ENCRYPTION_KEY)
+            ->setSgApiKey('')
+            ->setSgEncryptionKey('')
             ->setSgAirtableApiKey('')
             ->setSgAirtableApiKeyForRead('')
             ->setSgAirtableApiKeyForWrite('')
+            ->setSgNotificationSupport(null)
+            ->setSgNotificationSupportMessageAdmin(null)
+            ->setSgNotificationSupportMessageUser(null)
+            ->setSgNotificationSupportMessageAdminLanguage(null)
+            ->setSgNotificationSupportMessageUserLanguage(null)
             ->setSgBlog((new BlogConfig())->reset())
             ->setSgEvents((new EventsConfig())->reset())
             ->setSgFaq((new FaqConfig())->reset())
@@ -257,6 +273,7 @@ class Core implements ConfigModuleInterface
         $this->setSgInstallComplete($json->installComplete ?? false)
             ->setSgVersion($json->version ?? static::DEFAULT_VERSION)
             ->setSgTheme($json->contao->theme ?? null)
+            ->setSgImageSizes($json->contao->imageSizes ?? [])
             ->setSgLayoutStandard($json->contao->layouts->standard ?? null)
             ->setSgLayoutFullwidth($json->contao->layouts->fullwidth ?? null)
             ->setSgPageRoot($json->contao->pages->root ?? null)
@@ -305,11 +322,16 @@ class Core implements ConfigModuleInterface
             ->setSgOwnerDpoName($json->owner->dpo->name ?? '')
             ->setSgOwnerDpoEmail($json->owner->dpo->email ?? '')
             ->setSgGoogleFonts($json->googleFonts ?? self::DEFAULT_GOOGLE_FONTS)
-            ->setSgApiKey($json->api->key ?? self::DEFAULT_API_KEY)
-            ->setSgEncryptionKey($json->encryption->key ?? self::DEFAULT_ENCRYPTION_KEY)
+            ->setSgApiKey($json->api->key ?? '')
+            ->setSgEncryptionKey($json->encryption->key ?? '')
             ->setSgAirtableApiKey($json->airtable->api->key ?? '')
             ->setSgAirtableApiKeyForRead($json->airtable->api->key_read ?? '')
             ->setSgAirtableApiKeyForWrite($json->airtable->api->key_write ?? '')
+            ->setSgNotificationSupport($json->notification->support->id ?? null)
+            ->setSgNotificationSupportMessageAdmin($json->notification->support->admin->message->id ?? null)
+            ->setSgNotificationSupportMessageUser($json->notification->support->user->message->id ?? null)
+            ->setSgNotificationSupportMessageAdminLanguage($json->notification->support->admin->message->language->id ?? null)
+            ->setSgNotificationSupportMessageUserLanguage($json->notification->support->user->message->language->id ?? null)
             ->setSgBlog(
                 property_exists($json, 'blog')
                 ? (new BlogConfig())->import($json->blog)
@@ -357,6 +379,7 @@ class Core implements ConfigModuleInterface
 
         $json->contao = new \stdClass();
         $json->contao->theme = $this->getSgTheme();
+        $json->contao->imageSizes = $this->getSgImageSizes();
         $json->contao->modules = $this->getSgModules();
 
         $json->contao->pages = new \stdClass();
@@ -437,6 +460,20 @@ class Core implements ConfigModuleInterface
         $json->airtable->api->key_read = $this->getSgAirtableApiKeyForRead();
         $json->airtable->api->key_write = $this->getSgAirtableApiKeyForWrite();
 
+        $json->notification = new \stdClass();
+        $json->notification->support = new \stdClass();
+        $json->notification->support->id = $this->getSgNotificationSupport();
+        $json->notification->support->admin = new \stdClass();
+        $json->notification->support->admin->message = new \stdClass();
+        $json->notification->support->admin->message->id = $this->getSgNotificationSupportMessageAdmin();
+        $json->notification->support->admin->message->language = new \stdClass();
+        $json->notification->support->admin->message->language->id = $this->getSgNotificationSupportMessageAdminLanguage();
+        $json->notification->support->user = new \stdClass();
+        $json->notification->support->user->message = new \stdClass();
+        $json->notification->support->user->message->id = $this->getSgNotificationSupportMessageUser();
+        $json->notification->support->user->message->language = new \stdClass();
+        $json->notification->support->user->message->language->id = $this->getSgNotificationSupportMessageUserLanguage();
+
         $json->blog = $this->getSgBlog()->export();
         $json->events = $this->getSgEvents()->export();
         $json->faq = $this->getSgFaq()->export();
@@ -455,6 +492,7 @@ class Core implements ConfigModuleInterface
             'faq' => $this->getSubmoduleConfig('faq'),
             'form_contact' => $this->getSubmoduleConfig('form_contact'),
             'extranet' => $this->getSubmoduleConfig('extranet'),
+            'form_data_manager' => $this->getSubmoduleConfig('form_data_manager'),
         ];
     }
 
@@ -756,6 +794,79 @@ class Core implements ConfigModuleInterface
         return [];
     }
 
+    public function getContaoNotificationsIdsForAll(): array
+    {
+        return array_merge(
+            $this->getContaoNotificationsIds(),
+            $this->getSgFormContact()->getContaoNotificationsIds(),
+        );
+    }
+
+    public function getContaoNotificationsIds(): array
+    {
+        if (!$this->getSgInstallComplete()) {
+            return [];
+        }
+
+        return [$this->getSgNotificationSupport()];
+    }
+
+    public function getContaoNotificationsMessagesIdsForAll(): array
+    {
+        return array_merge(
+            $this->getContaoNotificationsMessagesIds(),
+            $this->getSgFormContact()->getContaoNotificationsMessagesIds(),
+        );
+    }
+
+    public function getContaoNotificationsMessagesIds(): array
+    {
+        if (!$this->getSgInstallComplete()) {
+            return [];
+        }
+
+        return [$this->getSgNotificationSupportMessageAdmin(), $this->getSgNotificationSupportMessageUser()];
+    }
+
+    public function getContaoNotificationsMessagesLanguagesIdsForAll(): array
+    {
+        return array_merge(
+            $this->getContaoNotificationsMessagesLanguagesIds(),
+            $this->getSgFormContact()->getContaoNotificationsMessagesLanguagesIds(),
+        );
+    }
+
+    public function getContaoNotificationsMessagesLanguagesIds(): array
+    {
+        if (!$this->getSgInstallComplete()) {
+            return [];
+        }
+
+        return [$this->getSgNotificationSupportMessageAdminLanguage(), $this->getSgNotificationSupportMessageUserLanguage()];
+    }
+
+    public function getContaoImageSizesIds(): array
+    {
+        $imageSizes = [];
+        foreach ($this->getSgImageSizes() as $imageSize) {
+            if (null !== $imageSize->id) {
+                $imageSizes[] = (int) $imageSize->id;
+            }
+        }
+
+        return $imageSizes;
+    }
+
+    public function getContaoImageSizesIdsForAll(): array
+    {
+        return $this->getContaoImageSizesIds();
+    }
+
+    public function resetContaoImageSizesIds(): void
+    {
+        $this->setSgImageSizes([]);
+    }
+
     public function resetContaoModulesIds(): void
     {
         $this->setSgModules([]);
@@ -810,6 +921,23 @@ class Core implements ConfigModuleInterface
 
     public function resetContaoMemberGroupsIds(): void
     {
+    }
+
+    public function resetContaoNotificationsIds(): void
+    {
+        $this->setSgNotificationSupport(null);
+    }
+
+    public function resetContaoNotificationsMessagesIds(): void
+    {
+        $this->setSgNotificationSupportMessageAdmin(null);
+        $this->setSgNotificationSupportMessageUser(null);
+    }
+
+    public function resetContaoNotificationsMessagesLangugesIds(): void
+    {
+        $this->setSgNotificationSupportMessageAdminLanguage(null);
+        $this->setSgNotificationSupportMessageUserLanguage(null);
     }
 
     public function getSgVersion(): string
@@ -1568,10 +1696,7 @@ class Core implements ConfigModuleInterface
         return $this->sgAirtableApiKeyForRead;
     }
 
-    /**
-     * @return self
-     */
-    public function setSgAirtableApiKeyForRead(string $sgAirtableApiKeyForRead)
+    public function setSgAirtableApiKeyForRead(string $sgAirtableApiKeyForRead): self
     {
         $this->sgAirtableApiKeyForRead = $sgAirtableApiKeyForRead;
 
@@ -1583,12 +1708,81 @@ class Core implements ConfigModuleInterface
         return $this->sgAirtableApiKeyForWrite;
     }
 
-    /**
-     * @return self
-     */
-    public function setSgAirtableApiKeyForWrite(string $sgAirtableApiKeyForWrite)
+    public function setSgAirtableApiKeyForWrite(string $sgAirtableApiKeyForWrite): self
     {
         $this->sgAirtableApiKeyForWrite = $sgAirtableApiKeyForWrite;
+
+        return $this;
+    }
+
+    public function getSgImageSizes(): array
+    {
+        return $this->sgImageSizes;
+    }
+
+    public function setSgImageSizes(array $sgImageSizes): self
+    {
+        $this->sgImageSizes = $sgImageSizes;
+
+        return $this;
+    }
+
+    public function getSgNotificationSupport(): ?int
+    {
+        return $this->sgNotificationSupport;
+    }
+
+    public function setSgNotificationSupport(?int $sgNotificationSupport): self
+    {
+        $this->sgNotificationSupport = $sgNotificationSupport;
+
+        return $this;
+    }
+
+    public function getSgNotificationSupportMessageAdmin(): ?int
+    {
+        return $this->sgNotificationSupportMessageAdmin;
+    }
+
+    public function setSgNotificationSupportMessageAdmin(?int $sgNotificationSupportMessageAdmin): self
+    {
+        $this->sgNotificationSupportMessageAdmin = $sgNotificationSupportMessageAdmin;
+
+        return $this;
+    }
+
+    public function getSgNotificationSupportMessageUser(): ?int
+    {
+        return $this->sgNotificationSupportMessageUser;
+    }
+
+    public function setSgNotificationSupportMessageUser(?int $sgNotificationSupportMessageUser): self
+    {
+        $this->sgNotificationSupportMessageUser = $sgNotificationSupportMessageUser;
+
+        return $this;
+    }
+
+    public function getSgNotificationSupportMessageAdminLanguage(): ?int
+    {
+        return $this->sgNotificationSupportMessageAdminLanguage;
+    }
+
+    public function setSgNotificationSupportMessageAdminLanguage(?int $sgNotificationSupportMessageAdminLanguage): self
+    {
+        $this->sgNotificationSupportMessageAdminLanguage = $sgNotificationSupportMessageAdminLanguage;
+
+        return $this;
+    }
+
+    public function getSgNotificationSupportMessageUserLanguage(): ?int
+    {
+        return $this->sgNotificationSupportMessageUserLanguage;
+    }
+
+    public function setSgNotificationSupportMessageUserLanguage(?int $sgNotificationSupportMessageUserLanguage): self
+    {
+        $this->sgNotificationSupportMessageUserLanguage = $sgNotificationSupportMessageUserLanguage;
 
         return $this;
     }

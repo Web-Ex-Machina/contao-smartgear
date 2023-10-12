@@ -72,6 +72,7 @@ services:
         workdir_contao_public: ${WORKDIR_CONTAO_PUBLIC}
         prj_name: ${PRJ_NAME}
         ssl_port: ${WEBSERVER_EXPOSED_PORT_SSL}
+        php_port: ${PHP_FPM_EXPOSED_PORT}
     container_name: ${COMPOSE_PROJECT_NAME_SHORT}_web_base
     restart: unless-stopped
     tty: true

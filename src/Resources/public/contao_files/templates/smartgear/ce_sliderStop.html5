@@ -3,9 +3,9 @@
   </div>
 
   <nav class="slider-control">
-    <a href="#" class="slider-prev"><?= $this->previous ?></a>
-    <span class="slider-menu"></span>
-    <a href="#" class="slider-next"><?= $this->next ?></a>
+    <span class="slider-menu  sliderFW__nav"></span>
+    <div class="slider-next sliderFW__arrow next" title="<?php echo $this->next ?>"></div>
+    <div class="slider-prev sliderFW__arrow prev" title="<?php echo $this->previous ?>"></div>
   </nav>
 
 </div>
