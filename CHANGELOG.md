@@ -1,7 +1,7 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
-1.0.21 - 2023-08-XX
+1.0.21 - 2023-10-12
 - Smartgear : Content deletion unallowed even by admin fix
 - Smartgear : Dashboard statistics for visits do not register AJAX requests anymore
 - Smartgear : Smartgear's API `version` endpoint now returns PHP, Contao `core-bundle` & Framway's version
@@ -19,6 +19,7 @@ SMARTGEAR Project for Contao Open Source CMS
 - Smartgear : Backup Manager now split files > 2,5Go in smaller files (avoid memory limit overflow, but isn't faster)
 - Smartgear : `smartgear:udpate:update` now accepts `--nobackup` option
 - Smartgear : `smartgear:backup:list` now shows backup's source
+- Smartgear : reverted to previous rules for `https` & `www` redirections in `.htaccess`
 - FormContact : Sender's address is now `##admin_email##` token instead of Smartgear's Owner' email address
 - StyleManager : the `rsce_listLogos` now has the same options as `rsce_listIcons`
 - StyleManager : the `headline` now has an `alignement` option

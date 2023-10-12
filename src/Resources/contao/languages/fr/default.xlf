@@ -3926,7 +3926,7 @@
 		</trans-unit>
 		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202310121049.description">
 			<source>Update .htaccess file management for "https" and "www" redirections rules.</source>
-			<target>Met à joru la gestion du fichier .htaccess pour les redirections "https" et "www".</target>
+			<target>Met à jour la gestion du fichier .htaccess pour les redirections "https" et "www".</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202310121049.done">
 			<source>.htaccess file management updated.</source>
