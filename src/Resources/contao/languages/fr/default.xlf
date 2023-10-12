@@ -3919,6 +3919,21 @@
 			<source>Support ticket creation from dashboard's notification added.</source>
 			<target>Notification pour les créations de ticket de support via le tableau de bord ajoutée.</target>
 		</trans-unit>
+		<!-- V1_0_21/M202310121049 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202310121049.name">
+			<source>Smartgear v1.0.21 - htaccess update</source>
+			<target>Smartgear v1.0.21 - mise à jour htaccess</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202310121049.description">
+			<source>Update .htaccess file management for "https" and "www" redirections rules.</source>
+			<target>Met à joru la gestion du fichier .htaccess pour les redirections "https" et "www".</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202310121049.done">
+			<source>.htaccess file management updated.</source>
+			<target>Gestion du fichier .htaccess mise à jour.</target>
+		</trans-unit>
+
+
 
 		<!-- Social networks -->
 		<trans-unit id="WEMSG.SOCIALNETWORK.CATEGORY.social">
