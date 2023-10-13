@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.22 - 2023-10-13
+- Smartgear : fix ajax requests BE being catched by Smartgear when they should not
+
 1.0.21 - 2023-10-12
 - Smartgear : Content deletion unallowed even by admin fix
 - Smartgear : Dashboard statistics for visits do not register AJAX requests anymore

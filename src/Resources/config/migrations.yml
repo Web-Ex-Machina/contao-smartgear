@@ -241,4 +241,16 @@ services:
       $htaccessAnalyzer: '@smartgear.classes.analyzer.htaccess'
     public: true
 
+  smartgear.migrations.v1_0_22.m202310131044.migration:
+    class: WEM\SmartgearBundle\Migrations\PlaceholderMigration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+      $x: 1
+      $y: 0
+      $z: 22
+    public: true
+
 

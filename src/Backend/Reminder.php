@@ -51,7 +51,7 @@ class Reminder extends BackendModule
 
     public function compile(): void
     {
-        if (Input::post('TL_AJAX') && $this->strId === Input::post('wem_module')) {
+        if (Input::post('TL_AJAX') && Input::post('TL_WEM_AJAX') && $this->strId === Input::post('wem_module')) {
             $this->processAjaxRequest(Input::post('action'));
         }
 
@@ -68,8 +68,9 @@ class Reminder extends BackendModule
 
     public function processAjaxRequest($strAction): void
     {
-        try {
-            switch (Input::post('action')) {
+        if (Input::post('TL_WEM_AJAX') && $this->strId === Input::post('wem_module')) {
+            try {
+                switch (Input::post('action')) {
                 case 'resetReminder':
                     try {
                         $model = \Contao\Model::getClassFromTable(Input::post('ptable'));
@@ -114,14 +115,15 @@ class Reminder extends BackendModule
                     }
                     break;
             }
-        } catch (Exception $e) {
-            $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
-        }
+            } catch (Exception $e) {
+                $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
+            }
 
-        // Add Request Token to JSON answer and return
-        $arrResponse['rt'] = RequestToken::get();
-        echo json_encode($arrResponse);
-        exit;
+            // Add Request Token to JSON answer and return
+            $arrResponse['rt'] = RequestToken::get();
+            echo json_encode($arrResponse);
+            exit;
+        }
     }
 
     protected function getContents(): array
