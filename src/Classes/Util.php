@@ -1000,22 +1000,22 @@ class Util
     {
         $result = '';
         if ($interval->y) {
-            $result .= $interval->format('%y '.strtolower($GLOBALS['TL_LANG']['MSC']['year'.($interval->d > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%y '.strtolower($GLOBALS['TL_LANG']['MSC']['year'.($interval->y > 1 ? 's' : '')]).' ');
         }
         if ($interval->m) {
-            $result .= $interval->format('%m '.strtolower($GLOBALS['TL_LANG']['MSC']['month'.($interval->d > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%m '.strtolower($GLOBALS['TL_LANG']['MSC']['month'.($interval->m > 1 ? 's' : '')]).' ');
         }
         if ($interval->d) {
             $result .= $interval->format('%d '.strtolower($GLOBALS['TL_LANG']['MSC']['day'.($interval->d > 1 ? 's' : '')]).' ');
         }
         if ($interval->h) {
-            $result .= $interval->format('%h '.strtolower($GLOBALS['TL_LANG']['MSC']['hour'.($interval->d > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%h '.strtolower($GLOBALS['TL_LANG']['MSC']['hour'.($interval->h > 1 ? 's' : '')]).' ');
         }
         if ($interval->i) {
-            $result .= $interval->format('%i '.strtolower($GLOBALS['TL_LANG']['MSC']['minute'.($interval->d > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%i '.strtolower($GLOBALS['TL_LANG']['MSC']['minute'.($interval->i > 1 ? 's' : '')]).' ');
         }
         if ($includeSeconds && $interval->s) {
-            $result .= $interval->format('%s '.strtolower($GLOBALS['TL_LANG']['MSC']['second'.($interval->d > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%s '.strtolower($GLOBALS['TL_LANG']['MSC']['second'.($interval->s > 1 ? 's' : '')]).' ');
         }
 
         return trim($result);
