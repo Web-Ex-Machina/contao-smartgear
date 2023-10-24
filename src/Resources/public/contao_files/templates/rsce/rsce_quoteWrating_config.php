@@ -36,13 +36,13 @@ return [
         'display_numbers' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['display_numbers'],
             'inputType' => 'checkbox', 
-            'eval' => ['tl_class' => 'clr cbx'],
+            'eval' => ['tl_class' => 'w50 m12'],
             'default' => true,
         ],
         'display_stars' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['display_numbers'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['display_stars'],
             'inputType' => 'checkbox', 
-            'eval' => ['tl_class' => 'clr cbx'],
+            'eval' => ['tl_class' => 'w50 m12'],
             'default' => true,
         ],
         'text' => [
@@ -57,7 +57,7 @@ return [
         'author_position' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['author_position'], 
             'inputType' => 'text', 
-            'eval' => ['tl_class' => 'w50 clr', 'mandatory' => false],
+            'eval' => ['tl_class' => 'w50', 'mandatory' => false],
         ],
     ],
 ];
