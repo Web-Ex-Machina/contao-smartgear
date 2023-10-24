@@ -1,6 +1,11 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.23 - 2023-10-24
+- Smartgear : fix Framway theme configuration file reading
+- Smartgear : fix text plural for reminder
+- RSCE : Fix `rsce_quoteWRating` texts & classes for some inputs
+
 1.0.22 - 2023-10-13
 - Smartgear : fix ajax requests BE being catched by Smartgear when they should not
 

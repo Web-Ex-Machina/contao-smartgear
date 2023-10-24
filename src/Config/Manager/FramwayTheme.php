@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -55,6 +55,13 @@ class FramwayTheme extends ManagerFramway
 
     protected function specificPregReplaceForNotJsonCompliantConfigurationImport(string $notJsonCompliant): string
     {
+        $notJsonCompliant = str_replace('module.exports = ', '', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/^([\s\t]*)\/\/(.*)/m', '', $notJsonCompliant); // remove one liner comments
+        $notJsonCompliant = preg_replace('/^(.*)\'\,([\s\t]*)\/\/(.*)/m', '$1\',', $notJsonCompliant); // remove comments at the end of a line
+        $notJsonCompliant = preg_replace('/^(.*)\,([\s\t]*)\/\/(.*)/m', '$1,', $notJsonCompliant); // remove comments at the end of a line
+        $notJsonCompliant = preg_replace('/,([\s]*)\]/', ']', $notJsonCompliant); // final comma in array
+        $notJsonCompliant = preg_replace('/,([\s]*)\}/', '}', $notJsonCompliant); // final comma in object
+
         return preg_replace('/\'([^\']*)\'/', '"$1"', $notJsonCompliant);
     }
 }
