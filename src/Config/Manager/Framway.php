@@ -64,6 +64,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         $notJsonCompliant = $this->retrieveConfigurationFromFile();
 
         $notJsonCompliant = $this->specificPregReplaceForNotJsonCompliantConfigurationImport($notJsonCompliant);
+
         try {
             return json_decode($notJsonCompliant, false, 512, \JSON_THROW_ON_ERROR);
         } catch (Exception $e) {
@@ -114,14 +115,13 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         $notJsonCompliant = preg_replace('/\t/', '', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/\n/', '', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/\s\s/', '', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/,([\s]*)\]/', ']', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/,([\s]*)\}/', '}', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/,([\s]*)\]/', ']', $notJsonCompliant); // final comma in array
+        $notJsonCompliant = preg_replace('/,([\s]*)\}/', '}', $notJsonCompliant); // final comma in object
 
-        $notJsonCompliant =  preg_replace('/\.\"com\":/', '.com:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
-        $notJsonCompliant =  preg_replace('/\"https\":/', '"https:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
-        $notJsonCompliant =  preg_replace('/\"http\":/', '"http:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
+        $notJsonCompliant = preg_replace('/\.\"com\":/', '.com:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
+        $notJsonCompliant = preg_replace('/\"https\":/', '"https:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
 
-        return $notJsonCompliant;
+        return preg_replace('/\"http\":/', '"http:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
     }
 
     protected function retrieveConfigurationFromFile(): string
