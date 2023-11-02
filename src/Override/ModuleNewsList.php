@@ -55,16 +55,22 @@ class ModuleNewsList extends \Contao\ModuleNewsList
 
     protected function buildFilters(): void
     {
-        $objItems = UserModel::findAll();
+        $objItems = $this->Database->prepare('SELECT tn.author FROM tl_news AS tn GROUP BY tn.author')->execute();
         if ($objItems) {
             $this->filters['select']['author'] = ['label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['author'], 'options' => []];
 
             while ($objItems->next()) {
-                $this->filters['select']['author']['options'][$objItems->current()->id] = ['label' => $objItems->current()->name, 'value' => $objItems->current()->id];
+                $objUser = UserModel::findByPk($objItems->author);
 
-                if ($objItems->current()->id === Input::get('author')) {
-                    $this->filters['select']['author']['options'][$objItems->current()->id]['selected'] = true;
-                    $this->config['author'] = $objItems->current()->id;
+                if (!$objUser->name) {
+                    continue;
+                }
+
+                $this->filters['select']['author']['options'][$objUser->id] = ['label' => $objUser->name, 'value' => $objUser->id];
+
+                if ($objUser->id === Input::get('author')) {
+                    $this->filters['select']['author']['options'][$objUser->id]['selected'] = true;
+                    $this->config['author'] = $objUser->id;
                 }
             }
         }
