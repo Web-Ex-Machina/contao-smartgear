@@ -1,9 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
-1.0.24 - 2023-11-XX
+1.0.24 - 2023-11-02
 - Smartgear : fix root pages robotsTxt values depending on development or production mode enabled
-- Blog : authors' filter only features members with at least one post
+- Blog : authors' filter only features users with at least one post
 
 1.0.23 - 2023-10-24
 - Smartgear : fix Framway theme configuration file reading
