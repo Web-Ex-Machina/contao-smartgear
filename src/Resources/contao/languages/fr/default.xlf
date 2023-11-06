@@ -4423,24 +4423,24 @@
 		</trans-unit>
 
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_customnav">
-			<source>Footer nav</source>
-			<target>Nav footer</target>
+			<source>Nav - footer</source>
+			<target>Nav - footer</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_wem_sg_footer">
 			<source>Footer</source>
 			<target>Footer</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_navigation">
-			<source>Nav</source>
-			<target>Nav</target>
+			<source>Nav - Main</source>
+			<target>Nav - Main</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_wem_sg_header">
-			<source>Header SG</source>
-			<target>Header SG</target>
+			<source>HEADER</source>
+			<target>HEADER</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_breadcrumb">
 			<source>Breadcrumb</source>
-			<target>Fil d'arianne</target>
+			<target>Fil d'ariane</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_sitemap">
 			<source>Sitemap</source>

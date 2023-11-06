@@ -1204,8 +1204,26 @@ class Smartgear extends \Contao\BackendModule
             'airtableApiKeyForRead' => $coreConfig->getSgAirtableApiKeyForRead(),
             'airtableApiKeyForWrite' => $coreConfig->getSgAirtableApiKeyForWrite(),
         ];
+        $core['modules'] = [];
         foreach ($coreConfig->getSgModules() as $module) {
             $core['modules'][$module->key] = (int) $module->id;
+        }
+
+        // mandatory modules - see src/Backend/Component/Core/ConfigurationStep/Website.php
+        $arrMandatoryModules = ['navigation',
+            'wem_sg_header',
+            'breadcrumb',
+            'wem_sg_footer',
+            'sitemap',
+            'wem_sg_social_link',
+            'wem_sg_social_link_config_categories',
+            'wem_personaldatamanager',
+        ];
+
+        foreach ($arrMandatoryModules as $mandatoryModule) {
+            if (!\array_key_exists($mandatoryModule, $core['modules'])) {
+                $core['modules'][$mandatoryModule] = null;
+            }
         }
 
         $this->Template->core = $core;
