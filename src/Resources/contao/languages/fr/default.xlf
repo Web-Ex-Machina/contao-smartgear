@@ -4744,15 +4744,15 @@
 		</trans-unit>	
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_notificationMessageUserLanguage">
 			<source>User notification - language</source>
-			<target>NOtification utilisateur - langue</target>
+			<target>Notification utilisateur - langue</target>
 		</trans-unit>	
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_notificationMessageAdmin">
 			<source>Administrator notification</source>
-			<target>NOtification administrateur</target>
+			<target>Notification administrateur</target>
 		</trans-unit>	
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_notificationMessageAdminLanguage">
 			<source>Administrator notification - language</source>
-			<target>NOtification administrateur - langue</target>
+			<target>Notification administrateur - langue</target>
 		</trans-unit>	
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_formContactTitle">
 			<source>Form contact title</source>

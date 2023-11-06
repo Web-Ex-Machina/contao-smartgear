@@ -193,6 +193,15 @@ class Core implements ConfigModuleInterface
     /** @var FormDataManagerConfig */
     protected $sgFormDataManager;
 
+    public function __clone()
+    {
+        foreach (get_object_vars($this) as $name => $value) {
+            if (\is_object($value)) {
+                $this->{$name} = clone $value;
+            }
+        }
+    }
+
     public function reset(): self
     {
         $this->setSgInstallComplete(false)

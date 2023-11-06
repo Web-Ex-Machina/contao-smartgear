@@ -488,7 +488,9 @@ class Smartgear extends \Contao\BackendModule
     private function saveConfigurationManagerForm(): void
     {
         /** @var CoreConfig */
-        $coreConfig = $this->coreConfigurationManager->load();
+        $coreConfigOld = $this->coreConfigurationManager->load();
+
+        $coreConfig = clone $coreConfigOld;
 
         if (Input::post('core')) {
             $coreConfig
@@ -553,9 +555,10 @@ class Smartgear extends \Contao\BackendModule
                 ->setSgAirtableApiKeyForRead(Input::post('core')['airtableApiKeyForRead'])
                 ->setSgAirtableApiKeyForWrite(Input::post('core')['airtableApiKeyForWrite'])
             ;
+
             $arrModules = [];
             foreach (Input::post('core')['modules'] ?? [] as $key => $moduleId) {
-                $objModule = ModuleModel::findByPk($moduleId);
+                $objModule = ModuleModel::findByPk($moduleId); // resets config to its old value ... :thinking:
                 $arrModules[] = [
                     'key' => $key,
                     'id' => $objModule ? $objModule->id : null,
@@ -920,7 +923,7 @@ class Smartgear extends \Contao\BackendModule
                                 $arrPages[$objPage->id] = [
                                     'value' => (int) $objPage->id,
                                     // 'text' => $objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.')',
-                                    'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.')',
+                                    'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').')',
                                     'selected' => false,
                                 ];
 
@@ -939,7 +942,7 @@ class Smartgear extends \Contao\BackendModule
                                         $arrArticles[$objArticle->id] = [
                                             'value' => (int) $objArticle->id,
                                             // 'text' => $objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->type.')',
-                                            'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.') | '.$objArticle->sorting.' - '.$objArticle->title,
+                                            'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').') | '.$objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->inColumn.' - '.($objArticle->published ? 'publié' : 'dépublié').')',
                                             'selected' => false,
                                         ];
 
@@ -954,11 +957,12 @@ class Smartgear extends \Contao\BackendModule
                                         if ($contents) {
                                             while ($contents->next()) {
                                                 $objContent = $contents->current();
+
                                                 // $arrContents[$objArticle->id]['options'][$objContent->id] = [
                                                 $arrContents[$objContent->id] = [
                                                     'value' => (int) $objContent->id,
                                                     // 'text' => $objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
-                                                    'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.') | '.$objArticle->sorting.' - '.$objArticle->title.' | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
+                                                    'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').') | '.$objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->inColumn.' - '.($objArticle->published ? 'publié' : 'dépublié').')'.' | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.' - '.($objContent->invisible ? 'invisible' : 'visible').')'.$this->getContentAdditionalInfos($objContent),
                                                     'selected' => false,
                                                 ];
                                             }
@@ -979,11 +983,26 @@ class Smartgear extends \Contao\BackendModule
         $pages = PageModel::findBy('layout', 0, ['order' => 'sorting ASC']);
         if ($pages) {
             while ($pages->next()) {
+                $themeName = 'No theme';
                 $objPage = $pages->current();
+
+                if (\array_key_exists($objPage->id, $arrPages)) {
+                    continue;
+                }
+
+                $objPage->loadDetails();
+                if (0 !== $objPage->layout) {
+                    if ($objLayout = LayoutModel::findByPk($objPage->layout)) {
+                        if ($objTheme = ThemeModel::findByPk($objLayout->pid)) {
+                            $themeName = $objTheme->name;
+                        }
+                    }
+                }
+
                 // $arrPages[0]['options'][$pages->id] = [
                 $arrPages[$pages->id] = [
                     'value' => (int) $objPage->id,
-                    'text' => 'No theme | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.')',
+                    'text' => $themeName.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').')',
                     'selected' => false,
                 ];
                 // if (!$arrArticles[$objPage->id]) {
@@ -1001,7 +1020,7 @@ class Smartgear extends \Contao\BackendModule
                         $arrArticles[$objArticle->id] = [
                             'value' => (int) $objArticle->id,
                             // 'text' => $objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->type.')',
-                            'text' => 'No theme | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.') | '.$objArticle->sorting.' - '.$objArticle->title,
+                            'text' => $themeName.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').') | '.$objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->inColumn.' - '.($objArticle->published ? 'publié' : 'dépublié').')',
                             'selected' => false,
                         ];
 
@@ -1016,11 +1035,12 @@ class Smartgear extends \Contao\BackendModule
                         if ($contents) {
                             while ($contents->next()) {
                                 $objContent = $contents->current();
+
                                 // $arrContents[$objArticle->id]['options'][$objContent->id] = [
                                 $arrContents[$objContent->id] = [
                                     'value' => (int) $objContent->id,
                                     // 'text' => $objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
-                                    'text' => 'No theme | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.') | '.$objArticle->sorting.' - '.$objArticle->title.' | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
+                                    'text' => $themeName.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').') | '.$objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->inColumn.' - '.($objArticle->published ? 'publié' : 'dépublié').')'.' | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.' - '.($objContent->invisible ? 'invisible' : 'visible').')'.$this->getContentAdditionalInfos($objContent),
                                     'selected' => false,
                                 ];
                             }
@@ -1210,10 +1230,12 @@ class Smartgear extends \Contao\BackendModule
         }
 
         // mandatory modules - see src/Backend/Component/Core/ConfigurationStep/Website.php
-        $arrMandatoryModules = ['navigation',
+        $arrMandatoryModules = [
+            'navigation',
             'wem_sg_header',
             'breadcrumb',
             'wem_sg_footer',
+            'customnav',
             'sitemap',
             'wem_sg_social_link',
             'wem_sg_social_link_config_categories',
@@ -1698,5 +1720,41 @@ class Smartgear extends \Contao\BackendModule
         $this->Template->extranet = $extranet;
         $this->Template->members = $empty + $arrMembers;
         $this->Template->memberGroups = $empty + $arrMemberGroups;
+    }
+
+    private function getContentAdditionalInfos(ContentModel $objContent): string
+    {
+        $contentAdditionnalInfos = '';
+
+        switch ($objContent->type) {
+            case 'module':
+                if ($objModule = ModuleModel::findByPk($objContent->module)) {
+                    $contentAdditionnalInfos = ' - '.$objModule->name;
+                }
+            break;
+            case 'article':
+                if ($objArticle = ArticleModel::findByPk($objContent->article)) {
+                    $contentAdditionnalInfos = ' - '.$objArticle->title;
+                }
+            break;
+            case 'headline':
+                if ($objContent->text) {
+                    $text = System::getContainer()->get('contao.string.html_decoder')->htmlToPlainText($objContent->text);
+                    $contentAdditionnalInfos = ' - '.substr($text, 0, \strlen($text) > 20 ? 20 : \strlen($text)).'...';
+                } elseif ($objContent->headline) {
+                    $arrHeadline = StringUtil::deserialize($objContent->headline);
+
+                    // $contentAdditionnalInfos = ' - '.substr($arrHeadline['value'], 0, \strlen($arrHeadline['value']) > 20 ? 20 : \strlen($arrHeadline['value'])).'...';
+                    $contentAdditionnalInfos = ' - '.$arrHeadline['value'];
+                }
+            break;
+            default:
+                if ($objContent->text) {
+                    $text = System::getContainer()->get('contao.string.html_decoder')->htmlToPlainText($objContent->text);
+                    $contentAdditionnalInfos = ' - '.substr($text, 0, \strlen($text) > 20 ? 20 : \strlen($text)).'...';
+                }
+        }
+
+        return $contentAdditionnalInfos;
     }
 }
