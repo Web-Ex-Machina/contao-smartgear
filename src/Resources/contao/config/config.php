@@ -89,11 +89,11 @@ if (isset($bundles['VerstaerkerI18nl10nBundle'])) {
 /*
  * Move Page Backend Module
  */
-ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['extranet'], 0, [
-    'member' => $GLOBALS['BE_MOD']['accounts']['member'],
-    'mgroup' => $GLOBALS['BE_MOD']['accounts']['mgroup'],
-]);
-unset($GLOBALS['BE_MOD']['accounts']['member'], $GLOBALS['BE_MOD']['accounts']['mgroup']);
+// ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['extranet'], 0, [
+//     'member' => $GLOBALS['BE_MOD']['accounts']['member'],
+//     'mgroup' => $GLOBALS['BE_MOD']['accounts']['mgroup'],
+// ]);
+// unset($GLOBALS['BE_MOD']['accounts']['member'], $GLOBALS['BE_MOD']['accounts']['mgroup']);
 
 $GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_sm_form_storage';
 $GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_sm_form_storage_data';

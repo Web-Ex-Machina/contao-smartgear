@@ -143,6 +143,9 @@ services:
         class: WEM\SmartgearBundle\EventListener\BackendMenuBuildListener
         arguments:
             $configurationManager: '@smartgear.config.manager.core'
+            $router: '@contao.routing.legacy_router'
+            $requestStack: '@request_stack'
+            $translator: '@contao.translation.translator'
         tags:
             - { name: kernel.event_listener, event: contao.backend_menu_build }
         public: true
