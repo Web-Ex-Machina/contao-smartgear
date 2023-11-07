@@ -15,8 +15,11 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\EventListener;
 
 use Contao\Input;
+use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfiguration;
 use WEM\SmartgearBundle\Config\Framway as FramwayConfiguration;
 use WEM\SmartgearBundle\Config\FramwayTheme as FramwayThemeConfiguration;
 use WEM\SmartgearBundle\Config\Manager\Framway as ConfigurationManager;
@@ -50,6 +53,8 @@ class LoadDataContainerListener
 {
     /** @var TranslatorInterface */
     protected $translator;
+    /** @var CoreConfigurationManager */
+    protected $configurationManager;
     /** @var ConfigurationManager */
     protected $framwayConfigurationManager;
     /** @var ConfigurationThemeManager */
@@ -61,11 +66,13 @@ class LoadDataContainerListener
 
     public function __construct(
         TranslatorInterface $translator,
+        CoreConfigurationManager $configurationManager,
         ConfigurationManager $framwayConfigurationManager,
         ConfigurationThemeManager $framwayThemeConfigurationManager,
         array $listeners
     ) {
         $this->translator = $translator;
+        $this->configurationManager = $configurationManager;
         $this->framwayConfigurationManager = $framwayConfigurationManager;
         $this->framwayThemeConfigurationManager = $framwayThemeConfigurationManager;
         $this->listeners = $listeners;
@@ -147,6 +154,41 @@ class LoadDataContainerListener
                     ->addConfigOnloadCallback(MemberDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(MemberDCA::class, 'deleteItem')
                 ;
+                try {
+                    /** @var CoreConfiguration */
+                    $coreConfig = $this->configurationManager->load();
+                } catch (Exception $e) {
+                    $coreConfig = null;
+                }
+
+                if (!$coreConfig
+                || $coreConfig->getSgUsePdmForMembers()
+                ) {
+                    DCAManipulator::create($table)
+                        ->setDataContainer(\WEM\SmartgearBundle\Classes\Dca\Driver\DC_Table::class)
+                        ->addConfigOnshowCallback('wem.personal_data_manager.dca.config.callback.show', '__invoke')
+                        ->addConfigOndeleteCallback('wem.personal_data_manager.dca.config.callback.delete', '__invoke')
+                        ->addConfigOnsubmitCallback('wem.personal_data_manager.dca.config.callback.submit', '__invoke')
+
+                        ->addListLabelLabelCallback('wem.personal_data_manager.dca.listing.callback.list_label_label_for_list', '__invoke')
+                        ->addListLabelGroupCallback('wem.personal_data_manager.dca.listing.callback.list_label_group', '__invoke')
+
+                        ->addFieldLoadCallback('firstname', ['smartgear.classes.dca.field.callback.load.tl_member.firstname', '__invoke'])
+                        ->addFieldLoadCallback('lastname', ['smartgear.classes.dca.field.callback.load.tl_member.lastname', '__invoke'])
+                        ->addFieldLoadCallback('dateOfBirth', ['smartgear.classes.dca.field.callback.load.tl_member.dateOfBirth', '__invoke'])
+                        ->addFieldLoadCallback('gender', ['smartgear.classes.dca.field.callback.load.tl_member.gender', '__invoke'])
+                        ->addFieldLoadCallback('company', ['smartgear.classes.dca.field.callback.load.tl_member.company', '__invoke'])
+                        ->addFieldLoadCallback('street', ['smartgear.classes.dca.field.callback.load.tl_member.street', '__invoke'])
+                        ->addFieldLoadCallback('postal', ['smartgear.classes.dca.field.callback.load.tl_member.postal', '__invoke'])
+                        ->addFieldLoadCallback('city', ['smartgear.classes.dca.field.callback.load.tl_member.city', '__invoke'])
+                        ->addFieldLoadCallback('state', ['smartgear.classes.dca.field.callback.load.tl_member.state', '__invoke'])
+                        ->addFieldLoadCallback('country', ['smartgear.classes.dca.field.callback.load.tl_member.country', '__invoke'])
+                        ->addFieldLoadCallback('phone', ['smartgear.classes.dca.field.callback.load.tl_member.phone', '__invoke'])
+                        ->addFieldLoadCallback('mobile', ['smartgear.classes.dca.field.callback.load.tl_member.mobile', '__invoke'])
+                        ->addFieldLoadCallback('fax', ['smartgear.classes.dca.field.callback.load.tl_member.fax', '__invoke'])
+                    ;
+                }
+
             break;
             case 'tl_member_group':
                 DCAManipulator::create($table)

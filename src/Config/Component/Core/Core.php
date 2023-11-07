@@ -60,6 +60,8 @@ class Core implements ConfigModuleInterface
     protected $sgInstallComplete = false;
     /** @var bool */
     protected $sgInstallLocked = false;
+    /** @var bool */
+    protected $sgUsePdmForMembers = true;
     /** @var string */
     protected $sgVersion = self::DEFAULT_VERSION;
     /** @var string */
@@ -208,6 +210,7 @@ class Core implements ConfigModuleInterface
     {
         $this->setSgInstallComplete(false)
             ->setSgInstallLocked(false)
+            ->setSgUsePdmForMembers(true)
             ->setSgVersion(static::DEFAULT_VERSION)
             ->setSgTheme(null)
             ->setSgImageSizes([])
@@ -284,6 +287,7 @@ class Core implements ConfigModuleInterface
     {
         $this->setSgInstallComplete($json->installComplete ?? false)
             ->setSgInstallLocked($json->installLocked ?? false)
+            ->setSgUsePdmForMembers($json->usePdmForMembers ?? true)
             ->setSgVersion($json->version ?? static::DEFAULT_VERSION)
             ->setSgTheme($json->contao->theme ?? null)
             ->setSgImageSizes($json->contao->imageSizes ?? [])
@@ -385,6 +389,7 @@ class Core implements ConfigModuleInterface
         $json = new \stdClass();
         $json->installComplete = $this->getSgInstallComplete();
         $json->installLocked = $this->getSgInstallLocked();
+        $json->usePdmForMembers = $this->getSgUsePdmForMembers();
         $json->version = $this->getSgVersion();
         $json->selectedModules = $this->getSgSelectedModules();
         $json->mode = $this->getSgMode();
@@ -1809,6 +1814,18 @@ class Core implements ConfigModuleInterface
     public function setSgInstallLocked(bool $sgInstallLocked): self
     {
         $this->sgInstallLocked = $sgInstallLocked;
+
+        return $this;
+    }
+
+    public function getSgUsePdmForMembers(): bool
+    {
+        return $this->sgUsePdmForMembers;
+    }
+
+    public function setSgUsePdmForMembers(bool $sgUsePdmForMembers): self
+    {
+        $this->sgUsePdmForMembers = $sgUsePdmForMembers;
 
         return $this;
     }

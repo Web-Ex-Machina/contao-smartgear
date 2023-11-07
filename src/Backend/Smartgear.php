@@ -500,6 +500,7 @@ class Smartgear extends \Contao\BackendModule
             $coreConfig
                 ->setSgInstallComplete((bool) Input::post('core')['installComplete'])
                 ->setSgInstallLocked((bool) Input::post('core')['installLocked'])
+                ->setSgUsePdmForMembers((bool) Input::post('core')['usePdmForMembers'])
                 ->setSgVersion(Input::post('core')['version'])
                 ->setSgFramwayPath(Input::post('core')['framwayPath'])
                 // ->setSgFramwayThemes(Input::post('core')['framwayThemes'])
@@ -1170,6 +1171,7 @@ class Smartgear extends \Contao\BackendModule
         $core = [
             'installComplete' => $coreConfig->getSgInstallComplete(),
             'installLocked' => $coreConfig->getSgInstallLocked(),
+            'usePdmForMembers' => $coreConfig->getSgUsePdmForMembers(),
             'version' => $coreConfig->getSgVersion(),
             'framwayPath' => $coreConfig->getSgFramwayPath() ?? CoreConfig::DEFAULT_FRAMWAY_PATH,
             // 'framwayThemes' => $coreConfig->getSgFramwayThemes(),

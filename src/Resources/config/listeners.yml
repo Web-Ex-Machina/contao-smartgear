@@ -15,6 +15,7 @@ services:
         class: WEM\SmartgearBundle\EventListener\LoadDataContainerListener
         arguments:
             $translator: '@contao.translation.translator'
+            $configurationManager: '@smartgear.config.manager.core'
             $framwayConfigurationManager: '@smartgear.config.manager.framway'
             $framwayThemeConfigurationManager: '@smartgear.config.manager.framway_theme'
             $listeners:

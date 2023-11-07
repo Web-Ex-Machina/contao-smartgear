@@ -38,6 +38,14 @@ class Manipulator
         return (new self())->setTable($table);
     }
 
+    public function setDataContainer(string $dataContainer)
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['config']['dataContainer'] = $dataContainer;
+
+        return $this;
+    }
+
     public function addCtable(string $table)
     {
         $this->checkConfiguration();
@@ -82,10 +90,26 @@ class Manipulator
         return $this;
     }
 
+    public function addConfigOnshowCallback(string $className, string $functionName): self
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['config']['onshow_callback'][] = [$className, $functionName];
+
+        return $this;
+    }
+
     public function addConfigOnsubmitCallback(string $className, string $functionName): self
     {
         $this->checkConfiguration();
         $GLOBALS['TL_DCA'][$this->table]['config']['onsubmit_callback'][] = [$className, $functionName];
+
+        return $this;
+    }
+
+    public function addConfigOndeleteCallback(string $className, string $functionName): self
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['config']['ondelete_callback'][] = [$className, $functionName];
 
         return $this;
     }
@@ -110,6 +134,14 @@ class Manipulator
     {
         $this->checkConfiguration();
         $GLOBALS['TL_DCA'][$this->table]['list']['label']['label_callback'] = [$className, $functionName];
+
+        return $this;
+    }
+
+    public function addListLabelGroupCallback(string $className, string $functionName): self
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['list']['label']['group_callback'] = [$className, $functionName];
 
         return $this;
     }

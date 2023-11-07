@@ -64,11 +64,15 @@
 					?>
 				</legend>
 
-				<div class="d-grid cols-4">
+				<div class="d-grid cols-3">
 				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'core_installComplete','name'=>'core[installComplete]','value'=>'1','checked'=>(bool) $this->core['installComplete']]); ?>
 
 				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'core_installLocked','name'=>'core[installLocked]','value'=>'1','checked'=>(bool) $this->core['installLocked']]); ?>
 
+				<?php $this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'core_usePdmForMembers','name'=>'core[usePdmForMembers]','value'=>'1','checked'=>(bool) $this->core['usePdmForMembers']]); ?>
+				</div>
+
+				<div class="d-grid cols-2">
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_version','name'=>'core[version]','type'=>'text','value'=>$this->core['version']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_select',['label'=>'core_mode','name'=>'core[mode]','options'=>$this->core['mode']]); ?>
 				</div>
