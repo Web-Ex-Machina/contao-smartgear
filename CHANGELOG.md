@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.25 - 2023-11-XX
+- Smartgear : added a way to lock an install (only available when editing configuration thanks to dedicated form)
+
 1.0.24 - 2023-11-02
 - Smartgear : fix root pages robotsTxt values depending on development or production mode enabled
 - Blog : authors' filter only features users with at least one post
