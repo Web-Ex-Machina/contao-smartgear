@@ -273,6 +273,10 @@ class Smartgear extends \Contao\BackendModule
         $this->Template->token = RequestToken::get();
         $this->Template->websiteTitle = Config::get('websiteTitle');
         $this->Template->version = $this->coreConfigurationManager->load()->getSgVersion();
+
+        if ($coreConfig->getSgInstallLocked()) {
+            Message::addInfo($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['installLocked']);
+        }
     }
 
     /**
@@ -416,7 +420,7 @@ class Smartgear extends \Contao\BackendModule
         // play updates button
         $this->Template->playUpdatesWithoutBackupButtonHref = $this->addToUrl('&act=play&backup=0');
         $this->Template->playUpdatesWithoutBackupButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBTTitle']);
-        $this->Template->playUpdatesWithoutBackupButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBT'];
+        $this->Template->playUpdatesWithoutBackupButtonButton = sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBT'], \Contao\Image::getHtml('important.svg'));
         $this->Template->playUpdatesWithBackupButtonHref = $this->addToUrl('&act=play&backup=1');
         $this->Template->playUpdatesWithBackupButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithBackupBTTitle']);
         $this->Template->playUpdatesWithBackupButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithBackupBT'];
@@ -495,6 +499,7 @@ class Smartgear extends \Contao\BackendModule
         if (Input::post('core')) {
             $coreConfig
                 ->setSgInstallComplete((bool) Input::post('core')['installComplete'])
+                ->setSgInstallLocked((bool) Input::post('core')['installLocked'])
                 ->setSgVersion(Input::post('core')['version'])
                 ->setSgFramwayPath(Input::post('core')['framwayPath'])
                 // ->setSgFramwayThemes(Input::post('core')['framwayThemes'])
@@ -1164,6 +1169,7 @@ class Smartgear extends \Contao\BackendModule
 
         $core = [
             'installComplete' => $coreConfig->getSgInstallComplete(),
+            'installLocked' => $coreConfig->getSgInstallLocked(),
             'version' => $coreConfig->getSgVersion(),
             'framwayPath' => $coreConfig->getSgFramwayPath() ?? CoreConfig::DEFAULT_FRAMWAY_PATH,
             // 'framwayThemes' => $coreConfig->getSgFramwayThemes(),

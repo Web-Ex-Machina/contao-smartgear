@@ -194,17 +194,26 @@ class Dashboard extends BackendDashboard
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        if (CoreConfig::MODE_DEV === $config->getSgMode()) {
-            $this->actions[] = ['action' => 'prod_mode_check', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonProdModeLabel']];
-        } else {
-            $this->actions[] = ['action' => 'dev_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonDevModeLabel']];
-        }
-
-        $this->actions[] = ['action' => 'configure', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonConfigurationLabel']];
-        $this->actions[] = ['action' => 'reset_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonResetLabel']];
-
         $objTemplate->version = $config->getSgVersion();
         $objTemplate->mode = $config->getSgMode();
+        $objTemplate->installLocked = $config->getSgInstallLocked();
+
+        if (!$config->getSgInstallLocked()) {
+            if (CoreConfig::MODE_DEV === $config->getSgMode()) {
+                $this->actions[] = ['action' => 'prod_mode_check', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonProdModeLabel']];
+            } else {
+                $this->actions[] = ['action' => 'dev_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonDevModeLabel']];
+            }
+
+            $this->actions[] = ['action' => 'configure', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonConfigurationLabel']];
+            $this->actions[] = ['action' => 'reset_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonResetLabel']];
+        }
+
+        if ($config->getSgInstallLocked()) {
+            $objTemplate->messages = array_merge($objTemplate->messages ?? [], [
+                ['class' => 'tl_info', 'text' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['installLocked']],
+            ]);
+        }
 
         return $objTemplate;
     }

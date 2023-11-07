@@ -126,6 +126,10 @@
 			<source>Finish</source>
 			<target>Terminer</target>
 		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.BackToDashboard">
+			<source>Back to dashboard</source>
+			<target>Retourner au dashboard</target>
+		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.DEFAULT.InvalidToken">
 			<source>Invalid Token</source>
 			<target>Le token est invalide</target>
@@ -145,6 +149,10 @@
 		<trans-unit id="WEM.SMARTGEAR.DEFAULT.defaultDashboard">
 			<source>This is a default dashboard.</source>
 			<target>Ceci est le dashboard par défaut</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.componentNotInstalled">
+			<source>This component is not installed.</source>
+			<target>Ce composant n'est pas installé.</target>
 		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.DEFAULT.elementArchivedAt">
 			<source>%s (archived on %s at %s)</source>
@@ -1323,8 +1331,12 @@
 			<source>Development mode</source>
 			<target>Mode développement</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.buttonInstallationLabel">
+			<source>Setup</source>
+			<target>Installation</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.CORE.DASHBOARD.buttonConfigurationLabel">
-			<source>COnfiguration</source>
+			<source>Configuration</source>
 			<target>Configuration</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CORE.DASHBOARD.buttonResetLabel">
@@ -1342,6 +1354,10 @@
 		<trans-unit id="WEMSG.CORE.DASHBOARD.mode">
 			<source>Mode : %s</source>
 			<target>Mode : %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.installLocked">
+			<source>Install locked</source>
+			<target>Installation verrouillée</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CORE.RESETSTEPMANAGER.buttonTerminateLabel">
 			<source>End reinitialisation</source>
@@ -2599,8 +2615,8 @@
 			<target>Executer les mises à jour sans créer de backup</target>
 		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesWithoutBackupBT">
-			<source>Play updates (no backup)</source>
-			<target>Executer les mises à jour (pas de backup)</target>
+			<source>Play updates (%s no backup)</source>
+			<target>Executer les mises à jour (%s pas de backup)</target>
 		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesWithBackupBTTitle">
 			<source>Play updates</source>
@@ -4212,6 +4228,10 @@
 			<source>Is installed</source>
 			<target>Est installé</target>
 		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_installLocked">
+			<source>Is locked</source>
+			<target>Est verrouillée</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_version">
 			<source>Version</source>
 			<target>Version</target>
@@ -4765,7 +4785,7 @@
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formDataManager_installComplete">
 			<source>Is installed</source>
 			<target>Est installé</target>
-		</trans-unit>	
+		</trans-unit>		
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formDataManager_archived">
 			<source>Is archived</source>
 			<target>Est archivé</target>

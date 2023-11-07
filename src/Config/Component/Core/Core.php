@@ -58,6 +58,8 @@ class Core implements ConfigModuleInterface
     public const SUBMODULES_KEYS = ['blog', 'events', 'faq', 'form_contact', 'extranet', 'form_data_manager'];
     /** @var bool */
     protected $sgInstallComplete = false;
+    /** @var bool */
+    protected $sgInstallLocked = false;
     /** @var string */
     protected $sgVersion = self::DEFAULT_VERSION;
     /** @var string */
@@ -205,6 +207,7 @@ class Core implements ConfigModuleInterface
     public function reset(): self
     {
         $this->setSgInstallComplete(false)
+            ->setSgInstallLocked(false)
             ->setSgVersion(static::DEFAULT_VERSION)
             ->setSgTheme(null)
             ->setSgImageSizes([])
@@ -280,6 +283,7 @@ class Core implements ConfigModuleInterface
     public function import(\stdClass $json): self
     {
         $this->setSgInstallComplete($json->installComplete ?? false)
+            ->setSgInstallLocked($json->installLocked ?? false)
             ->setSgVersion($json->version ?? static::DEFAULT_VERSION)
             ->setSgTheme($json->contao->theme ?? null)
             ->setSgImageSizes($json->contao->imageSizes ?? [])
@@ -380,6 +384,7 @@ class Core implements ConfigModuleInterface
     {
         $json = new \stdClass();
         $json->installComplete = $this->getSgInstallComplete();
+        $json->installLocked = $this->getSgInstallLocked();
         $json->version = $this->getSgVersion();
         $json->selectedModules = $this->getSgSelectedModules();
         $json->mode = $this->getSgMode();
@@ -1792,6 +1797,18 @@ class Core implements ConfigModuleInterface
     public function setSgNotificationSupportMessageUserLanguage(?int $sgNotificationSupportMessageUserLanguage): self
     {
         $this->sgNotificationSupportMessageUserLanguage = $sgNotificationSupportMessageUserLanguage;
+
+        return $this;
+    }
+
+    public function getSgInstallLocked(): bool
+    {
+        return $this->sgInstallLocked;
+    }
+
+    public function setSgInstallLocked(bool $sgInstallLocked): self
+    {
+        $this->sgInstallLocked = $sgInstallLocked;
 
         return $this;
     }
