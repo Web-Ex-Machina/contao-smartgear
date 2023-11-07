@@ -9,7 +9,9 @@
 		<tbody>
 			<?php foreach($this->arrFormStorageDatas as $id => $row): ?>
 				<tr>
-					<td><?php echo $row['field_label']; ?></td>
+					<td>
+						<?php echo $row['field_label'] ?: $row['field_name']; ?>
+					</td>
 					<td>
 						<?php if('upload' === $row['field_type'] && $row['is_uuid']): ?>
 							<a href="<?php echo $row['value']; ?>" target="_blank"><?php echo $row['value']; ?></a>
