@@ -121,6 +121,32 @@
 				<source>Theme</source>
 				<target>Thème</target>
 			</trans-unit>
+
+			<trans-unit id="tl_sm_configuration.contao_module_nav.0">
+				<source>Navigation module</source>
+				<target>Module navigation</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.contao_module_wem_sg_header.0">
+				<source>header module</source>
+				<target>Module en-tête de page</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.contao_module_breadcrumb.0">
+				<source>breadcrumb module</source>
+				<target>Module fil d'arianne</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.contao_module_wem_sg_footer.0">
+				<source>footer module</source>
+				<target>Module pied de page</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.contao_module_sitemap.0">
+				<source>sitemap module</source>
+				<target>Module plan du site</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.contao_module_footernav.0">
+				<source>footernav module</source>
+				<target>Module navigation pied de page</target>
+			</trans-unit>
+
 			<trans-unit id="tl_sm_configuration.contao_page_root.0">
 				<source>Root page</source>
 				<target>Page racine</target>
@@ -169,6 +195,14 @@
       <trans-unit id="tl_sm_configuration.contao_theme_legend">
         <source>Contao Theme</source>
         <target>Thème Contao</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration.contao_modules_legend">
+        <source>Contao Modules</source>
+        <target>Modules Contao</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration.contao_layouts_legend">
+        <source>Contao Layouts</source>
+        <target>Présentations de pages Contao</target>
       </trans-unit>
       <trans-unit id="tl_sm_configuration.contao_pages_legend">
         <source>Contao Pages</source>

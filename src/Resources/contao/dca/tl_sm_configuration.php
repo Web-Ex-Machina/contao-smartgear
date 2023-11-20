@@ -77,7 +77,9 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             {fonts_legend},google_fonts;
             {statistics_legend},statistic_solution;
             {legal_informations},legal_owner_type,owner_email,host_name,host_street,host_postal_code,host_city,host_region,host_country;
-            {contao_theme_legend},contao_theme, contao_layout_full, contao_layout_standard;
+            {contao_theme_legend},contao_theme;
+            {contao_modules_legend},contao_module_nav,contao_module_wem_sg_header,contao_module_breadcrumb,contao_module_wem_sg_footer,contao_module_sitemap,contao_module_footernav;
+            {contao_layouts_legend},contao_layout_full, contao_layout_standard;
             {contao_pages_legend},contao_page_root, contao_page_home, contao_page_404;
             {api_legend},api_enabled;
         ',
@@ -324,7 +326,80 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             'inputType' => 'picker',
             'foreignKey' => 'tl_theme.id',
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
-            'sql' => "varchar(255) NOT NULL default ''",
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+        ],
+        'contao_module_nav' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'picker',
+            'foreignKey' => 'tl_module.id',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            // 'wizard' => [[\WEM\SmartgearBundle\DataContainer\Content::class, 'editModule']], // @todo : to use in subtable
+        ],
+        'contao_module_wem_sg_header' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'picker',
+            'foreignKey' => 'tl_module.id',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+        ],
+        'contao_module_breadcrumb' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'picker',
+            'foreignKey' => 'tl_module.id',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+        ],
+        'contao_module_wem_sg_footer' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'picker',
+            'foreignKey' => 'tl_module.id',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+        ],
+        'contao_module_sitemap' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'picker',
+            'foreignKey' => 'tl_module.id',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+        ],
+        'contao_module_footernav' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'picker',
+            'foreignKey' => 'tl_module.id',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+        ],
+        'contao_layout_full' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'picker',
+            'foreignKey' => 'tl_layout.id',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+        ],
+        'contao_layout_standard' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'picker',
+            'foreignKey' => 'tl_layout.id',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => 'int(10) NOT NULL default 0',
             'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
         ],
         'contao_page_root' => [

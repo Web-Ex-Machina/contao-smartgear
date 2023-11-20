@@ -180,6 +180,15 @@ class Content extends Backend
         return StringUtil::cleanSpaces($varValue);
     }
 
+    public function editModule(DataContainer $dc)
+    {
+        if (!method_exists($this->parent, 'editModule')) {
+            throw new Exception('Method "editModule" doesn\'t exists');
+        }
+
+        return $this->parent->editModule($dc);
+    }
+
     /**
      * Check if the content is being used by Smartgear.
      *

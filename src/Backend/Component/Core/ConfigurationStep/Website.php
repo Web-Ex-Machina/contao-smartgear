@@ -415,30 +415,25 @@ class Website extends ConfigurationStep
         $registeredModules = $this->getConfigModulesAsFormattedArray();
         $modules = [];
         // Navigation
-        $objNavMain = ModuleUtil::createModule((int) $themeId, array_merge([
-            'pid' => $themeId,
-            'tstamp' => time(),
-            'type' => 'navigation',
-            'name' => 'Nav - main',
-        ], \array_key_exists('navigation', $registeredModules) ? ['id' => $registeredModules['navigation']] : []));
-
+        $objNavMain = ModuleUtil::createModuleNav((int) $themeId, \array_key_exists('navigation', $registeredModules) ? ['id' => $registeredModules['navigation']] : []);
         $modules[$objNavMain->type] = $objNavMain;
 
         $this->setConfigModuleKey($objNavMain->type, (int) $objNavMain->id);
 
         // Header
-        $objHeaderModule = ModuleUtil::createModule((int) $themeId, array_merge([
-            'pid' => $themeId,
-            'tstamp' => time(),
-            'type' => 'wem_sg_header',
-            'name' => 'HEADER',
-            'imgSize' => 'a:3:{i:0;s:0:"";i:1;s:3:"100";i:2;s:12:"proportional";}',
-            'wem_sg_header_sticky' => 1,
-            'wem_sg_header_nav_module' => $objNavMain->id,
+        $objHeaderModule = ModuleUtil::createModuleWemSgHeader((int) $themeId, (int) $objNavMain->id, array_merge([
+            // $objHeaderModule = ModuleUtil::createModule((int) $themeId, array_merge([
+            // 'pid' => $themeId,
+            // 'tstamp' => time(),
+            // 'type' => 'wem_sg_header',
+            // 'name' => 'HEADER',
+            // 'imgSize' => 'a:3:{i:0;s:0:"";i:1;s:3:"100";i:2;s:12:"proportional";}',
+            // 'wem_sg_header_sticky' => 1,
+            // 'wem_sg_header_nav_module' => $objNavMain->id,
             'wem_sg_header_alt' => 'Logo '.$config->getSgWebsiteTitle(),
-            'wem_sg_header_search_parameter' => 'keywords',
-            'wem_sg_header_nav_position' => 'right',
-            'wem_sg_header_panel_position' => 'right',
+            // 'wem_sg_header_search_parameter' => 'keywords',
+            // 'wem_sg_header_nav_position' => 'right',
+            // 'wem_sg_header_panel_position' => 'right',
         ],
         (!empty($config->getSgOwnerLogo()) && $objFileModel = FilesModel::findByPath($config->getSgOwnerLogo())) ? ['singleSRC' => $objFileModel->uuid] : [],
         \array_key_exists('wem_sg_header', $registeredModules) ? ['id' => $registeredModules['wem_sg_header']] : []
@@ -448,14 +443,15 @@ class Website extends ConfigurationStep
         $this->setConfigModuleKey($objHeaderModule->type, (int) $objHeaderModule->id);
 
         // Breadcrumb
-        $objBreadcrumbModule = ModuleUtil::createModule((int) $themeId, array_merge([
-            'pid' => $themeId,
-            'tstamp' => time(),
-            'type' => 'breadcrumb',
-            'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleBreadcrumbName'],
-            'wem_sg_breadcrumb_auto_placement' => 1,
-            'wem_sg_breadcrumb_auto_placement_after_content_elements' => serialize(['rsce_hero', 'rsce_heroStart']),
-            'wem_sg_breadcrumb_auto_placement_after_modules' => serialize(['rsce_hero', 'rsce_heroStart']),
+        $objBreadcrumbModule = ModuleUtil::createModuleBreadcrumb((int) $themeId, array_merge([
+            // $objBreadcrumbModule = ModuleUtil::createModule((int) $themeId, array_merge([
+            //     'pid' => $themeId,
+            //     'tstamp' => time(),
+            //     'type' => 'breadcrumb',
+            //     'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleBreadcrumbName'],
+            //     'wem_sg_breadcrumb_auto_placement' => 1,
+            //     'wem_sg_breadcrumb_auto_placement_after_content_elements' => serialize(['rsce_hero', 'rsce_heroStart']),
+            //     'wem_sg_breadcrumb_auto_placement_after_modules' => serialize(['rsce_hero', 'rsce_heroStart']),
         ],
         \array_key_exists('breadcrumb', $registeredModules) ? ['id' => $registeredModules['breadcrumb']] : []
         ));
@@ -480,11 +476,12 @@ class Website extends ConfigurationStep
         $this->setConfigModuleKey('wem_sg_footer', (int) $objFooterModule->id);
 
         // Sitemap
-        $objSitemapModule = ModuleUtil::createModule((int) $themeId, array_merge([
-            'pid' => $themeId,
-            'tstamp' => time(),
-            'type' => 'sitemap',
-            'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSitemapName'],
+        $objSitemapModule = ModuleUtil::createModuleSitemap((int) $themeId, array_merge([
+            // $objSitemapModule = ModuleUtil::createModule((int) $themeId, array_merge([
+            //     'pid' => $themeId,
+            //     'tstamp' => time(),
+            //     'type' => 'sitemap',
+            //     'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSitemapName'],
         ],
         \array_key_exists('sitemap', $registeredModules) ? ['id' => $registeredModules['sitemap']] : []
         ));
@@ -494,11 +491,12 @@ class Website extends ConfigurationStep
         $this->setConfigModuleKey($objSitemapModule->type, (int) $objSitemapModule->id);
 
         // Social link
-        $objSocialLinkModule = ModuleUtil::createModule((int) $themeId, array_merge([
-            'pid' => $themeId,
-            'tstamp' => time(),
-            'type' => 'wem_sg_social_link',
-            'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSocialLinkName'],
+        $objSocialLinkModule = ModuleUtil::createModuleWemSgSocialLink((int) $themeId, array_merge([
+            // $objSocialLinkModule = ModuleUtil::createModule((int) $themeId, array_merge([
+            //     'pid' => $themeId,
+            //     'tstamp' => time(),
+            //     'type' => 'wem_sg_social_link',
+            //     'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSocialLinkName'],
         ],
         \array_key_exists('wem_sg_social_link', $registeredModules) ? ['id' => $registeredModules['wem_sg_social_link']] : []
         ));
@@ -508,11 +506,12 @@ class Website extends ConfigurationStep
         $this->setConfigModuleKey($objSocialLinkModule->type, (int) $objSocialLinkModule->id);
 
         // Social Link Categories
-        $objSocialLinkCategoriesModule = ModuleUtil::createModule((int) $themeId, array_merge([
-            'pid' => $themeId,
-            'tstamp' => time(),
-            'type' => 'wem_sg_social_link_config_categories',
-            'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSocialLinkConfigCategoriesName'],
+        $objSocialLinkCategoriesModule = ModuleUtil::createModuleWemSgSocialLinkConfigCategories((int) $themeId, array_merge([
+            // $objSocialLinkCategoriesModule = ModuleUtil::createModule((int) $themeId, array_merge([
+            //     'pid' => $themeId,
+            //     'tstamp' => time(),
+            //     'type' => 'wem_sg_social_link_config_categories',
+            //     'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSocialLinkConfigCategoriesName'],
         ],
         \array_key_exists('wem_sg_social_link_config_categories', $registeredModules) ? ['id' => $registeredModules['wem_sg_social_link_config_categories']] : []
         ));
@@ -522,11 +521,12 @@ class Website extends ConfigurationStep
         $this->setConfigModuleKey($objSocialLinkCategoriesModule->type, (int) $objSocialLinkCategoriesModule->id);
 
         // Personal Data Manager
-        $objPDMModule = ModuleUtil::createModule((int) $themeId, array_merge([
-            'pid' => $themeId,
-            'tstamp' => time(),
-            'type' => 'wem_personaldatamanager',
-            'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['modulePersonalDataManagerName'],
+        $objPDMModule = ModuleUtil::createModuleWemPersonalDataManager((int) $themeId, array_merge([
+            // $objPDMModule = ModuleUtil::createModule((int) $themeId, array_merge([
+            //     'pid' => $themeId,
+            //     'tstamp' => time(),
+            //     'type' => 'wem_personaldatamanager',
+            //     'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['modulePersonalDataManagerName'],
         ],
         \array_key_exists('wem_personaldatamanager', $registeredModules) ? ['id' => $registeredModules['wem_personaldatamanager']] : []
         ));
@@ -1156,14 +1156,17 @@ class Website extends ConfigurationStep
         $modules = [];
 
         // Custom Nav
-        $objCustomNavModule = ModuleUtil::createModule((int) $themeId, array_merge([
-            'pid' => $themeId,
-            'tstamp' => time(),
-            'type' => 'customnav',
-            'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleFooterNavName'],
-            'pages' => [$pages['legal_notice']->id, $pages['privacy_politics']->id, $pages['sitemap']->id],
-            'navigationTpl' => 'nav_default',
-        ],
+        $objCustomNavModule = ModuleUtil::createModuleFooterNav((int) $themeId,
+            [$pages['legal_notice']->id, $pages['privacy_politics']->id, $pages['sitemap']->id],
+            array_merge([
+                // $objCustomNavModule = ModuleUtil::createModule((int) $themeId, array_merge([
+                //     'pid' => $themeId,
+                //     'tstamp' => time(),
+                //     'type' => 'customnav',
+                //     'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleFooterNavName'],
+                //     'pages' => [$pages['legal_notice']->id, $pages['privacy_politics']->id, $pages['sitemap']->id],
+                //     'navigationTpl' => 'nav_default',
+            ],
         \array_key_exists('customnav', $registeredModules) ? ['id' => $registeredModules['customnav']] : []
         ));
 

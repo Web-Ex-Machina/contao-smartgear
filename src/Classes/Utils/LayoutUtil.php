@@ -49,10 +49,12 @@ class LayoutUtil
         return $objLayout;
     }
 
-    /**
-     * Shortcut for layout creation.
-     */
     public static function createLayoutFullpage(string $strTitle, int $pid, ?array $arrData = []): LayoutModel
+    {
+        return self::createLayout($strTitle, $pid, $arrData);
+    }
+
+    public static function createLayoutStandard(string $strTitle, int $pid, ?array $arrData = []): LayoutModel
     {
         return self::createLayout($strTitle, $pid, $arrData);
     }
