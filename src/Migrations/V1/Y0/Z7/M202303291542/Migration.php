@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Migrations;
+namespace WEM\SmartgearBundle\Migrations\V1\Y0\Z7\M202303291542;
 
 use Doctrine\DBAL\Connection;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -22,25 +22,19 @@ use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Migrations\V1\Y0\Z0\MigrationAbstract;
 
-class PlaceholderMigration extends MigrationAbstract
+class Migration extends MigrationAbstract
 {
-    protected $name;
-    protected $description;
-    protected $version;
-    protected $translation_key = 'WEMSG.MIGRATIONS.PLACEHOLDER';
+    protected $name = 'Smargear update to v1.0.7';
+    protected $description = 'Set Smartgear to version 1.0.7';
+    protected $version = '1.0.7';
+    protected $translation_key = 'WEMSG.MIGRATIONS.V1_0_7_M202303291542';
 
     public function __construct(
         Connection $connection,
         TranslatorInterface $translator,
         CoreConfigurationManager $coreConfigurationManager,
-        VersionComparator $versionComparator,
-        int $x,
-        int $y,
-        int $z
+        VersionComparator $versionComparator
     ) {
-        $this->name = sprintf('Smargear update to v%s.%s.%s', $x, $y, $z);
-        $this->description = sprintf('Set Smartgear to version %s.%s.%s', $x, $y, $z);
-        $this->version = sprintf('%s.%s.%s', $x, $y, $z);
         parent::__construct($connection, $translator, $coreConfigurationManager, $versionComparator);
     }
 
@@ -75,7 +69,7 @@ class PlaceholderMigration extends MigrationAbstract
 
             $result
                 ->setStatus(Result::STATUS_SUCCESS)
-                ->addLog($this->translator->trans($this->buildTranslationKey('done'), [$this->version], 'contao_default'))
+                ->addLog($this->translator->trans($this->buildTranslationKey('done'), [], 'contao_default'))
             ;
         } catch (\Exception $e) {
             $result
@@ -85,15 +79,5 @@ class PlaceholderMigration extends MigrationAbstract
         }
 
         return $result;
-    }
-
-    public function getTranslatedName(): string
-    {
-        return $this->translator->trans($this->buildTranslationKey('name'), [$this->version], 'contao_default');
-    }
-
-    public function getTranslatedDescription(): string
-    {
-        return $this->translator->trans($this->buildTranslationKey('description'), [$this->version], 'contao_default');
     }
 }

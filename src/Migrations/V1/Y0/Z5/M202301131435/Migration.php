@@ -12,36 +12,36 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Migrations;
+namespace WEM\SmartgearBundle\Migrations\V1\Y0\Z5\M202301131435;
 
 use Doctrine\DBAL\Connection;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 use WEM\SmartgearBundle\Classes\Migration\Result;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Migrations\V1\Y0\Z0\MigrationAbstract;
+use WEM\SmartgearBundle\Model\PageVisit;
 
-class PlaceholderMigration extends MigrationAbstract
+class Migration extends MigrationAbstract
 {
-    protected $name;
-    protected $description;
-    protected $version;
-    protected $translation_key = 'WEMSG.MIGRATIONS.PLACEHOLDER';
+    protected $name = 'Smargear update to v1.0.5';
+    protected $description = 'Set Smartgear to version 1.0.5';
+    protected $version = '1.0.5';
+    protected $translation_key = 'WEMSG.MIGRATIONS.V1_0_5_M202301131435';
+    /** @var DirectoriesSynchronizer */
+    protected $templatesSmartgearSynchronizer;
 
     public function __construct(
         Connection $connection,
         TranslatorInterface $translator,
         CoreConfigurationManager $coreConfigurationManager,
         VersionComparator $versionComparator,
-        int $x,
-        int $y,
-        int $z
+        DirectoriesSynchronizer $templatesSmartgearSynchronizer
     ) {
-        $this->name = sprintf('Smargear update to v%s.%s.%s', $x, $y, $z);
-        $this->description = sprintf('Set Smartgear to version %s.%s.%s', $x, $y, $z);
-        $this->version = sprintf('%s.%s.%s', $x, $y, $z);
         parent::__construct($connection, $translator, $coreConfigurationManager, $versionComparator);
+        $this->templatesSmartgearSynchronizer = $templatesSmartgearSynchronizer;
     }
 
     public function shouldRun(): Result
@@ -69,13 +69,43 @@ class PlaceholderMigration extends MigrationAbstract
             /** @var CoreConfig */
             $coreConfig = $this->coreConfigurationManager->load();
 
+            // copy templates needing to be updated
+            $this->templatesSmartgearSynchronizer->synchronize(false);
+
             $coreConfig->setSgVersion($this->version);
 
             $this->coreConfigurationManager->save($coreConfig);
 
+            $sqlFillEmptyRefererBase = sprintf('UPDATE %1$s
+                SET referer_base =
+                IF(
+                    0 = POSITION("?" IN %1$s.referer)
+                    ,%1$s.referer
+                    , SUBSTRING(%1$s.referer,1,POSITION("?" IN %1$s.referer)-1)
+                )
+                WHERE referer_base = "" OR referer_base IS NULL
+                ', PageVisit::getTable()
+            );
+            $this->connection->executeQuery($sqlFillEmptyRefererBase);
+
+            $sqlFillEmptyPageUrlBase = sprintf('UPDATE %1$s
+                SET page_url_base =
+                IF(
+                    0 = POSITION("?" IN %1$s.page_url)
+                    ,%1$s.page_url
+                    ,CONCAT(
+                        SUBSTRING(%1$s.page_url,1,POSITION("?" IN %1$s.page_url)-1)
+                    )
+                )
+                WHERE page_url_base = "" OR page_url_base IS NULL
+                ', PageVisit::getTable()
+            );
+
+            $this->connection->executeQuery($sqlFillEmptyPageUrlBase);
+
             $result
                 ->setStatus(Result::STATUS_SUCCESS)
-                ->addLog($this->translator->trans($this->buildTranslationKey('done'), [$this->version], 'contao_default'))
+                ->addLog($this->translator->trans($this->buildTranslationKey('done'), [], 'contao_default'))
             ;
         } catch (\Exception $e) {
             $result
@@ -85,15 +115,5 @@ class PlaceholderMigration extends MigrationAbstract
         }
 
         return $result;
-    }
-
-    public function getTranslatedName(): string
-    {
-        return $this->translator->trans($this->buildTranslationKey('name'), [$this->version], 'contao_default');
-    }
-
-    public function getTranslatedDescription(): string
-    {
-        return $this->translator->trans($this->buildTranslationKey('description'), [$this->version], 'contao_default');
     }
 }
