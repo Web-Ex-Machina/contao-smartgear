@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -84,7 +84,13 @@ class Dashboard extends BackendDashboard
 
         $rootPages = PageModel::findPublishedRootPages();
         foreach ($rootPages as $rootPage) {
-            $rootPage->robotsTxt = 'Disallow /';
+            $robotsTxtSGHeaderPos = strpos($rootPage->robotsTxt ?? '', SG_ROBOTSTXT_HEADER);
+            $robotsTxtSGFooterPos = strpos($rootPage->robotsTxt ?? '', SG_ROBOTSTXT_FOOTER);
+            if (false !== $robotsTxtSGHeaderPos && false !== $robotsTxtSGFooterPos) {
+                $rootPage->robotsTxt = substr_replace($rootPage->robotsTxt, "\n".SG_ROBOTSTXT_CONTENT."\n", $robotsTxtSGHeaderPos + \strlen(SG_ROBOTSTXT_HEADER), $robotsTxtSGFooterPos - $robotsTxtSGHeaderPos - \strlen(SG_ROBOTSTXT_FOOTER) - 2);
+            } else {
+                $rootPage->robotsTxt = SG_ROBOTSTXT_CONTENT_FULL."\n".$rootPage->robotsTxt;
+            }
             $rootPage->includeCache = '';
             $rootPage->save();
         }
@@ -118,6 +124,12 @@ class Dashboard extends BackendDashboard
         $this->configurationEnvFileManager->save($envConfig);
         $rootPages = PageModel::findPublishedRootPages();
         foreach ($rootPages as $rootPage) {
+            $robotsTxtSGHeaderPos = strpos($rootPage->robotsTxt ?? '', SG_ROBOTSTXT_HEADER);
+            $robotsTxtSGFooterPos = strpos($rootPage->robotsTxt ?? '', SG_ROBOTSTXT_FOOTER);
+            if (false !== $robotsTxtSGHeaderPos && false !== $robotsTxtSGFooterPos) {
+                $rootPage->robotsTxt = substr_replace($rootPage->robotsTxt, "\n", $robotsTxtSGHeaderPos + \strlen(SG_ROBOTSTXT_HEADER), $robotsTxtSGFooterPos - $robotsTxtSGHeaderPos - \strlen(SG_ROBOTSTXT_FOOTER) - 2);
+            }
+
             if (empty($rootPage->dns)) {
                 $rootPage->dns = \Contao\Environment::get('base');
             }
@@ -182,17 +194,26 @@ class Dashboard extends BackendDashboard
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        if (CoreConfig::MODE_DEV === $config->getSgMode()) {
-            $this->actions[] = ['action' => 'prod_mode_check', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonProdModeLabel']];
-        } else {
-            $this->actions[] = ['action' => 'dev_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonDevModeLabel']];
-        }
-
-        $this->actions[] = ['action' => 'configure', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonConfigurationLabel']];
-        $this->actions[] = ['action' => 'reset_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonResetLabel']];
-
         $objTemplate->version = $config->getSgVersion();
         $objTemplate->mode = $config->getSgMode();
+        $objTemplate->installLocked = $config->getSgInstallLocked();
+
+        if (!$config->getSgInstallLocked()) {
+            if (CoreConfig::MODE_DEV === $config->getSgMode()) {
+                $this->actions[] = ['action' => 'prod_mode_check', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonProdModeLabel']];
+            } else {
+                $this->actions[] = ['action' => 'dev_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonDevModeLabel']];
+            }
+
+            $this->actions[] = ['action' => 'configure', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonConfigurationLabel']];
+            $this->actions[] = ['action' => 'reset_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonResetLabel']];
+        }
+
+        if ($config->getSgInstallLocked()) {
+            $objTemplate->messages = array_merge($objTemplate->messages ?? [], [
+                ['class' => 'tl_info', 'text' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['installLocked']],
+            ]);
+        }
 
         return $objTemplate;
     }

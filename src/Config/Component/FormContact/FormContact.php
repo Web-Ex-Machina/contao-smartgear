@@ -87,6 +87,15 @@ class FormContact implements ConfigModuleInterface
     /** @var string */
     protected $sgArchivedMode = self::DEFAULT_ARCHIVE_MODE;
 
+    public function __clone()
+    {
+        foreach (get_object_vars($this) as $name => $value) {
+            if (\is_object($value)) {
+                $this->{$name} = clone $value;
+            }
+        }
+    }
+
     public function reset(): self
     {
         $this->setSgInstallComplete(false)

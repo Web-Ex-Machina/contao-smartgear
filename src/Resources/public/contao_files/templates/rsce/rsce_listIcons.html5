@@ -8,7 +8,7 @@
         // Get the file
         $arrCrop = deserialize($item->image_size);
         $objFile = FilesModel::findByUuid($item->image_src) ?: FilesModel::findOneByPath($item->image_src);
-        $strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
+        $strFile = \Image::get($objFile->path, (!$arrCrop[0] && !$arrCrop[1]) ? 1920 : $arrCrop[0] , $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
         $arrItem['src'] = $strFile;
         $arrItem['alt'] = $item->image_alt ?: $objFile->name;
       } else if($item->icon_html){

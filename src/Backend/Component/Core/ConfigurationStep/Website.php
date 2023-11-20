@@ -841,6 +841,7 @@ class Website extends ConfigurationStep
             'cuser' => $users['webmaster']->id,
             'cgroup' => $groups['administrators']->id,
             'chmod' => CoreConfig::DEFAULT_ROOTPAGE_CHMOD,
+            'robotsTxt' => SG_ROBOTSTXT_CONTENT_FULL,
         ], null !== $page ? ['id' => $page->id] : []));
 
         $this->setConfigKey('setSgPageRoot', (int) $page->id);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -19,6 +19,7 @@ use Exception;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Exceptions\File\NotFound;
 use WEM\SmartgearBundle\Model\FormField;
 
 class CompileFormFieldsListener
@@ -52,6 +53,8 @@ class CompileFormFieldsListener
 
                 $arrFields['warning'] = $objFormFieldWarning;
             }
+        } catch (NotFound $e) {
+            return $arrFields;
         } catch (Exception $e) {
             throw $e;
         }

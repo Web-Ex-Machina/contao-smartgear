@@ -126,6 +126,10 @@
 			<source>Finish</source>
 			<target>Terminer</target>
 		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.BackToDashboard">
+			<source>Back to dashboard</source>
+			<target>Retourner au dashboard</target>
+		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.DEFAULT.InvalidToken">
 			<source>Invalid Token</source>
 			<target>Le token est invalide</target>
@@ -145,6 +149,10 @@
 		<trans-unit id="WEM.SMARTGEAR.DEFAULT.defaultDashboard">
 			<source>This is a default dashboard.</source>
 			<target>Ceci est le dashboard par défaut</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.DEFAULT.componentNotInstalled">
+			<source>This component is not installed.</source>
+			<target>Ce composant n'est pas installé.</target>
 		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.DEFAULT.elementArchivedAt">
 			<source>%s (archived on %s at %s)</source>
@@ -1323,8 +1331,12 @@
 			<source>Development mode</source>
 			<target>Mode développement</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.buttonInstallationLabel">
+			<source>Setup</source>
+			<target>Installation</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.CORE.DASHBOARD.buttonConfigurationLabel">
-			<source>COnfiguration</source>
+			<source>Configuration</source>
 			<target>Configuration</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CORE.DASHBOARD.buttonResetLabel">
@@ -1342,6 +1354,10 @@
 		<trans-unit id="WEMSG.CORE.DASHBOARD.mode">
 			<source>Mode : %s</source>
 			<target>Mode : %s</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CORE.DASHBOARD.installLocked">
+			<source>Install locked</source>
+			<target>Installation verrouillée</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CORE.RESETSTEPMANAGER.buttonTerminateLabel">
 			<source>End reinitialisation</source>
@@ -2599,8 +2615,8 @@
 			<target>Executer les mises à jour sans créer de backup</target>
 		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesWithoutBackupBT">
-			<source>Play updates (no backup)</source>
-			<target>Executer les mises à jour (pas de backup)</target>
+			<source>Play updates (%s no backup)</source>
+			<target>Executer les mises à jour (%s pas de backup)</target>
 		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.UPDATEMANAGER.playUpdatesWithBackupBTTitle">
 			<source>Play updates</source>
@@ -3092,6 +3108,40 @@
 			<source>4:3</source>
 			<target>4:3</target>
 		</trans-unit>
+
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagedisplaymode.tabTitle">
+			<source>Image - Display Mode</source>
+			<target>Image - Mode d'affichage</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagedisplaymode.title">
+			<source>Display Mode</source>
+			<target>Mode d'affichage</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagedisplaymode.description">
+			<source>If desired, select an image display mode</source>
+			<target>Si souhaité, sélectionnez un mode d'affichage d'image</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagedisplaymode.fitcoverLabel">
+			<source>Cover</source>
+			<target>Remplir</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagedisplaymode.fitcontainLabel">
+			<source>Contain</source>
+			<target>Ajuster</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagedisplaymode.fitscaledownLabel">
+			<source>Scaledown</source>
+			<target>Réduire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagedisplaymode.fitunsetLabel">
+			<source>Unset</source>
+			<target>Désactiver</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagedisplaymode.fitnoneLabel">
+			<source>None</source>
+			<target>Aucun</target>
+		</trans-unit>
+
 		<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.title">
 			<source>Zoom</source>
 			<target>Zoom</target>
@@ -4212,6 +4262,14 @@
 			<source>Is installed</source>
 			<target>Est installé</target>
 		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_installLocked">
+			<source>Is locked</source>
+			<target>Est verrouillée</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_usePdmForMembers">
+			<source>Use Personal Data Manager for Members</source>
+			<target>Utiliser le PDM pour les membres</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_version">
 			<source>Version</source>
 			<target>Version</target>
@@ -4423,24 +4481,24 @@
 		</trans-unit>
 
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_customnav">
-			<source>Footer nav</source>
-			<target>Nav footer</target>
+			<source>Nav - footer</source>
+			<target>Nav - footer</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_wem_sg_footer">
 			<source>Footer</source>
 			<target>Footer</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_navigation">
-			<source>Nav</source>
-			<target>Nav</target>
+			<source>Nav - Main</source>
+			<target>Nav - Main</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_wem_sg_header">
-			<source>Header SG</source>
-			<target>Header SG</target>
+			<source>HEADER</source>
+			<target>HEADER</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_breadcrumb">
 			<source>Breadcrumb</source>
-			<target>Fil d'arianne</target>
+			<target>Fil d'ariane</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_module_sitemap">
 			<source>Sitemap</source>
@@ -4744,15 +4802,15 @@
 		</trans-unit>	
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_notificationMessageUserLanguage">
 			<source>User notification - language</source>
-			<target>NOtification utilisateur - langue</target>
+			<target>Notification utilisateur - langue</target>
 		</trans-unit>	
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_notificationMessageAdmin">
 			<source>Administrator notification</source>
-			<target>NOtification administrateur</target>
+			<target>Notification administrateur</target>
 		</trans-unit>	
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_notificationMessageAdminLanguage">
 			<source>Administrator notification - language</source>
-			<target>NOtification administrateur - langue</target>
+			<target>Notification administrateur - langue</target>
 		</trans-unit>	
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_formContactTitle">
 			<source>Form contact title</source>
@@ -4765,7 +4823,7 @@
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formDataManager_installComplete">
 			<source>Is installed</source>
 			<target>Est installé</target>
-		</trans-unit>	
+		</trans-unit>		
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formDataManager_archived">
 			<source>Is archived</source>
 			<target>Est archivé</target>

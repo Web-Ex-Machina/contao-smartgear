@@ -15,15 +15,21 @@ declare(strict_types=1);
 use Contao\ArrayUtil;
 use Contao\System;
 
-/*
- * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
- *
- * @category ContaoBundle
- * @package  Web-Ex-Machina/contao-smartgear
- * @author   Web ex Machina <contact@webexmachina.fr>
- * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
- */
+if (!\defined('SG_ROBOTSTXT_HEADER')) {
+    \define('SG_ROBOTSTXT_HEADER', '# RESERVED TO SMARTGEAR - START');
+}
+
+if (!\defined('SG_ROBOTSTXT_FOOTER')) {
+    \define('SG_ROBOTSTXT_FOOTER', '# RESERVED TO SMARTGEAR - END');
+}
+
+if (!\defined('SG_ROBOTSTXT_CONTENT')) {
+    \define('SG_ROBOTSTXT_CONTENT', "User-agent: *\nUser-agent: AdsBot-Google\nDisallow: /");
+}
+
+if (!\defined('SG_ROBOTSTXT_CONTENT_FULL')) {
+    \define('SG_ROBOTSTXT_CONTENT_FULL', SG_ROBOTSTXT_HEADER."\n".SG_ROBOTSTXT_CONTENT."\n".SG_ROBOTSTXT_FOOTER);
+}
 
 // Load icon in Contao 4.2 backend
 if ('BE' === TL_MODE) {
@@ -83,11 +89,11 @@ if (isset($bundles['VerstaerkerI18nl10nBundle'])) {
 /*
  * Move Page Backend Module
  */
-ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['extranet'], 0, [
-    'member' => $GLOBALS['BE_MOD']['accounts']['member'],
-    'mgroup' => $GLOBALS['BE_MOD']['accounts']['mgroup'],
-]);
-unset($GLOBALS['BE_MOD']['accounts']['member'], $GLOBALS['BE_MOD']['accounts']['mgroup']);
+// ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['extranet'], 0, [
+//     'member' => $GLOBALS['BE_MOD']['accounts']['member'],
+//     'mgroup' => $GLOBALS['BE_MOD']['accounts']['mgroup'],
+// ]);
+// unset($GLOBALS['BE_MOD']['accounts']['member'], $GLOBALS['BE_MOD']['accounts']['mgroup']);
 
 $GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_sm_form_storage';
 $GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_sm_form_storage_data';
@@ -253,3 +259,6 @@ $GLOBALS['WEM_HOOKS']['renderSingleItemBodyPersonalDataSingleFieldValue'][] = ['
 // PDM Manager
 $GLOBALS['WEM_HOOKS']['getFileByPidAndPtableAndEmailAndField'][] = ['smartgear.listener.personal_data_manager', 'getFileByPidAndPtableAndEmailAndField'];
 $GLOBALS['WEM_HOOKS']['isPersonalDataLinkedToFile'][] = ['smartgear.listener.personal_data_manager', 'isPersonalDataLinkedToFile'];
+
+// override Contao alias
+// class_alias(\WEM\SmartgearBundle\Model\Member::class, 'MemberModel');

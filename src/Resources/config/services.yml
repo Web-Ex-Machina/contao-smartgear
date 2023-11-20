@@ -367,6 +367,8 @@ services:
                 - '@smartgear.migrations.v1_0_21.m202310121049.migration'
                 - '@smartgear.migrations.v1_0_22.m202310131044.migration'
                 - '@smartgear.migrations.v1_0_23.m202310241614.migration'
+                - '@smartgear.migrations.v1_0_24.m202311021346.migration'
+                - '@smartgear.migrations.v1_0_25.m202311201059.migration'
         public: true
 
     smartgear.model.backup:

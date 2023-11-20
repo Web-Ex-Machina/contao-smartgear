@@ -2,7 +2,7 @@
   if ($this->image){
     $arrCrop = deserialize($this->imageCrop);
     $objFile = FilesModel::findByUuid($this->image);
-    $strFile = \Image::get($objFile->path, $arrCrop[0] ?: 1920, $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
+    $strFile = \Image::get($objFile->path, (!$arrCrop[0] && !$arrCrop[1]) ? 1920 : $arrCrop[0] , $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
   }
 ?>
 <div class="<?= $this->class ?> <?= $this->timeline_style?><?= $this->timeline_color ? ' timeline__color--'.$this->timeline_color:'' ?><?= ($this->image) ? ' hasImg':'' ?>">

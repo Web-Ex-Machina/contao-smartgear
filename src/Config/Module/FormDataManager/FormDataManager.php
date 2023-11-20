@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -34,6 +34,15 @@ class FormDataManager implements ConfigModuleInterface
     protected $sgArchivedAt = 0;
     /** @var string */
     protected $sgArchivedMode = self::DEFAULT_ARCHIVE_MODE;
+
+    public function __clone()
+    {
+        foreach (get_object_vars($this) as $name => $value) {
+            if (\is_object($value)) {
+                $this->{$name} = clone $value;
+            }
+        }
+    }
 
     public function reset(): self
     {

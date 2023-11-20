@@ -1,6 +1,22 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.25 - 2023-11-20
+- Smartgear : added a way to lock an install (only available when editing configuration thanks to dedicated form)
+- Smartgear : fixed first sentence in `form_warning_message.html5`
+- RSCE : Improved default size attribution in `rsce_slider`
+- RSCE : Improved default size attribution in `rsce_blockCard`
+- RSCE : Improved default size attribution in `rsce_listIcons`
+- RSCE : Improved default size attribution in `rsce_modal`
+- RSCE : Improved default size attribution in `rsce_quote`
+- RSCE : Improved default size attribution in `rsce_testimonials`
+- RSCE : Improved default size attribution in `rsce_timeline`
+- StyleManager : Added `image_display_mode` options for `image` & `gallery` elements
+
+1.0.24 - 2023-11-02
+- Smartgear : fix root pages robotsTxt values depending on development or production mode enabled
+- Blog : authors' filter only features users with at least one post
+
 1.0.23 - 2023-10-24
 - Smartgear : fix Framway theme configuration file reading
 - Smartgear : fix text plural for reminder

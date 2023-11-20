@@ -43,6 +43,7 @@ class Migration extends MigrationAbstract
         'accordion' => ['contentElements' => ['accordionStart', 'rsce_accordion']], //, 'accordionStop]'
         'image_other' => ['contentElements' => ['image']],
         'image_ratio' => ['contentElements' => ['image', 'gallery']],
+        'image_display_mode' => ['contentElements' => ['image', 'gallery']],
         'blockCard' => ['contentElements' => ['rsce_blockCard']],
         'blockAlignement' => ['contentElements' => ['headline', 'text', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'rsce_*']],
         'grid_gap' => ['contentElements' => ['gallery', 'rsce_listIcons', 'rsce_listLogos']],
@@ -89,6 +90,7 @@ class Migration extends MigrationAbstract
         $objArchiveTable = StyleManagerArchiveModel::findByIdentifier('fwtable');
         $objArchiveImage = StyleManagerArchiveModel::findByIdentifier('fwimage');
         $objArchiveImageRatio = StyleManagerArchiveModel::findByIdentifier('fwimageratio');
+        $objArchiveImageDisplayMode = StyleManagerArchiveModel::findByIdentifier('fwimagedisplaymode');
 
         $objArchiveBlockCardText = StyleManagerArchiveModel::findByIdentifier('fwblockcardtext');
         $objArchiveBlockCardBg = StyleManagerArchiveModel::findByIdentifier('fwblockcardbg');
@@ -105,6 +107,7 @@ class Migration extends MigrationAbstract
         && null !== $objArchiveTable
         && null !== $objArchiveImage
         && null !== $objArchiveImageRatio
+        && null !== $objArchiveImageDisplayMode
         && null !== $objArchiveBlockCardText
         && null !== $objArchiveBlockCardBg
         && null !== $objArchiveBlockAlignement
@@ -130,6 +133,7 @@ class Migration extends MigrationAbstract
             && null !== StyleManagerModel::findByAliasAndPid('fwtableborder', $objArchiveTable->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwtablestriped', $objArchiveTable->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwimageratio', $objArchiveImageRatio->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwimagedisplaymode', $objArchiveImageDisplayMode->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwimagezoom', $objArchiveImage->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwimagefade', $objArchiveImage->id)
             && null !== StyleManagerModel::findByAliasAndPid('fwblockcardft', $objArchiveBlockCardText->id)
@@ -181,6 +185,7 @@ class Migration extends MigrationAbstract
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSTables'), [], 'contao_default'));
             $this->manageImages(768);
             $this->manageImagesRatio(896);
+            $this->manageImagesDisplayMode(960);
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSImages'), [], 'contao_default'));
             $this->manageBlockCard(1024);
             $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSBlockCard'), [], 'contao_default'));
@@ -427,6 +432,22 @@ class Migration extends MigrationAbstract
             ['key' => 'r_1-2', 'value' => 'WEMSG.STYLEMANAGER.fwimageratio.r12Label'],
         ];
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwimageratio'.$suffix, 'WEMSG.STYLEMANAGER.fwimageratio.title', 'WEMSG.STYLEMANAGER.fwimageratio.description', $contentElements, $cssClasses, $passToTemplate);
+    }
+
+    protected function manageImagesDisplayMode(int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
+    {
+        $contentElements = self::$elements['image_display_mode'.$suffix];
+        // Image
+        $objArchive = $this->fillObjArchive('fwimagedisplaymode'.$suffix, 'WEMSG.STYLEMANAGER.fwimagedisplaymode.tabTitle', $sorting, 'FramwayImage');
+        // Image - display mode
+        $cssClasses = [
+            ['key' => 'fit--cover', 'value' => 'WEMSG.STYLEMANAGER.fwimagedisplaymode.fitcoverLabel'],
+            ['key' => 'fit--contain', 'value' => 'WEMSG.STYLEMANAGER.fwimagedisplaymode.fitcontainLabel'],
+            ['key' => 'fit--scaledown', 'value' => 'WEMSG.STYLEMANAGER.fwimagedisplaymode.fitscaledownLabel'],
+            ['key' => 'fit--unset', 'value' => 'WEMSG.STYLEMANAGER.fwimagedisplaymode.fitunsetLabel'],
+            ['key' => 'fit--none', 'value' => 'WEMSG.STYLEMANAGER.fwimagedisplaymode.fitnoneLabel'],
+        ];
+        $objStyle = $this->fillObjStyle($objArchive->id, 'fwimagedisplaymode'.$suffix, 'WEMSG.STYLEMANAGER.fwimagedisplaymode.title', 'WEMSG.STYLEMANAGER.fwimagedisplaymode.description', $contentElements, $cssClasses, $passToTemplate);
     }
 
     protected function manageTables(int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
