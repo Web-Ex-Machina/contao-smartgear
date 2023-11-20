@@ -277,4 +277,16 @@ services:
       $z: 24
     public: true
 
+  smartgear.migrations.v1_0_25.m202311201059.migration:
+    class: WEM\SmartgearBundle\Migrations\PlaceholderMigration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+      $x: 1
+      $y: 0
+      $z: 25
+    public: true
+
 
