@@ -1,7 +1,7 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
-1.0.25 - 2023-11-XX
+1.0.25 - 2023-11-20
 - Smartgear : added a way to lock an install (only available when editing configuration thanks to dedicated form)
 - RSCE : Improved default size attribution in `rsce_slider`
 - RSCE : Improved default size attribution in `rsce_blockCard`
