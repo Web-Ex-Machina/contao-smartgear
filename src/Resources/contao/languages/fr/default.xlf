@@ -3108,6 +3108,40 @@
 			<source>4:3</source>
 			<target>4:3</target>
 		</trans-unit>
+
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagedisplaymode.tabTitle">
+			<source>Image - Display Mode</source>
+			<target>Image - Mode d'affichage</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagedisplaymode.title">
+			<source>Display Mode</source>
+			<target>Mode d'affichage</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagedisplaymode.description">
+			<source>If desired, select an image display mode</source>
+			<target>Si souhaité, sélectionnez un mode d'affichage d'image</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagedisplaymode.fitcoverLabel">
+			<source>Cover</source>
+			<target>Remplir</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagedisplaymode.fitcontainLabel">
+			<source>Contain</source>
+			<target>Ajuster</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagedisplaymode.fitscaledownLabel">
+			<source>Scaledown</source>
+			<target>Réduire</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagedisplaymode.fitunsetLabel">
+			<source>Unset</source>
+			<target>Désactiver</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.STYLEMANAGER.fwimagedisplaymode.fitnoneLabel">
+			<source>None</source>
+			<target>Aucun</target>
+		</trans-unit>
+
 		<trans-unit id="WEMSG.STYLEMANAGER.fwimagezoom.title">
 			<source>Zoom</source>
 			<target>Zoom</target>
