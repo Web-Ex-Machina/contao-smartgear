@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -29,7 +29,10 @@ use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
-use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
+use WEM\SmartgearBundle\Classes\Utils\ContentUtil;
+use WEM\SmartgearBundle\Classes\Utils\ModuleUtil;
+use WEM\SmartgearBundle\Classes\Utils\PageUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
@@ -166,9 +169,9 @@ class General extends ConfigurationStep
 
         $page = PageModel::findById($eventsConfig->getSgPage());
 
-        $page = Util::createPage($eventsConfig->getSgPageTitle(), 0, array_merge([
+        $page = PageUtil::createPage($eventsConfig->getSgPageTitle(), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
+            'sorting' => PageUtil::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'title' => $eventsConfig->getSgPageTitle(),
             'robots' => 'index,follow',
@@ -190,7 +193,7 @@ class General extends ConfigurationStep
 
         $article = ArticleModel::findById($eventsConfig->getSgArticle());
 
-        $article = Util::createArticle($page, array_merge([
+        $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $eventsConfig->getSgPageTitle(),
         ], null !== $article ? ['id' => $article->id] : []));
 
@@ -237,14 +240,18 @@ class General extends ConfigurationStep
             if ($moduleReaderOld) {
                 $moduleReaderOld->delete();
             }
-            $moduleReader->id = $eventsConfig->getSgModuleReader();
         }
-        $moduleReader->name = $page->title.' - Reader';
-        $moduleReader->pid = $config->getSgTheme();
-        $moduleReader->type = 'eventreader';
-        $moduleReader->cal_calendar = serialize([$calendar->id]);
-        $moduleReader->imgSize = serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]);
-        $moduleReader->tstamp = time();
+
+        $moduleReader = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+            'name' => $page->title.' - Reader',
+            'pid' => $config->getSgTheme(),
+            'type' => 'eventreader',
+            'cal_calendar' => serialize([$calendar->id]),
+            'imgSize' => serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+        ],
+        null !== $eventsConfig->getSgModuleReader() ? ['id' => $eventsConfig->getSgModuleReader()] : []
+        ));
+
         $moduleReader->save();
 
         $this->setEventConfigKey('setSgModuleReader', (int) $moduleReader->id);
@@ -254,21 +261,24 @@ class General extends ConfigurationStep
             if ($moduleListOld) {
                 $moduleListOld->delete();
             }
-            $moduleList->id = $eventsConfig->getSgModuleList();
         }
-        $moduleList->name = $page->title.' - List';
-        $moduleList->headline = serialize(['unit' => 'h1', 'value' => $page->title]);
-        $moduleList->pid = $config->getSgTheme();
-        $moduleList->type = 'eventlist';
-        $moduleList->cal_calendar = serialize([$calendar->id]);
-        $moduleList->numberOfItems = 0;
-        $moduleList->cal_format = 'cal_month';
-        $moduleList->cal_order = 'descending';
-        $moduleList->cal_readerModule = $moduleReader->id;
-        $moduleList->perPage = $eventsConfig->getSgEventsListPerPage();
-        $moduleList->imgSize = serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]);
-        $moduleList->tstamp = time();
-        $moduleList->save();
+
+        $moduleList = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+            'name' => $page->title.' - List',
+            'headline' => serialize(['unit' => 'h1', 'value' => $page->title]),
+            'pid' => $config->getSgTheme(),
+            'type' => 'eventlist',
+            'cal_calendar' => serialize([$calendar->id]),
+            'numberOfItems' => 0,
+            'cal_format' => 'cal_month',
+            'cal_order' => 'descending',
+            'cal_readerModule' => $moduleReader->id,
+            'perPage' => $eventsConfig->getSgEventsListPerPage(),
+            'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            'tstamp' => time(),
+        ],
+        null !== $eventsConfig->getSgModuleList() ? ['id' => $eventsConfig->getSgModuleList()] : []
+        ));
 
         $this->setEventConfigKey('setSgModuleList', (int) $moduleList->id);
 
@@ -277,20 +287,23 @@ class General extends ConfigurationStep
             if ($moduleListOld) {
                 $moduleListOld->delete();
             }
-            $moduleCalendar->id = $eventsConfig->getSgModuleCalendar();
         }
-        $moduleCalendar->name = $page->title.' - Calendar';
-        $moduleCalendar->pid = $config->getSgTheme();
-        $moduleCalendar->type = 'calendar';
-        $moduleCalendar->cal_calendar = serialize([$calendar->id]);
-        $moduleCalendar->numberOfItems = 0;
-        $moduleCalendar->cal_format = 'cal_month';
-        $moduleCalendar->cal_order = 'descending';
-        $moduleCalendar->cal_readerModule = $moduleReader->id;
-        $moduleCalendar->perPage = $eventsConfig->getSgEventsListPerPage();
-        $moduleCalendar->imgSize = serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]);
-        $moduleCalendar->tstamp = time();
-        $moduleCalendar->save();
+
+        $moduleCalendar = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+            'name' => $page->title.' - Calendar',
+            'pid' => $config->getSgTheme(),
+            'type' => 'calendar',
+            'cal_calendar' => serialize([$calendar->id]),
+            'numberOfItems' => 0,
+            'cal_format' => 'cal_month',
+            'cal_order' => 'descending',
+            'cal_readerModule' => $moduleReader->id,
+            'perPage' => $eventsConfig->getSgEventsListPerPage(),
+            'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            'tstamp' => time(),
+        ],
+        null !== $eventsConfig->getSgModuleCalendar() ? ['id' => $eventsConfig->getSgModuleCalendar()] : []
+        ));
 
         $this->setEventConfigKey('setSgModuleCalendar', (int) $moduleCalendar->id);
 
@@ -304,7 +317,7 @@ class General extends ConfigurationStep
         $eventsConfig = $config->getSgEvents();
 
         $list = ContentModel::findById($eventsConfig->getSgContentList());
-        $list = Util::createContent($article, array_merge([
+        $list = ContentUtil::createContent($article, array_merge([
             'type' => 'module',
             'pid' => $article->id,
             'ptable' => 'tl_article',

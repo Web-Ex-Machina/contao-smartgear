@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -28,7 +28,10 @@ use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
-use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
+use WEM\SmartgearBundle\Classes\Utils\ContentUtil;
+use WEM\SmartgearBundle\Classes\Utils\ModuleUtil;
+use WEM\SmartgearBundle\Classes\Utils\PageUtil;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Blog\Preset as BlogPresetConfig;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -216,9 +219,9 @@ class General extends ConfigurationStep
 
         $page = PageModel::findById($blogConfig->getSgPage());
 
-        $page = Util::createPage($presetConfig->getSgPageTitle(), 0, array_merge([
+        $page = PageUtil::createPage($presetConfig->getSgPageTitle(), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
+            'sorting' => PageUtil::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'title' => $presetConfig->getSgPageTitle(),
             'robots' => 'index,follow',
@@ -242,7 +245,7 @@ class General extends ConfigurationStep
 
         $article = ArticleModel::findById($blogConfig->getSgArticle());
 
-        $article = Util::createArticle($page, array_merge([
+        $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $presetConfig->getSgPageTitle(),
         ], null !== $article ? ['id' => $article->id] : []));
 
@@ -290,18 +293,19 @@ class General extends ConfigurationStep
             if ($moduleReaderOld) {
                 $moduleReaderOld->delete();
             }
-            $moduleReader->id = $blogConfig->getSgModuleReader();
+            // $moduleReader->id = $blogConfig->getSgModuleReader();
         }
-        $moduleReader->name = $page->title.' - Reader';
-        $moduleReader->pid = $config->getSgTheme();
-        $moduleReader->type = 'newsreader';
-        $moduleReader->news_archives = serialize([$newsArchive->id]);
-        $moduleReader->news_metaFields = serialize(['date', 'author']);
-        $moduleReader->imgSize = serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]); //'a:3:{i:0;s:4:"1200";i:1;s:0:"";i:2;s:12:"proportional";}';
-        $moduleReader->news_template = 'news_full';
-        $moduleReader->wem_sg_display_share_buttons = '1';
-        $moduleReader->tstamp = time();
-        $moduleReader->save();
+
+        $moduleReader = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+            'name' => $page->title.' - Reader',
+            'pid' => $config->getSgTheme(),
+            'type' => 'newsreader',
+            'news_archives' => serialize([$newsArchive->id]),
+            'news_metaFields' => serialize(['date', 'author']),
+            'imgSize' => serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            'news_template' => 'news_full',
+            'wem_sg_display_share_buttons' => '1',
+        ], null !== $blogConfig->getSgModuleReader() ? ['id' => $blogConfig->getSgModuleReader()] : []));
 
         $this->setBlogConfigKey('setSgModuleReader', (int) $moduleReader->id);
 
@@ -310,26 +314,26 @@ class General extends ConfigurationStep
             if ($moduleListOld) {
                 $moduleListOld->delete();
             }
-            $moduleList->id = $blogConfig->getSgModuleList();
+            // $moduleList->id = $blogConfig->getSgModuleList();
         }
-        $moduleList->name = $page->title.' - List';
-        $moduleList->headline = serialize(['value' => $page->title, 'unit' => 'h1']);
-        $moduleList->pid = $config->getSgTheme();
-        $moduleList->type = 'newslist';
-        $moduleList->news_archives = serialize([$newsArchive->id]);
-        $moduleList->numberOfItems = 0;
-        $moduleList->news_readerModule = $moduleReader->id;
-        $moduleList->news_order = 'order_date_desc';
-        $moduleList->perPage = $presetConfig->getSgNewsListPerPage();
-        $moduleList->imgSize = serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]); //'a:3:{i:0;s:3:"480";i:1;s:0:"";i:2;s:12:"proportional";}';
-        $moduleList->news_featured = 'all_items';
-        $moduleList->news_template = 'news_latest';
-        $moduleList->skipFirst = 0;
-        $moduleList->news_metaFields = serialize(['date', 'author']);
-        $moduleList->tstamp = time();
 
-        $moduleList->wem_sg_number_of_characters = 200;
-        $moduleList->save();
+        $moduleList = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+            'name' => $page->title.' - List',
+            'headline' => serialize(['value' => $page->title, 'unit' => 'h1']),
+            'type' => 'newslist',
+            'news_archives' => serialize([$newsArchive->id]),
+            'numberOfItems' => 0,
+            'news_readerModule' => $moduleReader->id,
+            'news_order' => 'order_date_desc',
+            'perPage' => $presetConfig->getSgNewsListPerPage(),
+            'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            'news_featured' => 'all_items',
+            'news_template' => 'news_latest',
+            'skipFirst' => 0,
+            'news_metaFields' => serialize(['date', 'author']),
+            'tstamp' => time(),
+            'wem_sg_number_of_characters' => 200,
+        ], null !== $blogConfig->getSgModuleList() ? ['id' => $blogConfig->getSgModuleList()] : []));
 
         $this->setBlogConfigKey('setSgModuleList', (int) $moduleList->id);
 
@@ -343,7 +347,7 @@ class General extends ConfigurationStep
         $blogConfig = $config->getSgBlog();
 
         $list = ContentModel::findById($blogConfig->getSgContentList());
-        $list = Util::createContent($article, array_merge([
+        $list = ContentUtil::createContent($article, array_merge([
             'type' => 'module',
             'pid' => $article->id,
             'ptable' => 'tl_article',

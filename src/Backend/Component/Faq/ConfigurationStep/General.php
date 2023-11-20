@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -28,7 +28,10 @@ use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
-use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
+use WEM\SmartgearBundle\Classes\Utils\ContentUtil;
+use WEM\SmartgearBundle\Classes\Utils\ModuleUtil;
+use WEM\SmartgearBundle\Classes\Utils\PageUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
 use WEM\SmartgearBundle\Model\Module;
@@ -141,9 +144,9 @@ class General extends ConfigurationStep
 
         $page = PageModel::findById($faqConfig->getSgPage());
 
-        $page = Util::createPage($faqConfig->getSgPageTitle(), 0, array_merge([
+        $page = PageUtil::createPage($faqConfig->getSgPageTitle(), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
+            'sorting' => PageUtil::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'layout' => $rootPage->layout,
             'title' => $faqConfig->getSgPageTitle(),
             'robots' => 'index,follow',
@@ -165,7 +168,7 @@ class General extends ConfigurationStep
 
         $article = ArticleModel::findById($faqConfig->getSgArticle());
 
-        $article = Util::createArticle($page, array_merge([
+        $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $faqConfig->getSgPageTitle(),
         ], null !== $article ? ['id' => $article->id] : []));
 
@@ -210,16 +213,19 @@ class General extends ConfigurationStep
             if ($moduleListOld) {
                 $moduleListOld->delete();
             }
-            $moduleFaq->id = $faqConfig->getSgModuleFaq();
         }
-        $moduleFaq->name = $page->title.' - Reader';
-        $moduleFaq->pid = $config->getSgTheme();
-        $moduleFaq->type = 'faqpage';
-        $moduleFaq->faq_categories = serialize([$faqCategory->id]);
-        $moduleFaq->numberOfItems = 0;
-        $moduleFaq->imgSize = serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]);
-        $moduleFaq->tstamp = time();
-        $moduleFaq->save();
+
+        $moduleFaq = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+            'name' => $page->title.' - Reader',
+            'pid' => $config->getSgTheme(),
+            'type' => 'faqpage',
+            'faq_categories' => serialize([$faqCategory->id]),
+            'numberOfItems' => 0,
+            'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            'tstamp' => time(),
+        ],
+        null !== $faqConfig->getSgModuleFaq() ? ['id' => $faqConfig->getSgModuleFaq()] : []
+        ));
 
         $this->setFAQConfigKey('setSgModuleFaq', (int) $moduleFaq->id);
 
@@ -233,7 +239,7 @@ class General extends ConfigurationStep
         $faqConfig = $config->getSgFaq();
 
         $faq = ContentModel::findById($faqConfig->getSgContent());
-        $faq = Util::createContent($article, array_merge([
+        $faq = ContentUtil::createContent($article, array_merge([
             'type' => 'module',
             'pid' => $article->id,
             'ptable' => 'tl_article',

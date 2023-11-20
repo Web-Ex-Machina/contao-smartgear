@@ -376,6 +376,10 @@ services:
         class: WEM\SmartgearBundle\Model\Backup
         public: true
 
+    smartgear.data_container.configuration.configuration:
+        class: WEM\SmartgearBundle\DataContainer\Configuration\Configuration
+        public: true
+
     smartgear.data_container.form:
         class: WEM\SmartgearBundle\DataContainer\Form
         public: true

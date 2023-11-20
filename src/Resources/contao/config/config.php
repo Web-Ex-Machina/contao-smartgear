@@ -120,6 +120,9 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
             'callback' => "\WEM\SmartgearBundle\Backend\Reminder",
         ],
         'undo' => $GLOBALS['BE_MOD']['system']['undo'],
+        'configuration' => [
+            'tables' => ['tl_sm_configuration'],
+        ],
     ],
 ]);
 unset($GLOBALS['BE_MOD']['system']['undo']);
@@ -174,6 +177,7 @@ $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorage::getTable()] = WEM\
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorageData::getTable()] = WEM\SmartgearBundle\Model\FormStorageData::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\PageVisit::getTable()] = WEM\SmartgearBundle\Model\PageVisit::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Login::getTable()] = WEM\SmartgearBundle\Model\Login::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Configuration\Configuration::getTable()] = WEM\SmartgearBundle\Model\Configuration\Configuration::class;
 /*
  * Add BE Hooks
  */

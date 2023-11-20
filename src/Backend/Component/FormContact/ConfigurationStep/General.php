@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -32,10 +32,13 @@ use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
+use WEM\SmartgearBundle\Classes\Utils\ContentUtil;
+use WEM\SmartgearBundle\Classes\Utils\PageUtil;
+// use WEM\SmartgearBundle\DataContainer\NotificationGateway;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
 use WEM\SmartgearBundle\Model\Module;
-// use WEM\SmartgearBundle\DataContainer\NotificationGateway;
 use WEM\UtilsBundle\Classes\StringUtil;
 
 class General extends ConfigurationStep
@@ -150,9 +153,9 @@ class General extends ConfigurationStep
 
         $page = PageModel::findById($formContactConfig->getSgPageForm());
 
-        $page = Util::createPage($formContactConfig->getSgPageTitle(), 0, array_merge([
+        $page = PageUtil::createPage($formContactConfig->getSgPageTitle(), 0, array_merge([
             'pid' => $rootPage->id,
-            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
+            'sorting' => PageUtil::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
             'type' => 'regular',
             'robots' => 'index,follow',
             'description' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormDescription', [$formContactConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
@@ -173,9 +176,9 @@ class General extends ConfigurationStep
 
         $page = PageModel::findById($formContactConfig->getSgPageFormSent());
 
-        $page = Util::createPage($this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormSentTitle', [$formContactConfig->getSgPageTitle()], 'contao_default'), 0, array_merge([
+        $page = PageUtil::createPage($this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormSentTitle', [$formContactConfig->getSgPageTitle()], 'contao_default'), 0, array_merge([
             'pid' => $pageFormContact->id,
-            'sorting' => Util::getNextAvailablePageSortingByParentPage((int) $pageFormContact->id),
+            'sorting' => PageUtil::getNextAvailablePageSortingByParentPage((int) $pageFormContact->id),
             'type' => 'regular',
             'robots' => 'noindex,nofollow',
             'description' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormSentDescription', [$formContactConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
@@ -204,7 +207,7 @@ class General extends ConfigurationStep
 
         $article = ArticleModel::findById($formContactConfig->getSgArticleForm());
 
-        $article = Util::createArticle($page, null !== $article ? ['id' => $article->id] : []);
+        $article = ArticleUtil::createArticle($page, null !== $article ? ['id' => $article->id] : []);
 
         $this->setFormContactConfigKey('setSgArticleForm', (int) $article->id);
 
@@ -220,7 +223,7 @@ class General extends ConfigurationStep
 
         $article = ArticleModel::findById($formContactConfig->getSgArticleFormSent());
 
-        $article = Util::createArticle($page, null !== $article ? ['id' => $article->id] : []);
+        $article = ArticleUtil::createArticle($page, null !== $article ? ['id' => $article->id] : []);
 
         $this->setFormContactConfigKey('setSgArticleFormSent', (int) $article->id);
 
@@ -243,7 +246,7 @@ class General extends ConfigurationStep
         $formContactConfig = $config->getSgFormContact();
 
         $headline = ContentModel::findOneById((int) $formContactConfig->getSgContentHeadlineArticleForm());
-        $headline = Util::createContent($article, array_merge([
+        $headline = ContentUtil::createContent($article, array_merge([
             'headline' => serialize(['unit' => 'h1', 'value' => $page->title]),
             'cssID' => ',sep-bottom',
         ], null !== $headline ? ['id' => $headline->id] : []));
@@ -251,7 +254,7 @@ class General extends ConfigurationStep
         $this->setFormContactConfigKey('setSgContentHeadlineArticleForm', (int) $headline->id);
 
         $contentForm = ContentModel::findOneById((int) $formContactConfig->getSgContentFormArticleForm());
-        $contentForm = Util::createContent($article, array_merge([
+        $contentForm = ContentUtil::createContent($article, array_merge([
             'type' => 'form',
             'form' => $form->id,
         ], null !== $contentForm ? ['id' => $contentForm->id] : []));
@@ -269,7 +272,7 @@ class General extends ConfigurationStep
         $formContactConfig = $config->getSgFormContact();
 
         $headline = ContentModel::findOneById((int) $formContactConfig->getSgContentHeadlineArticleFormSent());
-        $headline = Util::createContent($article, array_merge([
+        $headline = ContentUtil::createContent($article, array_merge([
             'headline' => serialize(['unit' => 'h1', 'value' => $page->title]),
             'cssID' => ',sep-bottom',
         ], null !== $headline ? ['id' => $headline->id] : []));
@@ -277,7 +280,7 @@ class General extends ConfigurationStep
         $this->setFormContactConfigKey('setSgContentHeadlineArticleFormSent', (int) $headline->id);
 
         $text = ContentModel::findOneById((int) $formContactConfig->getSgContentTextArticleFormSent());
-        $text = Util::createContent($article, array_merge([
+        $text = ContentUtil::createContent($article, array_merge([
             'text' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.contentTextPageFormSent', [], 'contao_default'),
         ], null !== $text ? ['id' => $text->id] : []));
 
