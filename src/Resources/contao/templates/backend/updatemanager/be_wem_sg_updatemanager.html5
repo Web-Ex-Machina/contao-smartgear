@@ -5,8 +5,8 @@
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <div id="tl_buttons">
-  <a href="<?= ampersand($this->playUpdatesWithBackupButtonHref) ?>" class="header_play_with_backup" title="<?= Contao\StringUtil::specialchars($this->playUpdatesWithBackupButtonTitle) ?>" accesskey="b"><?= $this->playUpdatesWithBackupButtonButton ?></a>
-  <a href="<?= ampersand($this->playUpdatesWithoutBackupButtonHref) ?>" class="header_play_without_backup" title="<?= Contao\StringUtil::specialchars($this->playUpdatesWithoutBackupButtonTitle) ?>" accesskey="b"><?= $this->playUpdatesWithoutBackupButtonButton ?></a>
+  <a href="<?= ampersand($this->playUpdatesWithBackupButtonHref) ?>" class="header_button header_play_with_backup" title="<?= Contao\StringUtil::specialchars($this->playUpdatesWithBackupButtonTitle) ?>" accesskey="b"><?= $this->playUpdatesWithBackupButtonButton ?></a>
+  <a href="<?= ampersand($this->playUpdatesWithoutBackupButtonHref) ?>" class="header_button header_play_without_backup" title="<?= Contao\StringUtil::specialchars($this->playUpdatesWithoutBackupButtonTitle) ?>" accesskey="b"><?= $this->playUpdatesWithoutBackupButtonButton ?></a>
   <a href="<?= ampersand($this->backButtonHref) ?>" class="header_back" title="<?= Contao\StringUtil::specialchars($this->backButtonTitle) ?>" accesskey="b"><?= $this->backButtonButton ?></a>
 </div>
 

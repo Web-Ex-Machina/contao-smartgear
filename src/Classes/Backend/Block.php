@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -137,10 +137,14 @@ class Block extends Controller
         // Add actions only if we can manage the module
         if ($blnCanManage) {
             if (!$this->isInstalled()) {
-                $this->setMode(self::MODE_INSTALL);
-                $this->configurationStepManager->setMode($this->configurationStepManager::MODE_INSTALL);
-                $objTemplate->steps = $this->configurationStepManager->parseSteps();
-                $objTemplate->content = $this->configurationStepManager->parse();
+                if (self::MODE_DASHBOARD === $this->getMode()) {
+                    $objTemplate = $this->parseDependingOnMode($objTemplate);
+                } else {
+                    $this->setMode(self::MODE_INSTALL);
+                    $this->configurationStepManager->setMode($this->configurationStepManager::MODE_INSTALL);
+                    $objTemplate->steps = $this->configurationStepManager->parseSteps();
+                    $objTemplate->content = $this->configurationStepManager->parse();
+                }
 
                 // Always add messages
                 $objTemplate->messages = $this->getMessages($this->module);
@@ -229,6 +233,11 @@ class Block extends Controller
                         $this->callback('refreshBlock'),
                         $this->callback('toastrDisplay', ['success', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.dataSaved', [], 'contao_default')]),
                     ]];
+                break;
+                case 'install':
+                    $this->setMode(self::MODE_INSTALL);
+                    $this->configurationStepManager->goToStep(0);
+                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
                 case 'configure':
                     $this->setMode(self::MODE_CONFIGURE);

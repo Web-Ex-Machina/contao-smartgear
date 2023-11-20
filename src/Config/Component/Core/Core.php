@@ -58,6 +58,10 @@ class Core implements ConfigModuleInterface
     public const SUBMODULES_KEYS = ['blog', 'events', 'faq', 'form_contact', 'extranet', 'form_data_manager'];
     /** @var bool */
     protected $sgInstallComplete = false;
+    /** @var bool */
+    protected $sgInstallLocked = false;
+    /** @var bool */
+    protected $sgUsePdmForMembers = true;
     /** @var string */
     protected $sgVersion = self::DEFAULT_VERSION;
     /** @var string */
@@ -193,9 +197,20 @@ class Core implements ConfigModuleInterface
     /** @var FormDataManagerConfig */
     protected $sgFormDataManager;
 
+    public function __clone()
+    {
+        foreach (get_object_vars($this) as $name => $value) {
+            if (\is_object($value)) {
+                $this->{$name} = clone $value;
+            }
+        }
+    }
+
     public function reset(): self
     {
         $this->setSgInstallComplete(false)
+            ->setSgInstallLocked(false)
+            ->setSgUsePdmForMembers(true)
             ->setSgVersion(static::DEFAULT_VERSION)
             ->setSgTheme(null)
             ->setSgImageSizes([])
@@ -271,6 +286,8 @@ class Core implements ConfigModuleInterface
     public function import(\stdClass $json): self
     {
         $this->setSgInstallComplete($json->installComplete ?? false)
+            ->setSgInstallLocked($json->installLocked ?? false)
+            ->setSgUsePdmForMembers($json->usePdmForMembers ?? true)
             ->setSgVersion($json->version ?? static::DEFAULT_VERSION)
             ->setSgTheme($json->contao->theme ?? null)
             ->setSgImageSizes($json->contao->imageSizes ?? [])
@@ -371,6 +388,8 @@ class Core implements ConfigModuleInterface
     {
         $json = new \stdClass();
         $json->installComplete = $this->getSgInstallComplete();
+        $json->installLocked = $this->getSgInstallLocked();
+        $json->usePdmForMembers = $this->getSgUsePdmForMembers();
         $json->version = $this->getSgVersion();
         $json->selectedModules = $this->getSgSelectedModules();
         $json->mode = $this->getSgMode();
@@ -1783,6 +1802,30 @@ class Core implements ConfigModuleInterface
     public function setSgNotificationSupportMessageUserLanguage(?int $sgNotificationSupportMessageUserLanguage): self
     {
         $this->sgNotificationSupportMessageUserLanguage = $sgNotificationSupportMessageUserLanguage;
+
+        return $this;
+    }
+
+    public function getSgInstallLocked(): bool
+    {
+        return $this->sgInstallLocked;
+    }
+
+    public function setSgInstallLocked(bool $sgInstallLocked): self
+    {
+        $this->sgInstallLocked = $sgInstallLocked;
+
+        return $this;
+    }
+
+    public function getSgUsePdmForMembers(): bool
+    {
+        return $this->sgUsePdmForMembers;
+    }
+
+    public function setSgUsePdmForMembers(bool $sgUsePdmForMembers): self
+    {
+        $this->sgUsePdmForMembers = $sgUsePdmForMembers;
 
         return $this;
     }

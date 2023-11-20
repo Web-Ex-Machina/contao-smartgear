@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -65,16 +65,24 @@ class Dashboard extends BackendDashboard
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        // if (CoreConfig::MODE_DEV === $config->getSgMode()) {
-        //     $this->actions[] = ['action' => 'prod_mode_check', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonProdModeLabel']];
-        // } else {
-        //     $this->actions[] = ['action' => 'dev_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonDevModeLabel']];
-        // }
-
-        $this->actions[] = ['action' => 'configure', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonConfigurationLabel']];
-        $this->actions[] = ['action' => 'reset_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonResetLabel']];
-
         $objTemplate->mode = $config->getSgBlog()->getSgMode();
+        $objTemplate->installComplete = $config->getSgFaq()->getSgInstallComplete();
+        $objTemplate->installLocked = $config->getSgInstallLocked();
+
+        if (!$config->getSgInstallLocked()) {
+            if (!$config->getSgBlog()->getSgInstallComplete()) {
+                $this->actions[] = ['action' => 'install', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonInstallationLabel']];
+            } else {
+                $this->actions[] = ['action' => 'configure', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonConfigurationLabel']];
+            }
+            $this->actions[] = ['action' => 'reset_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonResetLabel']];
+        }
+
+        if ($config->getSgInstallLocked()) {
+            $objTemplate->messages = array_merge($objTemplate->messages ?? [], [
+                ['class' => 'tl_info', 'text' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['installLocked']],
+            ]);
+        }
 
         return $objTemplate;
     }
