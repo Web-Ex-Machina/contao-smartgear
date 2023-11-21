@@ -1,0 +1,114 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/tl_sm_configuration_item.php" source-language="en" target-language="fr">
+    <body>
+			<trans-unit id="tl_sm_configuration_item.title.0">
+				<source>Title</source>
+				<target>Titre</target>
+			</trans-unit>
+
+			<trans-unit id="tl_sm_configuration_item.pid.0">
+				<source>pid</source>
+				<target>Configuration parente</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.0">
+				<source>type</source>
+				<target>Type</target>
+			</trans-unit>
+
+			<trans-unit id="tl_sm_configuration_item.type.pages">
+				<source>Pages</source>
+				<target>Pages</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.page-sitemap">
+				<source>Sitemap</source>
+				<target>Plan du site</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.page-privacy-politics">
+				<source>Privacy Politics</source>
+				<target>Confidentialité</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.page-legal-notice">
+				<source>Legal notice</source>
+				<target>Mentions légales</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.user_groups">
+				<source>User groups</source>
+				<target>Groupes d'utilisateurs</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.user-group-administrators">
+				<source>Administrators</source>
+				<target>Administrateurs</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.user-group-redactors">
+				<source>Redactors</source>
+				<target>Rédacteurs</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.modules">
+				<source>Modules</source>
+				<target>Modules</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.module-wem-sg-header">
+				<source>Header Smartgear</source>
+				<target>Header Smartgear</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.module-wem-sg-footer">
+				<source>Footer Smartgear</source>
+				<target>Footer Smartgear</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.module-breadcrumb">
+				<source>Breadcrumb</source>
+				<target>Fil d'ariane</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.module-wem-sg-social-networks">
+				<source>Social networks</source>
+				<target>Réseaux sociaux</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.mixed">
+				<source>Mixed</source>
+				<target>Divers</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.mixed-sitemap">
+				<source>Sitemap</source>
+				<target>Plan du site</target>
+			</trans-unit>
+
+			<trans-unit id="tl_sm_configuration_item.contao_page.0">
+				<source>contao_page</source>
+				<target>Page</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.page_name.0">
+				<source>page_name</source>
+				<target>Titre de la page</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_module.0">
+				<source>contao_module</source>
+				<target>Module</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.module_name.0">
+				<source>module_name</source>
+				<target>Titre du module</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.customTpl.0">
+				<source>customTpl</source>
+				<target>Template personnalisé</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.singleSRC.0">
+				<source>singleSRC</source>
+				<target>Fichier</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_user_group.0">
+				<source>contao_user_group</source>
+				<target>Groupe d'utilisateurs</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.user_group_name.0">
+				<source>user_group_name</source>
+				<target>Nom du groupe</target>
+			</trans-unit>
+
+      <trans-unit id="tl_sm_configuration_item.title_legend">
+        <source>Title</source>
+        <target>Titre</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

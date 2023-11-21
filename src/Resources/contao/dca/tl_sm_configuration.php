@@ -12,22 +12,14 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+use Contao\DataContainer;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
-
-/*
- * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
- *
- * @category ContaoBundle
- * @package  Web-Ex-Machina/contao-smartgear
- * @author   Web ex Machina <contact@webexmachina.fr>
- * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
- */
 
 $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
     // Config
     'config' => [
         'dataContainer' => \Contao\DC_Table::class,
+        'ctable' => ['tl_sm_configuration_item'],
         'switchToEdit' => true,
         'enableVersioning' => true,
         'sql' => [
@@ -41,9 +33,9 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
     // List
     'list' => [
         'sorting' => [
-            'mode' => 1,
+            'mode' => DataContainer::MODE_SORTED,
             'fields' => ['title'],
-            'flag' => 1,
+            'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
             'panelLayout' => 'filter;search,limit',
         ],
         'label' => [
@@ -60,8 +52,13 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
         ],
         'operations' => [
             'edit' => [
+                'href' => 'table=tl_sm_configuration_item',
+                'icon' => 'edit.svg',
+            ],
+            'editheader' => [
                 'href' => 'act=edit',
-                'icon' => 'edit.gif',
+                'icon' => 'header.svg',
+                // 'button_callback' => ['tl_form', 'editHeader'],
             ],
             'copy' => [
                 'href' => 'act=copy',
@@ -424,7 +421,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             'inputType' => 'picker',
             'foreignKey' => 'tl_page.id',
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
-            'sql' => "varchar(255) NOT NULL default ''",
+            'sql' => 'int(10) NOT NULL default 0',
             'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
         ],
         'contao_page_home' => [
@@ -433,7 +430,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             'inputType' => 'picker',
             'foreignKey' => 'tl_page.id',
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
-            'sql' => "varchar(255) NOT NULL default ''",
+            'sql' => 'int(10) NOT NULL default 0',
             'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
         ],
         'contao_page_404' => [
@@ -442,7 +439,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             'inputType' => 'picker',
             'foreignKey' => 'tl_page.id',
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
-            'sql' => "varchar(255) NOT NULL default ''",
+            'sql' => 'int(10) NOT NULL default 0',
             'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
         ],
         'api_enabled' => [

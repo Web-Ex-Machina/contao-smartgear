@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Utils;
 
+use Contao\ArticleModel;
+use Contao\ContentModel;
 use Contao\PageModel;
 use Contao\System;
 use InvalidArgumentException;
@@ -127,6 +129,40 @@ class PageUtil
         return self::createPage($strTitle, $pid, $arrData);
     }
 
+    public static function createPageLegalNotice(string $strTitle, int $pid, ?array $arrData = []): PageModel
+    {
+        $arrData = array_merge([
+            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'sitemap' => 'map_default',
+            'hide' => 1,
+        ], $arrData);
+
+        return self::createPage($strTitle, $pid, $arrData);
+    }
+
+    public static function createPagePrivacyPolitics(string $strTitle, int $pid, ?array $arrData = []): PageModel
+    {
+        $arrData = array_merge([
+            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'sitemap' => 'map_default',
+            'hide' => 1,
+        ], $arrData);
+
+        return self::createPage($strTitle, $pid, $arrData);
+    }
+
+    public static function createPageSitemap(string $strTitle, int $pid, ?array $arrData = []): PageModel
+    {
+        $arrData = array_merge([
+            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'sitemap' => 'map_default',
+            // 'description' => sprintf($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapDescription'], $config->getSgWebsiteTitle()),
+            'hide' => 1,
+        ], $arrData);
+
+        return self::createPage($strTitle, $pid, $arrData);
+    }
+
     /**
      * Shortcut for page w/ modules creations.
      */
@@ -222,5 +258,22 @@ class PageUtil
         $objPage = $pages->first()->current();
 
         return (int) $objPage->sorting + 128;
+    }
+
+    public static function emptyPage(int $pageId): void
+    {
+        $articles = ArticleModel::findBy('pid', $pageId);
+        if ($articles) {
+            while ($articles->next()) {
+                $contents = ContentModel::findBy(['ptable', 'pid'], [ArticleModel::getTable(), $articles->current()->id]);
+                if ($contents) {
+                    while ($contents->next()) {
+                        $contents->delete();
+                    }
+                }
+
+                $articles->current()->delete();
+            }
+        }
     }
 }

@@ -151,11 +151,7 @@ class Configuration extends Core
         if (!empty($objItem->contao_layout_standard)) {
             $objLayoutStandard = LayoutModel::findByPk($objItem->contao_layout_standard);
         }
-        dump($objItem->contao_layout_standard);
-        dump($objLayoutStandard);
         if (!$objLayoutStandard) {
-            dump($objLayoutStandard);
-            exit('dfgs');
             $objLayoutStandard = LayoutUtil::createLayoutStandard(
                 $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardName'],
                 $objTheme->id,

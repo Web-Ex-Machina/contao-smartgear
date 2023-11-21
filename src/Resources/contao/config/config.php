@@ -121,7 +121,7 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
         ],
         'undo' => $GLOBALS['BE_MOD']['system']['undo'],
         'configuration' => [
-            'tables' => ['tl_sm_configuration'],
+            'tables' => ['tl_sm_configuration', 'tl_sm_configuration_item'],
         ],
     ],
 ]);
@@ -178,6 +178,7 @@ $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorageData::getTable()] = 
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\PageVisit::getTable()] = WEM\SmartgearBundle\Model\PageVisit::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Login::getTable()] = WEM\SmartgearBundle\Model\Login::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Configuration\Configuration::getTable()] = WEM\SmartgearBundle\Model\Configuration\Configuration::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Configuration\ConfigurationItem::getTable()] = WEM\SmartgearBundle\Model\Configuration\ConfigurationItem::class;
 /*
  * Add BE Hooks
  */

@@ -966,11 +966,12 @@ class Website extends ConfigurationStep
         $config = $this->configurationManager->load();
 
         $page = PageModel::findOneById($config->getSgPageSitemap());
-        $page = PageUtil::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapTitle'], $rootPage->id, array_merge([
-            'sorting' => PageUtil::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
-            'sitemap' => 'map_default',
+        $page = PageUtil::createPageSitemap($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapTitle'], $rootPage->id, array_merge([
+            // $page = PageUtil::createPage($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapTitle'], $rootPage->id, array_merge([
+            // 'sorting' => PageUtil::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
+            // 'sitemap' => 'map_default',
             'description' => sprintf($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapDescription'], $config->getSgWebsiteTitle()),
-            'hide' => 1,
+            // 'hide' => 1,
         ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setConfigKey('setSgPageSitemap', (int) $page->id);
@@ -1091,7 +1092,7 @@ class Website extends ConfigurationStep
         $config = $this->configurationManager->load();
         $content = ContentModel::findById($config->getSgContentLegalNotice());
 
-        $strText = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/legal-notices_1.html');
+        $strText = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/fr/legal-notices_1.html');
         $strHtml = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageLegalNoticeTextDefault'];
         if ($strText) {
             /**
@@ -1131,7 +1132,7 @@ class Website extends ConfigurationStep
         $config = $this->configurationManager->load();
         $content = ContentModel::findById($config->getSgContentPrivacyPolitics());
 
-        $strText = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/privacy_1.html');
+        $strText = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/privacy-politics/fr/privacy_1.html');
         $strHtml = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PagePrivacyPoliticsTextDefault'];
         if ($strText) {
             /**

@@ -388,6 +388,34 @@ class Util
         return $result;
     }
 
+    public static function getFileListByLanguages(string $strDir): array
+    {
+        $files = [];
+        $root = scandir($strDir);
+        foreach ($root as $value) {
+            if ('.' === $value || '..' === $value) {
+                continue;
+            }
+
+            if (is_dir("$strDir/$value")) {
+                $files[$value] = [];
+
+                $filesInDir = scandir("$strDir/$value");
+                foreach ($filesInDir as $subValue) {
+                    if (is_file("$strDir/$value/$subValue")) {
+                        $files[$value][] = "$strDir/$value/$subValue";
+                        // continue;
+                    }
+                }
+            }
+            // foreach (static::getFileList("$strDir/$value") as $value) {
+            //     $result[] = $value;
+            // }
+        }
+
+        return $files;
+    }
+
     /**
      * Get a package's version.
      *

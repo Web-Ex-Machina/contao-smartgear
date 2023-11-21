@@ -380,6 +380,10 @@ services:
         class: WEM\SmartgearBundle\DataContainer\Configuration\Configuration
         public: true
 
+    smartgear.data_container.configuration.configuration_item:
+        class: WEM\SmartgearBundle\DataContainer\Configuration\ConfigurationItem
+        public: true
+
     smartgear.data_container.form:
         class: WEM\SmartgearBundle\DataContainer\Form
         public: true
