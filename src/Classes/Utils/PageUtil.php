@@ -18,6 +18,7 @@ use Contao\PageModel;
 use Contao\System;
 use InvalidArgumentException;
 use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class PageUtil
 {
@@ -77,6 +78,53 @@ class PageUtil
 
         // Return the model
         return $objPage;
+    }
+
+    public static function createPageRoot(string $strTitle, string $adminEmail, int $layoutId, string $language, ?array $arrData = []): PageModel
+    {
+        $arrData = array_merge([
+            'sorting' => 128,
+            'type' => 'root',
+            // 'language' => 'fr',
+            'fallback' => 1,
+            'adminEmail' => $adminEmail,
+            'createSitemap' => 1,
+            'sitemapName' => 'sitemap',
+            'useSSL' => 1,
+            'includeLayout' => 1,
+            'layout' => $layoutId,
+            'includeChmod' => 1,
+            // 'cuser' => $users['webmaster']->id,
+            // 'cgroup' => $groups['administrators']->id,
+            'chmod' => Configuration::DEFAULT_ROOTPAGE_CHMOD,
+            'robotsTxt' => SG_ROBOTSTXT_CONTENT_FULL,
+        ], $arrData);
+
+        return self::createPage($strTitle, 0, $arrData);
+    }
+
+    public static function createPageHome(string $strTitle, int $pid, ?array $arrData = []): PageModel
+    {
+        $arrData = array_merge([
+            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'alias' => 'index',
+            'sitemap' => 'map_default',
+            'hide' => 1,
+        ], $arrData);
+
+        return self::createPage($strTitle, $pid, $arrData);
+    }
+
+    public static function createPage404(string $strTitle, int $pid, ?array $arrData = []): PageModel
+    {
+        $arrData = array_merge([
+            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'sitemap' => 'map_default',
+            'hide' => 1,
+            'type' => 'error_404',
+        ], $arrData);
+
+        return self::createPage($strTitle, $pid, $arrData);
     }
 
     /**

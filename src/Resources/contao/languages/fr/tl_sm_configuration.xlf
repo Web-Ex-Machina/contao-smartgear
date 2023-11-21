@@ -37,7 +37,7 @@
 				<source>Google Fonts</source>
 				<target>Google Fonts</target>
 			</trans-unit>
-			<trans-unit id="tl_sm_configuration.statistic_solution.0">
+			<trans-unit id="tl_sm_configuration.analytics_solution.0">
 				<source>Statistic's solution</source>
 				<target>Solution statistique</target>
 			</trans-unit>
@@ -147,6 +147,16 @@
 				<target>Module navigation pied de page</target>
 			</trans-unit>
 
+
+			<trans-unit id="tl_sm_configuration.contao_layout_full.0">
+				<source>Fullwidth</source>
+				<target>Pleine page</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.contao_layout_standard.0">
+				<source>Standard</source>
+				<target>Standard</target>
+			</trans-unit>
+
 			<trans-unit id="tl_sm_configuration.contao_page_root.0">
 				<source>Root page</source>
 				<target>Page racine</target>
@@ -184,7 +194,7 @@
         <source>Fonts</source>
         <target>Polices</target>
       </trans-unit>
-      <trans-unit id="tl_sm_configuration.statistics_legend">
+      <trans-unit id="tl_sm_configuration.analytics_legend">
         <source>Statistics</source>
         <target>Statistiques</target>
       </trans-unit>

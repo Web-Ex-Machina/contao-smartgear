@@ -21,6 +21,41 @@ use WEM\UtilsBundle\Model\Model as CoreModel;
  */
 class Configuration extends CoreModel
 {
+    public const ANALYTICS_SOLUTION_NONE = 'none';
+    public const ANALYTICS_SOLUTION_GOOGLE = 'google';
+    public const ANALYTICS_SOLUTION_MATOMO = 'matomo';
+
+    public const FORBIDDEN_WEBSITE_TITLES = ['rsce', 'smartgear'];
+    // public const ANALYTICS_SYSTEM_NONE = 'none';
+    // public const ANALYTICS_SYSTEM_GOOGLE = 'google';
+    // public const ANALYTICS_SYSTEM_MATOMO = 'matomo';
+    public const ANALYTICS_SYSTEMS_ALLOWED = [
+        self::ANALYTICS_SOLUTION_NONE,
+        self::ANALYTICS_SOLUTION_GOOGLE,
+        self::ANALYTICS_SOLUTION_MATOMO,
+    ];
+
+    public const MODE_DEV = 'dev';
+    public const MODE_PROD = 'prod';
+    public const MODES_ALLOWED = [
+        self::MODE_DEV,
+        self::MODE_PROD,
+    ];
+
+    public const DEFAULT_VERSION = '1.0.0';
+    public const DEFAULT_ANALYTICS_SYSTEM = self::ANALYTICS_SOLUTION_NONE;
+    public const DEFAULT_ANALYTICS_SYSTEM_MATOMO_HOST = '//analytics.webexmachina.fr/';
+    public const DEFAULT_MODE = self::MODE_DEV;
+    public const DEFAULT_FRAMWAY_PATH = 'assets/framway';
+    public const DEFAULT_OWNER_HOST = 'INFOMANIAK - 25 Eugène-Marziano 1227 Les Acacias - GENÈVE - SUISSE';
+    public const DEFAULT_GOOGLE_FONTS = [];
+    public const DEFAULT_USER_USERNAME = 'webmaster';
+    public const DEFAULT_USER_GROUP_ADMIN_NAME = 'Administrateurs';
+    public const DEFAULT_ROOTPAGE_CHMOD = 'a:12:{i:0;s:2:"u1";i:1;s:2:"u2";i:2;s:2:"u3";i:3;s:2:"u4";i:4;s:2:"u5";i:5;s:2:"u6";i:6;s:2:"g1";i:7;s:2:"g2";i:8;s:2:"g3";i:9;s:2:"g4";i:10;s:2:"g5";i:11;s:2:"g6";}';
+
+    public const DEFAULT_CLIENT_FILES_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media';
+    public const DEFAULT_CLIENT_LOGOS_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media'.\DIRECTORY_SEPARATOR.'logos';
+
     /**
      * Search fields.
      *

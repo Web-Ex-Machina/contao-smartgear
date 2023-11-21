@@ -12,6 +12,18 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+use WEM\SmartgearBundle\Model\Configuration\Configuration;
+
+/*
+ * SMARTGEAR for Contao Open Source CMS
+ * Copyright (c) 2015-2023 Web ex Machina
+ *
+ * @category ContaoBundle
+ * @package  Web-Ex-Machina/contao-smartgear
+ * @author   Web ex Machina <contact@webexmachina.fr>
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
+ */
+
 $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
     // Config
     'config' => [
@@ -69,13 +81,13 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
 
     // Palettes
     'palettes' => [
-        '__selector__' => ['statistic_solution', 'legal_owner_type', 'api_enabled'],
+        '__selector__' => ['analytics_solution', 'legal_owner_type', 'api_enabled'],
         'default' => '
             {title_legend},title;
             {general_legend},version,mode,admin_email,domain,email_gateway,language;
             {framway_legend},framway_path;
             {fonts_legend},google_fonts;
-            {statistics_legend},statistic_solution;
+            {analytics_legend},analytics_solution;
             {legal_informations},legal_owner_type,owner_email,host_name,host_street,host_postal_code,host_city,host_region,host_country;
             {contao_theme_legend},contao_theme;
             {contao_modules_legend},contao_module_nav,contao_module_wem_sg_header,contao_module_breadcrumb,contao_module_wem_sg_footer,contao_module_sitemap,contao_module_footernav;
@@ -87,9 +99,9 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
 
     // Subpalettes
     'subpalettes' => [
-        'statistic_solution_none' => '',
-        'statistic_solution_matomo' => 'matomo_host,matomo_id',
-        'statistic_solution_google' => 'google_id',
+        'analytics_solution_none' => '',
+        'analytics_solution_matomo' => 'matomo_host,matomo_id',
+        'analytics_solution_google' => 'google_id',
         'legal_owner_type_person' => 'legal_owner_person_lastname,legal_owner_person_firstname',
         'legal_owner_type_company' => 'legal_owner_company_name,legal_owner_company_status,legal_owner_company_identifier,legal_owner_company_dpo_name,legal_owner_company_dpo_email',
         'api_enabled' => 'api_key',
@@ -181,11 +193,15 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
-        'statistic_solution' => [
+        'analytics_solution' => [
             'exclude' => true,
             'search' => true,
             'inputType' => 'select',
-            'options' => ['none', 'matomo', 'google'],
+            'options' => [
+                Configuration::ANALYTICS_SOLUTION_NONE,
+                Configuration::ANALYTICS_SOLUTION_GOOGLE,
+                Configuration::ANALYTICS_SOLUTION_MATOMO,
+            ],
             'eval' => ['submitOnChange' => true, 'mandatory' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(6) NOT NULL default ''",
         ],

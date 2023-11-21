@@ -14,27 +14,34 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Utils;
 
+use Contao\ArrayUtil;
 use Contao\LayoutModel;
 use InvalidArgumentException;
+use WEM\SmartgearBundle\Classes\StringUtil;
+use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class LayoutUtil
 {
     /**
      * Shortcut for layout creation.
      */
-    public static function createLayout(string $strTitle, int $pid, ?array $arrData = []): LayoutModel
+    public static function createLayout(string $strName, int $pid, ?array $arrData = []): LayoutModel
     {
         // Create the theme
         if (\array_key_exists('id', $arrData)) {
             $objLayout = LayoutModel::findOneById($arrData['id']);
             if (!$objLayout) {
-                throw new InvalidArgumentException('La présentation de page ayant pour id "'.$arrData['id'].'" n\'existe pas');
+                //     throw new InvalidArgumentException('La présentation de page ayant pour id "'.$arrData['id'].'" n\'existe pas');
+                $objLayout = new LayoutModel();
+                $objLayout->id = $arrData['id'];
             }
         } else {
             $objLayout = new LayoutModel();
         }
 
-        $objLayout->title = $strTitle;
+        $objLayout->name = $strName;
+        $objLayout->pid = $pid;
         $objLayout->tstamp = time();
 
         // Now we get the default values, get the arrData table
@@ -49,13 +56,207 @@ class LayoutUtil
         return $objLayout;
     }
 
-    public static function createLayoutFullpage(string $strTitle, int $pid, ?array $arrData = []): LayoutModel
+    public static function createLayoutFullpage(string $strName, int $pid, ?array $arrData = []): LayoutModel
     {
-        return self::createLayout($strTitle, $pid, $arrData);
+        $head = self::buildHead($arrData['replace']['head']);
+        $script = self::buildScript($arrData['replace']['script']);
+
+        $objLayout = null;
+        if (\array_key_exists('id', $arrData)) {
+            $objLayout = LayoutModel::findOneById($arrData['id']);
+        }
+
+        $arrLayoutModules = self::reorderLayoutModules(
+            self::mergeLayoutsModules(
+                StringUtil::deserialize($objLayout ? $objLayout->modules ?? [] : []),
+                self::buildDefaultModulesConfiguration(
+                    (int) $arrData['modules_raw']['wem_sg_header']->id,
+                    (int) $arrData['modules_raw']['breadcrumb']->id,
+                    (int) $arrData['modules_raw']['wem_sg_footer']->id,
+                )
+            ),
+            $arrData['modules_raw']
+        );
+
+        $arrData = array_merge([
+            'name' => $strName,
+            'rows' => '3rw',
+            'cols' => '1cl',
+            'loadingOrder' => 'external_first',
+            'combineScripts' => 1,
+            'viewport' => 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0',
+            'modules' => serialize($arrLayoutModules),
+            'template' => 'fe_page_full',
+            // 'webfonts' => $config->getSgGoogleFonts(),
+            'head' => $head,
+            'script' => $script,
+            'framework' => serialize([]),
+            'tstamp' => time(),
+        ], $arrData);
+
+        return self::createLayout($strName, $pid, $arrData);
     }
 
-    public static function createLayoutStandard(string $strTitle, int $pid, ?array $arrData = []): LayoutModel
+    public static function createLayoutStandard(string $strName, int $pid, ?array $arrData = []): LayoutModel
     {
-        return self::createLayout($strTitle, $pid, $arrData);
+        $head = self::buildHead($arrData['replace']['head']);
+        $script = self::buildScript($arrData['replace']['script']);
+
+        $objLayout = null;
+        if (\array_key_exists('id', $arrData)) {
+            $objLayout = LayoutModel::findOneById($arrData['id']);
+        }
+
+        $arrLayoutModules = self::reorderLayoutModules(
+            self::mergeLayoutsModules(
+                StringUtil::deserialize($objLayout ? $objLayout->modules ?? [] : []),
+                self::buildDefaultModulesConfiguration(
+                    (int) $arrData['modules_raw']['wem_sg_header']->id,
+                    (int) $arrData['modules_raw']['breadcrumb']->id,
+                    (int) $arrData['modules_raw']['wem_sg_footer']->id,
+                )
+            ),
+            $arrData['modules_raw']
+        );
+
+        $arrData = array_merge([
+            'name' => $strName,
+            'rows' => '3rw',
+            'cols' => '1cl',
+            'loadingOrder' => 'external_first',
+            'combineScripts' => 1,
+            'viewport' => 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0',
+            'modules' => serialize($arrLayoutModules),
+            'template' => 'fe_page',
+            // 'webfonts' => $config->getSgGoogleFonts(),
+            'head' => $head,
+            'script' => $script,
+            'framework' => serialize([]),
+            'tstamp' => time(),
+        ], $arrData);
+
+        return self::createLayout($strName, $pid, $arrData);
+    }
+
+    public static function buildHead(?array $arrReplace = []): string
+    {
+        $head = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+        foreach ($arrReplace as $toReplace => $newValue) {
+            $head = str_replace($toReplace, $newValue, $head);
+        }
+        // $head = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $head);
+
+        return $head;
+    }
+
+    public static function buildScript(?array $arrReplace = []): string
+    {
+        $script = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
+
+        if (\array_key_exists('config.googleFonts', $arrReplace)) {
+            $script = str_replace('{{config.googleFonts}}', "'".$arrReplace['config.googleFonts']."'", $script);
+        } else {
+            $script = preg_replace('/\/\/ -- GFONT(.*)\/\/ -- \/GFONT/s', '', $script);
+        }
+
+        $script = str_replace('{{config.framway.path}}', $arrReplace['config.framway.path'], $script);
+        switch ($arrReplace['config.analytics.system']) {
+            case Configuration::ANALYTICS_SOLUTION_NONE:
+                $script = preg_replace('/\/\/ -- GTAG(.*)\/\/ -- \/GTAG/s', '', $script);
+                $script = preg_replace('/\/\/ -- MATOMO(.*)\/\/ -- \/MATOMO/s', '', $script);
+            break;
+            case Configuration::ANALYTICS_SOLUTION_GOOGLE:
+                $script = str_replace('{{config.analytics.google.id}}', $arrReplace['config.analytics.google.id'], $script);
+                $script = preg_replace('/\/\/ -- MATOMO(.*)\/\/ -- \/MATOMO/s', '', $script);
+            break;
+            case Configuration::ANALYTICS_SOLUTION_MATOMO:
+                $script = str_replace('{{config.analytics.matomo.host}}', $arrReplace['config.analytics.matomo.host'], $script);
+                $script = str_replace('{{config.analytics.matomo.id}}', $arrReplace['config.analytics.matomo.id'], $script);
+                $script = preg_replace('/\/\/ -- GTAG(.*)\/\/ -- \/GTAG/s', '', $script);
+            break;
+        }
+        // $head = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $head);
+
+        return $script;
+    }
+
+    public static function buildDefaultModulesConfiguration(int $modWemSgHeaderId, int $modBreadcrumbId, int $modWemSgFooterId): array
+    {
+        return [
+            ['mod' => $modWemSgHeaderId, 'col' => 'header', 'enable' => '1'],
+            ['mod' => $modBreadcrumbId, 'col' => 'main', 'enable' => '1'],
+            ['mod' => 0, 'col' => 'main', 'enable' => '1'],
+            ['mod' => $modWemSgFooterId, 'col' => 'footer', 'enable' => '1'],
+        ];
+    }
+
+    /**
+     * Merge layout modules with default ones.
+     *
+     * @param array $currentLayoutModules Current layout's modules
+     * @param array $defaultLayoutModules Default layout's modules
+     */
+    public static function mergeLayoutsModules(array $currentLayoutModules, array $defaultLayoutModules): array
+    {
+        if (empty($currentLayoutModules)) {
+            return $defaultLayoutModules;
+        }
+
+        foreach ($defaultLayoutModules as $layoutModuleDefault) {
+            $layoutMOduleDefaultFoundInLayoutModule = false;
+            foreach ($currentLayoutModules as $layoutModule) {
+                if ((int) $layoutModule['mod'] === (int) $layoutModuleDefault['mod']) {
+                    $layoutMOduleDefaultFoundInLayoutModule = true;
+                    break;
+                }
+            }
+            if (!$layoutMOduleDefaultFoundInLayoutModule) {
+                $currentLayoutModules[] = $layoutModuleDefault;
+            }
+        }
+
+        return $currentLayoutModules;
+    }
+
+    /**
+     * Reorder layout's modules.
+     *
+     * @param array $layoutModules The layout's modules
+     * @param array $modules       The modules
+     */
+    public static function reorderLayoutModules(array $layoutModules, array $modules): array
+    {
+        $layoutModuleHeader = null;
+        $layoutModuleFooter = null;
+        $layoutModuleBreadcrumb = null;
+        $layoutModuleBreadcrumbIndex = null;
+        $layoutModuleContentIndex = null;
+        foreach ($layoutModules as $index => $layoutModule) {
+            if ((int) $layoutModule['mod'] === (int) $modules['wem_sg_header']->id) {
+                $layoutModuleHeader = $layoutModule;
+                unset($layoutModules[$index]);
+            } elseif ((int) $layoutModule['mod'] === (int) $modules['wem_sg_footer']->id) {
+                $layoutModuleFooter = $layoutModule;
+                unset($layoutModules[$index]);
+            } elseif ((int) $layoutModule['mod'] === (int) $modules['breadcrumb']->id) {
+                $layoutModuleBreadcrumb = $layoutModule;
+                $layoutModuleBreadcrumbIndex = $index;
+            } elseif (0 === (int) $layoutModule['mod']) { // content
+                $layoutModuleContentIndex = $index;
+            }
+        }
+
+        // breadcrumb is always placed before content
+        if ($layoutModuleBreadcrumbIndex > $layoutModuleContentIndex) {
+            unset($layoutModules[$layoutModuleBreadcrumbIndex]);
+            ArrayUtil::arrayInsert($layoutModules, $layoutModuleContentIndex - 1, [$layoutModuleBreadcrumb]);
+        }
+
+        // Header is always first
+        array_unshift($layoutModules, $layoutModuleHeader);
+        // Footer is always last
+        $layoutModules[] = $layoutModuleFooter;
+
+        return $layoutModules;
     }
 }

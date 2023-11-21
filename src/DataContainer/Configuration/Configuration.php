@@ -17,10 +17,14 @@ namespace WEM\SmartgearBundle\DataContainer\Configuration;
 use Contao\DataContainer;
 use Contao\LayoutModel;
 use Contao\ModuleModel;
+use Contao\PageModel;
 use Contao\ThemeModel;
 use WEM\SmartgearBundle\Classes\StringUtil;
+use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
+use WEM\SmartgearBundle\Classes\Utils\ContentUtil;
 use WEM\SmartgearBundle\Classes\Utils\LayoutUtil;
 use WEM\SmartgearBundle\Classes\Utils\ModuleUtil;
+use WEM\SmartgearBundle\Classes\Utils\PageUtil;
 use WEM\SmartgearBundle\Classes\Utils\ThemeUtil;
 use WEM\SmartgearBundle\DataContainer\Core;
 use WEM\SmartgearBundle\Model\Configuration\Configuration as ConfigurationModel;
@@ -37,71 +41,199 @@ class Configuration extends Core
         $objItem = ConfigurationModel::findOneById($dc->activeRecord->id);
 
         // here we'll call everything to create contao contents
-        if (empty($objItem->contao_theme)) {
-            $objTheme = ThemeUtil::createTheme('Smartgear '.$dc->activeRecord->title, [
+        if (!empty($objItem->contao_theme)) {
+            $objTheme = ThemeModel::findByPk($objItem->contao_theme);
+        }
+
+        if (!$objTheme) {
+            $objTheme = ThemeUtil::createTheme('Smartgear '.$objItem->title, array_merge([
                 'author' => 'Web Ex Machina',
-                'templates' => sprintf('templates/%s', StringUtil::generateAlias($dc->activeRecord->title)),
-            ]);
+                'templates' => sprintf('templates/%s', StringUtil::generateAlias($objItem->title)),
+            ],
+            !empty($objItem->contao_theme) ? ['id' => $objItem->contao_theme] : []
+            ));
             $objItem->contao_theme = $objTheme->id;
-        } else {
-            $objTheme = ThemeModel::findByPk($dc->activeRecord->contao_theme);
         }
 
         // create modules
         // nav
-        if (empty($objItem->contao_module_nav)) {
-            $objModuleNav = ModuleUtil::createModuleNav((int) $objTheme->id);
+        if (!empty($objItem->contao_module_nav)) {
+            $objModuleNav = ModuleModel::findByPk($objItem->contao_module_nav);
+        }
+        if (!$objModuleNav) {
+            $objModuleNav = ModuleUtil::createModuleNav((int) $objTheme->id, !empty($objItem->contao_module_nav) ? ['id' => $objItem->contao_module_nav] : []);
             $objItem->contao_module_nav = $objModuleNav->id;
-        } else {
-            $objModuleNav = ModuleModel::findByPk($dc->activeRecord->contao_module_nav);
         }
 
         // wem_sg_header
-        if (empty($objItem->contao_module_wem_sg_header)) {
-            $objModuleWemSgHeader = ModuleUtil::createModuleWemSgHeader((int) $objTheme->id, (int) $objModuleNav->id);
+        if (!empty($objItem->contao_module_wem_sg_header)) {
+            $objModuleWemSgHeader = ModuleModel::findByPk($objItem->contao_module_wem_sg_header);
+        }
+        if (!$objModuleWemSgHeader) {
+            $objModuleWemSgHeader = ModuleUtil::createModuleWemSgHeader((int) $objTheme->id, (int) $objModuleNav->id, !empty($objItem->contao_module_wem_sg_header) ? ['id' => $objItem->contao_module_wem_sg_header] : []);
             $objItem->contao_module_wem_sg_header = $objModuleWemSgHeader->id;
-        } else {
-            $objModuleWemSgHeader = ModuleModel::findByPk($dc->activeRecord->contao_module_wem_sg_header);
         }
 
         // breadcrumb
-        if (empty($objItem->contao_module_breadcrumb)) {
-            $objModuleBreadcrumb = ModuleUtil::createModuleBreadcrumb((int) $objTheme->id);
+        if (!empty($objItem->contao_module_breadcrumb)) {
+            $objModuleBreadcrumb = ModuleModel::findByPk($objItem->contao_module_breadcrumb);
+        }
+        if (!$objModuleBreadcrumb) {
+            $objModuleBreadcrumb = ModuleUtil::createModuleBreadcrumb((int) $objTheme->id, !empty($objItem->contao_module_breadcrumb) ? ['id' => $objItem->contao_module_breadcrumb] : []);
             $objItem->contao_module_breadcrumb = $objModuleBreadcrumb->id;
-        } else {
-            $objModuleBreadcrumb = ModuleModel::findByPk($dc->activeRecord->contao_module_breadcrumb);
         }
 
         // wem_sg_footer
-        if (empty($objItem->contao_module_wem_sg_footer)) {
-            $objModuleWemSgFooter = ModuleUtil::createModuleWemSgFooter((int) $objTheme->id);
+        if (!empty($objItem->contao_module_wem_sg_footer)) {
+            $objModuleWemSgFooter = ModuleModel::findByPk($objItem->contao_module_wem_sg_footer);
+        }
+        if (!$objModuleWemSgFooter) {
+            $objModuleWemSgFooter = ModuleUtil::createModuleWemSgFooter((int) $objTheme->id, !empty($objItem->contao_module_wem_sg_footer) ? ['id' => $objItem->contao_module_wem_sg_footer] : []);
             $objItem->contao_module_wem_sg_footer = $objModuleWemSgFooter->id;
-        } else {
-            $objModuleWemSgFooter = ModuleModel::findByPk($dc->activeRecord->contao_module_wem_sg_footer);
         }
 
         // sitemap
-        if (empty($objItem->contao_module_sitemap)) {
-            $objModuleSitemap = ModuleUtil::createModuleSitemap((int) $objTheme->id);
+        if (!empty($objItem->contao_module_sitemap)) {
+            $objModuleSitemap = ModuleModel::findByPk($objItem->contao_module_sitemap);
+        }
+        if (!$objModuleSitemap) {
+            $objModuleSitemap = ModuleUtil::createModuleSitemap((int) $objTheme->id, !empty($objItem->contao_module_sitemap) ? ['id' => $objItem->contao_module_sitemap] : []);
             $objItem->contao_module_sitemap = $objModuleSitemap->id;
-        } else {
-            $objModuleSitemap = ModuleModel::findByPk($dc->activeRecord->contao_module_sitemap);
         }
 
         // footernav
-        if (empty($objItem->contao_module_footernav)) {
-            $objModuleFooterNav = ModuleUtil::createModuleFooterNav((int) $objTheme->id);
+        if (!empty($objItem->contao_module_footernav)) {
+            $objModuleFooterNav = ModuleModel::findByPk($objItem->contao_module_footernav);
+        }
+        if (!$objModuleFooterNav) {
+            $objModuleFooterNav = ModuleUtil::createModuleFooterNav((int) $objTheme->id, !empty($objItem->contao_module_footernav) ? ['id' => $objItem->contao_module_footernav] : []);
             $objItem->contao_module_footernav = $objModuleFooterNav->id;
-        } else {
-            $objModuleFooterNav = ModuleModel::findByPk($dc->activeRecord->contao_module_footernav);
         }
 
-        if (empty($objItem->contao_layout_full)) {
-            // create Contao Theme
-            $objLayoutFull = LayoutUtil::createLayoutFullpage('title', $objTheme->id, []);
+        // create Contao Layout fullwidth
+        if (!empty($objItem->contao_layout_full)) {
+            $objLayoutFull = LayoutModel::findByPk($objItem->contao_layout_full);
+        }
+        if (!$objLayoutFull) {
+            $objLayoutFull = LayoutUtil::createLayoutFullpage(
+                $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardFullwidthName'],
+                $objTheme->id,
+                array_merge([
+                    'webfonts' => $objItem->google_fonts,
+                    'modules_raw' => [
+                        'nav' => $objModuleNav,
+                        'wem_sg_header' => $objModuleWemSgHeader,
+                        'breadcrumb' => $objModuleBreadcrumb,
+                        'wem_sg_footer' => $objModuleWemSgFooter,
+                        'sitemap' => $objModuleSitemap,
+                        'footernav' => $objModuleFooterNav,
+                    ],
+                    'replace' => [
+                        'head' => [
+                            '{{config.framway.path}}' => $objItem->framway_path,
+                        ],
+                        'script' => [
+                            '{{config.googleFonts}}' => $objItem->google_fonts,
+                            '{{config.framway.path}}' => $objItem->framway_path,
+                            '{{config.analytics.system}}' => $objItem->analytics_solution,
+                            '{{config.analytics.google.id}}' => $objItem->google_id,
+                            '{{config.analytics.matomo.host}}' => $objItem->matomo_host,
+                            '{{config.analytics.matomo.id}}' => $objItem->matomo_id,
+                        ],
+                    ],
+                ],
+            !empty($objItem->contao_layout_full) ? ['id' => $objItem->contao_layout_full] : []
+            ));
             $objItem->contao_layout_full = $objLayoutFull->id;
-        } else {
-            $objLayoutFull = LayoutModel::findByPk($dc->activeRecord->contao_layout_full);
+        }
+
+        // create Contao Layout standard
+        if (!empty($objItem->contao_layout_standard)) {
+            $objLayoutStandard = LayoutModel::findByPk($objItem->contao_layout_standard);
+        }
+        dump($objItem->contao_layout_standard);
+        dump($objLayoutStandard);
+        if (!$objLayoutStandard) {
+            dump($objLayoutStandard);
+            exit('dfgs');
+            $objLayoutStandard = LayoutUtil::createLayoutStandard(
+                $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardName'],
+                $objTheme->id,
+                array_merge([
+                    'webfonts' => $objItem->google_fonts,
+                    'modules_raw' => [
+                        'nav' => $objModuleNav,
+                        'wem_sg_header' => $objModuleWemSgHeader,
+                        'breadcrumb' => $objModuleBreadcrumb,
+                        'wem_sg_footer' => $objModuleWemSgFooter,
+                        'sitemap' => $objModuleSitemap,
+                        'footernav' => $objModuleFooterNav,
+                    ],
+                    'replace' => [
+                        'head' => [
+                            '{{config.framway.path}}' => $objItem->framway_path,
+                        ],
+                        'script' => [
+                            '{{config.googleFonts}}' => $objItem->google_fonts,
+                            '{{config.framway.path}}' => $objItem->framway_path,
+                            '{{config.analytics.system}}' => $objItem->analytics_solution,
+                            '{{config.analytics.google.id}}' => $objItem->google_id,
+                            '{{config.analytics.matomo.host}}' => $objItem->matomo_host,
+                            '{{config.analytics.matomo.id}}' => $objItem->matomo_id,
+                        ],
+                    ],
+                ],
+            !empty($objItem->contao_layout_standard) ? ['id' => $objItem->contao_layout_standard] : []
+            ));
+
+            $objItem->contao_layout_standard = $objLayoutStandard->id;
+        }
+
+        // Page - root
+        if (!empty($objItem->contao_page_root)) {
+            $objPageRoot = PageModel::findByPk($objItem->contao_page_root);
+        }
+        if (!$objPageRoot) {
+            $objPageRoot = PageUtil::createPageRoot($objItem->title, $objItem->owner_email, (int) $objLayoutStandard->id, $objItem->language, !empty($objItem->contao_page_root) ? ['id' => $objItem->contao_page_root] : []);
+            $objItem->contao_page_root = $objPageRoot->id;
+
+            // create nothing because it is a root page
+        }
+
+        // Page - homepage
+        if (!empty($objItem->contao_page_home)) {
+            $objPageHome = PageModel::findByPk($objItem->contao_page_home);
+        }
+        if (!$objPageHome) {
+            $objPageHome = PageUtil::createPageHome($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageHomeTitle'], (int) $objItem->contao_page_root, !empty($objItem->contao_page_home) ? ['id' => $objItem->contao_page_home] : []);
+            $objItem->contao_page_home = $objPageHome->id;
+
+            // create article + content
+            $objArticleHome = ArticleUtil::createArticle($objPageHome);
+            // $objContentHome = ContentUtil::createContent($objPageHome, []);
+        }
+
+        // Page - 404
+        if (!empty($objItem->contao_page_404)) {
+            $objPage404 = PageModel::findByPk($objItem->contao_page_404);
+        }
+        if (!$objPage404) {
+            $objPage404 = PageUtil::createPage404($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Title'], (int) $objItem->contao_page_root, !empty($objItem->contao_page_404) ? ['id' => $objItem->contao_page_404] : []);
+            $objItem->contao_page_404 = $objPage404->id;
+
+            // create article + content
+            $objArticle404 = ArticleUtil::createArticle($objPage404);
+            // $objContent404 = ContentUtil::createContent($objPage404, []);
+
+            $contents['headline'] = ContentUtil::createContent($objArticle404, array_merge([
+                'headline' => serialize(['unit' => 'h1', 'value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Headline']]), 'text' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Text'],
+                // ], ['id' => null !== $content ? $content->id : null]));
+            ]));
+
+            $contents['sitemap'] = ContentUtil::createContent($objArticle404, array_merge([
+                'type' => 'module', 'module' => $objModuleSitemap->id,
+                // ], ['id' => null !== $content ? $content->id : null]));
+            ]));
         }
 
         $objItem->save();
@@ -109,8 +241,6 @@ class Configuration extends Core
 
     public function fieldGoogleFontsOnsaveCallback($value, DataContainer $dc)
     {
-        // dump($value);
-        // exit();
         $valueFormatted = StringUtil::deserialize($value, true);
 
         return implode(',', $valueFormatted);
