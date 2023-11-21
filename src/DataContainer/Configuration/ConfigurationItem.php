@@ -22,6 +22,7 @@ use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
 use WEM\SmartgearBundle\Classes\Utils\ContentUtil;
 use WEM\SmartgearBundle\Classes\Utils\ModuleUtil;
 use WEM\SmartgearBundle\Classes\Utils\PageUtil;
+use WEM\SmartgearBundle\Classes\Utils\UserGroupUtil;
 use WEM\SmartgearBundle\DataContainer\Core;
 use WEM\SmartgearBundle\Model\Configuration\Configuration as ConfigurationModel;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem as ConfigurationItemModel;
@@ -46,6 +47,12 @@ class ConfigurationItem extends Core
             break;
             case ConfigurationItemModel::TYPE_PAGE_SITEMAP:
                 $objItem = $this->managePageSitemap($objItem);
+            break;
+            case ConfigurationItemModel::TYPE_USER_GROUP_ADMINISTRATORS:
+                $objItem = $this->manageUserGroupAdministrators($objItem);
+            break;
+            case ConfigurationItemModel::TYPE_USER_GROUP_REDACTORS:
+                $objItem = $this->manageUserGroupRedactors($objItem);
             break;
         }
 
@@ -154,6 +161,27 @@ class ConfigurationItem extends Core
             ]);
 
             $objItem->contao_page = $objPage->id;
+        }
+
+        return $objItem;
+    }
+
+    public function manageUserGroupAdministrators(ConfigurationItemModel $objItem): ConfigurationItemModel
+    {
+        if (!empty($objItem->user_group_name)) {
+            $objUserGroup = UserGroupUtil::createUserGroupAdministrators($objItem->user_group_name, $objItem->contao_user_group ? ['id' => $objItem->contao_user_group] : []);
+
+            $objItem->contao_user_group = $objUserGroup->id;
+        }
+
+        return $objItem;
+    }
+
+    public function manageUserGroupRedactors(ConfigurationItemModel $objItem): ConfigurationItemModel
+    {
+        if (!empty($objItem->user_group_name)) {
+            $objUserGroup = UserGroupUtil::createUserGroupRedactors($objItem->user_group_name, $objItem->contao_user_group ? ['id' => $objItem->contao_user_group] : []);
+            $objItem->contao_user_group = $objUserGroup->id;
         }
 
         return $objItem;
