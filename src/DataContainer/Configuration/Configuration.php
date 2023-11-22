@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\DataContainer\Configuration;
 
 use Contao\DataContainer;
 use Contao\Folder;
+use Contao\ImageSizeModel;
 use Contao\LayoutModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
@@ -23,6 +24,7 @@ use Contao\ThemeModel;
 use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
 use WEM\SmartgearBundle\Classes\Utils\ContentUtil;
+use WEM\SmartgearBundle\Classes\Utils\ImageSizeUtil;
 use WEM\SmartgearBundle\Classes\Utils\LayoutUtil;
 use WEM\SmartgearBundle\Classes\Utils\ModuleUtil;
 use WEM\SmartgearBundle\Classes\Utils\PageUtil;
@@ -56,6 +58,27 @@ class Configuration extends Core
             !empty($objItem->contao_theme) ? ['id' => $objItem->contao_theme] : []
             ));
             $objItem->contao_theme = $objTheme->id;
+        }
+        // check for images sizes
+        $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '16:9']);
+        if (!$objImageSize) {
+            ImageSizeUtil::createImageSize_16_9($objItem->contao_theme);
+        }
+        $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '2:1']);
+        if (!$objImageSize) {
+            ImageSizeUtil::createImageSize_2_1($objItem->contao_theme);
+        }
+        $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '1:2']);
+        if (!$objImageSize) {
+            ImageSizeUtil::createImageSize_1_2($objItem->contao_theme);
+        }
+        $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '1:1']);
+        if (!$objImageSize) {
+            ImageSizeUtil::createImageSize_1_1($objItem->contao_theme);
+        }
+        $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '4:3']);
+        if (!$objImageSize) {
+            ImageSizeUtil::createImageSize_4_3($objItem->contao_theme);
         }
 
         // create modules

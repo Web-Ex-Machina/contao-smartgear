@@ -120,6 +120,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'search' => true,
             'inputType' => 'select',
             'options' => [
+                '-',
                 'pages' => [
                     ConfigurationItem::TYPE_PAGE_LEGAL_NOTICE,
                     ConfigurationItem::TYPE_PAGE_PRIVACY_POLITICS,

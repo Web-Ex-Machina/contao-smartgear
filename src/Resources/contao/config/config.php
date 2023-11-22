@@ -107,7 +107,7 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 0, [
     'smartgear' => [
         'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
     ],
-    'smartgear_configurations' => [
+    'wem_sg_smartgear_configuration' => [
         'tables' => ['tl_sm_configuration', 'tl_sm_configuration_item'],
     ],
     'wem_sg_social_link_config_categories' => [

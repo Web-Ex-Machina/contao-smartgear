@@ -265,7 +265,7 @@ class PageUtil
         $articles = ArticleModel::findBy('pid', $pageId);
         if ($articles) {
             while ($articles->next()) {
-                $contents = ContentModel::findBy(['ptable', 'pid'], [ArticleModel::getTable(), $articles->current()->id]);
+                $contents = ContentModel::findBy(['ptable = ?', 'pid = ?'], [ArticleModel::getTable(), $articles->current()->id]);
                 if ($contents) {
                     while ($contents->next()) {
                         $contents->delete();

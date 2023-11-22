@@ -77,6 +77,14 @@
 				<source>Configurer votre Smartgear</source>
 				<target>Configurer votre Smartgear</target>
 			</trans-unit>
+			<trans-unit id="MOD.wem_sg_smartgear_configuration.0">
+				<source>Smartgear configuration</source>
+				<target>Configuration Smartgear</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_smartgear_configuration.1">
+				<source>Configure your Smartgear</source>
+				<target>Configurer vos Smartgear</target>
+			</trans-unit>
 			<trans-unit id="MOD.wem_smartgear">
 				<source>General</source>
 				<target>Général</target>
