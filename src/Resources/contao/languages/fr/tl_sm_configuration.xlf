@@ -122,6 +122,7 @@
 				<target>Thème</target>
 			</trans-unit>
 
+			<!-- 
 			<trans-unit id="tl_sm_configuration.contao_module_nav.0">
 				<source>Navigation module</source>
 				<target>Module navigation</target>
@@ -138,16 +139,18 @@
 				<source>footer module</source>
 				<target>Module pied de page</target>
 			</trans-unit>
+			-->
 			<trans-unit id="tl_sm_configuration.contao_module_sitemap.0">
 				<source>sitemap module</source>
 				<target>Module plan du site</target>
 			</trans-unit>
+			<!-- 
 			<trans-unit id="tl_sm_configuration.contao_module_footernav.0">
 				<source>footernav module</source>
 				<target>Module navigation pied de page</target>
 			</trans-unit>
-
-
+			-->
+			
 			<trans-unit id="tl_sm_configuration.contao_layout_full.0">
 				<source>Fullwidth</source>
 				<target>Pleine page</target>

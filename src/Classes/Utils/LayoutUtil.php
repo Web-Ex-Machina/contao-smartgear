@@ -88,7 +88,7 @@ class LayoutUtil
             'loadingOrder' => 'external_first',
             'combineScripts' => 1,
             'viewport' => 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0',
-            'modules' => serialize($arrLayoutModules ?: []),
+            'modules' => serialize($arrLayoutModules ?: [['mod' => 0, 'col' => 'main', 'enable' => 1]]),
             'template' => 'fe_page_full',
             // 'webfonts' => $config->getSgGoogleFonts(),
             'head' => $head,
@@ -131,7 +131,7 @@ class LayoutUtil
             'loadingOrder' => 'external_first',
             'combineScripts' => 1,
             'viewport' => 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0',
-            'modules' => serialize($arrLayoutModules ?: []),
+            'modules' => serialize($arrLayoutModules ?: [['mod' => 0, 'col' => 'main', 'enable' => 1]]),
             'template' => 'fe_page',
             // 'webfonts' => $config->getSgGoogleFonts(),
             'head' => $head,
@@ -158,25 +158,25 @@ class LayoutUtil
     {
         $script = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
 
-        if (\array_key_exists('config.googleFonts', $arrReplace)) {
-            $script = str_replace('{{config.googleFonts}}', "'".$arrReplace['config.googleFonts']."'", $script);
+        if (\array_key_exists('{{config.googleFonts}}', $arrReplace)) {
+            $script = str_replace('{{config.googleFonts}}', "'".$arrReplace['{{config.googleFonts}}']."'", $script);
         } else {
             $script = preg_replace('/\/\/ -- GFONT(.*)\/\/ -- \/GFONT/s', '', $script);
         }
 
-        $script = str_replace('{{config.framway.path}}', $arrReplace['config.framway.path'], $script);
-        switch ($arrReplace['config.analytics.system']) {
+        $script = str_replace('{{config.framway.path}}', $arrReplace['{{config.framway.path}}'], $script);
+        switch ($arrReplace['{{config.analytics.system}}']) {
             case Configuration::ANALYTICS_SOLUTION_NONE:
                 $script = preg_replace('/\/\/ -- GTAG(.*)\/\/ -- \/GTAG/s', '', $script);
                 $script = preg_replace('/\/\/ -- MATOMO(.*)\/\/ -- \/MATOMO/s', '', $script);
             break;
             case Configuration::ANALYTICS_SOLUTION_GOOGLE:
-                $script = str_replace('{{config.analytics.google.id}}', $arrReplace['config.analytics.google.id'], $script);
+                $script = str_replace('{{config.analytics.google.id}}', $arrReplace['{{config.analytics.google.id}}'], $script);
                 $script = preg_replace('/\/\/ -- MATOMO(.*)\/\/ -- \/MATOMO/s', '', $script);
             break;
             case Configuration::ANALYTICS_SOLUTION_MATOMO:
-                $script = str_replace('{{config.analytics.matomo.host}}', $arrReplace['config.analytics.matomo.host'], $script);
-                $script = str_replace('{{config.analytics.matomo.id}}', $arrReplace['config.analytics.matomo.id'], $script);
+                $script = str_replace('{{config.analytics.matomo.host}}', $arrReplace['{{config.analytics.matomo.host}}'], $script);
+                $script = str_replace('{{config.analytics.matomo.id}}', $arrReplace['{{config.analytics.matomo.id}}'], $script);
                 $script = preg_replace('/\/\/ -- GTAG(.*)\/\/ -- \/GTAG/s', '', $script);
             break;
         }
@@ -286,10 +286,10 @@ class LayoutUtil
 
         if (null !== $previousHeaderIndex) {
             $layoutModules[$previousHeaderIndex]['mod'] = $moduleHeaderId;
-            $layoutModules[$previousHeaderIndex]['active'] = 1;
+            $layoutModules[$previousHeaderIndex]['enable'] = 1;
         } else {
             // header is first in header col
-            array_unshift($layoutModules, ['mod' => $moduleHeaderId, 'col' => 'header', 'active' => 1]);
+            array_unshift($layoutModules, ['mod' => $moduleHeaderId, 'col' => 'header', 'enable' => 1]);
         }
 
         $objLayout->modules = serialize($layoutModules);

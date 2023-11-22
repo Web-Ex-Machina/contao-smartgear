@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\DataContainer\Configuration;
 
 use Contao\DataContainer;
+use Contao\Folder;
 use Contao\LayoutModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
@@ -46,6 +47,8 @@ class Configuration extends Core
         }
 
         if (!$objTheme) {
+            $clientTemplatesFolder = new Folder('templates'.\DIRECTORY_SEPARATOR.StringUtil::generateAlias($objItem->title));
+
             $objTheme = ThemeUtil::createTheme('Smartgear '.$objItem->title, array_merge([
                 'author' => 'Web Ex Machina',
                 'templates' => sprintf('templates/%s', StringUtil::generateAlias($objItem->title)),
@@ -57,40 +60,40 @@ class Configuration extends Core
 
         // create modules
         // nav
-        if (!empty($objItem->contao_module_nav)) {
-            $objModuleNav = ModuleModel::findByPk($objItem->contao_module_nav);
-        }
-        if (!$objModuleNav) {
-            $objModuleNav = ModuleUtil::createModuleNav((int) $objTheme->id, !empty($objItem->contao_module_nav) ? ['id' => $objItem->contao_module_nav] : []);
-            $objItem->contao_module_nav = $objModuleNav->id;
-        }
+        // if (!empty($objItem->contao_module_nav)) {
+        //     $objModuleNav = ModuleModel::findByPk($objItem->contao_module_nav);
+        // }
+        // if (!$objModuleNav) {
+        //     $objModuleNav = ModuleUtil::createModuleNav((int) $objTheme->id, !empty($objItem->contao_module_nav) ? ['id' => $objItem->contao_module_nav] : []);
+        //     $objItem->contao_module_nav = $objModuleNav->id;
+        // }
 
         // wem_sg_header
-        if (!empty($objItem->contao_module_wem_sg_header)) {
-            $objModuleWemSgHeader = ModuleModel::findByPk($objItem->contao_module_wem_sg_header);
-        }
-        if (!$objModuleWemSgHeader) {
-            $objModuleWemSgHeader = ModuleUtil::createModuleWemSgHeader((int) $objTheme->id, (int) $objModuleNav->id, !empty($objItem->contao_module_wem_sg_header) ? ['id' => $objItem->contao_module_wem_sg_header] : []);
-            $objItem->contao_module_wem_sg_header = $objModuleWemSgHeader->id;
-        }
+        // if (!empty($objItem->contao_module_wem_sg_header)) {
+        //     $objModuleWemSgHeader = ModuleModel::findByPk($objItem->contao_module_wem_sg_header);
+        // }
+        // if (!$objModuleWemSgHeader) {
+        //     $objModuleWemSgHeader = ModuleUtil::createModuleWemSgHeader((int) $objTheme->id, (int) $objModuleNav->id, !empty($objItem->contao_module_wem_sg_header) ? ['id' => $objItem->contao_module_wem_sg_header] : []);
+        //     $objItem->contao_module_wem_sg_header = $objModuleWemSgHeader->id;
+        // }
 
         // breadcrumb
-        if (!empty($objItem->contao_module_breadcrumb)) {
-            $objModuleBreadcrumb = ModuleModel::findByPk($objItem->contao_module_breadcrumb);
-        }
-        if (!$objModuleBreadcrumb) {
-            $objModuleBreadcrumb = ModuleUtil::createModuleBreadcrumb((int) $objTheme->id, !empty($objItem->contao_module_breadcrumb) ? ['id' => $objItem->contao_module_breadcrumb] : []);
-            $objItem->contao_module_breadcrumb = $objModuleBreadcrumb->id;
-        }
+        // if (!empty($objItem->contao_module_breadcrumb)) {
+        //     $objModuleBreadcrumb = ModuleModel::findByPk($objItem->contao_module_breadcrumb);
+        // }
+        // if (!$objModuleBreadcrumb) {
+        //     $objModuleBreadcrumb = ModuleUtil::createModuleBreadcrumb((int) $objTheme->id, !empty($objItem->contao_module_breadcrumb) ? ['id' => $objItem->contao_module_breadcrumb] : []);
+        //     $objItem->contao_module_breadcrumb = $objModuleBreadcrumb->id;
+        // }
 
         // wem_sg_footer
-        if (!empty($objItem->contao_module_wem_sg_footer)) {
-            $objModuleWemSgFooter = ModuleModel::findByPk($objItem->contao_module_wem_sg_footer);
-        }
-        if (!$objModuleWemSgFooter) {
-            $objModuleWemSgFooter = ModuleUtil::createModuleWemSgFooter((int) $objTheme->id, !empty($objItem->contao_module_wem_sg_footer) ? ['id' => $objItem->contao_module_wem_sg_footer] : []);
-            $objItem->contao_module_wem_sg_footer = $objModuleWemSgFooter->id;
-        }
+        // if (!empty($objItem->contao_module_wem_sg_footer)) {
+        //     $objModuleWemSgFooter = ModuleModel::findByPk($objItem->contao_module_wem_sg_footer);
+        // }
+        // if (!$objModuleWemSgFooter) {
+        //     $objModuleWemSgFooter = ModuleUtil::createModuleWemSgFooter((int) $objTheme->id, !empty($objItem->contao_module_wem_sg_footer) ? ['id' => $objItem->contao_module_wem_sg_footer] : []);
+        //     $objItem->contao_module_wem_sg_footer = $objModuleWemSgFooter->id;
+        // }
 
         // sitemap
         if (!empty($objItem->contao_module_sitemap)) {
@@ -102,13 +105,13 @@ class Configuration extends Core
         }
 
         // footernav
-        if (!empty($objItem->contao_module_footernav)) {
-            $objModuleFooterNav = ModuleModel::findByPk($objItem->contao_module_footernav);
-        }
-        if (!$objModuleFooterNav) {
-            $objModuleFooterNav = ModuleUtil::createModuleFooterNav((int) $objTheme->id, !empty($objItem->contao_module_footernav) ? ['id' => $objItem->contao_module_footernav] : []);
-            $objItem->contao_module_footernav = $objModuleFooterNav->id;
-        }
+        // if (!empty($objItem->contao_module_footernav)) {
+        //     $objModuleFooterNav = ModuleModel::findByPk($objItem->contao_module_footernav);
+        // }
+        // if (!$objModuleFooterNav) {
+        //     $objModuleFooterNav = ModuleUtil::createModuleFooterNav((int) $objTheme->id, !empty($objItem->contao_module_footernav) ? ['id' => $objItem->contao_module_footernav] : []);
+        //     $objItem->contao_module_footernav = $objModuleFooterNav->id;
+        // }
 
         // create Contao Layout fullwidth
         if (!empty($objItem->contao_layout_full)) {
@@ -120,14 +123,14 @@ class Configuration extends Core
                 $objTheme->id,
                 array_merge([
                     'webfonts' => $objItem->google_fonts,
-                    'modules_raw' => [
-                        'nav' => $objModuleNav,
-                        'wem_sg_header' => $objModuleWemSgHeader,
-                        'breadcrumb' => $objModuleBreadcrumb,
-                        'wem_sg_footer' => $objModuleWemSgFooter,
-                        'sitemap' => $objModuleSitemap,
-                        'footernav' => $objModuleFooterNav,
-                    ],
+                    // 'modules_raw' => [
+                    //     'nav' => $objModuleNav,
+                    //     'wem_sg_header' => $objModuleWemSgHeader,
+                    //     'breadcrumb' => $objModuleBreadcrumb,
+                    //     'wem_sg_footer' => $objModuleWemSgFooter,
+                    //     'sitemap' => $objModuleSitemap,
+                    //     'footernav' => $objModuleFooterNav,
+                    // ],
                     'replace' => [
                         'head' => [
                             '{{config.framway.path}}' => $objItem->framway_path,
@@ -157,14 +160,14 @@ class Configuration extends Core
                 $objTheme->id,
                 array_merge([
                     'webfonts' => $objItem->google_fonts,
-                    'modules_raw' => [
-                        'nav' => $objModuleNav,
-                        'wem_sg_header' => $objModuleWemSgHeader,
-                        'breadcrumb' => $objModuleBreadcrumb,
-                        'wem_sg_footer' => $objModuleWemSgFooter,
-                        'sitemap' => $objModuleSitemap,
-                        'footernav' => $objModuleFooterNav,
-                    ],
+                    // 'modules_raw' => [
+                    //     'nav' => $objModuleNav,
+                    //     'wem_sg_header' => $objModuleWemSgHeader,
+                    //     'breadcrumb' => $objModuleBreadcrumb,
+                    //     'wem_sg_footer' => $objModuleWemSgFooter,
+                    //     'sitemap' => $objModuleSitemap,
+                    //     'footernav' => $objModuleFooterNav,
+                    // ],
                     'replace' => [
                         'head' => [
                             '{{config.framway.path}}' => $objItem->framway_path,
@@ -219,10 +222,13 @@ class Configuration extends Core
 
             // create article + content
             $objArticle404 = ArticleUtil::createArticle($objPage404);
-            // $objContent404 = ContentUtil::createContent($objPage404, []);
 
             $contents['headline'] = ContentUtil::createContent($objArticle404, array_merge([
-                'headline' => serialize(['unit' => 'h1', 'value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Headline']]), 'text' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Text'],
+                'headline' => serialize([
+                    'unit' => 'h1',
+                    'value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Headline'],
+                ]),
+                'text' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Text'],
                 // ], ['id' => null !== $content ? $content->id : null]));
             ]));
 

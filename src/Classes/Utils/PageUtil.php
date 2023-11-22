@@ -87,7 +87,7 @@ class PageUtil
         $arrData = array_merge([
             'sorting' => 128,
             'type' => 'root',
-            // 'language' => 'fr',
+            'language' => $language,
             'fallback' => 1,
             'adminEmail' => $adminEmail,
             'createSitemap' => 1,
@@ -95,7 +95,7 @@ class PageUtil
             'useSSL' => 1,
             'includeLayout' => 1,
             'layout' => $layoutId,
-            'includeChmod' => 1,
+            // 'includeChmod' => 1,
             // 'cuser' => $users['webmaster']->id,
             // 'cgroup' => $groups['administrators']->id,
             'chmod' => Configuration::DEFAULT_ROOTPAGE_CHMOD,

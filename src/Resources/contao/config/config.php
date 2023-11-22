@@ -107,6 +107,9 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 0, [
     'smartgear' => [
         'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
     ],
+    'smartgear_configurations' => [
+        'tables' => ['tl_sm_configuration', 'tl_sm_configuration_item'],
+    ],
     'wem_sg_social_link_config_categories' => [
         'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
     ],
@@ -120,9 +123,6 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
             'callback' => "\WEM\SmartgearBundle\Backend\Reminder",
         ],
         'undo' => $GLOBALS['BE_MOD']['system']['undo'],
-        'configuration' => [
-            'tables' => ['tl_sm_configuration', 'tl_sm_configuration_item'],
-        ],
     ],
 ]);
 unset($GLOBALS['BE_MOD']['system']['undo']);
