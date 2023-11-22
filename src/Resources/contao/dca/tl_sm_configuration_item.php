@@ -35,15 +35,18 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
     'list' => [
         'sorting' => [
             'mode' => DataContainer::MODE_PARENT,
+            // 'mode' => DataContainer::MODE_SORTED,
             'fields' => ['type'],
-            'flag' => 1,
+            // 'flag' => DataContainer::SORT_INITIAL_LETTERS_ASC,
+            // 'flag' => 1,
             'panelLayout' => 'filter;search,limit',
             'headerFields' => ['title'],
         ],
         'label' => [
-            'fields' => ['type'],
+            'fields' => ['type', 'id'],
             'showColumns' => true,
             // 'format' => '[%s] %s | %s',
+            'label_callback' => ['smartgear.data_container.configuration.configuration_item', 'listItems'],
         ],
         'global_operations' => [
             'all' => [
@@ -88,10 +91,10 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
         'type_page-sitemap' => 'contao_page,page_name,contao_module',
         'type_user-group-administrators' => 'contao_user_group,user_group_name',
         'type_user-group-redactors' => 'contao_user_group,user_group_name',
-        'type_module-wem-sg-header' => 'contao_module,module_name, singleSRC',
-        'type_module-wem-sg-footer' => 'contao_module,module_name, content_template',
-        'type_module-breadcrumb' => 'contao_module,module_name',
-        'type_module-wem-sg-social_networks' => 'contao_module,module_name',
+        'type_module-wem-sg-header' => 'contao_module,module_name,singleSRC,contao_layout_to_update',
+        'type_module-wem-sg-footer' => 'contao_module,module_name,content_template,contao_layout_to_update',
+        'type_module-breadcrumb' => 'contao_module,module_name,contao_layout_to_update',
+        'type_module-wem-sg-social-networks' => 'contao_module,module_name',
         'type_mixed-sitemap' => 'contao_module,module_name,contao_page,page_name',
     ],
 
@@ -170,7 +173,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',
-            'eval' => ['maclength' => 255, 'tl_class' => 'w50'],
+            'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
         'content_template' => [
@@ -199,8 +202,16 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',
-            'eval' => ['maclength' => 255, 'tl_class' => 'w50'],
+            'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'contao_layout_to_update' => [
+            'exclude' => true,
+            'inputType' => 'checkboxWizard',
+            'options_callback' => ['smartgear.data_container.configuration.configuration_item', 'contaoLayoutToUpdateOptionsCallback'],
+            // 'load_callback' => [['smartgear.data_container.configuration.configuration_item', 'contaoLayoutToUpdateLoadCallback']],
+            'eval' => ['isAssociative' => true, 'multiple' => true, 'tl_class' => 'w50'],
+            'sql' => 'blob NULL',
         ],
     ],
 ];

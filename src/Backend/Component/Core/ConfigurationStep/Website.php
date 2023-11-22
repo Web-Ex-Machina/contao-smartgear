@@ -560,6 +560,7 @@ class Website extends ConfigurationStep
 
         $layouts = [];
 
+        $arrLayoutModulesDefault = LayoutUtil::buildDefaultModulesConfiguration((int) $modules['wem_sg_header']->id, (int) $modules['breadcrumb']->id, (int) $modules['wem_sg_footer']->id);
         // $arrLayoutModulesDefault = [
         //     ['mod' => $modules['wem_sg_header']->id, 'col' => 'header', 'enable' => '1'],
         //     ['mod' => $modules['breadcrumb']->id, 'col' => 'main', 'enable' => '1'],
@@ -593,10 +594,10 @@ class Website extends ConfigurationStep
         // $head = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
         // $head = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $head);
 
-        // $objLayout = null !== $config->getSgLayoutStandard()
-        //     ? LayoutModel::findOneById($config->getSgLayoutStandard()) ?? new LayoutModel()
-        //     : new LayoutModel();
-        // $arrLayoutModules = LayoutUtil::reorderLayoutModules(LayoutUtil::mergeLayoutsModules(StringUtil::deserialize($objLayout->modules ?? []), $arrLayoutModulesDefault), $modules);
+        $objLayout = null !== $config->getSgLayoutStandard()
+            ? LayoutModel::findOneById($config->getSgLayoutStandard()) ?? new LayoutModel()
+            : new LayoutModel();
+        $arrLayoutModules = LayoutUtil::reorderLayoutModules(LayoutUtil::mergeLayoutsModules(StringUtil::deserialize($objLayout->modules ?? []), $arrLayoutModulesDefault), $modules);
         // $objLayout->pid = $themeId;
         // $objLayout->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardName'];
         // $objLayout->rows = '3rw';
@@ -616,9 +617,11 @@ class Website extends ConfigurationStep
         $objLayout = LayoutUtil::createLayoutStandard(
             $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardName'],
             $themeId,
+            array_merge(
             [
                 'webfonts' => implode("','", $config->getSgGoogleFonts()),
-                'modules_raw' => $modules,
+                'modules' => serialize($arrLayoutModules),
+                // 'modules_raw' => $modules,
                 'replace' => [
                     'head' => [
                         '{{config.framway.path}}' => $config->getSgFramwayPath(),
@@ -633,16 +636,18 @@ class Website extends ConfigurationStep
                     ],
                 ],
             ],
+            $config->getSgLayoutStandard() ? ['id' => $config->getSgLayoutStandard()] : []
+            )
         );
 
         $layouts['standard'] = $objLayout;
 
         $this->setConfigKey('setSgLayoutStandard', (int) $objLayout->id);
 
-        // $objLayout = null !== $config->getSgLayoutFullwidth()
-        //     ? LayoutModel::findOneById($config->getSgLayoutFullwidth()) ?? new LayoutModel()
-        //     : new LayoutModel();
-        // $arrLayoutModules = LayoutUtil::reorderLayoutModules(LayoutUtil::mergeLayoutsModules(StringUtil::deserialize($objLayout->modules ?? []), $arrLayoutModulesDefault), $modules);
+        $objLayout = null !== $config->getSgLayoutFullwidth()
+            ? LayoutModel::findOneById($config->getSgLayoutFullwidth()) ?? new LayoutModel()
+            : new LayoutModel();
+        $arrLayoutModules = LayoutUtil::reorderLayoutModules(LayoutUtil::mergeLayoutsModules(StringUtil::deserialize($objLayout->modules ?? []), $arrLayoutModulesDefault), $modules);
         // $objLayout->pid = $themeId;
         // $objLayout->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardFullwidthName'];
         // $objLayout->rows = '3rw';
@@ -662,9 +667,10 @@ class Website extends ConfigurationStep
         $objLayout = LayoutUtil::createLayoutFullpage(
             $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardFullwidthName'],
             $themeId,
-            [
+            array_merge([
                 'webfonts' => implode("','", $config->getSgGoogleFonts()),
-                'modules_raw' => $modules,
+                'modules' => serialize($arrLayoutModules),
+                // 'modules_raw' => $modules,
                 'replace' => [
                     'head' => [
                         '{{config.framway.path}}' => $config->getSgFramwayPath(),
@@ -679,6 +685,8 @@ class Website extends ConfigurationStep
                     ],
                 ],
             ],
+            $config->getSgLayoutStandard() ? ['id' => $config->getSgLayoutStandard()] : []
+            )
         );
 
         $layouts['fullwidth'] = $objLayout;

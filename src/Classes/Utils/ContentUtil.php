@@ -109,4 +109,9 @@ class ContentUtil
 
         return $strHtml;
     }
+
+    public static function buildContentWemSgFooter(string $customTpl): string
+    {
+        return file_get_contents($customTpl);
+    }
 }

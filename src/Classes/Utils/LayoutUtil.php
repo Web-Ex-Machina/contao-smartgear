@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Classes\Utils;
 
 use Contao\ArrayUtil;
 use Contao\LayoutModel;
+use Contao\ModuleModel;
 use InvalidArgumentException;
 use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Classes\Util;
@@ -66,17 +67,19 @@ class LayoutUtil
             $objLayout = LayoutModel::findOneById($arrData['id']);
         }
 
-        $arrLayoutModules = self::reorderLayoutModules(
-            self::mergeLayoutsModules(
-                StringUtil::deserialize($objLayout ? $objLayout->modules ?? [] : []),
-                self::buildDefaultModulesConfiguration(
-                    (int) $arrData['modules_raw']['wem_sg_header']->id,
-                    (int) $arrData['modules_raw']['breadcrumb']->id,
-                    (int) $arrData['modules_raw']['wem_sg_footer']->id,
-                )
-            ),
-            $arrData['modules_raw']
-        );
+        if (\array_key_exists('modules_raw', $arrData)) {
+            $arrLayoutModules = self::reorderLayoutModules(
+                self::mergeLayoutsModules(
+                    StringUtil::deserialize($objLayout ? $objLayout->modules ?? [] : []),
+                    self::buildDefaultModulesConfiguration(
+                        (int) $arrData['modules_raw']['wem_sg_header']->id,
+                        (int) $arrData['modules_raw']['breadcrumb']->id,
+                        (int) $arrData['modules_raw']['wem_sg_footer']->id,
+                    )
+                ),
+                $arrData['modules_raw']
+            );
+        }
 
         $arrData = array_merge([
             'name' => $strName,
@@ -85,7 +88,7 @@ class LayoutUtil
             'loadingOrder' => 'external_first',
             'combineScripts' => 1,
             'viewport' => 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0',
-            'modules' => serialize($arrLayoutModules),
+            'modules' => serialize($arrLayoutModules ?: []),
             'template' => 'fe_page_full',
             // 'webfonts' => $config->getSgGoogleFonts(),
             'head' => $head,
@@ -107,17 +110,19 @@ class LayoutUtil
             $objLayout = LayoutModel::findOneById($arrData['id']);
         }
 
-        $arrLayoutModules = self::reorderLayoutModules(
-            self::mergeLayoutsModules(
-                StringUtil::deserialize($objLayout ? $objLayout->modules ?? [] : []),
-                self::buildDefaultModulesConfiguration(
-                    (int) $arrData['modules_raw']['wem_sg_header']->id,
-                    (int) $arrData['modules_raw']['breadcrumb']->id,
-                    (int) $arrData['modules_raw']['wem_sg_footer']->id,
-                )
-            ),
-            $arrData['modules_raw']
-        );
+        if (\array_key_exists('modules_raw', $arrData)) {
+            $arrLayoutModules = self::reorderLayoutModules(
+                self::mergeLayoutsModules(
+                    StringUtil::deserialize($objLayout ? $objLayout->modules ?? [] : []),
+                    self::buildDefaultModulesConfiguration(
+                        (int) $arrData['modules_raw']['wem_sg_header']->id,
+                        (int) $arrData['modules_raw']['breadcrumb']->id,
+                        (int) $arrData['modules_raw']['wem_sg_footer']->id,
+                    )
+                ),
+                $arrData['modules_raw']
+            );
+        }
 
         $arrData = array_merge([
             'name' => $strName,
@@ -126,7 +131,7 @@ class LayoutUtil
             'loadingOrder' => 'external_first',
             'combineScripts' => 1,
             'viewport' => 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0',
-            'modules' => serialize($arrLayoutModules),
+            'modules' => serialize($arrLayoutModules ?: []),
             'template' => 'fe_page',
             // 'webfonts' => $config->getSgGoogleFonts(),
             'head' => $head,
@@ -258,5 +263,109 @@ class LayoutUtil
         $layoutModules[] = $layoutModuleFooter;
 
         return $layoutModules;
+    }
+
+    public static function replaceHeader(int $layoutId, int $moduleHeaderId): void
+    {
+        $objLayout = LayoutModel::findByPk($layoutId);
+        if (!$objLayout) {
+            throw new InvalidArgumentException('Layout with id "'.$layoutId.'" not found');
+        }
+
+        $layoutModules = StringUtil::deserialize($objLayout->modules, true);
+        $previousHeaderIndex = null;
+        foreach ($layoutModules as $index => $layoutModule) {
+            if ('header' === $layoutModule['col']) {
+                $objModule = ModuleModel::findById($layoutModule['mod']);
+                if (\in_array($objModule->type, ['wem_sg_header', 'header'], true)) {
+                    $previousHeaderIndex = $index;
+                    break;
+                }
+            }
+        }
+
+        if (null !== $previousHeaderIndex) {
+            $layoutModules[$previousHeaderIndex]['mod'] = $moduleHeaderId;
+            $layoutModules[$previousHeaderIndex]['active'] = 1;
+        } else {
+            // header is first in header col
+            array_unshift($layoutModules, ['mod' => $moduleHeaderId, 'col' => 'header', 'active' => 1]);
+        }
+
+        $objLayout->modules = serialize($layoutModules);
+        $objLayout->save();
+    }
+
+    public static function replaceFooter(int $layoutId, int $moduleFooterId): void
+    {
+        $objLayout = LayoutModel::findByPk($layoutId);
+        if (!$objLayout) {
+            throw new InvalidArgumentException('Layout with id "'.$layoutId.'" not found');
+        }
+
+        $layoutModules = array_reverse(StringUtil::deserialize($objLayout->modules, true), true);
+        $previousFooterIndex = null;
+        foreach ($layoutModules as $index => $layoutModule) {
+            if ('footer' === $layoutModule['col']) {
+                $objModule = ModuleModel::findById($layoutModule['mod']);
+                if (\in_array($objModule->type, ['wem_sg_footer', 'footer', 'html'], true)) {
+                    $previousFooterIndex = $index;
+                    break;
+                }
+            }
+        }
+
+        $layoutModules = array_reverse($layoutModules, true);
+        if (null !== $previousFooterIndex) {
+            $layoutModules[$previousFooterIndex]['mod'] = $moduleFooterId;
+            $layoutModules[$previousFooterIndex]['enable'] = 1;
+        } else {
+            // footer is last in footer col
+            $layoutModules[] = ['mod' => $moduleFooterId, 'col' => 'footer', 'enable' => 1];
+        }
+
+        $objLayout->modules = serialize($layoutModules);
+        $objLayout->save();
+    }
+
+    public static function replaceBreadcrumb(int $layoutId, int $moduleBreadcrumbId): void
+    {
+        $objLayout = LayoutModel::findByPk($layoutId);
+        if (!$objLayout) {
+            throw new InvalidArgumentException('Layout with id "'.$layoutId.'" not found');
+        }
+
+        $layoutModules = StringUtil::deserialize($objLayout->modules, true);
+        $previousBreadcrumbIndex = null;
+        $firstMainColumnIndex = null;
+        foreach ($layoutModules as $index => $layoutModule) {
+            if ('main' === $layoutModule['col']) {
+                $firstMainColumnIndex = $firstMainColumnIndex ?? $index;
+
+                $objModule = ModuleModel::findById($layoutModule['mod']);
+                if (\in_array($objModule->type, ['breadcrumb'], true)) {
+                    $previousBreadcrumbIndex = $index;
+                    break;
+                }
+            }
+        }
+
+        if (null !== $previousBreadcrumbIndex) {
+            $layoutModules[$previousBreadcrumbIndex]['mod'] = $moduleBreadcrumbId;
+            $layoutModules[$previousBreadcrumbIndex]['enable'] = 1;
+        } else {
+            // breadcrumb is first in main col
+            if (null !== $firstMainColumnIndex) {
+                $layoutModulesBefore = \array_slice($layoutModules, 0, $firstMainColumnIndex - 1);
+                $layoutModulesAfter = \array_slice($layoutModules, $firstMainColumnIndex, null, true);
+                $layoutModulesBefore[] = ['mod' => $moduleBreadcrumbId, 'col' => 'main', 'enable' => 1];
+                $layoutModules = $layoutModulesBefore + $layoutModulesAfter;
+            } else {
+                $layoutModules[] = ['mod' => $moduleBreadcrumbId, 'col' => 'main', 'enable' => 1];
+            }
+        }
+
+        $objLayout->modules = serialize($layoutModules);
+        $objLayout->save();
     }
 }

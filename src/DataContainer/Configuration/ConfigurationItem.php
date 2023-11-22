@@ -15,11 +15,15 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\DataContainer\Configuration;
 
 use Contao\DataContainer;
+use Contao\Input;
+use Contao\LayoutModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
+use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
 use WEM\SmartgearBundle\Classes\Utils\ContentUtil;
+use WEM\SmartgearBundle\Classes\Utils\LayoutUtil;
 use WEM\SmartgearBundle\Classes\Utils\ModuleUtil;
 use WEM\SmartgearBundle\Classes\Utils\PageUtil;
 use WEM\SmartgearBundle\Classes\Utils\UserGroupUtil;
@@ -34,32 +38,137 @@ class ConfigurationItem extends Core
         parent::__construct();
     }
 
+    // public function listItems(array $row, string $label, DataContainer $dc, array $labels): array
+    public function listItems(array $row, string $label, DataContainer $dc): string
+    {
+        $objItem = ConfigurationItemModel::findItems(['id' => $row['id']], 1);
+
+        $arrData = [];
+
+        // if ($objItem->contao_page) {
+        //     $objPage = $objItem->getRelated('contao_page');
+        //     $arrData['contao_page'] = $objPage ? $objPage->title : 'N/A';
+        // }
+        // if ($objItem->contao_module) {
+        //     $objModule = $objItem->getRelated('contao_module');
+        //     $arrData['contao_module'] = $objModule ? $objModule->name : 'N/A';
+        // }
+        // if ($objItem->contao_user_group) {
+        //     $objUserGroup = $objItem->getRelated('contao_user_group');
+        //     $arrData['contao_user_group'] = $objUserGroup ? $objUserGroup->name : 'N/A';
+        // }
+
+        switch ($objItem->type) {
+            case ConfigurationItemModel::TYPE_PAGE_LEGAL_NOTICE:
+            case ConfigurationItemModel::TYPE_PAGE_PRIVACY_POLITICS:
+            case ConfigurationItemModel::TYPE_PAGE_SITEMAP:
+                if ($objItem->contao_page) {
+                    $objPage = $objItem->getRelated('contao_page');
+                    $arrData['contao_page'] = $objPage ? $objPage->title : 'N/A';
+                }
+                if ($objItem->contao_module) {
+                    $objModule = $objItem->getRelated('contao_module');
+                    $arrData['contao_module'] = $objModule ? $objModule->name : 'N/A';
+                }
+                break;
+            case ConfigurationItemModel::TYPE_USER_GROUP_ADMINISTRATORS:
+            case ConfigurationItemModel::TYPE_USER_GROUP_REDACTORS:
+                if ($objItem->contao_user_group) {
+                    $objUserGroup = $objItem->getRelated('contao_user_group');
+                    $arrData['contao_user_group'] = $objUserGroup ? $objUserGroup->name : 'N/A';
+                }
+                break;
+            case ConfigurationItemModel::TYPE_MODULE_WEM_SG_HEADER:
+                if ($objItem->contao_module) {
+                    $objModule = $objItem->getRelated('contao_module');
+                    $arrData['contao_module'] = $objModule ? $objModule->name : 'N/A';
+                }
+                break;
+            case ConfigurationItemModel::TYPE_MODULE_WEM_SG_FOOTER:
+                if ($objItem->contao_module) {
+                    $objModule = $objItem->getRelated('contao_module');
+                    $arrData['contao_module'] = $objModule ? $objModule->name : 'N/A';
+                }
+                break;
+            case ConfigurationItemModel::TYPE_MODULE_BREADCRUMB:
+                if ($objItem->contao_module) {
+                    $objModule = $objItem->getRelated('contao_module');
+                    $arrData['contao_module'] = $objModule ? $objModule->name : 'N/A';
+                }
+                break;
+            case ConfigurationItemModel::TYPE_MODULE_WEM_SG_SOCIAL_NETWORKS:
+                if ($objItem->contao_module) {
+                    $objModule = $objItem->getRelated('contao_module');
+                    $arrData['contao_module'] = $objModule ? $objModule->name : 'N/A';
+                }
+                break;
+            case ConfigurationItemModel::TYPE_MIXED_SITEMAP:
+                if ($objItem->contao_page) {
+                    $objPage = $objItem->getRelated('contao_page');
+                    $arrData['contao_page'] = $objPage ? $objPage->title : 'N/A';
+                }
+                if ($objItem->contao_module) {
+                    $objModule = $objItem->getRelated('contao_module');
+                    $arrData['contao_module'] = $objModule ? $objModule->name : 'N/A';
+                }
+                break;
+        }
+
+        $labels = [];
+        foreach ($arrData as $property => $value) {
+            $labels[] = '<strong>'.$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()][$property][0].' :</strong> '.$value;
+        }
+
+        return implode('<br />', $labels);
+    }
+
     public function onsubmitCallback(DataContainer $dc): void
     {
+        // only do that if it is a real save, not a reload
+        if ('auto' === Input::post('SUBMIT_TYPE')) {
+            return;
+        }
+
         $objItem = ConfigurationItemModel::findOneById($dc->activeRecord->id);
 
         switch ($objItem->type) {
             case ConfigurationItemModel::TYPE_PAGE_LEGAL_NOTICE:
-                $objItem = $this->managePageLegalNotice($objItem);
-            break;
+                $objItem = $this->managePageLegalNotice($objItem, $dc);
+                break;
             case ConfigurationItemModel::TYPE_PAGE_PRIVACY_POLITICS:
-                $objItem = $this->managePagePrivacyPolitics($objItem);
-            break;
+                $objItem = $this->managePagePrivacyPolitics($objItem, $dc);
+                break;
             case ConfigurationItemModel::TYPE_PAGE_SITEMAP:
-                $objItem = $this->managePageSitemap($objItem);
-            break;
+                $objItem = $this->managePageSitemap($objItem, $dc);
+                break;
             case ConfigurationItemModel::TYPE_USER_GROUP_ADMINISTRATORS:
-                $objItem = $this->manageUserGroupAdministrators($objItem);
-            break;
+                $objItem = $this->manageUserGroupAdministrators($objItem, $dc);
+                break;
             case ConfigurationItemModel::TYPE_USER_GROUP_REDACTORS:
-                $objItem = $this->manageUserGroupRedactors($objItem);
-            break;
+                $objItem = $this->manageUserGroupRedactors($objItem, $dc);
+                break;
+            case ConfigurationItemModel::TYPE_MODULE_WEM_SG_HEADER:
+                $objItem = $this->manageModuleWemSgHeader($objItem, $dc);
+                break;
+            case ConfigurationItemModel::TYPE_MODULE_WEM_SG_FOOTER:
+                $objItem = $this->manageModuleWemSgFooter($objItem, $dc);
+                break;
+            case ConfigurationItemModel::TYPE_MODULE_BREADCRUMB:
+                $objItem = $this->manageModuleBreadcrumb($objItem, $dc);
+                break;
+            case ConfigurationItemModel::TYPE_MODULE_WEM_SG_SOCIAL_NETWORKS:
+                $objItem = $this->manageModuleWemSgSocialNetworks($objItem, $dc);
+                break;
+
+            case ConfigurationItemModel::TYPE_MIXED_SITEMAP:
+                $objItem = $this->manageMixedSitemap($objItem, $dc);
+                break;
         }
 
         $objItem->save();
     }
 
-    public function managePageLegalNotice(ConfigurationItemModel $objItem): ConfigurationItemModel
+    public function managePageLegalNotice(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
     {
         if (!empty($objItem->page_name) && !empty($objItem->content_template)) {
             /** @var ConfigurationModel */
@@ -90,7 +199,7 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
-    public function managePagePrivacyPolitics(ConfigurationItemModel $objItem): ConfigurationItemModel
+    public function managePagePrivacyPolitics(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
     {
         if (!empty($objItem->page_name) && !empty($objItem->content_template)) {
             /** @var ConfigurationModel */
@@ -128,7 +237,7 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
-    public function managePageSitemap(ConfigurationItemModel $objItem): ConfigurationItemModel
+    public function managePageSitemap(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
     {
         if (!empty($objItem->page_name) && !empty($objItem->contao_module)) {
             /** @var ConfigurationModel */
@@ -166,7 +275,7 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
-    public function manageUserGroupAdministrators(ConfigurationItemModel $objItem): ConfigurationItemModel
+    public function manageUserGroupAdministrators(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
     {
         if (!empty($objItem->user_group_name)) {
             $objUserGroup = UserGroupUtil::createUserGroupAdministrators($objItem->user_group_name, $objItem->contao_user_group ? ['id' => $objItem->contao_user_group] : []);
@@ -177,7 +286,7 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
-    public function manageUserGroupRedactors(ConfigurationItemModel $objItem): ConfigurationItemModel
+    public function manageUserGroupRedactors(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
     {
         if (!empty($objItem->user_group_name)) {
             $objUserGroup = UserGroupUtil::createUserGroupRedactors($objItem->user_group_name, $objItem->contao_user_group ? ['id' => $objItem->contao_user_group] : []);
@@ -187,6 +296,170 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
+    public function manageModuleWemSgHeader(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    {
+        if (!empty($objItem->module_name) && !empty($objItem->singleSRC)) {
+            /** @var ConfigurationModel */
+            $objConfiguration = $objItem->getRelated('pid');
+
+            // create the navigation module associated
+            if (!empty($objItem->contao_module)) {
+                // get the module
+                $objModule = ModuleModel::findByPk($objItem->contao_module);
+            }
+            if ($objModule) {
+                // get the nav module associated
+                $objModuleNav = ModuleModel::findByPk($objModule->wem_sg_header_nav_module);
+                $objModuleNav->name = $objItem->module_name.' - Nav';
+                $objModuleNav->save();
+            } else {
+                // create the nav module
+                $objModuleNav = ModuleUtil::createModuleNav($objConfiguration->contao_theme, ['name' => $objItem->module_name.' - Nav']);
+            }
+
+            $objModule = ModuleUtil::createModuleWemSgHeader(
+                (int) $objConfiguration->contao_theme,
+                (int) $objModuleNav->id,
+                array_merge(
+                    [
+                        'name' => $objItem->module_name,
+                        'singleSRC' => $objItem->singleSRC,
+                    ],
+                    $objItem->contao_module ? ['id' => $objItem->contao_module] : []
+                )
+            );
+            $objItem->contao_module = $objModule->id;
+        }
+
+        // update selected layouts
+        $contaoLayoutsToUpdate = [];
+        if (\is_array($dc->activeRecord->contao_layout_to_update)) {
+            $contaoLayoutsToUpdate = $dc->activeRecord->contao_layout_to_update;
+        } else {
+            $contaoLayoutsToUpdate = StringUtil::deserialize($objItem->contao_layout_to_update, true);
+        }
+        $contaoLayoutsToUpdate = StringUtil::deserialize($objItem->contao_layout_to_update, true);
+        foreach ($contaoLayoutsToUpdate as $layoutId) {
+            LayoutUtil::replaceHeader((int) $layoutId, (int) $objItem->contao_module);
+        }
+
+        return $objItem;
+    }
+
+    public function manageModuleWemSgFooter(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    {
+        if (!empty($objItem->module_name) && !empty($objItem->content_template)) {
+            /** @var ConfigurationModel */
+            $objConfiguration = $objItem->getRelated('pid');
+
+            $objModule = ModuleUtil::createModuleWemSgFooter(
+                (int) $objConfiguration->contao_theme,
+                array_merge(
+                    [
+                        'name' => $objItem->module_name,
+                        'html' => ContentUtil::buildContentWemSgFooter($objItem->content_template),
+                    ],
+                    $objItem->contao_module ? ['id' => $objItem->contao_module] : []
+                )
+            );
+            $objItem->contao_module = $objModule->id;
+        }
+
+        // update selected layouts
+        $contaoLayoutsToUpdate = [];
+        if (\is_array($dc->activeRecord->contao_layout_to_update)) {
+            $contaoLayoutsToUpdate = $dc->activeRecord->contao_layout_to_update;
+        } else {
+            $contaoLayoutsToUpdate = StringUtil::deserialize($objItem->contao_layout_to_update, true);
+        }
+        foreach ($contaoLayoutsToUpdate as $layoutId) {
+            LayoutUtil::replaceFooter((int) $layoutId, (int) $objItem->contao_module);
+        }
+
+        return $objItem;
+    }
+
+    public function manageModuleBreadcrumb(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    {
+        if (!empty($objItem->module_name)) {
+            /** @var ConfigurationModel */
+            $objConfiguration = $objItem->getRelated('pid');
+
+            $objModule = ModuleUtil::createModuleBreadcrumb(
+                (int) $objConfiguration->contao_theme,
+                array_merge(
+                    [
+                        'name' => $objItem->module_name,
+                    ],
+                    $objItem->contao_module ? ['id' => $objItem->contao_module] : []
+                )
+            );
+            $objItem->contao_module = $objModule->id;
+        }
+
+        // update selected layouts
+        $contaoLayoutsToUpdate = [];
+        if (\is_array($dc->activeRecord->contao_layout_to_update)) {
+            $contaoLayoutsToUpdate = $dc->activeRecord->contao_layout_to_update;
+        } else {
+            $contaoLayoutsToUpdate = StringUtil::deserialize($objItem->contao_layout_to_update, true);
+        }
+        foreach ($contaoLayoutsToUpdate as $layoutId) {
+            LayoutUtil::replaceBreadcrumb((int) $layoutId, (int) $objItem->contao_module);
+        }
+
+        return $objItem;
+    }
+
+    public function manageModuleWemSgSocialNetworks(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    {
+        if (!empty($objItem->module_name)) {
+            /** @var ConfigurationModel */
+            $objConfiguration = $objItem->getRelated('pid');
+
+            $objModule = ModuleUtil::createModuleWemSgSocialLink(
+                (int) $objConfiguration->contao_theme,
+                array_merge(
+                    [
+                        'name' => $objItem->module_name,
+                    ],
+                    $objItem->contao_module ? ['id' => $objItem->contao_module] : []
+                )
+            );
+            $objItem->contao_module = $objModule->id;
+        }
+
+        return $objItem;
+    }
+
+    public function manageModuleSitemap(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    {
+        if (!empty($objItem->module_name)) {
+            /** @var ConfigurationModel */
+            $objConfiguration = $objItem->getRelated('pid');
+
+            $objModule = ModuleUtil::createModuleSitemap(
+                (int) $objConfiguration->contao_theme,
+                array_merge(
+                    [
+                        'name' => $objItem->module_name,
+                    ],
+                    $objItem->contao_module ? ['id' => $objItem->contao_module] : []
+                )
+            );
+            $objItem->contao_module = $objModule->id;
+        }
+
+        return $objItem;
+    }
+
+    public function manageMixedSitemap(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    {
+        $objItem = $this->manageModuleSitemap($objItem, $dc);
+
+        return $this->managePageSitemap($objItem, $dc);
+    }
+
     public function contentTemplateOptionsCallback(DataContainer $dc): array
     {
         $arrOptions = [];
@@ -194,12 +467,74 @@ class ConfigurationItem extends Core
         switch ($dc->activeRecord->type) {
             case ConfigurationItemModel::TYPE_PAGE_LEGAL_NOTICE:
                 $arrOptions = Util::getFileListByLanguages(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/legal-notice');
-            break;
+                break;
             case ConfigurationItemModel::TYPE_PAGE_PRIVACY_POLITICS:
                 $arrOptions = Util::getFileListByLanguages(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/privacy-politics');
-            break;
+                break;
+            case ConfigurationItemModel::TYPE_MODULE_WEM_SG_FOOTER:
+                $arrOptions = Util::getFileListByLanguages(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/footer');
+                break;
         }
 
         return ['-'] + $arrOptions;
     }
+
+    public function contaoLayoutToUpdateOptionsCallback(DataContainer $dc): array
+    {
+        $arrOptions = [];
+
+        $objItem = ConfigurationItemModel::findOneById($dc->activeRecord->id);
+        /** @var ConfigurationModel */
+        $objConfiguration = $objItem->getRelated('pid');
+
+        switch ($dc->activeRecord->type) {
+            case ConfigurationItemModel::TYPE_MODULE_WEM_SG_HEADER:
+            case ConfigurationItemModel::TYPE_MODULE_WEM_SG_FOOTER:
+            case ConfigurationItemModel::TYPE_MODULE_BREADCRUMB:
+                $layouts = LayoutModel::findByPid($objConfiguration->contao_theme);
+                if ($layouts) {
+                    while ($layouts->next()) {
+                        $arrOptions[$layouts->id] = $layouts->name;
+                    }
+                }
+                // $arrOptions = Util::getFileListByLanguages(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/legal-notice');
+                break;
+        }
+
+        return $arrOptions;
+    }
+
+    // public function contaoLayoutToUpdateLoadCallback($value, DataContainer $dc)
+    // {
+    //     $arrOptions = [];
+
+    //     $objItem = ConfigurationItemModel::findOneById($dc->activeRecord->id);
+    //     /** @var ConfigurationModel */
+    //     $objConfiguration = $objItem->getRelated('pid');
+    //     $layouts = LayoutModel::findByPid($objConfiguration->contao_theme);
+    //     if (!$layouts) {
+    //         return [];
+    //     }
+
+    //     $arrLayouts = $layouts->fetchAll();
+
+    //     switch ($dc->activeRecord->type) {
+    //         case ConfigurationItemModel::TYPE_MODULE_WEM_SG_HEADER:
+    //             foreach ($arrLayouts as $layout) {
+    //                 $arrModules = StringUtil::deserialize($layout['modules'], true);
+    //                 foreach ($arrModules as $moduleLayout) {
+    //                     if('header' === $moduleLayout['col']){
+    //                         $objModule = ModuleModel::findById($moduleLayout['mod']);
+    //                     }
+    //                 }
+    //             }
+    //         break;
+    //         case ConfigurationItemModel::TYPE_MODULE_WEM_SG_FOOTER:
+    //         break;
+    //         case ConfigurationItemModel::TYPE_MODULE_BREADCRUMB:
+    //         break;
+    //     }
+
+    //     return $arrOptions;
+    // }
 }

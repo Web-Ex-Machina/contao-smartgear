@@ -104,6 +104,10 @@
 				<source>user_group_name</source>
 				<target>Nom du groupe</target>
 			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_layout_to_update.0">
+				<source>contao_layout_to_update</source>
+				<target>Présentations de page à mettre à jour</target>
+			</trans-unit>
 
       <trans-unit id="tl_sm_configuration_item.title_legend">
         <source>Title</source>
