@@ -14,11 +14,14 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer\Configuration;
 
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\DataContainer;
 use Contao\Input;
 use Contao\LayoutModel;
+use Contao\Message;
 use Contao\ModuleModel;
 use Contao\PageModel;
+use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
@@ -122,6 +125,14 @@ class ConfigurationItem extends Core
         return implode('<br />', $labels);
     }
 
+    public function onloadCallback(DataContainer $dc): void
+    {
+        if ('edit' === Input::get('act')) {
+            // check contents linked tstamp against the configuration item one
+            $this->checkLinkedContaoContentUpdated($dc);
+        }
+    }
+
     public function onsubmitCallback(DataContainer $dc): void
     {
         // only do that if it is a real save, not a reload
@@ -130,47 +141,49 @@ class ConfigurationItem extends Core
         }
 
         $objItem = ConfigurationItemModel::findOneById($dc->activeRecord->id);
+        $objItem->refresh(); // otherwise $dc->activeRecord is the only version with updated values
 
         switch ($objItem->type) {
             case ConfigurationItemModel::TYPE_PAGE_LEGAL_NOTICE:
-                $objItem = $this->managePageLegalNotice($objItem, $dc);
+                $objItem = $this->managePageLegalNotice($objItem, (bool) Input::post('update_page'), $dc);
                 break;
             case ConfigurationItemModel::TYPE_PAGE_PRIVACY_POLITICS:
-                $objItem = $this->managePagePrivacyPolitics($objItem, $dc);
+                $objItem = $this->managePagePrivacyPolitics($objItem, (bool) Input::post('update_page'), $dc);
                 break;
             case ConfigurationItemModel::TYPE_PAGE_SITEMAP:
-                $objItem = $this->managePageSitemap($objItem, $dc);
+                $objItem = $this->managePageSitemap($objItem, (bool) Input::post('update_page'), $dc);
                 break;
             case ConfigurationItemModel::TYPE_USER_GROUP_ADMINISTRATORS:
-                $objItem = $this->manageUserGroupAdministrators($objItem, $dc);
+                $objItem = $this->manageUserGroupAdministrators($objItem, (bool) Input::post('update_user_group'), $dc);
                 break;
             case ConfigurationItemModel::TYPE_USER_GROUP_REDACTORS:
-                $objItem = $this->manageUserGroupRedactors($objItem, $dc);
+                $objItem = $this->manageUserGroupRedactors($objItem, (bool) Input::post('update_user_group'), $dc);
                 break;
             case ConfigurationItemModel::TYPE_MODULE_WEM_SG_HEADER:
-                $objItem = $this->manageModuleWemSgHeader($objItem, $dc);
+                $objItem = $this->manageModuleWemSgHeader($objItem, (bool) Input::post('update_module'), $dc);
                 break;
             case ConfigurationItemModel::TYPE_MODULE_WEM_SG_FOOTER:
-                $objItem = $this->manageModuleWemSgFooter($objItem, $dc);
+                $objItem = $this->manageModuleWemSgFooter($objItem, (bool) Input::post('update_module'), $dc);
                 break;
             case ConfigurationItemModel::TYPE_MODULE_BREADCRUMB:
-                $objItem = $this->manageModuleBreadcrumb($objItem, $dc);
+                $objItem = $this->manageModuleBreadcrumb($objItem, (bool) Input::post('update_module'), $dc);
                 break;
             case ConfigurationItemModel::TYPE_MODULE_WEM_SG_SOCIAL_NETWORKS:
-                $objItem = $this->manageModuleWemSgSocialNetworks($objItem, $dc);
+                $objItem = $this->manageModuleWemSgSocialNetworks($objItem, (bool) Input::post('update_module'), $dc);
                 break;
-
             case ConfigurationItemModel::TYPE_MIXED_SITEMAP:
-                $objItem = $this->manageMixedSitemap($objItem, $dc);
+                $objItem = $this->manageMixedSitemap($objItem, (bool) Input::post('update_module'), (bool) Input::post('update_page'), $dc);
                 break;
         }
 
         $objItem->save();
     }
 
-    public function managePageLegalNotice(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    public function managePageLegalNotice(ConfigurationItemModel $objItem, bool $blnForcePageUpdate, DataContainer $dc): ConfigurationItemModel
     {
-        if (!empty($objItem->page_name) && !empty($objItem->content_template)) {
+        if (!empty($objItem->page_name) && !empty($objItem->content_template)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForcePageUpdate) // create mode or forced update
+        ) {
             /** @var ConfigurationModel */
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
@@ -199,9 +212,11 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
-    public function managePagePrivacyPolitics(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    public function managePagePrivacyPolitics(ConfigurationItemModel $objItem, bool $blnForcePageUpdate, DataContainer $dc): ConfigurationItemModel
     {
-        if (!empty($objItem->page_name) && !empty($objItem->content_template)) {
+        if (!empty($objItem->page_name) && !empty($objItem->content_template)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForcePageUpdate) // create mode or forced update
+        ) {
             /** @var ConfigurationModel */
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
@@ -237,9 +252,11 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
-    public function managePageSitemap(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    public function managePageSitemap(ConfigurationItemModel $objItem, bool $blnForcePageUpdate, DataContainer $dc): ConfigurationItemModel
     {
-        if (!empty($objItem->page_name) && !empty($objItem->contao_module)) {
+        if (!empty($objItem->page_name) && !empty($objItem->contao_module)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForcePageUpdate) // create mode or forced update
+        ) {
             /** @var ConfigurationModel */
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
@@ -275,9 +292,11 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
-    public function manageUserGroupAdministrators(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    public function manageUserGroupAdministrators(ConfigurationItemModel $objItem, bool $blnForceUserGroupUpdate, DataContainer $dc): ConfigurationItemModel
     {
-        if (!empty($objItem->user_group_name)) {
+        if (!empty($objItem->user_group_name)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceUserGroupUpdate) // create mode or forced update
+        ) {
             $objUserGroup = UserGroupUtil::createUserGroupAdministrators($objItem->user_group_name, $objItem->contao_user_group ? ['id' => $objItem->contao_user_group] : []);
 
             $objItem->contao_user_group = $objUserGroup->id;
@@ -286,9 +305,11 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
-    public function manageUserGroupRedactors(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    public function manageUserGroupRedactors(ConfigurationItemModel $objItem, bool $blnForceUserGroupUpdate, DataContainer $dc): ConfigurationItemModel
     {
-        if (!empty($objItem->user_group_name)) {
+        if (!empty($objItem->user_group_name)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceUserGroupUpdate) // create mode or forced update
+        ) {
             $objUserGroup = UserGroupUtil::createUserGroupRedactors($objItem->user_group_name, $objItem->contao_user_group ? ['id' => $objItem->contao_user_group] : []);
             $objItem->contao_user_group = $objUserGroup->id;
         }
@@ -296,9 +317,11 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
-    public function manageModuleWemSgHeader(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    public function manageModuleWemSgHeader(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, DataContainer $dc): ConfigurationItemModel
     {
-        if (!empty($objItem->module_name) && !empty($objItem->singleSRC)) {
+        if (!empty($objItem->module_name) && !empty($objItem->singleSRC)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceModuleUpdate) // create mode or forced update
+        ) {
             /** @var ConfigurationModel */
             $objConfiguration = $objItem->getRelated('pid');
 
@@ -346,9 +369,11 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
-    public function manageModuleWemSgFooter(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    public function manageModuleWemSgFooter(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, DataContainer $dc): ConfigurationItemModel
     {
-        if (!empty($objItem->module_name) && !empty($objItem->content_template)) {
+        if (!empty($objItem->module_name) && !empty($objItem->content_template)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceModuleUpdate) // create mode or forced update
+        ) {
             /** @var ConfigurationModel */
             $objConfiguration = $objItem->getRelated('pid');
 
@@ -379,9 +404,11 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
-    public function manageModuleBreadcrumb(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    public function manageModuleBreadcrumb(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, DataContainer $dc): ConfigurationItemModel
     {
-        if (!empty($objItem->module_name)) {
+        if (!empty($objItem->module_name)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceModuleUpdate) // create mode or forced update
+        ) {
             /** @var ConfigurationModel */
             $objConfiguration = $objItem->getRelated('pid');
 
@@ -411,9 +438,11 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
-    public function manageModuleWemSgSocialNetworks(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    public function manageModuleWemSgSocialNetworks(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, DataContainer $dc): ConfigurationItemModel
     {
-        if (!empty($objItem->module_name)) {
+        if (!empty($objItem->module_name)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceModuleUpdate) // create mode or forced update
+        ) {
             /** @var ConfigurationModel */
             $objConfiguration = $objItem->getRelated('pid');
 
@@ -432,9 +461,11 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
-    public function manageModuleSitemap(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    public function manageModuleSitemap(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, DataContainer $dc): ConfigurationItemModel
     {
-        if (!empty($objItem->module_name)) {
+        if (!empty($objItem->module_name)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceModuleUpdate) // create mode or forced update
+        ) {
             /** @var ConfigurationModel */
             $objConfiguration = $objItem->getRelated('pid');
 
@@ -453,11 +484,11 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
-    public function manageMixedSitemap(ConfigurationItemModel $objItem, DataContainer $dc): ConfigurationItemModel
+    public function manageMixedSitemap(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, bool $blnForcePageUpdate, DataContainer $dc): ConfigurationItemModel
     {
-        $objItem = $this->manageModuleSitemap($objItem, $dc);
+        $objItem = $this->manageModuleSitemap($objItem, $blnForceModuleUpdate, $dc);
 
-        return $this->managePageSitemap($objItem, $dc);
+        return $this->managePageSitemap($objItem, $blnForcePageUpdate, $dc);
     }
 
     public function contentTemplateOptionsCallback(DataContainer $dc): array
@@ -477,6 +508,24 @@ class ConfigurationItem extends Core
         }
 
         return ['-'] + $arrOptions;
+    }
+
+    public function contaoModuleOptionsCallback(DataContainer $dc): array
+    {
+        $arrOptions = [];
+
+        $objItem = ConfigurationItemModel::findOneById($dc->activeRecord->id);
+        /** @var ConfigurationModel */
+        $objConfiguration = $objItem->getRelated('pid');
+
+        $modules = ModuleModel::findByPid($objConfiguration->contao_theme);
+        if ($modules) {
+            while ($modules->next()) {
+                $arrOptions[$modules->type][$modules->id] = $modules->name;
+            }
+        }
+
+        return $arrOptions;
     }
 
     public function contaoLayoutToUpdateOptionsCallback(DataContainer $dc): array
@@ -502,6 +551,104 @@ class ConfigurationItem extends Core
         }
 
         return $arrOptions;
+    }
+
+    public function checkLinkedContaoContentUpdated(DataContainer $dc): void
+    {
+        if (!$dc->id) {
+            return;
+        }
+        $objItem = ConfigurationItemModel::findOneById($dc->id);
+
+        $dcaManipulator = DCAManipulator::create(ConfigurationItemModel::getTable());
+        $addFields = false;
+
+        // if (
+        //     (
+        //         \is_array($varValue) || (string) $varValue !== '' || !($arrData['eval']['doNotSaveEmpty'] ?? null)
+        //     )
+        //     &&
+        //     (
+        //         $this->varValue !== $varValue || ($arrData['eval']['alwaysSave'] ?? null)
+        //     )
+        // )
+        // {
+        // }
+
+        if ($objItem->contao_module) {
+            $objModule = $objItem->getRelated('contao_module');
+            if ($objModule
+            && (int) $objModule->tstamp > (int) $objItem->tstamp
+            ) {
+                Message::addInfo('Le module "'.$objModule->name.'" a été mis à jour depuis la dernière fois.');
+            }
+            if (0 !== (int) $objItem->tstamp) {
+                $dcaManipulator
+                    ->addField('update_module', [
+                        'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_module'],
+                        'inputType' => 'checkbox',
+                        'save_callback' => [function ($val) {return ''; }],
+                        'eval' => ['doNotSaveEmpty' => true],
+                    ])
+                ;
+            }
+            $addFields = true;
+        }
+
+        if ($objItem->contao_page) {
+            $objPage = $objItem->getRelated('contao_page');
+            if ($objPage
+            && (int) $objPage->tstamp > (int) $objItem->tstamp
+            ) {
+                Message::addInfo('La page "'.$objPage->title.'" a été mis à jour depuis la dernière fois.');
+            }
+            if (0 !== (int) $objItem->tstamp) {
+                $dcaManipulator
+                    ->addField('update_page', [
+                        'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_page'],
+                        'inputType' => 'checkbox',
+                        'save_callback' => [function ($val) {return ''; }],
+                        'eval' => ['doNotSaveEmpty' => true],
+                    ])
+                ;
+                $addFields = true;
+            }
+        }
+
+        if ($objItem->contao_user_group) {
+            $objUserGroup = $objItem->getRelated('contao_user_group');
+            if ($objUserGroup
+            && (int) $objUserGroup->tstamp > (int) $objItem->tstamp
+            ) {
+                Message::addInfo('Le groupe d\'utilisateurs "'.$objUserGroup->name.'" a été mis à jour depuis la dernière fois.');
+            }
+            if (0 !== (int) $objItem->tstamp) {
+                $dcaManipulator
+                    ->addField('update_user_group', [
+                        'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_user_group'],
+                        'inputType' => 'checkbox',
+                        'save_callback' => [function ($val) {return ''; }],
+                        'eval' => ['doNotSaveEmpty' => true],
+                    ])
+                ;
+                $addFields = true;
+            }
+        }
+
+        $paletteManipulator = PaletteManipulator::create();
+        if ($addFields) {
+            $paletteManipulator->addLegend('update_legend');
+            if ($dcaManipulator->hasField('update_module')) {
+                $paletteManipulator->addField('update_module', 'update_legend');
+            }
+            if ($dcaManipulator->hasField('update_page')) {
+                $paletteManipulator->addField('update_page', 'update_legend');
+            }
+            if ($dcaManipulator->hasField('update_user_group')) {
+                $paletteManipulator->addField('update_user_group', 'update_legend');
+            }
+            $paletteManipulator->applyToPalette('default', ConfigurationItemModel::getTable());
+        }
     }
 
     // public function contaoLayoutToUpdateLoadCallback($value, DataContainer $dc)

@@ -109,9 +109,26 @@
 				<target>Présentations de page à mettre à jour</target>
 			</trans-unit>
 
+			<trans-unit id="tl_sm_configuration_item.update_module.0">
+				<source>Overwrite module's configuration</source>
+				<target>Ecraser la configuration du module</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_page.0">
+				<source>Overwrite page's configuration</source>
+				<target>Ecraser la configuration de la page</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_user_group.0">
+				<source>Overwrite user group's configuration</source>
+				<target>Ecraser la configuration dugroupe d'utilisateur</target>
+			</trans-unit>
+
       <trans-unit id="tl_sm_configuration_item.title_legend">
         <source>Title</source>
         <target>Titre</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.update_legend">
+        <source>Update</source>
+        <target>Mise à jour</target>
       </trans-unit>
     </body>
   </file>

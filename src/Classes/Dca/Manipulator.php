@@ -360,6 +360,13 @@ class Manipulator
         return $this;
     }
 
+    public function hasField(string $field)
+    {
+        $this->checkConfiguration();
+
+        return \array_key_exists($field, $GLOBALS['TL_DCA'][$this->table]['fields']);
+    }
+
     protected function addFieldCallback(string $field, string $callbackKey, array $callback): self
     {
         $cb = $this->getFieldProperty($field, $callbackKey);

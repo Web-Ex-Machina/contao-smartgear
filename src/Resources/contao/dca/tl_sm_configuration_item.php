@@ -29,6 +29,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             ],
         ],
         'onsubmit_callback' => [['smartgear.data_container.configuration.configuration_item', 'onsubmitCallback']],
+        'onload_callback' => [['smartgear.data_container.configuration.configuration_item', 'onloadCallback']],
     ],
 
     // List
@@ -164,11 +165,15 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
         'contao_module' => [
             'exclude' => true,
             'search' => true,
-            'inputType' => 'picker',
-            'foreignKey' => 'tl_module.id',
-            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            // 'inputType' => 'picker',
+            'inputType' => 'select',
+            'options_callback' => ['smartgear.data_container.configuration.configuration_item', 'contaoModuleOptionsCallback'],
+            'foreignKey' => 'tl_module.name',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50 wizard'],
             'sql' => 'int(10) NOT NULL default 0',
             'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'wizard' => [[\WEM\SmartgearBundle\DataContainer\Content::class, 'editModule']],
+            'reference' => &$GLOBALS['TL_LANG']['FMD'],
         ],
         'module_name' => [
             'exclude' => true,
