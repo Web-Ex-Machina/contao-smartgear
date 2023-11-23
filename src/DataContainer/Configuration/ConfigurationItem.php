@@ -14,8 +14,10 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer\Configuration;
 
+use Contao\Config;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\DataContainer;
+use Contao\Date;
 use Contao\Input;
 use Contao\LayoutModel;
 use Contao\Message;
@@ -48,71 +50,84 @@ class ConfigurationItem extends Core
 
         $arrData = [];
 
-        // if ($objItem->contao_page) {
-        //     $objPage = $objItem->getRelated('contao_page');
-        //     $arrData['contao_page'] = $objPage ? $objPage->title : 'N/A';
-        // }
-        // if ($objItem->contao_module) {
-        //     $objModule = $objItem->getRelated('contao_module');
-        //     $arrData['contao_module'] = $objModule ? $objModule->name : 'N/A';
-        // }
-        // if ($objItem->contao_user_group) {
-        //     $objUserGroup = $objItem->getRelated('contao_user_group');
-        //     $arrData['contao_user_group'] = $objUserGroup ? $objUserGroup->name : 'N/A';
-        // }
-
         switch ($objItem->type) {
             case ConfigurationItemModel::TYPE_PAGE_LEGAL_NOTICE:
             case ConfigurationItemModel::TYPE_PAGE_PRIVACY_POLITICS:
+                if ($objItem->contao_page) {
+                    $objPage = $objItem->getRelated('contao_page');
+                    $arrData['contao_page'] = $objPage ? $objPage->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_page'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                }
+                break;
             case ConfigurationItemModel::TYPE_PAGE_SITEMAP:
                 if ($objItem->contao_page) {
                     $objPage = $objItem->getRelated('contao_page');
-                    $arrData['contao_page'] = $objPage ? $objPage->title : 'N/A';
+                    $arrData['contao_page'] = $objPage ? $objPage->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_page'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 if ($objItem->contao_module) {
                     $objModule = $objItem->getRelated('contao_module');
-                    $arrData['contao_module'] = $objModule ? $objModule->name : 'N/A';
+                    $arrData['contao_module'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_module'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
                 break;
             case ConfigurationItemModel::TYPE_USER_GROUP_ADMINISTRATORS:
             case ConfigurationItemModel::TYPE_USER_GROUP_REDACTORS:
                 if ($objItem->contao_user_group) {
                     $objUserGroup = $objItem->getRelated('contao_user_group');
-                    $arrData['contao_user_group'] = $objUserGroup ? $objUserGroup->name : 'N/A';
+                    $arrData['contao_user_group'] = $objUserGroup ? $objUserGroup->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_user_group'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
                 break;
             case ConfigurationItemModel::TYPE_MODULE_WEM_SG_HEADER:
                 if ($objItem->contao_module) {
                     $objModule = $objItem->getRelated('contao_module');
-                    $arrData['contao_module'] = $objModule ? $objModule->name : 'N/A';
+                    $arrData['contao_module'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_module'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
                 break;
             case ConfigurationItemModel::TYPE_MODULE_WEM_SG_FOOTER:
                 if ($objItem->contao_module) {
                     $objModule = $objItem->getRelated('contao_module');
-                    $arrData['contao_module'] = $objModule ? $objModule->name : 'N/A';
+                    $arrData['contao_module'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_module'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
                 break;
             case ConfigurationItemModel::TYPE_MODULE_BREADCRUMB:
                 if ($objItem->contao_module) {
                     $objModule = $objItem->getRelated('contao_module');
-                    $arrData['contao_module'] = $objModule ? $objModule->name : 'N/A';
+                    $arrData['contao_module'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_module'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
                 break;
             case ConfigurationItemModel::TYPE_MODULE_WEM_SG_SOCIAL_NETWORKS:
                 if ($objItem->contao_module) {
                     $objModule = $objItem->getRelated('contao_module');
-                    $arrData['contao_module'] = $objModule ? $objModule->name : 'N/A';
+                    $arrData['contao_module'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_module'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
                 break;
             case ConfigurationItemModel::TYPE_MIXED_SITEMAP:
                 if ($objItem->contao_page) {
                     $objPage = $objItem->getRelated('contao_page');
-                    $arrData['contao_page'] = $objPage ? $objPage->title : 'N/A';
+                    $arrData['contao_page'] = $objPage ? $objPage->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_page'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
                 if ($objItem->contao_module) {
                     $objModule = $objItem->getRelated('contao_module');
-                    $arrData['contao_module'] = $objModule ? $objModule->name : 'N/A';
+                    $arrData['contao_module'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_module'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
                 break;
         }
@@ -182,7 +197,7 @@ class ConfigurationItem extends Core
     public function managePageLegalNotice(ConfigurationItemModel $objItem, bool $blnForcePageUpdate, DataContainer $dc): ConfigurationItemModel
     {
         if (!empty($objItem->page_name) && !empty($objItem->content_template)
-        && (0 === (int) $dc->activeRecord->tstamp || $blnForcePageUpdate) // create mode or forced update
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForcePageUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_page))) // create mode or forced update
         ) {
             /** @var ConfigurationModel */
             $objConfiguration = $objItem->getRelated('pid');
@@ -215,7 +230,7 @@ class ConfigurationItem extends Core
     public function managePagePrivacyPolitics(ConfigurationItemModel $objItem, bool $blnForcePageUpdate, DataContainer $dc): ConfigurationItemModel
     {
         if (!empty($objItem->page_name) && !empty($objItem->content_template)
-        && (0 === (int) $dc->activeRecord->tstamp || $blnForcePageUpdate) // create mode or forced update
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForcePageUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_page))) // create mode or forced update
         ) {
             /** @var ConfigurationModel */
             $objConfiguration = $objItem->getRelated('pid');
@@ -254,8 +269,18 @@ class ConfigurationItem extends Core
 
     public function managePageSitemap(ConfigurationItemModel $objItem, bool $blnForcePageUpdate, DataContainer $dc): ConfigurationItemModel
     {
-        if (!empty($objItem->page_name) && !empty($objItem->contao_module)
-        && (0 === (int) $dc->activeRecord->tstamp || $blnForcePageUpdate) // create mode or forced update
+        // create + nothing => nothing
+        // create + page name + no page => create page
+        // create + page name + page => update page
+        // create + no page name + page => nothing
+        // update + nothing => nothing
+        // update + page name + no page => create page
+        // update + page name + page => update IF blnForcePageUpdate
+        // update + no page name + page => nothing
+
+        if (!empty($objItem->page_name)
+        && !empty($objItem->contao_module) // should not be empty, as it must have been created beforehand if left empty in form
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForcePageUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_page))) // create mode or forced update
         ) {
             /** @var ConfigurationModel */
             $objConfiguration = $objItem->getRelated('pid');
@@ -295,7 +320,7 @@ class ConfigurationItem extends Core
     public function manageUserGroupAdministrators(ConfigurationItemModel $objItem, bool $blnForceUserGroupUpdate, DataContainer $dc): ConfigurationItemModel
     {
         if (!empty($objItem->user_group_name)
-        && (0 === (int) $dc->activeRecord->tstamp || $blnForceUserGroupUpdate) // create mode or forced update
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceUserGroupUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_user_group))) // create mode or forced update
         ) {
             $objUserGroup = UserGroupUtil::createUserGroupAdministrators($objItem->user_group_name, $objItem->contao_user_group ? ['id' => $objItem->contao_user_group] : []);
 
@@ -308,7 +333,7 @@ class ConfigurationItem extends Core
     public function manageUserGroupRedactors(ConfigurationItemModel $objItem, bool $blnForceUserGroupUpdate, DataContainer $dc): ConfigurationItemModel
     {
         if (!empty($objItem->user_group_name)
-        && (0 === (int) $dc->activeRecord->tstamp || $blnForceUserGroupUpdate) // create mode or forced update
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceUserGroupUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_user_group))) // create mode or forced update
         ) {
             $objUserGroup = UserGroupUtil::createUserGroupRedactors($objItem->user_group_name, $objItem->contao_user_group ? ['id' => $objItem->contao_user_group] : []);
             $objItem->contao_user_group = $objUserGroup->id;
@@ -320,7 +345,7 @@ class ConfigurationItem extends Core
     public function manageModuleWemSgHeader(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, DataContainer $dc): ConfigurationItemModel
     {
         if (!empty($objItem->module_name) && !empty($objItem->singleSRC)
-        && (0 === (int) $dc->activeRecord->tstamp || $blnForceModuleUpdate) // create mode or forced update
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceModuleUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_module))) // create mode or forced update
         ) {
             /** @var ConfigurationModel */
             $objConfiguration = $objItem->getRelated('pid');
@@ -372,7 +397,7 @@ class ConfigurationItem extends Core
     public function manageModuleWemSgFooter(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, DataContainer $dc): ConfigurationItemModel
     {
         if (!empty($objItem->module_name) && !empty($objItem->content_template)
-        && (0 === (int) $dc->activeRecord->tstamp || $blnForceModuleUpdate) // create mode or forced update
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceModuleUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_module))) // create mode or forced update
         ) {
             /** @var ConfigurationModel */
             $objConfiguration = $objItem->getRelated('pid');
@@ -407,7 +432,7 @@ class ConfigurationItem extends Core
     public function manageModuleBreadcrumb(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, DataContainer $dc): ConfigurationItemModel
     {
         if (!empty($objItem->module_name)
-        && (0 === (int) $dc->activeRecord->tstamp || $blnForceModuleUpdate) // create mode or forced update
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceModuleUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_module))) // create mode or forced update
         ) {
             /** @var ConfigurationModel */
             $objConfiguration = $objItem->getRelated('pid');
@@ -441,7 +466,7 @@ class ConfigurationItem extends Core
     public function manageModuleWemSgSocialNetworks(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, DataContainer $dc): ConfigurationItemModel
     {
         if (!empty($objItem->module_name)
-        && (0 === (int) $dc->activeRecord->tstamp || $blnForceModuleUpdate) // create mode or forced update
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceModuleUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_module))) // create mode or forced update
         ) {
             /** @var ConfigurationModel */
             $objConfiguration = $objItem->getRelated('pid');
@@ -464,7 +489,7 @@ class ConfigurationItem extends Core
     public function manageModuleSitemap(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, DataContainer $dc): ConfigurationItemModel
     {
         if (!empty($objItem->module_name)
-        && (0 === (int) $dc->activeRecord->tstamp || $blnForceModuleUpdate) // create mode or forced update
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceModuleUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_module))) // create mode or forced update
         ) {
             /** @var ConfigurationModel */
             $objConfiguration = $objItem->getRelated('pid');
@@ -563,32 +588,20 @@ class ConfigurationItem extends Core
         $dcaManipulator = DCAManipulator::create(ConfigurationItemModel::getTable());
         $addFields = false;
 
-        // if (
-        //     (
-        //         \is_array($varValue) || (string) $varValue !== '' || !($arrData['eval']['doNotSaveEmpty'] ?? null)
-        //     )
-        //     &&
-        //     (
-        //         $this->varValue !== $varValue || ($arrData['eval']['alwaysSave'] ?? null)
-        //     )
-        // )
-        // {
-        // }
-
         if ($objItem->contao_module) {
             $objModule = $objItem->getRelated('contao_module');
             if ($objModule
             && (int) $objModule->tstamp > (int) $objItem->tstamp
             ) {
-                Message::addInfo('Le module "'.$objModule->name.'" a été mis à jour depuis la dernière fois.');
+                Message::addInfo('Le module "'.$objModule->name.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
             }
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
                     ->addField('update_module', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_module'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }],
-                        'eval' => ['doNotSaveEmpty' => true],
+                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
             }
@@ -600,15 +613,15 @@ class ConfigurationItem extends Core
             if ($objPage
             && (int) $objPage->tstamp > (int) $objItem->tstamp
             ) {
-                Message::addInfo('La page "'.$objPage->title.'" a été mis à jour depuis la dernière fois.');
+                Message::addInfo('La page "'.$objPage->title.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
             }
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
                     ->addField('update_page', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_page'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }],
-                        'eval' => ['doNotSaveEmpty' => true],
+                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
                 $addFields = true;
@@ -620,15 +633,15 @@ class ConfigurationItem extends Core
             if ($objUserGroup
             && (int) $objUserGroup->tstamp > (int) $objItem->tstamp
             ) {
-                Message::addInfo('Le groupe d\'utilisateurs "'.$objUserGroup->name.'" a été mis à jour depuis la dernière fois.');
+                Message::addInfo('Le groupe d\'utilisateurs "'.$objUserGroup->name.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
             }
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
                     ->addField('update_user_group', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_user_group'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }],
-                        'eval' => ['doNotSaveEmpty' => true],
+                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
                 $addFields = true;

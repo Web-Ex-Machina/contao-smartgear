@@ -68,8 +68,8 @@
 				<target>Divers</target>
 			</trans-unit>
 			<trans-unit id="tl_sm_configuration_item.type.mixed-sitemap">
-				<source>Sitemap</source>
-				<target>Plan du site</target>
+				<source>Sitemap (page + module)</source>
+				<target>Plan du site (page + module)</target>
 			</trans-unit>
 
 			<trans-unit id="tl_sm_configuration_item.contao_page.0">
