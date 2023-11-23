@@ -454,6 +454,8 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',
+            'save_callback' => [['smartgear.data_container.configuration.configuration', 'apiKeySaveCallback']],
+            'load_callback' => [['smartgear.data_container.configuration.configuration', 'apiKeyLoadCallback']],
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],

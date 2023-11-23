@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -14,12 +14,14 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Api\Smartgear\V1;
 
+use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Classes\Api\Security\ApiKey;
 use WEM\SmartgearBundle\Classes\Api\Security\Token;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class Api
 {
@@ -47,19 +49,39 @@ class Api
 
     public function version(): string
     {
-        /** @var CoreConfig */
-        $config = $this->coreConfigurationManager->load();
-
+        $sgVersion = null;
+        $fwInstallPath = null;
         $fwPackageJSON = null;
-        try {
-            $fwPackageJSON = json_decode(file_get_contents('./assets/framway/package.json'));
-        } catch (Exception $e) {
-            // nothing
+
+        $objSession = System::getContainer()->get('session');
+        switch ($objSession->get('configuration_source')) {
+            case 'file':
+                $fwInstallPath = 'assets/framway';
+                /** @var CoreConfig */
+                $config = $this->coreConfigurationManager->load();
+
+                $sgVersion = $config->getSgVersion();
+            break;
+            case 'database':
+                $objConfiguration = Configuration::findOneBy('id', $objSession->get('configuration_id'));
+                if ($objConfiguration) {
+                    $fwInstallPath = $objConfiguration->framway_path;
+                    $sgVersion = $objConfiguration->version;
+                }
+            break;
+        }
+
+        if ($fwInstallPath) {
+            try {
+                $fwPackageJSON = json_decode(file_get_contents(sprintf('./%s/package.json', $fwInstallPath)));
+            } catch (Exception $e) {
+                // nothing
+            }
         }
 
         return json_encode([
             'smartgear' => [
-                'installed' => $config->getSgVersion(),
+                'installed' => $sgVersion,
                 'package' => Util::getPackageVersion(),
             ],
             'php' => \PHP_VERSION,

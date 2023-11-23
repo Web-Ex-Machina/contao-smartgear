@@ -275,4 +275,18 @@ class Configuration extends Core
     {
         return serialize(explode(',', $value));
     }
+
+    public function apiKeySaveCallback($value, DataContainer $dc)
+    {
+        $encryptionService = \Contao\System::getContainer()->get('plenta.encryption');
+
+        return $encryptionService->encrypt($value);
+    }
+
+    public function apiKeyLoadCallback($value, DataContainer $dc)
+    {
+        $encryptionService = \Contao\System::getContainer()->get('plenta.encryption');
+
+        return $encryptionService->decrypt($value);
+    }
 }
