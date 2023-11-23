@@ -128,6 +128,14 @@ services:
             $customLanguageFileLoader : '@smartgear.classes.custom_language_file_loader'
         public: true
 
+    smartgear.listener.parse_template:
+        class: WEM\SmartgearBundle\EventListener\ParseTemplateListener
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $scopeMatcher: '@smartgear.classes.scope_matcher'
+            $templateFinder: '@smartgear.classes.template_finder'
+        public: true
+
     smartgear.listener.get_content_element:
         class: WEM\SmartgearBundle\EventListener\GetContentElementListener
         arguments:

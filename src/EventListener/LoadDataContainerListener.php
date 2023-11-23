@@ -27,7 +27,6 @@ use WEM\SmartgearBundle\Config\Manager\FramwayTheme as ConfigurationThemeManager
 use WEM\SmartgearBundle\DataContainer\Article as ArticleDCA;
 use WEM\SmartgearBundle\DataContainer\Calendar as CalendarDCA;
 use WEM\SmartgearBundle\DataContainer\CalendarEvents as CalendarEventsDCA;
-use WEM\SmartgearBundle\DataContainer\Configuration\ConfigurationItem as ConfigurationItemDCA;
 use WEM\SmartgearBundle\DataContainer\Content as ContentDCA;
 use WEM\SmartgearBundle\DataContainer\FaqCategory as FaqCategoryDCA;
 use WEM\SmartgearBundle\DataContainer\Files as FilesDCA;
@@ -270,11 +269,6 @@ class LoadDataContainerListener
                     ->setListOperationsDeleteButtonCallback(UserGroupDCA::class, 'deleteItem')
                 ;
             break;
-            // case 'tl_sm_configuration_item':
-            //     DCAManipulator::create($table)
-            //         ->addConfigOnloadCallback(ConfigurationItemDCA::class, 'checkLinkedContaoContentUpdated')
-            //     ;
-            // break;
         }
     }
 

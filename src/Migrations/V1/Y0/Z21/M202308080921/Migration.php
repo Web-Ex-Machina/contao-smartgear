@@ -72,6 +72,8 @@ class Migration extends MigrationAbstract
 
             $this->coreConfigurationManager->save($coreConfig);
 
+            $this->updateConfigurationsVersion($this->version);
+
             /** @var LocalConfig */
             $config = $this->localConfigurationManager->load();
             $config

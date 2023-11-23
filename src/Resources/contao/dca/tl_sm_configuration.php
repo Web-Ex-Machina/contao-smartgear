@@ -128,9 +128,10 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
         'version' => [
             'exclude' => true,
             'search' => true,
-            'default' => '1.0.0',
+            // 'default' => '1.0.0',
             'inputType' => 'text',
-            'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'load_callback' => [['smartgear.data_container.configuration.configuration', 'versionLoadCallback']],
+            'eval' => ['mandatory' => true, 'readonly' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
         'mode' => [

@@ -76,6 +76,8 @@ class Migration extends MigrationAbstract
 
             $this->coreConfigurationManager->save($coreConfig);
 
+            $this->updateConfigurationsVersion($this->version);
+
             $sqlFillEmptyRefererBase = sprintf('UPDATE %1$s
                 SET referer_base =
                 IF(

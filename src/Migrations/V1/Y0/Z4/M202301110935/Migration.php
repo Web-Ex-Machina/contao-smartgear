@@ -83,6 +83,8 @@ class Migration extends MigrationAbstract
 
             $this->coreConfigurationManager->save($coreConfig);
 
+            $this->updateConfigurationsVersion($this->version);
+
             $result
                 ->setStatus(Result::STATUS_SUCCESS)
                 ->addLog($this->translator->trans($this->buildTranslationKey('done'), [], 'contao_default'))

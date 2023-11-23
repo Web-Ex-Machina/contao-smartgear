@@ -21,6 +21,7 @@ use Contao\LayoutModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\ThemeModel;
+use Exception;
 use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
 use WEM\SmartgearBundle\Classes\Utils\ContentUtil;
@@ -29,6 +30,7 @@ use WEM\SmartgearBundle\Classes\Utils\LayoutUtil;
 use WEM\SmartgearBundle\Classes\Utils\ModuleUtil;
 use WEM\SmartgearBundle\Classes\Utils\PageUtil;
 use WEM\SmartgearBundle\Classes\Utils\ThemeUtil;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\DataContainer\Core;
 use WEM\SmartgearBundle\Model\Configuration\Configuration as ConfigurationModel;
 
@@ -288,5 +290,22 @@ class Configuration extends Core
         $encryptionService = \Contao\System::getContainer()->get('plenta.encryption');
 
         return $encryptionService->decrypt($value);
+    }
+
+    public function versionLoadCallback($value, DataContainer $dc)
+    {
+        if ($dc->id && $value) {
+            return $value;
+        }
+
+        $coreConfigurationManager = \Contao\System::getContainer()->get('smartgear.config.manager.core');
+
+        try {
+            $coreConfig = $coreConfigurationManager->load();
+        } catch (Exception $e) {
+            return CoreConfig::DEFAULT_VERSION;
+        }
+
+        return $coreConfig->getSgVersion();
     }
 }

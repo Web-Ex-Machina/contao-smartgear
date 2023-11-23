@@ -117,7 +117,7 @@ class GeneratePageListener
             Util::setCookieVisitorUniqIdHash($hash);
         }
 
-        if (!$this->scopeMatcher->isFrontend() 
+        if (!$this->scopeMatcher->isFrontend()
         || Environment::get('isAjaxRequest')
         || Input::get('TL_AJAX')
         || Input::post('TL_AJAX')

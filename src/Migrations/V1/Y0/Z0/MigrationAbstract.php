@@ -23,6 +23,7 @@ use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
 use WEM\SmartgearBundle\Classes\Version\Version;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
+use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 abstract class MigrationAbstract extends BaseMigrationAbstract
 {
@@ -138,5 +139,10 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
     protected function buildTranslationKeyLocal(string $property): string
     {
         return $this->translation_key.'.'.$property;
+    }
+
+    protected function updateConfigurationsVersion(string $version): void
+    {
+        $this->connection->executeStatement('UPDATE ? set version = ?', [Configuration::getTable(), $version]);
     }
 }

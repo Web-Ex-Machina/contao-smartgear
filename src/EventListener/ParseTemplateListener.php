@@ -14,38 +14,43 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use Contao\LayoutModel;
+use Contao\Template;
+use Contao\ThemeModel;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Classes\ScopeMatcher;
 use WEM\SmartgearBundle\Classes\TemplateFinder;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
-use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
-class InitializeSystemListener
+class ParseTemplateListener
 {
     /** @var CoreConfigurationManager */
     protected $configurationManager;
+
+    /** @var ScopeMatcher */
+    protected $scopeMatcher;
+
     /** @var TemplateFinder */
     protected $templateFinder;
 
     public function __construct(
         CoreConfigurationManager $configurationManager,
+        ScopeMatcher $scopeMatcher,
         TemplateFinder $templateFinder
     ) {
         $this->configurationManager = $configurationManager;
+        $this->scopeMatcher = $scopeMatcher;
         $this->templateFinder = $templateFinder;
     }
 
-    public function __invoke(): void
+    public function __invoke(Template $template): void
     {
-        try {
-            /** @var CoreConfig */
-            $config = $this->configurationManager->load();
-        } catch (NotFound $e) {
-            return;
+        if ($this->scopeMatcher->isFrontend()) {
+            global $objPage;
+            if ($objLayout = LayoutModel::findByPk($objPage->layout)) {
+                if ($objTheme = ThemeModel::findByPk($objLayout->pid)) {
+                    \Contao\TemplateLoader::addFiles($this->templateFinder->buildList($objTheme->templates));
+                }
+            }
         }
-        if (!$config->getSgInstallComplete()) {
-            return;
-        }
-
-        \Contao\TemplateLoader::addFiles($this->templateFinder->buildList());
     }
 }
