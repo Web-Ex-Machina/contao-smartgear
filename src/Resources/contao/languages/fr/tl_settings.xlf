@@ -1,0 +1,39 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/tl_settings.php" source-language="en" target-language="fr">
+    <body>
+			<trans-unit id="tl_settings.wem_sg_encryption_key.0">
+				<source>Encryption key</source>
+				<target>Clef de chiffrement</target>
+			</trans-unit>
+			<trans-unit id="tl_settings.wem_sg_host_managed.0">
+				<source>Host managed by Web Ex Machina</source>
+				<target>Hébergement géré par Web Ex Machina</target>
+			</trans-unit>
+			<trans-unit id="tl_settings.wem_sg_airtable_api_key_read.0">
+				<source>Airtable API key for reading</source>
+				<target>Clef API Airtable pour la lecture</target>
+			</trans-unit>
+			<trans-unit id="tl_settings.wem_sg_support_form_enabled.0">
+				<source>Support form enabled</source>
+				<target>Formulaire de support activé</target>
+			</trans-unit>
+			<trans-unit id="tl_settings.wem_sg_airtable_api_key_write.0">
+				<source>Airtable API key for writing</source>
+				<target>Clef API Airtable pour l'écriture</target>
+			</trans-unit>
+
+			<trans-unit id="tl_settings.smartgear_legend">
+				<source>Smartgear</source>
+				<target>Smartgear</target>
+			</trans-unit>
+			<trans-unit id="tl_settings.smartgear_host_legend">
+				<source>Smartgear - Hosting</source>
+				<target>Smartgear - Hébergement</target>
+			</trans-unit>
+			<trans-unit id="tl_settings.smartgear_support_legend">
+				<source>Smartgear - Support form</source>
+				<target>Smartgear - Formulaire de support</target>
+			</trans-unit>
+    </body>
+  </file>
+</xliff>
