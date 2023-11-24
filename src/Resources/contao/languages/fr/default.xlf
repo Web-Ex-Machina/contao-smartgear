@@ -1128,8 +1128,8 @@
 			<target>Votre demande de support Smartgear - ##ticket_subject##</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.subjectNotificationSupportGatewayMessageLanguageAdmin">
-			<source>Smartgear "%s" - support ticket - ##ticket_subject##</source>
-			<target>Smartgear "%s" - demande de support - ##ticket_subject##</target>
+			<source>Smartgear "##sg_title##" - support ticket - ##ticket_subject##</source>
+			<target>Smartgear "##sg_title##" - demande de support - ##ticket_subject##</target>
 		</trans-unit>
 
 

@@ -230,7 +230,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             'exclude' => true,
             'search' => true,
             'inputType' => 'select',
-            'options' => ['person', 'company'],
+            'options' => Configuration::TYPES_ALLOWED,
             'eval' => ['submitOnChange' => true, 'mandatory' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(7) NOT NULL default ''",
         ],

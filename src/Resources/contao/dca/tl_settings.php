@@ -34,8 +34,8 @@ DCAManipulator::create('tl_settings')
     ->addField('wem_sg_airtable_api_key_read', [
         'label' => &$GLOBALS['TL_DCA']['tl_settings']['wem_sg_airtable_api_key_read'],
         'inputType' => 'text',
-        // 'save_callback' => [['smartgear.data_container.configuration.configuration', 'apiKeySaveCallback']],
-        // 'load_callback' => [['smartgear.data_container.configuration.configuration', 'apiKeyLoadCallback']],
+        'save_callback' => [['smartgear.data_container.settings', 'airtableApiKeyReadSaveCallback']],
+        'load_callback' => [['smartgear.data_container.settings', 'airtableApiKeyReadLoadCallback']],
         'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
         'sql' => "varchar(255) NOT NULL default ''",
     ])
@@ -48,10 +48,28 @@ DCAManipulator::create('tl_settings')
     ->addField('wem_sg_airtable_api_key_write', [
         'label' => &$GLOBALS['TL_DCA']['tl_settings']['wem_sg_airtable_api_key_write'],
         'inputType' => 'text',
-        // 'save_callback' => [['smartgear.data_container.configuration.configuration', 'apiKeySaveCallback']],
-        // 'load_callback' => [['smartgear.data_container.configuration.configuration', 'apiKeyLoadCallback']],
+        'save_callback' => [['smartgear.data_container.settings', 'airtableApiKeyWriteSaveCallback']],
+        'load_callback' => [['smartgear.data_container.settings', 'airtableApiKeyWriteLoadCallback']],
         'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
         'sql' => "varchar(255) NOT NULL default ''",
+    ])
+    ->addField('wem_sg_support_form_notification', [
+        'label' => &$GLOBALS['TL_DCA']['tl_settings']['wem_sg_support_form_notification'],
+        'inputType' => 'select',
+        'foreignKey' => 'tl_nc_notification.id',
+        'options_callback' => ['smartgear.data_container.settings', 'supportFormNotificationOptionsCallback'],
+        'eval' => ['mandatory' => false, 'chosen' => true, 'includeBlankOption' => true, 'maxlength' => 10, 'tl_class' => 'w50'],
+        'sql' => 'INT(10) NOT NULL default 0',
+        'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+    ])
+    ->addField('wem_sg_support_form_gateway', [
+        'label' => &$GLOBALS['TL_DCA']['tl_settings']['wem_sg_support_form_gateway'],
+        'inputType' => 'select',
+        'foreignKey' => 'tl_nc_gateway.id',
+        'options_callback' => ['smartgear.data_container.settings', 'supportFormGatewayOptionsCallback'],
+        'eval' => ['mandatory' => false, 'chosen' => true, 'includeBlankOption' => true, 'maxlength' => 10, 'tl_class' => 'w50'],
+        'sql' => 'INT(10) NOT NULL default 0',
+        'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
     ])
 ;
 
@@ -65,13 +83,11 @@ foreach ($GLOBALS['TL_DCA']['tl_settings']['palettes'] as $paletteName => $palet
         PaletteManipulator::create()
             ->addLegend('smartgear_host_legend')
             ->addField('wem_sg_host_managed', 'smartgear_host_legend')
-            // ->addField('wem_sg_airtable_api_key_read', 'smartgear_host_legend')
             ->applyToPalette($paletteName, 'tl_settings')
         ;
         PaletteManipulator::create()
             ->addLegend('smartgear_support_legend')
             ->addField('wem_sg_support_form_enabled', 'smartgear_support_legend')
-            // ->addField('wem_sg_airtable_api_key_write', 'smartgear_support_legend')
             ->applyToPalette($paletteName, 'tl_settings')
         ;
     }
@@ -80,4 +96,8 @@ foreach ($GLOBALS['TL_DCA']['tl_settings']['palettes'] as $paletteName => $palet
 $GLOBALS['TL_DCA']['tl_settings']['palettes']['__selector__'][] = 'wem_sg_host_managed';
 $GLOBALS['TL_DCA']['tl_settings']['palettes']['__selector__'][] = 'wem_sg_support_form_enabled';
 $GLOBALS['TL_DCA']['tl_settings']['subpalettes']['wem_sg_host_managed'] = 'wem_sg_airtable_api_key_read';
-$GLOBALS['TL_DCA']['tl_settings']['subpalettes']['wem_sg_support_form_enabled'] = 'wem_sg_airtable_api_key_write';
+$GLOBALS['TL_DCA']['tl_settings']['subpalettes']['wem_sg_support_form_enabled'] = 'wem_sg_airtable_api_key_write,wem_sg_support_form_gateway,wem_sg_support_form_notification';
+
+DCAManipulator::create('tl_settings')
+    ->addConfigOnsubmitCallback('smartgear.data_container.settings', 'onsubmitCallback')
+;

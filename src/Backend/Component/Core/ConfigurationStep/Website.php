@@ -47,6 +47,9 @@ use WEM\SmartgearBundle\Classes\Utils\ContentUtil;
 use WEM\SmartgearBundle\Classes\Utils\ImageSizeUtil;
 use WEM\SmartgearBundle\Classes\Utils\LayoutUtil;
 use WEM\SmartgearBundle\Classes\Utils\ModuleUtil;
+use WEM\SmartgearBundle\Classes\Utils\Notification\NcNotificationMessageLanguageUtil;
+use WEM\SmartgearBundle\Classes\Utils\Notification\NcNotificationMessageUtil;
+use WEM\SmartgearBundle\Classes\Utils\Notification\NcNotificationUtil;
 use WEM\SmartgearBundle\Classes\Utils\PageUtil;
 use WEM\SmartgearBundle\Classes\Utils\UserGroupUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -1296,11 +1299,12 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        $nc = NotificationModel::findOneById($config->getSgNotificationSupport()) ?? new NotificationModel();
-        $nc->tstamp = time();
-        $nc->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayNotification', [], 'contao_default');
-        $nc->type = 'ticket_creation';
-        $nc->save();
+        // $nc = NotificationModel::findOneById($config->getSgNotificationSupport()) ?? new NotificationModel();
+        // $nc->tstamp = time();
+        // $nc->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayNotification', [], 'contao_default');
+        // $nc->type = 'ticket_creation';
+        // $nc->save();
+        $nc = NcNotificationUtil::createSupportFormNotification($config->getSgNotificationSupport() ? ['id' => $config->getSgNotificationSupport()] : []);
 
         $this->setConfigKey('setSgNotificationSupport', (int) $nc->id);
 
@@ -1312,14 +1316,15 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        $nm = NotificationMessageModel::findOneById($config->getSgNotificationSupportMessageUser()) ?? new NotificationMessageModel();
-        $nm->pid = $gateway->id;
-        $nm->gateway = $config->getSgNotificationGatewayEmail();
-        $nm->gateway_type = 'email';
-        $nm->tstamp = time();
-        $nm->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayMessageUser', [], 'contao_default');
-        $nm->published = 1;
-        $nm->save();
+        // $nm = NotificationMessageModel::findOneById($config->getSgNotificationSupportMessageUser()) ?? new NotificationMessageModel();
+        // $nm->pid = $gateway->id;
+        // $nm->gateway = $config->getSgNotificationGatewayEmail();
+        // $nm->gateway_type = 'email';
+        // $nm->tstamp = time();
+        // $nm->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayMessageUser', [], 'contao_default');
+        // $nm->published = 1;
+        // $nm->save();
+        $nm = NcNotificationMessageUtil::createSupportFormNotificationMessageUser((int) $config->getSgNotificationGatewayEmail(), 'email', (int) $gateway->id, $config->getSgNotificationSupportMessageUser() ? ['id' => $config->getSgNotificationSupportMessageUser()] : []);
 
         $this->setConfigKey('setSgNotificationSupportMessageUser', (int) $nm->id);
 
@@ -1331,14 +1336,15 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        $nm = NotificationMessageModel::findOneById($config->getSgNotificationSupportMessageAdmin()) ?? new NotificationMessageModel();
-        $nm->pid = $gateway->id;
-        $nm->gateway = $config->getSgNotificationGatewayEmail();
-        $nm->gateway_type = 'email';
-        $nm->tstamp = time();
-        $nm->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayMessageAdmin', [], 'contao_default');
-        $nm->published = 1;
-        $nm->save();
+        // $nm = NotificationMessageModel::findOneById($config->getSgNotificationSupportMessageAdmin()) ?? new NotificationMessageModel();
+        // $nm->pid = $gateway->id;
+        // $nm->gateway = $config->getSgNotificationGatewayEmail();
+        // $nm->gateway_type = 'email';
+        // $nm->tstamp = time();
+        // $nm->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayMessageAdmin', [], 'contao_default');
+        // $nm->published = 1;
+        // $nm->save();
+        $nm = NcNotificationMessageUtil::createSupportFormNotificationMessageAdmin((int) $config->getSgNotificationGatewayEmail(), 'email', (int) $gateway->id, $config->getSgNotificationSupportMessageAdmin() ? ['id' => $config->getSgNotificationSupportMessageAdmin()] : []);
 
         $this->setConfigKey('setSgNotificationSupportMessageAdmin', (int) $nm->id);
 
@@ -1358,23 +1364,25 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/dashboard/%s/ticket_mail_user.html', Util::getPublicOrWebDirectory(), $this->language));
+        // $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/dashboard/%s/ticket_mail_user.html', Util::getPublicOrWebDirectory(), $this->language));
 
-        $nl = NotificationLanguageModel::findOneById($config->getSgNotificationSupportMessageUserLanguage()) ?? new NotificationLanguageModel();
-        $nl->pid = $gatewayMessage->id;
-        $nl->tstamp = time();
-        $nl->language = $this->language;
-        $nl->fallback = 1;
-        $nl->recipients = '##sg_owner_email##';
-        $nl->gateway_type = 'email';
-        $nl->email_sender_name = $config->getSgWebsiteTitle();
-        $nl->email_sender_address = '##sg_owner_email##';
-        $nl->email_subject = $this->translator->trans('WEMSG.INSTALL.WEBSITE.subjectNotificationSupportGatewayMessageLanguageUser', [$config->getSgWebsiteTitle()], 'contao_default');
-        $nl->email_mode = 'textAndHtml';
-        $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, false);
-        $nl->email_html = $strText;
-        $nl->attachment_tokens = '##ticket_file##';
-        $nl->save();
+        // $nl = NotificationLanguageModel::findOneById($config->getSgNotificationSupportMessageUserLanguage()) ?? new NotificationLanguageModel();
+        // $nl->pid = $gatewayMessage->id;
+        // $nl->tstamp = time();
+        // $nl->language = $this->language;
+        // $nl->fallback = 1;
+        // $nl->recipients = '##sg_owner_email##';
+        // $nl->gateway_type = 'email';
+        // $nl->email_sender_name = $config->getSgWebsiteTitle();
+        // $nl->email_sender_address = '##sg_owner_email##';
+        // $nl->email_subject = $this->translator->trans('WEMSG.INSTALL.WEBSITE.subjectNotificationSupportGatewayMessageLanguageUser', [$config->getSgWebsiteTitle()], 'contao_default');
+        // $nl->email_mode = 'textAndHtml';
+        // $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, false);
+        // $nl->email_html = $strText;
+        // $nl->attachment_tokens = '##ticket_file##';
+        // $nl->save();
+
+        $nl = NcNotificationMessageLanguageUtil::createSupportFormNotificationMessageUserLanguage((int) $gatewayMessage->id, $this->language, true, $config->getSgNotificationSupportMessageUserLanguage() ? ['id' => $config->getSgNotificationSupportMessageUserLanguage()] : []);
 
         $this->setConfigKey('setSgNotificationSupportMessageUserLanguage', (int) $nl->id);
 
@@ -1386,24 +1394,26 @@ class Website extends ConfigurationStep
         /** @var CoreConfig */
         $config = $this->configurationManager->load();
 
-        $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/dashboard/%s/ticket_mail_admin.html', Util::getPublicOrWebDirectory(), $this->language));
+        // $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/dashboard/%s/ticket_mail_admin.html', Util::getPublicOrWebDirectory(), $this->language));
 
-        $nl = NotificationLanguageModel::findOneById($config->getSgNotificationSupportMessageAdminLanguage()) ?? new NotificationLanguageModel();
-        $nl->pid = $gatewayMessage->id;
-        $nl->tstamp = time();
-        $nl->language = $this->language;
-        $nl->fallback = 1;
-        $nl->recipients = '##support_email##';
-        $nl->gateway_type = 'email';
-        $nl->email_sender_name = $config->getSgWebsiteTitle();
-        $nl->email_sender_address = '##sg_owner_email##';
-        $nl->email_subject = $this->translator->trans('WEMSG.INSTALL.WEBSITE.subjectNotificationSupportGatewayMessageLanguageUser', [$config->getSgWebsiteTitle()], 'contao_default');
-        $nl->email_mode = 'textAndHtml';
-        $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, false);
-        $nl->email_html = $strText;
-        $nl->email_replyTo = '##sg_owner_email##';
-        $nl->attachment_tokens = '##ticket_file##';
-        $nl->save();
+        // $nl = NotificationLanguageModel::findOneById($config->getSgNotificationSupportMessageAdminLanguage()) ?? new NotificationLanguageModel();
+        // $nl->pid = $gatewayMessage->id;
+        // $nl->tstamp = time();
+        // $nl->language = $this->language;
+        // $nl->fallback = 1;
+        // $nl->recipients = '##support_email##';
+        // $nl->gateway_type = 'email';
+        // $nl->email_sender_name = $config->getSgWebsiteTitle();
+        // $nl->email_sender_address = '##sg_owner_email##';
+        // $nl->email_subject = $this->translator->trans('WEMSG.INSTALL.WEBSITE.subjectNotificationSupportGatewayMessageLanguageUser', [$config->getSgWebsiteTitle()], 'contao_default');
+        // $nl->email_mode = 'textAndHtml';
+        // $nl->email_text = $this->htmlDecoder->htmlToPlainText($strText, false);
+        // $nl->email_html = $strText;
+        // $nl->email_replyTo = '##sg_owner_email##';
+        // $nl->attachment_tokens = '##ticket_file##';
+        // $nl->save();
+
+        $nl = NcNotificationMessageLanguageUtil::createSupportFormNotificationMessageAdminLanguage((int) $gatewayMessage->id, $this->language, true, $config->getSgNotificationSupportMessageAdminLanguage() ? ['id' => $config->getSgNotificationSupportMessageAdminLanguage()] : []);
 
         $this->setConfigKey('setSgNotificationSupportMessageAdminLanguage', (int) $nl->id);
 

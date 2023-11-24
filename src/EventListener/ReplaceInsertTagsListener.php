@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\EventListener;
 
 use WEM\SmartgearBundle\Classes\Backend\Component\EventListener\ReplaceInsertTagsListener as AbstractReplaceInsertTagsListener;
+use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class ReplaceInsertTagsListener
 {
@@ -56,6 +57,11 @@ class ReplaceInsertTagsListener
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
         if ('sg' === $key) {
+            $returnValue = $this->replaceInsertTags($insertTag, $useCache, $cachedValue, $flags, $tags, $cache, $_rit, $_cnt);
+            if (AbstractReplaceInsertTagsListener::NOT_HANDLED !== $returnValue) {
+                return $returnValue;
+            }
+
             foreach ($this->listeners as $listener) {
                 $returnValue = $listener->onReplaceInsertTags($insertTag, $useCache, $cachedValue, $flags, $tags, $cache, $_rit, $_cnt);
                 if (AbstractReplaceInsertTagsListener::NOT_HANDLED !== $returnValue) {
@@ -65,5 +71,42 @@ class ReplaceInsertTagsListener
         }
 
         return false;
+    }
+
+    protected function replaceInsertTags(
+        string $insertTag,
+        bool $useCache,
+        string $cachedValue,
+        array $flags,
+        array $tags,
+        array $cache,
+        int $_rit,
+        int $_cnt
+    ) {
+        $elements = explode('::', $insertTag);
+        $key = strtolower($elements[0]);
+        if ('sg' === $key) {
+            switch ($elements[1]) {
+                case 'config':
+                    global $objPage;
+                    if (!$objPage) {
+                        return false;
+                    }
+                    $objConfiguration = Configuration::findOneByPage($objPage);
+                    if (!$objConfiguration) {
+                        return false;
+                    }
+
+                    switch ($elements[2]) {
+                        case 'title':
+                            return $objConfiguration->title;
+                        break;
+                    }
+
+                break;
+            }
+        }
+
+        return AbstractReplaceInsertTagsListener::NOT_HANDLED;
     }
 }

@@ -5,6 +5,10 @@
 				<source>Encryption key</source>
 				<target>Clef de chiffrement</target>
 			</trans-unit>
+			<trans-unit id="tl_settings.wem_sg_encryption_key.1">
+				<source>Once defined, do not modify it</source>
+				<target>A ne pas modifier une fois définie</target>
+			</trans-unit>
 			<trans-unit id="tl_settings.wem_sg_host_managed.0">
 				<source>Host managed by Web Ex Machina</source>
 				<target>Hébergement géré par Web Ex Machina</target>
@@ -20,6 +24,14 @@
 			<trans-unit id="tl_settings.wem_sg_airtable_api_key_write.0">
 				<source>Airtable API key for writing</source>
 				<target>Clef API Airtable pour l'écriture</target>
+			</trans-unit>
+			<trans-unit id="tl_settings.wem_sg_support_form_gateway.0">
+				<source>Support form notification's gateway</source>
+				<target>Passerelle pour la notification de support</target>
+			</trans-unit>
+			<trans-unit id="tl_settings.wem_sg_support_form_notification.0">
+				<source>Support form notification</source>
+				<target>Notification de support</target>
 			</trans-unit>
 
 			<trans-unit id="tl_settings.smartgear_legend">

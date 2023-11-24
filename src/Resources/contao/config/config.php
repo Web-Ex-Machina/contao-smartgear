@@ -235,9 +235,10 @@ $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['fil
  * Notifications
  */
 $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['smartgear']['ticket_creation'] = [
+    'email_sender_name' => ['email_sender_name'],
     'email_sender_address' => ['sg_owner_email'],
+    'email_subject' => ['ticket_subject', 'sg_title'],
     'recipients' => ['support_email', 'sg_owner_email'],
-    'email_subject' => ['ticket_*'],
     'email_text' => ['ticket_*', 'sg_owner_name'],
     'email_html' => ['ticket_*', 'sg_owner_name'],
     'email_replyTo' => ['sg_owner_email'],

@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Model\Configuration;
 
+use Contao\LayoutModel;
+use Contao\PageModel;
 use WEM\UtilsBundle\Model\Model as CoreModel;
 
 /**
@@ -40,6 +42,13 @@ class Configuration extends CoreModel
     public const MODES_ALLOWED = [
         self::MODE_DEV,
         self::MODE_PROD,
+    ];
+
+    public const TYPE_PERSON = 'person';
+    public const TYPE_COMPANY = 'company';
+    public const TYPES_ALLOWED = [
+        self::TYPE_PERSON,
+        self::TYPE_COMPANY,
     ];
 
     public const DEFAULT_VERSION = '1.0.0';
@@ -74,4 +83,60 @@ class Configuration extends CoreModel
      * @var string
      */
     protected static $strOrderColumn = 'tstamp DESC';
+
+    public static function findOneByPage(PageModel $objPage, ?array $arrOptions = [])
+    {
+        if ($objLayout = LayoutModel::findByPk($objPage->layout)) {
+            // if ($objTheme = ThemeModel::findByPk($objLayout->pid)) {
+            return self::findOneBy('contao_theme', $objLayout->pid, $arrOptions);
+            // }
+        }
+
+        return null;
+    }
+
+    public static function findByPage(PageModel $objPage, ?array $arrOptions = [])
+    {
+        if ($objLayout = LayoutModel::findByPk($objPage->layout)) {
+            // if ($objTheme = ThemeModel::findByPk($objLayout->pid)) {
+            return self::findBy('contao_theme', $objLayout->pid, $arrOptions);
+            // }
+        }
+
+        return null;
+    }
+
+    public static function findOneByPageId(int $pageId, ?array $arrOptions = [])
+    {
+        $objPage = PageModel::findOneByPk($pageId);
+        if ($objPage) {
+            return self::findOneByPage($objPage, $arrOptions);
+        }
+
+        return null;
+    }
+
+    public static function findByPageId(int $pageId, ?array $arrOptions = [])
+    {
+        $objPage = PageModel::findOneByPk($pageId);
+        if ($objPage) {
+            return self::findByPage($objPage, $arrOptions);
+        }
+
+        return null;
+    }
+
+    public function getLegalOwnerName(): string
+    {
+        switch ($this->legal_owner_type) {
+            case self::TYPE_COMPANY:
+                return $this->legal_owner_company_name;
+            break;
+            case self::TYPE_PERSON:
+                return strtoupper($this->legal_owner_person_lastname).' '.$this->legal_owner_person_firstname;
+            break;
+        }
+
+        return '';
+    }
 }
