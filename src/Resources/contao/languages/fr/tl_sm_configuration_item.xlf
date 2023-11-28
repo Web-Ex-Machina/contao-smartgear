@@ -83,6 +83,10 @@
 				<source>Blog</source>
 				<target>Blog</target>
 			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.mixed-form-contact">
+				<source>Form contact</source>
+				<target>Formulaire de contact</target>
+			</trans-unit>
 
 			<trans-unit id="tl_sm_configuration_item.contao_page.0">
 				<source>contao_page</source>
@@ -92,6 +96,28 @@
 				<source>page_name</source>
 				<target>Titre de la page</target>
 			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_page_form.0">
+				<source>contao_page_form</source>
+				<target>Page formulaire</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.page_form_name.0">
+				<source>page_form_name</source>
+				<target>Titre de la page</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_page_form_sent.0">
+				<source>contao_page_form_sent</source>
+				<target>Page formulaire envoyé</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.page_form_sent_name.0">
+				<source>page_form_sent_name</source>
+				<target>Titre de la page</target>
+			</trans-unit>
+
+
+
+
+
+
 			<trans-unit id="tl_sm_configuration_item.contao_module.0">
 				<source>contao_module</source>
 				<target>Module</target>
@@ -168,12 +194,39 @@
 				<source>news_archive_name</source>
 				<target>Nom de l'archive</target>
 			</trans-unit>
-
+			<trans-unit id="tl_sm_configuration_item.contao_form.0">
+				<source>contao_form</source>
+				<target>Formulaire de contact</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.form_name.0">
+				<source>form_name</source>
+				<target>Nom du formulaire</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_notification.0">
+				<source>contao_notification</source>
+				<target>Notification</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.notification_name.0">
+				<source>notification_name</source>
+				<target>Nom de la notification</target>
+			</trans-unit>
 			<trans-unit id="tl_sm_configuration_item.contao_layout_to_update.0">
 				<source>contao_layout_to_update</source>
 				<target>Présentations de page à mettre à jour</target>
 			</trans-unit>
 
+			<trans-unit id="tl_sm_configuration_item.update_page.0">
+				<source>Overwrite page's configuration</source>
+				<target>Ecraser la configuration de la page</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_page_form.0">
+				<source>Overwrite form page's configuration</source>
+				<target>Ecraser la configuration de la page du formulaire</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_page_form_sent.0">
+				<source>Overwrite form sent page's configuration</source>
+				<target>Ecraser la configuration de la page de confirmation d'envoi du formulaire</target>
+			</trans-unit>
 			<trans-unit id="tl_sm_configuration_item.update_module.0">
 				<source>Overwrite module's configuration</source>
 				<target>Ecraser la configuration du module</target>
@@ -190,10 +243,6 @@
 				<source>Overwrite calendar module's configuration</source>
 				<target>Ecraser la configuration du module calendrier</target>
 			</trans-unit>
-			<trans-unit id="tl_sm_configuration_item.update_page.0">
-				<source>Overwrite page's configuration</source>
-				<target>Ecraser la configuration de la page</target>
-			</trans-unit>
 			<trans-unit id="tl_sm_configuration_item.update_user_group.0">
 				<source>Overwrite user group's configuration</source>
 				<target>Ecraser la configuration du groupe d'utilisateurs</target>
@@ -209,6 +258,14 @@
 			<trans-unit id="tl_sm_configuration_item.update_news_archive.0">
 				<source>Overwrite News archive's configuration</source>
 				<target>Ecraser la configuration du flux d'actualités</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_form.0">
+				<source>Overwrite Form's configuration</source>
+				<target>Ecraser la configuration du formulaire</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_notification.0">
+				<source>Overwrite Notification's configuration</source>
+				<target>Ecraser la configuration de la notification</target>
 			</trans-unit>
 
 
@@ -244,6 +301,14 @@
       <trans-unit id="tl_sm_configuration_item.news_legend">
         <source>Blog</source>
         <target>Blog</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.form_legend">
+        <source>Form</source>
+        <target>Formulaire</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.notification_legend">
+        <source>Notification</source>
+        <target>Notification</target>
       </trans-unit>
       <trans-unit id="tl_sm_configuration_item.update_legend">
         <source>Update</source>

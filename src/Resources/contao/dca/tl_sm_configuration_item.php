@@ -87,25 +87,47 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
 
     // Subpalettes
     'subpalettes' => [
-        'type_page-legal-notice' => ';{page_legend},contao_page,page_name;{content_legend},content_template',
-        'type_page-privacy-politics' => ';{page_legend},contao_page,page_name;{content_legend},content_template',
-        'type_page-sitemap' => ';{page_legend},contao_page,page_name;{module_legend},contao_module',
-        'type_user-group-administrators' => ';{user_group_legend},contao_user_group,user_group_name',
-        'type_user-group-redactors' => ';{user_group_legend},contao_user_group,user_group_name',
-        'type_module-wem-sg-header' => ';{module_legend},contao_module,module_name;singleSRC,contao_layout_to_update',
-        'type_module-wem-sg-footer' => ';{module_legend},contao_module,module_name;{content_legend},content_template,contao_layout_to_update',
-        'type_module-breadcrumb' => ';{module_legend},contao_module,module_name;contao_layout_to_update',
-        'type_module-wem-sg-social-networks' => ';{module_legend},contao_module,module_name',
-        'type_mixed-sitemap' => ';{module_legend},contao_module,module_name;{page_legend},contao_page,page_name',
-        'type_mixed-faq' => ';{module_legend},contao_module,module_name;{page_legend},contao_page,page_name;{faq_category_legend},contao_faq_category,faq_category_name',
+        'type_page-legal-notice' => ';
+            {page_legend},contao_page,page_name;
+            {content_legend},content_template',
+        'type_page-privacy-politics' => ';
+            {page_legend},contao_page,page_name;
+            {content_legend},content_template',
+        'type_page-sitemap' => ';
+            {page_legend},contao_page,page_name;
+            {module_legend},contao_module',
+        'type_user-group-administrators' => ';
+            {user_group_legend},contao_user_group,user_group_name',
+        'type_user-group-redactors' => ';
+            {user_group_legend},contao_user_group,user_group_name',
+        'type_module-wem-sg-header' => ';
+            {module_legend},contao_module,module_name;singleSRC,contao_layout_to_update',
+        'type_module-wem-sg-footer' => ';
+            {module_legend},contao_module,module_name;
+            {content_legend},content_template,contao_layout_to_update',
+        'type_module-breadcrumb' => ';
+            {module_legend},contao_module,module_name;contao_layout_to_update',
+        'type_module-wem-sg-social-networks' => ';
+            {module_legend},contao_module,module_name',
+        'type_mixed-sitemap' => ';
+            {module_legend},contao_module,module_name;
+            {page_legend},contao_page,page_name',
+        'type_mixed-faq' => ';
+            {module_legend},contao_module,module_name;
+            {page_legend},contao_page,page_name;
+            {faq_category_legend},contao_faq_category,faq_category_name',
         'type_mixed-events' => ';
-        {module_legend},contao_module_list,module_list_name,module_list_perPage,contao_module_reader,module_reader_name,contao_module_calendar,module_calendar_name;
-        {page_legend},contao_page,page_name;
-        {calendar_legend},contao_calendar,calendar_name;',
+            {module_legend},contao_module_list,module_list_name,module_list_perPage,contao_module_reader,module_reader_name,contao_module_calendar,module_calendar_name;
+            {page_legend},contao_page,page_name;
+            {calendar_legend},contao_calendar,calendar_name;',
         'type_mixed-blog' => ';
-        {module_legend},contao_module_list,module_list_name,module_list_perPage,contao_module_reader,module_reader_name;
-        {page_legend},contao_page,page_name;
-        {news_legend},contao_news_archive,news_archive_name;',
+            {module_legend},contao_module_list,module_list_name,module_list_perPage,contao_module_reader,module_reader_name;
+            {page_legend},contao_page,page_name;
+            {news_legend},contao_news_archive,news_archive_name;',
+        'type_mixed-form-contact' => ';
+            {page_legend},contao_page_form,page_form_name,contao_page_form_sent,page_form_sent_name;
+            {form_legend},contao_form,form_name;
+            {notification_legend},contao_notification,notification_name;',
     ],
 
     // Fields
@@ -144,6 +166,38 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
         ],
         'page_name' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'contao_page_form' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'picker',
+            'foreignKey' => 'tl_page.id',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+        ],
+        'page_form_name' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'contao_page_form_sent' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'picker',
+            'foreignKey' => 'tl_page.id',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+        ],
+        'page_form_sent_name' => [
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',
@@ -308,6 +362,38 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
         ],
         'news_archive_name' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'contao_form' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'picker',
+            'foreignKey' => 'tl_form.id',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+        ],
+        'form_name' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'contao_notification' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'picker',
+            'foreignKey' => 'tl_nc_notification.id',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+        ],
+        'notification_name' => [
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',

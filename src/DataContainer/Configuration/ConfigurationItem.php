@@ -1185,6 +1185,66 @@ class ConfigurationItem extends Core
         $dcaManipulator = DCAManipulator::create(ConfigurationItemModel::getTable());
         $addFields = false;
 
+        if ($objItem->contao_page) {
+            $objPage = $objItem->getRelated('contao_page');
+            if ($objPage
+            && (int) $objPage->tstamp > (int) $objItem->tstamp
+            ) {
+                Message::addInfo('La page "'.$objPage->title.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+            }
+            if (0 !== (int) $objItem->tstamp) {
+                $dcaManipulator
+                    ->addField('update_page', [
+                        'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_page'],
+                        'inputType' => 'checkbox',
+                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
+                    ])
+                ;
+                $addFields = true;
+            }
+        }
+
+        if ($objItem->contao_page_form) {
+            $objPage = $objItem->getRelated('contao_page_form');
+            if ($objPage
+            && (int) $objPage->tstamp > (int) $objItem->tstamp
+            ) {
+                Message::addInfo('La page "'.$objPage->title.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+            }
+            if (0 !== (int) $objItem->tstamp) {
+                $dcaManipulator
+                    ->addField('update_page_form', [
+                        'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_page_form'],
+                        'inputType' => 'checkbox',
+                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
+                    ])
+                ;
+                $addFields = true;
+            }
+        }
+
+        if ($objItem->contao_page_form_sent) {
+            $objPage = $objItem->getRelated('contao_page_form_sent');
+            if ($objPage
+            && (int) $objPage->tstamp > (int) $objItem->tstamp
+            ) {
+                Message::addInfo('La page "'.$objPage->title.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+            }
+            if (0 !== (int) $objItem->tstamp) {
+                $dcaManipulator
+                    ->addField('update_page_form_sent', [
+                        'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_page_form_sent'],
+                        'inputType' => 'checkbox',
+                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
+                    ])
+                ;
+                $addFields = true;
+            }
+        }
+
         if ($objItem->contao_module) {
             $objModule = $objItem->getRelated('contao_module');
             if ($objModule
@@ -1263,26 +1323,6 @@ class ConfigurationItem extends Core
                 ;
             }
             $addFields = true;
-        }
-
-        if ($objItem->contao_page) {
-            $objPage = $objItem->getRelated('contao_page');
-            if ($objPage
-            && (int) $objPage->tstamp > (int) $objItem->tstamp
-            ) {
-                Message::addInfo('La page "'.$objPage->title.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
-            }
-            if (0 !== (int) $objItem->tstamp) {
-                $dcaManipulator
-                    ->addField('update_page', [
-                        'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_page'],
-                        'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
-                        'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
-                    ])
-                ;
-                $addFields = true;
-            }
         }
 
         if ($objItem->contao_user_group) {
@@ -1368,6 +1408,15 @@ class ConfigurationItem extends Core
         $paletteManipulator = PaletteManipulator::create();
         if ($addFields) {
             $paletteManipulator->addLegend('update_legend');
+            if ($dcaManipulator->hasField('update_page')) {
+                $paletteManipulator->addField('update_page', 'update_legend');
+            }
+            if ($dcaManipulator->hasField('update_page_form')) {
+                $paletteManipulator->addField('update_page_form', 'update_legend');
+            }
+            if ($dcaManipulator->hasField('update_page_sent')) {
+                $paletteManipulator->addField('update_page_sent', 'update_legend');
+            }
             if ($dcaManipulator->hasField('update_module')) {
                 $paletteManipulator->addField('update_module', 'update_legend');
             }
@@ -1379,9 +1428,6 @@ class ConfigurationItem extends Core
             }
             if ($dcaManipulator->hasField('update_module_calendar')) {
                 $paletteManipulator->addField('update_module_calendar', 'update_legend');
-            }
-            if ($dcaManipulator->hasField('update_page')) {
-                $paletteManipulator->addField('update_page', 'update_legend');
             }
             if ($dcaManipulator->hasField('update_user_group')) {
                 $paletteManipulator->addField('update_user_group', 'update_legend');

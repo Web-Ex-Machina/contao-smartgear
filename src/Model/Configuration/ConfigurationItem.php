@@ -34,6 +34,7 @@ class ConfigurationItem extends CoreModel
     public const TYPE_MIXED_FAQ = 'mixed-faq';
     public const TYPE_MIXED_EVENTS = 'mixed-events';
     public const TYPE_MIXED_BLOG = 'mixed-blog';
+    public const TYPE_MIXED_FORM_CONTACT = 'mixed-form-contact';
     public const TYPES = [
         'pages' => [
             self::TYPE_PAGE_LEGAL_NOTICE,
@@ -55,6 +56,7 @@ class ConfigurationItem extends CoreModel
             self::TYPE_MIXED_FAQ,
             self::TYPE_MIXED_EVENTS,
             self::TYPE_MIXED_BLOG,
+            self::TYPE_MIXED_FORM_CONTACT,
         ],
     ];
 
