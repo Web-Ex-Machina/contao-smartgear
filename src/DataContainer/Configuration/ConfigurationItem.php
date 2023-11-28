@@ -211,6 +211,32 @@ class ConfigurationItem extends Core
                     $arrData['contao_news_archive'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
                 break;
+            case ConfigurationItemModel::TYPE_MIXED_FORM_CONTACT:
+                if ($objItem->contao_page_form) {
+                    $objPage = $objItem->getRelated('contao_page_form');
+                    $arrData['contao_page_form'] = $objPage ? $objPage->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_page_form'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                }
+                if ($objItem->contao_page_form_sent) {
+                    $objPage = $objItem->getRelated('contao_page_form_sent');
+                    $arrData['contao_page_form_sent'] = $objPage ? $objPage->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_page_form_sent'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                }
+                if ($objItem->contao_form) {
+                    $objForm = $objItem->getRelated('contao_form');
+                    $arrData['contao_form'] = $objForm ? $objForm->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_form'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                }
+                if ($objItem->contao_notification) {
+                    $objNotification = $objItem->getRelated('contao_notification');
+                    $arrData['contao_notification'] = $objNotification ? $objNotification->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_notification'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                }
+                break;
         }
 
         $labels = [];
@@ -278,6 +304,9 @@ class ConfigurationItem extends Core
                 break;
             case ConfigurationItemModel::TYPE_MIXED_BLOG:
                 $objItem = $this->manageMixedBlog($objItem, (bool) Input::post('update_module_list'), (bool) Input::post('update_module_reader'), (bool) Input::post('update_page'), (bool) Input::post('update_news_archive'), $dc);
+                break;
+            case ConfigurationItemModel::TYPE_MIXED_FORM_CONTACT:
+                $objItem = $this->manageMixedFormContact($objItem, (bool) Input::post('update_page_form'), (bool) Input::post('update_page_form_sent'), (bool) Input::post('update_form'), (bool) Input::post('update_notification'), $dc);
                 break;
         }
 
@@ -1113,6 +1142,17 @@ class ConfigurationItem extends Core
         return $this->managePageBlogFill($objItem, $blnForcePageUpdate || (int) $oldPageId !== (int) $objItem->contao_page, $dc);
     }
 
+    public function manageMixedFormContact(ConfigurationItemModel $objItem, bool $blnForcePageFormUpdate, bool $blnForcePageFormSentUpdate, bool $blnForceFormUpdate, bool $blnForceNotificationUpdate, DataContainer $dc): ConfigurationItemModel
+    {
+        $oldPageId = $objItem->contao_page;
+        $objItem = $this->managePageBlogCreate($objItem, $blnForcePageUpdate, $dc);
+        $objItem = $this->manageNewsArchive($objItem, $blnForceNewsArchiveUpdate, $dc);
+        $objItem = $this->manageModuleBlogReader($objItem, $blnForceModuleReaderUpdate, $dc);
+        $objItem = $this->manageModuleBlogList($objItem, $blnForceModuleListUpdate, $dc);
+
+        return $this->managePageBlogFill($objItem, $blnForcePageUpdate || (int) $oldPageId !== (int) $objItem->contao_page, $dc);
+    }
+
     public function contentTemplateOptionsCallback(DataContainer $dc): array
     {
         $arrOptions = [];
@@ -1414,8 +1454,8 @@ class ConfigurationItem extends Core
             if ($dcaManipulator->hasField('update_page_form')) {
                 $paletteManipulator->addField('update_page_form', 'update_legend');
             }
-            if ($dcaManipulator->hasField('update_page_sent')) {
-                $paletteManipulator->addField('update_page_sent', 'update_legend');
+            if ($dcaManipulator->hasField('update_page_form_sent')) {
+                $paletteManipulator->addField('update_page_form_sent', 'update_legend');
             }
             if ($dcaManipulator->hasField('update_module')) {
                 $paletteManipulator->addField('update_module', 'update_legend');
