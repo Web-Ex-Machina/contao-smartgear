@@ -22,7 +22,7 @@ class FaqCategoryUtil
     /**
      * Shortcut for FAQ category creation.
      */
-    public static function createFaqCategory(string $strTitle, ?array $arrData = []): FaqCategoryModel
+    public static function createFaqCategory(string $strTitle, ?int $jumpTo = null, ?array $arrData = []): FaqCategoryModel
     {
         // Create the theme
         if (\array_key_exists('id', $arrData)) {
@@ -35,6 +35,7 @@ class FaqCategoryUtil
         }
 
         $objFaqCategory->title = $strTitle;
+        $objFaqCategory->jumpTo = $jumpTo;
         $objFaqCategory->tstamp = time();
 
         // Now we get the default values, get the arrData table

@@ -32,6 +32,8 @@ class ConfigurationItem extends CoreModel
     public const TYPE_MODULE_WEM_SG_SOCIAL_NETWORKS = 'module-wem-sg-social-networks';
     public const TYPE_MIXED_SITEMAP = 'mixed-sitemap';
     public const TYPE_MIXED_FAQ = 'mixed-faq';
+    public const TYPE_MIXED_EVENTS = 'mixed-events';
+    public const TYPE_MIXED_BLOG = 'mixed-blog';
     public const TYPES = [
         'pages' => [
             self::TYPE_PAGE_LEGAL_NOTICE,
@@ -51,6 +53,8 @@ class ConfigurationItem extends CoreModel
         'mixed' => [
             self::TYPE_MIXED_SITEMAP,
             self::TYPE_MIXED_FAQ,
+            self::TYPE_MIXED_EVENTS,
+            self::TYPE_MIXED_BLOG,
         ],
     ];
 

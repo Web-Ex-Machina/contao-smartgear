@@ -176,6 +176,33 @@ class PageUtil
         return self::createPage($strTitle, $pid, $arrData);
     }
 
+    public static function createPageEvents(string $strTitle, int $pid, ?array $arrData = []): PageModel
+    {
+        $arrData = array_merge([
+            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            // 'layout' => $rootPage->layout,
+            // 'title' => $eventsConfig->getSgPageTitle(),
+            'robots' => 'index,follow',
+            'type' => 'regular',
+            'published' => 1,
+        ], $arrData);
+
+        return self::createPage($strTitle, $pid, $arrData);
+    }
+
+    public static function createPageBlog(string $strTitle, int $pid, ?array $arrData = []): PageModel
+    {
+        $arrData = array_merge([
+            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'robots' => 'index,follow',
+            'type' => 'regular',
+            'published' => 1,
+            // 'description' => $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.pageDescription', [$presetConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
+        ], $arrData);
+
+        return self::createPage($strTitle, $pid, $arrData);
+    }
+
     /**
      * Shortcut for page w/ modules creations.
      */

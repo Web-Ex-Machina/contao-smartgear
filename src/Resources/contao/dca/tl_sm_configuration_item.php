@@ -98,6 +98,14 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
         'type_module-wem-sg-social-networks' => ';{module_legend},contao_module,module_name',
         'type_mixed-sitemap' => ';{module_legend},contao_module,module_name;{page_legend},contao_page,page_name',
         'type_mixed-faq' => ';{module_legend},contao_module,module_name;{page_legend},contao_page,page_name;{faq_category_legend},contao_faq_category,faq_category_name',
+        'type_mixed-events' => ';
+        {module_legend},contao_module_list,module_list_name,module_list_perPage,contao_module_reader,module_reader_name,contao_module_calendar,module_calendar_name;
+        {page_legend},contao_page,page_name;
+        {calendar_legend},contao_calendar,calendar_name;',
+        'type_mixed-blog' => ';
+        {module_legend},contao_module_list,module_list_name,module_list_perPage,contao_module_reader,module_reader_name;
+        {page_legend},contao_page,page_name;
+        {news_legend},contao_news_archive,news_archive_name;',
     ],
 
     // Fields
@@ -162,6 +170,73 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
+        'contao_module_reader' => [
+            'exclude' => true,
+            'search' => true,
+            // 'inputType' => 'picker',
+            'inputType' => 'select',
+            'options_callback' => ['smartgear.data_container.configuration.configuration_item', 'contaoModuleOptionsCallback'],
+            'foreignKey' => 'tl_module.name',
+            'eval' => ['mandatory' => false, 'includeBlankOption' => true, 'maxlength' => 255, 'tl_class' => 'w50 wizard'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'wizard' => [[\WEM\SmartgearBundle\DataContainer\Content::class, 'editModule']],
+            'reference' => &$GLOBALS['TL_LANG']['FMD'],
+        ],
+        'module_reader_name' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'contao_module_list' => [
+            'exclude' => true,
+            'search' => true,
+            // 'inputType' => 'picker',
+            'inputType' => 'select',
+            'options_callback' => ['smartgear.data_container.configuration.configuration_item', 'contaoModuleOptionsCallback'],
+            'foreignKey' => 'tl_module.name',
+            'eval' => ['mandatory' => false, 'includeBlankOption' => true, 'maxlength' => 255, 'tl_class' => 'w50 wizard'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'wizard' => [[\WEM\SmartgearBundle\DataContainer\Content::class, 'editModule']],
+            'reference' => &$GLOBALS['TL_LANG']['FMD'],
+        ],
+        'module_list_name' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'module_list_perPage' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['maxlength' => 255, 'rgxp' => 'natural', 'tl_class' => 'w50'],
+            'sql' => 'smallint(5) unsigned NOT NULL default 0',
+        ],
+        'contao_module_calendar' => [
+            'exclude' => true,
+            'search' => true,
+            // 'inputType' => 'picker',
+            'inputType' => 'select',
+            'options_callback' => ['smartgear.data_container.configuration.configuration_item', 'contaoModuleOptionsCallback'],
+            'foreignKey' => 'tl_module.name',
+            'eval' => ['mandatory' => false, 'includeBlankOption' => true, 'maxlength' => 255, 'tl_class' => 'w50 wizard'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'wizard' => [[\WEM\SmartgearBundle\DataContainer\Content::class, 'editModule']],
+            'reference' => &$GLOBALS['TL_LANG']['FMD'],
+        ],
+        'module_calendar_name' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
         'content_template' => [
             'exclude' => true,
             'inputType' => 'select',
@@ -207,6 +282,39 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
+        'contao_calendar' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'picker',
+            'foreignKey' => 'tl_calendar.id',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+        ],
+        'calendar_name' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'contao_news_archive' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'picker',
+            'foreignKey' => 'tl_news_archive.id',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+        ],
+        'news_archive_name' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+
         'contao_layout_to_update' => [
             'exclude' => true,
             'inputType' => 'checkboxWizard',

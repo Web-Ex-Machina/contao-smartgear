@@ -75,6 +75,14 @@
 				<source>FAQ</source>
 				<target>FAQ</target>
 			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.mixed-events">
+				<source>Events</source>
+				<target>Evènements</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.mixed-blog">
+				<source>Blog</source>
+				<target>Blog</target>
+			</trans-unit>
 
 			<trans-unit id="tl_sm_configuration_item.contao_page.0">
 				<source>contao_page</source>
@@ -116,6 +124,51 @@
 				<source>faq_category_name</source>
 				<target>Nom de la FAQ</target>
 			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_module_list.0">
+				<source>contao_module_list</source>
+				<target>Module Liste</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.module_list_name.0">
+				<source>module_list_name</source>
+				<target>Nom de la liste</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.module_list_perPage.0">
+				<source>module_list_perPage</source>
+				<target>Nombre d'éléments par page de la liste</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_module_reader.0">
+				<source>contao_module_reader</source>
+				<target>Module Lecteur</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.module_reader_name.0">
+				<source>module_reader_name</source>
+				<target>Nom du lecteur</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_module_calendar.0">
+				<source>contao_module_calendar</source>
+				<target>Module Calendrier</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.module_calendar_name.0">
+				<source>module_calendar_name</source>
+				<target>Nom du calendrier</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_calendar.0">
+				<source>contao_calendar</source>
+				<target>Calendrier</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.calendar_name.0">
+				<source>calendar_name</source>
+				<target>Nom du calendrier</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_news_archive.0">
+				<source>contao_news_archive</source>
+				<target>Archive d'actualités</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.news_archive_name.0">
+				<source>news_archive_name</source>
+				<target>Nom de l'archive</target>
+			</trans-unit>
+
 			<trans-unit id="tl_sm_configuration_item.contao_layout_to_update.0">
 				<source>contao_layout_to_update</source>
 				<target>Présentations de page à mettre à jour</target>
@@ -124,6 +177,18 @@
 			<trans-unit id="tl_sm_configuration_item.update_module.0">
 				<source>Overwrite module's configuration</source>
 				<target>Ecraser la configuration du module</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_module_reader.0">
+				<source>Overwrite reader module's configuration</source>
+				<target>Ecraser la configuration du module lecteur</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_module_list.0">
+				<source>Overwrite list module's configuration</source>
+				<target>Ecraser la configuration du module liste</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_module_calendar.0">
+				<source>Overwrite calendar module's configuration</source>
+				<target>Ecraser la configuration du module calendrier</target>
 			</trans-unit>
 			<trans-unit id="tl_sm_configuration_item.update_page.0">
 				<source>Overwrite page's configuration</source>
@@ -136,6 +201,14 @@
 			<trans-unit id="tl_sm_configuration_item.update_faq_category.0">
 				<source>Overwrite FAQ's configuration</source>
 				<target>Ecraser la configuration de la FAQ</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_calendar.0">
+				<source>Overwrite Calendar's configuration</source>
+				<target>Ecraser la configuration du calendrier</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_news_archive.0">
+				<source>Overwrite News archive's configuration</source>
+				<target>Ecraser la configuration du flux d'actualités</target>
 			</trans-unit>
 
 
@@ -163,6 +236,14 @@
       <trans-unit id="tl_sm_configuration_item.faq_category_legend">
         <source>FAQ Category</source>
         <target>Catégorie FAQ</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.calendar_legend">
+        <source>FAQ Category</source>
+        <target>Catégorie FAQ</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.news_legend">
+        <source>Blog</source>
+        <target>Blog</target>
       </trans-unit>
       <trans-unit id="tl_sm_configuration_item.update_legend">
         <source>Update</source>

@@ -158,4 +158,93 @@ class ModuleUtil
         // Return the model
         return self::createModule($pid, $arrData);
     }
+
+    public static function createModuleEventsList(int $pid, int $calendarId, int $moduleReaderId, ?array $arrData = []): ModuleModel
+    {
+        $arrData = array_merge([
+            'name' => 'Events - List',
+            // 'headline' => serialize(['unit' => 'h1', 'value' => $page->title]),
+            'pid' => $pid,
+            'type' => 'eventlist',
+            'cal_calendar' => serialize([$calendarId]),
+            'numberOfItems' => 0,
+            'cal_format' => 'cal_month',
+            'cal_order' => 'descending',
+            'cal_readerModule' => $moduleReaderId,
+            'perPage' => 15,
+            'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+        ], $arrData);
+        // Return the model
+        return self::createModule($pid, $arrData);
+    }
+
+    public static function createModuleEventsReader(int $pid, int $calendarId, ?array $arrData = []): ModuleModel
+    {
+        $arrData = array_merge([
+            'name' => 'Events - Reader',
+            'pid' => $pid,
+            'type' => 'eventreader',
+            'cal_calendar' => serialize([$calendarId]),
+            'imgSize' => serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+        ], $arrData);
+        // Return the model
+        return self::createModule($pid, $arrData);
+    }
+
+    public static function createModuleEventsCalendar(int $pid, int $calendarId, int $moduleReaderId, ?array $arrData = []): ModuleModel
+    {
+        $arrData = array_merge([
+            'name' => 'Events - Calendar',
+            'pid' => $pid,
+            'type' => 'calendar',
+            'cal_calendar' => serialize([$calendarId]),
+            'numberOfItems' => 0,
+            'cal_format' => 'cal_month',
+            'cal_order' => 'descending',
+            'cal_readerModule' => $moduleReaderId,
+            'perPage' => 15,
+            'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+        ], $arrData);
+        // Return the model
+        return self::createModule($pid, $arrData);
+    }
+
+    public static function createModuleBlogList(int $pid, int $newsArchiveId, int $moduleReaderId, ?array $arrData = []): ModuleModel
+    {
+        $arrData = array_merge([
+            'name' => 'Blog - List',
+            // 'headline' => serialize(['value' => $page->title, 'unit' => 'h1']),
+            'type' => 'newslist',
+            'news_archives' => serialize([$newsArchiveId]),
+            'numberOfItems' => 0,
+            'news_readerModule' => $moduleReaderId,
+            'news_order' => 'order_date_desc',
+            'perPage' => 15,
+            'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            'news_featured' => 'all_items',
+            'news_template' => 'news_latest',
+            'skipFirst' => 0,
+            'news_metaFields' => serialize(['date', 'author']),
+            // 'tstamp' => time(),
+            'wem_sg_number_of_characters' => 200,
+        ], $arrData);
+        // Return the model
+        return self::createModule($pid, $arrData);
+    }
+
+    public static function createModuleBlogReader(int $pid, int $newsArchiveId, ?array $arrData = []): ModuleModel
+    {
+        $arrData = array_merge([
+            'name' => 'Blog - Reader',
+            // 'pid' => $config->getSgTheme(),
+            'type' => 'newsreader',
+            'news_archives' => serialize([$newsArchiveId]),
+            'news_metaFields' => serialize(['date', 'author']),
+            'imgSize' => serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            'news_template' => 'news_full',
+            'wem_sg_display_share_buttons' => '1',
+        ], $arrData);
+        // Return the model
+        return self::createModule($pid, $arrData);
+    }
 }
