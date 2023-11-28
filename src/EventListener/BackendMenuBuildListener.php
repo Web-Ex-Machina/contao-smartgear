@@ -80,26 +80,22 @@ class BackendMenuBuildListener
             ->setLinkAttribute('aria-controls', 'wem_extranet')
             ->setChildrenAttribute('id', 'wem_extranet')
             ->setExtra('translation_domain', false)
-
             ->setCurrent('member' === $this->requestStack->getCurrentRequest()->get('do') || 'mgroup' === $this->requestStack->getCurrentRequest()->get('do'))
         ;
 
-        $memberNode = $tree->getChild('accounts')->getChild('member');
-        $memberGroupsNode = $tree->getChild('accounts')->getChild('mgroup');
-
-        $tree->getChild('accounts')->removeChild('member');
-        $tree->getChild('accounts')->removeChild('mgroup');
-
-        $menu->addChild($memberNode);
-        $menu->addChild($memberGroupsNode);
-        $tree->addChild($menu);
-
-        // $children = $tree->getChildren();
-        // unset($children['system']);
-        // $order = array_keys($children);
-        // $order[] = 'system';
-
-        // $tree->reorderChildren($order);
+        if (null !== $tree->getChild('accounts')) {
+            $memberNode = $tree->getChild('accounts')->getChild('member');
+            if ($memberNode) {
+                $tree->getChild('accounts')->removeChild('member');
+                $menu->addChild($memberNode);
+            }
+            $memberGroupsNode = $tree->getChild('accounts')->getChild('mgroup');
+            if ($memberGroupsNode) {
+                $tree->getChild('accounts')->removeChild('mgroup');
+                $menu->addChild($memberGroupsNode);
+            }
+            $tree->addChild($menu);
+        }
 
         return $tree;
     }
