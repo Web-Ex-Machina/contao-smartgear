@@ -144,4 +144,18 @@ class ModuleUtil
         // Return the model
         return self::createModule($pid, $arrData);
     }
+
+    public static function createModuleFaq(int $pid, int $faqCategoryId, ?array $arrData = []): ModuleModel
+    {
+        $arrData = array_merge([
+            'name' => 'FAQ - Reader',
+            'pid' => $pid,
+            'type' => 'faqpage',
+            'faq_categories' => serialize([$faqCategoryId]),
+            'numberOfItems' => 0,
+            'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+        ], $arrData);
+        // Return the model
+        return self::createModule($pid, $arrData);
+    }
 }

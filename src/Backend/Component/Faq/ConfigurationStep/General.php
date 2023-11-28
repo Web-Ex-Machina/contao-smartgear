@@ -30,6 +30,7 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
 use WEM\SmartgearBundle\Classes\Utils\ContentUtil;
+use WEM\SmartgearBundle\Classes\Utils\FaqCategoryUtil;
 use WEM\SmartgearBundle\Classes\Utils\ModuleUtil;
 use WEM\SmartgearBundle\Classes\Utils\PageUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -144,14 +145,15 @@ class General extends ConfigurationStep
 
         $page = PageModel::findById($faqConfig->getSgPage());
 
-        $page = PageUtil::createPage($faqConfig->getSgPageTitle(), 0, array_merge([
-            'pid' => $rootPage->id,
-            'sorting' => PageUtil::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
-            'layout' => $rootPage->layout,
-            'title' => $faqConfig->getSgPageTitle(),
-            'robots' => 'index,follow',
-            'type' => 'regular',
-            'published' => 1,
+        $page = PageUtil::createPageFaq($faqConfig->getSgPageTitle(), (int) $rootPage, array_merge([
+            // $page = PageUtil::createPage($faqConfig->getSgPageTitle(), 0, array_merge([
+            // 'pid' => $rootPage->id,
+            // 'sorting' => PageUtil::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
+            // 'layout' => $rootPage->layout,
+            // 'title' => $faqConfig->getSgPageTitle(),
+            // 'robots' => 'index,follow',
+            // 'type' => 'regular',
+            // 'published' => 1,
         ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setFAQConfigKey('setSgPage', (int) $page->id);
@@ -187,12 +189,13 @@ class General extends ConfigurationStep
         $objUserGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
         $objUserGroupRedactors = UserGroupModel::findOneById($config->getSgUserGroupRedactors());
 
-        $faqCategory = FaqCategoryModel::findById($faqConfig->getSgFaqCategory()) ?? new FaqCategoryModel();
-        $faqCategory->title = $faqConfig->getSgFaqTitle();
-        $faqCategory->jumpTo = $page->id;
-        $faqCategory->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupRedactors->id]);
-        $faqCategory->tstamp = time();
-        $faqCategory->save();
+        $faqCategory = FaqCategoryUtil::createFaqCategory($faqConfig->getSgFaqTitle(), $faqConfig->getSgFaqCategory() ? ['id' => $faqConfig->getSgFaqCategory()] : []);
+        // $faqCategory = FaqCategoryModel::findById($faqConfig->getSgFaqCategory()) ?? new FaqCategoryModel();
+        // $faqCategory->title = $faqConfig->getSgFaqTitle();
+        // $faqCategory->jumpTo = $page->id;
+        // $faqCategory->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupRedactors->id]);
+        // $faqCategory->tstamp = time();
+        // $faqCategory->save();
 
         $this->setFAQConfigKey('setSgFaqCategory', (int) $faqCategory->id);
 
@@ -215,14 +218,15 @@ class General extends ConfigurationStep
             }
         }
 
-        $moduleFaq = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
-            'name' => $page->title.' - Reader',
-            'pid' => $config->getSgTheme(),
-            'type' => 'faqpage',
-            'faq_categories' => serialize([$faqCategory->id]),
-            'numberOfItems' => 0,
-            'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
-            'tstamp' => time(),
+        $moduleFaq = ModuleUtil::createModuleFaq((int) $config->getSgTheme(), (int) $faqCategory->id, array_merge([
+            // $moduleFaq = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+            //     'name' => $page->title.' - Reader',
+            //     'pid' => $config->getSgTheme(),
+            //     'type' => 'faqpage',
+            //     'faq_categories' => serialize([$faqCategory->id]),
+            //     'numberOfItems' => 0,
+            //     'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            //     'tstamp' => time(),
         ],
         null !== $faqConfig->getSgModuleFaq() ? ['id' => $faqConfig->getSgModuleFaq()] : []
         ));

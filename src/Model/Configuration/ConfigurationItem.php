@@ -31,6 +31,28 @@ class ConfigurationItem extends CoreModel
     public const TYPE_MODULE_BREADCRUMB = 'module-breadcrumb';
     public const TYPE_MODULE_WEM_SG_SOCIAL_NETWORKS = 'module-wem-sg-social-networks';
     public const TYPE_MIXED_SITEMAP = 'mixed-sitemap';
+    public const TYPE_MIXED_FAQ = 'mixed-faq';
+    public const TYPES = [
+        'pages' => [
+            self::TYPE_PAGE_LEGAL_NOTICE,
+            self::TYPE_PAGE_PRIVACY_POLITICS,
+            self::TYPE_PAGE_SITEMAP,
+        ],
+        'user_groups' => [
+            self::TYPE_USER_GROUP_ADMINISTRATORS,
+            self::TYPE_USER_GROUP_REDACTORS,
+        ],
+        'modules' => [
+            self::TYPE_MODULE_WEM_SG_HEADER,
+            self::TYPE_MODULE_WEM_SG_FOOTER,
+            self::TYPE_MODULE_BREADCRUMB,
+            self::TYPE_MODULE_WEM_SG_SOCIAL_NETWORKS,
+        ],
+        'mixed' => [
+            self::TYPE_MIXED_SITEMAP,
+            self::TYPE_MIXED_FAQ,
+        ],
+    ];
 
     /**
      * Search fields.

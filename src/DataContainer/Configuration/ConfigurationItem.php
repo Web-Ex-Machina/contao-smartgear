@@ -28,6 +28,7 @@ use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
 use WEM\SmartgearBundle\Classes\Utils\ContentUtil;
+use WEM\SmartgearBundle\Classes\Utils\FaqCategoryUtil;
 use WEM\SmartgearBundle\Classes\Utils\LayoutUtil;
 use WEM\SmartgearBundle\Classes\Utils\ModuleUtil;
 use WEM\SmartgearBundle\Classes\Utils\PageUtil;
@@ -130,6 +131,26 @@ class ConfigurationItem extends Core
                     $arrData['contao_module'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
                 break;
+            case ConfigurationItemModel::TYPE_MIXED_FAQ:
+                if ($objItem->contao_page) {
+                    $objPage = $objItem->getRelated('contao_page');
+                    $arrData['contao_page'] = $objPage ? $objPage->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_page'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                }
+                if ($objItem->contao_module) {
+                    $objModule = $objItem->getRelated('contao_module');
+                    $arrData['contao_module'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_module'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                }
+                if ($objItem->contao_faq_category) {
+                    $objFaqCategory = $objItem->getRelated('contao_faq_category');
+                    $arrData['contao_faq_category'] = $objFaqCategory ? $objFaqCategory->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                } else {
+                    $arrData['contao_faq_category'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
+                }
+                break;
         }
 
         $labels = [];
@@ -188,6 +209,9 @@ class ConfigurationItem extends Core
                 break;
             case ConfigurationItemModel::TYPE_MIXED_SITEMAP:
                 $objItem = $this->manageMixedSitemap($objItem, (bool) Input::post('update_module'), (bool) Input::post('update_page'), $dc);
+                break;
+            case ConfigurationItemModel::TYPE_MIXED_FAQ:
+                $objItem = $this->manageMixedFaq($objItem, (bool) Input::post('update_module'), (bool) Input::post('update_page'), (bool) Input::post('update_faq_category'), $dc);
                 break;
         }
 
@@ -309,6 +333,55 @@ class ConfigurationItem extends Core
             ContentUtil::createContent($objArticle, [
                 'type' => 'module',
                 'module' => $objModuleSitemap->id,
+            ]);
+
+            $objItem->contao_page = $objPage->id;
+        }
+
+        return $objItem;
+    }
+
+    public function managePageFaq(ConfigurationItemModel $objItem, bool $blnForcePageUpdate, DataContainer $dc): ConfigurationItemModel
+    {
+        // create + nothing => nothing
+        // create + page name + no page => create page
+        // create + page name + page => update page
+        // create + no page name + page => nothing
+        // update + nothing => nothing
+        // update + page name + no page => create page
+        // update + page name + page => update IF blnForcePageUpdate
+        // update + no page name + page => nothing
+
+        if (!empty($objItem->page_name)
+        && !empty($objItem->contao_module) // should not be empty, as it must have been created beforehand if left empty in form
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForcePageUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_page))) // create mode or forced update
+        ) {
+            /** @var ConfigurationModel */
+            $objConfiguration = $objItem->getRelated('pid');
+            $objPage = null;
+            if (!empty($objItem->contao_page)) {
+                $objPage = PageModel::findByPk($objItem->contao_page);
+                if ($objPage) {
+                    PageUtil::emptyPage($objItem->contao_page);
+                }
+            }
+
+            $objPage = PageUtil::createPageFaq($objItem->page_name, (int) $objConfiguration->contao_page_root, $objItem->contao_page ? ['id' => $objItem->contao_page] : []);
+
+            $objArticle = ArticleUtil::createArticle($objPage);
+
+            $objModuleFaq = ModuleModel::findByPk($objItem->contao_module);
+            if (!$objModuleFaq) {
+                $objModuleFaq = ModuleUtil::createModuleFaq((int) $objConfiguration->contao_theme, (int) $objConfiguration->contao_faq_category, ['id' => $objItem->contao_module]);
+            }
+
+            ContentUtil::createContent($objArticle, [
+                'headline' => serialize(['unit' => 'h1', 'value' => $objItem->page_name]),
+            ]);
+
+            ContentUtil::createContent($objArticle, [
+                'type' => 'module',
+                'module' => $objModuleFaq->id,
             ]);
 
             $objItem->contao_page = $objPage->id;
@@ -509,11 +582,81 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
+    public function manageModuleFaq(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, DataContainer $dc): ConfigurationItemModel
+    {
+        if (!empty($objItem->module_name)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceModuleUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_module))) // create mode or forced update
+        ) {
+            /** @var ConfigurationModel */
+            $objConfiguration = $objItem->getRelated('pid');
+
+            $objModule = ModuleUtil::createModuleFaq(
+                (int) $objConfiguration->contao_theme,
+                (int) $objConfiguration->contao_faq_category,
+                array_merge(
+                    [
+                        'name' => $objItem->module_name,
+                    ],
+                    $objItem->contao_module ? ['id' => $objItem->contao_module] : []
+                )
+            );
+            $objItem->contao_module = $objModule->id;
+        }
+
+        return $objItem;
+    }
+
+    public function manageFaqCategory(ConfigurationItemModel $objItem, bool $blnForceFaqUpdate, DataContainer $dc): ConfigurationItemModel
+    {
+        if (!empty($objItem->faq_category_name)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceFaqUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_faq_category))) // create mode or forced update
+        ) {
+            /** @var ConfigurationModel */
+            $objConfiguration = $objItem->getRelated('pid');
+
+            // $arrGroups = [];
+
+            // $UGAs = ConfigurationItemModel::findItems(['pid' => $objItem->pid, 'type' => ConfigurationItemModel::TYPE_USER_GROUP_ADMINISTRATORS]);
+            // if ($UGAs) {
+            //     while ($UGAs->next()) {
+            //         $arrGroups[] = $UGAs->id;
+            //     }
+            // }
+            // $UGRs = ConfigurationItemModel::findItems(['pid' => $objItem->pid, 'type' => ConfigurationItemModel::TYPE_USER_GROUP_REDACTORS]);
+            // if ($UGRs) {
+            //     while ($UGRs->next()) {
+            //         $arrGroups[] = $UGRs->id;
+            //     }
+            // }
+
+            $objFaqCategory = FaqCategoryUtil::createFaqCategory(
+                $objItem->faq_category_name,
+                array_merge(
+                    $objItem->contao_page ? ['jumpTo' => $objItem->contao_page] : [],
+                    // !empty($arrGroups) ? ['groups' => serialize($arrGroups)] : [],
+                    $objItem->contao_faq_category ? ['id' => $objItem->contao_faq_category] : []
+                )
+            );
+            $objItem->contao_faq_category = $objFaqCategory->id;
+        }
+
+        return $objItem;
+    }
+
     public function manageMixedSitemap(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, bool $blnForcePageUpdate, DataContainer $dc): ConfigurationItemModel
     {
         $objItem = $this->manageModuleSitemap($objItem, $blnForceModuleUpdate, $dc);
 
         return $this->managePageSitemap($objItem, $blnForcePageUpdate, $dc);
+    }
+
+    public function manageMixedFaq(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, bool $blnForcePageUpdate, bool $blnForceFAQUpdate, DataContainer $dc): ConfigurationItemModel
+    {
+        $objItem = $this->manageModuleFaq($objItem, $blnForceModuleUpdate, $dc);
+
+        $objItem = $this->managePageFaq($objItem, $blnForcePageUpdate, $dc);
+
+        return $this->manageFaqCategory($objItem, $blnForceFAQUpdate, $dc);
     }
 
     public function contentTemplateOptionsCallback(DataContainer $dc): array
@@ -648,6 +791,26 @@ class ConfigurationItem extends Core
             }
         }
 
+        if ($objItem->contao_faq_category) {
+            $objFaqCat = $objItem->getRelated('contao_faq_category');
+            if ($objFaqCat
+            && (int) $objFaqCat->tstamp > (int) $objItem->tstamp
+            ) {
+                Message::addInfo('La FAQ "'.$objFaqCat->name.'" a été mise à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+            }
+            if (0 !== (int) $objItem->tstamp) {
+                $dcaManipulator
+                    ->addField('update_faq_category', [
+                        'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_faq_category'],
+                        'inputType' => 'checkbox',
+                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
+                    ])
+                ;
+                $addFields = true;
+            }
+        }
+
         $paletteManipulator = PaletteManipulator::create();
         if ($addFields) {
             $paletteManipulator->addLegend('update_legend');
@@ -659,6 +822,9 @@ class ConfigurationItem extends Core
             }
             if ($dcaManipulator->hasField('update_user_group')) {
                 $paletteManipulator->addField('update_user_group', 'update_legend');
+            }
+            if ($dcaManipulator->hasField('update_faq_category')) {
+                $paletteManipulator->addField('update_faq_category', 'update_legend');
             }
             $paletteManipulator->applyToPalette('default', ConfigurationItemModel::getTable());
         }

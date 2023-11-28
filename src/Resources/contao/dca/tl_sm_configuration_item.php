@@ -87,16 +87,17 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
 
     // Subpalettes
     'subpalettes' => [
-        'type_page-legal-notice' => 'contao_page,page_name,content_template',
-        'type_page-privacy-politics' => 'contao_page,page_name,content_template',
-        'type_page-sitemap' => 'contao_page,page_name,contao_module',
-        'type_user-group-administrators' => 'contao_user_group,user_group_name',
-        'type_user-group-redactors' => 'contao_user_group,user_group_name',
-        'type_module-wem-sg-header' => 'contao_module,module_name,singleSRC,contao_layout_to_update',
-        'type_module-wem-sg-footer' => 'contao_module,module_name,content_template,contao_layout_to_update',
-        'type_module-breadcrumb' => 'contao_module,module_name,contao_layout_to_update',
-        'type_module-wem-sg-social-networks' => 'contao_module,module_name',
-        'type_mixed-sitemap' => 'contao_module,module_name,contao_page,page_name',
+        'type_page-legal-notice' => ';{page_legend},contao_page,page_name;{content_legend},content_template',
+        'type_page-privacy-politics' => ';{page_legend},contao_page,page_name;{content_legend},content_template',
+        'type_page-sitemap' => ';{page_legend},contao_page,page_name;{module_legend},contao_module',
+        'type_user-group-administrators' => ';{user_group_legend},contao_user_group,user_group_name',
+        'type_user-group-redactors' => ';{user_group_legend},contao_user_group,user_group_name',
+        'type_module-wem-sg-header' => ';{module_legend},contao_module,module_name;singleSRC,contao_layout_to_update',
+        'type_module-wem-sg-footer' => ';{module_legend},contao_module,module_name;{content_legend},content_template,contao_layout_to_update',
+        'type_module-breadcrumb' => ';{module_legend},contao_module,module_name;contao_layout_to_update',
+        'type_module-wem-sg-social-networks' => ';{module_legend},contao_module,module_name',
+        'type_mixed-sitemap' => ';{module_legend},contao_module,module_name;{page_legend},contao_page,page_name',
+        'type_mixed-faq' => ';{module_legend},contao_module,module_name;{page_legend},contao_page,page_name;{faq_category_legend},contao_faq_category,faq_category_name',
     ],
 
     // Fields
@@ -120,30 +121,9 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'exclude' => true,
             'search' => true,
             'inputType' => 'select',
-            'options' => [
-                '-',
-                'pages' => [
-                    ConfigurationItem::TYPE_PAGE_LEGAL_NOTICE,
-                    ConfigurationItem::TYPE_PAGE_PRIVACY_POLITICS,
-                    ConfigurationItem::TYPE_PAGE_SITEMAP,
-                ],
-                'user_groups' => [
-                    ConfigurationItem::TYPE_USER_GROUP_ADMINISTRATORS,
-                    ConfigurationItem::TYPE_USER_GROUP_REDACTORS,
-                ],
-                'modules' => [
-                    ConfigurationItem::TYPE_MODULE_WEM_SG_HEADER,
-                    ConfigurationItem::TYPE_MODULE_WEM_SG_FOOTER,
-                    ConfigurationItem::TYPE_MODULE_BREADCRUMB,
-                    ConfigurationItem::TYPE_MODULE_WEM_SG_SOCIAL_NETWORKS,
-                ],
-                'mixed' => [
-                    ConfigurationItem::TYPE_MIXED_SITEMAP,
-                ],
-            ],
-
+            'options' => ConfigurationItem::TYPES,
             'reference' => &$GLOBALS['TL_LANG']['tl_sm_configuration_item']['type'],
-            'eval' => ['submitOnChange' => true, 'mandatory' => true, 'chosen' => true, 'tl_class' => 'w50'],
+            'eval' => ['submitOnChange' => true, 'includeBlankOption' => true, 'mandatory' => true, 'chosen' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
         'contao_page' => [
@@ -169,7 +149,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'inputType' => 'select',
             'options_callback' => ['smartgear.data_container.configuration.configuration_item', 'contaoModuleOptionsCallback'],
             'foreignKey' => 'tl_module.name',
-            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50 wizard'],
+            'eval' => ['mandatory' => false, 'includeBlankOption' => true, 'maxlength' => 255, 'tl_class' => 'w50 wizard'],
             'sql' => 'int(10) NOT NULL default 0',
             'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
             'wizard' => [[\WEM\SmartgearBundle\DataContainer\Content::class, 'editModule']],
@@ -205,6 +185,22 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
         ],
         'user_group_name' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'contao_faq_category' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'picker',
+            'foreignKey' => 'tl_faq_category.id',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => 'int(10) NOT NULL default 0',
+            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+        ],
+        'faq_category_name' => [
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',

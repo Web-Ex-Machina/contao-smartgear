@@ -71,6 +71,10 @@
 				<source>Sitemap (page + module)</source>
 				<target>Plan du site (page + module)</target>
 			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.mixed-faq">
+				<source>FAQ</source>
+				<target>FAQ</target>
+			</trans-unit>
 
 			<trans-unit id="tl_sm_configuration_item.contao_page.0">
 				<source>contao_page</source>
@@ -104,6 +108,14 @@
 				<source>user_group_name</source>
 				<target>Nom du groupe</target>
 			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_faq_category.0">
+				<source>contao_faq_category</source>
+				<target>FAQ</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.faq_category_name.0">
+				<source>faq_category_name</source>
+				<target>Nom de la FAQ</target>
+			</trans-unit>
 			<trans-unit id="tl_sm_configuration_item.contao_layout_to_update.0">
 				<source>contao_layout_to_update</source>
 				<target>Présentations de page à mettre à jour</target>
@@ -119,12 +131,38 @@
 			</trans-unit>
 			<trans-unit id="tl_sm_configuration_item.update_user_group.0">
 				<source>Overwrite user group's configuration</source>
-				<target>Ecraser la configuration dugroupe d'utilisateur</target>
+				<target>Ecraser la configuration du groupe d'utilisateurs</target>
 			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_faq_category.0">
+				<source>Overwrite FAQ's configuration</source>
+				<target>Ecraser la configuration de la FAQ</target>
+			</trans-unit>
+
+
 
       <trans-unit id="tl_sm_configuration_item.title_legend">
         <source>Title</source>
         <target>Titre</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.page_legend">
+        <source>Page</source>
+        <target>Page</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.module_legend">
+        <source>Module</source>
+        <target>Module</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.content_legend">
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.user_group_legend">
+        <source>User group</source>
+        <target>Groupe d'utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.faq_category_legend">
+        <source>FAQ Category</source>
+        <target>Catégorie FAQ</target>
       </trans-unit>
       <trans-unit id="tl_sm_configuration_item.update_legend">
         <source>Update</source>

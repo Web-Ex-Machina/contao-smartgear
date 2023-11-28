@@ -163,6 +163,19 @@ class PageUtil
         return self::createPage($strTitle, $pid, $arrData);
     }
 
+    public static function createPageFaq(string $strTitle, int $pid, ?array $arrData = []): PageModel
+    {
+        $arrData = array_merge([
+            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            // 'sitemap' => 'map_default',
+            'robots' => 'index,follow',
+            'type' => 'regular',
+            'published' => 1,
+        ], $arrData);
+
+        return self::createPage($strTitle, $pid, $arrData);
+    }
+
     /**
      * Shortcut for page w/ modules creations.
      */
