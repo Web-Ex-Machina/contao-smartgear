@@ -31,6 +31,7 @@ use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
 use WEM\SmartgearBundle\Classes\Utils\ContentUtil;
 use WEM\SmartgearBundle\Classes\Utils\ModuleUtil;
+use WEM\SmartgearBundle\Classes\Utils\NewsArchiveUtil;
 use WEM\SmartgearBundle\Classes\Utils\PageUtil;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Blog\Preset as BlogPresetConfig;
@@ -219,14 +220,15 @@ class General extends ConfigurationStep
 
         $page = PageModel::findById($blogConfig->getSgPage());
 
-        $page = PageUtil::createPage($presetConfig->getSgPageTitle(), 0, array_merge([
-            'pid' => $rootPage->id,
-            'sorting' => PageUtil::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
-            'layout' => $rootPage->layout,
-            'title' => $presetConfig->getSgPageTitle(),
-            'robots' => 'index,follow',
-            'type' => 'regular',
-            'published' => 1,
+        $page = PageUtil::createPageBlog($presetConfig->getSgPageTitle(), (int) $rootPage->id, array_merge([
+            // $page = PageUtil::createPage($presetConfig->getSgPageTitle(), 0, array_merge([
+            //     'pid' => $rootPage->id,
+            //     'sorting' => PageUtil::getNextAvailablePageSortingByParentPage((int) $rootPage->id),
+            //     'layout' => $rootPage->layout,
+            // 'title' => $presetConfig->getSgPageTitle(),
+            // 'robots' => 'index,follow',
+            // 'type' => 'regular',
+            // 'published' => 1,
             'description' => $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.pageDescription', [$presetConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
         ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
@@ -265,12 +267,16 @@ class General extends ConfigurationStep
         $objUserGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
         $objUserGroupRedactors = UserGroupModel::findOneById($config->getSgUserGroupRedactors());
 
-        $newsArchive = NewsArchiveModel::findById($blogConfig->getSgNewsArchive()) ?? new NewsArchiveModel();
-        $newsArchive->title = $presetConfig->getSgNewsArchiveTitle();
-        $newsArchive->jumpTo = $page->id;
-        $newsArchive->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupRedactors->id]);
-        $newsArchive->tstamp = time();
-        $newsArchive->save();
+        $newsArchive = NewsArchiveUtil::createNewsArchive($presetConfig->getSgNewsArchiveTitle(), (int) $page->id, array_merge(
+            $blogConfig->getSgNewsArchive() ? ['id' => $blogConfig->getSgNewsArchive()] : [],
+            ['groups' => serialize([$objUserGroupAdministrators->id, $objUserGroupRedactors->id])]
+        ));
+        // $newsArchive = NewsArchiveModel::findById($blogConfig->getSgNewsArchive()) ?? new NewsArchiveModel();
+        // $newsArchive->title = $presetConfig->getSgNewsArchiveTitle();
+        // $newsArchive->jumpTo = $page->id;
+        // $newsArchive->groups = serialize([$objUserGroupAdministrators->id, $objUserGroupRedactors->id]);
+        // $newsArchive->tstamp = time();
+        // $newsArchive->save();
 
         $this->setBlogConfigKey('setSgNewsArchive', (int) $newsArchive->id);
 
@@ -296,15 +302,16 @@ class General extends ConfigurationStep
             // $moduleReader->id = $blogConfig->getSgModuleReader();
         }
 
-        $moduleReader = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
-            'name' => $page->title.' - Reader',
-            'pid' => $config->getSgTheme(),
-            'type' => 'newsreader',
-            'news_archives' => serialize([$newsArchive->id]),
-            'news_metaFields' => serialize(['date', 'author']),
-            'imgSize' => serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
-            'news_template' => 'news_full',
-            'wem_sg_display_share_buttons' => '1',
+        $moduleReader = ModuleUtil::createModuleBlogReader((int) $config->getSgTheme(), (int) $newsArchive->id, array_merge([
+            // $moduleReader = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+            //     'name' => $page->title.' - Reader',
+            //     'pid' => $config->getSgTheme(),
+            //     'type' => 'newsreader',
+            //     'news_archives' => serialize([$newsArchive->id]),
+            //     'news_metaFields' => serialize(['date', 'author']),
+            //     'imgSize' => serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            //     'news_template' => 'news_full',
+            //     'wem_sg_display_share_buttons' => '1',
         ], null !== $blogConfig->getSgModuleReader() ? ['id' => $blogConfig->getSgModuleReader()] : []));
 
         $this->setBlogConfigKey('setSgModuleReader', (int) $moduleReader->id);
@@ -317,22 +324,23 @@ class General extends ConfigurationStep
             // $moduleList->id = $blogConfig->getSgModuleList();
         }
 
-        $moduleList = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
-            'name' => $page->title.' - List',
-            'headline' => serialize(['value' => $page->title, 'unit' => 'h1']),
-            'type' => 'newslist',
-            'news_archives' => serialize([$newsArchive->id]),
-            'numberOfItems' => 0,
-            'news_readerModule' => $moduleReader->id,
-            'news_order' => 'order_date_desc',
-            'perPage' => $presetConfig->getSgNewsListPerPage(),
-            'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
-            'news_featured' => 'all_items',
-            'news_template' => 'news_latest',
-            'skipFirst' => 0,
-            'news_metaFields' => serialize(['date', 'author']),
-            'tstamp' => time(),
-            'wem_sg_number_of_characters' => 200,
+        $moduleList = ModuleUtil::createModuleBlogList((int) $config->getSgTheme(), (int) $newsArchive->id, (int) $moduleReader->id, array_merge([
+            // $moduleList = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+            //     'name' => $page->title.' - List',
+            //     'headline' => serialize(['value' => $page->title, 'unit' => 'h1']),
+            //     'type' => 'newslist',
+            //     'news_archives' => serialize([$newsArchive->id]),
+            //     'numberOfItems' => 0,
+            //     'news_readerModule' => $moduleReader->id,
+            //     'news_order' => 'order_date_desc',
+            //     'perPage' => $presetConfig->getSgNewsListPerPage(),
+            //     'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            //     'news_featured' => 'all_items',
+            //     'news_template' => 'news_latest',
+            //     'skipFirst' => 0,
+            //     'news_metaFields' => serialize(['date', 'author']),
+            //     'tstamp' => time(),
+            //     'wem_sg_number_of_characters' => 200,
         ], null !== $blogConfig->getSgModuleList() ? ['id' => $blogConfig->getSgModuleList()] : []));
 
         $this->setBlogConfigKey('setSgModuleList', (int) $moduleList->id);
