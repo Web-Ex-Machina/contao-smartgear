@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.26 - 2023-11-28
+- Smartgear : fixed backend menu alteration which could lead in an error
+
 1.0.25 - 2023-11-20
 - Smartgear : added a way to lock an install (only available when editing configuration thanks to dedicated form)
 - Smartgear : fixed first sentence in `form_warning_message.html5`
