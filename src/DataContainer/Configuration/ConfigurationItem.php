@@ -318,7 +318,26 @@ class ConfigurationItem extends Core
                 break;
         }
 
+        if ((bool) Input::post('update_user_group_permission')) {
+            $this->updateAddUserGroupSettingsAccordingToConfiguration($objItem, $dc);
+        }
+
         $objItem->save();
+    }
+
+    public function updateAddUserGroupSettingsAccordingToConfiguration(ConfigurationItemModel $objItem, DataContainer $dc): void
+    {
+        /** @var ConfigurationModel */
+        // $objConfiguration = $objItem->getRelated('pid');
+
+        $subConfigurationItems = ConfigurationItemModel::findItems(['pid' => $objItem->pid, 'type' => ConfigurationItemModel::TYPES_USER_GROUP]);
+        if ($subConfigurationItems) {
+            while ($subConfigurationItems->next()) {
+                if ($objUserGroup = $subConfigurationItems->getRelated('contao_user_group')) {
+                    UserGroupUtil::updateAddUserGroupSettingsAccordingToConfigurationItem($objUserGroup, $objItem);
+                }
+            }
+        }
     }
 
     public function managePageLegalNotice(ConfigurationItemModel $objItem, bool $blnForcePageUpdate, DataContainer $dc): ConfigurationItemModel
@@ -801,6 +820,8 @@ class ConfigurationItem extends Core
             $objUserGroup = UserGroupUtil::createUserGroupAdministrators($objItem->user_group_name, $objItem->contao_user_group ? ['id' => $objItem->contao_user_group] : []);
 
             $objItem->contao_user_group = $objUserGroup->id;
+
+            UserGroupUtil::updateAddUserGroupSettingsAccordingToConfiguration($objUserGroup, $objItem->getRelated('pid'));
         }
 
         return $objItem;
@@ -812,7 +833,10 @@ class ConfigurationItem extends Core
         && (0 === (int) $dc->activeRecord->tstamp || $blnForceUserGroupUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_user_group))) // create mode or forced update
         ) {
             $objUserGroup = UserGroupUtil::createUserGroupRedactors($objItem->user_group_name, $objItem->contao_user_group ? ['id' => $objItem->contao_user_group] : []);
+
             $objItem->contao_user_group = $objUserGroup->id;
+
+            UserGroupUtil::updateAddUserGroupSettingsAccordingToConfiguration($objUserGroup, $objItem->getRelated('pid'));
         }
 
         return $objItem;
@@ -1563,7 +1587,7 @@ class ConfigurationItem extends Core
             if ($objPage
             && (int) $objPage->tstamp > (int) $objItem->tstamp
             ) {
-                Message::addInfo('La page "'.$objPage->title.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+                Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_page_updated_outside_sg_configuration'], $objPage->title, $objPage->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
@@ -1583,7 +1607,7 @@ class ConfigurationItem extends Core
             if ($objPage
             && (int) $objPage->tstamp > (int) $objItem->tstamp
             ) {
-                Message::addInfo('La page "'.$objPage->title.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+                Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_page_form_updated_outside_sg_configuration'], $objPage->title, $objPage->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
@@ -1603,7 +1627,7 @@ class ConfigurationItem extends Core
             if ($objPage
             && (int) $objPage->tstamp > (int) $objItem->tstamp
             ) {
-                Message::addInfo('La page "'.$objPage->title.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+                Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_page_form_sent_updated_outside_sg_configuration'], $objPage->title, $objPage->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
@@ -1623,7 +1647,7 @@ class ConfigurationItem extends Core
             if ($objModule
             && (int) $objModule->tstamp > (int) $objItem->tstamp
             ) {
-                Message::addInfo('Le module "'.$objModule->name.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+                Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_module_updated_outside_sg_configuration'], $objModule->name, $objModule->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
@@ -1643,7 +1667,7 @@ class ConfigurationItem extends Core
             if ($objModule
             && (int) $objModule->tstamp > (int) $objItem->tstamp
             ) {
-                Message::addInfo('Le module liste "'.$objModule->name.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+                Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_module_list_updated_outside_sg_configuration'], $objModule->name, $objModule->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
@@ -1663,7 +1687,7 @@ class ConfigurationItem extends Core
             if ($objModule
             && (int) $objModule->tstamp > (int) $objItem->tstamp
             ) {
-                Message::addInfo('Le module lecteur "'.$objModule->name.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+                Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_module_reader_updated_outside_sg_configuration'], $objModule->name, $objModule->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
@@ -1683,7 +1707,7 @@ class ConfigurationItem extends Core
             if ($objModule
             && (int) $objModule->tstamp > (int) $objItem->tstamp
             ) {
-                Message::addInfo('Le module calendrier "'.$objModule->name.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+                Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_module_calendar_updated_outside_sg_configuration'], $objModule->name, $objModule->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
@@ -1703,7 +1727,7 @@ class ConfigurationItem extends Core
             if ($objUserGroup
             && (int) $objUserGroup->tstamp > (int) $objItem->tstamp
             ) {
-                Message::addInfo('Le groupe d\'utilisateurs "'.$objUserGroup->name.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+                Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_user_group_updated_outside_sg_configuration'], $objUserGroup->name, $objUserGroup->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
@@ -1723,7 +1747,7 @@ class ConfigurationItem extends Core
             if ($objFaqCat
             && (int) $objFaqCat->tstamp > (int) $objItem->tstamp
             ) {
-                Message::addInfo('La FAQ "'.$objFaqCat->name.'" a été mise à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+                Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_faq_category_updated_outside_sg_configuration'], $objFaqCat->name, $objFaqCat->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
@@ -1743,7 +1767,7 @@ class ConfigurationItem extends Core
             if ($objCal
             && (int) $objCal->tstamp > (int) $objItem->tstamp
             ) {
-                Message::addInfo('Le calendrier "'.$objCal->title.'" a été mise à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+                Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_calendar_updated_outside_sg_configuration'], $objCal->name, $objCal->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
@@ -1763,7 +1787,7 @@ class ConfigurationItem extends Core
             if ($objNewsArch
             && (int) $objNewsArch->tstamp > (int) $objItem->tstamp
             ) {
-                Message::addInfo('L\'archive d\'actualités "'.$objNewsArch->title.'" a été mise à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+                Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_news_archive_updated_outside_sg_configuration'], $objNewsArch->title, $objNewsArch->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
@@ -1783,7 +1807,7 @@ class ConfigurationItem extends Core
             if ($objForm
             && (int) $objForm->tstamp > (int) $objItem->tstamp
             ) {
-                Message::addInfo('Le formulaire "'.$objForm->title.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+                Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_form_updated_outside_sg_configuration'], $objForm->title, $objForm->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
@@ -1803,7 +1827,7 @@ class ConfigurationItem extends Core
             if ($objNcNotif
             && (int) $objNcNotif->tstamp > (int) $objItem->tstamp
             ) {
-                Message::addInfo('La notification "'.$objNcNotif->title.'" a été mise à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+                Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_notification_updated_outside_sg_configuration'], $objNcNotif->title, $objNcNotif->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
@@ -1816,6 +1840,20 @@ class ConfigurationItem extends Core
                 ;
                 $addFields = true;
             }
+        }
+
+        if (\in_array($objItem->type, array_merge(ConfigurationItemModel::TYPES_MIXED, ConfigurationItemModel::TYPES_PAGE, ConfigurationItemModel::TYPES_MODULE), true)
+        && 0 < ConfigurationItemModel::countItems(['pid' => $objItem->pid, 'type' => ConfigurationItemModel::TYPES_USER_GROUP])
+        ) {
+            $dcaManipulator
+                ->addField('update_user_group_permission', [
+                    'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_user_group_permission'],
+                    'inputType' => 'checkbox',
+                    'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                    'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
+                ])
+            ;
+            $addFields = true;
         }
 
         $paletteManipulator = PaletteManipulator::create();
@@ -1859,6 +1897,9 @@ class ConfigurationItem extends Core
             }
             if ($dcaManipulator->hasField('update_notification')) {
                 $paletteManipulator->addField('update_notification', 'update_legend');
+            }
+            if ($dcaManipulator->hasField('update_user_group_permission')) {
+                $paletteManipulator->addField('update_user_group_permission', 'update_legend');
             }
             $paletteManipulator->applyToPalette('default', ConfigurationItemModel::getTable());
         }

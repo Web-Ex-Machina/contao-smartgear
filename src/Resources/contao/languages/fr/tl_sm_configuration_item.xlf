@@ -267,6 +267,60 @@
 				<source>Overwrite Notification's configuration</source>
 				<target>Ecraser la configuration de la notification</target>
 			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_user_group_permission.0">
+				<source>Overwrite user(s) group(s) permissions</source>
+				<target>Mettre à jour les permissions des groupes utilisateurs</target>
+			</trans-unit>
+
+
+			<trans-unit id="tl_sm_configuration_item.contao_page_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>La page "%s" (ID "%s") a été mise à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_page_form_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>La page "%s" (ID "%s") a été mise à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_page_form_sent_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>La page "%s" (ID "%s") a été mise à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_module_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>Le module "%s" (ID "%s") a été mis à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_module_reader_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>Le module "%s" (ID "%s") a été mis à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_module_list_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>Le module "%s" (ID "%s") a été mis à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_module_calendar_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>Le module "%s" (ID "%s") a été mis à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_user_group_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>Le groupe d'utilisateurs "%s" (ID "%s") a été mis à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_faq_category_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>La FAQ "%s" (ID "%s") a été mise à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_calendar_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>Le calendrier "%s" (ID "%s") a été mis à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_news_archive_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>L'archive d'actualités "%s" (ID "%s") a été mis à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_notification_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>La notification "%s" (ID "%s") a été mis à jour depuis le %s</target>
+			</trans-unit>
 
 
 

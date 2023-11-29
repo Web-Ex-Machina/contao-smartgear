@@ -14,8 +14,12 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Utils;
 
+use Contao\ImageSizeModel;
 use Contao\UserGroupModel;
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
+use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Model\Configuration\Configuration;
+use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
 class UserGroupUtil
 {
@@ -328,5 +332,471 @@ class UserGroupUtil
             157 => 'tl_article::styleManager',
             158 => 'tl_content::styleManager',
         ];
+    }
+
+    public static function updateAddUserGroupSettingsAccordingToConfiguration(UserGroupModel $objUserGroup, Configuration $objConfiguration): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+
+        if ($objConfiguration->contao_module_sitemap) {
+            $userGroupManipulator
+                ->addAllowedModules([$objConfiguration->contao_module_sitemap])
+            ;
+        }
+        if ($objConfiguration->contao_page_root) {
+            $userGroupManipulator
+                ->addAllowedPagemounts([$objConfiguration->contao_page_root])
+            ;
+        }
+        if ($objConfiguration->contao_page_404) {
+            $userGroupManipulator
+                ->addAllowedPagemounts([$objConfiguration->contao_page_404])
+            ;
+        }
+        if ($objConfiguration->contao_page_home) {
+            $userGroupManipulator
+                ->addAllowedPagemounts([$objConfiguration->contao_page_home])
+            ;
+        }
+        Util::log(__METHOD__);
+        Util::log('$objConfiguration->contao_theme : '.$objConfiguration->contao_theme);
+        if ($objConfiguration->contao_theme) {
+            $imageSizes = ImageSizeModel::findBy('pid', $objConfiguration->contao_theme);
+            if ($imageSizes) {
+                while ($imageSizes->next()) {
+                    Util::log($imageSizes->id);
+                    $userGroupManipulator
+                        ->addAllowedImageSizes([$imageSizes->id])
+                    ;
+                }
+            }
+        }
+
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->newp = serialize(['create', 'delete']);
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateAddUserGroupSettingsAccordingToConfigurationItem(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        switch ($objConfigurationItem->type) {
+            case ConfigurationItem::TYPE_PAGE_SITEMAP:
+                $objUserGroup = self::updateAddUserGroupSettingsPageSitemap($objUserGroup, $objConfigurationItem);
+            break;
+            case ConfigurationItem::TYPE_PAGE_LEGAL_NOTICE:
+                $objUserGroup = self::updateAddUserGroupSettingsPageLegalNotice($objUserGroup, $objConfigurationItem);
+            break;
+            case ConfigurationItem::TYPE_PAGE_PRIVACY_POLITICS:
+                $objUserGroup = self::updateAddUserGroupSettingsPagePrivacyPolitics($objUserGroup, $objConfigurationItem);
+            break;
+            case ConfigurationItem::TYPE_MODULE_BREADCRUMB:
+                $objUserGroup = self::updateAddUserGroupSettingsModuleBreadcrumb($objUserGroup, $objConfigurationItem);
+            break;
+            case ConfigurationItem::TYPE_MODULE_WEM_SG_HEADER:
+                $objUserGroup = self::updateAddUserGroupSettingsModuleWemSgHeader($objUserGroup, $objConfigurationItem);
+            break;
+            case ConfigurationItem::TYPE_MODULE_WEM_SG_FOOTER:
+                $objUserGroup = self::updateAddUserGroupSettingsModuleWemSgFooter($objUserGroup, $objConfigurationItem);
+            break;
+            case ConfigurationItem::TYPE_MODULE_WEM_SG_SOCIAL_NETWORKS:
+                $objUserGroup = self::updateAddUserGroupSettingsModuleWemSgSocialNetworks($objUserGroup, $objConfigurationItem);
+            break;
+            case ConfigurationItem::TYPE_MIXED_SITEMAP:
+                $objUserGroup = self::updateAddUserGroupSettingsSitemap($objUserGroup, $objConfigurationItem);
+            break;
+            case ConfigurationItem::TYPE_MIXED_BLOG:
+                $objUserGroup = self::updateAddUserGroupSettingsBlog($objUserGroup, $objConfigurationItem);
+            break;
+            case ConfigurationItem::TYPE_MIXED_EVENTS:
+                $objUserGroup = self::updateAddUserGroupSettingsEvents($objUserGroup, $objConfigurationItem);
+            break;
+            case ConfigurationItem::TYPE_MIXED_FAQ:
+                $objUserGroup = self::updateAddUserGroupSettingsFaq($objUserGroup, $objConfigurationItem);
+            break;
+            case ConfigurationItem::TYPE_MIXED_FORM_CONTACT:
+                $objUserGroup = self::updateAddUserGroupSettingsFormContact($objUserGroup, $objConfigurationItem);
+            break;
+        }
+
+        return $objUserGroup;
+    }
+
+    public static function updateAddUserGroupSettingsPageSitemap(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedPagemounts([$objConfigurationItem->contao_page])
+        ;
+
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateAddUserGroupSettingsPageLegalNotice(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedPagemounts([$objConfigurationItem->contao_page])
+        ;
+
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateAddUserGroupSettingsPagePrivacyPolitics(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedPagemounts([$objConfigurationItem->contao_page])
+        ;
+
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateAddUserGroupSettingsModuleBreadcrumb(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedModules([$objConfigurationItem->contao_module])
+        ;
+
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateAddUserGroupSettingsModuleWemSgHeader(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedModules([$objConfigurationItem->contao_module])
+        ;
+
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateAddUserGroupSettingsModuleWemSgFooter(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedModules([$objConfigurationItem->contao_module])
+        ;
+
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateAddUserGroupSettingsModuleWemSgSocialNetworks(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedModules([$objConfigurationItem->contao_module])
+        ;
+
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateAddUserGroupSettingsSitemap(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedPagemounts([$objConfigurationItem->contao_page])
+        ;
+
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateAddUserGroupSettingsBlog(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedModules(['news'])
+            ->addAllowedNewsArchive([$objConfigurationItem->contao_news_archive])
+            // ->addAllowedFilemounts([$objFolder->uuid])
+            ->addAllowedFieldsByTables(['tl_news'])
+            ->addAllowedPagemounts($objConfigurationItem->contao_page)
+        ;
+
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->newp = serialize(['create', 'delete']);
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateAddUserGroupSettingsEvents(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedModules(['calendar'])
+            ->addAllowedCalendar([$objConfigurationItem->contao_calendar])
+            // ->addAllowedFilemounts([$objFolder->uuid])
+            ->addAllowedFieldsByTables(['tl_calendar_events'])
+            ->addAllowedPagemounts($objConfigurationItem->contao_page)
+        ;
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->calendarp = serialize(['create', 'delete']);
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateAddUserGroupSettingsFaq(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedModules(['faq'])
+            ->addAllowedFaq([$objConfigurationItem->contao_faq_category])
+            // ->addAllowedFilemounts([$objFolder->uuid])
+            ->addAllowedFieldsByTables(['tl_faq'])
+            ->addAllowedPagemounts($objConfigurationItem->contao_page)
+            // ->addAllowedModules(Module::getTypesByIds($faqConfig->getContaoModulesIds()))
+        ;
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->faqp = serialize(['create', 'delete']);
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateAddUserGroupSettingsFormContact(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+        $userGroupManipulator
+            ->addAllowedModules(['form'])
+            ->addAllowedForms([$objConfigurationItem->contao_form])
+            ->addAllowedFormFields(['text', 'textarea', 'captcha', 'submit'])
+            ->addAllowedFieldsByTables(['tl_form', 'tl_form_field'])
+            ->addAllowedPagemounts([$objConfigurationItem->contao_page_form, $objConfigurationItem->contao_page_form_sent])
+        ;
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->formp = serialize(['create', 'delete']);
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateRemoveUserGroupSettingsAccordingToConfigurationItem(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $objUserGroup = self::updateRemoveUserGroupSettingsCommon($objUserGroup, $objConfigurationItem);
+        switch ($objConfigurationItem->type) {
+            case ConfigurationItem::TYPE_MIXED_BLOG:
+                $objUserGroup = self::updateRemoveUserGroupSettingsBlog($objUserGroup, $objConfigurationItem);
+            break;
+            case ConfigurationItem::TYPE_MIXED_EVENTS:
+                $objUserGroup = self::updateRemoveUserGroupSettingsEvents($objUserGroup, $objConfigurationItem);
+            break;
+            case ConfigurationItem::TYPE_MIXED_FAQ:
+                $objUserGroup = self::updateRemoveUserGroupSettingsFaq($objUserGroup, $objConfigurationItem);
+            break;
+            case ConfigurationItem::TYPE_MIXED_FORM_CONTACT:
+                $objUserGroup = self::updateRemoveUserGroupSettingsFormContact($objUserGroup, $objConfigurationItem);
+            break;
+        }
+
+        return $objUserGroup;
+    }
+
+    public static function updateRemoveUserGroupSettingsBlog(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        // $objUserGroup->newp = serialize(['create', 'delete']); // remove those rights ?
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateRemoveUserGroupSettingsEvents(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        // $objUserGroup->calendarp = serialize(['create', 'delete']); // remove those rights ?
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateRemoveUserGroupSettingsFaq(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        // $objUserGroup->faqp = serialize(['create', 'delete']); // remove those rights ?
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateRemoveUserGroupSettingsFormContact(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        // $objUserGroup->formp = serialize(['create', 'delete']); // remove those rights ?
+        $objUserGroup->save();
+
+        return $objUserGroup;
+    }
+
+    public static function updateRemoveUserGroupSettingsCommon(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
+    {
+        $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
+
+        // PAGES
+        $nbOtherItemSameProperty = ConfigurationItem::countItems([
+            'not_id' => $objConfigurationItem->id,
+            // 'pid' => $objConfigurationItem->pid,
+            'contao_page' => $objConfigurationItem->contao_page,
+        ]);
+        if (0 === $nbOtherItemSameProperty) {
+            $userGroupManipulator
+                ->removeAllowedPagemounts([$objConfigurationItem->contao_page])
+            ;
+        }
+        $nbOtherItemSameProperty = ConfigurationItem::countItems([
+            'not_id' => $objConfigurationItem->id,
+            // 'pid' => $objConfigurationItem->pid,
+            'contao_page_form' => $objConfigurationItem->contao_page_form,
+        ]);
+        if (0 === $nbOtherItemSameProperty) {
+            $userGroupManipulator
+                ->removeAllowedPagemounts([$objConfigurationItem->contao_page_form])
+            ;
+        }
+        $nbOtherItemSameProperty = ConfigurationItem::countItems([
+            'not_id' => $objConfigurationItem->id,
+            // 'pid' => $objConfigurationItem->pid,
+            'contao_page_form_sent' => $objConfigurationItem->contao_page_form_sent,
+        ]);
+        if (0 === $nbOtherItemSameProperty) {
+            $userGroupManipulator
+                ->removeAllowedPagemounts([$objConfigurationItem->contao_page_form_sent])
+            ;
+        }
+
+        // MODULES
+        $nbOtherItemSameProperty = ConfigurationItem::countItems([
+            'not_id' => $objConfigurationItem->id,
+            // 'pid' => $objConfigurationItem->pid,
+            'contao_module' => $objConfigurationItem->contao_module,
+        ]);
+        if (0 === $nbOtherItemSameProperty) {
+            $userGroupManipulator
+                ->removeAllowedModules([$objConfigurationItem->contao_module])
+            ;
+        }
+        $nbOtherItemSameProperty = ConfigurationItem::countItems([
+            'not_id' => $objConfigurationItem->id,
+            // 'pid' => $objConfigurationItem->pid,
+            'contao_module_reader' => $objConfigurationItem->contao_module_reader,
+        ]);
+        if (0 === $nbOtherItemSameProperty) {
+            $userGroupManipulator
+                ->removeAllowedModules([$objConfigurationItem->contao_module_reader])
+            ;
+        }
+        $nbOtherItemSameProperty = ConfigurationItem::countItems([
+            'not_id' => $objConfigurationItem->id,
+            // 'pid' => $objConfigurationItem->pid,
+            'contao_module_list' => $objConfigurationItem->contao_module_list,
+        ]);
+        if (0 === $nbOtherItemSameProperty) {
+            $userGroupManipulator
+                ->removeAllowedModules([$objConfigurationItem->contao_module_list])
+            ;
+        }
+        $nbOtherItemSameProperty = ConfigurationItem::countItems([
+            'not_id' => $objConfigurationItem->id,
+            // 'pid' => $objConfigurationItem->pid,
+            'contao_module_calendar' => $objConfigurationItem->contao_module_calendar,
+        ]);
+        if (0 === $nbOtherItemSameProperty) {
+            $userGroupManipulator
+                ->removeAllowedModules([$objConfigurationItem->contao_module_calendar])
+            ;
+        }
+        $nbOtherItemSameProperty = ConfigurationItem::countItems([
+            'not_id' => $objConfigurationItem->id,
+            // 'pid' => $objConfigurationItem->pid,
+            'contao_module' => $objConfigurationItem->contao_module,
+        ]);
+        if (0 === $nbOtherItemSameProperty) {
+            $userGroupManipulator
+                ->removeAllowedModules([$objConfigurationItem->contao_module])
+            ;
+        }
+        // FORMS
+        $nbOtherItemSameProperty = ConfigurationItem::countItems([
+            'not_id' => $objConfigurationItem->id,
+            // 'pid' => $objConfigurationItem->pid,
+            'contao_form' => $objConfigurationItem->contao_form,
+        ]);
+        if (0 === $nbOtherItemSameProperty) {
+            $userGroupManipulator
+                ->removeAllowedForms([$objConfigurationItem->contao_form])
+            ;
+        }
+        // NEWS ARCHIVE
+        $nbOtherItemSameProperty = ConfigurationItem::countItems([
+            'not_id' => $objConfigurationItem->id,
+            // 'pid' => $objConfigurationItem->pid,
+            'contao_news_archive' => $objConfigurationItem->contao_news_archive,
+        ]);
+        if (0 === $nbOtherItemSameProperty) {
+            $userGroupManipulator
+                ->removeAllowedNewsArchive([$objConfigurationItem->contao_news_archive])
+            ;
+        }
+        // FAQ CATEGORY
+        $nbOtherItemSameProperty = ConfigurationItem::countItems([
+            'not_id' => $objConfigurationItem->id,
+            // 'pid' => $objConfigurationItem->pid,
+            'contao_faq_category' => $objConfigurationItem->contao_faq_category,
+        ]);
+        if (0 === $nbOtherItemSameProperty) {
+            $userGroupManipulator
+                ->removeAllowedFaq([$objConfigurationItem->contao_faq_category])
+            ;
+        }
+        // CALENDAR
+        $nbOtherItemSameProperty = ConfigurationItem::countItems([
+            'not_id' => $objConfigurationItem->id,
+            // 'pid' => $objConfigurationItem->pid,
+            'contao_calendar' => $objConfigurationItem->contao_calendar,
+        ]);
+        if (0 === $nbOtherItemSameProperty) {
+            $userGroupManipulator
+                ->removeAllowedCalendar([$objConfigurationItem->contao_calendar])
+            ;
+        }
+
+        $objUserGroup = $userGroupManipulator->getUserGroup();
+        $objUserGroup->save();
+
+        return $objUserGroup;
     }
 }
