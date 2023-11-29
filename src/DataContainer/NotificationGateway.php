@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\DataContainer;
 
 use Contao\BackendUser;
+use Contao\Config;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
@@ -22,6 +23,7 @@ use Contao\StringUtil;
 use Contao\System;
 use NotificationCenter\tl_nc_gateway;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class NotificationGateway extends tl_nc_gateway
 {
@@ -79,12 +81,18 @@ class NotificationGateway extends tl_nc_gateway
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
-        try {
-            $config = $this->configManager->load();
-            if ($config->getSgInstallComplete() && $id === (int) $config->getSgNotificationGatewayEmail()) {
-                return true;
-            }
-        } catch (\Exception $e) {
+        // try {
+        //     $config = $this->configManager->load();
+        //     if ($config->getSgInstallComplete() && $id === (int) $config->getSgNotificationGatewayEmail()) {
+        //         return true;
+        //     }
+        // } catch (\Exception $e) {
+        // }
+
+        if (0 < Configuration::countItems(['email_gateway' => $id])
+        || (int) $id === (int) Config::get('wem_sg_support_form_gateway')
+        ) {
+            return true;
         }
 
         return false;

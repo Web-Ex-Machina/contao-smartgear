@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\DataContainer;
 
 use Contao\BackendUser;
+use Contao\Config;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
@@ -23,6 +24,7 @@ use Contao\System;
 use NotificationCenter\tl_nc_notification;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class NotificationNotification extends tl_nc_notification
 {
@@ -80,25 +82,30 @@ class NotificationNotification extends tl_nc_notification
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
-        try {
-            /** @var CoreConfig */
-            $config = $this->configManager->load();
-            $formContactConfig = $config->getSgFormContact();
-            if ($formContactConfig->getSgInstallComplete() && $id === (int) $formContactConfig->getSgNotification()) {
-                return true;
-            }
-            $extranetConfig = $config->getSgExtranet();
-            if ($extranetConfig->getSgInstallComplete()
-            &&
-            (
-                $id === (int) $extranetConfig->getSgNotificationPassword()
-                || $id === (int) $extranetConfig->getSgNotificationChangeData()
-                || $id === (int) $extranetConfig->getSgNotificationSubscription()
-            )
-            ) {
-                return true;
-            }
-        } catch (\Exception $e) {
+        // try {
+        //     /** @var CoreConfig */
+        //     $config = $this->configManager->load();
+        //     $formContactConfig = $config->getSgFormContact();
+        //     if ($formContactConfig->getSgInstallComplete() && $id === (int) $formContactConfig->getSgNotification()) {
+        //         return true;
+        //     }
+        //     $extranetConfig = $config->getSgExtranet();
+        //     if ($extranetConfig->getSgInstallComplete()
+        //     &&
+        //     (
+        //         $id === (int) $extranetConfig->getSgNotificationPassword()
+        //         || $id === (int) $extranetConfig->getSgNotificationChangeData()
+        //         || $id === (int) $extranetConfig->getSgNotificationSubscription()
+        //     )
+        //     ) {
+        //         return true;
+        //     }
+        // } catch (\Exception $e) {
+        // }
+        if (0 < Configuration::countItems(['contao_notification' => $id])
+        || (int) $id === (int) Config::get('wem_sg_support_notification')
+        ) {
+            return true;
         }
 
         return false;

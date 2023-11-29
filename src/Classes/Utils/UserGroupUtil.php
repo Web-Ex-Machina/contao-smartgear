@@ -535,7 +535,7 @@ class UserGroupUtil
             ->addAllowedNewsArchive([$objConfigurationItem->contao_news_archive])
             // ->addAllowedFilemounts([$objFolder->uuid])
             ->addAllowedFieldsByTables(['tl_news'])
-            ->addAllowedPagemounts($objConfigurationItem->contao_page)
+            ->addAllowedPagemounts([$objConfigurationItem->contao_page])
         ;
 
         $objUserGroup = $userGroupManipulator->getUserGroup();
@@ -553,7 +553,7 @@ class UserGroupUtil
             ->addAllowedCalendar([$objConfigurationItem->contao_calendar])
             // ->addAllowedFilemounts([$objFolder->uuid])
             ->addAllowedFieldsByTables(['tl_calendar_events'])
-            ->addAllowedPagemounts($objConfigurationItem->contao_page)
+            ->addAllowedPagemounts([$objConfigurationItem->contao_page])
         ;
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->calendarp = serialize(['create', 'delete']);
@@ -570,7 +570,7 @@ class UserGroupUtil
             ->addAllowedFaq([$objConfigurationItem->contao_faq_category])
             // ->addAllowedFilemounts([$objFolder->uuid])
             ->addAllowedFieldsByTables(['tl_faq'])
-            ->addAllowedPagemounts($objConfigurationItem->contao_page)
+            ->addAllowedPagemounts([$objConfigurationItem->contao_page])
             // ->addAllowedModules(Module::getTypesByIds($faqConfig->getContaoModulesIds()))
         ;
         $objUserGroup = $userGroupManipulator->getUserGroup();

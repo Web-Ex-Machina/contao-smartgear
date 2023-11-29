@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -19,6 +19,7 @@ use Contao\Image;
 use Contao\Input;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
 class Calendar extends \tl_calendar
 {
@@ -78,12 +79,16 @@ class Calendar extends \tl_calendar
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
-        try {
-            $eventsConfig = $this->configManager->load()->getSgEvents();
-            if ($eventsConfig->getSgInstallComplete() && $id === (int) $eventsConfig->getSgCalendar()) {
-                return true;
-            }
-        } catch (\Exception $e) {
+        // try {
+        //     $eventsConfig = $this->configManager->load()->getSgEvents();
+        //     if ($eventsConfig->getSgInstallComplete() && $id === (int) $eventsConfig->getSgCalendar()) {
+        //         return true;
+        //     }
+        // } catch (\Exception $e) {
+        // }
+
+        if (0 < ConfigurationItem::countItems(['contao_calendar' => $id])) {
+            return true;
         }
 
         return false;

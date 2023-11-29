@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -27,6 +27,7 @@ use WEM\SmartgearBundle\Classes\FormUtil;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\EmailFieldNotMandatoryInForm;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\FormNotConfiguredToStoreValues;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\NoEmailFieldInForm;
+use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 use WEM\SmartgearBundle\Model\FormField;
 use WEM\SmartgearBundle\Model\FormStorage;
 
@@ -157,12 +158,16 @@ class Form extends Backend
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
-        try {
-            $formContactConfig = $this->configurationManager->load()->getSgFormContact();
-            if ($formContactConfig->getSgInstallComplete() && $id === (int) $formContactConfig->getSgFormContact()) {
-                return true;
-            }
-        } catch (\Exception $e) {
+        // try {
+        //     $formContactConfig = $this->configurationManager->load()->getSgFormContact();
+        //     if ($formContactConfig->getSgInstallComplete() && $id === (int) $formContactConfig->getSgFormContact()) {
+        //         return true;
+        //     }
+        // } catch (\Exception $e) {
+        // }
+
+        if (0 < ConfigurationItem::countItems(['contao_form' => $id])) {
+            return true;
         }
 
         return false;
