@@ -15,13 +15,14 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Classes\Utils;
 
 use Contao\ArticleModel;
+use Contao\PageModel;
 
 class ArticleUtil
 {
     /**
      * Shortcut for article creation.
      */
-    public static function createArticle($objPage, $arrData = []): ArticleModel
+    public static function createArticle(PageModel $objPage, ?array $arrData = []): ArticleModel
     {
         // Create the article
         $objArticle = isset($arrData['id']) ? ArticleModel::findById($arrData['id']) ?? new ArticleModel() : new ArticleModel();

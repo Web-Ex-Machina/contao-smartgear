@@ -1915,7 +1915,7 @@
 			<source>%s - %s</source>
 			<target>%s - %s</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageUser">
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageAdmin">
 			<source>%s - %s</source>
 			<target>%s - %s</target>
 		</trans-unit>

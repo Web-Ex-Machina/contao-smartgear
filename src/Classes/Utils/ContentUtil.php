@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Utils;
 
+use Contao\ArticleModel;
 use Contao\ContentModel;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
@@ -22,7 +23,7 @@ class ContentUtil
     /**
      * Shortcut for content creation.
      */
-    public static function createContent($objArticle, $arrData = []): ContentModel
+    public static function createContent(ArticleModel $objArticle, ?array $arrData = []): ContentModel
     {
         // Dynamic ptable support
         if (!$arrData['ptable']) {

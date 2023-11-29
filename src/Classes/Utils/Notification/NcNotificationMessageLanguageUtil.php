@@ -90,4 +90,49 @@ class NcNotificationMessageLanguageUtil
             'published' => 1,
         ], $arrData));
     }
+
+    public static function createContactFormSentNotificationMessageUserLanguage(int $pid, string $formTitle, string $websiteTitle, string $language, bool $fallback, ?array $arrData = []): Language
+    {
+        $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/formContact/%s/user_form.html', Util::getPublicOrWebDirectory(), $language));
+
+        $htmlDecoder = System::getContainer()->get('contao.string.html_decoder');
+
+        return self::createNotification($pid, $language, $fallback, array_merge([
+            'recipients' => '##form_email##',
+            'gateway_type' => 'email',
+            // 'email_sender_name' => $config->getSgWebsiteTitle(),
+            'email_sender_name' => '##email_sender_name##',
+            'email_sender_address' => '##admin_email##',
+            'email_subject' => sprintf($GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['subjectNotificationGatewayMessageLanguageUser'], $websiteTitle, $formTitle),
+            'email_subject' => '##email_subject##',
+            'email_mode' => 'textAndHtml',
+            'email_text' => $htmlDecoder->htmlToPlainText($strText, false),
+            'email_html' => $strText,
+            'published' => 1,
+            'fallback' => 1,
+        ], $arrData));
+    }
+
+    public static function createContactFormSentNotificationMessageAdminLanguage(int $pid, string $formTitle, string $websiteTitle, string $ownerEmail, string $language, bool $fallback, ?array $arrData = []): Language
+    {
+        $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/formContact/%s/admin_form.html', Util::getPublicOrWebDirectory(), $language));
+
+        $htmlDecoder = System::getContainer()->get('contao.string.html_decoder');
+
+        return self::createNotification($pid, $language, $fallback, array_merge([
+            'recipients' => '##admin_email##',
+            'gateway_type' => 'email',
+            // 'email_sender_name' => $config->getSgWebsiteTitle(),
+            'email_sender_name' => '##email_sender_name##',
+            'email_sender_address' => $ownerEmail,
+            'email_subject' => sprintf($GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['subjectNotificationGatewayMessageLanguageAdmin'], $websiteTitle, $formTitle),
+            'email_subject' => '##email_subject##',
+            'email_mode' => 'textAndHtml',
+            'email_text' => $htmlDecoder->htmlToPlainText($strText, false),
+            'email_html' => $strText,
+            'email_replyTo' => '##form_email##',
+            'published' => 1,
+            'fallback' => 1,
+        ], $arrData));
+    }
 }

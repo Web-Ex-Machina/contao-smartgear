@@ -22,7 +22,7 @@ class UserGroupUtil
     /**
      * Shortcut for UserGroup creation.
      */
-    public static function createUserGroupAdministrators(string $strName, $arrData = []): UserGroupModel
+    public static function createUserGroupAdministrators(string $strName, ?array $arrData = []): UserGroupModel
     {
         // Create the UserGroup
         $objUserGroup = isset($arrData['id']) ? UserGroupModel::findById($arrData['id']) ?? new UserGroupModel() : new UserGroupModel();

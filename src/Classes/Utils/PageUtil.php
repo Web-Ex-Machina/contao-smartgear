@@ -203,6 +203,33 @@ class PageUtil
         return self::createPage($strTitle, $pid, $arrData);
     }
 
+    public static function createPageFormContact(string $strTitle, int $pid, ?array $arrData = []): PageModel
+    {
+        $arrData = array_merge([
+            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'type' => 'regular',
+            'robots' => 'index,follow',
+            // 'description' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormDescription', [$formContactConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
+            'published' => 1,
+        ], $arrData);
+
+        return self::createPage($strTitle, $pid, $arrData);
+    }
+
+    public static function createPageFormContactSent(string $strTitle, int $pid, ?array $arrData = []): PageModel
+    {
+        $arrData = array_merge([
+            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'type' => 'regular',
+            'robots' => 'noindex,nofollow',
+            // 'description' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormSentDescription', [$formContactConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
+            'published' => 1,
+            'hide' => 1,
+        ], $arrData);
+
+        return self::createPage($strTitle, $pid, $arrData);
+    }
+
     /**
      * Shortcut for page w/ modules creations.
      */

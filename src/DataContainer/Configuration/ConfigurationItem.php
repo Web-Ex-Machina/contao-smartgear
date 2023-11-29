@@ -18,6 +18,8 @@ use Contao\Config;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\DataContainer;
 use Contao\Date;
+use Contao\FormFieldModel;
+use Contao\FormModel;
 use Contao\Input;
 use Contao\LayoutModel;
 use Contao\Message;
@@ -30,9 +32,14 @@ use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
 use WEM\SmartgearBundle\Classes\Utils\CalendarUtil;
 use WEM\SmartgearBundle\Classes\Utils\ContentUtil;
 use WEM\SmartgearBundle\Classes\Utils\FaqCategoryUtil;
+use WEM\SmartgearBundle\Classes\Utils\FormFieldUtil;
+use WEM\SmartgearBundle\Classes\Utils\FormUtil;
 use WEM\SmartgearBundle\Classes\Utils\LayoutUtil;
 use WEM\SmartgearBundle\Classes\Utils\ModuleUtil;
 use WEM\SmartgearBundle\Classes\Utils\NewsArchiveUtil;
+use WEM\SmartgearBundle\Classes\Utils\Notification\NcNotificationMessageLanguageUtil;
+use WEM\SmartgearBundle\Classes\Utils\Notification\NcNotificationMessageUtil;
+use WEM\SmartgearBundle\Classes\Utils\Notification\NcNotificationUtil;
 use WEM\SmartgearBundle\Classes\Utils\PageUtil;
 use WEM\SmartgearBundle\Classes\Utils\UserGroupUtil;
 use WEM\SmartgearBundle\DataContainer\Core;
@@ -252,6 +259,7 @@ class ConfigurationItem extends Core
         if ('edit' === Input::get('act')) {
             // check contents linked tstamp against the configuration item one
             $this->checkLinkedContaoContentUpdated($dc);
+            $this->checkRequiredConditions($dc);
         }
     }
 
@@ -644,6 +652,141 @@ class ConfigurationItem extends Core
             ContentUtil::createContent($objArticle, [
                 'type' => 'module',
                 'module' => $objModuleList->id,
+            ]);
+        }
+
+        return $objItem;
+    }
+
+    public function managePageFormContactCreate(ConfigurationItemModel $objItem, bool $blnForcePageUpdate, DataContainer $dc): ConfigurationItemModel
+    {
+        // create + nothing => nothing
+        // create + page name + no page => create page
+        // create + page name + page => update page
+        // create + no page name + page => nothing
+        // update + nothing => nothing
+        // update + page name + no page => create page
+        // update + page name + page => update IF blnForcePageUpdate
+        // update + no page name + page => nothing
+
+        if (!empty($objItem->page_form_name)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForcePageUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_page_form))) // create mode or forced update
+        ) {
+            /** @var ConfigurationModel */
+            $objConfiguration = $objItem->getRelated('pid');
+            $objPage = null;
+            if (!empty($objItem->contao_page_form)) {
+                $objPage = PageModel::findByPk($objItem->contao_page_form);
+                if ($objPage) {
+                    PageUtil::emptyPage($objItem->contao_page_form);
+                }
+            }
+
+            $objPage = PageUtil::createPageFormContact($objItem->page_form_name, (int) $objConfiguration->contao_page_root, $objItem->contao_page_form ? ['id' => $objItem->contao_page_form] : []);
+
+            $objItem->contao_page_form = $objPage->id;
+        }
+
+        return $objItem;
+    }
+
+    public function managePageFormContactFill(ConfigurationItemModel $objItem, bool $blnForcePageUpdate, DataContainer $dc): ConfigurationItemModel
+    {
+        // create + nothing => nothing
+        // create + page name + no page => create page
+        // create + page name + page => update page
+        // create + no page name + page => nothing
+        // update + nothing => nothing
+        // update + page name + no page => create page
+        // update + page name + page => update IF blnForcePageUpdate
+        // update + no page name + page => nothing
+
+        if (!empty($objItem->contao_page_form)
+        && !empty($objItem->contao_form) // should not be empty, as it must have been created beforehand if left empty in form
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForcePageUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_page_form))) // create mode or forced update
+        ) {
+            /** @var ConfigurationModel */
+            $objConfiguration = $objItem->getRelated('pid');
+            $objPage = PageModel::findByPk($objItem->contao_page_form);
+
+            $objArticle = ArticleUtil::createArticle($objPage);
+
+            $objForm = FormModel::findByPk($objItem->contao_form);
+
+            ContentUtil::createContent($objArticle, [
+                'headline' => serialize(['unit' => 'h1', 'value' => $objItem->page_form_name]),
+                'cssID' => ',sep-bottom',
+            ]);
+
+            ContentUtil::createContent($objArticle, [
+                'type' => 'form',
+                'form' => $objForm->id,
+            ]);
+        }
+
+        return $objItem;
+    }
+
+    public function managePageFormContactSentCreate(ConfigurationItemModel $objItem, bool $blnForcePageUpdate, DataContainer $dc): ConfigurationItemModel
+    {
+        // create + nothing => nothing
+        // create + page name + no page => create page
+        // create + page name + page => update page
+        // create + no page name + page => nothing
+        // update + nothing => nothing
+        // update + page name + no page => create page
+        // update + page name + page => update IF blnForcePageUpdate
+        // update + no page name + page => nothing
+
+        if (!empty($objItem->page_form_sent_name)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForcePageUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_page_form_sent))) // create mode or forced update
+        ) {
+            /** @var ConfigurationModel */
+            $objConfiguration = $objItem->getRelated('pid');
+            $objPage = null;
+            if (!empty($objItem->contao_page_form_sent)) {
+                $objPage = PageModel::findByPk($objItem->contao_page_form_sent);
+                if ($objPage) {
+                    PageUtil::emptyPage($objItem->contao_page_form_sent);
+                }
+            }
+
+            $objPage = PageUtil::createPageFormContactSent($objItem->page_form_sent_name, (int) $objConfiguration->contao_page_root, $objItem->contao_page_form_sent ? ['id' => $objItem->contao_page_form_sent] : []);
+
+            $objItem->contao_page_form_sent = $objPage->id;
+        }
+
+        return $objItem;
+    }
+
+    public function managePageFormContactSentFill(ConfigurationItemModel $objItem, bool $blnForcePageUpdate, DataContainer $dc): ConfigurationItemModel
+    {
+        // create + nothing => nothing
+        // create + page name + no page => create page
+        // create + page name + page => update page
+        // create + no page name + page => nothing
+        // update + nothing => nothing
+        // update + page name + no page => create page
+        // update + page name + page => update IF blnForcePageUpdate
+        // update + no page name + page => nothing
+
+        if (!empty($objItem->contao_page_form_sent)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForcePageUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_page_form_sent))) // create mode or forced update
+        ) {
+            /** @var ConfigurationModel */
+            $objConfiguration = $objItem->getRelated('pid');
+            $objPage = PageModel::findByPk($objItem->contao_page_form_sent);
+
+            $objArticle = ArticleUtil::createArticle($objPage);
+
+            ContentUtil::createContent($objArticle, [
+                'headline' => serialize(['unit' => 'h1', 'value' => $objItem->page_form_sent_name]),
+                'cssID' => ',sep-bottom',
+            ]);
+
+            ContentUtil::createContent($objArticle, [
+                // 'text' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.contentTextPageFormSent', [], 'contao_default'),
+                'text' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['contentTextPageFormSent'],
             ]);
         }
 
@@ -1102,6 +1245,178 @@ class ConfigurationItem extends Core
         return $objItem;
     }
 
+    public function manageFormFormContact(ConfigurationItemModel $objItem, bool $blnForceFormUpdate, DataContainer $dc): ConfigurationItemModel
+    {
+        if (!empty($objItem->form_name)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceFormUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_form))) // create mode or forced update
+        ) {
+            /** @var ConfigurationModel */
+            $objConfiguration = $objItem->getRelated('pid');
+
+            // $arrGroups = [];
+
+            // $UGAs = ConfigurationItemModel::findItems(['pid' => $objItem->pid, 'type' => ConfigurationItemModel::TYPE_USER_GROUP_ADMINISTRATORS]);
+            // if ($UGAs) {
+            //     while ($UGAs->next()) {
+            //         $arrGroups[] = $UGAs->id;
+            //     }
+            // }
+            // $UGRs = ConfigurationItemModel::findItems(['pid' => $objItem->pid, 'type' => ConfigurationItemModel::TYPE_USER_GROUP_REDACTORS]);
+            // if ($UGRs) {
+            //     while ($UGRs->next()) {
+            //         $arrGroups[] = $UGRs->id;
+            //     }
+            // }
+
+            $objForm = FormUtil::createFormFormContact(
+                $objItem->form_name,
+                (int) $objItem->contao_page_form_sent,
+                (int) $objItem->contao_notification,
+                array_merge(
+                    ['storeViaFormDataManager' => true],
+                    $objItem->contao_form ? ['id' => $objItem->contao_form] : []
+                )
+            );
+
+            //empty form ?
+            //fill it with fields
+            FormFieldUtil::createFormField((int) $objForm->id, array_merge([
+                'sorting' => 128,
+                'type' => 'text',
+                'name' => 'name',
+                'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputName'],
+                'placeholder' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['placeholderFormInputName'],
+                'mandatory' => 1,
+                'contains_personal_data' => true,
+            ],
+            ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'name'])) ? ['id' => $objFF->id] : []
+            ));
+
+            FormFieldUtil::createFormField((int) $objForm->id, array_merge([
+                'sorting' => 256,
+                'type' => 'text',
+                'name' => 'email',
+                'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputEmail'],
+                'placeholder' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['placeholderFormInputEmail'],
+                'mandatory' => 1,
+                'rgxp' => 'email',
+                'tstamp' => time(),
+            ],
+            ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'email'])) ? ['id' => $objFF->id] : []
+            ));
+
+            FormFieldUtil::createFormField((int) $objForm->id, array_merge([
+                'sorting' => 384,
+                'type' => 'textarea',
+                'name' => 'message',
+                'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputMessage'],
+                'placeholder' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['placeholderFormInputMessage'],
+                'mandatory' => 1,
+                'contains_personal_data' => true,
+            ],
+            ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'message'])) ? ['id' => $objFF->id] : []
+            ));
+
+            FormFieldUtil::createFormField((int) $objForm->id, array_merge([
+                'sorting' => 512,
+                'type' => 'checkbox',
+                'name' => 'consent_data_treatment',
+                'options' => serialize([['value' => 1, 'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['optionLabelFormInputConsentDataTreatment']]]),
+                'mandatory' => true,
+            ],
+            ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'consent_data_treatment'])) ? ['id' => $objFF->id] : []
+            ));
+
+            FormFieldUtil::createFormField((int) $objForm->id, array_merge([
+                'sorting' => 896,
+                'type' => 'checkbox',
+                'name' => 'consent_data_save',
+                'options' => serialize([['value' => 1, 'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['optionLabelFormInputConsentDataSave']]]),
+                'mandatory' => 1,
+                // 'invisible' => !$config->getSgFormDataManager()->getSgInstallComplete(),
+                'invisible' => false,
+            ],
+            ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'consent_data_save'])) ? ['id' => $objFF->id] : []
+            ));
+
+            FormFieldUtil::createFormField((int) $objForm->id, array_merge([
+                'sorting' => 1152,
+                'type' => 'captcha',
+                'name' => 'captcha',
+                'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputCaptcha'],
+                'mandatory' => 1,
+            ],
+            ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'captcha'])) ? ['id' => $objFF->id] : []
+            ));
+
+            FormFieldUtil::createFormField((int) $objForm->id, array_merge([
+                'sorting' => 1280,
+                'type' => 'submit',
+                'name' => 'submit',
+                'slabel' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputSubmit'],
+                'mandatory' => 1,
+            ],
+            ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'submit'])) ? ['id' => $objFF->id] : []
+            ));
+
+            $objItem->contao_form = $objForm->id;
+        }
+
+        return $objItem;
+    }
+
+    public function manageNotificationFormContactSent(ConfigurationItemModel $objItem, bool $blnForceNotificationUpdate, DataContainer $dc): ConfigurationItemModel
+    {
+        if (!empty($objItem->notification_name)
+        && (0 === (int) $dc->activeRecord->tstamp || $blnForceNotificationUpdate || (0 !== (int) $dc->activeRecord->tstamp && empty($objItem->contao_notification))) // create mode or forced update
+        ) {
+            /** @var ConfigurationModel */
+            $objConfiguration = $objItem->getRelated('pid');
+            if ($objConfiguration->email_gateway) {
+                $objNotification = NcNotificationUtil::createFormContactSentNotification(
+                $objItem->notification_name
+            );
+
+                $objMessageUser = NcNotificationMessageUtil::createContactFormSentNotificationMessageUser(
+                (int) $objConfiguration->email_gateway,
+                $objNotification->type,
+                (int) $objNotification->id,
+                []
+            );
+
+                $objMessageAdmin = NcNotificationMessageUtil::createContactFormSentNotificationMessageAdmin(
+                (int) $objConfiguration->email_gateway,
+                $objNotification->type,
+                (int) $objNotification->id,
+                []
+            );
+
+                $objMessageUserLanguage = NcNotificationMessageLanguageUtil::createContactFormSentNotificationMessageUserLanguage(
+                (int) $objMessageUser->id,
+                $objItem->form_name,
+                $objConfiguration->title,
+                $objConfiguration->language,
+                true,
+                []
+            );
+
+                $objMessageAdminLanguage = NcNotificationMessageLanguageUtil::createContactFormSentNotificationMessageAdminLanguage(
+                (int) $objMessageAdmin->id,
+                $objItem->form_name,
+                $objConfiguration->title,
+                $objConfiguration->owner_email,
+                $objConfiguration->language,
+                true,
+                []
+            );
+
+                $objItem->contao_notification = $objNotification->id;
+            }
+        }
+
+        return $objItem;
+    }
+
     public function manageMixedSitemap(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, bool $blnForcePageUpdate, DataContainer $dc): ConfigurationItemModel
     {
         $objItem = $this->manageModuleSitemap($objItem, $blnForceModuleUpdate, $dc);
@@ -1145,12 +1460,14 @@ class ConfigurationItem extends Core
     public function manageMixedFormContact(ConfigurationItemModel $objItem, bool $blnForcePageFormUpdate, bool $blnForcePageFormSentUpdate, bool $blnForceFormUpdate, bool $blnForceNotificationUpdate, DataContainer $dc): ConfigurationItemModel
     {
         $oldPageId = $objItem->contao_page;
-        $objItem = $this->managePageBlogCreate($objItem, $blnForcePageUpdate, $dc);
-        $objItem = $this->manageNewsArchive($objItem, $blnForceNewsArchiveUpdate, $dc);
-        $objItem = $this->manageModuleBlogReader($objItem, $blnForceModuleReaderUpdate, $dc);
-        $objItem = $this->manageModuleBlogList($objItem, $blnForceModuleListUpdate, $dc);
+        $objItem = $this->managePageFormContactCreate($objItem, $blnForcePageFormUpdate, $dc);
+        $objItem = $this->managePageFormContactSentCreate($objItem, $blnForcePageFormSentUpdate, $dc);
+        $objItem = $this->manageFormFormContact($objItem, $blnForceFormUpdate, $dc);
+        $objItem = $this->manageNotificationFormContactSent($objItem, $blnForceNotificationUpdate, $dc);
 
-        return $this->managePageBlogFill($objItem, $blnForcePageUpdate || (int) $oldPageId !== (int) $objItem->contao_page, $dc);
+        $objItem = $this->managePageFormContactFill($objItem, $blnForcePageFormUpdate || (int) $oldPageId !== (int) $objItem->contao_page, $dc);
+
+        return $this->managePageFormContactSentFill($objItem, $blnForcePageFormSentUpdate || (int) $oldPageId !== (int) $objItem->contao_page, $dc);
     }
 
     public function contentTemplateOptionsCallback(DataContainer $dc): array
@@ -1213,6 +1530,22 @@ class ConfigurationItem extends Core
         }
 
         return $arrOptions;
+    }
+
+    public function checkRequiredConditions(DataContainer $dc): void
+    {
+        if (!$dc->id) {
+            return;
+        }
+        $objItem = ConfigurationItemModel::findOneById($dc->id);
+        $objConfiguration = $objItem->getRelated('pid');
+        switch ($objItem->type) {
+            case ConfigurationItemModel::TYPE_MIXED_FORM_CONTACT:
+                if (empty($objConfiguration->email_gateway)) {
+                    Message::addError('La configuration ne stipule aucune passerelle email : il ne sera pas possible de créer la notification si besoin.');
+                }
+            break;
+        }
     }
 
     public function checkLinkedContaoContentUpdated(DataContainer $dc): void
@@ -1445,6 +1778,46 @@ class ConfigurationItem extends Core
             }
         }
 
+        if ($objItem->contao_form) {
+            $objForm = $objItem->getRelated('contao_form');
+            if ($objForm
+            && (int) $objForm->tstamp > (int) $objItem->tstamp
+            ) {
+                Message::addInfo('Le formulaire "'.$objForm->title.'" a été mis à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+            }
+            if (0 !== (int) $objItem->tstamp) {
+                $dcaManipulator
+                    ->addField('update_form', [
+                        'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_form'],
+                        'inputType' => 'checkbox',
+                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
+                    ])
+                ;
+                $addFields = true;
+            }
+        }
+
+        if ($objItem->contao_notification) {
+            $objNcNotif = $objItem->getRelated('contao_notification');
+            if ($objNcNotif
+            && (int) $objNcNotif->tstamp > (int) $objItem->tstamp
+            ) {
+                Message::addInfo('La notification "'.$objNcNotif->title.'" a été mise à jour depuis le '.Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp).'.');
+            }
+            if (0 !== (int) $objItem->tstamp) {
+                $dcaManipulator
+                    ->addField('update_notification', [
+                        'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_notification'],
+                        'inputType' => 'checkbox',
+                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
+                    ])
+                ;
+                $addFields = true;
+            }
+        }
+
         $paletteManipulator = PaletteManipulator::create();
         if ($addFields) {
             $paletteManipulator->addLegend('update_legend');
@@ -1480,6 +1853,12 @@ class ConfigurationItem extends Core
             }
             if ($dcaManipulator->hasField('update_news_archive')) {
                 $paletteManipulator->addField('update_news_archive', 'update_legend');
+            }
+            if ($dcaManipulator->hasField('update_form')) {
+                $paletteManipulator->addField('update_form', 'update_legend');
+            }
+            if ($dcaManipulator->hasField('update_notification')) {
+                $paletteManipulator->addField('update_notification', 'update_legend');
             }
             $paletteManipulator->applyToPalette('default', ConfigurationItemModel::getTable());
         }

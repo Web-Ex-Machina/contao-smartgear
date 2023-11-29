@@ -21,7 +21,7 @@ class NcNotificationUtil
     /**
      * Shortcut for article creation.
      */
-    public static function createNotification($arrData = []): Notification
+    public static function createNotification(?array $arrData = []): Notification
     {
         // Create the article
         $objNotification = isset($arrData['id']) ? Notification::findById($arrData['id']) ?? new Notification() : new Notification();
@@ -40,11 +40,19 @@ class NcNotificationUtil
         return $objNotification;
     }
 
-    public static function createSupportFormNotification($arrData = []): Notification
+    public static function createSupportFormNotification(?array $arrData = []): Notification
     {
         return self::createNotification(array_merge([
             'title' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['titleNotificationSupportGatewayNotification'],
             'type' => 'ticket_creation',
+        ], $arrData));
+    }
+
+    public static function createFormContactSentNotification(string $title, ?array $arrData = []): Notification
+    {
+        return self::createNotification(array_merge([
+            'title' => $title,
+            'type' => 'core_form',
         ], $arrData));
     }
 }

@@ -56,4 +56,18 @@ class NcNotificationMessageUtil
             'title' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['titleNotificationSupportGatewayMessageAdmin'],
         ], $arrData));
     }
+
+    public static function createContactFormSentNotificationMessageUser(int $gatewayId, string $gatewayType, int $pid, ?array $arrData = []): Message
+    {
+        return self::createNotification($gatewayId, $gatewayType, $pid, array_merge([
+            'title' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['titleNotificationGatewayMessageUser'],
+        ], $arrData));
+    }
+
+    public static function createContactFormSentNotificationMessageAdmin(int $gatewayId, string $gatewayType, int $pid, ?array $arrData = []): Message
+    {
+        return self::createNotification($gatewayId, $gatewayType, $pid, array_merge([
+            'title' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['titleNotificationGatewayMessageAdmin'],
+        ], $arrData));
+    }
 }
