@@ -300,3 +300,12 @@ services:
       $y: 0
       $z: 26
     public: true
+
+  smartgear.migrations.v1_1_0.m202311301519.migration:
+    class: WEM\SmartgearBundle\Migrations\V1\Y1\Z0\M202311301519\Migration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+    public: true

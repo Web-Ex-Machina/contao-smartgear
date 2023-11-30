@@ -143,6 +143,6 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
 
     protected function updateConfigurationsVersion(string $version): void
     {
-        $this->connection->executeStatement('UPDATE ? set version = ?', [Configuration::getTable(), $version]);
+        $this->connection->executeStatement('UPDATE '.Configuration::getTable().' set version = ?', [$version]);
     }
 }

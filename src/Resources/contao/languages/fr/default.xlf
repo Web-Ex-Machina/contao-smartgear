@@ -3982,6 +3982,23 @@
 			<source>.htaccess file management updated.</source>
 			<target>Gestion du fichier .htaccess mise à jour.</target>
 		</trans-unit>
+		<!-- V1_1_0/M202311301519 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_1_0_M202311301519.name">
+			<source>Smartgear v1.1.0 - old configuration migration</source>
+			<target>Smartgear v1.1.0 - conversion ancienne configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_1_0_M202311301519.description">
+			<source>Migrate old Smartgear v1.0.x configuration to the new v1.1 format.</source>
+			<target>Converti la configuration d'un Smartgear v1.0.X vers la nouvelle structure de la v1.1.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_1_0_M202311301519.done">
+			<source>Old configuration migrated.</source>
+			<target>Ancienne configuration migrée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_1_0_M202311301519.shouldRunConfigurationTablesMissing">
+			<source>Configuration tables needed for v1.1 are not present in database.</source>
+			<target>Les tables de configuration necessaire à la v1.1 ne sont pas présentes dans la base de données.</target>
+		</trans-unit>
 
 
 
