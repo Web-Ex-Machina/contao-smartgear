@@ -86,23 +86,76 @@ class ReplaceInsertTagsListener
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
         if ('sg' === $key) {
+            global $objPage;
+            $objConfiguration = $objPage ? Configuration::findOneByPage($objPage) : null;
+
             switch ($elements[1]) {
                 case 'config':
-                    global $objPage;
-                    if (!$objPage) {
+                    if (!$objPage || !$objConfiguration) {
                         return false;
                     }
-                    $objConfiguration = Configuration::findOneByPage($objPage);
-                    if (!$objConfiguration) {
-                        return false;
-                    }
-
                     switch ($elements[2]) {
                         case 'title':
                             return $objConfiguration->title;
                         break;
                     }
-
+                break;
+                case 'title':
+                case 'version':
+                case 'mode':
+                case 'admin_email':
+                case 'domain':
+                case 'email_gateway':
+                case 'language':
+                case 'framway_path':
+                case 'google_fonts':
+                case 'analytics_solution':
+                case 'matomo_host':
+                case 'matomo_id':
+                case 'google_id':
+                case 'legal_owner_type':
+                case 'legal_owner_email':
+                case 'legal_owner_street':
+                case 'legal_owner_postal_code':
+                case 'legal_owner_city':
+                case 'legal_owner_region':
+                case 'legal_owner_country':
+                case 'legal_owner_person_lastname':
+                case 'legal_owner_person_firstname':
+                case 'legal_owner_company_name':
+                case 'legal_owner_company_status':
+                case 'legal_owner_company_identifier':
+                case 'legal_owner_company_dpo_name':
+                case 'legal_owner_company_dpo_email':
+                case 'host_name':
+                case 'host_street':
+                case 'host_postal_code':
+                case 'host_city':
+                case 'host_region':
+                case 'host_country':
+                case 'contao_theme':
+                case 'contao_module_sitemap':
+                case 'contao_layout_full':
+                case 'contao_layout_standard':
+                case 'contao_page_root':
+                case 'contao_page_home':
+                case 'contao_page_404':
+                case 'api_enabled':
+                case 'api_key':
+                    return $objConfiguration->{$elements[1]};
+                break;
+                case 'legal_owner_address_full':
+                    return $objConfiguration->legal_owner_street.' '.$objConfiguration->legal_owner_postal_code.' '.$objConfiguration->legal_owner_city.' '.$objConfiguration->legal_owner_region.' '.$objConfiguration->legal_owner_country;
+                break;
+                case 'domain_full':
+                    return false !== strpos($objConfiguration->domain, 'https://')
+                    ? $objConfiguration->domain
+                    : (
+                        false !== strpos($objConfiguration->domain, 'http://')
+                        ? str_replace('http://', 'https://', $objConfiguration->domain)
+                        : 'https://'.$objConfiguration->domain
+                    )
+                    ;
                 break;
             }
         }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -80,32 +80,32 @@ class NotificationMessage extends tl_nc_message
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
-        try {
-            /** @var CoreConfig */
-            $config = $this->configManager->load();
-            $formContactConfig = $config->getSgFormContact();
-            if ($formContactConfig->getSgInstallComplete()
-            &&
-            (
-                $id === (int) $formContactConfig->getSgNotificationMessageUser()
-                || $id === (int) $formContactConfig->getSgNotificationMessageAdmin()
-            )
-            ) {
-                return true;
-            }
-            $extranetConfig = $config->getSgExtranet();
-            if ($extranetConfig->getSgInstallComplete()
-            &&
-            (
-                $id === (int) $extranetConfig->getSgNotificationPasswordMessage()
-                || $id === (int) $extranetConfig->getSgNotificationChangeDataMessage()
-                || $id === (int) $extranetConfig->getSgNotificationSubscriptionMessage()
-            )
-            ) {
-                return true;
-            }
-        } catch (\Exception $e) {
-        }
+        // try {
+        //     /** @var CoreConfig */
+        //     $config = $this->configManager->load();
+        //     $formContactConfig = $config->getSgFormContact();
+        //     if ($formContactConfig->getSgInstallComplete()
+        //     &&
+        //     (
+        //         $id === (int) $formContactConfig->getSgNotificationMessageUser()
+        //         || $id === (int) $formContactConfig->getSgNotificationMessageAdmin()
+        //     )
+        //     ) {
+        //         return true;
+        //     }
+        //     $extranetConfig = $config->getSgExtranet();
+        //     if ($extranetConfig->getSgInstallComplete()
+        //     &&
+        //     (
+        //         $id === (int) $extranetConfig->getSgNotificationPasswordMessage()
+        //         || $id === (int) $extranetConfig->getSgNotificationChangeDataMessage()
+        //         || $id === (int) $extranetConfig->getSgNotificationSubscriptionMessage()
+        //     )
+        //     ) {
+        //         return true;
+        //     }
+        // } catch (\Exception $e) {
+        // }
 
         return false;
     }

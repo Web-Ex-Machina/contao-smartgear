@@ -58,7 +58,8 @@ class ContentUtil
         $strText = file_get_contents($customTpl);
         $strHtml = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageLegalNoticeTextDefault'];
         if ($strText) {
-            /**
+            $strHtml = $strText;
+            /*
              * 1: URL du site entière
              * 2: URL du site sans https://
              * 3: Nom de l'entreprise
@@ -68,17 +69,17 @@ class ContentUtil
              * 7: Adresse mail de l'entreprise
              * 8: Nom & Adresse de l'hébergeur.
              */
-            $strHtml = sprintf(
-                    $strText,
-                    $objConfiguration->domain ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
-                    str_replace('https://', '', $objConfiguration->domain) ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
-                    $objConfiguration->legal_owner_company_name ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
-                    $objConfiguration->legal_owner_company_status ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
-                    $objConfiguration->legal_owner_company_identifier ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
-                    $objConfiguration->legal_owner_company_street.' '.$objConfiguration->legal_owner_company_postal_code.' '.$objConfiguration->legal_owner_company_city.' '.$objConfiguration->legal_owner_company_region.' '.$objConfiguration->legal_owner_company_country ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
-                    $objConfiguration->owner_email ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
-                    $objConfiguration->host_name ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled']
-                );
+            // $strHtml = sprintf(
+            //         $strText,
+            //         $objConfiguration->domain ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+            //         str_replace('https://', '', $objConfiguration->domain) ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+            //         $objConfiguration->legal_owner_company_name ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+            //         $objConfiguration->legal_owner_company_status ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+            //         $objConfiguration->legal_owner_company_identifier ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+            //         $objConfiguration->legal_owner_street.' '.$objConfiguration->legal_owner_postal_code.' '.$objConfiguration->legal_owner_city.' '.$objConfiguration->legal_owner_region.' '.$objConfiguration->legal_owner_country ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+            //         $objConfiguration->legal_owner_email ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+            //         $objConfiguration->host_name ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled']
+            //     );
         }
 
         return $strHtml;
@@ -89,7 +90,8 @@ class ContentUtil
         $strText = file_get_contents($customTpl);
         $strHtml = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PagePrivacyPoliticsTextDefault'];
         if ($strText) {
-            /**
+            $strHtml = str_replace('{{generation_date}}', date('d/m/y'), $strText);
+            /*
              * 1: Nom de la boite
              * 2: Adresse
              * 3: SIRET
@@ -97,15 +99,15 @@ class ContentUtil
              * 5: Date
              * 6: Contact email.
              */
-            $strHtml = sprintf(
-                $strText,
-                $objConfiguration->legal_owner_company_name ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
-                $objConfiguration->legal_owner_company_street.' '.$objConfiguration->legal_owner_company_postal_code.' '.$objConfiguration->legal_owner_company_city.' '.$objConfiguration->legal_owner_company_region.' '.$objConfiguration->legal_owner_company_country ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
-                $objConfiguration->legal_owner_company_identifier ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
-                $legalNoticePageUrl ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
-                date('d/m/Y'),
-                $objConfiguration->owner_email ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled']
-            );
+            // $strHtml = sprintf(
+            //     $strText,
+            //     $objConfiguration->legal_owner_company_name ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+            //     $objConfiguration->legal_owner_street.' '.$objConfiguration->legal_owner_postal_code.' '.$objConfiguration->legal_owner_city.' '.$objConfiguration->legal_owner_region.' '.$objConfiguration->legal_owner_country ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+            //     $objConfiguration->legal_owner_company_identifier ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+            //     $legalNoticePageUrl ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled'],
+            //     date('d/m/Y'),
+            //     $objConfiguration->legal_owner_company_dpo_email ?: $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['DEFAULT']['NotFilled']
+            // );
         }
 
         return $strHtml;

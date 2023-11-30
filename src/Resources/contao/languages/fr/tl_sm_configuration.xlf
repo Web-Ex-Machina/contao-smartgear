@@ -89,12 +89,36 @@
 				<source>DPO email</source>
 				<target>Email DPO</target>
 			</trans-unit>
-			<trans-unit id="tl_sm_configuration.owner_email.0">
+			<trans-unit id="tl_sm_configuration.legal_owner_email.0">
 				<source>Owner's email</source>
 				<target>Email du propriétaire</target>
 			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_street.0">
+				<source>Owner's address</source>
+				<target>Adresse</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_postal_code.0">
+				<source>Postal code</source>
+				<target>Code postal</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_region.0">
+				<source>Region</source>
+				<target>Région</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_city.0">
+				<source>City</source>
+				<target>Ville</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_country.0">
+				<source>Country</source>
+				<target>Pays</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.contao_theme.0">
+				<source>Theme</source>
+				<target>Thème</target>
+			</trans-unit>
 			<trans-unit id="tl_sm_configuration.host_name.0">
-				<source>Host name</source>
+				<source>Host address</source>
 				<target>Nom de l'hébergeur</target>
 			</trans-unit>
 			<trans-unit id="tl_sm_configuration.host_street.0">
@@ -201,9 +225,13 @@
         <source>Statistics</source>
         <target>Statistiques</target>
       </trans-unit>
-      <trans-unit id="tl_sm_configuration.legal_informations">
+      <trans-unit id="tl_sm_configuration.legal_informations_legend">
         <source>Legal informations</source>
         <target>Informations légales</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration.host_legend">
+        <source>Host informations</source>
+        <target>Informations hébergeur</target>
       </trans-unit>
       <trans-unit id="tl_sm_configuration.contao_theme_legend">
         <source>Contao Theme</source>

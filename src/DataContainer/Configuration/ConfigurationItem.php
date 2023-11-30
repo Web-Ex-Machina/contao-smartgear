@@ -1428,7 +1428,7 @@ class ConfigurationItem extends Core
                 (int) $objMessageAdmin->id,
                 $objItem->form_name,
                 $objConfiguration->title,
-                $objConfiguration->owner_email,
+                $objConfiguration->legal_owner_email,
                 $objConfiguration->language,
                 true,
                 []

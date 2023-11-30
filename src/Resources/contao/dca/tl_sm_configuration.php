@@ -85,9 +85,9 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             {framway_legend},framway_path;
             {fonts_legend},google_fonts;
             {analytics_legend},analytics_solution;
-            {legal_informations},legal_owner_type,owner_email,host_name,host_street,host_postal_code,host_city,host_region,host_country;
+            {legal_informations_legend},legal_owner_type,legal_owner_email,legal_owner_street,legal_owner_postal_code,legal_owner_city,legal_owner_region,legal_owner_country;
+            {host_informations_legend},host_name,host_street,host_postal_code,host_city,host_region,host_country;
             {contao_theme_legend},contao_theme;
-
             {contao_modules_legend},contao_module_sitemap;
             {contao_layouts_legend},contao_layout_full, contao_layout_standard;
             {contao_pages_legend},contao_page_root, contao_page_home, contao_page_404;
@@ -283,13 +283,53 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'rgxp' => 'email', 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
-        'owner_email' => [
+        'legal_owner_email' => [
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'rgxp' => 'email', 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
+        'legal_owner_street' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'legal_owner_postal_code' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'legal_owner_region' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'legal_owner_city' => [
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'legal_owner_country' => [
+            'exclude' => true,
+            'search' => true,
+            'default' => 'fr',
+            'inputType' => 'select',
+            'options_callback' => function () {
+                return \Contao\System::getCountries();
+            },
+            'eval' => ['mandatory' => false,  'chosen' => true, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+
         'host_name' => [
             'exclude' => true,
             'search' => true,

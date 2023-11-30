@@ -182,7 +182,7 @@ class Support extends BackendModule
             'email_sender_name' => $objPage ? $objPage->title : 'N/A',
             // 'sg_owner_email' => $config->getSgOwnerEmail(),
             'sg_owner_email' => $objPage ? ($objPage->adminEmail ?: (
-                        $objConfiguration ? ($objConfiguration->owner_email ?: Config::get('adminEmail')) : Config::get('adminEmail'))) : Config::get('adminEmail'),
+                        $objConfiguration ? ($objConfiguration->legal_owner_email ?: Config::get('adminEmail')) : Config::get('adminEmail'))) : Config::get('adminEmail'),
             // 'sg_owner_name' => $config->getSgOwnerName(),
             'sg_owner_name' => $objConfiguration ? $objConfiguration->getLegalOwnerName() : Config::get('adminEmail'),
             'support_email' => 'support@webexmachina.fr',

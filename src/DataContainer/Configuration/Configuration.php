@@ -84,42 +84,6 @@ class Configuration extends Core
         }
 
         // create modules
-        // nav
-        // if (!empty($objItem->contao_module_nav)) {
-        //     $objModuleNav = ModuleModel::findByPk($objItem->contao_module_nav);
-        // }
-        // if (!$objModuleNav) {
-        //     $objModuleNav = ModuleUtil::createModuleNav((int) $objTheme->id, !empty($objItem->contao_module_nav) ? ['id' => $objItem->contao_module_nav] : []);
-        //     $objItem->contao_module_nav = $objModuleNav->id;
-        // }
-
-        // wem_sg_header
-        // if (!empty($objItem->contao_module_wem_sg_header)) {
-        //     $objModuleWemSgHeader = ModuleModel::findByPk($objItem->contao_module_wem_sg_header);
-        // }
-        // if (!$objModuleWemSgHeader) {
-        //     $objModuleWemSgHeader = ModuleUtil::createModuleWemSgHeader((int) $objTheme->id, (int) $objModuleNav->id, !empty($objItem->contao_module_wem_sg_header) ? ['id' => $objItem->contao_module_wem_sg_header] : []);
-        //     $objItem->contao_module_wem_sg_header = $objModuleWemSgHeader->id;
-        // }
-
-        // breadcrumb
-        // if (!empty($objItem->contao_module_breadcrumb)) {
-        //     $objModuleBreadcrumb = ModuleModel::findByPk($objItem->contao_module_breadcrumb);
-        // }
-        // if (!$objModuleBreadcrumb) {
-        //     $objModuleBreadcrumb = ModuleUtil::createModuleBreadcrumb((int) $objTheme->id, !empty($objItem->contao_module_breadcrumb) ? ['id' => $objItem->contao_module_breadcrumb] : []);
-        //     $objItem->contao_module_breadcrumb = $objModuleBreadcrumb->id;
-        // }
-
-        // wem_sg_footer
-        // if (!empty($objItem->contao_module_wem_sg_footer)) {
-        //     $objModuleWemSgFooter = ModuleModel::findByPk($objItem->contao_module_wem_sg_footer);
-        // }
-        // if (!$objModuleWemSgFooter) {
-        //     $objModuleWemSgFooter = ModuleUtil::createModuleWemSgFooter((int) $objTheme->id, !empty($objItem->contao_module_wem_sg_footer) ? ['id' => $objItem->contao_module_wem_sg_footer] : []);
-        //     $objItem->contao_module_wem_sg_footer = $objModuleWemSgFooter->id;
-        // }
-
         // sitemap
         if (!empty($objItem->contao_module_sitemap)) {
             $objModuleSitemap = ModuleModel::findByPk($objItem->contao_module_sitemap);
@@ -128,15 +92,6 @@ class Configuration extends Core
             $objModuleSitemap = ModuleUtil::createModuleSitemap((int) $objTheme->id, !empty($objItem->contao_module_sitemap) ? ['id' => $objItem->contao_module_sitemap] : []);
             $objItem->contao_module_sitemap = $objModuleSitemap->id;
         }
-
-        // footernav
-        // if (!empty($objItem->contao_module_footernav)) {
-        //     $objModuleFooterNav = ModuleModel::findByPk($objItem->contao_module_footernav);
-        // }
-        // if (!$objModuleFooterNav) {
-        //     $objModuleFooterNav = ModuleUtil::createModuleFooterNav((int) $objTheme->id, !empty($objItem->contao_module_footernav) ? ['id' => $objItem->contao_module_footernav] : []);
-        //     $objItem->contao_module_footernav = $objModuleFooterNav->id;
-        // }
 
         // create Contao Layout fullwidth
         if (!empty($objItem->contao_layout_full)) {
@@ -218,7 +173,7 @@ class Configuration extends Core
             $objPageRoot = PageModel::findByPk($objItem->contao_page_root);
         }
         if (!$objPageRoot) {
-            $objPageRoot = PageUtil::createPageRoot($objItem->title, $objItem->owner_email, (int) $objLayoutStandard->id, $objItem->language, !empty($objItem->contao_page_root) ? ['id' => $objItem->contao_page_root] : []);
+            $objPageRoot = PageUtil::createPageRoot($objItem->title, $objItem->legal_owner_email, (int) $objLayoutStandard->id, $objItem->language, !empty($objItem->contao_page_root) ? ['id' => $objItem->contao_page_root] : []);
             $objItem->contao_page_root = $objPageRoot->id;
 
             // create nothing because it is a root page
