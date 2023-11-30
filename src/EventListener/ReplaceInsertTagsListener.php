@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\EventListener;
 
 use WEM\SmartgearBundle\Classes\Backend\Component\EventListener\ReplaceInsertTagsListener as AbstractReplaceInsertTagsListener;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
+use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
 class ReplaceInsertTagsListener
 {
@@ -89,11 +90,12 @@ class ReplaceInsertTagsListener
             global $objPage;
             $objConfiguration = $objPage ? Configuration::findOneByPage($objPage) : null;
 
+            if (!$objPage || !$objConfiguration) {
+                return false;
+            }
+
             switch ($elements[1]) {
                 case 'config':
-                    if (!$objPage || !$objConfiguration) {
-                        return false;
-                    }
                     switch ($elements[2]) {
                         case 'title':
                             return $objConfiguration->title;
@@ -156,6 +158,48 @@ class ReplaceInsertTagsListener
                         : 'https://'.$objConfiguration->domain
                     )
                     ;
+                break;
+                case 'pouet':
+                    return 'https://pouet-pouet-pouet.fr';
+                break;
+                case 'page-legal-notice':
+                    $objCI = ConfigurationItem::findItems(['pid' => $objConfiguration->id, 'type' => ConfigurationItem::TYPE_PAGE_LEGAL_NOTICE], 1);
+                    if (!$objCI) {
+                        return false;
+                    }
+
+                    $objPage2 = $objCI->getRelated('contao_page');
+                    if (!$objPage2) {
+                        return false;
+                    }
+
+                    return \array_key_exists(2, $elements) ? $objPage2->{$elements[2]} : $objPage2->alias;
+                break;
+                case 'page-privacy-politics':
+                    $objCI = ConfigurationItem::findItems(['pid' => $objConfiguration->id, 'type' => ConfigurationItem::TYPE_PAGE_PRIVACY_POLITICS], 1);
+                    if (!$objCI) {
+                        return false;
+                    }
+
+                    $objPage2 = $objCI->getRelated('contao_page');
+                    if (!$objPage2) {
+                        return false;
+                    }
+
+                    return \array_key_exists(2, $elements) ? $objPage2->{$elements[2]} : $objPage2->alias;
+                break;
+                case 'page-sitemap':
+                    $objCI = ConfigurationItem::findItems(['pid' => $objConfiguration->id, 'type' => ConfigurationItem::TYPE_PAGE_SITEMAP], 1);
+                    if (!$objCI) {
+                        $objCI = ConfigurationItem::findItems(['pid' => $objConfiguration->id, 'type' => ConfigurationItem::TYPE_MIXED_SITEMAP], 1);
+                    }
+
+                    $objPage2 = $objCI->getRelated('contao_page');
+                    if (!$objPage2) {
+                        return false;
+                    }
+
+                    return \array_key_exists(2, $elements) ? $objPage2->{$elements[2]} : $objPage2->alias;
                 break;
             }
         }
