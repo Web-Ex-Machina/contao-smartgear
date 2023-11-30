@@ -282,6 +282,8 @@ class LoadDataContainerListener
 
     protected function applyStyleManagerBehaviour($table): void
     {
+        // @todo : Framway path depends on SG installs
+        // How do we know wich to use ?
         // here add "explanation"/"reference" to styleManager fields ?
         if (\array_key_exists('TL_DCA', $GLOBALS)
         && \array_key_exists($table, $GLOBALS['TL_DCA'])

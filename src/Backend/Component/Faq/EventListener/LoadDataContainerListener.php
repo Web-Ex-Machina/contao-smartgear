@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -44,17 +44,17 @@ class LoadDataContainerListener
     public function __invoke(string $table): void
     {
         try {
-            /** @var CoreConfig */
-            $config = $this->coreConfigurationManager->load();
+            /* @var CoreConfig */
+            // $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
             switch ($table) {
                 case 'tl_faq':
-                    $faqConfig = $config->getSgFaq();
-                    if (!$faqConfig->getSgInstallComplete()) {
-                        return;
-                    }
-                    // limiting singleSRC fierld to the blog folder
-                    $this->dcaManipulator->setFieldSingleSRCPath($faqConfig->getSgFaqFolder());
+                    // $faqConfig = $config->getSgFaq();
+                    // if (!$faqConfig->getSgInstallComplete()) {
+                    //     return;
+                    // }
+                    // // limiting singleSRC fierld to the blog folder
+                    // $this->dcaManipulator->setFieldSingleSRCPath($faqConfig->getSgFaqFolder());
                     $this->dcaManipulator->addFieldSaveCallback('question', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanHeadline']);
                     $this->dcaManipulator->addFieldSaveCallback('description', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanText']);
                 break;

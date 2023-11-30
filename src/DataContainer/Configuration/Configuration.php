@@ -20,6 +20,7 @@ use Contao\ImageSizeModel;
 use Contao\LayoutModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
+use Contao\System;
 use Contao\ThemeModel;
 use Exception;
 use WEM\SmartgearBundle\Classes\StringUtil;
@@ -219,6 +220,50 @@ class Configuration extends Core
         }
 
         $objItem->save();
+
+        // allow "onclick" on "<a>" tag
+        $allowedAttributes = StringUtil::deserialize(\Contao\Config::get('allowedAttributes'), true);
+        foreach ($allowedAttributes as $index => $allowedAttribute) {
+            if ('a' === $allowedAttribute['key']
+            && false === strpos($allowedAttribute['value'], 'onclick')
+            ) {
+                $allowedAttributes[$index]['value'] .= ',onclick';
+                \Contao\Config::set('allowedAttributes', serialize($allowedAttributes));
+                \Contao\Config::persist('allowedAttributes', serialize($allowedAttributes));
+                break;
+            }
+        }
+
+        // update local config
+        $localConfigManager = System::getContainer()->get('smartgear.config.manager.local_config');
+        /** @var LocalConfig */
+        $config = $localConfigManager->load();
+
+        $config
+            ->setDateFormat('d/m/Y')
+            ->setTimeFormat('H:i')
+            ->setDatimFormat('d/m/Y à H:i')
+            ->setTimeZone('Europe/Paris')
+            ->setCharacterSet('utf-8')
+            ->setUseAutoItem(1)
+            ->setFolderUrl(1)
+            ->setMaxResultsPerPage(500)
+            ->setPrivacyAnonymizeIp(1)
+            ->setPrivacyAnonymizeGA(1)
+            ->setGdMaxImgWidth(5000)
+            ->setGdMaxImgHeight(5000)
+            ->setMaxFileSize(10000000)
+            ->setUndoPeriod(7776000)
+            ->setVersionPeriod(7776000)
+            ->setLogPeriod(7776000)
+            ->setAllowedTags('<script><iframe><a><abbr><acronym><address><area><article><aside><audio><b><bdi><bdo><big><blockquote><br><base><button><canvas><caption><cite><code><col><colgroup><data><datalist><dataset><dd><del><dfn><div><dl><dt><em><fieldset><figcaption><figure><footer><form><h1><h2><h3><h4><h5><h6><header><hgroup><hr><i><img><input><ins><kbd><keygen><label><legend><li><link><map><mark><menu><nav><object><ol><optgroup><option><output><p><param><picture><pre><q><s><samp><section><select><small><source><span><strong><style><sub><sup><table><tbody><td><textarea><tfoot><th><thead><time><tr><tt><u><ul><var><video><wbr>')
+            // ->setSgOwnerDomain(\Contao\Environment::get('base'))
+            // ->setSgOwnerHost(CoreConfig::DEFAULT_OWNER_HOST)
+            ->setRejectLargeUploads(true)
+            ->setFileusageSkipReplaceInsertTags(true) // Still needed on some installations
+        ;
+
+        $localConfigManager->save($config);
     }
 
     public function fieldGoogleFontsOnsaveCallback($value, DataContainer $dc)

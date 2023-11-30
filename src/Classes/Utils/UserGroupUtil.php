@@ -20,6 +20,7 @@ use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
+use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class UserGroupUtil
 {
@@ -77,6 +78,7 @@ class UserGroupUtil
             ->addAllowedFormFields(array_keys($GLOBALS['TL_FFL']))
             ->addAllowedFieldsByTables(['tl_form', 'tl_form_field'])
             ->addAllowedFormPermissions(['create', 'delete'])
+            ->addSmartgearPermissions([SmartgearPermissions::CORE_EXPERT, SmartgearPermissions::BLOG_EXPERT, SmartgearPermissions::EVENTS_EXPERT, SmartgearPermissions::SOCIALLINK_EXPERT])
         ;
         $objUserGroup->modules = serialize(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance', 'wem_sg_social_link', 'wem_sg_social_link_config_categories', 'wem_sg_dashboard']);
         $objUserGroup = $userGroupManipulator->getUserGroup();

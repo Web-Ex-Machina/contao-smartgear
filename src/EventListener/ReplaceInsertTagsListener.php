@@ -146,6 +146,9 @@ class ReplaceInsertTagsListener
                 case 'api_key':
                     return $objConfiguration->{$elements[1]};
                 break;
+                case 'websiteTitle':
+                    return $objConfiguration->title;
+                break;
                 case 'legal_owner_address_full':
                     return $objConfiguration->legal_owner_street.' '.$objConfiguration->legal_owner_postal_code.' '.$objConfiguration->legal_owner_city.' '.$objConfiguration->legal_owner_region.' '.$objConfiguration->legal_owner_country;
                 break;

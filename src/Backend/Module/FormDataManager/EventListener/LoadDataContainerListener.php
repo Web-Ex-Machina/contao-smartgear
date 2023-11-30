@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -49,12 +49,12 @@ class LoadDataContainerListener
             $this->dcaManipulator->setTable($table);
             switch ($table) {
                 case 'tl_form':
-                    $fmdConfig = $config->getSgFormDataManager();
-                    if ($fmdConfig->getSgInstallComplete()) {
-                        return;
-                    }
+                    // $fmdConfig = $config->getSgFormDataManager();
+                    // if ($fmdConfig->getSgInstallComplete()) {
+                    //     return;
+                    // }
 
-                    $this->dcaManipulator->removeListOperation('contacts');
+                    // $this->dcaManipulator->removeListOperation('contacts');
 
                 break;
             }

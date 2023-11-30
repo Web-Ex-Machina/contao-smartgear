@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -58,6 +58,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
         if ('sg' === $key && 'blog' === substr($elements[1], 0, 4)) {
+            return static::NOT_HANDLED;
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
             $blogConfig = $config->getSgBlog();

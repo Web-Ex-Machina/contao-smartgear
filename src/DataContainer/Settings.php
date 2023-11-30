@@ -38,11 +38,18 @@ class Settings
                     $objNcNotificationMessageAdmin = NcNotificationMessageUtil::createSupportFormNotificationMessageAdmin((int) $objGateway->id, 'email', (int) $objNcNotification->id);
                     $objNcNotificationMessageAdminLanguage = NcNotificationMessageLanguageUtil::createSupportFormNotificationMessageAdminLanguage((int) $objNcNotificationMessageAdmin->id, 'fr', true);
 
-                    $objConfig = Config::getInstance();
-                    $objConfig->add("\$GLOBALS['TL_CONFIG']['wem_sg_support_form_notification']", $objNcNotification->id);
-                    $objConfig->save();
+                    // $objConfig = Config::getInstance();
+                    // $objConfig->persist("\$GLOBALS['TL_CONFIG']['wem_sg_support_form_notification']", $objNcNotification->id);
+                    // $objConfig->save();
+                    \Contao\Config::set('wem_sg_support_form_notification', $objNcNotification->id);
+                    \Contao\Config::persist('wem_sg_support_form_notification', $objNcNotification->id);
                 }
             }
+        }
+
+        if (Config::get('wem_sg_encryption_key')) {
+            \Contao\Config::set('wem_pdm_encryption_key', \Contao\Config::get('wem_sg_encryption_key'));
+            \Contao\Config::persist('wem_pdm_encryption_key', \Contao\Config::get('wem_sg_encryption_key'));
         }
     }
 
