@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2020 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -12,25 +12,19 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\SmartgearBundle\Hooks;
+namespace WEM\SmartgearBundle\EventListener;
 
 /**
- * Class GenerateFrontendUrlHook.
+ * Class GenerateFrontendUrlListener.
  *
  * Handle Smartgear generateFrontendUrl hooks
  */
-class GenerateFrontendUrlHook
+class GenerateFrontendUrlListener
 {
     /**
      * Make sure empty requests are correctly redirected as root page.
-     *
-     * @param $arrRow
-     * @param $strParams
-     * @param $strUrl
-     *
-     * @return mixed|string
      */
-    public function generateFrontendUrl($arrRow, $strParams, $strUrl)
+    public function __invoke(array $arrRow, string $strParams, string $strUrl): string
     {
         if (!\is_array($arrRow)) {
             throw new \Exception('not an associative array.');

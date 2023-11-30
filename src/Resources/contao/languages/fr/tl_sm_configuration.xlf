@@ -229,7 +229,7 @@
         <source>Legal informations</source>
         <target>Informations légales</target>
       </trans-unit>
-      <trans-unit id="tl_sm_configuration.host_legend">
+      <trans-unit id="tl_sm_configuration.host_informations_legend">
         <source>Host informations</source>
         <target>Informations hébergeur</target>
       </trans-unit>

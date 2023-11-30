@@ -35,6 +35,10 @@ services:
                 - '@smartgear.backend.component.events.listener.generate_breadcrumb'
         public: true
         
+    smartgear.listener.generate_frontend_url:
+        class: WEM\SmartgearBundle\EventListener\GenerateFrontendUrlListener
+        public: true
+        
     smartgear.listener.initialize_system:
         class: WEM\SmartgearBundle\EventListener\InitializeSystemListener
         arguments:
