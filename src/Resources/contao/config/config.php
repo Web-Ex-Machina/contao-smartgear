@@ -103,17 +103,17 @@ $GLOBALS['BE_FFL']['stylemanager'] = WEM\SmartgearBundle\Widget\ComponentStyleSe
 /*
  * Backend modules
  */
-ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 0, [
-    'smartgear' => [
-        'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
-    ],
-    'wem_sg_smartgear_configuration' => [
-        'tables' => ['tl_sm_configuration', 'tl_sm_configuration_item'],
-    ],
-    'wem_sg_social_link_config_categories' => [
-        'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
-    ],
-]);
+// ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 0, [
+    // 'smartgear' => [
+    //     'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
+    // ],
+    //     'wem_sg_smartgear_configuration' => [
+    //         'tables' => ['tl_sm_configuration', 'tl_sm_configuration_item'],
+    //     ],
+    //     'wem_sg_social_link_config_categories' => [
+    //         'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
+    //     ],
+// ]);
 ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
     'wem_smartgear' => [
         'wem_sg_dashboard' => [
@@ -123,6 +123,29 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
             'callback' => "\WEM\SmartgearBundle\Backend\Reminder",
         ],
         'undo' => $GLOBALS['BE_MOD']['system']['undo'],
+    ],
+]);
+ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
+    'wem_smartgear_admin' => [
+        'wem_sg_update' => [
+            'callback' => '\WEM\SmartgearBundle\Backend\Update',
+        ],
+        'wem_sg_backup' => [
+            'callback' => '\WEM\SmartgearBundle\Backend\Backup',
+        ],
+        'wem_sg_clear_cache' => [
+            'callback' => '\WEM\SmartgearBundle\Backend\CacheClear',
+            // 'callback' => function (): void {
+            //     $commandUtil = System::getContainer()->get('smartgear.classes.command.util');
+            //     $this->commandUtil->executeCmd('cache:clear');
+            // },
+        ],
+        'wem_sg_smartgear_configuration' => [
+            'tables' => ['tl_sm_configuration', 'tl_sm_configuration_item'],
+        ],
+        'wem_sg_social_link_config_categories' => [
+            'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
+        ],
     ],
 ]);
 unset($GLOBALS['BE_MOD']['system']['undo']);

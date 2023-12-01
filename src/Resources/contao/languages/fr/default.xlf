@@ -2731,7 +2731,11 @@
 			<target>Succès</target>
 		</trans-unit>
 
-
+		<!-- CacheClear -->
+		<trans-unit id="WEM.SMARTGEAR.CACHECLEAR.confirmation">
+			<source>The command "cache:clear" have executed</source>
+			<target>La commande "cache:clear" a bien été exécutée</target>
+		</trans-unit>
 
 		<!-- Configuration manager -->
 		<trans-unit id="WEM.SMARTGEAR.CONFIGURATIONMANAGER.configurationManagerBTTitle">
