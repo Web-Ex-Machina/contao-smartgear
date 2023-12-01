@@ -275,6 +275,12 @@ class ConfigurationItem extends Core
         ConfigurationItemUtil::createEverythingFromConfigurationItem($objItem, $arrUpdates, (int) $dc->activeRecord->tstamp);
     }
 
+    public function ondeleteCallback(DataContainer $dc): void
+    {
+        $objItem = ConfigurationItemModel::findOneById($dc->activeRecord->id);
+        ConfigurationItemUtil::deleteEverythingFromConfigurationItem($objItem);
+    }
+
     public function contentTemplateOptionsCallback(DataContainer $dc): array
     {
         $arrOptions = [];

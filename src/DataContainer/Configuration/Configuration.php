@@ -35,6 +35,12 @@ class Configuration extends Core
         ConfigurationUtil::createEverythingFromConfiguration($objItem);
     }
 
+    public function ondeleteCallback(DataContainer $dc): void
+    {
+        $objItem = ConfigurationModel::findOneById($dc->activeRecord->id);
+        ConfigurationUtil::deleteEverythingFromConfiguration($objItem);
+    }
+
     public function fieldGoogleFontsOnsaveCallback($value, DataContainer $dc)
     {
         $valueFormatted = StringUtil::deserialize($value, true);

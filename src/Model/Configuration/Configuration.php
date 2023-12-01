@@ -84,6 +84,32 @@ class Configuration extends CoreModel
      */
     protected static $strOrderColumn = 'tstamp DESC';
 
+    /**
+     * Generic statements format.
+     *
+     * @param string $strField    [Column to format]
+     * @param mixed  $varValue    [Value to use]
+     * @param string $strOperator [Operator to use, default "="]
+     *
+     * @return array
+     */
+    public static function formatStatement($strField, $varValue, $strOperator = '=')
+    {
+        $arrColumns = [];
+        $t = static::$strTable;
+
+        switch ($strField) {
+            case 'not_id':
+                $varValue = \is_array($varValue) ? $varValue : [$varValue];
+                $arrColumns[] = sprintf("$t.id NOT IN (%s)", implode(',', $varValue));
+                break;
+            default:
+                return parent::formatStatement($strField, $varValue, $strOperator);
+        }
+
+        return $arrColumns;
+    }
+
     public static function findOneByPage(PageModel $objPage, ?array $arrOptions = [])
     {
         if ($objLayout = LayoutModel::findByPk($objPage->layout)) {

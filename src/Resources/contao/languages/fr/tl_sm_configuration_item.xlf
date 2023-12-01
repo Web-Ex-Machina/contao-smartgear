@@ -349,8 +349,8 @@
         <target>Catégorie FAQ</target>
       </trans-unit>
       <trans-unit id="tl_sm_configuration_item.calendar_legend">
-        <source>FAQ Category</source>
-        <target>Catégorie FAQ</target>
+        <source>Calendar</source>
+        <target>Calendrier</target>
       </trans-unit>
       <trans-unit id="tl_sm_configuration_item.news_legend">
         <source>Blog</source>

@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Utils\Configuration;
 
+use Contao\Config;
 use Contao\FormFieldModel;
 use Contao\FormModel;
 use Contao\ModuleModel;
@@ -33,10 +34,166 @@ use WEM\SmartgearBundle\Classes\Utils\Notification\NcNotificationMessageUtil;
 use WEM\SmartgearBundle\Classes\Utils\Notification\NcNotificationUtil;
 use WEM\SmartgearBundle\Classes\Utils\PageUtil;
 use WEM\SmartgearBundle\Classes\Utils\UserGroupUtil;
+use WEM\SmartgearBundle\Model\Configuration\Configuration as ConfigurationModel;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem as ConfigurationItemModel;
 
 class ConfigurationItemUtil
 {
+    public static function deleteEverythingFromConfigurationItem(ConfigurationItemModel $objItem): ConfigurationItemModel
+    {
+        if ($objItem->contao_page) {
+            $objPage = $objItem->getRelated('contao_page');
+            if ($objPage
+            && 0 === ConfigurationItemModel::countItems(['contao_page' => $objItem->contao_page, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_page_form' => $objItem->contao_page, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_page_form_sent' => $objItem->contao_page, 'not_id' => $objItem->id])
+            && 0 === ConfigurationModel::countItems(['contao_page_home' => $objItem->contao_page, 'not_id' => $objItem->id])
+            && 0 === ConfigurationModel::countItems(['contao_page_404' => $objItem->contao_page, 'not_id' => $objItem->id])
+            && 0 === ConfigurationModel::countItems(['contao_page_root' => $objItem->contao_page, 'not_id' => $objItem->id])
+            ) {
+                $objPage->delete();
+                $objItem->contao_page = null;
+            }
+        }
+        if ($objItem->contao_page_form) {
+            $objPage = $objItem->getRelated('contao_page_form');
+            if ($objPage
+            && 0 === ConfigurationItemModel::countItems(['contao_page' => $objItem->contao_page_form, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_page_form' => $objItem->contao_page_form, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_page_form_sent' => $objItem->contao_page_form, 'not_id' => $objItem->id])
+            && 0 === ConfigurationModel::countItems(['contao_page_home' => $objItem->contao_page_form, 'not_id' => $objItem->id])
+            && 0 === ConfigurationModel::countItems(['contao_page_404' => $objItem->contao_page_form, 'not_id' => $objItem->id])
+            && 0 === ConfigurationModel::countItems(['contao_page_root' => $objItem->contao_page_form, 'not_id' => $objItem->id])
+            ) {
+                $objPage->delete();
+                $objItem->contao_page_form = null;
+            }
+        }
+        if ($objItem->contao_page_form_sent) {
+            $objPage = $objItem->getRelated('contao_page_form_sent');
+            if ($objPage
+            && 0 === ConfigurationItemModel::countItems(['contao_page' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_page_form' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_page_form_sent' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id])
+            && 0 === ConfigurationModel::countItems(['contao_page_home' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id])
+            && 0 === ConfigurationModel::countItems(['contao_page_404' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id])
+            && 0 === ConfigurationModel::countItems(['contao_page_root' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id])
+            ) {
+                $objPage->delete();
+                $objItem->contao_page_form_sent = null;
+            }
+        }
+        if ($objItem->contao_module) {
+            $objModule = $objItem->getRelated('contao_module');
+            if ($objModule
+            && 0 === ConfigurationItemModel::countItems(['contao_module' => $objItem->contao_module, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_module_reader' => $objItem->contao_module, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_module_list' => $objItem->contao_module, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_module_calendar' => $objItem->contao_module, 'not_id' => $objItem->id])
+            && 0 === ConfigurationModel::countItems(['contao_module_sitemap' => $objItem->contao_module, 'not_id' => $objItem->id])
+            ) {
+                $objModule->delete();
+                $objItem->contao_module = null;
+            }
+        }
+        if ($objItem->contao_module_reader) {
+            $objModule = $objItem->getRelated('contao_module_reader');
+            if ($objModule
+            && 0 === ConfigurationItemModel::countItems(['contao_module' => $objItem->contao_module_reader, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_module_reader' => $objItem->contao_module_reader, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_module_list' => $objItem->contao_module_reader, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_module_calendar' => $objItem->contao_module_reader, 'not_id' => $objItem->id])
+            && 0 === ConfigurationModel::countItems(['contao_module_sitemap' => $objItem->contao_module_reader, 'not_id' => $objItem->id])
+            ) {
+                $objModule->delete();
+                $objItem->contao_module_reader = null;
+            }
+        }
+        if ($objItem->contao_module_list) {
+            $objModule = $objItem->getRelated('contao_module_list');
+            if ($objModule
+            && 0 === ConfigurationItemModel::countItems(['contao_module' => $objItem->contao_module_list, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_module_reader' => $objItem->contao_module_list, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_module_list' => $objItem->contao_module_list, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_module_calendar' => $objItem->contao_module_list, 'not_id' => $objItem->id])
+            && 0 === ConfigurationModel::countItems(['contao_module_sitemap' => $objItem->contao_module_list, 'not_id' => $objItem->id])
+            ) {
+                $objModule->delete();
+                $objItem->contao_module_list = null;
+            }
+        }
+        if ($objItem->contao_module_calendar) {
+            $objModule = $objItem->getRelated('contao_module_calendar');
+            if ($objModule
+            && 0 === ConfigurationItemModel::countItems(['contao_module' => $objItem->contao_module_calendar, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_module_reader' => $objItem->contao_module_calendar, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_module_list' => $objItem->contao_module_calendar, 'not_id' => $objItem->id])
+            && 0 === ConfigurationItemModel::countItems(['contao_module_calendar' => $objItem->contao_module_calendar, 'not_id' => $objItem->id])
+            && 0 === ConfigurationModel::countItems(['contao_module_sitemap' => $objItem->contao_module_calendar, 'not_id' => $objItem->id])
+            ) {
+                $objModule->delete();
+                $objItem->contao_module_calendar = null;
+            }
+        }
+        if ($objItem->contao_user_group) {
+            $objUserGroup = $objItem->getRelated('contao_user_group');
+            if ($objUserGroup
+            && 0 === ConfigurationItemModel::countItems(['contao_user_group' => $objItem->contao_user_group, 'not_id' => $objItem->id])
+            ) {
+                $objUserGroup->delete();
+                $objItem->contao_user_group = null;
+            }
+        }
+        if ($objItem->contao_news_archive) {
+            $objNewsArchive = $objItem->getRelated('contao_news_archive');
+            if ($objNewsArchive
+            && 0 === ConfigurationItemModel::countItems(['contao_news_archive' => $objItem->contao_news_archive, 'not_id' => $objItem->id])
+            ) {
+                $objNewsArchive->delete();
+                $objItem->contao_news_archive = null;
+            }
+        }
+        if ($objItem->contao_faq_category) {
+            $objFaqCategory = $objItem->getRelated('contao_faq_category');
+            if ($objFaqCategory
+            && 0 === ConfigurationItemModel::countItems(['contao_faq_category' => $objItem->contao_faq_category, 'not_id' => $objItem->id])
+            ) {
+                $objFaqCategory->delete();
+                $objItem->contao_faq_category = null;
+            }
+        }
+        if ($objItem->contao_calendar) {
+            $objCalendar = $objItem->getRelated('contao_calendar');
+            if ($objCalendar
+            && 0 === ConfigurationItemModel::countItems(['contao_calendar' => $objItem->contao_calendar, 'not_id' => $objItem->id])
+            ) {
+                $objCalendar->delete();
+                $objItem->contao_calendar = null;
+            }
+        }
+        if ($objItem->contao_form) {
+            $objForm = $objItem->getRelated('contao_form');
+            if ($objForm
+            && 0 === ConfigurationItemModel::countItems(['contao_form' => $objItem->contao_form, 'not_id' => $objItem->id])
+            ) {
+                $objForm->delete();
+                $objItem->contao_form = null;
+            }
+        }
+        if ($objItem->contao_notification) {
+            $objForm = $objItem->getRelated('contao_notification');
+            if ($objForm
+            && 0 === ConfigurationItemModel::countItems(['contao_notification' => $objItem->contao_notification, 'not_id' => $objItem->id])
+            && (int) $objItem->contao_notification !== Config::get('wem_sg_support_form_notification')
+            ) {
+                $objForm->delete();
+                $objItem->contao_notification = null;
+            }
+        }
+
+        return $objItem;
+    }
+
     public static function createEverythingFromConfigurationItem(ConfigurationItemModel $objItem, ?array $arrUpdates = [], ?int $tstamp = null): ConfigurationItemModel
     {
         switch ($objItem->type) {

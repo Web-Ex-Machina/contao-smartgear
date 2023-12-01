@@ -28,6 +28,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             ],
         ],
         'onsubmit_callback' => [['smartgear.data_container.configuration.configuration', 'onsubmitCallback']],
+        'ondelete_callback' => [['smartgear.data_container.configuration.configuration', 'ondeleteCallback']],
     ],
 
     // List
