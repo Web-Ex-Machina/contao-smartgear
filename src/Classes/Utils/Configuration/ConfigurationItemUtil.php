@@ -1251,14 +1251,15 @@ class ConfigurationItemUtil
 
     public static function manageMixedFormContact(ConfigurationItemModel $objItem, bool $blnForcePageFormUpdate, bool $blnForcePageFormSentUpdate, bool $blnForceFormUpdate, bool $blnForceNotificationUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        $oldPageId = $objItem->contao_page;
+        $oldPageFormId = $objItem->contao_page_form;
+        $oldPageFormSentId = $objItem->contao_page_form_sent;
         $objItem = self::managePageFormContactCreate($objItem, $blnForcePageFormUpdate, $tstamp);
         $objItem = self::managePageFormContactSentCreate($objItem, $blnForcePageFormSentUpdate, $tstamp);
         $objItem = self::manageFormFormContact($objItem, $blnForceFormUpdate, $tstamp);
         $objItem = self::manageNotificationFormContactSent($objItem, $blnForceNotificationUpdate, $tstamp);
 
-        $objItem = self::managePageFormContactFill($objItem, $blnForcePageFormUpdate || (int) $oldPageId !== (int) $objItem->contao_page, $tstamp);
+        $objItem = self::managePageFormContactFill($objItem, $blnForcePageFormUpdate || (int) $oldPageFormId !== (int) $objItem->contao_page_form, $tstamp);
 
-        return self::managePageFormContactSentFill($objItem, $blnForcePageFormSentUpdate || (int) $oldPageId !== (int) $objItem->contao_page, $tstamp);
+        return self::managePageFormContactSentFill($objItem, $blnForcePageFormSentUpdate || (int) $oldPageFormSentId !== (int) $objItem->contao_page_form_sent, $tstamp);
     }
 }
