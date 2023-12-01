@@ -196,7 +196,9 @@ class ReplaceInsertTagsListener
                     if (!$objCI) {
                         $objCI = ConfigurationItem::findItems(['pid' => $objConfiguration->id, 'type' => ConfigurationItem::TYPE_MIXED_SITEMAP], 1);
                     }
-
+                    if (!$objCI) {
+                        return false;
+                    }
                     $objPage2 = $objCI->getRelated('contao_page');
                     if (!$objPage2) {
                         return false;

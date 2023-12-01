@@ -53,23 +53,23 @@ class ConfigurationUtil
             // check for images sizes
             $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '16:9']);
             if (!$objImageSize) {
-                ImageSizeUtil::createImageSize_16_9($objItem->contao_theme);
+                ImageSizeUtil::createImageSize_16_9((int) $objItem->contao_theme);
             }
             $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '2:1']);
             if (!$objImageSize) {
-                ImageSizeUtil::createImageSize_2_1($objItem->contao_theme);
+                ImageSizeUtil::createImageSize_2_1((int) $objItem->contao_theme);
             }
             $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '1:2']);
             if (!$objImageSize) {
-                ImageSizeUtil::createImageSize_1_2($objItem->contao_theme);
+                ImageSizeUtil::createImageSize_1_2((int) $objItem->contao_theme);
             }
             $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '1:1']);
             if (!$objImageSize) {
-                ImageSizeUtil::createImageSize_1_1($objItem->contao_theme);
+                ImageSizeUtil::createImageSize_1_1((int) $objItem->contao_theme);
             }
             $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '4:3']);
             if (!$objImageSize) {
-                ImageSizeUtil::createImageSize_4_3($objItem->contao_theme);
+                ImageSizeUtil::createImageSize_4_3((int) $objItem->contao_theme);
             }
         }
 
@@ -90,7 +90,7 @@ class ConfigurationUtil
         if (!$objLayoutFull) {
             $objLayoutFull = LayoutUtil::createLayoutFullpage(
                 $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardFullwidthName'],
-                $objTheme->id,
+                (int) $objTheme->id,
                 array_merge([
                     'webfonts' => $objItem->google_fonts,
                     // 'modules_raw' => [
@@ -127,7 +127,7 @@ class ConfigurationUtil
         if (!$objLayoutStandard) {
             $objLayoutStandard = LayoutUtil::createLayoutStandard(
                 $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardName'],
-                $objTheme->id,
+                (int) $objTheme->id,
                 array_merge([
                     'webfonts' => $objItem->google_fonts,
                     // 'modules_raw' => [

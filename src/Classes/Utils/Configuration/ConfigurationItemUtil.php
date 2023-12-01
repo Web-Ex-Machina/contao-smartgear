@@ -630,7 +630,7 @@ class ConfigurationItemUtil
                 $objModuleNav->save();
             } else {
                 // create the nav module
-                $objModuleNav = ModuleUtil::createModuleNav($objConfiguration->contao_theme, ['name' => $objItem->module_name.' - Nav']);
+                $objModuleNav = ModuleUtil::createModuleNav((int) $objConfiguration->contao_theme, ['name' => $objItem->module_name.' - Nav']);
             }
 
             $objModule = ModuleUtil::createModuleWemSgHeader(
@@ -649,11 +649,11 @@ class ConfigurationItemUtil
 
         // update selected layouts
         $contaoLayoutsToUpdate = [];
-        if (\is_array($contao_layout_to_update)) {
-            $contaoLayoutsToUpdate = $contao_layout_to_update;
-        } else {
-            $contaoLayoutsToUpdate = StringUtil::deserialize($objItem->contao_layout_to_update, true);
-        }
+        // if (\is_array($objItem->contao_layout_to_update)) {
+        //     $contaoLayoutsToUpdate = $objItem->contao_layout_to_update;
+        // } else {
+        // $contaoLayoutsToUpdate = StringUtil::deserialize($objItem->contao_layout_to_update, true);
+        // }
         $contaoLayoutsToUpdate = StringUtil::deserialize($objItem->contao_layout_to_update, true);
         foreach ($contaoLayoutsToUpdate as $layoutId) {
             LayoutUtil::replaceHeader((int) $layoutId, (int) $objItem->contao_module);
@@ -685,11 +685,11 @@ class ConfigurationItemUtil
 
         // update selected layouts
         $contaoLayoutsToUpdate = [];
-        if (\is_array($contao_layout_to_update)) {
-            $contaoLayoutsToUpdate = $contao_layout_to_update;
-        } else {
-            $contaoLayoutsToUpdate = StringUtil::deserialize($objItem->contao_layout_to_update, true);
-        }
+        // if (\is_array($objItem->contao_layout_to_update)) {
+        //     $contaoLayoutsToUpdate = $objItem->contao_layout_to_update;
+        // } else {
+        $contaoLayoutsToUpdate = StringUtil::deserialize($objItem->contao_layout_to_update, true);
+        // }
         foreach ($contaoLayoutsToUpdate as $layoutId) {
             LayoutUtil::replaceFooter((int) $layoutId, (int) $objItem->contao_module);
         }
@@ -719,11 +719,11 @@ class ConfigurationItemUtil
 
         // update selected layouts
         $contaoLayoutsToUpdate = [];
-        if (\is_array($contao_layout_to_update)) {
-            $contaoLayoutsToUpdate = $contao_layout_to_update;
-        } else {
-            $contaoLayoutsToUpdate = StringUtil::deserialize($objItem->contao_layout_to_update, true);
-        }
+        // if (\is_array($objItem->contao_layout_to_update)) {
+        //     $contaoLayoutsToUpdate = $objItem->contao_layout_to_update;
+        // } else {
+        $contaoLayoutsToUpdate = StringUtil::deserialize($objItem->contao_layout_to_update, true);
+        // }
         foreach ($contaoLayoutsToUpdate as $layoutId) {
             LayoutUtil::replaceBreadcrumb((int) $layoutId, (int) $objItem->contao_module);
         }
@@ -1171,14 +1171,14 @@ class ConfigurationItemUtil
 
                 $objMessageUser = NcNotificationMessageUtil::createContactFormSentNotificationMessageUser(
                 (int) $objConfiguration->email_gateway,
-                $objNotification->type,
+                'email',
                 (int) $objNotification->id,
                 []
             );
 
                 $objMessageAdmin = NcNotificationMessageUtil::createContactFormSentNotificationMessageAdmin(
                 (int) $objConfiguration->email_gateway,
-                $objNotification->type,
+                'email',
                 (int) $objNotification->id,
                 []
             );

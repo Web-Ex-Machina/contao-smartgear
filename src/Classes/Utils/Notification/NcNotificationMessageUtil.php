@@ -29,6 +29,7 @@ class NcNotificationMessageUtil
         $objNotificationMessage->pid = $pid;
         $objNotificationMessage->gateway = $gatewayId;
         $objNotificationMessage->gateway_type = $gatewayType;
+        $objNotificationMessage->published = 1;
 
         // Now we get the default values, get the arrData table
         if (!empty($arrData)) {
