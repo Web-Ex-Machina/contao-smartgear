@@ -145,7 +145,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
         'pid' => [
             'foreignKey' => 'tl_sm_configuration.id',
             'sql' => "int(10) unsigned NOT NULL default '0'",
-            'relation' => ['type' => 'belongsTo', 'load' => 'eager'],
+            'relation' => ['type' => 'belongsTo', 'load' => 'lazy'],
         ],
         'type' => [
             'exclude' => true,
@@ -163,7 +163,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'foreignKey' => 'tl_page.id',
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => 'int(10) NOT NULL default 0',
-            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
         ],
         'page_name' => [
             'exclude' => true,
@@ -179,7 +179,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'foreignKey' => 'tl_page.id',
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => 'int(10) NOT NULL default 0',
-            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
         ],
         'page_form_name' => [
             'exclude' => true,
@@ -195,7 +195,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'foreignKey' => 'tl_page.id',
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => 'int(10) NOT NULL default 0',
-            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
         ],
         'page_form_sent_name' => [
             'exclude' => true,
@@ -213,7 +213,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'foreignKey' => 'tl_module.name',
             'eval' => ['mandatory' => false, 'includeBlankOption' => true, 'maxlength' => 255, 'tl_class' => 'w50 wizard'],
             'sql' => 'int(10) NOT NULL default 0',
-            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
             'wizard' => [[\WEM\SmartgearBundle\DataContainer\Content::class, 'editModule']],
             'reference' => &$GLOBALS['TL_LANG']['FMD'],
         ],
@@ -233,7 +233,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'foreignKey' => 'tl_module.name',
             'eval' => ['mandatory' => false, 'includeBlankOption' => true, 'maxlength' => 255, 'tl_class' => 'w50 wizard'],
             'sql' => 'int(10) NOT NULL default 0',
-            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
             'wizard' => [[\WEM\SmartgearBundle\DataContainer\Content::class, 'editModule']],
             'reference' => &$GLOBALS['TL_LANG']['FMD'],
         ],
@@ -253,7 +253,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'foreignKey' => 'tl_module.name',
             'eval' => ['mandatory' => false, 'includeBlankOption' => true, 'maxlength' => 255, 'tl_class' => 'w50 wizard'],
             'sql' => 'int(10) NOT NULL default 0',
-            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
             'wizard' => [[\WEM\SmartgearBundle\DataContainer\Content::class, 'editModule']],
             'reference' => &$GLOBALS['TL_LANG']['FMD'],
         ],
@@ -280,7 +280,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'foreignKey' => 'tl_module.name',
             'eval' => ['mandatory' => false, 'includeBlankOption' => true, 'maxlength' => 255, 'tl_class' => 'w50 wizard'],
             'sql' => 'int(10) NOT NULL default 0',
-            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
             'wizard' => [[\WEM\SmartgearBundle\DataContainer\Content::class, 'editModule']],
             'reference' => &$GLOBALS['TL_LANG']['FMD'],
         ],
@@ -311,7 +311,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'foreignKey' => 'tl_user_group.id',
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => 'int(10) NOT NULL default 0',
-            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
         ],
         'user_group_name' => [
             'exclude' => true,
@@ -327,7 +327,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'foreignKey' => 'tl_faq_category.id',
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => 'int(10) NOT NULL default 0',
-            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
         ],
         'faq_category_name' => [
             'exclude' => true,
@@ -343,7 +343,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'foreignKey' => 'tl_calendar.id',
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => 'int(10) NOT NULL default 0',
-            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
         ],
         'calendar_name' => [
             'exclude' => true,
@@ -359,7 +359,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'foreignKey' => 'tl_news_archive.id',
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => 'int(10) NOT NULL default 0',
-            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
         ],
         'news_archive_name' => [
             'exclude' => true,
@@ -375,7 +375,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'foreignKey' => 'tl_form.id',
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => 'int(10) NOT NULL default 0',
-            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
         ],
         'form_name' => [
             'exclude' => true,
@@ -391,7 +391,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'foreignKey' => 'tl_nc_notification.id',
             'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => 'int(10) NOT NULL default 0',
-            'relation' => ['type' => 'belongsTo', 'load' => 'eager', 'field' => 'id'],
+            'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
         ],
         'notification_name' => [
             'exclude' => true,

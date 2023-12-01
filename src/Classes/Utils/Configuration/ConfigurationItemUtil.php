@@ -119,7 +119,7 @@ class ConfigurationItemUtil
             if (!empty($objItem->contao_page)) {
                 $objPage = PageModel::findByPk($objItem->contao_page);
                 if ($objPage) {
-                    PageUtil::emptyPage($objItem->contao_page);
+                    PageUtil::emptyPage((int) $objItem->contao_page);
                 }
             }
 
@@ -152,7 +152,7 @@ class ConfigurationItemUtil
             if (!empty($objItem->contao_page)) {
                 $objPage = PageModel::findByPk($objItem->contao_page);
                 if ($objPage) {
-                    PageUtil::emptyPage($objItem->contao_page);
+                    PageUtil::emptyPage((int) $objItem->contao_page);
                 }
             }
 
@@ -202,7 +202,7 @@ class ConfigurationItemUtil
             if (!empty($objItem->contao_page)) {
                 $objPage = PageModel::findByPk($objItem->contao_page);
                 if ($objPage) {
-                    PageUtil::emptyPage($objItem->contao_page);
+                    PageUtil::emptyPage((int) $objItem->contao_page);
                 }
             }
 
@@ -251,7 +251,7 @@ class ConfigurationItemUtil
             if (!empty($objItem->contao_page)) {
                 $objPage = PageModel::findByPk($objItem->contao_page);
                 if ($objPage) {
-                    PageUtil::emptyPage($objItem->contao_page);
+                    PageUtil::emptyPage((int) $objItem->contao_page);
                 }
             }
 
@@ -325,7 +325,7 @@ class ConfigurationItemUtil
             if (!empty($objItem->contao_page)) {
                 $objPage = PageModel::findByPk($objItem->contao_page);
                 if ($objPage) {
-                    PageUtil::emptyPage($objItem->contao_page);
+                    PageUtil::emptyPage((int) $objItem->contao_page);
                 }
             }
 
@@ -396,7 +396,7 @@ class ConfigurationItemUtil
             if (!empty($objItem->contao_page)) {
                 $objPage = PageModel::findByPk($objItem->contao_page);
                 if ($objPage) {
-                    PageUtil::emptyPage($objItem->contao_page);
+                    PageUtil::emptyPage((int) $objItem->contao_page);
                 }
             }
 
@@ -465,7 +465,7 @@ class ConfigurationItemUtil
             if (!empty($objItem->contao_page_form)) {
                 $objPage = PageModel::findByPk($objItem->contao_page_form);
                 if ($objPage) {
-                    PageUtil::emptyPage($objItem->contao_page_form);
+                    PageUtil::emptyPage((int) $objItem->contao_page_form);
                 }
             }
 
@@ -534,7 +534,7 @@ class ConfigurationItemUtil
             if (!empty($objItem->contao_page_form_sent)) {
                 $objPage = PageModel::findByPk($objItem->contao_page_form_sent);
                 if ($objPage) {
-                    PageUtil::emptyPage($objItem->contao_page_form_sent);
+                    PageUtil::emptyPage((int) $objItem->contao_page_form_sent);
                 }
             }
 
