@@ -356,10 +356,11 @@ class LayoutUtil
         } else {
             // breadcrumb is first in main col
             if (null !== $firstMainColumnIndex) {
-                $layoutModulesBefore = \array_slice($layoutModules, 0, $firstMainColumnIndex - 1);
+                $layoutModulesBefore = \array_slice($layoutModules, 0, $firstMainColumnIndex);
                 $layoutModulesAfter = \array_slice($layoutModules, $firstMainColumnIndex, null, true);
                 $layoutModulesBefore[] = ['mod' => $moduleBreadcrumbId, 'col' => 'main', 'enable' => 1];
-                $layoutModules = $layoutModulesBefore + $layoutModulesAfter;
+
+                $layoutModules = array_merge($layoutModulesBefore, $layoutModulesAfter);
             } else {
                 $layoutModules[] = ['mod' => $moduleBreadcrumbId, 'col' => 'main', 'enable' => 1];
             }
