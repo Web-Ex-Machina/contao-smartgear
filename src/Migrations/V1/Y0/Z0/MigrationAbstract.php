@@ -80,11 +80,15 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
         } catch (FileNotFoundException $e) {
-            $result->setStatus(Result::STATUS_SKIPPED)
-            ->addLog(
-                $this->translator->trans($this->buildTranslationKeyLocal('WEMSG.MIGRATIONS.skippedBecauseSmartgearNotInstalled'), [], 'contao_default')
-            )
-            ;
+            $nbConfigurations = Configuration::countItems();
+            if (0 === $nbConfigurations) {
+                $result->setStatus(Result::STATUS_SKIPPED)
+                ->addLog(
+                    // $this->translator->trans($this->buildTranslationKeyLocal('WEMSG.MIGRATIONS.skippedBecauseSmartgearNotInstalled'), [], 'contao_default')
+                    $this->translator->trans('WEMSG.MIGRATIONS.skippedBecauseSmartgearNotInstalled', [], 'contao_default')
+                )
+                ;
+            }
         }
 
         return $result;
@@ -96,16 +100,23 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
         } catch (FileNotFoundException $e) {
-            $result->setStatus(Result::STATUS_SKIPPED)
+            $nbConfigurations = Configuration::countItems();
+            if (0 === $nbConfigurations) {
+                $result->setStatus(Result::STATUS_SKIPPED)
             ->addLog(
-                $this->translator->trans($this->buildTranslationKeyLocal('WEMSG.MIGRATIONS.skippedBecauseSmartgearNotInstalled'), [], 'contao_default')
+                // $this->translator->trans($this->buildTranslationKeyLocal('WEMSG.MIGRATIONS.skippedBecauseSmartgearNotInstalled'), [], 'contao_default')
+                $this->translator->trans('WEMSG.MIGRATIONS.skippedBecauseSmartgearNotInstalled', [], 'contao_default')
             )
             ;
 
-            return $result;
+                return $result;
+            }
         }
 
-        $currentVersion = (new Version())->fromString($config->getSgVersion());
+        $objConfiguration = Configuration::findItems(['minimum_version' => true], 1);
+
+        // $currentVersion = (new Version())->fromString($config->getSgVersion());
+        $currentVersion = (new Version())->fromString($objConfiguration->version);
         $migrationVersion = $this->getVersion();
         switch ($this->versionComparator->compare($currentVersion, $migrationVersion)) {
             case VersionComparator::CURRENT_VERSION_HIGHER:

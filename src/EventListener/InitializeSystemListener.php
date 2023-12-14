@@ -42,6 +42,7 @@ class InitializeSystemListener
         } catch (NotFound $e) {
             return;
         }
+
         if (!$config->getSgInstallComplete()) {
             return;
         }

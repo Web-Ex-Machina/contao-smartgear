@@ -25,6 +25,7 @@ use WEM\SmartgearBundle\Classes\Migration\Result;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Migrations\V1\Y0\Z0\MigrationAbstract;
 
 class Migration extends MigrationAbstract
@@ -52,9 +53,12 @@ class Migration extends MigrationAbstract
         $result = parent::shouldRun();
 
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
-            /** @var CoreConfig */
-            $coreConfig = $this->coreConfigurationManager->load();
-
+            try {
+                /** @var CoreConfig */
+                $coreConfig = $this->coreConfigurationManager->load();
+            } catch (FileNotFoundException $e) {
+                return $result;
+            }
             if (NotificationModel::findOneById($coreConfig->getSgNotificationSupport())
                 && NotificationMessageModel::findOneById($coreConfig->getSgNotificationSupportMessageUser())
                 && NotificationMessageModel::findOneById($coreConfig->getSgNotificationSupportMessageAdmin())

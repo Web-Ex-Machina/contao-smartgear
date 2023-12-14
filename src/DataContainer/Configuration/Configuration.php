@@ -32,6 +32,10 @@ class Configuration extends Core
     public function onsubmitCallback(DataContainer $dc): void
     {
         $objItem = ConfigurationModel::findOneById($dc->activeRecord->id);
+        if (empty($objItem->version)) {
+            $objItem->version = CoreConfig::DEFAULT_VERSION;
+            $objItem->save();
+        }
         ConfigurationUtil::createEverythingFromConfiguration($objItem);
     }
 

@@ -352,6 +352,27 @@ class ConfigurationUtil
 
         $localConfigManager->save($config);
 
+        // sync templates + FW build
+        /** @var DirectoriesSynchronizer */
+        $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.templates.rsce');
+        $synchronizer->synchronize();
+        $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.templates.smartgear');
+        $synchronizer->synchronize();
+        $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.templates.general');
+        $synchronizer->synchronize();
+        $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.tiny_mce.plugins');
+        $synchronizer->synchronize();
+        $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.outdated_browser');
+        $synchronizer->synchronize(true);
+        $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.tarte_au_citron');
+        $synchronizer->synchronize(true);
+        $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.social_share_buttons');
+        $synchronizer->synchronize(true);
+        /** @todo : FW path can change + check files are not already present ! (lot of changes to do) */
+        $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.framway');
+        $synchronizer->setDestinationDirectory($objItem->framway_path);
+        $synchronizer->synchronize();
+
         return $objItem;
     }
 }

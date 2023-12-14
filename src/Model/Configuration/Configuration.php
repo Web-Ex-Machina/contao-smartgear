@@ -103,6 +103,9 @@ class Configuration extends CoreModel
                 $varValue = \is_array($varValue) ? $varValue : [$varValue];
                 $arrColumns[] = sprintf("$t.id NOT IN (%s)", implode(',', $varValue));
                 break;
+            case 'minimum_version':
+                $arrColumns[] = "$t.version = (SELECT min(c.version) FROM $t c)";
+            break;
             default:
                 return parent::formatStatement($strField, $varValue, $strOperator);
         }
