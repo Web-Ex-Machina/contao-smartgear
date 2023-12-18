@@ -22,6 +22,7 @@ use Contao\PageModel;
 use Contao\System;
 use Contao\ThemeModel;
 use WEM\SmartgearBundle\Classes\StringUtil;
+use WEM\SmartgearBundle\Classes\UtilFramway;
 use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
 use WEM\SmartgearBundle\Classes\Utils\ContentUtil;
 use WEM\SmartgearBundle\Classes\Utils\ImageSizeUtil;
@@ -368,10 +369,16 @@ class ConfigurationUtil
         $synchronizer->synchronize(true);
         $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.social_share_buttons');
         $synchronizer->synchronize(true);
-        /** @todo : FW path can change + check files are not already present ! (lot of changes to do) */
-        $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.framway');
-        $synchronizer->setDestinationDirectory($objItem->framway_path);
-        $synchronizer->synchronize();
+
+        /** @var UtilFramway */
+        $fwUtil = System::getContainer()->get('smartgear.classes.util_framway');
+        $fwUtil->setConfigurationRootFilePath($objItem->framway_path);
+        if (!$fwUtil->checkPresence()) {
+            /** @todo : FW path can change + check files are not already present ! (lot of changes to do) */
+            $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.framway');
+            $synchronizer->setDestinationDirectory($objItem->framway_path);
+            $synchronizer->synchronize();
+        }
 
         return $objItem;
     }

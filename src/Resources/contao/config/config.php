@@ -213,6 +213,9 @@ if ('BE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['initializeSystem'][] = ['smartgear.listener.initialize_system', '__invoke'];
     $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['smartgear.listener.replace_insert_tags', 'onReplaceInsertTags'];
     $GLOBALS['TL_HOOKS']['generatePage'][] = ['smartgear.listener.generate_page', '__invoke'];
+    // Style Manager hooks
+    $GLOBALS['TL_HOOKS']['styleManagerWidgetComponentStyleSelectGetStyleManagerArchiveModelCollection'][] = ['smartgear.listener.style_manager.widget_component_style_select_get_style_manager_archive_model_collection', '__invoke'];
+    $GLOBALS['TL_HOOKS']['styleManagerWidgetComponentStyleSelectGetStyleManagerModelCollection'][] = ['smartgear.listener.style_manager.widget_component_style_select_get_style_manager_model_collection', '__invoke'];
 }
 
 /*

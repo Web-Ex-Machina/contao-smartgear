@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -94,6 +94,8 @@ class FramwayCombined extends ManagerFramway
 
     protected function assignConfigurationFilePath(): void
     {
-        $this->configurationFilePath = $this->configurationManagerCore->load()->getSgFramwayPath().\DIRECTORY_SEPARATOR.'build'.\DIRECTORY_SEPARATOR.'combined'.\DIRECTORY_SEPARATOR.'_config.scss';
+        $rootPath = $this->getConfigurationRootFilePath() ?? $this->configurationManagerCore->load()->getSgFramwayPath();
+
+        $this->configurationFilePath = $rootPath.\DIRECTORY_SEPARATOR.'build'.\DIRECTORY_SEPARATOR.'combined'.\DIRECTORY_SEPARATOR.'_config.scss';
     }
 }

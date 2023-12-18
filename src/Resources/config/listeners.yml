@@ -172,3 +172,11 @@ services:
     smartgear.listener.send_notification_message:
         class: WEM\SmartgearBundle\EventListener\SendNotificationMessageListener
         public: true    
+
+    smartgear.listener.style_manager.widget_component_style_select_get_style_manager_archive_model_collection:
+        class: WEM\SmartgearBundle\EventListener\StyleManager\WidgetComponentStyleSelectGetStyleManagerArchiveModelCollectionListener
+        public: true 
+
+    smartgear.listener.style_manager.widget_component_style_select_get_style_manager_model_collection:
+        class: WEM\SmartgearBundle\EventListener\StyleManager\WidgetComponentStyleSelectGetStyleManagerModelCollectionListener
+        public: true 
