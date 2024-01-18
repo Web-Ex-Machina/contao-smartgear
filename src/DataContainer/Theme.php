@@ -19,6 +19,7 @@ use Contao\Image;
 use Contao\Input;
 use Contao\StringUtil;
 use Contao\System;
+use tl_theme;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
@@ -26,11 +27,14 @@ class Theme extends \tl_theme
 {
     /** @var CoreConfigurationManager */
     private $configManager;
+    /** @var Backend */
+    private $parent;
 
     public function __construct()
     {
         parent::__construct();
         $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
+        $this->parent = new tl_theme();
     }
 
     /**
@@ -40,7 +44,10 @@ class Theme extends \tl_theme
      */
     public function checkPermission(): void
     {
-        parent::checkPermission();
+        if (method_exists($this->parent, 'checkPermission')) {
+            // parent function removed in commit https://github.com/contao/contao/commit/68b169eca43e4fc7ef3dddc7336b0c84905dec92
+            parent::checkPermission();
+        }
 
         // Check current action
         switch (Input::get('act')) {
