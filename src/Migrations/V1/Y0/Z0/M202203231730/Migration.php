@@ -67,6 +67,7 @@ class Migration extends MigrationAbstract
 
     public function shouldRun(): Result
     {
+        // here we should verify for ALL SG configurations
         $result = parent::shouldRunWithoutCheckingVersion();
 
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
