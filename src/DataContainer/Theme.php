@@ -39,8 +39,6 @@ class Theme extends \tl_theme
      */
     public function checkPermission(): void
     {
-        parent::checkPermission();
-
         // Check current action
         switch (Input::get('act')) {
             case 'delete':
