@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.27 - 2024-01-19
+- Smartgear : fixed an exception triggers by a Contao 4.13.36 updated (checkPermission removed from tl_theme DCA)
+
 1.0.26 - 2023-11-28
 - Smartgear : fixed backend menu alteration which could lead in an error
 
