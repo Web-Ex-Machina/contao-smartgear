@@ -23,6 +23,7 @@ use WEM\SmartgearBundle\Classes\Migration\Result;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
 use WEM\SmartgearBundle\Config\Manager\FramwayCombined as configurationFramwayCombinedManager;
 use WEM\SmartgearBundle\Migrations\V1\Y0\Z0\MigrationAbstract;
+use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class Migration extends MigrationAbstract
 {
@@ -73,6 +74,7 @@ class Migration extends MigrationAbstract
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
             return $result;
         }
+
         $schemaManager = $this->connection->getSchemaManager();
         if (!$schemaManager->tablesExist(['tl_style_manager'])) {
             $result
@@ -83,81 +85,28 @@ class Migration extends MigrationAbstract
             return $result;
         }
 
-        $objArchiveBackground = StyleManagerArchiveModel::findByIdentifier('fwbackground');
-        $objArchiveButton = StyleManagerArchiveModel::findByIdentifier('fwbutton');
-        $objArchiveButtonManual = StyleManagerArchiveModel::findByIdentifier('fwbutton_manual');
-        $objArchiveSeparator = StyleManagerArchiveModel::findByIdentifier('fwseparator');
-        $objArchiveMargin = StyleManagerArchiveModel::findByIdentifier('fwmargin');
-        $objArchiveTable = StyleManagerArchiveModel::findByIdentifier('fwtable');
-        $objArchiveImage = StyleManagerArchiveModel::findByIdentifier('fwimage');
-        $objArchiveImageRatio = StyleManagerArchiveModel::findByIdentifier('fwimageratio');
-        $objArchiveImageDisplayMode = StyleManagerArchiveModel::findByIdentifier('fwimagedisplaymode');
+        $sgConfigurations = Configuration::findAll();
+        if (!$sgConfigurations) {
+            $result
+                ->setStatus(Result::STATUS_SKIPPED)
+                ->addLog($this->translator->trans($this->buildTranslationKey('shouldRunNoSmartgearInstall'), [], 'contao_default'))
+                ;
 
-        $objArchiveBlockCardText = StyleManagerArchiveModel::findByIdentifier('fwblockcardtext');
-        $objArchiveBlockCardBg = StyleManagerArchiveModel::findByIdentifier('fwblockcardbg');
+            return $result;
+        }
 
-        $objArchiveBlockAlignement = StyleManagerArchiveModel::findByIdentifier('fwblockalignement');
-        $objArchiveGridColumns = StyleManagerArchiveModel::findByIdentifier('fwgridcolumns');
-        $objArchiveGridGap = StyleManagerArchiveModel::findByIdentifier('fwgridgap');
+        $blnShouldRun = false;
+        while ($sgConfigurations->next()) {
+            $blnShouldRun = $blnShouldRun || $this->shouldRunBySmartgearInstall((int) $sgConfigurations->id);
+        }
 
-        if (null === $objArchiveBackground
-        && null !== $objArchiveButton
-        && null !== $objArchiveButtonManual
-        && null !== $objArchiveSeparator
-        && null !== $objArchiveMargin
-        && null !== $objArchiveTable
-        && null !== $objArchiveImage
-        && null !== $objArchiveImageRatio
-        && null !== $objArchiveImageDisplayMode
-        && null !== $objArchiveBlockCardText
-        && null !== $objArchiveBlockCardBg
-        && null !== $objArchiveBlockAlignement
-        && null !== $objArchiveGridColumns
-        && null !== $objArchiveGridGap
-        ) {
-            if (null !== StyleManagerModel::findByAliasAndPid('fwbackgroundcolor', $objArchiveBackground->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonsize', $objArchiveButton->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonbackground', $objArchiveButton->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonborder', $objArchiveButton->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonsize', $objArchiveButtonManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonbackground', $objArchiveButtonManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonborder', $objArchiveButtonManual->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwseparatortop', $objArchiveSeparator->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwseparatorbottom', $objArchiveSeparator->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwseparatorleft', $objArchiveSeparator->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwseparatorright', $objArchiveSeparator->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwmargintop', $objArchiveMargin->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwmarginbottom', $objArchiveMargin->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwmarginleft', $objArchiveMargin->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwmarginright', $objArchiveMargin->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwtablesm', $objArchiveTable->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwtableborder', $objArchiveTable->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwtablestriped', $objArchiveTable->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwimageratio', $objArchiveImageRatio->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwimagedisplaymode', $objArchiveImageDisplayMode->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwimagezoom', $objArchiveImage->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwimagefade', $objArchiveImage->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwblockcardft', $objArchiveBlockCardText->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwblockcardtextalign', $objArchiveBlockCardText->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwblockcardcontentbg', $objArchiveBlockCardBg->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwblockcardcontentbgopacity', $objArchiveBlockCardBg->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwblockalignement', $objArchiveBlockAlignement->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolumns', $objArchiveGridColumns->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolumnsxl', $objArchiveGridColumns->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolumnslg', $objArchiveGridColumns->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolumnsmd', $objArchiveGridColumns->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolumnssm', $objArchiveGridColumns->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolumnsxs', $objArchiveGridColumns->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolumnsxxs', $objArchiveGridColumns->id)
-            && null !== StyleManagerModel::findByAliasAndPid('fwgridgap', $objArchiveGridGap->id)
-            ) {
-                $result
+        if (!$blnShouldRun) {
+            $result
                 ->setStatus(Result::STATUS_SKIPPED)
                 ->addLog($this->translator->trans($this->buildTranslationKey('shouldRunCSSClassesAlreadyInDb'), [], 'contao_default'))
                 ;
 
-                return $result;
-            }
+            return $result;
         }
         $result
             ->addLog($this->translator->trans('WEMSG.MIGRATIONS.shouldBeRun', [], 'contao_default'))
@@ -172,33 +121,38 @@ class Migration extends MigrationAbstract
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
             return $result;
         }
+
         try {
-            $this->manageMargins(0);
-            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSMargins'), [], 'contao_default'));
-            $this->manageSeparators(128);
-            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSSeparators'), [], 'contao_default'));
-            $this->manageButtons(256);
-            $this->manageButtons(384, '_manual', true);
-            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSButtons'), [], 'contao_default'));
-            $this->manageBackgrounds(512);
-            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSBackgrounds'), [], 'contao_default'));
-            $this->manageTables(640);
-            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSTables'), [], 'contao_default'));
-            $this->manageImages(768);
-            $this->manageImagesRatio(896);
-            $this->manageImagesDisplayMode(960);
-            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSImages'), [], 'contao_default'));
-            $this->manageBlockCard(1024);
-            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSBlockCard'), [], 'contao_default'));
-            $this->manageBlockAlignement(1152);
-            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSBlockAlignement'), [], 'contao_default'));
-            $this->manageBlockGridColumns(1280);
-            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSGridColumns'), [], 'contao_default'));
-            $this->manageBlockGridGap(1408);
-            $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSGridGap'), [], 'contao_default'));
-            $this->deleteUnusedStyles(1536);
-            $this->deleteUnusedArchives(1664);
-            $this->deleteOrphanStyles(1792);
+            $sgConfigurations = Configuration::findAll();
+
+            while ($sgConfigurations->next()) {
+                $this->manageMargins($sgConfigurations->id, 0);
+                $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSMargins'), [], 'contao_default'));
+                $this->manageSeparators($sgConfigurations->id, 128);
+                $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSSeparators'), [], 'contao_default'));
+                $this->manageButtons($sgConfigurations->id, 256);
+                $this->manageButtons($sgConfigurations->id, 384, '_manual', true);
+                $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSButtons'), [], 'contao_default'));
+                $this->manageBackgrounds($sgConfigurations->id, 512);
+                $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSBackgrounds'), [], 'contao_default'));
+                $this->manageTables($sgConfigurations->id, 640);
+                $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSTables'), [], 'contao_default'));
+                $this->manageImages($sgConfigurations->id, 768);
+                $this->manageImagesRatio($sgConfigurations->id, 896);
+                $this->manageImagesDisplayMode($sgConfigurations->id, 960);
+                $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSImages'), [], 'contao_default'));
+                $this->manageBlockCard($sgConfigurations->id, 1024);
+                $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSBlockCard'), [], 'contao_default'));
+                $this->manageBlockAlignement($sgConfigurations->id, 1152);
+                $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSBlockAlignement'), [], 'contao_default'));
+                $this->manageBlockGridColumns($sgConfigurations->id, 1280);
+                $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSGridColumns'), [], 'contao_default'));
+                $this->manageBlockGridGap($sgConfigurations->id, 1408);
+                $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSGridGap'), [], 'contao_default'));
+                $this->deleteUnusedStyles(1536);
+                $this->deleteUnusedArchives(1664);
+                $this->deleteOrphanStyles(1792);
+            }
             $result
                 ->setStatus(Result::STATUS_SUCCESS)
             ;
@@ -273,10 +227,10 @@ class Migration extends MigrationAbstract
         }
     }
 
-    protected function manageBlockGridColumns(int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
+    protected function manageBlockGridColumns(int $sgConfiguationId, int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
     {
         $contentElements = self::$elements['grid_columns'.$suffix];
-        $objArchive = $this->fillObjArchive('fwgridcolumns'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolumns.tabTitle', $sorting, 'FramwayGridColumns');
+        $objArchive = $this->fillObjArchive($sgConfiguationId, 'fwgridcolumns'.$suffix, 'WEMSG.STYLEMANAGER.fwgridcolumns.tabTitle', $sorting, 'FramwayGridColumns');
         $objArchive->save();
 
         // cols breakpoints default
@@ -317,10 +271,10 @@ class Migration extends MigrationAbstract
         $objStyle->save();
     }
 
-    protected function manageBlockGridGap(int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
+    protected function manageBlockGridGap(int $sgConfiguationId, int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
     {
         $contentElements = self::$elements['grid_gap'.$suffix];
-        $objArchive = $this->fillObjArchive('fwgridgap'.$suffix, 'WEMSG.STYLEMANAGER.fwgridgap.tabTitle', $sorting, 'FramwayGridGap');
+        $objArchive = $this->fillObjArchive($sgConfiguationId, 'fwgridgap'.$suffix, 'WEMSG.STYLEMANAGER.fwgridgap.tabTitle', $sorting, 'FramwayGridGap');
         $objArchive->save();
 
         $cssClasses = [
@@ -350,10 +304,10 @@ class Migration extends MigrationAbstract
         $objStyle->save();
     }
 
-    protected function manageBlockAlignement(int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
+    protected function manageBlockAlignement(int $sgConfiguationId, int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
     {
         $contentElements = self::$elements['blockAlignement'.$suffix];
-        $objArchive = $this->fillObjArchive('fwblockalignement'.$suffix, 'WEMSG.STYLEMANAGER.fwblockalignement.tabTitle', $sorting, 'FramwayBlockAlignement');
+        $objArchive = $this->fillObjArchive($sgConfiguationId, 'fwblockalignement'.$suffix, 'WEMSG.STYLEMANAGER.fwblockalignement.tabTitle', $sorting, 'FramwayBlockAlignement');
         $objArchive->save();
 
         $cssClasses = [
@@ -365,18 +319,18 @@ class Migration extends MigrationAbstract
         $objStyle->save();
     }
 
-    protected function manageBlockCard(int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
+    protected function manageBlockCard(int $sgConfiguationId, int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
     {
         $contentElements = self::$elements['blockCard'.$suffix];
         // Block card
-        $objArchiveText = $this->fillObjArchive('fwblockcardtext'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardtext.tabTitle', $sorting, 'FramwayBlockCard');
+        $objArchiveText = $this->fillObjArchive($sgConfiguationId, 'fwblockcardtext'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardtext.tabTitle', $sorting, 'FramwayBlockCard');
         $objArchiveText->save();
-        $objArchiveBg = $this->fillObjArchive('fwblockcardbg'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardbg.tabTitle', $sorting + 32, 'FramwayBlockCard');
+        $objArchiveBg = $this->fillObjArchive($sgConfiguationId, 'fwblockcardbg'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardbg.tabTitle', $sorting + 32, 'FramwayBlockCard');
         $objArchiveBg->save();
 
         // Block card - text color
         $cssClasses = $this->buildMeaningfulColorsCssClasses('ft-%s', 'fwblockcardft');
-        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('ft-%s', 'fwblockcardft'));
+        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses($sgConfiguationId, 'ft-%s', 'fwblockcardft'));
         $objStyle = $this->fillObjStyle($objArchiveText->id, 'fwblockcardft'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardft.title', 'WEMSG.STYLEMANAGER.fwblockcardft.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
 
@@ -390,7 +344,7 @@ class Migration extends MigrationAbstract
 
         // Block card - bg color
         $cssClasses = $this->buildMeaningfulColorsCssClasses('content__bg--%s', 'fwblockcardcontentbg');
-        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('content__bg--%s', 'fwblockcardcontentbg'));
+        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses($sgConfiguationId, 'content__bg--%s', 'fwblockcardcontentbg'));
         $objStyle = $this->fillObjStyle($objArchiveBg->id, 'fwblockcardcontentbg'.$suffix, 'WEMSG.STYLEMANAGER.fwblockcardcontentbg.title', 'WEMSG.STYLEMANAGER.fwblockcardcontentbg.description', $contentElements, $cssClasses, $passToTemplate);
         $objStyle->save();
 
@@ -400,11 +354,11 @@ class Migration extends MigrationAbstract
         $objStyle->save();
     }
 
-    protected function manageImages(int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
+    protected function manageImages(int $sgConfiguationId, int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
     {
         $contentElements = self::$elements['image_other'.$suffix];
         // Image
-        $objArchive = $this->fillObjArchive('fwimage'.$suffix, 'WEMSG.STYLEMANAGER.fwimage.tabTitle', $sorting, 'FramwayImage');
+        $objArchive = $this->fillObjArchive($sgConfiguationId, 'fwimage'.$suffix, 'WEMSG.STYLEMANAGER.fwimage.tabTitle', $sorting, 'FramwayImage');
         // Image - zoom
         $cssClasses = [
             ['key' => 'zoomin', 'value' => 'WEMSG.STYLEMANAGER.fwimagezoom.inLabel'],
@@ -419,11 +373,11 @@ class Migration extends MigrationAbstract
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwimagefade'.$suffix, 'WEMSG.STYLEMANAGER.fwimagefade.title', 'WEMSG.STYLEMANAGER.fwimagefade.description', $contentElements, $cssClasses, $passToTemplate);
     }
 
-    protected function manageImagesRatio(int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
+    protected function manageImagesRatio(int $sgConfiguationId, int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
     {
         $contentElements = self::$elements['image_ratio'.$suffix];
         // Image
-        $objArchive = $this->fillObjArchive('fwimageratio'.$suffix, 'WEMSG.STYLEMANAGER.fwimageratio.tabTitle', $sorting, 'FramwayImage');
+        $objArchive = $this->fillObjArchive($sgConfiguationId, 'fwimageratio'.$suffix, 'WEMSG.STYLEMANAGER.fwimageratio.tabTitle', $sorting, 'FramwayImage');
         // Image - ratio
         $cssClasses = [
             ['key' => 'r_16-9', 'value' => 'WEMSG.STYLEMANAGER.fwimageratio.r169Label'],
@@ -435,11 +389,11 @@ class Migration extends MigrationAbstract
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwimageratio'.$suffix, 'WEMSG.STYLEMANAGER.fwimageratio.title', 'WEMSG.STYLEMANAGER.fwimageratio.description', $contentElements, $cssClasses, $passToTemplate);
     }
 
-    protected function manageImagesDisplayMode(int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
+    protected function manageImagesDisplayMode(int $sgConfiguationId, int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
     {
         $contentElements = self::$elements['image_display_mode'.$suffix];
         // Image
-        $objArchive = $this->fillObjArchive('fwimagedisplaymode'.$suffix, 'WEMSG.STYLEMANAGER.fwimagedisplaymode.tabTitle', $sorting, 'FramwayImage');
+        $objArchive = $this->fillObjArchive($sgConfiguationId, 'fwimagedisplaymode'.$suffix, 'WEMSG.STYLEMANAGER.fwimagedisplaymode.tabTitle', $sorting, 'FramwayImage');
         // Image - display mode
         $cssClasses = [
             ['key' => 'fit--cover', 'value' => 'WEMSG.STYLEMANAGER.fwimagedisplaymode.fitcoverLabel'],
@@ -451,11 +405,11 @@ class Migration extends MigrationAbstract
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwimagedisplaymode'.$suffix, 'WEMSG.STYLEMANAGER.fwimagedisplaymode.title', 'WEMSG.STYLEMANAGER.fwimagedisplaymode.description', $contentElements, $cssClasses, $passToTemplate);
     }
 
-    protected function manageTables(int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
+    protected function manageTables(int $sgConfiguationId, int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
     {
         $contentElements = self::$elements['table'.$suffix];
         // Table
-        $objArchive = $this->fillObjArchive('fwtable'.$suffix, 'WEMSG.STYLEMANAGER.fwtable.tabTitle', $sorting, 'FramwayTable');
+        $objArchive = $this->fillObjArchive($sgConfiguationId, 'fwtable'.$suffix, 'WEMSG.STYLEMANAGER.fwtable.tabTitle', $sorting, 'FramwayTable');
         // Table - sm
         $cssClasses = [
             ['key' => 'table-sm', 'value' => 'WEMSG.STYLEMANAGER.fwtablesm.label'],
@@ -479,22 +433,22 @@ class Migration extends MigrationAbstract
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwtablehover'.$suffix, 'WEMSG.STYLEMANAGER.fwtablehover.title', 'WEMSG.STYLEMANAGER.fwtablehover.description', $contentElements, $cssClasses, $passToTemplate);
     }
 
-    protected function manageBackgrounds(int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
+    protected function manageBackgrounds(int $sgConfiguationId, int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
     {
         $contentElements = self::$elements['background'.$suffix];
         // Background
-        $objArchive = $this->fillObjArchive('fwbackground'.$suffix, 'WEMSG.STYLEMANAGER.fwbackground.tabTitle', $sorting, 'FramwayBackground');
+        $objArchive = $this->fillObjArchive($sgConfiguationId, 'fwbackground'.$suffix, 'WEMSG.STYLEMANAGER.fwbackground.tabTitle', $sorting, 'FramwayBackground');
         // Background - background
         $cssClasses = $this->buildMeaningfulColorsCssClasses('bg-%s', 'fwbackgroundcolor');
-        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('bg-%s', 'fwbackgroundcolor'));
+        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses($sgConfiguationId, 'bg-%s', 'fwbackgroundcolor'));
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwbackgroundcolor'.$suffix, 'WEMSG.STYLEMANAGER.fwbackgroundcolor.title', 'WEMSG.STYLEMANAGER.fwbackgroundcolor.description', $contentElements, $cssClasses, $passToTemplate);
     }
 
-    protected function manageButtons(int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
+    protected function manageButtons(int $sgConfiguationId, int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
     {
         $contentElements = self::$elements['button'.$suffix];
         // Buttons
-        $objArchive = $this->fillObjArchive('fwbutton'.$suffix, 'WEMSG.STYLEMANAGER.fwbutton.tabTitle', $sorting, 'FramwayButton');
+        $objArchive = $this->fillObjArchive($sgConfiguationId, 'fwbutton'.$suffix, 'WEMSG.STYLEMANAGER.fwbutton.tabTitle', $sorting, 'FramwayButton');
         // Buttons - size
         $cssClasses = [
             ['key' => 'btn', 'value' => 'WEMSG.STYLEMANAGER.fwbuttonsize.sizeLabel'],
@@ -504,19 +458,19 @@ class Migration extends MigrationAbstract
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonsize'.$suffix, 'WEMSG.STYLEMANAGER.fwbuttonsize.title', 'WEMSG.STYLEMANAGER.fwbuttonsize.description', $contentElements, $cssClasses, $passToTemplate);
         // Buttons - background
         $cssClasses = $this->buildMeaningfulColorsCssClasses('btn-bg-%s', 'fwbuttonbackground');
-        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('btn-bg-%s', 'fwbuttonbackground'));
+        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses($sgConfiguationId, 'btn-bg-%s', 'fwbuttonbackground'));
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonbackground'.$suffix, 'WEMSG.STYLEMANAGER.fwbuttonbackground.title', 'WEMSG.STYLEMANAGER.fwbuttonbackground.description', $contentElements, $cssClasses, $passToTemplate);
         // Buttons - border
         $cssClasses = $this->buildMeaningfulColorsCssClasses('btn-bd-%s', 'fwbuttonborder');
-        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses('btn-bd-%s', 'fwbuttonborder'));
+        $cssClasses = array_merge($cssClasses, $this->buildRawColorsCssClasses($sgConfiguationId, 'btn-bd-%s', 'fwbuttonborder'));
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwbuttonborder'.$suffix, 'WEMSG.STYLEMANAGER.fwbuttonborder.title', 'WEMSG.STYLEMANAGER.fwbuttonborder.description', $contentElements, $cssClasses, $passToTemplate);
     }
 
-    protected function manageSeparators(int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
+    protected function manageSeparators(int $sgConfiguationId, int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
     {
         $contentElements = self::$elements['separator'.$suffix];
         // separators
-        $objArchive = $this->fillObjArchive('fwseparator'.$suffix, 'WEMSG.STYLEMANAGER.fwseparator.tabTitle', $sorting, 'FramwaySeparator');
+        $objArchive = $this->fillObjArchive($sgConfiguationId, 'fwseparator'.$suffix, 'WEMSG.STYLEMANAGER.fwseparator.tabTitle', $sorting, 'FramwaySeparator');
         // separators - top
         $cssClasses = [
             ['key' => 'sep-top', 'value' => 'WEMSG.STYLEMANAGER.fwseparatortop.label'],
@@ -539,11 +493,11 @@ class Migration extends MigrationAbstract
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwseparatorright'.$suffix, 'WEMSG.STYLEMANAGER.fwseparatorright.title', 'WEMSG.STYLEMANAGER.fwseparatorright.description', $contentElements, $cssClasses, $passToTemplate);
     }
 
-    protected function manageMargins(int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
+    protected function manageMargins(int $sgConfiguationId, int $sorting, ?string $suffix = '', ?bool $passToTemplate = false): void
     {
         $contentElements = self::$elements['margin'.$suffix];
         // margins
-        $objArchive = $this->fillObjArchive('fwmargin'.$suffix, 'WEMSG.STYLEMANAGER.fwmargin.tabTitle', $sorting, 'FramwayMargin');
+        $objArchive = $this->fillObjArchive($sgConfiguationId, 'fwmargin'.$suffix, 'WEMSG.STYLEMANAGER.fwmargin.tabTitle', $sorting, 'FramwayMargin');
         // margins - top
         $cssClasses = [
             ['key' => 'm-top-0', 'value' => 'WEMSG.STYLEMANAGER.fwmargintop.noLabel'],
@@ -574,10 +528,13 @@ class Migration extends MigrationAbstract
         $objStyle = $this->fillObjStyle($objArchive->id, 'fwmarginright'.$suffix, 'WEMSG.STYLEMANAGER.fwmarginright.title', 'WEMSG.STYLEMANAGER.fwmarginright.description', $contentElements, $cssClasses, $passToTemplate);
     }
 
-    private function buildRawColorsCssClasses(string $keyPattern, string $translationKeyPart): array
+    private function buildRawColorsCssClasses(int $sgConfiguationId, string $keyPattern, string $translationKeyPart): array
     {
         $cssClasses = [];
-        $colors = $this->configurationFramwayCombinedManager->load()->getColors();
+
+        $objConfiguration = Configuration::findByPk($sgConfiguationId);
+
+        $colors = $this->configurationFramwayCombinedManager->setConfigurationRootFilePath($objConfiguration->framway_path)->load()->getColors();
         foreach ($colors as $name => $hexa) {
             $cssClasses[] = [
                 'key' => sprintf($keyPattern, $name),
@@ -602,6 +559,7 @@ class Migration extends MigrationAbstract
                     ['key' => sprintf($keyPattern, 'primary'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'primary')],
                     ['key' => sprintf($keyPattern, 'secondary'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'secondary')],
                     ['key' => sprintf($keyPattern, 'success'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'success')],
+                    ['key' => sprintf($keyPattern, 'info'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'info')],
                     ['key' => sprintf($keyPattern, 'error'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'error')],
                     ['key' => sprintf($keyPattern, 'warning'), 'value' => sprintf('WEMSG.STYLEMANAGER.%s.colorLabel (WEMSG.FRAMWAY.COLORS.%s)', $translationKeyPart, 'warning')],
                 ],
@@ -650,9 +608,9 @@ class Migration extends MigrationAbstract
         return $objStyle;
     }
 
-    private function fillObjArchive(string $identifier, string $titleKey, int $sorting, ?string $groupAlias = 'Framway'): StyleManagerArchiveModel
+    private function fillObjArchive(int $sgConfiguationId, string $identifier, string $titleKey, int $sorting, ?string $groupAlias = 'Framway'): StyleManagerArchiveModel
     {
-        $objArchive = StyleManagerArchiveModel::findByIdentifier($identifier);
+        $objArchive = StyleManagerArchiveModel::findBy(['identifier = ?', 'wem_sg_install = ?'], [$identifier, $sgConfiguationId]);
         if (!$objArchive) {
             $objArchive = new StyleManagerArchiveModel();
         } elseif (\Contao\Model\Collection::class === \get_class($objArchive)) {
@@ -663,6 +621,7 @@ class Migration extends MigrationAbstract
         $objArchive->identifier = $identifier;
         $objArchive->sorting = $sorting;
         $objArchive->groupAlias = $groupAlias;
+        $objArchive->wem_sg_install = $sgConfiguationId;
         $objArchive->tstamp = time();
         $objArchive->save();
 
@@ -747,5 +706,82 @@ class Migration extends MigrationAbstract
         }
 
         return serialize($formFields);
+    }
+
+    private function shouldRunBySmartgearInstall(int $id): bool
+    {
+        $objArchiveBackground = StyleManagerArchiveModel::findBy(['identifier = ?', 'wem_sg_install = ?'], ['fwbackground', $id]);
+        $objArchiveButton = StyleManagerArchiveModel::findBy(['identifier = ?', 'wem_sg_install = ?'], ['fwbutton', $id]);
+        $objArchiveButtonManual = StyleManagerArchiveModel::findBy(['identifier = ?', 'wem_sg_install = ?'], ['fwbutton_manual', $id]);
+        $objArchiveSeparator = StyleManagerArchiveModel::findBy(['identifier = ?', 'wem_sg_install = ?'], ['fwseparator', $id]);
+        $objArchiveMargin = StyleManagerArchiveModel::findBy(['identifier = ?', 'wem_sg_install = ?'], ['fwmargin', $id]);
+        $objArchiveTable = StyleManagerArchiveModel::findBy(['identifier = ?', 'wem_sg_install = ?'], ['fwtable', $id]);
+        $objArchiveImage = StyleManagerArchiveModel::findBy(['identifier = ?', 'wem_sg_install = ?'], ['fwimage', $id]);
+        $objArchiveImageRatio = StyleManagerArchiveModel::findBy(['identifier = ?', 'wem_sg_install = ?'], ['fwimageratio', $id]);
+        $objArchiveImageDisplayMode = StyleManagerArchiveModel::findBy(['identifier = ?', 'wem_sg_install = ?'], ['fwimagedisplaymode', $id]);
+
+        $objArchiveBlockCardText = StyleManagerArchiveModel::findBy(['identifier = ?', 'wem_sg_install = ?'], ['fwblockcardtext', $id]);
+        $objArchiveBlockCardBg = StyleManagerArchiveModel::findBy(['identifier = ?', 'wem_sg_install = ?'], ['fwblockcardbg', $id]);
+
+        $objArchiveBlockAlignement = StyleManagerArchiveModel::findBy(['identifier = ?', 'wem_sg_install = ?'], ['fwblockalignement', $id]);
+        $objArchiveGridColumns = StyleManagerArchiveModel::findBy(['identifier = ?', 'wem_sg_install = ?'], ['fwgridcolumns', $id]);
+        $objArchiveGridGap = StyleManagerArchiveModel::findBy(['identifier = ?', 'wem_sg_install = ?'], ['fwgridgap', $id]);
+
+        if (null === $objArchiveBackground
+        && null !== $objArchiveButton
+        && null !== $objArchiveButtonManual
+        && null !== $objArchiveSeparator
+        && null !== $objArchiveMargin
+        && null !== $objArchiveTable
+        && null !== $objArchiveImage
+        && null !== $objArchiveImageRatio
+        && null !== $objArchiveImageDisplayMode
+        && null !== $objArchiveBlockCardText
+        && null !== $objArchiveBlockCardBg
+        && null !== $objArchiveBlockAlignement
+        && null !== $objArchiveGridColumns
+        && null !== $objArchiveGridGap
+        ) {
+            if (null !== StyleManagerModel::findByAliasAndPid('fwbackgroundcolor', $objArchiveBackground->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonsize', $objArchiveButton->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonbackground', $objArchiveButton->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonborder', $objArchiveButton->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonsize', $objArchiveButtonManual->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonbackground', $objArchiveButtonManual->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwbuttonborder', $objArchiveButtonManual->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwseparatortop', $objArchiveSeparator->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwseparatorbottom', $objArchiveSeparator->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwseparatorleft', $objArchiveSeparator->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwseparatorright', $objArchiveSeparator->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwmargintop', $objArchiveMargin->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwmarginbottom', $objArchiveMargin->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwmarginleft', $objArchiveMargin->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwmarginright', $objArchiveMargin->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwtablesm', $objArchiveTable->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwtableborder', $objArchiveTable->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwtablestriped', $objArchiveTable->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwimageratio', $objArchiveImageRatio->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwimagedisplaymode', $objArchiveImageDisplayMode->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwimagezoom', $objArchiveImage->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwimagefade', $objArchiveImage->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwblockcardft', $objArchiveBlockCardText->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwblockcardtextalign', $objArchiveBlockCardText->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwblockcardcontentbg', $objArchiveBlockCardBg->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwblockcardcontentbgopacity', $objArchiveBlockCardBg->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwblockalignement', $objArchiveBlockAlignement->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolumns', $objArchiveGridColumns->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolumnsxl', $objArchiveGridColumns->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolumnslg', $objArchiveGridColumns->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolumnsmd', $objArchiveGridColumns->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolumnssm', $objArchiveGridColumns->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolumnsxs', $objArchiveGridColumns->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridcolumnsxxs', $objArchiveGridColumns->id)
+            && null !== StyleManagerModel::findByAliasAndPid('fwgridgap', $objArchiveGridGap->id)
+            ) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

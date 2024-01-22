@@ -16,9 +16,9 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\DcaLoader;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
-(new DcaLoader('tl_style_manager'))->load();
+(new DcaLoader('tl_style_manager_archive'))->load();
 
-DCAManipulator::create('tl_style_manager')
+DCAManipulator::create('tl_style_manager_archive')
     ->addField('wem_sg_install', [
         'label' => &$GLOBALS['TL_LANG']['WEMSG']['DCA']['wem_sg_install'],
         'inputType' => 'picker',
@@ -32,12 +32,12 @@ DCAManipulator::create('tl_style_manager')
     ])
 ;
 
-foreach ($GLOBALS['TL_DCA']['tl_style_manager']['palettes'] as $paletteName => $paletteConfig) {
+foreach ($GLOBALS['TL_DCA']['tl_style_manager_archive']['palettes'] as $paletteName => $paletteConfig) {
     if ('__selector__' !== $paletteName) {
         PaletteManipulator::create()
             ->addLegend('wem_sg_install_legend')
             ->addField('wem_sg_install', 'wem_sg_install_legend')
-            ->applyToPalette($paletteName, 'tl_style_manager')
+            ->applyToPalette($paletteName, 'tl_style_manager_archive')
         ;
     }
 }

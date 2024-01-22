@@ -3693,9 +3693,13 @@
 			<source>Cannot execute this migration : "Style Manager" package seems absent.</source>
 			<target>La mise à jour ne peut être appliquée : le package "Style Manager" est absent.</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.shouldRunNoSmartgearInstall">
+			<source>No Smartgear installation found.</source>
+			<target>Aucune installation de Smartgear n'a été trouvée.</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.shouldRunCSSClassesAlreadyInDb">
 			<source>CSS classes already configured in database.</source>
-			<target>Les classes CSS sont déjà présentent en base de donnée.</target>
+			<target>Les classes CSS sont déjà présentes en base de donnée.</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSMargins">
 			<source>Adding margins CSS classes in database.</source>

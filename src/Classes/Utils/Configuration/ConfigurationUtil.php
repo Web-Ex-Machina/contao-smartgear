@@ -14,7 +14,11 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Utils\Configuration;
 
+use Contao\ArticleModel;
+use Contao\ContentModel;
 use Contao\Folder;
+use Contao\FormFieldModel;
+use Contao\FormModel;
 use Contao\ImageSizeModel;
 use Contao\LayoutModel;
 use Contao\ModuleModel;
@@ -381,5 +385,56 @@ class ConfigurationUtil
         }
 
         return $objItem;
+    }
+
+    public static function findConfigurationForItem(string $table, int $id): ?Configuration
+    {
+        switch ($table) {
+            case 'tl_content':
+                $objContent = ContentModel::findByPk($id);
+                if (!$objContent) {
+                    return null;
+                }
+                switch ($objContent->ptable) {
+                    case 'tl_article':
+                        $objArticle = ArticleModel::findByPk($objContent->pid);
+                        if (!$objArticle) {
+                            return null;
+                        }
+
+                        $objPage = PageModel::findByPk($objArticle->pid);
+                        if (!$objPage) {
+                            return null;
+                        }
+                        $objPage->loadDetails();
+                        if (null === $objPage->rootId) {
+                            return null;
+                        }
+
+                        return Configuration::findOneBy('contao_page_root', $objPage->rootId);
+                    break;
+                    default:
+                        return null;
+                }
+            break;
+            case 'tl_formfield':
+                $objFormField = FormFieldModel::findByPk($id);
+                if (!$objFormField) {
+                    return null;
+                }
+                $objForm = FormModel::findByPk($objFormField->pid);
+                if (!$objForm) {
+                    return null;
+                }
+                $objContent = ContentModel::findOneBy(['type = ?', 'form = ?'], ['form', $objForm->id]);
+                if (!$objContent) {
+                    return null;
+                }
+
+                return self::findConfigurationForItem($objContent::getTable(), (int) $objContent->id);
+            break;
+        }
+
+        return null;
     }
 }
