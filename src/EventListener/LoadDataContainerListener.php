@@ -42,8 +42,6 @@ use WEM\SmartgearBundle\DataContainer\NotificationLanguage as NotificationLangua
 use WEM\SmartgearBundle\DataContainer\NotificationMessage as NotificationMessageDCA;
 use WEM\SmartgearBundle\DataContainer\NotificationNotification as NotificationNotificationDCA;
 use WEM\SmartgearBundle\DataContainer\Page as PageDCA;
-use WEM\SmartgearBundle\DataContainer\SocialNetwork as SocialNetworkDCA;
-use WEM\SmartgearBundle\DataContainer\SocialNetworkCategory as SocialNetworkCategoryDCA;
 use WEM\SmartgearBundle\DataContainer\Theme as ThemeDCA;
 use WEM\SmartgearBundle\DataContainer\User as UserDCA;
 use WEM\SmartgearBundle\DataContainer\UserGroup as UserGroupDCA;
@@ -240,15 +238,15 @@ class LoadDataContainerListener
             break;
             case 'tl_sm_social_network_category':
                 DCAManipulator::create($table)
-                    ->addConfigOnloadCallback(SocialNetworkCategoryDCA::class, 'checkPermission')
-                    ->setListOperationsDeleteButtonCallback(SocialNetworkCategoryDCA::class, 'deleteItem')
-                    ->setListOperationsEditheaderButtonCallback(SocialNetworkCategoryDCA::class, 'editHeader')
+                    ->addConfigOnloadCallback('smartgear.data_container.social_network_category', 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback('smartgear.data_container.social_network_category', 'deleteItem')
+                    ->setListOperationsEditheaderButtonCallback('smartgear.data_container.social_network_category', 'editHeader')
                 ;
             break;
             case 'tl_sm_social_network':
                 DCAManipulator::create($table)
-                    ->addConfigOnloadCallback(SocialNetworkDCA::class, 'checkPermission')
-                    ->setListOperationsDeleteButtonCallback(SocialNetworkDCA::class, 'deleteItem')
+                    ->addConfigOnloadCallback('smartgear.data_container.social_network', 'checkPermission')
+                    ->setListOperationsDeleteButtonCallback('smartgear.data_container.social_network', 'deleteItem')
                 ;
             break;
             case 'tl_theme':

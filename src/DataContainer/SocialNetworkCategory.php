@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -15,11 +15,14 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\DataContainer;
 
 use Contao\Backend;
+use Contao\BackendUser;
 use Contao\CoreBundle\Exception\AccessDeniedException;
+use Contao\DataContainer;
 use Contao\Image;
 use Contao\Input;
 use Contao\StringUtil;
 use Contao\System;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Model\SocialNetwork as SocialNetworkModel;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
@@ -29,9 +32,26 @@ class SocialNetworkCategory extends Backend
     /** @var CoreConfigurationManager */
     private $configManager;
 
-    public function __construct()
+    /** @var TranslatorInterface */
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
     {
+        parent::__construct();
+        $this->import(BackendUser::class, 'User');
+        $this->translator = $translator;
         $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
+    }
+
+    public function listItems(array $row, string $label, DataContainer $dc, array $labels): string
+    {
+        return $this->translator->trans($row['name'], [], 'contao_default');
+    }
+
+    public function groupCallback(string $group, string $mode, string $field, array $row, DataContainer $dc): string
+    {
+        // return $this->translator->trans($row['name'], [], 'contao_default');
+        return $this->translator->trans($row['name'], [], 'contao_default');
     }
 
     /**
@@ -44,7 +64,7 @@ class SocialNetworkCategory extends Backend
         // Check current action
         switch (Input::get('act')) {
             case 'delete':
-                if ($this->isItemUsed((int) Input::get('id'))) {
+                if (!$this->canItemBeDeleted((int) Input::get('id'))) {
                     throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' social network category ID '.Input::get('id').'.');
                 }
             break;
@@ -82,7 +102,7 @@ class SocialNetworkCategory extends Backend
      */
     public function deleteItem($row, $href, $label, $title, $icon, $attributes)
     {
-        if ($this->isItemUsed((int) $row['id'])) {
+        if (!$this->canItemBeDeleted((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
@@ -97,5 +117,10 @@ class SocialNetworkCategory extends Backend
     protected function isItemUsed(int $id): bool
     {
         return SocialNetworkModel::countBy('pid', $id) > 0;
+    }
+
+    protected function canItemBeDeleted(int $id): bool
+    {
+        return $this->User->admin || !$this->isItemUsed($id);
     }
 }

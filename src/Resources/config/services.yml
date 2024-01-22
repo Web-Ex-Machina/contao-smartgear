@@ -377,6 +377,18 @@ services:
         class: WEM\SmartgearBundle\Model\Backup
         public: true
 
+    smartgear.data_container.social_network:
+        class: WEM\SmartgearBundle\DataContainer\SocialNetwork
+        arguments:
+            $translator: '@contao.translation.translator'
+        public: true
+
+    smartgear.data_container.social_network_category:
+        class: WEM\SmartgearBundle\DataContainer\SocialNetworkCategory
+        arguments:
+            $translator: '@contao.translation.translator'
+        public: true
+
     smartgear.data_container.style_manager.style_manager:
         class: WEM\SmartgearBundle\DataContainer\StyleManager\StyleManager
         arguments:
