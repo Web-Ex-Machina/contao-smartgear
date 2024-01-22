@@ -170,6 +170,22 @@ class Manipulator
         return $this;
     }
 
+    public function addListSortingHeaderCallback(string $className, string $functionName): self
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['list']['sorting']['header_callback'] = [$className, $functionName];
+
+        return $this;
+    }
+
+    public function addListSortingChildRecordCallback(string $className, string $functionName): self
+    {
+        $this->checkConfiguration();
+        $GLOBALS['TL_DCA'][$this->table]['list']['sorting']['child_record_callback'] = [$className, $functionName];
+
+        return $this;
+    }
+
     /**
      * Set the singleSRC field's path.
      *

@@ -19,7 +19,9 @@ use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 (new DcaLoader('tl_style_manager_archive'))->load();
 
 DCAManipulator::create('tl_style_manager_archive')
+    ->addListLabelLabelCallback('smartgear.data_container.style_manager.style_manager_archive', 'listItems')
     ->addField('wem_sg_install', [
+        'filter' => true,
         'label' => &$GLOBALS['TL_LANG']['WEMSG']['DCA']['wem_sg_install'],
         'inputType' => 'picker',
         'relation' => [
