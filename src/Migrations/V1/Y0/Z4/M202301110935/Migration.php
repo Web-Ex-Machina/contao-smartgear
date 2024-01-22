@@ -23,6 +23,7 @@ use WEM\SmartgearBundle\Classes\Migration\Result;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Exceptions\File\NotFound;
 use WEM\SmartgearBundle\Migrations\V1\Y0\Z0\MigrationAbstract;
 use WEM\SmartgearBundle\Model\Article;
 use WEM\SmartgearBundle\Model\Content;
@@ -70,8 +71,8 @@ class Migration extends MigrationAbstract
             return $result;
         }
         try {
-            /** @var CoreConfig */
-            $coreConfig = $this->coreConfigurationManager->load();
+            /* @var CoreConfig */
+            // $coreConfig = $this->coreConfigurationManager->load();
 
             // copy templates needing to be updated
             $this->templatesSmartgearSynchronizer->synchronize(false);
@@ -79,9 +80,9 @@ class Migration extends MigrationAbstract
             $this->updateElementsUsingRemovedTemplate();
             $this->updateBlogComponent();
 
-            $coreConfig->setSgVersion($this->version);
+            // $coreConfig->setSgVersion($this->version);
 
-            $this->coreConfigurationManager->save($coreConfig);
+            // $this->coreConfigurationManager->save($coreConfig);
 
             $this->updateConfigurationsVersion($this->version);
 
@@ -134,8 +135,13 @@ class Migration extends MigrationAbstract
 
     protected function updateBlogComponent(): void
     {
-        /** @var CoreConfig */
-        $coreConfig = $this->coreConfigurationManager->load();
+        // only if old SG install still valid
+        try {
+            /** @var CoreConfig */
+            $coreConfig = $this->coreConfigurationManager->load();
+        } catch (NotFound $e) {
+            return;
+        }
 
         /** @var BlogConfig */
         $blogConfig = $coreConfig->getSgBlog();

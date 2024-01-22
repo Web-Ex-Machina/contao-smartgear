@@ -27,6 +27,7 @@ use WEM\SmartgearBundle\Config\Component\Core\Core;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
 use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
+use WEM\SmartgearBundle\Exceptions\File\NotFound;
 use WEM\SmartgearBundle\Migrations\V1\Y0\Z0\MigrationAbstract;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
@@ -79,7 +80,17 @@ class Migration extends MigrationAbstract
         try {
             /** @var Core */
             $config = $this->coreConfigurationManager->load();
+        } catch (NotFound $e) {
+            $result
+                ->setStatus(Result::STATUS_SKIPPED)
+                ->addLog($this->translator->trans($this->buildTranslationKey('doNoPreviousInstallToMigrate'), [], 'contao_default'))
+            ;
 
+            $this->updateConfigurationsVersion($this->version);
+
+            return $result;
+        }
+        try {
             $objConfiguration = $this->configurationFileToConfigrationDatabase($config);
             $this->configurationFileToContaoSettings($config);
             $this->configurationFileToConfigrationItemsDatabase($config, $objConfiguration);
@@ -89,6 +100,7 @@ class Migration extends MigrationAbstract
                 // ->addLog($this->translator->trans($this->buildTranslationKey('doAddSocialNetworks'), [], 'contao_default'))
                 ->addLog($this->translator->trans($this->buildTranslationKey('done'), [], 'contao_default'))
             ;
+            $this->updateConfigurationsVersion($this->version);
         } catch (\Exception $e) {
             $result
                 ->setStatus(Result::STATUS_FAIL)

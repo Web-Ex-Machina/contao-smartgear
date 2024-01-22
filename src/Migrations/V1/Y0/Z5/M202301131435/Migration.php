@@ -66,15 +66,15 @@ class Migration extends MigrationAbstract
             return $result;
         }
         try {
-            /** @var CoreConfig */
-            $coreConfig = $this->coreConfigurationManager->load();
+            /* @var CoreConfig */
+            // $coreConfig = $this->coreConfigurationManager->load();
 
             // copy templates needing to be updated
             $this->templatesSmartgearSynchronizer->synchronize(false);
 
-            $coreConfig->setSgVersion($this->version);
+            // $coreConfig->setSgVersion($this->version);
 
-            $this->coreConfigurationManager->save($coreConfig);
+            // $this->coreConfigurationManager->save($coreConfig);
 
             $this->updateConfigurationsVersion($this->version);
 

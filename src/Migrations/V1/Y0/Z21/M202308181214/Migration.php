@@ -59,6 +59,7 @@ class Migration extends MigrationAbstract
             } catch (FileNotFoundException $e) {
                 return $result;
             }
+
             if (NotificationModel::findOneById($coreConfig->getSgNotificationSupport())
                 && NotificationMessageModel::findOneById($coreConfig->getSgNotificationSupportMessageUser())
                 && NotificationMessageModel::findOneById($coreConfig->getSgNotificationSupportMessageAdmin())
@@ -85,16 +86,16 @@ class Migration extends MigrationAbstract
         }
         try {
             /** @var CoreConfig */
-            $coreConfig = $this->coreConfigurationManager->load();
+            // $coreConfig = $this->coreConfigurationManager->load();
 
-            $coreConfig->setSgVersion($this->version);
+            // $coreConfig->setSgVersion($this->version);
 
             // create the notification for support ticket creation
             $notificationSupport = $this->createNotificationSupportGatewayNotification();
             $notificationSupportGatewayMessages = $this->createNotificationSupportGatewayMessages($notificationSupport);
             $notificationSupportGatewayMessagesLanguages = $this->createNotificationSupportGatewayMessagesLanguages($notificationSupportGatewayMessages);
 
-            $this->coreConfigurationManager->save($coreConfig);
+            // $this->coreConfigurationManager->save($coreConfig);
 
             $this->updateConfigurationsVersion($this->version);
 

@@ -60,14 +60,12 @@ class Migration extends MigrationAbstract
             return $result;
         }
         try {
-            /** @var CoreConfig */
-            $coreConfig = $this->coreConfigurationManager->load();
+            /* @var CoreConfig */
+            // $coreConfig = $this->coreConfigurationManager->load();
 
-            $coreConfig->setSgVersion($this->version);
+            // $coreConfig->setSgVersion($this->version);
 
-            $this->coreConfigurationManager->save($coreConfig);
-
-            $this->updateConfigurationsVersion($this->version);
+            // $this->coreConfigurationManager->save($coreConfig);
 
             $this->updateConfigurationsVersion($this->version);
 
