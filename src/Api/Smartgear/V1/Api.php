@@ -71,13 +71,7 @@ class Api
             break;
         }
 
-        if ($fwInstallPath) {
-            try {
-                $fwPackageJSON = json_decode(file_get_contents(sprintf('./%s/package.json', $fwInstallPath)));
-            } catch (Exception $e) {
-                // nothing
-            }
-        }
+        $fwPackageJSON = $fwInstallPath ? $this->getFramwayPackageJson($fwInstallPath) : null;
 
         return json_encode([
             'smartgear' => [
@@ -88,5 +82,18 @@ class Api
             'contao' => Util::getCustomPackageVersion('contao/core-bundle'),
             'framway' => $fwPackageJSON ? $fwPackageJSON->version : null,
         ]);
+    }
+
+    protected function getFramwayPackageJson(string $path): ?\stdClass
+    {
+        try {
+            $content = file_get_contents(sprintf('./%s/package.json', $path));
+
+            return !empty($content) ? json_decode($content) : null;
+        } catch (Exception $e) {
+            // nothing
+        }
+
+        return null;
     }
 }

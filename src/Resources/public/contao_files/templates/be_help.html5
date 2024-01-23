@@ -14,7 +14,7 @@
     $objCombiner->add('system/themes/'.$this->theme.'/fonts.min.css');
     $objCombiner->add('system/themes/'.$this->theme.'/basic.min.css');
     $objCombiner->add('system/themes/'.$this->theme.'/help.min.css');
-    $objCombiner->add((!empty($this->rows) && false !== strpos($this->rows[0][0],'assets') ? $this->rows[0][0] : 'assets/framway').'/build/css/framway.css'); // to be able to display framway colors in help wizard
+    $objCombiner->add((!empty($this->rows) && false !== strpos($this->rows[0][0],'assets') ? $this->rows[0][0] : \WEM\SmartgearBundle\Model\Configuration\Configuration::DEFAULT_FRAMWAY_PATH).'/build/css/framway.css'); // to be able to display framway colors in help wizard
     echo $objCombiner->getCombinedFile();
   ?>">
   <?= $this->stylesheets ?>

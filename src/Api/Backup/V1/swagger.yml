@@ -43,7 +43,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/ListResponse"
+                $ref: "#/components/schemas/ListResponse"
         '400':
           description: Invalid request
           content:
@@ -63,7 +63,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/CreateResponse"
+                $ref: "#/components/schemas/CreateResponse"
         '400':
           description: Invalid request
           content:

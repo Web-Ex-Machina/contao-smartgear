@@ -78,7 +78,7 @@ class Util
             $framwayUtil = System::getContainer()->get('smartgear.classes.util_framway');
 
             $objConfiguration = ConfigurationUtil::findConfigurationForItem($table, $id);
-            $fwPath = $objConfiguration ? $objConfiguration->framway_path : 'assets/framway';
+            $fwPath = $objConfiguration ? $objConfiguration->framway_path : \WEM\SmartgearBundle\Model\Configuration\Configuration::DEFAULT_FRAMWAY_PATH;
 
             $colors = empty($strFWTheme) ? $framwayUtil->getCombinedColors($fwPath) : $framwayUtil->getThemeColors($fwPath, $strFWTheme);
             $return = [];

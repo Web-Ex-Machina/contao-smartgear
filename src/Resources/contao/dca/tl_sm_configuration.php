@@ -180,7 +180,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
         'framway_path' => [
             'exclude' => true,
             'search' => true,
-            'default' => '/assets/framway',
+            'default' => Configuration::DEFAULT_FRAMWAY_PATH,
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",

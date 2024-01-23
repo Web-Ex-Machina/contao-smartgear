@@ -45,7 +45,7 @@ paths:
               schema:
                 type: object 
                 properties:
-                  smartegar:
+                  smartgear:
                     type: object
                     properties: 
                       package:
