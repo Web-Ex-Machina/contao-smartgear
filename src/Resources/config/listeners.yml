@@ -17,7 +17,7 @@ services:
             $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
             $framwayConfigurationManager: '@smartgear.config.manager.framway'
-            $framwayThemeConfigurationManager: '@smartgear.config.manager.framway_theme'
+            $framwayCombinedConfigurationManager: '@smartgear.config.manager.framway_combined'
             $listeners:
                 - '@smartgear.backend.component.core.listener.load_data_container'
                 - '@smartgear.backend.component.blog.listener.load_data_container'

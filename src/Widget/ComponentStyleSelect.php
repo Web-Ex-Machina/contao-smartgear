@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Widget;
 
+use WEM\SmartgearBundle\Classes\Utils\Configuration\ConfigurationUtil;
+
 class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\ComponentStyleSelect
 {
     public function generate(): string
@@ -60,7 +62,8 @@ class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\Componen
                 if (preg_match('|<option value="(.*)-primary"|', $match[2])
                 || preg_match('|<option value="(.*)-red"|', $match[2])
                 ) {
-                    $helpA = '<a href="contao/help.php?table='.$this->arrConfiguration['strTable'].'&amp;field='.$this->arrConfiguration['strField'].'" title="'.\Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['helpWizard']).'" onclick="Backend.openModalIframe({\'title\':\''.\Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['helpWizardTitle']).'\',\'url\':this.href});return false">'.\Contao\Image::getHtml('about.svg', $GLOBALS['TL_LANG']['MSC']['helpWizard']).'</a>';
+                    $objConfiguration = ConfigurationUtil::findConfigurationForItem($this->arrConfiguration['strTable'], (int) $this->arrConfiguration['currentRecord']);
+                    $helpA = '<a href="contao/help.php?table='.$this->arrConfiguration['strTable'].'&amp;field='.$this->arrConfiguration['strField'].'&amp;id='.$this->arrConfiguration['currentRecord'].'&amp;framway_path='.($objConfiguration ? $objConfiguration->framway_path : 'assets/framway').'" title="'.\Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['helpWizard']).'" onclick="Backend.openModalIframe({\'title\':\''.\Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['helpWizardTitle']).'\',\'url\':this.href});return false">'.\Contao\Image::getHtml('about.svg', $GLOBALS['TL_LANG']['MSC']['helpWizard']).'</a>';
 
                     return $helpA.'</h3><select'.$match[1].'>'.$match[2].'</select>';
                 }

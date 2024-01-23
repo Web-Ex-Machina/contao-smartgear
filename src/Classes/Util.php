@@ -25,6 +25,7 @@ use Contao\UserGroupModel;
 use DateInterval;
 use Exception;
 use Psr\Log\LogLevel;
+use WEM\SmartgearBundle\Classes\Utils\Configuration\ConfigurationUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 /**
@@ -70,13 +71,16 @@ class Util
      * @todo Find a way to add friendly names to the colors retrieved
      * @todo Maybe store these colors into a file to avoid load/format a shitload of stuff ?
      */
-    public static function getFramwayColors(?string $strFWTheme = ''): array
+    public static function getFramwayColors(string $table, int $id, ?string $strFWTheme = ''): array
     {
         try {
             /** @var UtilFramway */
             $framwayUtil = System::getContainer()->get('smartgear.classes.util_framway');
 
-            $colors = empty($strFWTheme) ? $framwayUtil->getCombinedColors() : $framwayUtil->getThemeColors($strFWTheme);
+            $objConfiguration = ConfigurationUtil::findConfigurationForItem($table, $id);
+            $fwPath = $objConfiguration ? $objConfiguration->framway_path : 'assets/framway';
+
+            $colors = empty($strFWTheme) ? $framwayUtil->getCombinedColors($fwPath) : $framwayUtil->getThemeColors($fwPath, $strFWTheme);
             $return = [];
 
             foreach ($colors as $label => $hexa) {
@@ -97,12 +101,12 @@ class Util
      *
      * @return [Array] An Array of classes / color names
      */
-    public static function getSmartgearColors($strFor = 'rsce', $strFWTheme = '')
+    public static function getSmartgearColors(string $table, int $id, $strFor = 'rsce', $strFWTheme = '')
     {
         try {
             try {
                 // Extract colors from installed Framway
-                $arrColors = self::getFramwayColors($strFWTheme);
+                $arrColors = self::getFramwayColors($table, $id, $strFWTheme);
             } catch (\Exception $e) {
                 System::getContainer()
                     ->get('monolog.logger.contao')

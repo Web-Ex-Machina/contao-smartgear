@@ -14,7 +14,7 @@
     $objCombiner->add('system/themes/'.$this->theme.'/fonts.min.css');
     $objCombiner->add('system/themes/'.$this->theme.'/basic.min.css');
     $objCombiner->add('system/themes/'.$this->theme.'/help.min.css');
-    $objCombiner->add('assets/framway/build/css/framway.css'); // to be able to display framway colors in help wizard
+    $objCombiner->add((!empty($this->rows) && false !== strpos($this->rows[0][0],'assets') ? $this->rows[0][0] : 'assets/framway').'/build/css/framway.css'); // to be able to display framway colors in help wizard
     echo $objCombiner->getCombinedFile();
   ?>">
   <?= $this->stylesheets ?>
@@ -39,6 +39,9 @@
       <?php if (!empty($this->rows)): ?>
         <table class="tl_help_table">
           <?php foreach ($this->rows as $row): ?>
+            <?php if(false !== strpos($row[0],'assets')): ?>
+              <?php continue; ?>
+            <?php endif; ?>
             <tr>
               <?php if ('colspan' == $row[0]): ?>
                 <td colspan="2"><?= $row[1] ?></td>

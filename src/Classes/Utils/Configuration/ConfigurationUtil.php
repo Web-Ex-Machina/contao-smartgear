@@ -387,42 +387,61 @@ class ConfigurationUtil
         return $objItem;
     }
 
+    /**
+     * Return the Configuration object linked to element.
+     *
+     * @param string $table The element's table
+     * @param int    $id    The element's ID
+     */
     public static function findConfigurationForItem(string $table, int $id): ?Configuration
     {
         switch ($table) {
-            case 'tl_content':
+            case ContentModel::getTable():
                 $objContent = ContentModel::findByPk($id);
                 if (!$objContent) {
                     return null;
                 }
-                switch ($objContent->ptable) {
-                    case 'tl_article':
-                        $objArticle = ArticleModel::findByPk($objContent->pid);
-                        if (!$objArticle) {
-                            return null;
-                        }
 
-                        $objPage = PageModel::findByPk($objArticle->pid);
-                        if (!$objPage) {
-                            return null;
-                        }
-                        $objPage->loadDetails();
-                        if (null === $objPage->rootId) {
-                            return null;
-                        }
-
-                        return Configuration::findOneBy('contao_page_root', $objPage->rootId);
-                    break;
-                    default:
-                        return null;
-                }
+                return self::findConfigurationForItem($objContent->ptable, (int) $objContent->pid);
             break;
-            case 'tl_formfield':
-                $objFormField = FormFieldModel::findByPk($id);
-                if (!$objFormField) {
+            case ArticleModel::getTable():
+                $objArticle = ArticleModel::findByPk($id);
+                if (!$objArticle) {
                     return null;
                 }
-                $objForm = FormModel::findByPk($objFormField->pid);
+
+                return self::findConfigurationForItem(PageModel::getTable(), (int) $objArticle->pid);
+            break;
+            case PageModel::getTable():
+                $objPage = PageModel::findByPk($id);
+                if (!$objPage) {
+                    return null;
+                }
+                $objPage->loadDetails();
+                if (null === $objPage->rootId) {
+                    return null;
+                }
+
+                return Configuration::findOneBy('contao_page_root', $objPage->rootId);
+            break;
+            case ModuleModel::getTable():
+                $objModule = ModuleModel::findByPk($id);
+                if (!$objModule) {
+                    return null;
+                }
+
+                return self::findConfigurationForItem(ThemeModel::getTable(), (int) $objModule->pid);
+            break;
+            case ThemeModel::getTable():
+                $objTheme = ThemeModel::findByPk($id);
+                if (!$objTheme) {
+                    return null;
+                }
+
+                return Configuration::findOneBy('contao_theme', $objTheme->id);
+            break;
+            case FormModel::getTable():
+                $objForm = FormModel::findByPk($id);
                 if (!$objForm) {
                     return null;
                 }
@@ -432,6 +451,14 @@ class ConfigurationUtil
                 }
 
                 return self::findConfigurationForItem($objContent::getTable(), (int) $objContent->id);
+            break;
+            case FormFieldModel::getTable():
+                $objFormField = FormFieldModel::findByPk($id);
+                if (!$objFormField) {
+                    return null;
+                }
+
+                return self::findConfigurationForItem(FormModel::getTable(), (int) $objFormField->pid);
             break;
         }
 

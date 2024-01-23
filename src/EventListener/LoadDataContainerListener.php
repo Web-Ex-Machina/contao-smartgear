@@ -19,11 +19,12 @@ use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
+use WEM\SmartgearBundle\Classes\Utils\Configuration\ConfigurationUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfiguration;
 use WEM\SmartgearBundle\Config\Framway as FramwayConfiguration;
 use WEM\SmartgearBundle\Config\FramwayTheme as FramwayThemeConfiguration;
 use WEM\SmartgearBundle\Config\Manager\Framway as ConfigurationManager;
-use WEM\SmartgearBundle\Config\Manager\FramwayTheme as ConfigurationThemeManager;
+use WEM\SmartgearBundle\Config\Manager\FramwayCombined as ConfigurationCombinedManager;
 use WEM\SmartgearBundle\DataContainer\Article as ArticleDCA;
 use WEM\SmartgearBundle\DataContainer\Calendar as CalendarDCA;
 use WEM\SmartgearBundle\DataContainer\CalendarEvents as CalendarEventsDCA;
@@ -55,8 +56,8 @@ class LoadDataContainerListener
     protected $configurationManager;
     /** @var ConfigurationManager */
     protected $framwayConfigurationManager;
-    /** @var ConfigurationThemeManager */
-    protected $framwayThemeConfigurationManager;
+    /** @var ConfigurationCombinedManager */
+    protected $framwayCombinedConfigurationManager;
     /** @var array */
     protected $listeners;
     /** @var string */
@@ -66,15 +67,15 @@ class LoadDataContainerListener
         TranslatorInterface $translator,
         CoreConfigurationManager $configurationManager,
         ConfigurationManager $framwayConfigurationManager,
-        ConfigurationThemeManager $framwayThemeConfigurationManager,
+        ConfigurationCombinedManager $framwayCombinedConfigurationManager,
         array $listeners
     ) {
         $this->translator = $translator;
         $this->configurationManager = $configurationManager;
         $this->framwayConfigurationManager = $framwayConfigurationManager;
-        $this->framwayThemeConfigurationManager = $framwayThemeConfigurationManager;
+        $this->framwayCombinedConfigurationManager = $framwayCombinedConfigurationManager;
         $this->listeners = $listeners;
-        $this->do = Input::get('do') ?? '';
+        $this->do = Input::get('do') ?? ''; // always empty ?
     }
 
     public function __invoke($tables): void
@@ -288,12 +289,14 @@ class LoadDataContainerListener
         && \array_key_exists('fields', $GLOBALS['TL_DCA'][$table])
         && \array_key_exists('styleManager', $GLOBALS['TL_DCA'][$table]['fields'])
         ) {
+            // Input::get('id') available thanks to the help URL built in Widget/ComponentStyleSelect
+            // Input::get('framway_path') available thanks to the help URL built in Widget/ComponentStyleSelect
+            // $objConfiguration = ConfigurationUtil::findConfigurationForItem($table, (int) Input::get('id'));
+
+            $help = ['framway_path' => [Input::get('framway_path'), Input::get('framway_path')]]; // will be deleted in be_help.html5
             try {
                 /** @var FramwayConfiguration */
-                $config = $this->framwayConfigurationManager->load();
-                /** @var FramwayThemeConfiguration */
-                $themeConfig = $this->framwayThemeConfigurationManager->load();
-                $help = [];
+                $config = $this->framwayConfigurationManager->setConfigurationRootFilePath(Input::get('framway_path'))->load();
                 $help['meaningfulLabel'] = ['headspan', $this->translator->trans('WEMSG.FRAMWAY.COLORS.meaningfulLabel', [], 'contao_default')];
                 $meaningfulColors = ['primary', 'secondary', 'success', 'info', 'warning', 'error'];
                 foreach ($meaningfulColors as $name) {
@@ -302,7 +305,13 @@ class LoadDataContainerListener
                         $this->translator->trans(sprintf('WEMSG.FRAMWAY.COLORS.%s', $name), [], 'contao_default'),
                     ];
                 }
+            } catch (FileNotFoundException $e) {
+                //nothing
+            }
 
+            try {
+                /** @var FramwayThemeConfiguration */
+                $themeConfig = $this->framwayCombinedConfigurationManager->setConfigurationRootFilePath(Input::get('framway_path'))->load();
                 $help['rawLabel'] = ['headspan', $this->translator->trans('WEMSG.FRAMWAY.COLORS.rawLabel', [], 'contao_default')];
                 $colors = $themeConfig->getColors();
                 foreach ($colors as $name => $hexa) {
@@ -311,11 +320,10 @@ class LoadDataContainerListener
                         $this->translator->trans(sprintf('WEMSG.FRAMWAY.COLORS.%s', $name), [], 'contao_default'),
                     ];
                 }
-
-                $GLOBALS['TL_DCA'][$table]['fields']['styleManager']['reference'] = $help;
             } catch (FileNotFoundException $e) {
                 //nothing
             }
+            $GLOBALS['TL_DCA'][$table]['fields']['styleManager']['reference'] = $help;
         }
     }
 }

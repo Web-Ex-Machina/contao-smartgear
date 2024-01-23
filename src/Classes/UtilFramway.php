@@ -66,14 +66,14 @@ class UtilFramway
         $this->configurationCombinedManager = $configurationCombinedManager;
     }
 
-    public function getThemeColors(?string $themeName = null): array
+    public function getThemeColors(string $fwPath, ?string $themeName = null): array
     {
-        return $this->configurationThemeManager->setThemeName($themeName)->load()->getColors();
+        return $this->configurationThemeManager->setConfigurationRootFilePath($fwPath)->setThemeName($themeName)->load()->getColors();
     }
 
-    public function getCombinedColors(): array
+    public function getCombinedColors(string $fwPath): array
     {
-        return $this->configurationCombinedManager->load()->getColors();
+        return $this->configurationCombinedManager->setConfigurationRootFilePath($fwPath)->load()->getColors();
     }
 
     public function retrieve(bool $live = false)
