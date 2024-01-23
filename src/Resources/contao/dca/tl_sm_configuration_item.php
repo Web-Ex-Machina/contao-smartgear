@@ -296,7 +296,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'exclude' => true,
             'inputType' => 'select',
             'options_callback' => ['smartgear.data_container.configuration.configuration_item', 'contentTemplateOptionsCallback'],
-            'eval' => ['chosen' => true, 'tl_class' => 'w50'],
+            'eval' => ['chosen' => true, 'tl_class' => 'clr'],
             'sql' => 'TEXT NULL',
         ],
         'singleSRC' => [
