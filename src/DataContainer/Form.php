@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -49,31 +49,20 @@ class Form extends Backend
     public function listItems(array $row, string $label, DataContainer $dc, array $labels): array
     {
         try {
-            $fdmConfig = $this->configurationManager->load()->getSgFormDataManager();
-            if (!$fdmConfig->getSgInstallComplete()) {
-                $labels[1] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['fdmNotInstalled'];
-            } elseif ($fdmConfig->getSgInstallComplete()) {
-                try {
-                    // check form configuration
-                    FormUtil::checkFormConfigurationCompliantForFormDataManager($row['id']);
+            // check form configuration
+            FormUtil::checkFormConfigurationCompliantForFormDataManager($row['id']);
 
-                    $nbFormStorage = FormStorage::countItems(['pid' => $row['id']]);
+            $nbFormStorage = FormStorage::countItems(['pid' => $row['id']]);
 
-                    $labels[1] = FormStorage::countItems(['pid' => $row['id']]);
-                } catch (FormNotConfiguredToStoreValues $e) {
-                    $labels[1] = $e->getMessage();
-                } catch (NoEmailFieldInForm $e) {
-                    $labels[1] = $e->getMessage();
-                } catch (EmailFieldNotMandatoryInForm $e) {
-                    $labels[1] = $e->getMessage();
-                } catch (Exception $e) {
-                    $labels[1] = $e->getMessage();
-                }
-            }
-        } catch (\WEM\SmartgearBundle\Exceptions\File\NotFound $e) {
-            $labels[1] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['fdmNotInstalled'];
-        } catch (\Exception $e) {
-            $labels[1] = '0';
+            $labels[1] = FormStorage::countItems(['pid' => $row['id']]);
+        } catch (FormNotConfiguredToStoreValues $e) {
+            $labels[1] = $e->getMessage();
+        } catch (NoEmailFieldInForm $e) {
+            $labels[1] = $e->getMessage();
+        } catch (EmailFieldNotMandatoryInForm $e) {
+            $labels[1] = $e->getMessage();
+        } catch (Exception $e) {
+            $labels[1] = $e->getMessage();
         }
 
         return $labels;
