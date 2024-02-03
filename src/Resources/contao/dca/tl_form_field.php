@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -18,7 +18,7 @@ use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 DCAManipulator::create('tl_form_field')
     ->addField('contains_personal_data', [
         'inputType' => 'checkbox',
-        'eval' => ['tl_class' => 'cbx m12'],
+        'eval' => ['tl_class' => 'w50 cbx m12'],
         'sql' => 'TINYINT(1) unsigned NOT NULL DEFAULT 0',
     ])
 ;
@@ -26,7 +26,7 @@ DCAManipulator::create('tl_form_field')
 DCAManipulator::create('tl_form_field')
     ->addField('is_technical_field', [
         'inputType' => 'checkbox',
-        'eval' => ['tl_class' => 'cbx m12'],
+        'eval' => ['tl_class' => 'w50 cbx m12'],
         'sql' => 'TINYINT(1) unsigned NOT NULL DEFAULT 0',
     ])
 ;
