@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.28 - 2024-02-09
+- Smartgear : Backup Manager better decides when to split large files in smaller files (avoid memory limit overflow, but isn't faster)
+
 1.0.27 - 2024-01-19
 - Smartgear : fixed an exception triggers by a Contao 4.13.36 updated (checkPermission removed from tl_theme DCA)
 
