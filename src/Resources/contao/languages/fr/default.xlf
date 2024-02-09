@@ -2409,6 +2409,14 @@
 			<source>New backup</source>
 			<target>Nouveau back-up</target>
 		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageChunkSize">
+			<source>Files larger than %s will be split in smaller ones of this size.</source>
+			<target>Les fichiers pesant plus de %s seront découpés en plus petits de cette taille.</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageChunkSizeNoLimitDefined">
+			<source>As no memory_limit has been set in the php.ini file, files larger than %s (arbitrary value) will be split in smaller ones of this size.</source>
+			<target>Du fait qu'aucune valeur ne soit définie dans la directive memory_limit du php.ini, les fichiers pesant plus de %s (valeur arbitraire) seront découpés en plus petits de cette taille.</target>
+		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageNewBackUpDone">
 			<source>Backup "%s" done in %d seconds</source>
 			<target>Backup "%s" effectué en %d secondes</target>

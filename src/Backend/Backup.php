@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -21,6 +21,7 @@ use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Backup\BackupManager;
 use WEM\SmartgearBundle\Classes\StringUtil;
+use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException;
 use WEM\SmartgearBundle\Override\Controller;
 
@@ -64,6 +65,13 @@ class Backup extends \Contao\BackendModule
     {
         // Add WEM styles to template
         $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
+
+        $memoryLimitInBytes = Util::formatPhpMemoryLimitToBytes(ini_get('memory_limit'));
+        if ($memoryLimitInBytes < 0) {
+            Message::addInfo(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageChunkSizeNoLimitDefined'], Util::humanReadableFilesize($this->backupManager->getChunkSizeInBytes(), 0)));
+        } else {
+            Message::addInfo(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageChunkSize'], Util::humanReadableFilesize($this->backupManager->getChunkSizeInBytes(), 0)));
+        }
 
         if ('new' === Input::get('act')) {
             try {
