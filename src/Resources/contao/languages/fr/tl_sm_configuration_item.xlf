@@ -1,0 +1,373 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/tl_sm_configuration_item.php" source-language="en" target-language="fr">
+    <body>
+			<trans-unit id="tl_sm_configuration_item.title.0">
+				<source>Title</source>
+				<target>Titre</target>
+			</trans-unit>
+
+			<trans-unit id="tl_sm_configuration_item.pid.0">
+				<source>pid</source>
+				<target>Configuration parente</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.0">
+				<source>type</source>
+				<target>Type</target>
+			</trans-unit>
+
+			<trans-unit id="tl_sm_configuration_item.type.pages">
+				<source>Pages</source>
+				<target>Pages</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.page-sitemap">
+				<source>Sitemap</source>
+				<target>Plan du site</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.page-privacy-politics">
+				<source>Privacy Politics</source>
+				<target>Confidentialité</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.page-legal-notice">
+				<source>Legal notice</source>
+				<target>Mentions légales</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.user_groups">
+				<source>User groups</source>
+				<target>Groupes d'utilisateurs</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.user-group-administrators">
+				<source>Administrators</source>
+				<target>Administrateurs</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.user-group-redactors">
+				<source>Redactors</source>
+				<target>Rédacteurs</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.modules">
+				<source>Modules</source>
+				<target>Modules</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.module-wem-sg-header">
+				<source>Header Smartgear</source>
+				<target>Header Smartgear</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.module-wem-sg-footer">
+				<source>Footer Smartgear</source>
+				<target>Footer Smartgear</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.module-breadcrumb">
+				<source>Breadcrumb</source>
+				<target>Fil d'ariane</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.module-wem-sg-social-networks">
+				<source>Social networks</source>
+				<target>Réseaux sociaux</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.mixed">
+				<source>Mixed</source>
+				<target>Divers</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.mixed-sitemap">
+				<source>Sitemap (page + module)</source>
+				<target>Plan du site (page + module)</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.mixed-faq">
+				<source>FAQ</source>
+				<target>FAQ</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.mixed-events">
+				<source>Events</source>
+				<target>Evènements</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.mixed-blog">
+				<source>Blog</source>
+				<target>Blog</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.type.mixed-form-contact">
+				<source>Form contact</source>
+				<target>Formulaire de contact</target>
+			</trans-unit>
+
+			<trans-unit id="tl_sm_configuration_item.contao_page.0">
+				<source>contao_page</source>
+				<target>Page</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.page_name.0">
+				<source>page_name</source>
+				<target>Titre de la page</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_page_form.0">
+				<source>contao_page_form</source>
+				<target>Page formulaire</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.page_form_name.0">
+				<source>page_form_name</source>
+				<target>Titre de la page</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_page_form_sent.0">
+				<source>contao_page_form_sent</source>
+				<target>Page formulaire envoyé</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.page_form_sent_name.0">
+				<source>page_form_sent_name</source>
+				<target>Titre de la page</target>
+			</trans-unit>
+
+
+
+
+
+
+			<trans-unit id="tl_sm_configuration_item.contao_module.0">
+				<source>contao_module</source>
+				<target>Module</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.module_name.0">
+				<source>module_name</source>
+				<target>Titre du module</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.customTpl.0">
+				<source>customTpl</source>
+				<target>Template personnalisé</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.singleSRC.0">
+				<source>singleSRC</source>
+				<target>Fichier</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_user_group.0">
+				<source>contao_user_group</source>
+				<target>Groupe d'utilisateurs</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.user_group_name.0">
+				<source>user_group_name</source>
+				<target>Nom du groupe</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_faq_category.0">
+				<source>contao_faq_category</source>
+				<target>FAQ</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.faq_category_name.0">
+				<source>faq_category_name</source>
+				<target>Nom de la FAQ</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_module_list.0">
+				<source>contao_module_list</source>
+				<target>Module Liste</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.module_list_name.0">
+				<source>module_list_name</source>
+				<target>Nom de la liste</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.module_list_perPage.0">
+				<source>module_list_perPage</source>
+				<target>Nombre d'éléments par page de la liste</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_module_reader.0">
+				<source>contao_module_reader</source>
+				<target>Module Lecteur</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.module_reader_name.0">
+				<source>module_reader_name</source>
+				<target>Nom du lecteur</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_module_calendar.0">
+				<source>contao_module_calendar</source>
+				<target>Module Calendrier</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.module_calendar_name.0">
+				<source>module_calendar_name</source>
+				<target>Nom du calendrier</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_calendar.0">
+				<source>contao_calendar</source>
+				<target>Calendrier</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.calendar_name.0">
+				<source>calendar_name</source>
+				<target>Nom du calendrier</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_news_archive.0">
+				<source>contao_news_archive</source>
+				<target>Archive d'actualités</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.news_archive_name.0">
+				<source>news_archive_name</source>
+				<target>Nom de l'archive</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_form.0">
+				<source>contao_form</source>
+				<target>Formulaire de contact</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.form_name.0">
+				<source>form_name</source>
+				<target>Nom du formulaire</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_notification.0">
+				<source>contao_notification</source>
+				<target>Notification</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.notification_name.0">
+				<source>notification_name</source>
+				<target>Nom de la notification</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_layout_to_update.0">
+				<source>contao_layout_to_update</source>
+				<target>Présentations de page à mettre à jour</target>
+			</trans-unit>
+
+			<trans-unit id="tl_sm_configuration_item.update_page.0">
+				<source>Overwrite page's configuration</source>
+				<target>Ecraser la configuration de la page</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_page_form.0">
+				<source>Overwrite form page's configuration</source>
+				<target>Ecraser la configuration de la page du formulaire</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_page_form_sent.0">
+				<source>Overwrite form sent page's configuration</source>
+				<target>Ecraser la configuration de la page de confirmation d'envoi du formulaire</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_module.0">
+				<source>Overwrite module's configuration</source>
+				<target>Ecraser la configuration du module</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_module_reader.0">
+				<source>Overwrite reader module's configuration</source>
+				<target>Ecraser la configuration du module lecteur</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_module_list.0">
+				<source>Overwrite list module's configuration</source>
+				<target>Ecraser la configuration du module liste</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_module_calendar.0">
+				<source>Overwrite calendar module's configuration</source>
+				<target>Ecraser la configuration du module calendrier</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_user_group.0">
+				<source>Overwrite user group's configuration</source>
+				<target>Ecraser la configuration du groupe d'utilisateurs</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_faq_category.0">
+				<source>Overwrite FAQ's configuration</source>
+				<target>Ecraser la configuration de la FAQ</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_calendar.0">
+				<source>Overwrite Calendar's configuration</source>
+				<target>Ecraser la configuration du calendrier</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_news_archive.0">
+				<source>Overwrite News archive's configuration</source>
+				<target>Ecraser la configuration du flux d'actualités</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_form.0">
+				<source>Overwrite Form's configuration</source>
+				<target>Ecraser la configuration du formulaire</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_notification.0">
+				<source>Overwrite Notification's configuration</source>
+				<target>Ecraser la configuration de la notification</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.update_user_group_permission.0">
+				<source>Overwrite user(s) group(s) permissions</source>
+				<target>Mettre à jour les permissions des groupes utilisateurs</target>
+			</trans-unit>
+
+
+			<trans-unit id="tl_sm_configuration_item.contao_page_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>La page "%s" (ID "%s") a été mise à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_page_form_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>La page "%s" (ID "%s") a été mise à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_page_form_sent_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>La page "%s" (ID "%s") a été mise à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_module_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>Le module "%s" (ID "%s") a été mis à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_module_reader_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>Le module "%s" (ID "%s") a été mis à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_module_list_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>Le module "%s" (ID "%s") a été mis à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_module_calendar_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>Le module "%s" (ID "%s") a été mis à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_user_group_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>Le groupe d'utilisateurs "%s" (ID "%s") a été mis à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_faq_category_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>La FAQ "%s" (ID "%s") a été mise à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_calendar_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>Le calendrier "%s" (ID "%s") a été mis à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_news_archive_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>L'archive d'actualités "%s" (ID "%s") a été mis à jour depuis le %s</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration_item.contao_notification_updated_outside_sg_configuration">
+				<source>xxxxxx</source>
+				<target>La notification "%s" (ID "%s") a été mis à jour depuis le %s</target>
+			</trans-unit>
+
+
+
+      <trans-unit id="tl_sm_configuration_item.title_legend">
+        <source>Title</source>
+        <target>Titre</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.page_legend">
+        <source>Page</source>
+        <target>Page</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.module_legend">
+        <source>Module</source>
+        <target>Module</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.content_legend">
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.user_group_legend">
+        <source>User group</source>
+        <target>Groupe d'utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.faq_category_legend">
+        <source>FAQ Category</source>
+        <target>Catégorie FAQ</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.calendar_legend">
+        <source>Calendar</source>
+        <target>Calendrier</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.news_legend">
+        <source>Blog</source>
+        <target>Blog</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.form_legend">
+        <source>Form</source>
+        <target>Formulaire</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.notification_legend">
+        <source>Notification</source>
+        <target>Notification</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration_item.update_legend">
+        <source>Update</source>
+        <target>Mise à jour</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

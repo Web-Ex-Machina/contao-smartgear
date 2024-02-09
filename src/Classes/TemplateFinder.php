@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -34,12 +34,12 @@ class TemplateFinder
         $this->configurationManager = $configurationManager;
     }
 
-    public function buildList(): array
+    public function buildList(?string $clientTemplatesFolderName = ''): array
     {
         // array_merge(arr1, arr2) will overwrite arr1 keys by arr2 keys if equals
         // so we start by the least important
 
-        return array_merge($this->getSmartgearTemplates(), $this->getRsceTemplates(), $this->getClientTemplates(), $this->getRootTemplates());
+        return array_merge($this->getSmartgearTemplates(), $this->getRsceTemplates(), $this->getClientTemplates($clientTemplatesFolderName), $this->getRootTemplates());
     }
 
     protected function getRsceTemplates(): array
@@ -57,19 +57,23 @@ class TemplateFinder
         return file_exists($this->projectDir.\DIRECTORY_SEPARATOR.'templates'.\DIRECTORY_SEPARATOR.'smartgear') ? $this->getTemplatesFromFolder($this->projectDir.\DIRECTORY_SEPARATOR.'templates'.\DIRECTORY_SEPARATOR.'smartgear') : [];
     }
 
-    protected function getClientTemplates(): array
+    protected function getClientTemplates(?string $clientTemplatesFolderName = ''): array
     {
-        // get the core config, get the theme_id, retrieve the theme and use the path in "templates" field
-        try {
-            /** @var CoreConfig */
-            $config = $this->configurationManager->load();
-        } catch (NotFound $e) {
-            return [];
+        if ('' === $clientTemplatesFolderName) {
+            // get the core config, get the theme_id, retrieve the theme and use the path in "templates" field
+            try {
+                /** @var CoreConfig */
+                $config = $this->configurationManager->load();
+            } catch (NotFound $e) {
+                return [];
+            }
+
+            $objTheme = ThemeModel::findById($config->getSgTheme());
+
+            return file_exists($this->projectDir.\DIRECTORY_SEPARATOR.$objTheme->templates) ? $this->getTemplatesFromFolder($this->projectDir.\DIRECTORY_SEPARATOR.$objTheme->templates) : [];
         }
 
-        $objTheme = ThemeModel::findById($config->getSgTheme());
-
-        return file_exists($this->projectDir.\DIRECTORY_SEPARATOR.$objTheme->templates) ? $this->getTemplatesFromFolder($this->projectDir.\DIRECTORY_SEPARATOR.$objTheme->templates) : [];
+        return file_exists($this->projectDir.\DIRECTORY_SEPARATOR.$clientTemplatesFolderName) ? $this->getTemplatesFromFolder($this->projectDir.\DIRECTORY_SEPARATOR.$clientTemplatesFolderName) : [];
     }
 
     protected function getTemplatesFromFolder(string $folderPath): array

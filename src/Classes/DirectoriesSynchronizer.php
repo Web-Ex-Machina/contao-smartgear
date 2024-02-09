@@ -63,6 +63,7 @@ class DirectoriesSynchronizer
     {
         $this->sourceDirectory = $this->stripRootPathFromPath(str_replace('[public_or_web]', Util::getPublicOrWebDirectory(), $this->sourceDirectory));
         $this->destinationDirectory = $this->stripRootPathFromPath(str_replace('[public_or_web]', Util::getPublicOrWebDirectory(), $this->destinationDirectory));
+
         $this->checkFiles(
             $this->getSourceDirectoryFiles(),
             $this->getDestinationDirectoryFiles()
@@ -110,6 +111,26 @@ class DirectoriesSynchronizer
     public function getFilesToUpdate(): array
     {
         return $this->filesToUpdate;
+    }
+
+    /**
+     * @todo remove and find another way of doing it
+     */
+    public function getDestinationDirectory(): string
+    {
+        return $this->destinationDirectory;
+    }
+
+    /**
+     * @todo remove and find another way of doing it
+     *
+     * @return self
+     */
+    public function setDestinationDirectory(string $destinationDirectory)
+    {
+        $this->destinationDirectory = $destinationDirectory;
+
+        return $this;
     }
 
     protected function getSourceDirectoryFiles()

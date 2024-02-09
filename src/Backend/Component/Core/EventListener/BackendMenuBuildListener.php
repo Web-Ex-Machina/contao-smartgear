@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -60,10 +60,12 @@ class BackendMenuBuildListener
         }
 
         $contentNode = $tree->getChild('wem_smartgear');
-        $contentNode->removeChild('wem_sg_dashboard');
+        if ($contentNode) {
+            $contentNode->removeChild('wem_sg_dashboard');
 
-        if (0 === $contentNode->count()) {
-            $tree->removeChild('wem_smartgear');
+            if (0 === $contentNode->count()) {
+                $tree->removeChild('wem_smartgear');
+            }
         }
     }
 }

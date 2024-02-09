@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -59,6 +59,11 @@ class UiListener
                 case FormStorageData::getTable():
                     foreach ($ptableDatas as $id => $idDatas) {
                         $objFormStorageData = FormStorageData::findOneBy('id', $idDatas['personalDatas'][0]->pid);
+                        // in case the data has been deleted but pdm data are still present
+                        if (!$objFormStorageData) {
+                            continue;
+                        }
+
                         /** @var FormStorage */
                         $objFormStorage = $objFormStorageData->getRelated('pid');
 
@@ -307,7 +312,7 @@ class UiListener
         if ($formStorageDatas) {
             while ($formStorageDatas->next()) {
                 // $objFormStorage->{$formStorageDatas->field_name} = $formStorageDatas->current()->getValueAsString();
-                $objPersonalData = PersonalData::findOneByPidAndPTableAndField($formStorageDatas->id, FormStorageData::getTable(), 'value');
+                $objPersonalData = PersonalData::findOneByPidAndPTableAndField((int) $formStorageDatas->id, FormStorageData::getTable(), 'value');
                 if ($objPersonalData) {
                     $objPersonalData = $objPersonalData->current();
                     $arrPersonalDataValues = $objPersonalData->row();

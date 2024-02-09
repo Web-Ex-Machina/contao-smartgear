@@ -14,9 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes;
 
-use Contao\ArticleModel;
 use Contao\Config;
-use Contao\ContentModel;
 use Contao\Controller;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\File;
@@ -26,10 +24,9 @@ use Contao\System;
 use Contao\UserGroupModel;
 use DateInterval;
 use Exception;
-use InvalidArgumentException;
 use Psr\Log\LogLevel;
+use WEM\SmartgearBundle\Classes\Utils\Configuration\ConfigurationUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
-use WEM\UtilsBundle\Classes\StringUtil;
 
 /**
  * Back end module "smartgear".
@@ -74,13 +71,16 @@ class Util
      * @todo Find a way to add friendly names to the colors retrieved
      * @todo Maybe store these colors into a file to avoid load/format a shitload of stuff ?
      */
-    public static function getFramwayColors(?string $strFWTheme = ''): array
+    public static function getFramwayColors(string $table, int $id, ?string $strFWTheme = ''): array
     {
         try {
             /** @var UtilFramway */
             $framwayUtil = System::getContainer()->get('smartgear.classes.util_framway');
 
-            $colors = empty($strFWTheme) ? $framwayUtil->getCombinedColors() : $framwayUtil->getThemeColors($strFWTheme);
+            $objConfiguration = ConfigurationUtil::findConfigurationForItem($table, $id);
+            $fwPath = $objConfiguration ? $objConfiguration->framway_path : \WEM\SmartgearBundle\Model\Configuration\Configuration::DEFAULT_FRAMWAY_PATH;
+
+            $colors = empty($strFWTheme) ? $framwayUtil->getCombinedColors($fwPath) : $framwayUtil->getThemeColors($fwPath, $strFWTheme);
             $return = [];
 
             foreach ($colors as $label => $hexa) {
@@ -101,12 +101,12 @@ class Util
      *
      * @return [Array] An Array of classes / color names
      */
-    public static function getSmartgearColors($strFor = 'rsce', $strFWTheme = '')
+    public static function getSmartgearColors(string $table, int $id, $strFor = 'rsce', $strFWTheme = '')
     {
         try {
             try {
                 // Extract colors from installed Framway
-                $arrColors = self::getFramwayColors($strFWTheme);
+                $arrColors = self::getFramwayColors($table, $id, $strFWTheme);
             } catch (\Exception $e) {
                 System::getContainer()
                     ->get('monolog.logger.contao')
@@ -320,176 +320,6 @@ class Util
     }
 
     /**
-     * Shortcut for page creation.
-     */
-    public static function createPage($strTitle, $intPid = 0, $arrData = []): PageModel
-    {
-        // Create the page
-        if (\array_key_exists('id', $arrData)) {
-            $objPage = PageModel::findOneById($arrData['id']);
-            if (!$objPage) {
-                throw new InvalidArgumentException('La page ayant pour id "'.$arrData['id'].'" n\'existe pas');
-            }
-        } else {
-            $objPage = new PageModel();
-        }
-        $objPage->tstamp = time();
-        $objPage->pid = $intPid;
-        if (\array_key_exists('sorting', $arrData)) {
-            $objPage->sorting = $arrData['sorting'];
-        } elseif (0 !== $intPid) {
-            $objPage->sorting = self::getNextAvailablePageSortingByParentPage((int) $intPid);
-        } elseif (\array_key_exists('layout', $arrData)) {
-            $objPage->sorting = self::getNextAvailablePageSortingByLayout((int) $arrData['layout']);
-        }
-
-        $objPage->title = $strTitle;
-        // $objPage->alias = StringUtil::generateAlias($objPage->title);
-        $objPage->type = 'regular';
-        $objPage->pageTitle = $strTitle;
-        $objPage->robots = 'index,follow';
-        $objPage->sitemap = 'map_default';
-        $objPage->published = 1;
-
-        // Now we get the default values, get the arrData table
-        if (!empty($arrData)) {
-            foreach ($arrData as $k => $v) {
-                $objPage->$k = $v;
-            }
-        }
-
-        $objPage->save();
-
-        \Contao\Controller::loadDataContainer(PageModel::getTable());
-        $dc = new \Contao\DC_Table(PageModel::getTable());
-        $dc->id = $objPage->id;
-        $dc->activeRecord = $objPage;
-        $alias = System::getContainer()
-            ->get('contao.listener.data_container.page_url')
-            ->generateAlias($arrData['alias'] ?? '', $dc)
-        ;
-
-        $objPage = PageModel::findById($objPage->id);
-        $objPage->alias = $alias;
-        $objPage->save();
-
-        // Return the model
-        return $objPage;
-    }
-
-    /**
-     * Shortcut for article creation.
-     */
-    public static function createArticle($objPage, $arrData = []): ArticleModel
-    {
-        // Create the article
-        $objArticle = isset($arrData['id']) ? ArticleModel::findById($arrData['id']) ?? new ArticleModel() : new ArticleModel();
-        $objArticle->tstamp = time();
-        $objArticle->pid = $objPage->id;
-        $objArticle->sorting = (ArticleModel::countBy('pid', $objPage->id) + 1) * 128;
-        $objArticle->title = $objPage->title;
-        $objArticle->alias = $objPage->alias;
-        $objArticle->author = 1;
-        $objArticle->inColumn = 'main';
-        $objArticle->published = 1;
-
-        // Now we get the default values, get the arrData table
-        if (!empty($arrData)) {
-            foreach ($arrData as $k => $v) {
-                $objArticle->$k = $v;
-            }
-        }
-
-        $objArticle->save();
-
-        // Return the model
-        return $objArticle;
-    }
-
-    /**
-     * Shortcut for content creation.
-     */
-    public static function createContent($objArticle, $arrData = []): ContentModel
-    {
-        // Dynamic ptable support
-        if (!$arrData['ptable']) {
-            $arrData['ptable'] = 'tl_article';
-        }
-
-        $objContentHighestSorting = ContentModel::findOneBy(['pid = ?', 'ptable = ?'], [$objArticle->id, $arrData['ptable']], ['order' => 'sorting DESC']);
-
-        // Create the content
-        $objContent = isset($arrData['id']) ? ContentModel::findById($arrData['id']) ?? new ContentModel() : new ContentModel();
-        $objContent->tstamp = time();
-        $objContent->pid = $objArticle->id;
-        $objContent->ptable = $arrData['ptable'];
-        $objContent->sorting = $objContentHighestSorting->sorting + 128;
-        $objContent->type = 'text';
-
-        // Now we get the default values, get the arrData table
-        if (!empty($arrData)) {
-            foreach ($arrData as $k => $v) {
-                $objContent->$k = $v;
-            }
-        }
-
-        $objContent->save();
-
-        // Return the model
-        return $objContent;
-    }
-
-    /**
-     * Shortcut for page w/ modules creations.
-     */
-    public static function createPageWithModules($strTitle, $arrModules, $intPid = 0, $arrPageData = [])
-    {
-        $arrConfig = static::loadSmartgearConfig();
-        if (0 === $intPid) {
-            $intPid = $arrConfig['sgInstallRootPage'];
-        }
-
-        // Create the page
-        $objPage = static::createPage($strTitle, $intPid, $arrPageData);
-
-        // Create the article
-        $objArticle = static::createArticle($objPage);
-
-        // Create the contents
-        foreach ($arrModules as $intModule) {
-            $objContent = static::createContent($objArticle, ['type' => 'module', 'module' => $intModule]);
-        }
-
-        // Return the page ID
-        return $objPage->id;
-    }
-
-    /**
-     * Shortcut for page w/ texts creations.
-     *
-     * @param mixed|null $arrHl
-     */
-    public static function createPageWithText($strTitle, $strText, $intPid = 0, $arrHl = null)
-    {
-        $arrConfig = static::loadSmartgearConfig();
-        if (0 === $intPid) {
-            $intPid = $arrConfig['sgInstallRootPage'];
-        }
-
-        // Create the page
-        $objPage = static::createPage($strTitle, $intPid);
-
-        // Create the article
-        $objArticle = static::createArticle($objPage);
-
-        // Create the content
-        $objContent = static::createContent($objArticle, ['text' => $strText, 'headline' => $arrHl]);
-
-        // Return the page ID
-        return $objPage->id;
-    }
-
-    /**
      * Contao Friendly Base64 Converter to FileSystem.
      *
      * @param [String]  $base64        [Base64 String to decode]
@@ -560,6 +390,34 @@ class Util
         }
 
         return $result;
+    }
+
+    public static function getFileListByLanguages(string $strDir): array
+    {
+        $files = [];
+        $root = scandir($strDir);
+        foreach ($root as $value) {
+            if ('.' === $value || '..' === $value) {
+                continue;
+            }
+
+            if (is_dir("$strDir/$value")) {
+                $files[$value] = [];
+
+                $filesInDir = scandir("$strDir/$value");
+                foreach ($filesInDir as $subValue) {
+                    if (is_file("$strDir/$value/$subValue")) {
+                        $files[$value][] = "$strDir/$value/$subValue";
+                        // continue;
+                    }
+                }
+            }
+            // foreach (static::getFileList("$strDir/$value") as $value) {
+            //     $result[] = $value;
+            // }
+        }
+
+        return $files;
     }
 
     /**
@@ -888,53 +746,6 @@ class Util
         }
 
         return $timestamps;
-    }
-
-    /**
-     * Returns the next available sorting for a page based on its layout.
-     *
-     * @param int $layoutId The layout ID
-     *
-     * @return int The next available sorting
-     */
-    public static function getNextAvailablePageSortingByLayout(int $layoutId): int
-    {
-        $rootPage = PageModel::findBy(['layout = ?', 'type = ?'], [$layoutId, 'root']);
-        if (!$rootPage) {
-            return 128;
-        }
-
-        $pages = PageModel::findBy('pid', $rootPage, ['order' => 'sorting DESC']);
-        if (!$pages) {
-            // return (int) $rootPage->sorting + 128;
-            return 128;
-        }
-        $objPage = $pages->first()->current();
-
-        return (int) $objPage->sorting + 128;
-    }
-
-    /**
-     * Returns the next available page sorting for a page based on its parent page.
-     *
-     * @param int $parentPageId The page ID
-     *
-     * @return int The next available sorting
-     */
-    public static function getNextAvailablePageSortingByParentPage(int $parentPageId): int
-    {
-        $pidPage = PageModel::findById($parentPageId);
-        if (!$pidPage) {
-            return 128;
-        }
-        $pages = PageModel::findBy('pid', $parentPageId, ['order' => 'sorting DESC']);
-        if (!$pages) {
-            // return (int) $pidPage->sorting + 128;
-            return 128;
-        }
-        $objPage = $pages->first()->current();
-
-        return (int) $objPage->sorting + 128;
     }
 
     public static function buildCookieVisitorUniqIdHash(): string

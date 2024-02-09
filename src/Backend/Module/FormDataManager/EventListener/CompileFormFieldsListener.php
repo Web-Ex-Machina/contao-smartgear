@@ -40,58 +40,58 @@ class CompileFormFieldsListener
         string $formId,
         Form $form
     ): array {
-        try {
-            /** @var CoreConfig */
-            $coreConfig = $this->coreConfigurationManager->load();
-            /** @var FormDataManagerConfig */
-            $fdmConfig = $coreConfig->getSgFormDataManager();
-            if ($coreConfig->getSgInstallComplete()
-            && $fdmConfig->getSgInstallComplete()
-            ) {
-                if ((bool) $form->getModel()->storeViaFormDataManager) {
-                    // current page
-                    global $objPage;
+        // try {
+        // /** @var CoreConfig */
+        // $coreConfig = $this->coreConfigurationManager->load();
+        // /** @var FormDataManagerConfig */
+        // $fdmConfig = $coreConfig->getSgFormDataManager();
+        // if ($coreConfig->getSgInstallComplete()
+        // && $fdmConfig->getSgInstallComplete()
+        // ) {
+        if ((bool) $form->getModel()->storeViaFormDataManager) {
+            // current page
+            global $objPage;
 
-                    $objFormFieldFirstAppearance = (new FormFieldModel());
-                    $objFormFieldFirstAppearance->name = 'fdm[first_appearance]';
-                    $objFormFieldFirstAppearance->type = 'hidden';
-                    $objFormFieldFirstAppearance->is_technical_field = 1;
-                    $arrFields['first_appearance'] = $objFormFieldFirstAppearance;
+            $objFormFieldFirstAppearance = (new FormFieldModel());
+            $objFormFieldFirstAppearance->name = 'fdm[first_appearance]';
+            $objFormFieldFirstAppearance->type = 'hidden';
+            $objFormFieldFirstAppearance->is_technical_field = 1;
+            $arrFields['first_appearance'] = $objFormFieldFirstAppearance;
 
-                    $objFormFieldFirstInteraction = (new FormFieldModel());
-                    $objFormFieldFirstInteraction->name = 'fdm[first_interaction]';
-                    $objFormFieldFirstInteraction->type = 'hidden';
-                    $objFormFieldFirstInteraction->is_technical_field = 1;
-                    $arrFields['first_interaction'] = $objFormFieldFirstInteraction;
+            $objFormFieldFirstInteraction = (new FormFieldModel());
+            $objFormFieldFirstInteraction->name = 'fdm[first_interaction]';
+            $objFormFieldFirstInteraction->type = 'hidden';
+            $objFormFieldFirstInteraction->is_technical_field = 1;
+            $arrFields['first_interaction'] = $objFormFieldFirstInteraction;
 
-                    $objFormFieldCurrentPage = (new FormFieldModel());
-                    $objFormFieldCurrentPage->name = 'fdm[current_page]';
-                    $objFormFieldCurrentPage->type = 'hidden';
-                    $objFormFieldCurrentPage->is_technical_field = 1;
-                    $objFormFieldCurrentPage->value = $objPage ? $objPage->id : 0;
-                    $arrFields['current_page'] = $objFormFieldCurrentPage;
+            $objFormFieldCurrentPage = (new FormFieldModel());
+            $objFormFieldCurrentPage->name = 'fdm[current_page]';
+            $objFormFieldCurrentPage->type = 'hidden';
+            $objFormFieldCurrentPage->is_technical_field = 1;
+            $objFormFieldCurrentPage->value = $objPage ? $objPage->id : 0;
+            $arrFields['current_page'] = $objFormFieldCurrentPage;
 
-                    $objFormFieldCurrentPage = (new FormFieldModel());
-                    $objFormFieldCurrentPage->name = 'fdm[current_page_url]';
-                    $objFormFieldCurrentPage->type = 'hidden';
-                    $objFormFieldCurrentPage->is_technical_field = 1;
-                    $objFormFieldCurrentPage->value = Environment::get('uri');
-                    $arrFields['current_page_url'] = $objFormFieldCurrentPage;
+            $objFormFieldCurrentPage = (new FormFieldModel());
+            $objFormFieldCurrentPage->name = 'fdm[current_page_url]';
+            $objFormFieldCurrentPage->type = 'hidden';
+            $objFormFieldCurrentPage->is_technical_field = 1;
+            $objFormFieldCurrentPage->value = Environment::get('uri');
+            $arrFields['current_page_url'] = $objFormFieldCurrentPage;
 
-                    // Previous page
-                    $objFormFieldRefererPage = (new FormFieldModel());
-                    $objFormFieldRefererPage->name = 'fdm[referer_page_url]';
-                    $objFormFieldRefererPage->type = 'hidden';
-                    $objFormFieldRefererPage->is_technical_field = 1;
-                    $objFormFieldRefererPage->value = System::getReferer();
-                    $arrFields['referer_page_url'] = $objFormFieldRefererPage;
-                }
-            }
-        } catch (NotFound $e) {
-            return $arrFields;
-        } catch (Exception $e) {
-            throw $e;
+            // Previous page
+            $objFormFieldRefererPage = (new FormFieldModel());
+            $objFormFieldRefererPage->name = 'fdm[referer_page_url]';
+            $objFormFieldRefererPage->type = 'hidden';
+            $objFormFieldRefererPage->is_technical_field = 1;
+            $objFormFieldRefererPage->value = System::getReferer();
+            $arrFields['referer_page_url'] = $objFormFieldRefererPage;
         }
+        //     }
+        // } catch (NotFound $e) {
+        //     return $arrFields;
+        // } catch (Exception $e) {
+        //     throw $e;
+        // }
 
         return $arrFields;
     }

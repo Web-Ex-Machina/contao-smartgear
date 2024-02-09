@@ -6,7 +6,7 @@
 
 <div id="tl_buttons">
   <a href="<?= ampersand($this->newBackUpButtonHref) ?>" class="header_new" title="<?= Contao\StringUtil::specialchars($this->newBackUpButtonTitle) ?>" accesskey="b"><?= $this->newBackUpButtonButton ?></a>
-  <a href="<?= ampersand($this->backButtonHref) ?>" class="header_back" title="<?= Contao\StringUtil::specialchars($this->backButtonTitle) ?>" accesskey="b"><?= $this->backButtonButton ?></a>
+  <!-- <a href="<?= ampersand($this->backButtonHref) ?>" class="header_back" title="<?= Contao\StringUtil::specialchars($this->backButtonTitle) ?>" accesskey="b"><?= $this->backButtonButton ?></a> -->
 </div>
 
 <!-- Display messages -->

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -79,18 +79,18 @@ class Layout extends \tl_layout
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
-        try {
-            $config = $this->configManager->load();
-            if ($config->getSgInstallComplete()
-            && (
-                $id === (int) $config->getSgLayoutStandard()
-                || $id === (int) $config->getSgLayoutFullwidth()
-            )
-            ) {
-                return true;
-            }
-        } catch (\Exception $e) {
-        }
+        // try {
+        //     $config = $this->configManager->load();
+        //     if ($config->getSgInstallComplete()
+        //     && (
+        //         $id === (int) $config->getSgLayoutStandard()
+        //         || $id === (int) $config->getSgLayoutFullwidth()
+        //     )
+        //     ) {
+        //         return true;
+        //     }
+        // } catch (\Exception $e) {
+        // }
 
         return false;
     }

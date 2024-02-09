@@ -1,0 +1,258 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/wem-contao-smartgear/languages/en/tl_sm_configuration.php" source-language="en" target-language="fr">
+    <body>
+			<trans-unit id="tl_sm_configuration.title.0">
+				<source>Title</source>
+				<target>Titre</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.version.0">
+				<source>Version</source>
+				<target>Version</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.mode.0">
+				<source>Mode</source>
+				<target>Mode</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.admin_email.0">
+				<source>Administrator email</source>
+				<target>Email administrateur</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.domain.0">
+				<source>Domain</source>
+				<target>Domaine</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.email_gateway.0">
+				<source>Email gateway</source>
+				<target>Passerelle email</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.language.0">
+				<source>Language</source>
+				<target>Langue</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.framway_path.0">
+				<source>Framway's path</source>
+				<target>Chemin d'installation du Framway</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.google_fonts.0">
+				<source>Google Fonts</source>
+				<target>Google Fonts</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.analytics_solution.0">
+				<source>Statistic's solution</source>
+				<target>Solution statistique</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.matomo_host.0">
+				<source>Matomo's host</source>
+				<target>Domaine Matomo</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.matomo_id.0">
+				<source>matomo's id</source>
+				<target>Id Matomo</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.google_id.0">
+				<source>Google's id</source>
+				<target>Id Google</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_type.0">
+				<source>Legal owner's type</source>
+				<target>Propriétaire</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_person_firstname.0">
+				<source>Firstname</source>
+				<target>Prénom</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_person_lastname.0">
+				<source>Lastname</source>
+				<target>Nom</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_company_name.0">
+				<source>Name</source>
+				<target>Nom</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_company_status.0">
+				<source>Status</source>
+				<target>Statut</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_company_identifier.0">
+				<source>Identifier</source>
+				<target>Identifiant</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_company_identifier.1">
+				<source>SIREN, SIRET, ...</source>
+				<target>SIREN, SIRET, ...</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_company_dpo_name.0">
+				<source>DPO name</source>
+				<target>Nom du DPO</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_company_dpo_email.0">
+				<source>DPO email</source>
+				<target>Email DPO</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_email.0">
+				<source>Owner's email</source>
+				<target>Email du propriétaire</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_street.0">
+				<source>Owner's address</source>
+				<target>Adresse</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_postal_code.0">
+				<source>Postal code</source>
+				<target>Code postal</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_region.0">
+				<source>Region</source>
+				<target>Région</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_city.0">
+				<source>City</source>
+				<target>Ville</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.legal_owner_country.0">
+				<source>Country</source>
+				<target>Pays</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.contao_theme.0">
+				<source>Theme</source>
+				<target>Thème</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.host_name.0">
+				<source>Host address</source>
+				<target>Nom de l'hébergeur</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.host_street.0">
+				<source>Host street</source>
+				<target>Adresse</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.host_postal_code.0">
+				<source>Postal code</source>
+				<target>Code postal</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.host_region.0">
+				<source>Region</source>
+				<target>Région</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.host_city.0">
+				<source>City</source>
+				<target>Ville</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.host_country.0">
+				<source>Country</source>
+				<target>Pays</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.contao_theme.0">
+				<source>Theme</source>
+				<target>Thème</target>
+			</trans-unit>
+
+			<!-- 
+			<trans-unit id="tl_sm_configuration.contao_module_nav.0">
+				<source>Navigation module</source>
+				<target>Module navigation</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.contao_module_wem_sg_header.0">
+				<source>header module</source>
+				<target>Module en-tête de page</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.contao_module_breadcrumb.0">
+				<source>breadcrumb module</source>
+				<target>Module fil d'arianne</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.contao_module_wem_sg_footer.0">
+				<source>footer module</source>
+				<target>Module pied de page</target>
+			</trans-unit>
+			-->
+			<trans-unit id="tl_sm_configuration.contao_module_sitemap.0">
+				<source>sitemap module</source>
+				<target>Module plan du site</target>
+			</trans-unit>
+			<!-- 
+			<trans-unit id="tl_sm_configuration.contao_module_footernav.0">
+				<source>footernav module</source>
+				<target>Module navigation pied de page</target>
+			</trans-unit>
+			-->
+			
+			<trans-unit id="tl_sm_configuration.contao_layout_full.0">
+				<source>Fullwidth</source>
+				<target>Pleine page</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.contao_layout_standard.0">
+				<source>Standard</source>
+				<target>Standard</target>
+			</trans-unit>
+
+			<trans-unit id="tl_sm_configuration.contao_page_root.0">
+				<source>Root page</source>
+				<target>Page racine</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.contao_page_home.0">
+				<source>Home page</source>
+				<target>Page d'accueil</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.contao_page_404.0">
+				<source>404 page</source>
+				<target>Page 404</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.api_enabled.0">
+				<source>Enabled</source>
+				<target>Activée</target>
+			</trans-unit>
+			<trans-unit id="tl_sm_configuration.api_key.0">
+				<source>Key</source>
+				<target>Clef</target>
+			</trans-unit>
+
+      <trans-unit id="tl_sm_configuration.title_legend">
+        <source>Title</source>
+        <target>Titre</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration.general_legend">
+        <source>General configuration</source>
+        <target>Configuration générale</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration.framway_legend">
+        <source>Framway</source>
+        <target>Framway</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration.fonts_legend">
+        <source>Fonts</source>
+        <target>Polices</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration.analytics_legend">
+        <source>Statistics</source>
+        <target>Statistiques</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration.legal_informations_legend">
+        <source>Legal informations</source>
+        <target>Informations légales</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration.host_informations_legend">
+        <source>Host informations</source>
+        <target>Informations hébergeur</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration.contao_theme_legend">
+        <source>Contao Theme</source>
+        <target>Thème Contao</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration.contao_modules_legend">
+        <source>Contao Modules</source>
+        <target>Modules Contao</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration.contao_layouts_legend">
+        <source>Contao Layouts</source>
+        <target>Présentations de pages Contao</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration.contao_pages_legend">
+        <source>Contao Pages</source>
+        <target>Pages Contao</target>
+      </trans-unit>
+      <trans-unit id="tl_sm_configuration.api_legend">
+        <source>API</source>
+        <target>API</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

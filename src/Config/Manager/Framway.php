@@ -30,6 +30,8 @@ class Framway extends AbstractManager implements ManagerJsonInterface
     protected $configurationManagerCore;
     /** @var string */
     protected $configurationFilePath;
+    /** @var ?string */
+    protected $configurationRootFilePath;
 
     public function __construct(
         TranslatorInterface $translator,
@@ -94,6 +96,25 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         return $this->configurationFilePath;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getConfigurationRootFilePath(): ?string
+    {
+        return $this->configurationRootFilePath;
+    }
+
+    /**
+     * @param mixed $configurationRootFilePath
+     */
+    public function setConfigurationRootFilePath(?string $configurationRootFilePath = null): self
+    {
+        $this->configurationRootFilePath = $configurationRootFilePath;
+        $this->assignConfigurationFilePath();
+
+        return $this;
+    }
+
     protected function specificPregReplaceForNotJsonCompliantConfigurationImport(string $notJsonCompliant): string
     {
         $notJsonCompliant = str_replace('module.exports = ', '', $notJsonCompliant);
@@ -143,7 +164,11 @@ class Framway extends AbstractManager implements ManagerJsonInterface
 
     protected function assignConfigurationFilePath(): void
     {
-        $config = $this->configurationManagerCore->load();
-        $this->configurationFilePath = $config->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js';
+        if (null !== $this->getConfigurationRootFilePath()) {
+            $this->configurationFilePath = $this->getConfigurationRootFilePath().\DIRECTORY_SEPARATOR.'framway.config.js';
+        } else {
+            $config = $this->configurationManagerCore->load();
+            $this->configurationFilePath = $config->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js';
+        }
     }
 }

@@ -1128,8 +1128,8 @@
 			<target>Votre demande de support Smartgear - ##ticket_subject##</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.INSTALL.WEBSITE.subjectNotificationSupportGatewayMessageLanguageAdmin">
-			<source>Smartgear "%s" - support ticket - ##ticket_subject##</source>
-			<target>Smartgear "%s" - demande de support - ##ticket_subject##</target>
+			<source>Smartgear "##sg_title##" - support ticket - ##ticket_subject##</source>
+			<target>Smartgear "##sg_title##" - demande de support - ##ticket_subject##</target>
 		</trans-unit>
 
 
@@ -1915,7 +1915,7 @@
 			<source>%s - %s</source>
 			<target>%s - %s</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageUser">
+		<trans-unit id="WEMSG.FORMCONTACT.INSTALL_GENERAL.subjectNotificationGatewayMessageLanguageAdmin">
 			<source>%s - %s</source>
 			<target>%s - %s</target>
 		</trans-unit>
@@ -2409,6 +2409,14 @@
 			<source>New backup</source>
 			<target>Nouveau back-up</target>
 		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageChunkSize">
+			<source>Files larger than %s will be split in smaller ones of this size.</source>
+			<target>Les fichiers pesant plus de %s seront découpés en plus petits de cette taille.</target>
+		</trans-unit>
+		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageChunkSizeNoLimitDefined">
+			<source>As no memory_limit has been set in the php.ini file, files larger than %s (arbitrary value) will be split in smaller ones of this size.</source>
+			<target>Du fait qu'aucune valeur ne soit définie dans la directive memory_limit du php.ini, les fichiers pesant plus de %s (valeur arbitraire) seront découpés en plus petits de cette taille.</target>
+		</trans-unit>
 		<trans-unit id="WEM.SMARTGEAR.BACKUPMANAGER.messageNewBackUpDone">
 			<source>Backup "%s" done in %d seconds</source>
 			<target>Backup "%s" effectué en %d secondes</target>
@@ -2731,7 +2739,11 @@
 			<target>Succès</target>
 		</trans-unit>
 
-
+		<!-- CacheClear -->
+		<trans-unit id="WEM.SMARTGEAR.CACHECLEAR.confirmation">
+			<source>The command "cache:clear" have executed</source>
+			<target>La commande "cache:clear" a bien été exécutée</target>
+		</trans-unit>
 
 		<!-- Configuration manager -->
 		<trans-unit id="WEM.SMARTGEAR.CONFIGURATIONMANAGER.configurationManagerBTTitle">
@@ -3689,9 +3701,13 @@
 			<source>Cannot execute this migration : "Style Manager" package seems absent.</source>
 			<target>La mise à jour ne peut être appliquée : le package "Style Manager" est absent.</target>
 		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.shouldRunNoSmartgearInstall">
+			<source>No Smartgear installation found.</source>
+			<target>Aucune installation de Smartgear n'a été trouvée.</target>
+		</trans-unit>
 		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.shouldRunCSSClassesAlreadyInDb">
 			<source>CSS classes already configured in database.</source>
-			<target>Les classes CSS sont déjà présentent en base de donnée.</target>
+			<target>Les classes CSS sont déjà présentes en base de donnée.</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.MIGRATIONS.V1_0_0_M202203231730.doAddCSSMargins">
 			<source>Adding margins CSS classes in database.</source>
@@ -3981,6 +3997,27 @@
 		<trans-unit id="WEMSG.MIGRATIONS.V1_0_21_M202310121049.done">
 			<source>.htaccess file management updated.</source>
 			<target>Gestion du fichier .htaccess mise à jour.</target>
+		</trans-unit>
+		<!-- V1_1_0/M202311301519 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_1_0_M202311301519.name">
+			<source>Smartgear v1.1.0 - old configuration migration</source>
+			<target>Smartgear v1.1.0 - conversion ancienne configuration</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_1_0_M202311301519.description">
+			<source>Migrate old Smartgear v1.0.x configuration to the new v1.1 format.</source>
+			<target>Converti la configuration d'un Smartgear v1.0.X vers la nouvelle structure de la v1.1.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_1_0_M202311301519.done">
+			<source>Old configuration migrated.</source>
+			<target>Ancienne configuration migrée.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_1_0_M202311301519.doNoPreviousInstallToMigrate">
+			<source>No old configuration to migrate.</source>
+			<target>Aucune ancienne configuration a migrer.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_1_0_M202311301519.shouldRunConfigurationTablesMissing">
+			<source>Configuration tables needed for v1.1 are not present in database.</source>
+			<target>Les tables de configuration necessaire à la v1.1 ne sont pas présentes dans la base de données.</target>
 		</trans-unit>
 
 

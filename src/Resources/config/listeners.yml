@@ -17,7 +17,7 @@ services:
             $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
             $framwayConfigurationManager: '@smartgear.config.manager.framway'
-            $framwayThemeConfigurationManager: '@smartgear.config.manager.framway_theme'
+            $framwayCombinedConfigurationManager: '@smartgear.config.manager.framway_combined'
             $listeners:
                 - '@smartgear.backend.component.core.listener.load_data_container'
                 - '@smartgear.backend.component.blog.listener.load_data_container'
@@ -33,6 +33,10 @@ services:
             $listeners:
                 - '@smartgear.backend.component.blog.listener.generate_breadcrumb'
                 - '@smartgear.backend.component.events.listener.generate_breadcrumb'
+        public: true
+        
+    smartgear.listener.generate_frontend_url:
+        class: WEM\SmartgearBundle\EventListener\GenerateFrontendUrlListener
         public: true
         
     smartgear.listener.initialize_system:
@@ -128,6 +132,14 @@ services:
             $customLanguageFileLoader : '@smartgear.classes.custom_language_file_loader'
         public: true
 
+    smartgear.listener.parse_template:
+        class: WEM\SmartgearBundle\EventListener\ParseTemplateListener
+        arguments:
+            $configurationManager: '@smartgear.config.manager.core'
+            $scopeMatcher: '@smartgear.classes.scope_matcher'
+            $templateFinder: '@smartgear.classes.template_finder'
+        public: true
+
     smartgear.listener.get_content_element:
         class: WEM\SmartgearBundle\EventListener\GetContentElementListener
         arguments:
@@ -160,3 +172,11 @@ services:
     smartgear.listener.send_notification_message:
         class: WEM\SmartgearBundle\EventListener\SendNotificationMessageListener
         public: true    
+
+    smartgear.listener.style_manager.widget_component_style_select_get_style_manager_archive_model_collection:
+        class: WEM\SmartgearBundle\EventListener\StyleManager\WidgetComponentStyleSelectGetStyleManagerArchiveModelCollectionListener
+        public: true 
+
+    smartgear.listener.style_manager.widget_component_style_select_get_style_manager_model_collection:
+        class: WEM\SmartgearBundle\EventListener\StyleManager\WidgetComponentStyleSelectGetStyleManagerModelCollectionListener
+        public: true 

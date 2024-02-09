@@ -77,6 +77,38 @@
 				<source>Configurer votre Smartgear</source>
 				<target>Configurer votre Smartgear</target>
 			</trans-unit>
+			<trans-unit id="MOD.wem_smartgear_admin">
+				<source>Smartgear administration</source>
+				<target>Smartgear</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_update.0">
+				<source>Updates</source>
+				<target>Mises à jour</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_update.1">
+				<source>Smartgear's updates</source>
+				<target>Mises à jour de Smartgear</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_backup.0">
+				<source>Backups</source>
+				<target>Sauvegardes</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_backup.1">
+				<source>Smartgear's backups</source>
+				<target>Sauvegardes de Smartgear</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_clear_cache.0">
+				<source>Clear cache</source>
+				<target>Vider le cache</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_smartgear_configuration.0">
+				<source>Smartgear configuration</source>
+				<target>Configuration Smartgear</target>
+			</trans-unit>
+			<trans-unit id="MOD.wem_sg_smartgear_configuration.1">
+				<source>Configure your Smartgear</source>
+				<target>Configurer vos Smartgear</target>
+			</trans-unit>
 			<trans-unit id="MOD.wem_smartgear">
 				<source>General</source>
 				<target>Général</target>

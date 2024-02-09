@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -21,6 +21,7 @@ use Contao\StringUtil;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
 class MemberGroup extends \tl_member_group
 {
@@ -78,13 +79,17 @@ class MemberGroup extends \tl_member_group
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
-        try {
-            /** @var CoreConfig */
-            $config = $this->configManager->load();
-            if (\in_array($id, $config->getContaoMemberGroupsIdsForAll(), true)) {
-                return true;
-            }
-        } catch (\Exception $e) {
+        // try {
+        //     /** @var CoreConfig */
+        //     $config = $this->configManager->load();
+        //     if (\in_array($id, $config->getContaoMemberGroupsIdsForAll(), true)) {
+        //         return true;
+        //     }
+        // } catch (\Exception $e) {
+        // }
+
+        if (0 < ConfigurationItem::countItems(['contao_user_group' => $id])) {
+            return true;
         }
 
         return false;

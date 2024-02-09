@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -31,14 +31,16 @@ $GLOBALS['TL_DCA']['tl_sm_social_network_category'] = [
     // List
     'list' => [
         'sorting' => [
-            'mode' => DataContainer::MODE_SORTED,
+            'mode' => DataContainer::MODE_UNSORTED,
             'fields' => ['name'],
-            'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
+            'flag' => DataContainer::SORT_ASC,
             'panelLayout' => 'filter;search,limit',
         ],
         'label' => [
             'fields' => ['name'],
             'format' => '%s',
+            'label_callback' => ['smartgear.data_container.social_network_category', 'listItems'],
+            // 'group_callback' => ['smartgear.data_container.social_network_category', 'groupCallback'],
         ],
         'global_operations' => [
             'all' => [

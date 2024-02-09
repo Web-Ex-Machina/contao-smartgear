@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -45,18 +45,18 @@ class LoadDataContainerListener
     public function __invoke(string $table): void
     {
         try {
-            /** @var CoreConfig */
-            $config = $this->coreConfigurationManager->load();
+            /* @var CoreConfig */
+            // $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
             switch ($table) {
                 case 'tl_news':
-                    $blogConfig = $config->getSgBlog();
-                    if (!$blogConfig->getSgInstallComplete()) {
-                        return;
-                    }
+                    // $blogConfig = $config->getSgBlog();
+                    // if (!$blogConfig->getSgInstallComplete()) {
+                    //     return;
+                    // }
 
                     // limiting singleSRC field to the blog folder
-                    $this->dcaManipulator->setFieldSingleSRCPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
+                    // $this->dcaManipulator->setFieldSingleSRCPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
 
                     if (!$this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::CORE_EXPERT)
                     && !$this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::BLOG_EXPERT)
@@ -81,12 +81,12 @@ class LoadDataContainerListener
                     if ('news' !== $this->do) {
                         return;
                     }
-                    $blogConfig = $config->getSgBlog();
-                    if (!$blogConfig->getSgInstallComplete()) {
-                        return;
-                    }
-                    // limiting singleSRC field to the blog folder
-                    $this->dcaManipulator->setFieldSingleSRCPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
+                    // $blogConfig = $config->getSgBlog();
+                    // if (!$blogConfig->getSgInstallComplete()) {
+                    //     return;
+                    // }
+                    // // limiting singleSRC field to the blog folder
+                    // $this->dcaManipulator->setFieldSingleSRCPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
                 break;
             }
         } catch (FileNotFoundException $e) {

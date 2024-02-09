@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -23,6 +23,7 @@ use Contao\StringUtil;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
 class Module extends \tl_module
 {
@@ -141,13 +142,21 @@ class Module extends \tl_module
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
-        try {
-            /** @var CoreConfig */
-            $config = $this->configManager->load();
-            if (\in_array($id, $config->getContaoModulesIdsForAll(), true)) {
-                return true;
-            }
-        } catch (\Exception $e) {
+        // try {
+        //     /** @var CoreConfig */
+        //     $config = $this->configManager->load();
+        //     if (\in_array($id, $config->getContaoModulesIdsForAll(), true)) {
+        //         return true;
+        //     }
+        // } catch (\Exception $e) {
+        // }
+
+        if (0 < ConfigurationItem::countItems(['contao_module' => $id])
+        || 0 < ConfigurationItem::countItems(['contao_module_reader' => $id])
+        || 0 < ConfigurationItem::countItems(['contao_module_list' => $id])
+        || 0 < ConfigurationItem::countItems(['contao_module_calendar' => $id])
+        ) {
+            return true;
         }
 
         return false;

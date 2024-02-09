@@ -1,7 +1,7 @@
 services:
 
   smartgear.migrations.v1_0_0.m202203231730.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_0\M202203231730\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z0\M202203231730\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -11,7 +11,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_0.m202205130814.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_0\M202205130814\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z0\M202205130814\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -20,7 +20,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_1.m202301050800.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_1\M202301050800\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z1\M202301050800\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -29,7 +29,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_2.m202301051700.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_2\M202301051700\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z2\M202301051700\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -38,7 +38,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_3.m202301100950.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_3\M202301100950\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z3\M202301100950\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -48,7 +48,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_4.m202301110935.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_4\M202301110935\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z4\M202301110935\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -58,7 +58,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_5.m202301131435.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_5\M202301131435\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z5\M202301131435\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -68,7 +68,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_7.m202303291542.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_7\M202303291542\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z7\M202303291542\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -77,7 +77,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_8.m202303291542.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_8\M202303291542\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z8\M202303291542\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -86,7 +86,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_9.m202305012112.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_9\M202305012112\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z9\M202305012112\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -95,7 +95,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_10.m202305311835.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_10\M202305311835\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z10\M202305311835\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -104,7 +104,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_11.m202306152248.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_11\M202306152248\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z11\M202306152248\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -113,7 +113,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_12.m202306231015.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_12\M202306231015\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z12\M202306231015\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -122,7 +122,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_13.m202306271601.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_13\M202306271601\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z13\M202306271601\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -131,7 +131,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_14.m202307061615.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_14\M202307061615\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z14\M202307061615\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -212,7 +212,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_21.m202308080921.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_21\M202308080921\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z21\M202308080921\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -222,7 +222,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_21.m202308181214.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_21\M202308181214\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z21\M202308181214\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -232,7 +232,7 @@ services:
     public: true
 
   smartgear.migrations.v1_0_21.m202310121049.migration:
-    class: WEM\SmartgearBundle\Migrations\V1_0_21\M202310121049\Migration
+    class: WEM\SmartgearBundle\Migrations\V1\Y0\Z21\M202310121049\Migration
     arguments:
       $connection: '@database_connection'
       $translator: '@contao.translation.translator'
@@ -299,4 +299,13 @@ services:
       $x: 1
       $y: 0
       $z: 26
+    public: true
+
+  smartgear.migrations.v1_1_0.m202311301519.migration:
+    class: WEM\SmartgearBundle\Migrations\V1\Y1\Z0\M202311301519\Migration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
     public: true

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -87,7 +87,8 @@ class Smartgear extends \Contao\BackendModule
     protected $strBasePath = 'bundles/wemsmartgear';
 
     /** @var array */
-    protected $modules = ['module' => ['extranet', 'form_data_manager'], 'component' => ['core', 'blog', 'events', 'faq', 'form_contact']];
+    // protected $modules = ['module' => ['extranet', 'form_data_manager'], 'component' => ['core', 'blog', 'events', 'faq', 'form_contact']];
+    protected $modules = ['module' => [], 'component' => []];
 
     /** @var BackupManager */
     protected $backupManager;
@@ -184,6 +185,104 @@ class Smartgear extends \Contao\BackendModule
     }
 
     /**
+     * Backup manager behaviour.
+     */
+    public function getBackupManager(): void
+    {
+        $this->Template = new BackendTemplate('be_wem_sg_backupmanager');
+
+        if ('new' === Input::get('act')) {
+            try {
+                set_time_limit(0);
+                $start = microtime(true);
+                $result = $this->backupManager->newFromUI();
+                $end = microtime(true);
+
+                $this->objSession->set('wem_sg_backup_create_result', $result);
+
+                // Add Message
+                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageNewBackUpDone'], $result->getBackup()->getFile()->basename, ($end - $start)));
+            } catch (ManagerException $e) {
+                Message::addError($e->getMessage());
+            }
+            // And redirect
+            Controller::redirect(str_replace('&act=new', '', Environment::get('request')));
+        } elseif ('restore' === Input::get('act')) {
+            try {
+                set_time_limit(0);
+                $start = microtime(true);
+                $result = $this->backupManager->restore(Input::get('backup'));
+                $end = microtime(true);
+
+                $this->objSession->set('wem_sg_backup_restore_result', $result);
+
+                // Add Message
+                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageRestoreBackUpDone'], $result->getBackup()->getFile()->basename, ($end - $start)));
+            } catch (ManagerException $e) {
+                Message::addError($e->getMessage());
+            }
+            // And redirect
+            Controller::redirect(str_replace('&act=restore&backup='.Input::get('backup'), '', Environment::get('request')));
+        } elseif ('delete' === Input::get('act')) {
+            try {
+                if ($this->backupManager->delete(Input::get('backup'))) {
+                    // Add Message
+                    Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpSuccess'], Input::get('backup')));
+                } else {
+                    // Add Message
+                    Message::addError(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
+                }
+            } catch (ManagerException $e) {
+                Message::addError(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
+            }
+
+            // And redirect
+            Controller::redirect(str_replace('&act=delete&backup='.Input::get('backup'), '', Environment::get('request')));
+        } elseif ('download' === Input::get('act')) {
+            $objFile = $this->backupManager->get(Input::get('backup'));
+            $objFile->sendToBrowser();
+        }
+
+        // Retrieve eventual logs
+        if ($this->objSession->get('wem_sg_backup_restore_result')) {
+            $this->Template->restore_result = $this->objSession->get('wem_sg_backup_restore_result');
+            $this->objSession->set('wem_sg_backup_restore_result', '');
+        }
+        if ($this->objSession->get('wem_sg_backup_create_result')) {
+            $this->Template->create_result = $this->objSession->get('wem_sg_backup_create_result');
+            $this->objSession->set('wem_sg_backup_create_result', '');
+        }
+
+        // Retrieve backups
+        $page = Input::get('page') ?? 1;
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        $listResults = $this->backupManager->list(
+            $limit,
+            $offset,
+            Input::get('before'),
+            Input::get('after'),
+        );
+        if (!$listResults) {
+            $this->Template->empty = true;
+        } else {
+            $this->Template->empty = false;
+            $this->Template->backups = $listResults;
+        }
+
+        $objPagination = new \Contao\Pagination($listResults->getTotal(), $listResults->getLimit());
+        $this->Template->pagination = $objPagination->generate("\n  ");
+
+        // Back button
+        $this->getBackButton(str_replace('&key=backupmanager', '', Environment::get('request')));
+
+        // New backup button
+        $this->Template->newBackUpButtonHref = $this->addToUrl('&act=new');
+        $this->Template->newBackUpButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['newBackUpBTTitle']);
+        $this->Template->newBackUpButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['newBackUpBT'];
+    }
+
+    /**
      * Generate the module.
      *
      * @throws Exception
@@ -277,103 +376,6 @@ class Smartgear extends \Contao\BackendModule
         if ($coreConfig->getSgInstallLocked()) {
             Message::addInfo($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['installLocked']);
         }
-    }
-
-    /**
-     * Backup manager behaviour.
-     */
-    protected function getBackupManager(): void
-    {
-        $this->Template = new BackendTemplate('be_wem_sg_backupmanager');
-        if ('new' === Input::get('act')) {
-            try {
-                set_time_limit(0);
-                $start = microtime(true);
-                $result = $this->backupManager->newFromUI();
-                $end = microtime(true);
-
-                $this->objSession->set('wem_sg_backup_create_result', $result);
-
-                // Add Message
-                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageNewBackUpDone'], $result->getBackup()->getFile()->basename, ($end - $start)));
-            } catch (ManagerException $e) {
-                Message::addError($e->getMessage());
-            }
-            // And redirect
-            Controller::redirect(str_replace('&act=new', '', Environment::get('request')));
-        } elseif ('restore' === Input::get('act')) {
-            try {
-                set_time_limit(0);
-                $start = microtime(true);
-                $result = $this->backupManager->restore(Input::get('backup'));
-                $end = microtime(true);
-
-                $this->objSession->set('wem_sg_backup_restore_result', $result);
-
-                // Add Message
-                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageRestoreBackUpDone'], $result->getBackup()->getFile()->basename, ($end - $start)));
-            } catch (ManagerException $e) {
-                Message::addError($e->getMessage());
-            }
-            // And redirect
-            Controller::redirect(str_replace('&act=restore&backup='.Input::get('backup'), '', Environment::get('request')));
-        } elseif ('delete' === Input::get('act')) {
-            try {
-                if ($this->backupManager->delete(Input::get('backup'))) {
-                    // Add Message
-                    Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpSuccess'], Input::get('backup')));
-                } else {
-                    // Add Message
-                    Message::addError(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
-                }
-            } catch (ManagerException $e) {
-                Message::addError(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
-            }
-
-            // And redirect
-            Controller::redirect(str_replace('&act=delete&backup='.Input::get('backup'), '', Environment::get('request')));
-        } elseif ('download' === Input::get('act')) {
-            $objFile = $this->backupManager->get(Input::get('backup'));
-            $objFile->sendToBrowser();
-        }
-
-        // Retrieve eventual logs
-        if ($this->objSession->get('wem_sg_backup_restore_result')) {
-            $this->Template->restore_result = $this->objSession->get('wem_sg_backup_restore_result');
-            $this->objSession->set('wem_sg_backup_restore_result', '');
-        }
-        if ($this->objSession->get('wem_sg_backup_create_result')) {
-            $this->Template->create_result = $this->objSession->get('wem_sg_backup_create_result');
-            $this->objSession->set('wem_sg_backup_create_result', '');
-        }
-
-        // Retrieve backups
-        $page = Input::get('page') ?? 1;
-        $limit = 10;
-        $offset = ($page - 1) * $limit;
-        $listResults = $this->backupManager->list(
-            $limit,
-            $offset,
-            Input::get('before'),
-            Input::get('after'),
-        );
-        if (!$listResults) {
-            $this->Template->empty = true;
-        } else {
-            $this->Template->empty = false;
-            $this->Template->backups = $listResults;
-        }
-
-        $objPagination = new \Contao\Pagination($listResults->getTotal(), $listResults->getLimit());
-        $this->Template->pagination = $objPagination->generate("\n  ");
-
-        // Back button
-        $this->getBackButton(str_replace('&key=backupmanager', '', Environment::get('request')));
-
-        // New backup button
-        $this->Template->newBackUpButtonHref = $this->addToUrl('&act=new');
-        $this->Template->newBackUpButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['newBackUpBTTitle']);
-        $this->Template->newBackUpButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['newBackUpBT'];
     }
 
     /**

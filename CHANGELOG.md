@@ -1,6 +1,10 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.1.0 - 2023-11-29
+- Smartgear : new install process !
+- Smartgear : ability to manage multiple Smartgear installs in one Contao
+
 1.0.26 - 2023-11-28
 - Smartgear : fixed backend menu alteration which could lead in an error
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -49,51 +49,51 @@ class ProcessFormDataListener
         array $labels,
         Form $form
     ): void {
-        try {
-            /** @var CoreConfig */
-            $coreConfig = $this->coreConfigurationManager->load();
-            /** @var FormDataManagerConfig */
-            $fdmConfig = $coreConfig->getSgFormDataManager();
-            if ($coreConfig->getSgInstallComplete()
-            && $fdmConfig->getSgInstallComplete()
-            ) {
-                // if ((bool) $form->getModel()->storeViaFormDataManager) {
-                if (FormUtil::isFormConfigurationCompliantForFormDataManager($form->getModel()->id)) {
-                    $objFormStorage = new FormStorage();
+        // try {
+        //     /** @var CoreConfig */
+        //     $coreConfig = $this->coreConfigurationManager->load();
+        //     /** @var FormDataManagerConfig */
+        //     $fdmConfig = $coreConfig->getSgFormDataManager();
+        //     if ($coreConfig->getSgInstallComplete()
+        //     && $fdmConfig->getSgInstallComplete()
+        //     ) {
+        if ((bool) $form->getModel()->storeViaFormDataManager) {
+            if (FormUtil::isFormConfigurationCompliantForFormDataManager($form->getModel()->id)) {
+                $objFormStorage = new FormStorage();
 
-                    $objFormStorage->tstamp = time();
-                    $objFormStorage->createdAt = time();
-                    $objFormStorage->pid = $form->getModel()->id;
-                    $objFormStorage->status = FormStorage::STATUS_UNREAD;
-                    $objFormStorage->token = REQUEST_TOKEN;
-                    $objFormStorage->completion_percentage = $this->calculateCompletionPercentage($submittedData, $files ?? [], $form);
-                    $objFormStorage->delay_to_first_interaction = $this->calculateDelayToFirstInteraction($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]']);
-                    $objFormStorage->delay_to_submission = $this->calculateDelayToSubmission($submittedData['fdm[first_interaction]'], $form);
-                    $objFormStorage->current_page = (int) $submittedData['fdm[current_page]'];
-                    $objFormStorage->current_page_url = $submittedData['fdm[current_page_url]'];
-                    $objFormStorage->referer_page = $this->getRefererPageId($submittedData['fdm[referer_page_url]']) ?? 0;
-                    $objFormStorage->referer_page_url = $submittedData['fdm[referer_page_url]'];
+                $objFormStorage->tstamp = time();
+                $objFormStorage->createdAt = time();
+                $objFormStorage->pid = $form->getModel()->id;
+                $objFormStorage->status = FormStorage::STATUS_UNREAD;
+                $objFormStorage->token = REQUEST_TOKEN;
+                $objFormStorage->completion_percentage = $this->calculateCompletionPercentage($submittedData, $files ?? [], $form);
+                $objFormStorage->delay_to_first_interaction = $this->calculateDelayToFirstInteraction($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]']);
+                $objFormStorage->delay_to_submission = $this->calculateDelayToSubmission($submittedData['fdm[first_interaction]'], $form);
+                $objFormStorage->current_page = (int) $submittedData['fdm[current_page]'];
+                $objFormStorage->current_page_url = $submittedData['fdm[current_page_url]'];
+                $objFormStorage->referer_page = $this->getRefererPageId($submittedData['fdm[referer_page_url]']) ?? 0;
+                $objFormStorage->referer_page_url = $submittedData['fdm[referer_page_url]'];
+                $objFormStorage->save();
+
+                if (\array_key_exists('email', $submittedData)) {
+                    $objFormStorage->sender = $submittedData['email'];
                     $objFormStorage->save();
-
-                    if (\array_key_exists('email', $submittedData)) {
-                        $objFormStorage->sender = $submittedData['email'];
-                        $objFormStorage->save();
-                        $this->storeFieldValue('email', $submittedData['email'], $objFormStorage);
-                        unset($submittedData['email']);
-                    }
-
-                    unset($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]'], $submittedData['fdm[current_page]'], $submittedData['fdm[current_page_url]'], $submittedData['fdm[referer_page_url]']);
-
-                    // empty fields are transmitted
-                    foreach ($submittedData as $fieldName => $value) {
-                        $this->storeFieldValue($fieldName, $value, $objFormStorage);
-                    }
-                    $this->storeFilesValues($files ?? [], $objFormStorage);
+                    $this->storeFieldValue('email', $submittedData['email'], $objFormStorage);
+                    unset($submittedData['email']);
                 }
+
+                unset($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]'], $submittedData['fdm[current_page]'], $submittedData['fdm[current_page_url]'], $submittedData['fdm[referer_page_url]']);
+
+                // empty fields are transmitted
+                foreach ($submittedData as $fieldName => $value) {
+                    $this->storeFieldValue($fieldName, $value, $objFormStorage);
+                }
+                $this->storeFilesValues($files ?? [], $objFormStorage);
             }
-        } catch (Exception $e) {
-            throw $e;
         }
+        // } catch (Exception $e) {
+        //     throw $e;
+        // }
     }
 
     protected function getRefererPageId(string $url): ?int

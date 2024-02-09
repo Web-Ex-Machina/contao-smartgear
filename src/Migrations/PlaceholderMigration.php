@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -20,7 +20,7 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationM
 use WEM\SmartgearBundle\Classes\Migration\Result;
 use WEM\SmartgearBundle\Classes\Version\Comparator as VersionComparator;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
-use WEM\SmartgearBundle\Migrations\V1_0_0\MigrationAbstract;
+use WEM\SmartgearBundle\Migrations\V1\Y0\Z0\MigrationAbstract;
 
 class PlaceholderMigration extends MigrationAbstract
 {
@@ -66,12 +66,14 @@ class PlaceholderMigration extends MigrationAbstract
             return $result;
         }
         try {
-            /** @var CoreConfig */
-            $coreConfig = $this->coreConfigurationManager->load();
+            /* @var CoreConfig */
+            // $coreConfig = $this->coreConfigurationManager->load();
 
-            $coreConfig->setSgVersion($this->version);
+            // $coreConfig->setSgVersion($this->version);
 
-            $this->coreConfigurationManager->save($coreConfig);
+            // $this->coreConfigurationManager->save($coreConfig);
+
+            $this->updateConfigurationsVersion($this->version);
 
             $result
                 ->setStatus(Result::STATUS_SUCCESS)

@@ -103,14 +103,17 @@ $GLOBALS['BE_FFL']['stylemanager'] = WEM\SmartgearBundle\Widget\ComponentStyleSe
 /*
  * Backend modules
  */
-ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 0, [
-    'smartgear' => [
-        'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
-    ],
-    'wem_sg_social_link_config_categories' => [
-        'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
-    ],
-]);
+// ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 0, [
+    // 'smartgear' => [
+    //     'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
+    // ],
+    //     'wem_sg_smartgear_configuration' => [
+    //         'tables' => ['tl_sm_configuration', 'tl_sm_configuration_item'],
+    //     ],
+    //     'wem_sg_social_link_config_categories' => [
+    //         'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
+    //     ],
+// ]);
 ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
     'wem_smartgear' => [
         'wem_sg_dashboard' => [
@@ -120,6 +123,29 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
             'callback' => "\WEM\SmartgearBundle\Backend\Reminder",
         ],
         'undo' => $GLOBALS['BE_MOD']['system']['undo'],
+    ],
+]);
+ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
+    'wem_smartgear_admin' => [
+        'wem_sg_update' => [
+            'callback' => '\WEM\SmartgearBundle\Backend\Update',
+        ],
+        'wem_sg_backup' => [
+            'callback' => '\WEM\SmartgearBundle\Backend\Backup',
+        ],
+        'wem_sg_clear_cache' => [
+            'callback' => '\WEM\SmartgearBundle\Backend\CacheClear',
+            // 'callback' => function (): void {
+            //     $commandUtil = System::getContainer()->get('smartgear.classes.command.util');
+            //     $this->commandUtil->executeCmd('cache:clear');
+            // },
+        ],
+        'wem_sg_smartgear_configuration' => [
+            'tables' => ['tl_sm_configuration', 'tl_sm_configuration_item'],
+        ],
+        'wem_sg_social_link_config_categories' => [
+            'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
+        ],
     ],
 ]);
 unset($GLOBALS['BE_MOD']['system']['undo']);
@@ -174,6 +200,8 @@ $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorage::getTable()] = WEM\
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorageData::getTable()] = WEM\SmartgearBundle\Model\FormStorageData::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\PageVisit::getTable()] = WEM\SmartgearBundle\Model\PageVisit::class;
 $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Login::getTable()] = WEM\SmartgearBundle\Model\Login::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Configuration\Configuration::getTable()] = WEM\SmartgearBundle\Model\Configuration\Configuration::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Configuration\ConfigurationItem::getTable()] = WEM\SmartgearBundle\Model\Configuration\ConfigurationItem::class;
 /*
  * Add BE Hooks
  */
@@ -185,17 +213,20 @@ if ('BE' === TL_MODE) {
     $GLOBALS['TL_HOOKS']['initializeSystem'][] = ['smartgear.listener.initialize_system', '__invoke'];
     $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['smartgear.listener.replace_insert_tags', 'onReplaceInsertTags'];
     $GLOBALS['TL_HOOKS']['generatePage'][] = ['smartgear.listener.generate_page', '__invoke'];
+    // Style Manager hooks
+    $GLOBALS['TL_HOOKS']['styleManagerWidgetComponentStyleSelectGetStyleManagerArchiveModelCollection'][] = ['smartgear.listener.style_manager.widget_component_style_select_get_style_manager_archive_model_collection', '__invoke'];
+    $GLOBALS['TL_HOOKS']['styleManagerWidgetComponentStyleSelectGetStyleManagerModelCollection'][] = ['smartgear.listener.style_manager.widget_component_style_select_get_style_manager_model_collection', '__invoke'];
 }
 
 /*
  * Add FE Hooks
  */
 if ('FE' === TL_MODE) {
-    $GLOBALS['TL_HOOKS']['getPageLayout'][] = ['\WEM\SmartgearBundle\Hooks\GetPageLayoutHook', 'generateApiToken'];
-    $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Hooks\ExecutePreActionsHook', 'catchApiRequests'];
-    $GLOBALS['TL_HOOKS']['generateFrontendUrl'][] = ['\WEM\SmartgearBundle\Hooks\GenerateFrontendUrlHook', 'generateFrontendUrl'];
+    // $GLOBALS['TL_HOOKS']['getPageLayout'][] = ['\WEM\SmartgearBundle\Hooks\GetPageLayoutHook', 'generateApiToken'];
+    // $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Hooks\ExecutePreActionsHook', 'catchApiRequests'];
+    $GLOBALS['TL_HOOKS']['generateFrontendUrl'][] = ['smartgear.listener.generate_frontend_url', '__invoke'];
     $GLOBALS['TL_HOOKS']['generateBreadcrumb'][] = ['smartgear.listener.generate_breadcrumb', '__invoke'];
-    $GLOBALS['TL_HOOKS']['parseTemplate'][] = ['\WEM\SmartgearBundle\Hooks\ParseTemplateHook', 'overrideDefaultTemplate'];
+    $GLOBALS['TL_HOOKS']['parseTemplate'][] = ['smartgear.listener.parse_template', '__invoke'];
     $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['smartgear.listener.replace_insert_tags', 'onReplaceInsertTags'];
     $GLOBALS['TL_HOOKS']['initializeSystem'][] = ['smartgear.listener.initialize_system', '__invoke'];
     $GLOBALS['TL_HOOKS']['newsListFetchItems'][] = ['smartgear.listener.news_list_fetch_items', '__invoke'];
@@ -229,9 +260,10 @@ $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['fil
  * Notifications
  */
 $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['smartgear']['ticket_creation'] = [
+    'email_sender_name' => ['email_sender_name'],
     'email_sender_address' => ['sg_owner_email'],
+    'email_subject' => ['ticket_subject', 'sg_title'],
     'recipients' => ['support_email', 'sg_owner_email'],
-    'email_subject' => ['ticket_*'],
     'email_text' => ['ticket_*', 'sg_owner_name'],
     'email_html' => ['ticket_*', 'sg_owner_name'],
     'email_replyTo' => ['sg_owner_email'],

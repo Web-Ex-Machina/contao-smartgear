@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -47,8 +47,8 @@ class LoadDataContainerListener
     public function __invoke(string $table): void
     {
         try {
-            /** @var CoreConfig */
-            $config = $this->coreConfigurationManager->load();
+            /* @var CoreConfig */
+            // $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
             switch ($table) {
                 case 'tl_content':
@@ -83,9 +83,9 @@ class LoadDataContainerListener
                     }
                 break;
                 case 'tl_nc_language':
-                    if ($config->getSgInstallComplete()) {
+                    // if ($config->getSgInstallComplete()) {
                         $this->dcaManipulator->removeFields(['attachment_templates']);
-                    }
+                    // }
                 break;
             }
         } catch (FileNotFoundException $e) {

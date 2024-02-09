@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -132,7 +132,7 @@ return [
         'color' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['dominant_color'],
             'inputType' => 'select',
-            'options_callback' => function () {return \WEM\SmartgearBundle\Classes\Util::getSmartgearColors(); },
+            'options_callback' => function ($dc) {return \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id); },
             'eval' => ['tl_class' => 'w50', 'includeBlankOption' => true],
         ],
         'bg_title' => [

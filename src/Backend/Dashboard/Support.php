@@ -17,11 +17,13 @@ namespace WEM\SmartgearBundle\Backend\Dashboard;
 use Contao\BackendModule;
 use Contao\BackendTemplate;
 use Contao\BackendUser;
+use Contao\Config;
 use Contao\File;
 use Contao\FileUpload;
 use Contao\Folder;
 use Contao\Input;
 use Contao\Message;
+use Contao\PageModel;
 use Contao\RequestToken;
 use Exception;
 use NotificationCenter\Model\Notification as NotificationModel;
@@ -31,6 +33,7 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
+use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class Support extends BackendModule
 {
@@ -128,21 +131,25 @@ class Support extends BackendModule
             return;
         }
 
-        // retrieve client ID
-        $arrDomains = Util::getRootPagesDomains();
-        $hostingInformations = $this->airtableApi->getHostingInformations($arrDomains);
-        $clientId = null;
-        $clientRef = null;
-        if (!empty($hostingInformations)
-        && \array_key_exists($domain, $hostingInformations)
-        && !empty($hostingInformations[$domain]['client_reference'])
-        ) {
-            $supportClientInformations = $this->airtableApi->getSupportClientInformationsSingleClientRef($hostingInformations[$domain]['client_reference'][0]);
-            $clientId = $supportClientInformations['id'];
-            $clientRef = $hostingInformations[$domain]['client_reference'][0];
+        if (!Config::get('wem_sg_support_form_enabled')) {
+            return;
         }
 
-        // save screenshot as file
+        // retrieve client ID
+        // $arrDomains = Util::getRootPagesDomains();
+        // $hostingInformations = $this->airtableApi->getHostingInformations($arrDomains);
+        // $clientId = null;
+        // $clientRef = null;
+        // if (!empty($hostingInformations)
+        // && \array_key_exists($domain, $hostingInformations)
+        // && !empty($hostingInformations[$domain]['client_reference'])
+        // ) {
+        //     $supportClientInformations = $this->airtableApi->getSupportClientInformationsSingleClientRef($hostingInformations[$domain]['client_reference'][0]);
+        //     $clientId = $supportClientInformations['id'];
+        //     $clientRef = $hostingInformations[$domain]['client_reference'][0];
+        // }
+
+        // // save screenshot as file
         $objFile = null;
         $fileUrl = null;
         if (!empty($screenshotFile)) {
@@ -154,20 +161,30 @@ class Support extends BackendModule
                 throw new Exception(Message::generateUnwrapped(TL_MODE, true));
             }
             $objFile = new File($arrFiles[0]);
-            $fileUrl = $config->getSgOwnerDomain().$objFile->path;
+            // $fileUrl = $config->getSgOwnerDomain().$objFile->path;
+            $fileUrl = $domain.$objFile->path;
         }
 
-        $this->airtableApi->createTicket($subject, $url, $message, $mail, $config->getSgVersion(), $clientId, $clientRef, $fileUrl);
+        // $this->airtableApi->createTicket($subject, $url, $message, $mail, $config->getSgVersion(), $clientId, $clientRef, $fileUrl);
 
         // send email
-        $notification = NotificationModel::findByPk((int) $config->getSgNotificationSupport());
+        // $notification = NotificationModel::findByPk((int) $config->getSgNotificationSupport());
+        $notification = NotificationModel::findByPk((int) Config::get('wem_sg_support_form_notification'));
         if (!$notification) {
             return;
         }
 
+        $objPage = PageModel::findOneBy(['type = ?', 'dns = ?'], ['root', $domain]);
+
+        $objConfiguration = $objPage ? Configuration::findOneByPage($objPage) : null;
+
         $arrTokens = [
-            'sg_owner_email' => $config->getSgOwnerEmail(),
-            'sg_owner_name' => $config->getSgOwnerName(),
+            'email_sender_name' => $objPage ? $objPage->title : 'N/A',
+            // 'sg_owner_email' => $config->getSgOwnerEmail(),
+            'sg_owner_email' => $objPage ? ($objPage->adminEmail ?: (
+                        $objConfiguration ? ($objConfiguration->legal_owner_email ?: Config::get('adminEmail')) : Config::get('adminEmail'))) : Config::get('adminEmail'),
+            // 'sg_owner_name' => $config->getSgOwnerName(),
+            'sg_owner_name' => $objConfiguration ? $objConfiguration->getLegalOwnerName() : Config::get('adminEmail'),
             'support_email' => 'support@webexmachina.fr',
             'ticket_domain' => $domain && \strlen($domain) > 0 ? $domain : 'N/A',
             'ticket_subject' => $subject,
@@ -211,6 +228,9 @@ class Support extends BackendModule
 
     protected function getSupportForm(): string
     {
+        if (!Config::get('wem_sg_support_form_enabled')) {
+            return '';
+        }
         try {
             /** @var CoreConfig */
             $config = $this->configurationManager->load();
@@ -231,6 +251,7 @@ class Support extends BackendModule
                 }
             }
         }
+        $arrDomainsHavingClientRef = $arrDomains;
 
         $objTemplate = new BackendTemplate('be_wem_sg_dashboard_support_form');
         $objTemplate->title = $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.formTitle', [], 'contao_default');

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -40,20 +40,20 @@ class BackendMenuBuildListener
 
     public function __invoke(MenuEvent $event): void
     {
-        try {
-            /** @var CoreConfig */
-            $coreConfig = $this->coreConfigurationManager->load();
-            /** @var FormDataManagerConfig */
-            $fdmConfig = $coreConfig->getSgFormDataManager();
-            if (!$coreConfig->getSgInstallComplete()
-            || !$fdmConfig->getSgInstallComplete()
-            ) {
-                $this->removeFormDataManagerNode($event);
-            }
-        } catch (FileNotFoundException $e) {
-            $this->removeFormDataManagerNode($event);
-        } catch (Exception $e) {
-        }
+        // try {
+        //     /** @var CoreConfig */
+        //     $coreConfig = $this->coreConfigurationManager->load();
+        //     /** @var FormDataManagerConfig */
+        //     $fdmConfig = $coreConfig->getSgFormDataManager();
+        //     if (!$coreConfig->getSgInstallComplete()
+        //     || !$fdmConfig->getSgInstallComplete()
+        //     ) {
+        //         $this->removeFormDataManagerNode($event);
+        //     }
+        // } catch (FileNotFoundException $e) {
+        //     $this->removeFormDataManagerNode($event);
+        // } catch (Exception $e) {
+        // }
     }
 
     protected function removeFormDataManagerNode(MenuEvent $event): void

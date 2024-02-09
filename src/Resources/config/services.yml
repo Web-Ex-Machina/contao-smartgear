@@ -370,10 +370,47 @@ services:
                 - '@smartgear.migrations.v1_0_24.m202311021346.migration'
                 - '@smartgear.migrations.v1_0_25.m202311201059.migration'
                 - '@smartgear.migrations.v1_0_26.m202311281720.migration'
+                - '@smartgear.migrations.v1_1_0.m202311301519.migration'
         public: true
 
     smartgear.model.backup:
         class: WEM\SmartgearBundle\Model\Backup
+        public: true
+
+    smartgear.data_container.social_network:
+        class: WEM\SmartgearBundle\DataContainer\SocialNetwork
+        arguments:
+            $translator: '@contao.translation.translator'
+        public: true
+
+    smartgear.data_container.social_network_category:
+        class: WEM\SmartgearBundle\DataContainer\SocialNetworkCategory
+        arguments:
+            $translator: '@contao.translation.translator'
+        public: true
+
+    smartgear.data_container.style_manager.style_manager:
+        class: WEM\SmartgearBundle\DataContainer\StyleManager\StyleManager
+        arguments:
+            $translator: '@contao.translation.translator'
+        public: true
+
+    smartgear.data_container.style_manager.style_manager_archive:
+        class: WEM\SmartgearBundle\DataContainer\StyleManager\StyleManagerArchive
+        arguments:
+            $translator: '@contao.translation.translator'
+        public: true
+
+    smartgear.data_container.configuration.configuration:
+        class: WEM\SmartgearBundle\DataContainer\Configuration\Configuration
+        public: true
+
+    smartgear.data_container.configuration.configuration_item:
+        class: WEM\SmartgearBundle\DataContainer\Configuration\ConfigurationItem
+        public: true
+
+    smartgear.data_container.settings:
+        class: WEM\SmartgearBundle\DataContainer\Settings
         public: true
 
     smartgear.data_container.form:

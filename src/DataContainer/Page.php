@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -20,6 +20,8 @@ use Contao\Input;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Model\Configuration\Configuration;
+use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
 class Page extends \tl_page
 {
@@ -79,13 +81,22 @@ class Page extends \tl_page
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
-        try {
-            /** @var CoreConfig */
-            $config = $this->configManager->load();
-            if (\in_array($id, $config->getContaoPagesIdsForAll(), true)) {
-                return true;
-            }
-        } catch (\Exception $e) {
+        // try {
+        //     /** @var CoreConfig */
+        //     $config = $this->configManager->load();
+        //     if (\in_array($id, $config->getContaoPagesIdsForAll(), true)) {
+        //         return true;
+        //     }
+        // } catch (\Exception $e) {
+        // }
+        if (0 < Configuration::countItems(['contao_page_root' => $id])
+        || 0 < Configuration::countItems(['contao_page_home' => $id])
+        || 0 < Configuration::countItems(['contao_page_404' => $id])
+        || 0 < ConfigurationItem::countItems(['contao_page' => $id])
+        || 0 < ConfigurationItem::countItems(['contao_page_form' => $id])
+        || 0 < ConfigurationItem::countItems(['contao_page_form_sent' => $id])
+        ) {
+            return true;
         }
 
         return false;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2023 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -19,17 +19,22 @@ use Contao\Image;
 use Contao\Input;
 use Contao\StringUtil;
 use Contao\System;
+use tl_theme;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
+use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class Theme extends \tl_theme
 {
     /** @var CoreConfigurationManager */
     private $configManager;
+    /** @var Backend */
+    private $parent;
 
     public function __construct()
     {
         parent::__construct();
         $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
+        $this->parent = new tl_theme();
     }
 
     /**
@@ -39,7 +44,10 @@ class Theme extends \tl_theme
      */
     public function checkPermission(): void
     {
-        parent::checkPermission();
+        if (method_exists($this->parent, 'checkPermission')) {
+            // parent function removed in commit https://github.com/contao/contao/commit/68b169eca43e4fc7ef3dddc7336b0c84905dec92
+            parent::checkPermission();
+        }
 
         // Check current action
         switch (Input::get('act')) {
@@ -79,12 +87,15 @@ class Theme extends \tl_theme
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
-        try {
-            $config = $this->configManager->load();
-            if ($config->getSgInstallComplete() && $id === (int) $config->getSgTheme()) {
-                return true;
-            }
-        } catch (\Exception $e) {
+        // try {
+        //     $config = $this->configManager->load();
+        //     if ($config->getSgInstallComplete() && $id === (int) $config->getSgTheme()) {
+        //         return true;
+        //     }
+        // } catch (\Exception $e) {
+        // }
+        if (0 < Configuration::countItems(['contao_theme' => $id])) {
+            return true;
         }
 
         return false;

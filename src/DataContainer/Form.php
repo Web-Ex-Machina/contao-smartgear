@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -27,6 +27,7 @@ use WEM\SmartgearBundle\Classes\FormUtil;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\EmailFieldNotMandatoryInForm;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\FormNotConfiguredToStoreValues;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\NoEmailFieldInForm;
+use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 use WEM\SmartgearBundle\Model\FormField;
 use WEM\SmartgearBundle\Model\FormStorage;
 
@@ -48,31 +49,20 @@ class Form extends Backend
     public function listItems(array $row, string $label, DataContainer $dc, array $labels): array
     {
         try {
-            $fdmConfig = $this->configurationManager->load()->getSgFormDataManager();
-            if (!$fdmConfig->getSgInstallComplete()) {
-                $labels[1] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['fdmNotInstalled'];
-            } elseif ($fdmConfig->getSgInstallComplete()) {
-                try {
-                    // check form configuration
-                    FormUtil::checkFormConfigurationCompliantForFormDataManager($row['id']);
+            // check form configuration
+            FormUtil::checkFormConfigurationCompliantForFormDataManager($row['id']);
 
-                    $nbFormStorage = FormStorage::countItems(['pid' => $row['id']]);
+            $nbFormStorage = FormStorage::countItems(['pid' => $row['id']]);
 
-                    $labels[1] = FormStorage::countItems(['pid' => $row['id']]);
-                } catch (FormNotConfiguredToStoreValues $e) {
-                    $labels[1] = $e->getMessage();
-                } catch (NoEmailFieldInForm $e) {
-                    $labels[1] = $e->getMessage();
-                } catch (EmailFieldNotMandatoryInForm $e) {
-                    $labels[1] = $e->getMessage();
-                } catch (Exception $e) {
-                    $labels[1] = $e->getMessage();
-                }
-            }
-        } catch (\WEM\SmartgearBundle\Exceptions\File\NotFound $e) {
-            $labels[1] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['fdmNotInstalled'];
-        } catch (\Exception $e) {
-            $labels[1] = '0';
+            $labels[1] = FormStorage::countItems(['pid' => $row['id']]);
+        } catch (FormNotConfiguredToStoreValues $e) {
+            $labels[1] = $e->getMessage();
+        } catch (NoEmailFieldInForm $e) {
+            $labels[1] = $e->getMessage();
+        } catch (EmailFieldNotMandatoryInForm $e) {
+            $labels[1] = $e->getMessage();
+        } catch (Exception $e) {
+            $labels[1] = $e->getMessage();
         }
 
         return $labels;
@@ -157,12 +147,16 @@ class Form extends Backend
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
-        try {
-            $formContactConfig = $this->configurationManager->load()->getSgFormContact();
-            if ($formContactConfig->getSgInstallComplete() && $id === (int) $formContactConfig->getSgFormContact()) {
-                return true;
-            }
-        } catch (\Exception $e) {
+        // try {
+        //     $formContactConfig = $this->configurationManager->load()->getSgFormContact();
+        //     if ($formContactConfig->getSgInstallComplete() && $id === (int) $formContactConfig->getSgFormContact()) {
+        //         return true;
+        //     }
+        // } catch (\Exception $e) {
+        // }
+
+        if (0 < ConfigurationItem::countItems(['contao_form' => $id])) {
+            return true;
         }
 
         return false;

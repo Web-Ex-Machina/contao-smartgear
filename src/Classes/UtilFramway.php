@@ -51,6 +51,9 @@ class UtilFramway
         'build/combined/_config.scss',
     ];
 
+    /** @var ?string */
+    protected $configurationRootFilePath;
+
     public function __construct(
         ConfigurationManager $configurationManager,
         CommandUtil $commandUtil,
@@ -63,14 +66,14 @@ class UtilFramway
         $this->configurationCombinedManager = $configurationCombinedManager;
     }
 
-    public function getThemeColors(?string $themeName = null): array
+    public function getThemeColors(string $fwPath, ?string $themeName = null): array
     {
-        return $this->configurationThemeManager->setThemeName($themeName)->load()->getColors();
+        return $this->configurationThemeManager->setConfigurationRootFilePath($fwPath)->setThemeName($themeName)->load()->getColors();
     }
 
-    public function getCombinedColors(): array
+    public function getCombinedColors(string $fwPath): array
     {
-        return $this->configurationCombinedManager->load()->getColors();
+        return $this->configurationCombinedManager->setConfigurationRootFilePath($fwPath)->load()->getColors();
     }
 
     public function retrieve(bool $live = false)
@@ -182,6 +185,24 @@ class UtilFramway
 
     public function getFramwayPath(): string
     {
-        return $this->configurationManager->load()->getSgFramwayPath();
+        return $this->getConfigurationRootFilePath() ?? $this->configurationManager->load()->getSgFramwayPath();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConfigurationRootFilePath(): ?string
+    {
+        return $this->configurationRootFilePath;
+    }
+
+    /**
+     * @param mixed $configurationRootFilePath
+     */
+    public function setConfigurationRootFilePath(?string $configurationRootFilePath = null): self
+    {
+        $this->configurationRootFilePath = $configurationRootFilePath;
+
+        return $this;
     }
 }
