@@ -312,7 +312,7 @@ services:
       $y: 0
       $z: 27
     public: true
-
+    
   smartgear.migrations.v1_0_28.m202402061818.migration:
     class: WEM\SmartgearBundle\Migrations\PlaceholderMigration
     arguments:
@@ -324,4 +324,3 @@ services:
       $y: 0
       $z: 28
     public: true
-
