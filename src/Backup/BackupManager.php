@@ -35,6 +35,7 @@ use WEM\SmartgearBundle\Model\Backup as BackupModel;
 
 class BackupManager
 {
+    public const DEFAULT_CHUNK_SIZES_BYTES = 1073741824; // 1GB
     /** @var string */
     protected $rootDir;
     /** @var string */
@@ -53,6 +54,8 @@ class BackupManager
     protected $tablesToIgnore = [];
     /** @var int */
     protected $memoryLimitInBytes;
+    /** @var int */
+    protected $chunkSizeInBytes;
 
     public function __construct(
         string $rootDir,
@@ -73,7 +76,18 @@ class BackupManager
         $this->artifactsToBackup = $artifactsToBackup;
         $this->tablesToIgnore = $tablesToIgnore;
 
-        $this->memoryLimitInBytes = Util::formatPhpMemoryLimitToBytes(ini_get('memory_limit'));
+        $memoryLimitInBytes = Util::formatPhpMemoryLimitToBytes(ini_get('memory_limit'));
+        if ($memoryLimitInBytes > 0) {
+            // because adding file to zip use twice its size, and keep a small margin
+            $this->chunkSizeInBytes = ($memoryLimitInBytes / 4) - max(memory_get_usage(true), memory_get_usage());
+        } else { // if the memory limit is not set, define arbitrary value, as we cannot know how much RAM the machine has
+            $this->chunkSizeInBytes = self::DEFAULT_CHUNK_SIZES_BYTES;
+        }
+    }
+
+    public function getChunkSizeInBytes(): int
+    {
+        return $this->chunkSizeInBytes;
     }
 
     public function newFromCommand(): CreateResult
@@ -329,35 +343,38 @@ class BackupManager
             throw new Exception($artifactPath.' is not a file');
         }
 
-        if (-1 === $this->memoryLimitInBytes) {
+        // if (-1 === $this->memoryLimitInBytes) {
+        //     $backupArchive->addFile($artifactPath);
+        //     $result->addFileBackuped($artifactPath);
+        // } else {
+        $fileInfo = new SplFileInfo($artifactFullPath);
+        $fileSize = $fileInfo->getSize();
+        if ($fileSize > $this->chunkSizeInBytes) {
+            unset($fileInfo);
+            $i = 0;
+            // new
+            $readBytes = 0;
+            while ($readBytes < $fileSize) {
+                ++$i;
+                $strContent = file_get_contents($artifactFullPath, false, null, $readBytes, $this->chunkSizeInBytes);
+                $chunkFileName = $artifactPath.'.part_'.sprintf('%08d', $i);
+                $backupArchive->addString($strContent, $chunkFileName);
+                $result->addFileBackuped($chunkFileName);
+                unset($strContent);
+                $readBytes += $this->chunkSizeInBytes;
+            }
+
+            if (isset($strContent)) {
+                unset($strContent);
+            }
+
+            $backupArchive->addString($i, $artifactPath.'.parts_index');
+            $result->addFileBackuped($artifactPath.'.parts_index');
+        } else {
             $backupArchive->addFile($artifactPath);
             $result->addFileBackuped($artifactPath);
-        } else {
-            $fileInfo = new SplFileInfo($artifactFullPath);
-            $fileSize = $fileInfo->getSize();
-            if ($fileSize > $this->memoryLimitInBytes) { // 2,5 Go
-                unset($fileInfo);
-                $i = 0;
-                // new
-                $chunkSize = 52428800; // 50Mo
-                $readBytes = 0;
-                while ($readBytes < $fileSize) {
-                    ++$i;
-                    $strContent = file_get_contents($artifactFullPath, false, null, $readBytes, $chunkSize);
-                    $chunkFileName = $artifactPath.'.part_'.sprintf('%08d', $i);
-                    $backupArchive->addString($strContent, $chunkFileName);
-                    $result->addFileBackuped($chunkFileName);
-                    unset($strContent);
-                    $readBytes += $chunkSize;
-                }
-
-                $backupArchive->addString($i, $artifactPath.'.parts_index');
-                $result->addFileBackuped($artifactPath.'.parts_index');
-            } else {
-                $backupArchive->addFile($artifactPath);
-                $result->addFileBackuped($artifactPath);
-            }
         }
+        // }
     }
 
     protected function cleanArtifactsBeforeRestore(): array

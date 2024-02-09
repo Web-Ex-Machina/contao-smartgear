@@ -285,6 +285,14 @@ class Smartgear extends \Contao\BackendModule
     protected function getBackupManager(): void
     {
         $this->Template = new BackendTemplate('be_wem_sg_backupmanager');
+
+        $memoryLimitInBytes = Util::formatPhpMemoryLimitToBytes(ini_get('memory_limit'));
+        if ($memoryLimitInBytes < 0) {
+            Message::addInfo(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageChunkSizeNoLimitDefined'], Util::humanReadableFilesize($this->backupManager->getChunkSizeInBytes(), 0)));
+        } else {
+            Message::addInfo(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageChunkSize'], Util::humanReadableFilesize($this->backupManager->getChunkSizeInBytes(), 0)));
+        }
+
         if ('new' === Input::get('act')) {
             try {
                 set_time_limit(0);
