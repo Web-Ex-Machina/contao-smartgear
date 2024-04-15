@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.29 - 2024-04-15
+- Fix : remove `heimrichhannot/contao-filename-sanitizer-bundle` to avoid problems in PHP > 8.1 (autowiring issue, bundle not updated since 2022)
+
 1.0.28 - 2024-02-09
 - Smartgear : Backup Manager better decides when to split large files in smaller files (avoid memory limit overflow, but isn't faster)
 
