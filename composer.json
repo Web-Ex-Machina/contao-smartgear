@@ -28,7 +28,7 @@
         "contao/listing-bundle": "^4.13",
         "madeyourday/contao-rocksolid-custom-elements": "^2.3",
         "heimrichhannot/contao-backend-lost-password-bundle": "^1.5",
-        "heimrichhannot/contao-filename-sanitizer-bundle": "^2.4",
+        "heimrichhannot/contao-filename-sanitizer-bundle": "2.4.0",
         "marcel-mathias-nolte/contao-filesmanager-fileusage": "^1.0",
         "do-while/contao-backupdb-bundle": "^1.4",
         "numero2/contao-opengraph3": "^4.2",
