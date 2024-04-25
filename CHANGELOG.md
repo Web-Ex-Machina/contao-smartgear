@@ -1,6 +1,10 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.30 - 2024-04-24
+- Smartgear : fixed call for Personal Data Manager when displaying personal data in back-end using the GPDR menu
+- Smartgear : fixed call for Personal Data Manager when displaying personal data in front-end
+
 1.0.29 - 2024-04-15
 - Fix : remove `heimrichhannot/contao-filename-sanitizer-bundle` to avoid problems in PHP > 8.1 (autowiring issue, bundle not updated since 2022)
 
