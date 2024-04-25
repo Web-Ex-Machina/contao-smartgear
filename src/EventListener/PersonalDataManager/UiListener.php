@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -36,12 +36,12 @@ class UiListener
 {
     /** @var TranslatorInterface */
     protected $translator;
-    /** @var personalDataManagerUi */
+    /** @var PersonalDataManagerUi */
     protected $personalDataManagerUi;
 
     public function __construct(
         TranslatorInterface $translator,
-        personalDataManagerUi $personalDataManagerUi
+        PersonalDataManagerUi $personalDataManagerUi
     ) {
         $this->translator = $translator;
         $this->personalDataManagerUi = $personalDataManagerUi;
@@ -76,7 +76,7 @@ class UiListener
 
                         unset($sorted2[$ptable][$id]);
                     }
-                break;
+                    break;
             }
         }
 
@@ -88,12 +88,12 @@ class UiListener
         switch ($ptable) {
             case 'tl_member':
                 $buffer = 'Member';
-            break;
+                break;
             case FormStorage::getTable():
                 $objFormStorage = FormStorage::findOneBy('id', $pid);
                 $objForm = $objFormStorage->getRelated('pid');
                 $buffer = sprintf('%s %s', 'Formulaire', $objForm->title);
-            break;
+                break;
         }
 
         return $buffer;
@@ -117,9 +117,9 @@ class UiListener
                     case 'trustedTokenVersion':
                     case 'currentLogin':
                         $buffer = '';
-                    break;
+                        break;
                 }
-            break;
+                break;
             case FormStorage::getTable():
                 switch ($field) {
                     case 'id':
@@ -131,9 +131,9 @@ class UiListener
                     case 'delay_to_first_interaction':
                     case 'note':
                         $buffer = '';
-                    break;
+                        break;
                 }
-            break;
+                break;
         }
 
         return $buffer;
@@ -150,7 +150,7 @@ class UiListener
                 switch ($field) {
                     case 'login':
                         $buffer = sprintf('<input type="checkbox" readonly %s />', true === (bool) $value ? 'checked' : '');
-                    break;
+                        break;
                     case 'groups':
                         $groupIds = unserialize($value);
                         $buffer = '<ul>';
@@ -159,19 +159,19 @@ class UiListener
                             $buffer .= sprintf('<li>- %s</li>', null !== $objGroup ? $objGroup->name : $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementUnknown', [], 'contao_default'));
                         }
                         $buffer .= '<ul>';
-                    break;
+                        break;
                 }
-            break;
+                break;
             case FormStorage::getTable():
                 switch ($field) {
                     case 'pid':
                         $objFormStorage = FormStorage::findOneBy('id', $pid);
                         $objForm = $objFormStorage->getRelated('pid');
                         $buffer = $objForm->title;
-                    break;
+                        break;
                     case 'createdAt':
                         $buffer = Date::parse(Config::get('datimFormat'), (int) $value);
-                    break;
+                        break;
                     case 'current_page':
                     case 'referer_page':
                         if (!empty($value)) {
@@ -180,9 +180,9 @@ class UiListener
                                 $buffer = $objPage->title;
                             }
                         }
-                    break;
+                        break;
                 }
-            break;
+                break;
         }
 
         return $buffer;
@@ -194,18 +194,18 @@ class UiListener
             case 'tl_member':
                 switch ($personalData->field) {
                     case 'dateOfBirth':
-                        $buffer = !empty($buffer) ? \Contao\Date::parse(\Contao\Config::get('dateFormat'), (int) $buffer) : $buffer;
-                    break;
+                        $buffer = !empty($buffer) ? Date::parse(Config::get('dateFormat'), (int) $buffer) : $buffer;
+                        break;
                     default:
                         if (empty($buffer)) {
                             return sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
                         }
-                    break;
+                        break;
                 }
-            break;
+                break;
             case FormStorage::getTable():
                 $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
-            break;
+                break;
             case FormStorageData::getTable():
                 $objFormStorageData = FormStorageData::findByPk($pid);
                 if ($objFormStorageData) {
@@ -220,19 +220,19 @@ class UiListener
                                     $buffer = $objFileModel->name;
                                 }
                             }
-                        break;
+                            break;
                         default:
                             $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
                     }
                 } else {
                     $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
                 }
-            break;
+                break;
             default:
                 if (empty($buffer)) {
                     return sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
                 }
-            break;
+                break;
         }
 
         return $buffer;
@@ -244,7 +244,7 @@ class UiListener
             case FormStorage::getTable():
             case FormStorageData::getTable():
                 $buffer = $personalData->field_label ?? $buffer;
-            break;
+                break;
         }
 
         return $buffer;
@@ -255,7 +255,7 @@ class UiListener
         switch ($ptable) {
             case FormStorage::getTable():
                 $buffer = $this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingle((int) $personalData->pid, $personalData->ptable, $email, $personalData, $personalDatas, $originalModel);
-            break;
+                break;
         }
 
         return $buffer;
@@ -276,16 +276,16 @@ class UiListener
         if ($file) {
             if (FileUtil::isDisplayableInBrowser($file)) {
                 $buttons['show'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_show_file pdm-item__personal_data_single__button_show_file" target="_blank" data-path="%s">%s</a>',
-                                            $this->personalDataManagerUi->getUrl(),
-                                            $file->path,
-                                            $this->translator->trans('WEMSG.FDM.PDMUI.buttonShowFile', [], 'contao_default')
-                                        );
+                    $this->personalDataManagerUi->getUrl(),
+                    $file->path,
+                    $this->translator->trans('WEMSG.FDM.PDMUI.buttonShowFile', [], 'contao_default')
+                );
             }
             $buttons['download'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_download_file pdm-item__personal_data_single__button_download_file" target="_blank" data-path="%s">%s</a>',
-                                            $this->personalDataManagerUi->getUrl(),
-                                            $file->path,
-                                            $this->translator->trans('WEMSG.FDM.PDMUI.buttonDownloadFile', [], 'contao_default')
-                                        );
+                $this->personalDataManagerUi->getUrl(),
+                $file->path,
+                $this->translator->trans('WEMSG.FDM.PDMUI.buttonDownloadFile', [], 'contao_default')
+            );
         }
         //                         }
         //                     }
@@ -307,7 +307,7 @@ class UiListener
         if ($formStorageDatas) {
             while ($formStorageDatas->next()) {
                 // $objFormStorage->{$formStorageDatas->field_name} = $formStorageDatas->current()->getValueAsString();
-                $objPersonalData = PersonalData::findOneByPidAndPTableAndField($formStorageDatas->id, FormStorageData::getTable(), 'value');
+                $objPersonalData = PersonalData::findOneByPidAndPTableAndField((int) $formStorageDatas->id, FormStorageData::getTable(), 'value');
                 if ($objPersonalData) {
                     $objPersonalData = $objPersonalData->current();
                     $arrPersonalDataValues = $objPersonalData->row();

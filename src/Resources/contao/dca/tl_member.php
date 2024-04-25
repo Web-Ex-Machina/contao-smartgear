@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
  * @author   Web ex Machina <contact@webexmachina.fr>
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
+// DO NOT DO THAT PART HERE
+// BECAUSE IT SHOULD BE ACTIVATED IF PDM IS
+// PDM CAN BE ENABLED/DISABLED DYNAMICALLY
+// WHILE THIS FILE IS ONLY PARSED ON A CACHE BUILD/CLEAR
 // use WEM\SmartgearBundle\Classes\Dca\Driver\DC_Table;
 
 // $GLOBALS['TL_DCA']['tl_member']['config']['dataContainer'] = DC_Table::class;
