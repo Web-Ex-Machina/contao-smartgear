@@ -1,6 +1,10 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.31 - 2024-05-14
+- Smartgear : replaced some `\n` by `<br />` in notifications tokens
+- Smartgear : `email` field `mandatory` property is no more required when form is managed by Form Data Manager
+
 1.0.30 - 2024-04-24
 - Smartgear : fixed call for Personal Data Manager when displaying personal data in back-end using the GPDR menu
 - Smartgear : fixed call for Personal Data Manager when displaying personal data in front-end
