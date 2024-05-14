@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -104,15 +104,15 @@ $GLOBALS['BE_FFL']['stylemanager'] = WEM\SmartgearBundle\Widget\ComponentStyleSe
  * Backend modules
  */
 // ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 0, [
-    // 'smartgear' => [
-    //     'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
-    // ],
-    //     'wem_sg_smartgear_configuration' => [
-    //         'tables' => ['tl_sm_configuration', 'tl_sm_configuration_item'],
-    //     ],
-    //     'wem_sg_social_link_config_categories' => [
-    //         'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
-    //     ],
+// 'smartgear' => [
+//     'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
+// ],
+//     'wem_sg_smartgear_configuration' => [
+//         'tables' => ['tl_sm_configuration', 'tl_sm_configuration_item'],
+//     ],
+//     'wem_sg_social_link_config_categories' => [
+//         'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
+//     ],
 // ]);
 ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
     'wem_smartgear' => [
@@ -181,27 +181,27 @@ ArrayUtil::arrayInsert($GLOBALS['FE_MOD'], 2, [
         'wem_sg_social_link' => '\WEM\SmartgearBundle\Module\SocialLink',
     ],
 ]);
-$GLOBALS['FE_MOD']['news']['newsreader'] = \WEM\SmartgearBundle\Override\ModuleNewsReader::class;
-$GLOBALS['FE_MOD']['news']['newslist'] = \WEM\SmartgearBundle\Override\ModuleNewsList::class;
-$GLOBALS['FE_MOD']['events']['eventreader'] = \WEM\SmartgearBundle\Override\ModuleEventReader::class;
-$GLOBALS['FE_MOD']['events']['eventlist'] = \WEM\SmartgearBundle\Override\ModuleEventList::class;
-$GLOBALS['FE_MOD']['events']['calendar'] = \WEM\SmartgearBundle\Override\ModuleCalendar::class;
-$GLOBALS['FE_MOD']['user']['login'] = \WEM\SmartgearBundle\Override\ModuleLogin::class;
-$GLOBALS['FE_MOD']['navigationMenu']['breadcrumb'] = \WEM\SmartgearBundle\Override\ModuleBreadcrumb::class;
+$GLOBALS['FE_MOD']['news']['newsreader'] = WEM\SmartgearBundle\Override\ModuleNewsReader::class;
+$GLOBALS['FE_MOD']['news']['newslist'] = WEM\SmartgearBundle\Override\ModuleNewsList::class;
+$GLOBALS['FE_MOD']['events']['eventreader'] = WEM\SmartgearBundle\Override\ModuleEventReader::class;
+$GLOBALS['FE_MOD']['events']['eventlist'] = WEM\SmartgearBundle\Override\ModuleEventList::class;
+$GLOBALS['FE_MOD']['events']['calendar'] = WEM\SmartgearBundle\Override\ModuleCalendar::class;
+$GLOBALS['FE_MOD']['user']['login'] = WEM\SmartgearBundle\Override\ModuleLogin::class;
+$GLOBALS['FE_MOD']['navigationMenu']['breadcrumb'] = WEM\SmartgearBundle\Override\ModuleBreadcrumb::class;
 /*
  * Models
  */
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Backup::getTable()] = WEM\SmartgearBundle\Model\Backup::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialNetworkCategory::getTable()] = WEM\SmartgearBundle\Model\SocialNetworkCategory::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialNetwork::getTable()] = WEM\SmartgearBundle\Model\SocialNetwork::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialLink::getTable()] = WEM\SmartgearBundle\Model\SocialLink::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Member::getTable()] = WEM\SmartgearBundle\Model\Member::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorage::getTable()] = WEM\SmartgearBundle\Model\FormStorage::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorageData::getTable()] = WEM\SmartgearBundle\Model\FormStorageData::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\PageVisit::getTable()] = WEM\SmartgearBundle\Model\PageVisit::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Login::getTable()] = WEM\SmartgearBundle\Model\Login::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Configuration\Configuration::getTable()] = WEM\SmartgearBundle\Model\Configuration\Configuration::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Configuration\ConfigurationItem::getTable()] = WEM\SmartgearBundle\Model\Configuration\ConfigurationItem::class;
+$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\Backup::getTable()] = WEM\SmartgearBundle\Model\Backup::class;
+$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\SocialNetworkCategory::getTable()] = WEM\SmartgearBundle\Model\SocialNetworkCategory::class;
+$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\SocialNetwork::getTable()] = WEM\SmartgearBundle\Model\SocialNetwork::class;
+$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\SocialLink::getTable()] = WEM\SmartgearBundle\Model\SocialLink::class;
+$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\Member::getTable()] = WEM\SmartgearBundle\Model\Member::class;
+$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\FormStorage::getTable()] = WEM\SmartgearBundle\Model\FormStorage::class;
+$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\FormStorageData::getTable()] = WEM\SmartgearBundle\Model\FormStorageData::class;
+$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\PageVisit::getTable()] = WEM\SmartgearBundle\Model\PageVisit::class;
+$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\Login::getTable()] = WEM\SmartgearBundle\Model\Login::class;
+$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\Configuration\Configuration::getTable()] = WEM\SmartgearBundle\Model\Configuration\Configuration::class;
+$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\Configuration\ConfigurationItem::getTable()] = WEM\SmartgearBundle\Model\Configuration\ConfigurationItem::class;
 /*
  * Add BE Hooks
  */
@@ -249,8 +249,10 @@ $GLOBALS['TL_HOOKS']['sendNotificationMessage'][] = ['smartgear.listener.send_no
 /*
  * NC hooks
  */
-$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data';
-$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_filled';
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data'; // kept for BC compatibility
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_text';
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_filled'; // kept for BC compatibility
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_filled_text';
 $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data';
 $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data_filled';
 $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data';

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Classes;
 
 use Contao\FormModel;
-use Exception;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\EmailFieldNotMandatoryInForm;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\FormNotConfiguredToStoreValues;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\NoEmailFieldInForm;
@@ -27,7 +26,7 @@ class FormUtil
     {
         $objForm = FormModel::findById($formId);
         if (!$objForm) {
-            throw new Exception('Form not found');
+            throw new \Exception('Form not found');
         }
 
         if (!$objForm->storeViaFormDataManager) {
@@ -38,10 +37,10 @@ class FormUtil
         if (!$objFormFieldEmail) {
             throw new NoEmailFieldInForm($GLOBALS['TL_LANG']['WEMSG']['FDM']['FORM']['noEmailField']);
         }
-
-        if (!$objFormFieldEmail->mandatory) {
-            throw new EmailFieldNotMandatoryInForm($GLOBALS['TL_LANG']['WEMSG']['FDM']['FORM']['emailFieldPresentButNotMandatory']);
-        }
+        // Mail not necessarily mandatory in some cases
+        // if (!$objFormFieldEmail->mandatory) {
+        //     throw new EmailFieldNotMandatoryInForm($GLOBALS['TL_LANG']['WEMSG']['FDM']['FORM']['emailFieldPresentButNotMandatory']);
+        // }
     }
 
     public static function isFormConfigurationCompliantForFormDataManager($formId): bool
@@ -50,7 +49,7 @@ class FormUtil
             self::checkFormConfigurationCompliantForFormDataManager($formId);
 
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
