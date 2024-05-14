@@ -2,7 +2,11 @@ SMARTGEAR Project for Contao Open Source CMS
 ========
 
 1.0.31 - 2024-05-14
-- Smartgear : replaced some `\n` by `<br />` in notifications tokens
+- Smartgear : some notifications' tokens updates 
+    + `useful_data` now uses `<br />` as carriage return, available in `email_html` & `email_text` (only for compatibility)
+    + `useful_data_filled` now uses `<br />` as carriage return, available in `email_html` & `email_text` (only for compatibility)
+    + `useful_data_text` (new token) uses `\n` as carriage return, available in `email_text` only
+    + `useful_data_filled_text` (new token) uses `\n` as carriage return, available in `email_text` only
 - Smartgear : `email` field `mandatory` property is no more required when form is managed by Form Data Manager
 
 1.0.30 - 2024-04-24
