@@ -57,10 +57,12 @@ class SendNotificationMessageListener
 
         foreach ($arrTokens['useful_data_arr'] as $label => $value) {
             $arrTokens['useful_data'] .= sprintf('%s: %s<br />', $label, $value);
+            $arrTokens['useful_data_text'] .= sprintf("%s: %s\n", $label, $value);
         }
 
         foreach ($arrTokens['useful_data_filled_arr'] as $label => $value) {
             $arrTokens['useful_data_filled'] .= sprintf('%s: %s<br />', $label, $value);
+            $arrTokens['useful_data_filled_text'] .= sprintf("%s: %s\n", $label, $value);
         }
         unset($arrTokens['useful_data_arr'], $arrTokens['useful_data_filled_arr']);
 
