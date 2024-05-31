@@ -3991,6 +3991,20 @@
 			<target>Gestion du fichier .htaccess mise à jour.</target>
 		</trans-unit>
 
+		<!-- V1_0_32/M202405311133 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_32_M202405311133.name">
+			<source>Smartgear v1.0.32</source>
+			<target>Smartgear v1.0.32</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_32_M202405311133.description">
+			<source>Update templates/smartgear/form_captcha.html5 file.</source>
+			<target>Mise à jour du fichier templates/smartgear/form_captcha.html5 .</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_32_M202405311133.done">
+			<source>File templates/smartgear/form_captcha.html5 updated.</source>
+			<target>Fichier templates/smartgear/form_captcha.html5 mis à jour.</target>
+		</trans-unit>
+
 
 
 		<!-- Social networks -->

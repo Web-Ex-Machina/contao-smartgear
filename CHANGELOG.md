@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.32 - 2024-05-31
+- Smartgear : fixed `form_captcha.html5`
+
 1.0.31 - 2024-05-14
 - Smartgear : some notifications' tokens updates 
     + `useful_data` now uses `<br />` as carriage return, available in `email_html` & `email_text` (only for compatibility)
