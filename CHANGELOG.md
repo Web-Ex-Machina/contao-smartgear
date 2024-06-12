@@ -1,5 +1,16 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
+2.0
+
+TODO :
+
+- remove : do-while/contao-backupdb-bundle
+- only php 8
+- notification center 2
+- oveleon/contao-component-style-manager find the good hook
+- webexmachina/contao-personal-data-manager rename all path
+- Virer toute référence à : VerstaerkerI18nl10nBundle
+- Out reminder in a new bundle
 
 1.1.0 - 2023-11-29
 - Smartgear : new install process !
