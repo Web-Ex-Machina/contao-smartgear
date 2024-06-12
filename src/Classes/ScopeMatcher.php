@@ -25,7 +25,7 @@ class ScopeMatcher
      * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack [description]
      * @param \Contao\CoreBundle\Routing\ScopeMatcher        $scopeMatcher [description]
      */
-    public function __construct(private \Symfony\Component\HttpFoundation\RequestStack $requestStack, private \Contao\CoreBundle\Routing\ScopeMatcher $scopeMatcher)
+    public function __construct(private readonly \Symfony\Component\HttpFoundation\RequestStack $requestStack, private readonly \Contao\CoreBundle\Routing\ScopeMatcher $scopeMatcher)
     {
     }
 

@@ -201,14 +201,14 @@ class Util
     {
         try {
             // If module is missing, try to explode strType
-            if ('' === $strModule && str_contains($strType, '_')) {
-                $arrObject = explode('_', $strType);
+            if ('' === $strModule && str_contains((string) $strType, '_')) {
+                $arrObject = explode('_', (string) $strType);
                 $strType = $arrObject[0];
                 $strModule = $arrObject[1];
             }
 
             // Parse the classname
-            $strClass = sprintf("WEM\SmartgearBundle\Backend\%s\%s", ucfirst($strType), ucfirst($strModule));
+            $strClass = sprintf("WEM\SmartgearBundle\Backend\%s\%s", ucfirst((string) $strType), ucfirst((string) $strModule));
 
             // Throw error if class doesn't exists
             if (!class_exists($strClass)) {
@@ -335,11 +335,11 @@ class Util
             // split the string on commas
             // $data[ 0 ] == "data:image/png;base64"
             // $data[ 1 ] == <actual base64 string>
-            $data = explode(',', $base64);
+            $data = explode(',', (string) $base64);
             $ext = substr($data[0], strpos($data[0], '/') + 1, (strpos($data[0], ';') - strpos($data[0], '/') - 1));
             $img = base64_decode($data[1], true);
 
-            if (!str_contains(Config::get('validImageTypes'), $ext)) {
+            if (!str_contains((string) Config::get('validImageTypes'), $ext)) {
                 throw new \Exception('Invalid image type : '.$ext);
             }
 
@@ -579,7 +579,7 @@ class Util
                         if ($action['attrs']) {
                             if (!$action['attrs']['class']) {
                                 $action['attrs']['class'] = 'tl_submit';
-                            } elseif (!str_contains($action['attrs']['class'], 'tl_submit')) {
+                            } elseif (!str_contains((string) $action['attrs']['class'], 'tl_submit')) {
                                 $action['attrs']['class'] .= ' tl_submit';
                             }
 
@@ -811,22 +811,22 @@ class Util
     {
         $result = '';
         if ($interval->y) {
-            $result .= $interval->format('%y '.strtolower($GLOBALS['TL_LANG']['MSC']['year'.($interval->y > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%y '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['year'.($interval->y > 1 ? 's' : '')]).' ');
         }
         if ($interval->m) {
-            $result .= $interval->format('%m '.strtolower($GLOBALS['TL_LANG']['MSC']['month'.($interval->m > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%m '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['month'.($interval->m > 1 ? 's' : '')]).' ');
         }
         if ($interval->d) {
-            $result .= $interval->format('%d '.strtolower($GLOBALS['TL_LANG']['MSC']['day'.($interval->d > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%d '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['day'.($interval->d > 1 ? 's' : '')]).' ');
         }
         if ($interval->h) {
-            $result .= $interval->format('%h '.strtolower($GLOBALS['TL_LANG']['MSC']['hour'.($interval->h > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%h '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['hour'.($interval->h > 1 ? 's' : '')]).' ');
         }
         if ($interval->i) {
-            $result .= $interval->format('%i '.strtolower($GLOBALS['TL_LANG']['MSC']['minute'.($interval->i > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%i '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['minute'.($interval->i > 1 ? 's' : '')]).' ');
         }
         if ($includeSeconds && $interval->s) {
-            $result .= $interval->format('%s '.strtolower($GLOBALS['TL_LANG']['MSC']['second'.($interval->s > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%s '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['second'.($interval->s > 1 ? 's' : '')]).' ');
         }
 
         return trim($result);
@@ -838,12 +838,12 @@ class Util
             return -1;
         }
 
-        if (\is_int($value) || preg_match('/^([0-9]*)$/', $value)) {
+        if (\is_int($value) || preg_match('/^([0-9]*)$/', (string) $value)) {
             return (int) $value;
         }
 
         // now parse to find G (value in gigabytes), k/m/g (value in kilobytes, megabytes, gigabytes because shorthand is case-insensitive)
-        $value = trim($value);
+        $value = trim((string) $value);
         $last = strtolower($value[\strlen($value) - 1]);
         $value = substr($value, 0, -1);
         switch ($last) {

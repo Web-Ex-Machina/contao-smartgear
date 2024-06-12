@@ -252,7 +252,7 @@ class AnalyticsExternal extends BackendModule
         $size = 0;
 
         // foreach (glob(rtrim($dir, '/').'/*', \GLOB_NOSORT) as $each) {
-        foreach (glob(rtrim($dir, '/').'/{*,.[!.]*,..?*}', \GLOB_BRACE | \GLOB_NOSORT) as $each) {
+        foreach (glob(rtrim((string) $dir, '/').'/{*,.[!.]*,..?*}', \GLOB_BRACE | \GLOB_NOSORT) as $each) {
             $size += is_file($each) ? filesize($each) : $this->folderSize($each);
         }
 

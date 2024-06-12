@@ -411,7 +411,7 @@ class UserGroupModelUtil
 
         foreach ($prefixes as $prefix) {
             $fieldNameKeyToDelete = $prefix;
-            $fieldNameKeyToDeleteLength = \strlen($fieldNameKeyToDelete);
+            $fieldNameKeyToDeleteLength = \strlen((string) $fieldNameKeyToDelete);
             foreach ($alexf as $index => $fieldName) {
                 if (!\is_string($fieldName)) {
                     unset($alexf[$index]);

@@ -321,7 +321,7 @@ class Api
     {
         $baseUrl = static::BASE_URL;
 
-        if (!str_contains($url, $baseUrl)) {
+        if (!str_contains($url, (string) $baseUrl)) {
             $url = $baseUrl.$url;
         }
 

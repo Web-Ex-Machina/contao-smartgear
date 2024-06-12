@@ -54,7 +54,7 @@ class Configuration extends Core
 
     public function fieldGoogleFontsOnloadCallback($value, DataContainer $dc)
     {
-        return serialize(explode(',', $value));
+        return serialize(explode(',', (string) $value));
     }
 
     public function apiKeySaveCallback($value, DataContainer $dc)

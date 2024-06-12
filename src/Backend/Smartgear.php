@@ -506,7 +506,7 @@ class Smartgear extends \Contao\BackendModule
                 ->setSgVersion(Input::post('core')['version'])
                 ->setSgFramwayPath(Input::post('core')['framwayPath'])
                 // ->setSgFramwayThemes(Input::post('core')['framwayThemes'])
-                ->setSgGoogleFonts(Input::post('core')['googleFonts'] ? explode(',', Input::post('core')['googleFonts']) : [])
+                ->setSgGoogleFonts(Input::post('core')['googleFonts'] ? explode(',', (string) Input::post('core')['googleFonts']) : [])
                 // ->setSgSelectedModules(Input::post('core')['selectedModules'])
                 ->setSgAnalyticsGoogleId(Input::post('core')['analyticsGoogleId'])
                 ->setSgMode(Input::post('core')['mode'])
@@ -1750,7 +1750,7 @@ class Smartgear extends \Contao\BackendModule
             case 'headline':
                 if ($objContent->text) {
                     $text = System::getContainer()->get('contao.string.html_decoder')->htmlToPlainText($objContent->text);
-                    $contentAdditionnalInfos = ' - '.substr($text, 0, \strlen($text) > 20 ? 20 : \strlen($text)).'...';
+                    $contentAdditionnalInfos = ' - '.substr((string) $text, 0, \strlen((string) $text) > 20 ? 20 : \strlen((string) $text)).'...';
                 } elseif ($objContent->headline) {
                     $arrHeadline = StringUtil::deserialize($objContent->headline);
 
@@ -1761,7 +1761,7 @@ class Smartgear extends \Contao\BackendModule
             default:
                 if ($objContent->text) {
                     $text = System::getContainer()->get('contao.string.html_decoder')->htmlToPlainText($objContent->text);
-                    $contentAdditionnalInfos = ' - '.substr($text, 0, \strlen($text) > 20 ? 20 : \strlen($text)).'...';
+                    $contentAdditionnalInfos = ' - '.substr((string) $text, 0, \strlen((string) $text) > 20 ? 20 : \strlen((string) $text)).'...';
                 }
         }
 

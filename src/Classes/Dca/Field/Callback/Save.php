@@ -23,8 +23,8 @@ class Save
 
     public function __construct(
         PdmCallback $pdmCallback,
-        private string $frontendField,
-        private string $table
+        private readonly string $frontendField,
+        private readonly string $table
     ) {
         $this->pdmCallback = $pdmCallback;
 

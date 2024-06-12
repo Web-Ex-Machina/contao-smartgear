@@ -187,7 +187,7 @@ class BackupManager
             while ($backup->next()) {
                 $strFilename = $backup->current()['file_name'];
 
-                if (preg_match('/(.*)\.parts\_index/', $strFilename, $matches)) {
+                if (preg_match('/(.*)\.parts\_index/', (string) $strFilename, $matches)) {
                     $strFilenameOrig = str_replace('.parts_index', '', $matches[1]);
                     if (!\in_array($strFilenameOrig, $arrBigFiles, true)) {
                         $arrBigFiles[$strFilenameOrig] = [
@@ -199,7 +199,7 @@ class BackupManager
 
                     $arrBigFiles[$strFilenameOrig]['index'] = (int) $backup->unzip();
                     $result->addFileRestored($strFilename);
-                } elseif (preg_match('/(.*)\.part\_([0-9]{8})/', $strFilename, $matches)) {
+                } elseif (preg_match('/(.*)\.part\_([0-9]{8})/', (string) $strFilename, $matches)) {
                     // continue;
                     // biiiig file chuncked
                     $strFilenameOrig = $matches[1];
@@ -251,7 +251,7 @@ class BackupManager
             }
 
             // 3) now files are in place, time to play our DB backup
-            $config = new RestoreConfig(new Backup(basename($databaseBackupPath)));
+            $config = new RestoreConfig(new Backup(basename((string) $databaseBackupPath)));
             $config = $config->withTablesToIgnore($this->tablesToIgnore);
             $this->databaseBackupManager->restore($config);
             $result->setDatabaseRestored(true);

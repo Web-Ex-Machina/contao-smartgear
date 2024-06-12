@@ -144,7 +144,7 @@ class GeneratePageListener
         $objItem = new PageVisit();
         $objItem->pid = $pageModel->id;
         $objItem->page_url = $uri;
-        $objItem->page_url_base = str_contains($uri, '?') ? substr($uri, 0, strpos($uri, '?')) : $uri;
+        $objItem->page_url_base = str_contains((string) $uri, '?') ? substr((string) $uri, 0, strpos((string) $uri, '?')) : $uri;
         $objItem->referer = $referer;
         $objItem->referer_base = str_contains($referer, '?') ? substr($referer, 0, strpos($referer, '?')) : $referer;
         $objItem->hash = $hash;

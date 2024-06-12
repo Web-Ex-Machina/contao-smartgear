@@ -637,7 +637,7 @@ class Migration extends MigrationAbstract
             // insert all content elements
             foreach ($GLOBALS['TL_CTE'] as $group => $elements) {
                 foreach ($elements as $key => $classPath) {
-                    if (!str_starts_with($key, 'rsce_')) {
+                    if (!str_starts_with((string) $key, 'rsce_')) {
                         $contentElements[] = $key;
                     }
                 }
@@ -648,7 +648,7 @@ class Migration extends MigrationAbstract
             // insert all RSCE elements
             foreach ($GLOBALS['TL_CTE'] as $group => $elements) {
                 foreach ($elements as $key => $classPath) {
-                    if (str_starts_with($key, 'rsce_')) {
+                    if (str_starts_with((string) $key, 'rsce_')) {
                         $contentElements[] = $key;
                     }
                 }

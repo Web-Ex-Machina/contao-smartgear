@@ -32,7 +32,7 @@ class SocialNetworkCategory extends Backend
     /** @var CoreConfigurationManager */
     private $configManager;
 
-    public function __construct(private TranslatorInterface $translator)
+    public function __construct(private readonly TranslatorInterface $translator)
     {
         parent::__construct();
         $this->import(BackendUser::class, 'User');

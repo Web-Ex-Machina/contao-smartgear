@@ -55,7 +55,7 @@ trait MessagesTrait
      */
     public function getFlashBagKeyWithoutType(?string $scope = 'smartgear')
     {
-        return 'wemsg.message.'.strtolower($scope).'.'; // do not remove this end dot
+        return 'wemsg.message.'.strtolower((string) $scope).'.'; // do not remove this end dot
     }
 
     /**

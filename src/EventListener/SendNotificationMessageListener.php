@@ -24,7 +24,7 @@ class SendNotificationMessageListener
         $arrTokens2 = [];
 
         foreach($arrTokens as $key=>$value){
-            $chunks = explode('_',$key);
+            $chunks = explode('_',(string) $key);
             if(empty($chunks)){
                 continue;
             }

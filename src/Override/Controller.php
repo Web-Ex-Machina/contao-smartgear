@@ -49,7 +49,7 @@ class Controller extends \Contao\Controller
         $arrNewTemplates = [];
         if (!empty($arrSGTemplates) && \is_array($arrSGTemplates)) {
             foreach ($arrSGTemplates as $strFile) {
-                $strTemplate = basename($strFile, strrchr($strFile, '.'));
+                $strTemplate = basename((string) $strFile, strrchr((string) $strFile, '.'));
                 $arrNewTemplates[$strTemplate][] = 'Dossier Smartgear';
             }
         }
