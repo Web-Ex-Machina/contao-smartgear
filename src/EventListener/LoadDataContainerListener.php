@@ -305,7 +305,7 @@ class LoadDataContainerListener
                         $this->translator->trans(sprintf('WEMSG.FRAMWAY.COLORS.%s', $name), [], 'contao_default'),
                     ];
                 }
-            } catch (FileNotFoundException $e) {
+            } catch (FileNotFoundException) {
                 //nothing
             }
 

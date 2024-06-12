@@ -55,13 +55,7 @@ class Form extends Backend
             $nbFormStorage = FormStorage::countItems(['pid' => $row['id']]);
 
             $labels[1] = FormStorage::countItems(['pid' => $row['id']]);
-        } catch (FormNotConfiguredToStoreValues $e) {
-            $labels[1] = $e->getMessage();
-        } catch (NoEmailFieldInForm $e) {
-            $labels[1] = $e->getMessage();
-        } catch (EmailFieldNotMandatoryInForm $e) {
-            $labels[1] = $e->getMessage();
-        } catch (Exception $e) {
+        } catch (FormNotConfiguredToStoreValues|NoEmailFieldInForm|EmailFieldNotMandatoryInForm|Exception $e) {
             $labels[1] = $e->getMessage();
         }
 
