@@ -81,7 +81,7 @@ class NotificationMessage extends tl_nc_message
     protected function isItemUsedBySmartgear(int $id): bool
     {
         // try {
-        //     /** @var CoreConfig */
+        //     /** @var CoreConfig $config */
         //     $config = $this->configManager->load();
         //     $formContactConfig = $config->getSgFormContact();
         //     if ($formContactConfig->getSgInstallComplete()

@@ -143,7 +143,7 @@ class Module extends \tl_module
     protected function isItemUsedBySmartgear(int $id): bool
     {
         // try {
-        //     /** @var CoreConfig */
+        //     /** @var CoreConfig $config */
         //     $config = $this->configManager->load();
         //     if (\in_array($id, $config->getContaoModulesIdsForAll(), true)) {
         //         return true;

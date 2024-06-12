@@ -18,7 +18,7 @@ use Contao\CoreBundle\String\HtmlDecoder;
 use Doctrine\DBAL\Connection;
 use NotificationCenter\Model\Language as NotificationLanguageModel;
 use NotificationCenter\Model\Message as NotificationMessageModel;
-use NotificationCenter\Model\Notification as NotificationModel;
+use NotificationCenter\Model\Notification as NotificationModel; // TODO : Notification
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Migration\Result;
@@ -54,13 +54,13 @@ class Migration extends MigrationAbstract
 
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
             try {
-                /** @var CoreConfig */
+                /** @var CoreConfig $config */
                 $coreConfig = $this->coreConfigurationManager->load();
             } catch (FileNotFoundException) {
                 return $result;
             }
 
-            if (NotificationModel::findOneById($coreConfig->getSgNotificationSupport())
+            if (NotificationModel::findOneById($coreConfig->getSgNotificationSupport()) // TODO : Notification
                 && NotificationMessageModel::findOneById($coreConfig->getSgNotificationSupportMessageUser())
                 && NotificationMessageModel::findOneById($coreConfig->getSgNotificationSupportMessageAdmin())
                 && NotificationLanguageModel::findOneById($coreConfig->getSgNotificationSupportMessageUserLanguage())
@@ -85,7 +85,7 @@ class Migration extends MigrationAbstract
             return $result;
         }
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             // $coreConfig = $this->coreConfigurationManager->load();
 
             // $coreConfig->setSgVersion($this->version);
@@ -113,12 +113,12 @@ class Migration extends MigrationAbstract
         return $result;
     }
 
-    protected function createNotificationSupportGatewayNotification(): NotificationModel
+    protected function createNotificationSupportGatewayNotification(): NotificationModel // TODO : Notification
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->coreConfigurationManager->load();
 
-        $nc = NotificationModel::findOneById($config->getSgNotificationSupport()) ?? new NotificationModel();
+        $nc = NotificationModel::findOneById($config->getSgNotificationSupport()) ?? new NotificationModel(); // TODO : Notification
         $nc->tstamp = time();
         $nc->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayNotification', [], 'contao_default');
         $nc->type = 'ticket_creation';
@@ -130,9 +130,9 @@ class Migration extends MigrationAbstract
         return $nc;
     }
 
-    protected function createNotificationSupportGatewayMessagesUser(NotificationModel $gateway): NotificationMessageModel
+    protected function createNotificationSupportGatewayMessagesUser(NotificationModel $gateway): NotificationMessageModel // TODO : Notification
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->coreConfigurationManager->load();
 
         $nm = NotificationMessageModel::findOneById($config->getSgNotificationSupportMessageUser()) ?? new NotificationMessageModel();
@@ -150,9 +150,9 @@ class Migration extends MigrationAbstract
         return $nm;
     }
 
-    protected function createNotificationSupportGatewayMessagesAdmin(NotificationModel $gateway): NotificationMessageModel
+    protected function createNotificationSupportGatewayMessagesAdmin(NotificationModel $gateway): NotificationMessageModel // TODO : Notification
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->coreConfigurationManager->load();
 
         $nm = NotificationMessageModel::findOneById($config->getSgNotificationSupportMessageAdmin()) ?? new NotificationMessageModel();
@@ -170,7 +170,7 @@ class Migration extends MigrationAbstract
         return $nm;
     }
 
-    protected function createNotificationSupportGatewayMessages(NotificationModel $gateway): array
+    protected function createNotificationSupportGatewayMessages(NotificationModel $gateway): array // TODO : Notification
     {
         return [
             'user' => $this->createNotificationSupportGatewayMessagesUser($gateway),
@@ -180,7 +180,7 @@ class Migration extends MigrationAbstract
 
     protected function createNotificationSupportGatewayMessagesLanguagesUser(NotificationMessageModel $gatewayMessage): NotificationLanguageModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->coreConfigurationManager->load();
 
         $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/dashboard/%s/ticket_mail_user.html', Util::getPublicOrWebDirectory(), \Contao\BackendUser::getInstance()->language));
@@ -209,7 +209,7 @@ class Migration extends MigrationAbstract
 
     protected function createNotificationSupportGatewayMessagesLanguagesAdmin(NotificationMessageModel $gatewayMessage): NotificationLanguageModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->coreConfigurationManager->load();
 
         $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/dashboard/%s/ticket_mail_admin.html', Util::getPublicOrWebDirectory(), \Contao\BackendUser::getInstance()->language));

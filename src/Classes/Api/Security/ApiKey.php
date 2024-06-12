@@ -44,7 +44,7 @@ class ApiKey
             }
         }
 
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->coreConfigurationManager->load();
 
         if ($apiKey === $config->getSgApiKey()) {

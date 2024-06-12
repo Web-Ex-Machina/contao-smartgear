@@ -80,7 +80,7 @@ class MemberGroup extends \tl_member_group
     protected function isItemUsedBySmartgear(int $id): bool
     {
         // try {
-        //     /** @var CoreConfig */
+        //     /** @var CoreConfig $config */
         //     $config = $this->configManager->load();
         //     if (\in_array($id, $config->getContaoMemberGroupsIdsForAll(), true)) {
         //         return true;

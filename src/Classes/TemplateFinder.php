@@ -62,7 +62,7 @@ class TemplateFinder
         if ('' === $clientTemplatesFolderName) {
             // get the core config, get the theme_id, retrieve the theme and use the path in "templates" field
             try {
-                /** @var CoreConfig */
+                /** @var CoreConfig $config */
                 $config = $this->configurationManager->load();
             } catch (NotFound) {
                 return [];

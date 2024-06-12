@@ -81,7 +81,7 @@ class NotificationLanguage extends tl_nc_language
     protected function isItemUsedBySmartgear(int $id): bool
     {
         // try {
-        //     /** @var CoreConfig */
+        //     /** @var CoreConfig $config */
         //     $config = $this->configManager->load();
         //     $formContactConfig = $config->getSgFormContact();
         //     if ($formContactConfig->getSgInstallComplete()

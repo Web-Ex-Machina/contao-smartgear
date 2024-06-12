@@ -42,7 +42,7 @@ class AbstractStep
         // to render the step
         $objTemplate = new FrontendTemplate($this->strTemplate);
         $objTemplate->request = Environment::get('request');
-        $objTemplate->token = RequestToken::get();
+        $objTemplate->token = RequestToken::get(); // TODO : deprecated Token
         $objTemplate->module = $this->module;
         $objTemplate->type = $this->type;
         $objTemplate->title = $this->title;

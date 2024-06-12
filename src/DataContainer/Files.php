@@ -93,7 +93,7 @@ class Files extends \tl_files
     protected function isItemUsedBySmartgear(string $id): bool
     {
         // try {
-        //     /** @var CoreConfig */
+        //     /** @var CoreConfig $config */
         //     $config = $this->configManager->load();
         //     if (\in_array($id, $config->getContaoFoldersIdsForAll(), true)) {
         //         return true;

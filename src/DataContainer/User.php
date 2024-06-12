@@ -79,7 +79,7 @@ class User extends \tl_user
     protected function isItemUsedBySmartgear(int $id): bool
     {
         // try {
-        //     /** @var CoreConfig */
+        //     /** @var CoreConfig $config */
         //     $config = $this->configManager->load();
         //     if (\in_array($id, $config->getContaoUsersIdsForAll(), true)) {
         //         return true;

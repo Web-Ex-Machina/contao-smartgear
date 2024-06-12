@@ -37,7 +37,7 @@ class InitializeSystemListener
     public function __invoke(): void
     {
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
         } catch (NotFound) {
             return;

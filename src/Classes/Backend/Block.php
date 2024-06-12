@@ -121,7 +121,7 @@ class Block extends Controller
         // Create the block template and add some general vars
         $objTemplate = new FrontendTemplate($this->strTemplate);
         $objTemplate->request = Environment::get('request');
-        $objTemplate->token = RequestToken::get();
+        $objTemplate->token = RequestToken::get(); // TODO : deprecated Token
         $objTemplate->type = $this->type;
         $objTemplate->module = $this->module;
         $objTemplate->title = $this->title;
@@ -252,7 +252,7 @@ class Block extends Controller
         }
 
         // Add Request Token to JSON answer and return
-        $arrResponse['rt'] = \Contao\RequestToken::get();
+        $arrResponse['rt'] = \Contao\RequestToken::get(); // TODO : deprecated Token
         echo json_encode($arrResponse);
         exit;
     }

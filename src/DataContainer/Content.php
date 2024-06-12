@@ -195,7 +195,7 @@ class Content extends Backend
     protected function isItemUsedBySmartgear(int $id): bool
     {
         // try {
-        //     /** @var CoreConfig */
+        //     /** @var CoreConfig $config */
         //     $config = $this->configManager->load();
         //     if (\in_array($id, $config->getContaoContentsIdsForAll(), true)) {
         //         return true;

@@ -87,7 +87,7 @@ class Dashboard
         }
 
         // Add Request Token to JSON answer and return
-        $arrResponse['rt'] = RequestToken::get();
+        $arrResponse['rt'] = RequestToken::get(); // TODO : deprecated Token
         echo json_encode($arrResponse);
         exit;
     }
@@ -101,7 +101,7 @@ class Dashboard
     {
         $objTemplate = new FrontendTemplate($this->strTemplate);
         $objTemplate->request = Environment::get('request');
-        $objTemplate->token = RequestToken::get();
+        $objTemplate->token = RequestToken::get(); // TODO : deprecated Token
         $objTemplate->module = $this->module;
         $objTemplate->type = $this->type;
         // $objTemplate->messages = $this->messages;

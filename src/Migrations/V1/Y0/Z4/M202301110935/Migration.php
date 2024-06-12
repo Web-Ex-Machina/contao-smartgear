@@ -71,7 +71,7 @@ class Migration extends MigrationAbstract
             return $result;
         }
         try {
-            /* @var CoreConfig */
+            /** @var CoreConfig $config */
             // $coreConfig = $this->coreConfigurationManager->load();
 
             // copy templates needing to be updated
@@ -137,7 +137,7 @@ class Migration extends MigrationAbstract
     {
         // only if old SG install still valid
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $coreConfig = $this->coreConfigurationManager->load();
         } catch (NotFound) {
             return;

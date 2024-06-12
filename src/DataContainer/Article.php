@@ -80,7 +80,7 @@ class Article extends \tl_article
     protected function isItemUsedBySmartgear(int $id): bool
     {
         // try {
-        //     /** @var CoreConfig */
+        //     /** @var CoreConfig $config */
         //     $config = $this->configManager->load();
         //     if (\in_array($id, $config->getContaoArticlesIdsForAll(), true)) {
         //         return true;

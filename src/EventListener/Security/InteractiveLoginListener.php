@@ -78,7 +78,7 @@ class InteractiveLoginListener
         }
 
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
         } catch (NotFound) {
             return;

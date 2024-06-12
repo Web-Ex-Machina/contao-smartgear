@@ -77,7 +77,7 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
     protected function shouldRunCheckConfiguration(Result $result): Result
     {
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->coreConfigurationManager->load();
         } catch (FileNotFoundException) {
             $nbConfigurations = Configuration::countItems();
@@ -97,7 +97,7 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
     protected function shouldRunCheckVersion(Result $result): Result
     {
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->coreConfigurationManager->load();
         } catch (FileNotFoundException) {
             $nbConfigurations = Configuration::countItems();

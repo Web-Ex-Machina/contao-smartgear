@@ -82,7 +82,7 @@ class Page extends \tl_page
     protected function isItemUsedBySmartgear(int $id): bool
     {
         // try {
-        //     /** @var CoreConfig */
+        //     /** @var CoreConfig $config */
         //     $config = $this->configManager->load();
         //     if (\in_array($id, $config->getContaoPagesIdsForAll(), true)) {
         //         return true;

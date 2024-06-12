@@ -488,7 +488,7 @@ class Util
             // Retrieve usergroup existing permissions
             $arrPermissions = [];
             if (null === $intGroup) {
-                /** @var CoreConfig */
+                /** @var CoreConfig $config */
                 $conf = self::loadSmartgearConfig();
 
                 // if ($conf['sgInstallUserGroup']) {
@@ -535,7 +535,7 @@ class Util
             // Retrieve usergroup existing permissions
             $arrPermissions = [];
             if (null === $intGroup) {
-                /** @var CoreConfig */
+                /** @var CoreConfig $config */
                 $conf = self::loadSmartgearConfig();
 
                 if ($conf['sgInstallUserGroup']) {
