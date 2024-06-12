@@ -37,7 +37,8 @@
         "webexmachina/contao-grid": "dev-php-8-2-preparation",
         "oveleon/contao-component-style-manager": "^3.5",
         "webexmachina/contao-form-data-manager": "dev-main",
-        "webexmachina/contao-personal-data-manager": "dev-php-8-2-preparation"
+        "webexmachina/contao-personal-data-manager": "dev-php-8-2-preparation",
+        "ext-curl": "*"
     },
     "require-dev":
     {
