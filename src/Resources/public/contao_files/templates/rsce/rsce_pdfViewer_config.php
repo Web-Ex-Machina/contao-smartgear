@@ -39,19 +39,19 @@ return [
             'inputType' => 'text', 
             'eval'      => ['tl_class' => 'w50'],
         ],
-        'player_ratio' => array(
+        'player_ratio' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewer']['player_ratio'],
             'inputType' => 'select',
-            'options' => array(
+            'options' => [
                 '' => 'Original',
                 'r_16-9' => '16:9',
                 'r_4-3'  => '4:3',
                 'r_2-1'  => '2:1',
                 'r_1-1'  => '1:1',
                 'r_1-2'  => '1:2',
-            ),
-            'eval' => array('tl_class'=>'w50'),
-        ),
+            ],
+            'eval' => ['tl_class'=>'w50'],
+        ],
         'playerSize' => [
             'inputType' => 'standardField', 
         ],

@@ -148,10 +148,9 @@ class Content extends Backend
      * Rule #1 : Replace [nbsp] tags by ' '
      * Rule #2 : Find special characters and add an [nbsp] just before.
      *
-     * @param mixed         $varValue [description]
      * @param DataContainer $objDc    [description]
      */
-    public function cleanHeadline($varValue, DataContainer $objDc)
+    public function cleanHeadline(mixed $varValue, DataContainer $objDc)
     {
         $arrValue = StringUtil::deserialize($varValue);
         if ($arrValue === $varValue) {
@@ -168,10 +167,9 @@ class Content extends Backend
      * Rule #1 : Replace [nbsp] tags by ' '
      * Rule #2 : Find special characters and add an [nbsp] just before.
      *
-     * @param mixed         $varValue [description]
      * @param DataContainer $objDc    [description]
      */
-    public function cleanText($varValue, DataContainer $objDc)
+    public function cleanText(mixed $varValue, DataContainer $objDc)
     {
         if (!\is_string($varValue)) {
             return $varValue;

@@ -34,83 +34,83 @@ return [
             'inputType' => 'standardField',
             'eval' => ['mandatory' => false]
         ],
-        'image_pos' => array(
+        'image_pos' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_quote']['image_pos'],
             'inputType' => 'select',
-            'options' => array(
+            'options' => [
                 'before' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['left'],
                 'after' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['right'],
-            ),
-            'eval' => array('tl_class'=>'w50'),
-        ),
-        'image_ratio' => array(
+            ],
+            'eval' => ['tl_class'=>'w50'],
+        ],
+        'image_ratio' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['image_ratio'],
             'inputType' => 'select',
-            'options' => array(
+            'options' => [
                 '' => 'Original',
                 'r_16-9' => '16:9',
                 'r_4-3'  => '4:3',
                 'r_2-1'  => '2:1',
                 'r_1-1'  => '1:1',
                 'r_1-2'  => '1:2',
-            ),
-            'dependsOn' => array(
+            ],
+            'dependsOn' => [
                 // 'field' => 'image_displaymode', 
                 // 'value' => 'img--cover',
-            ),
-            'eval' => array('tl_class'=>'w50'),
-        ),
-        'image_displaymode' => array(
+            ],
+            'eval' => ['tl_class'=>'w50'],
+        ],
+        'image_displaymode' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['image_displaymode'],
             'inputType' => 'select',
-            'options' => array(
+            'options' => [
                 'fit--cover'    => &$GLOBALS['TL_LANG']['tl_content']['image_displaymode']['cover'],
                 'fit--contain'  => &$GLOBALS['TL_LANG']['tl_content']['image_displaymode']['contain'],
                 // 'fit--natural'  => &$GLOBALS['TL_LANG']['tl_content']['image_displaymode']['natural'],
-            ),
+            ],
             'default' => 'fit--cover',
-            'dependsOn' => array(
+            'dependsOn' => [
                 'field' => 'image_ratio', 
-                'value' => array(
+                'value' => [
                     'r_16-9',
                     'r_4-3' ,
                     'r_2-1' ,
                     'r_1-1' ,
                     'r_1-2' ,
-                ),
-            ),
-            'eval' => array('tl_class'=>'w50 '),
-        ),
-        'image_align_horizontal' => array(
+                ],
+            ],
+            'eval' => ['tl_class'=>'w50 '],
+        ],
+        'image_align_horizontal' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['image_align_horizontal'],
             'inputType' => 'select',
-            'options' => array(
+            'options' => [
                 'img--left'   => &$GLOBALS['TL_LANG']['tl_content']['alignment']['left'],
                 'img--center' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['center'],
                 'img--right'  => &$GLOBALS['TL_LANG']['tl_content']['alignment']['right'],
-            ),
+            ],
             'default' =>  'img--center',
             // 'dependsOn' => array(
             //     'field' => 'image_displaymode', 
             //     'value' => 'img--cover',
             // ),
-            'eval' => array('tl_class'=>'w50 clr'),
-        ),
-        'image_align_vertical' => array(
+            'eval' => ['tl_class'=>'w50 clr'],
+        ],
+        'image_align_vertical' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['image_align_vertical'],
             'inputType' => 'select',
-            'options' => array(
+            'options' => [
                 'img--top'    => &$GLOBALS['TL_LANG']['tl_content']['alignment']['top'],
                 'img--center' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['center'],
                 'img--bottom' => &$GLOBALS['TL_LANG']['tl_content']['alignment']['bottom'],
-            ),
+            ],
             'default' =>  'img--center',
             // 'dependsOn' => array(
             //     'field' => 'image_displaymode', 
             //     'value' => 'img--cover',
             // ),
-            'eval' => array('tl_class'=>'w50'),
-        ),
+            'eval' => ['tl_class'=>'w50'],
+        ],
         'rounded' => [
             'label'     => &$GLOBALS['TL_LANG']['tl_content']['picture_rounded'],
             'inputType' => 'checkbox', 
