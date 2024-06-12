@@ -171,38 +171,26 @@ class Block extends BackendBlock
 
     protected function goToNextStep(): void
     {
-        switch ($this->getMode()) {
-            case self::MODE_RESET:
-                $this->resetStepManager->goToNextStep();
-            break;
-            default:
-                parent::goToNextStep();
-            break;
-        }
+        match ($this->getMode()) {
+            self::MODE_RESET => $this->resetStepManager->goToNextStep(),
+            default => parent::goToNextStep(),
+        };
     }
 
     protected function goToPreviousStep(): void
     {
-        switch ($this->getMode()) {
-            case self::MODE_RESET:
-                $this->resetStepManager->goToPreviousStep();
-            break;
-            default:
-                parent::goToPreviousStep();
-            break;
-        }
+        match ($this->getMode()) {
+            self::MODE_RESET => $this->resetStepManager->goToPreviousStep(),
+            default => parent::goToPreviousStep(),
+        };
     }
 
     protected function goToStep(int $stepIndex): void
     {
-        switch ($this->getMode()) {
-            case self::MODE_RESET:
-                $this->resetStepManager->goToStep($stepIndex);
-            break;
-            default:
-                parent::goToStep($stepIndex);
-            break;
-        }
+        match ($this->getMode()) {
+            self::MODE_RESET => $this->resetStepManager->goToStep($stepIndex),
+            default => parent::goToStep($stepIndex),
+        };
     }
 
     protected function finish(): array
@@ -236,14 +224,10 @@ class Block extends BackendBlock
 
     protected function save(): void
     {
-        switch ($this->getMode()) {
-            case self::MODE_RESET:
-                $this->resetStepManager->save();
-            break;
-            default:
-                parent::save();
-            break;
-        }
+        match ($this->getMode()) {
+            self::MODE_RESET => $this->resetStepManager->save(),
+            default => parent::save(),
+        };
     }
 
     protected function parseSteps()

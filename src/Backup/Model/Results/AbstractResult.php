@@ -50,9 +50,6 @@ abstract class AbstractResult
         return $this->filesInError;
     }
 
-    /**
-     * @param mixed $filesInError
-     */
     public function setFilesInError(array $filesInError): self
     {
         $this->filesInError = $filesInError;

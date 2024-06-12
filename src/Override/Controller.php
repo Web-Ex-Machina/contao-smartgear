@@ -40,7 +40,7 @@ class Controller extends \Contao\Controller
         $strGlobPrefix = $strPrefix;
 
         // Backwards compatibility (see #725)
-        if ('_' === substr($strGlobPrefix, -1)) {
+        if (str_ends_with($strGlobPrefix, '_')) {
             $strGlobPrefix = substr($strGlobPrefix, 0, -1).'[_-]';
         }
         $projectDir = \System::getContainer()->getParameter('kernel.project_dir');

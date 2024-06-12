@@ -38,9 +38,6 @@ class ListResponse
         return $this->total;
     }
 
-    /**
-     * @param mixed $total
-     */
     public function setTotal(int $total): self
     {
         $this->total = $total;

@@ -157,15 +157,10 @@ class Configuration extends CoreModel
 
     public function getLegalOwnerName(): string
     {
-        switch ($this->legal_owner_type) {
-            case self::TYPE_COMPANY:
-                return $this->legal_owner_company_name;
-            break;
-            case self::TYPE_PERSON:
-                return strtoupper($this->legal_owner_person_lastname).' '.$this->legal_owner_person_firstname;
-            break;
-        }
-
-        return '';
+        return match ($this->legal_owner_type) {
+            self::TYPE_COMPANY => $this->legal_owner_company_name,
+            self::TYPE_PERSON => strtoupper($this->legal_owner_person_lastname).' '.$this->legal_owner_person_firstname,
+            default => '',
+        };
     }
 }

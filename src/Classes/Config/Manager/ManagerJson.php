@@ -90,7 +90,7 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
      * @param string $filepath The file's path
      * @param mixed  $content  The content to write
      */
-    protected function file_force_contents(string $filepath, $content): bool
+    protected function file_force_contents(string $filepath, mixed $content): bool
     {
         $parts = explode('/', $filepath);
         $file = array_pop($parts);

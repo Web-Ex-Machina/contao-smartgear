@@ -58,7 +58,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
     ) {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
-        if ('sg' === $key && 'formContact' === substr($elements[1], 0, 11)) {
+        if ('sg' === $key && str_starts_with($elements[1], 'formContact')) {
             return static::NOT_HANDLED;
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
@@ -69,91 +69,36 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 return static::NOT_HANDLED;
             }
 
-            switch ($elements[1]) {
-                case 'formContact_installComplete':
-                    return $formContactConfig->getSgInstallComplete() ? '1' : '0';
-                break;
-                case 'formContact_formContactTitle':
-                    return $formContactConfig->getSgFormContactTitle();
-                break;
-                case 'formContact_pageTitle':
-                    return $formContactConfig->getSgPageTitle();
-                break;
-                case 'formContact_pageForm':
-                    return $formContactConfig->getSgPageForm();
-                break;
-                case 'formContact_pageFormSent':
-                    return $formContactConfig->getSgPageFormSent();
-                break;
-                case 'formContact_articleForm':
-                    return $formContactConfig->getSgArticleForm();
-                break;
-                case 'formContact_articleFormSent':
-                    return $formContactConfig->getSgArticleFormSent();
-                break;
-                case 'formContact_contentHeadlineArticleForm':
-                    return $formContactConfig->getSgContentHeadlineArticleForm();
-                break;
-                case 'formContact_contentFormArticleForm':
-                    return $formContactConfig->getSgContentFormArticleForm();
-                break;
-                case 'formContact_contentHeadlineArticleFormSent':
-                    return $formContactConfig->getSgContentHeadlineArticleFormSent();
-                break;
-                case 'formContact_contentTextArticleFormSent':
-                    return $formContactConfig->getSgContentTextArticleFormSent();
-                break;
-                case 'formContact_formContact':
-                    return $formContactConfig->getSgFormContact();
-                break;
-                case 'formContact_fieldName':
-                    return $formContactConfig->getSgFieldName();
-                break;
-                case 'formContact_fieldEmail':
-                    return $formContactConfig->getSgFieldEmail();
-                break;
-                case 'formContact_fieldMessage':
-                    return $formContactConfig->getSgFieldMessage();
-                break;
-                case 'formContact_fieldConsentDataTreatment':
-                    return $formContactConfig->getSgFieldConsentDataTreatment();
-                break;
-                case 'formContact_fieldConsentDataSave':
-                    return $formContactConfig->getSgFieldConsentDataSave();
-                break;
-                case 'formContact_fieldCaptcha':
-                    return $formContactConfig->getSgFieldCaptcha();
-                break;
-                case 'formContact_fieldSubmit':
-                    return $formContactConfig->getSgFieldSubmit();
-                break;
-                case 'formContact_notification':
-                    return $formContactConfig->getSgNotification();
-                break;
-                case 'formContact_notificationMessageUser':
-                    return $formContactConfig->getSgNotificationMessageUser();
-                break;
-                case 'formContact_notificationMessageAdmin':
-                    return $formContactConfig->getSgNotificationMessageAdmin();
-                break;
-                case 'formContact_notificationMessageUserLanguage':
-                    return $formContactConfig->getSgNotificationMessageUserLanguage();
-                break;
-                case 'formContact_notificationMessageAdminLanguage':
-                    return $formContactConfig->getSgNotificationMessageAdminLanguage();
-                break;
-                case 'formContact_archived':
-                    return $formContactConfig->getSgArchived() ? '1' : '0';
-                break;
-                case 'formContact_archivedAt':
-                    return $formContactConfig->getSgArchivedAt();
-                break;
-                case 'formContact_archivedMode':
-                    return $formContactConfig->getSgArchivedMode();
-                break;
-                default:
-                return static::NOT_HANDLED;
-            }
+            return match ($elements[1]) {
+                'formContact_installComplete' => $formContactConfig->getSgInstallComplete() ? '1' : '0',
+                'formContact_formContactTitle' => $formContactConfig->getSgFormContactTitle(),
+                'formContact_pageTitle' => $formContactConfig->getSgPageTitle(),
+                'formContact_pageForm' => $formContactConfig->getSgPageForm(),
+                'formContact_pageFormSent' => $formContactConfig->getSgPageFormSent(),
+                'formContact_articleForm' => $formContactConfig->getSgArticleForm(),
+                'formContact_articleFormSent' => $formContactConfig->getSgArticleFormSent(),
+                'formContact_contentHeadlineArticleForm' => $formContactConfig->getSgContentHeadlineArticleForm(),
+                'formContact_contentFormArticleForm' => $formContactConfig->getSgContentFormArticleForm(),
+                'formContact_contentHeadlineArticleFormSent' => $formContactConfig->getSgContentHeadlineArticleFormSent(),
+                'formContact_contentTextArticleFormSent' => $formContactConfig->getSgContentTextArticleFormSent(),
+                'formContact_formContact' => $formContactConfig->getSgFormContact(),
+                'formContact_fieldName' => $formContactConfig->getSgFieldName(),
+                'formContact_fieldEmail' => $formContactConfig->getSgFieldEmail(),
+                'formContact_fieldMessage' => $formContactConfig->getSgFieldMessage(),
+                'formContact_fieldConsentDataTreatment' => $formContactConfig->getSgFieldConsentDataTreatment(),
+                'formContact_fieldConsentDataSave' => $formContactConfig->getSgFieldConsentDataSave(),
+                'formContact_fieldCaptcha' => $formContactConfig->getSgFieldCaptcha(),
+                'formContact_fieldSubmit' => $formContactConfig->getSgFieldSubmit(),
+                'formContact_notification' => $formContactConfig->getSgNotification(),
+                'formContact_notificationMessageUser' => $formContactConfig->getSgNotificationMessageUser(),
+                'formContact_notificationMessageAdmin' => $formContactConfig->getSgNotificationMessageAdmin(),
+                'formContact_notificationMessageUserLanguage' => $formContactConfig->getSgNotificationMessageUserLanguage(),
+                'formContact_notificationMessageAdminLanguage' => $formContactConfig->getSgNotificationMessageAdminLanguage(),
+                'formContact_archived' => $formContactConfig->getSgArchived() ? '1' : '0',
+                'formContact_archivedAt' => $formContactConfig->getSgArchivedAt(),
+                'formContact_archivedMode' => $formContactConfig->getSgArchivedMode(),
+                default => static::NOT_HANDLED,
+            };
         }
 
         return static::NOT_HANDLED;

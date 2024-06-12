@@ -104,9 +104,6 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         return $this->configurationRootFilePath;
     }
 
-    /**
-     * @param mixed $configurationRootFilePath
-     */
     public function setConfigurationRootFilePath(?string $configurationRootFilePath = null): self
     {
         $this->configurationRootFilePath = $configurationRootFilePath;

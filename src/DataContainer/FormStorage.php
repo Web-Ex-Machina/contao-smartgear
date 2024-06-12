@@ -28,12 +28,8 @@ use WEM\SmartgearBundle\Model\FormStorageData;
 
 class FormStorage
 {
-    /** @var TranslatorInterface */
-    private $translator;
-
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(private TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     public function listItems(array $row): array

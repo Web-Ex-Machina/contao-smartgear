@@ -31,14 +31,10 @@ class SocialNetwork extends Backend
     /** @var CoreConfigurationManager */
     private $configManager;
 
-    /** @var TranslatorInterface */
-    private $translator;
-
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(private TranslatorInterface $translator)
     {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
-        $this->translator = $translator;
         $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
     }
 

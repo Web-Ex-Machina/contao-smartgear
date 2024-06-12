@@ -556,26 +556,15 @@ class Core implements ConfigModuleInterface
         if (!$this->isSubmoduleNameKnown($submodule)) {
             throw new Exception(sprintf('The submodule "%s" is unknown', $submodule));
         }
-        switch ($submodule) {
-            case 'blog':
-                $this->setSgBlog($config);
-            break;
-            case 'events':
-                $this->setSgEvents($config);
-            break;
-            case 'faq':
-                $this->setSgFaq($config);
-            break;
-            case 'form_contact':
-                $this->setSgFormContact($config);
-            break;
-            case 'extranet':
-                $this->setSgExtranet($config);
-            break;
-            case 'form_data_manager':
-                $this->setSgFormDataManager($config);
-            break;
-        }
+        match ($submodule) {
+            'blog' => $this->setSgBlog($config),
+            'events' => $this->setSgEvents($config),
+            'faq' => $this->setSgFaq($config),
+            'form_contact' => $this->setSgFormContact($config),
+            'extranet' => $this->setSgExtranet($config),
+            'form_data_manager' => $this->setSgFormDataManager($config),
+            default => $this,
+        };
 
         return $this;
     }

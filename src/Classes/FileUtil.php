@@ -27,7 +27,7 @@ class FileUtil
     {
         $mime = strtolower($objFile->mime);
 
-        if ('image/' === substr($mime, 0, 6)
+        if (str_starts_with($mime, 'image/')
         || 'application/pdf' === $mime
         ) {
             return true;

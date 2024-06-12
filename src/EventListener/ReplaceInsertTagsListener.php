@@ -153,10 +153,10 @@ class ReplaceInsertTagsListener
                     return $objConfiguration->legal_owner_street.' '.$objConfiguration->legal_owner_postal_code.' '.$objConfiguration->legal_owner_city.' '.$objConfiguration->legal_owner_region.' '.$objConfiguration->legal_owner_country;
                 break;
                 case 'domain_full':
-                    return false !== strpos($objConfiguration->domain, 'https://')
+                    return str_contains($objConfiguration->domain, 'https://')
                     ? $objConfiguration->domain
                     : (
-                        false !== strpos($objConfiguration->domain, 'http://')
+                        str_contains($objConfiguration->domain, 'http://')
                         ? str_replace('http://', 'https://', $objConfiguration->domain)
                         : 'https://'.$objConfiguration->domain
                     )

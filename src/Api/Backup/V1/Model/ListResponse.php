@@ -38,9 +38,6 @@ class ListResponse
         return $this->total;
     }
 
-    /**
-     * @param mixed $total
-     */
     public function setTotal(int $total): self
     {
         $this->total = $total;
@@ -56,9 +53,6 @@ class ListResponse
         return $this->backups;
     }
 
-    /**
-     * @param mixed $backups
-     */
     public function setBackups(array $backups): self
     {
         $this->backups = $backups;

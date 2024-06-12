@@ -317,7 +317,7 @@ class ConfigurationUtil
         $allowedAttributes = StringUtil::deserialize(\Contao\Config::get('allowedAttributes'), true);
         foreach ($allowedAttributes as $index => $allowedAttribute) {
             if ('a' === $allowedAttribute['key']
-            && false === strpos($allowedAttribute['value'], 'onclick')
+            && !str_contains($allowedAttribute['value'], 'onclick')
             ) {
                 $allowedAttributes[$index]['value'] .= ',onclick';
                 \Contao\Config::set('allowedAttributes', serialize($allowedAttributes));

@@ -58,7 +58,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
     ) {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
-        if ('sg' === $key && 'extranet' === substr($elements[1], 0, 8)) {
+        if ('sg' === $key && str_starts_with($elements[1], 'extranet')) {
             return static::NOT_HANDLED;
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
@@ -69,295 +69,104 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 return static::NOT_HANDLED;
             }
 
-            switch ($elements[1]) {
-                case 'extranet_installComplete':
-                    return $extranetConfig->getSgInstallComplete() ? '1' : '0';
-                break;
-                case 'extranet_extranetFolder':
-                    return $extranetConfig->getSgExtranetFolder();
-                break;
-                case 'extranet_canSubscribe':
-                    return $extranetConfig->getSgCanSubscribe() ? '1' : '0';
-                break;
-                case 'extranet_memberExample':
-                    return $extranetConfig->getSgMemberExample();
-                break;
-                case 'extranet_memberGroupMembers':
-                    return $extranetConfig->getSgMemberGroupMembers();
-                break;
-                case 'extranet_memberGroupMembersTitle':
-                    return $extranetConfig->getSgMemberGroupMembersTitle();
-                break;
-                case 'extranet_pageExtranetTitle':
-                    return $extranetConfig->getSgPageExtranetTitle();
-                break;
-                case 'extranet_pageExtranet':
-                    return $extranetConfig->getSgPageExtranet();
-                break;
-                case 'extranet_page401':
-                    return $extranetConfig->getSgPage401();
-                break;
-                case 'extranet_page403':
-                    return $extranetConfig->getSgPage403();
-                break;
-                case 'extranet_pageContent':
-                    return $extranetConfig->getSgPageContent();
-                break;
-                case 'extranet_pageData':
-                    return $extranetConfig->getSgPageData();
-                break;
-                case 'extranet_pageDataConfirm':
-                    return $extranetConfig->getSgPageDataConfirm();
-                break;
-                case 'extranet_pagePassword':
-                    return $extranetConfig->getSgPagePassword();
-                break;
-                case 'extranet_pagePasswordConfirm':
-                    return $extranetConfig->getSgPagePasswordConfirm();
-                break;
-                case 'extranet_pagePasswordValidate':
-                    return $extranetConfig->getSgPagePasswordValidate();
-                break;
-                case 'extranet_pageLogout':
-                    return $extranetConfig->getSgPageLogout();
-                break;
-                case 'extranet_pageSubscribe':
-                    return $extranetConfig->getSgPageSubscribe();
-                break;
-                case 'extranet_pageSubscribeConfirm':
-                    return $extranetConfig->getSgPageSubscribeConfirm();
-                break;
-                case 'extranet_pageSubscribeValidate':
-                    return $extranetConfig->getSgPageSubscribeValidate();
-                break;
-                case 'extranet_pageUnsubscribeConfirm':
-                    return $extranetConfig->getSgPageUnsubscribeConfirm();
-                break;
-                case 'extranet_articleExtranet':
-                    return $extranetConfig->getSgArticleExtranet();
-                break;
-                case 'extranet_article401':
-                    return $extranetConfig->getSgArticle401();
-                break;
-                case 'extranet_article403':
-                    return $extranetConfig->getSgArticle403();
-                break;
-                case 'extranet_articleContent':
-                    return $extranetConfig->getSgArticleContent();
-                break;
-                case 'extranet_articleData':
-                    return $extranetConfig->getSgArticleData();
-                break;
-                case 'extranet_articleDataConfirm':
-                    return $extranetConfig->getSgArticleDataConfirm();
-                break;
-                case 'extranet_articlePassword':
-                    return $extranetConfig->getSgArticlePassword();
-                break;
-                case 'extranet_articlePasswordConfirm':
-                    return $extranetConfig->getSgArticlePasswordConfirm();
-                break;
-                case 'extranet_articlePasswordValidate':
-                    return $extranetConfig->getSgArticlePasswordValidate();
-                break;
-                case 'extranet_articleLogout':
-                    return $extranetConfig->getSgArticleLogout();
-                break;
-                case 'extranet_articleSubscribe':
-                    return $extranetConfig->getSgArticleSubscribe();
-                break;
-                case 'extranet_articleSubscribeConfirm':
-                    return $extranetConfig->getSgArticleSubscribeConfirm();
-                break;
-                case 'extranet_articleSubscribeValidate':
-                    return $extranetConfig->getSgArticleSubscribeValidate();
-                break;
-                case 'extranet_articleUnsubscribeConfirm':
-                    return $extranetConfig->getSgArticleUnsubscribeConfirm();
-                break;
-                case 'extranet_moduleLogin':
-                    return $extranetConfig->getSgModuleLogin();
-                break;
-                case 'extranet_moduleLogout':
-                    return $extranetConfig->getSgModuleLogout();
-                break;
-                case 'extranet_moduleData':
-                    return $extranetConfig->getSgModuleData();
-                break;
-                case 'extranet_modulePassword':
-                    return $extranetConfig->getSgModulePassword();
-                break;
-                case 'extranet_moduleNav':
-                    return $extranetConfig->getSgModuleNav();
-                break;
-                case 'extranet_moduleSubscribe':
-                    return $extranetConfig->getSgModuleSubscribe();
-                break;
-                case 'extranet_moduleCloseAccount':
-                    return $extranetConfig->getSgModuleCloseAccount();
-                break;
-                case 'extranet_notificationChangeData':
-                    return $extranetConfig->getSgNotificationChangeData();
-                break;
-                case 'extranet_notificationChangeDataMessage':
-                    return $extranetConfig->getSgNotificationChangeDataMessage();
-                break;
-                case 'extranet_notificationChangeDataMessageLanguage':
-                    return $extranetConfig->getSgNotificationChangeDataMessageLanguage();
-                break;
-                case 'extranet_notificationPassword':
-                    return $extranetConfig->getSgNotificationPassword();
-                break;
-                case 'extranet_notificationPasswordMessage':
-                    return $extranetConfig->getSgNotificationPasswordMessage();
-                break;
-                case 'extranet_notificationPasswordMessageLanguage':
-                    return $extranetConfig->getSgNotificationPasswordMessageLanguage();
-                break;
-                case 'extranet_notificationSubscription':
-                    return $extranetConfig->getSgNotificationSubscription();
-                break;
-                case 'extranet_notificationSubscriptionMessage':
-                    return $extranetConfig->getSgNotificationSubscriptionMessage();
-                break;
-                case 'extranet_notificationSubscriptionMessageLanguage':
-                    return $extranetConfig->getSgNotificationSubscriptionMessageLanguage();
-                break;
-                case 'extranet_contentArticleExtranetHeadline':
-                    return $extranetConfig->getSgContentArticleExtranetHeadline();
-                break;
-                case 'extranet_contentArticleExtranetModuleLoginGuests':
-                    return $extranetConfig->getSgContentArticleExtranetModuleLoginGuests();
-                break;
-                case 'extranet_contentArticleExtranetGridStartA':
-                    return $extranetConfig->getSgContentArticleExtranetGridStartA();
-                break;
-                case 'extranet_contentArticleExtranetGridStartB':
-                    return $extranetConfig->getSgContentArticleExtranetGridStartB();
-                break;
-                case 'extranet_contentArticleExtranetModuleLoginLogged':
-                    return $extranetConfig->getSgContentArticleExtranetModuleLoginLogged();
-                break;
-                case 'extranet_contentArticleExtranetModuleNav':
-                    return $extranetConfig->getSgContentArticleExtranetModuleNav();
-                break;
-                case 'extranet_contentArticleExtranetGridStopB':
-                    return $extranetConfig->getSgContentArticleExtranetGridStopB();
-                break;
-                case 'extranet_contentArticleExtranetGridStopA':
-                    return $extranetConfig->getSgContentArticleExtranetGridStopA();
-                break;
-                case 'extranet_contentArticle401Headline':
-                    return $extranetConfig->getSgContentArticle401Headline();
-                break;
-                case 'extranet_contentArticle401Text':
-                    return $extranetConfig->getSgContentArticle401Text();
-                break;
-                case 'extranet_contentArticle401ModuleLoginGuests':
-                    return $extranetConfig->getSgContentArticle401ModuleLoginGuests();
-                break;
-                case 'extranet_contentArticle403Headline':
-                    return $extranetConfig->getSgContentArticle403Headline();
-                break;
-                case 'extranet_contentArticle403Text':
-                    return $extranetConfig->getSgContentArticle403Text();
-                break;
-                case 'extranet_contentArticle403Hyperlink':
-                    return $extranetConfig->getSgContentArticle403Hyperlink();
-                break;
-                case 'extranet_contentArticleContentHeadline':
-                    return $extranetConfig->getSgContentArticleContentHeadline();
-                break;
-                case 'extranet_contentArticleContentText':
-                    return $extranetConfig->getSgContentArticleContentText();
-                break;
-                case 'extranet_contentArticleDataHeadline':
-                    return $extranetConfig->getSgContentArticleDataHeadline();
-                break;
-                case 'extranet_contentArticleDataModuleData':
-                    return $extranetConfig->getSgContentArticleDataModuleData();
-                break;
-                case 'extranet_contentArticleDataHeadlineCloseAccount':
-                    return $extranetConfig->getSgContentArticleDataHeadlineCloseAccount();
-                break;
-                case 'extranet_contentArticleDataTextCloseAccount':
-                    return $extranetConfig->getSgContentArticleDataTextCloseAccount();
-                break;
-                case 'extranet_contentArticleDataModuleCloseAccount':
-                    return $extranetConfig->getSgContentArticleDataModuleCloseAccount();
-                break;
-                case 'extranet_contentArticleDataConfirmHeadline':
-                    return $extranetConfig->getSgContentArticleDataConfirmHeadline();
-                break;
-                case 'extranet_contentArticleDataConfirmText':
-                    return $extranetConfig->getSgContentArticleDataConfirmText();
-                break;
-                case 'extranet_contentArticleDataConfirmHyperlink':
-                    return $extranetConfig->getSgContentArticleDataConfirmHyperlink();
-                break;
-                case 'extranet_contentArticlePasswordHeadline':
-                    return $extranetConfig->getSgContentArticlePasswordHeadline();
-                break;
-                case 'extranet_contentArticlePasswordModulePassword':
-                    return $extranetConfig->getSgContentArticlePasswordModulePassword();
-                break;
-                case 'extranet_contentArticlePasswordConfirmHeadline':
-                    return $extranetConfig->getSgContentArticlePasswordConfirmHeadline();
-                break;
-                case 'extranet_contentArticlePasswordConfirmText':
-                    return $extranetConfig->getSgContentArticlePasswordConfirmText();
-                break;
-                case 'extranet_contentArticlePasswordValidateHeadline':
-                    return $extranetConfig->getSgContentArticlePasswordValidateHeadline();
-                break;
-                case 'extranet_contentArticlePasswordValidateModulePassword':
-                    return $extranetConfig->getSgContentArticlePasswordValidateModulePassword();
-                break;
-                case 'extranet_contentArticleLogoutModuleLogout':
-                    return $extranetConfig->getSgContentArticleLogoutModuleLogout();
-                break;
-                case 'extranet_contentArticleSubscribeHeadline':
-                    return $extranetConfig->getSgContentArticleSubscribeHeadline();
-                break;
-                case 'extranet_contentArticleSubscribeModuleSubscribe':
-                    return $extranetConfig->getSgContentArticleSubscribeModuleSubscribe();
-                break;
-                case 'extranet_contentArticleSubscribeConfirmHeadline':
-                    return $extranetConfig->getSgContentArticleSubscribeConfirmHeadline();
-                break;
-                case 'extranet_contentArticleSubscribeConfirmText':
-                    return $extranetConfig->getSgContentArticleSubscribeConfirmText();
-                break;
-                case 'extranet_contentArticleSubscribeValidateHeadline':
-                    return $extranetConfig->getSgContentArticleSubscribeValidateHeadline();
-                break;
-                case 'extranet_contentArticleSubscribeValidateText':
-                    return $extranetConfig->getSgContentArticleSubscribeValidateText();
-                break;
-                case 'extranet_contentArticleSubscribeValidateModuleLoginGuests':
-                    return $extranetConfig->getSgContentArticleSubscribeValidateModuleLoginGuests();
-                break;
-                case 'extranet_contentArticleUnsubscribeHeadline':
-                    return $extranetConfig->getSgContentArticleUnsubscribeHeadline();
-                break;
-                case 'extranet_contentArticleUnsubscribeText':
-                    return $extranetConfig->getSgContentArticleUnsubscribeText();
-                break;
-                case 'extranet_contentArticleUnsubscribeHyperlink':
-                    return $extranetConfig->getSgContentArticleUnsubscribeHyperlink();
-                break;
-                case 'extranet_archived':
-                    return $extranetConfig->getSgArchived() ? '1' : '0';
-                break;
-                case 'extranet_archivedAt':
-                    return $extranetConfig->getSgArchivedAt();
-                break;
-                case 'extranet_archivedMode':
-                    return $extranetConfig->getSgArchivedMode();
-                break;
-                default:
-                return static::NOT_HANDLED;
-            }
+            return match ($elements[1]) {
+                'extranet_installComplete' => $extranetConfig->getSgInstallComplete() ? '1' : '0',
+                'extranet_extranetFolder' => $extranetConfig->getSgExtranetFolder(),
+                'extranet_canSubscribe' => $extranetConfig->getSgCanSubscribe() ? '1' : '0',
+                'extranet_memberExample' => $extranetConfig->getSgMemberExample(),
+                'extranet_memberGroupMembers' => $extranetConfig->getSgMemberGroupMembers(),
+                'extranet_memberGroupMembersTitle' => $extranetConfig->getSgMemberGroupMembersTitle(),
+                'extranet_pageExtranetTitle' => $extranetConfig->getSgPageExtranetTitle(),
+                'extranet_pageExtranet' => $extranetConfig->getSgPageExtranet(),
+                'extranet_page401' => $extranetConfig->getSgPage401(),
+                'extranet_page403' => $extranetConfig->getSgPage403(),
+                'extranet_pageContent' => $extranetConfig->getSgPageContent(),
+                'extranet_pageData' => $extranetConfig->getSgPageData(),
+                'extranet_pageDataConfirm' => $extranetConfig->getSgPageDataConfirm(),
+                'extranet_pagePassword' => $extranetConfig->getSgPagePassword(),
+                'extranet_pagePasswordConfirm' => $extranetConfig->getSgPagePasswordConfirm(),
+                'extranet_pagePasswordValidate' => $extranetConfig->getSgPagePasswordValidate(),
+                'extranet_pageLogout' => $extranetConfig->getSgPageLogout(),
+                'extranet_pageSubscribe' => $extranetConfig->getSgPageSubscribe(),
+                'extranet_pageSubscribeConfirm' => $extranetConfig->getSgPageSubscribeConfirm(),
+                'extranet_pageSubscribeValidate' => $extranetConfig->getSgPageSubscribeValidate(),
+                'extranet_pageUnsubscribeConfirm' => $extranetConfig->getSgPageUnsubscribeConfirm(),
+                'extranet_articleExtranet' => $extranetConfig->getSgArticleExtranet(),
+                'extranet_article401' => $extranetConfig->getSgArticle401(),
+                'extranet_article403' => $extranetConfig->getSgArticle403(),
+                'extranet_articleContent' => $extranetConfig->getSgArticleContent(),
+                'extranet_articleData' => $extranetConfig->getSgArticleData(),
+                'extranet_articleDataConfirm' => $extranetConfig->getSgArticleDataConfirm(),
+                'extranet_articlePassword' => $extranetConfig->getSgArticlePassword(),
+                'extranet_articlePasswordConfirm' => $extranetConfig->getSgArticlePasswordConfirm(),
+                'extranet_articlePasswordValidate' => $extranetConfig->getSgArticlePasswordValidate(),
+                'extranet_articleLogout' => $extranetConfig->getSgArticleLogout(),
+                'extranet_articleSubscribe' => $extranetConfig->getSgArticleSubscribe(),
+                'extranet_articleSubscribeConfirm' => $extranetConfig->getSgArticleSubscribeConfirm(),
+                'extranet_articleSubscribeValidate' => $extranetConfig->getSgArticleSubscribeValidate(),
+                'extranet_articleUnsubscribeConfirm' => $extranetConfig->getSgArticleUnsubscribeConfirm(),
+                'extranet_moduleLogin' => $extranetConfig->getSgModuleLogin(),
+                'extranet_moduleLogout' => $extranetConfig->getSgModuleLogout(),
+                'extranet_moduleData' => $extranetConfig->getSgModuleData(),
+                'extranet_modulePassword' => $extranetConfig->getSgModulePassword(),
+                'extranet_moduleNav' => $extranetConfig->getSgModuleNav(),
+                'extranet_moduleSubscribe' => $extranetConfig->getSgModuleSubscribe(),
+                'extranet_moduleCloseAccount' => $extranetConfig->getSgModuleCloseAccount(),
+                'extranet_notificationChangeData' => $extranetConfig->getSgNotificationChangeData(),
+                'extranet_notificationChangeDataMessage' => $extranetConfig->getSgNotificationChangeDataMessage(),
+                'extranet_notificationChangeDataMessageLanguage' => $extranetConfig->getSgNotificationChangeDataMessageLanguage(),
+                'extranet_notificationPassword' => $extranetConfig->getSgNotificationPassword(),
+                'extranet_notificationPasswordMessage' => $extranetConfig->getSgNotificationPasswordMessage(),
+                'extranet_notificationPasswordMessageLanguage' => $extranetConfig->getSgNotificationPasswordMessageLanguage(),
+                'extranet_notificationSubscription' => $extranetConfig->getSgNotificationSubscription(),
+                'extranet_notificationSubscriptionMessage' => $extranetConfig->getSgNotificationSubscriptionMessage(),
+                'extranet_notificationSubscriptionMessageLanguage' => $extranetConfig->getSgNotificationSubscriptionMessageLanguage(),
+                'extranet_contentArticleExtranetHeadline' => $extranetConfig->getSgContentArticleExtranetHeadline(),
+                'extranet_contentArticleExtranetModuleLoginGuests' => $extranetConfig->getSgContentArticleExtranetModuleLoginGuests(),
+                'extranet_contentArticleExtranetGridStartA' => $extranetConfig->getSgContentArticleExtranetGridStartA(),
+                'extranet_contentArticleExtranetGridStartB' => $extranetConfig->getSgContentArticleExtranetGridStartB(),
+                'extranet_contentArticleExtranetModuleLoginLogged' => $extranetConfig->getSgContentArticleExtranetModuleLoginLogged(),
+                'extranet_contentArticleExtranetModuleNav' => $extranetConfig->getSgContentArticleExtranetModuleNav(),
+                'extranet_contentArticleExtranetGridStopB' => $extranetConfig->getSgContentArticleExtranetGridStopB(),
+                'extranet_contentArticleExtranetGridStopA' => $extranetConfig->getSgContentArticleExtranetGridStopA(),
+                'extranet_contentArticle401Headline' => $extranetConfig->getSgContentArticle401Headline(),
+                'extranet_contentArticle401Text' => $extranetConfig->getSgContentArticle401Text(),
+                'extranet_contentArticle401ModuleLoginGuests' => $extranetConfig->getSgContentArticle401ModuleLoginGuests(),
+                'extranet_contentArticle403Headline' => $extranetConfig->getSgContentArticle403Headline(),
+                'extranet_contentArticle403Text' => $extranetConfig->getSgContentArticle403Text(),
+                'extranet_contentArticle403Hyperlink' => $extranetConfig->getSgContentArticle403Hyperlink(),
+                'extranet_contentArticleContentHeadline' => $extranetConfig->getSgContentArticleContentHeadline(),
+                'extranet_contentArticleContentText' => $extranetConfig->getSgContentArticleContentText(),
+                'extranet_contentArticleDataHeadline' => $extranetConfig->getSgContentArticleDataHeadline(),
+                'extranet_contentArticleDataModuleData' => $extranetConfig->getSgContentArticleDataModuleData(),
+                'extranet_contentArticleDataHeadlineCloseAccount' => $extranetConfig->getSgContentArticleDataHeadlineCloseAccount(),
+                'extranet_contentArticleDataTextCloseAccount' => $extranetConfig->getSgContentArticleDataTextCloseAccount(),
+                'extranet_contentArticleDataModuleCloseAccount' => $extranetConfig->getSgContentArticleDataModuleCloseAccount(),
+                'extranet_contentArticleDataConfirmHeadline' => $extranetConfig->getSgContentArticleDataConfirmHeadline(),
+                'extranet_contentArticleDataConfirmText' => $extranetConfig->getSgContentArticleDataConfirmText(),
+                'extranet_contentArticleDataConfirmHyperlink' => $extranetConfig->getSgContentArticleDataConfirmHyperlink(),
+                'extranet_contentArticlePasswordHeadline' => $extranetConfig->getSgContentArticlePasswordHeadline(),
+                'extranet_contentArticlePasswordModulePassword' => $extranetConfig->getSgContentArticlePasswordModulePassword(),
+                'extranet_contentArticlePasswordConfirmHeadline' => $extranetConfig->getSgContentArticlePasswordConfirmHeadline(),
+                'extranet_contentArticlePasswordConfirmText' => $extranetConfig->getSgContentArticlePasswordConfirmText(),
+                'extranet_contentArticlePasswordValidateHeadline' => $extranetConfig->getSgContentArticlePasswordValidateHeadline(),
+                'extranet_contentArticlePasswordValidateModulePassword' => $extranetConfig->getSgContentArticlePasswordValidateModulePassword(),
+                'extranet_contentArticleLogoutModuleLogout' => $extranetConfig->getSgContentArticleLogoutModuleLogout(),
+                'extranet_contentArticleSubscribeHeadline' => $extranetConfig->getSgContentArticleSubscribeHeadline(),
+                'extranet_contentArticleSubscribeModuleSubscribe' => $extranetConfig->getSgContentArticleSubscribeModuleSubscribe(),
+                'extranet_contentArticleSubscribeConfirmHeadline' => $extranetConfig->getSgContentArticleSubscribeConfirmHeadline(),
+                'extranet_contentArticleSubscribeConfirmText' => $extranetConfig->getSgContentArticleSubscribeConfirmText(),
+                'extranet_contentArticleSubscribeValidateHeadline' => $extranetConfig->getSgContentArticleSubscribeValidateHeadline(),
+                'extranet_contentArticleSubscribeValidateText' => $extranetConfig->getSgContentArticleSubscribeValidateText(),
+                'extranet_contentArticleSubscribeValidateModuleLoginGuests' => $extranetConfig->getSgContentArticleSubscribeValidateModuleLoginGuests(),
+                'extranet_contentArticleUnsubscribeHeadline' => $extranetConfig->getSgContentArticleUnsubscribeHeadline(),
+                'extranet_contentArticleUnsubscribeText' => $extranetConfig->getSgContentArticleUnsubscribeText(),
+                'extranet_contentArticleUnsubscribeHyperlink' => $extranetConfig->getSgContentArticleUnsubscribeHyperlink(),
+                'extranet_archived' => $extranetConfig->getSgArchived() ? '1' : '0',
+                'extranet_archivedAt' => $extranetConfig->getSgArchivedAt(),
+                'extranet_archivedMode' => $extranetConfig->getSgArchivedMode(),
+                default => static::NOT_HANDLED,
+            };
         }
 
         return static::NOT_HANDLED;

@@ -32,14 +32,12 @@ class ProcessFormDataListener
 {
     /** @var CoreConfigurationManager */
     protected $coreConfigurationManager;
-    protected $routingCandidates;
 
     public function __construct(
         CoreConfigurationManager $coreConfigurationManager,
-        $routingCandidates
+        protected $routingCandidates
     ) {
         $this->coreConfigurationManager = $coreConfigurationManager;
-        $this->routingCandidates = $routingCandidates;
     }
 
     public function __invoke(

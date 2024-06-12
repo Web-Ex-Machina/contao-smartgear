@@ -21,13 +21,9 @@ use WEM\SmartgearBundle\DataContainer\Core;
 
 class StyleManagerArchive extends Core
 {
-    /** @var TranslatorInterface */
-    private $translator;
-
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(private TranslatorInterface $translator)
     {
         parent::__construct();
-        $this->translator = $translator;
     }
 
     public function listItems(array $row, string $label, DataContainer $dc, array $labels): string

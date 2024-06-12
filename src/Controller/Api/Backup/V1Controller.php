@@ -37,20 +37,16 @@ class V1Controller extends Controller
     protected $translator;
     /** @var Api */
     protected $api;
-    protected ContaoFramework $framework;
-    protected Token $securityToken;
 
     public function __construct(
-        ContaoFramework $framework, 
+        protected ContaoFramework $framework, 
         TranslatorInterface $translator,
         Api $api,
-        Token $securityToken
+        protected Token $securityToken
     )
     {
-        $this->framework = $framework;
         $this->translator = $translator;
         $this->api = $api;
-        $this->securityToken = $securityToken;
         $this->framework->initialize();
     }
 

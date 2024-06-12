@@ -58,7 +58,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
     ) {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
-        if ('sg' === $key && 'formDataManager' === substr($elements[1], 0, 15)) {
+        if ('sg' === $key && str_starts_with($elements[1], 'formDataManager')) {
             return static::NOT_HANDLED;
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
@@ -69,22 +69,13 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 return static::NOT_HANDLED;
             }
 
-            switch ($elements[1]) {
-                case 'formDataManager_installComplete':
-                    return $formDataManagerConfig->getSgInstallComplete() ? '1' : '0';
-                break;
-                case 'formDataManager_archived':
-                    return $formDataManagerConfig->getSgArchived() ? '1' : '0';
-                break;
-                case 'formDataManager_archivedAt':
-                    return $formDataManagerConfig->getSgArchivedAt();
-                break;
-                case 'formDataManager_archivedMode':
-                    return $formDataManagerConfig->getSgArchivedMode();
-                break;
-                default:
-                return static::NOT_HANDLED;
-            }
+            return match ($elements[1]) {
+                'formDataManager_installComplete' => $formDataManagerConfig->getSgInstallComplete() ? '1' : '0',
+                'formDataManager_archived' => $formDataManagerConfig->getSgArchived() ? '1' : '0',
+                'formDataManager_archivedAt' => $formDataManagerConfig->getSgArchivedAt(),
+                'formDataManager_archivedMode' => $formDataManagerConfig->getSgArchivedMode(),
+                default => static::NOT_HANDLED,
+            };
         }
 
         return static::NOT_HANDLED;

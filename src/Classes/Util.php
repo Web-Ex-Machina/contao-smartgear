@@ -201,7 +201,7 @@ class Util
     {
         try {
             // If module is missing, try to explode strType
-            if ('' === $strModule && false !== strpos($strType, '_')) {
+            if ('' === $strModule && str_contains($strType, '_')) {
                 $arrObject = explode('_', $strType);
                 $strType = $arrObject[0];
                 $strModule = $arrObject[1];
@@ -339,7 +339,7 @@ class Util
             $ext = substr($data[0], strpos($data[0], '/') + 1, (strpos($data[0], ';') - strpos($data[0], '/') - 1));
             $img = base64_decode($data[1], true);
 
-            if (false === strpos(Config::get('validImageTypes'), $ext)) {
+            if (!str_contains(Config::get('validImageTypes'), $ext)) {
                 throw new \Exception('Invalid image type : '.$ext);
             }
 
@@ -579,7 +579,7 @@ class Util
                         if ($action['attrs']) {
                             if (!$action['attrs']['class']) {
                                 $action['attrs']['class'] = 'tl_submit';
-                            } elseif (false === strpos($action['attrs']['class'], 'tl_submit')) {
+                            } elseif (!str_contains($action['attrs']['class'], 'tl_submit')) {
                                 $action['attrs']['class'] .= ' tl_submit';
                             }
 

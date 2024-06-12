@@ -58,7 +58,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
     ) {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
-        if ('sg' === $key && 'faq' === substr($elements[1], 0, 3)) {
+        if ('sg' === $key && str_starts_with($elements[1], 'faq')) {
             return static::NOT_HANDLED;
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
@@ -69,46 +69,21 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 return static::NOT_HANDLED;
             }
 
-            switch ($elements[1]) {
-                case 'faq_installComplete':
-                    return $faqConfig->getSgInstallComplete() ? '1' : '0';
-                break;
-                case 'faq_faqFolder':
-                    return $faqConfig->getSgFaqFolder();
-                break;
-                case 'faq_pageTitle':
-                    return $faqConfig->getSgPageTitle();
-                break;
-                case 'faq_faqTitle':
-                    return $faqConfig->getSgFaqTitle();
-                break;
-                case 'faq_page':
-                    return $faqConfig->getSgPage();
-                break;
-                case 'faq_article':
-                    return (string) $faqConfig->getSgArticle();
-                break;
-                case 'faq_content':
-                    return (string) $faqConfig->getSgContent();
-                break;
-                case 'faq_moduleFaq':
-                    return $faqConfig->getSgModuleFaq();
-                break;
-                case 'faq_faqCategory':
-                    return $faqConfig->getSgFaqCategory();
-                break;
-                case 'faq_archived':
-                    return $faqConfig->getSgArchived() ? '1' : '0';
-                break;
-                case 'faq_archivedAt':
-                    return $faqConfig->getSgArchivedAt();
-                break;
-                case 'faq_archivedMode':
-                    return $faqConfig->getSgArchivedMode();
-                break;
-                default:
-                return static::NOT_HANDLED;
-            }
+            return match ($elements[1]) {
+                'faq_installComplete' => $faqConfig->getSgInstallComplete() ? '1' : '0',
+                'faq_faqFolder' => $faqConfig->getSgFaqFolder(),
+                'faq_pageTitle' => $faqConfig->getSgPageTitle(),
+                'faq_faqTitle' => $faqConfig->getSgFaqTitle(),
+                'faq_page' => $faqConfig->getSgPage(),
+                'faq_article' => (string) $faqConfig->getSgArticle(),
+                'faq_content' => (string) $faqConfig->getSgContent(),
+                'faq_moduleFaq' => $faqConfig->getSgModuleFaq(),
+                'faq_faqCategory' => $faqConfig->getSgFaqCategory(),
+                'faq_archived' => $faqConfig->getSgArchived() ? '1' : '0',
+                'faq_archivedAt' => $faqConfig->getSgArchivedAt(),
+                'faq_archivedMode' => $faqConfig->getSgArchivedMode(),
+                default => static::NOT_HANDLED,
+            };
         }
 
         return static::NOT_HANDLED;

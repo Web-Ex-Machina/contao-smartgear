@@ -32,23 +32,14 @@ use WEM\SmartgearBundle\Exceptions\Api\InvalidTokenException;
  */
 class V1Controller extends Controller
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    protected Api $api;
-    protected ApiKey $securityApiKey;
-    protected Token $securityToken;
-
     public function __construct(
-        TranslatorInterface $translator,
-        Api $api,
-        ApiKey $securityApiKey,
-        Token $securityToken
+        protected TranslatorInterface $translator,
+        protected Api $api,
+        protected ApiKey $securityApiKey,
+        protected Token $securityToken
     )
     {
-        $this->translator = $translator;
-        $this->api = $api;
-        $this->securityApiKey = $securityApiKey;
-        $this->securityToken = $securityToken;
+        parent::__construct();
     }
 
     /**

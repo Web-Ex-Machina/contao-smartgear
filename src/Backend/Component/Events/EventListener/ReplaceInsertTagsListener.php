@@ -57,7 +57,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
     ) {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
-        if ('sg' === $key && 'events' === substr($elements[1], 0, 6)) {
+        if ('sg' === $key && str_starts_with($elements[1], 'events')) {
             return static::NOT_HANDLED;
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
@@ -67,55 +67,24 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 return static::NOT_HANDLED;
             }
 
-            switch ($elements[1]) {
-                case 'events_installComplete':
-                    return $eventsConfig->getSgInstallComplete() ? '1' : '0';
-                break;
-                case 'events_calendar':
-                    return $eventsConfig->getSgCalendar();
-                break;
-                case 'events_page':
-                    return $eventsConfig->getSgPage();
-                break;
-                case 'events_article':
-                    return (string) $eventsConfig->getSgArticle();
-                break;
-                case 'events_contentList':
-                    return (string) $eventsConfig->getSgContentList();
-                break;
-                case 'events_moduleReader':
-                    return $eventsConfig->getSgModuleReader();
-                break;
-                case 'events_moduleList':
-                    return $eventsConfig->getSgModuleList();
-                break;
-                case 'events_moduleCalendar':
-                    return $eventsConfig->getSgModuleCalendar();
-                break;
-                case 'events_archived':
-                    return $eventsConfig->getSgArchived() ? '1' : '0';
-                break;
-                case 'events_archivedAt':
-                    return $eventsConfig->getSgArchivedAt();
-                break;
-                case 'events_archivedMode':
-                    return $eventsConfig->getSgArchivedMode();
-                break;
-                case 'events_eventsFolder':
-                    return $eventsConfig->getSgEventsFolder();
-                break;
-                case 'events_calendarTitle':
-                    return $eventsConfig->getSgCalendarTitle();
-                break;
-                case 'events_eventsListPerPage':
-                    return $eventsConfig->getSgEventsListPerPage();
-                break;
-                case 'events_eventsPageTitle':
-                    return $eventsConfig->getSgPageTitle();
-                break;
-                default:
-                return static::NOT_HANDLED;
-            }
+            return match ($elements[1]) {
+                'events_installComplete' => $eventsConfig->getSgInstallComplete() ? '1' : '0',
+                'events_calendar' => $eventsConfig->getSgCalendar(),
+                'events_page' => $eventsConfig->getSgPage(),
+                'events_article' => (string) $eventsConfig->getSgArticle(),
+                'events_contentList' => (string) $eventsConfig->getSgContentList(),
+                'events_moduleReader' => $eventsConfig->getSgModuleReader(),
+                'events_moduleList' => $eventsConfig->getSgModuleList(),
+                'events_moduleCalendar' => $eventsConfig->getSgModuleCalendar(),
+                'events_archived' => $eventsConfig->getSgArchived() ? '1' : '0',
+                'events_archivedAt' => $eventsConfig->getSgArchivedAt(),
+                'events_archivedMode' => $eventsConfig->getSgArchivedMode(),
+                'events_eventsFolder' => $eventsConfig->getSgEventsFolder(),
+                'events_calendarTitle' => $eventsConfig->getSgCalendarTitle(),
+                'events_eventsListPerPage' => $eventsConfig->getSgEventsListPerPage(),
+                'events_eventsPageTitle' => $eventsConfig->getSgPageTitle(),
+                default => static::NOT_HANDLED,
+            };
         }
 
         return static::NOT_HANDLED;

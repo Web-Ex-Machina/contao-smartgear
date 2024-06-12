@@ -20,12 +20,8 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 
 class AbstractUpdateCommand extends AbstractCommand
 {
-    protected UpdateManager $updateManager;
-
-    public function __construct(UpdateManager $updateManager, ContaoFramework $framework)
+    public function __construct(protected UpdateManager $updateManager, ContaoFramework $framework)
     {
-        $this->updateManager = $updateManager;
-
         parent::__construct($framework);
 
         $this->framework->initialize();

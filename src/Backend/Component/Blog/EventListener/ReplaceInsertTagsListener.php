@@ -57,7 +57,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
     ) {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
-        if ('sg' === $key && 'blog' === substr($elements[1], 0, 4)) {
+        if ('sg' === $key && str_starts_with($elements[1], 'blog')) {
             return static::NOT_HANDLED;
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
@@ -67,58 +67,25 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
                 return static::NOT_HANDLED;
             }
 
-            switch ($elements[1]) {
-                case 'blog_installComplete':
-                    return $blogConfig->getSgInstallComplete() ? '1' : '0';
-                break;
-                case 'blog_newsArchive':
-                    return (string) $blogConfig->getSgNewsArchive();
-                break;
-                case 'blog_page':
-                    return (string) $blogConfig->getSgPage();
-                break;
-                case 'blog_article':
-                    return (string) $blogConfig->getSgArticle();
-                break;
-                case 'blog_contentHeadline':
-                    return (string) $blogConfig->getSgContentHeadline();
-                break;
-                case 'blog_contentList':
-                    return (string) $blogConfig->getSgContentList();
-                break;
-                case 'blog_moduleReader':
-                    return (string) $blogConfig->getSgModuleReader();
-                break;
-                case 'blog_moduleList':
-                    return (string) $blogConfig->getSgModuleList();
-                break;
-                case 'blog_currentPresetIndex':
-                    return (string) $blogConfig->getSgCurrentPresetIndex();
-                break;
-                case 'blog_archived':
-                    return $blogConfig->getSgArchived() ? '1' : '0';
-                break;
-                case 'blog_archivedAt':
-                    return (string) $blogConfig->getSgArchivedAt();
-                break;
-                case 'blog_archivedMode':
-                    return $blogConfig->getSgArchivedMode();
-                break;
-                case 'blog_newsFolder':
-                    return $blogConfig->getCurrentPreset()->getSgNewsFolder();
-                break;
-                case 'blog_newsArchiveTitle':
-                    return $blogConfig->getCurrentPreset()->getSgNewsArchiveTitle();
-                break;
-                case 'blog_newsListPerPage':
-                    return (string) $blogConfig->getCurrentPreset()->getSgNewsListPerPage();
-                break;
-                case 'blog_newsPageTitle':
-                    return $blogConfig->getCurrentPreset()->getSgPageTitle();
-                break;
-                default:
-                return static::NOT_HANDLED;
-            }
+            return match ($elements[1]) {
+                'blog_installComplete' => $blogConfig->getSgInstallComplete() ? '1' : '0',
+                'blog_newsArchive' => (string) $blogConfig->getSgNewsArchive(),
+                'blog_page' => (string) $blogConfig->getSgPage(),
+                'blog_article' => (string) $blogConfig->getSgArticle(),
+                'blog_contentHeadline' => (string) $blogConfig->getSgContentHeadline(),
+                'blog_contentList' => (string) $blogConfig->getSgContentList(),
+                'blog_moduleReader' => (string) $blogConfig->getSgModuleReader(),
+                'blog_moduleList' => (string) $blogConfig->getSgModuleList(),
+                'blog_currentPresetIndex' => (string) $blogConfig->getSgCurrentPresetIndex(),
+                'blog_archived' => $blogConfig->getSgArchived() ? '1' : '0',
+                'blog_archivedAt' => (string) $blogConfig->getSgArchivedAt(),
+                'blog_archivedMode' => $blogConfig->getSgArchivedMode(),
+                'blog_newsFolder' => $blogConfig->getCurrentPreset()->getSgNewsFolder(),
+                'blog_newsArchiveTitle' => $blogConfig->getCurrentPreset()->getSgNewsArchiveTitle(),
+                'blog_newsListPerPage' => (string) $blogConfig->getCurrentPreset()->getSgNewsListPerPage(),
+                'blog_newsPageTitle' => $blogConfig->getCurrentPreset()->getSgPageTitle(),
+                default => static::NOT_HANDLED,
+            };
         }
 
         return static::NOT_HANDLED;

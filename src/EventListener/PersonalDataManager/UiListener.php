@@ -245,14 +245,10 @@ class UiListener
 
     public function renderSingleItemBodyPersonalDataSingleFieldLabel(int $pid, string $ptable, string $email, PersonalData $personalData, array $personalDatas, Model $originalModel, string $buffer): string
     {
-        switch ($ptable) {
-            case FormStorage::getTable():
-            case FormStorageData::getTable():
-                $buffer = $personalData->field_label ?? $buffer;
-            break;
-        }
-
-        return $buffer;
+        return match ($ptable) {
+            FormStorage::getTable(), FormStorageData::getTable() => $personalData->field_label ?? $buffer,
+            default => $buffer,
+        };
     }
 
     public function renderSingleItemBodyPersonalDataSingle(int $pid, string $ptable, string $email, PersonalData $personalData, array $personalDatas, Model $originalModel, string $buffer): string

@@ -196,9 +196,6 @@ class UtilFramway
         return $this->configurationRootFilePath;
     }
 
-    /**
-     * @param mixed $configurationRootFilePath
-     */
     public function setConfigurationRootFilePath(?string $configurationRootFilePath = null): self
     {
         $this->configurationRootFilePath = $configurationRootFilePath;

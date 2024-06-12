@@ -319,9 +319,6 @@ class Blog implements ConfigModuleInterface
         return $this->sgPage;
     }
 
-    /**
-     * @param mixed $sgPage
-     */
     public function setSgPage(?int $sgPage): self
     {
         $this->sgPage = $sgPage;

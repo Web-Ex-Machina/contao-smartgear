@@ -66,14 +66,10 @@ class Resetter extends BackendResetter
         $this->resetUserGroupSettings();
         $archiveTimestamp = time();
 
-        switch ($mode) {
-            case FormDataManagerConfig::ARCHIVE_MODE_DELETE:
-                $this->archiveModeDelete($formDataManagerConfig);
-            break;
-            default:
-                throw new \InvalidArgumentException($this->translator->trans('WEMSG.FDM.RESET.deleteModeUnknown', [], 'contao_default'));
-            break;
-        }
+        match ($mode) {
+            FormDataManagerConfig::ARCHIVE_MODE_DELETE => $this->archiveModeDelete($formDataManagerConfig),
+            default => throw new \InvalidArgumentException($this->translator->trans('WEMSG.FDM.RESET.deleteModeUnknown', [], 'contao_default')),
+        };
 
         $formDataManagerConfig
             ->setSgInstallComplete(false)

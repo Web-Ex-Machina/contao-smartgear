@@ -9,13 +9,10 @@ use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class Token{
 	
-    protected ContaoFramework $framework;
-
     public function __construct(
-        ContaoFramework $framework
+        protected ContaoFramework $framework
     )
     {
-        $this->framework = $framework;
         $this->framework->initialize();
     }
 

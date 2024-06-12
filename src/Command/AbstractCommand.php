@@ -21,12 +21,8 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 
 class AbstractCommand extends Command
 {
-    protected ContaoFramework $framework;
-
-    public function __construct(ContaoFramework $framework)
+    public function __construct(protected ContaoFramework $framework)
     {
-        $this->framework = $framework;
-
         parent::__construct();
 
         $this->framework->initialize();

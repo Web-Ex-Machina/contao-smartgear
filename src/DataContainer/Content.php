@@ -126,7 +126,7 @@ class Content extends Backend
      */
     public function showJsLibraryHint($dc): void
     {
-        if ('tl_content' === \get_class($this->parent)) {
+        if ('tl_content' === $this->parent::class) {
             $objCte = ContentModel::findByPk($dc->id);
             if (null === $objCte) {
                 return;

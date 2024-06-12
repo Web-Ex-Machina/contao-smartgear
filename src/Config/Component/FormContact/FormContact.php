@@ -428,9 +428,6 @@ class FormContact implements ConfigModuleInterface
         return $this->sgFormContactTitle;
     }
 
-    /**
-     * @param mixed $sgFormContactTitle
-     */
     public function setSgFormContactTitle(string $sgFormContactTitle): self
     {
         $this->sgFormContactTitle = $sgFormContactTitle;
@@ -446,9 +443,6 @@ class FormContact implements ConfigModuleInterface
         return $this->sgPageTitle;
     }
 
-    /**
-     * @param mixed $sgPageTitle
-     */
     public function setSgPageTitle(string $sgPageTitle): self
     {
         $this->sgPageTitle = $sgPageTitle;

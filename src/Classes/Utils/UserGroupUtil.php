@@ -383,46 +383,21 @@ class UserGroupUtil
 
     public static function updateAddUserGroupSettingsAccordingToConfigurationItem(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
     {
-        switch ($objConfigurationItem->type) {
-            case ConfigurationItem::TYPE_PAGE_SITEMAP:
-                $objUserGroup = self::updateAddUserGroupSettingsPageSitemap($objUserGroup, $objConfigurationItem);
-            break;
-            case ConfigurationItem::TYPE_PAGE_LEGAL_NOTICE:
-                $objUserGroup = self::updateAddUserGroupSettingsPageLegalNotice($objUserGroup, $objConfigurationItem);
-            break;
-            case ConfigurationItem::TYPE_PAGE_PRIVACY_POLITICS:
-                $objUserGroup = self::updateAddUserGroupSettingsPagePrivacyPolitics($objUserGroup, $objConfigurationItem);
-            break;
-            case ConfigurationItem::TYPE_MODULE_BREADCRUMB:
-                $objUserGroup = self::updateAddUserGroupSettingsModuleBreadcrumb($objUserGroup, $objConfigurationItem);
-            break;
-            case ConfigurationItem::TYPE_MODULE_WEM_SG_HEADER:
-                $objUserGroup = self::updateAddUserGroupSettingsModuleWemSgHeader($objUserGroup, $objConfigurationItem);
-            break;
-            case ConfigurationItem::TYPE_MODULE_WEM_SG_FOOTER:
-                $objUserGroup = self::updateAddUserGroupSettingsModuleWemSgFooter($objUserGroup, $objConfigurationItem);
-            break;
-            case ConfigurationItem::TYPE_MODULE_WEM_SG_SOCIAL_NETWORKS:
-                $objUserGroup = self::updateAddUserGroupSettingsModuleWemSgSocialNetworks($objUserGroup, $objConfigurationItem);
-            break;
-            case ConfigurationItem::TYPE_MIXED_SITEMAP:
-                $objUserGroup = self::updateAddUserGroupSettingsSitemap($objUserGroup, $objConfigurationItem);
-            break;
-            case ConfigurationItem::TYPE_MIXED_BLOG:
-                $objUserGroup = self::updateAddUserGroupSettingsBlog($objUserGroup, $objConfigurationItem);
-            break;
-            case ConfigurationItem::TYPE_MIXED_EVENTS:
-                $objUserGroup = self::updateAddUserGroupSettingsEvents($objUserGroup, $objConfigurationItem);
-            break;
-            case ConfigurationItem::TYPE_MIXED_FAQ:
-                $objUserGroup = self::updateAddUserGroupSettingsFaq($objUserGroup, $objConfigurationItem);
-            break;
-            case ConfigurationItem::TYPE_MIXED_FORM_CONTACT:
-                $objUserGroup = self::updateAddUserGroupSettingsFormContact($objUserGroup, $objConfigurationItem);
-            break;
-        }
-
-        return $objUserGroup;
+        return match ($objConfigurationItem->type) {
+            ConfigurationItem::TYPE_PAGE_SITEMAP => self::updateAddUserGroupSettingsPageSitemap($objUserGroup, $objConfigurationItem),
+            ConfigurationItem::TYPE_PAGE_LEGAL_NOTICE => self::updateAddUserGroupSettingsPageLegalNotice($objUserGroup, $objConfigurationItem),
+            ConfigurationItem::TYPE_PAGE_PRIVACY_POLITICS => self::updateAddUserGroupSettingsPagePrivacyPolitics($objUserGroup, $objConfigurationItem),
+            ConfigurationItem::TYPE_MODULE_BREADCRUMB => self::updateAddUserGroupSettingsModuleBreadcrumb($objUserGroup, $objConfigurationItem),
+            ConfigurationItem::TYPE_MODULE_WEM_SG_HEADER => self::updateAddUserGroupSettingsModuleWemSgHeader($objUserGroup, $objConfigurationItem),
+            ConfigurationItem::TYPE_MODULE_WEM_SG_FOOTER => self::updateAddUserGroupSettingsModuleWemSgFooter($objUserGroup, $objConfigurationItem),
+            ConfigurationItem::TYPE_MODULE_WEM_SG_SOCIAL_NETWORKS => self::updateAddUserGroupSettingsModuleWemSgSocialNetworks($objUserGroup, $objConfigurationItem),
+            ConfigurationItem::TYPE_MIXED_SITEMAP => self::updateAddUserGroupSettingsSitemap($objUserGroup, $objConfigurationItem),
+            ConfigurationItem::TYPE_MIXED_BLOG => self::updateAddUserGroupSettingsBlog($objUserGroup, $objConfigurationItem),
+            ConfigurationItem::TYPE_MIXED_EVENTS => self::updateAddUserGroupSettingsEvents($objUserGroup, $objConfigurationItem),
+            ConfigurationItem::TYPE_MIXED_FAQ => self::updateAddUserGroupSettingsFaq($objUserGroup, $objConfigurationItem),
+            ConfigurationItem::TYPE_MIXED_FORM_CONTACT => self::updateAddUserGroupSettingsFormContact($objUserGroup, $objConfigurationItem),
+            default => $objUserGroup,
+        };
     }
 
     public static function updateAddUserGroupSettingsPageSitemap(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
@@ -602,22 +577,13 @@ class UserGroupUtil
     public static function updateRemoveUserGroupSettingsAccordingToConfigurationItem(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
     {
         $objUserGroup = self::updateRemoveUserGroupSettingsCommon($objUserGroup, $objConfigurationItem);
-        switch ($objConfigurationItem->type) {
-            case ConfigurationItem::TYPE_MIXED_BLOG:
-                $objUserGroup = self::updateRemoveUserGroupSettingsBlog($objUserGroup, $objConfigurationItem);
-            break;
-            case ConfigurationItem::TYPE_MIXED_EVENTS:
-                $objUserGroup = self::updateRemoveUserGroupSettingsEvents($objUserGroup, $objConfigurationItem);
-            break;
-            case ConfigurationItem::TYPE_MIXED_FAQ:
-                $objUserGroup = self::updateRemoveUserGroupSettingsFaq($objUserGroup, $objConfigurationItem);
-            break;
-            case ConfigurationItem::TYPE_MIXED_FORM_CONTACT:
-                $objUserGroup = self::updateRemoveUserGroupSettingsFormContact($objUserGroup, $objConfigurationItem);
-            break;
-        }
-
-        return $objUserGroup;
+        return match ($objConfigurationItem->type) {
+            ConfigurationItem::TYPE_MIXED_BLOG => self::updateRemoveUserGroupSettingsBlog($objUserGroup, $objConfigurationItem),
+            ConfigurationItem::TYPE_MIXED_EVENTS => self::updateRemoveUserGroupSettingsEvents($objUserGroup, $objConfigurationItem),
+            ConfigurationItem::TYPE_MIXED_FAQ => self::updateRemoveUserGroupSettingsFaq($objUserGroup, $objConfigurationItem),
+            ConfigurationItem::TYPE_MIXED_FORM_CONTACT => self::updateRemoveUserGroupSettingsFormContact($objUserGroup, $objConfigurationItem),
+            default => $objUserGroup,
+        };
     }
 
     public static function updateRemoveUserGroupSettingsBlog(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel

@@ -180,26 +180,13 @@ class Block extends Controller
     public function callback($key, $args = null)
     {
         try {
-            switch ($key) {
-                case 'toastrDisplay':
-                    return ['method' => 'toastrDisplay', 'args' => [$args[0], $args[1]]];
-                break;
-
-                case 'refreshBlock':
-                    return ['method' => 'refreshBlock', 'args' => ['block-'.$this->type.'-'.$this->module]];
-                break;
-
-                case 'replaceBlockContent':
-                    return ['method' => 'replaceBlockContent', 'args' => ['block-'.$this->type.'-'.$this->module, $args[0]]];
-                break;
-
-                case 'reload':
-                    return ['method' => 'reload', 'args' => []];
-                break;
-
-                default:
-                    throw new Exception('Callback inconnu : '.$key);
-            }
+            return match ($key) {
+                'toastrDisplay' => ['method' => 'toastrDisplay', 'args' => [$args[0], $args[1]]],
+                'refreshBlock' => ['method' => 'refreshBlock', 'args' => ['block-'.$this->type.'-'.$this->module]],
+                'replaceBlockContent' => ['method' => 'replaceBlockContent', 'args' => ['block-'.$this->type.'-'.$this->module, $args[0]]],
+                'reload' => ['method' => 'reload', 'args' => []],
+                default => throw new Exception('Callback inconnu : '.$key),
+            };
         } catch (Exception $e) {
             throw $e;
         }

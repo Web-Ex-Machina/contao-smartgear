@@ -21,19 +21,13 @@ class LoadConditionnal
 {
     /** @var WEM\PersonalDataManagerBundle\Dca\Field\Callback\Load */
     private $pdmCallback;
-    /** @var string */
-    private $frontendField;
-    /** @var string */
-    private $table;
 
     public function __construct(
         PdmCallback $pdmCallback,
-        string $frontendField,
-        string $table
+        private string $frontendField,
+        private string $table
     ) {
         $this->pdmCallback = $pdmCallback;
-        $this->frontendField = $frontendField;
-        $this->table = $table;
 
         $this->pdmCallback->setFrontendField($this->frontendField)->setTable($this->table);
     }

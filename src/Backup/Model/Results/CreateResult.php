@@ -27,9 +27,6 @@ class CreateResult extends AbstractResult
         return $this->filesBackuped;
     }
 
-    /**
-     * @param mixed $filesBackuped
-     */
     public function setFilesBackuped(array $filesBackuped): self
     {
         $this->filesBackuped = $filesBackuped;

@@ -16,7 +16,7 @@ namespace WEM\SmartgearBundle\Classes\Version;
 
 use WEM\SmartgearBundle\Exceptions\Version\BadFormatException;
 
-class Version
+class Version implements \Stringable
 {
     /** @var int */
     protected $major;
@@ -25,7 +25,7 @@ class Version
     /** @var int */
     protected $fix;
 
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf('%s.%s.%s', (string) $this->getMajor(), (string) $this->getMinor(), (string) $this->getFix());
     }

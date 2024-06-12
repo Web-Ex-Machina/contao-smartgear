@@ -20,12 +20,8 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 
 class AbstractBackupCommand extends AbstractCommand
 {
-    protected BackupManager $backupManager;
-
-    public function __construct(BackupManager $backupManager, ContaoFramework $framework)
+    public function __construct(protected BackupManager $backupManager, ContaoFramework $framework)
     {
-        $this->backupManager = $backupManager;
-
         parent::__construct($framework);
 
         $this->framework->initialize();

@@ -22,15 +22,10 @@ use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class ApiKey
 {
-    protected ContaoFramework $framework;
-    protected ManagerJson $coreConfigurationManager;
-
     public function __construct(
-        ContaoFramework $framework,
-        ManagerJson $coreConfigurationManager
+        protected ContaoFramework $framework,
+        protected ManagerJson $coreConfigurationManager
     ) {
-        $this->framework = $framework;
-        $this->coreConfigurationManager = $coreConfigurationManager;
         $this->framework->initialize();
     }
 
