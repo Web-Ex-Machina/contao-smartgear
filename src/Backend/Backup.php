@@ -114,7 +114,7 @@ class Backup extends \Contao\BackendModule
                     // Add Message
                     Message::addError(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
                 }
-            } catch (ManagerException $e) {
+            } catch (ManagerException) {
                 Message::addError(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
             }
 

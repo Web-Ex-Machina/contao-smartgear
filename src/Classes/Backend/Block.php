@@ -271,7 +271,7 @@ class Block extends Controller
     {
         try {
             $config = $this->configurationManager->load();
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             $config = $this->configurationManager->new();
             $this->configurationManager->save($config);
         }

@@ -53,7 +53,7 @@ class CompileFormFieldsListener
 
                 $arrFields['warning'] = $objFormFieldWarning;
             }
-        } catch (NotFound $e) {
+        } catch (NotFound) {
             return $arrFields;
         } catch (Exception $e) {
             throw $e;

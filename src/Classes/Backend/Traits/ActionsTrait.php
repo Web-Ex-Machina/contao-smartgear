@@ -39,7 +39,7 @@ trait ActionsTrait
                         if ($action['attrs']) {
                             if (!$action['attrs']['class']) {
                                 $action['attrs']['class'] = 'tl_submit';
-                            } elseif (false === strpos($action['attrs']['class'], 'tl_submit')) {
+                            } elseif (!str_contains($action['attrs']['class'], 'tl_submit')) {
                                 $action['attrs']['class'] .= ' tl_submit';
                             }
 

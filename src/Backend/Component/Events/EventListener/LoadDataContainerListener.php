@@ -91,7 +91,7 @@ class LoadDataContainerListener
                     // $this->dcaManipulator->setFieldSingleSRCPath($eventsConfig->getSgEventsFolder());
                 break;
             }
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             //nothing
         }
     }

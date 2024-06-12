@@ -52,7 +52,7 @@ class General extends ConfigurationStep
         try {
             /** @var CoreConfig */
             $config = $this->configurationManager->load();
-        } catch (Exception $e) {
+        } catch (Exception) {
             /** @var CoreConfig */
             $config = $this->configurationManager->new();
         }
@@ -162,7 +162,7 @@ class General extends ConfigurationStep
         try {
             /** @var CoreConfig */
             $config = $this->configurationManager->load();
-        } catch (Exception $e) {
+        } catch (Exception) {
             /** @var CoreConfig */
             $config = $this->configurationManager->new();
         }

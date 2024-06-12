@@ -56,7 +56,7 @@ class ModuleNewsReader extends \Contao\ModuleNewsReader
                 $objPage = \Contao\PageModel::findByPk($blogConfig->getSgPage());
                 $this->Template->referer = $objPage->getFrontendUrl();
             }
-        } catch (FileNotFound $e) {
+        } catch (FileNotFound) {
             // nothing
         }
     }

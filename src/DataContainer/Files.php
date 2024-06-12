@@ -39,7 +39,7 @@ class Files extends \tl_files
         $strText = '';
         try {
             $strText = Util::getLocalizedTemplateContent('{public_or_web}/bundles/wemsmartgear/backend/tl_files/{lang}/upload_warning.html5', \Contao\BackendUser::getInstance()->language, '{public_or_web}/bundles/wemsmartgear/backend/tl_files/fr/upload_warning.html5');
-        } catch (Exception $e) {
+        } catch (Exception) {
             // do nothing
         }
         if (!empty($strText)) {

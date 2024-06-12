@@ -95,7 +95,7 @@ class FramwayConfiguration extends ConfigurationStep
             $this->addSelectField('components[]', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldComponents'], $componentsOptions, $framwayConfig->getComponents(), true, true);
             $this->addSelectField('componentsAvailables[]', '', $componentsOptions, $framwayConfig->getComponentsAvailables(), true, true, 'hidden');
             $this->addTextField('new_theme', $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldNewTheme'], '', false, 'hidden', 'text');
-        } catch (NotFound $e) {
+        } catch (NotFound) {
         }
     }
 

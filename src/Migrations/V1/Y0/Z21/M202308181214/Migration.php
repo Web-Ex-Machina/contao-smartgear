@@ -56,7 +56,7 @@ class Migration extends MigrationAbstract
             try {
                 /** @var CoreConfig */
                 $coreConfig = $this->coreConfigurationManager->load();
-            } catch (FileNotFoundException $e) {
+            } catch (FileNotFoundException) {
                 return $result;
             }
 

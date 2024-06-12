@@ -47,7 +47,7 @@ class LoadDataContainerListener
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             //nothing
         }
     }

@@ -90,7 +90,7 @@ class Api
             $content = file_get_contents(sprintf('./%s/package.json', $path));
 
             return !empty($content) ? json_decode($content) : null;
-        } catch (Exception $e) {
+        } catch (Exception) {
             // nothing
         }
 

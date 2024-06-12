@@ -149,9 +149,9 @@ class Migration extends MigrationAbstract
                 $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSGridColumns'), [], 'contao_default'));
                 $this->manageBlockGridGap((int) $sgConfigurations->id, 1408);
                 $result->addLog($this->translator->trans($this->buildTranslationKey('doAddCSSGridGap'), [], 'contao_default'));
-                $this->deleteUnusedStyles(1536);
-                $this->deleteUnusedArchives(1664);
-                $this->deleteOrphanStyles(1792);
+                $this->deleteUnusedStyles();
+                $this->deleteUnusedArchives();
+                $this->deleteOrphanStyles();
             }
             $result
                 ->setStatus(Result::STATUS_SUCCESS)
@@ -172,7 +172,7 @@ class Migration extends MigrationAbstract
 
         if ($styles) {
             foreach ($styles as $style) {
-                if ('fw' === substr($style->alias, 0, 2)
+                if (str_starts_with($style->alias, 'fw')
                 && (
                     !\in_array($style->alias, $this->styleAliasToKeep, true)
                     ||
@@ -195,7 +195,7 @@ class Migration extends MigrationAbstract
 
         if ($archives) {
             foreach ($archives as $archive) {
-                if ('fw' === substr($archive->identifier, 0, 2)
+                if (str_starts_with($archive->identifier, 'fw')
                 && (
                     !\in_array($archive->identifier, $this->archiveIdentifierToKeep, true)
                     ||
@@ -220,7 +220,7 @@ class Migration extends MigrationAbstract
 
         if ($styles) {
             foreach ($styles as $style) {
-                if ('fw' === substr($style->alias, 0, 2) && !\in_array($style->pid, $archivesIds, true)) {
+                if (str_starts_with($style->alias, 'fw') && !\in_array($style->pid, $archivesIds, true)) {
                     $style->delete();
                 }
             }
@@ -613,7 +613,7 @@ class Migration extends MigrationAbstract
         $objArchive = StyleManagerArchiveModel::findBy(['identifier = ?', 'wem_sg_install = ?'], [$identifier, $sgConfiguationId]);
         if (!$objArchive) {
             $objArchive = new StyleManagerArchiveModel();
-        } elseif (\Contao\Model\Collection::class === \get_class($objArchive)) {
+        } elseif (\Contao\Model\Collection::class === $objArchive::class) {
             $objArchive = $objArchive->first()->current();
         }
 
@@ -637,7 +637,7 @@ class Migration extends MigrationAbstract
             // insert all content elements
             foreach ($GLOBALS['TL_CTE'] as $group => $elements) {
                 foreach ($elements as $key => $classPath) {
-                    if ('rsce_' !== substr($key, 0, 5)) {
+                    if (!str_starts_with($key, 'rsce_')) {
                         $contentElements[] = $key;
                     }
                 }
@@ -648,7 +648,7 @@ class Migration extends MigrationAbstract
             // insert all RSCE elements
             foreach ($GLOBALS['TL_CTE'] as $group => $elements) {
                 foreach ($elements as $key => $classPath) {
-                    if ('rsce_' === substr($key, 0, 5)) {
+                    if (str_starts_with($key, 'rsce_')) {
                         $contentElements[] = $key;
                     }
                 }
@@ -665,7 +665,7 @@ class Migration extends MigrationAbstract
             // insert all form fields
             foreach ($GLOBALS['TL_FFL'] as $group => $elements) {
                 foreach ($elements as $key => $classPath) {
-                    if ('rsce_' !== substr($key, 0, 5)) {
+                    if (!str_starts_with($key, 'rsce_')) {
                         $formFields[] = $key;
                     }
                 }
@@ -676,7 +676,7 @@ class Migration extends MigrationAbstract
             // insert all RSCE elements
             foreach ($GLOBALS['TL_FFL'] as $group => $elements) {
                 foreach ($elements as $key => $classPath) {
-                    if ('rsce_' === substr($key, 0, 5)) {
+                    if (str_starts_with($key, 'rsce_')) {
                         $formFields[] = $key;
                     }
                 }
@@ -687,7 +687,7 @@ class Migration extends MigrationAbstract
             // insert all form fields
             foreach ($GLOBALS['BE_FFL'] as $group => $elements) {
                 foreach ($elements as $key => $classPath) {
-                    if ('rsce_' !== substr($key, 0, 5)) {
+                    if (!str_starts_with($key, 'rsce_')) {
                         $formFields[] = $key;
                     }
                 }
@@ -698,7 +698,7 @@ class Migration extends MigrationAbstract
             // insert all RSCE elements
             foreach ($GLOBALS['BE_FFL'] as $group => $elements) {
                 foreach ($elements as $key => $classPath) {
-                    if ('rsce_' === substr($key, 0, 5)) {
+                    if (str_starts_with($key, 'rsce_')) {
                         $formFields[] = $key;
                     }
                 }

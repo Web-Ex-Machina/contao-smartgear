@@ -54,7 +54,7 @@ class Api
             $this->apiKeyUnified = $config->getSgAirtableApiKey();
             $this->apiKeyRead = $config->getSgAirtableApiKeyForRead();
             $this->apiKeyWrite = $config->getSgAirtableApiKeyForWrite();
-        } catch (NotFound $e) {
+        } catch (NotFound) {
             // nothing
         }
     }

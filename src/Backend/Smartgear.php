@@ -232,7 +232,7 @@ class Smartgear extends \Contao\BackendModule
                     // Add Message
                     Message::addError(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
                 }
-            } catch (ManagerException $e) {
+            } catch (ManagerException) {
                 Message::addError(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
             }
 
@@ -293,7 +293,7 @@ class Smartgear extends \Contao\BackendModule
         $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
         try {
             $coreConfig = $this->coreConfigurationManager->load();
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             $coreConfig = $this->coreConfigurationManager->new();
             $save = $this->coreConfigurationManager->save($coreConfig);
         }

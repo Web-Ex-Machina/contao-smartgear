@@ -50,7 +50,7 @@ class FormUtil
             self::checkFormConfigurationCompliantForFormDataManager($formId);
 
             return true;
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
     }

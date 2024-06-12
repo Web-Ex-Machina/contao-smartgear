@@ -39,7 +39,7 @@ class InitializeSystemListener
         try {
             /** @var CoreConfig */
             $config = $this->configurationManager->load();
-        } catch (NotFound $e) {
+        } catch (NotFound) {
             return;
         }
 

@@ -88,7 +88,7 @@ class LoadDataContainerListener
                     // }
                 break;
             }
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             //nothing
         }
     }

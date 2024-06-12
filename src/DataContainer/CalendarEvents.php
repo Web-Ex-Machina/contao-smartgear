@@ -69,7 +69,7 @@ class CalendarEvents extends \tl_calendar_events
                 $response = $api->search($dc->activeRecord->address);
                 $arrSet['addressLat'] = $response->getLat() ?? '';
                 $arrSet['addressLon'] = $response->getLon() ?? '';
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 return;
             }
         }

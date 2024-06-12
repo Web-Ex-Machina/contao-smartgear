@@ -74,7 +74,7 @@ class AnalyticsExternal extends BackendModule
         try {
             /** @var CoreConfig */
             $config = $this->configurationManager->load();
-        } catch (NotFound $e) {
+        } catch (NotFound) {
             return;
         }
 
@@ -211,7 +211,7 @@ class AnalyticsExternal extends BackendModule
                 $objTemplate->extranetNbMembers = MemberModel::countAll();
                 $objTemplate->extranetNbMembersLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.extranetNbMembersLabel', [], 'contao_default');
             }
-        } catch (NotFound $e) {
+        } catch (NotFound) {
             // return;
         }
 
@@ -267,7 +267,7 @@ class AnalyticsExternal extends BackendModule
             foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS)) as $object) {
                 try {
                     $bytestotal += $object->getSize();
-                } catch (Exception $e) {
+                } catch (Exception) {
                     // $logger = static::getContainer()->get('monolog.logger.contao');
                     // $logger->log(LogLevel::ERROR, 'TEXT.TO.FIND', ['contao' => new \Contao\CoreBundle\Monolog\ContaoContext('getDirectorySize', 'ERROR')]);
                 }

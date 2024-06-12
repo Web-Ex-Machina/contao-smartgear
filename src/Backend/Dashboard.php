@@ -60,7 +60,7 @@ class Dashboard extends BackendModule
                 $clientsRef = Util::getAirtableClientsRef($hostingInformations);
                 $airtableApi->getSupportClientInformations($clientsRef);
             }
-        } catch (NotFound $e) {
+        } catch (NotFound) {
         }
 
         /* @var ShortcutInternal */
@@ -89,7 +89,7 @@ class Dashboard extends BackendModule
         try {
             /** @var CoreConfig */
             $config = $configurationManager->load();
-        } catch (NotFound $e) {
+        } catch (NotFound) {
             return;
         }
 

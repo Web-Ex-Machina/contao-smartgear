@@ -74,9 +74,9 @@ class Form extends Backend
         try {
             // check form configuration
             FormUtil::checkFormConfigurationCompliantForFormDataManager($dc->id);
-        } catch (FormNotConfiguredToStoreValues $e) {
+        } catch (FormNotConfiguredToStoreValues) {
             // do nothing
-        } catch (NoEmailFieldInForm $e) {
+        } catch (NoEmailFieldInForm) {
             // add a mandatory email field
             $objFormFieldEmail = new FormField();
             $objFormFieldEmail->pid = $dc->id;
@@ -89,7 +89,7 @@ class Form extends Backend
             $objFormFieldEmail->mandatory = 1;
             $objFormFieldEmail->tstamp = time();
             $objFormFieldEmail->save();
-        } catch (EmailFieldNotMandatoryInForm $e) {
+        } catch (EmailFieldNotMandatoryInForm) {
             // retrieve the email field and make it mandatory
             $objFormFieldEmail = FormField::findItems(['pid' => $dc->id, 'name' => 'email']);
             $objFormFieldEmail->mandatory = 1;

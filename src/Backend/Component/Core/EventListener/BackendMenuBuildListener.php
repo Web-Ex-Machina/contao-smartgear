@@ -45,9 +45,9 @@ class BackendMenuBuildListener
             if (!$coreConfig->getSgInstallComplete()) {
                 $this->removeDashboardNode($event);
             }
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             $this->removeDashboardNode($event);
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
     }
 

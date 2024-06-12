@@ -43,7 +43,7 @@ class GenerateBreadcrumbListener
             }
 
             return $items;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return $arrSourceItems;
         }
     }

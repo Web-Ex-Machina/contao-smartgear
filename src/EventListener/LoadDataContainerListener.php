@@ -156,7 +156,7 @@ class LoadDataContainerListener
                 try {
                     /** @var CoreConfiguration */
                     $coreConfig = $this->configurationManager->load();
-                } catch (Exception $e) {
+                } catch (Exception) {
                     $coreConfig = null;
                 }
 
@@ -320,7 +320,7 @@ class LoadDataContainerListener
                         $this->translator->trans(sprintf('WEMSG.FRAMWAY.COLORS.%s', $name), [], 'contao_default'),
                     ];
                 }
-            } catch (FileNotFoundException $e) {
+            } catch (FileNotFoundException) {
                 //nothing
             }
             $GLOBALS['TL_DCA'][$table]['fields']['styleManager']['reference'] = $help;

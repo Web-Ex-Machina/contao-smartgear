@@ -59,7 +59,7 @@ class LoadDataContainerListener
                     $this->dcaManipulator->addFieldSaveCallback('description', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanText']);
                 break;
             }
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             //nothing
         }
     }

@@ -89,7 +89,7 @@ class LoadDataContainerListener
                     // $this->dcaManipulator->setFieldSingleSRCPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
                 break;
             }
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             //nothing
         }
     }

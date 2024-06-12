@@ -105,7 +105,7 @@ class ProcessFormDataListener
                     $refererPageId = $objPage->id;
                 }
             }
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
 
         return $refererPageId ? (int) $refererPageId : $refererPageId;

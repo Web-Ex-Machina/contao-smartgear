@@ -61,7 +61,7 @@ class ModuleEventReader extends \Contao\ModuleEventReader
                 $objPage = \Contao\PageModel::findByPk($eventConfig->getSgPage());
                 $this->Template->referer = $objPage->getFrontendUrl();
             }
-        } catch (FileNotFound $e) {
+        } catch (FileNotFound) {
             // nothing
         }
     }

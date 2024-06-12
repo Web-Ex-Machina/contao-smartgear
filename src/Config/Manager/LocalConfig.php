@@ -75,7 +75,7 @@ class LocalConfig extends AbstractManager implements ManagerYamlInterface
     {
         try {
             $content = $this->retrieveConfigurationFromFile();
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             return [];
         }
 

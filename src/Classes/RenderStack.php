@@ -114,7 +114,7 @@ class RenderStack
      */
     public function getBreadcrumbIndexes(?string $column = null): array
     {
-        $column = null === $column ? 'all' : $column;
+        $column ??= 'all';
         if (!\array_key_exists($column, $this->stack['breadcrumb_indexes'])) {
             return [];
         }
@@ -150,7 +150,7 @@ class RenderStack
      */
     public function getBreadcrumbItems(?string $column = null): array
     {
-        $column = null === $column ? 'all' : $column;
+        $column ??= 'all';
         $breadcrumbItems = [];
         $indexes = $this->getBreadcrumbIndexes();
 

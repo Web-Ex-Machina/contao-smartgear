@@ -71,7 +71,7 @@ class EnvFile extends AbstractManager implements ManagerEnvInterface
     {
         try {
             $content = $this->retrieveConfigurationFromFile();
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             return [];
         }
         $arrLines = explode("\n", $content);

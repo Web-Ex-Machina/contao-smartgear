@@ -81,7 +81,7 @@ class Configuration extends Core
 
         try {
             $coreConfig = $coreConfigurationManager->load();
-        } catch (Exception $e) {
+        } catch (Exception) {
             return CoreConfig::DEFAULT_VERSION;
         }
 

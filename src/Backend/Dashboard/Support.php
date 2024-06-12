@@ -79,7 +79,7 @@ class Support extends BackendModule
         try {
             /** @var CoreConfig */
             $config = $this->configurationManager->load();
-        } catch (NotFound $e) {
+        } catch (NotFound) {
             return;
         }
 
@@ -127,7 +127,7 @@ class Support extends BackendModule
         try {
             /** @var CoreConfig */
             $config = $this->configurationManager->load();
-        } catch (NotFound $e) {
+        } catch (NotFound) {
             return;
         }
 
@@ -201,7 +201,7 @@ class Support extends BackendModule
         try {
             /** @var CoreConfig */
             $config = $this->configurationManager->load();
-        } catch (NotFound $e) {
+        } catch (NotFound) {
             return '';
         }
         $mail = 'support@webexmachina.fr';
@@ -234,7 +234,7 @@ class Support extends BackendModule
         try {
             /** @var CoreConfig */
             $config = $this->configurationManager->load();
-        } catch (NotFound $e) {
+        } catch (NotFound) {
             return '';
         }
 

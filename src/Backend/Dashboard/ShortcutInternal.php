@@ -57,7 +57,7 @@ class ShortcutInternal extends BackendModule
         try {
             /** @var CoreConfig */
             $config = $this->configurationManager->load();
-        } catch (NotFound $e) {
+        } catch (NotFound) {
             return;
         }
         $this->Template->title = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.title', [], 'contao_default');

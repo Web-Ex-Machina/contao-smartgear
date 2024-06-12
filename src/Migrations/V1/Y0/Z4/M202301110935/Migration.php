@@ -139,7 +139,7 @@ class Migration extends MigrationAbstract
         try {
             /** @var CoreConfig */
             $coreConfig = $this->coreConfigurationManager->load();
-        } catch (NotFound $e) {
+        } catch (NotFound) {
             return;
         }
 

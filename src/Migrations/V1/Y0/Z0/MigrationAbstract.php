@@ -79,7 +79,7 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
         try {
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             $nbConfigurations = Configuration::countItems();
             if (0 === $nbConfigurations) {
                 $result->setStatus(Result::STATUS_SKIPPED)
@@ -99,7 +99,7 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
         try {
             /** @var CoreConfig */
             $config = $this->coreConfigurationManager->load();
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             $nbConfigurations = Configuration::countItems();
             if (0 === $nbConfigurations) {
                 $result->setStatus(Result::STATUS_SKIPPED)
@@ -118,31 +118,23 @@ abstract class MigrationAbstract extends BaseMigrationAbstract
         // $currentVersion = (new Version())->fromString($config->getSgVersion());
         $currentVersion = (new Version())->fromString($objConfiguration->version);
         $migrationVersion = $this->getVersion();
-        switch ($this->versionComparator->compare($currentVersion, $migrationVersion)) {
-            case VersionComparator::CURRENT_VERSION_HIGHER:
-                $result->setStatus(Result::STATUS_SKIPPED)
-                ->addLog(
-                    $this->translator->trans('WEMSG.MIGRATIONS.VERSIONCOMPARATOR.currentVersionHigher', [$currentVersion, $migrationVersion], 'contao_default')
-                )
-                ;
-            break;
-            case VersionComparator::VERSIONS_EQUALS:
-                $result->setStatus(Result::STATUS_SKIPPED)
-                // $result->setStatus(Result::STATUS_SHOULD_RUN)
-                ->addLog(
-                    $this->translator->trans('WEMSG.MIGRATIONS.VERSIONCOMPARATOR.versionsEquals', [$currentVersion, $migrationVersion], 'contao_default')
-                )
-                ;
-            break;
-            case VersionComparator::CURRENT_VERSION_LOWER:
-                $result->setStatus(Result::STATUS_SHOULD_RUN)
-                ->addLog(
-                    $this->translator->trans('WEMSG.MIGRATIONS.VERSIONCOMPARATOR.currentVersionLower', [$currentVersion, $migrationVersion], 'contao_default')
-                )
-                ->addLog($this->translator->trans('WEMSG.MIGRATIONS.shouldBeRun', [], 'contao_default'))
-                ;
-            break;
-        }
+        match ($this->versionComparator->compare($currentVersion, $migrationVersion)) {
+            VersionComparator::CURRENT_VERSION_HIGHER => $result->setStatus(Result::STATUS_SKIPPED)
+            ->addLog(
+                $this->translator->trans('WEMSG.MIGRATIONS.VERSIONCOMPARATOR.currentVersionHigher', [$currentVersion, $migrationVersion], 'contao_default')
+            ),
+            VersionComparator::VERSIONS_EQUALS => $result->setStatus(Result::STATUS_SKIPPED)
+            // $result->setStatus(Result::STATUS_SHOULD_RUN)
+            ->addLog(
+                $this->translator->trans('WEMSG.MIGRATIONS.VERSIONCOMPARATOR.versionsEquals', [$currentVersion, $migrationVersion], 'contao_default')
+            ),
+            VersionComparator::CURRENT_VERSION_LOWER => $result->setStatus(Result::STATUS_SHOULD_RUN)
+            ->addLog(
+                $this->translator->trans('WEMSG.MIGRATIONS.VERSIONCOMPARATOR.currentVersionLower', [$currentVersion, $migrationVersion], 'contao_default')
+            )
+            ->addLog($this->translator->trans('WEMSG.MIGRATIONS.shouldBeRun', [], 'contao_default')),
+            default => $result,
+        };
 
         return $result;
     }
