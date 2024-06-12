@@ -27,10 +27,8 @@ use WEM\SmartgearBundle\Classes\Api\Security\Token;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Exceptions\Api\InvalidTokenException;
 
-/**
- * @Route("/api/backup/v1")
- * @ServiceTag("controller.service_arguments")
- */
+#[Route(path: '/api/backup/v1')]
+#[ServiceTag(["controller.service_arguments"])]
 class V1Controller extends Controller
 {
     /** @var TranslatorInterface */
@@ -51,12 +49,11 @@ class V1Controller extends Controller
     }
 
     /**
-     * @Route("/list", methods={"GET"})
      *
      * @param Request $request Current request
-     *
      * @return Response
      */
+    #[Route(path: '/list', methods: ['GET'])]
     public function listAction(Request $request)
     {
         try{
@@ -78,12 +75,11 @@ class V1Controller extends Controller
     }
 
     /**
-     * @Route("/create", methods={"POST"})
      *
      * @param Request $request Current request
-     *
      * @return Response
      */
+    #[Route(path: '/create', methods: ['POST'])]
     public function createAction(Request $request)
     {
         try{
@@ -100,12 +96,11 @@ class V1Controller extends Controller
     }
 
     /**
-     * @Route("/delete/{backupname}", methods={"POST"})
      *
      * @param Request $request Current request
-     *
      * @return Response
      */
+    #[Route(path: '/delete/{backupname}', methods: ['POST'])]
     public function deleteAction(Request $request, string $backupname)
     {
         try{
@@ -121,12 +116,11 @@ class V1Controller extends Controller
     }
 
     /**
-     * @Route("/restore/{backupname}", methods={"POST"})
      *
      * @param Request $request Current request
-     *
      * @return Response
      */
+    #[Route(path: '/restore/{backupname}', methods: ['POST'])]
     public function restoreAction(Request $request, string $backupname)
     {
         try{
@@ -142,12 +136,11 @@ class V1Controller extends Controller
     }
 
     /**
-     * @Route("/get/{backupname}", methods={"GET"})
      *
      * @param Request $request Current request
-     *
      * @return Response
      */
+    #[Route(path: '/get/{backupname}', methods: ['GET'])]
     public function getAction(Request $request, string $backupname)
     {
         try{

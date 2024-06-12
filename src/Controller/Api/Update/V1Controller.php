@@ -27,10 +27,8 @@ use WEM\SmartgearBundle\Classes\Api\Security\Token;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Exceptions\Api\InvalidTokenException;
 
-/**
- * @Route("/api/update/v1")
- * @ServiceTag("controller.service_arguments")
- */
+#[Route(path: '/api/update/v1')]
+#[ServiceTag(["controller.service_arguments"])]
 class V1Controller extends Controller
 {
     /** @var TranslatorInterface */
@@ -51,12 +49,11 @@ class V1Controller extends Controller
     }
 
     /**
-     * @Route("/list", methods={"GET"})
      *
      * @param Request $request Current request
-     *
      * @return Response
      */
+    #[Route(path: '/list', methods: ['GET'])]
     public function listAction(Request $request)
     {
         try{
@@ -72,12 +69,11 @@ class V1Controller extends Controller
     }
 
     /**
-     * @Route("/update", methods={"POST"})
      *
      * @param Request $request Current request
-     *
      * @return Response
      */
+    #[Route(path: '/update', methods: ['POST'])]
     public function updateAction(Request $request)
     {
         try{

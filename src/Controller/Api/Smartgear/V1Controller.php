@@ -26,10 +26,8 @@ use WEM\SmartgearBundle\Classes\Api\Security\Token;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Exceptions\Api\InvalidTokenException;
 
-/**
- * @Route("/api/smartgear/v1")
- * @ServiceTag("controller.service_arguments")
- */
+#[Route(path: '/api/smartgear/v1')]
+#[ServiceTag(["controller.service_arguments"])]
 class V1Controller extends Controller
 {
     public function __construct(
@@ -43,12 +41,11 @@ class V1Controller extends Controller
     }
 
     /**
-     * @Route("/token", methods={"GET"})
      *
      * @param Request $request Current request
-     *
      * @return Response
      */
+    #[Route(path: '/token', methods: ['GET'])]
     public function tokenAction(Request $request)
     {
         try{
@@ -66,12 +63,11 @@ class V1Controller extends Controller
     }
 
     /**
-     * @Route("/version", methods={"GET"})
      *
      * @param Request $request Current request
-     *
      * @return Response
      */
+    #[Route(path: '/version', methods: ['GET'])]
     public function versionAction(Request $request)
     {
         try{
