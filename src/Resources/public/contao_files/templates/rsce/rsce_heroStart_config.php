@@ -22,9 +22,7 @@ return [
             'inputType' => 'standardField',
         ],
         'image_size' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['size'], 'inputType' => 'imageSize', 'reference' => &$GLOBALS['TL_LANG']['MSC'], 'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50 clr'], 'options_callback' => function () {
-                return \Contao\System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(\Contao\BackendUser::getInstance());
-            },
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['size'], 'inputType' => 'imageSize', 'reference' => &$GLOBALS['TL_LANG']['MSC'], 'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50 clr'], 'options_callback' => fn() => \Contao\System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(\Contao\BackendUser::getInstance()),
         ],
         'alt' => [
             'inputType' => 'standardField',
@@ -78,7 +76,7 @@ return [
         'overlay_background' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['overlay_background'],
             'inputType' => 'select',
-            'options_callback' => function ($dc) {return \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id, 'rsce'); },
+            'options_callback' => fn($dc) => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id, 'rsce'),
             'eval' => ['tl_class' => 'w50 clr', 'includeBlankOption' => true],
         ],
         'overlay_opacity' => [
@@ -129,7 +127,7 @@ return [
         'content_fontcolor' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_slider']['content_fontcolor'],
             'inputType' => 'select',
-            'options_callback' => function ($dc) {return \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id, 'rsce'); },
+            'options_callback' => fn($dc) => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id, 'rsce'),
             'eval' => ['tl_class' => 'w50 clr', 'includeBlankOption' => true],
         ],
         'config_legend' => [

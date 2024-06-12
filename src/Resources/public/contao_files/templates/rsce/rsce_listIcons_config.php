@@ -54,9 +54,7 @@ return [
                     'inputType' => 'imageSize',
                     'reference' => &$GLOBALS['TL_LANG']['MSC'],
                     'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50 clr'],
-                    'options_callback' => function () {
-                        return \Contao\System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(\Contao\BackendUser::getInstance());
-                    },
+                    'options_callback' => fn() => \Contao\System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(\Contao\BackendUser::getInstance()),
                 ],
                 'image_displaymode' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['image_displaymode'],
@@ -139,7 +137,7 @@ return [
                 'image_background' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_listicons']['image_background'],
                     'inputType' => 'select',
-                    'options_callback' => function ($dc) {return \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id); },
+                    'options_callback' => fn($dc) => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id),
                     'eval' => ['tl_class' => 'w50 clr', 'includeBlankOption' => true],
                 ],
                 'content_legend' => [

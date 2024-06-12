@@ -171,9 +171,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             'search' => true,
             'default' => 'fr',
             'inputType' => 'select',
-            'options_callback' => function () {
-                return \Contao\System::getLanguages();
-            },
+            'options_callback' => fn() => \Contao\System::getLanguages(),
             'eval' => ['mandatory' => true, 'chosen' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
@@ -324,9 +322,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             'search' => true,
             'default' => 'fr',
             'inputType' => 'select',
-            'options_callback' => function () {
-                return \Contao\System::getCountries();
-            },
+            'options_callback' => fn() => \Contao\System::getCountries(),
             'eval' => ['mandatory' => false,  'chosen' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
@@ -371,9 +367,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             'search' => true,
             'default' => 'fr',
             'inputType' => 'select',
-            'options_callback' => function () {
-                return \Contao\System::getCountries();
-            },
+            'options_callback' => fn() => \Contao\System::getCountries(),
             'eval' => ['mandatory' => false,  'chosen' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],

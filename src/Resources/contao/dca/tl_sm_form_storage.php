@@ -142,17 +142,13 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
         'delay_to_first_interaction' => [
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,14})$/', 'tl_class' => 'w50', 'disabled' => true, 'minval' => 0],
-            'load_callback' => [function ($value, $dc): string {
-                return Util::humanReadableDuration((int) $value);
-            }],
+            'load_callback' => [fn($value, $dc): string => Util::humanReadableDuration((int) $value)],
             'sql' => "varchar(14) NOT NULL default ''",
         ],
         'delay_to_submission' => [
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,14})$/', 'tl_class' => 'w50 clr', 'disabled' => true, 'minval' => 0],
-            'load_callback' => [function ($value, $dc): string {
-                return Util::humanReadableDuration((int) $value);
-            }],
+            'load_callback' => [fn($value, $dc): string => Util::humanReadableDuration((int) $value)],
             'sql' => "varchar(14) NOT NULL default ''",
         ],
         'current_page' => [

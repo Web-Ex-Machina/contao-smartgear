@@ -27,7 +27,7 @@ class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\Componen
             function ($match) {
                 $translation = sprintf('>%s<', $GLOBALS['TL_LANG'][$match[1]][$match[2]][$match[3]][$match[4]]);
 
-                return $translation ? $translation : implode('.', $match);
+                return $translation ?: implode('.', $match);
             },
             $content
         );

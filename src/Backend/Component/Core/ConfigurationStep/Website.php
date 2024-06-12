@@ -1015,7 +1015,7 @@ class Website extends ConfigurationStep
     protected function createPages(array $layouts, array $groups, array $users, array $modules): array
     {
         $pages = [];
-        $pages['root'] = $this->createPageRoot($layouts, $groups, $users, $modules);
+        $pages['root'] = $this->createPageRoot($layouts, $groups, $users);
         $pages['home'] = $this->createPageHome($pages['root']);
         $pages['404'] = $this->createPage404($modules, $pages['root']);
         $pages['legal_notice'] = $this->createPageLegalNotice($pages['root']);

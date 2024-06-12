@@ -340,7 +340,7 @@ class LayoutUtil
         $firstMainColumnIndex = null;
         foreach ($layoutModules as $index => $layoutModule) {
             if ('main' === $layoutModule['col']) {
-                $firstMainColumnIndex = $firstMainColumnIndex ?? $index;
+                $firstMainColumnIndex ??= $index;
 
                 $objModule = ModuleModel::findById($layoutModule['mod']);
                 if (\in_array($objModule->type, ['breadcrumb'], true)) {

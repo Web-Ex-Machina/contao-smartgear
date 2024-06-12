@@ -18,9 +18,7 @@ use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 
 (new DcaLoader('tl_content'))->load();
 
-$GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['options_callback'] = static function (Contao\DataContainer $dc) {
-    return WEM\SmartgearBundle\Override\Controller::getTemplateGroup('ce_'.$dc->activeRecord->type.'_', [], 'ce_'.$dc->activeRecord->type);
-};
+$GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['options_callback'] = static fn(Contao\DataContainer $dc) => WEM\SmartgearBundle\Override\Controller::getTemplateGroup('ce_'.$dc->activeRecord->type.'_', [], 'ce_'.$dc->activeRecord->type);
 $GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['eval']['includeBlankOption'] = true;
 
 DCAManipulator::create('tl_content')

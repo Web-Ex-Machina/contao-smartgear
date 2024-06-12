@@ -56,9 +56,7 @@ class Controller extends \Contao\Controller
 
         // Show the template sources (see #6875)
         foreach ($arrNewTemplates as $k => $v) {
-            $v = array_filter($v, static function ($a) {
-                return 'root' !== $a;
-            });
+            $v = array_filter($v, static fn($a) => 'root' !== $a);
 
             if (empty($v)) {
                 $arrNewTemplates[$k] = $k;

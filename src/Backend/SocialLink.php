@@ -68,7 +68,7 @@ class SocialLink extends BackendModule
             $objLink->icon = $row['icon'];
             $objLink->sorting = 128 + $index;
             $objLink->tstamp = time();
-            $objLink->createdAt = $objLink->createdAt ?? time();
+            $objLink->createdAt ??= time();
             $objLink->save();
             $arrIdsToKeep[] = $objLink->id;
         }

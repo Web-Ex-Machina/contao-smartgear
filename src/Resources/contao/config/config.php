@@ -64,7 +64,7 @@ if (isset($bundles['ContaoNewsletterBundle'])) {
             'channels' => $GLOBALS['BE_MOD']['content']['newsletter'],
             'newsletter' => [
                 'tables' => ['tl_newsletter'],
-                'send' => ['\WEM\SmartgearBundle\Override\Newsletter', 'send'],
+                'send' => [\WEM\SmartgearBundle\Override\Newsletter::class, 'send'],
                 'stylesheet' => 'bundles/contaonewsletter/style.css',
             ],
         ],
@@ -117,10 +117,10 @@ $GLOBALS['BE_FFL']['stylemanager'] = WEM\SmartgearBundle\Widget\ComponentStyleSe
 ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
     'wem_smartgear' => [
         'wem_sg_dashboard' => [
-            'callback' => "\WEM\SmartgearBundle\Backend\Dashboard",
+            'callback' => \WEM\SmartgearBundle\Backend\Dashboard::class,
         ],
         'wem_sg_reminder' => [
-            'callback' => "\WEM\SmartgearBundle\Backend\Reminder",
+            'callback' => \WEM\SmartgearBundle\Backend\Reminder::class,
         ],
         'undo' => $GLOBALS['BE_MOD']['system']['undo'],
     ],
@@ -128,13 +128,13 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
 ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
     'wem_smartgear_admin' => [
         'wem_sg_update' => [
-            'callback' => '\WEM\SmartgearBundle\Backend\Update',
+            'callback' => \WEM\SmartgearBundle\Backend\Update::class,
         ],
         'wem_sg_backup' => [
-            'callback' => '\WEM\SmartgearBundle\Backend\Backup',
+            'callback' => \WEM\SmartgearBundle\Backend\Backup::class,
         ],
         'wem_sg_clear_cache' => [
-            'callback' => '\WEM\SmartgearBundle\Backend\CacheClear',
+            'callback' => \WEM\SmartgearBundle\Backend\CacheClear::class,
             // 'callback' => function (): void {
             //     $commandUtil = System::getContainer()->get('smartgear.classes.command.util');
             //     $this->commandUtil->executeCmd('cache:clear');
@@ -154,7 +154,7 @@ ArrayUtil::arrayInsert(
     array_search('article', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
     [
         'wem_sg_social_link' => [
-            'callback' => "\WEM\SmartgearBundle\Backend\SocialLink",
+            'callback' => \WEM\SmartgearBundle\Backend\SocialLink::class,
         ],
     ]
 );
@@ -177,8 +177,8 @@ $GLOBALS['BE_MOD']['content']['form']['export'] = ['smartgear.backend.module.for
  */
 ArrayUtil::arrayInsert($GLOBALS['FE_MOD'], 2, [
     'smartgear' => [
-        'wem_sg_header' => '\WEM\SmartgearBundle\Module\Header',
-        'wem_sg_social_link' => '\WEM\SmartgearBundle\Module\SocialLink',
+        'wem_sg_header' => \WEM\SmartgearBundle\Module\Header::class,
+        'wem_sg_social_link' => \WEM\SmartgearBundle\Module\SocialLink::class,
     ],
 ]);
 $GLOBALS['FE_MOD']['news']['newsreader'] = \WEM\SmartgearBundle\Override\ModuleNewsReader::class;
@@ -206,9 +206,9 @@ $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Configuration\ConfigurationItem
  * Add BE Hooks
  */
 if ('BE' === TL_MODE) {
-    $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Backend\Smartgear', 'processAjaxRequest'];
-    $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Backend\Dashboard', 'processAjaxRequest'];
-    $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Backend\Reminder', 'processAjaxRequest'];
+    $GLOBALS['TL_HOOKS']['executePreActions'][] = [\WEM\SmartgearBundle\Backend\Smartgear::class, 'processAjaxRequest'];
+    $GLOBALS['TL_HOOKS']['executePreActions'][] = [\WEM\SmartgearBundle\Backend\Dashboard::class, 'processAjaxRequest'];
+    $GLOBALS['TL_HOOKS']['executePreActions'][] = [\WEM\SmartgearBundle\Backend\Reminder::class, 'processAjaxRequest'];
     $GLOBALS['TL_HOOKS']['loadDataContainer'][] = ['smartgear.listener.load_data_container', '__invoke'];
     $GLOBALS['TL_HOOKS']['initializeSystem'][] = ['smartgear.listener.initialize_system', '__invoke'];
     $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['smartgear.listener.replace_insert_tags', 'onReplaceInsertTags'];

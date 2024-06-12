@@ -132,7 +132,7 @@ return [
         'color' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['dominant_color'],
             'inputType' => 'select',
-            'options_callback' => function ($dc) {return \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id); },
+            'options_callback' => fn($dc) => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id),
             'eval' => ['tl_class' => 'w50', 'includeBlankOption' => true],
         ],
         'bg_title' => [

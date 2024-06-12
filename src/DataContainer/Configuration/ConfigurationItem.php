@@ -381,7 +381,7 @@ class ConfigurationItem extends Core
                     ->addField('update_page', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_page'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -401,7 +401,7 @@ class ConfigurationItem extends Core
                     ->addField('update_page_form', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_page_form'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -421,7 +421,7 @@ class ConfigurationItem extends Core
                     ->addField('update_page_form_sent', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_page_form_sent'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -441,7 +441,7 @@ class ConfigurationItem extends Core
                     ->addField('update_module', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_module'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -461,7 +461,7 @@ class ConfigurationItem extends Core
                     ->addField('update_module_list', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_module_list'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -481,7 +481,7 @@ class ConfigurationItem extends Core
                     ->addField('update_module_reader', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_module_reader'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -501,7 +501,7 @@ class ConfigurationItem extends Core
                     ->addField('update_module_calendar', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_module_calendar'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -521,7 +521,7 @@ class ConfigurationItem extends Core
                     ->addField('update_user_group', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_user_group'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -541,7 +541,7 @@ class ConfigurationItem extends Core
                     ->addField('update_faq_category', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_faq_category'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -561,7 +561,7 @@ class ConfigurationItem extends Core
                     ->addField('update_calendar', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_calendar'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -581,7 +581,7 @@ class ConfigurationItem extends Core
                     ->addField('update_news_archive', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_news_archive'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -601,7 +601,7 @@ class ConfigurationItem extends Core
                     ->addField('update_form', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_form'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -621,7 +621,7 @@ class ConfigurationItem extends Core
                     ->addField('update_notification', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_notification'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -636,7 +636,7 @@ class ConfigurationItem extends Core
                 ->addField('update_user_group_permission', [
                     'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_user_group_permission'],
                     'inputType' => 'checkbox',
-                    'save_callback' => [function ($val) {return ''; }], // so Contao does not try to save this fake field
+                    'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
                     'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                 ])
             ;

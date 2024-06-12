@@ -58,9 +58,7 @@ class Reminder extends BackendModule
         $this->dtNow = new DateTime();
 
         $arrItems = array_merge($this->getContents(), $this->getArticles(), $this->getPages(), $this->getNews(), $this->getFAQ());
-        usort($arrItems, function ($itemA, $itemB) {
-            return (int) $itemA['obsolete_since'] < (int) $itemB['obsolete_since'];
-        });
+        usort($arrItems, fn($itemA, $itemB) => (int) $itemA['obsolete_since'] < (int) $itemB['obsolete_since']);
         $this->Template->arrItems = $arrItems;
         $this->Template->strId = $this->strId;
         $this->Template->token = REQUEST_TOKEN;

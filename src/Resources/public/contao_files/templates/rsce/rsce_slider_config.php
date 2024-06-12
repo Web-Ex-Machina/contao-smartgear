@@ -38,9 +38,7 @@ return [
                     'inputType' => 'imageSize',
                     'reference' => &$GLOBALS['TL_LANG']['MSC'],
                     'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50 clr'],
-                    'options_callback' => function () {
-                        return \Contao\System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(\Contao\BackendUser::getInstance());
-                    },
+                    'options_callback' => fn() => \Contao\System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(\Contao\BackendUser::getInstance()),
                 ],
                 'img_alt' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['alt'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
@@ -93,7 +91,7 @@ return [
                 'overlay_background' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['overlay_background'],
                     'inputType' => 'select',
-                    'options_callback' => function ($dc) {return \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id); },
+                    'options_callback' => fn($dc) => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id),
                     'eval' => ['tl_class' => 'w50 clr', 'includeBlankOption' => true],
                 ],
                 'overlay_opacity' => [
@@ -137,14 +135,12 @@ return [
                 'title_modifier' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['title_modifier'],
                     'inputType' => 'select',
-                    'options_callback' => function () {
-                        return [
-                            'title--1' => !$GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'] ? '1' : sprintf($GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'], '1'),
-                            'title--2' => !$GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'] ? '2' : sprintf($GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'], '2'),
-                            'title--3' => !$GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'] ? '3' : sprintf($GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'], '3'),
-                            'title--4' => !$GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'] ? '4' : sprintf($GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'], '4'),
-                        ];
-                    },
+                    'options_callback' => fn() => [
+                        'title--1' => !$GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'] ? '1' : sprintf($GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'], '1'),
+                        'title--2' => !$GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'] ? '2' : sprintf($GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'], '2'),
+                        'title--3' => !$GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'] ? '3' : sprintf($GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'], '3'),
+                        'title--4' => !$GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'] ? '4' : sprintf($GLOBALS['TL_LANG']['tl_content']['title_modifier']['option'], '4'),
+                    ],
                     'eval' => ['tl_class' => 'w50', 'mandatory' => false, 'includeBlankOption' => true],
                 ],
                 'content' => [
@@ -175,7 +171,7 @@ return [
                 'content_fontcolor' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_slider']['content_fontcolor'],
                     'inputType' => 'select',
-                    'options_callback' => function ($dc) {return \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id); },
+                    'options_callback' => fn($dc) => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id),
                     'eval' => ['tl_class' => 'w50 clr', 'includeBlankOption' => true],
                 ],
 

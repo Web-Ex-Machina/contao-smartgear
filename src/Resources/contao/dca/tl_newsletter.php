@@ -47,9 +47,7 @@ if (isset($bundles['ContaoNewsletterBundle'])) {
     $GLOBALS['TL_DCA']['tl_newsletter']['list']['label']['format'] = '%s';
     $GLOBALS['TL_DCA']['tl_newsletter']['list']['label']['label_callback'] = $GLOBALS['TL_DCA']['tl_newsletter']['list']['sorting']['child_record_callback'];
 
-    $GLOBALS['TL_DCA']['tl_newsletter']['list']['label']['group_callback'] = function (string $group, int $mode, $field, array $row, DataContainer $dc) {
-        return $row['sent'] ? $GLOBALS['TL_LANG']['tl_newsletter']['sent'] : $GLOBALS['TL_LANG']['tl_newsletter']['notSent'];
-    };
+    $GLOBALS['TL_DCA']['tl_newsletter']['list']['label']['group_callback'] = fn(string $group, int $mode, $field, array $row, DataContainer $dc) => $row['sent'] ? $GLOBALS['TL_LANG']['tl_newsletter']['sent'] : $GLOBALS['TL_LANG']['tl_newsletter']['notSent'];
 
     PaletteManipulator::create()
         ->addField('channels', 'alias')

@@ -26,7 +26,7 @@ trait ActionsTrait
 
     protected function formatActions(?array $unformattedActions = null): array
     {
-        $unformattedActions = $unformattedActions ?? $this->actions;
+        $unformattedActions ??= $this->actions;
         $arrActions = [];
         if (\is_array($unformattedActions) && !empty($unformattedActions)) {
             foreach ($unformattedActions as $action) {
