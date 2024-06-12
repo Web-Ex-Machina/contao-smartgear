@@ -15,6 +15,8 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Model\Configuration;
 
 use Contao\LayoutModel;
+use Contao\Model;
+use Contao\Model\Collection;
 use Contao\PageModel;
 use WEM\UtilsBundle\Model\Model as CoreModel;
 
@@ -70,7 +72,7 @@ class Configuration extends CoreModel
      *
      * @var array
      */
-    public static $arrSearchFields = ['tstamp', 'title'];
+    public static array $arrSearchFields = ['tstamp', 'title'];
     /**
      * Table name.
      *
@@ -93,7 +95,7 @@ class Configuration extends CoreModel
      *
      * @return array
      */
-    public static function formatStatement($strField, $varValue, $strOperator = '=')
+    public static function formatStatement(string $strField, $varValue, string $strOperator = '='): array
     {
         $arrColumns = [];
         $t = static::$strTable;
@@ -113,7 +115,7 @@ class Configuration extends CoreModel
         return $arrColumns;
     }
 
-    public static function findOneByPage(PageModel $objPage, ?array $arrOptions = [])
+    public static function findOneByPage(PageModel $objPage, ?array $arrOptions = []): Model|Configuration|null
     {
         if ($objLayout = LayoutModel::findByPk($objPage->layout)) {
             // if ($objTheme = ThemeModel::findByPk($objLayout->pid)) {
@@ -124,7 +126,7 @@ class Configuration extends CoreModel
         return null;
     }
 
-    public static function findByPage(PageModel $objPage, ?array $arrOptions = [])
+    public static function findByPage(PageModel $objPage, ?array $arrOptions = []): Collection|Model|Configuration|null
     {
         if ($objLayout = LayoutModel::findByPk($objPage->layout)) {
             // if ($objTheme = ThemeModel::findByPk($objLayout->pid)) {
@@ -135,7 +137,7 @@ class Configuration extends CoreModel
         return null;
     }
 
-    public static function findOneByPageId(int $pageId, ?array $arrOptions = [])
+    public static function findOneByPageId(int $pageId, ?array $arrOptions = []): Model|Configuration|null
     {
         $objPage = PageModel::findOneByPk($pageId);
         if ($objPage) {
@@ -145,7 +147,7 @@ class Configuration extends CoreModel
         return null;
     }
 
-    public static function findByPageId(int $pageId, ?array $arrOptions = [])
+    public static function findByPageId(int $pageId, ?array $arrOptions = []): Collection|Model|Configuration|null
     {
         $objPage = PageModel::findOneByPk($pageId);
         if ($objPage) {

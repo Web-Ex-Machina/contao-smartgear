@@ -69,7 +69,7 @@ class ConfigurationItem extends CoreModel
      *
      * @var array
      */
-    public static $arrSearchFields = ['tstamp'];
+    public static array $arrSearchFields = ['tstamp'];
     /**
      * Table name.
      *
@@ -92,7 +92,7 @@ class ConfigurationItem extends CoreModel
      *
      * @return array
      */
-    public static function formatStatement($strField, $varValue, $strOperator = '=')
+    public static function formatStatement(string $strField, $varValue, string $strOperator = '='): array
     {
         $arrColumns = [];
         $t = static::$strTable;
