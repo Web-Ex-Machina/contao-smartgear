@@ -16,8 +16,7 @@ namespace WEM\SmartgearBundle\Api\Backup\V1\Model;
 
 class CreateResponse
 {
-    /** @var array */
-    protected $backup = [];
+    protected array $backup = [];
 
     public function toJson(): string
     {
@@ -27,9 +26,6 @@ class CreateResponse
         return json_encode($json);
     }
 
-    /**
-     * @return mixed
-     */
     public function getBackup(): array
     {
         return $this->backup;

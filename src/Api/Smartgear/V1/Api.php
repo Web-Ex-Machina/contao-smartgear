@@ -25,21 +25,12 @@ use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class Api
 {
-    /** @var ManagerJson */
-    protected $coreConfigurationManager;
-    /** @var ApiKey */
-    protected $securityApiKey;
-    /** @var Token */
-    protected $securityToken;
 
     public function __construct(
-        ManagerJson $coreConfigurationManager,
-        ApiKey $securityApiKey,
-        Token $securityToken
-    ) {
-        $this->coreConfigurationManager = $coreConfigurationManager;
-        $this->securityApiKey = $securityApiKey;
-        $this->securityToken = $securityToken;
+        protected ManagerJson $coreConfigurationManager,
+        protected ApiKey $securityApiKey,
+        protected Token $securityToken)
+    {
     }
 
     public function token(): string
@@ -51,13 +42,12 @@ class Api
     {
         $sgVersion = null;
         $fwInstallPath = null;
-        $fwPackageJSON = null;
 
         $objSession = System::getContainer()->get('session');
         switch ($objSession->get('configuration_source')) {
             case 'file':
                 $fwInstallPath = 'assets/framway';
-                /** @var CoreConfig */
+                /** @var CoreConfig $config */
                 $config = $this->coreConfigurationManager->load();
 
                 $sgVersion = $config->getSgVersion();
@@ -68,6 +58,7 @@ class Api
                     $fwInstallPath = $objConfiguration->framway_path;
                     $sgVersion = $objConfiguration->version;
                 }
+
             break;
         }
 
@@ -80,7 +71,7 @@ class Api
             ],
             'php' => \PHP_VERSION,
             'contao' => Util::getCustomPackageVersion('contao/core-bundle'),
-            'framway' => $fwPackageJSON ? $fwPackageJSON->version : null,
+            'framway' => $fwPackageJSON?->version,
         ]);
     }
 
@@ -89,7 +80,7 @@ class Api
         try {
             $content = file_get_contents(sprintf('./%s/package.json', $path));
 
-            return !empty($content) ? json_decode($content) : null;
+            return $content === '' || $content === '0' || $content === false ? null : json_decode($content);
         } catch (Exception) {
             // nothing
         }

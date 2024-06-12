@@ -16,10 +16,10 @@ namespace WEM\SmartgearBundle\Api\Nominatim\V4\Model;
 
 class SearchResponse
 {
-    /** @var string */
-    protected $lat;
-    /** @var string */
-    protected $lon;
+
+    protected string $lat;
+
+    protected string $lon;
 
     public function getLat(): ?string
     {

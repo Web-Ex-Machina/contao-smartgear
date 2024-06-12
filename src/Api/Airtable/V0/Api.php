@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Api\Airtable\V0;
 
+use Contao\Environment;
 use DateTime;
 use Exception;
 use stdClass;
@@ -30,25 +31,21 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound;
 class Api
 {
     public const BASE_URL = 'https://api.airtable.com/v0/';
+
     public const CACHE_PATH = 'assets/smartgear/';
-    /** @var CoreConfigManager */
-    protected $configurationManager;
     /**
-     * @var string
-     *
      * @deprecated
      * */
-    protected $apiKeyUnified;
-    /** @var string */
-    protected $apiKeyRead;
-    /** @var string */
-    protected $apiKeyWrite;
+    protected string $apiKeyUnified;
 
-    public function __construct(CoreConfigManager $configurationManager)
+    protected string $apiKeyRead;
+
+    protected string $apiKeyWrite;
+
+    public function __construct(protected CoreConfigManager $configurationManager)
     {
-        $this->configurationManager = $configurationManager;
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
 
             $this->apiKeyUnified = $config->getSgAirtableApiKey();
@@ -175,6 +172,7 @@ class Api
         if ($cacheManager->cacheFileExists() && $cacheManager->hasValidCache()) {
             $cacheData = $cacheManager->retrieveFromCache()['data'];
         }
+
         if (\array_key_exists($clientRef, $cacheData)) {
             return $cacheData[$clientRef];
         }
@@ -185,6 +183,7 @@ class Api
         if (!$arrRecords) {
             return [];
         }
+
         $record = json_decode(json_encode($arrRecords[0]), true);
         $fields = $record['fields'];
 
@@ -216,6 +215,9 @@ class Api
         ];
     }
 
+    /**
+     * @throws Exception
+     */
     public function createTicket(string $subject, string $url, string $message, string $mail, string $version, ?string $clientId, ?string $clientRef, ?string $screenshotFileUrl = null): void
     {
         $base = 'appnCkg7yADMSvVAz'; // Support
@@ -275,9 +277,9 @@ class Api
      *
      * @return \stdClass The decoded response JSON
      */
-    protected function callForRead(string $url, array $data = [])
+    protected function callForRead(string $url, array $data = []): \stdClass
     {
-        if (!$this->apiKeyRead) {
+        if ($this->apiKeyRead === '' || $this->apiKeyRead === '0') {
             trigger_deprecation('webexmachina/contao-smartgear', '1.0.17', 'Falling back to using the old unified API key will be removed in Smartgear 2.0');
 
             return $this->call($url, $this->apiKeyUnified, $data);
@@ -294,9 +296,9 @@ class Api
      *
      * @return \stdClass The decoded response JSON
      */
-    protected function callForWrite(string $url, array $data = [])
+    protected function callForWrite(string $url, array $data = []): stdClass
     {
-        if (!$this->apiKeyRead) {
+        if ($this->apiKeyRead === '' || $this->apiKeyRead === '0') {
             trigger_deprecation('webexmachina/contao-smartgear', '1.0.17', 'Falling back to using the old unified API key will be removed in Smartgear 2.0');
 
             return $this->call($url, $this->apiKeyUnified, $data);
@@ -329,12 +331,13 @@ class Api
         $httpHeaders = [sprintf('Authorization: Bearer %s', $apiKey)];
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_USERAGENT, 'webexmachina/1.0 +'.\Contao\Environment::get('base'));
-        if (!empty($data)) {
+        curl_setopt($curl, CURLOPT_USERAGENT, 'webexmachina/1.0 +'. Environment::get('base'));
+        if ($data !== []) {
             $httpHeaders['Content-Type'] = 'application/json';
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
         }
+
         curl_setopt($curl, CURLOPT_HTTPHEADER, $httpHeaders);
         $jsonRaw = curl_exec($curl);
         curl_close($curl);
@@ -343,6 +346,7 @@ class Api
         if (\JSON_ERROR_NONE !== json_last_error()) {
             throw new ResponseSyntaxException(json_last_error_msg());
         }
+
         // @TODO : find a working way to test the response' http code
         // https://www.php.net/manual/fr/function.curl-getinfo.php
         // (official method responds "0" which isn't helpful)

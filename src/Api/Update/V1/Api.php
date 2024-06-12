@@ -22,42 +22,38 @@ use WEM\SmartgearBundle\Update\UpdateManager;
 
 class Api
 {
-    /** @var UpdateManager */
-    protected $updateManager;
-    /** @var ListResultToListResponse */
-    protected $listResultToListResponseMapper;
-    /** @var UpdateResultToUpdateResponse */
-    protected $updateResultToUpdateResponseMapper;
-
     public function __construct(
-        UpdateManager $updateManager,
-        ListResultToListResponse $listResultToListResponseMapper,
-        UpdateResultToUpdateResponse $updateResultToUpdateResponseMapper
-    ) {
-        $this->updateManager = $updateManager;
-        $this->listResultToListResponseMapper = $listResultToListResponseMapper;
-        $this->updateResultToUpdateResponseMapper = $updateResultToUpdateResponseMapper;
+        protected UpdateManager $updateManager,
+        protected ListResultToListResponse $listResultToListResponseMapper,
+        protected UpdateResultToUpdateResponse $updateResultToUpdateResponseMapper)
+    {
     }
 
-    public function list()
+    /**
+     * @throws \Exception
+     */
+    public function list(): ListResponse
     {
         try {
             $listResult = $this->updateManager->list();
             $response = $this->listResultToListResponseMapper->map($listResult, (new ListResponse()));
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (\Exception $exception) {
+            throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         return $response;
     }
 
-    public function update(?bool $noBackup = false)
+    /**
+     * @throws \Exception
+     */
+    public function update(?bool $noBackup = false): UpdateResponse
     {
         try {
             $updateResult = $this->updateManager->update(!$noBackup);
             $response = $this->updateResultToUpdateResponseMapper->map($updateResult, (new UpdateResponse()));
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (\Exception $exception) {
+            throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         return $response;

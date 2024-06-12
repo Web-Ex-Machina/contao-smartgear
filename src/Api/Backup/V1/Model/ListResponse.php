@@ -16,10 +16,9 @@ namespace WEM\SmartgearBundle\Api\Backup\V1\Model;
 
 class ListResponse
 {
-    /** @var int */
-    protected $total = 0;
-    /** @var array */
-    protected $backups = [];
+    protected int $total = 0;
+
+    protected array $backups = [];
 
     public function toJson(): string
     {
@@ -30,9 +29,6 @@ class ListResponse
         return json_encode($json);
     }
 
-    /**
-     * @return mixed
-     */
     public function getTotal(): int
     {
         return $this->total;
@@ -45,9 +41,6 @@ class ListResponse
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getBackups(): array
     {
         return $this->backups;

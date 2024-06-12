@@ -26,14 +26,14 @@ class Api
 {
     public const BASE_URL = 'https://nominatim.openstreetmap.org/';
 
-    /** @var StdClassToSearchResponseMapper */
-    protected $stdClassToSearchResponseMapper;
-
-    public function __construct(StdClassToSearchResponseMapper $stdClassToSearchResponseMapper)
+    public function __construct(protected StdClassToSearchResponseMapper $stdClassToSearchResponseMapper)
     {
-        $this->stdClassToSearchResponseMapper = $stdClassToSearchResponseMapper;
     }
 
+    /**
+     * @throws ResponseSyntaxException
+     * @throws ResponseContentException
+     */
     public function search(string $search): SearchResponse
     {
         $apiResponse = $this->call(sprintf('%ssearch?q=%s&format=jsonv2', self::BASE_URL, urlencode($search)))[0];
@@ -47,6 +47,10 @@ class Api
         ;
     }
 
+    /**
+     * @throws ResponseSyntaxException
+     * @throws ResponseContentException
+     */
     protected function call(string $url): array
     {
         $baseUrl = static::BASE_URL;
@@ -67,6 +71,7 @@ class Api
         if (\JSON_ERROR_NONE !== json_last_error()) {
             throw new ResponseSyntaxException(json_last_error_msg());
         }
+
         // @TODO : find a working way to test the response' http code
         // https://www.php.net/manual/fr/function.curl-getinfo.php
         // (official method responds "0" which isn't helpful)

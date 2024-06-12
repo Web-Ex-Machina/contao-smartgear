@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Api\Backup\V1;
 
+use Contao\File;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Api\Backup\V1\Model\CreateResponse;
 use WEM\SmartgearBundle\Api\Backup\V1\Model\ListResponse;
@@ -23,81 +24,83 @@ use WEM\SmartgearBundle\Backup\BackupManager;
 
 class Api
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var BackupManager */
-    protected $backupManager;
-    /** @var ListResultToListResponse */
-    protected $listResultToListResponseMapper;
-    /** @var CreateResultToCreateResponse */
-    protected $createResultToCreateResponseMapper;
-
     public function __construct(
-        TranslatorInterface $translator,
-        BackupManager $backupManager,
-        ListResultToListResponse $listResultToListResponseMapper,
-        CreateResultToCreateResponse $createResultToCreateResponseMapper
-    ) {
-        $this->translator = $translator;
-        $this->backupManager = $backupManager;
-        $this->listResultToListResponseMapper = $listResultToListResponseMapper;
-        $this->createResultToCreateResponseMapper = $createResultToCreateResponseMapper;
+        protected TranslatorInterface $translator,
+        protected BackupManager $backupManager,
+        protected ListResultToListResponse $listResultToListResponseMapper,
+        protected CreateResultToCreateResponse $createResultToCreateResponseMapper)
+    {
     }
 
-    public function list(int $limit, int $offset, ?int $before = null, ?int $after = null)
+    /**
+     * @throws \Exception
+     */
+    public function list(int $limit, int $offset, ?int $before = null, ?int $after = null): ListResponse
     {
         try {
             $listResult = $this->backupManager->list($limit, $offset, $before, $after);
             $response = $this->listResultToListResponseMapper->map($listResult, (new ListResponse()));
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (\Exception $exception) {
+            throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         return $response;
     }
 
-    public function create()
+    /**
+     * @throws \Exception
+     */
+    public function create(): CreateResponse
     {
         try {
             $createResult = $this->backupManager->newFromAPI();
             $response = $this->createResultToCreateResponseMapper->map($createResult, (new CreateResponse()));
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (\Exception $exception) {
+            throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         return $response;
     }
 
-    public function delete(string $backupName)
+    /**
+     * @throws \Exception
+     */
+    public function delete(string $backupName): false|string
     {
         try {
             if (!$this->backupManager->delete($backupName)) {
                 throw new \Exception($this->translator->trans('WEMSG.BACKUPMANAGER.API.messageDeleteError', [$backupName], 'contao_default'));
             }
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (\Exception $exception) {
+            throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         return json_encode(['message' => $this->translator->trans('WEMSG.BACKUPMANAGER.API.messageDeleteSuccess', [$backupName], 'contao_default')]);
     }
 
-    public function restore(string $backupName)
+    /**
+     * @throws \Exception
+     */
+    public function restore(string $backupName): false|string
     {
         try {
             $restoreResult = $this->backupManager->restore($backupName);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (\Exception $exception) {
+            throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         return json_encode(['message' => $this->translator->trans('WEMSG.BACKUPMANAGER.API.messageRestoreSuccess', [$backupName], 'contao_default')]);
     }
 
-    public function get(string $backupName)
+    /**
+     * @throws \Exception
+     */
+    public function get(string $backupName): File
     {
         try {
             $getResult = $this->backupManager->get($backupName);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (\Exception $exception) {
+            throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         return $getResult;

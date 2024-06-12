@@ -16,10 +16,10 @@ namespace WEM\SmartgearBundle\Api\Update\V1\Model;
 
 class ListResponse
 {
-    /** @var int */
-    protected $total = 0;
-    /** @var array */
-    protected $updates = [];
+
+    protected int $total = 0;
+
+    protected array $updates = [];
 
     public function toJson(): string
     {
@@ -30,9 +30,6 @@ class ListResponse
         return json_encode($json);
     }
 
-    /**
-     * @return mixed
-     */
     public function getTotal(): int
     {
         return $this->total;
@@ -45,9 +42,6 @@ class ListResponse
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getUpdates(): array
     {
         return $this->updates;

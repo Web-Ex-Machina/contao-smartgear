@@ -6,5 +6,7 @@ use Rector\Config\RectorConfig;
 
 return RectorConfig::configure()
     ->withPaths([__DIR__ . '/src'])
-    ->withPhpSets()
-    ->withPreparedSets(typeDeclarations: true, deadCode: true, codeQuality: true,codingStyle: true);
+    ->withPhpSets(php83: true)
+    ->withAttributesSets(symfony: true, doctrine: true)
+    ->withPreparedSets(deadCode: true, codeQuality: true, codingStyle: true, typeDeclarations: true)
+    ;

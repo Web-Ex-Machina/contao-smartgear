@@ -16,12 +16,12 @@ namespace WEM\SmartgearBundle\Api\Update\V1\Model;
 
 class UpdateResponse
 {
-    /** @var array */
-    protected $updates = [];
-    /** @var array */
-    protected $backup = [];
-    /** @var string */
-    protected $status;
+
+    protected array $updates = [];
+
+    protected array $backup = [];
+
+    protected string $status;
 
     public function toJson(): string
     {
@@ -33,9 +33,6 @@ class UpdateResponse
         return json_encode($json);
     }
 
-    /**
-     * @return mixed
-     */
     public function getUpdates(): array
     {
         return $this->updates;
