@@ -665,7 +665,7 @@ class Migration extends MigrationAbstract
             // insert all form fields
             foreach ($GLOBALS['TL_FFL'] as $group => $elements) {
                 foreach ($elements as $key => $classPath) {
-                    if (!str_starts_with($key, 'rsce_')) {
+                    if (!str_starts_with((string) $key, 'rsce_')) {
                         $formFields[] = $key;
                     }
                 }
@@ -676,7 +676,7 @@ class Migration extends MigrationAbstract
             // insert all RSCE elements
             foreach ($GLOBALS['TL_FFL'] as $group => $elements) {
                 foreach ($elements as $key => $classPath) {
-                    if (str_starts_with($key, 'rsce_')) {
+                    if (str_starts_with((string) $key, 'rsce_')) {
                         $formFields[] = $key;
                     }
                 }
@@ -687,7 +687,7 @@ class Migration extends MigrationAbstract
             // insert all form fields
             foreach ($GLOBALS['BE_FFL'] as $group => $elements) {
                 foreach ($elements as $key => $classPath) {
-                    if (!str_starts_with($key, 'rsce_')) {
+                    if (!str_starts_with((string) $key, 'rsce_')) {
                         $formFields[] = $key;
                     }
                 }
@@ -698,7 +698,7 @@ class Migration extends MigrationAbstract
             // insert all RSCE elements
             foreach ($GLOBALS['BE_FFL'] as $group => $elements) {
                 foreach ($elements as $key => $classPath) {
-                    if (str_starts_with($key, 'rsce_')) {
+                    if (str_starts_with((string) $key, 'rsce_')) {
                         $formFields[] = $key;
                     }
                 }

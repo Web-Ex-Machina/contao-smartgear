@@ -68,10 +68,10 @@ DCAManipulator::create('tl_module')
         'label' => &$GLOBALS['TL_LANG']['tl_module']['wem_sg_navigation'],
         'exclude' => true,
         'inputType' => 'select',
-        'options_callback' => [ModuleDCA::class, 'getModules'],
+        'options_callback' => (new ModuleDCA())->getModules(...),
         'eval' => ['mandatory' => true, 'chosen' => true, 'tl_class' => 'w50 wizard'],
         'wizard' => [
-            [ModuleDCA::class, 'editModule'],
+            (new ModuleDCA())->editModule(...),
         ],
         'sql' => "int(10) unsigned NOT NULL default '0'",
     ])
@@ -321,14 +321,14 @@ DCAManipulator::create('tl_module')
         'label' => &$GLOBALS['TL_LANG']['tl_content']['breadcrumb']['auto_placement_after_content_elements'],
         'inputType' => 'select',
         'eval' => ['tl_class' => 'w50 clr', 'multiple' => true, 'mandatory' => false, 'chosen' => true],
-        'options_callback' => [WEM\SmartgearBundle\DataContainer\Module::class, 'getOptionsForBreadcrumbAutoPlacementAfterContentElements'],
+        'options_callback' => (new WEM\SmartgearBundle\DataContainer\Module())->getOptionsForBreadcrumbAutoPlacementAfterContentElements(...),
         'sql' => 'TEXT NULL',
     ])
     ->addField('wem_sg_breadcrumb_auto_placement_after_modules', [
         'label' => &$GLOBALS['TL_LANG']['tl_content']['breadcrumb']['auto_placement_after_modules'],
         'inputType' => 'select',
         'eval' => ['tl_class' => 'w50 clr', 'multiple' => true, 'mandatory' => false, 'chosen' => true],
-        'options_callback' => [WEM\SmartgearBundle\DataContainer\Module::class, 'getOptionsForBreadcrumbAutoPlacementAfterModules'],
+        'options_callback' => (new WEM\SmartgearBundle\DataContainer\Module())->getOptionsForBreadcrumbAutoPlacementAfterModules(...),
         'sql' => 'TEXT NULL',
     ])
 
