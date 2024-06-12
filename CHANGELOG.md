@@ -1,7 +1,7 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
-1.1.0-rc2 - 2024-XX-XX
+1.1.0-rc2 - 2024-06-12
 - Fix : remove `heimrichhannot/contao-filename-sanitizer-bundle` to avoid problems in PHP > 8.1 (autowiring issue, bundle not updated since 2022)
 - Smartgear : some notifications' tokens updates 
     + `useful_data` now uses `<br />` as carriage return, available in `email_html` & `email_text` (only for compatibility)
@@ -9,6 +9,7 @@ SMARTGEAR Project for Contao Open Source CMS
     + `useful_data_text` (new token) uses `\n` as carriage return, available in `email_text` only
     + `useful_data_filled_text` (new token) uses `\n` as carriage return, available in `email_text` only
 - Smartgear : `email` field `mandatory` property is no more required when form is managed by Form Data Manager
+- Smartgear : fixed `form_captcha.html5`
 
 1.1.0 - 2023-11-29
 - Smartgear : new install process !
