@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Backend\Component\Blog;
 use Contao\ArticleModel;
 use Contao\ContentModel;
 use Contao\FilesModel;
+use Contao\Folder;
 use Contao\ModuleModel;
 use Contao\NewsArchiveModel;
 use Contao\NewsModel;
@@ -29,15 +30,19 @@ use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Model\Module;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class Resetter extends BackendResetter
 {
     /** @var string */
     protected $module = '';
+
     /** @var string */
     protected $type = '';
+
     /** @var ConfigurationManager */
     protected $configurationManager;
+
     /** @var TranslatorInterface */
     protected $translator;
 
@@ -57,19 +62,21 @@ class Resetter extends BackendResetter
         parent::__construct($configurationManager, $translator, $module, $type);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function reset(string $mode): void
     {
         // reset everything except what we wanted to keep
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var BlogConfig */
         $blogConfig = $config->getSgBlog();
 
         if (!$blogConfig) {
             return;
         }
 
-        /** @var BlogPresetConfig */
+        /** @var BlogPresetConfig $presetConfig */ //TODO : BlogPresetConfig not found
         $presetConfig = $blogConfig->getCurrentPreset();
 
         if (!$presetConfig) {
@@ -81,7 +88,7 @@ class Resetter extends BackendResetter
 
         switch ($mode) {
             case BlogConfig::ARCHIVE_MODE_ARCHIVE:
-                $objFolder = new \Contao\Folder($presetConfig->getSgNewsFolder());
+                $objFolder = new Folder($presetConfig->getSgNewsFolder());
                 if ($objFolder) {
                     $objFolder->renameTo(sprintf('files/archives/news-%s', (string) $archiveTimestamp));
                 }
@@ -116,11 +123,12 @@ class Resetter extends BackendResetter
                         $objModule->save();
                     }
                 }
+
             break;
             case BlogConfig::ARCHIVE_MODE_KEEP:
             break;
             case BlogConfig::ARCHIVE_MODE_DELETE:
-                $objFolder = new \Contao\Folder($presetConfig->getSgNewsFolder());
+                $objFolder = new Folder($presetConfig->getSgNewsFolder());
                 if ($objFolder) {
                     $objFolder->delete();
                 }
@@ -131,6 +139,7 @@ class Resetter extends BackendResetter
                         $news->delete();
                     }
                 }
+
                 $objNewsArchive = NewsArchiveModel::findById($blogConfig->getSgNewsArchive());
                 if ($objNewsArchive) {
                     $objNewsArchive->delete();
@@ -161,10 +170,10 @@ class Resetter extends BackendResetter
                         $objModule->delete();
                     }
                 }
+
             break;
             default:
                 throw new \InvalidArgumentException($this->translator->trans('WEMSG.BLOG.RESET.deleteModeUnknown', [], 'contao_default'));
-            break;
         }
 
         $blogConfig->setSgArchived(true)
@@ -179,15 +188,15 @@ class Resetter extends BackendResetter
 
     protected function resetUserGroupSettings(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var BlogConfig */
         $blogConfig = $config->getSgBlog();
 
         $objGroupRedactors = UserGroupModel::findOneById($config->getSgUserGroupRedactors());
         if ($objGroupRedactors) {
             $this->resetUserGroup($objGroupRedactors, $blogConfig);
         }
+
         $objGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
         if ($objGroupAdministrators) {
             $this->resetUserGroup($objGroupAdministrators, $blogConfig);

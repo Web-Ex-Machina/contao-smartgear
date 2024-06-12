@@ -39,6 +39,7 @@ class ConfigurationStepManager extends ConfigurationStepManagerBase
         $config = $this->configurationManager->load();
         $blogConfig = $config->getSgBlog();
         $blogConfig->setSgInstallComplete(true);
+
         $config->setSgBlog($blogConfig);
         $this->configurationManager->save($config);
     }

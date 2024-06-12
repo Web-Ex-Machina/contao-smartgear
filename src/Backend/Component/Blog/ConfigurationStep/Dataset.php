@@ -14,7 +14,9 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Blog\ConfigurationStep;
 
+use Contao\File;
 use Contao\Input;
+use Contao\NewsModel;
 use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
@@ -25,34 +27,26 @@ use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 
 class Dataset extends ConfigurationStep
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var CommandUtil */
-    protected $commandUtil;
-    /** @var string */
-    protected $sourceDirectory;
+
+
+
+    protected array|string $sourceDirectory;
 
     // protected $strTemplate = 'be_wem_sg_install_block_configuration_step_blog_general';
 
     public function __construct(
-        string $module,
-        string $type,
-        TranslatorInterface $translator,
-        ConfigurationManager $configurationManager,
-        CommandUtil $commandUtil,
-        string $sourceDirectory
+        string                         $module,
+        string                         $type,
+        protected TranslatorInterface  $translator,
+        protected ConfigurationManager $configurationManager,
+        protected CommandUtil          $commandUtil,
+        string                         $sourceDirectory
     ) {
         parent::__construct($module, $type);
-        $this->configurationManager = $configurationManager;
-        $this->commandUtil = $commandUtil;
-        $this->translator = $translator;
         $this->sourceDirectory = str_replace('[public_or_web]', Util::getPublicOrWebDirectory(true), $sourceDirectory);
 
         $this->title = $this->translator->trans('WEMSG.BLOG.INSTALL_DATASET.title', [], 'contao_default');
-        /** @var BlogConfig */
-        $config = $this->configurationManager->load()->getSgBlog();
+        $this->configurationManager->load()->getSgBlog();
 
         $datasetOptions = [];
 
@@ -63,6 +57,9 @@ class Dataset extends ConfigurationStep
         $this->addSelectField('dataset', $this->translator->trans('WEMSG.BLOG.INSTALL_DATASET.dataset', [], 'contao_default'), $datasetOptions, 'none', true, false, '', 'select', $this->translator->trans('WEMSG.BLOG.INSTALL_DATASET.datasetHelp', [], 'contao_default'));
     }
 
+    /**
+     * @throws Exception
+     */
     public function isStepValid(): bool
     {
         // check if the step is correct
@@ -73,6 +70,9 @@ class Dataset extends ConfigurationStep
         return true;
     }
 
+    /**
+     * @throws Exception
+     */
     public function do(): void
     {
         // do what is meant to be done in this step
@@ -142,14 +142,17 @@ class Dataset extends ConfigurationStep
         $this->createOrUpdateNews($newsArchiveId, 'Actualité R', 'actualité-r', $authorId, strtotime('-15 days'), strtotime('-15 days'), $this->getLoremIpsum(120), $filesDirectory.\DIRECTORY_SEPARATOR.'fileN.jpg', true);
     }
 
+    /**
+     * @throws Exception
+     */
     protected function cleanDatasets(): void
     {
         $blogConfig = $this->configurationManager->load()->getSgBlog();
         $directory = $blogConfig->getCurrentPreset()->getSgNewsFolder();
-        $newsArchiveId = $blogConfig->getSgNewsArchive();
+        $blogConfig->getSgNewsArchive();
         $fileNamesToDelete = ['fileA.jpg', 'fileB.jpg', 'fileC.jpg', 'fileD.jpg', 'fileE.jpg', 'fileF.jpg', 'fileG.jpg', 'fileH.jpg', 'fileI.jpg', 'fileJ.jpg', 'fileK.jpg', 'fileL.jpg', 'fileM.jpg', 'fileN.jpg'];
         foreach ($fileNamesToDelete as $filenameToDelete) {
-            $objFile = new \Contao\File($directory.\DIRECTORY_SEPARATOR.$filenameToDelete);
+            $objFile = new File($directory.\DIRECTORY_SEPARATOR.$filenameToDelete);
             if ($objFile->exists()) {
                 $objFile->delete();
             }
@@ -157,19 +160,22 @@ class Dataset extends ConfigurationStep
 
         $newsAliasesToDelete = ['news-test-a', 'news-test-b', 'actualité-c'];
         foreach ($newsAliasesToDelete as $newsAliasToDelete) {
-            $objNews = \Contao\NewsModel::findOneByAlias($newsAliasToDelete);
+            $objNews = NewsModel::findOneByAlias($newsAliasToDelete);
             if ($objNews) {
                 $objNews->delete();
             }
         }
     }
 
+    /**
+     * @throws Exception
+     */
     protected function copyFiles(array $filenames): void
     {
         $blogConfig = $this->configurationManager->load()->getSgBlog();
         $destinationDirectory = $blogConfig->getCurrentPreset()->getSgNewsFolder();
         foreach ($filenames as $filenameToCopy) {
-            $objFile = new \Contao\File($this->sourceDirectory.\DIRECTORY_SEPARATOR.$filenameToCopy);
+            $objFile = new File($this->sourceDirectory.\DIRECTORY_SEPARATOR.$filenameToCopy);
             if (!$objFile->copyTo($destinationDirectory.\DIRECTORY_SEPARATOR.$filenameToCopy)) {
                 throw new Exception($this->translator->trans('WEMSG.DIRECTORIESSYNCHRONIZER.error', [$this->sourceDirectory.\DIRECTORY_SEPARATOR.$filenameToCopy, $destinationDirectory.\DIRECTORY_SEPARATOR.$filenameToCopy], 'contao_default'));
             }
@@ -179,15 +185,12 @@ class Dataset extends ConfigurationStep
     protected function createOrUpdateNews(int $pid, string $title, string $alias, int $author, $date, $time, string $teaser, string $fileSRC, bool $published): void
     {
         $singleSRC = $fileSRC;
-        if (!empty($fileSRC)) {
+        if ($fileSRC !== '' && $fileSRC !== '0') {
             $objFile = \Contao\FilesModel::findByPath($fileSRC);
-            if ($objFile) {
-                $singleSRC = $objFile->uuid;
-            } else {
-                $singleSRC = null;
-            }
+            $singleSRC = $objFile ? $objFile->uuid : null;
         }
-        $objNews = \Contao\NewsModel::findOneByAlias($alias) ?? new \Contao\NewsModel();
+
+        $objNews = NewsModel::findOneByAlias($alias) ?? new NewsModel();
         $objNews->pid = $pid;
         $objNews->title = $title;
         $objNews->headline = $title;
@@ -203,7 +206,7 @@ class Dataset extends ConfigurationStep
         $objNews->save();
     }
 
-    protected function getLoremIpsum(int $length)
+    protected function getLoremIpsum(int $length): string
     {
         return substr('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam at semper sapien. Vivamus ac consequat ligula. Suspendisse dapibus nisi laoreet, porta nisl eget, ornare neque. Aliquam eu ex molestie, rhoncus tortor sed, pellentesque nisi. Donec auctor venenatis sapien, fermentum consequat lorem placerat sit amet. Maecenas ac placerat tellus. Nulla nunc mi, tempus non mollis vitae, venenatis sed purus. Sed eu velit imperdiet, cursus libero et, porttitor risus. Suspendisse potenti. Vestibulum eget nisl lectus. Vestibulum eu interdum tellus, nec rhoncus augue. Ut orci justo, feugiat ut nunc tristique, faucibus consequat quam. Fusce dignissim sagittis lectus, non placerat odio porttitor vitae. Curabitur suscipit erat et dolor hendrerit commodo. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc a elit condimentum, semper felis ut, mattis justo.', 0, $length);
     }

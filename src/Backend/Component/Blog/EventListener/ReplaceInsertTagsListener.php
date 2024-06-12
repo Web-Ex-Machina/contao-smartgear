@@ -20,13 +20,8 @@ use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
 {
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-
-    public function __construct(
-        CoreConfigurationManager $coreConfigurationManager
-    ) {
-        $this->coreConfigurationManager = $coreConfigurationManager;
+    public function __construct(protected CoreConfigurationManager $coreConfigurationManager)
+    {
     }
 
     /**
@@ -54,38 +49,12 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
         array $cache,
         int $_rit,
         int $_cnt
-    ) {
+    ): false|string
+    {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
         if ('sg' === $key && str_starts_with($elements[1], 'blog')) {
             return static::NOT_HANDLED;
-            /** @var CoreConfig */
-            $config = $this->coreConfigurationManager->load();
-            $blogConfig = $config->getSgBlog();
-
-            if (!$blogConfig->getSgInstallComplete()) {
-                return static::NOT_HANDLED;
-            }
-
-            return match ($elements[1]) {
-                'blog_installComplete' => $blogConfig->getSgInstallComplete() ? '1' : '0',
-                'blog_newsArchive' => (string) $blogConfig->getSgNewsArchive(),
-                'blog_page' => (string) $blogConfig->getSgPage(),
-                'blog_article' => (string) $blogConfig->getSgArticle(),
-                'blog_contentHeadline' => (string) $blogConfig->getSgContentHeadline(),
-                'blog_contentList' => (string) $blogConfig->getSgContentList(),
-                'blog_moduleReader' => (string) $blogConfig->getSgModuleReader(),
-                'blog_moduleList' => (string) $blogConfig->getSgModuleList(),
-                'blog_currentPresetIndex' => (string) $blogConfig->getSgCurrentPresetIndex(),
-                'blog_archived' => $blogConfig->getSgArchived() ? '1' : '0',
-                'blog_archivedAt' => (string) $blogConfig->getSgArchivedAt(),
-                'blog_archivedMode' => $blogConfig->getSgArchivedMode(),
-                'blog_newsFolder' => $blogConfig->getCurrentPreset()->getSgNewsFolder(),
-                'blog_newsArchiveTitle' => $blogConfig->getCurrentPreset()->getSgNewsArchiveTitle(),
-                'blog_newsListPerPage' => (string) $blogConfig->getCurrentPreset()->getSgNewsListPerPage(),
-                'blog_newsPageTitle' => $blogConfig->getCurrentPreset()->getSgPageTitle(),
-                default => static::NOT_HANDLED,
-            };
         }
 
         return static::NOT_HANDLED;

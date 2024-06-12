@@ -27,22 +27,23 @@ use WEM\SmartgearBundle\Classes\Util;
 class Block extends BackendBlock
 {
     public const MODE_RESET = 'check_reset';
+
     protected $type = 'component';
+
     protected $module = 'blog';
+
     protected $icon = 'exclamation-triangle';
+
     protected $title = 'Blog';
 
-    protected $resetStepManager;
-
     public function __construct(
-        TranslatorInterface $translator,
-        ConfigurationManager $configurationManager,
-        ConfigurationStepManager $configurationStepManager,
-        ResetStepManager $resetStepManager,
-        Dashboard $dashboard
+        TranslatorInterface        $translator,
+        ConfigurationManager       $configurationManager,
+        ConfigurationStepManager   $configurationStepManager,
+        protected ResetStepManager $resetStepManager,
+        Dashboard                  $dashboard
     ) {
         parent::__construct($configurationManager, $configurationStepManager, $dashboard, $translator);
-        $this->resetStepManager = $resetStepManager;
     }
 
     public function processAjaxRequest(): void
@@ -61,6 +62,7 @@ class Block extends BackendBlock
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigAddAjaxMessageError'].$e->getMessage();
                         $arrResponse['output'] = $e->getMessage();
                     }
+
                 break;
                 case 'blogPresetGet':
                     try {
@@ -74,6 +76,7 @@ class Block extends BackendBlock
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigGetAjaxMessageError'].$e->getMessage();
                         // $arrResponse['output'] = $e->getMessage();
                     }
+
                 break;
                 case 'reset_mode':
                     $this->setMode(self::MODE_RESET);
@@ -81,10 +84,6 @@ class Block extends BackendBlock
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
                 break;
                 case 'reset_mode_check_cancel':
-                    $this->setMode(self::MODE_DASHBOARD);
-                    $content = $this->parse();
-                    $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('replaceBlockContent', [$content])]];
-                break;
                 case 'back_to_dashboard':
                     $this->setMode(self::MODE_DASHBOARD);
                     $content = $this->parse();
@@ -94,12 +93,12 @@ class Block extends BackendBlock
                     parent::processAjaxRequest();
                 break;
             }
-        } catch (Exception $e) {
-            $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
+        } catch (Exception $exception) {
+            $arrResponse = ['status' => 'error', 'msg' => $exception->getMessage(), 'trace' => $exception->getTrace()];
         }
 
         // Add Request Token to JSON answer and return
-        $arrResponse['rt'] = \Contao\RequestToken::get();
+        $arrResponse['rt'] = \Contao\RequestToken::get(); // TODO : deprecated Token
         echo json_encode($arrResponse);
         exit;
     }
@@ -152,22 +151,20 @@ class Block extends BackendBlock
 
     protected function finish(): array
     {
-        switch ($this->getMode()) {
-            case self::MODE_RESET:
-                $this->resetStepManager->finish();
-                $messageParameters = Util::messagesToToastrCallbacksParameters($this->resetStepManager->getCurrentStep()->getMessages());
-                foreach ($messageParameters as $singleMessageParameters) {
-                    $callbacks[] = $this->callback('toastrDisplay', $singleMessageParameters);
-                }
+        $i = $this->getMode();
+        if ($i === self::MODE_RESET) {
+            $this->resetStepManager->finish();
+            $messageParameters = Util::messagesToToastrCallbacksParameters($this->resetStepManager->getCurrentStep()->getMessages());
+            foreach ($messageParameters as $singleMessageParameters) {
+                $callbacks[] = $this->callback('toastrDisplay', $singleMessageParameters);
+            }
 
-                $callbacks[] = $this->callback('refreshBlock');
-                $this->setMode(self::MODE_INSTALL);
-                $this->configurationStepManager->setCurrentStepIndex(0);
-                $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => $callbacks];
-            break;
-            default:
-                return parent::finish();
-            break;
+            $callbacks[] = $this->callback('refreshBlock');
+            $this->setMode(self::MODE_INSTALL);
+            $this->configurationStepManager->setCurrentStepIndex(0);
+            $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => $callbacks];
+        } else {
+            return parent::finish();
         }
 
         return $arrResponse;
@@ -183,13 +180,13 @@ class Block extends BackendBlock
 
     protected function parseSteps()
     {
-        switch ($this->getMode()) {
-            case self::MODE_RESET:
-                return $this->configurationStepManager->parseSteps();
-            break;
-            default:
-                parent::parseSteps();
-            break;
+        $i = $this->getMode();
+        if ($i === self::MODE_RESET) {
+            return $this->configurationStepManager->parseSteps();
+        } else {
+            parent::parseSteps();
         }
+
+        return null;
     }
 }

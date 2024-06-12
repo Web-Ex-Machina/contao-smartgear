@@ -23,26 +23,18 @@ use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 
 class General extends AbstractStep
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var Resetter */
-    protected $resetter;
+
 
     protected $strTemplate = 'be_wem_sg_install_block_reset_step_blog_general';
 
     public function __construct(
         string $module,
         string $type,
-        TranslatorInterface $translator,
-        ConfigurationManager $configurationManager,
-        Resetter $resetter
+        protected TranslatorInterface $translator,
+        protected ConfigurationManager $configurationManager,
+        protected Resetter $resetter
     ) {
         parent::__construct($module, $type);
-        $this->translator = $translator;
-        $this->configurationManager = $configurationManager;
-        $this->resetter = $resetter;
 
         $this->title = $this->translator->trans('WEMSG.BLOG.RESET.title', [], 'contao_default');
 

@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Backend\Component\Blog\ConfigurationStep;
 use Contao\ArticleModel;
 use Contao\ContentModel;
 use Contao\FilesModel;
+use Contao\Folder;
 use Contao\Input;
 use Contao\ModuleModel;
 use Contao\NewsArchiveModel;
@@ -41,29 +42,21 @@ use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class General extends ConfigurationStep
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var CommandUtil */
-    protected $commandUtil;
+
 
     protected $strTemplate = 'be_wem_sg_install_block_configuration_step_blog_general';
 
     public function __construct(
-        string $module,
-        string $type,
-        TranslatorInterface $translator,
-        ConfigurationManager $configurationManager,
-        CommandUtil $commandUtil
+        string                         $module,
+        string                         $type,
+        protected TranslatorInterface  $translator,
+        protected ConfigurationManager $configurationManager,
+        protected CommandUtil          $commandUtil
     ) {
         parent::__construct($module, $type);
-        $this->configurationManager = $configurationManager;
-        $this->commandUtil = $commandUtil;
-        $this->translator = $translator;
 
         $this->title = $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.title', [], 'contao_default');
-        /** @var BlogConfig */
+        /** @var BlogConfig $config */
         $config = $this->configurationManager->load()->getSgBlog();
 
         $sgNewsConfigOptions = [];
@@ -90,24 +83,32 @@ class General extends ConfigurationStep
         $this->addCheckboxField('expertMode', $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.expertMode', [], 'contao_default'), '1', BlogConfig::MODE_EXPERT === $config->getSgMode());
     }
 
+    /**
+     * @throws Exception
+     */
     public function isStepValid(): bool
     {
         // check if the step is correct
         if (null === Input::post('newsConfig', null)) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsConfigMissing', [], 'contao_default'));
         }
+
         if (null === Input::post('newsArchiveTitle', null)) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsArchiveTitleMissing', [], 'contao_default'));
         }
+
         if (null === Input::post('newsListPerPage', null)) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsListPerPageMissing', [], 'contao_default'));
         }
+
         if (0 > (int) Input::post('newsListPerPage')) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsListPerPageTooLow', [], 'contao_default'));
         }
+
         if (null === Input::post('pageTitle', null)) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.pageTitleMissing', [], 'contao_default'));
         }
+
         if (null === Input::post('newsFolder', null)) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsFolderMissing', [], 'contao_default'));
         }
@@ -145,9 +146,8 @@ class General extends ConfigurationStep
             throw new \InvalidArgumentException($this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.fieldNewsPresetNameIncorrectFormat', [], 'contao_default'));
         }
 
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var BlogPresetConfig */
         $presetConfig = new BlogPresetConfig();
         $presetConfig->setSgNewsArchiveTitle($newsConfigTitle);
         $config->getSgBlog()->addOrUpdatePreset($presetConfig);
@@ -157,7 +157,7 @@ class General extends ConfigurationStep
         return $config->getSgBlog()->getPresetIndex($presetConfig);
     }
 
-    public function presetGet(int $id)
+    public function presetGet(int $id): BlogPresetConfig
     {
         /* @var BlogPresetConfig */
         return $this->configurationManager->load()->getSgBlog()->getPresetByIndex($id);
@@ -165,9 +165,8 @@ class General extends ConfigurationStep
 
     public function updateUserGroups(bool $expertMode): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var BlogConfig */
         $blogConfig = $config->getSgBlog();
 
         $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $expertMode, $blogConfig);
@@ -176,9 +175,8 @@ class General extends ConfigurationStep
 
     protected function updateModuleConfiguration(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var BlogConfig */
         $blogConfig = $config->getSgBlog();
 
         $blogConfig
@@ -202,17 +200,19 @@ class General extends ConfigurationStep
         $this->configurationManager->save($config);
     }
 
+    /**
+     * @throws Exception
+     */
     protected function createFolder(): void
     {
-        $objFolder = new \Contao\Folder(Input::post('newsFolder', null));
+        $objFolder = new Folder(Input::post('newsFolder', null));
         $objFolder->unprotect();
     }
 
     protected function createPage(): PageModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var BlogConfig */
         $blogConfig = $config->getSgBlog();
         $presetConfig = $blogConfig->getCurrentPreset();
 
@@ -239,9 +239,8 @@ class General extends ConfigurationStep
 
     protected function createArticle(PageModel $page): ArticleModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var BlogConfig */
         $blogConfig = $config->getSgBlog();
         $presetConfig = $blogConfig->getCurrentPreset();
 
@@ -258,9 +257,8 @@ class General extends ConfigurationStep
 
     protected function createNewsArchive(PageModel $page): NewsArchiveModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var BlogConfig */
         $blogConfig = $config->getSgBlog();
         $presetConfig = $blogConfig->getCurrentPreset();
 
@@ -285,11 +283,11 @@ class General extends ConfigurationStep
 
     protected function createModules(PageModel $page, NewsArchiveModel $newsArchive): array
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var BlogConfig */
+
         $blogConfig = $config->getSgBlog();
-        $presetConfig = $blogConfig->getCurrentPreset();
+        $blogConfig->getCurrentPreset();
 
         $moduleReader = new ModuleModel();
         $moduleList = new ModuleModel();
@@ -299,6 +297,7 @@ class General extends ConfigurationStep
             if ($moduleReaderOld) {
                 $moduleReaderOld->delete();
             }
+
             // $moduleReader->id = $blogConfig->getSgModuleReader();
         }
 
@@ -321,6 +320,7 @@ class General extends ConfigurationStep
             if ($moduleListOld) {
                 $moduleListOld->delete();
             }
+
             // $moduleList->id = $blogConfig->getSgModuleList();
         }
 
@@ -350,17 +350,12 @@ class General extends ConfigurationStep
 
     protected function fillArticle(PageModel $page, ArticleModel $article, array $modules): array
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
         $blogConfig = $config->getSgBlog();
 
         $list = ContentModel::findById($blogConfig->getSgContentList());
-        $list = ContentUtil::createContent($article, array_merge([
-            'type' => 'module',
-            'pid' => $article->id,
-            'ptable' => 'tl_article',
-            'module' => $modules['list']->id,
-        ], ['id' => null !== $list ? $list->id : null]));
+        $list = ContentUtil::createContent($article, ['type' => 'module', 'pid' => $article->id, 'ptable' => 'tl_article', 'module' => $modules['list']->id, 'id' => null !== $list ? $list->id : null]);
 
         $article->save();
 
@@ -371,9 +366,9 @@ class General extends ConfigurationStep
 
     protected function updateModuleConfigurationAfterGenerations(PageModel $page, ArticleModel $article, NewsArchiveModel $newsArchive, array $modules, array $contents): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var BlogConfig */
+
         $blogConfig = $config->getSgBlog();
 
         $blogConfig
@@ -390,6 +385,9 @@ class General extends ConfigurationStep
         $this->configurationManager->save($config);
     }
 
+    /**
+     * @throws Exception
+     */
     protected function updateUserGroup(UserGroupModel $objUserGroup, bool $expertMode, BlogConfig $blogConfig): void
     {
         $objFolder = FilesModel::findByPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
@@ -417,12 +415,11 @@ class General extends ConfigurationStep
         $objUserGroup->save();
     }
 
-    private function setBlogConfigKey(string $key, $value): void
+    private function setBlogConfigKey(string $key, int $value): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
 
-        /** @var BlogConfig */
         $blogConfig = $config->getSgBlog();
 
         $blogConfig->{$key}($value);
