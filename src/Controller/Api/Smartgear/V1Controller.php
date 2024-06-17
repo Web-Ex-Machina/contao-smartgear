@@ -43,40 +43,36 @@ class V1Controller extends Controller
     /**
      *
      * @param Request $request Current request
-     * @return Response
      */
     #[Route(path: '/token', methods: ['GET'])]
-    public function tokenAction(Request $request)
+    public function tokenAction(Request $request): Response
     {
         try{
             if(!$this->securityApiKey->validate($request->query->get('apikey'))){
-                throw new Exception('Api keys don\'t match');
+                throw new Exception("Api keys don't match");
             }
 
             // define token and return it
             $tokenResponse = $this->api->token();
 
-        }catch(\Exception $e){
-            return new Response(json_encode(['message'=>$e->getMessage()]), 400,['Content-Type'=>'application/json']);
+        }catch(\Exception $exception){
+            return new Response(json_encode(['message'=>$exception->getMessage()]), 400,['Content-Type'=>'application/json']);
         }
+
         return new Response($tokenResponse, 200,['Content-Type'=>'application/json']);
     }
 
-    /**
-     *
-     * @param Request $request Current request
-     * @return Response
-     */
     #[Route(path: '/version', methods: ['GET'])]
-    public function versionAction(Request $request)
+    public function versionAction(Request $request): Response
     {
         try{
             $this->validateToken($request);
 
             $versionResponse = $this->api->version();
-        }catch(\Exception $e){
-            return new Response(json_encode(['message'=>$e->getMessage()]), 400,['Content-Type'=>'application/json']);
+        }catch(\Exception $exception){
+            return new Response(json_encode(['message'=>$exception->getMessage()]), 400,['Content-Type'=>'application/json']);
         }
+
         return new Response($versionResponse, 200,['Content-Type'=>'application/json']);
     }
 

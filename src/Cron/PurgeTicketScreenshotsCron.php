@@ -19,6 +19,9 @@ use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class PurgeTicketScreenshotsCron
 {
+    /**
+     * @throws \Exception
+     */
     public function __invoke(): void
     {
         $objFolder = new Folder(CoreConfig::DEFAULT_CLIENT_FILES_FOLDER.\DIRECTORY_SEPARATOR.'tickets');

@@ -17,8 +17,6 @@ namespace WEM\SmartgearBundle\Controller\Api\Update;
 use Contao\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Terminal42\ServiceAnnotationBundle\Annotation\ServiceTag;
 use WEM\SmartgearBundle\Api\Update\V1\Api;
@@ -31,30 +29,20 @@ use WEM\SmartgearBundle\Exceptions\Api\InvalidTokenException;
 #[ServiceTag(["controller.service_arguments"])]
 class V1Controller extends Controller
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var Api */
-    protected $api;
 
     public function __construct(
-        protected ContaoFramework $framework, 
-        TranslatorInterface $translator,
-        Api $api,
-        protected Token $securityToken
+        protected ContaoFramework     $framework,
+        protected TranslatorInterface $translator,
+        protected Api                 $api,
+        protected Token               $securityToken
     )
     {
-        $this->translator = $translator;
-        $this->api = $api;
         $this->framework->initialize();
+        parent::__construct();
     }
 
-    /**
-     *
-     * @param Request $request Current request
-     * @return Response
-     */
     #[Route(path: '/list', methods: ['GET'])]
-    public function listAction(Request $request)
+    public function listAction(Request $request): Response
     {
         try{
             $this->validateToken($request);
@@ -63,18 +51,13 @@ class V1Controller extends Controller
                 200,
                 ['Content-Type'=>'application/json']
              );
-        }catch(\Exception $e){
-            return new Response(json_encode(['message'=>$e->getMessage()]), 400,['Content-Type'=>'application/json']);
+        }catch(\Exception $exception){
+            return new Response(json_encode(['message'=>$exception->getMessage()]), 400,['Content-Type'=>'application/json']);
         }
     }
 
-    /**
-     *
-     * @param Request $request Current request
-     * @return Response
-     */
     #[Route(path: '/update', methods: ['POST'])]
-    public function updateAction(Request $request)
+    public function updateAction(Request $request): Response
     {
         try{
             $this->validateToken($request);
@@ -83,11 +66,14 @@ class V1Controller extends Controller
                 200,
                 ['Content-Type'=>'application/json']
              );
-        }catch(\Exception $e){
-            return new Response(json_encode(['message'=>$e->getMessage()]), 400,['Content-Type'=>'application/json']);
+        }catch(\Exception $exception){
+            return new Response(json_encode(['message'=>$exception->getMessage()]), 400,['Content-Type'=>'application/json']);
         }
     }
 
+    /**
+     * @throws InvalidTokenException
+     */
     protected function validateToken(Request $request): void
     {
         if(!$this->securityToken->validate($request->query->get('token'))){
