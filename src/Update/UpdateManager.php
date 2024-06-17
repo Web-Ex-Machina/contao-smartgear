@@ -26,33 +26,14 @@ use WEM\SmartgearBundle\Update\Results\UpdateResult;
 
 class UpdateManager
 {
-    /** @var CoreConfigManager */
-    protected $configurationManager;
-    /** @var BackupManager */
-    protected $backupManager;
-    /** @var DirectoriesSynchronizer */
-    protected $templatesSmartgearSynchronizer;
-    /** @var DirectoriesSynchronizer */
-    protected $templatesRsceSynchronizer;
-    /** @var DirectoriesSynchronizer */
-    protected $templatesGeneralSynchronizer;
-    /** @var array */
-    protected $migrations;
-
     public function __construct(
-        CoreConfigManager $configurationManager,
-        BackupManager $backupManager,
-        DirectoriesSynchronizer $templatesSmartgearSynchronizer,
-        DirectoriesSynchronizer $templatesRsceSynchronizer,
-        DirectoriesSynchronizer $templatesGeneralSynchronizer,
-        array $migrations
-    ) {
-        $this->configurationManager = $configurationManager;
-        $this->backupManager = $backupManager;
-        $this->templatesSmartgearSynchronizer = $templatesSmartgearSynchronizer;
-        $this->templatesRsceSynchronizer = $templatesRsceSynchronizer;
-        $this->templatesGeneralSynchronizer = $templatesGeneralSynchronizer;
-        $this->migrations = $migrations;
+        protected CoreConfigManager $configurationManager,
+        protected BackupManager $backupManager,
+        protected DirectoriesSynchronizer $templatesSmartgearSynchronizer,
+        protected DirectoriesSynchronizer $templatesRsceSynchronizer,
+        protected DirectoriesSynchronizer $templatesGeneralSynchronizer,
+        protected array $migrations)
+    {
     }
 
     public function list(): ListResult

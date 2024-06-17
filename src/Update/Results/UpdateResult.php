@@ -19,14 +19,16 @@ use WEM\SmartgearBundle\Backup\Model\Results\CreateResult as BackupResult;
 class UpdateResult
 {
     public const STATUS_SUCCESS = 'success';
+
     public const STATUS_FAIL = 'fail';
+
     public const STATUS_ONGOING = 'ongoing';
-    /** @var string */
-    protected $status = self::STATUS_ONGOING;
-    /** @var array */
-    protected $results = [];
-    /** @var BackupResult */
-    protected $backupResult;
+
+    protected string $status = self::STATUS_ONGOING;
+
+    protected array $results = [];
+
+    protected BackupResult $backupResult;
 
     public function addResult(SingleMigrationResult $result): self
     {

@@ -20,14 +20,13 @@ use WEM\SmartgearBundle\Classes\Version\Version;
 
 class SingleMigrationResult
 {
-    /** @var string */
-    protected $name;
-    /** @var string */
-    protected $description;
-    /** @var Version */
-    protected $version;
-    /** @var MigrationResult */
-    protected $result;
+    protected string $name;
+
+    protected string $description;
+
+    protected Version $version;
+
+    protected MigrationResult $result;
 
     public function setMigration(MigrationInterface $migration): self
     {
@@ -50,25 +49,16 @@ class SingleMigrationResult
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return mixed
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @return mixed
-     */
     public function getVersion(): Version
     {
         return $this->version;

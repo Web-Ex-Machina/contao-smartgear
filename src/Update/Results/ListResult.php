@@ -18,8 +18,7 @@ use WEM\SmartgearBundle\Classes\Migration\Result as MigrationResult;
 
 class ListResult
 {
-    /** @var array */
-    protected $results = [];
+    protected array $results = [];
 
     public function addResult(SingleMigrationResult $result): self
     {
