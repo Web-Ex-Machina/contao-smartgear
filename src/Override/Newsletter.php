@@ -42,9 +42,10 @@ class Newsletter extends ContaoNewsletter
     /**
      * Return a form to choose an existing CSV file and import it.
      *
+     * @param DataContainer $dc
      * @return string
      */
-    public function send(DataContainer $dc)
+    public function send(DataContainer $dc): string
     {
         // OVERLOAD 1 : Kill the JOIN ON because the newsletter aren't connected to channels by PID anymore
         $objNewsletter = $this->Database->prepare('SELECT n.*,n.template as "template_source",n.sender as "sender_source",n.senderName as "senderName_source" FROM tl_newsletter n WHERE n.id=?')
@@ -146,7 +147,7 @@ class Newsletter extends ContaoNewsletter
 
             // OVERLOAD 3.0 : Determine the channels concerned by the newletter
             $arrChannels = deserialize($objNewsletter->channels);
-            if (!\is_array($arrChannels) || empty($arrChannels)) {
+            if (!\is_array($arrChannels) || $arrChannels === []) {
                 Message::addError("La newsletter n'est connectée à aucune liste d'abonnés");
                 Message::addError($GLOBALS['TL_LANG']['tl_newsletter']['notConnectedToAnyChannels']);
                 $this->redirect($referer);
@@ -157,7 +158,7 @@ class Newsletter extends ContaoNewsletter
 
             // Get the total number of recipients
             // OVERLOAD 3.1 : Apply OVERLOAD 3.0
-            $objTotal = $this->Database->prepare("SELECT COUNT(DISTINCT email) AS count FROM tl_newsletter_recipients WHERE $strWherePid AND active=1")
+            $objTotal = $this->Database->prepare(sprintf('SELECT COUNT(DISTINCT email) AS count FROM tl_newsletter_recipients WHERE %s AND active=1', $strWherePid))
                                        ->execute()
             ;
 
@@ -218,6 +219,7 @@ class Newsletter extends ContaoNewsletter
                         $_SESSION['SKIPPED_RECIPIENTS'][] = $objRecipients->email;
                         echo 'Skipping <strong>'.Idna::decodeEmail($objRecipients->email).'</strong><br>';
                     }
+
                     // OVERLOAD 5.0 : reset newsletter settings
                     $objNewsletter = $this->removeChannelSettings($objNewsletter);
                 }
@@ -244,7 +246,7 @@ class Newsletter extends ContaoNewsletter
                     }
                 }
 
-                if ($intSkipped = \count($_SESSION['SKIPPED_RECIPIENTS'])) {
+                if (($intSkipped = \count($_SESSION['SKIPPED_RECIPIENTS'])) !== 0) {
                     $intTotal -= $intSkipped;
                     Message::addInfo(sprintf($GLOBALS['TL_LANG']['tl_newsletter']['skipped'], $intSkipped));
                 }
@@ -274,7 +276,7 @@ class Newsletter extends ContaoNewsletter
         $sprintf = $objNewsletter->senderName ? $objNewsletter->senderName.' &lt;%s&gt;' : '%s';
         $this->import(BackendUser::class, 'User');
 
-        // Preview newsletter
+        // Preview newsletter TODO : TL_SCRIPT exist ??
         $return = Message::generate().'
 <div id="tl_buttons">
 <a href="'.$this->getReferer(true).'" class="header_back" title="'.StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
@@ -298,7 +300,7 @@ class Newsletter extends ContaoNewsletter
   <tr class="row_2">
     <td class="col_0">'.$GLOBALS['TL_LANG']['tl_newsletter_channel']['template'][0].'</td>
     <td class="col_1">'.($objNewsletter->template ?: 'mail_default').'</td>
-  </tr>'.((!empty($arrAttachments) && \is_array($arrAttachments)) ? '
+  </tr>'.(($arrAttachments !== [] && \is_array($arrAttachments)) ? '
   <tr class="row_3">
     <td class="col_0">'.$GLOBALS['TL_LANG']['tl_newsletter']['attachments'].'</td>
     <td class="col_1">'.implode(', ', $arrAttachments).'</td>
@@ -355,20 +357,23 @@ class Newsletter extends ContaoNewsletter
     /**
      * Compile the newsletter and send it.
      *
-     * @param array  $arrRecipient
+     * @param Email $objEmail
+     * @param Result $objNewsletter
+     * @param array $arrRecipient
      * @param string $text
      * @param string $html
-     * @param string $css
+     * @param null $css
      *
      * @return bool
      */
-    protected function sendNewsletter(Email $objEmail, Result $objNewsletter, $arrRecipient, $text, $html, $css = null)
+    protected function sendNewsletter(Email $objEmail, Result $objNewsletter, $arrRecipient, $text, $html, $css = null): bool
     {
         if (\array_key_exists('id', $arrRecipient)) {
             $objMember = Member::findByPk($arrRecipient['id']);
         } elseif (\array_key_exists('email', $arrRecipient)) {
             $objMember = Member::findByEmail($arrRecipient['email']);
         }
+
         if ($objMember) {
             $arrRecipient = array_merge($arrRecipient, $objMember->row());
         }

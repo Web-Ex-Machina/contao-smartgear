@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Override;
 
+use Contao\System;
 use WEM\SmartgearBundle\Classes\Util;
 
 /**
@@ -32,7 +33,7 @@ class Controller extends \Contao\Controller
      *
      * @return array An array of template names
      */
-    public static function getTemplateGroup($strPrefix, array $arrAdditionalMapper = [], $strDefaultTemplate = '')
+    public static function getTemplateGroup($strPrefix, array $arrAdditionalMapper = [], $strDefaultTemplate = ''): array
     {
         Util::log('getTemplateGroup');
         $arrTemplates = parent::getTemplateGroup($strPrefix, $arrAdditionalMapper, $strDefaultTemplate);
@@ -43,7 +44,8 @@ class Controller extends \Contao\Controller
         if (str_ends_with($strGlobPrefix, '_')) {
             $strGlobPrefix = substr($strGlobPrefix, 0, -1).'[_-]';
         }
-        $projectDir = \System::getContainer()->getParameter('kernel.project_dir');
+
+        $projectDir = System::getContainer()->getParameter('kernel.project_dir');
 
         $arrSGTemplates = parent::braceGlob($projectDir.'/templates/smartgear/'.$strGlobPrefix.'*.html5');
         $arrNewTemplates = [];
@@ -56,13 +58,9 @@ class Controller extends \Contao\Controller
 
         // Show the template sources (see #6875)
         foreach ($arrNewTemplates as $k => $v) {
-            $v = array_filter($v, static fn($a) => 'root' !== $a);
+            $v = array_filter($v, static fn($a): true => 'root' !== $a);
 
-            if (empty($v)) {
-                $arrNewTemplates[$k] = $k;
-            } else {
-                $arrNewTemplates[$k] = $k.' ('.implode(', ', $v).')';
-            }
+            $arrNewTemplates[$k] = $v === [] ? $k : $k.' ('.implode(', ', $v).')';
         }
 
         // Merge

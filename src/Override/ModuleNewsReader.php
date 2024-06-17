@@ -14,6 +14,11 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Override;
 
+use Contao\FilesModel;
+use Contao\Input;
+use Contao\NewsModel;
+use Contao\PageModel;
+use Contao\System;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFound;
 
 class ModuleNewsReader extends \Contao\ModuleNewsReader
@@ -25,10 +30,10 @@ class ModuleNewsReader extends \Contao\ModuleNewsReader
     {
         parent::compile();
         // Get the news item
-        /** @var \Contao\NewsModel */
-        $objArticle = \Contao\NewsModel::findPublishedByParentAndIdOrAlias(\Contao\Input::get('items'), $this->news_archives);
+        /** @var NewsModel $objArticle */
+        $objArticle = NewsModel::findPublishedByParentAndIdOrAlias(Input::get('items'), $this->news_archives);
         if ($objArticle) {
-            $htmlDecoder = \Contao\System::getContainer()->get('contao.string.html_decoder');
+            $htmlDecoder = System::getContainer()->get('contao.string.html_decoder');
 
             if ($objArticle->pageTitle) {
                 $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:title" content="%s">', $objArticle->pageTitle); // Already stored decoded
@@ -43,17 +48,18 @@ class ModuleNewsReader extends \Contao\ModuleNewsReader
             }
 
             if ($objArticle->addImage) {
-                $objImage = \Contao\FilesModel::findByUuid($objArticle->singleSRC);
+                $objImage = FilesModel::findByUuid($objArticle->singleSRC);
                 if ($objImage) {
                     $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:image" content="%s">', \Contao\Environment::get('base').$objImage->path);
                 }
             }
         }
-        $configManager = \Contao\System::getContainer()->get('smartgear.config.manager.core');
+
+        $configManager = System::getContainer()->get('smartgear.config.manager.core');
         try {
             $blogConfig = $configManager->load()->getSgBlog();
             if ($blogConfig->getSgInstallComplete()) {
-                $objPage = \Contao\PageModel::findByPk($blogConfig->getSgPage());
+                $objPage = PageModel::findByPk($blogConfig->getSgPage());
                 $this->Template->referer = $objPage->getFrontendUrl();
             }
         } catch (FileNotFound) {

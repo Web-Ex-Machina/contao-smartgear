@@ -18,7 +18,7 @@ use Contao\System;
 
 class ModuleBreadcrumb extends \Contao\ModuleBreadcrumb
 {
-    public function generate()
+    public function generate(): string
     {
         $request = System::getContainer()->get('request_stack')->getCurrentRequest();
 

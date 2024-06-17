@@ -16,17 +16,15 @@ namespace WEM\SmartgearBundle\Override;
 
 use Contao\CalendarEventsModel;
 use Contao\Input;
+use WEM\SmartgearBundle\Model\CalendarEvents;
 
 class ModuleEventList extends \Contao\ModuleEventlist
 {
-    /**
-     * List of filters, formatted.
-     *
-     * @var array
-     */
-    protected $filters = [];
-    protected $arrFilters = ['author', 'date'];
-    protected $config = [];
+    protected array $filters = [];
+
+    protected array $arrFilters = ['author', 'date'];
+
+    protected array $config = [];
 
     public function getArrFilters(): array
     {
@@ -38,9 +36,6 @@ class ModuleEventList extends \Contao\ModuleEventlist
         return $this->config;
     }
 
-    /**
-     * Generate the module.
-     */
     protected function compile(): void
     {
         // Build List Filters
@@ -83,6 +78,7 @@ class ModuleEventList extends \Contao\ModuleEventlist
                 $this->cal_format = 'cal_year';
             }
         }
+
         $locations = $this->getEventsLocations();
         $this->filters['select']['location'] = [
             'label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['location'],
@@ -91,6 +87,7 @@ class ModuleEventList extends \Contao\ModuleEventlist
         foreach ($locations as $location) {
             $this->filters['select']['location']['options'][] = ['value' => $location, 'label' => $location];
         }
+
         if (null !== Input::get('location')) {
             $this->config['location'] = Input::get('location');
         }
@@ -100,7 +97,7 @@ class ModuleEventList extends \Contao\ModuleEventlist
     {
         if (\array_key_exists('date', $this->config)) {
             if (\array_key_exists('month', $this->config['date']) && !empty($this->config['date']['month'])) {
-                $_GET['month'] = sprintf('%s%s', !empty($this->config['date']['year']) ? $this->config['date']['year'] : date('Y'), $this->config['date']['month']);
+                $_GET['month'] = sprintf('%s%s', empty($this->config['date']['year']) ? date('Y') : $this->config['date']['year'], $this->config['date']['month']);
             } elseif (\array_key_exists('year', $this->config['date']) && !empty($this->config['date']['year'])) {
                 $_GET['year'] = $this->config['date']['year'];
             }
@@ -122,6 +119,6 @@ class ModuleEventList extends \Contao\ModuleEventlist
 
     protected function getEventsLocations(): array
     {
-        return (new \WEM\SmartgearBundle\Model\CalendarEvents())->getAllLocations($this->cal_calendar);
+        return (new CalendarEvents())->getAllLocations($this->cal_calendar);
     }
 }

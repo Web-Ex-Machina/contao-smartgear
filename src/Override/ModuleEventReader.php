@@ -14,6 +14,12 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Override;
 
+use Contao\CalendarEventsModel;
+use Contao\Environment;
+use Contao\FilesModel;
+use Contao\Input;
+use Contao\PageModel;
+use Contao\System;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFound;
 
 class ModuleEventReader extends \Contao\ModuleEventReader
@@ -25,10 +31,10 @@ class ModuleEventReader extends \Contao\ModuleEventReader
     {
         parent::compile();
         // Get the news item
-        /** @var \Contao\CalendarEventModel */
-        $objEvent = \Contao\CalendarEventsModel::findPublishedByParentAndIdOrAlias(\Contao\Input::get('events'), $this->cal_calendar);
+        /** @var CalendarEventsModel $objEvent */
+        $objEvent = CalendarEventsModel::findPublishedByParentAndIdOrAlias(Input::get('events'), $this->cal_calendar);
         if ($objEvent) {
-            $htmlDecoder = \Contao\System::getContainer()->get('contao.string.html_decoder');
+            $htmlDecoder = System::getContainer()->get('contao.string.html_decoder');
 
             if ($objEvent->pageTitle) {
                 $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:title" content="%s">', $objEvent->pageTitle); // Already stored decoded
@@ -48,18 +54,19 @@ class ModuleEventReader extends \Contao\ModuleEventReader
             }
 
             if ($objEvent->addImage) {
-                $objImage = \Contao\FilesModel::findByUuid($objEvent->singleSRC);
+                $objImage = FilesModel::findByUuid($objEvent->singleSRC);
                 if ($objImage) {
-                    $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:image" content="%s">', \Contao\Environment::get('base').$objImage->path);
+                    $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:image" content="%s">', Environment::get('base').$objImage->path);
                 }
             }
         }
-        $configManager = \Contao\System::getContainer()->get('smartgear.config.manager.core');
+
+        $configManager = System::getContainer()->get('smartgear.config.manager.core');
         try {
             $eventConfig = $configManager->load()->getSgEvents();
             if ($eventConfig->getSgInstallComplete()) {
-                $objPage = \Contao\PageModel::findByPk($eventConfig->getSgPage());
-                $this->Template->referer = $objPage->getFrontendUrl();
+                $objPage = PageModel::findByPk($eventConfig->getSgPage());
+                $this->Template->referer = $objPage->getFrontendUrl(); // TODO : Deprecated
             }
         } catch (FileNotFound) {
             // nothing

@@ -18,14 +18,11 @@ use Contao\Config;
 
 class ModuleCalendar extends \Contao\ModuleCalendar
 {
-    /**
-     * List of filters, formatted.
-     *
-     * @var array
-     */
-    protected $filters = [];
-    protected $arrFilters = [];
-    protected $config = [];
+    protected array $filters = [];
+
+    protected array $arrFilters = [];
+
+    protected array $config = [];
 
     public function getArrFilters(): array
     {
@@ -37,7 +34,7 @@ class ModuleCalendar extends \Contao\ModuleCalendar
         return $this->config;
     }
 
-    public function generate()
+    public function generate(): bool|string
     {
         // Show the event reader if an item has been selected
         if ($this->cal_readerModule > 0 && (isset($_GET['events']) || (Config::get('useAutoItem') && isset($_GET['auto_item'])))) {

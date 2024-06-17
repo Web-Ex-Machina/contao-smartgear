@@ -18,7 +18,7 @@ use Contao\PageModel;
 
 class ModuleLogin extends \Contao\ModuleLogin
 {
-    public function generate()
+    public function generate(): string
     {
         return parent::generate();
     }
@@ -32,12 +32,12 @@ class ModuleLogin extends \Contao\ModuleLogin
 
         if (($objTarget = $this->objModel->getRelated('wem_sg_login_pwd_lost_jumpTo')) instanceof PageModel) {
             $this->Template->wem_sg_login_pwd_lost_jumpTo_label = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['passwordLost'];
-            $this->Template->wem_sg_login_pwd_lost_jumpTo = $objTarget->getAbsoluteUrl();
+            $this->Template->wem_sg_login_pwd_lost_jumpTo = $objTarget->getAbsoluteUrl(); //TODO : DEPRECATED
         }
 
         if (($objTarget = $this->objModel->getRelated('wem_sg_login_register_jumpTo')) instanceof PageModel) {
             $this->Template->wem_sg_login_register_jumpTo_label = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['register'];
-            $this->Template->wem_sg_login_register_jumpTo = $objTarget->getAbsoluteUrl();
+            $this->Template->wem_sg_login_register_jumpTo = $objTarget->getAbsoluteUrl(); //TODO : DEPRECATED
         }
     }
 }

@@ -20,14 +20,12 @@ use Contao\UserModel;
 
 class ModuleNewsList extends \Contao\ModuleNewsList
 {
-    /**
-     * List of filters, formatted.
-     *
-     * @var array
-     */
-    protected $filters = [];
-    protected $arrFilters = ['author', 'date'];
-    protected $config = [];
+
+    protected array $filters = [];
+
+    protected array $arrFilters = ['author', 'date'];
+
+    protected array $config = [];
 
     public function getArrFilters(): array
     {
