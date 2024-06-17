@@ -23,7 +23,6 @@ class ConfigurationStepManager extends StepManager
 
     public const MODE_CONFIGURE = 'configure';
 
-    /** @var string */
     public string $mode = '';
 
     public function __construct(

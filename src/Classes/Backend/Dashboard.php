@@ -29,7 +29,6 @@ class Dashboard
     use Traits\ActionsTrait;
     use Traits\MessagesTrait;
 
-    /** @var string */
     protected string $strTemplate = 'be_wem_sg_install_block_dashboard';
 
     protected mixed $objSession;
