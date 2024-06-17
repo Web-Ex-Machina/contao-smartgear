@@ -18,11 +18,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use WEM\SmartgearBundle\Backup\Model\Results\CreateResult;
 use WEM\SmartgearBundle\Update\Results\UpdateResult;
 
 class UpdateCommand extends AbstractUpdateCommand
 {
     protected static $defaultName = 'smartgear:update:update';
+
     protected static $defaultDescription = 'Play updates';
 
     protected function configure(): void
@@ -38,13 +40,12 @@ class UpdateCommand extends AbstractUpdateCommand
         $io = new SymfonyStyle($input, $output);
         $io->title('Play updates');
         try {
-            /** @var UpdateResult */
-            $updateResult = $this->updateManager->update((bool) !$input->getOption('nobackup'));
-        } catch (\Exception $e) {
+            $updateResult = $this->updateManager->update(!$input->getOption('nobackup'));
+        } catch (\Exception $exception) {
             if ($this->isJson($input)) {
-                $io->writeln(json_encode(['error' => $e->getMessage()]));
+                $io->writeln(json_encode(['error' => $exception->getMessage()]));
             } else {
-                $io->error($e->getMessage());
+                $io->error($exception->getMessage());
             }
 
             return 1;
@@ -62,16 +63,13 @@ class UpdateCommand extends AbstractUpdateCommand
             $io->error('Updates not played');
         }
 
-        if ((bool) $input->getOption('nobackup')) {
+        if ($input->getOption('nobackup')) {
             $io->info('No backup created because of the "--nobackup" option');
+        } elseif (null === $updateResult->getBackupResult()
+        || null === $updateResult->getBackupResult()->getBackup()) {
+            $io->error('An error occured when creating the backup');
         } else {
-            if (null === $updateResult->getBackupResult()
-            || null === $updateResult->getBackupResult()->getBackup()
-            ) {
-                $io->error('An error occured when creating the backup');
-            } else {
-                $io->success(sprintf('Backup : %s', $updateResult->getBackupResult()->getBackup()->getFile()->basename));
-            }
+            $io->success(sprintf('Backup : %s', $updateResult->getBackupResult()->getBackup()->getFile()->basename));
         }
 
         $io->table(['Version', 'Name', 'Description', 'Status', 'Logs'], $this->formatForTable($updateResult->getResults()));
@@ -99,7 +97,7 @@ class UpdateCommand extends AbstractUpdateCommand
     {
         $json = [
             'status' => $updateResult->getStatus(),
-            'backup' => null !== $updateResult->getBackupResult()
+            'backup' => $updateResult->getBackupResult() instanceof CreateResult
                 ? [
                     'timestamp' => $updateResult->getBackupResult()->getBackup()->getFile()->ctime,
                     'path' => $updateResult->getBackupResult()->getBackup()->getFile()->basename,
@@ -110,7 +108,6 @@ class UpdateCommand extends AbstractUpdateCommand
 
         foreach ($updateResult->getResults() as $singleMigrationResult) {
             $json['updates'][] = [
-                // 'classname' => \get_class($singleMigrationResult),
                 'version' => $singleMigrationResult->getVersion()->__toString(),
                 'name' => $singleMigrationResult->getName(),
                 'description' => $singleMigrationResult->getDescription(),

@@ -23,6 +23,7 @@ use WEM\SmartgearBundle\Exceptions\Backup\ManagerException as BackupManagerExcep
 class BackupCreateCommand extends AbstractBackupCommand
 {
     protected static $defaultName = 'smartgear:backup:create';
+
     protected static $defaultDescription = 'Creates a new backup';
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -32,13 +33,12 @@ class BackupCreateCommand extends AbstractBackupCommand
         $io->title('Backup creation');
 
         try {
-            /** @var CreateResult */
             $result = $this->backupManager->newFromCommand();
-        } catch (BackupManagerException $e) {
+        } catch (BackupManagerException $backupManagerException) {
             if ($this->isJson($input)) {
-                $io->writeln(json_encode(['error' => $e->getMessage()]));
+                $io->writeln(json_encode(['error' => $backupManagerException->getMessage()]));
             } else {
-                $io->error($e->getMessage());
+                $io->error($backupManagerException->getMessage());
             }
 
             return 1;
@@ -72,6 +72,7 @@ class BackupCreateCommand extends AbstractBackupCommand
         foreach ($result->getFilesInError() as $filepath) {
             $formatted[] = [$filepath, 'not backuped'];
         }
+
         foreach ($result->getFilesBackuped() as $filepath) {
             $formatted[] = [$filepath, 'backuped'];
         }

@@ -23,6 +23,7 @@ use WEM\SmartgearBundle\Backup\Model\Results\RestoreResult;
 class BackupDeleteCommand extends AbstractBackupCommand
 {
     protected static $defaultName = 'smartgear:backup:delete';
+
     protected static $defaultDescription = 'Delete a backup';
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -35,13 +36,13 @@ class BackupDeleteCommand extends AbstractBackupCommand
             if (empty($input->getOption('backup'))) {
                 throw new \Exception('Argument "backup" not defined');
             }
-            /** @var RestoreResult */
+
             $result = $this->backupManager->delete($input->getOption('backup'));
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             if ($this->isJson($input)) {
-                $io->writeln(json_encode(['error' => $e->getMessage()]));
+                $io->writeln(json_encode(['error' => $exception->getMessage()]));
             } else {
-                $io->error($e->getMessage());
+                $io->error($exception->getMessage());
             }
 
             return 1;

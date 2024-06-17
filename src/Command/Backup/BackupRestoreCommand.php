@@ -23,6 +23,7 @@ use WEM\SmartgearBundle\Backup\Model\Results\RestoreResult;
 class BackupRestoreCommand extends AbstractBackupCommand
 {
     protected static $defaultName = 'smartgear:backup:restore';
+
     protected static $defaultDescription = 'Restore a backup';
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -35,13 +36,12 @@ class BackupRestoreCommand extends AbstractBackupCommand
             if (empty($input->getOption('backup'))) {
                 throw new \Exception('Argument "backup" not defined');
             }
-            /** @var RestoreResult */
             $result = $this->backupManager->restore($input->getOption('backup'));
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             if ($this->isJson($input)) {
-                $io->writeln(json_encode(['error' => $e->getMessage()]));
+                $io->writeln(json_encode(['error' => $exception->getMessage()]));
             } else {
-                $io->error($e->getMessage());
+                $io->error($exception->getMessage());
             }
 
             return 1;
@@ -77,12 +77,15 @@ class BackupRestoreCommand extends AbstractBackupCommand
         foreach ($result->getFilesDeletedByRestore() as $filepath) {
             $formatted[] = [$filepath, 'deleted'];
         }
+
         foreach ($result->getFilesInError() as $filepath) {
             $formatted[] = [$filepath, 'not restored'];
         }
+
         foreach ($result->getFilesReplacedByRestore() as $filepath) {
             $formatted[] = [$filepath, 'restored (replaced)'];
         }
+
         foreach ($result->getFilesAddedByRestore() as $filepath) {
             $formatted[] = [$filepath, 'restored (added)'];
         }

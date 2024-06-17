@@ -22,6 +22,7 @@ use WEM\SmartgearBundle\Update\Results\ListResult;
 class UpdateListCommand extends AbstractUpdateCommand
 {
     protected static $defaultName = 'smartgear:update:list';
+
     protected static $defaultDescription = 'List updates';
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -29,13 +30,12 @@ class UpdateListCommand extends AbstractUpdateCommand
         $io = new SymfonyStyle($input, $output);
         $io->title('Update list');
         try {
-            /** @var ListResult */
             $listResult = $this->updateManager->list();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             if ($this->isJson($input)) {
-                $io->writeln(json_encode(['error' => $e->getMessage()]));
+                $io->writeln(json_encode(['error' => $exception->getMessage()]));
             } else {
-                $io->error($e->getMessage());
+                $io->error($exception->getMessage());
             }
 
             return 1;
@@ -74,7 +74,6 @@ class UpdateListCommand extends AbstractUpdateCommand
 
         foreach ($singleMigrationResults as $singleMigrationResult) {
             $json[] = [
-                // 'classname' => \get_class($singleMigrationResult),
                 'version' => $singleMigrationResult->getVersion()->__toString(),
                 'name' => $singleMigrationResult->getName(),
                 'description' => $singleMigrationResult->getDescription(),

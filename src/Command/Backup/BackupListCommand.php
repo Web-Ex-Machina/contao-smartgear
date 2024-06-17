@@ -24,6 +24,7 @@ use WEM\SmartgearBundle\Exceptions\Backup\ManagerException as BackupManagerExcep
 class BackupListCommand extends AbstractBackupCommand
 {
     protected static $defaultName = 'smartgear:backup:list';
+
     protected static $defaultDescription = 'List backups';
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -31,13 +32,12 @@ class BackupListCommand extends AbstractBackupCommand
         $io = new SymfonyStyle($input, $output);
         $io->title('Backup list');
         try {
-            /** @var ListResult */
             $listResult = $this->backupManager->list(0, 0);
-        } catch (BackupManagerException $e) {
+        } catch (BackupManagerException $backupManagerException) {
             if ($this->isJson($input)) {
-                $io->writeln(json_encode(['error' => $e->getMessage()]));
+                $io->writeln(json_encode(['error' => $backupManagerException->getMessage()]));
             } else {
-                $io->error($e->getMessage());
+                $io->error($backupManagerException->getMessage());
             }
 
             return 1;

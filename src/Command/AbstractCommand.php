@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Command;
 
+use Contao\System;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -27,7 +28,7 @@ class AbstractCommand extends Command
 
         $this->framework->initialize();
 
-        \Contao\System::loadLanguageFile('default', 'en');
+        System::loadLanguageFile('default', 'en');
     }
 
     protected function configure(): void
