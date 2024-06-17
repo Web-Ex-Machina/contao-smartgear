@@ -14,7 +14,9 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend;
 
+use Contao\BackendModule;
 use Contao\BackendTemplate;
+use Contao\DataContainer;
 use Contao\Environment;
 use Contao\Input;
 use Contao\Message;
@@ -29,7 +31,7 @@ use WEM\SmartgearBundle\Update\UpdateManager;
  *
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
-class Update extends \Contao\BackendModule
+class Update extends BackendModule
 {
     /**
      * Template.
@@ -40,25 +42,20 @@ class Update extends \Contao\BackendModule
 
     /**
      * Logs.
-     *
-     * @var array
      */
-    protected $arrLogs = [];
+    protected array $arrLogs = [];
 
+    protected $objSession;
     /**
      * Module basepath.
-     *
-     * @var string
      */
-    protected $strBasePath = 'bundles/wemsmartgear';
+    protected string $strBasePath = 'bundles/wemsmartgear';
 
-    /** @var array */
     // protected $modules = ['module' => ['extranet', 'form_data_manager'], 'component' => ['core', 'blog', 'events', 'faq', 'form_contact']];
-    protected $modules = ['module' => [], 'component' => []];
-    /** @var UpdateManager */
-    protected $updateManager;
+    protected array $modules = ['module' => [], 'component' => []];
+    protected null|UpdateManager $updateManager;
 
-    public function __construct($dc = null)
+    public function __construct(DataContainer|null $dc = null)
     {
         parent::__construct($dc);
         $this->updateManager = System::getContainer()->get('smartgear.update.update_manager');

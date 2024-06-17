@@ -15,10 +15,12 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend;
 
 use Contao\ArticleModel;
+use Contao\BackendModule;
 use Contao\BackendTemplate;
 use Contao\CalendarModel;
 use Contao\Config;
 use Contao\ContentModel;
+use Contao\DataContainer;
 use Contao\Environment;
 use Contao\FaqCategoryModel;
 use Contao\FormFieldModel;
@@ -39,7 +41,7 @@ use Exception;
 use NotificationCenter\Model\Gateway as NcGatewayModel;
 use NotificationCenter\Model\Language as NcLanguageModel;
 use NotificationCenter\Model\Message as NcMessageModel;
-use NotificationCenter\Model\Notification as NcNotificationModel;
+use NotificationCenter\Model\Notification as NcNotificationModel; // TODO : Notification
 use WEM\SmartgearBundle\Backup\BackupManager;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\StringUtil;
@@ -63,7 +65,7 @@ use WEM\SmartgearBundle\Update\UpdateManager;
  *
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
-class Smartgear extends \Contao\BackendModule
+class Smartgear extends BackendModule
 {
     /**
      * Template.
@@ -77,27 +79,28 @@ class Smartgear extends \Contao\BackendModule
      *
      * @var array
      */
-    protected $arrLogs = [];
+    protected array $arrLogs = [];
 
     /**
      * Module basepath.
      *
      * @var string
      */
-    protected $strBasePath = 'bundles/wemsmartgear';
+    protected string $strBasePath = 'bundles/wemsmartgear';
 
     /** @var array */
     // protected $modules = ['module' => ['extranet', 'form_data_manager'], 'component' => ['core', 'blog', 'events', 'faq', 'form_contact']];
-    protected $modules = ['module' => [], 'component' => []];
+    protected array $modules = ['module' => [], 'component' => []];
 
-    /** @var BackupManager */
-    protected $backupManager;
-    /** @var UpdateManager */
-    protected $updateManager;
-    /** @var CommandUtil */
-    protected $commandUtil;
+    protected null|BackupManager $backupManager;
+    protected null|UpdateManager $updateManager;
 
-    public function __construct($dc = null)
+    protected null|CommandUtil $commandUtil;
+
+    protected $coreConfigurationManager;
+    protected $objSession;
+
+    public function __construct(DataContainer|null $dc = null)
     {
         parent::__construct($dc);
         $this->backupManager = System::getContainer()->get('smartgear.backup.backup_manager');
@@ -114,7 +117,7 @@ class Smartgear extends \Contao\BackendModule
      *
      * @return string - Ajax response, as String or JSON
      */
-    public function processAjaxRequest($strAction)
+    public function processAjaxRequest($strAction): void
     {
         // Catch AJAX Requests
         if (Input::post('TL_WEM_AJAX') && 'be_smartgear' === Input::post('wem_module')) {
@@ -124,29 +127,21 @@ class Smartgear extends \Contao\BackendModule
                         if (!Input::post('cmd')) {
                             throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
+                        $arrResponse['status'] = 'success';
+                        $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
+                        $arrResponse['output'] = $this->commandUtil->executeCmd(Input::post('cmd'));
 
-                        try {
-                            $arrResponse['status'] = 'success';
-                            $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
-                            $arrResponse['output'] = $this->commandUtil->executeCmd(Input::post('cmd'));
-                            // } catch (ProcessFailedException $e) {
-                        } catch (Exception $e) {
-                            throw $e;
-                        }
+
                         break;
                     case 'executeCmdPhp':
                         if (!Input::post('cmd')) {
                             throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
+                        $arrResponse['status'] = 'success';
+                        $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
+                        $arrResponse['output'] = $this->commandUtil->executeCmdPHP(Input::post('cmd'));
 
-                        try {
-                            $arrResponse['status'] = 'success';
-                            $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
-                            $arrResponse['output'] = $this->commandUtil->executeCmdPHP(Input::post('cmd'));
-                            // } catch (ProcessFailedException $e) {
-                        } catch (Exception $e) {
-                            throw $e;
-                        }
+
                         break;
                     case 'executeCmdLive':
                         if (!Input::post('cmd')) {
@@ -165,11 +160,13 @@ class Smartgear extends \Contao\BackendModule
                         if (!Input::post('type') || !Input::post('module') || !Input::post('action')) {
                             throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterMissing']);
                         }
+
                         $objBlock = System::getContainer()->get('smartgear.backend.'.Input::post('type').'.'.Input::post('module').'.block');
                         if ('parse' === Input::post('action')) {
                             echo $objBlock->processAjaxRequest();
                             exit();
                         }
+
                         $arrResponse = $objBlock->processAjaxRequest();
                         $arrResponse['logs'] = $objBlock->getLogs();
                 }
@@ -178,7 +175,7 @@ class Smartgear extends \Contao\BackendModule
             }
 
             // Add Request Token to JSON answer and return
-            $arrResponse['rt'] = RequestToken::get();
+            $arrResponse['rt'] = RequestToken::get(); // TODO : deprecated Token
             echo json_encode($arrResponse);
             exit;
         }
@@ -186,6 +183,7 @@ class Smartgear extends \Contao\BackendModule
 
     /**
      * Backup manager behaviour.
+     * @throws ManagerException
      */
     public function getBackupManager(): void
     {
@@ -205,6 +203,7 @@ class Smartgear extends \Contao\BackendModule
             } catch (ManagerException $e) {
                 Message::addError($e->getMessage());
             }
+
             // And redirect
             Controller::redirect(str_replace('&act=new', '', Environment::get('request')));
         } elseif ('restore' === Input::get('act')) {
@@ -221,6 +220,7 @@ class Smartgear extends \Contao\BackendModule
             } catch (ManagerException $e) {
                 Message::addError($e->getMessage());
             }
+
             // And redirect
             Controller::redirect(str_replace('&act=restore&backup='.Input::get('backup'), '', Environment::get('request')));
         } elseif ('delete' === Input::get('act')) {
@@ -248,6 +248,7 @@ class Smartgear extends \Contao\BackendModule
             $this->Template->restore_result = $this->objSession->get('wem_sg_backup_restore_result');
             $this->objSession->set('wem_sg_backup_restore_result', '');
         }
+
         if ($this->objSession->get('wem_sg_backup_create_result')) {
             $this->Template->create_result = $this->objSession->get('wem_sg_backup_create_result');
             $this->objSession->set('wem_sg_backup_create_result', '');
@@ -315,15 +316,18 @@ class Smartgear extends \Contao\BackendModule
 
             return;
         }
+
         // Catch Modal Calls
         if ('modal' === Input::get('act')) {
             // Catch Errors
             if (!Input::get('type')) {
                 throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterTypeMissing']);
             }
+
             if (!Input::get('module')) {
                 throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterModuleMissing']);
             }
+
             if (!Input::get('function')) {
                 throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterFunctionMissing']);
             }
@@ -364,12 +368,13 @@ class Smartgear extends \Contao\BackendModule
                 }
             }
         }
+
         // Send blocks to template
         $this->Template->blocks = $arrBlocks;
 
         // Send msc data to template
         $this->Template->request = Environment::get('request');
-        $this->Template->token = RequestToken::get();
+        $this->Template->token = RequestToken::get(); // TODO : deprecated Token
         $this->Template->websiteTitle = Config::get('websiteTitle');
         $this->Template->version = $this->coreConfigurationManager->load()->getSgVersion();
 
@@ -460,7 +465,7 @@ class Smartgear extends \Contao\BackendModule
         $this->Template->saveButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['saveBTTitle']);
         $this->Template->saveButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['saveBT'];
 
-        $this->Template->token = RequestToken::get();
+        $this->Template->token = RequestToken::get(); // TODO : deprecated Token
     }
 
     protected function getBackButton($strHref = ''): void
@@ -493,7 +498,7 @@ class Smartgear extends \Contao\BackendModule
 
     private function saveConfigurationManagerForm(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $coreConfigOld = $this->coreConfigurationManager->load();
 
         $coreConfig = clone $coreConfigOld;
@@ -573,16 +578,17 @@ class Smartgear extends \Contao\BackendModule
                     'type' => $objModule ? $objModule->type : null,
                 ];
             }
+
             $coreConfig->setSgModules($arrModules);
         }
 
         if (Input::post('blog')) {
-            /** @var BlogConfig */
+            /** @var BlogConfig $blogConfig */
             $blogConfig = $coreConfig->getSgBlog();
 
             $blogConfig
-                ->setSgInstallComplete(Input::post('blog')['installComplete'] ? true : false)
-                ->setSgArchived((bool) Input::post('blog')['archived'] ? true : false)
+                ->setSgInstallComplete((bool) Input::post('blog')['installComplete'])
+                ->setSgArchived((bool) Input::post('blog')['archived'])
                 ->setSgArchivedAt((int) Input::post('blog')['archivedAt'])
                 ->setSgArchivedMode(Input::post('blog')['archivedMode'])
                 ->setSgMode(Input::post('blog')['mode'])
@@ -598,7 +604,7 @@ class Smartgear extends \Contao\BackendModule
             $arrBlogPresetsExisting = $blogConfig->getSgPresets();
             if (!empty($arrBlogPresetsExisting)) {
                 foreach ($arrBlogPresetsExisting as $index => $preset) {
-                    /** @var BlogPresetConfig */
+                    /** @var BlogPresetConfig $preset */
                     $preset = $preset;
                     $preset
                         ->setSgNewsFolder(Input::post('blog')['presets'][$index]['newsFolder'] ?? BlogPresetConfig::DEFAULT_FOLDER_PATH)
@@ -609,7 +615,7 @@ class Smartgear extends \Contao\BackendModule
                     $arrBlogPresets[] = $preset;
                 }
             } else {
-                foreach (Input::post('blog')['presets'] as $index => $presetConfig) {
+                foreach (Input::post('blog')['presets'] as $presetConfig) {
                     $preset = new BlogPresetConfig();
                     $preset
                         ->setSgNewsFolder($presetConfig['newsFolder'] ?? BlogPresetConfig::DEFAULT_FOLDER_PATH)
@@ -627,7 +633,7 @@ class Smartgear extends \Contao\BackendModule
         }
 
         if (Input::post('events')) {
-            /** @var EventsConfig */
+            /** @var EventsConfig $coreConfig */
             $eventsConfig = $coreConfig->getSgEvents();
 
             $eventsConfig
@@ -653,7 +659,7 @@ class Smartgear extends \Contao\BackendModule
         }
 
         if (Input::post('faq')) {
-            /** @var FaqConfig */
+            /** @var FaqConfig $coreConfig */
             $faqConfig = $coreConfig->getSgFaq();
 
             $faqConfig
@@ -675,7 +681,7 @@ class Smartgear extends \Contao\BackendModule
         }
 
         if (Input::post('formContact')) {
-            /** @var FormContactConfig */
+            /** @var FormContactConfig $coreConfig */
             $fcConfig = $coreConfig->getSgFormContact();
 
             $fcConfig
@@ -717,7 +723,7 @@ class Smartgear extends \Contao\BackendModule
         }
 
         if (Input::post('formDataManager')) {
-            /** @var FormDataManagerConfig */
+            /** @var FormDataManagerConfig $coreConfig */
             $fdmConfig = $coreConfig->getSgFormDataManager();
 
             $fdmConfig
@@ -731,7 +737,7 @@ class Smartgear extends \Contao\BackendModule
         }
 
         if (Input::post('extranet')) {
-            /** @var ExtranetConfig */
+            /** @var ExtranetConfig $coreConfig */
             $extranetConfig = $coreConfig->getSgExtranet();
 
             $extranetConfig
@@ -857,6 +863,7 @@ class Smartgear extends \Contao\BackendModule
 
             $coreConfig->setSgExtranet($extranetConfig);
         }
+
         /**
          * Even if $coreConfig is a copy by value and not by reference
          * Reloading the configuration when doing a backup
@@ -999,11 +1006,9 @@ class Smartgear extends \Contao\BackendModule
                 }
 
                 $objPage->loadDetails();
-                if (0 !== $objPage->layout) {
-                    if ($objLayout = LayoutModel::findByPk($objPage->layout)) {
-                        if ($objTheme = ThemeModel::findByPk($objLayout->pid)) {
-                            $themeName = $objTheme->name;
-                        }
+                if (0 !== $objPage->layout && ($objLayout = LayoutModel::findByPk($objPage->layout))) {
+                    if ($objTheme = ThemeModel::findByPk($objLayout->pid)) {
+                        $themeName = $objTheme->name;
                     }
                 }
 
@@ -1094,7 +1099,7 @@ class Smartgear extends \Contao\BackendModule
         $arrNcNotifications = [];
         $arrNcMessages = [];
         $arrNcLanguages = [];
-        $notifications = NcNotificationModel::findAll();
+        $notifications = NcNotificationModel::findAll(); // TODO : Notification
 
         if ($notifications) {
             while ($notifications->next()) {
@@ -1141,7 +1146,7 @@ class Smartgear extends \Contao\BackendModule
         $this->Template->ncLanguages = $empty + $arrNcLanguages;
 
         // core
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $coreConfig = $this->coreConfigurationManager->load();
 
         $analyticsRaw = CoreConfig::ANALYTICS_SYSTEMS_ALLOWED;
@@ -1153,6 +1158,7 @@ class Smartgear extends \Contao\BackendModule
                 'selected' => false,
             ];
         }
+
         if ($analytics[$coreConfig->getSgAnalytics()]) {
             $analytics[$coreConfig->getSgAnalytics()]['selected'] = true;
         }
@@ -1166,6 +1172,7 @@ class Smartgear extends \Contao\BackendModule
                 'selected' => false,
             ];
         }
+
         if ($modes[$coreConfig->getSgMode()]) {
             $modes[$coreConfig->getSgMode()]['selected'] = true;
         }
@@ -1267,11 +1274,12 @@ class Smartgear extends \Contao\BackendModule
         $archivedMode = [];
         foreach ($archivedModeRaw as $mode) {
             $archivedMode[$mode] = [
-                'text' => !empty($mode) ? $mode : 'N/A',
+                'text' => $mode === '' || $mode === '0' ? 'N/A' : $mode,
                 'value' => $mode,
                 'selected' => false,
             ];
         }
+
         if ($archivedMode[$blogConfig->getSgArchivedMode()]) {
             $archivedMode[$blogConfig->getSgArchivedMode()]['selected'] = true;
         }
@@ -1285,6 +1293,7 @@ class Smartgear extends \Contao\BackendModule
                 'selected' => false,
             ];
         }
+
         if ($modes[$blogConfig->getSgMode()]) {
             $modes[$blogConfig->getSgMode()]['selected'] = true;
         }
@@ -1301,6 +1310,7 @@ class Smartgear extends \Contao\BackendModule
                 ];
             }
         }
+
         if ($arrNewsArchives[$blogConfig->getSgNewsArchive()]) {
             $arrNewsArchives[$blogConfig->getSgNewsArchive()]['selected'] = true;
         }
@@ -1334,7 +1344,8 @@ class Smartgear extends \Contao\BackendModule
                 'text' => $index.' | '.$preset->getSgPageTitle().' | '.$preset->getSgNewsArchiveTitle().' | '.$preset->getSgNewsListPerPage().' | '.$preset->getSgNewsListPerPage(),
             ];
         }
-        if (empty($arrBlogPresets)) {
+
+        if ($arrBlogPresets === []) {
             $blog['presets'][0] = [
                 'newsFolder' => BlogPresetConfig::DEFAULT_FOLDER_PATH,
                 'newsArchiveTitle' => BlogPresetConfig::DEFAULT_ARCHIVE_TITLE,
@@ -1352,17 +1363,18 @@ class Smartgear extends \Contao\BackendModule
         $this->Template->blogPresets = $arrBlogPresets;
 
         // events
-        /** @var EventsConfig */
+        /** @var EventsConfig $coreConfig */
         $eventConfig = $coreConfig->getSgEvents();
         $archivedModeRaw = EventsConfig::ARCHIVE_MODES_ALLOWED;
         $archivedMode = [];
         foreach ($archivedModeRaw as $mode) {
             $archivedMode[$mode] = [
-                'text' => !empty($mode) ? $mode : 'N/A',
+                'text' => $mode === '' || $mode === '0' ? 'N/A' : $mode,
                 'value' => $mode,
                 'selected' => false,
             ];
         }
+
         if ($archivedMode[$eventConfig->getSgArchivedMode()]) {
             $archivedMode[$eventConfig->getSgArchivedMode()]['selected'] = true;
         }
@@ -1376,6 +1388,7 @@ class Smartgear extends \Contao\BackendModule
                 'selected' => false,
             ];
         }
+
         if ($modes[$eventConfig->getSgMode()]) {
             $modes[$eventConfig->getSgMode()]['selected'] = true;
         }
@@ -1414,20 +1427,22 @@ class Smartgear extends \Contao\BackendModule
         ];
 
         $this->Template->events = $events;
+
         $this->Template->calendars = $empty + $arrCalendars;
 
         // FAQ
-        /** @var FaqConfig */
+        /** @var FaqConfig $coreConfig */
         $eventConfig = $coreConfig->getSgFaq();
         $archivedModeRaw = FaqConfig::ARCHIVE_MODES_ALLOWED;
         $archivedMode = [];
         foreach ($archivedModeRaw as $mode) {
             $archivedMode[$mode] = [
-                'text' => !empty($mode) ? $mode : 'N/A',
+                'text' => $mode === '' || $mode === '0' ? 'N/A' : $mode,
                 'value' => $mode,
                 'selected' => false,
             ];
         }
+
         if ($archivedMode[$eventConfig->getSgArchivedMode()]) {
             $archivedMode[$eventConfig->getSgArchivedMode()]['selected'] = true;
         }
@@ -1462,20 +1477,22 @@ class Smartgear extends \Contao\BackendModule
         ];
 
         $this->Template->faq = $faq;
+
         $this->Template->faqCategories = $empty + $arrFaqCategories;
 
         // FormContact
-        /** @var FormContactConfig */
+        /** @var FormContactConfig $coreConfig */
         $fcConfig = $coreConfig->getSgFormContact();
         $archivedModeRaw = FormContactConfig::ARCHIVE_MODES_ALLOWED;
         $archivedMode = [];
         foreach ($archivedModeRaw as $mode) {
             $archivedMode[$mode] = [
-                'text' => !empty($mode) ? $mode : 'N/A',
+                'text' => $mode === '' || $mode === '0' ? 'N/A' : $mode,
                 'value' => $mode,
                 'selected' => false,
             ];
         }
+
         if ($archivedMode[$fcConfig->getSgArchivedMode()]) {
             $archivedMode[$fcConfig->getSgArchivedMode()]['selected'] = true;
         }
@@ -1538,21 +1555,23 @@ class Smartgear extends \Contao\BackendModule
         ];
 
         $this->Template->formContact = $formContact;
+
         $this->Template->forms = $empty + $arrForms;
         $this->Template->fields = $empty + $arrFields;
 
         // FormDataManager
-        /** @var FormDataManagerConfig */
+        /** @var FormDataManagerConfig $coreConfig */
         $fdmConfig = $coreConfig->getSgFormDataManager();
         $archivedModeRaw = FormDataManagerConfig::ARCHIVE_MODES_ALLOWED;
         $archivedMode = [];
         foreach ($archivedModeRaw as $mode) {
             $archivedMode[$mode] = [
-                'text' => !empty($mode) ? $mode : 'N/A',
+                'text' => $mode === '' || $mode === '0' ? 'N/A' : $mode,
                 'value' => $mode,
                 'selected' => false,
             ];
         }
+
         if ($archivedMode[$fdmConfig->getSgArchivedMode()]) {
             $archivedMode[$fdmConfig->getSgArchivedMode()]['selected'] = true;
         }
@@ -1573,11 +1592,12 @@ class Smartgear extends \Contao\BackendModule
         $archivedMode = [];
         foreach ($archivedModeRaw as $mode) {
             $archivedMode[$mode] = [
-                'text' => !empty($mode) ? $mode : 'N/A',
+                'text' => $mode === '' || $mode === '0' ? 'N/A' : $mode,
                 'value' => $mode,
                 'selected' => false,
             ];
         }
+
         if ($archivedMode[$extranetConfig->getSgArchivedMode()]) {
             $archivedMode[$extranetConfig->getSgArchivedMode()]['selected'] = true;
         }
@@ -1728,6 +1748,7 @@ class Smartgear extends \Contao\BackendModule
         ];
 
         $this->Template->extranet = $extranet;
+
         $this->Template->members = $empty + $arrMembers;
         $this->Template->memberGroups = $empty + $arrMemberGroups;
     }
@@ -1741,11 +1762,13 @@ class Smartgear extends \Contao\BackendModule
                 if ($objModule = ModuleModel::findByPk($objContent->module)) {
                     $contentAdditionnalInfos = ' - '.$objModule->name;
                 }
+
             break;
             case 'article':
                 if ($objArticle = ArticleModel::findByPk($objContent->article)) {
                     $contentAdditionnalInfos = ' - '.$objArticle->title;
                 }
+
             break;
             case 'headline':
                 if ($objContent->text) {
@@ -1757,6 +1780,7 @@ class Smartgear extends \Contao\BackendModule
                     // $contentAdditionnalInfos = ' - '.substr($arrHeadline['value'], 0, \strlen($arrHeadline['value']) > 20 ? 20 : \strlen($arrHeadline['value'])).'...';
                     $contentAdditionnalInfos = ' - '.$arrHeadline['value'];
                 }
+
             break;
             default:
                 if ($objContent->text) {

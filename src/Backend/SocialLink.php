@@ -15,7 +15,9 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend;
 
 use Contao\BackendModule;
+use Contao\DataContainer;
 use Contao\Input;
+use Contao\Model\Collection;
 use Contao\System;
 use WEM\SmartgearBundle\Model\SocialLink as SocialLinkModel;
 use WEM\SmartgearBundle\Model\SocialNetwork as SocialNetworkModel;
@@ -29,9 +31,10 @@ class SocialLink extends BackendModule
      * @var string
      */
     protected $strTemplate = 'be_wem_sg_social_link';
-    protected $strId = 'social_link';
+    protected $security;
+    protected string $strId = 'social_link';
 
-    public function __construct($dc = null)
+    public function __construct(DataContainer|null $dc = null)
     {
         parent::__construct($dc);
         $this->security = System::getContainer()->get('security.helper');
@@ -42,7 +45,7 @@ class SocialLink extends BackendModule
         return parent::generate();
     }
 
-    public function compile(): void
+    protected function compile(): void
     {
         if (null !== Input::post('FORM_SUBMIT')) {
             $this->save();
@@ -53,7 +56,7 @@ class SocialLink extends BackendModule
         $this->Template->links = SocialLinkModel::findAll();
         $this->Template->networks = SocialNetworkModel::findAll(['order' => 'pid ASC, name ASC']);
         $this->Template->modeExpert = $this->security->isGranted(SmartgearPermissions::SOCIALLINK_EXPERT);
-        $this->Template->token = REQUEST_TOKEN;
+        $this->Template->token = REQUEST_TOKEN; //TODO : Deprecated token
     }
 
     protected function save(): void
@@ -72,20 +75,21 @@ class SocialLink extends BackendModule
             $objLink->save();
             $arrIdsToKeep[] = $objLink->id;
         }
+
         $this->removeUnusedLinks($arrIdsToKeep);
     }
 
     protected function removeUnusedLinks(array $arrIdsToKeep): void
     {
-        $arrConfig = !empty($arrIdsToKeep)
-                    ? [
+        $arrConfig = $arrIdsToKeep === []
+                    ? []
+                    : [
                         'where' => [
                             sprintf('id NOT IN (%s)', implode(',', $arrIdsToKeep)),
                         ],
-                    ]
-                    : [];
+                    ];
         $objLinksToDelete = SocialLinkModel::findItems($arrConfig);
-        if ($objLinksToDelete) {
+        if ($objLinksToDelete instanceof Collection) {
             while ($objLinksToDelete->next()) {
                 $objLinksToDelete->delete();
             }
