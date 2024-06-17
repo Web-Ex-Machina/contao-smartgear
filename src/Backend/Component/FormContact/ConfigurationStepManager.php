@@ -20,8 +20,7 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 
 class ConfigurationStepManager extends ConfigurationStepManagerBase
 {
-    /** @var ConfigurationManager */
-    protected $configurationManager;
+    protected ConfigurationManager $configurationManager;
 
     public function __construct(
         ConfigurationManager $configurationManager,
@@ -39,6 +38,7 @@ class ConfigurationStepManager extends ConfigurationStepManagerBase
         $config = $this->configurationManager->load();
         $formContactConfig = $config->getSgFormContact();
         $formContactConfig->setSgInstallComplete(true);
+
         $config->setSgFormContact($formContactConfig);
         $this->configurationManager->save($config);
     }

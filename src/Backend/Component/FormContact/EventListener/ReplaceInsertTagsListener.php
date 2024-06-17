@@ -21,13 +21,8 @@ use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactC
 
 class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
 {
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-
-    public function __construct(
-        CoreConfigurationManager $coreConfigurationManager
-    ) {
-        $this->coreConfigurationManager = $coreConfigurationManager;
+    public function __construct(protected CoreConfigurationManager $coreConfigurationManager)
+    {
     }
 
     /**
@@ -55,52 +50,11 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
         array $cache,
         int $_rit,
         int $_cnt
-    ) {
+    ): false|string
+    {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
-        if ('sg' === $key && str_starts_with($elements[1], 'formContact')) {
-            return static::NOT_HANDLED;
-            /** @var CoreConfig */
-            $config = $this->coreConfigurationManager->load();
-            /** @var FormContactConfig */
-            $formContactConfig = $config->getSgFormContact();
-
-            if (!$formContactConfig->getSgInstallComplete()) {
-                return static::NOT_HANDLED;
-            }
-
-            return match ($elements[1]) {
-                'formContact_installComplete' => $formContactConfig->getSgInstallComplete() ? '1' : '0',
-                'formContact_formContactTitle' => $formContactConfig->getSgFormContactTitle(),
-                'formContact_pageTitle' => $formContactConfig->getSgPageTitle(),
-                'formContact_pageForm' => $formContactConfig->getSgPageForm(),
-                'formContact_pageFormSent' => $formContactConfig->getSgPageFormSent(),
-                'formContact_articleForm' => $formContactConfig->getSgArticleForm(),
-                'formContact_articleFormSent' => $formContactConfig->getSgArticleFormSent(),
-                'formContact_contentHeadlineArticleForm' => $formContactConfig->getSgContentHeadlineArticleForm(),
-                'formContact_contentFormArticleForm' => $formContactConfig->getSgContentFormArticleForm(),
-                'formContact_contentHeadlineArticleFormSent' => $formContactConfig->getSgContentHeadlineArticleFormSent(),
-                'formContact_contentTextArticleFormSent' => $formContactConfig->getSgContentTextArticleFormSent(),
-                'formContact_formContact' => $formContactConfig->getSgFormContact(),
-                'formContact_fieldName' => $formContactConfig->getSgFieldName(),
-                'formContact_fieldEmail' => $formContactConfig->getSgFieldEmail(),
-                'formContact_fieldMessage' => $formContactConfig->getSgFieldMessage(),
-                'formContact_fieldConsentDataTreatment' => $formContactConfig->getSgFieldConsentDataTreatment(),
-                'formContact_fieldConsentDataSave' => $formContactConfig->getSgFieldConsentDataSave(),
-                'formContact_fieldCaptcha' => $formContactConfig->getSgFieldCaptcha(),
-                'formContact_fieldSubmit' => $formContactConfig->getSgFieldSubmit(),
-                'formContact_notification' => $formContactConfig->getSgNotification(),
-                'formContact_notificationMessageUser' => $formContactConfig->getSgNotificationMessageUser(),
-                'formContact_notificationMessageAdmin' => $formContactConfig->getSgNotificationMessageAdmin(),
-                'formContact_notificationMessageUserLanguage' => $formContactConfig->getSgNotificationMessageUserLanguage(),
-                'formContact_notificationMessageAdminLanguage' => $formContactConfig->getSgNotificationMessageAdminLanguage(),
-                'formContact_archived' => $formContactConfig->getSgArchived() ? '1' : '0',
-                'formContact_archivedAt' => $formContactConfig->getSgArchivedAt(),
-                'formContact_archivedMode' => $formContactConfig->getSgArchivedMode(),
-                default => static::NOT_HANDLED,
-            };
-        }
-
         return static::NOT_HANDLED;
+
     }
 }

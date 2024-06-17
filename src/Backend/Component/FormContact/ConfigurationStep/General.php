@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Component\FormContact\ConfigurationStep;
 
 use Contao\ArticleModel;
+use Contao\BackendUser;
 use Contao\ContentModel;
 use Contao\CoreBundle\String\HtmlDecoder;
 use Contao\FormModel;
@@ -47,34 +48,22 @@ use WEM\UtilsBundle\Classes\StringUtil;
 
 class General extends ConfigurationStep
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var CommandUtil */
-    protected $commandUtil;
-    /** @var HtmlDecoder */
-    protected $htmlDecoder;
-    /** @var string */
-    protected $language;
+
+    protected string $language;
 
     public function __construct(
-        string $module,
-        string $type,
-        TranslatorInterface $translator,
-        ConfigurationManager $configurationManager,
-        CommandUtil $commandUtil,
-        HtmlDecoder $htmlDecoder
+        string                         $module,
+        string                         $type,
+        protected TranslatorInterface  $translator,
+        protected ConfigurationManager $configurationManager,
+        protected CommandUtil          $commandUtil,
+        protected HtmlDecoder          $htmlDecoder
     ) {
         parent::__construct($module, $type);
-        $this->translator = $translator;
-        $this->configurationManager = $configurationManager;
-        $this->commandUtil = $commandUtil;
-        $this->htmlDecoder = $htmlDecoder;
-        $this->language = \Contao\BackendUser::getInstance()->language;
+        $this->language = BackendUser::getInstance()->language;
 
         $this->title = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.title', [], 'contao_default');
-        /** @var FormContactConfig */
+        /** @var FormContactConfig $config */
         $config = $this->configurationManager->load()->getSgFormContact();
 
         $this->addTextField('formContactTitle', $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.formContactTitle', [], 'contao_default'), $config->getSgFormContactTitle(), true);
@@ -82,12 +71,16 @@ class General extends ConfigurationStep
         $this->addTextField('pageTitle', $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageTitle', [], 'contao_default'), $config->getSgPageTitle(), true);
     }
 
+    /**
+     * @throws Exception
+     */
     public function isStepValid(): bool
     {
         // check if the step is correct
         if (null === Input::post('formContactTitle', null)) {
             throw new Exception($this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.formContactTitleMissing', [], 'contao_default'));
         }
+
         if (null === Input::post('pageTitle', null)) {
             throw new Exception($this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageTitleMissing', [], 'contao_default'));
         }
@@ -117,9 +110,8 @@ class General extends ConfigurationStep
 
     public function updateUserGroups(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         // retrieve the webmaster's group and update the permissions
@@ -129,9 +121,8 @@ class General extends ConfigurationStep
 
     protected function updateModuleConfiguration(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $formContactConfig
@@ -148,9 +139,8 @@ class General extends ConfigurationStep
 
     protected function createPageForm(): PageModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $rootPage = PageModel::findById($config->getSgPageRoot());
@@ -174,9 +164,8 @@ class General extends ConfigurationStep
 
     protected function createPageFormSent(PageModel $pageFormContact): PageModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $rootPage = PageModel::findById($config->getSgPageRoot());
@@ -208,9 +197,8 @@ class General extends ConfigurationStep
 
     protected function createArticlePageForm(PageModel $page): ArticleModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $article = ArticleModel::findById($formContactConfig->getSgArticleForm());
@@ -224,9 +212,8 @@ class General extends ConfigurationStep
 
     protected function createArticlePageFormSent(PageModel $page): ArticleModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $article = ArticleModel::findById($formContactConfig->getSgArticleFormSent());
@@ -248,9 +235,8 @@ class General extends ConfigurationStep
 
     protected function createContentsPageForm(PageModel $page, ArticleModel $article, FormModel $form): array
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $headline = ContentModel::findOneById((int) $formContactConfig->getSgContentHeadlineArticleForm());
@@ -274,9 +260,8 @@ class General extends ConfigurationStep
 
     protected function createContentsPageFormSent(PageModel $page, ArticleModel $article): array
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $headline = ContentModel::findOneById((int) $formContactConfig->getSgContentHeadlineArticleFormSent());
@@ -307,9 +292,8 @@ class General extends ConfigurationStep
 
     protected function createNotificationGatewayNotification(string $formTitle): NotificationModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $nc = NcNotificationUtil::createFormContactSentNotification($formTitle, $formContactConfig->getSgNotification() ? ['id' => $formContactConfig->getSgNotification()] : []);
@@ -326,9 +310,8 @@ class General extends ConfigurationStep
 
     protected function createNotificationGatewayMessagesUser(NotificationModel $objNotification): NotificationMessageModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $nm = NcNotificationMessageUtil::createContactFormSentNotificationMessageUser((int) $objNotification->id, 'email', (int) $config->getSgNotificationGatewayEmail(), $formContactConfig->getSgNotificationMessageUser() ? ['id' => $formContactConfig->getSgNotificationMessageUser()] : []
@@ -349,9 +332,8 @@ class General extends ConfigurationStep
 
     protected function createNotificationGatewayMessagesAdmin(NotificationModel $objNotification): NotificationMessageModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $nm = NcNotificationMessageUtil::createContactFormSentNotificationMessageAdmin((int) $objNotification->id, 'email', (int) $config->getSgNotificationGatewayEmail(), $formContactConfig->getSgNotificationMessageAdmin() ? ['id' => $formContactConfig->getSgNotificationMessageAdmin()] : []
@@ -370,7 +352,7 @@ class General extends ConfigurationStep
         return $nm;
     }
 
-    protected function createNotificationGatewayMessages(NotificationModel $gateway): array
+    protected function createNotificationGatewayMessages(NotificationModel $gateway): array // TODO : Notification
     {
         return [
             'user' => $this->createNotificationGatewayMessagesUser($gateway),
@@ -380,9 +362,8 @@ class General extends ConfigurationStep
 
     protected function createNotificationGatewayMessagesLanguagesUser(NotificationMessageModel $notificationMessage, string $formTitle): NotificationLanguageModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $nl = NcNotificationMessageLanguageUtil::createContactFormSentNotificationMessageUserLanguage(
@@ -418,9 +399,8 @@ class General extends ConfigurationStep
 
     protected function createNotificationGatewayMessagesLanguagesAdmin(NotificationMessageModel $notificationMessage, string $formTitle): NotificationLanguageModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $nl = NcNotificationMessageLanguageUtil::createContactFormSentNotificationMessageAdminLanguage(
@@ -466,9 +446,8 @@ class General extends ConfigurationStep
 
     protected function createForm(string $formContactTitle, PageModel $page, NotificationModel $notification): FormModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $form = FormUtil::createFormFormContact($formContactTitle, (int) $page->id, (int) $notification->id, array_merge(
@@ -494,9 +473,8 @@ class General extends ConfigurationStep
 
     protected function createFormInputs(FormModel $form): array
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $inputName = FormFieldUtil::createFormField((int) $form->id, array_merge([
@@ -593,12 +571,11 @@ class General extends ConfigurationStep
 
         return ['name' => $inputName, 'email' => $inputEmail, 'message' => $inputMessage, 'consentDataTreatment' => $inputConsentDataTreatment, 'consentDataSave' => $inputConsentDataSave, 'captcha' => $inputCaptcha, 'submit' => $inputSubmit];
     }
-
+// TODO : Notification
     protected function updateModuleConfigurationAfterGenerations(array $pages, array $articles, array $contents, NotificationModel $notification, array $notificationGatewayMessages, array $notificationGatewayMessagesLanguages, FormModel $form, array $formInputs): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $formContactConfig
@@ -646,12 +623,10 @@ class General extends ConfigurationStep
         $objUserGroup->save();
     }
 
-    private function setFormContactConfigKey(string $key, $value): void
+    private function setFormContactConfigKey(string $key, int $value): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $formContactConfig->{$key}($value);

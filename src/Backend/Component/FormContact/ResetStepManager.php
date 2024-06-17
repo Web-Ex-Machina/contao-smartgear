@@ -20,11 +20,8 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 
 class ResetStepManager extends StepManager
 {
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-
     public function __construct(
-        ConfigurationManager $configurationManager,
+        protected ConfigurationManager $configurationManager,
         TranslatorInterface $translator,
         string $module,
         string $type,
@@ -32,7 +29,6 @@ class ResetStepManager extends StepManager
         array $steps
     ) {
         parent::__construct($translator, $module, $type, $stepSessionKey, $steps);
-        $this->configurationManager = $configurationManager;
     }
 
     public function finish(): void
@@ -46,6 +42,7 @@ class ResetStepManager extends StepManager
         $config = $this->configurationManager->load();
         $formContactConfig = $config->getSgFormContact();
         $formContactConfig->setSgInstallComplete(false);
+
         $config->setSgFormContact($formContactConfig);
         $this->configurationManager->save($config);
     }

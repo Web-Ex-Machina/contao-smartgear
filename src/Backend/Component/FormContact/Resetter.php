@@ -21,7 +21,7 @@ use Contao\FormModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\UserGroupModel;
-use NotificationCenter\Model\Language as NotificationLanguageModel;
+use NotificationCenter\Model\Language as NotificationLanguageModel; // TODO : Notification
 use NotificationCenter\Model\Message as NotificationMessageModel;
 use NotificationCenter\Model\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -34,21 +34,14 @@ use WEM\SmartgearBundle\Model\Module;
 
 class Resetter extends BackendResetter
 {
-    /** @var string */
-    protected $module = '';
-    /** @var string */
-    protected $type = '';
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var TranslatorInterface */
-    protected $translator;
+    protected string $module = '';
 
-    /**
-     * Generic array of logs.
-     *
-     * @var array
-     */
-    protected $logs = [];
+    protected string $type = '';
+
+    protected ConfigurationManager $configurationManager;
+    protected TranslatorInterface $translator;
+
+    protected array $logs = [];
 
     public function __construct(
         ConfigurationManager $configurationManager,
@@ -62,13 +55,13 @@ class Resetter extends BackendResetter
     public function reset(string $mode): void
     {
         // reset everything except what we wanted to keep
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
         if (!$formContactConfig) {
             return;
         }
+
         $this->resetUserGroupSettings();
         $archiveTimestamp = time();
 
@@ -80,7 +73,7 @@ class Resetter extends BackendResetter
                     $objFormContact->save();
                 }
 
-                $objNotification = NotificationModel::findOneById($formContactConfig->getSgNotification());
+                $objNotification = NotificationModel::findOneById($formContactConfig->getSgNotification()); // TODO : Notification
                 if ($objNotification) {
                     $objNotification->title = sprintf('%s (Archive-%s)', $objNotification->title, (string) $archiveTimestamp);
                     $objNotification->save();
@@ -127,6 +120,7 @@ class Resetter extends BackendResetter
                         $objModule->save();
                     }
                 }
+
             break;
             case FormContactConfig::ARCHIVE_MODE_KEEP:
             break;
@@ -161,7 +155,7 @@ class Resetter extends BackendResetter
                     $objField->delete();
                 }
 
-                $objNotification = NotificationModel::findOneById($formContactConfig->getSgNotification());
+                $objNotification = NotificationModel::findOneById($formContactConfig->getSgNotification()); // TODO : Notification
                 if ($objNotification) {
                     $objNotification->delete();
                 }
@@ -216,10 +210,10 @@ class Resetter extends BackendResetter
                         $objModule->delete();
                     }
                 }
+
             break;
             default:
                 throw new \InvalidArgumentException($this->translator->trans('WEMSG.FORMCONTACT.RESET.deleteModeUnknown', [], 'contao_default'));
-            break;
         }
 
         $formContactConfig->setSgArchived(true)
@@ -234,15 +228,15 @@ class Resetter extends BackendResetter
 
     protected function resetUserGroupSettings(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         $objGroupRedactors = UserGroupModel::findOneById($config->getSgUserGroupRedactors());
         if ($objGroupRedactors) {
             $this->resetUserGroup($objGroupRedactors, $formContactConfig);
         }
+
         $objGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
         if ($objGroupAdministrators) {
             $this->resetUserGroup($objGroupAdministrators, $formContactConfig);
