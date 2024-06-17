@@ -18,15 +18,11 @@ use Contao\File;
 
 class Backup
 {
-    /** @var File */
-    protected $file;
-    /** @var string */
-    protected $source;
+    protected File $file;
 
-    /**
-     * @return File
-     */
-    public function getFile()
+    protected string $source;
+
+    public function getFile(): File
     {
         return $this->file;
     }
@@ -38,10 +34,7 @@ class Backup
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSource()
+    public function getSource(): string
     {
         return $this->source;
     }

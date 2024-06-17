@@ -18,18 +18,17 @@ use WEM\SmartgearBundle\Backup\Model\Backup as BackupBusinessModel;
 
 class ListResult
 {
-    /** @var array */
-    protected $backups = [];
-    /** @var int */
-    protected $total = 0;
-    /** @var int */
-    protected $offset = 0;
-    /** @var int */
-    protected $limit = 0;
-    /** @var int */
-    protected $before = 0;
-    /** @var int */
-    protected $after = 0;
+    protected array $backups = [];
+
+    protected int $total = 0;
+
+    protected int $offset = 0;
+
+    protected int $limit = 0;
+
+    protected int $before = 0;
+
+    protected int $after = 0;
 
     public function addBackup(BackupBusinessModel $backup): self
     {

@@ -19,6 +19,7 @@ use Contao\CoreBundle\Doctrine\Backup\BackupManager as DatabaseBackupManager;
 use Contao\CoreBundle\Doctrine\Backup\Config\RestoreConfig;
 use Contao\File;
 use Contao\Folder;
+use Contao\Model\Collection;
 use Contao\ZipReader;
 use Contao\ZipWriter;
 use Exception;
@@ -35,47 +36,22 @@ use WEM\SmartgearBundle\Model\Backup as BackupModel;
 
 class BackupManager
 {
-    public const DEFAULT_CHUNK_SIZES_BYTES = 1073741824; // 1GB
-    /** @var string */
-    protected $rootDir;
-    /** @var string */
-    protected $backupDirectory;
-    /** @var CommandUtil */
-    protected $commandUtil;
-    /** @var string */
-    protected $databaseBackupDirectory;
-    /** @var DatabaseBackupManager */
-    protected $databaseBackupManager;
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var array */
-    protected $artifactsToBackup = [];
-    /** @var array */
-    protected $tablesToIgnore = [];
-    /** @var int */
-    protected $memoryLimitInBytes;
-    /** @var int */
-    protected $chunkSizeInBytes;
+    public const DEFAULT_CHUNK_SIZES_BYTES = 1073741824;
+
+    protected int $memoryLimitInBytes;
+
+    protected mixed $chunkSizeInBytes;
 
     public function __construct(
-        string $rootDir,
-        string $backupDirectory,
-        CommandUtil $commandUtil,
-        string $databaseBackupDirectory,
-        DatabaseBackupManager $databaseBackupManager,
-        TranslatorInterface $translator,
-        array $artifactsToBackup,
-        array $tablesToIgnore
+        protected string                $rootDir,
+        protected string                $backupDirectory,
+        protected CommandUtil           $commandUtil,
+        protected string                $databaseBackupDirectory,
+        protected DatabaseBackupManager $databaseBackupManager,
+        protected TranslatorInterface   $translator,
+        protected array                 $artifactsToBackup,
+        protected array                 $tablesToIgnore
     ) {
-        $this->rootDir = $rootDir;
-        $this->backupDirectory = $backupDirectory;
-        $this->commandUtil = $commandUtil;
-        $this->databaseBackupDirectory = $databaseBackupDirectory;
-        $this->databaseBackupManager = $databaseBackupManager;
-        $this->translator = $translator;
-        $this->artifactsToBackup = $artifactsToBackup;
-        $this->tablesToIgnore = $tablesToIgnore;
-
         $this->memoryLimitInBytes = Util::formatPhpMemoryLimitToBytes(ini_get('memory_limit'));
         $memoryLimitInBytes = Util::formatPhpMemoryLimitToBytes(ini_get('memory_limit'));
         if ($memoryLimitInBytes > 0) {
@@ -123,9 +99,11 @@ class BackupManager
             if (null !== $before) {
                 $arrConfig['before'] = $before;
             }
+
             if (null !== $after) {
                 $arrConfig['after'] = $after;
             }
+
             $models = BackupModel::findItems($arrConfig, $limit, $offset);
             $count = BackupModel::countItems($arrConfig);
             $result = new ListResult();
@@ -134,7 +112,7 @@ class BackupManager
                 ->setLimit($limit)
                 ->setOffset($offset)
             ;
-            if ($models) {
+            if ($models instanceof Collection) {
                 foreach ($models as $model) {
                     $result->addBackup(
                         (new BackupBusinessModel())
@@ -143,13 +121,17 @@ class BackupManager
                     );
                 }
             }
-        } catch (\Exception $e) {
-            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageRetrieveListError', [$e->getMessage()], 'contao_default'), $e->getCode(), $e);
+        } catch (\Exception $exception) {
+            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageRetrieveListError', [$exception->getMessage()], 'contao_default'), $exception->getCode(), $exception);
         }
 
         return $result;
     }
 
+    /**
+     * @throws BackupManagerException
+     * @throws Exception
+     */
     public function get(string $backupName): File
     {
         if (!file_exists($this->getBackupFullPath($backupName))) {
@@ -159,6 +141,9 @@ class BackupManager
         return new File($this->getBackupPath($backupName));
     }
 
+    /**
+     * @throws BackupManagerException
+     */
     public function restore(string $backupName): RestoreResult
     {
         try {
@@ -199,7 +184,7 @@ class BackupManager
 
                     $arrBigFiles[$strFilenameOrig]['index'] = (int) $backup->unzip();
                     $result->addFileRestored($strFilename);
-                } elseif (preg_match('/(.*)\.part\_([0-9]{8})/', (string) $strFilename, $matches)) {
+                } elseif (preg_match('/(.*)\.part\_(\d{8})/', (string) $strFilename, $matches)) {
                     // continue;
                     // biiiig file chuncked
                     $strFilenameOrig = $matches[1];
@@ -236,13 +221,14 @@ class BackupManager
                         $result->addFileRestored($strFilename);
                         ++$i;
                     }
+
                     $objFile->close();
                 }
             }
 
             // 2b) check if all big files have been restored correctly
             foreach ($arrBigFiles as $strFilename => $stats) {
-                if ((int) $stats['index'] === (int) $stats['chunks_done']) {
+                if ($stats['index'] === $stats['chunks_done']) {
                     $result->addFileInError($strFilename);
                 } else {
                     $result->addFileRestored($strFilename);
@@ -264,13 +250,16 @@ class BackupManager
                     $result->setSearchIndexRebuildLog($e->getMessage());
                 }
             }
-        } catch (\Exception $e) {
-            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageRestoreError', [$e->getMessage()], 'contao_default'), $e->getCode(), $e);
+        } catch (\Exception $exception) {
+            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageRestoreError', [$exception->getMessage()], 'contao_default'), $exception->getCode(), $exception);
         }
 
         return $result;
     }
 
+    /**
+     * @throws BackupManagerException
+     */
     public function delete(string $backupName): bool
     {
         if (!file_exists($this->getBackupFullPath($backupName))) {
@@ -287,6 +276,7 @@ class BackupManager
      * Create a new backup.
      *
      * @return CreateResult The backup result
+     * @throws BackupManagerException
      */
     protected function new(string $source): CreateResult
     {
@@ -330,13 +320,16 @@ class BackupManager
             $model->files = implode(',', $result->getFiles());
             $model->source = $source;
             $model->save();
-        } catch (\Exception $e) {
-            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageCreateError', [$e->getMessage()], 'contao_default'), $e->getCode(), $e);
+        } catch (\Exception $exception) {
+            throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageCreateError', [$exception->getMessage()], 'contao_default'), $exception->getCode(), $exception);
         }
 
         return $result;
     }
 
+    /**
+     * @throws Exception
+     */
     protected function addArtifactToBackup(ZipWriter &$backupArchive, CreateResult &$result, string $artifactPath): void
     {
         $artifactFullPath = $this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath;
@@ -371,9 +364,12 @@ class BackupManager
             $backupArchive->addFile($artifactPath);
             $result->addFileBackuped($artifactPath);
         }
-        // }
+
     }
 
+    /**
+     * @throws Exception
+     */
     protected function cleanArtifactsBeforeRestore(): array
     {
         $filesDeleted = [];
@@ -389,9 +385,9 @@ class BackupManager
                         unlink($filePath);
                         $filesDeleted[] = str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath);
                     }
+
                     $folder = new Folder($artifactPath);
                     $folder->purge();
-                    // $filesDeleted[] = $folder->name;
                 }
             }
         }

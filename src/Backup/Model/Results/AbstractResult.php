@@ -18,12 +18,12 @@ use WEM\SmartgearBundle\Backup\Model\Backup as BackupBusinessModel;
 
 abstract class AbstractResult
 {
-    /** @var BackupBusinessModel */
-    protected $backup;
-    /** @var array */
-    protected $files = [];
-    /** @var array */
-    protected $filesInError = [];
+
+    protected BackupBusinessModel $backup;
+
+    protected array $files = [];
+
+    protected array $filesInError = [];
 
     public function getFiles(): array
     {
@@ -42,9 +42,6 @@ abstract class AbstractResult
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getFilesInError(): array
     {
         return $this->filesInError;

@@ -16,12 +16,9 @@ namespace WEM\SmartgearBundle\Backup\Model\Results;
 
 class CreateResult extends AbstractResult
 {
-    /** @var array */
-    protected $filesBackuped = [];
 
-    /**
-     * @return mixed
-     */
+    protected array $filesBackuped = [];
+
     public function getFilesBackuped(): array
     {
         return $this->filesBackuped;

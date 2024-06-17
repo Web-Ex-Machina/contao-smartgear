@@ -16,14 +16,13 @@ namespace WEM\SmartgearBundle\Backup\Model\Results;
 
 class RestoreResult extends AbstractResult
 {
-    /** @var array */
-    protected $filesRestored = [];
-    /** @var array */
-    protected $filesDeleted = [];
-    /** @var bool */
-    protected $databaseRestored = false;
-    /** @var string */
-    protected $searchIndexRebuildLog = '';
+    protected array $filesRestored = [];
+
+    protected array $filesDeleted = [];
+
+    protected bool $databaseRestored = false;
+
+    protected string $searchIndexRebuildLog = '';
 
     public function getFilesReplacedByRestore(): array
     {
