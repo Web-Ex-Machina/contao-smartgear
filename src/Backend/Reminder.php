@@ -31,14 +31,12 @@ use WEM\SmartgearBundle\Classes\Util;
 
 class Reminder extends BackendModule
 {
-    /**
-     * Template.
-     *
-     * @var string
-     */
+
     protected $strTemplate = 'be_wem_sg_remindermanager';
-    protected $security;
-    protected $strId = 'remindermanager';
+
+    protected mixed $security;
+
+    protected string $strId = 'remindermanager';
 
     public function __construct(DataContainer|null $dc = null)
     {
@@ -77,6 +75,7 @@ class Reminder extends BackendModule
                     if (!$objItem) {
                         throw new Exception('Not found');
                     }
+
                     $dti = new DateInterval($objItem->update_reminder_period);
                     $updateReminderDate = (new DateTime())
                         ->setTimestamp(time())
@@ -96,6 +95,7 @@ class Reminder extends BackendModule
                     if (!$objItem) {
                         throw new Exception('Not found');
                     }
+
                     $objItem->update_reminder = 0;
                     $objItem->update_reminder_date = 0;
                     $objItem->save();

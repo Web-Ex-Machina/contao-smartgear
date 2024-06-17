@@ -21,7 +21,7 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 class ConfigurationStepManager extends ConfigurationStepManagerBase
 {
     /** @var ConfigurationManager */
-    protected $configurationManager;
+    protected ConfigurationManager $configurationManager;
 
     public function __construct(
         ConfigurationManager $configurationManager,

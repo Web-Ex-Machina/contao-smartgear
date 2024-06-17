@@ -839,6 +839,7 @@ class General extends ConfigurationStep
 
         return $module;
     }
+
 // TODO : Notification
     protected function createModuleData(CoreConfig $config, ExtranetConfig $extranetConfig, PageModel $page, NotificationModel $notification): ModuleModel
     {
@@ -867,6 +868,7 @@ class General extends ConfigurationStep
 
         return $module;
     }
+
 // TODO : Notification
     protected function createModulePassword(CoreConfig $config, ExtranetConfig $extranetConfig, PageModel $pageConfirm, PageModel $pageValidate, NotificationModel $notification): ModuleModel
     {
@@ -924,6 +926,7 @@ class General extends ConfigurationStep
 
         return $module;
     }
+
 // TODO : Notification
     protected function createModuleSubscribe(CoreConfig $config, ExtranetConfig $extranetConfig, ?PageModel $pageConfirm, ?PageModel $pageValidate, ?NotificationModel $notification, MemberGroupModel $group): ?ModuleModel
     {
@@ -1667,6 +1670,7 @@ class General extends ConfigurationStep
 
         return $nc;
     }
+
 // TODO : Notification
     protected function createNotificationSubscription(CoreConfig $config, ExtranetConfig $extranetConfig): ?NotificationModel
     {
@@ -1704,6 +1708,7 @@ class General extends ConfigurationStep
             'subscription' => $this->createNotificationSubscription($config, $extranetConfig),
         ];
     }
+
 // TODO : Notification
     protected function createNotificationsMessagesChangeData(CoreConfig $config, ExtranetConfig $extranetConfig, NotificationModel $notification, GatewayModel $gateway): NotificationMessageModel
     {
@@ -1720,6 +1725,7 @@ class General extends ConfigurationStep
 
         return $nm;
     }
+
 // TODO : Notification
     protected function createNotificationsMessagesPassword(CoreConfig $config, ExtranetConfig $extranetConfig, NotificationModel $notification, GatewayModel $gateway): NotificationMessageModel
     {
@@ -1736,6 +1742,7 @@ class General extends ConfigurationStep
 
         return $nm;
     }
+
 // TODO : Notification
     protected function createNotificationsMessagesSubscription(CoreConfig $config, ExtranetConfig $extranetConfig, ?NotificationModel $notification, GatewayModel $gateway): ?NotificationMessageModel
     {

@@ -571,6 +571,7 @@ class General extends ConfigurationStep
 
         return ['name' => $inputName, 'email' => $inputEmail, 'message' => $inputMessage, 'consentDataTreatment' => $inputConsentDataTreatment, 'consentDataSave' => $inputConsentDataSave, 'captcha' => $inputCaptcha, 'submit' => $inputSubmit];
     }
+
 // TODO : Notification
     protected function updateModuleConfigurationAfterGenerations(array $pages, array $articles, array $contents, NotificationModel $notification, array $notificationGatewayMessages, array $notificationGatewayMessagesLanguages, FormModel $form, array $formInputs): void
     {

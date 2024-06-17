@@ -39,6 +39,7 @@ class Resetter extends BackendResetter
     protected string $type = '';
 
     protected ConfigurationManager $configurationManager;
+
     protected TranslatorInterface $translator;
 
     protected array $logs = [];

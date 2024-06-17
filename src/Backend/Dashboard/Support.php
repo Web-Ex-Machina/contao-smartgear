@@ -236,14 +236,12 @@ class Support extends BackendModule
         $arrDomains = Util::getRootPagesDomains();
         $hostingInformations = $this->airtableApi->getHostingInformations($arrDomains);
         $arrDomainsHavingClientRef = [];
-        if (!empty($hostingInformations)) {
-            foreach ($hostingInformations as $domain => $hostnameHostingInformations) {
-                if ($hostnameHostingInformations['client_reference'] ?? null
-                && \is_array($hostnameHostingInformations['client_reference'])
-                && $hostnameHostingInformations['client_reference'][0]
-                ) {
-                    $arrDomainsHavingClientRef[] = $domain;
-                }
+        foreach ($hostingInformations as $domain => $hostnameHostingInformations) {
+            if ($hostnameHostingInformations['client_reference'] ?? null
+            && \is_array($hostnameHostingInformations['client_reference'])
+            && $hostnameHostingInformations['client_reference'][0]
+            ) {
+                $arrDomainsHavingClientRef[] = $domain;
             }
         }
 

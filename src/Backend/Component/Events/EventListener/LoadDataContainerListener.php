@@ -25,9 +25,6 @@ use WEM\SmartgearBundle\Security\SmartgearPermissions;
 class LoadDataContainerListener
 {
 
-
-
-    /** @var string */
     protected string $do;
 
     public function __construct(protected Security $security, protected CoreConfigurationManager $coreConfigurationManager, protected DCAManipulator $dcaManipulator)

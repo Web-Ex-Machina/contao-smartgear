@@ -35,22 +35,16 @@ use WEM\SmartgearBundle\Model\Module;
 
 class Resetter extends BackendResetter
 {
-    /** @var string */
     protected string $module = '';
 
-    /** @var string */
     protected string $type = '';
 
-    /** @var ConfigurationManager */
     protected ConfigurationManager $configurationManager;
 
-    /** @var TranslatorInterface */
     protected TranslatorInterface $translator;
 
     /**
      * Generic array of logs.
-     *
-     * @var array
      */
     protected array $logs = [];
 

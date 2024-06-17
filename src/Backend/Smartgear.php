@@ -59,6 +59,7 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Model\Member;
 use WEM\SmartgearBundle\Override\Controller;
 use WEM\SmartgearBundle\Update\UpdateManager;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 
 /**
  * Back end module "smartgear".
@@ -76,29 +77,26 @@ class Smartgear extends BackendModule
 
     /**
      * Logs.
-     *
-     * @var array
      */
     protected array $arrLogs = [];
 
     /**
      * Module basepath.
-     *
-     * @var string
      */
     protected string $strBasePath = 'bundles/wemsmartgear';
 
-    /** @var array */
     // protected $modules = ['module' => ['extranet', 'form_data_manager'], 'component' => ['core', 'blog', 'events', 'faq', 'form_contact']];
     protected array $modules = ['module' => [], 'component' => []];
 
-    protected null|BackupManager $backupManager;
-    protected null|UpdateManager $updateManager;
+    protected ?BackupManager $backupManager;
 
-    protected null|CommandUtil $commandUtil;
+    protected ?UpdateManager $updateManager;
 
-    protected $coreConfigurationManager;
-    protected $objSession;
+    protected ?CommandUtil $commandUtil;
+
+    protected ConfigurationManager $coreConfigurationManager;
+
+    protected mixed $objSession;
 
     public function __construct(DataContainer|null $dc = null)
     {
@@ -113,11 +111,9 @@ class Smartgear extends BackendModule
     /**
      * Process AJAX actions.
      *
-     * @param [String] $strAction - Ajax action wanted
-     *
-     * @return string - Ajax response, as String or JSON
+     * @param string $strAction - Ajax action wanted
      */
-    public function processAjaxRequest($strAction): void
+    public function processAjaxRequest(string $strAction): void
     {
         // Catch AJAX Requests
         if (Input::post('TL_WEM_AJAX') && 'be_smartgear' === Input::post('wem_module')) {
@@ -127,6 +123,7 @@ class Smartgear extends BackendModule
                         if (!Input::post('cmd')) {
                             throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
+
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
                         $arrResponse['output'] = $this->commandUtil->executeCmd(Input::post('cmd'));
@@ -137,6 +134,7 @@ class Smartgear extends BackendModule
                         if (!Input::post('cmd')) {
                             throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
+
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
                         $arrResponse['output'] = $this->commandUtil->executeCmdPHP(Input::post('cmd'));
@@ -498,7 +496,6 @@ class Smartgear extends BackendModule
 
     private function saveConfigurationManagerForm(): void
     {
-        /** @var CoreConfig $config */
         $coreConfigOld = $this->coreConfigurationManager->load();
 
         $coreConfig = clone $coreConfigOld;
@@ -605,7 +602,6 @@ class Smartgear extends BackendModule
             if (!empty($arrBlogPresetsExisting)) {
                 foreach ($arrBlogPresetsExisting as $index => $preset) {
                     /** @var BlogPresetConfig $preset */
-                    $preset = $preset;
                     $preset
                         ->setSgNewsFolder(Input::post('blog')['presets'][$index]['newsFolder'] ?? BlogPresetConfig::DEFAULT_FOLDER_PATH)
                         ->setSgNewsArchiveTitle(Input::post('blog')['presets'][$index]['newsArchiveTitle'] ?? BlogPresetConfig::DEFAULT_ARCHIVE_TITLE)
@@ -1006,10 +1002,8 @@ class Smartgear extends BackendModule
                 }
 
                 $objPage->loadDetails();
-                if (0 !== $objPage->layout && ($objLayout = LayoutModel::findByPk($objPage->layout))) {
-                    if ($objTheme = ThemeModel::findByPk($objLayout->pid)) {
-                        $themeName = $objTheme->name;
-                    }
+                if (0 !== $objPage->layout && ($objLayout = LayoutModel::findByPk($objPage->layout)) && ($objTheme = ThemeModel::findByPk($objLayout->pid))) {
+                    $themeName = $objTheme->name;
                 }
 
                 // $arrPages[0]['options'][$pages->id] = [

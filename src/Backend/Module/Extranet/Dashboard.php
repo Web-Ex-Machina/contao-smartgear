@@ -26,7 +26,6 @@ use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class Dashboard extends BackendDashboard
 {
-    /** @var string */
     protected string $strTemplate = 'be_wem_sg_block_extranet_dashboard';
 
     public function __construct(

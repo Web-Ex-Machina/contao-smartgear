@@ -23,9 +23,6 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 class LoadDataContainerListener
 {
 
-
-
-    /** @var string */
     protected string $do;
 
     public function __construct(

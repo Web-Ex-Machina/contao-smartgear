@@ -178,7 +178,7 @@ class Block extends BackendBlock
         };
     }
 
-    protected function parseSteps()
+    protected function parseSteps(): ?string
     {
         $i = $this->getMode();
         if ($i === self::MODE_RESET) {

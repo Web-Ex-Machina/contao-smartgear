@@ -253,6 +253,7 @@ class Block extends BackendBlock
                 parent::parseSteps();
             break;
         }
+
         return null;
     }
 }

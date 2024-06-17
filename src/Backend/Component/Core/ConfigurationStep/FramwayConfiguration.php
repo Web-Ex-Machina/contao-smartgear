@@ -73,10 +73,7 @@ class FramwayConfiguration extends ConfigurationStep
     public function isStepValid(): bool
     {
         // check if the step is correct
-        if (empty(Input::post('themes')) || empty(Input::post('components'))) {
-            return false;
-        }
-        return true;
+        return !empty(Input::post('themes')) && !empty(Input::post('components'));
     }
 
     /**
@@ -86,7 +83,7 @@ class FramwayConfiguration extends ConfigurationStep
     {
         // do what is meant to be done in this step
         /** @var CoreConfig $config */
-        $config = $this->configurationManager->load();
+        $this->configurationManager->load();
 
         $this->updateFramwayConfiguration(
             Input::post('themes') ?? [],

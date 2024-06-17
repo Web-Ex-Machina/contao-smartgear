@@ -122,7 +122,7 @@ class Block extends BackendBlock
     protected function finish(): array
     {
         $i = $this->getMode();
-        if ($i == self::MODE_RESET) {
+        if ($i === self::MODE_RESET) {
             $this->resetStepManager->finish();
             $messageParameters = Util::messagesToToastrCallbacksParameters($this->resetStepManager->getCurrentStep()->getMessages());
             foreach ($messageParameters as $singleMessageParameters) {
@@ -151,11 +151,12 @@ class Block extends BackendBlock
     protected function parseSteps(): ?string
     {
         $i = $this->getMode();
-        if ($i == self::MODE_RESET) {
+        if ($i === self::MODE_RESET) {
             return $this->configurationStepManager->parseSteps();
         } else {
             parent::parseSteps();
         }
+
         return null;
     }
 }

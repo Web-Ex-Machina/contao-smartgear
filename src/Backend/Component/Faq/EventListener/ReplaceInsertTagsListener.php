@@ -52,9 +52,6 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
         int $_cnt
     ): false|string
     {
-        $elements = explode('::', $insertTag);
-        $key = strtolower($elements[0]);
         return static::NOT_HANDLED;
-
     }
 }

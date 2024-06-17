@@ -31,7 +31,9 @@ class SocialLink extends BackendModule
      * @var string
      */
     protected $strTemplate = 'be_wem_sg_social_link';
+
     protected $security;
+
     protected string $strId = 'social_link';
 
     public function __construct(DataContainer|null $dc = null)

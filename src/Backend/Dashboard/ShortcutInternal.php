@@ -32,15 +32,11 @@ class ShortcutInternal extends BackendModule
 
     protected string $strId = 'wem_sg_dashboard_shortcut_internal';
 
-
-    protected configurationManager $configurationManager;
-
     public function __construct(
-        protected TranslatorInterface $translator,
-        configurationManager          $configurationManager
+        protected TranslatorInterface  $translator,
+        protected configurationManager $configurationManager
     ) {
         parent::__construct();
-        $this->configurationManager = $configurationManager;
     }
 
     public function generate(): string

@@ -33,6 +33,7 @@ class Api
     public const BASE_URL = 'https://api.airtable.com/v0/';
 
     public const CACHE_PATH = 'assets/smartgear/';
+
     /**
      * @deprecated
      * */

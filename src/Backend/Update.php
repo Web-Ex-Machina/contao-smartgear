@@ -45,7 +45,8 @@ class Update extends BackendModule
      */
     protected array $arrLogs = [];
 
-    protected $objSession;
+    protected mixed $objSession;
+
     /**
      * Module basepath.
      */
@@ -53,6 +54,7 @@ class Update extends BackendModule
 
     // protected $modules = ['module' => ['extranet', 'form_data_manager'], 'component' => ['core', 'blog', 'events', 'faq', 'form_contact']];
     protected array $modules = ['module' => [], 'component' => []];
+
     protected null|UpdateManager $updateManager;
 
     public function __construct(DataContainer|null $dc = null)

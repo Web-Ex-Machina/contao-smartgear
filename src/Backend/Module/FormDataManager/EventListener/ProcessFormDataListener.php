@@ -73,6 +73,7 @@ class ProcessFormDataListener
                 $this->storeFieldValue('email', $submittedData['email'], $objFormStorage);
                 unset($submittedData['email']);
             }
+
             unset($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]'], $submittedData['fdm[current_page]'], $submittedData['fdm[current_page_url]'], $submittedData['fdm[referer_page_url]']);
             // empty fields are transmitted
             foreach ($submittedData as $fieldName => $value) {
