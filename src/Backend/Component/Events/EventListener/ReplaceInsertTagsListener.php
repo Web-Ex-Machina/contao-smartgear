@@ -20,13 +20,8 @@ use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
 {
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-
-    public function __construct(
-        CoreConfigurationManager $coreConfigurationManager
-    ) {
-        $this->coreConfigurationManager = $coreConfigurationManager;
+    public function __construct(protected CoreConfigurationManager $coreConfigurationManager)
+    {
     }
 
     /**
@@ -54,37 +49,12 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
         array $cache,
         int $_rit,
         int $_cnt
-    ) {
+    ): false|string
+    {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
         if ('sg' === $key && str_starts_with($elements[1], 'events')) {
             return static::NOT_HANDLED;
-            /** @var CoreConfig */
-            $config = $this->coreConfigurationManager->load();
-            $eventsConfig = $config->getSgEvents();
-
-            if (!$eventsConfig->getSgInstallComplete()) {
-                return static::NOT_HANDLED;
-            }
-
-            return match ($elements[1]) {
-                'events_installComplete' => $eventsConfig->getSgInstallComplete() ? '1' : '0',
-                'events_calendar' => $eventsConfig->getSgCalendar(),
-                'events_page' => $eventsConfig->getSgPage(),
-                'events_article' => (string) $eventsConfig->getSgArticle(),
-                'events_contentList' => (string) $eventsConfig->getSgContentList(),
-                'events_moduleReader' => $eventsConfig->getSgModuleReader(),
-                'events_moduleList' => $eventsConfig->getSgModuleList(),
-                'events_moduleCalendar' => $eventsConfig->getSgModuleCalendar(),
-                'events_archived' => $eventsConfig->getSgArchived() ? '1' : '0',
-                'events_archivedAt' => $eventsConfig->getSgArchivedAt(),
-                'events_archivedMode' => $eventsConfig->getSgArchivedMode(),
-                'events_eventsFolder' => $eventsConfig->getSgEventsFolder(),
-                'events_calendarTitle' => $eventsConfig->getSgCalendarTitle(),
-                'events_eventsListPerPage' => $eventsConfig->getSgEventsListPerPage(),
-                'events_eventsPageTitle' => $eventsConfig->getSgPageTitle(),
-                default => static::NOT_HANDLED,
-            };
         }
 
         return static::NOT_HANDLED;

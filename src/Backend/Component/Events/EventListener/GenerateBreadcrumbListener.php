@@ -14,6 +14,11 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Events\EventListener;
 
+use Contao\CalendarEventsModel;
+use Contao\Environment;
+use Contao\Input;
+use Contao\Model\Collection;
+use Contao\Module;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
@@ -21,22 +26,17 @@ use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
 class GenerateBreadcrumbListener
 {
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-
-    public function __construct(
-        CoreConfigurationManager $coreConfigurationManager
-    ) {
-        $this->coreConfigurationManager = $coreConfigurationManager;
+    public function __construct(protected CoreConfigurationManager $coreConfigurationManager)
+    {
     }
 
-    public function __invoke(array $items, \Contao\Module $module): array
+    public function __invoke(array $items, Module $module): array
     {
         $arrSourceItems = $items;
 
         // $eventPageId = null;
         // try {
-        //     /** @var CoreConfig */
+        //     /** @var CoreConfig $config */
         //     $config = $this->coreConfigurationManager->load();
         //     $eventConfig = $config->getSgEvents();
         //     $eventPageId = $eventConfig->getSgInstallComplete() ? $eventConfig->getSgPage() : $eventPageId;
@@ -51,16 +51,16 @@ class GenerateBreadcrumbListener
             $objConfigurationItemEvent = ConfigurationItem::findItems(['contao_page' => $objPage->id, 'type' => ConfigurationItem::TYPE_MIXED_EVENTS], 1);
 
             // if ((int) $objPage->id === (int) $eventPageId) {
-            if ($objConfigurationItemEvent) {
+            if ($objConfigurationItemEvent instanceof Collection) {
                 // get the current tl_news
-                $objEvent = \Contao\CalendarEventsModel::findPublishedByParentAndIdOrAlias(\Contao\Input::get('auto_item'), [$objConfigurationItemEvent->contao_calendar]);
+                $objEvent = CalendarEventsModel::findPublishedByParentAndIdOrAlias(Input::get('auto_item'), [$objConfigurationItemEvent->contao_calendar]);
                 if ($objEvent) {
                     $items[\count($items) - 1]['isActive'] = false;
                     $items[] = [
                         'isActive' => true,
                         'title' => $objEvent->title,
                         'link' => $objEvent->title,
-                        'href' => \Contao\Environment::get('uri'),
+                        'href' => Environment::get('uri'),
                     ];
                 }
             }

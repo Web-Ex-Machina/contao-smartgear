@@ -26,22 +26,23 @@ use WEM\SmartgearBundle\Classes\Util;
 class Block extends BackendBlock
 {
     public const MODE_RESET = 'check_reset';
-    protected $type = 'component';
-    protected $module = 'events';
-    protected $icon = 'exclamation-triangle';
-    protected $title = 'Events';
 
-    protected $resetStepManager;
+    protected string $type = 'component';
+
+    protected string $module = 'events';
+
+    protected string $icon = 'exclamation-triangle';
+
+    protected string $title = 'Events';
 
     public function __construct(
-        TranslatorInterface $translator,
-        ConfigurationManager $configurationManager,
-        ConfigurationStepManager $configurationStepManager,
-        ResetStepManager $resetStepManager,
-        Dashboard $dashboard
+        TranslatorInterface        $translator,
+        ConfigurationManager       $configurationManager,
+        ConfigurationStepManager   $configurationStepManager,
+        protected ResetStepManager $resetStepManager,
+        Dashboard                  $dashboard
     ) {
         parent::__construct($configurationManager, $configurationStepManager, $dashboard, $translator);
-        $this->resetStepManager = $resetStepManager;
     }
 
     public function processAjaxRequest(): void
@@ -62,12 +63,12 @@ class Block extends BackendBlock
                     parent::processAjaxRequest();
                 break;
             }
-        } catch (Exception $e) {
-            $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
+        } catch (Exception $exception) {
+            $arrResponse = ['status' => 'error', 'msg' => $exception->getMessage(), 'trace' => $exception->getTrace()];
         }
 
         // Add Request Token to JSON answer and return
-        $arrResponse['rt'] = \Contao\RequestToken::get();
+        $arrResponse['rt'] = \Contao\RequestToken::get(); // TODO : deprecated Token
         echo json_encode($arrResponse);
         exit;
     }
@@ -120,22 +121,20 @@ class Block extends BackendBlock
 
     protected function finish(): array
     {
-        switch ($this->getMode()) {
-            case self::MODE_RESET:
-                $this->resetStepManager->finish();
-                $messageParameters = Util::messagesToToastrCallbacksParameters($this->resetStepManager->getCurrentStep()->getMessages());
-                foreach ($messageParameters as $singleMessageParameters) {
-                    $callbacks[] = $this->callback('toastrDisplay', $singleMessageParameters);
-                }
+        $i = $this->getMode();
+        if ($i == self::MODE_RESET) {
+            $this->resetStepManager->finish();
+            $messageParameters = Util::messagesToToastrCallbacksParameters($this->resetStepManager->getCurrentStep()->getMessages());
+            foreach ($messageParameters as $singleMessageParameters) {
+                $callbacks[] = $this->callback('toastrDisplay', $singleMessageParameters);
+            }
 
-                $callbacks[] = $this->callback('refreshBlock');
-                $this->setMode(self::MODE_INSTALL);
-                $this->configurationStepManager->setCurrentStepIndex(0);
-                $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => $callbacks];
-            break;
-            default:
-                return parent::finish();
-            break;
+            $callbacks[] = $this->callback('refreshBlock');
+            $this->setMode(self::MODE_INSTALL);
+            $this->configurationStepManager->setCurrentStepIndex(0);
+            $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => $callbacks];
+        } else {
+            return parent::finish();
         }
 
         return $arrResponse;
@@ -149,15 +148,14 @@ class Block extends BackendBlock
         };
     }
 
-    protected function parseSteps()
+    protected function parseSteps(): ?string
     {
-        switch ($this->getMode()) {
-            case self::MODE_RESET:
-                return $this->configurationStepManager->parseSteps();
-            break;
-            default:
-                parent::parseSteps();
-            break;
+        $i = $this->getMode();
+        if ($i == self::MODE_RESET) {
+            return $this->configurationStepManager->parseSteps();
+        } else {
+            parent::parseSteps();
         }
+        return null;
     }
 }

@@ -24,29 +24,20 @@ use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class LoadDataContainerListener
 {
-    /** @var Security */
-    protected $security;
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-    /** @var DCAManipulator */
-    protected $dcaManipulator;
-    /** @var string */
-    protected $do;
 
-    public function __construct(
-        Security $security,
-        CoreConfigurationManager $coreConfigurationManager,
-        DCAManipulator $dcaManipulator
-    ) {
-        $this->security = $security;
-        $this->coreConfigurationManager = $coreConfigurationManager;
-        $this->dcaManipulator = $dcaManipulator;
+
+
+    /** @var string */
+    protected string $do;
+
+    public function __construct(protected Security $security, protected CoreConfigurationManager $coreConfigurationManager, protected DCAManipulator $dcaManipulator)
+    {
     }
 
     public function __invoke(string $table): void
     {
         try {
-            /* @var CoreConfig */
+            /** @var CoreConfig $config */
             // $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
             switch ($table) {
@@ -74,15 +65,17 @@ class LoadDataContainerListener
                         $GLOBALS['TL_LANG'][$table]['teaser'][1] = &$GLOBALS['TL_LANG']['WEMSG']['EVENTS']['FORM']['fieldTeaserHelp'];
                         $this->dcaManipulator->setFieldSourceOptionCallback(CalendarEventsDCA::class, 'getSourceOptions');
                     }
-                    $this->dcaManipulator->addFieldSaveCallback('headline', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanHeadline']);
-                    $this->dcaManipulator->addFieldSaveCallback('title', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanHeadline']);
-                    $this->dcaManipulator->addFieldSaveCallback('teaser', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanText']);
-                    $this->dcaManipulator->addFieldSaveCallback('description', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanText']);
+
+                    $this->dcaManipulator->addFieldSaveCallback('headline', static fn($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('title', static fn($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('teaser', static fn($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('description', static fn($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
                 break;
                 case 'tl_content':
                     if ('calendar' !== $this->do) {
                         return;
                     }
+
                     // $eventsConfig = $config->getSgEvents();
                     // if (!$eventsConfig->getSgInstallComplete()) {
                     //     return;

@@ -19,6 +19,7 @@ use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\ContentModel;
 use Contao\FilesModel;
+use Contao\Folder;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\UserGroupModel;
@@ -29,24 +30,19 @@ use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 use WEM\SmartgearBundle\Model\Module;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class Resetter extends BackendResetter
 {
-    /** @var string */
-    protected $module = '';
-    /** @var string */
-    protected $type = '';
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var TranslatorInterface */
-    protected $translator;
+    protected string $module = '';
 
-    /**
-     * Generic array of logs.
-     *
-     * @var array
-     */
-    protected $logs = [];
+    protected string $type = '';
+
+    protected ConfigurationManager $configurationManager;
+
+    protected TranslatorInterface $translator;
+
+    protected array $logs = [];
 
     public function __construct(
         ConfigurationManager $configurationManager,
@@ -57,22 +53,26 @@ class Resetter extends BackendResetter
         parent::__construct($configurationManager, $translator, $module, $type);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function reset(string $mode): void
     {
         // reset everything except what we wanted to keep
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var EventsConfig */
+
         $eventsConfig = $config->getSgEvents();
         if (!$eventsConfig) {
             return;
         }
+
         $this->resetUserGroupSettings();
         $archiveTimestamp = time();
 
         switch ($mode) {
             case EventsConfig::ARCHIVE_MODE_ARCHIVE:
-                $objFolder = new \Contao\Folder($eventsConfig->getSgEventsFolder());
+                $objFolder = new Folder($eventsConfig->getSgEventsFolder());
                 if ($objFolder) {
                     $objFolder->renameTo(sprintf('files/archives/events-%s', (string) $archiveTimestamp));
                 }
@@ -106,11 +106,12 @@ class Resetter extends BackendResetter
                         $objModule->save();
                     }
                 }
+
             break;
             case EventsConfig::ARCHIVE_MODE_KEEP:
             break;
             case EventsConfig::ARCHIVE_MODE_DELETE:
-                $objFolder = new \Contao\Folder($eventsConfig->getSgEventsFolder());
+                $objFolder = new Folder($eventsConfig->getSgEventsFolder());
                 if ($objFolder) {
                     $objFolder->delete();
                 }
@@ -152,10 +153,10 @@ class Resetter extends BackendResetter
                         $objModule->delete();
                     }
                 }
+
             break;
             default:
                 throw new \InvalidArgumentException($this->translator->trans('WEMSG.EVENTS.RESET.deleteModeUnknown', [], 'contao_default'));
-            break;
         }
 
         $eventsConfig->setSgArchived(true)
@@ -170,15 +171,16 @@ class Resetter extends BackendResetter
 
     protected function resetUserGroupSettings(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var EventsConfig */
+
         $eventsConfig = $config->getSgEvents();
 
         $objGroupRedactors = UserGroupModel::findOneById($config->getSgUserGroupRedactors());
         if ($objGroupRedactors) {
             $this->resetUserGroup($objGroupRedactors, $eventsConfig);
         }
+
         $objGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
         if ($objGroupAdministrators) {
             $this->resetUserGroup($objGroupAdministrators, $eventsConfig);
