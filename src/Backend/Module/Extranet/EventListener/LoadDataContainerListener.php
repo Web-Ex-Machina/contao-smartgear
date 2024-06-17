@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Module\Extranet\EventListener;
 
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\Security; //TODO : deprecated Security
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -22,29 +22,23 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class LoadDataContainerListener
 {
-    /** @var Security */
-    protected $security;
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-    /** @var DCAManipulator */
-    protected $dcaManipulator;
+
+
+
     /** @var string */
-    protected $do;
+    protected string $do;
 
     public function __construct(
-        Security $security,
-        CoreConfigurationManager $coreConfigurationManager,
-        DCAManipulator $dcaManipulator
-    ) {
-        $this->security = $security;
-        $this->coreConfigurationManager = $coreConfigurationManager;
-        $this->dcaManipulator = $dcaManipulator;
+        protected Security                 $security,
+        protected CoreConfigurationManager $coreConfigurationManager,
+        protected DCAManipulator           $dcaManipulator)
+    {
     }
 
     public function __invoke(string $table): void
     {
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
         } catch (FileNotFoundException) {

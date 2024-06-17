@@ -22,38 +22,26 @@ use WEM\SmartgearBundle\Classes\Backend\AbstractStep as Step;
 
 class StepManager
 {
-    use Traits\ActionsTrait;
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var array */
-    protected $steps = [];
-    /** @var string */
-    protected $module = '';
-    /** @var string */
-    protected $type = '';
-    /** @var string */
-    protected $stepSessionKey = '';
+    public string $mode;
 
-    protected $strStepsTemplate = 'be_wem_sg_install_steps';
-    protected $objSession;
+    use Traits\ActionsTrait;
+
+    protected string $strStepsTemplate = 'be_wem_sg_install_steps';
+
+    protected mixed $objSession;
 
     public function __construct(
-        TranslatorInterface $translator,
-        string $module,
-        string $type,
-        string $stepSessionKey,
-        array $steps
+        protected TranslatorInterface $translator,
+        protected string              $module,
+        protected string              $type,
+        protected string              $stepSessionKey,
+        protected array               $steps
     ) {
-        $this->translator = $translator;
-        $this->module = $module;
-        $this->type = $type;
-        $this->steps = $steps;
-        $this->stepSessionKey = $stepSessionKey;
         // Init session
         $this->objSession = System::getContainer()->get('session');
     }
 
-    public function parse()
+    public function parse(): string
     {
         // get the current step
         // call its "getFilledTemplate" method
@@ -69,7 +57,7 @@ class StepManager
         return $objTemplate->parse();
     }
 
-    public function parseSteps()
+    public function parseSteps(): string
     {
         $objTemplate = new FrontendTemplate($this->strStepsTemplate);
 
@@ -85,11 +73,15 @@ class StepManager
                 'name' => $this->module,
             ];
         }
+
         $objTemplate->steps = $arrSteps;
 
         return $objTemplate->parse();
     }
 
+    /**
+     * @throws Exception
+     */
     public function goToNextStep(): void
     {
         // get the step manager
@@ -99,20 +91,28 @@ class StepManager
         if (!$this->getCurrentStep()->isStepValid()) {
             throw new Exception($this->translator->trans('WEM.SMARTGEAR.DEFAULT.InvalidForm', [], 'contao_default'));
         }
+
         $this->getCurrentStep()->do();
         $this->setCurrentStepIndex($this->getNextStepIndex());
     }
 
+    /**
+     * @throws Exception
+     */
     public function finish(): void
     {
         $this->save();
     }
 
+    /**
+     * @throws Exception
+     */
     public function save(): void
     {
         if (!$this->getCurrentStep()->isStepValid()) {
             throw new Exception($this->translator->trans('WEM.SMARTGEAR.DEFAULT.InvalidForm', [], 'contao_default'));
         }
+
         $this->getCurrentStep()->do();
     }
 
@@ -145,6 +145,9 @@ class StepManager
         return $index;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getNextStepIndex(): int
     {
         $index = $this->getCurrentStepIndex() + 1;
@@ -156,6 +159,9 @@ class StepManager
         return $index;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getPreviousStepIndex(): int
     {
         $index = $this->getCurrentStepIndex() - 1;

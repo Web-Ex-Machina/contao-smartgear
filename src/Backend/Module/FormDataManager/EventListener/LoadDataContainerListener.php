@@ -22,42 +22,25 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class LoadDataContainerListener
 {
-    /** @var Security */
-    protected $security;
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-    /** @var DCAManipulator */
-    protected $dcaManipulator;
+
+
+
     /** @var string */
-    protected $do;
+    protected string $do;
 
     public function __construct(
-        Security $security,
-        CoreConfigurationManager $coreConfigurationManager,
-        DCAManipulator $dcaManipulator
-    ) {
-        $this->security = $security;
-        $this->coreConfigurationManager = $coreConfigurationManager;
-        $this->dcaManipulator = $dcaManipulator;
+        protected Security                 $security,
+        protected CoreConfigurationManager $coreConfigurationManager,
+        protected DCAManipulator           $dcaManipulator)
+    {
     }
 
     public function __invoke(string $table): void
     {
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
-            switch ($table) {
-                case 'tl_form':
-                    // $fmdConfig = $config->getSgFormDataManager();
-                    // if ($fmdConfig->getSgInstallComplete()) {
-                    //     return;
-                    // }
-
-                    // $this->dcaManipulator->removeListOperation('contacts');
-
-                break;
-            }
         } catch (FileNotFoundException) {
             //nothing
         }

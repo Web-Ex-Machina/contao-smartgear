@@ -21,13 +21,8 @@ use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDat
 
 class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
 {
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-
-    public function __construct(
-        CoreConfigurationManager $coreConfigurationManager
-    ) {
-        $this->coreConfigurationManager = $coreConfigurationManager;
+    public function __construct(protected CoreConfigurationManager $coreConfigurationManager)
+    {
     }
 
     /**
@@ -55,27 +50,12 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
         array $cache,
         int $_rit,
         int $_cnt
-    ) {
+    ): false|string
+    {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
         if ('sg' === $key && str_starts_with($elements[1], 'formDataManager')) {
             return static::NOT_HANDLED;
-            /** @var CoreConfig */
-            $config = $this->coreConfigurationManager->load();
-            /** @var FormDataManagerConfig */
-            $formDataManagerConfig = $config->getSgFormDataManager();
-
-            if (!$formDataManagerConfig->getSgInstallComplete()) {
-                return static::NOT_HANDLED;
-            }
-
-            return match ($elements[1]) {
-                'formDataManager_installComplete' => $formDataManagerConfig->getSgInstallComplete() ? '1' : '0',
-                'formDataManager_archived' => $formDataManagerConfig->getSgArchived() ? '1' : '0',
-                'formDataManager_archivedAt' => $formDataManagerConfig->getSgArchivedAt(),
-                'formDataManager_archivedMode' => $formDataManagerConfig->getSgArchivedMode(),
-                default => static::NOT_HANDLED,
-            };
         }
 
         return static::NOT_HANDLED;

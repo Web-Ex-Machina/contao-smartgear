@@ -26,13 +26,8 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
 class CompileFormFieldsListener
 {
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-
-    public function __construct(
-        CoreConfigurationManager $coreConfigurationManager
-    ) {
-        $this->coreConfigurationManager = $coreConfigurationManager;
+    public function __construct(protected CoreConfigurationManager $coreConfigurationManager)
+    {
     }
 
     public function __invoke(
@@ -41,7 +36,7 @@ class CompileFormFieldsListener
         Form $form
     ): array {
         // try {
-        // /** @var CoreConfig */
+        // /** @var CoreConfig $config */
         // $coreConfig = $this->coreConfigurationManager->load();
         // /** @var FormDataManagerConfig */
         // $fdmConfig = $coreConfig->getSgFormDataManager();
@@ -86,6 +81,7 @@ class CompileFormFieldsListener
             $objFormFieldRefererPage->value = System::getReferer();
             $arrFields['referer_page_url'] = $objFormFieldRefererPage;
         }
+
         //     }
         // } catch (NotFound $e) {
         //     return $arrFields;

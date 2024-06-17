@@ -20,31 +20,14 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 class Resetter
 {
     use Traits\MessagesTrait;
-    /** @var string */
-    protected $module = '';
-    /** @var string */
-    protected $type = '';
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var TranslatorInterface */
-    protected $translator;
 
-    /**
-     * Generic array of logs.
-     *
-     * @var array
-     */
-    protected $logs = [];
+    protected array $logs = [];
 
     public function __construct(
-        ConfigurationManager $configurationManager,
-        TranslatorInterface $translator,
-        string $module,
-        string $type
-    ) {
-        $this->configurationManager = $configurationManager;
-        $this->translator = $translator;
-        $this->module = $module;
-        $this->type = $type;
+        protected ConfigurationManager $configurationManager,
+        protected TranslatorInterface $translator,
+        protected string $module,
+        protected string $type)
+    {
     }
 }

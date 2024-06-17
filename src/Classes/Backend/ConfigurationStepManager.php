@@ -20,14 +20,14 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 class ConfigurationStepManager extends StepManager
 {
     public const MODE_INSTALL = 'install';
+
     public const MODE_CONFIGURE = 'configure';
-    /** @var ConfigurationManager */
-    protected $configurationManager;
+
     /** @var string */
-    protected $mode = '';
+    public string $mode = '';
 
     public function __construct(
-        ConfigurationManager $configurationManager,
+        protected ConfigurationManager $configurationManager,
         TranslatorInterface $translator,
         string $module,
         string $type,
@@ -35,7 +35,6 @@ class ConfigurationStepManager extends StepManager
         array $steps
     ) {
         parent::__construct($translator, $module, $type, $stepSessionKey, $steps);
-        $this->configurationManager = $configurationManager;
     }
 
     public function finish(): void
@@ -55,6 +54,7 @@ class ConfigurationStepManager extends StepManager
     {
         $config = $this->configurationManager->load();
         $config->setSgInstallComplete(true);
+
         $this->configurationManager->save($config);
     }
 
@@ -68,6 +68,7 @@ class ConfigurationStepManager extends StepManager
         if (0 !== $this->getCurrentStepIndex()) {
             $this->actions[] = ['action' => 'previous', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.PreviousStep', [], 'contao_default')];
         }
+
         if (self::MODE_CONFIGURE === $this->mode) {
             $this->actions[] = ['action' => 'save', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.Save', [], 'contao_default')];
         }
@@ -80,6 +81,7 @@ class ConfigurationStepManager extends StepManager
         } else {
             $this->actions[] = ['action' => 'finish', 'label' => $this->translator->trans('WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish', [], 'contao_default')];
         }
+
         $this->actions[] = ['action' => 'dashboard', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.BackToDashboard', [], 'contao_default')];
     }
 }

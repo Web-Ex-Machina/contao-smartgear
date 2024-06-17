@@ -36,61 +36,42 @@ class Block extends Controller
     use Traits\ActionsTrait;
     use Traits\MessagesTrait;
     public const MODE_DASHBOARD = 'dashboard';
+
     public const MODE_INSTALL = 'install';
+
     public const MODE_CONFIGURE = 'configure';
 
-    /**
-     * Generic array of logs.
-     *
-     * @var array
-     */
-    protected $logs = [];
+    protected array $logs = [];
 
-    /**
-     * Array of requierments.
-     *
-     * @var array
-     */
-    protected $require = [];
+    protected array $require = [];
 
-    /** @var string */
-    protected $strTemplate = 'be_wem_sg_install_block_default';
+    protected string $strTemplate = 'be_wem_sg_install_block_default';
 
-    /** @var string */
-    protected $type = '';
-    /** @var string */
-    protected $module = '';
-    /** @var string */
-    protected $title = '';
-    /** @var string */
-    protected $icon = '';
-    /** @var string */
-    protected $class = '';
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var ConfigurationStepManager */
-    protected $configurationStepManager;
-    /** @var Dashboard */
-    protected $dashboard;
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var @var string */
-    protected $mode = '';
+    protected string $type = '';
+
+    protected string $module = '';
+
+    protected string $title = '';
+
+    protected string $icon = '';
+
+    protected string $class = '';
+
+    protected string $mode = '';
+
+    protected mixed $bundles ;
+
+    protected mixed $objSession ;
 
     /**
      * Construct the block object.
      */
     public function __construct(
-        ConfigurationManager $configurationManager,
-        ConfigurationStepManager $configurationStepManager,
-        Dashboard $dashboard,
-        TranslatorInterface $translator
+        protected ConfigurationManager $configurationManager,
+        protected ConfigurationStepManager $configurationStepManager,
+        protected Dashboard $dashboard,
+        protected TranslatorInterface $translator
     ) {
-        $this->configurationManager = $configurationManager;
-        $this->configurationStepManager = $configurationStepManager;
-        $this->dashboard = $dashboard;
-        $this->translator = $translator;
-
         // Load the bundles, since we will need them in every block
         $this->bundles = System::getContainer()->getParameter('kernel.bundles');
 
@@ -99,14 +80,15 @@ class Block extends Controller
 
         // Init session
         $this->objSession = System::getContainer()->get('session');
+        Parent::__construct();
     }
 
     /**
      * Parse and return the block as HTML.
      *
-     * @return [String] [Block HTML]
+     * @return string Block HTML
      */
-    public function parse()
+    public function parse(): string
     {
         // > Check config
         // -> Dependencies not satisied
@@ -127,10 +109,6 @@ class Block extends Controller
         $objTemplate->title = $this->title;
         $objTemplate->icon = $this->icon;
         $objTemplate->class = $this->class;
-
-        // return $objTemplate->parse();
-        // Check if we need other modules and if yes, check if it's okay
-        $blnCanManage = true;
 
         $blnCanManage = $this->checkRequirements();
 
@@ -153,6 +131,7 @@ class Block extends Controller
                 if (self::MODE_INSTALL === $this->getMode()) {
                     $this->setMode(self::MODE_DASHBOARD);
                 }
+
                 $objTemplate = $this->parseDependingOnMode($objTemplate);
                 // $objTemplate->fields = $this->fields;
                 // $arrActions = [];
@@ -172,24 +151,21 @@ class Block extends Controller
     /**
      * Get generic callbacks for requests.
      *
-     * @param [String] $key  [Key of the callbacks array]
-     * @param [Array]  $args [Optional array of arguments]
+     * @param string $key [Key of the callbacks array]
+     * @param array|null $args [Optional array of arguments]
      *
-     * @return [Array] [Callback array]
+     * @return array [Callback array]
+     * @throws Exception
      */
-    public function callback($key, $args = null)
+    public function callback(string $key, array $args = null): array
     {
-        try {
-            return match ($key) {
-                'toastrDisplay' => ['method' => 'toastrDisplay', 'args' => [$args[0], $args[1]]],
-                'refreshBlock' => ['method' => 'refreshBlock', 'args' => ['block-'.$this->type.'-'.$this->module]],
-                'replaceBlockContent' => ['method' => 'replaceBlockContent', 'args' => ['block-'.$this->type.'-'.$this->module, $args[0]]],
-                'reload' => ['method' => 'reload', 'args' => []],
-                default => throw new Exception('Callback inconnu : '.$key),
-            };
-        } catch (Exception $e) {
-            throw $e;
-        }
+        return match ($key) {
+            'toastrDisplay' => ['method' => 'toastrDisplay', 'args' => [$args[0], $args[1]]],
+            'refreshBlock' => ['method' => 'refreshBlock', 'args' => ['block-'.$this->type.'-'.$this->module]],
+            'replaceBlockContent' => ['method' => 'replaceBlockContent', 'args' => ['block-'.$this->type.'-'.$this->module, $args[0]]],
+            'reload' => ['method' => 'reload', 'args' => []],
+            default => throw new Exception('Callback inconnu : '.$key),
+        };
     }
 
     public function processAjaxRequest(): void
@@ -198,6 +174,7 @@ class Block extends Controller
             if (empty(Input::post('action'))) {
                 throw new \InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxNoActionSpecified', [], 'contao_default'));
             }
+
             switch (Input::post('action')) {
                 case 'next':
                     $this->goToNextStep();
@@ -238,17 +215,14 @@ class Block extends Controller
                 case 'getSteps':
                     echo $this->parseSteps();
                     exit;
-                break;
                 case 'parse':
                     echo $this->parse();
                     exit;
-                break;
                 default:
                     throw new \InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxInvalidActionSpecified', [Input::post('action')], 'contao_default'));
-                break;
             }
-        } catch (Exception $e) {
-            $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
+        } catch (Exception $exception) {
+            $arrResponse = ['status' => 'error', 'msg' => $exception->getMessage(), 'trace' => $exception->getTrace()];
         }
 
         // Add Request Token to JSON answer and return
@@ -299,7 +273,7 @@ class Block extends Controller
                     $arrMissingModules[] = $block;
                 }
 
-                if (!empty($arrMissingModules)) {
+                if ($arrMissingModules !== []) {
                     $this->messages = [];
                     $this->messages[] = [
                         'class' => 'tl_error', 'text' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.MissingDependencies', [implode(', ', $arrMissingModules)], 'contao_default'),
@@ -366,14 +340,13 @@ class Block extends Controller
         }
     }
 
-    protected function parseSteps()
+    protected function parseSteps(): ?string
     {
-        switch ($this->getMode()) {
-            case self::MODE_CONFIGURE:
-            case self::MODE_INSTALL:
-                return $this->configurationStepManager->parseSteps();
-            break;
-        }
+        return match ($this->getMode()) {
+            self::MODE_CONFIGURE,
+            self::MODE_INSTALL => $this->configurationStepManager->parseSteps(),
+            default => null,
+        };
     }
 
     protected function parseDependingOnMode(FrontendTemplate $objTemplate): FrontendTemplate

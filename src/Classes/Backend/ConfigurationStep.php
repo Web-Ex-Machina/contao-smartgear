@@ -16,7 +16,7 @@ namespace WEM\SmartgearBundle\Classes\Backend;
 
 class ConfigurationStep extends AbstractStep
 {
-    protected $strTemplate = 'be_wem_sg_install_block_configuration_step';
+    protected string $strTemplate = 'be_wem_sg_install_block_configuration_step';
 
     public function __construct(
         string $module,

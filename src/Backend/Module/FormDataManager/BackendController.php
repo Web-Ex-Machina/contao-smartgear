@@ -18,6 +18,7 @@ use Contao\Config;
 use Contao\CoreBundle\Controller\BackendController as ControllerBackendController;
 use Contao\Date;
 use Contao\Input;
+use Contao\Model\Collection;
 use Contao\System;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -28,21 +29,15 @@ use WEM\UtilsBundle\Classes\StringUtil;
 
 class BackendController extends ControllerBackendController
 {
-    protected $module;
-    protected $type;
-    protected $translator;
-    protected $configurationManager;
+
+
 
     public function __construct(
-        string $module,
-        string $type,
-        TranslatorInterface $translator,
-        ConfigurationManager $configurationManager
+        protected string               $module,
+        protected string               $type,
+        protected TranslatorInterface  $translator,
+        protected ConfigurationManager $configurationManager
     ) {
-        $this->module = $module;
-        $this->type = $type;
-        $this->translator = $translator;
-        $this->configurationManager = $configurationManager;
         System::loadLanguageFile(FormStorage::getTable());
         System::loadLanguageFile(FormStorageData::getTable());
     }
@@ -69,6 +64,7 @@ class BackendController extends ControllerBackendController
         if (!empty(Input::get('id'))) {
             $this->exportAllFromForm();
         }
+
         $rows = FormStorage::findItems([], 0, 0, ['order' => 'createdAt DESC']);
 
         (new Response(mb_convert_encoding(StringUtil::decodeEntities($this->export($rows)), 'UTF-16LE', 'UTF-8'), Response::HTTP_OK, [
@@ -128,7 +124,7 @@ class BackendController extends ControllerBackendController
         while ($rows->next()) {
             // find datas and create appropriate columns
             $formStorageDatas = FormStorageData::findItems(['pid' => $rows->id]);
-            if ($formStorageDatas) {
+            if ($formStorageDatas instanceof Collection) {
                 while ($formStorageDatas->next()) {
                     $headers[$formStorageDatas->field_name] = $formStorageDatas->field_name;
                 }
@@ -170,14 +166,14 @@ class BackendController extends ControllerBackendController
         $headers['delay_to_first_interaction'] = $objFormStorage->delay_to_first_interaction;
         $headers['delay_to_submission'] = $objFormStorage->delay_to_submission;
 
-        if ($formStorageDatas) {
+        if ($formStorageDatas instanceof Collection) {
             while ($formStorageDatas->next()) {
                 $headers[$formStorageDatas->field_name] = '"'.StringUtil::decodeEntities($formStorageDatas->current()->getValueAsString()).'"';
                 $headersKeyToKeep[] = $formStorageDatas->field_name;
             }
         }
 
-        foreach ($headers as $key => $value) {
+        foreach (array_keys($headers) as $key) {
             if (!\in_array($key, $headersKeyToKeep, true)) {
                 $headers[$key] = $this->translator->trans('WEMSG.FDM.EXPORT.fieldNotPresentInForm', [], 'contao_default');
             }

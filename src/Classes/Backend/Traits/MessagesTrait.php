@@ -18,8 +18,8 @@ use Contao\System;
 
 trait MessagesTrait
 {
-    /** @var array */
-    protected $messages = [];
+
+    protected array $messages = [];
 
     /**
      * Reset the errors array.
@@ -27,7 +27,7 @@ trait MessagesTrait
      * @param mixed|null $strScope
      */
     // public function getMessages(?string $scope = 'smartgear'): array
-    public function getMessages($strScope = null): array // needs to be the same as \Contao\System::getMessages, otherwise a warning is thrown "because"
+    public function getMessages(mixed $strScope = null): array // needs to be the same as \Contao\System::getMessages, otherwise a warning is thrown "because"
     {
         $scope = $strScope ?? 'smartgear';
         $sfb = System::getContainer()->get('session')->getFlashBag();
@@ -43,7 +43,7 @@ trait MessagesTrait
      *
      * @return string The flash bag key
      */
-    public function getFlashBagKey(string $strType, ?string $scope = 'smartgear')
+    public function getFlashBagKey(string $strType, ?string $scope = 'smartgear'): string
     {
         return $this->getFlashBagKeyWithoutType($scope).strtolower(str_replace('tl_', '', $strType));
     }
@@ -53,7 +53,7 @@ trait MessagesTrait
      *
      * @return string The flash bag key
      */
-    public function getFlashBagKeyWithoutType(?string $scope = 'smartgear')
+    public function getFlashBagKeyWithoutType(?string $scope = 'smartgear'): string
     {
         return 'wemsg.message.'.strtolower((string) $scope).'.'; // do not remove this end dot
     }

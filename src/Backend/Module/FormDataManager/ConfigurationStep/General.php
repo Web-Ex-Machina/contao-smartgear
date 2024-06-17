@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Module\FormDataManager\ConfigurationStep;
 
+use Contao\BackendUser;
 use Contao\CoreBundle\String\HtmlDecoder;
 use Contao\FormFieldModel;
 use Contao\FormModel;
@@ -29,35 +30,26 @@ use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDat
 
 class General extends ConfigurationStep
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var CommandUtil */
-    protected $commandUtil;
-    /** @var HtmlDecoder */
-    protected $htmlDecoder;
-    /** @var string */
-    protected $language;
+
+
+
+
+
 
     public function __construct(
-        string $module,
-        string $type,
-        TranslatorInterface $translator,
-        ConfigurationManager $configurationManager,
-        CommandUtil $commandUtil,
-        HtmlDecoder $htmlDecoder
+        protected string               $language,
+        string                         $module,
+        string                         $type,
+        protected TranslatorInterface  $translator,
+        protected ConfigurationManager $configurationManager,
+        protected CommandUtil          $commandUtil,
+        protected HtmlDecoder          $htmlDecoder
     ) {
         parent::__construct($module, $type);
-        $this->translator = $translator;
-        $this->configurationManager = $configurationManager;
-        $this->commandUtil = $commandUtil;
-        $this->htmlDecoder = $htmlDecoder;
-        $this->language = \Contao\BackendUser::getInstance()->language;
+        $this->language = BackendUser::getInstance()->language;
 
         $this->title = $this->translator->trans('WEMSG.FDM.INSTALL_GENERAL.title', [], 'contao_default');
-        /** @var FormDataManagerConfig */
-        $config = $this->configurationManager->load()->getSgFormDataManager();
+        $this->configurationManager->load()->getSgFormDataManager();
     }
 
     public function isStepValid(): bool
@@ -77,9 +69,8 @@ class General extends ConfigurationStep
 
     public function updateUserGroups(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormDataManagerConfig */
         $formDataManagerConfig = $config->getSgFormDataManager();
         $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $formDataManagerConfig);
         $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupAdministrators()), $formDataManagerConfig);
@@ -87,9 +78,8 @@ class General extends ConfigurationStep
 
     protected function updateFormContactFormIfInstalled(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         if ($formContactConfig->getSgInstallComplete()) {
@@ -121,9 +111,8 @@ class General extends ConfigurationStep
 
     protected function updateModuleConfigurationAfterGenerations(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormDataManagerConfig */
         $formDataManagerConfig = $config->getSgFormDataManager();
 
         $formDataManagerConfig

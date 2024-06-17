@@ -28,21 +28,18 @@ use WEM\SmartgearBundle\Model\FormStorageData;
 
 class Resetter extends BackendResetter
 {
-    /** @var string */
-    protected $module = '';
-    /** @var string */
-    protected $type = '';
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var TranslatorInterface */
-    protected $translator;
+    protected string $module = '';
+
+    protected string $type = '';
+
+    protected ConfigurationManager $configurationManager;
+
+    protected TranslatorInterface $translator;
 
     /**
      * Generic array of logs.
-     *
-     * @var array
      */
-    protected $logs = [];
+    protected array $logs = [];
 
     public function __construct(
         ConfigurationManager $configurationManager,
@@ -56,13 +53,13 @@ class Resetter extends BackendResetter
     public function reset(string $mode): void
     {
         // reset everything except what we wanted to keep
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormDataManagerConfig */
         $formDataManagerConfig = $config->getSgFormDataManager();
         if (!$formDataManagerConfig) {
             return;
         }
+
         $this->resetUserGroupSettings();
         $archiveTimestamp = time();
 
@@ -100,9 +97,8 @@ class Resetter extends BackendResetter
 
     protected function formContactUpdate(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
         if ($formContactConfig->getSgInstallComplete()) {
@@ -134,15 +130,15 @@ class Resetter extends BackendResetter
 
     protected function resetUserGroupSettings(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FormDataManagerConfig */
         $formDataManagerConfig = $config->getSgFormDataManager();
 
         $objGroupRedactors = UserGroupModel::findOneById($config->getSgUserGroupRedactors());
         if ($objGroupRedactors) {
             $this->resetUserGroup($objGroupRedactors, $formDataManagerConfig);
         }
+
         $objGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
         if ($objGroupAdministrators) {
             $this->resetUserGroup($objGroupAdministrators, $formDataManagerConfig);

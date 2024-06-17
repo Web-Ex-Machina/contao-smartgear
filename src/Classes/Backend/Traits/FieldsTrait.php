@@ -18,8 +18,7 @@ use WEM\SmartgearBundle\Widget\SimpleFileTree;
 
 trait FieldsTrait
 {
-    /** @var array */
-    protected $fields = [];
+    protected array $fields = [];
 
     /**
      * Add a text field.
@@ -113,9 +112,10 @@ trait FieldsTrait
             'required' => $blnRequired,
             'multiple' => $blnMultiple,
         ];
-        if (!empty($strClass)) {
+        if ($strClass !== null && $strClass !== '' && $strClass !== '0') {
             $config['strClass'] = $strClass;
         }
+
         $field = new SimpleFileTree(array_merge($arrAttributes, $config));
 
         $this->fields[$strName] = [

@@ -24,24 +24,16 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class BackendMenuBuildListener
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-
     public function __construct(
-        TranslatorInterface $translator,
-        CoreConfigurationManager $coreConfigurationManager
-    ) {
-        $this->translator = $translator;
-        $this->coreConfigurationManager = $coreConfigurationManager;
+        protected TranslatorInterface $translator,
+        protected CoreConfigurationManager $coreConfigurationManager)
+    {
     }
 
     public function __invoke(MenuEvent $event): void
     {
         // try {
-        //     /** @var CoreConfig */
+        //     /** @var CoreConfig $config */
         //     $coreConfig = $this->coreConfigurationManager->load();
         //     /** @var FormDataManagerConfig */
         //     $fdmConfig = $coreConfig->getSgFormDataManager();

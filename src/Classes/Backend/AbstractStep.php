@@ -22,19 +22,13 @@ class AbstractStep
 {
     use Traits\FieldsTrait;
     use Traits\MessagesTrait;
-    // protected $strTemplate = '';
-    protected $title = '';
-    protected $type = '';
-    /** @var string */
-    protected $module = '';
-    protected $strTemplate = 'be_wem_sg_install_block_configuration_step';
 
-    public function __construct(
-        string $module,
-        string $type
-    ) {
-        $this->module = $module;
-        $this->type = $type;
+    protected string $title = '';
+
+    protected string $strTemplate = 'be_wem_sg_install_block_configuration_step';
+
+    public function __construct(protected string $module, protected string $type)
+    {
     }
 
     public function getFilledTemplate(): FrontendTemplate

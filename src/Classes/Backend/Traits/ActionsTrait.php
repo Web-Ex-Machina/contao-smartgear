@@ -16,8 +16,8 @@ namespace WEM\SmartgearBundle\Classes\Backend\Traits;
 
 trait ActionsTrait
 {
-    /** @var array */
-    protected $actions = [];
+
+    protected array $actions = [];
 
     public function getActions(): array
     {
@@ -28,11 +28,12 @@ trait ActionsTrait
     {
         $unformattedActions ??= $this->actions;
         $arrActions = [];
-        if (\is_array($unformattedActions) && !empty($unformattedActions)) {
+        if (\is_array($unformattedActions) && $unformattedActions !== []) {
             foreach ($unformattedActions as $action) {
                 if (!\array_key_exists('v', $action)) {
                     $action['v'] = '???';
                 }
+
                 switch ($action['v']) {
                     case 2:
                         $arrAttributes = [];
@@ -47,10 +48,11 @@ trait ActionsTrait
                                 $arrAttributes[] = sprintf('%s="%s"', $k, $v);
                             }
                         }
+
                         $arrActions[] = sprintf(
                             '<%s %s>%s</%s>',
                             ($action['tag']) ?: 'button',
-                            (0 < \count($arrAttributes)) ? implode(' ', $arrAttributes) : '',
+                            ([] !== $arrAttributes) ? implode(' ', $arrAttributes) : '',
                             ($action['text']) ?: 'text missing',
                             ($action['tag']) ?: 'button'
                         );

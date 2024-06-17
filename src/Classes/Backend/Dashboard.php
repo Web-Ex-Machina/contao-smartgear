@@ -28,35 +28,21 @@ class Dashboard
 {
     use Traits\ActionsTrait;
     use Traits\MessagesTrait;
-    /** @var string */
-    protected $module = '';
-    /** @var string */
-    protected $type = '';
-    /** @var ConfigurationManager [description] */
-    protected $configurationManager;
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var string */
-    protected $strTemplate = 'be_wem_sg_install_block_dashboard';
-    protected $objSession;
 
-    /**
-     * Generic array of logs.
-     *
-     * @var array
-     */
-    protected $logs = [];
+    /** @var string */
+    protected string $strTemplate = 'be_wem_sg_install_block_dashboard';
+
+    protected mixed $objSession;
+
+    protected array $logs = [];
 
     public function __construct(
-        ConfigurationManager $configurationManager,
-        TranslatorInterface $translator,
-        string $module,
-        string $type
+        /** @var ConfigurationManager [description] */
+        protected ConfigurationManager $configurationManager,
+        protected TranslatorInterface  $translator,
+        protected string               $module,
+        protected string               $type
     ) {
-        $this->configurationManager = $configurationManager;
-        $this->translator = $translator;
-        $this->module = $module;
-        $this->type = $type;
         // Init session
         $this->objSession = System::getContainer()->get('session');
     }
@@ -64,9 +50,9 @@ class Dashboard
     /**
      * Parse and return the block as HTML.
      *
-     * @return [String] [Block HTML]
+     * @return string Block HTML
      */
-    public function parse()
+    public function parse(): string
     {
         return $this->getFilledTemplate()->parse();
     }
@@ -77,13 +63,10 @@ class Dashboard
             if (empty(Input::post('action'))) {
                 throw new InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxNoActionSpecified', [], 'contao_default'));
             }
-            switch (Input::post('action')) {
-                default:
-                    throw new InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxInvalidActionSpecified', [Input::post('action')], 'contao_default'));
-                break;
-            }
-        } catch (Exception $e) {
-            $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
+
+            throw new InvalidArgumentException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.AjaxInvalidActionSpecified', [Input::post('action')], 'contao_default'));
+        } catch (Exception $exception) {
+            $arrResponse = ['status' => 'error', 'msg' => $exception->getMessage(), 'trace' => $exception->getTrace()];
         }
 
         // Add Request Token to JSON answer and return
