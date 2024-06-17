@@ -34,16 +34,14 @@ class Header extends Module
 
     /**
      * Display a wildcard in the back end.
-     *
-     * @return string
      */
-    public function generate()
+    public function generate(): string
     {
         if (TL_MODE === 'BE') {
-            /** @var \BackendTemplate|object $objTemplate */
+
             $objTemplate = new BackendTemplate('be_wildcard');
 
-            $objTemplate->wildcard = '### '.utf8_strtoupper($GLOBALS['TL_LANG']['FMD']['wem_sg_header'][0]).' ###';
+            $objTemplate->wildcard = '### '.mb_strtoupper($GLOBALS['TL_LANG']['FMD']['wem_sg_header'][0], 'UTF-8').' ###';
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
@@ -66,9 +64,9 @@ class Header extends Module
             $isRoot = 'root' === $objPage->type || 'index' === $objPage->alias;
 
             $this->Template->isRoot = $isRoot;
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             $this->Template->blnError = true;
-            $this->Template->strError = $e->getMessage();
+            $this->Template->strError = $exception->getMessage();
         }
     }
 }
