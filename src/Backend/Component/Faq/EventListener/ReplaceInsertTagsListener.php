@@ -21,13 +21,8 @@ use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
 
 class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
 {
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-
-    public function __construct(
-        CoreConfigurationManager $coreConfigurationManager
-    ) {
-        $this->coreConfigurationManager = $coreConfigurationManager;
+    public function __construct(protected CoreConfigurationManager $coreConfigurationManager)
+    {
     }
 
     /**
@@ -55,37 +50,11 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
         array $cache,
         int $_rit,
         int $_cnt
-    ) {
+    ): false|string
+    {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
-        if ('sg' === $key && str_starts_with($elements[1], 'faq')) {
-            return static::NOT_HANDLED;
-            /** @var CoreConfig */
-            $config = $this->coreConfigurationManager->load();
-            /** @var FaqConfig */
-            $faqConfig = $config->getSgFaq();
-
-            if (!$faqConfig->getSgInstallComplete()) {
-                return static::NOT_HANDLED;
-            }
-
-            return match ($elements[1]) {
-                'faq_installComplete' => $faqConfig->getSgInstallComplete() ? '1' : '0',
-                'faq_faqFolder' => $faqConfig->getSgFaqFolder(),
-                'faq_pageTitle' => $faqConfig->getSgPageTitle(),
-                'faq_faqTitle' => $faqConfig->getSgFaqTitle(),
-                'faq_page' => $faqConfig->getSgPage(),
-                'faq_article' => (string) $faqConfig->getSgArticle(),
-                'faq_content' => (string) $faqConfig->getSgContent(),
-                'faq_moduleFaq' => $faqConfig->getSgModuleFaq(),
-                'faq_faqCategory' => $faqConfig->getSgFaqCategory(),
-                'faq_archived' => $faqConfig->getSgArchived() ? '1' : '0',
-                'faq_archivedAt' => $faqConfig->getSgArchivedAt(),
-                'faq_archivedMode' => $faqConfig->getSgArchivedMode(),
-                default => static::NOT_HANDLED,
-            };
-        }
-
         return static::NOT_HANDLED;
+
     }
 }

@@ -22,42 +22,31 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class LoadDataContainerListener
 {
-    /** @var Security */
-    protected $security;
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-    /** @var DCAManipulator */
-    protected $dcaManipulator;
-    /** @var string */
-    protected $do;
+
+    protected string $do;
 
     public function __construct(
-        Security $security,
-        CoreConfigurationManager $coreConfigurationManager,
-        DCAManipulator $dcaManipulator
-    ) {
-        $this->security = $security;
-        $this->coreConfigurationManager = $coreConfigurationManager;
-        $this->dcaManipulator = $dcaManipulator;
+        protected Security                 $security,
+        protected CoreConfigurationManager $coreConfigurationManager,
+        protected DCAManipulator           $dcaManipulator)
+    {
     }
 
     public function __invoke(string $table): void
     {
         try {
-            /* @var CoreConfig */
+            /** @var CoreConfig $config */
             // $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
-            switch ($table) {
-                case 'tl_faq':
-                    // $faqConfig = $config->getSgFaq();
-                    // if (!$faqConfig->getSgInstallComplete()) {
-                    //     return;
-                    // }
-                    // // limiting singleSRC fierld to the blog folder
-                    // $this->dcaManipulator->setFieldSingleSRCPath($faqConfig->getSgFaqFolder());
-                    $this->dcaManipulator->addFieldSaveCallback('question', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanHeadline']);
-                    $this->dcaManipulator->addFieldSaveCallback('description', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanText']);
-                break;
+            if ($table === 'tl_faq') {
+                // $faqConfig = $config->getSgFaq();
+                // if (!$faqConfig->getSgInstallComplete()) {
+                //     return;
+                // }
+                // // limiting singleSRC fierld to the blog folder
+                // $this->dcaManipulator->setFieldSingleSRCPath($faqConfig->getSgFaqFolder());
+                $this->dcaManipulator->addFieldSaveCallback('question', static fn($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
+                $this->dcaManipulator->addFieldSaveCallback('description', static fn($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
             }
         } catch (FileNotFoundException) {
             //nothing

@@ -23,26 +23,17 @@ use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
 
 class General extends AbstractStep
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var Resetter */
-    protected $resetter;
 
-    protected $strTemplate = 'be_wem_sg_install_block_reset_step_faq_general';
+    protected string $strTemplate = 'be_wem_sg_install_block_reset_step_faq_general';
 
     public function __construct(
-        string $module,
-        string $type,
-        TranslatorInterface $translator,
-        ConfigurationManager $configurationManager,
-        Resetter $resetter
+        string                         $module,
+        string                         $type,
+        protected TranslatorInterface  $translator,
+        protected ConfigurationManager $configurationManager,
+        protected Resetter             $resetter
     ) {
         parent::__construct($module, $type);
-        $this->translator = $translator;
-        $this->configurationManager = $configurationManager;
-        $this->resetter = $resetter;
 
         $this->title = $this->translator->trans('WEMSG.FAQ.RESET.title', [], 'contao_default');
 

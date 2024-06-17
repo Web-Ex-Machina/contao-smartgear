@@ -19,6 +19,7 @@ use Contao\ContentModel;
 use Contao\FaqCategoryModel;
 use Contao\FaqModel;
 use Contao\FilesModel;
+use Contao\Folder;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\UserGroupModel;
@@ -32,21 +33,15 @@ use WEM\SmartgearBundle\Model\Module;
 
 class Resetter extends BackendResetter
 {
-    /** @var string */
-    protected $module = '';
-    /** @var string */
-    protected $type = '';
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var TranslatorInterface */
-    protected $translator;
+    protected string $module = '';
 
-    /**
-     * Generic array of logs.
-     *
-     * @var array
-     */
-    protected $logs = [];
+    protected string $type = '';
+
+    protected ConfigurationManager $configurationManager;
+
+    protected TranslatorInterface $translator;
+
+    protected array $logs = [];
 
     public function __construct(
         ConfigurationManager $configurationManager,
@@ -57,22 +52,25 @@ class Resetter extends BackendResetter
         parent::__construct($configurationManager, $translator, $module, $type);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function reset(string $mode): void
     {
         // reset everything except what we wanted to keep
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FaqConfig */
         $faqConfig = $config->getSgFaq();
         if (!$faqConfig) {
             return;
         }
+
         $this->resetUserGroupSettings();
         $archiveTimestamp = time();
 
         switch ($mode) {
             case FaqConfig::ARCHIVE_MODE_ARCHIVE:
-                $objFolder = new \Contao\Folder($faqConfig->getSgFaqFolder());
+                $objFolder = new Folder($faqConfig->getSgFaqFolder());
                 if ($objFolder) {
                     $objFolder->renameTo(sprintf('files/archives/events-%s', (string) $archiveTimestamp));
                 }
@@ -106,11 +104,12 @@ class Resetter extends BackendResetter
                         $objModule->save();
                     }
                 }
+
             break;
             case FaqConfig::ARCHIVE_MODE_KEEP:
             break;
             case FaqConfig::ARCHIVE_MODE_DELETE:
-                $objFolder = new \Contao\Folder($faqConfig->getSgFaqFolder());
+                $objFolder = new Folder($faqConfig->getSgFaqFolder());
                 if ($objFolder) {
                     $objFolder->delete();
                 }
@@ -152,10 +151,10 @@ class Resetter extends BackendResetter
                         $objModule->delete();
                     }
                 }
+
             break;
             default:
                 throw new \InvalidArgumentException($this->translator->trans('WEMSG.FAQ.RESET.deleteModeUnknown', [], 'contao_default'));
-            break;
         }
 
         $faqConfig->setSgArchived(true)
@@ -170,15 +169,15 @@ class Resetter extends BackendResetter
 
     protected function resetUserGroupSettings(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FaqConfig */
         $faqConfig = $config->getSgFaq();
 
         $objGroupRedactors = UserGroupModel::findOneById($config->getSgUserGroupRedactors());
         if ($objGroupRedactors) {
             $this->resetUserGroup($objGroupRedactors, $faqConfig);
         }
+
         $objGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
         if ($objGroupAdministrators) {
             $this->resetUserGroup($objGroupAdministrators, $faqConfig);

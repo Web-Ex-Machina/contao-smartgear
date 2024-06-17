@@ -18,6 +18,7 @@ use Contao\ArticleModel;
 use Contao\ContentModel;
 use Contao\FaqCategoryModel;
 use Contao\FilesModel;
+use Contao\Folder;
 use Contao\Input;
 use Contao\ModuleModel;
 use Contao\PageModel;
@@ -39,27 +40,18 @@ use WEM\SmartgearBundle\Model\Module;
 
 class General extends ConfigurationStep
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var CommandUtil */
-    protected $commandUtil;
 
     public function __construct(
-        string $module,
-        string $type,
-        TranslatorInterface $translator,
-        ConfigurationManager $configurationManager,
-        CommandUtil $commandUtil
+        string                         $module,
+        string                         $type,
+        protected TranslatorInterface  $translator,
+        protected ConfigurationManager $configurationManager,
+        protected CommandUtil          $commandUtil
     ) {
         parent::__construct($module, $type);
-        $this->translator = $translator;
-        $this->configurationManager = $configurationManager;
-        $this->commandUtil = $commandUtil;
 
         $this->title = $this->translator->trans('WEMSG.FAQ.INSTALL_GENERAL.title', [], 'contao_default');
-        /** @var FaqConfig */
+        /** @var FaqConfig $config */
         $config = $this->configurationManager->load()->getSgFaq();
 
         $this->addTextField('faqTitle', $this->translator->trans('WEMSG.FAQ.INSTALL_GENERAL.faqTitle', [], 'contao_default'), $config->getSgFaqTitle(), true);
@@ -67,12 +59,16 @@ class General extends ConfigurationStep
         $this->addTextField('pageTitle', $this->translator->trans('WEMSG.FAQ.INSTALL_GENERAL.pageTitle', [], 'contao_default'), $config->getSgPageTitle(), true);
     }
 
+    /**
+     * @throws Exception
+     */
     public function isStepValid(): bool
     {
         // check if the step is correct
         if (null === Input::post('faqTitle', null)) {
             throw new Exception($this->translator->trans('WEMSG.FAQ.INSTALL_GENERAL.faqTitleMissing', [], 'contao_default'));
         }
+
         if (null === Input::post('pageTitle', null)) {
             throw new Exception($this->translator->trans('WEMSG.FAQ.INSTALL_GENERAL.pageTitleMissing', [], 'contao_default'));
         }
@@ -99,9 +95,8 @@ class General extends ConfigurationStep
 
     public function updateUserGroups(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FaqConfig */
         $faqConfig = $config->getSgFaq();
 
         $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $faqConfig);
@@ -110,9 +105,8 @@ class General extends ConfigurationStep
 
     protected function updateModuleConfiguration(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FaqConfig */
         $faqConfig = $config->getSgFaq();
 
         $faqConfig
@@ -130,15 +124,14 @@ class General extends ConfigurationStep
 
     protected function createFolder(): void
     {
-        $objFolder = new \Contao\Folder(FaqConfig::DEFAULT_FOLDER_PATH);
+        $objFolder = new Folder(FaqConfig::DEFAULT_FOLDER_PATH);
         $objFolder->unprotect();
     }
 
     protected function createPage(): PageModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FaqConfig */
         $faqConfig = $config->getSgFaq();
 
         $rootPage = PageModel::findById($config->getSgPageRoot());
@@ -163,9 +156,8 @@ class General extends ConfigurationStep
 
     protected function createArticle(PageModel $page): ArticleModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FaqConfig */
         $faqConfig = $config->getSgFaq();
 
         $article = ArticleModel::findById($faqConfig->getSgArticle());
@@ -181,14 +173,14 @@ class General extends ConfigurationStep
 
     protected function createFaqCategory(PageModel $page): FaqCategoryModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FaqConfig */
         $faqConfig = $config->getSgFaq();
 
         $objUserGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
         $objUserGroupRedactors = UserGroupModel::findOneById($config->getSgUserGroupRedactors());
 
+        // TODO : Expected parameter of type 'int|null', 'array' provided
         $faqCategory = FaqCategoryUtil::createFaqCategory($faqConfig->getSgFaqTitle(), $faqConfig->getSgFaqCategory() ? ['id' => $faqConfig->getSgFaqCategory()] : []);
         // $faqCategory = FaqCategoryModel::findById($faqConfig->getSgFaqCategory()) ?? new FaqCategoryModel();
         // $faqCategory->title = $faqConfig->getSgFaqTitle();
@@ -204,9 +196,8 @@ class General extends ConfigurationStep
 
     protected function createModules(PageModel $page, FaqCategoryModel $faqCategory): array
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FaqConfig */
         $faqConfig = $config->getSgFaq();
 
         $moduleFaq = new ModuleModel();
@@ -238,17 +229,12 @@ class General extends ConfigurationStep
 
     protected function fillArticle(PageModel $page, ArticleModel $article, array $modules): array
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
         $faqConfig = $config->getSgFaq();
 
         $faq = ContentModel::findById($faqConfig->getSgContent());
-        $faq = ContentUtil::createContent($article, array_merge([
-            'type' => 'module',
-            'pid' => $article->id,
-            'ptable' => 'tl_article',
-            'module' => $modules['faq']->id,
-        ], ['id' => null !== $faq ? $faq->id : null]));
+        $faq = ContentUtil::createContent($article, ['type' => 'module', 'pid' => $article->id, 'ptable' => 'tl_article', 'module' => $modules['faq']->id, 'id' => null !== $faq ? $faq->id : null]);
 
         $article->save();
 
@@ -259,9 +245,8 @@ class General extends ConfigurationStep
 
     protected function updateModuleConfigurationAfterGenerations(PageModel $page, ArticleModel $article, FaqCategoryModel $faqCategory, array $modules, array $contents): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var FaqConfig */
         $faqConfig = $config->getSgFaq();
 
         $faqConfig
@@ -277,6 +262,9 @@ class General extends ConfigurationStep
         $this->configurationManager->save($config);
     }
 
+    /**
+     * @throws Exception
+     */
     protected function updateUserGroup(UserGroupModel $objUserGroup, FaqConfig $faqConfig): void
     {
         $objFolder = FilesModel::findByPath($faqConfig->getSgFaqFolder());
@@ -299,12 +287,10 @@ class General extends ConfigurationStep
         $objUserGroup->save();
     }
 
-    private function setFAQConfigKey(string $key, $value): void
+    private function setFAQConfigKey(string $key, int $value): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-
-        /** @var FaqConfig */
         $faqConfig = $config->getSgFaq();
 
         $faqConfig->{$key}($value);
