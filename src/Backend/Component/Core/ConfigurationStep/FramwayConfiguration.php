@@ -26,58 +26,29 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
 class FramwayConfiguration extends ConfigurationStep
 {
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var ConfigurationManagerFramway */
-    protected $configurationManagerFramway;
-    /** @var DirectoriesSynchronizer */
-    protected $templateRSCESynchronizer;
-    /** @var DirectoriesSynchronizer */
-    protected $templateSmartgearSynchronizer;
-    /** @var DirectoriesSynchronizer */
-    protected $templateGeneralSynchronizer;
-    /** @var DirectoriesSynchronizer */
-    protected $tinyMCEPluginsSynchronizer;
-    /** @var DirectoriesSynchronizer */
-    protected $tarteAuCitronSynchronizer;
-    /** @var DirectoriesSynchronizer */
-    protected $outdatedBrowserSynchronizer;
-    /** @var DirectoriesSynchronizer */
-    protected $socialShareButtonsSynchronizer;
-    /** @var UtilFramway */
-    protected $framwayUtil;
-    protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_configuration';
+
+    protected string $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_configuration';
 
     public function __construct(
-        string $module,
-        string $type,
-        ConfigurationManager $configurationManager,
-        ConfigurationManagerFramway $configurationManagerFramway,
-        DirectoriesSynchronizer $templateRSCESynchronizer,
-        DirectoriesSynchronizer $templateSmartgearSynchronizer,
-        DirectoriesSynchronizer $templateGeneralSynchronizer,
-        DirectoriesSynchronizer $tinyMCEPluginsSynchronizer,
-        DirectoriesSynchronizer $tarteAuCitronSynchronizer,
-        DirectoriesSynchronizer $outdatedBrowserSynchronizer,
-        DirectoriesSynchronizer $socialShareButtonsSynchronizer,
-        UtilFramway $framwayUtil
+        string                                             $module,
+        string                                             $type,
+        protected ConfigurationManager                     $configurationManager,
+        protected ConfigurationManagerFramway              $configurationManagerFramway,
+        protected DirectoriesSynchronizer                  $templateRSCESynchronizer,
+        protected DirectoriesSynchronizer                  $templateSmartgearSynchronizer,
+        protected DirectoriesSynchronizer                  $templateGeneralSynchronizer,
+        protected DirectoriesSynchronizer                  $tinyMCEPluginsSynchronizer,
+        protected DirectoriesSynchronizer                  $tarteAuCitronSynchronizer,
+        protected DirectoriesSynchronizer                  $outdatedBrowserSynchronizer,
+        protected DirectoriesSynchronizer                  $socialShareButtonsSynchronizer,
+        protected UtilFramway                              $framwayUtil
     ) {
         parent::__construct($module, $type);
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['Title'];
-        $this->configurationManager = $configurationManager;
-        $this->configurationManagerFramway = $configurationManagerFramway;
-        $this->templateRSCESynchronizer = $templateRSCESynchronizer;
-        $this->templateSmartgearSynchronizer = $templateSmartgearSynchronizer;
-        $this->templateGeneralSynchronizer = $templateGeneralSynchronizer;
-        $this->tinyMCEPluginsSynchronizer = $tinyMCEPluginsSynchronizer;
-        $this->tarteAuCitronSynchronizer = $tarteAuCitronSynchronizer;
-        $this->outdatedBrowserSynchronizer = $outdatedBrowserSynchronizer;
-        $this->socialShareButtonsSynchronizer = $socialShareButtonsSynchronizer;
-        $this->framwayUtil = $framwayUtil;
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
-            /** @var FramwayConfig */
+            /** @var FramwayConfig $framwayConfig */
             $framwayConfig = $this->configurationManagerFramway->load();
 
             $themesOptions = [];
@@ -102,21 +73,21 @@ class FramwayConfiguration extends ConfigurationStep
     public function isStepValid(): bool
     {
         // check if the step is correct
-        if (empty(Input::post('themes'))) {
+        if (empty(Input::post('themes')) || empty(Input::post('components'))) {
             return false;
         }
-        if (empty(Input::post('components'))) {
-            return false;
-        }
-
         return true;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function do(): void
     {
         // do what is meant to be done in this step
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
+
         $this->updateFramwayConfiguration(
             Input::post('themes') ?? [],
             Input::post('components'),
@@ -137,7 +108,7 @@ class FramwayConfiguration extends ConfigurationStep
         $this->importSocialShareButtons();
     }
 
-    public function framwayThemeAdd()
+    public function framwayThemeAdd(): string
     {
         if (empty(Input::post('new_theme'))) {
             throw new \InvalidArgumentException($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldNewThemeEmpty']);
@@ -154,20 +125,16 @@ class FramwayConfiguration extends ConfigurationStep
 
     /**
      * Update Framway configuration.
-     *
-     * @param array $themes               [description]
-     * @param array $components           [description]
-     * @param array $themesAvailables     [description]
-     * @param array $componentsAvailables [description]
      */
     protected function updateFramwayConfiguration(array $themes, array $components, array $themesAvailables, array $componentsAvailables): FramwayConfig
     {
-        /** @var FramwayConfig */
+        /** @var FramwayConfig $framwayConfig */
         $framwayConfig = $this->configurationManagerFramway->load();
         $framwayConfig->setThemes($themes);
         $framwayConfig->setThemesAvailables($themesAvailables);
         $framwayConfig->setComponents($components);
         $framwayConfig->setComponentsAvailables($componentsAvailables);
+
         $this->configurationManagerFramway->save($framwayConfig);
 
         return $framwayConfig;
@@ -180,44 +147,66 @@ class FramwayConfiguration extends ConfigurationStep
      */
     protected function updateCoreConfiguration(array $themes): CoreConfig
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $coreConfif */
         $coreConfif = $this->configurationManager->load();
         $coreConfif->setSgFramwayThemes($themes);
+
         $this->configurationManager->save($coreConfif);
 
         return $coreConfif;
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function importRSCETemplates(): void
     {
         $this->templateRSCESynchronizer->synchronize(false);
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function importSmartgearTemplates(): void
     {
         $this->templateSmartgearSynchronizer->synchronize(false);
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function importGeneralTemplates(): void
     {
         $this->templateGeneralSynchronizer->synchronize(false);
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function importTinyMCEPlugins(): void
     {
         $this->tinyMCEPluginsSynchronizer->synchronize(false);
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function importOutdatedBrowser(): void
     {
         $this->outdatedBrowserSynchronizer->synchronize(true);
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function importTarteAuCitron(): void
     {
         $this->tarteAuCitronSynchronizer->synchronize(true);
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function importSocialShareButtons(): void
     {
         $this->socialShareButtonsSynchronizer->synchronize(true);

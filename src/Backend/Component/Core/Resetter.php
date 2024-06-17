@@ -16,67 +16,48 @@ namespace WEM\SmartgearBundle\Backend\Component\Core;
 
 use Contao\ArticleModel;
 use Contao\ContentModel;
+use Contao\Folder;
 use Contao\ImageSizeModel;
 use Contao\LayoutModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
-use Contao\StyleSheetModel;
+use Contao\StyleSheetModel; // TODO : stylesheet
 use Contao\ThemeModel;
 use NotificationCenter\Model\Language as NotificationLanguageModel;
 use NotificationCenter\Model\Message as NotificationMessageModel;
-use NotificationCenter\Model\Notification as NotificationModel;
+use NotificationCenter\Model\Notification as NotificationModel; // TODO : Notification
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Analyzer\Htaccess as HtaccessAnalyzer;
 use WEM\SmartgearBundle\Classes\Backend\Resetter as BackendResetter;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Config\LocalConfig;
 use WEM\SmartgearBundle\Config\Manager\LocalConfig as LocalConfigManager;
 
 class Resetter extends BackendResetter
 {
-    /** @var string */
-    protected $module = '';
-    /** @var string */
-    protected $type = '';
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var HtaccessAnalyzer */
-    protected $htaccessAnalyzer;
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var LocalConfigManager */
-    protected $localConfigManager;
-    /** @var array */
-    protected $templatesDirs;
-    /** @var array */
-    protected $componentsResetters;
-    /** @var array */
-    protected $modulesResetters;
+    protected string $module = '';
 
-    /**
-     * Generic array of logs.
-     *
-     * @var array
-     */
-    protected $logs = [];
+    protected string $type = '';
+
+    protected ConfigurationManager $configurationManager;
+
+    protected TranslatorInterface $translator;
+
+    protected array $logs = [];
 
     public function __construct(
         ConfigurationManager $configurationManager,
         TranslatorInterface $translator,
-        LocalConfigManager $localConfigManager,
-        HtaccessAnalyzer $htaccessAnalyzer,
+        protected LocalConfigManager $localConfigManager,
+        protected HtaccessAnalyzer $htaccessAnalyzer,
         string $module,
         string $type,
-        array $templatesDirs,
-        array $componentsResetters,
-        array $modulesResetters
+        protected array $templatesDirs,
+        protected array $componentsResetters,
+        protected array $modulesResetters
     ) {
         parent::__construct($configurationManager, $translator, $module, $type);
-        $this->localConfigManager = $localConfigManager;
-        $this->htaccessAnalyzer = $htaccessAnalyzer;
-        $this->templatesDirs = $templatesDirs;
-        $this->componentsResetters = $componentsResetters;
-        $this->modulesResetters = $modulesResetters;
     }
 
     public function reset(bool $keepFramway, bool $keepTemplates, bool $keepThemesModules, bool $keepPages, bool $keepFiles, bool $keepLocalconfig): void
@@ -90,6 +71,7 @@ class Resetter extends BackendResetter
             $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['framwayDeleted']);
             ++$itemsResetted;
         }
+
         if ($keepTemplates) {
             $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['templatesKept']);
         } else {
@@ -97,6 +79,7 @@ class Resetter extends BackendResetter
             $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['templatesDeleted']);
             ++$itemsResetted;
         }
+
         if ($keepThemesModules) {
             $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['themes_modulesKept']);
         } else {
@@ -104,6 +87,7 @@ class Resetter extends BackendResetter
             $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['themes_modulesDeleted']);
             ++$itemsResetted;
         }
+
         if ($keepPages) {
             $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['pagesKept']);
         } else {
@@ -111,6 +95,7 @@ class Resetter extends BackendResetter
             $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['pagesDeleted']);
             ++$itemsResetted;
         }
+
         if ($keepFiles) {
             $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['filesKept']);
         } else {
@@ -118,6 +103,7 @@ class Resetter extends BackendResetter
             $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['filesDeleted']);
             ++$itemsResetted;
         }
+
         if ($keepLocalconfig) {
             $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['localconfigKept']);
         } else {
@@ -125,9 +111,11 @@ class Resetter extends BackendResetter
             $this->addConfirm($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['localconfigDeleted']);
             ++$itemsResetted;
         }
+
         if (0 !== $itemsResetted) {
             $this->markModulesAndComponentsAsUninstalled();
         }
+
         $this->disableFramwayAssetsManagementRules();
     }
 
@@ -141,9 +129,8 @@ class Resetter extends BackendResetter
             $resetter->reset('delete');
         }
 
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        $timestamp = time();
         // mark all modules & components as uninstalled
         $submodulesConfig = $config->getSubmodulesConfigs();
         foreach ($submodulesConfig as $key => $submoduleConfig) {
@@ -158,7 +145,7 @@ class Resetter extends BackendResetter
 
     protected function resetLocalConfig(): void
     {
-        /** @var LocalConfig */
+        /** @var LocalConfig $config */
         $config = $this->localConfigManager->load();
 
         $config->reset();
@@ -166,19 +153,25 @@ class Resetter extends BackendResetter
         $this->localConfigManager->save($config);
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function resetFramway(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
 
-        $folder = new \Contao\Folder($config->getSgFramwayPath());
+        $folder = new Folder($config->getSgFramwayPath());
         $folder->delete();
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function resetTemplates(): void
     {
         foreach ($this->templatesDirs as $templatesDir) {
-            $folder = new \Contao\Folder($templatesDir);
+            $folder = new Folder($templatesDir);
             $folder->delete();
         }
     }
@@ -201,24 +194,27 @@ class Resetter extends BackendResetter
                         $layouts->delete();
                     }
                 }
+
                 $imageSizes = ImageSizeModel::findBy('pid', $themes->id);
                 if ($imageSizes) {
                     while ($imageSizes->next()) {
                         $imageSizes->delete();
                     }
                 }
-                /**  @deprecated in Contao 5.0  */
+
+                /**  @deprecated in Contao 5.0 TODO : deprecated */
                 $stylesheets = StyleSheetModel::findBy('pid', $themes->id);
                 if ($stylesheets) {
                     while ($stylesheets->next()) {
                         $stylesheets->delete();
                     }
                 }
+
                 $themes->delete();
             }
         }
 
-        $notifications = NotificationModel::findAll();
+        $notifications = NotificationModel::findAll(); // TODO : Notification
         if ($notifications) {
             while ($notifications->next()) {
                 $messages = NotificationMessageModel::findBy('pid', $notifications->id);
@@ -230,9 +226,11 @@ class Resetter extends BackendResetter
                                 $languages->delete();
                             }
                         }
+
                         $messages->delete();
                     }
                 }
+
                 $notifications->delete();
             }
         }
@@ -246,12 +244,14 @@ class Resetter extends BackendResetter
                 $pages->delete();
             }
         }
+
         $contents = ContentModel::findAll();
         if ($contents) {
             while ($contents->next()) {
                 $contents->delete();
             }
         }
+
         $articles = ArticleModel::findAll();
         if ($articles) {
             while ($articles->next()) {
@@ -262,10 +262,10 @@ class Resetter extends BackendResetter
 
     protected function resetFiles(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
 
-        $folder = new \Contao\Folder('files');
+        $folder = new Folder('files');
         $folder->purge();
 
         $config->setSgOwnerLogo('');

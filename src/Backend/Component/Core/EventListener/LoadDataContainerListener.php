@@ -25,29 +25,17 @@ use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class LoadDataContainerListener
 {
-    /** @var Security */
-    protected $security;
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-    /** @var DCAManipulator */
-    protected $dcaManipulator;
-    /** @var string */
-    protected $do;
 
-    public function __construct(
-        Security $security,
-        CoreConfigurationManager $coreConfigurationManager,
-        DCAManipulator $dcaManipulator
-    ) {
-        $this->security = $security;
-        $this->coreConfigurationManager = $coreConfigurationManager;
-        $this->dcaManipulator = $dcaManipulator;
+    protected string $do;
+
+    public function __construct(protected Security $security, protected CoreConfigurationManager $coreConfigurationManager, protected DCAManipulator $dcaManipulator)
+    {
     }
 
     public function __invoke(string $table): void
     {
         try {
-            /* @var CoreConfig */
+            /** @var CoreConfig $config */
             // $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
             switch ($table) {
@@ -71,8 +59,9 @@ class LoadDataContainerListener
                         $this->updatePaletteDownloads();
                         $this->updatePaletteGallery();
                     }
-                    $this->dcaManipulator->addFieldSaveCallback('headline', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanHeadline']);
-                    $this->dcaManipulator->addFieldSaveCallback('text', [\WEM\SmartgearBundle\DataContainer\Content::class, 'cleanText']);
+
+                    $this->dcaManipulator->addFieldSaveCallback('headline', static fn($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('text', static fn($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
                     $this->dcaManipulator->setFieldEvalProperty('sortBy', 'tl_class', 'hidden');
                 break;
                 case 'tl_module':
@@ -81,6 +70,7 @@ class LoadDataContainerListener
                         // do not display lang_selector settings
                         $this->dcaManipulator->removeFields(['wem_sg_header_add_lang_selector', 'wem_sg_header_lang_selector_bg', 'wem_sg_header_lang_selector_module']);
                     }
+
                 break;
                 case 'tl_nc_language':
                     // if ($config->getSgInstallComplete()) {

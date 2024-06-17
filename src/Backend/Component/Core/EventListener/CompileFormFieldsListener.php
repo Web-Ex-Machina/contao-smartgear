@@ -24,22 +24,20 @@ use WEM\SmartgearBundle\Model\FormField;
 
 class CompileFormFieldsListener
 {
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-
-    public function __construct(
-        CoreConfigurationManager $coreConfigurationManager
-    ) {
-        $this->coreConfigurationManager = $coreConfigurationManager;
+    public function __construct(protected CoreConfigurationManager $coreConfigurationManager)
+    {
     }
 
+    /**
+     * @throws Exception
+     */
     public function __invoke(
         array $arrFields,
         string $formId,
         Form $form
     ): array {
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $coreConfig = $this->coreConfigurationManager->load();
             if ($coreConfig->getSgInstallComplete()) {
                 // current page

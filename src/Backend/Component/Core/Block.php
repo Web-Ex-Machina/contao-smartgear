@@ -27,23 +27,25 @@ use WEM\SmartgearBundle\Classes\Util;
 class Block extends BackendBlock
 {
     public const MODE_CHECK_PROD = 'check_prod';
-    public const MODE_RESET = 'check_reset';
-    protected $type = 'component';
-    protected $module = 'core';
-    protected $icon = 'exclamation-triangle';
-    protected $title = 'Core';
 
-    protected $resetStepManager;
+    public const MODE_RESET = 'check_reset';
+
+    protected string $type = 'component';
+
+    protected string $module = 'core';
+
+    protected string $icon = 'exclamation-triangle';
+
+    protected string $title = 'Core';
 
     public function __construct(
-        ConfigurationManager $configurationManager,
-        ConfigurationStepManager $configurationStepManager,
-        ResetStepManager $resetStepManager,
-        Dashboard $dashboard,
-        TranslatorInterface $translator
+        ConfigurationManager       $configurationManager,
+        ConfigurationStepManager   $configurationStepManager,
+        protected ResetStepManager $resetStepManager,
+        Dashboard                  $dashboard,
+        TranslatorInterface        $translator
     ) {
         parent::__construct($configurationManager, $configurationStepManager, $dashboard, $translator);
-        $this->resetStepManager = $resetStepManager;
     }
 
     public function processAjaxRequest(): void
@@ -69,6 +71,7 @@ class Block extends BackendBlock
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayInstallAjaxMessageError'];
                         $arrResponse['output'] = $e->getMessage();
                     }
+
                 break;
                 case 'framwayInitialize':
                     try {
@@ -82,6 +85,7 @@ class Block extends BackendBlock
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayInitialiazeAjaxMessageError'];
                         $arrResponse['output'] = $e->getMessage();
                     }
+
                 break;
                 case 'framwayBuild':
                     try {
@@ -95,6 +99,7 @@ class Block extends BackendBlock
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayBuildAjaxMessageError'];
                         $arrResponse['output'] = $e->getMessage();
                     }
+
                 break;
                 case 'framwayThemeAdd':
                     try {
@@ -108,6 +113,7 @@ class Block extends BackendBlock
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayThemeAddAjaxMessageError'].$e->getMessage();
                         $arrResponse['output'] = $e->getMessage();
                     }
+
                 break;
                 case 'dev_mode':
                     $this->dashboard->enableDevMode();
@@ -137,13 +143,13 @@ class Block extends BackendBlock
                     parent::processAjaxRequest();
                 break;
             }
-        } catch (Exception $e) {
-            $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
+        } catch (Exception $exception) {
+            $arrResponse = ['status' => 'error', 'msg' => $exception->getMessage(), 'trace' => $exception->getTrace()];
         }
 
         // return $arrResponse;
         // Add Request Token to JSON answer and return
-        $arrResponse['rt'] = \Contao\RequestToken::get();
+        $arrResponse['rt'] = \Contao\RequestToken::get(); // TODO : deprecated Token
         echo json_encode($arrResponse);
         exit;
     }
@@ -169,6 +175,9 @@ class Block extends BackendBlock
         return $objTemplate;
     }
 
+    /**
+     * @throws Exception
+     */
     protected function goToNextStep(): void
     {
         match ($this->getMode()) {
@@ -193,6 +202,9 @@ class Block extends BackendBlock
         };
     }
 
+    /**
+     * @throws Exception
+     */
     protected function finish(): array
     {
         switch ($this->getMode()) {
@@ -216,12 +228,14 @@ class Block extends BackendBlock
             break;
             default:
                 return parent::finish();
-            break;
         }
 
         return $arrResponse;
     }
 
+    /**
+     * @throws Exception
+     */
     protected function save(): void
     {
         match ($this->getMode()) {
@@ -230,15 +244,15 @@ class Block extends BackendBlock
         };
     }
 
-    protected function parseSteps()
+    protected function parseSteps(): ?string
     {
         switch ($this->getMode()) {
             case self::MODE_RESET:
                 return $this->configurationStepManager->parseSteps();
-            break;
             default:
                 parent::parseSteps();
             break;
         }
+        return null;
     }
 }

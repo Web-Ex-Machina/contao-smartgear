@@ -14,19 +14,16 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Core\EventListener;
 
+use Contao\ModuleModel;
 use WEM\SmartgearBundle\Classes\Backend\Component\EventListener\ReplaceInsertTagsListener as AbstractReplaceInsertTagsListener;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Module\SocialLink;
 
 class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
 {
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-
-    public function __construct(
-        CoreConfigurationManager $coreConfigurationManager
-    ) {
-        $this->coreConfigurationManager = $coreConfigurationManager;
+    public function __construct(protected CoreConfigurationManager $coreConfigurationManager)
+    {
     }
 
     /**
@@ -54,177 +51,12 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
         array $cache,
         int $_rit,
         int $_cnt
-    ) {
+    ): false|string
+    {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
         if ('sg' === $key) {
             return static::NOT_HANDLED;
-            /** @var CoreConfig */
-            $config = $this->coreConfigurationManager->load();
-
-            switch ($elements[1]) {
-                case 'installComplete':
-                    return $config->getSgInstallComplete() ? '1' : '0';
-                break;
-                case 'version':
-                    return $config->getSgVersion();
-                break;
-                case 'framwayPath':
-                    return $config->getSgFramwayPath();
-                break;
-                case 'framwayThemes':
-                    return implode(', ', $config->getSgFramwayThemes());
-                break;
-                case 'googleFonts':
-                    return implode(', ', $config->getSgGoogleFonts());
-                break;
-                case 'selectedModules':
-                    return implode(', ', $config->getSgSelectedModules());
-                break;
-                case 'mode':
-                    return $config->getSgMode();
-                break;
-                case 'websiteTitle':
-                    return $config->getSgWebsiteTitle();
-                break;
-                case 'ownerEmail':
-                    return $config->getSgOwnerEmail();
-                break;
-                case 'analytics':
-                    return $config->getSgAnalytics();
-                break;
-                case 'analyticsGoogleId':
-                    return $config->getSgAnalyticsGoogleId();
-                break;
-                case 'analyticsMatomoHost':
-                    return $config->getSgAnalyticsMatomoHost();
-                break;
-                case 'analyticsMatomoId':
-                    return $config->getSgAnalyticsMatomoId();
-                break;
-                case 'ownerName':
-                    return $config->getSgOwnerName();
-                break;
-                case 'ownerDomain':
-                    return $config->getSgOwnerDomain();
-                break;
-                case 'ownerHost':
-                    return $config->getSgOwnerHost();
-                break;
-                case 'ownerLogo':
-                    return $config->getSgOwnerLogo();
-                break;
-                case 'ownerStatus':
-                    return $config->getSgOwnerStatus();
-                break;
-                case 'ownerStreet':
-                    return $config->getSgOwnerStreet();
-                break;
-                case 'ownerPostal':
-                    return $config->getSgOwnerPostal();
-                break;
-                case 'ownerCity':
-                    return $config->getSgOwnerCity();
-                break;
-                case 'ownerRegion':
-                    return $config->getSgOwnerRegion();
-                break;
-                case 'ownerCountry':
-                    return $config->getSgOwnerCountry();
-                break;
-                case 'ownerSiret':
-                    return $config->getSgOwnerSiret();
-                break;
-                case 'ownerDpoName':
-                    return $config->getSgOwnerDpoName();
-                break;
-                case 'ownerDpoEmail':
-                    return $config->getSgOwnerDpoEmail();
-                break;
-                case 'theme':
-                    return (string) $config->getSgTheme();
-                break;
-                case 'layoutStandard':
-                    return (string) $config->getSgLayoutStandard();
-                break;
-                case 'layoutFullwidth':
-                    return (string) $config->getSgLayoutFullwidth();
-                break;
-                case 'pageRoot':
-                    return (string) $config->getSgPageRoot();
-                break;
-                case 'pageHome':
-                    return (string) $config->getSgPageHome();
-                break;
-                case 'page404':
-                    return (string) $config->getSgPage404();
-                break;
-                case 'pageLegalNotice':
-                    return (string) $config->getSgPageLegalNotice();
-                break;
-                case 'pagePrivacyPolitics':
-                    return (string) $config->getSgPagePrivacyPolitics();
-                break;
-                case 'pageSitemap':
-                    return (string) $config->getSgPageSitemap();
-                break;
-                case 'pageSitemap':
-                    return (string) $config->getSgPageSitemap();
-                break;
-                case 'articleHome':
-                    return (string) $config->getSgArticleHome();
-                break;
-                case 'article404':
-                    return (string) $config->getSgArticle404();
-                break;
-                case 'articleLegalNotice':
-                    return (string) $config->getSgArticleLegalNotice();
-                break;
-                case 'articlePrivacyPolitics':
-                    return (string) $config->getSgArticlePrivacyPolitics();
-                break;
-                case 'articleSitemap':
-                    return (string) $config->getSgArticleSitemap();
-                break;
-                case 'content404Headline':
-                    return (string) $config->getSgContent404Headline();
-                break;
-                case 'content404Sitemap':
-                    return (string) $config->getSgContent404Sitemap();
-                break;
-                case 'contentLegalNotice':
-                    return (string) $config->getSgContentLegalNotice();
-                break;
-                case 'contentPrivacyPolitics':
-                    return (string) $config->getSgContentPrivacyPolitics();
-                break;
-                case 'contentSitemapHeadline':
-                    return (string) $config->getSgContentSitemapHeadline();
-                break;
-                case 'contentSitemap':
-                    return (string) $config->getSgContentSitemap();
-                break;
-                case 'notificationGatewayEmail':
-                    return (string) $config->getSgNotificationGatewayEmail();
-                break;
-                case 'modules':
-                    $modules = $config->getSgModules();
-                    $arrModules = [];
-                    foreach ($modules as $module) {
-                        $arrModules[] = $module->type;
-                    }
-
-                    return implode(', ', $arrModules);
-                break;
-                case 'apiKey':
-                    return $config->getSgApiKey();
-                break;
-                case 'socialLinks':
-                    return $this->generateSocialLinks($config);
-                break;
-                default:
-                return static::NOT_HANDLED;
-            }
         }
 
         return static::NOT_HANDLED;
@@ -233,9 +65,9 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
     protected function generateSocialLinks(CoreConfig $config): string
     {
         if ($config->getSgInstallComplete()) {
-            $objModule = \Contao\ModuleModel::findById($config->getSgModuleByKey('wem_sg_social_link'));
+            $objModule = ModuleModel::findById($config->getSgModuleByKey('wem_sg_social_link'));
 
-            return (new \WEM\SmartgearBundle\Module\SocialLink($objModule))->generate();
+            return (new SocialLink($objModule))->generate();
         }
 
         return '';

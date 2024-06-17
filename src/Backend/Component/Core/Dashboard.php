@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Core;
 
+use Contao\Environment;
 use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\PageModel;
@@ -33,25 +34,18 @@ use WEM\SmartgearBundle\Config\Manager\EnvFile as ConfigurationEnvFileManager;
 
 class Dashboard extends BackendDashboard
 {
-    /** @var string */
-    protected $strTemplate = 'be_wem_sg_block_core_dashboard';
 
-    /** @var ConfigurationEnvFileManager */
-    protected $configurationEnvFileManager;
-    /** @var HtaccessAnalyzer */
-    protected $htaccessAnalyzer;
+    protected string $strTemplate = 'be_wem_sg_block_core_dashboard';
 
     public function __construct(
         ConfigurationManager $configurationManager,
         TranslatorInterface $translator,
         string $module,
         string $type,
-        ConfigurationEnvFileManager $configurationEnvFileManager,
-        HtaccessAnalyzer $htaccessAnalyzer
+        protected ConfigurationEnvFileManager $configurationEnvFileManager,
+        protected HtaccessAnalyzer $htaccessAnalyzer
     ) {
         parent::__construct($configurationManager, $translator, $module, $type);
-        $this->configurationEnvFileManager = $configurationEnvFileManager;
-        $this->htaccessAnalyzer = $htaccessAnalyzer;
     }
 
     public function processAjaxRequest(): void
@@ -60,26 +54,24 @@ class Dashboard extends BackendDashboard
             if (empty(Input::post('action'))) {
                 throw new InvalidArgumentException($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['AjaxNoActionSpecified']);
             }
-            switch (Input::post('action')) {
-                default:
-                    parent::processAjaxRequest();
-                break;
-            }
-        } catch (Exception $e) {
-            $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
+
+            parent::processAjaxRequest();
+        } catch (Exception $exception) {
+            $arrResponse = ['status' => 'error', 'msg' => $exception->getMessage(), 'trace' => $exception->getTrace()];
         }
 
         // Add Request Token to JSON answer and return
-        $arrResponse['rt'] = RequestToken::get();
+        $arrResponse['rt'] = RequestToken::get(); // TODO : deprecated Token
         echo json_encode($arrResponse);
         exit;
     }
 
     public function enableDevMode(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
         $config->setSgMode(CoreConfig::MODE_DEV);
+
         $this->configurationManager->save($config);
 
         $rootPages = PageModel::findPublishedRootPages();
@@ -91,6 +83,7 @@ class Dashboard extends BackendDashboard
             } else {
                 $rootPage->robotsTxt = SG_ROBOTSTXT_CONTENT_FULL."\n".$rootPage->robotsTxt;
             }
+
             $rootPage->includeCache = '';
             $rootPage->save();
         }
@@ -101,26 +94,31 @@ class Dashboard extends BackendDashboard
         if (!file_exists($envFilePath)) {
             file_put_contents($envFilePath, '');
         }
-        /** @var EnvFileConfig */
+
+        /** @var EnvFileConfig $envConfig */
         $envConfig = $this->configurationEnvFileManager->load();
         // $envConfig->setAPPENV(EnvFileConfig::MODE_DEV);
         $envConfig->setAPPENV(null);
+
         $this->configurationEnvFileManager->save($envConfig);
     }
 
     public function enableProdMode(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
         $config->setSgMode(CoreConfig::MODE_PROD);
+
         $this->configurationManager->save($config);
         $envFilePath = '../.env';
         if (!file_exists($envFilePath)) {
             file_put_contents($envFilePath, '');
         }
-        /** @var EnvFileConfig */
+
+        /** @var EnvFileConfig $envConfig */
         $envConfig = $this->configurationEnvFileManager->load();
         $envConfig->setAPPENV(EnvFileConfig::MODE_PROD);
+
         $this->configurationEnvFileManager->save($envConfig);
         $rootPages = PageModel::findPublishedRootPages();
         foreach ($rootPages as $rootPage) {
@@ -131,11 +129,13 @@ class Dashboard extends BackendDashboard
             }
 
             if (empty($rootPage->dns)) {
-                $rootPage->dns = \Contao\Environment::get('base');
+                $rootPage->dns = Environment::get('base');
             }
+
             if (empty($rootPage->language)) {
                 $rootPage->language = 'fr';
             }
+
             $rootPage->useSSL = 1;
             $rootPage->createSitemap = 1;
             $rootPage->includeCache = 1;
@@ -160,6 +160,7 @@ class Dashboard extends BackendDashboard
             if (empty($rootPage->dns)) {
                 $this->addError(sprintf($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeRootpageDomainMissing'], $rootPage->title));
             }
+
             if (empty($rootPage->language)) {
                 $this->addError(sprintf($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeRootpageLanguageMissing'], $rootPage->title));
             }
@@ -177,7 +178,7 @@ class Dashboard extends BackendDashboard
 
         $this->actions = [];
         $this->actions[] = ['action' => 'prod_mode_check_cancel', 'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['Cancel']];
-        if (0 !== $nbErrors) {
+        if (0 !== $nbErrors) { // TODO : always false.
             $this->actions[] = ['action' => 'prod_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeButtonForceProdModeLabel'], 'attributes' => 'onclick="if(!confirm(\''.$GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeButtonForceProdModeConfirm'].'\'))return false;Backend.getScrollOffset()"'];
         } else {
             $this->actions[] = ['action' => 'prod_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeButtonProdModeLabel']];
@@ -191,7 +192,7 @@ class Dashboard extends BackendDashboard
     protected function getFilledTemplate(): FrontendTemplate
     {
         $objTemplate = parent::getFilledTemplate();
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
 
         $objTemplate->version = $config->getSgVersion();

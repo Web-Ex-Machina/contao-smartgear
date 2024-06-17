@@ -26,62 +26,27 @@ use WEM\SmartgearBundle\Config\Manager\Framway as ConfigurationManagerFramway;
 
 class FramwayRetrievalMinimal extends ConfigurationStep
 {
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var ConfigurationManagerFramway */
-    protected $configurationManagerFramway;
-    /** @var DirectoriesSynchronizer */
-    protected $framwaySynchronizer;
-    /** @var DirectoriesSynchronizer */
-    protected $templateRSCESynchronizer;
-    /** @var DirectoriesSynchronizer */
-    protected $templateSmartgearSynchronizer;
-    /** @var DirectoriesSynchronizer */
-    protected $templateGeneralSynchronizer;
-    /** @var DirectoriesSynchronizer */
-    protected $tinyMCEPluginsSynchronizer;
-    /** @var DirectoriesSynchronizer */
-    protected $tarteAuCitronSynchronizer;
-    /** @var DirectoriesSynchronizer */
-    protected $outdatedBrowserSynchronizer;
-    /** @var DirectoriesSynchronizer */
-    protected $socialShareButtonsSynchronizer;
-    /** @var UtilFramway */
-    protected $framwayUtil;
-    /** @var HtaccessAnalyzer */
-    protected $htaccessAnalyzer;
-    protected $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_retrieval_minimal';
+
+    protected string $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_retrieval_minimal';
 
     public function __construct(
-        string $module,
-        string $type,
-        ConfigurationManager $configurationManager,
-        ConfigurationManagerFramway $configurationManagerFramway,
-        DirectoriesSynchronizer $framwaySynchronizer,
-        DirectoriesSynchronizer $templateRSCESynchronizer,
-        DirectoriesSynchronizer $templateSmartgearSynchronizer,
-        DirectoriesSynchronizer $templateGeneralSynchronizer,
-        DirectoriesSynchronizer $tinyMCEPluginsSynchronizer,
-        DirectoriesSynchronizer $tarteAuCitronSynchronizer,
-        DirectoriesSynchronizer $outdatedBrowserSynchronizer,
-        DirectoriesSynchronizer $socialShareButtonsSynchronizer,
-        UtilFramway $framwayUtil,
-        HtaccessAnalyzer $htaccessAnalyzer
+        string                                $module,
+        string                                $type,
+        protected ConfigurationManager        $configurationManager,
+        protected ConfigurationManagerFramway $configurationManagerFramway,
+        protected DirectoriesSynchronizer     $framwaySynchronizer,
+        protected DirectoriesSynchronizer     $templateRSCESynchronizer,
+        protected DirectoriesSynchronizer     $templateSmartgearSynchronizer,
+        protected DirectoriesSynchronizer     $templateGeneralSynchronizer,
+        protected DirectoriesSynchronizer     $tinyMCEPluginsSynchronizer,
+        protected DirectoriesSynchronizer     $tarteAuCitronSynchronizer,
+        protected DirectoriesSynchronizer     $outdatedBrowserSynchronizer,
+        protected DirectoriesSynchronizer     $socialShareButtonsSynchronizer,
+        protected UtilFramway                 $framwayUtil,
+        protected HtaccessAnalyzer            $htaccessAnalyzer
     ) {
         parent::__construct($module, $type);
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYRETRIEVALMINIMAL']['Title'];
-        $this->configurationManager = $configurationManager;
-        $this->configurationManagerFramway = $configurationManagerFramway;
-        $this->framwaySynchronizer = $framwaySynchronizer;
-        $this->templateRSCESynchronizer = $templateRSCESynchronizer;
-        $this->templateSmartgearSynchronizer = $templateSmartgearSynchronizer;
-        $this->templateGeneralSynchronizer = $templateGeneralSynchronizer;
-        $this->tinyMCEPluginsSynchronizer = $tinyMCEPluginsSynchronizer;
-        $this->tarteAuCitronSynchronizer = $tarteAuCitronSynchronizer;
-        $this->outdatedBrowserSynchronizer = $outdatedBrowserSynchronizer;
-        $this->socialShareButtonsSynchronizer = $socialShareButtonsSynchronizer;
-        $this->framwayUtil = $framwayUtil;
-        $this->htaccessAnalyzer = $htaccessAnalyzer;
     }
 
     public function getFilledTemplate(): FrontendTemplate
@@ -94,6 +59,7 @@ class FramwayRetrievalMinimal extends ConfigurationStep
         foreach ($arrFilesToCheck as $key => $filetoCheck) {
             $arrFilesToCheck[$key] = $this->framwayUtil->getFramwayPath().\DIRECTORY_SEPARATOR.$filetoCheck;
         }
+
         $objTemplate->filesToCheck = $arrFilesToCheck;
         // And return the template, parsed.
         return $objTemplate;
@@ -106,12 +72,16 @@ class FramwayRetrievalMinimal extends ConfigurationStep
         return true; //$this->checkFramwayPresence();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function do(): void
     {
         // do what is meant to be done in this step
         if (!$this->checkFramwayPresence()) {
             $this->importFramway();
         }
+
         $framwayConfig = $this->updateFramwayConfiguration();
         $this->updateCoreConfiguration($framwayConfig->getThemes());
 
@@ -125,11 +95,14 @@ class FramwayRetrievalMinimal extends ConfigurationStep
         $this->enableFramwayAssetsManagementRules();
     }
 
-    public function checkFramwayPresence()
+    public function checkFramwayPresence(): bool
     {
         return $this->framwayUtil->checkPresence();
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function importFramway(): void
     {
         $this->framwaySynchronizer->synchronize(true);
@@ -137,7 +110,7 @@ class FramwayRetrievalMinimal extends ConfigurationStep
 
     protected function updateFramwayConfiguration(): FramwayConfig
     {
-        /** @var FramwayConfig */
+        /** @var FramwayConfig $framwayConfig */
         $framwayConfig = $this->configurationManagerFramway->load();
         $this->configurationManagerFramway->save($framwayConfig);
 
@@ -151,42 +124,64 @@ class FramwayRetrievalMinimal extends ConfigurationStep
      */
     protected function updateCoreConfiguration(array $themes): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $coreConfig */
         $coreConfig = $this->configurationManager->load();
         $coreConfig->setSgFramwayThemes($themes);
+
         $this->configurationManager->save($coreConfig);
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function importRSCETemplates(): void
     {
         $this->templateRSCESynchronizer->synchronize(false);
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function importSmartgearTemplates(): void
     {
         $this->templateSmartgearSynchronizer->synchronize(false);
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function importGeneralTemplates(): void
     {
         $this->templateGeneralSynchronizer->synchronize(false);
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function importTinyMCEPlugins(): void
     {
         $this->tinyMCEPluginsSynchronizer->synchronize(false);
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function importOutdatedBrowser(): void
     {
         $this->outdatedBrowserSynchronizer->synchronize(true);
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function importTarteAuCitron(): void
     {
         $this->tarteAuCitronSynchronizer->synchronize(true);
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function importSocialShareButtons(): void
     {
         $this->socialShareButtonsSynchronizer->synchronize(true);

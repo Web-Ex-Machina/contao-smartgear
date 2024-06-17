@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Backend\Component\Core\EventListener;
 
 use Contao\CoreBundle\Event\MenuEvent;
 use Exception;
+use Knp\Menu\ItemInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -23,24 +24,14 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class BackendMenuBuildListener
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-
-    public function __construct(
-        TranslatorInterface $translator,
-        CoreConfigurationManager $coreConfigurationManager
-    ) {
-        $this->translator = $translator;
-        $this->coreConfigurationManager = $coreConfigurationManager;
+    public function __construct(protected TranslatorInterface $translator, protected CoreConfigurationManager $coreConfigurationManager)
+    {
     }
 
     public function __invoke(MenuEvent $event): void
     {
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $coreConfig = $this->coreConfigurationManager->load();
             if (!$coreConfig->getSgInstallComplete()) {
                 $this->removeDashboardNode($event);
@@ -60,7 +51,7 @@ class BackendMenuBuildListener
         }
 
         $contentNode = $tree->getChild('wem_smartgear');
-        if ($contentNode) {
+        if ($contentNode instanceof ItemInterface) {
             $contentNode->removeChild('wem_sg_dashboard');
 
             if (0 === $contentNode->count()) {

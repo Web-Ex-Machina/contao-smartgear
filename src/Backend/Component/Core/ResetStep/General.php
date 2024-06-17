@@ -23,26 +23,18 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 
 class General extends AbstractStep
 {
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var BackupManager */
-    protected $backupManager;
-    /** @var Resetter */
-    protected $resetter;
+    public array $templatesDirs;
 
-    protected $strTemplate = 'be_wem_sg_install_block_reset_step_core_general';
+    protected string $strTemplate = 'be_wem_sg_install_block_reset_step_core_general';
 
     public function __construct(
         string $module,
         string $type,
-        ConfigurationManager $configurationManager,
-        BackupManager $backupManager,
-        Resetter $resetter
+        protected ConfigurationManager $configurationManager,
+        protected BackupManager $backupManager,
+        protected Resetter $resetter
     ) {
         parent::__construct($module, $type);
-        $this->configurationManager = $configurationManager;
-        $this->backupManager = $backupManager;
-        $this->resetter = $resetter;
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['Title'];
 
         $this->addCheckboxField('localconfig', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['localconfig'], 'localconfig', false, false, '', '', $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['localconfigHelp']);
@@ -70,7 +62,6 @@ class General extends AbstractStep
 
     protected function backup(): void
     {
-        /** @var CreateResult */
         $createResult = $this->backupManager->newFromConfigurationReset();
         $this->addConfirm(sprintf($GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['backupCompleted'], $createResult->getBackup()->getFile()->basename));
     }

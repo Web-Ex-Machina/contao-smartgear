@@ -14,22 +14,20 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Core\EventListener;
 
+use Contao\Module;
 use WEM\SmartgearBundle\Model\Member as MemberModel;
 
 class CreateNewUserListener
 {
-    public function __construct()
-    {
-    }
-
-    public function __invoke(string $userId, array $data, \Contao\Module $module): void
+    public function __invoke(string $userId, array $data, Module $module): void
     {
         $objMember = MemberModel::findByPk($userId);
-        foreach ($data as $field => $value) {
+        foreach (array_keys($data) as $field) {
             if ($objMember->isFieldInPersonalDataFieldsNames($field)) {
                 $objMember->markModified($field);
             }
         }
+
         $objMember->save(); // will automatically triggers the encryption of personal data
     }
 }
