@@ -23,10 +23,11 @@ use Contao\FileUpload;
 use Contao\Folder;
 use Contao\Input;
 use Contao\Message;
+use Contao\Model;
 use Contao\PageModel;
-use Contao\RequestToken;
+use Contao\RequestToken; // TODO : Token
 use Exception;
-use NotificationCenter\Model\Notification as NotificationModel;
+use NotificationCenter\Model\Notification as NotificationModel; // TODO : Notification
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Api\Airtable\V0\Api as AirtableApi;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
@@ -43,26 +44,21 @@ class Support extends BackendModule
      * @var string
      */
     protected $strTemplate = 'be_wem_sg_dashboard_support';
+
     protected $strId = 'wem_sg_dashboard_support';
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var AirtableApi */
-    protected $airtableApi;
+
+
+
 
     /**
      * Initialize the object.
      */
     public function __construct(
-        TranslatorInterface $translator,
-        ConfigurationManager $configurationManager,
-        AirtableApi $airtableApi
+        protected TranslatorInterface  $translator,
+        protected ConfigurationManager $configurationManager,
+        protected AirtableApi          $airtableApi
     ) {
         parent::__construct();
-        $this->translator = $translator;
-        $this->configurationManager = $configurationManager;
-        $this->airtableApi = $airtableApi;
     }
 
     public function generate(): string
@@ -74,10 +70,10 @@ class Support extends BackendModule
         return parent::generate();
     }
 
-    public function compile(): void
+    protected function compile(): void
     {
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
         } catch (NotFound) {
             return;
@@ -94,25 +90,20 @@ class Support extends BackendModule
      * Process AJAX actions.
      *
      * @param [String] $strAction - Ajax action wanted
-     *
-     * @return string - Ajax response, as String or JSON
      */
-    public function processAjaxRequest($strAction)
+    public function processAjaxRequest($strAction): void
     {
         try {
-            switch ($strAction) {
-                case 'ticketCreate':
-                    $this->ticketCreate(Input::post('domain', true), Input::post('subject', true), Input::post('url'), Input::post('message', true), Input::post('mail'), $_FILES['files'] ?? []);
-
-                    $arrResponse = ['status' => 'success', 'toastr' => ['status' => 'success', 'msg' => $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.formSendSuccess', [], 'contao_default')]];
-                break;
+            if ($strAction === 'ticketCreate') {
+                $this->ticketCreate(Input::post('domain', true), Input::post('subject', true), Input::post('url'), Input::post('message', true), Input::post('mail'), $_FILES['files'] ?? []);
+                $arrResponse = ['status' => 'success', 'toastr' => ['status' => 'success', 'msg' => $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.formSendSuccess', [], 'contao_default')]];
             }
-        } catch (Exception $e) {
-            $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
+        } catch (Exception $exception) {
+            $arrResponse = ['status' => 'error', 'msg' => $exception->getMessage(), 'trace' => $exception->getTrace()];
         }
 
         // Add Request Token to JSON answer and return
-        $arrResponse['rt'] = RequestToken::get();
+        $arrResponse['rt'] = RequestToken::get(); // TODO : deprecated Token
         echo json_encode($arrResponse);
         exit;
     }
@@ -125,7 +116,7 @@ class Support extends BackendModule
     protected function ticketCreate(string $domain, string $subject, string $url, string $message, string $mail, array $screenshotFile): void
     {
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
         } catch (NotFound) {
             return;
@@ -152,7 +143,7 @@ class Support extends BackendModule
         // // save screenshot as file
         $objFile = null;
         $fileUrl = null;
-        if (!empty($screenshotFile)) {
+        if ($screenshotFile !== []) {
             $objFolder = new Folder(CoreConfig::DEFAULT_CLIENT_FILES_FOLDER.\DIRECTORY_SEPARATOR.'tickets');
             $objFolder->unprotect();
             $fileUploader = new FileUpload();
@@ -160,6 +151,7 @@ class Support extends BackendModule
             if ($fileUploader->hasError()) {
                 throw new Exception(Message::generateUnwrapped(TL_MODE, true));
             }
+
             $objFile = new File($arrFiles[0]);
             // $fileUrl = $config->getSgOwnerDomain().$objFile->path;
             $fileUrl = $domain.$objFile->path;
@@ -169,7 +161,7 @@ class Support extends BackendModule
 
         // send email
         // $notification = NotificationModel::findByPk((int) $config->getSgNotificationSupport());
-        $notification = NotificationModel::findByPk((int) Config::get('wem_sg_support_form_notification'));
+        $notification = NotificationModel::findByPk((int) Config::get('wem_sg_support_form_notification')); // TODO : Notification
         if (!$notification) {
             return;
         }
@@ -182,15 +174,15 @@ class Support extends BackendModule
             'email_sender_name' => $objPage ? $objPage->title : 'N/A',
             // 'sg_owner_email' => $config->getSgOwnerEmail(),
             'sg_owner_email' => $objPage ? ($objPage->adminEmail ?: (
-                        $objConfiguration ? ($objConfiguration->legal_owner_email ?: Config::get('adminEmail')) : Config::get('adminEmail'))) : Config::get('adminEmail'),
+                        $objConfiguration instanceof Model ? ($objConfiguration->legal_owner_email ?: Config::get('adminEmail')) : Config::get('adminEmail'))) : Config::get('adminEmail'),
             // 'sg_owner_name' => $config->getSgOwnerName(),
-            'sg_owner_name' => $objConfiguration ? $objConfiguration->getLegalOwnerName() : Config::get('adminEmail'),
+            'sg_owner_name' => $objConfiguration instanceof Model ? $objConfiguration->getLegalOwnerName() : Config::get('adminEmail'),
             'support_email' => 'support@webexmachina.fr',
             'ticket_domain' => $domain && \strlen($domain) > 0 ? $domain : 'N/A',
             'ticket_subject' => $subject,
             'ticket_url' => $url,
             'ticket_message' => $message,
-            'ticket_file' => $objFile ? $objFile->path : '',
+            'ticket_file' => $objFile instanceof File ? $objFile->path : '',
         ];
 
         $notification->send($arrTokens);
@@ -199,11 +191,12 @@ class Support extends BackendModule
     protected function getSupportMail(): string
     {
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
         } catch (NotFound) {
             return '';
         }
+
         $mail = 'support@webexmachina.fr';
         $urlMailto = '';
         $urlMailtoParams = [
@@ -215,6 +208,7 @@ class Support extends BackendModule
         foreach ($urlMailtoParams as $key => $value) {
             $urlMailto .= '&'.$key.'='.$value;
         }
+
         $urlMailto = 'mailto:'.$mail.'?'.substr($urlMailto, 1);
 
         $objTemplate = new BackendTemplate('be_wem_sg_dashboard_support_mail');
@@ -231,8 +225,9 @@ class Support extends BackendModule
         if (!Config::get('wem_sg_support_form_enabled')) {
             return '';
         }
+
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
         } catch (NotFound) {
             return '';
@@ -251,6 +246,7 @@ class Support extends BackendModule
                 }
             }
         }
+
         $arrDomainsHavingClientRef = $arrDomains;
 
         $objTemplate = new BackendTemplate('be_wem_sg_dashboard_support_form');

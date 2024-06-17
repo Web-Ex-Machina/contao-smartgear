@@ -42,26 +42,17 @@ class AnalyticsExternal extends BackendModule
      * @var string
      */
     protected $strTemplate = 'be_wem_sg_dashboard_analytics_external';
-    protected $strId = 'wem_sg_dashboard_analytics_external';
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var AirtableApi */
-    protected $airtableApi;
 
-    /**
-     * Initialize the object.
-     */
+    protected string $strId = 'wem_sg_dashboard_analytics_external';
+
+
+
     public function __construct(
-        TranslatorInterface $translator,
-        ConfigurationManager $configurationManager,
-        AirtableApi $airtableApi
+        protected TranslatorInterface  $translator,
+        protected ConfigurationManager $configurationManager,
+        protected AirtableApi          $airtableApi
     ) {
         parent::__construct();
-        $this->translator = $translator;
-        $this->configurationManager = $configurationManager;
-        $this->airtableApi = $airtableApi;
     }
 
     public function generate(): string
@@ -69,10 +60,10 @@ class AnalyticsExternal extends BackendModule
         return parent::generate();
     }
 
-    public function compile(): void
+    protected function compile(): void
     {
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
         } catch (NotFound) {
             return;
@@ -132,13 +123,13 @@ class AnalyticsExternal extends BackendModule
 
         $blnAirtableClientFound = false;
         $diskSpaceAllowed = 0;
-        foreach ($hostingInfos as $domain => $hostnameHostingInfos) {
+        foreach ($hostingInfos as $hostnameHostingInfos) {
             if (empty($hostnameHostingInfos)) {
                 continue;
             }
+
             $diskSpaceAllowed += (float) $hostnameHostingInfos['allowed_space'];
             $blnAirtableClientFound = $blnAirtableClientFound || !empty($hostnameHostingInfos['client_id']);
-            continue;
         }
 
         $diskSpaceAllowed = (int) $diskSpaceAllowed * 1024 * 1024 * 1024;
@@ -178,7 +169,7 @@ class AnalyticsExternal extends BackendModule
         $objTemplate->contentAnalyticsTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.contentAnalyticsTitle', [], 'contao_default');
 
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
 
             // Core
@@ -284,12 +275,13 @@ class AnalyticsExternal extends BackendModule
         if ($cacheManager->cacheFileExists() && $cacheManager->hasValidCache()) {
             return (int) $cacheManager->retrieveFromCache()['data']['size'];
         }
+
         //  get disk usage
-        $size = (int) $this->folderSize(realpath('../'));
+        $size = $this->folderSize(realpath('../'));
 
-        $size2 = (int) $this->getDirectorySize('../');
+        $size2 = $this->getDirectorySize('../');
 
-        $size = $size > $size2 ? $size : $size2;
+        $size = max($size, $size2);
 
         // write cache
         $cacheManager->saveCacheFile(['size' => $size]);

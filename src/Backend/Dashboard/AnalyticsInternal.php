@@ -34,21 +34,17 @@ class AnalyticsInternal extends BackendModule
      * @var string
      */
     protected $strTemplate = 'be_wem_sg_dashboard_analytics_internal';
-    protected $strId = 'wem_sg_dashboard_analytics_internal';
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var ConfigurationManager */
-    protected $configurationManager;
 
-    /**
-     * Initialize the object.
-     */
+    protected string $strId = 'wem_sg_dashboard_analytics_internal';
+
+
+    protected configurationManager $configurationManager;
+
     public function __construct(
-        TranslatorInterface $translator,
-        configurationManager $configurationManager
+        protected TranslatorInterface $translator,
+        configurationManager          $configurationManager
     ) {
         parent::__construct();
-        $this->translator = $translator;
         $this->configurationManager = $configurationManager;
     }
 
@@ -59,14 +55,15 @@ class AnalyticsInternal extends BackendModule
         return parent::generate();
     }
 
-    public function compile(): void
+    protected function compile(): void
     {
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
         } catch (NotFound) {
             return;
         }
+
         $this->Template->title = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSINTERNAL.title', [], 'contao_default');
 
         // visits
@@ -93,6 +90,7 @@ class AnalyticsInternal extends BackendModule
         $today = new DateTime('now');
         $todayLastWeek = new DateTime('now');
         $todayLastWeek->sub(new DateInterval('P7D'));
+
         $dateFormat = Config::get('dateFormat');
         $dateIntervalOneDay = new DateInterval('P1D');
 

@@ -29,21 +29,17 @@ class ShortcutInternal extends BackendModule
      * @var string
      */
     protected $strTemplate = 'be_wem_sg_dashboard_shortcut_internal';
-    protected $strId = 'wem_sg_dashboard_shortcut_internal';
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var ConfigurationManager */
-    protected $configurationManager;
 
-    /**
-     * Initialize the object.
-     */
+    protected string $strId = 'wem_sg_dashboard_shortcut_internal';
+
+
+    protected configurationManager $configurationManager;
+
     public function __construct(
-        TranslatorInterface $translator,
-        configurationManager $configurationManager
+        protected TranslatorInterface $translator,
+        configurationManager          $configurationManager
     ) {
         parent::__construct();
-        $this->translator = $translator;
         $this->configurationManager = $configurationManager;
     }
 
@@ -52,14 +48,15 @@ class ShortcutInternal extends BackendModule
         return parent::generate();
     }
 
-    public function compile(): void
+    protected function compile(): void
     {
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
         } catch (NotFound) {
             return;
         }
+
         $this->Template->title = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.title', [], 'contao_default');
         $links = [];
 
@@ -126,6 +123,7 @@ class ShortcutInternal extends BackendModule
                 'icon' => 'manager.gif',
             ];
         }
+
         // extranet
         if ($config->getSgInstallComplete() && $config->getSgExtranet()->getSgInstallComplete()) {
             $links['extranet'] = [

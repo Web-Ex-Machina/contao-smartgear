@@ -29,21 +29,16 @@ class ShortcutExternal extends BackendModule
      * @var string
      */
     protected $strTemplate = 'be_wem_sg_dashboard_shortcut_external';
-    protected $strId = 'wem_sg_dashboard_shortcut_external';
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var ConfigurationManager */
-    protected $configurationManager;
 
-    /**
-     * Initialize the object.
-     */
+    protected string $strId = 'wem_sg_dashboard_shortcut_external';
+
+    protected configurationManager $configurationManager;
+
     public function __construct(
-        TranslatorInterface $translator,
-        configurationManager $configurationManager
+        protected TranslatorInterface $translator,
+        configurationManager          $configurationManager
     ) {
         parent::__construct();
-        $this->translator = $translator;
         $this->configurationManager = $configurationManager;
     }
 
@@ -52,14 +47,15 @@ class ShortcutExternal extends BackendModule
         return parent::generate();
     }
 
-    public function compile(): void
+    protected function compile(): void
     {
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
         } catch (NotFound) {
             return;
         }
+
         $this->Template->title = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTEXTERNAL.title', [], 'contao_default');
         // manuals
         $this->Template->manualsUrl = 'https://docs.smartgear.fr';
@@ -84,6 +80,7 @@ class ShortcutExternal extends BackendModule
                     $this->Template->analyticsUrl = 'https:'.$config->getSgAnalyticsMatomoHost();
                 break;
             }
+
             $this->Template->linkAnalyticsText = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkAnalyticsText', [$config->getSgAnalytics()], 'contao_default');
             $this->Template->linkAnalyticsTitle = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkAnalyticsTitle', [$config->getSgAnalytics()], 'contao_default');
         }
