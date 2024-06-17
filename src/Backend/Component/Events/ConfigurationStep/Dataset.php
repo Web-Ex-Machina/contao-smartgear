@@ -14,6 +14,9 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Events\ConfigurationStep;
 
+use Contao\CalendarEventsModel;
+use Contao\File;
+use Contao\FilesModel;
 use Contao\Input;
 use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -25,16 +28,12 @@ use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 
 class Dataset extends ConfigurationStep
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var CommandUtil */
-    protected $commandUtil;
-    /** @var string */
-    protected $sourceDirectory;
 
-    private $locations = [
+
+
+    protected array|string $sourceDirectory;
+
+    private array $locations = [ // TODO : WTF ??
         'Super Bazar' => [
             'location' => 'Super Bazar',
             'address' => 'Super Bazar, NH52, Murarji Peth, Solapur, Solapur North, Solapur, Maharashtra, 413001, Inde',
@@ -64,22 +63,18 @@ class Dataset extends ConfigurationStep
     // protected $strTemplate = 'be_wem_sg_install_block_configuration_step_events_general';
 
     public function __construct(
-        string $module,
-        string $type,
-        TranslatorInterface $translator,
-        ConfigurationManager $configurationManager,
-        CommandUtil $commandUtil,
-        string $sourceDirectory
+        string                         $module,
+        string                         $type,
+        protected TranslatorInterface  $translator,
+        protected ConfigurationManager $configurationManager,
+        protected CommandUtil          $commandUtil,
+        string                         $sourceDirectory
     ) {
         parent::__construct($module, $type);
-        $this->configurationManager = $configurationManager;
-        $this->commandUtil = $commandUtil;
-        $this->translator = $translator;
         $this->sourceDirectory = str_replace('[public_or_web]', Util::getPublicOrWebDirectory(true), $sourceDirectory);
 
         $this->title = $this->translator->trans('WEMSG.EVENTS.INSTALL_DATASET.title', [], 'contao_default');
-        /** @var EventsConfig */
-        $config = $this->configurationManager->load()->getSgEvents();
+        $this->configurationManager->load()->getSgEvents();
 
         $datasetOptions = [];
 
@@ -90,6 +85,9 @@ class Dataset extends ConfigurationStep
         $this->addSelectField('dataset', $this->translator->trans('WEMSG.EVENTS.INSTALL_DATASET.dataset', [], 'contao_default'), $datasetOptions, 'none', true, false, '', 'select', $this->translator->trans('WEMSG.EVENTS.INSTALL_DATASET.datasetHelp', [], 'contao_default'));
     }
 
+    /**
+     * @throws Exception
+     */
     public function isStepValid(): bool
     {
         // check if the step is correct
@@ -123,6 +121,9 @@ class Dataset extends ConfigurationStep
         }
     }
 
+    /**
+     * @throws Exception
+     */
     protected function installDatasetA(): void
     {
         $coreConfig = $this->configurationManager->load();
@@ -143,6 +144,9 @@ class Dataset extends ConfigurationStep
         $this->createOrUpdateCalendarEvent($calendarId, 'Actualité C #2', 'évènement-c-2', $authorId, strtotime('+1 year'), strtotime('+1 year'), $this->getLoremIpsum(80), 'Chateau Puyferrat', $filesDirectory.\DIRECTORY_SEPARATOR.'fileC.jpg', true);
     }
 
+    /**
+     * @throws Exception
+     */
     protected function installDatasetB(): void
     {
         $coreConfig = $this->configurationManager->load();
@@ -193,14 +197,17 @@ class Dataset extends ConfigurationStep
         $this->createOrUpdateCalendarEvent($calendarId, 'Actualité R #2', 'évènement-r-2', $authorId, strtotime('+1 year'), strtotime('+1 year'), $this->getLoremIpsum(120), 'Sanctuaire Shinto', $filesDirectory.\DIRECTORY_SEPARATOR.'fileN.jpg', true);
     }
 
+    /**
+     * @throws Exception
+     */
     protected function cleanDatasets(): void
     {
         $eventsConfig = $this->configurationManager->load()->getSgEvents();
         $directory = $eventsConfig->getSgEventsFolder();
-        $calendarId = $eventsConfig->getSgCalendar();
+        $eventsConfig->getSgCalendar();
         $fileNamesToDelete = ['fileA.jpg', 'fileB.jpg', 'fileC.jpg', 'fileD.jpg', 'fileE.jpg', 'fileF.jpg', 'fileG.jpg', 'fileH.jpg', 'fileI.jpg', 'fileJ.jpg', 'fileK.jpg', 'fileL.jpg', 'fileM.jpg', 'fileN.jpg'];
         foreach ($fileNamesToDelete as $filenameToDelete) {
-            $objFile = new \Contao\File($directory.\DIRECTORY_SEPARATOR.$filenameToDelete);
+            $objFile = new File($directory.\DIRECTORY_SEPARATOR.$filenameToDelete);
             if ($objFile->exists()) {
                 $objFile->delete();
             }
@@ -208,19 +215,22 @@ class Dataset extends ConfigurationStep
 
         $eventsAliasesToDelete = ['event-test-a', 'event-test-b', 'évènement-c', 'évènement-d', 'évènement-e', 'évènement-f', 'évènement-g', 'évènement-h', 'évènement-i', 'évènement-j', 'évènement-k', 'évènement-l', 'évènement-m', 'évènement-n', 'évènement-o', 'évènement-p', 'évènement-q', 'évènement-r', 'event-test-a-2', 'event-test-b-2', 'évènement-c-2', 'évènement-d-2', 'évènement-e-2', 'évènement-f-2', 'évènement-g-2', 'évènement-h-2', 'évènement-i-2', 'évènement-j-2', 'évènement-k-2', 'évènement-l-2', 'évènement-m-2', 'évènement-n-2', 'évènement-o-2', 'évènement-p-2', 'évènement-q-2', 'évènement-r-2'];
         foreach ($eventsAliasesToDelete as $eventsAliasToDelete) {
-            $objNews = \Contao\CalendarEventsModel::findOneByAlias($eventsAliasToDelete);
+            $objNews = CalendarEventsModel::findOneByAlias($eventsAliasToDelete);
             if ($objNews) {
                 $objNews->delete();
             }
         }
     }
 
+    /**
+     * @throws Exception
+     */
     protected function copyFiles(array $filenames): void
     {
         $eventsConfig = $this->configurationManager->load()->getSgEvents();
         $destinationDirectory = $eventsConfig->getSgEventsFolder();
         foreach ($filenames as $filenameToCopy) {
-            $objFile = new \Contao\File($this->sourceDirectory.\DIRECTORY_SEPARATOR.$filenameToCopy);
+            $objFile = new File($this->sourceDirectory.\DIRECTORY_SEPARATOR.$filenameToCopy);
             if (!$objFile->copyTo($destinationDirectory.\DIRECTORY_SEPARATOR.$filenameToCopy)) {
                 throw new Exception($this->translator->trans('WEMSG.DIRECTORIESSYNCHRONIZER.error', [$this->sourceDirectory.\DIRECTORY_SEPARATOR.$filenameToCopy, $destinationDirectory.\DIRECTORY_SEPARATOR.$filenameToCopy], 'contao_default'));
             }
@@ -230,15 +240,12 @@ class Dataset extends ConfigurationStep
     protected function createOrUpdateCalendarEvent(int $pid, string $title, string $alias, int $author, $startDate, $startTime, string $teaser, string $location, string $fileSRC, bool $published): void
     {
         $singleSRC = $fileSRC;
-        if (!empty($fileSRC)) {
-            $objFile = \Contao\FilesModel::findByPath($fileSRC);
-            if ($objFile) {
-                $singleSRC = $objFile->uuid;
-            } else {
-                $singleSRC = null;
-            }
+        if ($fileSRC !== '' && $fileSRC !== '0') {
+            $objFile = FilesModel::findByPath($fileSRC);
+            $singleSRC = $objFile ? $objFile->uuid : null;
         }
-        $objCalendarEvent = \Contao\CalendarEventsModel::findOneByAlias($alias) ?? new \Contao\CalendarEventsModel();
+
+        $objCalendarEvent = CalendarEventsModel::findOneByAlias($alias) ?? new CalendarEventsModel();
         $objCalendarEvent->pid = $pid;
         $objCalendarEvent->title = $title;
         $objCalendarEvent->headline = $title;
@@ -263,7 +270,7 @@ class Dataset extends ConfigurationStep
         $objCalendarEvent->save();
     }
 
-    protected function getLoremIpsum(int $length)
+    protected function getLoremIpsum(int $length): string
     {
         return substr('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam at semper sapien. Vivamus ac consequat ligula. Suspendisse dapibus nisi laoreet, porta nisl eget, ornare neque. Aliquam eu ex molestie, rhoncus tortor sed, pellentesque nisi. Donec auctor venenatis sapien, fermentum consequat lorem placerat sit amet. Maecenas ac placerat tellus. Nulla nunc mi, tempus non mollis vitae, venenatis sed purus. Sed eu velit imperdiet, cursus libero et, porttitor risus. Suspendisse potenti. Vestibulum eget nisl lectus. Vestibulum eu interdum tellus, nec rhoncus augue. Ut orci justo, feugiat ut nunc tristique, faucibus consequat quam. Fusce dignissim sagittis lectus, non placerat odio porttitor vitae. Curabitur suscipit erat et dolor hendrerit commodo. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc a elit condimentum, semper felis ut, mattis justo.', 0, $length);
     }

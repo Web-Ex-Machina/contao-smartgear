@@ -18,6 +18,7 @@ use Contao\ArticleModel;
 use Contao\CalendarModel;
 use Contao\ContentModel;
 use Contao\FilesModel;
+use Contao\Folder;
 use Contao\Input;
 use Contao\ModuleModel;
 use Contao\PageModel;
@@ -40,31 +41,21 @@ use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class General extends ConfigurationStep
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var CommandUtil */
-    protected $commandUtil;
-    /** @var DirectoriesSynchronizer */
-    protected $leafletDirectorySynchronizer;
+
+
 
     public function __construct(
         string $module,
         string $type,
-        TranslatorInterface $translator,
-        ConfigurationManager $configurationManager,
-        CommandUtil $commandUtil,
-        DirectoriesSynchronizer $leafletDirectorySynchronizer
+        protected TranslatorInterface $translator,
+        protected ConfigurationManager $configurationManager,
+        protected CommandUtil $commandUtil,
+        protected DirectoriesSynchronizer $leafletDirectorySynchronizer
     ) {
         parent::__construct($module, $type);
-        $this->translator = $translator;
-        $this->configurationManager = $configurationManager;
-        $this->commandUtil = $commandUtil;
-        $this->leafletDirectorySynchronizer = $leafletDirectorySynchronizer;
 
         $this->title = $this->translator->trans('WEMSG.EVENTS.INSTALL_GENERAL.title', [], 'contao_default');
-        /** @var EventsConfig */
+        /** @var EventsConfig $config */
         $config = $this->configurationManager->load()->getSgEvents();
 
         $this->addTextField('calendarTitle', $this->translator->trans('WEMSG.EVENTS.INSTALL_GENERAL.calendarTitle', [], 'contao_default'), $config->getSgCalendarTitle(), true);
@@ -80,21 +71,28 @@ class General extends ConfigurationStep
         $this->addCheckboxField('expertMode', $this->translator->trans('WEMSG.EVENTS.INSTALL_GENERAL.expertMode', [], 'contao_default'), '1', EventsConfig::MODE_EXPERT === $config->getSgMode());
     }
 
+    /**
+     * @throws Exception
+     */
     public function isStepValid(): bool
     {
         // check if the step is correct
         if (null === Input::post('calendarTitle', null)) {
             throw new Exception($this->translator->trans('WEMSG.EVENTS.INSTALL_GENERAL.calendarTitleMissing', [], 'contao_default'));
         }
+
         if (null === Input::post('eventsListPerPage', null)) {
             throw new Exception($this->translator->trans('WEMSG.EVENTS.INSTALL_GENERAL.eventsListPerPageMissing', [], 'contao_default'));
         }
+
         if (0 > (int) Input::post('eventsListPerPage')) {
             throw new Exception($this->translator->trans('WEMSG.EVENTS.INSTALL_GENERAL.eventsListPerPageTooLow', [], 'contao_default'));
         }
+
         if (null === Input::post('pageTitle', null)) {
             throw new Exception($this->translator->trans('WEMSG.EVENTS.INSTALL_GENERAL.pageTitleMissing', [], 'contao_default'));
         }
+
         if (null === Input::post('eventsFolder', null)) {
             throw new Exception($this->translator->trans('WEMSG.EVENTS.INSTALL_GENERAL.eventsFolderMissing', [], 'contao_default'));
         }
@@ -120,11 +118,14 @@ class General extends ConfigurationStep
         $this->commandUtil->executeCmdPHP('contao:symlinks');
     }
 
+    /**
+     * @throws Exception
+     */
     public function updateUserGroups(bool $expertMode): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var EventsConfig */
+
         $eventsConfig = $config->getSgEvents();
 
         $this->updateUserGroup(UserGroupModel::findOneById($config->getSgUserGroupRedactors()), $expertMode, $eventsConfig);
@@ -133,9 +134,9 @@ class General extends ConfigurationStep
 
     protected function updateModuleConfiguration(): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var EventsConfig */
+
         $eventsConfig = $config->getSgEvents();
 
         $eventsConfig
@@ -153,17 +154,20 @@ class General extends ConfigurationStep
         $this->configurationManager->save($config);
     }
 
+    /**
+     * @throws Exception
+     */
     protected function createFolder(): void
     {
-        $objFolder = new \Contao\Folder(Input::post('eventsFolder', null));
+        $objFolder = new Folder(Input::post('eventsFolder', null));
         $objFolder->unprotect();
     }
 
     protected function createPage(): PageModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var EventsConfig */
+
         $eventsConfig = $config->getSgEvents();
 
         $rootPage = PageModel::findById($config->getSgPageRoot());
@@ -188,9 +192,9 @@ class General extends ConfigurationStep
 
     protected function createArticle(PageModel $page): ArticleModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var EventsConfig */
+
         $eventsConfig = $config->getSgEvents();
 
         $article = ArticleModel::findById($eventsConfig->getSgArticle());
@@ -206,9 +210,9 @@ class General extends ConfigurationStep
 
     protected function createCalendar(PageModel $page): CalendarModel
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var EventsConfig */
+
         $eventsConfig = $config->getSgEvents();
 
         $objUserGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
@@ -229,9 +233,9 @@ class General extends ConfigurationStep
 
     protected function createModules(PageModel $page, CalendarModel $calendar): array
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var EventsConfig */
+
         $eventsConfig = $config->getSgEvents();
 
         $moduleReader = new ModuleModel();
@@ -318,17 +322,12 @@ class General extends ConfigurationStep
 
     protected function fillArticle(PageModel $page, ArticleModel $article, array $modules): array
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
         $eventsConfig = $config->getSgEvents();
 
         $list = ContentModel::findById($eventsConfig->getSgContentList());
-        $list = ContentUtil::createContent($article, array_merge([
-            'type' => 'module',
-            'pid' => $article->id,
-            'ptable' => 'tl_article',
-            'module' => $modules['list']->id,
-        ], ['id' => null !== $list ? $list->id : null]));
+        $list = ContentUtil::createContent($article, ['type' => 'module', 'pid' => $article->id, 'ptable' => 'tl_article', 'module' => $modules['list']->id, 'id' => null !== $list ? $list->id : null]);
 
         $article->save();
 
@@ -337,6 +336,9 @@ class General extends ConfigurationStep
         return ['list' => $list];
     }
 
+    /**
+     * @throws Exception
+     */
     protected function importLeaflet(): void
     {
         $this->leafletDirectorySynchronizer->synchronize(true);
@@ -344,9 +346,9 @@ class General extends ConfigurationStep
 
     protected function updateModuleConfigurationAfterGenerations(PageModel $page, ArticleModel $article, CalendarModel $calendar, array $modules, array $contents): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
-        /** @var EventsConfig */
+
         $eventsConfig = $config->getSgEvents();
 
         $eventsConfig
@@ -390,12 +392,11 @@ class General extends ConfigurationStep
         $objUserGroup->save();
     }
 
-    private function setEventConfigKey(string $key, $value): void
+    private function setEventConfigKey(string $key, int $value): void
     {
-        /** @var CoreConfig */
+        /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
 
-        /** @var EventsConfig */
         $eventsConfig = $config->getSgEvents();
 
         $eventsConfig->{$key}($value);
