@@ -24,10 +24,10 @@ use WEM\SmartgearBundle\Migrations\V1\Y0\Z0\MigrationAbstract;
 
 class PlaceholderMigration extends MigrationAbstract
 {
-    protected $name;
-    protected $description;
-    protected $version;
-    protected $translation_key = 'WEMSG.MIGRATIONS.PLACEHOLDER';
+    protected string $name;
+    protected string $description;
+    protected string $version;
+    protected string $translation_key = 'WEMSG.MIGRATIONS.PLACEHOLDER';
 
     public function __construct(
         Connection $connection,

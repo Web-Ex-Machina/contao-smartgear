@@ -38,6 +38,7 @@ class PageUtil
         } else {
             $objPage = new PageModel();
         }
+
         $objPage->tstamp = time();
         $objPage->pid = $intPid;
         if (\array_key_exists('sorting', $arrData)) {
@@ -108,7 +109,7 @@ class PageUtil
     public static function createPageHome(string $strTitle, int $pid, ?array $arrData = []): PageModel
     {
         $arrData = array_merge([
-            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'sorting' => self::getNextAvailablePageSortingByParentPage($pid),
             'alias' => 'index',
             'sitemap' => 'map_default',
             'hide' => 1,
@@ -120,7 +121,7 @@ class PageUtil
     public static function createPage404(string $strTitle, int $pid, ?array $arrData = []): PageModel
     {
         $arrData = array_merge([
-            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'sorting' => self::getNextAvailablePageSortingByParentPage($pid),
             'sitemap' => 'map_default',
             'hide' => 1,
             'type' => 'error_404',
@@ -132,7 +133,7 @@ class PageUtil
     public static function createPageLegalNotice(string $strTitle, int $pid, ?array $arrData = []): PageModel
     {
         $arrData = array_merge([
-            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'sorting' => self::getNextAvailablePageSortingByParentPage($pid),
             'sitemap' => 'map_default',
             'hide' => 1,
         ], $arrData);
@@ -143,7 +144,7 @@ class PageUtil
     public static function createPagePrivacyPolitics(string $strTitle, int $pid, ?array $arrData = []): PageModel
     {
         $arrData = array_merge([
-            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'sorting' => self::getNextAvailablePageSortingByParentPage($pid),
             'sitemap' => 'map_default',
             'hide' => 1,
         ], $arrData);
@@ -154,7 +155,7 @@ class PageUtil
     public static function createPageSitemap(string $strTitle, int $pid, ?array $arrData = []): PageModel
     {
         $arrData = array_merge([
-            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'sorting' => self::getNextAvailablePageSortingByParentPage($pid),
             'sitemap' => 'map_default',
             // 'description' => sprintf($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageSitemapDescription'], $config->getSgWebsiteTitle()),
             'hide' => 1,
@@ -166,7 +167,7 @@ class PageUtil
     public static function createPageFaq(string $strTitle, int $pid, ?array $arrData = []): PageModel
     {
         $arrData = array_merge([
-            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'sorting' => self::getNextAvailablePageSortingByParentPage($pid),
             // 'sitemap' => 'map_default',
             'robots' => 'index,follow',
             'type' => 'regular',
@@ -179,7 +180,7 @@ class PageUtil
     public static function createPageEvents(string $strTitle, int $pid, ?array $arrData = []): PageModel
     {
         $arrData = array_merge([
-            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'sorting' => self::getNextAvailablePageSortingByParentPage($pid),
             // 'layout' => $rootPage->layout,
             // 'title' => $eventsConfig->getSgPageTitle(),
             'robots' => 'index,follow',
@@ -193,7 +194,7 @@ class PageUtil
     public static function createPageBlog(string $strTitle, int $pid, ?array $arrData = []): PageModel
     {
         $arrData = array_merge([
-            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'sorting' => self::getNextAvailablePageSortingByParentPage($pid),
             'robots' => 'index,follow',
             'type' => 'regular',
             'published' => 1,
@@ -206,7 +207,7 @@ class PageUtil
     public static function createPageFormContact(string $strTitle, int $pid, ?array $arrData = []): PageModel
     {
         $arrData = array_merge([
-            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'sorting' => self::getNextAvailablePageSortingByParentPage($pid),
             'type' => 'regular',
             'robots' => 'index,follow',
             // 'description' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormDescription', [$formContactConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
@@ -219,7 +220,7 @@ class PageUtil
     public static function createPageFormContactSent(string $strTitle, int $pid, ?array $arrData = []): PageModel
     {
         $arrData = array_merge([
-            'sorting' => self::getNextAvailablePageSortingByParentPage((int) $pid),
+            'sorting' => self::getNextAvailablePageSortingByParentPage($pid),
             'type' => 'regular',
             'robots' => 'noindex,nofollow',
             // 'description' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormSentDescription', [$formContactConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
@@ -274,7 +275,7 @@ class PageUtil
         $objArticle = ArticleUtil::createArticle($objPage);
 
         // Create the content
-        $objContent = ContentUtil::createContent($objArticle, ['text' => $strText, 'headline' => $arrHl]);
+        ContentUtil::createContent($objArticle, ['text' => $strText, 'headline' => $arrHl]);
 
         // Return the page ID
         return $objPage->id;
@@ -293,11 +294,13 @@ class PageUtil
         if (!$pidPage) {
             return 128;
         }
+
         $pages = PageModel::findBy('pid', $parentPageId, ['order' => 'sorting DESC']);
         if (!$pages) {
             // return (int) $pidPage->sorting + 128;
             return 128;
         }
+
         $objPage = $pages->first()->current();
 
         return (int) $objPage->sorting + 128;
@@ -322,6 +325,7 @@ class PageUtil
             // return (int) $rootPage->sorting + 128;
             return 128;
         }
+
         $objPage = $pages->first()->current();
 
         return (int) $objPage->sorting + 128;

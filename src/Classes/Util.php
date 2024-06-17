@@ -37,24 +37,20 @@ class Util
 {
     /**
      * Store the path to the config file.
-     *
-     * @var string
      */
-    protected static $strConfigPath = 'assets/smartgear/config.json';
+    protected static string $strConfigPath = 'assets/smartgear/config.json';
 
     /**
      * Permissions cache system.
-     *
-     * @var array
      */
-    protected static $arrContaoPermissions;
+    protected static array $arrContaoPermissions;
 
     /**
      * Extract colors used in Framway.
      *
-     * @return [Array] [Framway colors]
+     * @return array Framway colors
      */
-    public static function getDefaultColors()
+    public static function getDefaultColors(): array
     {
         return [
             '' => ['label' => 'Par défaut', 'hexa' => ''], 'blue' => ['label' => 'Bleu (#004C79)', 'hexa' => '004C79'], 'darkblue' => ['label' => 'Bleu foncé (#0a1d29)', 'hexa' => '0a1d29'], 'green' => ['label' => 'Vert (#5cb85c)', 'hexa' => '5cb85c'], 'orange' => ['label' => 'Rouge (#DC6053)', 'hexa' => 'DC6053'], 'gold' => ['label' => 'Doré (#edbe5f)', 'hexa' => 'edbe5f'], 'black' => ['label' => 'Noir (#000000)', 'hexa' => '000000'], 'blacklight' => ['label' => 'Noir 90% (#111414)', 'hexa' => '111414'], 'blacklighter' => ['label' => 'Noir 80% (#222222)', 'hexa' => '222222'], 'greystronger' => ['label' => 'Noir 70% (#424041)', 'hexa' => '424041'], 'greystrong' => ['label' => 'Noir 60% (#535052)', 'hexa' => '535052'], 'grey' => ['label' => 'Gris (#7A7778)', 'hexa' => '7A7778'], 'greylight' => ['label' => 'Gris 50% (#DDDDDD)', 'hexa' => 'DDDDDD'], 'greylighter' => ['label' => 'Gris 25% (#EEEEEE)', 'hexa' => 'EEEEEE'], 'white' => ['label' => 'Blanc (#ffffff)', 'hexa' => 'ffffff'], 'none' => ['label' => 'Transparent', 'hexa' => ''],
@@ -64,240 +60,195 @@ class Util
     /**
      * Extract colors used in Framway.
      *
-     * @param [String] $strFWTheme [Get the colors of a specific theme]
+     * @param string $table
+     * @param int $id
+     * @param ?string $strFWTheme Get the colors of a specific theme
      *
-     * @return [Array] [Framway colors]
+     * @return array Framway colors
      *
      * @todo Find a way to add friendly names to the colors retrieved
      * @todo Maybe store these colors into a file to avoid load/format a shitload of stuff ?
      */
     public static function getFramwayColors(string $table, int $id, ?string $strFWTheme = ''): array
     {
-        try {
-            /** @var UtilFramway */
-            $framwayUtil = System::getContainer()->get('smartgear.classes.util_framway');
-
-            $objConfiguration = ConfigurationUtil::findConfigurationForItem($table, $id);
-            $fwPath = $objConfiguration ? $objConfiguration->framway_path : \WEM\SmartgearBundle\Model\Configuration\Configuration::DEFAULT_FRAMWAY_PATH;
-
-            $colors = empty($strFWTheme) ? $framwayUtil->getCombinedColors($fwPath) : $framwayUtil->getThemeColors($fwPath, $strFWTheme);
-            $return = [];
-
-            foreach ($colors as $label => $hexa) {
-                $return[$label] = ['label' => trim($label), 'hexa' => trim(str_replace('#', '', $hexa))];
-            }
-
-            return $return;
-        } catch (Exception $e) {
-            throw $e;
+        $framwayUtil = System::getContainer()->get('smartgear.classes.util_framway');
+        $objConfiguration = ConfigurationUtil::findConfigurationForItem($table, $id);
+        $fwPath = $objConfiguration ? $objConfiguration->framway_path : \WEM\SmartgearBundle\Model\Configuration\Configuration::DEFAULT_FRAMWAY_PATH;
+        $colors = $strFWTheme === null || $strFWTheme === '' || $strFWTheme === '0' ? $framwayUtil->getCombinedColors($fwPath) : $framwayUtil->getThemeColors($fwPath, $strFWTheme);
+        $return = [];
+        foreach ($colors as $label => $hexa) {
+            $return[$label] = ['label' => trim($label), 'hexa' => trim(str_replace('#', '', $hexa))];
         }
+        return $return;
     }
 
     /**
      * Get available colors in Smartgear.
      *
-     * @param [String] $strFor     [Format wanted]
-     * @param [String] $strFWTheme [Framway theme wanted]
+     * @param string $table
+     * @param int $id
+     * @param string $strFor Format wanted
+     * @param ?string $strFWTheme Framway theme wanted
      *
-     * @return [Array] An Array of classes / color names
+     * @return array|false|string An Array of classes / color names
      */
-    public static function getSmartgearColors(string $table, int $id, $strFor = 'rsce', $strFWTheme = '')
+    public static function getSmartgearColors(string $table, int $id, string $strFor = 'rsce', ?string $strFWTheme = ''): array|false|string
     {
         try {
-            try {
-                // Extract colors from installed Framway
-                $arrColors = self::getFramwayColors($table, $id, $strFWTheme);
-            } catch (\Exception $e) {
-                System::getContainer()
-                    ->get('monolog.logger.contao')
-                    ->log(
-                        LogLevel::ERROR,
-                        'Error when trying to get Framway Colors : '.$e->getMessage(),
-                        ['contao' => new ContaoContext(__METHOD__, 'SMARTGEAR')]
-                    )
-                ;
-                $arrColors = self::getDefaultColors();
-            }
-
-            // Depending on who asks the array, we will need a specific format
-            $colors = [];
-            switch ($strFor) {
-                case 'tinymce':
-                    foreach ($arrColors as $k => $c) {
-                        if ('' === $k) {
-                            continue;
-                        }
-
-                        $colors[] = $c['hexa'];
-                        $colors[] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
-                        ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
-                        : $c['label']
-                        ;
-                    }
-                    $colors = json_encode($colors);
-                    break;
-
-                case 'rsce-ft':
-                    foreach ($arrColors as $k => $c) {
-                        if ('' === $k) {
-                            $colors[$k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
-                        ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
-                        : $c['label']
-                        ;
-                        } else {
-                            $colors['ft-'.$k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
-                        ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
-                        : $c['label']
-                        ;
-                        }
-                    }
-                    $colors = [
-                        $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['meaningfulLabel'] => [
-                            'ft-primary' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['primary'],
-                            'ft-secondary' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['secondary'],
-                            'ft-success' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['success'],
-                            'ft-error' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['error'],
-                            'ft-warning' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['warning'],
-                        ],
-                        $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['rawLabel'] => $colors,
-                    ];
-                    break;
-
-                case 'rsce':
-                default:
-                    foreach ($arrColors as $k => $c) {
-                        $colors[$k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
-                        ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
-                        : $c['label']
-                        ;
-                    }
-                    $colors = [
-                        $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['meaningfulLabel'] => [
-                            'primary' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['primary'],
-                            'secondary' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['secondary'],
-                            'success' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['success'],
-                            'error' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['error'],
-                            'warning' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['warning'],
-                        ],
-                        $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['rawLabel'] => $colors,
-                    ];
-            }
-
-            return $colors;
-        } catch (Exception $e) {
-            throw $e;
+            // Extract colors from installed Framway
+            $arrColors = self::getFramwayColors($table, $id, $strFWTheme);
+        } catch (\Exception $e) {
+            System::getContainer()
+                ->get('monolog.logger.contao')
+                ->log(
+                    LogLevel::ERROR,
+                    'Error when trying to get Framway Colors : '.$e->getMessage(),
+                    ['contao' => new ContaoContext(__METHOD__, 'SMARTGEAR')]
+                )
+            ;
+            $arrColors = self::getDefaultColors();
         }
+        // Depending on who asks the array, we will need a specific format
+        $colors = [];
+        switch ($strFor) {
+            case 'tinymce':
+                foreach ($arrColors as $k => $c) {
+                    if ('' === $k) {
+                        continue;
+                    }
+
+                    $colors[] = $c['hexa'];
+                    $colors[] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
+                    ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
+                    : $c['label']
+                    ;
+                }
+
+                $colors = json_encode($colors);
+                break;
+
+            case 'rsce-ft':
+                foreach ($arrColors as $k => $c) {
+                    if ('' === $k) {
+                        $colors[$k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
+                    ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
+                    : $c['label']
+                    ;
+                    } else {
+                        $colors['ft-'.$k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
+                    ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
+                    : $c['label']
+                    ;
+                    }
+                }
+
+                $colors = [
+                    $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['meaningfulLabel'] => [
+                        'ft-primary' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['primary'],
+                        'ft-secondary' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['secondary'],
+                        'ft-success' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['success'],
+                        'ft-error' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['error'],
+                        'ft-warning' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['warning'],
+                    ],
+                    $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['rawLabel'] => $colors,
+                ];
+                break;
+
+            case 'rsce':
+            default:
+                foreach ($arrColors as $k => $c) {
+                    $colors[$k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
+                    ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
+                    : $c['label']
+                    ;
+                }
+
+                $colors = [
+                    $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['meaningfulLabel'] => [
+                        'primary' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['primary'],
+                        'secondary' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['secondary'],
+                        'success' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['success'],
+                        'error' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['error'],
+                        'warning' => &$GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['warning'],
+                    ],
+                    $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['rawLabel'] => $colors,
+                ];
+        }
+        return $colors;
     }
 
     /**
      * Find and Create an Object, depending on type and module.
      *
-     * @param [String] $strType   [Type / Folder]
-     * @param [String] $strModule [Class / File]
+     * @param string $strType   Type / Folder
+     * @param string $strModule Class / File
      *
-     * @return [Object] [Object of the class]
+     * @throws Exception
      */
-    public static function findAndCreateObject($strType, $strModule = '')
+    public static function findAndCreateObject(string $strType,string $strModule = ''): string
     {
-        try {
-            // If module is missing, try to explode strType
-            if ('' === $strModule && str_contains((string) $strType, '_')) {
-                $arrObject = explode('_', (string) $strType);
-                $strType = $arrObject[0];
-                $strModule = $arrObject[1];
-            }
-
-            // Parse the classname
-            $strClass = sprintf("WEM\SmartgearBundle\Backend\%s\%s", ucfirst((string) $strType), ucfirst((string) $strModule));
-
-            // Throw error if class doesn't exists
-            if (!class_exists($strClass)) {
-                throw new Exception(sprintf('Unknown class %s', $strClass));
-            }
-
-            // Create the object
-            return new $strClass();
-
-            // And return
-        } catch (Exception $e) {
-            throw $e;
+        if ('' === $strModule && str_contains((string) $strType, '_')) {
+            $arrObject = explode('_', (string) $strType);
+            $strType = $arrObject[0];
+            $strModule = $arrObject[1];
         }
+        // Parse the classname
+        $strClass = sprintf("WEM\SmartgearBundle\Backend\%s\%s", ucfirst((string) $strType), ucfirst((string) $strModule));
+        // Throw error if class doesn't exists
+        if (!class_exists($strClass)) {
+            throw new Exception(sprintf('Unknown class %s', $strClass));
+        }
+        // Create the object
+        return new $strClass();
+        // And return
     }
 
     /**
      * Get Smartgear Config.
-     *
-     * @return [Mixed] [Config value]
      */
     public static function loadSmartgearConfig(): CoreConfig
     {
-        try {
-            // $objFiles = \Files::getInstance();
-            // if (!file_exists(static::$strConfigPath)) {
-            //     $objFiles->mkdir(str_replace('/config.json', '', static::$strConfigPath));
-            //     $objFiles->fopen(static::$strConfigPath, 'wb');
-            // }
-            // $objFile = $objFiles->fopen(static::$strConfigPath, 'a');
-            // $arrConfig = [];
-
-            // // Get the config file
-            // if ($strConfig = file_get_contents(static::$strConfigPath)) {
-            //     $arrConfig = (array) json_decode($strConfig);
-            // }
-
-            // // And return the entire config, updated
-            // return $arrConfig;
-            $configManager = System::getContainer()->get('smartgear.config.manager.core');
-
-            return $configManager->load();
-        } catch (Exception $e) {
-            throw $e;
-        }
+        $configManager = System::getContainer()->get('smartgear.config.manager.core');
+        return $configManager->load();
     }
 
     /**
      * Update Smartgear Config.
      *
-     * @param [Array] $arrVars [Key/Value Array]
+     * @param array $arrVars [Key/Value Array]
      *
      * @deprecated
      */
-    public static function updateConfig($arrVars)
+    public static function updateConfig(array $arrVars): array
     {
-        try {
-            $objFiles = Files::getInstance();
-            if (!file_exists(static::$strConfigPath)) {
-                $objFiles->mkdir(str_replace('/config.json', '', static::$strConfigPath));
-                $objFiles->fopen(static::$strConfigPath, 'wb');
-            }
-            $strConfig = file_get_contents(static::$strConfigPath);
-            $arrConfig = [];
-
-            // Decode the config
-            if ($strConfig) {
-                $arrConfig = (array) json_decode($strConfig);
-            }
-
-            // Update the config
-            foreach ($arrVars as $strKey => $varValue) {
-                // Make sure arrays are converted in varValues (for blob compatibility)
-                if (\is_array($varValue)) {
-                    $varValue = serialize($varValue);
-                }
-
-                // And update the global array
-                $arrConfig[$strKey] = $varValue;
-            }
-
-            // Open and update the config file
-            $objFile = $objFiles->fopen(static::$strConfigPath, 'w');
-            $objFiles->fputs($objFile, json_encode($arrConfig, \JSON_PRETTY_PRINT));
-
-            // And return the entire config, updated
-            return $arrConfig;
-        } catch (Exception $e) {
-            throw $e;
+        trigger_deprecation(package: "SmartGear", version: '1.0', message:"please dont Use");
+        $objFiles = Files::getInstance();
+        if (!file_exists(static::$strConfigPath)) {
+            $objFiles->mkdir(str_replace('/config.json', '', static::$strConfigPath));
+            $objFiles->fopen(static::$strConfigPath, 'wb');
         }
+        
+        $strConfig = file_get_contents(static::$strConfigPath);
+        $arrConfig = [];
+        // Decode the config
+        if ($strConfig) {
+            $arrConfig = (array) json_decode($strConfig);
+        }
+        // Update the config
+        foreach ($arrVars as $strKey => $varValue) {
+            // Make sure arrays are converted in varValues (for blob compatibility)
+            if (\is_array($varValue)) {
+                $varValue = serialize($varValue);
+            }
+
+            // And update the global array
+            $arrConfig[$strKey] = $varValue;
+        }
+        // Open and update the config file
+        $objFile = $objFiles->fopen(static::$strConfigPath, 'w');
+        $objFiles->fputs($objFile, json_encode($arrConfig, \JSON_PRETTY_PRINT));
+        // And return the entire config, updated
+        return $arrConfig;
     }
 
     /**
@@ -307,72 +258,49 @@ class Util
      */
     public static function resetConfig(): void
     {
-        try {
-            $objFiles = Files::getInstance();
-
-            // Open and update the config file
-            $objFile = $objFiles->fopen(static::$strConfigPath, 'w');
-            $objFiles->fputs($objFile, '{}');
-            $objFiles->fclose($objFile);
-        } catch (Exception $e) {
-            throw $e;
-        }
+        $objFiles = Files::getInstance();
+        // Open and update the config file
+        $objFile = $objFiles->fopen(static::$strConfigPath, 'w');
+        $objFiles->fputs($objFile, '{}');
+        $objFiles->fclose($objFile);
     }
 
     /**
      * Contao Friendly Base64 Converter to FileSystem.
      *
-     * @param [String]  $base64        [Base64 String to decode]
-     * @param [String]  $folder        [Folder name]
-     * @param [String]  $file          [File name]
-     * @param [Boolean] $blnReturnFile [Return the File Object if set to true]
-     *
-     * @return [Object] [File Object]
+     * @param string  $base64        [Base64 String to decode]
+     * @param string  $folder        [Folder name]
+     * @param string  $file          [File name]
+     * @param boolean $blnReturnFile [Return the File Object if set to true]
+     * @throws Exception
      */
-    public static function base64ToImage($base64, $folder, $file, $blnReturnFile = true)
+    public static function base64ToImage(string $base64, string $folder, string $file,bool $blnReturnFile = true): File|true
     {
-        try {
-            // split the string on commas
-            // $data[ 0 ] == "data:image/png;base64"
-            // $data[ 1 ] == <actual base64 string>
-            $data = explode(',', (string) $base64);
-            $ext = substr($data[0], strpos($data[0], '/') + 1, (strpos($data[0], ';') - strpos($data[0], '/') - 1));
-            $img = base64_decode($data[1], true);
-
-            if (!str_contains((string) Config::get('validImageTypes'), $ext)) {
-                throw new \Exception('Invalid image type : '.$ext);
-            }
-
-            // Determine a filename if absent
-            $path = $folder.'/'.$file.'.'.$ext;
-
-            // Create & Close the file to generate the Model, and then, reopen the file
-            // Because ->close() do not return the File object but true \o/
-            $objFile = new File($path);
-            $objFile->write($img);
-
-            if (!$objFile->close()) {
-                throw new \Exception(sprintf("The file %s hasn't been saved correctly", $path));
-            }
-
-            if ($blnReturnFile) {
-                return new File($path);
-            }
-
-            return true;
-        } catch (\Exception $e) {
-            throw $e;
+        $data = explode(',', (string) $base64);
+        $ext = substr((string) $data[0], strpos((string) $data[0], '/') + 1, (strpos((string) $data[0], ';') - strpos((string) $data[0], '/') - 1));
+        $img = base64_decode((string) $data[1], true);
+        if (!str_contains((string) Config::get('validImageTypes'), $ext)) {
+            throw new \Exception('Invalid image type : '.$ext);
         }
+        // Determine a filename if absent
+        $path = $folder.'/'.$file.'.'.$ext;
+        // Create & Close the file to generate the Model, and then, reopen the file
+        // Because ->close() do not return the File object but true \o/
+        $objFile = new File($path);
+        $objFile->write($img);
+        if (!$objFile->close()) {
+            throw new \Exception(sprintf("The file %s hasn't been saved correctly", $path));
+        }
+        if ($blnReturnFile) {
+            return new File($path);
+        }
+        return true;
     }
 
     /**
      * Return a list of files in a certain dir.
-     *
-     * @param string $strDir
-     *
-     * @return array
      */
-    public static function getFileList($strDir)
+    public static function getFileList(string $strDir): array
     {
         $result = [];
         $root = scandir($strDir);
@@ -380,11 +308,13 @@ class Util
             if ('.' === $value || '..' === $value) {
                 continue;
             }
-            if (is_file("$strDir/$value")) {
-                $result[] = "$strDir/$value";
+
+            if (is_file(sprintf('%s/%s', $strDir, $value))) {
+                $result[] = sprintf('%s/%s', $strDir, $value);
                 continue;
             }
-            foreach (static::getFileList("$strDir/$value") as $value) {
+
+            foreach (static::getFileList(sprintf('%s/%s', $strDir, $value)) as $value) {
                 $result[] = $value;
             }
         }
@@ -401,17 +331,18 @@ class Util
                 continue;
             }
 
-            if (is_dir("$strDir/$value")) {
+            if (is_dir(sprintf('%s/%s', $strDir, $value))) {
                 $files[$value] = [];
 
-                $filesInDir = scandir("$strDir/$value");
+                $filesInDir = scandir(sprintf('%s/%s', $strDir, $value));
                 foreach ($filesInDir as $subValue) {
-                    if (is_file("$strDir/$value/$subValue")) {
-                        $files[$value][] = "$strDir/$value/$subValue";
+                    if (is_file(sprintf('%s/%s/%s', $strDir, $value, $subValue))) {
+                        $files[$value][] = sprintf('%s/%s/%s', $strDir, $value, $subValue);
                         // continue;
                     }
                 }
             }
+
             // foreach (static::getFileList("$strDir/$value") as $value) {
             //     $result[] = $value;
             // }
@@ -464,10 +395,8 @@ class Util
 
     /**
      * Return current Smartgear version.
-     *
-     * @return [Float] Smartgear version
      */
-    public function getCurrentVersion()
+    public function getCurrentVersion(): string
     {
         $conf = self::loadSmartgearConfig();
 
@@ -477,48 +406,38 @@ class Util
     /**
      * Add permissions to user group.
      *
-     * @param String/Array $varPermission [Permission name / Array of permission names to add]
-     * @param int $intGroup [User group ID, if not specified, we'll take Smartgear default user group]
+     * @param string|array $varPermission [Permission name / Array of permission names to add]
+     * @param int|null $intGroup [User group ID, if not specified, we'll take Smartgear default user group]
      *
      * @return array [Permissions Array]
+     * @throws Exception
      */
-    public static function addPermissions($varPermission, $intGroup = null)
+    public static function addPermissions(string|array $varPermission, int $intGroup = null): array
     {
-        try {
-            // Retrieve usergroup existing permissions
-            $arrPermissions = [];
-            if (null === $intGroup) {
-                /** @var CoreConfig $config */
-                $conf = self::loadSmartgearConfig();
+        $arrPermissions = [];
+        if (null === $intGroup) {
+            $conf = self::loadSmartgearConfig();
 
-                // if ($conf['sgInstallUserGroup']) {
-                $objUserGroup = UserGroupModel::findOneById($conf->getSgUserGroupRedactors());
-            // }
-            } else {
-                $objUserGroup = UserGroupModel::findByPk($intGroup);
-            }
-
-            if ($objUserGroup) {
-                $arrPermissions = deserialize($objUserGroup->alexf) ?? [];
-            }
-
-            // Add the permissions
-            if (\is_array($varPermission)) {
-                foreach ($varPermission as $strPermission) {
-                    if (self::canAddPermission($strPermission) && !\in_array($strPermission, $arrPermissions, true)) {
-                        $arrPermissions[] = $strPermission;
-                    }
-                }
-            } else {
-                if (self::canAddPermission($varPermission) && !\in_array($varPermission, $arrPermissions, true)) {
-                    $arrPermissions[] = $varPermission;
-                }
-            }
-
-            return $arrPermissions;
-        } catch (\Exception $e) {
-            throw $e;
+            // if ($conf['sgInstallUserGroup']) {
+            $objUserGroup = UserGroupModel::findOneById($conf->getSgUserGroupRedactors());
+        // }
+        } else {
+            $objUserGroup = UserGroupModel::findByPk($intGroup);
         }
+        if ($objUserGroup) {
+            $arrPermissions = deserialize($objUserGroup->alexf) ?? [];
+        }
+        // Add the permissions
+        if (\is_array($varPermission)) {
+            foreach ($varPermission as $strPermission) {
+                if (self::canAddPermission($strPermission) && !\in_array($strPermission, $arrPermissions, true)) {
+                    $arrPermissions[] = $strPermission;
+                }
+            }
+        } elseif (self::canAddPermission($varPermission) && !\in_array($varPermission, $arrPermissions, true)) {
+            $arrPermissions[] = $varPermission;
+        }
+        return $arrPermissions;
     }
 
     /**
@@ -531,85 +450,73 @@ class Util
      */
     public static function removePermissions($varPermission, $intGroup = null)
     {
-        try {
-            // Retrieve usergroup existing permissions
-            $arrPermissions = [];
-            if (null === $intGroup) {
-                /** @var CoreConfig $config */
-                $conf = self::loadSmartgearConfig();
+        $arrPermissions = [];
+        if (null === $intGroup) {
+            $conf = self::loadSmartgearConfig();
 
-                if ($conf['sgInstallUserGroup']) {
-                    $objUserGroup = UserGroupModel::findByPk($conf->getSgUserGroupRedactors());
-                }
-            } else {
-                $objUserGroup = UserGroupModel::findByPk($intGroup);
+            if ($conf['sgInstallUserGroup']) {
+                $objUserGroup = UserGroupModel::findByPk($conf->getSgUserGroupRedactors());
             }
-
-            if ($objUserGroup) {
-                $arrPermissions = deserialize($objUserGroup->alexf);
-            }
-
-            // Add the permissions
-            if (\is_array($varPermission)) {
-                foreach ($varPermission as $strPermission) {
-                    if (\in_array($strPermission, $arrPermissions, true)) {
-                        unset($arrPermissions[array_search($strPermission, $arrPermissions, true)]);
-                    }
-                }
-            } else {
-                if (\in_array($varPermission, $arrPermissions, true)) {
-                    unset($arrPermissions[array_search($varPermission, $arrPermissions, true)]);
-                }
-            }
-
-            return $arrPermissions;
-        } catch (\Exception $e) {
-            throw $e;
+        } else {
+            $objUserGroup = UserGroupModel::findByPk($intGroup);
         }
+        if ($objUserGroup) {
+            $arrPermissions = deserialize($objUserGroup->alexf);
+        }
+        // Add the permissions
+        if (\is_array($varPermission)) {
+            foreach ($varPermission as $strPermission) {
+                if (\in_array($strPermission, $arrPermissions, true)) {
+                    unset($arrPermissions[array_search($strPermission, $arrPermissions, true)]);
+                }
+            }
+        } elseif (\in_array($varPermission, $arrPermissions, true)) {
+            unset($arrPermissions[array_search($varPermission, $arrPermissions, true)]);
+        }
+        return $arrPermissions;
     }
 
     public static function formatActions(array $arrUnformattedActions): array
     {
         $arrActions = [];
-        if (\is_array($arrUnformattedActions) && !empty($arrUnformattedActions)) {
-            foreach ($arrUnformattedActions as &$action) {
-                switch ($action['v']) {
-                    case 2:
-                        $arrAttributes = [];
-                        if ($action['attrs']) {
-                            if (!$action['attrs']['class']) {
-                                $action['attrs']['class'] = 'tl_submit';
-                            } elseif (!str_contains((string) $action['attrs']['class'], 'tl_submit')) {
-                                $action['attrs']['class'] .= ' tl_submit';
-                            }
-
-                            foreach ($action['attrs'] as $k => $v) {
-                                $arrAttributes[] = sprintf('%s="%s"', $k, $v);
-                            }
+        foreach ($arrUnformattedActions as &$action) {
+            switch ($action['v']) {
+                case 2:
+                    $arrAttributes = [];
+                    if ($action['attrs']) {
+                        if (!$action['attrs']['class']) {
+                            $action['attrs']['class'] = 'tl_submit';
+                        } elseif (!str_contains((string) $action['attrs']['class'], 'tl_submit')) {
+                            $action['attrs']['class'] .= ' tl_submit';
                         }
-                        $arrActions[] = sprintf(
-                            '<%s %s>%s</%s>',
-                            ($action['tag']) ?: 'button',
-                            (0 < \count($arrAttributes)) ? implode(' ', $arrAttributes) : '',
-                            ($action['text']) ?: 'text missing',
-                            ($action['tag']) ?: 'button'
-                        );
-                        break;
-                    default:
-                        $arrActions[] = sprintf(
-                            '<button type="submit" name="action" value="%s" class="tl_submit" %s>%s</button>',
-                            $action['action'],
-                            ($action['attributes']) ?: $action['attributes'],
-                            $action['label']
-                        );
-                }
+
+                        foreach ($action['attrs'] as $k => $v) {
+                            $arrAttributes[] = sprintf('%s="%s"', $k, $v);
+                        }
+                    }
+
+                    $arrActions[] = sprintf(
+                        '<%s %s>%s</%s>',
+                        ($action['tag']) ?: 'button',
+                        ([] !== $arrAttributes) ? implode(' ', $arrAttributes) : '',
+                        ($action['text']) ?: 'text missing',
+                        ($action['tag']) ?: 'button'
+                    );
+                    break;
+                default:
+                    $arrActions[] = sprintf(
+                        '<button type="submit" name="action" value="%s" class="tl_submit" %s>%s</button>',
+                        $action['action'],
+                        ($action['attributes']) ?: $action['attributes'],
+                        $action['label']
+                    );
             }
         }
 
         return $arrActions;
     }
 
-    public static function messagesToToastrCallbacksParameters(array $messages)
+    public static function messagesToToastrCallbacksParameters(array $messages): array
     {
         $callbacks = [];
         foreach ($messages as $message) {
@@ -618,25 +525,24 @@ class Util
                     $class = 'error';
                 break;
                 case 'tl_info':
+                case 'tl_new':
                     $class = 'info';
                 break;
                 case 'tl_confirm':
                     $class = 'success';
                 break;
-                case 'tl_new':
-                    $class = 'info';
-                break;
             }
+
             $callbacks[] = [$class, $message['text']];
         }
 
         return $callbacks;
     }
 
-    public static function humanReadableFilesize(int $size, ?int $precision = 2)
+    public static function humanReadableFilesize(int $size, ?int $precision = 2): string
     {
         for ($i = 0; ($size / 1024) > 0.9; $i++, $size /= 1024) {
-        }
+        } //TODO : Useless ??
 
         return round($size, $precision).['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'][$i];
     }
@@ -644,7 +550,7 @@ class Util
     public static function log($message, ?string $filename = 'debug.log'): void
     {
         $message = \is_string($message) ? $message : print_r($message, true);
-        file_put_contents(\Contao\System::getContainer()->getParameter('kernel.project_dir').'/vendor/webexmachina/contao-smartgear/'.$filename, $message.\PHP_EOL, \FILE_APPEND);
+        file_put_contents(System::getContainer()->getParameter('kernel.project_dir').'/vendor/webexmachina/contao-smartgear/'.$filename, $message.\PHP_EOL, \FILE_APPEND);
     }
 
     /**
@@ -665,6 +571,9 @@ class Util
         return sprintf('%02dm%02ds%03dms', $minutes, $seconds, $ms);
     }
 
+    /**
+     * @throws Exception
+     */
     public static function getLocalizedTemplateContent(string $tplPath, string $language, ?string $fallbackTplPath = null): string
     {
         $tplPath = str_replace(['{root}', '{lang}', '{public_or_web}'], [TL_ROOT, $language, self::getPublicOrWebDirectory()], $tplPath);
@@ -768,10 +677,10 @@ class Util
 
     public static function getCookieVisitorUniqIdHash(): ?string
     {
-        return \array_key_exists('wem_sg_visitor_uniq_id_hash', $_COOKIE) ? $_COOKIE['wem_sg_visitor_uniq_id_hash'] : null;
+        return $_COOKIE['wem_sg_visitor_uniq_id_hash'] ?? null;
     }
 
-    public static function transformHostnameForAirtableUse(string $hostname)
+    public static function transformHostnameForAirtableUse(string $hostname): string
     {
         return str_replace(['https://', 'www.'], '', $hostname);
     }
@@ -794,13 +703,11 @@ class Util
     public static function getAirtableClientsRef(array $hostingInformations): array
     {
         $clientsRef = [];
-        if (!empty($hostingInformations)) {
-            foreach ($hostingInformations as $hostname => $hostnameHostingInformations) {
-                if (!empty($hostnameHostingInformations['client_reference'])
-                    && '' !== $hostnameHostingInformations['client_reference'][0]
-                    ) {
-                    $clientsRef[] = $hostnameHostingInformations['client_reference'][0];
-                }
+        foreach ($hostingInformations as $hostnameHostingInformations) {
+            if (!empty($hostnameHostingInformations['client_reference'])
+                && '' !== $hostnameHostingInformations['client_reference'][0]
+                ) {
+                $clientsRef[] = $hostnameHostingInformations['client_reference'][0];
             }
         }
 
@@ -813,18 +720,23 @@ class Util
         if ($interval->y) {
             $result .= $interval->format('%y '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['year'.($interval->y > 1 ? 's' : '')]).' ');
         }
+
         if ($interval->m) {
             $result .= $interval->format('%m '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['month'.($interval->m > 1 ? 's' : '')]).' ');
         }
+
         if ($interval->d) {
             $result .= $interval->format('%d '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['day'.($interval->d > 1 ? 's' : '')]).' ');
         }
+
         if ($interval->h) {
             $result .= $interval->format('%h '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['hour'.($interval->h > 1 ? 's' : '')]).' ');
         }
+
         if ($interval->i) {
             $result .= $interval->format('%i '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['minute'.($interval->i > 1 ? 's' : '')]).' ');
         }
+
         if ($includeSeconds && $interval->s) {
             $result .= $interval->format('%s '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['second'.($interval->s > 1 ? 's' : '')]).' ');
         }
@@ -838,7 +750,7 @@ class Util
             return -1;
         }
 
-        if (\is_int($value) || preg_match('/^([0-9]*)$/', (string) $value)) {
+        if (\is_int($value) || preg_match('/^(\d*)$/', (string) $value)) {
             return (int) $value;
         }
 
@@ -865,16 +777,11 @@ class Util
      * Check if a permission can be added into.
      *
      * @param string $strPermission [Permission to add]
-     *
-     * @return bool
+     * @throws Exception
      */
-    private static function canAddPermission($strPermission)
+    private static function canAddPermission(string $strPermission): bool
     {
-        if (!\in_array($strPermission, self::getContaoPermissions(), true)) {
-            return false;
-        }
-
-        return true;
+        return \in_array($strPermission, self::getContaoPermissions(), true);
     }
 
     /**
@@ -883,8 +790,9 @@ class Util
      * @param bool $blnRefresh [description]
      *
      * @return array
+     * @throws Exception
      */
-    private static function getContaoPermissions($blnRefresh = false)
+    private static function getContaoPermissions(bool $blnRefresh = false): array
     {
         if (!static::$arrContaoPermissions || $blnRefresh) {
             Controller::loadDataContainer('tl_user_group');
@@ -894,20 +802,21 @@ class Util
             $arrContaoPermissions = $objClass->$stdMethod();
 
             // Format available permissions into one flat array
-            if (!\is_array($arrContaoPermissions) || empty($arrContaoPermissions)) {
+            if (!\is_array($arrContaoPermissions) || $arrContaoPermissions === []) {
                 throw new \Exception("Les permissions Contao n'ont pas été correctement récupérées");
             }
 
             $arrPermissions = [];
-            foreach ($arrContaoPermissions as $strTable => $arrContaoPermissions) {
-                if (!\is_array($arrContaoPermissions) || empty($arrContaoPermissions)) {
+            foreach ($arrContaoPermissions as $arrContaoPermissions) {
+                if (!\is_array($arrContaoPermissions) || $arrContaoPermissions === []) {
                     continue;
                 }
 
-                foreach ($arrContaoPermissions as $strPermission => $strLabel) {
+                foreach (array_keys($arrContaoPermissions) as $strPermission) {
                     $arrPermissions[] = $strPermission;
                 }
             }
+
             static::$arrContaoPermissions = $arrPermissions;
         }
 

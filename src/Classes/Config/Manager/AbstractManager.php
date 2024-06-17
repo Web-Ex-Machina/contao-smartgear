@@ -19,19 +19,16 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 abstract class AbstractManager implements ManagerInterface
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var string */
-    protected $configurationFilePath;
 
-    public function __construct(
-        TranslatorInterface $translator
-    ) {
-        $this->translator = $translator;
+    protected string $configurationFilePath;
+
+    public function __construct(protected TranslatorInterface $translator)
+    {
     }
 
     /**
      * Retrieve content from configuration file.
+     * @throws FileNotFoundException
      */
     protected function retrieveConfigurationFromFile(): string
     {

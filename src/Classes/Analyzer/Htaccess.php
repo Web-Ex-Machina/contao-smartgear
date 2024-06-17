@@ -17,25 +17,31 @@ namespace WEM\SmartgearBundle\Classes\Analyzer;
 class Htaccess
 {
     public const REWRITE_ENGINE_ON = 'RewriteEngine On';
+
     public const REWRITE_COND_HTTPS_1_OLD = 'RewriteCond %{HTTPS} off [OR]';
+
     public const REWRITE_COND_HTTPS_2_OLD = 'RewriteCond %{SERVER_PORT} 80 [OR]';
+
     public const REWRITE_COND_WWW_1_OLD = 'RewriteCond %{HTTP_HOST} !^www\. [NC]';
+
     public const REWRITE_COND_WWW_2_OLD = 'RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]';
+
     public const REWRITE_RULE_OLD = 'RewriteRule ^.*$ https://www.%1%{REQUEST_URI} [L,NE,R=301]'; // [L,NE,R=301]
 
     public const REWRITE_RULE_FW_ASSETS_OLD = 'RewriteRule ^(assets|bundles)/ - [ENV=CONTAO_ASSETS:true]';
+
     public const REWRITE_RULE_FW_ASSETS_NEW = 'RewriteRule ^(assets\/(?!framway).*|bundles)/ - [ENV=CONTAO_ASSETS:true]';
 
     public const REWRITE_COND_HTTPS = 'RewriteCond %{HTTPS} off';
+
     public const REWRITE_RULE_HTTPS = 'RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]';
+
     public const REWRITE_COND_WWW = 'RewriteCond %{HTTP_HOST} !^www\. [NC]';
+
     public const REWRITE_RULE_WWW = 'RewriteRule (.*) https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]';
 
-    protected $filepath;
-
-    public function __construct(string $htAccessFilePath)
+    public function __construct(protected string $filepath)
     {
-        $this->filepath = $htAccessFilePath;
     }
 
     public function hasRedirectToWwwAndHttps_OLD(): bool
@@ -52,6 +58,7 @@ class Htaccess
             if ($this->isComment($line)) {
                 continue;
             }
+
             if ($this->isLineARedirectionToHttps1_OLD($line)) {
                 $hasRewriteCondHttps1 = true;
             } elseif ($this->isLineARedirectionToHttps2_OLD($line)) {
@@ -81,6 +88,7 @@ class Htaccess
             if ($this->isComment($line)) {
                 continue;
             }
+
             if ($this->isLineARewriteCondHttps($line)) {
                 $hasRewriteCondHttps = true;
             } elseif ($this->isLineARewriteRuleHttps($line)) {
@@ -216,6 +224,7 @@ class Htaccess
             if ($this->isComment($line) && $this->isLineARewriteRuleFwAssetsOld($line)) {
                 $content[$index] = $this->uncomment($line);
             }
+
             if (!$this->isComment($line) && $this->isLineARewriteRuleFwAssetsNew($line)) {
                 unset($content[$index]);
             }

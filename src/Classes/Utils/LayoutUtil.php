@@ -46,7 +46,7 @@ class LayoutUtil
         $objLayout->tstamp = time();
 
         // Now we get the default values, get the arrData table
-        if (!empty($arrData)) {
+        if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
                 $objLayout->$k = $v;
             }
@@ -149,6 +149,7 @@ class LayoutUtil
         foreach ($arrReplace as $toReplace => $newValue) {
             $head = str_replace($toReplace, $newValue, $head);
         }
+
         // $head = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $head);
 
         return $head;
@@ -180,6 +181,7 @@ class LayoutUtil
                 $script = preg_replace('/\/\/ -- GTAG(.*)\/\/ -- \/GTAG/s', '', $script);
             break;
         }
+
         // $head = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $head);
 
         return $script;
@@ -203,7 +205,7 @@ class LayoutUtil
      */
     public static function mergeLayoutsModules(array $currentLayoutModules, array $defaultLayoutModules): array
     {
-        if (empty($currentLayoutModules)) {
+        if ($currentLayoutModules === []) {
             return $defaultLayoutModules;
         }
 
@@ -215,6 +217,7 @@ class LayoutUtil
                     break;
                 }
             }
+
             if (!$layoutMOduleDefaultFoundInLayoutModule) {
                 $currentLayoutModules[] = $layoutModuleDefault;
             }
@@ -343,7 +346,7 @@ class LayoutUtil
                 $firstMainColumnIndex ??= $index;
 
                 $objModule = ModuleModel::findById($layoutModule['mod']);
-                if (\in_array($objModule->type, ['breadcrumb'], true)) {
+                if ($objModule->type === 'breadcrumb') {
                     $previousBreadcrumbIndex = $index;
                     break;
                 }
@@ -353,17 +356,14 @@ class LayoutUtil
         if (null !== $previousBreadcrumbIndex) {
             $layoutModules[$previousBreadcrumbIndex]['mod'] = $moduleBreadcrumbId;
             $layoutModules[$previousBreadcrumbIndex]['enable'] = 1;
-        } else {
+        } elseif (null !== $firstMainColumnIndex) {
             // breadcrumb is first in main col
-            if (null !== $firstMainColumnIndex) {
-                $layoutModulesBefore = \array_slice($layoutModules, 0, $firstMainColumnIndex);
-                $layoutModulesAfter = \array_slice($layoutModules, $firstMainColumnIndex, null, true);
-                $layoutModulesBefore[] = ['mod' => $moduleBreadcrumbId, 'col' => 'main', 'enable' => 1];
-
-                $layoutModules = array_merge($layoutModulesBefore, $layoutModulesAfter);
-            } else {
-                $layoutModules[] = ['mod' => $moduleBreadcrumbId, 'col' => 'main', 'enable' => 1];
-            }
+            $layoutModulesBefore = \array_slice($layoutModules, 0, $firstMainColumnIndex);
+            $layoutModulesAfter = \array_slice($layoutModules, $firstMainColumnIndex, null, true);
+            $layoutModulesBefore[] = ['mod' => $moduleBreadcrumbId, 'col' => 'main', 'enable' => 1];
+            $layoutModules = array_merge($layoutModulesBefore, $layoutModulesAfter);
+        } else {
+            $layoutModules[] = ['mod' => $moduleBreadcrumbId, 'col' => 'main', 'enable' => 1];
         }
 
         $objLayout->modules = serialize($layoutModules);

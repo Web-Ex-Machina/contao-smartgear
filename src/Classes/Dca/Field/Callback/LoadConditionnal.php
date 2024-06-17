@@ -15,12 +15,14 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Classes\Dca\Field\Callback;
 
 use Contao\DataContainer;
+use Contao\FrontendUser;
+use Contao\ModulePersonalData;
 use WEM\PersonalDataManagerBundle\Dca\Field\Callback\Load as PdmCallback;
 
 class LoadConditionnal
 {
-    /** @var WEM\PersonalDataManagerBundle\Dca\Field\Callback\Load */
-    private $pdmCallback;
+    // TODO Entity Callback\Load ok ??
+    private PdmCallback|WEM\PersonalDataManagerBundle\Dca\Field\Callback\Load $pdmCallback;
 
     public function __construct(
         PdmCallback $pdmCallback,
@@ -32,6 +34,9 @@ class LoadConditionnal
         $this->pdmCallback->setFrontendField($this->frontendField)->setTable($this->table);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function __invoke()
     {
         if (2 === \func_num_args()) {
@@ -43,10 +48,13 @@ class LoadConditionnal
 
     public function invokeBackend($value, DataContainer $dc)
     {
-        return !(bool) $dc->activeRecord->contains_personal_data ? $value : $this->pdmCallback->__invoke(...\func_get_args());
+        return $dc->activeRecord->contains_personal_data ? $this->pdmCallback->__invoke(...\func_get_args()) : $value;
     }
 
-    public function invokeFrontend($value, \Contao\FrontendUser $user, \Contao\ModulePersonalData $module)
+    /**
+     * @throws \Exception
+     */
+    public function invokeFrontend($value, FrontendUser $user, ModulePersonalData $module)
     {
         return $this->pdmCallback->__invoke(...\func_get_args());
     }

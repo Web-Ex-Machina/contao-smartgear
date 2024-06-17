@@ -30,7 +30,7 @@ class ModuleUtil
         $objModule->pid = $pid;
 
         // Now we get the default values, get the arrData table
-        if (!empty($arrData)) {
+        if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
                 $objModule->$k = $v;
             }

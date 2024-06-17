@@ -20,20 +20,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DirectoriesSynchronizer
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var string */
-    protected $sourceDirectory;
-    /** @var string */
-    protected $destinationDirectory;
-    /** @var string */
-    protected $rootDir; // nedded 'cause Contao always prefix our paths with it ...
-    /** @var bool */
-    protected $manageSubfolders;
 
-    protected $filesToAdd = [];
-    protected $filesToDelete = [];
-    protected $filesToUpdate = [];
+    protected TranslatorInterface $translator;
+
+    protected array $filesToAdd = [];
+
+    protected array $filesToDelete = [];
+
+    protected array $filesToUpdate = [];
 
     /**
      * @param string $sourceDirectory      Path to source directory (without root path)
@@ -43,21 +37,18 @@ class DirectoriesSynchronizer
      */
     public function __construct(
         TranslatorInterface $translator,
-        string $sourceDirectory,
-        string $destinationDirectory,
-        string $rootDir,
-        bool $manageSubfolders
-    ) {
-        $this->rootDir = $rootDir; // must be first !!!
-        $this->manageSubfolders = $manageSubfolders;
-        $this->sourceDirectory = $sourceDirectory;
-        $this->destinationDirectory = $destinationDirectory;
+        protected string $sourceDirectory,
+        protected string $destinationDirectory,
+        protected string $rootDir,
+        protected bool $manageSubfolders)
+    {
     }
 
     /**
      * Synchronize folders.
      *
-     * @param bool|bool $withDeletions true to delete files in destination not present in source
+     * @param ?bool $withDeletions true to delete files in destination not present in source
+     * @throws Exception
      */
     public function synchronize(?bool $withDeletions = true): void
     {
@@ -91,7 +82,7 @@ class DirectoriesSynchronizer
         }
 
         if ($withDeletions && !empty($this->filesToDelete)) {
-            foreach ($this->filesToDelete as $relativePath => $realPath) {
+            foreach ($this->filesToDelete as $realPath) {
                 $objFile = new File($realPath);
                 $objFile->delete();
             }
@@ -123,22 +114,20 @@ class DirectoriesSynchronizer
 
     /**
      * @todo remove and find another way of doing it
-     *
-     * @return self
      */
-    public function setDestinationDirectory(string $destinationDirectory)
+    public function setDestinationDirectory(string $destinationDirectory): static
     {
         $this->destinationDirectory = $destinationDirectory;
 
         return $this;
     }
 
-    protected function getSourceDirectoryFiles()
+    protected function getSourceDirectoryFiles(): array
     {
         return $this->getFiles($this->rootDir.\DIRECTORY_SEPARATOR.$this->sourceDirectory, $this->manageSubfolders);
     }
 
-    protected function getDestinationDirectoryFiles()
+    protected function getDestinationDirectoryFiles(): array
     {
         return $this->getFiles($this->rootDir.\DIRECTORY_SEPARATOR.$this->destinationDirectory, $this->manageSubfolders);
     }
@@ -148,6 +137,7 @@ class DirectoriesSynchronizer
      *
      * @param array $sourceFiles      path from the "getFiles" method
      * @param array $destinationFiles path from the "getFiles" method
+     * @throws Exception
      */
     protected function checkFiles(array $sourceFiles, array $destinationFiles): void
     {
@@ -163,6 +153,7 @@ class DirectoriesSynchronizer
                 $this->filesToAdd[$relativePath] = $realPath;
             }
         }
+
         foreach ($destinationFiles as $relativePath => $realPath) {
             if (!\array_key_exists($relativePath, $sourceFiles)) {
                 $this->filesToDelete[$relativePath] = $realPath;
@@ -180,29 +171,23 @@ class DirectoriesSynchronizer
      */
     protected function getFiles(string $startPath, ?bool $blnGetSubFolders = true, ?string $relativePathFromStartPath = ''): array
     {
-        try {
-            $strBasePath = $startPath.$relativePathFromStartPath;
-            $arrFiles = is_dir($strBasePath) ? scandir($strBasePath) : [];
-            $arrPaths = [];
-
-            foreach ($arrFiles as $f) {
-                if ('.' === $f || '..' === $f) {
-                    continue;
-                }
-
-                $isFolder = is_dir($strBasePath.\DIRECTORY_SEPARATOR.$f);
-
-                if ($blnGetSubFolders && $isFolder) {
-                    $arrPaths = array_merge($arrPaths, $this->getFiles($startPath, $blnGetSubFolders, $relativePathFromStartPath.\DIRECTORY_SEPARATOR.$f));
-                } elseif (!$isFolder) {
-                    $arrPaths[$relativePathFromStartPath.\DIRECTORY_SEPARATOR.$f] = $this->stripRootPathFromPath($strBasePath.\DIRECTORY_SEPARATOR.$f);
-                }
+        $strBasePath = $startPath.$relativePathFromStartPath;
+        $arrFiles = is_dir($strBasePath) ? scandir($strBasePath) : [];
+        $arrPaths = [];
+        foreach ($arrFiles as $f) {
+            if ('.' === $f || '..' === $f) {
+                continue;
             }
 
-            return $arrPaths;
-        } catch (Exception $e) {
-            throw $e;
+            $isFolder = is_dir($strBasePath.\DIRECTORY_SEPARATOR.$f);
+
+            if ($blnGetSubFolders && $isFolder) {
+                $arrPaths = array_merge($arrPaths, $this->getFiles($startPath, $blnGetSubFolders, $relativePathFromStartPath.\DIRECTORY_SEPARATOR.$f));
+            } elseif (!$isFolder) {
+                $arrPaths[$relativePathFromStartPath.\DIRECTORY_SEPARATOR.$f] = $this->stripRootPathFromPath($strBasePath.\DIRECTORY_SEPARATOR.$f);
+            }
         }
+        return $arrPaths;
     }
 
     /**
@@ -213,21 +198,17 @@ class DirectoriesSynchronizer
      */
     protected function checkIfFilesAreDifferent(File $objFileA, File $objFileB): bool
     {
-        try {
-            if (!$objFileA->exists()) {
-                return true;
-            }
-            if (!$objFileB->exists()) {
-                return true;
-            }
-            if ($objFileA->hash !== $objFileB->hash) {
-                return true;
-            }
-
-            return false;
-        } catch (Exception $e) {
-            throw $e;
+        if (!$objFileA->exists()) {
+            return true;
         }
+        if (!$objFileB->exists()) {
+            return true;
+        }
+        if ($objFileA->hash !== $objFileB->hash) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

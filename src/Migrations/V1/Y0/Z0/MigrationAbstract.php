@@ -27,13 +27,12 @@ use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 abstract class MigrationAbstract extends BaseMigrationAbstract
 {
-    /** @var Connection */
-    protected $connection;
-    /** @var CoreConfigurationManager */
-    protected $coreConfigurationManager;
-    /** @var VersionComparator */
-    protected $versionComparator;
-    protected $translation_key = 'WEMSG.MIGRATIONS';
+    protected Connection $connection;
+
+    protected CoreConfigurationManager $coreConfigurationManager;
+
+    protected VersionComparator $versionComparator;
+    protected string $translation_key = 'WEMSG.MIGRATIONS';
 
     public function __construct(
         Connection $connection,

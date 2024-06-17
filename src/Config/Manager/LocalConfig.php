@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Config\Manager;
 
+use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
@@ -25,11 +26,9 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class LocalConfig extends AbstractManager implements ManagerYamlInterface
 {
-    /** @var ConfigInterface */
-    protected $configuration;
-    /** @var string */
-    protected $configurationFilePath;
-    protected $parser;
+    protected ConfigLocalConfig|ConfigInterface $configuration;
+    protected string $configurationFilePath;
+    protected Parser $parser;
 
     public function __construct(
         TranslatorInterface $translator,
@@ -39,7 +38,7 @@ class LocalConfig extends AbstractManager implements ManagerYamlInterface
         parent::__construct($translator);
         $this->configuration = $configuration;
         $this->configurationFilePath = $configurationFilePath;
-        $this->parser = new \Symfony\Component\Yaml\Parser();
+        $this->parser = new Parser();
     }
 
     /**

@@ -15,16 +15,19 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Classes\Utils\Configuration;
 
 use Contao\ArticleModel;
+use Contao\Config;
 use Contao\ContentModel;
 use Contao\Folder;
 use Contao\FormFieldModel;
 use Contao\FormModel;
 use Contao\ImageSizeModel;
 use Contao\LayoutModel;
+use Contao\Model\Collection;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\System;
 use Contao\ThemeModel;
+use WEM\SmartgearBundle\Classes\DirectoriesSynchronizer;
 use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Classes\UtilFramway;
 use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
@@ -34,6 +37,7 @@ use WEM\SmartgearBundle\Classes\Utils\LayoutUtil;
 use WEM\SmartgearBundle\Classes\Utils\ModuleUtil;
 use WEM\SmartgearBundle\Classes\Utils\PageUtil;
 use WEM\SmartgearBundle\Classes\Utils\ThemeUtil;
+use WEM\SmartgearBundle\Config\LocalConfig;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
@@ -42,7 +46,7 @@ class ConfigurationUtil
     public static function deleteEverythingFromConfiguration(Configuration $objItem): Configuration
     {
         $configurationItems = ConfigurationItem::findItems(['pid' => $objItem->id]);
-        if ($configurationItems) {
+        if ($configurationItems instanceof Collection) {
             while ($configurationItems->next()) {
                 ConfigurationItemUtil::deleteEverythingFromConfigurationItem($configurationItems->current());
             }
@@ -62,6 +66,7 @@ class ConfigurationUtil
                 $objItem->contao_page_home = null;
             }
         }
+
         if ($objItem->contao_page_404) {
             $objPage = $objItem->getRelated('contao_page_404');
             if ($objPage
@@ -76,6 +81,7 @@ class ConfigurationUtil
                 $objItem->contao_page_404 = null;
             }
         }
+
         if ($objItem->contao_page_root) {
             $objPage = $objItem->getRelated('contao_page_root');
             if ($objPage
@@ -90,6 +96,7 @@ class ConfigurationUtil
                 $objItem->contao_page_root = null;
             }
         }
+
         if ($objItem->contao_module_sitemap) {
             $objModule = $objItem->getRelated('contao_module_sitemap');
             if ($objModule
@@ -103,6 +110,7 @@ class ConfigurationUtil
                 $objItem->contao_module_sitemap = null;
             }
         }
+
         if ($objItem->contao_layout_full) {
             $objLayout = $objItem->getRelated('contao_layout_full');
             if ($objLayout
@@ -113,6 +121,7 @@ class ConfigurationUtil
                 $objItem->contao_layout_full = null;
             }
         }
+
         if ($objItem->contao_layout_standard) {
             $objLayout = $objItem->getRelated('contao_layout_standard');
             if ($objLayout
@@ -123,6 +132,7 @@ class ConfigurationUtil
                 $objItem->contao_layout_standard = null;
             }
         }
+
         if ($objItem->contao_theme) {
             $objTheme = $objItem->getRelated('contao_theme');
             if ($objTheme
@@ -136,6 +146,9 @@ class ConfigurationUtil
         return $objItem;
     }
 
+    /**
+     * @throws \Exception
+     */
     public static function createEverythingFromConfiguration(Configuration $objItem): Configuration
     {
         // here we'll call everything to create contao contents
@@ -150,7 +163,7 @@ class ConfigurationUtil
                 'author' => 'Web Ex Machina',
                 'templates' => sprintf('templates/%s', StringUtil::generateAlias($objItem->title)),
             ],
-            !empty($objItem->contao_theme) ? ['id' => $objItem->contao_theme] : []
+            empty($objItem->contao_theme) ? [] : ['id' => $objItem->contao_theme]
             ));
             $objItem->contao_theme = $objTheme->id;
             // check for images sizes
@@ -158,18 +171,22 @@ class ConfigurationUtil
             if (!$objImageSize) {
                 ImageSizeUtil::createImageSize_16_9((int) $objItem->contao_theme);
             }
+
             $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '2:1']);
             if (!$objImageSize) {
                 ImageSizeUtil::createImageSize_2_1((int) $objItem->contao_theme);
             }
+
             $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '1:2']);
             if (!$objImageSize) {
                 ImageSizeUtil::createImageSize_1_2((int) $objItem->contao_theme);
             }
+
             $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '1:1']);
             if (!$objImageSize) {
                 ImageSizeUtil::createImageSize_1_1((int) $objItem->contao_theme);
             }
+
             $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '4:3']);
             if (!$objImageSize) {
                 ImageSizeUtil::createImageSize_4_3((int) $objItem->contao_theme);
@@ -181,8 +198,9 @@ class ConfigurationUtil
         if (!empty($objItem->contao_module_sitemap)) {
             $objModuleSitemap = ModuleModel::findByPk($objItem->contao_module_sitemap);
         }
+
         if (!$objModuleSitemap) {
-            $objModuleSitemap = ModuleUtil::createModuleSitemap((int) $objTheme->id, !empty($objItem->contao_module_sitemap) ? ['id' => $objItem->contao_module_sitemap] : []);
+            $objModuleSitemap = ModuleUtil::createModuleSitemap((int) $objTheme->id, empty($objItem->contao_module_sitemap) ? [] : ['id' => $objItem->contao_module_sitemap]);
             $objItem->contao_module_sitemap = $objModuleSitemap->id;
         }
 
@@ -190,6 +208,7 @@ class ConfigurationUtil
         if (!empty($objItem->contao_layout_full)) {
             $objLayoutFull = LayoutModel::findByPk($objItem->contao_layout_full);
         }
+
         if (!$objLayoutFull) {
             $objLayoutFull = LayoutUtil::createLayoutFullpage(
                 $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardFullwidthName'],
@@ -218,7 +237,7 @@ class ConfigurationUtil
                         ],
                     ],
                 ],
-            !empty($objItem->contao_layout_full) ? ['id' => $objItem->contao_layout_full] : []
+            empty($objItem->contao_layout_full) ? [] : ['id' => $objItem->contao_layout_full]
             ));
             $objItem->contao_layout_full = $objLayoutFull->id;
         }
@@ -227,6 +246,7 @@ class ConfigurationUtil
         if (!empty($objItem->contao_layout_standard)) {
             $objLayoutStandard = LayoutModel::findByPk($objItem->contao_layout_standard);
         }
+
         if (!$objLayoutStandard) {
             $objLayoutStandard = LayoutUtil::createLayoutStandard(
                 $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardName'],
@@ -255,7 +275,7 @@ class ConfigurationUtil
                         ],
                     ],
                 ],
-            !empty($objItem->contao_layout_standard) ? ['id' => $objItem->contao_layout_standard] : []
+            empty($objItem->contao_layout_standard) ? [] : ['id' => $objItem->contao_layout_standard]
             ));
 
             $objItem->contao_layout_standard = $objLayoutStandard->id;
@@ -265,8 +285,9 @@ class ConfigurationUtil
         if (!empty($objItem->contao_page_root)) {
             $objPageRoot = PageModel::findByPk($objItem->contao_page_root);
         }
+
         if (!$objPageRoot) {
-            $objPageRoot = PageUtil::createPageRoot($objItem->title, $objItem->legal_owner_email, (int) $objLayoutStandard->id, $objItem->language, !empty($objItem->contao_page_root) ? ['id' => $objItem->contao_page_root] : []);
+            $objPageRoot = PageUtil::createPageRoot($objItem->title, $objItem->legal_owner_email, (int) $objLayoutStandard->id, $objItem->language, empty($objItem->contao_page_root) ? [] : ['id' => $objItem->contao_page_root]);
             $objItem->contao_page_root = $objPageRoot->id;
 
             // create nothing because it is a root page
@@ -276,8 +297,9 @@ class ConfigurationUtil
         if (!empty($objItem->contao_page_home)) {
             $objPageHome = PageModel::findByPk($objItem->contao_page_home);
         }
+
         if (!$objPageHome) {
-            $objPageHome = PageUtil::createPageHome($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageHomeTitle'], (int) $objItem->contao_page_root, !empty($objItem->contao_page_home) ? ['id' => $objItem->contao_page_home] : []);
+            $objPageHome = PageUtil::createPageHome($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageHomeTitle'], (int) $objItem->contao_page_root, empty($objItem->contao_page_home) ? [] : ['id' => $objItem->contao_page_home]);
             $objItem->contao_page_home = $objPageHome->id;
 
             // create article + content
@@ -289,46 +311,40 @@ class ConfigurationUtil
         if (!empty($objItem->contao_page_404)) {
             $objPage404 = PageModel::findByPk($objItem->contao_page_404);
         }
+
         if (!$objPage404) {
-            $objPage404 = PageUtil::createPage404($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Title'], (int) $objItem->contao_page_root, !empty($objItem->contao_page_404) ? ['id' => $objItem->contao_page_404] : []);
+            $objPage404 = PageUtil::createPage404($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Title'], (int) $objItem->contao_page_root, empty($objItem->contao_page_404) ? [] : ['id' => $objItem->contao_page_404]);
             $objItem->contao_page_404 = $objPage404->id;
 
             // create article + content
             $objArticle404 = ArticleUtil::createArticle($objPage404);
 
-            $contents['headline'] = ContentUtil::createContent($objArticle404, array_merge([
-                'headline' => serialize([
-                    'unit' => 'h1',
-                    'value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Headline'],
-                ]),
-                'text' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Text'],
-                // ], ['id' => null !== $content ? $content->id : null]));
-            ]));
+            $contents['headline'] = ContentUtil::createContent($objArticle404, ['headline' => serialize([
+                'unit' => 'h1',
+                'value' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Headline'],
+            ]), 'text' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Text']]);
 
-            $contents['sitemap'] = ContentUtil::createContent($objArticle404, array_merge([
-                'type' => 'module', 'module' => $objModuleSitemap->id,
-                // ], ['id' => null !== $content ? $content->id : null]));
-            ]));
+            $contents['sitemap'] = ContentUtil::createContent($objArticle404, ['type' => 'module', 'module' => $objModuleSitemap->id]);
         }
 
         $objItem->save();
 
         // allow "onclick" on "<a>" tag
-        $allowedAttributes = StringUtil::deserialize(\Contao\Config::get('allowedAttributes'), true);
+        $allowedAttributes = StringUtil::deserialize(Config::get('allowedAttributes'), true);
         foreach ($allowedAttributes as $index => $allowedAttribute) {
             if ('a' === $allowedAttribute['key']
             && !str_contains((string) $allowedAttribute['value'], 'onclick')
             ) {
                 $allowedAttributes[$index]['value'] .= ',onclick';
-                \Contao\Config::set('allowedAttributes', serialize($allowedAttributes));
-                \Contao\Config::persist('allowedAttributes', serialize($allowedAttributes));
+                Config::set('allowedAttributes', serialize($allowedAttributes));
+                Config::persist('allowedAttributes', serialize($allowedAttributes));
                 break;
             }
         }
 
         // update local config
         $localConfigManager = System::getContainer()->get('smartgear.config.manager.local_config');
-        /** @var LocalConfig */
+        /** @var LocalConfig $config */
         $config = $localConfigManager->load();
 
         $config
@@ -358,7 +374,7 @@ class ConfigurationUtil
         $localConfigManager->save($config);
 
         // sync templates + FW build
-        /** @var DirectoriesSynchronizer */
+        /** @var DirectoriesSynchronizer $synchronizer*/
         $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.templates.rsce');
         $synchronizer->synchronize();
         $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.templates.smartgear');
@@ -374,7 +390,7 @@ class ConfigurationUtil
         $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.social_share_buttons');
         $synchronizer->synchronize(true);
 
-        /** @var UtilFramway */
+        /** @var UtilFramway $fwUtil */
         $fwUtil = System::getContainer()->get('smartgear.classes.util_framway');
         $fwUtil->setConfigurationRootFilePath($objItem->framway_path);
         if (!$fwUtil->checkPresence()) {
@@ -403,7 +419,6 @@ class ConfigurationUtil
                 }
 
                 return self::findConfigurationForItem($objContent->ptable, (int) $objContent->pid);
-            break;
             case ArticleModel::getTable():
                 $objArticle = ArticleModel::findByPk($id);
                 if (!$objArticle) {
@@ -411,19 +426,18 @@ class ConfigurationUtil
                 }
 
                 return self::findConfigurationForItem(PageModel::getTable(), (int) $objArticle->pid);
-            break;
             case PageModel::getTable():
                 $objPage = PageModel::findByPk($id);
                 if (!$objPage) {
                     return null;
                 }
+
                 $objPage->loadDetails();
                 if (null === $objPage->rootId) {
                     return null;
                 }
 
                 return Configuration::findOneBy('contao_page_root', $objPage->rootId);
-            break;
             case ModuleModel::getTable():
                 $objModule = ModuleModel::findByPk($id);
                 if (!$objModule) {
@@ -431,7 +445,6 @@ class ConfigurationUtil
                 }
 
                 return self::findConfigurationForItem(ThemeModel::getTable(), (int) $objModule->pid);
-            break;
             case ThemeModel::getTable():
                 $objTheme = ThemeModel::findByPk($id);
                 if (!$objTheme) {
@@ -439,19 +452,18 @@ class ConfigurationUtil
                 }
 
                 return Configuration::findOneBy('contao_theme', $objTheme->id);
-            break;
             case FormModel::getTable():
                 $objForm = FormModel::findByPk($id);
                 if (!$objForm) {
                     return null;
                 }
+
                 $objContent = ContentModel::findOneBy(['type = ?', 'form = ?'], ['form', $objForm->id]);
                 if (!$objContent) {
                     return null;
                 }
 
                 return self::findConfigurationForItem($objContent::getTable(), (int) $objContent->id);
-            break;
             case FormFieldModel::getTable():
                 $objFormField = FormFieldModel::findByPk($id);
                 if (!$objFormField) {
@@ -459,7 +471,6 @@ class ConfigurationUtil
                 }
 
                 return self::findConfigurationForItem(FormModel::getTable(), (int) $objFormField->pid);
-            break;
         }
 
         return null;

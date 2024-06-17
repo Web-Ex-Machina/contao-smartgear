@@ -17,7 +17,9 @@ namespace WEM\SmartgearBundle\Classes\Version;
 class Comparator
 {
     public const CURRENT_VERSION_HIGHER = -1;
+
     public const VERSIONS_EQUALS = 0;
+
     public const CURRENT_VERSION_LOWER = 1;
 
     /**
@@ -37,18 +39,21 @@ class Comparator
                 if ($currentVersion->getFix() === $versionToCompareAgainst->getFix()) {
                     return self::VERSIONS_EQUALS;
                 }
+
                 if ($currentVersion->getFix() > $versionToCompareAgainst->getFix()) {
                     return self::CURRENT_VERSION_HIGHER;
                 }
 
                 return self::CURRENT_VERSION_LOWER;
             }
+
             if ($currentVersion->getMinor() > $versionToCompareAgainst->getMinor()) {
                 return self::CURRENT_VERSION_HIGHER;
             }
 
             return self::CURRENT_VERSION_LOWER;
         }
+
         if ($currentVersion->getMajor() > $versionToCompareAgainst->getMajor()) {
             return self::CURRENT_VERSION_HIGHER;
         }

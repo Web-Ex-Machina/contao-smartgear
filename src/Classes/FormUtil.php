@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Classes;
 
 use Contao\FormModel;
+use Contao\Model\Collection;
 use Exception;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\EmailFieldNotMandatoryInForm;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\FormNotConfiguredToStoreValues;
@@ -23,6 +24,12 @@ use WEM\SmartgearBundle\Model\FormField;
 
 class FormUtil
 {
+    /**
+     * @throws EmailFieldNotMandatoryInForm
+     * @throws NoEmailFieldInForm
+     * @throws FormNotConfiguredToStoreValues
+     * @throws Exception
+     */
     public static function checkFormConfigurationCompliantForFormDataManager($formId): void
     {
         $objForm = FormModel::findById($formId);
@@ -35,7 +42,7 @@ class FormUtil
         }
 
         $objFormFieldEmail = FormField::findItems(['pid' => $formId, 'name' => 'email']);
-        if (!$objFormFieldEmail) {
+        if (!$objFormFieldEmail instanceof Collection) {
             throw new NoEmailFieldInForm($GLOBALS['TL_LANG']['WEMSG']['FDM']['FORM']['noEmailField']);
         }
 

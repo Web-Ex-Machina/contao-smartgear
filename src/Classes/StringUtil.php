@@ -26,6 +26,7 @@ class StringUtil extends StringUtilBase
             foreach ($value as $valueChunk) {
                 $formattedValue[] = sprintf('%s (%s)', $valueChunk['label'], $valueChunk['value']);
             }
+
             $formattedValue = implode(',', $formattedValue);
         } else {
             $formattedValue = (string) $value;
@@ -55,13 +56,11 @@ class StringUtil extends StringUtilBase
     /**
      * Generate a random key.
      *
-     * @param int $length Optional password length
-     *
-     * @return string
+     * @param ?int $length Optional password length
      *
      * @todo Add pattern rules
      */
-    public static function generateKey(?int $length = 16)
+    public static function generateKey(?int $length = 16): string
     {
         $characters = 'abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789_-';
         $randstring = '';

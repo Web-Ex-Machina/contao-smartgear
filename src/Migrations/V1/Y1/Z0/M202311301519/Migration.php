@@ -34,10 +34,10 @@ use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
 class Migration extends MigrationAbstract
 {
-    protected $name = 'Migrates v1.0.x to v1.1 structure';
-    protected $description = 'Migrates a Smartegar configuration\'s file from v1.0.x to the new v1.1 structure';
-    protected $version = '1.1.0';
-    protected $translation_key = 'WEMSG.MIGRATIONS.V1_1_0_M202311301519';
+    protected string $name = 'Migrates v1.0.x to v1.1 structure';
+    protected string $description = 'Migrates a Smartegar configuration\'s file from v1.0.x to the new v1.1 structure';
+    protected string $version = '1.1.0';
+    protected string $translation_key = 'WEMSG.MIGRATIONS.V1_1_0_M202311301519';
 
     public function __construct(
         Connection $connection,

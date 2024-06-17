@@ -32,17 +32,11 @@ use WEM\SmartgearBundle\Config\Manager\FramwayTheme as ConfigurationThemeManager
 class UtilFramway
 {
     public const THEME_NAME_REGEXP = '/^([A-Za-z0-9-_:@.\/]+)$/';
+
     public const SCRIPTS_PATH = './bundles/wemsmartgear/scripts/smartgear/component/core/';
-    /** @var ConfigurationManager */
-    protected $configurationManager;
-    /** @var ConfigurationThemeManager */
-    protected $configurationThemeManager;
-    /** @var ConfigurationCombinedManager */
-    protected $configurationCombinedManager;
-    /** @var CommandUtil */
-    protected $commandUtil;
+
     /** @var array */
-    protected $filesToCheck = [
+    protected array $filesToCheck = [
         'framway.config.js',
         'build/css/vendor.css',
         'build/css/framway.css',
@@ -51,20 +45,14 @@ class UtilFramway
         'build/combined/_config.scss',
     ];
 
-    /** @var ?string */
-    protected $configurationRootFilePath;
+    protected ?string $configurationRootFilePath;
 
     public function __construct(
-        ConfigurationManager $configurationManager,
-        CommandUtil $commandUtil,
-        ConfigurationThemeManager $configurationThemeManager,
-        ConfigurationCombinedManager $configurationCombinedManager
-    ) {
-        $this->commandUtil = $commandUtil;
-        $this->configurationManager = $configurationManager;
-        $this->configurationThemeManager = $configurationThemeManager;
-        $this->configurationCombinedManager = $configurationCombinedManager;
-    }
+        protected ConfigurationManager $configurationManager,
+        protected CommandUtil $commandUtil,
+        protected ConfigurationThemeManager $configurationThemeManager,
+        protected ConfigurationCombinedManager $configurationCombinedManager
+    ){}
 
     public function getThemeColors(string $fwPath, ?string $themeName = null): array
     {
@@ -76,7 +64,7 @@ class UtilFramway
         return $this->configurationCombinedManager->setConfigurationRootFilePath($fwPath)->load()->getColors();
     }
 
-    public function retrieve(bool $live = false)
+    public function retrieve(bool $live = false): string
     {
         set_time_limit(0);
         if ($live) {
@@ -86,7 +74,7 @@ class UtilFramway
         return $this->commandUtil->executeCmd('sh '.self::SCRIPTS_PATH.'framway_retrieve.sh ./'.$this->getFramwayPath());
     }
 
-    public function install(bool $live = false)
+    public function install(bool $live = false): string
     {
         set_time_limit(0);
 
@@ -97,7 +85,7 @@ class UtilFramway
         return $this->commandUtil->executeCmd('sh '.self::SCRIPTS_PATH.'framway_install.sh ./'.$this->getFramwayPath());
     }
 
-    public function initialize(bool $live = false)
+    public function initialize(bool $live = false): string
     {
         set_time_limit(0);
 
@@ -108,7 +96,7 @@ class UtilFramway
         return $this->commandUtil->executeCmd('sh '.self::SCRIPTS_PATH.'framway_initialize.sh ./'.$this->getFramwayPath());
     }
 
-    public function build(bool $live = false)
+    public function build(bool $live = false): string
     {
         set_time_limit(0);
 
@@ -119,7 +107,7 @@ class UtilFramway
         return $this->commandUtil->executeCmd('sh '.self::SCRIPTS_PATH.'framway_build.sh ./'.$this->getFramwayPath());
     }
 
-    public function checkPresence()
+    public function checkPresence(): bool
     {
         foreach ($this->filesToCheck as $fileToCheck) {
             if (!file_exists($this->getFramwayPath().\DIRECTORY_SEPARATOR.$fileToCheck)) {
@@ -130,7 +118,7 @@ class UtilFramway
         return true;
     }
 
-    public function addTheme(string $themeName, bool $live = false)
+    public function addTheme(string $themeName, bool $live = false): string
     {
         $this->checkThemeName($themeName);
 
@@ -157,6 +145,7 @@ class UtilFramway
                     $arrThemes[] = ['label' => $entry, 'value' => $entry];
                 }
             }
+
             closedir($handle);
         }
 
@@ -172,6 +161,7 @@ class UtilFramway
                     $arrComponents[] = ['label' => $entry, 'value' => $entry];
                 }
             }
+
             closedir($handle);
         }
 
@@ -188,9 +178,6 @@ class UtilFramway
         return $this->getConfigurationRootFilePath() ?? $this->configurationManager->load()->getSgFramwayPath();
     }
 
-    /**
-     * @return mixed
-     */
     public function getConfigurationRootFilePath(): ?string
     {
         return $this->configurationRootFilePath;

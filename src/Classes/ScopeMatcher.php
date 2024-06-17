@@ -12,29 +12,30 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-// use Contao\CoreBundle\Routing\ScopeMatcher as ScopeMatcherBase;
-// use Symfony\Component\HttpFoundation\RequestStack;
-
 namespace WEM\SmartgearBundle\Classes;
 
-class ScopeMatcher
+use Symfony\Component\HttpFoundation\RequestStack;
+use \Contao\CoreBundle\Routing\ScopeMatcher as ScopeMatcherBase;
+readonly class ScopeMatcher
 {
     /**
      * I use FQDN because PHP doesn't care about the "use".
      *
-     * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack [description]
-     * @param \Contao\CoreBundle\Routing\ScopeMatcher        $scopeMatcher [description]
+     * @param RequestStack $requestStack [description]
+     * @param ScopeMatcherBase $scopeMatcher [description]
      */
-    public function __construct(private readonly \Symfony\Component\HttpFoundation\RequestStack $requestStack, private readonly \Contao\CoreBundle\Routing\ScopeMatcher $scopeMatcher)
+    public function __construct(
+        private RequestStack     $requestStack,
+        private ScopeMatcherBase $scopeMatcher)
     {
     }
 
-    public function isBackend()
+    public function isBackend(): bool
     {
         return $this->scopeMatcher->isBackendRequest($this->requestStack->getCurrentRequest());
     }
 
-    public function isFrontend()
+    public function isFrontend(): bool
     {
         return $this->scopeMatcher->isFrontendRequest($this->requestStack->getCurrentRequest());
     }

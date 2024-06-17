@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes;
 
+use Contao\CoreBundle\Config\ResourceFinder;
 use Contao\ThemeModel;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -21,18 +22,11 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
 class TemplateFinder
 {
-    /** @var string */
-    protected $projectDir;
-    /** @var CoreConfigurationManager */
-    protected $configurationManager;
 
     public function __construct(
-        string $projectDir,
-        CoreConfigurationManager $configurationManager
-    ) {
-        $this->projectDir = $projectDir;
-        $this->configurationManager = $configurationManager;
-    }
+        protected string $projectDir,
+        protected CoreConfigurationManager $configurationManager
+    ){}
 
     public function buildList(?string $clientTemplatesFolderName = ''): array
     {
@@ -79,7 +73,7 @@ class TemplateFinder
     protected function getTemplatesFromFolder(string $folderPath): array
     {
         $templates = [];
-        foreach ((new \Contao\CoreBundle\Config\ResourceFinder([$folderPath]))->find()->files()->depth('==0')->name('*.html5') as $filePath => $fileInfo) {
+        foreach ((new ResourceFinder([$folderPath]))->find()->files()->depth('==0')->name('*.html5') as $fileInfo) {
             $templates[str_replace('.html5', '', $fileInfo->getFilename())] = str_replace($this->projectDir.\DIRECTORY_SEPARATOR, '', $folderPath);
         }
 

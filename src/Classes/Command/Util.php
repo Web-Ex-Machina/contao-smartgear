@@ -19,12 +19,8 @@ use Symfony\Component\Process\Process;
 
 class Util
 {
-    /** @var string */
-    protected $rootDir;
-
-    public function __construct(string $rootDir)
+    public function __construct(protected string $rootDir)
     {
-        $this->rootDir = $rootDir;
     }
 
     /**
@@ -52,11 +48,11 @@ class Util
      * Execute the given command.
      *
      * @param string  $cmd     The command to execute
-     * @param int|int $timeout The timeout in seconds (3600 by default)
+     * @param ?int $timeout The timeout in seconds (3600 by default)
      *
      * @return string The command's output
      */
-    public function executeCmd(string $cmd, ?int $timeout = 3600)
+    public function executeCmd(string $cmd, ?int $timeout = 3600): string
     {
         $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline(
             $cmd
@@ -85,7 +81,7 @@ class Util
      * Execute the given command by displaying console output live to the user.
      *
      * @param string  $cmd     The command to execute
-     * @param int|int $timeout The timeout in seconds (3600 by default)
+     * @param ?int $timeout The timeout in seconds (3600 by default)
      *
      * @return string The command's output
      */
@@ -97,12 +93,13 @@ class Util
             $cmd
         ) : new Process([$cmd]);
         $process->setTimeout($timeout);
-        $process->run(function ($type, $buffer): void {
+        $process->run(static function ($type, $buffer) : void {
             if (Process::ERR === $type) {
                 echo json_encode(['data' => $buffer, 'status' => 'error']).',';
             } else {
                 echo json_encode(['data' => $buffer, 'status' => 'success']).',';
             }
+            
             @flush();
         });
 

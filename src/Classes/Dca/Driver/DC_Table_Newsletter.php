@@ -16,9 +16,9 @@ namespace WEM\SmartgearBundle\Classes\Dca\Driver;
 
 class DC_Table_Newsletter extends \Contao\DC_Table
 {
-    public function showAll()
+    public function showAll(): string
     {
-        if (CURRENT_ID) {
+        if (CURRENT_ID) { //TODO : CURRENT_ID exist ?
             $this->procedure[] = 'channels REGEXP ?';
             $this->values[] = '.*;s:[0-9]+:"'.CURRENT_ID.'".*';
         }
@@ -29,12 +29,12 @@ class DC_Table_Newsletter extends \Contao\DC_Table
     protected function removePidFilter(): void
     {
         $idx = array_search('pid=?', $this->procedure, true);
-        if (!empty($idx)) {
+        if (!($idx === 0 || ($idx === '' || $idx === '0') || $idx === false)) {
             unset($this->procedure[$idx], $this->values[$idx]);
         }
     }
 
-    protected function panel()
+    protected function panel(): string
     {
         $this->removePidFilter();
 

@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Classes\Api\Security;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\Model\Collection;
 use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -32,8 +33,8 @@ class ApiKey
     public function validate(string $apiKey): bool
     {
         $configurations = Configuration::findItems();
-        if ($configurations) {
-            $encryptionService = \Contao\System::getContainer()->get('plenta.encryption');
+        if ($configurations instanceof Collection) {
+            $encryptionService = System::getContainer()->get('plenta.encryption');
             while ($configurations->next()) {
                 if ($apiKey === $encryptionService->decrypt($configurations->api_key)) {
                     System::getContainer()->get('session')->set('configuration_source', 'database');

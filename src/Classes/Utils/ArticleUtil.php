@@ -36,7 +36,7 @@ class ArticleUtil
         $objArticle->published = 1;
 
         // Now we get the default values, get the arrData table
-        if (!empty($arrData)) {
+        if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
                 $objArticle->$k = $v;
             }

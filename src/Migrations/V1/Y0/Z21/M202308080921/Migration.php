@@ -25,12 +25,11 @@ use WEM\SmartgearBundle\Migrations\V1\Y0\Z0\MigrationAbstract;
 
 class Migration extends MigrationAbstract
 {
-    protected $name = 'Smargear update to v1.0.21';
-    protected $description = 'Set Smartgear to version 1.0.21';
-    protected $version = '1.0.21';
-    protected $translation_key = 'WEMSG.MIGRATIONS.V1_0_21_M202308080921';
-    /** @var LocalConfigManager */
-    protected $localConfigurationManager;
+    protected string $name = 'Smargear update to v1.0.21';
+    protected string $description = 'Set Smartgear to version 1.0.21';
+    protected string $version = '1.0.21';
+    protected string $translation_key = 'WEMSG.MIGRATIONS.V1_0_21_M202308080921';
+    protected LocalConfigManager $localConfigurationManager;
 
     public function __construct(
         Connection $connection,

@@ -16,15 +16,9 @@ namespace WEM\SmartgearBundle\Classes;
 
 class CacheFileManager
 {
-    /** @var string */
-    protected $path;
-    /** @var int */
-    protected $validityInSeconds;
 
-    public function __construct(string $path, int $validityInSeconds)
+    public function __construct(protected string $path, protected int $validityInSeconds)
     {
-        $this->path = $path;
-        $this->validityInSeconds = $validityInSeconds;
     }
 
     public function cacheFileExists(): bool

@@ -27,14 +27,14 @@ use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class Migration extends MigrationAbstract
 {
-    protected $name = 'Configures CSS classes';
-    protected $description = 'Configures CSS classes available for contents';
-    protected $version = '1.0.0';
-    protected $translation_key = 'WEMSG.MIGRATIONS.V1_0_0_M202203231730';
+    protected string $name = 'Configures CSS classes';
+    protected string $description = 'Configures CSS classes available for contents';
+    protected string $version = '1.0.0';
+    protected string $translation_key = 'WEMSG.MIGRATIONS.V1_0_0_M202203231730';
     /** @var configurationFramwayCombinedManager */
-    protected $configurationFramwayCombinedManager;
+    protected configurationFramwayCombinedManager $configurationFramwayCombinedManager;
 
-    protected static $elements = [
+    protected static array $elements = [
         'margin' => ['contentElements' => ['headline', 'text', 'table', 'rsce_listIcons', 'rsce_listLogos', 'rsce_quote', 'accordionStart', 'accordionSingle', 'sliderStart', 'hyperlink', 'image', 'player', 'youtube', 'vimeo', 'downloads', 'gallery', 'rsce_timeline', 'grid-start', 'rsce_accordion', 'rsce_counter', 'rsce_hero', 'rsce_heroStart', 'rsce_priceCards', 'rsce_slider', 'rsce_tabs', 'rsce_testimonials', 'rsce_ratings', 'rsce_pdfViewer', 'rsce_blockCard']], //, 'accordionStop', 'grid-stop', 'sliderStop' , 'rsce_heroStop', 'rsce_gridGallery'
         'button' => ['contentElements' => ['hyperlink'], 'formFields' => ['submit']],
         'button_manual' => ['contentElements' => ['rsce_pdfViewer']],
@@ -51,9 +51,9 @@ class Migration extends MigrationAbstract
         'grid_columns' => ['contentElements' => ['gallery', 'rsce_listIcons', 'rsce_listLogos']],
     ];
     /** @var array */
-    private $archiveIdentifierToKeep = [];
+    private array $archiveIdentifierToKeep = [];
     /** @var array */
-    private $styleAliasToKeep = [];
+    private array $styleAliasToKeep = [];
 
     public function __construct(
         Connection $connection,

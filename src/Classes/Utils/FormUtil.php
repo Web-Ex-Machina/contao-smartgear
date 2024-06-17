@@ -32,7 +32,7 @@ class FormUtil
         $objForm->jumpTo = $jumpTo;
 
         // Now we get the default values, get the arrData table
-        if (!empty($arrData)) {
+        if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
                 $objForm->$k = $v;
             }

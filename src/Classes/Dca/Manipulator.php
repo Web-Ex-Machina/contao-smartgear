@@ -19,7 +19,7 @@ use Exception;
 
 class Manipulator
 {
-    protected $table;
+    protected ?string $table;
 
     public function getTable(): ?string
     {
@@ -33,12 +33,12 @@ class Manipulator
         return $this;
     }
 
-    public static function create(string $table)
+    public static function create(string $table): Manipulator
     {
         return (new self())->setTable($table);
     }
 
-    public function setDataContainer(string $dataContainer)
+    public function setDataContainer(string $dataContainer): static
     {
         $this->checkConfiguration();
         $GLOBALS['TL_DCA'][$this->table]['config']['dataContainer'] = $dataContainer;
@@ -46,7 +46,7 @@ class Manipulator
         return $this;
     }
 
-    public function addCtable(string $table)
+    public function addCtable(string $table): static
     {
         $this->checkConfiguration();
         $GLOBALS['TL_DCA'][$this->table]['config']['ctable'][] = $table;
@@ -54,7 +54,7 @@ class Manipulator
         return $this;
     }
 
-    public function addCtables(array $tables)
+    public function addCtables(array $tables): static
     {
         $this->checkConfiguration();
         foreach ($tables as $table) {
@@ -64,7 +64,7 @@ class Manipulator
         return $this;
     }
 
-    public function removeCtable(string $table)
+    public function removeCtable(string $table): static
     {
         $this->checkConfiguration();
         unset($GLOBALS['TL_DCA'][$this->table]['config']['ctable'][$table]);
@@ -72,7 +72,7 @@ class Manipulator
         return $this;
     }
 
-    public function removeCtables(array $tables)
+    public function removeCtables(array $tables): static
     {
         $this->checkConfiguration();
         foreach ($tables as $table) {
@@ -241,11 +241,13 @@ class Manipulator
         foreach ($fieldsKey as $field) {
             $pm->removeField($field);
         }
+
         foreach ($palettesNames as $paletteName) {
             if (!\is_array($GLOBALS['TL_DCA'][$this->table]['palettes'][$paletteName])) {
                 $pm->applyToPalette($paletteName, $this->table);
             }
         }
+
         foreach ($subpalettesNames as $subpaletteName) {
             if (!\is_array($GLOBALS['TL_DCA'][$this->table]['subpalettes'][$subpaletteName])) {
                 $pm->applyToSubpalette($subpaletteName, $this->table);
@@ -342,7 +344,7 @@ class Manipulator
         return $GLOBALS['TL_DCA'][$this->table]['fields'][$field][$property] ?? null;
     }
 
-    public function setFieldProperty(string $field, string $property, $value)
+    public function setFieldProperty(string $field, string $property, $value): static
     {
         $this->checkConfiguration();
         $GLOBALS['TL_DCA'][$this->table]['fields'][$field][$property] = $value;
@@ -350,7 +352,7 @@ class Manipulator
         return $this;
     }
 
-    public function setFieldEvalProperty(string $field, string $property, $value)
+    public function setFieldEvalProperty(string $field, string $property, $value): static
     {
         $this->checkConfiguration();
         $GLOBALS['TL_DCA'][$this->table]['fields'][$field]['eval'][$property] = $value;
@@ -368,7 +370,7 @@ class Manipulator
         return $this->addFieldCallback($field, 'save_callback', $callback);
     }
 
-    public function addField(string $field, array $configuration)
+    public function addField(string $field, array $configuration): static
     {
         $this->checkConfiguration();
         $GLOBALS['TL_DCA'][$this->table]['fields'][$field] = $configuration;
@@ -376,7 +378,7 @@ class Manipulator
         return $this;
     }
 
-    public function hasField(string $field)
+    public function hasField(string $field): bool
     {
         $this->checkConfiguration();
 
@@ -392,11 +394,15 @@ class Manipulator
         return $this;
     }
 
+    /**
+     * @throws Exception
+     */
     protected function checkConfiguration(): void
     {
         if (null === $this->table) {
             throw new Exception('No table defined. Please call `setTable` method before.');
         }
+
         if (!\array_key_exists($this->table, $GLOBALS['TL_DCA'])) {
             throw new Exception(sprintf('Table "%s" not found.', $this->table));
         }

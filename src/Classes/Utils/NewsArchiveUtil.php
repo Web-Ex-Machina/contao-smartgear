@@ -39,7 +39,7 @@ class NewsArchiveUtil
         $objCalFee->tstamp = time();
 
         // Now we get the default values, get the arrData table
-        if (!empty($arrData)) {
+        if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
                 $objCalFee->$k = $v;
             }

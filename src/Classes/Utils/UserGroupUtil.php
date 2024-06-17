@@ -84,7 +84,7 @@ class UserGroupUtil
         $objUserGroup = $userGroupManipulator->getUserGroup();
 
         // Now we get the default values, get the arrData table
-        if (!empty($arrData)) {
+        if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
                 $objUserGroup->$k = $v;
             }
@@ -168,10 +168,8 @@ class UserGroupUtil
 
     /**
      * Return permissions concerned by this component.
-     *
-     * @return array
      */
-    public static function getCorePermissions()
+    public static function getCorePermissions(): array
     {
         return [
             0 => 'tl_article::title',
@@ -345,21 +343,25 @@ class UserGroupUtil
                 ->addAllowedModules([$objConfiguration->contao_module_sitemap])
             ;
         }
+
         if ($objConfiguration->contao_page_root) {
             $userGroupManipulator
                 ->addAllowedPagemounts([$objConfiguration->contao_page_root])
             ;
         }
+
         if ($objConfiguration->contao_page_404) {
             $userGroupManipulator
                 ->addAllowedPagemounts([$objConfiguration->contao_page_404])
             ;
         }
+
         if ($objConfiguration->contao_page_home) {
             $userGroupManipulator
                 ->addAllowedPagemounts([$objConfiguration->contao_page_home])
             ;
         }
+
         Util::log(__METHOD__);
         Util::log('$objConfiguration->contao_theme : '.$objConfiguration->contao_theme);
         if ($objConfiguration->contao_theme) {
@@ -645,6 +647,7 @@ class UserGroupUtil
                 ->removeAllowedPagemounts([$objConfigurationItem->contao_page])
             ;
         }
+
         $nbOtherItemSameProperty = ConfigurationItem::countItems([
             'not_id' => $objConfigurationItem->id,
             // 'pid' => $objConfigurationItem->pid,
@@ -655,6 +658,7 @@ class UserGroupUtil
                 ->removeAllowedPagemounts([$objConfigurationItem->contao_page_form])
             ;
         }
+
         $nbOtherItemSameProperty = ConfigurationItem::countItems([
             'not_id' => $objConfigurationItem->id,
             // 'pid' => $objConfigurationItem->pid,
@@ -677,6 +681,7 @@ class UserGroupUtil
                 ->removeAllowedModules([$objConfigurationItem->contao_module])
             ;
         }
+
         $nbOtherItemSameProperty = ConfigurationItem::countItems([
             'not_id' => $objConfigurationItem->id,
             // 'pid' => $objConfigurationItem->pid,
@@ -687,6 +692,7 @@ class UserGroupUtil
                 ->removeAllowedModules([$objConfigurationItem->contao_module_reader])
             ;
         }
+
         $nbOtherItemSameProperty = ConfigurationItem::countItems([
             'not_id' => $objConfigurationItem->id,
             // 'pid' => $objConfigurationItem->pid,
@@ -697,6 +703,7 @@ class UserGroupUtil
                 ->removeAllowedModules([$objConfigurationItem->contao_module_list])
             ;
         }
+
         $nbOtherItemSameProperty = ConfigurationItem::countItems([
             'not_id' => $objConfigurationItem->id,
             // 'pid' => $objConfigurationItem->pid,
@@ -707,6 +714,7 @@ class UserGroupUtil
                 ->removeAllowedModules([$objConfigurationItem->contao_module_calendar])
             ;
         }
+
         $nbOtherItemSameProperty = ConfigurationItem::countItems([
             'not_id' => $objConfigurationItem->id,
             // 'pid' => $objConfigurationItem->pid,
@@ -717,6 +725,7 @@ class UserGroupUtil
                 ->removeAllowedModules([$objConfigurationItem->contao_module])
             ;
         }
+
         // FORMS
         $nbOtherItemSameProperty = ConfigurationItem::countItems([
             'not_id' => $objConfigurationItem->id,
@@ -728,6 +737,7 @@ class UserGroupUtil
                 ->removeAllowedForms([$objConfigurationItem->contao_form])
             ;
         }
+
         // NEWS ARCHIVE
         $nbOtherItemSameProperty = ConfigurationItem::countItems([
             'not_id' => $objConfigurationItem->id,
@@ -739,6 +749,7 @@ class UserGroupUtil
                 ->removeAllowedNewsArchive([$objConfigurationItem->contao_news_archive])
             ;
         }
+
         // FAQ CATEGORY
         $nbOtherItemSameProperty = ConfigurationItem::countItems([
             'not_id' => $objConfigurationItem->id,
@@ -750,6 +761,7 @@ class UserGroupUtil
                 ->removeAllowedFaq([$objConfigurationItem->contao_faq_category])
             ;
         }
+
         // CALENDAR
         $nbOtherItemSameProperty = ConfigurationItem::countItems([
             'not_id' => $objConfigurationItem->id,

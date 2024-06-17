@@ -24,14 +24,11 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class Framway extends AbstractManager implements ManagerJsonInterface
 {
-    /** @var ConfigInterface */
-    protected $configuration;
-    /** @var ConfigurationManagerCore */
-    protected $configurationManagerCore;
-    /** @var string */
-    protected $configurationFilePath;
-    /** @var ?string */
-    protected $configurationRootFilePath;
+
+    protected ConfigInterface $configuration;
+    protected ConfigurationManagerCore $configurationManagerCore;
+    protected string $configurationFilePath;
+    protected ?string $configurationRootFilePath;
 
     public function __construct(
         TranslatorInterface $translator,

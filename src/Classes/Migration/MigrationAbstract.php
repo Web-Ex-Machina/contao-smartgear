@@ -14,22 +14,23 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Migration;
 
+
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Version\Version;
 
 abstract class MigrationAbstract implements MigrationInterface
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    protected $name;
-    protected $description;
-    protected $version;
-    protected $translation_key = '';
 
-    public function __construct(
-        TranslatorInterface $translator
-    ) {
-        $this->translator = $translator;
+    protected string $name;
+
+    protected string $description;
+
+    protected string $version;
+
+    protected string $translation_key = '';
+
+    public function __construct(protected TranslatorInterface $translator)
+    {
     }
 
     public function getName(): string

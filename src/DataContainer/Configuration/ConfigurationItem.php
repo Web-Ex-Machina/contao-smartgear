@@ -305,7 +305,7 @@ class ConfigurationItem extends Core
         $arrOptions = [];
 
         $objItem = ConfigurationItemModel::findOneById($dc->activeRecord->id);
-        /** @var ConfigurationModel */
+        /** @var ConfigurationModel $objConfiguration */
         $objConfiguration = $objItem->getRelated('pid');
 
         $modules = ModuleModel::findByPid($objConfiguration->contao_theme);
@@ -323,7 +323,7 @@ class ConfigurationItem extends Core
         $arrOptions = [];
 
         $objItem = ConfigurationItemModel::findOneById($dc->activeRecord->id);
-        /** @var ConfigurationModel */
+        /** @var ConfigurationModel $objConfiguration */
         $objConfiguration = $objItem->getRelated('pid');
 
         switch ($dc->activeRecord->type) {
@@ -697,7 +697,7 @@ class ConfigurationItem extends Core
     //     $arrOptions = [];
 
     //     $objItem = ConfigurationItemModel::findOneById($dc->activeRecord->id);
-    //     /** @var ConfigurationModel */
+    //     /** @var ConfigurationModel $objConfiguration */
     //     $objConfiguration = $objItem->getRelated('pid');
     //     $layouts = LayoutModel::findByPid($objConfiguration->contao_theme);
     //     if (!$layouts) {

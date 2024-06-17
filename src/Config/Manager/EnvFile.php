@@ -24,10 +24,9 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class EnvFile extends AbstractManager implements ManagerEnvInterface
 {
-    /** @var ConfigInterface */
-    protected $configuration;
-    /** @var string */
-    protected $configurationFilePath;
+    protected ConfigInterface $configuration;
+
+    protected string $configurationFilePath;
 
     public function __construct(
         TranslatorInterface $translator,

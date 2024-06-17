@@ -16,21 +16,19 @@ namespace WEM\SmartgearBundle\Classes\Config\Manager;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
+use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
 class ManagerJson extends AbstractManager implements ManagerJsonInterface
 {
-    /** @var ConfigInterface */
-    protected $configuration;
-    /** @var string */
-    protected $configurationFilePath;
+
+    protected string $configurationFilePath;
 
     public function __construct(
-        TranslatorInterface $translator,
-        ConfigInterface $configuration,
-        string $configurationFilePath
+        TranslatorInterface       $translator,
+        protected ConfigInterface $configuration,
+        string                    $configurationFilePath
     ) {
         parent::__construct($translator);
-        $this->configuration = $configuration;
         $this->configurationFilePath = $configurationFilePath;
     }
 
@@ -67,7 +65,7 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
      *
      * @return string|bool The backup file's path if all goes well, false otherwise
      */
-    public function createBackupFile()
+    public function createBackupFile(): bool|string
     {
         $backupFilePath = $this->configurationFilePath.'_'.date('Ymd_His');
         $this->load();
@@ -77,6 +75,7 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
 
     /**
      * Retrieve the configuration from the file, but as an importable format.
+     * @throws \JsonException|NotFound
      */
     public function retrieveConfigurationAsImportableFormatFromFile(): \stdClass
     {
@@ -88,7 +87,6 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
      * If the file doesn't exists, it is created.
      *
      * @param string $filepath The file's path
-     * @param mixed  $content  The content to write
      */
     protected function file_force_contents(string $filepath, mixed $content): bool
     {
@@ -97,7 +95,7 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
         $dir = '';
         foreach ($parts as $part) {
             if ('.' !== $part) {
-                if (!is_dir($dir .= "/$part")) {
+                if (!is_dir($dir .= '/' . $part)) {
                     mkdir($dir);
                 }
             } else {
@@ -105,6 +103,6 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
             }
         }
 
-        return false !== file_put_contents("$dir/$file", $content);
+        return false !== file_put_contents(sprintf('%s/%s', $dir, $file), $content);
     }
 }

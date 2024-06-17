@@ -17,20 +17,27 @@ namespace WEM\SmartgearBundle\Classes\Migration;
 class Result
 {
     public const STATUS_NOT_EXCUTED_YET = 'not executed yet';
+
     public const STATUS_SHOULD_RUN = 'should run';
+
     public const STATUS_SKIPPED = 'skipped';
+
     public const STATUS_FAIL = 'fail';
+
     public const STATUS_SUCCESS = 'success';
+
     /** @var string */
-    protected $status = self::STATUS_NOT_EXCUTED_YET;
+    protected string $status = self::STATUS_NOT_EXCUTED_YET;
+
     /** @var array */
-    protected $logs = [];
+    protected array $logs = [];
 
     public function setStatus(string $status): self
     {
         if (!\in_array($status, [self::STATUS_NOT_EXCUTED_YET, self::STATUS_SHOULD_RUN, self::STATUS_SKIPPED, self::STATUS_FAIL, self::STATUS_SUCCESS], true)) {
             throw new \InvalidArgumentException(sprintf('The given status "%s" is invalid', $status));
         }
+
         $this->status = $status;
 
         return $this;

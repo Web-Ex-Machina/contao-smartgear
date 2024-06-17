@@ -18,24 +18,27 @@ use WEM\SmartgearBundle\Exceptions\Version\BadFormatException;
 
 class Version implements \Stringable
 {
-    /** @var int */
-    protected $major;
-    /** @var int */
-    protected $minor;
-    /** @var int */
-    protected $fix;
+    protected int $major;
+
+    protected int $minor;
+
+    protected int $fix;
 
     public function __toString(): string
     {
         return sprintf('%s.%s.%s', (string) $this->getMajor(), (string) $this->getMinor(), (string) $this->getFix());
     }
 
+    /**
+     * @throws BadFormatException
+     */
     public function fromString(string $version, ?string $separator = '.'): self
     {
         $fragments = explode($separator, $version);
         if (3 !== \count($fragments)) {
             throw new BadFormatException(sprintf('Version "%s" has an incorrect format', $version));
         }
+
         $this->major = (int) $fragments[0];
         $this->minor = (int) $fragments[1];
         $this->fix = (int) $fragments[2];

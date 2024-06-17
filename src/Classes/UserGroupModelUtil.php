@@ -18,7 +18,7 @@ use Contao\UserGroupModel;
 
 class UserGroupModelUtil
 {
-    private $userGroup;
+    private ?UserGroupModel $userGroup = null;
 
     public function getUserGroup(): UserGroupModel
     {
@@ -32,7 +32,7 @@ class UserGroupModelUtil
         return $this;
     }
 
-    public static function create(UserGroupModel $userGroup)
+    public static function create(UserGroupModel $userGroup): UserGroupModelUtil
     {
         return (new self())->setUserGroup($userGroup);
     }
@@ -379,6 +379,7 @@ class UserGroupModelUtil
      * Add allowed fields by table name.
      *
      * @param array $tables Name of tables to retrieve fields from their DCA
+     * @throws \Exception
      */
     public function addAllowedFieldsByTables(array $tables): self
     {
@@ -388,6 +389,7 @@ class UserGroupModelUtil
                 $loader = new \Contao\DcaLoader($table);
                 $loader->load();
             }
+
             $dcaFields = $GLOBALS['TL_DCA'][$table]['fields'] ?? [];
             foreach ($dcaFields as $key => $config) {
                 // see tl_user_group::getExcludedFields
@@ -417,6 +419,7 @@ class UserGroupModelUtil
                     unset($alexf[$index]);
                     continue;
                 }
+
                 if ($fieldNameKeyToDelete === substr($fieldName, 0, $fieldNameKeyToDeleteLength)) {
                     unset($alexf[$index]);
                 }
@@ -443,6 +446,7 @@ class UserGroupModelUtil
             if (!\in_array($item, $allowedItems, true)) {
                 $allowedItems[] = $item;
             }
+
             // $itemIndex = array_search($item, $allowedItems, true);
             // if (false === $itemIndex) {
             //     $allowedItems[] = $item;

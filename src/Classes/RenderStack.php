@@ -14,8 +14,9 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes;
 
+use Contao\ContentElement;
 use Contao\ContentModel;
-use Contao\Model;
+use Contao\Module;
 use Contao\ModuleModel;
 use Exception;
 
@@ -27,10 +28,9 @@ use Exception;
  */
 class RenderStack
 {
-    /** @var self */
-    protected static $instance;
-    /** @var array */
-    protected $stack = [
+    protected static RenderStack $instance;
+
+    protected array $stack = [
         'current_index' => [
             'all' => 0,
             //other columns will go here
@@ -42,11 +42,7 @@ class RenderStack
         ],
     ];
 
-    public function __construct()
-    {
-    }
-
-    public static function getInstance()
+    public static function getInstance(): RenderStack
     {
         if (null === self::$instance) {
             self::$instance = new self();
@@ -58,13 +54,13 @@ class RenderStack
     /**
      * Add a ModuleModel/ContentModel to the stack.
      *
-     * @param \Contao\ModuleModel|\Contao\ContentModel $model           The model (either ModuleModel or ContentModel)
-     * @param string                                   $buffer          The generated HTML
-     * @param \Contao\Module|\Contao\ContentElement    $contentOrModule The module or content element
+     * @param ModuleModel|ContentModel $model           The model (either ModuleModel or ContentModel)
+     * @param string                   $buffer          The generated HTML
+     * @param Module|ContentElement    $contentOrModule The module or content element
      */
-    public function add(Model $model, string $buffer, $contentOrModule): void
+    public function add(ModuleModel|ContentModel $model, string $buffer, Module|ContentElement $contentOrModule): void
     {
-        if (!is_a($model, ModuleModel::class) && !is_a($model, ContentModel::class)) {
+        if (!is_a($model, ModuleModel::class) && !$model instanceof ContentModel) {
             return;
         }
 
@@ -73,6 +69,7 @@ class RenderStack
         if (!\array_key_exists($column, $this->stack['current_index'])) {
             $this->stack['current_index'][$column] = 0;
         }
+
         $this->stack['items'][$this->stack['current_index']['all']] = [
             'index' => $this->stack['current_index']['all'],
             'index_in_column' => $this->stack['current_index'][$column],

@@ -39,6 +39,7 @@ class SaveConditionnal
         ) {
             return $this->invokeFrontendRegistration(...\func_get_args());
         }
+
         if (2 === \func_num_args()) {
             return $this->invokeBackend(...\func_get_args());
         }
@@ -48,7 +49,7 @@ class SaveConditionnal
 
     public function invokeBackend($value, DataContainer $dc)
     {
-        return !(bool) $dc->activeRecord->contains_personal_data ? $value : $this->pdmCallback->__invoke(...\func_get_args());
+        return (bool) $dc->activeRecord->contains_personal_data ? $this->pdmCallback->__invoke(...\func_get_args()) : $value;
     }
 
     public function invokeFrontend($value, \Contao\FrontendUser $user, \Contao\ModulePersonalData $module): void
