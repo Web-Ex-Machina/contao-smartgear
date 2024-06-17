@@ -16,7 +16,7 @@ namespace WEM\SmartgearBundle\Widget;
 
 use WEM\SmartgearBundle\Classes\Utils\Configuration\ConfigurationUtil;
 
-class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\ComponentStyleSelect
+class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\Widget\ComponentStyleSelect
 {
     public function generate(): string
     {
@@ -24,9 +24,8 @@ class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\Componen
         // normal translation keys
         $content = preg_replace_callback(
             '/>([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)</',
-            function ($match) {
+            static function ($match) : string {
                 $translation = sprintf('>%s<', $GLOBALS['TL_LANG'][$match[1]][$match[2]][$match[3]][$match[4]]);
-
                 return $translation ?: implode('.', $match);
             },
             $content
@@ -34,9 +33,8 @@ class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\Componen
         // combined translation keys (with color)
         $content = preg_replace_callback(
             '/>([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+) \(([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\)</',
-            function ($match) {
+            static function ($match) : string {
                 $colorTranslation = $GLOBALS['TL_LANG'][$match[5]][$match[6]][$match[7]][$match[8]] ?? $match[8];
-
                 return sprintf('>%s<', sprintf($GLOBALS['TL_LANG'][$match[1]][$match[2]][$match[3]][$match[4]], $colorTranslation));
             },
             $content
@@ -45,9 +43,7 @@ class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\Componen
         // normal translation keys for optgroup
         $content = preg_replace_callback(
             '/label\="([\s|&nbsp;]+)([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)"/',
-            function ($match) {
-                $translation = $GLOBALS['TL_LANG'][$match[2]][$match[3]][$match[4]][$match[5]] ?? $match[5];
-
+            static function ($match) : string {
                 return sprintf('label="%s%s"', $match[1], $GLOBALS['TL_LANG'][$match[2]][$match[3]][$match[4]][$match[5]]);
             },
             $content
@@ -55,15 +51,15 @@ class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\Componen
 
         $content = preg_replace_callback(
             '|</h3><select([^>]*)>(.*)</select>|U',
-            function ($match): string {
+            function (array $match): string {
                 // $match[0] => full match
 
                 // look in the options if we have something color related ?
-                if (preg_match('|<option value="(.*)-primary"|', $match[2])
-                || preg_match('|<option value="(.*)-red"|', $match[2])
+                if (preg_match('|<option value="(.*)-primary"|', (string) $match[2])
+                || preg_match('|<option value="(.*)-red"|', (string) $match[2])
                 ) {
                     $objConfiguration = ConfigurationUtil::findConfigurationForItem($this->arrConfiguration['strTable'], (int) $this->arrConfiguration['currentRecord']);
-                    $helpA = '<a href="contao/help.php?table='.$this->arrConfiguration['strTable'].'&amp;field='.$this->arrConfiguration['strField'].'&amp;id='.$this->arrConfiguration['currentRecord'].'&amp;framway_path='.($objConfiguration ? $objConfiguration->framway_path : \WEM\SmartgearBundle\Model\Configuration\Configuration::DEFAULT_FRAMWAY_PATH).'" title="'.\Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['helpWizard']).'" onclick="Backend.openModalIframe({\'title\':\''.\Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['helpWizardTitle']).'\',\'url\':this.href});return false">'.\Contao\Image::getHtml('about.svg', $GLOBALS['TL_LANG']['MSC']['helpWizard']).'</a>';
+                    $helpA = '<a href="contao/help.php?table='.$this->arrConfiguration['strTable'].'&amp;field='.$this->arrConfiguration['strField'].'&amp;id='.$this->arrConfiguration['currentRecord'].'&amp;framway_path='.($objConfiguration instanceof \WEM\SmartgearBundle\Model\Configuration\Configuration ? $objConfiguration->framway_path : \WEM\SmartgearBundle\Model\Configuration\Configuration::DEFAULT_FRAMWAY_PATH).'" title="'.\Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['helpWizard']).'" onclick="Backend.openModalIframe({\'title\':\''.\Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['helpWizardTitle']).'\',\'url\':this.href});return false">'.\Contao\Image::getHtml('about.svg', $GLOBALS['TL_LANG']['MSC']['helpWizard']).'</a>';
 
                     return $helpA.'</h3><select'.$match[1].'>'.$match[2].'</select>';
                 }
@@ -73,8 +69,6 @@ class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\Componen
             $content
         );
 
-        $content .= '';
-
-        return $content;
+        return $content . '';
     }
 }
