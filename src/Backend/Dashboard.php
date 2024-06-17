@@ -15,11 +15,16 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend;
 
 use Contao\BackendModule;
+use Contao\DataContainer;
 use Contao\Input;
 use Contao\Message;
 use Contao\System;
 use WEM\SmartgearBundle\Api\Airtable\V0\Api as AirtableApi;
+use WEM\SmartgearBundle\Backend\Dashboard\AnalyticsExternal;
+use WEM\SmartgearBundle\Backend\Dashboard\AnalyticsInternal;
+use WEM\SmartgearBundle\Backend\Dashboard\ShortcutExternal;
 use WEM\SmartgearBundle\Backend\Dashboard\ShortcutInternal;
+use WEM\SmartgearBundle\Backend\Dashboard\Support;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
@@ -32,26 +37,25 @@ class Dashboard extends BackendModule
      * @var string
      */
     protected $strTemplate = 'be_wem_sg_dashboard';
-    protected $strId = 'wem_sg_dashboard';
+
+    protected string $strId = 'wem_sg_dashboard';
 
     /**
      * Module basepath.
-     *
-     * @var string
      */
-    protected $strBasePath = 'bundles/wemsmartgear';
+    protected string $strBasePath = 'bundles/wemsmartgear';
 
-    public function __construct($dc = null)
+    public function __construct(DataContainer|null $dc = null)
     {
         parent::__construct($dc);
 
         $configurationManager = System::getContainer()->get('smartgear.config.manager.core');
 
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $configurationManager->load();
 
-            /** @var AirtableApi */
+            /** @var AirtableApi $airtableApi */
             $airtableApi = System::getContainer()->get('smartgear.api.airtable.v0.api');
 
             $arrDomains = Util::getRootPagesDomains();
@@ -63,15 +67,15 @@ class Dashboard extends BackendModule
         } catch (NotFound) {
         }
 
-        /* @var ShortcutInternal */
+        /* @var ShortcutInternal $this->modShortcutInternal */
         $this->modShortcutInternal = System::getContainer()->get('smartgear.backend.dashboard.shortcut_internal');
-        /* @var ShortcutExternal */
+        /* @var ShortcutExternal $this->modShortcutExternal */
         $this->modShortcutExternal = System::getContainer()->get('smartgear.backend.dashboard.shortcut_external');
-        /* @var AnalyticsInternal */
+        /* @var AnalyticsInternal $this->modAnalyticsInternal */
         $this->modAnalyticsInternal = System::getContainer()->get('smartgear.backend.dashboard.analytics_internal');
-        /* @var AnalyticsExternal */
+        /* @var AnalyticsExternal $this->modAnalyticsExternal */
         $this->modAnalyticsExternal = System::getContainer()->get('smartgear.backend.dashboard.analytics_external');
-        /* @var Support */
+        /* @var Support $this->modSupport */
         $this->modSupport = System::getContainer()->get('smartgear.backend.dashboard.support');
     }
 
@@ -83,11 +87,11 @@ class Dashboard extends BackendModule
         return parent::generate();
     }
 
-    public function compile(): void
+    protected function compile(): void
     {
         $configurationManager = System::getContainer()->get('smartgear.config.manager.core');
         try {
-            /** @var CoreConfig */
+            /** @var CoreConfig $config */
             $config = $configurationManager->load();
         } catch (NotFound) {
             return;
@@ -110,18 +114,12 @@ class Dashboard extends BackendModule
     /**
      * Process AJAX actions.
      *
-     * @param [String] $strAction - Ajax action wanted
-     *
-     * @return string - Ajax response, as String or JSON
+     * @param string $strAction - Ajax action wanted
      */
-    public function processAjaxRequest($strAction)
+    public function processAjaxRequest(string $strAction): void
     {
-        if (Input::post('TL_WEM_AJAX')) {
-            switch (Input::post('wem_module')) {
-                case $this->modSupport->getStrId():
-                    $this->modSupport->processAjaxRequest(Input::post('action'));
-                break;
-            }
+        if (Input::post('TL_WEM_AJAX') && Input::post('wem_module') === $this->modSupport->getStrId()) {
+            $this->modSupport->processAjaxRequest(Input::post('action'));
         }
     }
 }

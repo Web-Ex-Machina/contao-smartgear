@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend;
 
+use Contao\BackendModule;
+use Contao\DataContainer;
 use Contao\Environment;
 use Contao\Input;
 use Contao\Message;
@@ -30,7 +32,7 @@ use WEM\SmartgearBundle\Override\Controller;
  *
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
-class Backup extends \Contao\BackendModule
+class Backup extends BackendModule
 {
     /**
      * Template.
@@ -41,15 +43,14 @@ class Backup extends \Contao\BackendModule
 
     /**
      * Module basepath.
-     *
-     * @var string
      */
-    protected $strBasePath = 'bundles/wemsmartgear';
+    protected string $strBasePath = 'bundles/wemsmartgear';
 
-    /** @var BackupManager */
-    protected $backupManager;
+    protected $objSession;
 
-    public function __construct($dc = null)
+    protected ?BackupManager $backupManager;
+
+    public function __construct(DataContainer|null $dc = null)
     {
         parent::__construct($dc);
         $this->backupManager = System::getContainer()->get('smartgear.backup.backup_manager');
@@ -87,6 +88,7 @@ class Backup extends \Contao\BackendModule
             } catch (ManagerException $e) {
                 Message::addError($e->getMessage());
             }
+
             // And redirect
             Controller::redirect(str_replace('&act=new', '', Environment::get('request')));
         } elseif ('restore' === Input::get('act')) {
@@ -103,6 +105,7 @@ class Backup extends \Contao\BackendModule
             } catch (ManagerException $e) {
                 Message::addError($e->getMessage());
             }
+
             // And redirect
             Controller::redirect(str_replace('&act=restore&backup='.Input::get('backup'), '', Environment::get('request')));
         } elseif ('delete' === Input::get('act')) {
@@ -130,6 +133,7 @@ class Backup extends \Contao\BackendModule
             $this->Template->restore_result = $this->objSession->get('wem_sg_backup_restore_result');
             $this->objSession->set('wem_sg_backup_restore_result', '');
         }
+
         if ($this->objSession->get('wem_sg_backup_create_result')) {
             $this->Template->create_result = $this->objSession->get('wem_sg_backup_create_result');
             $this->objSession->set('wem_sg_backup_create_result', '');

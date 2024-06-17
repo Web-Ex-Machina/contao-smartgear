@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend;
 
+use Contao\BackendModule;
+use Contao\DataContainer;
 use Contao\Message;
 use Contao\System;
 use Exception;
@@ -24,12 +26,11 @@ use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
  *
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
-class CacheClear extends \Contao\BackendModule
+class CacheClear extends BackendModule
 {
-    /** @var CommandUtil */
-    protected $commandUtil;
+    protected ?CommandUtil $commandUtil;
 
-    public function __construct($dc = null)
+    public function __construct(?DataContainer $dc = null)
     {
         parent::__construct($dc);
         $this->commandUtil = System::getContainer()->get('smartgear.classes.command.util');

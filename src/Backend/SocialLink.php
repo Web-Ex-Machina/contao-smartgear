@@ -56,7 +56,7 @@ class SocialLink extends BackendModule
         $this->Template->links = SocialLinkModel::findAll();
         $this->Template->networks = SocialNetworkModel::findAll(['order' => 'pid ASC, name ASC']);
         $this->Template->modeExpert = $this->security->isGranted(SmartgearPermissions::SOCIALLINK_EXPERT);
-        $this->Template->token = REQUEST_TOKEN; //TODO : Deprecated token
+        $this->Template->token = REQUEST_TOKEN; // TODO : Deprecated token
     }
 
     protected function save(): void
