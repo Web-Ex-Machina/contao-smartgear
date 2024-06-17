@@ -24,8 +24,7 @@ use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 class General extends AbstractStep
 {
 
-
-    protected $strTemplate = 'be_wem_sg_install_block_reset_step_blog_general';
+    protected string $strTemplate = 'be_wem_sg_install_block_reset_step_blog_general';
 
     public function __construct(
         string $module,

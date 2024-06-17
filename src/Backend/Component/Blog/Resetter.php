@@ -34,24 +34,15 @@ use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class Resetter extends BackendResetter
 {
-    /** @var string */
-    protected $module = '';
+    protected string $module = '';
 
-    /** @var string */
-    protected $type = '';
+    protected string $type = '';
 
-    /** @var ConfigurationManager */
-    protected $configurationManager;
+    protected ConfigurationManager $configurationManager;
 
-    /** @var TranslatorInterface */
-    protected $translator;
+    protected TranslatorInterface $translator;
 
-    /**
-     * Generic array of logs.
-     *
-     * @var array
-     */
-    protected $logs = [];
+    protected array $logs = [];
 
     public function __construct(
         ConfigurationManager $configurationManager,

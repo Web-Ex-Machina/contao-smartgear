@@ -43,8 +43,7 @@ use WEM\SmartgearBundle\Security\SmartgearPermissions;
 class General extends ConfigurationStep
 {
 
-
-    protected $strTemplate = 'be_wem_sg_install_block_configuration_step_blog_general';
+    protected string $strTemplate = 'be_wem_sg_install_block_configuration_step_blog_general';
 
     public function __construct(
         string                         $module,

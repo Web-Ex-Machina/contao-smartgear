@@ -28,13 +28,13 @@ class Block extends BackendBlock
 {
     public const MODE_RESET = 'check_reset';
 
-    protected $type = 'component';
+    protected string $type = 'component';
 
-    protected $module = 'blog';
+    protected string $module = 'blog';
 
-    protected $icon = 'exclamation-triangle';
+    protected string $icon = 'exclamation-triangle';
 
-    protected $title = 'Blog';
+    protected string $title = 'Blog';
 
     public function __construct(
         TranslatorInterface        $translator,
