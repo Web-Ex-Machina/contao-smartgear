@@ -21,9 +21,6 @@ class CalendarEvents extends \tl_calendar_events
 {
     /**
      * Add the source options depending on the allowed fields (see #5498).
-     *
-     * @param DataContainer $dc
-     * @return array
      */
     public function getSourceOptions(DataContainer $dc): array
     {

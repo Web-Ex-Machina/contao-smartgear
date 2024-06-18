@@ -35,10 +35,8 @@ class FaqCategory extends \tl_faq_category
     {
         parent::checkPermission();
 
-        if (Input::get('act') === 'delete') {
-            if (!$this->canItemBeDeleted((int) Input::get('id'))) {
-                throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' FAQ Category ID '.Input::get('id').'.');
-            }
+        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' FAQ Category ID '.Input::get('id').'.');
         }
     }
 

@@ -34,10 +34,8 @@ class User extends \tl_user //TODO : Class 'tl_user' is marked as @internal
     {
         parent::checkPermission(); //TODO : Method 'checkPermission' not found in \tl_user
 
-        if (Input::get('act') === 'delete') {
-            if (!$this->canItemBeDeleted((int) Input::get('id'))) {
-                throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' user ID '.Input::get('id').'.');
-            }
+        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' user ID '.Input::get('id').'.');
         }
     }
 
@@ -49,6 +47,7 @@ class User extends \tl_user //TODO : Class 'tl_user' is marked as @internal
         if (!$this->canItemBeDeleted((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
+
         //TODO : Method 'deleteUser' not found in \tl_user
         return parent::deleteUser($row, $href, $label, $title, $icon, $attributes);
     }

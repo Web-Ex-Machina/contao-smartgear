@@ -92,6 +92,7 @@ class ConfigurationItem extends Core
                 } else {
                     $arrData['contao_module'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 break;
             case ConfigurationItemModel::TYPE_MIXED_FAQ:
                 if ($objItem->contao_page) {
@@ -337,10 +338,8 @@ class ConfigurationItem extends Core
 
         $objItem = ConfigurationItemModel::findOneById($dc->id);
         $objConfiguration = $objItem->getRelated('pid');
-        if ($objItem->type === ConfigurationItemModel::TYPE_MIXED_FORM_CONTACT) {
-            if (empty($objConfiguration->email_gateway)) {
-                Message::addError('La configuration ne stipule aucune passerelle email : il ne sera pas possible de créer la notification si besoin.');
-            }
+        if ($objItem->type === ConfigurationItemModel::TYPE_MIXED_FORM_CONTACT && empty($objConfiguration->email_gateway)) {
+            Message::addError('La configuration ne stipule aucune passerelle email : il ne sera pas possible de créer la notification si besoin.');
         }
     }
 

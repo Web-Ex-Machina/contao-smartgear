@@ -66,10 +66,8 @@ class Module extends \tl_module
     {
         parent::checkPermission();
 
-        if (Input::get('act') === 'delete') {
-            if (!$this->canItemBeDeleted((int) Input::get('id'))) {
-                throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' module ID '.Input::get('id').'.');
-            }
+        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' module ID '.Input::get('id').'.');
         }
     }
 

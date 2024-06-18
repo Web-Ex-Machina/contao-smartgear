@@ -22,7 +22,7 @@ use WEM\PersonalDataManagerBundle\Dca\Field\Callback\Load as PdmCallback;
 class LoadConditionnal
 {
     // TODO Entity Callback\Load ok ??
-    private PdmCallback|WEM\PersonalDataManagerBundle\Dca\Field\Callback\Load $pdmCallback;
+    private readonly PdmCallback|WEM\PersonalDataManagerBundle\Dca\Field\Callback\Load $pdmCallback;
 
     public function __construct(
         PdmCallback $pdmCallback,

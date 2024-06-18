@@ -45,7 +45,7 @@ class LoadDataContainerListener
                 // }
                 // // limiting singleSRC fierld to the blog folder
                 // $this->dcaManipulator->setFieldSingleSRCPath($faqConfig->getSgFaqFolder());
-                $this->dcaManipulator->addFieldSaveCallback('question', static fn($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
+                $this->dcaManipulator->addFieldSaveCallback('question', static fn($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
                 $this->dcaManipulator->addFieldSaveCallback('description', static fn($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
             }
         } catch (FileNotFoundException) {

@@ -42,7 +42,7 @@ readonly class FormStorage
             $objForm ? $objForm->title : $row['pid'],
             Date::parse(Config::get('datimFormat'), (int) $row['tstamp']),
             $this->translator->trans(sprintf('tl_sm_form_storage.status.%s', $row['status']), [], 'contao_default'),
-            empty($row['sender']) ? ($objFormStorageDataEmail ? $objFormStorageDataEmail->value : 'NR') : ($row['sender']),
+            empty($row['sender']) ? ($objFormStorageDataEmail instanceof Collection ? $objFormStorageDataEmail->value : 'NR') : ($row['sender']),
         ];
     }
 

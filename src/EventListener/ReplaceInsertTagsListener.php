@@ -96,6 +96,7 @@ class ReplaceInsertTagsListener
                     if ($elements[2] === 'title') {
                     return $objConfiguration->title;
                 }
+
                 break;
                 case 'title':
                 case 'version':

@@ -60,7 +60,7 @@ class LoadDataContainerListener
                         $this->updatePaletteGallery();
                     }
 
-                    $this->dcaManipulator->addFieldSaveCallback('headline', static fn($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('headline', static fn($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
                     $this->dcaManipulator->addFieldSaveCallback('text', static fn($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
                     $this->dcaManipulator->setFieldEvalProperty('sortBy', 'tl_class', 'hidden');
                 break;

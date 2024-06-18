@@ -215,8 +215,8 @@ class General extends ConfigurationStep
 
         $eventsConfig = $config->getSgEvents();
 
-        $objUserGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
-        $objUserGroupRedactors = UserGroupModel::findOneById($config->getSgUserGroupRedactors());
+        UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
+        UserGroupModel::findOneById($config->getSgUserGroupRedactors());
 
         $calendar = CalendarUtil::createCalendar($eventsConfig->getSgCalendarTitle(), (int) $page->id, $eventsConfig->getSgCalendar() ? ['id' => $eventsConfig->getSgCalendar()] : []);
         // $calendar = CalendarModel::findById($eventsConfig->getSgCalendar()) ?? new CalendarModel();

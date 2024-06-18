@@ -26,13 +26,9 @@ use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class NotificationLanguage extends tl_nc_language
 {
-    /** @var CoreConfigurationManager */
-    private $configManager;
-
     public function __construct()
     {
         $this->import(BackendUser::class, 'User');
-        $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
     }
 
     /**
@@ -42,13 +38,10 @@ class NotificationLanguage extends tl_nc_language
      */
     public function checkPermission(): void
     {
-        // Check current action
-        switch (Input::get('act')) {
-            case 'delete':
-                if (!$this->canItemBeDeleted((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' notification language ID '.Input::get('id').'.');
-                }
-            break;
+        if (Input::get('act') === 'delete') {
+            if (!$this->canItemBeDeleted((int) Input::get('id'))) {
+                throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' notification language ID '.Input::get('id').'.');
+            }
         }
     }
 

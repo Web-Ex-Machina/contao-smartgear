@@ -37,10 +37,8 @@ class ImageSize extends \tl_image_size
     {
         parent::checkPermission();
 
-        if (Input::get('act') === 'delete') {
-            if (!$this->canItemBeDeleted((int) Input::get('id'))) {
-                throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' layout ID '.Input::get('id').'.');
-            }
+        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' layout ID '.Input::get('id').'.');
         }
     }
 

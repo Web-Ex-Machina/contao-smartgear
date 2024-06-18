@@ -37,10 +37,8 @@ class MemberGroup extends \tl_member_group
      */
     public function checkPermission(): void
     {
-        if (Input::get('act') === 'delete') {
-            if (!$this->canItemBeDeleted((int) Input::get('id'))) {
-                throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' member group ID '.Input::get('id').'.');
-            }
+        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' member group ID '.Input::get('id').'.');
         }
     }
 

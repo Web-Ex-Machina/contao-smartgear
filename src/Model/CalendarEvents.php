@@ -53,6 +53,7 @@ class CalendarEvents extends CoreModel
         while ($objResults->next()) {
             $items[] = $objResults->location;
         }
+
         return $items;
     }
 }

@@ -34,10 +34,8 @@ class UserGroup extends \tl_user_group //TODO : Class 'tl_user_group' is marked 
      */
     public function checkPermission(): void
     {
-        if (Input::get('act') === 'delete') {
-            if (!$this->canItemBeDeleted((int) Input::get('id'))) {
-                throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' user group ID '.Input::get('id').'.');
-            }
+        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' user group ID '.Input::get('id').'.');
         }
     }
 

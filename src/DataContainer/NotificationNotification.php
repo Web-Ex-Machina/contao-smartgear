@@ -28,13 +28,9 @@ use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class NotificationNotification extends tl_nc_notification
 {
-    /** @var CoreConfigurationManager */
-    private $configManager;
-
     public function __construct()
     {
         $this->import(BackendUser::class, 'User');
-        $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
     }
 
     /**
@@ -44,13 +40,10 @@ class NotificationNotification extends tl_nc_notification
      */
     public function checkPermission(): void
     {
-        // Check current action
-        switch (Input::get('act')) {
-            case 'delete':
-                if (!$this->canItemBeDeleted((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' notification ID '.Input::get('id').'.');
-                }
-            break;
+        if (Input::get('act') === 'delete') {
+            if (!$this->canItemBeDeleted((int) Input::get('id'))) {
+                throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' notification ID '.Input::get('id').'.');
+            }
         }
     }
 

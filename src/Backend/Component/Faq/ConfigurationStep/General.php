@@ -177,8 +177,8 @@ class General extends ConfigurationStep
         $config = $this->configurationManager->load();
         $faqConfig = $config->getSgFaq();
 
-        $objUserGroupAdministrators = UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
-        $objUserGroupRedactors = UserGroupModel::findOneById($config->getSgUserGroupRedactors());
+        UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
+        UserGroupModel::findOneById($config->getSgUserGroupRedactors());
 
         // TODO : Expected parameter of type 'int|null', 'array' provided
         $faqCategory = FaqCategoryUtil::createFaqCategory($faqConfig->getSgFaqTitle(), $faqConfig->getSgFaqCategory() ? ['id' => $faqConfig->getSgFaqCategory()] : []);

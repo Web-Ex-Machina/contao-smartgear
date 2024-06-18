@@ -36,10 +36,8 @@ class Page extends \tl_page // TODO : Class 'tl_page' is marked as @internal
     {
         parent::checkPermission();  // TODO : Class 'parent' is marked as @internal
 
-        if (Input::get('act') === 'delete') {
-            if (!$this->canItemBeDeleted((int) Input::get('id'))) {
-                throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' page ID '.Input::get('id').'.');
-            }
+        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' page ID '.Input::get('id').'.');
         }
     }
 

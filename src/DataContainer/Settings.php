@@ -27,23 +27,18 @@ class Settings
 {
     public function onsubmitCallback(DataContainer $dc): void
     {
-        if (Config::get('wem_sg_support_form_enabled') && (Config::get('wem_sg_support_form_gateway') && !Config::get('wem_sg_support_form_notification'))) {
-            // create support notification
-            if ($objGateway = Gateway::findByPk(Config::get('wem_sg_support_form_gateway'))) {
-                $objNcNotification = NcNotificationUtil::createSupportFormNotification();
-
-                $objNcNotificationMessageUser = NcNotificationMessageUtil::createSupportFormNotificationMessageUser((int) $objGateway->id, 'email', (int) $objNcNotification->id);
-                $objNcNotificationMessageUserLanguage = NcNotificationMessageLanguageUtil::createSupportFormNotificationMessageUserLanguage((int) $objNcNotificationMessageUser->id, 'fr', true);
-
-                $objNcNotificationMessageAdmin = NcNotificationMessageUtil::createSupportFormNotificationMessageAdmin((int) $objGateway->id, 'email', (int) $objNcNotification->id);
-                $objNcNotificationMessageAdminLanguage = NcNotificationMessageLanguageUtil::createSupportFormNotificationMessageAdminLanguage((int) $objNcNotificationMessageAdmin->id, 'fr', true);
-
-                // $objConfig = Config::getInstance();
-                // $objConfig->persist("\$GLOBALS['TL_CONFIG']['wem_sg_support_form_notification']", $objNcNotification->id);
-                // $objConfig->save();
-                Config::set('wem_sg_support_form_notification', $objNcNotification->id);
-                Config::persist('wem_sg_support_form_notification', $objNcNotification->id);
-            }
+        // create support notification
+        if (Config::get('wem_sg_support_form_enabled') && (Config::get('wem_sg_support_form_gateway') && !Config::get('wem_sg_support_form_notification')) && ($objGateway = Gateway::findByPk(Config::get('wem_sg_support_form_gateway')))) {
+            $objNcNotification = NcNotificationUtil::createSupportFormNotification();
+            $objNcNotificationMessageUser = NcNotificationMessageUtil::createSupportFormNotificationMessageUser((int) $objGateway->id, 'email', (int) $objNcNotification->id);
+            $objNcNotificationMessageUserLanguage = NcNotificationMessageLanguageUtil::createSupportFormNotificationMessageUserLanguage((int) $objNcNotificationMessageUser->id, 'fr', true);
+            $objNcNotificationMessageAdmin = NcNotificationMessageUtil::createSupportFormNotificationMessageAdmin((int) $objGateway->id, 'email', (int) $objNcNotification->id);
+            $objNcNotificationMessageAdminLanguage = NcNotificationMessageLanguageUtil::createSupportFormNotificationMessageAdminLanguage((int) $objNcNotificationMessageAdmin->id, 'fr', true);
+            // $objConfig = Config::getInstance();
+            // $objConfig->persist("\$GLOBALS['TL_CONFIG']['wem_sg_support_form_notification']", $objNcNotification->id);
+            // $objConfig->save();
+            Config::set('wem_sg_support_form_notification', $objNcNotification->id);
+            Config::persist('wem_sg_support_form_notification', $objNcNotification->id);
         }
 
         if (Config::get('wem_sg_encryption_key')) {
