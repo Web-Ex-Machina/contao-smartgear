@@ -41,9 +41,6 @@ class Newsletter extends ContaoNewsletter
 {
     /**
      * Return a form to choose an existing CSV file and import it.
-     *
-     * @param DataContainer $dc
-     * @return string
      */
     public function send(DataContainer $dc): string
     {
