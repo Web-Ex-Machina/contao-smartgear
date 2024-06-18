@@ -31,7 +31,6 @@ class BackendMenuBuildListener
     public function __invoke(MenuEvent $event): void
     {
         try {
-            /** @var CoreConfig $config */
             $coreConfig = $this->coreConfigurationManager->load();
             if (!$coreConfig->getSgInstallComplete()) {
                 $this->removeDashboardNode($event);

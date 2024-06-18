@@ -37,7 +37,6 @@ class CompileFormFieldsListener
         Form $form
     ): array {
         try {
-            /** @var CoreConfig $config */
             $coreConfig = $this->coreConfigurationManager->load();
             if ($coreConfig->getSgInstallComplete()) {
                 // current page
