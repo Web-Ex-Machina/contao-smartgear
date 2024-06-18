@@ -13,6 +13,7 @@ declare(strict_types=1);
  */
 
 use Contao\DataContainer;
+use Contao\DC_Table;
 
 $GLOBALS['TL_DCA']['tl_sm_page_visit'] = [
     // Config
