@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Migrations\V1\Y0\Z4\M202301110935;
 
+use Contao\Model\Collection;
 use Contao\PageModel;
 use Doctrine\DBAL\Connection;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -32,20 +33,21 @@ use WEM\SmartgearBundle\Model\Module;
 class Migration extends MigrationAbstract
 {
     protected string $name = 'Smargear update to v1.0.4';
+
     protected string $description = 'Set Smartgear to version 1.0.4';
+
     protected string $version = '1.0.4';
+
     protected string $translation_key = 'WEMSG.MIGRATIONS.V1_0_4_M202301110935';
-    protected DirectoriesSynchronizer $templatesSmartgearSynchronizer;
 
     public function __construct(
         Connection $connection,
         TranslatorInterface $translator,
         CoreConfigurationManager $coreConfigurationManager,
         VersionComparator $versionComparator,
-        DirectoriesSynchronizer $templatesSmartgearSynchronizer
+        protected DirectoriesSynchronizer $templatesSmartgearSynchronizer
     ) {
         parent::__construct($connection, $translator, $coreConfigurationManager, $versionComparator);
-        $this->templatesSmartgearSynchronizer = $templatesSmartgearSynchronizer;
     }
 
     public function shouldRun(): Result
@@ -69,6 +71,7 @@ class Migration extends MigrationAbstract
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
             return $result;
         }
+
         try {
             /** @var CoreConfig $config */
             // $coreConfig = $this->coreConfigurationManager->load();
@@ -89,10 +92,10 @@ class Migration extends MigrationAbstract
                 ->setStatus(Result::STATUS_SUCCESS)
                 ->addLog($this->translator->trans($this->buildTranslationKey('done'), [], 'contao_default'))
             ;
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $result
                 ->setStatus(Result::STATUS_FAIL)
-                ->addLog($e->getMessage())
+                ->addLog($exception->getMessage())
             ;
         }
 
@@ -105,7 +108,7 @@ class Migration extends MigrationAbstract
         $newTemplate = 'mod_newslist_nofilters';
 
         $modules = Module::findItems(['customTpl' => $oldTemplate]);
-        if ($modules) {
+        if ($modules instanceof Collection) {
             while ($modules->next()) {
                 $module = $modules->current();
                 $module->customTpl = $newTemplate;
@@ -114,7 +117,7 @@ class Migration extends MigrationAbstract
         }
 
         $contents = Content::findItems(['customTpl' => $oldTemplate]);
-        if ($contents) {
+        if ($contents instanceof Collection) {
             while ($contents->next()) {
                 $content = $contents->current();
                 $content->customTpl = $newTemplate;
@@ -123,7 +126,7 @@ class Migration extends MigrationAbstract
         }
 
         $articles = Article::findItems(['customTpl' => $oldTemplate]);
-        if ($articles) {
+        if ($articles instanceof Collection) {
             while ($articles->next()) {
                 $article = $articles->current();
                 $article->customTpl = $newTemplate;
@@ -136,7 +139,6 @@ class Migration extends MigrationAbstract
     {
         // only if old SG install still valid
         try {
-            /** @var CoreConfig $config */
             $coreConfig = $this->coreConfigurationManager->load();
         } catch (NotFound) {
             return;
@@ -153,16 +155,16 @@ class Migration extends MigrationAbstract
         if ($page) {
             // remove headline from page
             $article = Article::findItems(['pid' => $page->id], 1);
-            if ($article) {
+            if ($article instanceof Collection) {
                 $headline = Content::findItems(['pid' => $article->id, 'ptable' => 'tl_article', 'type' => 'headline'], 1);
-                if ($headline) {
+                if ($headline instanceof Collection) {
                     $headline->delete();
                 }
             }
 
             // set header in list module
             $module = Module::findItems(['id' => $blogConfig->getSgModuleList()], 1);
-            if ($module) {
+            if ($module instanceof Collection) {
                 $module->headline = serialize(['unit' => 'h1', 'value' => $page->title]);
                 $module->save();
             }

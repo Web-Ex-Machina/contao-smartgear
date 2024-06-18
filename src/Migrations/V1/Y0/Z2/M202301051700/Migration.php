@@ -25,8 +25,11 @@ use WEM\SmartgearBundle\Migrations\V1\Y0\Z0\MigrationAbstract;
 class Migration extends MigrationAbstract
 {
     protected string $name = 'Smargear update to v1.0.2';
+
     protected string $description = 'Set Smartgear to version 1.0.2';
+
     protected string $version = '1.0.2';
+
     protected string $translation_key = 'WEMSG.MIGRATIONS.V1_0_2_M202301051700';
 
     public function __construct(
@@ -59,6 +62,7 @@ class Migration extends MigrationAbstract
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
             return $result;
         }
+
         try {
             /** @var CoreConfig $config */
             // $coreConfig = $this->coreConfigurationManager->load();
@@ -73,10 +77,10 @@ class Migration extends MigrationAbstract
                 ->setStatus(Result::STATUS_SUCCESS)
                 ->addLog($this->translator->trans($this->buildTranslationKey('done'), [], 'contao_default'))
             ;
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $result
                 ->setStatus(Result::STATUS_FAIL)
-                ->addLog($e->getMessage())
+                ->addLog($exception->getMessage())
             ;
         }
 

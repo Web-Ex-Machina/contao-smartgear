@@ -26,20 +26,21 @@ use WEM\SmartgearBundle\Migrations\V1\Y0\Z0\MigrationAbstract;
 class Migration extends MigrationAbstract
 {
     protected string $name = 'Smargear update to v1.0.3';
+
     protected string $description = 'Set Smartgear to version 1.0.3';
+
     protected string $version = '1.0.3';
+
     protected string $translation_key = 'WEMSG.MIGRATIONS.V1_0_3_M202301100950';
-    protected DirectoriesSynchronizer $templatesSmartgearSynchronizer;
 
     public function __construct(
         Connection $connection,
         TranslatorInterface $translator,
         CoreConfigurationManager $coreConfigurationManager,
         VersionComparator $versionComparator,
-        DirectoriesSynchronizer $templatesSmartgearSynchronizer
+        protected DirectoriesSynchronizer $templatesSmartgearSynchronizer
     ) {
         parent::__construct($connection, $translator, $coreConfigurationManager, $versionComparator);
-        $this->templatesSmartgearSynchronizer = $templatesSmartgearSynchronizer;
     }
 
     public function shouldRun(): Result
@@ -63,6 +64,7 @@ class Migration extends MigrationAbstract
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
             return $result;
         }
+
         try {
             /** @var CoreConfig $config */
             // $coreConfig = $this->coreConfigurationManager->load();
@@ -80,10 +82,10 @@ class Migration extends MigrationAbstract
                 ->setStatus(Result::STATUS_SUCCESS)
                 ->addLog($this->translator->trans($this->buildTranslationKey('done'), [], 'contao_default'))
             ;
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $result
                 ->setStatus(Result::STATUS_FAIL)
-                ->addLog($e->getMessage())
+                ->addLog($exception->getMessage())
             ;
         }
 

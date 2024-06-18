@@ -35,8 +35,11 @@ use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 class Migration extends MigrationAbstract
 {
     protected string $name = 'Migrates v1.0.x to v1.1 structure';
-    protected string $description = 'Migrates a Smartegar configuration\'s file from v1.0.x to the new v1.1 structure';
+
+    protected string $description = "Migrates a Smartegar configuration's file from v1.0.x to the new v1.1 structure";
+
     protected string $version = '1.1.0';
+
     protected string $translation_key = 'WEMSG.MIGRATIONS.V1_1_0_M202311301519';
 
     public function __construct(
@@ -55,6 +58,7 @@ class Migration extends MigrationAbstract
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
             return $result;
         }
+
         $schemaManager = $this->connection->getSchemaManager();
         if (!$schemaManager->tablesExist([Configuration::getTable(), ConfigurationItem::getTable()])) {
             $result
@@ -64,6 +68,7 @@ class Migration extends MigrationAbstract
 
             return $result;
         }
+
         $result
             ->addLog($this->translator->trans('WEMSG.MIGRATIONS.shouldBeRun', [], 'contao_default'))
         ;
@@ -77,10 +82,11 @@ class Migration extends MigrationAbstract
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
             return $result;
         }
+
         try {
             /** @var Core */
             $config = $this->coreConfigurationManager->load();
-        } catch (NotFound $e) {
+        } catch (NotFound) {
             $result
                 ->setStatus(Result::STATUS_SKIPPED)
                 ->addLog($this->translator->trans($this->buildTranslationKey('doNoPreviousInstallToMigrate'), [], 'contao_default'))
@@ -90,6 +96,7 @@ class Migration extends MigrationAbstract
 
             return $result;
         }
+
         try {
             $objConfiguration = $this->configurationFileToConfigrationDatabase($config);
             $this->configurationFileToContaoSettings($config);
@@ -101,10 +108,10 @@ class Migration extends MigrationAbstract
                 ->addLog($this->translator->trans($this->buildTranslationKey('done'), [], 'contao_default'))
             ;
             $this->updateConfigurationsVersion($this->version);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $result
                 ->setStatus(Result::STATUS_FAIL)
-                ->addLog($e->getMessage())
+                ->addLog($exception->getMessage())
             ;
         }
 
@@ -118,7 +125,7 @@ class Migration extends MigrationAbstract
             'pid' => $objConfiguration->id,
             'type' => ConfigurationItem::TYPE_PAGE_PRIVACY_POLITICS,
         ], 1);
-        if (!$objConfigurationItem) {
+        if (!$objConfigurationItem instanceof \Contao\Model\Collection) {
             $objConfigurationItem = new ConfigurationItem();
             $objConfigurationItem->created_at = time();
             $objConfigurationItem->pid = $objConfiguration->id;
@@ -126,9 +133,11 @@ class Migration extends MigrationAbstract
         } else {
             $objConfigurationItem = $objConfigurationItem->current();
         }
+
         $objConfigurationItem->contao_page = $config->getSgPagePrivacyPolitics();
         $objConfigurationItem->save();
         $objConfigurationItem = ConfigurationItemUtil::createEverythingFromConfigurationItem($objConfigurationItem, [], (int) $objConfigurationItem->tstamp);
+
         $objConfigurationItem->tstamp = time();
         $objConfigurationItem->save();
         // page legal notice
@@ -136,7 +145,7 @@ class Migration extends MigrationAbstract
             'pid' => $objConfiguration->id,
             'type' => ConfigurationItem::TYPE_PAGE_LEGAL_NOTICE,
         ], 1);
-        if (!$objConfigurationItem) {
+        if (!$objConfigurationItem instanceof \Contao\Model\Collection) {
             $objConfigurationItem = new ConfigurationItem();
             $objConfigurationItem->created_at = time();
             $objConfigurationItem->pid = $objConfiguration->id;
@@ -144,9 +153,11 @@ class Migration extends MigrationAbstract
         } else {
             $objConfigurationItem = $objConfigurationItem->current();
         }
+
         $objConfigurationItem->contao_page = $config->getSgPageLegalNotice();
         $objConfigurationItem->save();
         $objConfigurationItem = ConfigurationItemUtil::createEverythingFromConfigurationItem($objConfigurationItem, [], (int) $objConfigurationItem->tstamp);
+
         $objConfigurationItem->tstamp = time();
         $objConfigurationItem->save();
         // page sitemap => NO, WE HAVE A FULL MIXED
@@ -155,7 +166,7 @@ class Migration extends MigrationAbstract
             'pid' => $objConfiguration->id,
             'type' => ConfigurationItem::TYPE_USER_GROUP_ADMINISTRATORS,
         ], 1);
-        if (!$objConfigurationItem) {
+        if (!$objConfigurationItem instanceof \Contao\Model\Collection) {
             $objConfigurationItem = new ConfigurationItem();
             $objConfigurationItem->created_at = time();
             $objConfigurationItem->pid = $objConfiguration->id;
@@ -163,9 +174,11 @@ class Migration extends MigrationAbstract
         } else {
             $objConfigurationItem = $objConfigurationItem->current();
         }
+
         $objConfigurationItem->contao_user_group = $config->getSgUserGroupAdministrators();
         $objConfigurationItem->save();
         $objConfigurationItem = ConfigurationItemUtil::createEverythingFromConfigurationItem($objConfigurationItem, [], (int) $objConfigurationItem->tstamp);
+
         $objConfigurationItem->tstamp = time();
         $objConfigurationItem->save();
         // usergroup redactors
@@ -173,7 +186,7 @@ class Migration extends MigrationAbstract
             'pid' => $objConfiguration->id,
             'type' => ConfigurationItem::TYPE_USER_GROUP_REDACTORS,
         ], 1);
-        if (!$objConfigurationItem) {
+        if (!$objConfigurationItem instanceof \Contao\Model\Collection) {
             $objConfigurationItem = new ConfigurationItem();
             $objConfigurationItem->created_at = time();
             $objConfigurationItem->pid = $objConfiguration->id;
@@ -181,9 +194,11 @@ class Migration extends MigrationAbstract
         } else {
             $objConfigurationItem = $objConfigurationItem->current();
         }
+
         $objConfigurationItem->contao_user_group = $config->getSgUserGroupRedactors();
         $objConfigurationItem->save();
         $objConfigurationItem = ConfigurationItemUtil::createEverythingFromConfigurationItem($objConfigurationItem, [], (int) $objConfigurationItem->tstamp);
+
         $objConfigurationItem->tstamp = time();
         $objConfigurationItem->save();
         // module wem_sg_header
@@ -191,7 +206,7 @@ class Migration extends MigrationAbstract
             'pid' => $objConfiguration->id,
             'type' => ConfigurationItem::TYPE_MODULE_WEM_SG_HEADER,
         ], 1);
-        if (!$objConfigurationItem) {
+        if (!$objConfigurationItem instanceof \Contao\Model\Collection) {
             $objConfigurationItem = new ConfigurationItem();
             $objConfigurationItem->created_at = time();
             $objConfigurationItem->pid = $objConfiguration->id;
@@ -199,9 +214,11 @@ class Migration extends MigrationAbstract
         } else {
             $objConfigurationItem = $objConfigurationItem->current();
         }
+
         $objConfigurationItem->contao_module = $config->getSgModuleByKey('wem_sg_header');
         $objConfigurationItem->save();
         $objConfigurationItem = ConfigurationItemUtil::createEverythingFromConfigurationItem($objConfigurationItem, [], (int) $objConfigurationItem->tstamp);
+
         $objConfigurationItem->tstamp = time();
         $objConfigurationItem->save();
         // module wem_sg_footer
@@ -209,7 +226,7 @@ class Migration extends MigrationAbstract
             'pid' => $objConfiguration->id,
             'type' => ConfigurationItem::TYPE_MODULE_WEM_SG_FOOTER,
         ], 1);
-        if (!$objConfigurationItem) {
+        if (!$objConfigurationItem instanceof \Contao\Model\Collection) {
             $objConfigurationItem = new ConfigurationItem();
             $objConfigurationItem->created_at = time();
             $objConfigurationItem->pid = $objConfiguration->id;
@@ -217,9 +234,11 @@ class Migration extends MigrationAbstract
         } else {
             $objConfigurationItem = $objConfigurationItem->current();
         }
+
         $objConfigurationItem->contao_module = $config->getSgModuleByKey('wem_sg_footer');
         $objConfigurationItem->save();
         $objConfigurationItem = ConfigurationItemUtil::createEverythingFromConfigurationItem($objConfigurationItem, [], (int) $objConfigurationItem->tstamp);
+
         $objConfigurationItem->tstamp = time();
         $objConfigurationItem->save();
         // module wem_sg_social_links
@@ -227,7 +246,7 @@ class Migration extends MigrationAbstract
             'pid' => $objConfiguration->id,
             'type' => ConfigurationItem::TYPE_MODULE_WEM_SG_SOCIAL_NETWORKS,
         ], 1);
-        if (!$objConfigurationItem) {
+        if (!$objConfigurationItem instanceof \Contao\Model\Collection) {
             $objConfigurationItem = new ConfigurationItem();
             $objConfigurationItem->created_at = time();
             $objConfigurationItem->pid = $objConfiguration->id;
@@ -235,9 +254,11 @@ class Migration extends MigrationAbstract
         } else {
             $objConfigurationItem = $objConfigurationItem->current();
         }
+
         $objConfigurationItem->contao_module = $config->getSgModuleByKey('wem_sg_social_link');
         $objConfigurationItem->save();
         $objConfigurationItem = ConfigurationItemUtil::createEverythingFromConfigurationItem($objConfigurationItem, [], (int) $objConfigurationItem->tstamp);
+
         $objConfigurationItem->tstamp = time();
         $objConfigurationItem->save();
         // module wem_breadcrumb
@@ -245,7 +266,7 @@ class Migration extends MigrationAbstract
             'pid' => $objConfiguration->id,
             'type' => ConfigurationItem::TYPE_MODULE_BREADCRUMB,
         ], 1);
-        if (!$objConfigurationItem) {
+        if (!$objConfigurationItem instanceof \Contao\Model\Collection) {
             $objConfigurationItem = new ConfigurationItem();
             $objConfigurationItem->created_at = time();
             $objConfigurationItem->pid = $objConfiguration->id;
@@ -253,9 +274,11 @@ class Migration extends MigrationAbstract
         } else {
             $objConfigurationItem = $objConfigurationItem->current();
         }
+
         $objConfigurationItem->contao_module = $config->getSgModuleByKey('breadcrumb');
         $objConfigurationItem->save();
         $objConfigurationItem = ConfigurationItemUtil::createEverythingFromConfigurationItem($objConfigurationItem, [], (int) $objConfigurationItem->tstamp);
+
         $objConfigurationItem->tstamp = time();
         $objConfigurationItem->save();
         // mixed sitemap
@@ -263,7 +286,7 @@ class Migration extends MigrationAbstract
             'pid' => $objConfiguration->id,
             'type' => ConfigurationItem::TYPE_MIXED_SITEMAP,
         ], 1);
-        if (!$objConfigurationItem) {
+        if (!$objConfigurationItem instanceof \Contao\Model\Collection) {
             $objConfigurationItem = new ConfigurationItem();
             $objConfigurationItem->created_at = time();
             $objConfigurationItem->pid = $objConfiguration->id;
@@ -271,10 +294,12 @@ class Migration extends MigrationAbstract
         } else {
             $objConfigurationItem = $objConfigurationItem->current();
         }
+
         $objConfigurationItem->contao_page = $config->getSgPageSitemap();
         $objConfigurationItem->contao_module = $config->getSgModuleByKey('sitemap');
         $objConfigurationItem->save();
         $objConfigurationItem = ConfigurationItemUtil::createEverythingFromConfigurationItem($objConfigurationItem, [], (int) $objConfigurationItem->tstamp);
+
         $objConfigurationItem->tstamp = time();
         $objConfigurationItem->save();
         // mixed blog
@@ -285,7 +310,7 @@ class Migration extends MigrationAbstract
                 'pid' => $objConfiguration->id,
                 'type' => ConfigurationItem::TYPE_MIXED_BLOG,
             ], 1);
-            if (!$objConfigurationItem) {
+            if (!$objConfigurationItem instanceof \Contao\Model\Collection) {
                 $objConfigurationItem = new ConfigurationItem();
                 $objConfigurationItem->created_at = time();
                 $objConfigurationItem->pid = $objConfiguration->id;
@@ -293,6 +318,7 @@ class Migration extends MigrationAbstract
             } else {
                 $objConfigurationItem = $objConfigurationItem->current();
             }
+
             $objConfigurationItem->contao_page = $blogConfig->getSgPage();
             $objConfigurationItem->contao_module_reader = $blogConfig->getSgModuleReader();
             $objConfigurationItem->contao_module_list = $blogConfig->getSgModuleList();
@@ -302,6 +328,7 @@ class Migration extends MigrationAbstract
             $objConfigurationItem->tstamp = time();
             $objConfigurationItem->save();
         }
+
         // mixed events
         /** @var EventsConfig */
         $eventsConfig = $config->getSgEvents();
@@ -310,7 +337,7 @@ class Migration extends MigrationAbstract
                 'pid' => $objConfiguration->id,
                 'type' => ConfigurationItem::TYPE_MIXED_EVENTS,
             ], 1);
-            if (!$objConfigurationItem) {
+            if (!$objConfigurationItem instanceof \Contao\Model\Collection) {
                 $objConfigurationItem = new ConfigurationItem();
                 $objConfigurationItem->created_at = time();
                 $objConfigurationItem->pid = $objConfiguration->id;
@@ -318,6 +345,7 @@ class Migration extends MigrationAbstract
             } else {
                 $objConfigurationItem = $objConfigurationItem->current();
             }
+
             $objConfigurationItem->contao_page = $eventsConfig->getSgPage();
             $objConfigurationItem->contao_module_reader = $eventsConfig->getSgModuleReader();
             $objConfigurationItem->contao_module_list = $eventsConfig->getSgModuleList();
@@ -328,6 +356,7 @@ class Migration extends MigrationAbstract
             $objConfigurationItem->tstamp = time();
             $objConfigurationItem->save();
         }
+
         // mixed faq
         /** @var FaqConfig */
         $faqConfig = $config->getSgFaq();
@@ -336,7 +365,7 @@ class Migration extends MigrationAbstract
                 'pid' => $objConfiguration->id,
                 'type' => ConfigurationItem::TYPE_MIXED_FAQ,
             ], 1);
-            if (!$objConfigurationItem) {
+            if (!$objConfigurationItem instanceof \Contao\Model\Collection) {
                 $objConfigurationItem = new ConfigurationItem();
                 $objConfigurationItem->created_at = time();
                 $objConfigurationItem->pid = $objConfiguration->id;
@@ -344,6 +373,7 @@ class Migration extends MigrationAbstract
             } else {
                 $objConfigurationItem = $objConfigurationItem->current();
             }
+
             $objConfigurationItem->contao_page = $faqConfig->getSgPage();
             $objConfigurationItem->contao_module = $faqConfig->getSgModuleFaq();
             $objConfigurationItem->contao_faq_category = $faqConfig->getSgFaqCategory();
@@ -352,6 +382,7 @@ class Migration extends MigrationAbstract
             $objConfigurationItem->tstamp = time();
             $objConfigurationItem->save();
         }
+
         // mixed form contact
         /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
@@ -360,7 +391,7 @@ class Migration extends MigrationAbstract
                 'pid' => $objConfiguration->id,
                 'type' => ConfigurationItem::TYPE_MIXED_FORM_CONTACT,
             ], 1);
-            if (!$objConfigurationItem) {
+            if (!$objConfigurationItem instanceof \Contao\Model\Collection) {
                 $objConfigurationItem = new ConfigurationItem();
                 $objConfigurationItem->created_at = time();
                 $objConfigurationItem->pid = $objConfiguration->id;
@@ -368,6 +399,7 @@ class Migration extends MigrationAbstract
             } else {
                 $objConfigurationItem = $objConfigurationItem->current();
             }
+
             $objConfigurationItem->contao_page_form = $formContactConfig->getSgPageForm();
             $objConfigurationItem->contao_page_form_sent = $formContactConfig->getSgPageFormSent();
             $objConfigurationItem->contao_form = $formContactConfig->getSgFormContact();
@@ -408,7 +440,7 @@ class Migration extends MigrationAbstract
     protected function configurationFileToConfigrationDatabase(Core $config): Configuration
     {
         $objConfiguration = Configuration::findItems(['title' => $config->getSgWebsiteTitle()], 1);
-        if (!$objConfiguration) {
+        if (!$objConfiguration instanceof \Contao\Model\Collection) {
             $objConfiguration = new Configuration();
             $objConfiguration->created_at = time();
         } else {

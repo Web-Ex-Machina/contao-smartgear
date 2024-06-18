@@ -26,8 +26,11 @@ use WEM\SmartgearBundle\Model\SocialNetworkCategory as SocialNetworkCategoryMode
 class Migration extends MigrationAbstract
 {
     protected string $name = 'Configures social networks';
+
     protected string $description = 'Configures social networks';
+
     protected string $version = '1.0.0';
+
     protected string $translation_key = 'WEMSG.MIGRATIONS.V1_0_0_M202205130814';
 
     public function __construct(
@@ -46,6 +49,7 @@ class Migration extends MigrationAbstract
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
             return $result;
         }
+
         $schemaManager = $this->connection->getSchemaManager();
         if (!$schemaManager->tablesExist([SocialNetworkModel::getTable(), SocialNetworkCategoryModel::getTable()])) {
             $result
@@ -55,6 +59,7 @@ class Migration extends MigrationAbstract
 
             return $result;
         }
+
         $result
             ->addLog($this->translator->trans('WEMSG.MIGRATIONS.shouldBeRun', [], 'contao_default'))
         ;
@@ -68,6 +73,7 @@ class Migration extends MigrationAbstract
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
             return $result;
         }
+
         try {
             $objSocialNetworkCategory = $this->fillSocialNetworkCategory('WEMSG.SOCIALNETWORK.CATEGORY.social');
             $this->fillSocialNetwork('WEMSG.SOCIALNETWORK.NETWORK.facebook', (int) $objSocialNetworkCategory->id, 'fab fa-facebook');
@@ -102,10 +108,10 @@ class Migration extends MigrationAbstract
                 ->setStatus(Result::STATUS_SUCCESS)
                 ->addLog($this->translator->trans($this->buildTranslationKey('doAddSocialNetworks'), [], 'contao_default'))
             ;
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $result
                 ->setStatus(Result::STATUS_FAIL)
-                ->addLog($e->getMessage())
+                ->addLog($exception->getMessage())
             ;
         }
 

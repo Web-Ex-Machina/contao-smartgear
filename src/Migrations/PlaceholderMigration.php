@@ -25,8 +25,11 @@ use WEM\SmartgearBundle\Migrations\V1\Y0\Z0\MigrationAbstract;
 class PlaceholderMigration extends MigrationAbstract
 {
     protected string $name;
+
     protected string $description;
+
     protected string $version;
+
     protected string $translation_key = 'WEMSG.MIGRATIONS.PLACEHOLDER';
 
     public function __construct(
@@ -65,6 +68,7 @@ class PlaceholderMigration extends MigrationAbstract
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
             return $result;
         }
+
         try {
             /** @var CoreConfig $config */
             // $coreConfig = $this->coreConfigurationManager->load();
@@ -79,10 +83,10 @@ class PlaceholderMigration extends MigrationAbstract
                 ->setStatus(Result::STATUS_SUCCESS)
                 ->addLog($this->translator->trans($this->buildTranslationKey('done'), [$this->version], 'contao_default'))
             ;
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $result
                 ->setStatus(Result::STATUS_FAIL)
-                ->addLog($e->getMessage())
+                ->addLog($exception->getMessage())
             ;
         }
 

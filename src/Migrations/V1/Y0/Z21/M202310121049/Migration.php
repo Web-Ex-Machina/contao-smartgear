@@ -26,30 +26,29 @@ use WEM\SmartgearBundle\Migrations\V1\Y0\Z0\MigrationAbstract;
 class Migration extends MigrationAbstract
 {
     protected string $name = 'Smargear update to v1.0.21';
+
     protected string $description = 'Set Smartgear to version 1.0.21';
+
     protected string $version = '1.0.21';
+
     protected string $translation_key = 'WEMSG.MIGRATIONS.V1_0_21_M202310121049';
-    protected Htaccess $htaccessAnalyzer;
 
     public function __construct(
         Connection $connection,
         TranslatorInterface $translator,
         CoreConfigurationManager $coreConfigurationManager,
         VersionComparator $versionComparator,
-        Htaccess $htaccessAnalyzer
+        protected Htaccess $htaccessAnalyzer
     ) {
         parent::__construct($connection, $translator, $coreConfigurationManager, $versionComparator);
-        $this->htaccessAnalyzer = $htaccessAnalyzer;
     }
 
     public function shouldRun(): Result
     {
         $result = parent::shouldRun();
 
-        if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
-            if (!$this->htaccessAnalyzer->hasRedirectToWwwAndHttps_OLD()) {
-                return $result;
-            }
+        if (Result::STATUS_SHOULD_RUN !== $result->getStatus() && !$this->htaccessAnalyzer->hasRedirectToWwwAndHttps_OLD()) {
+            return $result;
         }
 
         $result
@@ -66,6 +65,7 @@ class Migration extends MigrationAbstract
         if (Result::STATUS_SHOULD_RUN !== $result->getStatus()) {
             return $result;
         }
+
         try {
             /** @var CoreConfig $config */
             // $coreConfig = $this->coreConfigurationManager->load();
@@ -88,10 +88,10 @@ class Migration extends MigrationAbstract
                 ->setStatus(Result::STATUS_SUCCESS)
                 ->addLog($this->translator->trans($this->buildTranslationKey('done'), [], 'contao_default'))
             ;
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $result
                 ->setStatus(Result::STATUS_FAIL)
-                ->addLog($e->getMessage())
+                ->addLog($exception->getMessage())
             ;
         }
 
