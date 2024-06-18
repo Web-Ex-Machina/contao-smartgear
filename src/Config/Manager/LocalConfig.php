@@ -26,18 +26,14 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class LocalConfig extends AbstractManager implements ManagerYamlInterface
 {
-    protected ConfigLocalConfig|ConfigInterface $configuration;
-    protected string $configurationFilePath;
     protected Parser $parser;
 
     public function __construct(
         TranslatorInterface $translator,
-        ConfigLocalConfig $configuration,
-        string $configurationFilePath
+        protected ConfigLocalConfig|ConfigInterface $configuration,
+        protected ?string $configurationFilePath
     ) {
         parent::__construct($translator);
-        $this->configuration = $configuration;
-        $this->configurationFilePath = $configurationFilePath;
         $this->parser = new Parser();
     }
 

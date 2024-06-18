@@ -18,45 +18,54 @@ use WEM\SmartgearBundle\Classes\Config\ConfigModuleInterface;
 
 class Faq implements ConfigModuleInterface
 {
+    public ?int $sgEvenstListPerPage = null;
+
     public const ARCHIVE_MODE_EMPTY = '';
+
     public const ARCHIVE_MODE_ARCHIVE = 'archive';
+
     public const ARCHIVE_MODE_KEEP = 'keep';
+
     public const ARCHIVE_MODE_DELETE = 'delete';
+
     public const ARCHIVE_MODES_ALLOWED = [
         self::ARCHIVE_MODE_EMPTY,
         self::ARCHIVE_MODE_ARCHIVE,
         self::ARCHIVE_MODE_KEEP,
         self::ARCHIVE_MODE_DELETE,
     ];
+
     public const DEFAULT_FOLDER_PATH = 'files/faq';
+
     public const DEFAULT_PAGE_TITLE = 'FAQ';
+
     public const DEFAULT_FEED_TITLE = 'FAQ';
+
     public const DEFAULT_ARCHIVE_MODE = self::ARCHIVE_MODE_EMPTY;
 
-    /** @var bool */
-    protected $sgInstallComplete = false;
-    /** @var string */
-    protected $sgFaqFolder = self::DEFAULT_FOLDER_PATH;
-    /** @var string */
-    protected $sgFaqTitle = self::DEFAULT_FEED_TITLE;
-    /** @var string */
-    protected $sgPageTitle = self::DEFAULT_PAGE_TITLE;
-    /** @var int */
-    protected $sgPage;
-    /** @var int */
-    protected $sgArticle;
-    /** @var int */
-    protected $sgContent;
-    /** @var int */
-    protected $sgModuleFaq;
-    /** @var int */
-    protected $sgFaqCategory;
-    /** @var bool */
-    protected $sgArchived = false;
-    /** @var int */
-    protected $sgArchivedAt = 0;
-    /** @var string */
-    protected $sgArchivedMode = self::DEFAULT_ARCHIVE_MODE;
+    protected bool $sgInstallComplete = false;
+
+    protected string $sgFaqFolder = self::DEFAULT_FOLDER_PATH;
+
+    protected string $sgFaqTitle = self::DEFAULT_FEED_TITLE;
+
+    protected string $sgPageTitle = self::DEFAULT_PAGE_TITLE;
+
+    protected ?int $sgPage = null;
+
+    protected ?int $sgArticle = null;
+
+    protected ?int $sgContent = null;
+
+    protected ?int $sgModuleFaq = null;
+
+    protected ?int $sgFaqCategory = null;
+
+    protected bool $sgArchived = false;
+
+    protected int $sgArchivedAt = 0;
+
+    protected string $sgArchivedMode = self::DEFAULT_ARCHIVE_MODE;
 
     public function __clone()
     {
@@ -364,6 +373,7 @@ class Faq implements ConfigModuleInterface
         if (!\in_array($sgArchivedMode, static::ARCHIVE_MODES_ALLOWED, true)) {
             throw new \InvalidArgumentException(sprintf('Invalid archive mode "%s" given', $sgArchivedMode));
         }
+
         $this->sgArchivedMode = $sgArchivedMode;
 
         return $this;

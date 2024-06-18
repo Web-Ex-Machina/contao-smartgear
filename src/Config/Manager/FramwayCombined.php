@@ -21,8 +21,6 @@ use WEM\SmartgearBundle\Config\Manager\Framway as ManagerFramway;
 
 class FramwayCombined extends ManagerFramway
 {
-    /** @var string */
-    protected $themeName = '';
 
     public function __construct(
         TranslatorInterface $translator,
@@ -61,30 +59,37 @@ class FramwayCombined extends ManagerFramway
             $matchingColorLines = explode(',', $matches[1]);
             // dump($matchingColorLines);
             foreach ($matchingColorLines as $matchingColorLine) {
-                if (0 !== preg_match('/\'(.*)\': (.*)/', $matchingColorLine, $colorLineMatches)) {
+                if (0 !== preg_match("/'(.*)': (.*)/", $matchingColorLine, $colorLineMatches)) {
                     $futureJson['colors'][$colorLineMatches[1]] = $colorLineMatches[2];
                 }
             }
         }
+
         // retrieve others
         if (0 !== preg_match('/\$primary:(.*);/', $fileContent, $matches)) {
             $futureJson['primary'] = trim($matches[1]);
         }
+
         if (0 !== preg_match('/\$secondary:(.*);/', $fileContent, $matches)) {
             $futureJson['secondary'] = trim($matches[1]);
         }
+
         if (0 !== preg_match('/\$tertiary:(.*);/', $fileContent, $matches)) {
             $futureJson['tertiary'] = trim($matches[1]);
         }
+
         if (0 !== preg_match('/\$success:(.*);/', $fileContent, $matches)) {
             $futureJson['success'] = trim($matches[1]);
         }
+
         if (0 !== preg_match('/\$info:(.*);/', $fileContent, $matches)) {
             $futureJson['info'] = trim($matches[1]);
         }
+
         if (0 !== preg_match('/\$warning:(.*);/', $fileContent, $matches)) {
             $futureJson['warning'] = trim($matches[1]);
         }
+
         if (0 !== preg_match('/\$error:(.*);/', $fileContent, $matches)) {
             $futureJson['error'] = trim($matches[1]);
         }

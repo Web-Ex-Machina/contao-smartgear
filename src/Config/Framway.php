@@ -19,47 +19,52 @@ use WEM\SmartgearBundle\Classes\Config\ConfigJsonInterface;
 class Framway implements ConfigJsonInterface
 {
     public const USE_FA_NONE = false;
+
     public const DEFAULT_USE_FA = self::USE_FA_NONE;
+
     public const DEFAULT_USE_TOASTR = true;
+
     public const DEFAULT_USE_OUTDATED_BROWSER = true;
+
     public const DEFAULT_USE_TARTE_AU_CITRON = true;
+
     public const DEFAULT_DEBUG = false;
-    /** @var \stdClass */
-    protected $originalConfig;
-    /** @var array */
-    protected $themes = [];
-    /** @var array */
-    protected $themesAvailables = [];
-    /** @var array */
-    protected $components = [];
-    /** @var array */
-    protected $componentsAvailables = [];
-    /** @var array */
-    protected $colors = [];
-    /** @var string|bool */
-    protected $useFA = self::DEFAULT_USE_FA;
-    /** @var bool */
-    protected $useToastr = self::DEFAULT_USE_TOASTR;
-    /** @var bool */
-    protected $useOutdatebrowser = self::DEFAULT_USE_OUTDATED_BROWSER;
-    /** @var bool */
-    protected $useTarteaucitron = self::DEFAULT_USE_TARTE_AU_CITRON;
-    /** @var bool */
-    protected $debug = self::DEFAULT_DEBUG;
-    /** @var ?string */
-    protected $primary;
-    /** @var ?string */
-    protected $secondary;
-    /** @var ?string */
-    protected $tertiary;
-    /** @var ?string */
-    protected $success;
-    /** @var ?string */
-    protected $info;
-    /** @var ?string */
-    protected $warning;
-    /** @var ?string */
-    protected $error;
+
+    protected \stdClass $originalConfig;
+
+    protected array $themes = [];
+
+    protected array $themesAvailables = [];
+
+    protected array $components = [];
+
+    protected array $componentsAvailables = [];
+
+    protected array $colors = [];
+
+    protected string|bool $useFA = self::DEFAULT_USE_FA;
+
+    protected bool $useToastr = self::DEFAULT_USE_TOASTR;
+
+    protected bool $useOutdatebrowser = self::DEFAULT_USE_OUTDATED_BROWSER;
+
+    protected bool $useTarteaucitron = self::DEFAULT_USE_TARTE_AU_CITRON;
+
+    protected bool $debug = self::DEFAULT_DEBUG;
+
+    protected ?string $primary = null;
+
+    protected ?string $secondary = null;
+
+    protected ?string $tertiary = null;
+
+    protected ?string $success = null;
+
+    protected ?string $info = null;
+
+    protected ?string $warning = null;
+
+    protected ?string $error = null;
 
     public function reset(): self
     {
@@ -135,21 +140,27 @@ class Framway implements ConfigJsonInterface
         if (null !== $this->getPrimary()) {
             $json->primary = $this->getPrimary();
         }
+
         if (null !== $this->getSecondary()) {
             $json->secondary = $this->getSecondary();
         }
+
         if (null !== $this->getTertiary()) {
             $json->tertiary = $this->getTertiary();
         }
+
         if (null !== $this->getSuccess()) {
             $json->success = $this->getSuccess();
         }
+
         if (null !== $this->getInfo()) {
             $json->info = $this->getInfo();
         }
+
         if (null !== $this->getWarning()) {
             $json->warning = $this->getWarning();
         }
+
         if (null !== $this->getError()) {
             $json->error = $this->getError();
         }
@@ -193,7 +204,7 @@ class Framway implements ConfigJsonInterface
         return $this;
     }
 
-    public function getUseFA()
+    public function getUseFA(): string|bool
     {
         return $this->useFA;
     }
@@ -203,6 +214,7 @@ class Framway implements ConfigJsonInterface
         if (static::USE_FA_NONE !== $useFA) {
             throw new \InvalidArgumentException(sprintf('Invalid useFA "%s" given', $useFA));
         }
+
         $this->useFA = $useFA;
 
         return $this;

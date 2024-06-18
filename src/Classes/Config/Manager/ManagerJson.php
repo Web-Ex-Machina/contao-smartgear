@@ -21,7 +21,7 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound;
 class ManagerJson extends AbstractManager implements ManagerJsonInterface
 {
 
-    protected string $configurationFilePath;
+    protected ?string $configurationFilePath;
 
     public function __construct(
         TranslatorInterface       $translator,
@@ -69,7 +69,7 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
     {
         $backupFilePath = $this->configurationFilePath.'_'.date('Ymd_His');
         $this->load();
-
+        // TODO : undefined $path
         return $this->file_force_contents($backupFilePath, $this->configuration->export()) ? $path : false;
     }
 
@@ -84,7 +84,7 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
 
     /**
      * Write content in a file.
-     * If the file doesn't exists, it is created.
+     * If the file doesn't exist, it is created.
      *
      * @param string $filepath The file's path
      */

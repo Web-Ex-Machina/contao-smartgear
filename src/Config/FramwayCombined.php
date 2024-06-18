@@ -18,24 +18,23 @@ use WEM\SmartgearBundle\Classes\Config\ConfigJsonInterface;
 
 class FramwayCombined implements ConfigJsonInterface
 {
-    /** @var \stdClass */
-    protected $originalConfig;
-    /** @var array */
-    protected $colors = [];
-    /** @var ?string */
-    protected $primary;
-    /** @var ?string */
-    protected $secondary;
-    /** @var ?string */
-    protected $tertiary;
-    /** @var ?string */
-    protected $success;
-    /** @var ?string */
-    protected $info;
-    /** @var ?string */
-    protected $warning;
-    /** @var ?string */
-    protected $error;
+    protected \stdClass $originalConfig;
+
+    protected array $colors = [];
+
+    protected ?string $primary = null;
+
+    protected ?string $secondary = null;
+
+    protected ?string $tertiary = null;
+
+    protected ?string $success = null;
+
+    protected ?string $info = null;
+
+    protected ?string $warning = null;
+
+    protected ?string $error = null;
 
     public function reset(): self
     {
@@ -60,6 +59,7 @@ class FramwayCombined implements ConfigJsonInterface
         if ($json->colors) {
             $this->setColors(json_decode(json_encode($json->colors), true));
         }
+
         $this->setPrimary($json->primary ?? null)
             ->setSecondary($json->secondary ?? null)
             ->setTertiary($json->tertiary ?? null)
@@ -80,21 +80,27 @@ class FramwayCombined implements ConfigJsonInterface
         if (null !== $this->getPrimary()) {
             $json->primary = $this->getPrimary();
         }
+
         if (null !== $this->getSecondary()) {
             $json->secondary = $this->getSecondary();
         }
+
         if (null !== $this->getTertiary()) {
             $json->tertiary = $this->getTertiary();
         }
+
         if (null !== $this->getSuccess()) {
             $json->success = $this->getSuccess();
         }
+
         if (null !== $this->getInfo()) {
             $json->info = $this->getInfo();
         }
+
         if (null !== $this->getWarning()) {
             $json->warning = $this->getWarning();
         }
+
         if (null !== $this->getError()) {
             $json->error = $this->getError();
         }

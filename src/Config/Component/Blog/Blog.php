@@ -20,50 +20,58 @@ use WEM\SmartgearBundle\Classes\Config\ConfigModuleInterface;
 class Blog implements ConfigModuleInterface
 {
     public const MODE_SIMPLE = 'simple';
+
     public const MODE_EXPERT = 'expert';
+
     public const MODES_ALLOWED = [
         self::MODE_SIMPLE,
         self::MODE_EXPERT,
     ];
+
     public const ARCHIVE_MODE_EMPTY = '';
+
     public const ARCHIVE_MODE_ARCHIVE = 'archive';
+
     public const ARCHIVE_MODE_KEEP = 'keep';
+
     public const ARCHIVE_MODE_DELETE = 'delete';
+
     public const ARCHIVE_MODES_ALLOWED = [
         self::ARCHIVE_MODE_EMPTY,
         self::ARCHIVE_MODE_ARCHIVE,
         self::ARCHIVE_MODE_KEEP,
         self::ARCHIVE_MODE_DELETE,
     ];
+
     public const DEFAULT_MODE = self::MODE_SIMPLE;
+
     public const DEFAULT_ARCHIVE_MODE = self::ARCHIVE_MODE_EMPTY;
 
-    /** @var bool */
-    protected $sgInstallComplete = false;
-    /** @var string */
-    protected $sgMode = self::DEFAULT_MODE;
-    /** @var int */
-    protected $sgNewsArchive;
-    /** @var int */
-    protected $sgPage;
-    /** @var int */
-    protected $sgArticle;
-    /** @var int */
-    protected $sgContentList;
-    /** @var int */
-    protected $sgModuleReader;
-    /** @var int */
-    protected $sgModuleList;
-    /** @var array */
-    protected $sgPresets = [];
-    /** @var int */
-    protected $sgCurrentPresetIndex;
-    /** @var bool */
-    protected $sgArchived = false;
-    /** @var int */
-    protected $sgArchivedAt = 0;
-    /** @var string */
-    protected $sgArchivedMode = self::DEFAULT_ARCHIVE_MODE;
+    protected bool $sgInstallComplete = false;
+
+    protected string $sgMode = self::DEFAULT_MODE;
+
+    protected ?int $sgNewsArchive = null;
+
+    protected ?int $sgPage = null;
+
+    protected ?int $sgArticle = null;
+
+    protected ?int $sgContentList = null;
+
+    protected ?int $sgModuleReader = null;
+
+    protected ?int $sgModuleList = null;
+
+    protected array $sgPresets = [];
+
+    protected ?int $sgCurrentPresetIndex = null;
+
+    protected bool $sgArchived = false;
+
+    protected int $sgArchivedAt = 0;
+
+    protected string $sgArchivedMode = self::DEFAULT_ARCHIVE_MODE;
 
     public function __clone()
     {
@@ -242,7 +250,7 @@ class Blog implements ConfigModuleInterface
 
     public function resetContaoContentsIds(): void
     {
-        $this->setSgContentHeadline(null);
+        $this->setSgContentHeadline(null); //TODO : setSgContentHeadline not found
         $this->setSgContentList(null);
     }
 
@@ -311,9 +319,6 @@ class Blog implements ConfigModuleInterface
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getSgPage(): ?int
     {
         return $this->sgPage;
@@ -384,9 +389,10 @@ class Blog implements ConfigModuleInterface
     public function setSgCurrentPresetIndex(?int $sgCurrentPresetIndex): self
     {
         if (null !== $sgCurrentPresetIndex
-        && null === $this->getPresetByIndex($sgCurrentPresetIndex)) {
+        && !$this->getPresetByIndex($sgCurrentPresetIndex) instanceof Preset) {
             throw new InvalidArgumentException('The provided preset ID does not refer to any known preset configuration.');
         }
+
         $this->sgCurrentPresetIndex = $sgCurrentPresetIndex;
 
         return $this;
@@ -457,6 +463,7 @@ class Blog implements ConfigModuleInterface
         if (!\in_array($sgArchivedMode, static::ARCHIVE_MODES_ALLOWED, true)) {
             throw new \InvalidArgumentException(sprintf('Invalid archive mode "%s" given', $sgArchivedMode));
         }
+
         $this->sgArchivedMode = $sgArchivedMode;
 
         return $this;

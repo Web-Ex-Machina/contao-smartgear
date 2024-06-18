@@ -19,21 +19,23 @@ use WEM\SmartgearBundle\Classes\Config\ConfigModuleInterface;
 class FormDataManager implements ConfigModuleInterface
 {
     public const ARCHIVE_MODE_EMPTY = '';
+
     public const ARCHIVE_MODE_DELETE = 'delete';
+
     public const ARCHIVE_MODES_ALLOWED = [
         self::ARCHIVE_MODE_EMPTY,
         self::ARCHIVE_MODE_DELETE,
     ];
+
     public const DEFAULT_ARCHIVE_MODE = self::ARCHIVE_MODE_EMPTY;
 
-    /** @var bool */
-    protected $sgInstallComplete = false;
-    /** @var bool */
-    protected $sgArchived = false;
-    /** @var int */
-    protected $sgArchivedAt = 0;
-    /** @var string */
-    protected $sgArchivedMode = self::DEFAULT_ARCHIVE_MODE;
+    protected bool $sgInstallComplete = false;
+
+    protected bool $sgArchived = false;
+
+    protected int $sgArchivedAt = 0;
+
+    protected string $sgArchivedMode = self::DEFAULT_ARCHIVE_MODE;
 
     public function __clone()
     {
@@ -206,6 +208,7 @@ class FormDataManager implements ConfigModuleInterface
         if (!\in_array($sgArchivedMode, static::ARCHIVE_MODES_ALLOWED, true)) {
             throw new \InvalidArgumentException(sprintf('Invalid archive mode "%s" given', $sgArchivedMode));
         }
+
         $this->sgArchivedMode = $sgArchivedMode;
 
         return $this;

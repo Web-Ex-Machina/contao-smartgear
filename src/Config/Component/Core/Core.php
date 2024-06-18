@@ -25,10 +25,16 @@ use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDat
 
 class Core implements ConfigModuleInterface
 {
+    public ?string $sgDefaultClientFilesFolder = null;
+
     public const FORBIDDEN_WEBSITE_TITLES = ['rsce', 'smartgear'];
+
     public const ANALYTICS_SYSTEM_NONE = 'none';
+
     public const ANALYTICS_SYSTEM_GOOGLE = 'google';
+
     public const ANALYTICS_SYSTEM_MATOMO = 'matomo';
+
     public const ANALYTICS_SYSTEMS_ALLOWED = [
         self::ANALYTICS_SYSTEM_NONE,
         self::ANALYTICS_SYSTEM_GOOGLE,
@@ -36,166 +42,179 @@ class Core implements ConfigModuleInterface
     ];
 
     public const MODE_DEV = 'dev';
+
     public const MODE_PROD = 'prod';
+
     public const MODES_ALLOWED = [
         self::MODE_DEV,
         self::MODE_PROD,
     ];
 
     public const DEFAULT_VERSION = '1.0.0';
+
     public const DEFAULT_ANALYTICS_SYSTEM = self::ANALYTICS_SYSTEM_NONE;
+
     public const DEFAULT_ANALYTICS_SYSTEM_MATOMO_HOST = '//analytics.webexmachina.fr/';
+
     public const DEFAULT_MODE = self::MODE_DEV;
+
     public const DEFAULT_FRAMWAY_PATH = 'assets/framway';
+
     public const DEFAULT_OWNER_HOST = 'INFOMANIAK - 25 Eugène-Marziano 1227 Les Acacias - GENÈVE - SUISSE';
+
     public const DEFAULT_GOOGLE_FONTS = [];
+
     public const DEFAULT_USER_USERNAME = 'webmaster';
+
     public const DEFAULT_USER_GROUP_ADMIN_NAME = 'Administrateurs';
+
     public const DEFAULT_ROOTPAGE_CHMOD = 'a:12:{i:0;s:2:"u1";i:1;s:2:"u2";i:2;s:2:"u3";i:3;s:2:"u4";i:4;s:2:"u5";i:5;s:2:"u6";i:6;s:2:"g1";i:7;s:2:"g2";i:8;s:2:"g3";i:9;s:2:"g4";i:10;s:2:"g5";i:11;s:2:"g6";}';
 
     public const DEFAULT_CLIENT_FILES_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media';
+
     public const DEFAULT_CLIENT_LOGOS_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media'.\DIRECTORY_SEPARATOR.'logos';
+
     public const SUBMODULES_KEYS = ['blog', 'events', 'faq', 'form_contact', 'extranet', 'form_data_manager'];
-    /** @var bool */
-    protected $sgInstallComplete = false;
-    /** @var bool */
-    protected $sgInstallLocked = false;
-    /** @var bool */
-    protected $sgUsePdmForMembers = true;
-    /** @var string */
-    protected $sgVersion = self::DEFAULT_VERSION;
-    /** @var string */
-    protected $sgFramwayPath = self::DEFAULT_FRAMWAY_PATH;
-    /** @var array */
-    protected $sgFramwayThemes = [];
-    /** @var array */
-    protected $sgGoogleFonts = self::DEFAULT_GOOGLE_FONTS;
-    /** @var array */
-    protected $sgSelectedModules = [];
-    /** @var string */
-    protected $sgMode = self::DEFAULT_MODE;
-    /** @var string */
-    protected $sgWebsiteTitle = '';
-    /** @var string */
-    protected $sgOwnerEmail = '';
-    /** @var string */
-    protected $sgAnalytics = self::DEFAULT_ANALYTICS_SYSTEM;
-    /** @var string */
-    protected $sgAnalyticsGoogleId = '';
-    /** @var string */
-    protected $sgAnalyticsMatomoHost = self::DEFAULT_ANALYTICS_SYSTEM_MATOMO_HOST;
-    /** @var string */
-    protected $sgAnalyticsMatomoId = '';
-    /** @var string */
-    protected $sgOwnerName = '';
-    /** @var string */
-    protected $sgOwnerDomain = '';
-    /** @var string */
-    protected $sgOwnerHost = '';
-    /** @var string */
-    protected $sgOwnerLogo = '';
-    /** @var string */
-    protected $sgOwnerStatus = '';
-    /** @var string */
-    protected $sgOwnerStreet = '';
-    /** @var string */
-    protected $sgOwnerPostal = '';
-    /** @var string */
-    protected $sgOwnerCity = '';
-    /** @var string */
-    protected $sgOwnerRegion = '';
-    /** @var string */
-    protected $sgOwnerCountry = '';
-    /** @var string */
-    protected $sgOwnerSiret = '';
-    /** @var string */
-    protected $sgOwnerDpoName = '';
-    /** @var string */
-    protected $sgOwnerDpoEmail = '';
-    /** @var int */
-    protected $sgTheme;
-    /** @var int */
-    protected $sgPageRoot;
-    /** @var int */
-    protected $sgPageHome;
-    /** @var int */
-    protected $sgPage404;
-    /** @var int */
-    protected $sgPageLegalNotice;
-    /** @var int */
-    protected $sgPagePrivacyPolitics;
-    /** @var int */
-    protected $sgPageSitemap;
-    /** @var int */
-    protected $sgArticleHome;
-    /** @var int */
-    protected $sgArticle404;
-    /** @var int */
-    protected $sgArticleLegalNotice;
-    /** @var int */
-    protected $sgArticlePrivacyPolitics;
-    /** @var int */
-    protected $sgArticleSitemap;
-    /** @var int */
-    protected $sgContent404Headline;
-    /** @var int */
-    protected $sgContent404Sitemap;
-    /** @var int */
-    protected $sgContentLegalNotice;
-    /** @var int */
-    protected $sgContentPrivacyPolitics;
-    /** @var int */
-    protected $sgContentSitemapHeadline;
-    /** @var int */
-    protected $sgContentSitemap;
-    /** @var int */
-    protected $sgUserWebmaster;
-    /** @var int */
-    protected $sgUserGroupRedactors;
-    /** @var int */
-    protected $sgUserGroupAdministrators;
-    /** @var int */
-    protected $sgLayoutStandard;
-    /** @var int */
-    protected $sgLayoutFullwidth;
-    /** @var int */
-    protected $sgNotificationGatewayEmail;
-    /** @var array */
-    protected $sgModules = [];
-    /** @var string */
-    protected $sgApiKey = '';
-    /** @var string */
-    protected $sgEncryptionKey = '';
-    /** @var string */
-    protected $sgAirtableApiKey = '';
-    /** @var string */
-    protected $sgAirtableApiKeyForRead = '';
-    /** @var string */
-    protected $sgAirtableApiKeyForWrite = '';
-    /** @var array */
-    protected $sgImageSizes = [];
-    /** @var int */
-    protected $sgNotificationSupport;
-    /** @var int */
-    protected $sgNotificationSupportMessageUser;
-    /** @var int */
-    protected $sgNotificationSupportMessageAdmin;
-    /** @var int */
-    protected $sgNotificationSupportMessageUserLanguage;
-    /** @var int */
-    protected $sgNotificationSupportMessageAdminLanguage;
-    /** @var BlogConfig */
-    protected $sgBlog;
-    /** @var EventsConfig */
-    protected $sgEvents;
-    /** @var FaqConfig */
-    protected $sgFaq;
-    /** @var FormContactConfig */
-    protected $sgFormContact;
-    /** @var ExtranetConfig */
-    protected $sgExtranet;
-    /** @var FormDataManagerConfig */
-    protected $sgFormDataManager;
+
+    protected bool $sgInstallComplete = false;
+
+    protected bool $sgInstallLocked = false;
+
+    protected bool $sgUsePdmForMembers = true;
+
+    protected string $sgVersion = self::DEFAULT_VERSION;
+
+    protected string $sgFramwayPath = self::DEFAULT_FRAMWAY_PATH;
+
+    protected array $sgFramwayThemes = [];
+
+    protected array $sgGoogleFonts = self::DEFAULT_GOOGLE_FONTS;
+
+    protected array $sgSelectedModules = [];
+
+    protected string $sgMode = self::DEFAULT_MODE;
+
+    protected string $sgWebsiteTitle = '';
+
+    protected string $sgOwnerEmail = '';
+
+    protected string $sgAnalytics = self::DEFAULT_ANALYTICS_SYSTEM;
+
+    protected string $sgAnalyticsGoogleId = '';
+
+    protected string $sgAnalyticsMatomoHost = self::DEFAULT_ANALYTICS_SYSTEM_MATOMO_HOST;
+
+    protected string $sgAnalyticsMatomoId = '';
+
+    protected string $sgOwnerName = '';
+
+    protected string $sgOwnerDomain = '';
+
+    protected string $sgOwnerHost = '';
+
+    protected string $sgOwnerLogo = '';
+
+    protected string $sgOwnerStatus = '';
+
+    protected string $sgOwnerStreet = '';
+
+    protected string $sgOwnerPostal = '';
+
+    protected string $sgOwnerCity = '';
+
+    protected string $sgOwnerRegion = '';
+
+    protected string $sgOwnerCountry = '';
+
+    protected string $sgOwnerSiret = '';
+
+    protected string $sgOwnerDpoName = '';
+
+    protected string $sgOwnerDpoEmail = '';
+
+    protected ?int $sgTheme = null;
+
+    protected ?int $sgPageRoot = null;
+
+    protected ?int $sgPageHome = null;
+
+    protected ?int $sgPage404 = null;
+
+    protected ?int $sgPageLegalNotice = null;
+
+    protected ?int $sgPagePrivacyPolitics = null;
+
+    protected ?int $sgPageSitemap = null;
+
+    protected ?int $sgArticleHome = null;
+
+    protected ?int $sgArticle404 = null;
+
+    protected ?int $sgArticleLegalNotice = null;
+
+    protected ?int $sgArticlePrivacyPolitics = null;
+
+    protected ?int $sgArticleSitemap = null;
+
+    protected ?int $sgContent404Headline = null;
+
+    protected ?int $sgContent404Sitemap = null;
+
+    protected ?int $sgContentLegalNotice = null;
+
+    protected ?int $sgContentPrivacyPolitics = null;
+
+    protected ?int $sgContentSitemapHeadline = null;
+
+    protected ?int $sgContentSitemap = null;
+
+    protected ?int $sgUserWebmaster = null;
+
+    protected ?int $sgUserGroupRedactors = null;
+
+    protected ?int $sgUserGroupAdministrators = null;
+
+    protected ?int $sgLayoutStandard = null;
+
+    protected ?int $sgLayoutFullwidth = null;
+
+    protected ?int $sgNotificationGatewayEmail = null;
+
+    protected array $sgModules = [];
+
+    protected string $sgApiKey = '';
+
+    protected string $sgEncryptionKey = '';
+
+    protected string $sgAirtableApiKey = '';
+
+    protected string $sgAirtableApiKeyForRead = '';
+
+    protected string $sgAirtableApiKeyForWrite = '';
+
+    protected array $sgImageSizes = [];
+
+    protected ?int $sgNotificationSupport = null;
+
+    protected ?int $sgNotificationSupportMessageUser = null;
+
+    protected ?int $sgNotificationSupportMessageAdmin = null;
+
+    protected ?int $sgNotificationSupportMessageUserLanguage = null;
+
+    protected ?int $sgNotificationSupportMessageAdminLanguage = null;
+
+    protected BlogConfig $sgBlog;
+
+    protected EventsConfig $sgEvents;
+
+    protected FaqConfig $sgFaq;
+
+    protected FormContactConfig $sgFormContact;
+
+    protected ExtranetConfig $sgExtranet;
+
+    protected FormDataManagerConfig $sgFormDataManager;
 
     public function __clone()
     {
@@ -503,6 +522,9 @@ class Core implements ConfigModuleInterface
         return json_encode($json, \JSON_PRETTY_PRINT);
     }
 
+    /**
+     * @throws Exception
+     */
     public function getSubmodulesConfigs(): array
     {
         return [
@@ -515,33 +537,29 @@ class Core implements ConfigModuleInterface
         ];
     }
 
-    public function getSubmoduleConfig(string $submodule)
+    /**
+     * @throws Exception
+     */
+    public function getSubmoduleConfig(string $submodule): BlogConfig|EventsConfig|FaqConfig|FormContactConfig|ExtranetConfig|FormDataManagerConfig|null
     {
         if (!$this->isSubmoduleNameKnown($submodule)) {
             throw new Exception(sprintf('The submodule "%s" is unknown', $submodule));
         }
-        switch ($submodule) {
-            case 'blog':
-                return $this->getSgBlog();
-            break;
-            case 'events':
-                return $this->getSgEvents();
-            break;
-            case 'faq':
-                return $this->getSgFaq();
-            break;
-            case 'form_contact':
-                return $this->getSgFormContact();
-            break;
-            case 'extranet':
-                return $this->getSgExtranet();
-            break;
-            case 'form_data_manager':
-                return $this->getSgFormDataManager();
-            break;
-        }
+
+        return match ($submodule) {
+            'blog' => $this->getSgBlog(),
+            'events' => $this->getSgEvents(),
+            'faq' => $this->getSgFaq(),
+            'form_contact' => $this->getSgFormContact(),
+            'extranet' => $this->getSgExtranet(),
+            'form_data_manager' => $this->getSgFormDataManager(),
+            default => null,
+        };
     }
 
+    /**
+     * @throws Exception
+     */
     public function setSubmodulesConfigs(array $submodulesConfigs): self
     {
         foreach ($submodulesConfigs as $submodule => $config) {
@@ -551,13 +569,17 @@ class Core implements ConfigModuleInterface
         return $this;
     }
 
-    public function setSubmoduleConfig(string $submodule, $config): self
+    /**
+     * @throws Exception
+     */
+    public function setSubmoduleConfig(string $submodule, FormDataManagerConfig $config): self
     {
         if (!$this->isSubmoduleNameKnown($submodule)) {
             throw new Exception(sprintf('The submodule "%s" is unknown', $submodule));
         }
+
         match ($submodule) {
-            'blog' => $this->setSgBlog($config),
+            'blog' => $this->setSgBlog($config), //TODO : Expected parameter of type '\WEM\SmartgearBundle\Config\Component\Blog\Blog', '\WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager' provided
             'events' => $this->setSgEvents($config),
             'faq' => $this->setSgFaq($config),
             'form_contact' => $this->setSgFormContact($config),
@@ -840,7 +862,7 @@ class Core implements ConfigModuleInterface
     {
         return array_merge(
             $this->getContaoNotificationsMessagesLanguagesIds(),
-            $this->getSgFormContact()->getContaoNotificationsMessagesLanguagesIds(),
+            $this->getSgFormContact()->getContaoNotificationsMessagesLanguagesIds(), //TODO : Not found
         );
     }
 

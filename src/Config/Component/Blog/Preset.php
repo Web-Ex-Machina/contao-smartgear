@@ -19,17 +19,21 @@ use WEM\SmartgearBundle\Classes\Config\ConfigJsonInterface;
 class Preset implements ConfigJsonInterface
 {
     public const DEFAULT_FOLDER_PATH = 'files/news';
+
     public const DEFAULT_NEWS_PER_PAGE = 15;
+
     public const DEFAULT_PAGE_TITLE = 'Blog';
+
     public const DEFAULT_ARCHIVE_TITLE = 'Blog';
-    /** @var string */
-    protected $sgNewsFolder = self::DEFAULT_FOLDER_PATH;
-    /** @var string */
-    protected $sgNewsArchiveTitle = self::DEFAULT_ARCHIVE_TITLE;
-    /** @var int */
-    protected $sgNewsListPerPage = self::DEFAULT_NEWS_PER_PAGE;
-    /** @var string */
-    protected $sgPageTitle = self::DEFAULT_PAGE_TITLE;
+
+    protected string $sgNewsFolder = self::DEFAULT_FOLDER_PATH;
+
+    protected string $sgNewsArchiveTitle = self::DEFAULT_ARCHIVE_TITLE;
+
+    protected int $sgNewsListPerPage = self::DEFAULT_NEWS_PER_PAGE;
+
+    protected string $sgPageTitle = self::DEFAULT_PAGE_TITLE;
+
     public function reset(): self
     {
         $this
@@ -89,10 +93,7 @@ class Preset implements ConfigJsonInterface
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getSgNewsListPerPage()
+    public function getSgNewsListPerPage(): int
     {
         return $this->sgNewsListPerPage;
     }
@@ -104,10 +105,7 @@ class Preset implements ConfigJsonInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSgPageTitle()
+    public function getSgPageTitle(): string
     {
         return $this->sgPageTitle;
     }

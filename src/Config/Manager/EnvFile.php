@@ -24,18 +24,12 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class EnvFile extends AbstractManager implements ManagerEnvInterface
 {
-    protected ConfigInterface $configuration;
-
-    protected string $configurationFilePath;
-
     public function __construct(
         TranslatorInterface $translator,
-        ConfigEnvFile $configuration,
-        string $configurationFilePath
+        protected ConfigInterface $configuration,
+        protected ?string $configurationFilePath
     ) {
         parent::__construct($translator);
-        $this->configuration = $configuration;
-        $this->configurationFilePath = $configurationFilePath;
     }
 
     /**
@@ -44,6 +38,7 @@ class EnvFile extends AbstractManager implements ManagerEnvInterface
     public function new(): ConfigEnvInterface
     {
         return $this->configuration->reset();
+        // TODO : Return value is expected to be '\WEM\SmartgearBundle\Classes\Config\ConfigEnvInterface', '\WEM\SmartgearBundle\Classes\Config\ConfigInterface' returned
     }
 
     /**
@@ -73,12 +68,14 @@ class EnvFile extends AbstractManager implements ManagerEnvInterface
         } catch (FileNotFoundException) {
             return [];
         }
+
         $arrLines = explode("\n", $content);
         $arrFinal = [];
         foreach ($arrLines as $line) {
-            if (empty($line)) {
+            if ($line === '' || $line === '0') {
                 continue;
             }
+
             $arrLineSeparated = explode('=', $line);
             $arrFinal[$arrLineSeparated[0]] = $arrLineSeparated[1];
         }

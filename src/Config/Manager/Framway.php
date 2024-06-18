@@ -25,19 +25,16 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 class Framway extends AbstractManager implements ManagerJsonInterface
 {
 
-    protected ConfigInterface $configuration;
-    protected ConfigurationManagerCore $configurationManagerCore;
-    protected string $configurationFilePath;
-    protected ?string $configurationRootFilePath;
+    protected ?string $configurationFilePath = null;
+
+    protected ?string $configurationRootFilePath = null;
 
     public function __construct(
         TranslatorInterface $translator,
-        ConfigInterface $configuration,
-        ConfigurationManagerCore $configurationManagerCore
+        protected ConfigInterface $configuration,
+        protected ConfigurationManagerCore $configurationManagerCore
     ) {
         parent::__construct($translator);
-        $this->configuration = $configuration;
-        $this->configurationManagerCore = $configurationManagerCore;
     }
 
     /**
@@ -58,6 +55,10 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         return $this->configuration->import($this->retrieveConfigurationAsImportableFormatFromFile());
     }
 
+    /**
+     * @throws FileNotFoundException
+     * @throws Exception
+     */
     public function retrieveConfigurationAsImportableFormatFromFile(): \stdClass
     {
         $notJsonCompliant = $this->retrieveConfigurationFromFile();
@@ -66,8 +67,8 @@ class Framway extends AbstractManager implements ManagerJsonInterface
 
         try {
             return json_decode($notJsonCompliant, false, 512, \JSON_THROW_ON_ERROR);
-        } catch (Exception $e) {
-            throw new Exception($this->translator->trans('WEMSG.ERR.FRAMWAY.configJsonDecodeError', [\JSON_ERROR_NONE !== json_last_error() ? json_last_error_msg() : $e->getMessage()], 'contao_default'));
+        } catch (Exception $exception) {
+            throw new Exception($this->translator->trans('WEMSG.ERR.FRAMWAY.configJsonDecodeError', [\JSON_ERROR_NONE !== json_last_error() ? json_last_error_msg() : $exception->getMessage()], 'contao_default'), $exception->getCode(), $exception);
         }
     }
 
@@ -93,9 +94,6 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         return $this->configurationFilePath;
     }
 
-    /**
-     * @return mixed
-     */
     public function getConfigurationRootFilePath(): ?string
     {
         return $this->configurationRootFilePath;

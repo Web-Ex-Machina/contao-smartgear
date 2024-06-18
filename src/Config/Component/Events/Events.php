@@ -19,60 +19,72 @@ use WEM\SmartgearBundle\Classes\Config\ConfigModuleInterface;
 class Events implements ConfigModuleInterface
 {
     public const MODE_SIMPLE = 'simple';
+
     public const MODE_EXPERT = 'expert';
+
     public const MODES_ALLOWED = [
         self::MODE_SIMPLE,
         self::MODE_EXPERT,
     ];
+
     public const ARCHIVE_MODE_EMPTY = '';
+
     public const ARCHIVE_MODE_ARCHIVE = 'archive';
+
     public const ARCHIVE_MODE_KEEP = 'keep';
+
     public const ARCHIVE_MODE_DELETE = 'delete';
+
     public const ARCHIVE_MODES_ALLOWED = [
         self::ARCHIVE_MODE_EMPTY,
         self::ARCHIVE_MODE_ARCHIVE,
         self::ARCHIVE_MODE_KEEP,
         self::ARCHIVE_MODE_DELETE,
     ];
+
     public const DEFAULT_FOLDER_PATH = 'files/events';
+
     public const DEFAULT_EVENTS_PER_PAGE = 15;
+
     public const DEFAULT_PAGE_TITLE = 'Agenda';
+
     public const DEFAULT_FEED_TITLE = 'Agenda';
+
     public const DEFAULT_MODE = self::MODE_SIMPLE;
+
     public const DEFAULT_ARCHIVE_MODE = self::ARCHIVE_MODE_EMPTY;
 
-    /** @var bool */
-    protected $sgInstallComplete = false;
-    /** @var string */
-    protected $sgMode = self::DEFAULT_MODE;
-    /** @var string */
-    protected $sgEventsFolder = self::DEFAULT_FOLDER_PATH;
-    /** @var string */
-    protected $sgCalendarTitle = self::DEFAULT_FEED_TITLE;
-    /** @var int */
-    protected $sgEvenstListPerPage = self::DEFAULT_EVENTS_PER_PAGE;
-    /** @var string */
-    protected $sgPageTitle = self::DEFAULT_PAGE_TITLE;
-    /** @var int */
-    protected $sgPage;
-    /** @var int */
-    protected $sgArticle;
-    /** @var int */
-    protected $sgContentList;
-    /** @var int */
-    protected $sgCalendar;
-    /** @var int */
-    protected $sgModuleReader;
-    /** @var int */
-    protected $sgModuleList;
-    /** @var int */
-    protected $sgModuleCalendar;
-    /** @var bool */
-    protected $sgArchived = false;
-    /** @var int */
-    protected $sgArchivedAt = 0;
-    /** @var string */
-    protected $sgArchivedMode = self::DEFAULT_ARCHIVE_MODE;
+    protected bool $sgInstallComplete = false;
+
+    protected string $sgMode = self::DEFAULT_MODE;
+
+    protected string $sgEventsFolder = self::DEFAULT_FOLDER_PATH;
+
+    protected string $sgCalendarTitle = self::DEFAULT_FEED_TITLE;
+
+    protected int $sgEvenstListPerPage = self::DEFAULT_EVENTS_PER_PAGE;
+
+    protected string $sgPageTitle = self::DEFAULT_PAGE_TITLE;
+
+    protected ?int $sgPage = null;
+
+    protected ?int $sgArticle = null;
+
+    protected ?int $sgContentList = null;
+
+    protected ?int $sgCalendar = null;
+
+    protected ?int $sgModuleReader = null;
+
+    protected ?int $sgModuleList = null;
+
+    protected ?int $sgModuleCalendar = null;
+
+    protected bool $sgArchived = false;
+
+    protected int $sgArchivedAt = 0;
+
+    protected string $sgArchivedMode = self::DEFAULT_ARCHIVE_MODE;
 
     public function __clone()
     {
@@ -283,9 +295,6 @@ class Events implements ConfigModuleInterface
     {
     }
 
-    /**
-     * @return mixed
-     */
     public function getSgInstallComplete(): bool
     {
         return $this->sgInstallComplete;
@@ -459,6 +468,7 @@ class Events implements ConfigModuleInterface
         if (!\in_array($sgArchivedMode, static::ARCHIVE_MODES_ALLOWED, true)) {
             throw new \InvalidArgumentException(sprintf('Invalid archive mode "%s" given', $sgArchivedMode));
         }
+
         $this->sgArchivedMode = $sgArchivedMode;
 
         return $this;

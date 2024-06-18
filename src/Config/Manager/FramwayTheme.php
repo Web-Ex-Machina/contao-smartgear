@@ -21,8 +21,7 @@ use WEM\SmartgearBundle\Config\Manager\Framway as ManagerFramway;
 
 class FramwayTheme extends ManagerFramway
 {
-    /** @var string */
-    protected $themeName = '';
+    protected string $themeName = '';
 
     public function __construct(
         TranslatorInterface $translator,
@@ -64,6 +63,6 @@ class FramwayTheme extends ManagerFramway
         $notJsonCompliant = preg_replace('/,([\s]*)\]/', ']', $notJsonCompliant); // final comma in array
         $notJsonCompliant = preg_replace('/,([\s]*)\}/', '}', $notJsonCompliant); // final comma in object
 
-        return preg_replace('/\'([^\']*)\'/', '"$1"', $notJsonCompliant);
+        return preg_replace("/'([^']*)'/", '"$1"', $notJsonCompliant);
     }
 }

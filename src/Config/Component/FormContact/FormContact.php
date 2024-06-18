@@ -19,73 +19,79 @@ use WEM\SmartgearBundle\Classes\Config\ConfigModuleInterface;
 class FormContact implements ConfigModuleInterface
 {
     public const ARCHIVE_MODE_EMPTY = '';
+
     public const ARCHIVE_MODE_ARCHIVE = 'archive';
+
     public const ARCHIVE_MODE_KEEP = 'keep';
+
     public const ARCHIVE_MODE_DELETE = 'delete';
+
     public const ARCHIVE_MODES_ALLOWED = [
         self::ARCHIVE_MODE_EMPTY,
         self::ARCHIVE_MODE_ARCHIVE,
         self::ARCHIVE_MODE_KEEP,
         self::ARCHIVE_MODE_DELETE,
     ];
+
     public const DEFAULT_PAGE_TITLE = 'Contact';
+
     public const DEFAULT_FEED_TITLE = 'Contact';
+
     public const DEFAULT_ARCHIVE_MODE = self::ARCHIVE_MODE_EMPTY;
 
-    /** @var bool */
-    protected $sgInstallComplete = false;
-    /** @var string */
-    protected $sgFormContactTitle = self::DEFAULT_FEED_TITLE;
-    /** @var string */
-    protected $sgPageTitle = self::DEFAULT_PAGE_TITLE;
-    /** @var int */
-    protected $sgPageForm;
-    /** @var int */
-    protected $sgPageFormSent;
-    /** @var int */
-    protected $sgArticleForm;
-    /** @var int */
-    protected $sgArticleFormSent;
-    /** @var int */
-    protected $sgContentHeadlineArticleForm;
-    /** @var int */
-    protected $sgContentFormArticleForm;
-    /** @var int */
-    protected $sgContentHeadlineArticleFormSent;
-    /** @var int */
-    protected $sgContentTextArticleFormSent;
-    /** @var int */
-    protected $sgFormContact;
-    /** @var int */
-    protected $sgFieldName;
-    /** @var int */
-    protected $sgFieldEmail;
-    /** @var int */
-    protected $sgFieldMessage;
-    /** @var int */
-    protected $sgFieldConsentDataTreatment;
-    /** @var int */
-    protected $sgFieldConsentDataSave;
-    /** @var int */
-    protected $sgFieldCaptcha;
-    /** @var int */
-    protected $sgFieldSubmit;
-    /** @var int */
-    protected $sgNotification;
-    /** @var int */
-    protected $sgNotificationMessageUser;
-    /** @var int */
-    protected $sgNotificationMessageAdmin;
-    /** @var int */
-    protected $sgNotificationMessageUserLanguage;
-    /** @var int */
-    protected $sgNotificationMessageAdminLanguage;
-    /** @var bool */
-    protected $sgArchived = false;
-    /** @var int */
-    protected $sgArchivedAt = 0;
-    /** @var string */
-    protected $sgArchivedMode = self::DEFAULT_ARCHIVE_MODE;
+    protected bool $sgInstallComplete = false;
+
+    protected string $sgFormContactTitle = self::DEFAULT_FEED_TITLE;
+
+    protected string $sgPageTitle = self::DEFAULT_PAGE_TITLE;
+
+    protected ?int $sgPageForm = null;
+
+    protected ?int $sgPageFormSent = null;
+
+    protected ?int $sgArticleForm = null;
+
+    protected ?int $sgArticleFormSent = null;
+
+    protected ?int $sgContentHeadlineArticleForm = null;
+
+    protected ?int $sgContentFormArticleForm = null;
+
+    protected ?int $sgContentHeadlineArticleFormSent = null;
+
+    protected ?int $sgContentTextArticleFormSent = null;
+
+    protected ?int $sgFormContact = null;
+
+    protected ?int $sgFieldName = null;
+
+    protected ?int $sgFieldEmail = null;
+
+    protected ?int $sgFieldMessage = null;
+
+    protected ?int $sgFieldConsentDataTreatment = null;
+
+    protected ?int $sgFieldConsentDataSave = null;
+
+    protected ?int $sgFieldCaptcha = null;
+
+    protected ?int $sgFieldSubmit = null;
+
+    protected ?int $sgNotification = null;
+
+    protected ?int $sgNotificationMessageUser = null;
+
+    protected ?int $sgNotificationMessageAdmin = null;
+
+    protected ?int $sgNotificationMessageUserLanguage = null;
+
+    protected ?int $sgNotificationMessageAdminLanguage = null;
+
+    protected bool $sgArchived = false;
+
+    protected int $sgArchivedAt = 0;
+
+    protected string $sgArchivedMode = self::DEFAULT_ARCHIVE_MODE;
 
     public function __clone()
     {
@@ -415,14 +421,12 @@ class FormContact implements ConfigModuleInterface
         if (!\in_array($sgArchivedMode, static::ARCHIVE_MODES_ALLOWED, true)) {
             throw new \InvalidArgumentException(sprintf('Invalid archive mode "%s" given', $sgArchivedMode));
         }
+
         $this->sgArchivedMode = $sgArchivedMode;
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getSgFormContactTitle(): string
     {
         return $this->sgFormContactTitle;
@@ -435,9 +439,6 @@ class FormContact implements ConfigModuleInterface
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getSgPageTitle(): string
     {
         return $this->sgPageTitle;
@@ -450,7 +451,7 @@ class FormContact implements ConfigModuleInterface
         return $this;
     }
 
-    public function getSgPageForm()
+    public function getSgPageForm(): ?int
     {
         return $this->sgPageForm;
     }

@@ -19,23 +19,35 @@ use WEM\SmartgearBundle\Classes\Config\ConfigEnvInterface;
 class EnvFile implements ConfigEnvInterface
 {
     public const MODE_DEV = 'dev';
+
     public const MODE_PROD = 'prod';
+
     public const MODES_ALLOWED = [
         self::MODE_DEV,
         self::MODE_PROD,
     ];
+
     public const DEFAULT_MODE = self::MODE_DEV;
 
-    protected $APP_ENV = self::DEFAULT_MODE;
-    protected $APP_SECRET;
-    protected $COOKIE_WHITELIST;
-    protected $COOKIE_REMOVE_FROM_DENY_LIST;
-    protected $QUERY_PARAMS_ALLOW_LIST;
-    protected $QUERY_PARAMS_REMOVE_FROM_DENY_LIST;
-    protected $DATABASE_URL;
-    protected $MAILER_URL;
-    protected $TRUSTED_PROXIES;
-    protected $TRUSTED_HOSTS;
+    protected string $APP_ENV = self::DEFAULT_MODE;
+
+    protected ?string $APP_SECRET = null;
+
+    protected ?string $COOKIE_WHITELIST = null;
+
+    protected ?string $COOKIE_REMOVE_FROM_DENY_LIST = null;
+
+    protected ?string $QUERY_PARAMS_ALLOW_LIST = null;
+
+    protected ?string $QUERY_PARAMS_REMOVE_FROM_DENY_LIST = null;
+
+    protected ?string $DATABASE_URL = null;
+
+    protected ?string $MAILER_URL = null;
+
+    protected ?string $TRUSTED_PROXIES = null;
+
+    protected ?string $TRUSTED_HOSTS = null;
 
     public function reset(): self
     {
@@ -73,32 +85,39 @@ class EnvFile implements ConfigEnvInterface
 
     public function export(): string
     {
-        $str = '';
-        $str .= 'APP_ENV='.$this->getAPPENV()."\n";
+        $str = 'APP_ENV=' . $this->getAPPENV() . "\n";
         if (null !== $this->getAPPSECRET()) {
             $str .= 'APP_SECRET='.$this->getAPPSECRET()."\n";
         }
+
         if (null !== $this->getCOOKIEWHITELIST()) {
             $str .= 'COOKIE_WHITELIST='.$this->getCOOKIEWHITELIST()."\n";
         }
+
         if (null !== $this->getCOOKIEREMOVEFROMDENYLIST()) {
             $str .= 'COOKIE_REMOVE_FROM_DENY_LIST='.$this->getCOOKIEREMOVEFROMDENYLIST()."\n";
         }
+
         if (null !== $this->getQUERYPARAMSALLOWLIST()) {
             $str .= 'QUERY_PARAMS_ALLOW_LIST='.$this->getQUERYPARAMSALLOWLIST()."\n";
         }
+
         if (null !== $this->getQUERYPARAMSREMOVEFROMDENYLIST()) {
             $str .= 'QUERY_PARAMS_REMOVE_FROM_DENY_LIST='.$this->getQUERYPARAMSREMOVEFROMDENYLIST()."\n";
         }
+
         if (null !== $this->getDATABASEURL()) {
             $str .= 'DATABASE_URL='.$this->getDATABASEURL()."\n";
         }
+
         if (null !== $this->getMAILERURL()) {
             $str .= 'MAILER_URL='.$this->getMAILERURL()."\n";
         }
+
         if (null !== $this->getTRUSTEDPROXIES()) {
             $str .= 'TRUSTED_PROXIES='.$this->getTRUSTEDPROXIES()."\n";
         }
+
         if (null !== $this->getTRUSTEDHOSTS()) {
             $str .= 'TRUSTED_HOSTS='.$this->getTRUSTEDHOSTS()."\n";
         }
