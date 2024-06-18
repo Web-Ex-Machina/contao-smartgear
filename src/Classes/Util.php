@@ -27,6 +27,7 @@ use Exception;
 use Psr\Log\LogLevel;
 use WEM\SmartgearBundle\Classes\Utils\Configuration\ConfigurationUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 /**
  * Back end module "smartgear".
@@ -60,12 +61,9 @@ class Util
     /**
      * Extract colors used in Framway.
      *
-     * @param string $table
-     * @param int $id
      * @param ?string $strFWTheme Get the colors of a specific theme
      *
      * @return array Framway colors
-     *
      * @todo Find a way to add friendly names to the colors retrieved
      * @todo Maybe store these colors into a file to avoid load/format a shitload of stuff ?
      */
@@ -73,20 +71,19 @@ class Util
     {
         $framwayUtil = System::getContainer()->get('smartgear.classes.util_framway');
         $objConfiguration = ConfigurationUtil::findConfigurationForItem($table, $id);
-        $fwPath = $objConfiguration ? $objConfiguration->framway_path : \WEM\SmartgearBundle\Model\Configuration\Configuration::DEFAULT_FRAMWAY_PATH;
+        $fwPath = $objConfiguration instanceof Configuration ? $objConfiguration->framway_path : Configuration::DEFAULT_FRAMWAY_PATH;
         $colors = $strFWTheme === null || $strFWTheme === '' || $strFWTheme === '0' ? $framwayUtil->getCombinedColors($fwPath) : $framwayUtil->getThemeColors($fwPath, $strFWTheme);
         $return = [];
         foreach ($colors as $label => $hexa) {
-            $return[$label] = ['label' => trim($label), 'hexa' => trim(str_replace('#', '', $hexa))];
+            $return[$label] = ['label' => trim((string) $label), 'hexa' => trim(str_replace('#', '', $hexa))];
         }
+
         return $return;
     }
 
     /**
      * Get available colors in Smartgear.
      *
-     * @param string $table
-     * @param int $id
      * @param string $strFor Format wanted
      * @param ?string $strFWTheme Framway theme wanted
      *
@@ -97,17 +94,18 @@ class Util
         try {
             // Extract colors from installed Framway
             $arrColors = self::getFramwayColors($table, $id, $strFWTheme);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             System::getContainer()
                 ->get('monolog.logger.contao')
                 ->log(
                     LogLevel::ERROR,
-                    'Error when trying to get Framway Colors : '.$e->getMessage(),
+                    'Error when trying to get Framway Colors : '.$exception->getMessage(),
                     ['contao' => new ContaoContext(__METHOD__, 'SMARTGEAR')]
                 )
             ;
             $arrColors = self::getDefaultColors();
         }
+
         // Depending on who asks the array, we will need a specific format
         $colors = [];
         switch ($strFor) {
@@ -174,6 +172,7 @@ class Util
                     $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['rawLabel'] => $colors,
                 ];
         }
+
         return $colors;
     }
 
@@ -187,17 +186,19 @@ class Util
      */
     public static function findAndCreateObject(string $strType,string $strModule = ''): string
     {
-        if ('' === $strModule && str_contains((string) $strType, '_')) {
-            $arrObject = explode('_', (string) $strType);
+        if ('' === $strModule && str_contains($strType, '_')) {
+            $arrObject = explode('_', $strType);
             $strType = $arrObject[0];
             $strModule = $arrObject[1];
         }
+
         // Parse the classname
-        $strClass = sprintf("WEM\SmartgearBundle\Backend\%s\%s", ucfirst((string) $strType), ucfirst((string) $strModule));
+        $strClass = sprintf("WEM\SmartgearBundle\Backend\%s\%s", ucfirst($strType), ucfirst($strModule));
         // Throw error if class doesn't exists
         if (!class_exists($strClass)) {
             throw new Exception(sprintf('Unknown class %s', $strClass));
         }
+
         // Create the object
         return new $strClass();
         // And return
@@ -227,13 +228,14 @@ class Util
             $objFiles->mkdir(str_replace('/config.json', '', static::$strConfigPath));
             $objFiles->fopen(static::$strConfigPath, 'wb');
         }
-        
+
         $strConfig = file_get_contents(static::$strConfigPath);
         $arrConfig = [];
         // Decode the config
         if ($strConfig) {
             $arrConfig = (array) json_decode($strConfig);
         }
+
         // Update the config
         foreach ($arrVars as $strKey => $varValue) {
             // Make sure arrays are converted in varValues (for blob compatibility)
@@ -244,6 +246,7 @@ class Util
             // And update the global array
             $arrConfig[$strKey] = $varValue;
         }
+
         // Open and update the config file
         $objFile = $objFiles->fopen(static::$strConfigPath, 'w');
         $objFiles->fputs($objFile, json_encode($arrConfig, \JSON_PRETTY_PRINT));
@@ -276,12 +279,13 @@ class Util
      */
     public static function base64ToImage(string $base64, string $folder, string $file,bool $blnReturnFile = true): File|true
     {
-        $data = explode(',', (string) $base64);
-        $ext = substr((string) $data[0], strpos((string) $data[0], '/') + 1, (strpos((string) $data[0], ';') - strpos((string) $data[0], '/') - 1));
-        $img = base64_decode((string) $data[1], true);
+        $data = explode(',', $base64);
+        $ext = substr($data[0], strpos($data[0], '/') + 1, (strpos($data[0], ';') - strpos($data[0], '/') - 1));
+        $img = base64_decode($data[1], true);
         if (!str_contains((string) Config::get('validImageTypes'), $ext)) {
             throw new \Exception('Invalid image type : '.$ext);
         }
+
         // Determine a filename if absent
         $path = $folder.'/'.$file.'.'.$ext;
         // Create & Close the file to generate the Model, and then, reopen the file
@@ -291,9 +295,11 @@ class Util
         if (!$objFile->close()) {
             throw new \Exception(sprintf("The file %s hasn't been saved correctly", $path));
         }
+
         if ($blnReturnFile) {
             return new File($path);
         }
+
         return true;
     }
 
@@ -424,9 +430,11 @@ class Util
         } else {
             $objUserGroup = UserGroupModel::findByPk($intGroup);
         }
+
         if ($objUserGroup) {
             $arrPermissions = deserialize($objUserGroup->alexf) ?? [];
         }
+
         // Add the permissions
         if (\is_array($varPermission)) {
             foreach ($varPermission as $strPermission) {
@@ -437,6 +445,7 @@ class Util
         } elseif (self::canAddPermission($varPermission) && !\in_array($varPermission, $arrPermissions, true)) {
             $arrPermissions[] = $varPermission;
         }
+
         return $arrPermissions;
     }
 
@@ -460,9 +469,11 @@ class Util
         } else {
             $objUserGroup = UserGroupModel::findByPk($intGroup);
         }
+
         if ($objUserGroup) {
             $arrPermissions = deserialize($objUserGroup->alexf);
         }
+
         // Add the permissions
         if (\is_array($varPermission)) {
             foreach ($varPermission as $strPermission) {
@@ -473,6 +484,7 @@ class Util
         } elseif (\in_array($varPermission, $arrPermissions, true)) {
             unset($arrPermissions[array_search($varPermission, $arrPermissions, true)]);
         }
+
         return $arrPermissions;
     }
 
@@ -507,7 +519,7 @@ class Util
                     $arrActions[] = sprintf(
                         '<button type="submit" name="action" value="%s" class="tl_submit" %s>%s</button>',
                         $action['action'],
-                        ($action['attributes']) ?: $action['attributes'],
+                        ($action['attributes']) ?: "" ,
                         $action['label']
                     );
             }
@@ -554,7 +566,7 @@ class Util
     }
 
     /**
-     * Converts a number of milliseconds into a human readable duration.
+     * Converts a number of milliseconds into a human-readable duration.
      *
      * @param int $duration Number of milliseconds
      *
@@ -789,7 +801,6 @@ class Util
      *
      * @param bool $blnRefresh [description]
      *
-     * @return array
      * @throws Exception
      */
     private static function getContaoPermissions(bool $blnRefresh = false): array

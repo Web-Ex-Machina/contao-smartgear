@@ -269,7 +269,7 @@ class ConfigurationItemUtil
         // $objConfiguration = $objItem->getRelated('pid');
 
         $subConfigurationItems = ConfigurationItemModel::findItems(['pid' => $objItem->pid, 'type' => ConfigurationItemModel::TYPES_USER_GROUP]);
-        if ($subConfigurationItems) {
+        if ($subConfigurationItems instanceof Collection) {
             while ($subConfigurationItems->next()) {
                 if ($objUserGroup = $subConfigurationItems->getRelated('contao_user_group')) {
                     UserGroupUtil::updateAddUserGroupSettingsAccordingToConfigurationItem($objUserGroup, $objItem);

@@ -26,10 +26,8 @@ class Result
 
     public const STATUS_SUCCESS = 'success';
 
-    /** @var string */
     protected string $status = self::STATUS_NOT_EXCUTED_YET;
 
-    /** @var array */
     protected array $logs = [];
 
     public function setStatus(string $status): self

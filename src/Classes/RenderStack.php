@@ -44,7 +44,7 @@ class RenderStack
 
     public static function getInstance(): RenderStack
     {
-        if (null === self::$instance) {
+        if (!self::$instance instanceof RenderStack) {
             self::$instance = new self();
         }
 

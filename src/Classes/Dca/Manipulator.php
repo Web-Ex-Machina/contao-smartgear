@@ -19,7 +19,7 @@ use Exception;
 
 class Manipulator
 {
-    protected ?string $table;
+    protected ?string $table = null;
 
     public function getTable(): ?string
     {

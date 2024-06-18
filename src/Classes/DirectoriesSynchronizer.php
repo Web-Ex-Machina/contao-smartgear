@@ -60,28 +60,24 @@ class DirectoriesSynchronizer
             $this->getDestinationDirectoryFiles()
         );
 
-        if (!empty($this->filesToAdd)) {
-            foreach ($this->filesToAdd as $relativePath => $realPath) {
-                $objFile = new File($realPath);
-                if (!$objFile->copyTo($this->destinationDirectory.$relativePath)) {
-                    throw new Exception($this->translator->trans('WEMSG.DIRECTORIESSYNCHRONIZER.error', [$realPath, $this->destinationDirectory.$relativePath], 'contao_default'));
-                }
+        foreach ($this->filesToAdd as $relativePath => $realPath) {
+            $objFile = new File($realPath);
+            if (!$objFile->copyTo($this->destinationDirectory.$relativePath)) {
+                throw new Exception($this->translator->trans('WEMSG.DIRECTORIESSYNCHRONIZER.error', [$realPath, $this->destinationDirectory.$relativePath], 'contao_default'));
             }
         }
 
-        if (!empty($this->filesToUpdate)) {
-            foreach ($this->filesToUpdate as $relativePath => $realPath) {
-                $objFileFrom = new File($realPath);
-                $objFileTo = new File($this->destinationDirectory.$relativePath);
+        foreach ($this->filesToUpdate as $relativePath => $realPath) {
+            $objFileFrom = new File($realPath);
+            $objFileTo = new File($this->destinationDirectory.$relativePath);
 
-                $objFileTo->truncate();
-                $objFileTo->write($objFileFrom->getContent());
+            $objFileTo->truncate();
+            $objFileTo->write($objFileFrom->getContent());
 
-                $objFileTo->close();
-            }
+            $objFileTo->close();
         }
 
-        if ($withDeletions && !empty($this->filesToDelete)) {
+        if ($withDeletions && $this->filesToDelete !== []) {
             foreach ($this->filesToDelete as $realPath) {
                 $objFile = new File($realPath);
                 $objFile->delete();
@@ -187,6 +183,7 @@ class DirectoriesSynchronizer
                 $arrPaths[$relativePathFromStartPath.\DIRECTORY_SEPARATOR.$f] = $this->stripRootPathFromPath($strBasePath.\DIRECTORY_SEPARATOR.$f);
             }
         }
+
         return $arrPaths;
     }
 
@@ -201,6 +198,7 @@ class DirectoriesSynchronizer
         if (!$objFileA->exists()) {
             return true;
         }
+
         if (!$objFileB->exists()) {
             return true;
         }
@@ -220,7 +218,7 @@ class DirectoriesSynchronizer
      */
     protected function stripRootPathFromPath(string $path): string
     {
-        if (empty($this->rootDir)) {
+        if ($this->rootDir === '' || $this->rootDir === '0') {
             return $path;
         }
 

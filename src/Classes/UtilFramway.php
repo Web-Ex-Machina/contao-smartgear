@@ -35,7 +35,6 @@ class UtilFramway
 
     public const SCRIPTS_PATH = './bundles/wemsmartgear/scripts/smartgear/component/core/';
 
-    /** @var array */
     protected array $filesToCheck = [
         'framway.config.js',
         'build/css/vendor.css',
@@ -45,7 +44,7 @@ class UtilFramway
         'build/combined/_config.scss',
     ];
 
-    protected ?string $configurationRootFilePath;
+    protected ?string $configurationRootFilePath = null;
 
     public function __construct(
         protected ConfigurationManager $configurationManager,

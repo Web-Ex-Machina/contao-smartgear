@@ -20,7 +20,7 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 abstract class AbstractManager implements ManagerInterface
 {
 
-    protected ?string $configurationFilePath;
+    protected ?string $configurationFilePath = null;
 
     public function __construct(protected TranslatorInterface $translator)
     {

@@ -21,15 +21,12 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound;
 class ManagerJson extends AbstractManager implements ManagerJsonInterface
 {
 
-    protected ?string $configurationFilePath;
-
     public function __construct(
         TranslatorInterface       $translator,
         protected ConfigInterface $configuration,
-        string                    $configurationFilePath
+        protected ?string         $configurationFilePath
     ) {
         parent::__construct($translator);
-        $this->configurationFilePath = $configurationFilePath;
     }
 
     /**
