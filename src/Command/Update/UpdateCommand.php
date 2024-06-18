@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use WEM\SmartgearBundle\Backup\Model\Backup;
 use WEM\SmartgearBundle\Backup\Model\Results\CreateResult;
 use WEM\SmartgearBundle\Update\Results\UpdateResult;
 
@@ -65,8 +66,8 @@ class UpdateCommand extends AbstractUpdateCommand
 
         if ($input->getOption('nobackup')) {
             $io->info('No backup created because of the "--nobackup" option');
-        } elseif (null === $updateResult->getBackupResult()
-        || null === $updateResult->getBackupResult()->getBackup()) {
+        } elseif (!$updateResult->getBackupResult() instanceof CreateResult
+        || !$updateResult->getBackupResult()->getBackup() instanceof Backup) {
             $io->error('An error occured when creating the backup');
         } else {
             $io->success(sprintf('Backup : %s', $updateResult->getBackupResult()->getBackup()->getFile()->basename));

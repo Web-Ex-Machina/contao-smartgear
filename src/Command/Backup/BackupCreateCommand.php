@@ -57,7 +57,7 @@ class BackupCreateCommand extends AbstractBackupCommand
         }
 
         $io->table(['File', 'Status'], $this->formatForTable($result));
-        if (empty($result->getFilesInError())) {
+        if ($result->getFilesInError() === []) {
             $io->success(sprintf('Successfully created backup "%s".', $result->getBackup()->getFile()->basename));
         } else {
             $io->error(sprintf('Something went wrong during backup "%s" creation.', $result->getBackup()->getFile()->basename));

@@ -36,6 +36,7 @@ class BackupRestoreCommand extends AbstractBackupCommand
             if (empty($input->getOption('backup'))) {
                 throw new \Exception('Argument "backup" not defined');
             }
+
             $result = $this->backupManager->restore($input->getOption('backup'));
         } catch (\Exception $exception) {
             if ($this->isJson($input)) {
@@ -54,7 +55,7 @@ class BackupRestoreCommand extends AbstractBackupCommand
         }
 
         $io->table(['File', 'Status'], $this->formatForTable($result));
-        if (empty($result->getFilesInError())) {
+        if ($result->getFilesInError() === []) {
             $io->success(sprintf('Successfully restored backup "%s".', $result->getBackup()->getFile()->basename));
         } else {
             $io->error(sprintf('Something went wrong during backup "%s" restoration.', $result->getBackup()->getFile()->basename));
