@@ -67,12 +67,7 @@ class FaqCategory extends \tl_faq_category
         //     }
         // } catch (\Exception $e) {
         // }
-
-        if (0 < ConfigurationItem::countItems(['contao_faq_category' => $id])) {
-            return true;
-        }
-
-        return false;
+        return 0 < ConfigurationItem::countItems(['contao_faq_category' => $id]);
     }
 
     protected function canItemBeDeleted(int $id): bool

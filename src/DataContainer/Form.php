@@ -129,12 +129,7 @@ class Form extends Backend
         //     }
         // } catch (\Exception $e) {
         // }
-
-        if (0 < ConfigurationItem::countItems(['contao_form' => $id])) {
-            return true;
-        }
-
-        return false;
+        return 0 < ConfigurationItem::countItems(['contao_form' => $id]);
     }
 
     protected function canItemBeDeleted(int $id): bool

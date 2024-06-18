@@ -202,11 +202,7 @@ class DirectoriesSynchronizer
         if (!$objFileB->exists()) {
             return true;
         }
-        if ($objFileA->hash !== $objFileB->hash) {
-            return true;
-        }
-
-        return false;
+        return $objFileA->hash !== $objFileB->hash;
     }
 
     /**

@@ -72,14 +72,8 @@ class NotificationGateway extends tl_nc_gateway
         //     }
         // } catch (\Exception $e) {
         // }
-
-        if (0 < Configuration::countItems(['email_gateway' => $id])
-        || (int) $id === (int) Config::get('wem_sg_support_form_gateway')
-        ) {
-            return true;
-        }
-
-        return false;
+        return 0 < Configuration::countItems(['email_gateway' => $id])
+        || $id === (int) Config::get('wem_sg_support_form_gateway');
     }
 
     protected function canItemBeDeleted(int $id): bool

@@ -118,7 +118,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([\{]{1})/', '$1"$2":{', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([\[]{1})/', '$1"$2":[', $notJsonCompliant);
         // $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([^\/\:])/', '$1"$2":', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/\'/', '"', $notJsonCompliant);
+        $notJsonCompliant = preg_replace("/'/", '"', $notJsonCompliant);
         // $notJsonCompliant = preg_replace('/\"([A-Za-z_\-0-9$]*)\":[\s]\[/', '"$1":[', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([A-Za-z_\-0-9$]*)/', '$1"$2":$5', $notJsonCompliant);
 

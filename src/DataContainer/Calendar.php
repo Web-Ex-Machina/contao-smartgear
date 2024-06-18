@@ -68,12 +68,7 @@ class Calendar extends \tl_calendar
         //     }
         // } catch (\Exception $e) {
         // }
-
-        if (0 < ConfigurationItem::countItems(['contao_calendar' => $id])) {
-            return true;
-        }
-
-        return false;
+        return 0 < ConfigurationItem::countItems(['contao_calendar' => $id]);
     }
 
     protected function canItemBeDeleted(int $id): bool

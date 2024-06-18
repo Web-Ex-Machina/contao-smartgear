@@ -19,7 +19,7 @@ use Contao\FormFieldModel;
 class SendNotificationMessageListener
 {
 
-    public function __invoke($objMessage, &$arrTokens, $language, $objGatewayModel): bool
+    public function __invoke($objMessage, array &$arrTokens, $language, $objGatewayModel): bool
     {
         $arrTokens2 = [];
 

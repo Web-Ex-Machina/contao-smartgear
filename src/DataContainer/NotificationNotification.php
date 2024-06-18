@@ -86,13 +86,8 @@ class NotificationNotification extends tl_nc_notification
         //     }
         // } catch (\Exception $e) {
         // }
-        if (0 < Configuration::countItems(['contao_notification' => $id])
-        || (int) $id === (int) Config::get('wem_sg_support_notification')
-        ) {
-            return true;
-        }
-
-        return false;
+        return 0 < Configuration::countItems(['contao_notification' => $id])
+        || $id === (int) Config::get('wem_sg_support_notification');
     }
 
     protected function canItemBeDeleted(int $id): bool

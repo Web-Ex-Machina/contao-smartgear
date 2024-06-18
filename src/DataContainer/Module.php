@@ -130,16 +130,10 @@ class Module extends \tl_module
         //     }
         // } catch (\Exception $e) {
         // }
-
-        if (0 < ConfigurationItem::countItems(['contao_module' => $id])
+        return 0 < ConfigurationItem::countItems(['contao_module' => $id])
         || 0 < ConfigurationItem::countItems(['contao_module_reader' => $id])
         || 0 < ConfigurationItem::countItems(['contao_module_list' => $id])
-        || 0 < ConfigurationItem::countItems(['contao_module_calendar' => $id])
-        ) {
-            return true;
-        }
-
-        return false;
+        || 0 < ConfigurationItem::countItems(['contao_module_calendar' => $id]);
     }
 
     protected function canItemBeDeleted(int $id): bool

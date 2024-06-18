@@ -61,18 +61,12 @@ class Page extends \tl_page // TODO : Class 'tl_page' is marked as @internal
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
-
-        if (0 < Configuration::countItems(['contao_page_root' => $id])
+        return 0 < Configuration::countItems(['contao_page_root' => $id])
         || 0 < Configuration::countItems(['contao_page_home' => $id])
         || 0 < Configuration::countItems(['contao_page_404' => $id])
         || 0 < ConfigurationItem::countItems(['contao_page' => $id])
         || 0 < ConfigurationItem::countItems(['contao_page_form' => $id])
-        || 0 < ConfigurationItem::countItems(['contao_page_form_sent' => $id])
-        ) {
-            return true;
-        }
-
-        return false;
+        || 0 < ConfigurationItem::countItems(['contao_page_form_sent' => $id]);
     }
 
     protected function canItemBeDeleted(int $id): bool

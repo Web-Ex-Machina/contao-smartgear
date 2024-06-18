@@ -78,10 +78,7 @@ class Theme extends \tl_theme
         //     }
         // } catch (\Exception $e) {
         // }
-        if (0 < Configuration::countItems(['contao_theme' => $id])) {
-            return true;
-        }
-        return false;
+        return 0 < Configuration::countItems(['contao_theme' => $id]);
     }
 
     protected function canItemBeDeleted(int $id): bool

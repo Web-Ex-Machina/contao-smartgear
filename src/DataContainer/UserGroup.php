@@ -67,12 +67,7 @@ class UserGroup extends \tl_user_group //TODO : Class 'tl_user_group' is marked 
         //     }
         // } catch (\Exception $e) {
         // }
-
-        if (0 < ConfigurationItem::countItems(['contao_user_group' => $id])) {
-            return true;
-        }
-
-        return false;
+        return 0 < ConfigurationItem::countItems(['contao_user_group' => $id]);
     }
 
     protected function canItemBeDeleted(int $id): bool

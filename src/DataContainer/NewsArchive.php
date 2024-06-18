@@ -68,13 +68,7 @@ class NewsArchive extends \tl_news_archive
         //     }
         // } catch (\Exception $e) {
         // }
-
-        if (0 < ConfigurationItem::countItems(['contao_news_archive' => $id])
-        ) {
-            return true;
-        }
-
-        return false;
+        return 0 < ConfigurationItem::countItems(['contao_news_archive' => $id]);
     }
 
     protected function canItemBeDeleted(int $id): bool

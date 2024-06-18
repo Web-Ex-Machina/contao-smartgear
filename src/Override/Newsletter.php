@@ -302,10 +302,10 @@ class Newsletter extends ContaoNewsletter
     <td class="col_0">'.$GLOBALS['TL_LANG']['tl_newsletter']['attachments'].'</td>
     <td class="col_1">'.implode(', ', $arrAttachments).'</td>
   </tr>' : '').'
-</table>'.(!$objNewsletter->sendText ? '
+</table>'.($objNewsletter->sendText ? '' : '
 <div class="preview_html">
 '.$html.'
-</div>' : '').'
+</div>').'
 <div class="preview_text">
 <pre style="white-space:pre-wrap">'.$text.'</pre>
 </div>
@@ -354,14 +354,11 @@ class Newsletter extends ContaoNewsletter
     /**
      * Compile the newsletter and send it.
      *
-     * @param Email $objEmail
-     * @param Result $objNewsletter
      * @param array $arrRecipient
      * @param string $text
      * @param string $html
      * @param null $css
      *
-     * @return bool
      */
     protected function sendNewsletter(Email $objEmail, Result $objNewsletter, $arrRecipient, $text, $html, $css = null): bool
     {
