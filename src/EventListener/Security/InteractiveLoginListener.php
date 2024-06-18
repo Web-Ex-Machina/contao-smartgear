@@ -27,17 +27,11 @@ use WEM\SmartgearBundle\Model\Login;
 
 class InteractiveLoginListener
 {
-    /** @var ConfigurationManager */
-    protected ConfigurationManager $configurationManager;
-
     /**
      * Initialize the object.
      */
-    public function __construct(
-        ConfigurationManager $configurationManager,
-        protected ScopeMatcher $scopeMatcher
-    ) {
-        $this->configurationManager = $configurationManager;
+    public function __construct(protected ConfigurationManager $configurationManager, protected ScopeMatcher $scopeMatcher)
+    {
     }
 
     public function __invoke(InteractiveLoginEvent $event): void

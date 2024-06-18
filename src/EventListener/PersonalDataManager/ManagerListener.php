@@ -30,10 +30,8 @@ class ManagerListener
     {
         if ($ptable === FormStorageData::getTable()) {
             $objFormStorageData = FormStorageData::findByPk($pid);
-            if ($objFormStorageData && $objFormStorageData->field_type === 'upload') {
-                if (Validator::isStringUuid($objFormStorageData->value)) {
-                    $objFileModel = FilesModel::findByUuid($objFormStorageData->value);
-                }
+            if ($objFormStorageData && $objFormStorageData->field_type === 'upload' && Validator::isStringUuid($objFormStorageData->value)) {
+                $objFileModel = FilesModel::findByUuid($objFormStorageData->value);
             }
         }
 
@@ -44,10 +42,8 @@ class ManagerListener
     {
         if ($personalData->ptable === FormStorageData::getTable()) {
             $objFormStorageData = FormStorageData::findByPk($personalData->pid);
-            if ($objFormStorageData && $objFormStorageData->field_type === 'upload') {
-                if (Validator::isStringUuid($objFormStorageData->value)) {
-                    $isLinkedToFile = true;
-                }
+            if ($objFormStorageData && $objFormStorageData->field_type === 'upload' && Validator::isStringUuid($objFormStorageData->value)) {
+                $isLinkedToFile = true;
             }
         }
 

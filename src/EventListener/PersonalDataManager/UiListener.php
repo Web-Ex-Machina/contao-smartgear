@@ -35,15 +35,10 @@ use WEM\SmartgearBundle\Model\FormStorageData;
 class UiListener
 {
 
-    /** @var PersonalDataManagerUi */
-    protected PersonalDataManagerUi $personalDataManagerUi;
-
     public function __construct(
-        protected TranslatorInterface $translator,
-        PersonalDataManagerUi         $personalDataManagerUi
+        protected TranslatorInterface   $translator,
+        protected PersonalDataManagerUi $personalDataManagerUi
     ) {
-        $this->personalDataManagerUi = $personalDataManagerUi;
-
         $GLOBALS['TL_CSS'][] = 'bundles/wemsmartgear/css/module/personaldatamanager/frontend.css';
         $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/wemsmartgear/js/module/personaldatamanager/frontend.js';
     }
