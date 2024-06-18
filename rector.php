@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Contao\Rector\Set\ContaoSetList;
 use Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector;
 use Rector\CodeQuality\Rector\If_\CombineIfRector;
 use Rector\Config\RectorConfig;
@@ -14,6 +15,11 @@ return RectorConfig::configure()
         CombineIfRector::class
     ])
     ->withAttributesSets(symfony: true, doctrine: true)
+    ->withSets([
+        ContaoSetList::CONTAO_53,
+        ContaoSetList::ANNOTATIONS_TO_ATTRIBUTES,
+        ContaoSetList::FQCN
+    ])
     ->withPreparedSets(
         deadCode: true,
         codeQuality: true,
