@@ -136,19 +136,19 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
         ],
         'completion_percentage' => [
             'inputType' => 'text',
-            'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,3}),([0-9]{2})$/', 'tl_class' => 'w50 clr', 'disabled' => true, 'maxval' => 100, 'minval' => 0],
+            'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^(\d{1,3}),(\d{2})$/', 'tl_class' => 'w50 clr', 'disabled' => true, 'maxval' => 100, 'minval' => 0],
             'sql' => "DECIMAL(5,2) unsigned NOT NULL default '0.00'",
         ],
         'delay_to_first_interaction' => [
             'inputType' => 'text',
-            'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,14})$/', 'tl_class' => 'w50', 'disabled' => true, 'minval' => 0],
-            'load_callback' => [fn($value, $dc): string => Util::humanReadableDuration((int) $value)],
+            'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^(\d{1,14})$/', 'tl_class' => 'w50', 'disabled' => true, 'minval' => 0],
+            'load_callback' => [static fn($value, $dc): string => Util::humanReadableDuration((int) $value)],
             'sql' => "varchar(14) NOT NULL default ''",
         ],
         'delay_to_submission' => [
             'inputType' => 'text',
-            'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,14})$/', 'tl_class' => 'w50 clr', 'disabled' => true, 'minval' => 0],
-            'load_callback' => [fn($value, $dc): string => Util::humanReadableDuration((int) $value)],
+            'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^(\d{1,14})$/', 'tl_class' => 'w50 clr', 'disabled' => true, 'minval' => 0],
+            'load_callback' => [static fn($value, $dc): string => Util::humanReadableDuration((int) $value)],
             'sql' => "varchar(14) NOT NULL default ''",
         ],
         'current_page' => [
