@@ -28,15 +28,17 @@ use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 $bundles = System::getContainer()->getParameter('kernel.bundles');
 if (isset($bundles['ContaoNewsletterBundle'])) {
     $GLOBALS['TL_DCA']['tl_newsletter']['config']['dataContainer'] = DC_Table_Newsletter::class;
-    $GLOBALS['TL_DCA']['tl_newsletter']['config']['onsubmit_callback'][] = function (DataContainer $dc): void {
+    $GLOBALS['TL_DCA']['tl_newsletter']['config']['onsubmit_callback'][] = static function (DataContainer $dc) : void {
         if (!$dc->id) {
             return;
         }
+        
         $objNewsletter = NewsletterModel::findById($dc->id);
         $channels = unserialize($objNewsletter->channels);
         if (!$channels) {
             return;
         }
+        
         $objNewsletter->pid = $channels[0];
         $objNewsletter->save();
     };
@@ -47,7 +49,7 @@ if (isset($bundles['ContaoNewsletterBundle'])) {
     $GLOBALS['TL_DCA']['tl_newsletter']['list']['label']['format'] = '%s';
     $GLOBALS['TL_DCA']['tl_newsletter']['list']['label']['label_callback'] = $GLOBALS['TL_DCA']['tl_newsletter']['list']['sorting']['child_record_callback'];
 
-    $GLOBALS['TL_DCA']['tl_newsletter']['list']['label']['group_callback'] = fn(string $group, int $mode, $field, array $row, DataContainer $dc) => $row['sent'] ? $GLOBALS['TL_LANG']['tl_newsletter']['sent'] : $GLOBALS['TL_LANG']['tl_newsletter']['notSent'];
+    $GLOBALS['TL_DCA']['tl_newsletter']['list']['label']['group_callback'] = static fn(string $group, int $mode, $field, array $row, DataContainer $dc) => $row['sent'] ? $GLOBALS['TL_LANG']['tl_newsletter']['sent'] : $GLOBALS['TL_LANG']['tl_newsletter']['notSent'];
 
     PaletteManipulator::create()
         ->addField('channels', 'alias')

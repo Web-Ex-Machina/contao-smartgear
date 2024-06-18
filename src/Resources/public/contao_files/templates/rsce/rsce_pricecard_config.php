@@ -12,6 +12,8 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+use WEM\SmartgearBundle\Classes\Util;
+
 return [
     'label' => [&$GLOBALS['TL_LANG']['tl_content']['rsce_pricecard'][0], &$GLOBALS['TL_LANG']['tl_content']['rsce_pricecard'][1]],
     'contentCategory' => 'miscellaneous',
@@ -132,7 +134,7 @@ return [
         'color' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['dominant_color'],
             'inputType' => 'select',
-            'options_callback' => fn($dc) => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id),
+            'options_callback' => static fn($dc): string|array|false => Util::getSmartgearColors($dc->table, (int) $dc->id),
             'eval' => ['tl_class' => 'w50', 'includeBlankOption' => true],
         ],
         'bg_title' => [

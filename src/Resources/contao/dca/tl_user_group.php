@@ -21,7 +21,7 @@ DCAManipulator::create('tl_user_group')
         'exclude' => true,
         'inputType' => 'checkbox',
         'eval' => ['multiple' => true, 'helpwizard' => true],
-        'options_callback' => fn() => [
+        'options_callback' => static fn() => [
             $GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['optGroup'] => [
                 // SmartgearPermissions::CORE_SIMPLE => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['simple'],
                 SmartgearPermissions::CORE_EXPERT => &$GLOBALS['TL_LANG']['WEMSG']['SECURITY']['CORE']['expert'],

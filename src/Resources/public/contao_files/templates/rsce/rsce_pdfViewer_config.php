@@ -31,9 +31,6 @@ return [
             'inputType' => 'standardField',
             'eval' => ['tl_class' => 'clr'],
         ],
-        'linkTitle' => [
-            'inputType' => 'standardField',
-        ],
         'title' => [
             'label'     => &$GLOBALS['TL_LANG']['tl_content']['titleText'], 
             'inputType' => 'text', 

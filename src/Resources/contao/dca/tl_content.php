@@ -15,10 +15,11 @@ declare(strict_types=1);
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\DcaLoader;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
+use WEM\SmartgearBundle\DataContainer\Core;
 
 (new DcaLoader('tl_content'))->load();
 
-$GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['options_callback'] = static fn(Contao\DataContainer $dc) => WEM\SmartgearBundle\Override\Controller::getTemplateGroup('ce_'.$dc->activeRecord->type.'_', [], 'ce_'.$dc->activeRecord->type);
+$GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['options_callback'] = static fn(Contao\DataContainer $dc): array => WEM\SmartgearBundle\Override\Controller::getTemplateGroup('ce_'.$dc->activeRecord->type.'_', [], 'ce_'.$dc->activeRecord->type);
 $GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['eval']['includeBlankOption'] = true;
 
 DCAManipulator::create('tl_content')
@@ -51,8 +52,8 @@ DCAManipulator::create('tl_content')
         'eval' => ['rgxp'=>'datim', 'datepicker'=>true, 'tl_class'=>'w50', 'readonly'=>true],
         'sql' => "int(10) unsigned NOT NULL default '0'",
     ])
-    ->addConfigOnsubmitCallback(\WEM\SmartgearBundle\DataContainer\Core::class, 'updateReminder')
-    ->addConfigOnloadCallback(\WEM\SmartgearBundle\DataContainer\Core::class, 'displayReminderMessage')
+    ->addConfigOnsubmitCallback(Core::class, 'updateReminder')
+    ->addConfigOnloadCallback(Core::class, 'displayReminderMessage')
 ;
 
 foreach ($GLOBALS['TL_DCA']['tl_content']['palettes'] as $paletteName => $paletteConfig) {
