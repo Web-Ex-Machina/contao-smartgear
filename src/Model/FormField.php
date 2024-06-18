@@ -27,6 +27,7 @@ class FormField extends CoreModel
      * @var string
      */
     protected static $strTable = 'tl_form_field';
+
     /**
      * Default order column.
      *

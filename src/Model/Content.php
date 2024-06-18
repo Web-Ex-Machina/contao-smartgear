@@ -23,16 +23,16 @@ class Content extends CoreModel
 {
     /**
      * Search fields.
-     *
-     * @var array
      */
-    public static $arrSearchFields = ['tstamp', 'type'];
+    public static array $arrSearchFields = ['tstamp', 'type'];
+
     /**
      * Table name.
      *
      * @var string
      */
     protected static $strTable = 'tl_content';
+
     /**
      * Default order column.
      *

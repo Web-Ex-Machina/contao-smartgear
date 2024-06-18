@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Model;
 
 use Contao\Database;
+use Contao\Model\Collection;
 use WEM\UtilsBundle\Model\Model as CoreModel;
 
 /**
@@ -23,10 +24,15 @@ use WEM\UtilsBundle\Model\Model as CoreModel;
 class FormStorage extends CoreModel
 {
     public const STATUS_UNREAD = 'unread';
+
     public const STATUS_READ = 'read';
+
     public const STATUS_SPAM = 'spam';
+
     public const STATUS_OK = 'ok';
+
     public const STATUS_REPLIED = 'replied';
+
     /**
      * Table name.
      *
@@ -41,7 +47,7 @@ class FormStorage extends CoreModel
         }
 
         $formStorageDatas = FormStorageData::findItems(['pid' => $this->id, 'field_name' => 'email'], 1);
-        if (!$formStorageDatas) {
+        if (!$formStorageDatas instanceof Collection) {
             return null;
         }
 
@@ -51,7 +57,7 @@ class FormStorage extends CoreModel
     public static function deleteAll(): void
     {
         $objStatement = Database::getInstance()->prepare(sprintf('DELETE FROM %s', self::getTable()));
-        $objResult = $objStatement->execute();
+        $objStatement->execute();
 
         FormStorageData::deleteAll();
     }

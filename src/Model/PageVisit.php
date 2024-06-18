@@ -28,6 +28,7 @@ class PageVisit extends CoreModel
      * @var string
      */
     protected static $strTable = 'tl_sm_page_visit';
+
     /**
      * Default order column.
      *
@@ -41,17 +42,15 @@ class PageVisit extends CoreModel
      * @param string $strField    [Column to format]
      * @param mixed  $varValue    [Value to use]
      * @param string $strOperator [Operator to use, default "="]
-     *
-     * @return array
      */
-    public static function formatStatement($strField, $varValue, $strOperator = '=')
+    public static function formatStatement(string $strField, mixed $varValue, string $strOperator = '='): array
     {
         $arrColumns = [];
         $t = static::$strTable;
 
         switch ($strField) {
             case 'exclude_be_login':
-                $arrColumns[] = sprintf("$t.hash NOT IN (
+                $arrColumns[] = sprintf($t . ".hash NOT IN (
                     SELECT l.hash
                     FROM %s l
                     WHERE l.createdAt BETWEEN (%s.createdAt - 86400) AND (%s.createdAt + 86400)
@@ -128,7 +127,7 @@ class PageVisit extends CoreModel
 
     public static function getAnalytics(array $arrSelect, ?array $arrConfig = [], ?int $limit = 5, ?int $offset = 0, ?array $arrOptions = [])
     {
-        $t = self::getTable();
+        self::getTable();
         $where = self::formatColumns($arrConfig);
 
         $arrOptions['table'] = self::getTable();
@@ -137,16 +136,12 @@ class PageVisit extends CoreModel
 
         $sql = self::buildFindQuery($arrOptions);
 
-        try {
-            return Database::getInstance()->prepare($sql.' LIMIT '.$offset.','.$limit)->execute();
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        return Database::getInstance()->prepare($sql.' LIMIT '.$offset.','.$limit)->execute();
     }
 
     public static function countAnalytics(array $arrSelect, ?array $arrConfig = [], ?array $arrOptions = []): int
     {
-        $t = self::getTable();
+        self::getTable();
         $where = self::formatColumns($arrConfig);
 
         $arrOptions['table'] = self::getTable();
@@ -155,10 +150,6 @@ class PageVisit extends CoreModel
 
         $sql = self::buildFindQuery($arrOptions);
 
-        try {
-            return (int) Database::getInstance()->prepare('SELECT count(*) as amount FROM ('.$sql.') as subquery')->execute()->fetchAssoc()['amount'];
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        return (int) Database::getInstance()->prepare('SELECT count(*) as amount FROM ('.$sql.') as subquery')->execute()->fetchAssoc()['amount'];
     }
 }

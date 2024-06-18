@@ -27,12 +27,14 @@ class Module extends CoreModel
      * @var array
      */
     public static $arrSearchFields = ['tstamp', 'name'];
+
     /**
      * Table name.
      *
      * @var string
      */
     protected static $strTable = 'tl_module';
+
     /**
      * Default order column.
      *

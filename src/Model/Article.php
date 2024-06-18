@@ -23,16 +23,16 @@ class Article extends CoreModel
 {
     /**
      * Search fields.
-     *
-     * @var array
      */
-    public static $arrSearchFields = ['tstamp', 'title', 'alias'];
+    public static array $arrSearchFields = ['tstamp', 'title', 'alias'];
+
     /**
      * Table name.
      *
      * @var string
      */
     protected static $strTable = 'tl_article';
+
     /**
      * Default order column.
      *

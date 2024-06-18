@@ -22,13 +22,14 @@ use WEM\UtilsBundle\Model\Model as CoreModel;
 class Login extends CoreModel
 {
     public const CONTEXT_BE = 'BE';
+
     public const CONTEXT_FE = 'FE';
+
     /**
      * Search fields.
-     *
-     * @var array
      */
-    public static $arrSearchFields = ['tstamp', 'hash'];
+    public static array $arrSearchFields = ['tstamp', 'hash'];
+
     /**
      * Table name.
      *

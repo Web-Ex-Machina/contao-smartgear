@@ -27,6 +27,7 @@ class Page extends CoreModel
      * @var array
      */
     public static $arrSearchFields = ['tstamp', 'name'];
+
     /**
      * Table name.
      *

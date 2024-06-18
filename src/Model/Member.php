@@ -44,6 +44,7 @@ class Member extends \Contao\MemberModel
         'mobile',
         'fax',
     ];
+
     protected static $personalDataFieldsDefaultValues = [
         'firstname' => 'managed_by_pdm',
         'lastname' => 'managed_by_pdm',
@@ -59,6 +60,7 @@ class Member extends \Contao\MemberModel
         'mobile' => 'managed_by_pdm',
         'fax' => 'managed_by_pdm',
     ];
+
     protected static $personalDataFieldsAnonymizedValues = [
         'firstname' => 'anonymized',
         'lastname' => 'anonymized',
@@ -74,8 +76,11 @@ class Member extends \Contao\MemberModel
         'mobile' => '',
         'fax' => '',
     ];
+
     protected static $personalDataPidField = 'id';
+
     protected static $personalDataEmailField = 'email';
+
     protected static $personalDataPtable = 'tl_member';
 
     /**

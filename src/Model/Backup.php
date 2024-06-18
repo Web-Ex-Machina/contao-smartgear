@@ -22,16 +22,20 @@ use WEM\UtilsBundle\Model\Model as CoreModel;
 class Backup extends CoreModel
 {
     public const SOURCE_API = 'api';
+
     public const SOURCE_UPDATE = 'update';
+
     public const SOURCE_COMMAND = 'command';
+
     public const SOURCE_UI = 'ui';
+
     public const SOURCE_CONFIGURATION_RESET = 'configuration reset';
+
     /**
      * Search fields.
-     *
-     * @var array
      */
-    public static $arrSearchFields = ['tstamp', 'name'];
+    public static array $arrSearchFields = ['tstamp', 'name'];
+
     /**
      * Table name.
      *
@@ -45,20 +49,18 @@ class Backup extends CoreModel
      * @param string $strField    [Column to format]
      * @param mixed  $varValue    [Value to use]
      * @param string $strOperator [Operator to use, default "="]
-     *
-     * @return array
      */
-    public static function formatStatement($strField, $varValue, $strOperator = '=')
+    public static function formatStatement(string $strField, mixed $varValue, string $strOperator = '='): array
     {
         $arrColumns = [];
         $t = static::$strTable;
 
         switch ($strField) {
             case 'before':
-                $arrColumns[] = sprintf("$t.tstamp <= %s", $varValue);
+                $arrColumns[] = sprintf($t . ".tstamp <= %s", $varValue);
                 break;
             case 'after':
-                $arrColumns[] = sprintf("$t.tstamp >= %s", $varValue);
+                $arrColumns[] = sprintf($t . ".tstamp >= %s", $varValue);
                 break;
             default:
                 return parent::formatStatement($strField, $varValue, $strOperator);

@@ -23,10 +23,9 @@ class CalendarEvents extends CoreModel
 {
     /**
      * Search fields.
-     *
-     * @var array
      */
-    public static $arrSearchFields = [];
+    public static array $arrSearchFields = [];
+
     /**
      * Table name.
      *
@@ -36,31 +35,24 @@ class CalendarEvents extends CoreModel
 
     public function getAllLocations(array $calendars): array
     {
-        try {
-            $items = [];
-            $date = new \DateTime();
-            $t = static::$strTable;
-            $sql = sprintf('
+        $items = [];
+        $date = new \DateTime();
+        $sql = sprintf('
                         SELECT DISTINCT ce.location
                         FROM %s ce
                         WHERE ce.pid IN (%s)
                         AND (ce.published = 1 AND (ce.start <= "%s" OR ce.start = "") AND (ce.stop >= "%s" OR ce.stop = ""))
                         ORDER BY ce.location DESC
                     ',
-                    self::getTable(),
-                    implode(',', $calendars),
-                    $date->getTimestamp(),
-                    $date->getTimestamp()
-                    );
-            $objResults = \Contao\Database::getInstance()->prepare($sql)->execute();
-
-            while ($objResults->next()) {
-                $items[] = $objResults->location;
-            }
-
-            return $items;
-        } catch (\Exception $e) {
-            throw $e;
+                self::getTable(),
+                implode(',', $calendars),
+                $date->getTimestamp(),
+                $date->getTimestamp()
+                );
+        $objResults = \Contao\Database::getInstance()->prepare($sql)->execute();
+        while ($objResults->next()) {
+            $items[] = $objResults->location;
         }
+        return $items;
     }
 }

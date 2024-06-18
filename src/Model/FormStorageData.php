@@ -30,20 +30,27 @@ class FormStorageData extends CoreModel
     use PDMTrait;
 
     public const NO_FILE_UPLOADED = 'no_file_uploaded';
+
     public const FILE_UPLOADED_BUT_NOT_STORED = 'file_uploaded_but_not_stored';
 
     protected static $personalDataFieldsNames = [
         'value',
     ];
+
     protected static $personalDataFieldsDefaultValues = [
         'value' => 'managed_by_pdm',
     ];
+
     protected static $personalDataFieldsAnonymizedValues = [
         'value' => 'anonymized',
     ];
+
     protected static $personalDataPidField = 'id';
+
     protected static $personalDataEmailField = 'email';
+
     protected static $personalDataPtable = 'tl_sm_form_storage_data';
+
     /**
      * Table name.
      *
@@ -57,8 +64,9 @@ class FormStorageData extends CoreModel
         if ($objFS && !empty($objFS->sender)) {
             return $objFS->sender;
         }
+
         $objFDS = self::findItems(['pid' => $this->pid, 'field_name' => 'email'], 1);
-        if (!$objFDS) {
+        if (!$objFDS instanceof \Contao\Model\Collection) {
             throw new Exception('Unable to find the email field');
         }
 
@@ -95,14 +103,12 @@ class FormStorageData extends CoreModel
                         if (Validator::isStringUuid($value)) {
                             // we should have an UUID here
                             $objFile = FilesModel::findByUuid($value);
-                            if (!$objFile) {
-                                $value = $GLOBALS['TL_LANG']['WEMSG']['FDM']['ERROR']['uploadedFileNotFound'];
-                            } else {
-                                $value = $objFile->path;
-                            }
+                            $value = $objFile ? $objFile->path : $GLOBALS['TL_LANG']['WEMSG']['FDM']['ERROR']['uploadedFileNotFound'];
                         }
+
                     break;
                 }
+
             break;
         }
 
@@ -112,7 +118,7 @@ class FormStorageData extends CoreModel
     public static function deleteAll(): void
     {
         $objStatement = Database::getInstance()->prepare(sprintf('DELETE FROM %s', self::getTable()));
-        $objResult = $objStatement->execute();
+        $objStatement->execute();
 
         $manager = \Contao\System::getContainer()->get('wem.personal_data_manager.service.personal_data_manager');
         $manager->deleteByPtable(self::getTable());
