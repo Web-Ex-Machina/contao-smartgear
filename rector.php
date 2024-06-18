@@ -7,11 +7,14 @@ use Rector\Config\RectorConfig;
 
 return RectorConfig::configure()
     ->withPaths([__DIR__ . '/src'])
-    ->withPhpSets(php83: true)
-    ->withDeadCodeLevel(level:1)
+    ->withPhpSets(php82: true)
     ->withSkip([
         CallableThisArrayToAnonymousFunctionRector::class
     ])
     ->withAttributesSets(symfony: true, doctrine: true)
-    ->withPreparedSets(codeQuality: true, codingStyle: true, typeDeclarations: true)
+    ->withPreparedSets(
+        deadCode: true,
+        codeQuality: true,
+        codingStyle: true,
+        typeDeclarations: true)
     ;
