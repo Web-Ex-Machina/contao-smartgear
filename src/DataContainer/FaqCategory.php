@@ -17,19 +17,13 @@ namespace WEM\SmartgearBundle\DataContainer;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
-use Contao\System;
-use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
 class FaqCategory extends \tl_faq_category
 {
-    /** @var CoreConfigurationManager */
-    private $configManager;
-
     public function __construct()
     {
         parent::__construct();
-        $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
     }
 
     /**
@@ -41,29 +35,17 @@ class FaqCategory extends \tl_faq_category
     {
         parent::checkPermission();
 
-        // Check current action
-        switch (Input::get('act')) {
-            case 'delete':
-                if (!$this->canItemBeDeleted((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' FAQ Category ID '.Input::get('id').'.');
-                }
-            break;
+        if (Input::get('act') === 'delete') {
+            if (!$this->canItemBeDeleted((int) Input::get('id'))) {
+                throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' FAQ Category ID '.Input::get('id').'.');
+            }
         }
     }
 
     /**
      * Return the delete faq_category button.
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
      */
-    public function deleteItem($row, $href, $label, $title, $icon, $attributes)
+    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
     {
         if (!$this->canItemBeDeleted((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';

@@ -36,6 +36,7 @@ class Configuration extends Core
             $objItem->version = CoreConfig::DEFAULT_VERSION;
             $objItem->save();
         }
+
         ConfigurationUtil::createEverythingFromConfiguration($objItem);
     }
 
@@ -45,14 +46,14 @@ class Configuration extends Core
         ConfigurationUtil::deleteEverythingFromConfiguration($objItem);
     }
 
-    public function fieldGoogleFontsOnsaveCallback($value, DataContainer $dc)
+    public function fieldGoogleFontsOnsaveCallback($value, DataContainer $dc): string
     {
         $valueFormatted = StringUtil::deserialize($value, true);
 
         return implode(',', $valueFormatted);
     }
 
-    public function fieldGoogleFontsOnloadCallback($value, DataContainer $dc)
+    public function fieldGoogleFontsOnloadCallback($value, DataContainer $dc): string
     {
         return serialize(explode(',', (string) $value));
     }

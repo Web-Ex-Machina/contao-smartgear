@@ -15,15 +15,17 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\DataContainer;
 
 use Contao\DataContainer;
+use Contao\System;
 
 class CalendarEvents extends \tl_calendar_events
 {
     /**
      * Add the source options depending on the allowed fields (see #5498).
      *
+     * @param DataContainer $dc
      * @return array
      */
-    public function getSourceOptions(DataContainer $dc)
+    public function getSourceOptions(DataContainer $dc): array
     {
         $arrOptions = parent::getSourceOptions($dc);
         $valuesToKeep = ['default', 'external'];
@@ -60,11 +62,10 @@ class CalendarEvents extends \tl_calendar_events
             while ($otherItemsWithSameAddressAndCoordinatesFilled->next()) {
                 $arrSet['addressLat'] = $otherItemsWithSameAddressAndCoordinatesFilled->addressLat;
                 $arrSet['addressLon'] = $otherItemsWithSameAddressAndCoordinatesFilled->addressLon;
-                continue;
             }
         } else {
-            /** @var \WEM\SmartgearBundle\Api\Nominatim\V4\Api */
-            $api = \Contao\System::getContainer()->get('smartgear.api.nominatim.v4.api');
+            /** @var \WEM\SmartgearBundle\Api\Nominatim\V4\Api $api */
+            $api = System::getContainer()->get('smartgear.api.nominatim.v4.api');
             try {
                 $response = $api->search($dc->activeRecord->address);
                 $arrSet['addressLat'] = $response->getLat() ?? '';

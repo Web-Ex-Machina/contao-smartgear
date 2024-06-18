@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\DataContainer;
 
 use Contao\Config;
 use Contao\DataContainer;
+use Contao\System;
 use NotificationCenter\Model\Gateway;
 use NotificationCenter\Model\Notification;
 use WEM\SmartgearBundle\Classes\Utils\Notification\NcNotificationMessageLanguageUtil;
@@ -26,62 +27,60 @@ class Settings
 {
     public function onsubmitCallback(DataContainer $dc): void
     {
-        if (Config::get('wem_sg_support_form_enabled')) {
-            if (Config::get('wem_sg_support_form_gateway') && !Config::get('wem_sg_support_form_notification')) {
-                // create support notification
-                if ($objGateway = Gateway::findByPk(Config::get('wem_sg_support_form_gateway'))) {
-                    $objNcNotification = NcNotificationUtil::createSupportFormNotification();
+        if (Config::get('wem_sg_support_form_enabled') && (Config::get('wem_sg_support_form_gateway') && !Config::get('wem_sg_support_form_notification'))) {
+            // create support notification
+            if ($objGateway = Gateway::findByPk(Config::get('wem_sg_support_form_gateway'))) {
+                $objNcNotification = NcNotificationUtil::createSupportFormNotification();
 
-                    $objNcNotificationMessageUser = NcNotificationMessageUtil::createSupportFormNotificationMessageUser((int) $objGateway->id, 'email', (int) $objNcNotification->id);
-                    $objNcNotificationMessageUserLanguage = NcNotificationMessageLanguageUtil::createSupportFormNotificationMessageUserLanguage((int) $objNcNotificationMessageUser->id, 'fr', true);
+                $objNcNotificationMessageUser = NcNotificationMessageUtil::createSupportFormNotificationMessageUser((int) $objGateway->id, 'email', (int) $objNcNotification->id);
+                $objNcNotificationMessageUserLanguage = NcNotificationMessageLanguageUtil::createSupportFormNotificationMessageUserLanguage((int) $objNcNotificationMessageUser->id, 'fr', true);
 
-                    $objNcNotificationMessageAdmin = NcNotificationMessageUtil::createSupportFormNotificationMessageAdmin((int) $objGateway->id, 'email', (int) $objNcNotification->id);
-                    $objNcNotificationMessageAdminLanguage = NcNotificationMessageLanguageUtil::createSupportFormNotificationMessageAdminLanguage((int) $objNcNotificationMessageAdmin->id, 'fr', true);
+                $objNcNotificationMessageAdmin = NcNotificationMessageUtil::createSupportFormNotificationMessageAdmin((int) $objGateway->id, 'email', (int) $objNcNotification->id);
+                $objNcNotificationMessageAdminLanguage = NcNotificationMessageLanguageUtil::createSupportFormNotificationMessageAdminLanguage((int) $objNcNotificationMessageAdmin->id, 'fr', true);
 
-                    // $objConfig = Config::getInstance();
-                    // $objConfig->persist("\$GLOBALS['TL_CONFIG']['wem_sg_support_form_notification']", $objNcNotification->id);
-                    // $objConfig->save();
-                    \Contao\Config::set('wem_sg_support_form_notification', $objNcNotification->id);
-                    \Contao\Config::persist('wem_sg_support_form_notification', $objNcNotification->id);
-                }
+                // $objConfig = Config::getInstance();
+                // $objConfig->persist("\$GLOBALS['TL_CONFIG']['wem_sg_support_form_notification']", $objNcNotification->id);
+                // $objConfig->save();
+                Config::set('wem_sg_support_form_notification', $objNcNotification->id);
+                Config::persist('wem_sg_support_form_notification', $objNcNotification->id);
             }
         }
 
         if (Config::get('wem_sg_encryption_key')) {
-            \Contao\Config::set('wem_pdm_encryption_key', \Contao\Config::get('wem_sg_encryption_key'));
-            \Contao\Config::persist('wem_pdm_encryption_key', \Contao\Config::get('wem_sg_encryption_key'));
+            Config::set('wem_pdm_encryption_key', Config::get('wem_sg_encryption_key'));
+            Config::persist('wem_pdm_encryption_key', Config::get('wem_sg_encryption_key'));
         }
     }
 
     public function airtableApiKeyReadSaveCallback($value, DataContainer $dc)
     {
-        $encryptionService = \Contao\System::getContainer()->get('plenta.encryption');
+        $encryptionService = System::getContainer()->get('plenta.encryption');
 
         return $encryptionService->encrypt($value);
     }
 
     public function airtableApiKeyReadLoadCallback($value, DataContainer $dc)
     {
-        $encryptionService = \Contao\System::getContainer()->get('plenta.encryption');
+        $encryptionService = System::getContainer()->get('plenta.encryption');
 
         return $encryptionService->decrypt($value);
     }
 
     public function airtableApiKeyWriteSaveCallback($value, DataContainer $dc)
     {
-        $encryptionService = \Contao\System::getContainer()->get('plenta.encryption');
+        $encryptionService = System::getContainer()->get('plenta.encryption');
 
         return $encryptionService->encrypt($value);
     }
 
     public function airtableApiKeyWriteLoadCallback($value, DataContainer $dc)
     {
-        $encryptionService = \Contao\System::getContainer()->get('plenta.encryption');
+        $encryptionService = System::getContainer()->get('plenta.encryption');
 
         return $encryptionService->decrypt($value);
     }
 
-    public function supportFormNotificationOptionsCallback(DataContainer $dc)
+    public function supportFormNotificationOptionsCallback(DataContainer $dc): array
     {
         $arrOptions = [];
 
@@ -95,7 +94,7 @@ class Settings
         return $arrOptions;
     }
 
-    public function supportFormGatewayOptionsCallback(DataContainer $dc)
+    public function supportFormGatewayOptionsCallback(DataContainer $dc): array
     {
         $arrOptions = [];
 

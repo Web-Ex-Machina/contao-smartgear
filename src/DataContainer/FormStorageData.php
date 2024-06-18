@@ -19,16 +19,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Model\FormStorage;
 use WEM\SmartgearBundle\Model\FormStorageData as FormStorageDataModel;
 
-class FormStorageData
+readonly class FormStorageData
 {
-    public function __construct(private readonly TranslatorInterface $translator)
+    public function __construct(private TranslatorInterface $translator)
     {
     }
 
     public function listItems(array $row): string
     {
         $objFormStorageData = FormStorageDataModel::findByPk($row['id']);
-        $objFormStorage = FormStorage::findByPk($row['pid']);
+        FormStorage::findByPk($row['pid']);
         $objFormField = FormFieldModel::findById($row['field']);
 
         return sprintf('<div><b>%s</b> : %s<br /><b>%s</b> : %s</div>', $this->translator->trans('tl_sm_form_storage_data.field.0', [], 'contao_default'), $objFormField ? $objFormField->label : $objFormStorageData->field_label, $this->translator->trans('tl_sm_form_storage_data.value.0', [], 'contao_default'), $objFormStorageData->getValueAsString());

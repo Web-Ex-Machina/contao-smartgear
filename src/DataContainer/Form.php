@@ -19,10 +19,8 @@ use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\DataContainer;
 use Contao\Image;
 use Contao\Input;
-use Contao\System;
 use Exception;
 use tl_form;
-use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\FormUtil;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\EmailFieldNotMandatoryInForm;
 use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\FormNotConfiguredToStoreValues;
@@ -34,15 +32,12 @@ use WEM\SmartgearBundle\Model\FormStorage;
 // class Form extends \tl_form
 class Form extends Backend
 {
-    /** @var CoreConfigurationManager */
-    private $configurationManager;
     /** @var Backend */
     private $parent;
 
     public function __construct()
     {
         parent::__construct();
-        $this->configurationManager = System::getContainer()->get('smartgear.config.manager.core');
         $this->parent = new tl_form();
     }
 
@@ -103,29 +98,15 @@ class Form extends Backend
         // parent::checkPermission();
         $this->parent->checkPermission();
 
-        // Check current action
-        switch (Input::get('act')) {
-            case 'delete':
-                if (!$this->canItemBeDeleted((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' form ID '.Input::get('id').'.');
-                }
-            break;
+        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' form ID '.Input::get('id').'.');
         }
     }
 
     /**
      * Return the delete form button.
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
      */
-    public function deleteItem($row, $href, $label, $title, $icon, $attributes)
+    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
     {
         if (!$this->canItemBeDeleted((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';

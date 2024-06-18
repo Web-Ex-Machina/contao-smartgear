@@ -19,6 +19,7 @@ use Contao\Config;
 use Contao\DataContainer;
 use Contao\Date;
 use Contao\FormModel;
+use Contao\Model\Collection;
 use Contao\System;
 use Contao\Validator;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -26,9 +27,9 @@ use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Model\FormStorage as ModelFormStorage;
 use WEM\SmartgearBundle\Model\FormStorageData;
 
-class FormStorage
+readonly class FormStorage
 {
-    public function __construct(private readonly TranslatorInterface $translator)
+    public function __construct(private TranslatorInterface $translator)
     {
     }
 
@@ -41,7 +42,7 @@ class FormStorage
             $objForm ? $objForm->title : $row['pid'],
             Date::parse(Config::get('datimFormat'), (int) $row['tstamp']),
             $this->translator->trans(sprintf('tl_sm_form_storage.status.%s', $row['status']), [], 'contao_default'),
-            !empty($row['sender']) ? $row['sender'] : ($objFormStorageDataEmail ? $objFormStorageDataEmail->value : 'NR'),
+            empty($row['sender']) ? ($objFormStorageDataEmail ? $objFormStorageDataEmail->value : 'NR') : ($row['sender']),
         ];
     }
 
@@ -52,7 +53,7 @@ class FormStorage
         $arrFormStorageDatas = [];
         $objTemplate = new BackendTemplate('be_wem_sg_widget_fdm_form_storage_data');
 
-        if ($formStorageDatas) {
+        if ($formStorageDatas instanceof Collection) {
             while ($formStorageDatas->next()) {
                 $arrFormStorageDatas[$formStorageDatas->id] = $formStorageDatas->current()->row();
                 $arrFormStorageDatas[$formStorageDatas->id]['raw_value'] = $arrFormStorageDatas[$formStorageDatas->id]['value'];
@@ -60,6 +61,7 @@ class FormStorage
                 $arrFormStorageDatas[$formStorageDatas->id]['is_uuid'] = Validator::isStringUuid($arrFormStorageDatas[$formStorageDatas->id]['raw_value']);
             }
         }
+
         $objTemplate->arrFormStorageDatas = $arrFormStorageDatas;
 
         return $objTemplate->parse();
@@ -75,7 +77,7 @@ class FormStorage
         $modalData[ModelFormStorage::getTable()][0][$key] = $recordData['completion_percentage'].'%';
 
         $formStorageDatas = FormStorageData::findItems(['pid' => $dc->id]);
-        if ($formStorageDatas) {
+        if ($formStorageDatas instanceof Collection) {
             $modalData[FormStorageData::getTable()] = [0 => []];
             while ($formStorageDatas->next()) {
                 $modalData[FormStorageData::getTable()][0][$formStorageDatas->field_label] = $formStorageDatas->current()->getValueAsString();

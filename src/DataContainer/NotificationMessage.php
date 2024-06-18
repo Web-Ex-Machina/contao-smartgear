@@ -54,17 +54,8 @@ class NotificationMessage extends tl_nc_message
 
     /**
      * Return the delete notification message button.
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
      */
-    public function deleteItem($row, $href, $label, $title, $icon, $attributes)
+    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
     {
         if (!$this->canItemBeDeleted((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.gif$/i', '_.gif', $icon)).' '; // yup, gif not svg

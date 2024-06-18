@@ -53,8 +53,10 @@ class ConfigurationItem extends Core
                 } else {
                     $arrData['contao_page'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 break;
             case ConfigurationItemModel::TYPE_PAGE_SITEMAP:
+            case ConfigurationItemModel::TYPE_MIXED_SITEMAP:
                 if ($objItem->contao_page) {
                     $objPage = $objItem->getRelated('contao_page');
                     $arrData['contao_page'] = $objPage ? $objPage->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
@@ -68,6 +70,7 @@ class ConfigurationItem extends Core
                 } else {
                     $arrData['contao_module'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 break;
             case ConfigurationItemModel::TYPE_USER_GROUP_ADMINISTRATORS:
             case ConfigurationItemModel::TYPE_USER_GROUP_REDACTORS:
@@ -77,46 +80,12 @@ class ConfigurationItem extends Core
                 } else {
                     $arrData['contao_user_group'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
-                break;
-            case ConfigurationItemModel::TYPE_MODULE_WEM_SG_HEADER:
-                if ($objItem->contao_module) {
-                    $objModule = $objItem->getRelated('contao_module');
-                    $arrData['contao_module'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
-                } else {
-                    $arrData['contao_module'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
-                }
+
                 break;
             case ConfigurationItemModel::TYPE_MODULE_WEM_SG_FOOTER:
-                if ($objItem->contao_module) {
-                    $objModule = $objItem->getRelated('contao_module');
-                    $arrData['contao_module'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
-                } else {
-                    $arrData['contao_module'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
-                }
-                break;
             case ConfigurationItemModel::TYPE_MODULE_BREADCRUMB:
-                if ($objItem->contao_module) {
-                    $objModule = $objItem->getRelated('contao_module');
-                    $arrData['contao_module'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
-                } else {
-                    $arrData['contao_module'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
-                }
-                break;
             case ConfigurationItemModel::TYPE_MODULE_WEM_SG_SOCIAL_NETWORKS:
-                if ($objItem->contao_module) {
-                    $objModule = $objItem->getRelated('contao_module');
-                    $arrData['contao_module'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
-                } else {
-                    $arrData['contao_module'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
-                }
-                break;
-            case ConfigurationItemModel::TYPE_MIXED_SITEMAP:
-                if ($objItem->contao_page) {
-                    $objPage = $objItem->getRelated('contao_page');
-                    $arrData['contao_page'] = $objPage ? $objPage->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
-                } else {
-                    $arrData['contao_page'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
-                }
+            case ConfigurationItemModel::TYPE_MODULE_WEM_SG_HEADER:
                 if ($objItem->contao_module) {
                     $objModule = $objItem->getRelated('contao_module');
                     $arrData['contao_module'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
@@ -131,18 +100,21 @@ class ConfigurationItem extends Core
                 } else {
                     $arrData['contao_page'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 if ($objItem->contao_module) {
                     $objModule = $objItem->getRelated('contao_module');
                     $arrData['contao_module'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 } else {
                     $arrData['contao_module'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 if ($objItem->contao_faq_category) {
                     $objFaqCategory = $objItem->getRelated('contao_faq_category');
                     $arrData['contao_faq_category'] = $objFaqCategory ? $objFaqCategory->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 } else {
                     $arrData['contao_faq_category'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 break;
             case ConfigurationItemModel::TYPE_MIXED_EVENTS:
                 if ($objItem->contao_page) {
@@ -151,30 +123,35 @@ class ConfigurationItem extends Core
                 } else {
                     $arrData['contao_page'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 if ($objItem->contao_module_list) {
                     $objModule = $objItem->getRelated('contao_module_list');
                     $arrData['contao_module_list'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 } else {
                     $arrData['contao_module_list'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 if ($objItem->contao_module_reader) {
                     $objModule = $objItem->getRelated('contao_module_reader');
                     $arrData['contao_module_reader'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 } else {
                     $arrData['contao_module_reader'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 if ($objItem->contao_module_calendar) {
                     $objModule = $objItem->getRelated('contao_module_calendar');
                     $arrData['contao_module_calendar'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 } else {
                     $arrData['contao_module_calendar'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 if ($objItem->contao_calendar) {
                     $objCalendar = $objItem->getRelated('contao_calendar');
                     $arrData['contao_calendar'] = $objCalendar ? $objCalendar->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 } else {
                     $arrData['contao_calendar'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 break;
             case ConfigurationItemModel::TYPE_MIXED_BLOG:
                 if ($objItem->contao_page) {
@@ -183,24 +160,28 @@ class ConfigurationItem extends Core
                 } else {
                     $arrData['contao_page'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 if ($objItem->contao_module_list) {
                     $objModule = $objItem->getRelated('contao_module_list');
                     $arrData['contao_module_list'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 } else {
                     $arrData['contao_module_list'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 if ($objItem->contao_module_reader) {
                     $objModule = $objItem->getRelated('contao_module_reader');
                     $arrData['contao_module_reader'] = $objModule ? $objModule->name : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 } else {
                     $arrData['contao_module_reader'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 if ($objItem->contao_news_archive) {
                     $objNewsArchive = $objItem->getRelated('contao_news_archive');
                     $arrData['contao_news_archive'] = $objNewsArchive ? $objNewsArchive->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 } else {
                     $arrData['contao_news_archive'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 break;
             case ConfigurationItemModel::TYPE_MIXED_FORM_CONTACT:
                 if ($objItem->contao_page_form) {
@@ -209,24 +190,28 @@ class ConfigurationItem extends Core
                 } else {
                     $arrData['contao_page_form'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 if ($objItem->contao_page_form_sent) {
                     $objPage = $objItem->getRelated('contao_page_form_sent');
                     $arrData['contao_page_form_sent'] = $objPage ? $objPage->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 } else {
                     $arrData['contao_page_form_sent'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 if ($objItem->contao_form) {
                     $objForm = $objItem->getRelated('contao_form');
                     $arrData['contao_form'] = $objForm ? $objForm->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 } else {
                     $arrData['contao_form'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 if ($objItem->contao_notification) {
                     $objNotification = $objItem->getRelated('contao_notification');
                     $arrData['contao_notification'] = $objNotification ? $objNotification->title : $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 } else {
                     $arrData['contao_notification'] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['NotFilled'];
                 }
+
                 break;
         }
 
@@ -336,6 +321,7 @@ class ConfigurationItem extends Core
                         $arrOptions[$layouts->id] = $layouts->name;
                     }
                 }
+
                 // $arrOptions = Util::getFileListByLanguages(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/legal-notice');
                 break;
         }
@@ -348,14 +334,13 @@ class ConfigurationItem extends Core
         if (!$dc->id) {
             return;
         }
+
         $objItem = ConfigurationItemModel::findOneById($dc->id);
         $objConfiguration = $objItem->getRelated('pid');
-        switch ($objItem->type) {
-            case ConfigurationItemModel::TYPE_MIXED_FORM_CONTACT:
-                if (empty($objConfiguration->email_gateway)) {
-                    Message::addError('La configuration ne stipule aucune passerelle email : il ne sera pas possible de créer la notification si besoin.');
-                }
-            break;
+        if ($objItem->type === ConfigurationItemModel::TYPE_MIXED_FORM_CONTACT) {
+            if (empty($objConfiguration->email_gateway)) {
+                Message::addError('La configuration ne stipule aucune passerelle email : il ne sera pas possible de créer la notification si besoin.');
+            }
         }
     }
 
@@ -364,6 +349,7 @@ class ConfigurationItem extends Core
         if (!$dc->id) {
             return;
         }
+
         $objItem = ConfigurationItemModel::findOneById($dc->id);
 
         $dcaManipulator = DCAManipulator::create(ConfigurationItemModel::getTable());
@@ -376,12 +362,13 @@ class ConfigurationItem extends Core
             ) {
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_page_updated_outside_sg_configuration'], $objPage->title, $objPage->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
+
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
                     ->addField('update_page', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_page'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -396,12 +383,13 @@ class ConfigurationItem extends Core
             ) {
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_page_form_updated_outside_sg_configuration'], $objPage->title, $objPage->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
+
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
                     ->addField('update_page_form', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_page_form'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -416,12 +404,13 @@ class ConfigurationItem extends Core
             ) {
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_page_form_sent_updated_outside_sg_configuration'], $objPage->title, $objPage->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
+
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
                     ->addField('update_page_form_sent', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_page_form_sent'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -436,16 +425,18 @@ class ConfigurationItem extends Core
             ) {
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_module_updated_outside_sg_configuration'], $objModule->name, $objModule->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
+
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
                     ->addField('update_module', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_module'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
             }
+
             $addFields = true;
         }
 
@@ -456,16 +447,18 @@ class ConfigurationItem extends Core
             ) {
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_module_list_updated_outside_sg_configuration'], $objModule->name, $objModule->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
+
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
                     ->addField('update_module_list', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_module_list'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
             }
+
             $addFields = true;
         }
 
@@ -476,16 +469,18 @@ class ConfigurationItem extends Core
             ) {
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_module_reader_updated_outside_sg_configuration'], $objModule->name, $objModule->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
+
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
                     ->addField('update_module_reader', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_module_reader'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
             }
+
             $addFields = true;
         }
 
@@ -496,16 +491,18 @@ class ConfigurationItem extends Core
             ) {
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_module_calendar_updated_outside_sg_configuration'], $objModule->name, $objModule->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
+
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
                     ->addField('update_module_calendar', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_module_calendar'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
             }
+
             $addFields = true;
         }
 
@@ -516,12 +513,13 @@ class ConfigurationItem extends Core
             ) {
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_user_group_updated_outside_sg_configuration'], $objUserGroup->name, $objUserGroup->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
+
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
                     ->addField('update_user_group', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_user_group'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -536,12 +534,13 @@ class ConfigurationItem extends Core
             ) {
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_faq_category_updated_outside_sg_configuration'], $objFaqCat->name, $objFaqCat->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
+
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
                     ->addField('update_faq_category', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_faq_category'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -556,12 +555,13 @@ class ConfigurationItem extends Core
             ) {
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_calendar_updated_outside_sg_configuration'], $objCal->name, $objCal->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
+
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
                     ->addField('update_calendar', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_calendar'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -576,12 +576,13 @@ class ConfigurationItem extends Core
             ) {
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_news_archive_updated_outside_sg_configuration'], $objNewsArch->title, $objNewsArch->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
+
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
                     ->addField('update_news_archive', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_news_archive'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -596,12 +597,13 @@ class ConfigurationItem extends Core
             ) {
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_form_updated_outside_sg_configuration'], $objForm->title, $objForm->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
+
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
                     ->addField('update_form', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_form'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -616,12 +618,13 @@ class ConfigurationItem extends Core
             ) {
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_notification_updated_outside_sg_configuration'], $objNcNotif->title, $objNcNotif->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
+
             if (0 !== (int) $objItem->tstamp) {
                 $dcaManipulator
                     ->addField('update_notification', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_notification'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -636,7 +639,7 @@ class ConfigurationItem extends Core
                 ->addField('update_user_group_permission', [
                     'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_user_group_permission'],
                     'inputType' => 'checkbox',
-                    'save_callback' => [fn($val) => ''], // so Contao does not try to save this fake field
+                    'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
                     'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                 ])
             ;
@@ -649,45 +652,59 @@ class ConfigurationItem extends Core
             if ($dcaManipulator->hasField('update_page')) {
                 $paletteManipulator->addField('update_page', 'update_legend');
             }
+
             if ($dcaManipulator->hasField('update_page_form')) {
                 $paletteManipulator->addField('update_page_form', 'update_legend');
             }
+
             if ($dcaManipulator->hasField('update_page_form_sent')) {
                 $paletteManipulator->addField('update_page_form_sent', 'update_legend');
             }
+
             if ($dcaManipulator->hasField('update_module')) {
                 $paletteManipulator->addField('update_module', 'update_legend');
             }
+
             if ($dcaManipulator->hasField('update_module_list')) {
                 $paletteManipulator->addField('update_module_list', 'update_legend');
             }
+
             if ($dcaManipulator->hasField('update_module_reader')) {
                 $paletteManipulator->addField('update_module_reader', 'update_legend');
             }
+
             if ($dcaManipulator->hasField('update_module_calendar')) {
                 $paletteManipulator->addField('update_module_calendar', 'update_legend');
             }
+
             if ($dcaManipulator->hasField('update_user_group')) {
                 $paletteManipulator->addField('update_user_group', 'update_legend');
             }
+
             if ($dcaManipulator->hasField('update_faq_category')) {
                 $paletteManipulator->addField('update_faq_category', 'update_legend');
             }
+
             if ($dcaManipulator->hasField('update_calendar')) {
                 $paletteManipulator->addField('update_calendar', 'update_legend');
             }
+
             if ($dcaManipulator->hasField('update_news_archive')) {
                 $paletteManipulator->addField('update_news_archive', 'update_legend');
             }
+
             if ($dcaManipulator->hasField('update_form')) {
                 $paletteManipulator->addField('update_form', 'update_legend');
             }
+
             if ($dcaManipulator->hasField('update_notification')) {
                 $paletteManipulator->addField('update_notification', 'update_legend');
             }
+
             if ($dcaManipulator->hasField('update_user_group_permission')) {
                 $paletteManipulator->addField('update_user_group_permission', 'update_legend');
             }
+
             $paletteManipulator->applyToPalette('default', ConfigurationItemModel::getTable());
         }
     }

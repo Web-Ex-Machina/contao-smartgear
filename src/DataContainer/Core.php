@@ -19,6 +19,7 @@ use Contao\Config;
 use Contao\DataContainer;
 use Contao\Date;
 use Contao\Message;
+use Contao\Model;
 use DateInterval;
 use DateTime;
 use WEM\SmartgearBundle\Classes\Util;
@@ -30,11 +31,13 @@ class Core extends Backend
         if (!$dc->id) {
             return;
         }
-        $model = \Contao\Model::getClassFromTable($dc->table);
+
+        $model = Model::getClassFromTable($dc->table);
         $objItem = $model::findById($dc->id);
         if (!$objItem) {
             return;
         }
+
         $updateReminderDate = 0;
         if ((bool) $objItem->update_reminder) {
             $dti = new DateInterval($objItem->update_reminder_period);
@@ -55,11 +58,13 @@ class Core extends Backend
         if (!$dc->id || null === \Contao\Input::get('act')) {
             return;
         }
-        $model = \Contao\Model::getClassFromTable($dc->table);
+
+        $model = Model::getClassFromTable($dc->table);
         $objItem = $model::findById($dc->id);
         if (!$objItem) {
             return;
         }
+
         if ((bool) $objItem->update_reminder) {
             $dtReminder = (new DateTime())->setTimestamp((int) $objItem->update_reminder_date);
             $dtNow = (new DateTime());

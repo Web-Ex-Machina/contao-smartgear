@@ -20,43 +20,32 @@ use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\DataContainer;
 use Contao\Image;
 use Contao\Input;
-use Contao\System;
 use Exception;
 use tl_content;
 use tl_content_calendar;
 use tl_content_news;
-use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Message;
 use WEM\SmartgearBundle\Classes\StringUtil;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
-// class Content extends \tl_content
 class Content extends Backend
 {
-    /** @var CoreConfigurationManager */
-    private $configManager;
     /** @var Backend */
     private $parent;
 
     public function __construct()
     {
         parent::__construct();
-        $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
-        switch (Input::get('do')) {
-            case 'news':
-                $this->loadDataContainer('tl_content');
-                $this->parent = new tl_content_news();
-            break;
-            case 'calendar':
-                $this->loadDataContainer('tl_content');
-                $this->parent = new tl_content_calendar();
-            break;
-            default:
-                $this->loadDataContainer('tl_content');
-                $this->parent = new tl_content();
-        }
+        $this->loadDataContainer('tl_content');
+        $this->parent = match (Input::get('do')) {
+            'news' => new tl_content_news(),
+            'calendar' => new tl_content_calendar(),
+            default => new tl_content(),
+        };
     }
 
+    /**
+     * @throws Exception
+     */
     public function getModules()
     {
         if (!method_exists($this->parent, 'getModules')) {
@@ -66,6 +55,9 @@ class Content extends Backend
         return $this->parent->getModules();
     }
 
+    /**
+     * @throws Exception
+     */
     public function pagePicker(DataContainer $dc)
     {
         if (!method_exists($this->parent, 'pagePicker')) {
@@ -85,29 +77,17 @@ class Content extends Backend
         // parent::checkPermission();
         $this->parent->checkPermission();
 
-        // Check current action
-        switch (Input::get('act')) {
-            case 'delete':
-                if (!$this->canItemBeDeleted((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' content ID '.Input::get('id').'.');
-                }
-            break;
+        if (Input::get('act') === 'delete') {
+            if (!$this->canItemBeDeleted((int) Input::get('id'))) {
+                throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' content ID '.Input::get('id').'.');
+            }
         }
     }
 
     /**
      * Return the delete content button.
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
      */
-    public function deleteItem($row, $href, $label, $title, $icon, $attributes)
+    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
     {
         if (!$this->canItemBeDeleted((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
@@ -150,7 +130,7 @@ class Content extends Backend
      *
      * @param DataContainer $objDc    [description]
      */
-    public function cleanHeadline(mixed $varValue, DataContainer $objDc)
+    public function cleanHeadline(mixed $varValue, DataContainer $objDc): string
     {
         $arrValue = StringUtil::deserialize($varValue);
         if ($arrValue === $varValue) {
@@ -178,6 +158,9 @@ class Content extends Backend
         return StringUtil::cleanSpaces($varValue);
     }
 
+    /**
+     * @throws Exception
+     */
     public function editModule(DataContainer $dc)
     {
         if (!method_exists($this->parent, 'editModule')) {
@@ -208,6 +191,6 @@ class Content extends Backend
 
     protected function canItemBeDeleted(int $id): bool
     {
-        return (bool) $this->parent->User->admin || !$this->isItemUsedBySmartgear($id);
+        return $this->parent->User->admin || !$this->isItemUsedBySmartgear($id);
     }
 }

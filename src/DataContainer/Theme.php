@@ -14,26 +14,22 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\Backend;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\StringUtil;
-use Contao\System;
 use tl_theme;
-use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class Theme extends \tl_theme
 {
-    /** @var CoreConfigurationManager */
-    private $configManager;
-    /** @var Backend */
+    /** @var Backend */ //TODO : Bon typage ??
     private $parent;
 
     public function __construct()
     {
-        parent::__construct();
-        $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
+        parent::__construct(); // TODO : Class 'parent' is marked as @internal
         $this->parent = new tl_theme();
     }
 
@@ -47,31 +43,20 @@ class Theme extends \tl_theme
         if (method_exists($this->parent, 'checkPermission')) {
             // parent function removed in commit https://github.com/contao/contao/commit/68b169eca43e4fc7ef3dddc7336b0c84905dec92
             parent::checkPermission();
+            // TODO : Method 'checkPermission' not found in \tl_theme
         }
 
-        // Check current action
-        switch (Input::get('act')) {
-            case 'delete':
-                if (!$this->canItemBeDeleted((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' theme ID '.Input::get('id').'.');
-                }
-            break;
+        if (Input::get('act') === 'delete') {
+            if (!$this->canItemBeDeleted((int) Input::get('id'))) {
+                throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' theme ID '.Input::get('id').'.');
+            }
         }
     }
 
     /**
      * Return the delete theme button.
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
      */
-    public function deleteItem($row, $href, $label, $title, $icon, $attributes)
+    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
     {
         if (!$this->canItemBeDeleted((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
@@ -84,6 +69,7 @@ class Theme extends \tl_theme
      * Check if the theme is being used by Smartgear.
      *
      * @param int $id theme's ID
+     * @throws \Exception
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
@@ -97,7 +83,6 @@ class Theme extends \tl_theme
         if (0 < Configuration::countItems(['contao_theme' => $id])) {
             return true;
         }
-
         return false;
     }
 

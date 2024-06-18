@@ -23,20 +23,15 @@ use Contao\Input;
 use Contao\StringUtil;
 use Contao\System;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Model\SocialNetwork as SocialNetworkModel;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class SocialNetworkCategory extends Backend
 {
-    /** @var CoreConfigurationManager */
-    private $configManager;
-
     public function __construct(private readonly TranslatorInterface $translator)
     {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
-        $this->configManager = System::getContainer()->get('smartgear.config.manager.core');
     }
 
     public function listItems(array $row, string $label, DataContainer $dc, array $labels): string
@@ -57,46 +52,25 @@ class SocialNetworkCategory extends Backend
      */
     public function checkPermission(): void
     {
-        // Check current action
-        switch (Input::get('act')) {
-            case 'delete':
-                if (!$this->canItemBeDeleted((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' social network category ID '.Input::get('id').'.');
-                }
-            break;
+        if (Input::get('act') === 'delete') {
+            if (!$this->canItemBeDeleted((int) Input::get('id'))) {
+                throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' social network category ID '.Input::get('id').'.');
+            }
         }
     }
 
     /**
      * Return the edit header button.
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
      */
-    public function editHeader($row, $href, $label, $title, $icon, $attributes)
+    public function editHeader(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
     {
         return System::getContainer()->get('security.helper')->isGranted(SmartgearPermissions::SOCIALLINK_EXPERT) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ' : Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
     }
 
     /**
      * Return the delete social network category button.
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
      */
-    public function deleteItem($row, $href, $label, $title, $icon, $attributes)
+    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
     {
         if (!$this->canItemBeDeleted((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
