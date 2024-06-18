@@ -21,29 +21,21 @@ use WEM\SmartgearBundle\Model\FormStorageData;
 
 class CsvFormatterListener
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-
-    public function __construct(
-        TranslatorInterface $translator
-    ) {
-        $this->translator = $translator;
+    public function __construct(protected TranslatorInterface $translator)
+    {
     }
 
     public function formatSingle(PersonalDataModel $personalData, array $header, array $row): array
     {
-        switch ($personalData->ptable) {
-            case FormStorageData::getTable():
-                $objFormStorageData = FormStorageData::findByPk($personalData->pid);
-
-                return [
-                    FormStorage::getTable(),
-                    $personalData->email,
-                    $objFormStorageData->field_label,
-                    $personalData->anonymized ? $personalData->value : '"'.$objFormStorageData->getValueAsString().'"',
-                    $personalData->anonymized ? $this->translator->trans('WEM.PEDAMA.CSV.columnAnonymizedValueYes', [], 'contao_default') : $this->translator->trans('WEM.PEDAMA.CSV.columnAnonymizedValueNo', [], 'contao_default'),
-                ];
-            break;
+        if ($personalData->ptable === FormStorageData::getTable()) {
+            $objFormStorageData = FormStorageData::findByPk($personalData->pid);
+            return [
+                FormStorage::getTable(),
+                $personalData->email,
+                $objFormStorageData->field_label,
+                $personalData->anonymized ? $personalData->value : '"'.$objFormStorageData->getValueAsString().'"',
+                $personalData->anonymized ? $this->translator->trans('WEM.PEDAMA.CSV.columnAnonymizedValueYes', [], 'contao_default') : $this->translator->trans('WEM.PEDAMA.CSV.columnAnonymizedValueNo', [], 'contao_default'),
+            ];
         }
 
         return $row;

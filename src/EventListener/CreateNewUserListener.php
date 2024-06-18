@@ -16,13 +16,8 @@ namespace WEM\SmartgearBundle\EventListener;
 
 class CreateNewUserListener
 {
-    /** @var array */
-    protected $listeners;
-
-    public function __construct(
-        array $listeners
-    ) {
-        $this->listeners = $listeners;
+    public function __construct(protected array $listeners)
+    {
     }
 
     public function __invoke(string $userId, array $data, \Contao\Module $module): void

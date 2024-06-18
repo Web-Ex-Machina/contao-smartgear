@@ -14,24 +14,22 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use Contao\Module;
+use Contao\PageModel;
+
 class GenerateBreadcrumbListener
 {
-    /** @var array */
-    protected $listeners;
-
-    public function __construct(
-        array $listeners
-    ) {
-        $this->listeners = $listeners;
+    public function __construct(protected array $listeners)
+    {
     }
 
-    public function __invoke(array $items, \Contao\Module $module): array
+    public function __invoke(array $items, Module $module): array
     {
         $arrSourceItems = $items;
         try {
             // Determine if we are at the root of the website
             global $objPage;
-            $objHomePage = \Contao\PageModel::findFirstPublishedRegularByPid($objPage->rootId);
+            $objHomePage = PageModel::findFirstPublishedRegularByPid($objPage->rootId);
 
             // If we are, remove breadcrumb
             if ($objHomePage->id === $objPage->id) {

@@ -50,31 +50,15 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class LoadDataContainerListener
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var CoreConfigurationManager */
-    protected $configurationManager;
-    /** @var ConfigurationManager */
-    protected $framwayConfigurationManager;
-    /** @var ConfigurationCombinedManager */
-    protected $framwayCombinedConfigurationManager;
-    /** @var array */
-    protected $listeners;
-    /** @var string */
-    protected $do;
+    protected string $do;
 
     public function __construct(
-        TranslatorInterface $translator,
-        CoreConfigurationManager $configurationManager,
-        ConfigurationManager $framwayConfigurationManager,
-        ConfigurationCombinedManager $framwayCombinedConfigurationManager,
-        array $listeners
+        protected \Symfony\Contracts\Translation\TranslatorInterface $translator,
+        protected CoreConfigurationManager $configurationManager,
+        protected ConfigurationManager $framwayConfigurationManager,
+        protected ConfigurationCombinedManager $framwayCombinedConfigurationManager,
+        protected array $listeners
     ) {
-        $this->translator = $translator;
-        $this->configurationManager = $configurationManager;
-        $this->framwayConfigurationManager = $framwayConfigurationManager;
-        $this->framwayCombinedConfigurationManager = $framwayCombinedConfigurationManager;
-        $this->listeners = $listeners;
         $this->do = Input::get('do') ?? ''; // always empty ?
     }
 
@@ -83,6 +67,7 @@ class LoadDataContainerListener
         if (!\is_array($tables)) {
             $tables = [$tables];
         }
+
         foreach ($tables as $table) {
             $this->applySmartgearBehaviour($table);
             $this->applyListeners($table);
@@ -314,7 +299,7 @@ class LoadDataContainerListener
                 $themeConfig = $this->framwayCombinedConfigurationManager->setConfigurationRootFilePath(Input::get('framway_path'))->load();
                 $help['rawLabel'] = ['headspan', $this->translator->trans('WEMSG.FRAMWAY.COLORS.rawLabel', [], 'contao_default')];
                 $colors = $themeConfig->getColors();
-                foreach ($colors as $name => $hexa) {
+                foreach (array_keys($colors) as $name) {
                     $help[$name] = [
                         '<div style="width:15px;height:15px;border:1px dotted black;" class="bg-'.$name.'"></div>',
                         $this->translator->trans(sprintf('WEMSG.FRAMWAY.COLORS.%s', $name), [], 'contao_default'),
@@ -323,6 +308,7 @@ class LoadDataContainerListener
             } catch (FileNotFoundException) {
                 //nothing
             }
+
             $GLOBALS['TL_DCA'][$table]['fields']['styleManager']['reference'] = $help;
         }
     }

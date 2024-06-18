@@ -54,6 +54,7 @@ class NewsListCountItemsListener
                     $val[] = $duo[0];
                     $val[] = $duo[1];
                 }
+
                 $col[] = implode(' OR ', $colConfig);
             }
 

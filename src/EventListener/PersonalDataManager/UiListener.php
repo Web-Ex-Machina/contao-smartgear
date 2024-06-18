@@ -34,16 +34,14 @@ use WEM\SmartgearBundle\Model\FormStorageData;
 
 class UiListener
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var personalDataManagerUi */
-    protected $personalDataManagerUi;
+
+    /** @var PersonalDataManagerUi */
+    protected PersonalDataManagerUi $personalDataManagerUi;
 
     public function __construct(
-        TranslatorInterface $translator,
-        personalDataManagerUi $personalDataManagerUi
+        protected TranslatorInterface $translator,
+        PersonalDataManagerUi         $personalDataManagerUi
     ) {
-        $this->translator = $translator;
         $this->personalDataManagerUi = $personalDataManagerUi;
 
         $GLOBALS['TL_CSS'][] = 'bundles/wemsmartgear/css/module/personaldatamanager/frontend.css';
@@ -55,33 +53,31 @@ class UiListener
         $sorted2 = $sorted;
 
         foreach ($sorted as $ptable => $ptableDatas) {
-            switch ($ptable) {
-                case FormStorageData::getTable():
-                    foreach ($ptableDatas as $id => $idDatas) {
-                        $objFormStorageData = FormStorageData::findOneBy('id', $idDatas['personalDatas'][0]->pid);
-                        // in case the data has been deleted but pdm data are still present
-                        if (!$objFormStorageData) {
-                            continue;
-                        }
-
-                        /** @var FormStorage */
-                        $objFormStorage = $objFormStorageData->getRelated('pid');
-
-                        if (!\array_key_exists(FormStorage::getTable(), $sorted2)) {
-                            $sorted2[FormStorage::getTable()] = [];
-                        }
-
-                        if (!\array_key_exists($objFormStorage->id, $sorted2[FormStorage::getTable()])) {
-                            $arrPersonalDatas = $this->getPersonalDataForFormStorage($objFormStorage);
-                            $sorted2[FormStorage::getTable()][$objFormStorage->id] = [
-                                'originalModel' => $arrPersonalDatas[0],
-                                'personalDatas' => $arrPersonalDatas[1],
-                            ];
-                        }
-
-                        unset($sorted2[$ptable][$id]);
+            if ($ptable === FormStorageData::getTable()) {
+                foreach ($ptableDatas as $id => $idDatas) {
+                    $objFormStorageData = FormStorageData::findOneBy('id', $idDatas['personalDatas'][0]->pid);
+                    // in case the data has been deleted but pdm data are still present
+                    if (!$objFormStorageData) {
+                        continue;
                     }
-                break;
+
+                    /** @var FormStorage $objFormStorage */
+                    $objFormStorage = $objFormStorageData->getRelated('pid');
+
+                    if (!\array_key_exists(FormStorage::getTable(), $sorted2)) {
+                        $sorted2[FormStorage::getTable()] = [];
+                    }
+
+                    if (!\array_key_exists($objFormStorage->id, $sorted2[FormStorage::getTable()])) {
+                        $arrPersonalDatas = $this->getPersonalDataForFormStorage($objFormStorage);
+                        $sorted2[FormStorage::getTable()][$objFormStorage->id] = [
+                            'originalModel' => $arrPersonalDatas[0],
+                            'personalDatas' => $arrPersonalDatas[1],
+                        ];
+                    }
+
+                    unset($sorted2[$ptable][$id]);
+                }
             }
         }
 
@@ -124,6 +120,7 @@ class UiListener
                         $buffer = '';
                     break;
                 }
+
             break;
             case FormStorage::getTable():
                 switch ($field) {
@@ -138,6 +135,7 @@ class UiListener
                         $buffer = '';
                     break;
                 }
+
             break;
         }
 
@@ -146,7 +144,7 @@ class UiListener
 
     public function renderSingleItemBodyOriginalModelSingleFieldValue(int $pid, string $ptable, string $email, string $field, $value, array $personalDatas, Model $originalModel, string $buffer): string
     {
-        if (empty($buffer)) {
+        if ($buffer === '' || $buffer === '0') {
             return sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
         }
 
@@ -154,7 +152,7 @@ class UiListener
             case 'tl_member':
                 switch ($field) {
                     case 'login':
-                        $buffer = sprintf('<input type="checkbox" readonly %s />', true === (bool) $value ? 'checked' : '');
+                        $buffer = sprintf('<input type="checkbox" readonly %s />', $value ? 'checked' : '');
                     break;
                     case 'groups':
                         $groupIds = unserialize($value);
@@ -163,9 +161,11 @@ class UiListener
                             $objGroup = MemberGroupModel::findById($groupId);
                             $buffer .= sprintf('<li>- %s</li>', null !== $objGroup ? $objGroup->name : $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementUnknown', [], 'contao_default'));
                         }
+
                         $buffer .= '<ul>';
                     break;
                 }
+
             break;
             case FormStorage::getTable():
                 switch ($field) {
@@ -185,8 +185,10 @@ class UiListener
                                 $buffer = $objPage->title;
                             }
                         }
+
                     break;
                 }
+
             break;
         }
 
@@ -199,14 +201,16 @@ class UiListener
             case 'tl_member':
                 switch ($personalData->field) {
                     case 'dateOfBirth':
-                        $buffer = !empty($buffer) ? \Contao\Date::parse(\Contao\Config::get('dateFormat'), (int) $buffer) : $buffer;
+                        $buffer = $buffer === '' || $buffer === '0' ? $buffer : \Contao\Date::parse(\Contao\Config::get('dateFormat'), (int) $buffer);
                     break;
                     default:
-                        if (empty($buffer)) {
+                        if ($buffer === '' || $buffer === '0') {
                             return sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
                         }
+
                     break;
                 }
+
             break;
             case FormStorage::getTable():
                 $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
@@ -225,6 +229,7 @@ class UiListener
                                     $buffer = $objFileModel->name;
                                 }
                             }
+
                         break;
                         default:
                             $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
@@ -232,11 +237,13 @@ class UiListener
                 } else {
                     $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
                 }
+
             break;
             default:
-                if (empty($buffer)) {
+                if ($buffer === '' || $buffer === '0') {
                     return sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
                 }
+
             break;
         }
 
@@ -253,10 +260,8 @@ class UiListener
 
     public function renderSingleItemBodyPersonalDataSingle(int $pid, string $ptable, string $email, PersonalData $personalData, array $personalDatas, Model $originalModel, string $buffer): string
     {
-        switch ($ptable) {
-            case FormStorage::getTable():
-                $buffer = $this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingle((int) $personalData->pid, $personalData->ptable, $email, $personalData, $personalDatas, $originalModel);
-            break;
+        if ($ptable === FormStorage::getTable()) {
+            $buffer = $this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingle((int) $personalData->pid, $personalData->ptable, $email, $personalData, $personalDatas, $originalModel);
         }
 
         return $buffer;
@@ -274,7 +279,7 @@ class UiListener
         //                         $objFileModel = FilesModel::findByUuid($objFormStorageData->value);
         //                         if ($objFileModel) {
         //                             $objFile = new File($objFileModel->path);
-        if ($file) {
+        if ($file instanceof File) {
             if (FileUtil::isDisplayableInBrowser($file)) {
                 $buttons['show'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_show_file pdm-item__personal_data_single__button_show_file" target="_blank" data-path="%s">%s</a>',
                                             $this->personalDataManagerUi->getUrl(),
@@ -282,12 +287,14 @@ class UiListener
                                             $this->translator->trans('WEMSG.FDM.PDMUI.buttonShowFile', [], 'contao_default')
                                         );
             }
+
             $buttons['download'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_download_file pdm-item__personal_data_single__button_download_file" target="_blank" data-path="%s">%s</a>',
                                             $this->personalDataManagerUi->getUrl(),
                                             $file->path,
                                             $this->translator->trans('WEMSG.FDM.PDMUI.buttonDownloadFile', [], 'contao_default')
                                         );
         }
+
         //                         }
         //                     }
         //                 break;
@@ -305,11 +312,11 @@ class UiListener
         $formStorageDatas = FormStorageData::findItems(['pid' => $objFormStorage->id]);
         // make personalDatas all personal datas attached to this form
         $arrPersonalDatas = [];
-        if ($formStorageDatas) {
+        if ($formStorageDatas instanceof Collection) {
             while ($formStorageDatas->next()) {
                 // $objFormStorage->{$formStorageDatas->field_name} = $formStorageDatas->current()->getValueAsString();
                 $objPersonalData = PersonalData::findOneByPidAndPTableAndField((int) $formStorageDatas->id, FormStorageData::getTable(), 'value');
-                if ($objPersonalData) {
+                if ($objPersonalData instanceof Collection) {
                     $objPersonalData = $objPersonalData->current();
                     $arrPersonalDataValues = $objPersonalData->row();
                     $arrPersonalDataValues['field_label'] = $formStorageDatas->field_label;

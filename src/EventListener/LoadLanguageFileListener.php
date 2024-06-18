@@ -18,13 +18,8 @@ use WEM\SmartgearBundle\Classes\CustomLanguageFileLoader;
 
 class LoadLanguageFileListener
 {
-    /** @var CustomLanguageFileLoader */
-    protected $customLanguageFileLoader;
-
-    public function __construct(
-        CustomLanguageFileLoader $customLanguageFileLoader
-    ) {
-        $this->customLanguageFileLoader = $customLanguageFileLoader;
+    public function __construct(protected CustomLanguageFileLoader $customLanguageFileLoader)
+    {
     }
 
     public function __invoke(string $name, string $currentLanguage, string $cacheKey): void

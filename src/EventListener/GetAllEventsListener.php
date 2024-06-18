@@ -25,13 +25,8 @@ class GetAllEventsListener
                 foreach ($dateEvents as $startTime => $timeEvents) {
                     foreach ($timeEvents as $index => $event) {
                         // do our things
-                        if (\array_key_exists('location', $searchConfig)
-                        && !empty($searchConfig['location'])
-                        ) {
-                            if ($event['location'] !== $searchConfig['location']) {
-                                unset($events[$startDate][$startTime][$index]);
-                                continue;
-                            }
+                        if (\array_key_exists('location', $searchConfig) && !empty($searchConfig['location']) && $event['location'] !== $searchConfig['location']) {
+                            unset($events[$startDate][$startTime][$index]);
                         }
                     }
                 }

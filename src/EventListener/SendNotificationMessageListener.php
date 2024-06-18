@@ -25,7 +25,7 @@ class SendNotificationMessageListener
 
         foreach($arrTokens as $key=>$value){
             $chunks = explode('_',(string) $key);
-            if(empty($chunks)){
+            if($chunks === []){
                 continue;
             }
 
@@ -63,6 +63,7 @@ class SendNotificationMessageListener
         foreach($arrTokens['useful_data_filled_arr'] as $label => $value){
             $arrTokens['useful_data_filled'].=sprintf("%s: %s\n",$label,$value);
         }
+
         unset($arrTokens['useful_data_arr']);
         unset($arrTokens['useful_data_filled_arr']);
 

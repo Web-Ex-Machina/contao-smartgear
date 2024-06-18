@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use Contao\TemplateLoader;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\TemplateFinder;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -21,17 +22,11 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
 class InitializeSystemListener
 {
-    /** @var CoreConfigurationManager */
-    protected $configurationManager;
-    /** @var TemplateFinder */
-    protected $templateFinder;
 
     public function __construct(
-        CoreConfigurationManager $configurationManager,
-        TemplateFinder $templateFinder
-    ) {
-        $this->configurationManager = $configurationManager;
-        $this->templateFinder = $templateFinder;
+        protected CoreConfigurationManager $configurationManager,
+        protected TemplateFinder           $templateFinder)
+    {
     }
 
     public function __invoke(): void
@@ -47,6 +42,6 @@ class InitializeSystemListener
             return;
         }
 
-        \Contao\TemplateLoader::addFiles($this->templateFinder->buildList());
+        TemplateLoader::addFiles($this->templateFinder->buildList());
     }
 }

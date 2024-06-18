@@ -20,21 +20,11 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationM
 
 class CompileFormFieldsListener
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var CoreConfigurationManager */
-    protected $configurationManager;
-    /** @var array */
-    protected $listeners;
-
     public function __construct(
-        TranslatorInterface $translator,
-        CoreConfigurationManager $configurationManager,
-        array $listeners
-    ) {
-        $this->translator = $translator;
-        $this->configurationManager = $configurationManager;
-        $this->listeners = $listeners;
+        protected TranslatorInterface $translator,
+        protected CoreConfigurationManager $configurationManager,
+        protected array $listeners)
+    {
     }
 
     public function __invoke(

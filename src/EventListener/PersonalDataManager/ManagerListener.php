@@ -22,30 +22,19 @@ use WEM\SmartgearBundle\Model\FormStorageData;
 
 class ManagerListener
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-
-    public function __construct(
-        TranslatorInterface $translator
-    ) {
-        $this->translator = $translator;
+    public function __construct(protected TranslatorInterface $translator)
+    {
     }
 
     public function getFileByPidAndPtableAndEmailAndField(int $pid, string $ptable, string $email, string $field, PersonalData $personalData, $value, ?FilesModel $objFileModel): ?FilesModel
     {
-        switch ($ptable) {
-            case FormStorageData::getTable():
-                $objFormStorageData = FormStorageData::findByPk($pid);
-                if ($objFormStorageData) {
-                    switch ($objFormStorageData->field_type) {
-                        case 'upload':
-                            if (Validator::isStringUuid($objFormStorageData->value)) {
-                                $objFileModel = FilesModel::findByUuid($objFormStorageData->value);
-                            }
-                        break;
-                    }
+        if ($ptable === FormStorageData::getTable()) {
+            $objFormStorageData = FormStorageData::findByPk($pid);
+            if ($objFormStorageData && $objFormStorageData->field_type === 'upload') {
+                if (Validator::isStringUuid($objFormStorageData->value)) {
+                    $objFileModel = FilesModel::findByUuid($objFormStorageData->value);
                 }
-            break;
+            }
         }
 
         return $objFileModel;
@@ -53,19 +42,13 @@ class ManagerListener
 
     public function isPersonalDataLinkedToFile(PersonalData $personalData, bool $isLinkedToFile): bool
     {
-        switch ($personalData->ptable) {
-            case FormStorageData::getTable():
-                $objFormStorageData = FormStorageData::findByPk($personalData->pid);
-                if ($objFormStorageData) {
-                    switch ($objFormStorageData->field_type) {
-                        case 'upload':
-                            if (Validator::isStringUuid($objFormStorageData->value)) {
-                                $isLinkedToFile = true;
-                            }
-                        break;
-                    }
+        if ($personalData->ptable === FormStorageData::getTable()) {
+            $objFormStorageData = FormStorageData::findByPk($personalData->pid);
+            if ($objFormStorageData && $objFormStorageData->field_type === 'upload') {
+                if (Validator::isStringUuid($objFormStorageData->value)) {
+                    $isLinkedToFile = true;
                 }
-            break;
+            }
         }
 
         return $isLinkedToFile;

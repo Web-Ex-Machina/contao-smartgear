@@ -32,23 +32,11 @@ use WEM\SmartgearBundle\Model\PageVisit;
 
 class GeneratePageListener
 {
-    /** @var CoreConfigurationManager */
-    protected $configurationManager;
-
-    /** @var ScopeMatcher */
-    protected $scopeMatcher;
-
-    /** @var CustomLanguageFileLoader */
-    protected $customLanguageFileLoader;
-
     public function __construct(
-        CoreConfigurationManager $configurationManager,
-        ScopeMatcher $scopeMatcher,
-        CustomLanguageFileLoader $customLanguageFileLoader
-    ) {
-        $this->configurationManager = $configurationManager;
-        $this->scopeMatcher = $scopeMatcher;
-        $this->customLanguageFileLoader = $customLanguageFileLoader;
+        protected CoreConfigurationManager $configurationManager,
+        protected ScopeMatcher             $scopeMatcher,
+        protected CustomLanguageFileLoader $customLanguageFileLoader)
+    {
     }
 
     public function __invoke(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
@@ -68,7 +56,7 @@ class GeneratePageListener
         $renderStack = RenderStack::getInstance();
         $mainBreadcrumItems = $renderStack->getBreadcrumbItems('main');
 
-        if (empty($mainBreadcrumItems)
+        if ($mainBreadcrumItems === []
         || 0 !== $mainBreadcrumItems[0]['index_in_column']
         || false === (bool) $mainBreadcrumItems[0]['model']->wem_sg_breadcrumb_auto_placement
         ) {

@@ -14,22 +14,19 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use Contao\ContentElement;
 use Contao\ContentModel;
+use Contao\Module;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\RenderStack;
 
 class GetContentElementListener
 {
-    /** @var CoreConfigurationManager */
-    protected $configurationManager;
-
-    public function __construct(
-        CoreConfigurationManager $configurationManager
-    ) {
-        $this->configurationManager = $configurationManager;
+    public function __construct(protected CoreConfigurationManager $configurationManager)
+    {
     }
 
-    public function __invoke(ContentModel $contentModel, string $buffer, $element): string
+    public function __invoke(ContentModel $contentModel, string $buffer, Module|ContentElement $element): string
     {
         $renderStack = RenderStack::getInstance();
         $renderStack->add($contentModel, $buffer, $element);

@@ -14,19 +14,15 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use Contao\Model\Collection;
 use WEM\SmartgearBundle\Classes\Backend\Component\EventListener\ReplaceInsertTagsListener as AbstractReplaceInsertTagsListener;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
 class ReplaceInsertTagsListener
 {
-    /** @var array */
-    protected $listeners;
-
-    public function __construct(
-        array $listeners
-    ) {
-        $this->listeners = $listeners;
+    public function __construct(protected array $listeners)
+    {
     }
 
     /**
@@ -54,7 +50,8 @@ class ReplaceInsertTagsListener
         array $cache,
         int $_rit,
         int $_cnt
-    ) {
+    ): false|string
+    {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
         if ('sg' === $key) {
@@ -96,11 +93,9 @@ class ReplaceInsertTagsListener
 
             switch ($elements[1]) {
                 case 'config':
-                    switch ($elements[2]) {
-                        case 'title':
-                            return $objConfiguration->title;
-                        break;
-                    }
+                    if ($elements[2] === 'title') {
+                    return $objConfiguration->title;
+                }
                 break;
                 case 'title':
                 case 'version':
@@ -145,13 +140,10 @@ class ReplaceInsertTagsListener
                 case 'api_enabled':
                 case 'api_key':
                     return $objConfiguration->{$elements[1]};
-                break;
                 case 'websiteTitle':
                     return $objConfiguration->title;
-                break;
                 case 'legal_owner_address_full':
                     return $objConfiguration->legal_owner_street.' '.$objConfiguration->legal_owner_postal_code.' '.$objConfiguration->legal_owner_city.' '.$objConfiguration->legal_owner_region.' '.$objConfiguration->legal_owner_country;
-                break;
                 case 'domain_full':
                     return str_contains($objConfiguration->domain, 'https://')
                     ? $objConfiguration->domain
@@ -161,13 +153,11 @@ class ReplaceInsertTagsListener
                         : 'https://'.$objConfiguration->domain
                     )
                     ;
-                break;
                 case 'pouet':
                     return 'https://pouet-pouet-pouet.fr';
-                break;
                 case 'page-legal-notice':
                     $objCI = ConfigurationItem::findItems(['pid' => $objConfiguration->id, 'type' => ConfigurationItem::TYPE_PAGE_LEGAL_NOTICE], 1);
-                    if (!$objCI) {
+                    if (!$objCI instanceof Collection) {
                         return false;
                     }
 
@@ -177,10 +167,9 @@ class ReplaceInsertTagsListener
                     }
 
                     return \array_key_exists(2, $elements) ? $objPage2->{$elements[2]} : $objPage2->alias;
-                break;
                 case 'page-privacy-politics':
                     $objCI = ConfigurationItem::findItems(['pid' => $objConfiguration->id, 'type' => ConfigurationItem::TYPE_PAGE_PRIVACY_POLITICS], 1);
-                    if (!$objCI) {
+                    if (!$objCI instanceof Collection) {
                         return false;
                     }
 
@@ -190,22 +179,22 @@ class ReplaceInsertTagsListener
                     }
 
                     return \array_key_exists(2, $elements) ? $objPage2->{$elements[2]} : $objPage2->alias;
-                break;
                 case 'page-sitemap':
                     $objCI = ConfigurationItem::findItems(['pid' => $objConfiguration->id, 'type' => ConfigurationItem::TYPE_PAGE_SITEMAP], 1);
-                    if (!$objCI) {
+                    if (!$objCI instanceof Collection) {
                         $objCI = ConfigurationItem::findItems(['pid' => $objConfiguration->id, 'type' => ConfigurationItem::TYPE_MIXED_SITEMAP], 1);
                     }
-                    if (!$objCI) {
+
+                    if (!$objCI instanceof Collection) {
                         return false;
                     }
+
                     $objPage2 = $objCI->getRelated('contao_page');
                     if (!$objPage2) {
                         return false;
                     }
 
                     return \array_key_exists(2, $elements) ? $objPage2->{$elements[2]} : $objPage2->alias;
-                break;
             }
         }
 

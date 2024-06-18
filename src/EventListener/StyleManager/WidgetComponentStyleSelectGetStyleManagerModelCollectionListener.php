@@ -14,13 +14,15 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener\StyleManager;
 
+use Oveleon\ContaoComponentStyleManager\ComponentStyleSelect;
 use Oveleon\ContaoComponentStyleManager\StyleManagerArchiveModel;
 use Oveleon\ContaoComponentStyleManager\StyleManagerModel;
 use WEM\SmartgearBundle\Classes\Utils\Configuration\ConfigurationUtil;
+use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class WidgetComponentStyleSelectGetStyleManagerModelCollectionListener
 {
-    public function __invoke($collection, \Oveleon\ContaoComponentStyleManager\ComponentStyleSelect $widget)
+    public function __invoke($collection, ComponentStyleSelect $widget)
     {
         /** @todo : retrieve in function of SG install */
         $strTable = $widget->dataContainer->table;
@@ -32,7 +34,7 @@ class WidgetComponentStyleSelectGetStyleManagerModelCollectionListener
         $objConfiguration = ConfigurationUtil::findConfigurationForItem($strTable, (int) $strId);
 
         // get the archives related to $objConfiguration->id
-        if ($objConfiguration) {
+        if ($objConfiguration instanceof Configuration) {
             $collection = StyleManagerModel::findByTable($strTable, [
                 'order' => 'sorting',
                 'column' => 'pid IN (SELECT sma.id FROM '.StyleManagerArchiveModel::getTable().' sma WHERE sma.wem_sg_install = '.$objConfiguration->id.')',

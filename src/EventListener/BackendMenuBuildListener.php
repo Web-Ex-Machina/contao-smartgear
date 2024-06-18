@@ -23,25 +23,13 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationM
 
 class BackendMenuBuildListener
 {
-    /** @var CoreConfigurationManager */
-    protected $configurationManager;
-    /** @var RouterInterface */
-    protected $router;
-    /** @var RequestStack */
-    protected $requestStack;
-    /** @var TranslatorInterface */
-    protected $translator;
 
     public function __construct(
-        CoreConfigurationManager $configurationManager,
-        RouterInterface $router,
-        RequestStack $requestStack,
-        TranslatorInterface $translator
-    ) {
-        $this->configurationManager = $configurationManager;
-        $this->router = $router;
-        $this->requestStack = $requestStack;
-        $this->translator = $translator;
+        protected CoreConfigurationManager $configurationManager,
+        protected RouterInterface $router,
+        protected RequestStack $requestStack,
+        protected TranslatorInterface $translator)
+    {
     }
 
     public function __invoke(MenuEvent $event): void
@@ -50,7 +38,7 @@ class BackendMenuBuildListener
 
         $tree = $this->createExtranetMenu($event, $tree);
         $tree = $this->hideEmptySubMenus($tree);
-        $tree = $this->putSystemMenuAtTheEnd($tree);
+        $this->putSystemMenuAtTheEnd($tree);
     }
 
     /**
@@ -83,17 +71,19 @@ class BackendMenuBuildListener
             ->setCurrent('member' === $this->requestStack->getCurrentRequest()->get('do') || 'mgroup' === $this->requestStack->getCurrentRequest()->get('do'))
         ;
 
-        if (null !== $tree->getChild('accounts')) {
+        if ($tree->getChild('accounts') instanceof ItemInterface) {
             $memberNode = $tree->getChild('accounts')->getChild('member');
-            if ($memberNode) {
+            if ($memberNode instanceof ItemInterface) {
                 $tree->getChild('accounts')->removeChild('member');
                 $menu->addChild($memberNode);
             }
+
             $memberGroupsNode = $tree->getChild('accounts')->getChild('mgroup');
-            if ($memberGroupsNode) {
+            if ($memberGroupsNode instanceof ItemInterface) {
                 $tree->getChild('accounts')->removeChild('mgroup');
                 $menu->addChild($memberGroupsNode);
             }
+
             $tree->addChild($menu);
         }
 
@@ -112,13 +102,16 @@ class BackendMenuBuildListener
         if ('mainMenu' !== $tree->getName()) {
             return $tree;
         }
+
         $subMenus = $tree->getChildren();
         foreach ($subMenus as $index => $subMenu) {
             if (0 === \count($subMenu->getChildren())) {
                 $subMenu->setDisplay(false);
             }
+
             $subMenus[$index] = $subMenu;
         }
+
         $tree->setChildren($subMenus);
 
         return $tree;
