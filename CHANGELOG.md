@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.33 - 2024-06-24
+- Smartgear : fixed `websiteTitle` field not present in BE configuration form
+
 1.0.32 - 2024-05-31
 - Smartgear : fixed `form_captcha.html5`
 
