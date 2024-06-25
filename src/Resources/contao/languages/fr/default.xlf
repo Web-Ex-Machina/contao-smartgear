@@ -4332,6 +4332,10 @@
 			<source>Matomo ID</source>
 			<target>Matomo ID</target>
 		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_websiteTitle">
+			<source>Website's title</source>
+			<target>Titre du site web</target>
+		</trans-unit>		
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerName">
 			<source>Owner name</source>
 			<target>Proprétaire</target>
