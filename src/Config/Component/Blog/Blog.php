@@ -250,7 +250,6 @@ class Blog implements ConfigModuleInterface
 
     public function resetContaoContentsIds(): void
     {
-        $this->setSgContentHeadline(null); //TODO : setSgContentHeadline not found
         $this->setSgContentList(null);
     }
 
