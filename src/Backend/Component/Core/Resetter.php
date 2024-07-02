@@ -21,7 +21,6 @@ use Contao\ImageSizeModel;
 use Contao\LayoutModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
-use Contao\StyleSheetModel; // TODO : stylesheet
 use Contao\ThemeModel;
 use NotificationCenter\Model\Language as NotificationLanguageModel;
 use NotificationCenter\Model\Message as NotificationMessageModel;
@@ -199,14 +198,6 @@ class Resetter extends BackendResetter
                 if ($imageSizes) {
                     while ($imageSizes->next()) {
                         $imageSizes->delete();
-                    }
-                }
-
-                /**  @deprecated in Contao 5.0 TODO : deprecated */
-                $stylesheets = StyleSheetModel::findBy('pid', $themes->id);
-                if ($stylesheets) {
-                    while ($stylesheets->next()) {
-                        $stylesheets->delete();
                     }
                 }
 
