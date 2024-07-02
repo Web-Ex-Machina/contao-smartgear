@@ -180,8 +180,7 @@ class General extends ConfigurationStep
         UserGroupModel::findOneById($config->getSgUserGroupAdministrators());
         UserGroupModel::findOneById($config->getSgUserGroupRedactors());
 
-        // TODO : Expected parameter of type 'int|null', 'array' provided
-        $faqCategory = FaqCategoryUtil::createFaqCategory($faqConfig->getSgFaqTitle(), $faqConfig->getSgFaqCategory() ? ['id' => $faqConfig->getSgFaqCategory()] : []);
+        $faqCategory = FaqCategoryUtil::createFaqCategory($faqConfig->getSgFaqTitle(), null, $faqConfig->getSgFaqCategory() ? ['id' => $faqConfig->getSgFaqCategory()] : []);
         // $faqCategory = FaqCategoryModel::findById($faqConfig->getSgFaqCategory()) ?? new FaqCategoryModel();
         // $faqCategory->title = $faqConfig->getSgFaqTitle();
         // $faqCategory->jumpTo = $page->id;
