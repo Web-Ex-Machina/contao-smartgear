@@ -68,7 +68,7 @@ class Module extends \tl_module
      */
     public function checkPermission(): void
     {
-        parent::checkPermission();
+        parent::checkPermission(); //todo : not found ??
 
         if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
             throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' module ID '.Input::get('id').'.');
