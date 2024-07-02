@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Module;
 
 use Contao\BackendTemplate;
 use Contao\Module;
+use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Model\SocialLink as SocialLinkModel;
 
@@ -38,7 +39,8 @@ class SocialLink extends Module
      */
     public function generate(): string
     {
-        if (TL_MODE === 'BE') {
+        $scopeMatcher = System::getContainer()->get('wem.scope_matcher');
+        if ($scopeMatcher->isBackend()) {
 
             $objTemplate = new BackendTemplate('be_wildcard');
 

@@ -15,10 +15,10 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Component\Core\EventListener;
 
 use Contao\Form;
+use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Util;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 use WEM\SmartgearBundle\Model\FormField;
 
@@ -41,12 +41,13 @@ class CompileFormFieldsListener
             if ($coreConfig->getSgInstallComplete()) {
                 // current page
                 global $objPage;
+                $scopeMatcher = System::getContainer()->get('wem.scope_matcher');
 
                 $objFormFieldWarning = (new FormField());
                 $objFormFieldWarning->pid = $form->getModel()->id;
                 $objFormFieldWarning->sorting = 16;
                 $objFormFieldWarning->type = 'html';
-                $objFormFieldWarning->html = '<div class="mt-2">'.Util::getLocalizedTemplateContent('{root}/templates/smartgear/settings/{lang}/form_warning_message.html5', 'FE' === TL_MODE ? $objPage->rootLanguage : \Contao\BackendUser::getInstance()->language, '{root}/templates/smartgear/settings/fr/form_warning_message.html5').'</div>';
+                $objFormFieldWarning->html = '<div class="mt-2">'.Util::getLocalizedTemplateContent('{root}/templates/smartgear/settings/{lang}/form_warning_message.html5',  $scopeMatcher->isFrontend() ? $objPage->rootLanguage : \Contao\BackendUser::getInstance()->language, '{root}/templates/smartgear/settings/fr/form_warning_message.html5').'</div>';
 
                 $arrFields['warning'] = $objFormFieldWarning;
             }
