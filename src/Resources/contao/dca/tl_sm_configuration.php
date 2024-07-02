@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 use Contao\DataContainer;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
+use WEM\UtilsBundle\Classes\CountriesUtil;
 
 $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
     // Config
@@ -322,7 +323,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             'search' => true,
             'default' => 'fr',
             'inputType' => 'select',
-            'options_callback' => static fn() => \Contao\System::getCountries(),
+            'options_callback' => static fn() => CountriesUtil::getCountries(),
             'eval' => ['mandatory' => false,  'chosen' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
@@ -367,7 +368,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             'search' => true,
             'default' => 'fr',
             'inputType' => 'select',
-            'options_callback' => static fn() => \Contao\System::getCountries(),
+            'options_callback' => static fn() => CountriesUtil::getCountries(),
             'eval' => ['mandatory' => false,  'chosen' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],

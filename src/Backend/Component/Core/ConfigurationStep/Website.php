@@ -23,13 +23,11 @@ use Contao\Files;
 use Contao\FilesModel;
 use Contao\Folder;
 use Contao\FrontendTemplate;
-use Contao\ImageSizeModel;
 use Contao\Input;
 use Contao\LayoutModel;
 use Contao\Model\Collection;
 use Contao\ModuleModel;
 use Contao\PageModel;
-use Contao\System;
 use Contao\ThemeModel;
 use Contao\UserGroupModel;
 use Contao\UserModel;
@@ -59,6 +57,7 @@ use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Model\Module;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 use WEM\SmartgearBundle\Update\UpdateManager;
+use WEM\UtilsBundle\Classes\CountriesUtil;
 use WEM\UtilsBundle\Classes\Files as WEMFiles;
 use WEM\UtilsBundle\Classes\StringUtil as WEMStringUtil;
 
@@ -88,7 +87,7 @@ class Website extends ConfigurationStep
         $config = $this->configurationManager->load();
 
         $countries = [];
-        foreach (System::getCountries() as $longName) { // TODO : deprecated
+        foreach (CountriesUtil::getCountries() as $longName) {
             $countries[] = ['value' => $longName, 'label' => $longName];
         }
 
