@@ -67,7 +67,6 @@ class Resetter extends BackendResetter
             return;
         }
 
-        /** @var BlogPresetConfig $presetConfig */ //TODO : BlogPresetConfig not found
         $presetConfig = $blogConfig->getCurrentPreset();
 
         if (!$presetConfig) {
