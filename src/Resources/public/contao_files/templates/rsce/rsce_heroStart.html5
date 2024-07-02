@@ -1,8 +1,9 @@
 <?php
   // Get the file
 use Contao\System;
+use WEM\SmartgearBundle\Classes\StringUtil;
 
-$arrCrop = deserialize($this->image_size);
+$arrCrop = StringUtil::deserialize($this->image_size);
   $objFile = FilesModel::findByUuid($this->singleSRC);
   $strFile = \Image::get($objFile->path, (!$arrCrop[0] && !$arrCrop[1]) ? 1920 : $arrCrop[0] , $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
   $isVideo = strstr(mime_content_type($objFile->path), "video/")?true:false;

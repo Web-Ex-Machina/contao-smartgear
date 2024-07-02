@@ -1,6 +1,9 @@
 <?php
-  if ($this->image){
-    $arrCrop = deserialize($this->imageCrop);
+
+use WEM\SmartgearBundle\Classes\StringUtil;
+
+if ($this->image){
+    $arrCrop = StringUtil::deserialize($this->imageCrop);
     $objFile = FilesModel::findByUuid($this->image);
     $strFile = \Image::get($objFile->path, (!$arrCrop[0] && !$arrCrop[1]) ? 1920 : $arrCrop[0] , $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
   }

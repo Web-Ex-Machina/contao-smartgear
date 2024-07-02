@@ -432,7 +432,7 @@ class Util
         }
 
         if ($objUserGroup) {
-            $arrPermissions = deserialize($objUserGroup->alexf) ?? [];
+            $arrPermissions = StringUtil::deserialize($objUserGroup->alexf) ?? [];
         }
 
         // Add the permissions

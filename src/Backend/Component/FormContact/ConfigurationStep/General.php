@@ -44,7 +44,7 @@ use WEM\SmartgearBundle\Classes\Utils\PageUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
 use WEM\SmartgearBundle\Model\Module;
-use WEM\UtilsBundle\Classes\StringUtil;
+use WEM\SmartgearBundle\Classes\StringUtil;
 
 class General extends ConfigurationStep
 {
