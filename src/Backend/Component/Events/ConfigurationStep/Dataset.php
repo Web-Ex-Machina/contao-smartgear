@@ -24,7 +24,6 @@ use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\Util;
-use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 
 class Dataset extends ConfigurationStep
 {
@@ -33,7 +32,7 @@ class Dataset extends ConfigurationStep
 
     protected array|string $sourceDirectory;
 
-    private array $locations = [ // TODO : WTF ??
+    private array $locations = [
         'Super Bazar' => [
             'location' => 'Super Bazar',
             'address' => 'Super Bazar, NH52, Murarji Peth, Solapur, Solapur North, Solapur, Maharashtra, 413001, Inde',
