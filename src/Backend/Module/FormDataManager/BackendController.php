@@ -25,7 +25,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Model\FormStorage;
 use WEM\SmartgearBundle\Model\FormStorageData;
-use WEM\UtilsBundle\Classes\StringUtil;
+use WEM\SmartgearBundle\Classes\StringUtil;
 
 class BackendController extends ControllerBackendController
 {

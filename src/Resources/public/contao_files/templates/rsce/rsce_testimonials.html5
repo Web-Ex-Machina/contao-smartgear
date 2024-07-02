@@ -1,5 +1,8 @@
 <?php
-  $intHeight = '';
+
+use WEM\SmartgearBundle\Classes\StringUtil;
+
+$intHeight = '';
   $strLoop = "false";
   $strAuto = "false";
   $strArrows = "false";
@@ -23,7 +26,7 @@
   if($this->items){
     $arrSlides = [];
     foreach($this->items as $slide){
-      $arrCrop = deserialize($slide->slide_img_size);
+      $arrCrop = StringUtil::deserialize($slide->slide_img_size);
       $objFile = FilesModel::findByUuid($slide->slide_img_src);
       $strFile = \Image::get($objFile->path, (!$arrCrop[0] && !$arrCrop[1]) ? 1920 : $arrCrop[0] , $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
       $arrSlide = [

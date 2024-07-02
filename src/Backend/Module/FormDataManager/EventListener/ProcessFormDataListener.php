@@ -27,7 +27,7 @@ use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDat
 use WEM\SmartgearBundle\Model\FormField;
 use WEM\SmartgearBundle\Model\FormStorage;
 use WEM\SmartgearBundle\Model\FormStorageData;
-use WEM\UtilsBundle\Classes\StringUtil;
+use WEM\SmartgearBundle\Classes\StringUtil;
 
 class ProcessFormDataListener
 {

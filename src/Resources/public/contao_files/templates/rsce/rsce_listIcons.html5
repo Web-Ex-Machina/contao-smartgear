@@ -1,12 +1,15 @@
 <?php
-  if($this->listItems){
+
+use WEM\SmartgearBundle\Classes\StringUtil;
+
+if($this->listItems){
     $arrItems = [];
     foreach($this->listItems as $item){
       $arrItem = [];
       $arrItem['icon_type'] = $item->icon_type;
       if ($arrItem['icon_type'] == 'image') {
         // Get the file
-        $arrCrop = deserialize($item->image_size);
+        $arrCrop = StringUtil::deserialize($item->image_size);
         $objFile = FilesModel::findByUuid($item->image_src) ?: FilesModel::findOneByPath($item->image_src);
         $strFile = \Image::get($objFile->path, (!$arrCrop[0] && !$arrCrop[1]) ? 1920 : $arrCrop[0] , $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
         $arrItem['src'] = $strFile;

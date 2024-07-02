@@ -1,7 +1,10 @@
-<?php 
-	$objFile = FilesModel::findByUuid($this->source); 
+<?php
+
+use WEM\SmartgearBundle\Classes\StringUtil;
+
+$objFile = FilesModel::findByUuid($this->source);
 	$buttonClasses=$this->styleManager->get('fwbutton_manual');
-	$arrCrop = deserialize($this->playerSize);
+	$arrCrop = StringUtil::deserialize($this->playerSize);
 ?>
 <div class="<?= $this->class ?><?= $this->center&&$arrCrop[0]?' center':'' ?>"<?= $this->cssID ?>>
 	<div class="pdfviewer__iframe<?= $this->player_ratio? ' img-container '.$this->player_ratio:'' ?>" <?= $this->player_ratio ? 'style="width:'.($arrCrop[0]?$arrCrop[0].'px':'100%').'"' :'' ?>>

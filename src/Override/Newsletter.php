@@ -143,7 +143,7 @@ class Newsletter extends ContaoNewsletter
             }
 
             // OVERLOAD 3.0 : Determine the channels concerned by the newletter
-            $arrChannels = deserialize($objNewsletter->channels);
+            $arrChannels = StringUtil::deserialize($objNewsletter->channels);
             if (!\is_array($arrChannels) || $arrChannels === []) {
                 Message::addError("La newsletter n'est connectée à aucune liste d'abonnés");
                 Message::addError($GLOBALS['TL_LANG']['tl_newsletter']['notConnectedToAnyChannels']);
