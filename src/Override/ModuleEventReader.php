@@ -20,6 +20,7 @@ use Contao\FilesModel;
 use Contao\Input;
 use Contao\PageModel;
 use Contao\System;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFound;
 
 class ModuleEventReader extends \Contao\ModuleEventReader
@@ -62,11 +63,13 @@ class ModuleEventReader extends \Contao\ModuleEventReader
         }
 
         $configManager = System::getContainer()->get('smartgear.config.manager.core');
+        /* @var UrlGeneratorInterface $routeGenerator*/
+        $routeGenerator = System::getContainer()->get('contao.routing.content_url_generator');
         try {
             $eventConfig = $configManager->load()->getSgEvents();
             if ($eventConfig->getSgInstallComplete()) {
                 $objPage = PageModel::findByPk($eventConfig->getSgPage());
-                $this->Template->referer = $objPage->getFrontendUrl(); // TODO : Deprecated
+                $this->Template->referer = $routeGenerator->generate($objPage->name, [], UrlGeneratorInterface::ABSOLUTE_URL);
             }
         } catch (FileNotFound) {
             // nothing

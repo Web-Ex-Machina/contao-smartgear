@@ -19,6 +19,7 @@ use Contao\Input;
 use Contao\NewsModel;
 use Contao\PageModel;
 use Contao\System;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFound;
 
 class ModuleNewsReader extends \Contao\ModuleNewsReader
@@ -56,11 +57,13 @@ class ModuleNewsReader extends \Contao\ModuleNewsReader
         }
 
         $configManager = System::getContainer()->get('smartgear.config.manager.core');
+        /* @var UrlGeneratorInterface $routeGenerator*/
+        $routeGenerator = System::getContainer()->get('contao.routing.content_url_generator');
         try {
             $blogConfig = $configManager->load()->getSgBlog();
             if ($blogConfig->getSgInstallComplete()) {
                 $objPage = PageModel::findByPk($blogConfig->getSgPage());
-                $this->Template->referer = $objPage->getFrontendUrl();
+                $this->Template->referer = $routeGenerator->generate($objPage->name, [], UrlGeneratorInterface::ABSOLUTE_URL);
             }
         } catch (FileNotFound) {
             // nothing
