@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend;
 
 use Contao\BackendModule;
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\DataContainer;
 use Contao\Input;
 use Contao\Model\Collection;
@@ -35,13 +36,14 @@ class SocialLink extends BackendModule
     protected $security;
 
     protected string $strId = 'social_link';
-    protected mixed $contaoCsrfTokenManager;
+
+    protected ContaoCsrfTokenManager $contaoCsrfTokenManager;
 
     public function __construct(DataContainer|null $dc = null)
     {
         parent::__construct($dc);
         $this->security = System::getContainer()->get('security.helper');
-        $this->contaoCsrfTokenManager = System::getContainer()->getParameter('@contao.csrf.token_manager');
+        $this->contaoCsrfTokenManager = System::getContainer()->getParameter('contao.csrf.token_manager');
     }
 
     public function generate(): string

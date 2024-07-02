@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Events;
 
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\System;
@@ -35,7 +36,7 @@ class Block extends BackendBlock
     protected string $icon = 'exclamation-triangle';
 
     protected string $title = 'Events';
-    protected mixed $contaoCsrfTokenManager;
+    protected ContaoCsrfTokenManager $contaoCsrfTokenManager;
 
     public function __construct(
         TranslatorInterface        $translator,
@@ -44,7 +45,7 @@ class Block extends BackendBlock
         protected ResetStepManager $resetStepManager,
         Dashboard                  $dashboard
     ) {
-        $this->contaoCsrfTokenManager = System::getContainer()->getParameter('@contao.csrf.token_manager');
+        $this->contaoCsrfTokenManager = System::getContainer()->getParameter('contao.csrf.token_manager');
         parent::__construct($configurationManager, $configurationStepManager, $dashboard, $translator);
     }
 

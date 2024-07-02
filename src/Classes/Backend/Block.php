@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Classes\Backend;
 
 use Contao\Controller;
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\Environment;
 use Contao\FrontendTemplate;
 use Contao\Input;
@@ -47,7 +48,7 @@ class Block extends Controller
     protected string $mode = '';
     protected mixed $bundles ;
     protected mixed $objSession ;
-    protected mixed $contaoCsrfTokenManager;
+    protected ContaoCsrfTokenManager $contaoCsrfTokenManager;
     /**
      * Construct the block object.
      */
@@ -65,7 +66,7 @@ class Block extends Controller
 
         // Init session
         $this->objSession = System::getContainer()->get('session');
-        $this->contaoCsrfTokenManager = System::getContainer()->getParameter('@contao.csrf.token_manager');
+        $this->contaoCsrfTokenManager = System::getContainer()->getParameter('contao.csrf.token_manager');
         Parent::__construct();
     }
 
