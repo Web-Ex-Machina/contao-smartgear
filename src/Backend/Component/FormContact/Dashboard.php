@@ -16,7 +16,7 @@ namespace WEM\SmartgearBundle\Backend\Component\FormContact;
 
 use Contao\FrontendTemplate;
 use Contao\Input;
-use Contao\RequestToken;
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Exception;
 use InvalidArgumentException;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -29,12 +29,13 @@ class Dashboard extends BackendDashboard
     protected string $strTemplate = 'be_wem_sg_block_formcontact_dashboard';
 
     public function __construct(
+        protected readonly ContaoCsrfTokenManager   $contaoCsrfTokenManager,
         ConfigurationManager $configurationManager,
         TranslatorInterface $translator,
         string $module,
         string $type
     ) {
-        parent::__construct($configurationManager, $translator, $module, $type);
+        parent::__construct($configurationManager, $translator, $module, $contaoCsrfTokenManager, $type);
     }
 
     public function processAjaxRequest(): void
@@ -50,7 +51,7 @@ class Dashboard extends BackendDashboard
         }
 
         // Add Request Token to JSON answer and return
-        $arrResponse['rt'] = RequestToken::get(); // TODO : deprecated Token
+        $arrResponse['rt'] = $this->contaoCsrfTokenManager->getDefaultTokenValue();
         echo json_encode($arrResponse);
         exit;
     }

@@ -25,7 +25,7 @@ use Contao\Input;
 use Contao\Message;
 use Contao\Model;
 use Contao\PageModel;
-use Contao\RequestToken; // TODO : Token
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Exception;
 use NotificationCenter\Model\Notification as NotificationModel; // TODO : Notification
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -56,6 +56,7 @@ class Support extends BackendModule
     public function __construct(
         protected TranslatorInterface  $translator,
         protected ConfigurationManager $configurationManager,
+        protected readonly ContaoCsrfTokenManager   $contaoCsrfTokenManager,
         protected AirtableApi          $airtableApi
     ) {
         parent::__construct();
@@ -103,7 +104,7 @@ class Support extends BackendModule
         }
 
         // Add Request Token to JSON answer and return
-        $arrResponse['rt'] = RequestToken::get(); // TODO : deprecated Token
+        $arrResponse['rt'] = $this->contaoCsrfTokenManager->getDefaultTokenValue();
         echo json_encode($arrResponse);
         exit;
     }

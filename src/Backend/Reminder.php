@@ -22,7 +22,7 @@ use Contao\FaqModel;
 use Contao\Input;
 use Contao\NewsModel;
 use Contao\PageModel;
-use Contao\RequestToken;
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\System;
 use DateInterval;
 use DateTime;
@@ -38,7 +38,9 @@ class Reminder extends BackendModule
 
     protected string $strId = 'remindermanager';
 
-    public function __construct(DataContainer|null $dc = null)
+    public function __construct(
+        protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
+        DataContainer|null $dc = null)
     {
         parent::__construct($dc);
         $this->security = System::getContainer()->get('security.helper');
@@ -61,7 +63,7 @@ class Reminder extends BackendModule
         usort($arrItems, static fn($itemA, $itemB): bool => (int) $itemA['obsolete_since'] < (int) $itemB['obsolete_since']);
         $this->Template->arrItems = $arrItems;
         $this->Template->strId = $this->strId;
-        $this->Template->token = REQUEST_TOKEN; // TODO : Deprecated token
+        $this->Template->token = $this->contaoCsrfTokenManager->getDefaultTokenValue();
     }
 
     public function processAjaxRequest($strAction): void
@@ -109,7 +111,7 @@ class Reminder extends BackendModule
             }
 
             // Add Request Token to JSON answer and return
-            $arrResponse['rt'] = RequestToken::get(); // TODO : deprecated Token
+            $arrResponse['rt'] = $this->contaoCsrfTokenManager->getDefaultTokenValue();
             echo json_encode($arrResponse);
             exit;
         }
@@ -139,7 +141,7 @@ class Reminder extends BackendModule
                             'icon' => 'system/themes/flexible/icons/edit.svg',
                             // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
-                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=article&table='.ContentModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.RequestToken::get(),
+                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=article&table='.ContentModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.$this->contaoCsrfTokenManager->getDefaultTokenValue(),
                         ],
                         'reset' => [
                             'class' => 'reset',
@@ -195,7 +197,7 @@ class Reminder extends BackendModule
                             'icon' => 'system/themes/flexible/icons/edit.svg',
                             // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
-                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=article&act=edit&id='.$objItem->id.'&rt='.RequestToken::get(),
+                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=article&act=edit&id='.$objItem->id.'&rt='.$this->contaoCsrfTokenManager->getDefaultTokenValue(),
                         ],
                         'reset' => [
                             'class' => 'reset',
@@ -249,7 +251,7 @@ class Reminder extends BackendModule
                             'icon' => 'system/themes/flexible/icons/edit.svg',
                             // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
-                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=page&act=edit&id='.$objItem->id.'&rt='.RequestToken::get(),
+                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=page&act=edit&id='.$objItem->id.'&rt='.$this->contaoCsrfTokenManager->getDefaultTokenValue(),
                         ],
                         'reset' => [
                             'class' => 'reset',
@@ -303,7 +305,7 @@ class Reminder extends BackendModule
                             'icon' => 'system/themes/flexible/icons/edit.svg',
                             // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
-                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=news&table='.NewsModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.RequestToken::get(),
+                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=news&table='.NewsModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.$this->contaoCsrfTokenManager->getDefaultTokenValue(),
                         ],
                         'reset' => [
                             'class' => 'reset',
@@ -357,7 +359,7 @@ class Reminder extends BackendModule
                             'icon' => 'system/themes/flexible/icons/edit.svg',
                             // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
-                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=faq&table='.FaqModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.RequestToken::get(),
+                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=faq&table='.FaqModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.$this->contaoCsrfTokenManager->getDefaultTokenValue(),
                         ],
                         'reset' => [
                             'class' => 'reset',

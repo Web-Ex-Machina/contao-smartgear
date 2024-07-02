@@ -18,10 +18,20 @@ services:
 
     smartgear.backend.smartgear:
         class: WEM\SmartgearBundle\Backend\Smartgear
+        arguments:
+            $csrfTokenManager: '@contao.csrf.token_manager'
+        public: true
+
+    smartgear.backend.reminder:
+        class: WEM\SmartgearBundle\Backend\Reminder
+        arguments:
+            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.dashboard:
         class: WEM\SmartgearBundle\Backend\Dashboard
+        arguments:
+            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.dashboard.shortcut_internal:
@@ -59,6 +69,7 @@ services:
             $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
             $airtableApi: '@smartgear.api.airtable.v0.api'
+            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.classes.directories_synchronizer.templates.rsce:

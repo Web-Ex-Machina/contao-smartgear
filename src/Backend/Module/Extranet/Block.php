@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Backend\Module\Extranet;
 
 use Contao\FrontendTemplate;
 use Contao\Input;
+use Contao\System;
 use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\Block as BackendBlock;
@@ -34,6 +35,7 @@ class Block extends BackendBlock
     protected string $icon = 'exclamation-triangle';
 
     protected string $title = 'Extranet';
+    protected mixed $contaoCsrfTokenManager;
 
     public function __construct(
         TranslatorInterface        $translator,
@@ -42,6 +44,7 @@ class Block extends BackendBlock
         protected ResetStepManager $resetStepManager,
         Dashboard                  $dashboard
     ) {
+        $this->contaoCsrfTokenManager = System::getContainer()->getParameter('@contao.csrf.token_manager');
         parent::__construct($configurationManager, $configurationStepManager, $dashboard, $translator);
     }
 
@@ -68,7 +71,7 @@ class Block extends BackendBlock
         }
 
         // Add Request Token to JSON answer and return
-        $arrResponse['rt'] = \Contao\RequestToken::get(); // TODO : deprecated Token
+        $arrResponse['rt'] = $this->contaoCsrfTokenManager->getDefaultTokenValue();
         echo json_encode($arrResponse);
         exit;
     }

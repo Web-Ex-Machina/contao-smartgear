@@ -35,11 +35,13 @@ class SocialLink extends BackendModule
     protected $security;
 
     protected string $strId = 'social_link';
+    protected mixed $contaoCsrfTokenManager;
 
     public function __construct(DataContainer|null $dc = null)
     {
         parent::__construct($dc);
         $this->security = System::getContainer()->get('security.helper');
+        $this->contaoCsrfTokenManager = System::getContainer()->getParameter('@contao.csrf.token_manager');
     }
 
     public function generate(): string
@@ -58,7 +60,7 @@ class SocialLink extends BackendModule
         $this->Template->links = SocialLinkModel::findAll();
         $this->Template->networks = SocialNetworkModel::findAll(['order' => 'pid ASC, name ASC']);
         $this->Template->modeExpert = $this->security->isGranted(SmartgearPermissions::SOCIALLINK_EXPERT);
-        $this->Template->token = REQUEST_TOKEN; // TODO : Deprecated token
+        $this->Template->token = $this->contaoCsrfTokenManager->getDefaultTokenValue();
     }
 
     protected function save(): void

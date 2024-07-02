@@ -18,7 +18,7 @@ use Contao\Environment;
 use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\PageModel;
-use Contao\RequestToken;
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\UserGroupModel;
 use Contao\UserModel;
 use Exception;
@@ -38,6 +38,7 @@ class Dashboard extends BackendDashboard
     protected string $strTemplate = 'be_wem_sg_block_core_dashboard';
 
     public function __construct(
+        protected readonly ContaoCsrfTokenManager   $contaoCsrfTokenManager,
         ConfigurationManager $configurationManager,
         TranslatorInterface $translator,
         string $module,
@@ -45,7 +46,7 @@ class Dashboard extends BackendDashboard
         protected ConfigurationEnvFileManager $configurationEnvFileManager,
         protected HtaccessAnalyzer $htaccessAnalyzer
     ) {
-        parent::__construct($configurationManager, $translator, $module, $type);
+        parent::__construct($configurationManager, $translator, $module, $contaoCsrfTokenManager, $type);
     }
 
     public function processAjaxRequest(): void
@@ -61,7 +62,7 @@ class Dashboard extends BackendDashboard
         }
 
         // Add Request Token to JSON answer and return
-        $arrResponse['rt'] = RequestToken::get(); // TODO : deprecated Token
+        $arrResponse['rt'] = $this->contaoCsrfTokenManager->getDefaultTokenValue();
         echo json_encode($arrResponse);
         exit;
     }

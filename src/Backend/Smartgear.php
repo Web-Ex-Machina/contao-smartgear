@@ -20,6 +20,7 @@ use Contao\BackendTemplate;
 use Contao\CalendarModel;
 use Contao\Config;
 use Contao\ContentModel;
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\DataContainer;
 use Contao\Environment;
 use Contao\FaqCategoryModel;
@@ -32,7 +33,6 @@ use Contao\Message;
 use Contao\ModuleModel;
 use Contao\NewsArchiveModel;
 use Contao\PageModel;
-use Contao\RequestToken;
 use Contao\System;
 use Contao\ThemeModel;
 use Contao\UserGroupModel;
@@ -98,7 +98,9 @@ class Smartgear extends BackendModule
 
     protected mixed $objSession;
 
-    public function __construct(DataContainer|null $dc = null)
+    public function __construct(
+        protected readonly ContaoCsrfTokenManager   $contaoCsrfTokenManager,
+        DataContainer|null $dc = null)
     {
         parent::__construct($dc);
         $this->backupManager = System::getContainer()->get('smartgear.backup.backup_manager');
@@ -173,7 +175,7 @@ class Smartgear extends BackendModule
             }
 
             // Add Request Token to JSON answer and return
-            $arrResponse['rt'] = RequestToken::get(); // TODO : deprecated Token
+            $arrResponse['rt'] = $this->contaoCsrfTokenManager->getDefaultTokenValue();
             echo json_encode($arrResponse);
             exit;
         }
@@ -372,7 +374,7 @@ class Smartgear extends BackendModule
 
         // Send msc data to template
         $this->Template->request = Environment::get('request');
-        $this->Template->token = RequestToken::get(); // TODO : deprecated Token
+        $this->Template->token = $this->contaoCsrfTokenManager->getDefaultTokenValue();
         $this->Template->websiteTitle = Config::get('websiteTitle');
         $this->Template->version = $this->coreConfigurationManager->load()->getSgVersion();
 
@@ -463,7 +465,7 @@ class Smartgear extends BackendModule
         $this->Template->saveButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['saveBTTitle']);
         $this->Template->saveButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['saveBT'];
 
-        $this->Template->token = RequestToken::get(); // TODO : deprecated Token
+        $this->Template->token = $this->contaoCsrfTokenManager->getDefaultTokenValue();
     }
 
     protected function getBackButton($strHref = ''): void

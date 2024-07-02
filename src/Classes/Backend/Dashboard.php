@@ -17,7 +17,7 @@ namespace WEM\SmartgearBundle\Classes\Backend;
 use Contao\Environment;
 use Contao\FrontendTemplate;
 use Contao\Input;
-use Contao\RequestToken;
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\System;
 use Exception;
 use InvalidArgumentException;
@@ -36,11 +36,11 @@ class Dashboard
     protected array $logs = [];
 
     public function __construct(
-        /** @var ConfigurationManager [description] */
-        protected ConfigurationManager $configurationManager,
-        protected TranslatorInterface  $translator,
-        protected string               $module,
-        protected string               $type
+        protected ConfigurationManager              $configurationManager,
+        protected TranslatorInterface               $translator,
+        protected string                            $module,
+        protected readonly ContaoCsrfTokenManager   $contaoCsrfTokenManager,
+        protected string                            $type
     ) {
         // Init session
         $this->objSession = System::getContainer()->get('session');
@@ -69,7 +69,7 @@ class Dashboard
         }
 
         // Add Request Token to JSON answer and return
-        $arrResponse['rt'] = RequestToken::get(); // TODO : deprecated Token
+        $arrResponse['rt'] = $this->contaoCsrfTokenManager->getDefaultTokenValue();
         echo json_encode($arrResponse);
         exit;
     }
@@ -83,7 +83,7 @@ class Dashboard
     {
         $objTemplate = new FrontendTemplate($this->strTemplate);
         $objTemplate->request = Environment::get('request');
-        $objTemplate->token = RequestToken::get(); // TODO : deprecated Token
+        $objTemplate->token = $this->contaoCsrfTokenManager->getDefaultTokenValue();
         $objTemplate->module = $this->module;
         $objTemplate->type = $this->type;
         // $objTemplate->messages = $this->messages;

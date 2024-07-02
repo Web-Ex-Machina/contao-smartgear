@@ -16,7 +16,7 @@ namespace WEM\SmartgearBundle\Classes\Backend;
 
 use Contao\Environment;
 use Contao\FrontendTemplate;
-use Contao\RequestToken;
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 
 class AbstractStep
 {
@@ -27,7 +27,10 @@ class AbstractStep
 
     protected string $strTemplate = 'be_wem_sg_install_block_configuration_step';
 
-    public function __construct(protected string $module, protected string $type)
+    public function __construct(
+        protected readonly ContaoCsrfTokenManager   $contaoCsrfTokenManager,
+        protected string $module,
+        protected string $type)
     {
     }
 
@@ -36,7 +39,7 @@ class AbstractStep
         // to render the step
         $objTemplate = new FrontendTemplate($this->strTemplate);
         $objTemplate->request = Environment::get('request');
-        $objTemplate->token = RequestToken::get(); // TODO : deprecated Token
+        $objTemplate->token = $this->contaoCsrfTokenManager->getDefaultTokenValue();
         $objTemplate->module = $this->module;
         $objTemplate->type = $this->type;
         $objTemplate->title = $this->title;

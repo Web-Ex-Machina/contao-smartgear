@@ -18,12 +18,10 @@ use Contao\Controller;
 use Contao\Environment;
 use Contao\FrontendTemplate;
 use Contao\Input;
-use Contao\RequestToken;
 use Contao\System;
 use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
-use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 /**
@@ -36,33 +34,20 @@ class Block extends Controller
     use Traits\ActionsTrait;
     use Traits\MessagesTrait;
     public const MODE_DASHBOARD = 'dashboard';
-
     public const MODE_INSTALL = 'install';
-
     public const MODE_CONFIGURE = 'configure';
-
     protected array $logs = [];
-
     protected array $require = [];
-
     protected string $strTemplate = 'be_wem_sg_install_block_default';
-
     protected string $type = '';
-
     protected string $module = '';
-
     protected string $title = '';
-
     protected string $icon = '';
-
     protected string $class = '';
-
     protected string $mode = '';
-
     protected mixed $bundles ;
-
     protected mixed $objSession ;
-
+    protected mixed $contaoCsrfTokenManager;
     /**
      * Construct the block object.
      */
@@ -80,6 +65,7 @@ class Block extends Controller
 
         // Init session
         $this->objSession = System::getContainer()->get('session');
+        $this->contaoCsrfTokenManager = System::getContainer()->getParameter('@contao.csrf.token_manager');
         Parent::__construct();
     }
 
@@ -103,7 +89,7 @@ class Block extends Controller
         // Create the block template and add some general vars
         $objTemplate = new FrontendTemplate($this->strTemplate);
         $objTemplate->request = Environment::get('request');
-        $objTemplate->token = RequestToken::get(); // TODO : deprecated Token
+        $objTemplate->token = $this->contaoCsrfTokenManager->getDefaultTokenValue();
         $objTemplate->type = $this->type;
         $objTemplate->module = $this->module;
         $objTemplate->title = $this->title;
@@ -226,7 +212,7 @@ class Block extends Controller
         }
 
         // Add Request Token to JSON answer and return
-        $arrResponse['rt'] = \Contao\RequestToken::get(); // TODO : deprecated Token
+        $arrResponse['rt'] = $this->contaoCsrfTokenManager->getDefaultTokenValue();
         echo json_encode($arrResponse);
         exit;
     }

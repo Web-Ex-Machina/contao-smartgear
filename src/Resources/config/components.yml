@@ -9,6 +9,7 @@ services:
             $type: 'component'
             $configurationEnvFileManager: '@smartgear.config.manager.env_file.local'
             $htaccessAnalyzer: '@smartgear.classes.analyzer.htaccess'
+            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.component.core.block:
@@ -253,6 +254,7 @@ services:
             $translator: '@contao.translation.translator'
             $module: 'blog'
             $type: 'component'
+            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.component.blog.reset_step_manager:
@@ -360,6 +362,7 @@ services:
             $translator: '@contao.translation.translator'
             $module: 'events'
             $type: 'component'
+            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.component.events.reset_step_manager:
@@ -456,6 +459,7 @@ services:
             $translator: '@contao.translation.translator'
             $module: 'faq'
             $type: 'component'
+            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.component.faq.reset_step_manager:
@@ -545,6 +549,7 @@ services:
             $translator: '@contao.translation.translator'
             $module: 'form_contact'
             $type: 'component'
+            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.component.form_contact.reset_step_manager:

@@ -37,6 +37,7 @@ class Block extends BackendBlock
     protected string $icon = 'exclamation-triangle';
 
     protected string $title = 'Core';
+    protected mixed $contaoCsrfTokenManager;
 
     public function __construct(
         ConfigurationManager       $configurationManager,
@@ -45,6 +46,7 @@ class Block extends BackendBlock
         Dashboard                  $dashboard,
         TranslatorInterface        $translator
     ) {
+        $this->contaoCsrfTokenManager = System::getContainer()->getParameter('@contao.csrf.token_manager');
         parent::__construct($configurationManager, $configurationStepManager, $dashboard, $translator);
     }
 
@@ -149,7 +151,7 @@ class Block extends BackendBlock
 
         // return $arrResponse;
         // Add Request Token to JSON answer and return
-        $arrResponse['rt'] = \Contao\RequestToken::get(); // TODO : deprecated Token
+        $arrResponse['rt'] = $this->contaoCsrfTokenManager->getDefaultTokenValue();
         echo json_encode($arrResponse);
         exit;
     }

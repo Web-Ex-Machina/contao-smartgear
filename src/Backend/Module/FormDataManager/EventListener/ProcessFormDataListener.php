@@ -14,16 +14,16 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Module\FormDataManager\EventListener;
 
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\Form;
 use Contao\FormFieldModel;
 use Contao\Model;
 use Contao\Model\Collection;
 use Contao\PageModel;
 use Exception;
+use Symfony\Component\HttpFoundation\Request;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\FormUtil;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
-use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
 use WEM\SmartgearBundle\Model\FormField;
 use WEM\SmartgearBundle\Model\FormStorage;
 use WEM\SmartgearBundle\Model\FormStorageData;
@@ -33,6 +33,7 @@ class ProcessFormDataListener
 {
     public function __construct(
         protected CoreConfigurationManager $coreConfigurationManager,
+        protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
         protected $routingCandidates)
     {
     }
@@ -58,7 +59,7 @@ class ProcessFormDataListener
             $objFormStorage->createdAt = time();
             $objFormStorage->pid = $form->getModel()->id;
             $objFormStorage->status = FormStorage::STATUS_UNREAD;
-            $objFormStorage->token = REQUEST_TOKEN; // TODO : Deprecated token
+            $objFormStorage->token = $this->contaoCsrfTokenManager->getDefaultTokenValue();
             $objFormStorage->completion_percentage = $this->calculateCompletionPercentage($submittedData, $files ?? [], $form);
             $objFormStorage->delay_to_first_interaction = $this->calculateDelayToFirstInteraction($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]']);
             $objFormStorage->delay_to_submission = $this->calculateDelayToSubmission($submittedData['fdm[first_interaction]'], $form);
@@ -88,7 +89,7 @@ class ProcessFormDataListener
     {
         $refererPageId = null;
         try {
-            $refererPages = $this->routingCandidates->getCandidates(\Symfony\Component\HttpFoundation\Request::create($url));
+            $refererPages = $this->routingCandidates->getCandidates(Request::create($url));
             if (\count($refererPages) > 0) {
                 $objPage = PageModel::findByAlias($refererPages[0]);
                 if ($objPage) {
