@@ -58,7 +58,6 @@ class NcNotificationMessageLanguageUtil
             'email_sender_name' => '##email_sender_name##',
             'email_sender_address' => '##sg_owner_email##',
             'email_subject' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['subjectNotificationSupportGatewayMessageLanguageUser'],
-            'email_subject' => '##email_subject##', //TODO ERREUR ??
             'email_mode' => 'textAndHtml',
             'email_text' => $htmlDecoder->htmlToPlainText($strText, false),
             'email_html' => $strText,
@@ -81,7 +80,6 @@ class NcNotificationMessageLanguageUtil
             'email_sender_address' => '##sg_owner_email##',
             // 'email_subject' => $this->translator->trans('WEMSG.INSTALL.WEBSITE.subjectNotificationSupportGatewayMessageLanguageAdmin', [$config->getSgWebsiteTitle()], 'contao_default'),
             'email_subject' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['subjectNotificationSupportGatewayMessageLanguageAdmin'],
-            'email_subject' => '##email_subject##', //TODO ERREUR ??
             'email_mode' => 'textAndHtml',
             'email_text' => $htmlDecoder->htmlToPlainText($strText, false),
             'email_html' => $strText,
@@ -104,7 +102,6 @@ class NcNotificationMessageLanguageUtil
             'email_sender_name' => '##email_sender_name##',
             'email_sender_address' => '##admin_email##',
             'email_subject' => sprintf($GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['subjectNotificationGatewayMessageLanguageUser'], $websiteTitle, $formTitle),
-            'email_subject' => '##email_subject##', //TODO ERREUR ??
             'email_mode' => 'textAndHtml',
             'email_text' => $htmlDecoder->htmlToPlainText($strText, false),
             'email_html' => $strText,
@@ -126,7 +123,6 @@ class NcNotificationMessageLanguageUtil
             'email_sender_name' => '##email_sender_name##',
             'email_sender_address' => $ownerEmail,
             'email_subject' => sprintf($GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['subjectNotificationGatewayMessageLanguageAdmin'], $websiteTitle, $formTitle),
-            'email_subject' => '##email_subject##', //TODO ERREUR ??
             'email_mode' => 'textAndHtml',
             'email_text' => $htmlDecoder->htmlToPlainText($strText, false),
             'email_html' => $strText,
