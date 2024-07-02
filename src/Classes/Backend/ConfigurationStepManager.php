@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -80,6 +80,8 @@ class ConfigurationStepManager extends StepManager
         } else {
             $this->actions[] = ['action' => 'finish', 'label' => $this->translator->trans('WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish', [], 'contao_default')];
         }
-        $this->actions[] = ['action' => 'dashboard', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.BackToDashboard', [], 'contao_default')];
+        if (self::MODE_CONFIGURE === $this->mode) {
+            $this->actions[] = ['action' => 'dashboard', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.BackToDashboard', [], 'contao_default')];
+        }
     }
 }

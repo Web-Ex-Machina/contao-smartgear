@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.34 - 2024-07-02
+- Smartgear : display core's install form instead of dashboard when SG is not installed
+
 1.0.33 - 2024-06-24
 - Smartgear : fixed `websiteTitle` field not present in BE configuration form
 
