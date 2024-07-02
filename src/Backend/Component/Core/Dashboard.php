@@ -155,7 +155,7 @@ class Dashboard extends BackendDashboard
     public function checkProdMode(): string
     {
         $objTemplate = $this->getFilledTemplate();
-        $nbErrors = 0;
+
         $rootPages = PageModel::findPublishedRootPages();
         foreach ($rootPages as $rootPage) {
             if (empty($rootPage->dns)) {
@@ -179,7 +179,7 @@ class Dashboard extends BackendDashboard
 
         $this->actions = [];
         $this->actions[] = ['action' => 'prod_mode_check_cancel', 'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['Cancel']];
-        if (0 !== $nbErrors) { // TODO : always false.
+        if ($this->hasErrors()) {
             $this->actions[] = ['action' => 'prod_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeButtonForceProdModeLabel'], 'attributes' => 'onclick="if(!confirm(\''.$GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeButtonForceProdModeConfirm'].'\'))return false;Backend.getScrollOffset()"'];
         } else {
             $this->actions[] = ['action' => 'prod_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeButtonProdModeLabel']];
