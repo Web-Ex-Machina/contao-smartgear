@@ -202,14 +202,6 @@ class Resetter extends BackendResetter
                     }
                 }
 
-                /**  @deprecated in Contao 5.0 TODO : deprecated */
-                $stylesheets = StyleSheetModel::findBy('pid', $themes->id);
-                if ($stylesheets) {
-                    while ($stylesheets->next()) {
-                        $stylesheets->delete();
-                    }
-                }
-
                 $themes->delete();
             }
         }
