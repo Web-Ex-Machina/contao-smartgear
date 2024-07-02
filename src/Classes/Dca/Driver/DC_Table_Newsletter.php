@@ -14,13 +14,15 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Dca\Driver;
 
+use Contao\DataContainer;
+
 class DC_Table_Newsletter extends \Contao\DC_Table
 {
     public function showAll(): string
     {
-        if (CURRENT_ID) { //TODO : CURRENT_ID exist ?
+        if (DataContainer::$currentPid) {
             $this->procedure[] = 'channels REGEXP ?';
-            $this->values[] = '.*;s:[0-9]+:"'.CURRENT_ID.'".*';
+            $this->values[] = '.*;s:[0-9]+:"'.DataContainer::$currentPid.'".*';
         }
 
         return parent::showAll();
