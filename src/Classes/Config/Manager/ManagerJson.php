@@ -66,8 +66,7 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
     {
         $backupFilePath = $this->configurationFilePath.'_'.date('Ymd_His');
         $this->load();
-        // TODO : undefined $path
-        return $this->file_force_contents($backupFilePath, $this->configuration->export()) ? $path : false;
+        return $this->file_force_contents($backupFilePath, $this->configuration->export()) ? $backupFilePath : false;
     }
 
     /**
