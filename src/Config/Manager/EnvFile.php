@@ -35,10 +35,9 @@ class EnvFile extends AbstractManager implements ManagerEnvInterface
     /**
      * [load description].
      */
-    public function new(): ConfigEnvInterface
+    public function new(): ConfigEnvInterface|ConfigInterface
     {
         return $this->configuration->reset();
-        // TODO : Return value is expected to be '\WEM\SmartgearBundle\Classes\Config\ConfigEnvInterface', '\WEM\SmartgearBundle\Classes\Config\ConfigInterface' returned
     }
 
     /**
