@@ -30,9 +30,11 @@ if (!\defined('SG_ROBOTSTXT_CONTENT')) {
 if (!\defined('SG_ROBOTSTXT_CONTENT_FULL')) {
     \define('SG_ROBOTSTXT_CONTENT_FULL', SG_ROBOTSTXT_HEADER."\n".SG_ROBOTSTXT_CONTENT."\n".SG_ROBOTSTXT_FOOTER);
 }
-
+/* @var \WEM\UtilsBundle\Classes\ScopeMatcher $scopeMatcher */
+$scopeMatcher = System::getContainer()->get('wem.scope_matcher');
 // Load icon in Contao 4.2 backend
-if ('BE' === TL_MODE) {
+
+if ($scopeMatcher->isBackend()) {
     $GLOBALS['TL_CSS'][] = 'bundles/wemsmartgear/backend/backend.css';
 }
 
@@ -205,7 +207,7 @@ $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Configuration\ConfigurationItem
 /*
  * Add BE Hooks
  */
-if ('BE' === TL_MODE) {
+if ($scopeMatcher->isBackend()) {
     $GLOBALS['TL_HOOKS']['executePreActions'][] = [\WEM\SmartgearBundle\Backend\Smartgear::class, 'processAjaxRequest'];
     $GLOBALS['TL_HOOKS']['executePreActions'][] = [\WEM\SmartgearBundle\Backend\Dashboard::class, 'processAjaxRequest'];
     $GLOBALS['TL_HOOKS']['executePreActions'][] = [\WEM\SmartgearBundle\Backend\Reminder::class, 'processAjaxRequest'];
@@ -221,7 +223,7 @@ if ('BE' === TL_MODE) {
 /*
  * Add FE Hooks
  */
-if ('FE' === TL_MODE) {
+if ($scopeMatcher->isFrontend()) {
     // $GLOBALS['TL_HOOKS']['getPageLayout'][] = ['\WEM\SmartgearBundle\Hooks\GetPageLayoutHook', 'generateApiToken'];
     // $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Hooks\ExecutePreActionsHook', 'catchApiRequests'];
     $GLOBALS['TL_HOOKS']['generateFrontendUrl'][] = ['smartgear.listener.generate_frontend_url', '__invoke'];
