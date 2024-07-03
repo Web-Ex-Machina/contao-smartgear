@@ -14,43 +14,23 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Utils\Notification;
 
-use NotificationCenter\Model\Notification;
+use Terminal42\NotificationCenterBundle\NotificationCenter;
 
-class NcNotificationUtil
+readonly class NcNotificationUtil
 {
-    /**
-     * Shortcut for article creation.
-     */
-    public static function createNotification(?array $arrData = []): Notification
+    public function __construct(private NotificationCenter $notificationCenter){}
+
+    public function createSupportFormNotification(array $arrData = []): void
     {
-        // Create the article
-        $objNotification = isset($arrData['id']) ? Notification::findById($arrData['id']) ?? new Notification() : new Notification();
-        $objNotification->tstamp = time();
-
-        // Now we get the default values, get the arrData table
-        if ($arrData !== null && $arrData !== []) {
-            foreach ($arrData as $k => $v) {
-                $objNotification->$k = $v;
-            }
-        }
-
-        $objNotification->save();
-
-        // Return the model
-        return $objNotification;
-    }
-
-    public static function createSupportFormNotification(?array $arrData = []): Notification
-    {
-        return self::createNotification(array_merge([
+        $this->notificationCenter->sendNotification($arrData['id'], array_merge([
             'title' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['titleNotificationSupportGatewayNotification'],
             'type' => 'ticket_creation',
         ], $arrData));
     }
 
-    public static function createFormContactSentNotification(string $title, ?array $arrData = []): Notification
+    public function createFormContactSentNotification(string $title, ?array $arrData = []): void
     {
-        return self::createNotification(array_merge([
+        $this->notificationCenter->sendNotification($arrData['id'],array_merge([
             'title' => $title,
             'type' => 'core_form',
         ], $arrData));

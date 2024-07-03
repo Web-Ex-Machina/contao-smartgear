@@ -1336,7 +1336,7 @@ class ConfigurationItemUtil
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
             if ($objConfiguration->email_gateway) {
-                $objNotification = NcNotificationUtil::createFormContactSentNotification(
+                $objNotification = NcNotificationUtil::createFormContactSentNotification( // TODO : notification
                 $objItem->notification_name
             );
 

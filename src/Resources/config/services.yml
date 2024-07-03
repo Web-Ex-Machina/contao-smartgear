@@ -1,4 +1,14 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+    WEM\:
+        resource: '../../../src/'
+        exclude:
+            - '../../../src/DependencyInjection/'
+            - '../../../src/Config/'
+            - '../../../src/Model/'
+            - '../../../src/Migrations/'
     # smartgear.backend.backupservice:
     #     class: WEM\SmartgearBundle\Backup\BackupService
     #     arguments:

@@ -14,22 +14,21 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\Backend;
 use Contao\BackendUser;
 use Contao\Config;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\StringUtil;
-use Contao\System;
-use NotificationCenter\tl_nc_gateway;
-use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
-class NotificationGateway extends tl_nc_gateway
+class NotificationGateway extends Backend
 {
     public function __construct()
     {
         $this->import(BackendUser::class, 'User');
+        Parent::__construct();
     }
 
     /**

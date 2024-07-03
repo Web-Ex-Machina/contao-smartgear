@@ -248,29 +248,29 @@ if ($scopeMatcher->isFrontend()) {
 $GLOBALS['TL_HOOKS']['loadLanguageFile'][] = ['smartgear.listener.load_language_file', '__invoke'];
 $GLOBALS['TL_HOOKS']['sendNotificationMessage'][] = ['smartgear.listener.send_notification_message', '__invoke'];
 
-/*
- * NC hooks
- */
-$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data';
-$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_filled';
-$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data';
-$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data_filled';
-$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data';
-$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data_filled';
-
-/*
- * Notifications
- */
-$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['smartgear']['ticket_creation'] = [
-    'email_sender_name' => ['email_sender_name'],
-    'email_sender_address' => ['sg_owner_email'],
-    'email_subject' => ['ticket_subject', 'sg_title'],
-    'recipients' => ['support_email', 'sg_owner_email'],
-    'email_text' => ['ticket_*', 'sg_owner_name'],
-    'email_html' => ['ticket_*', 'sg_owner_name'],
-    'email_replyTo' => ['sg_owner_email'],
-    'attachment_tokens' => ['ticket_file'],
-];
+///*
+// * NC hooks
+// */
+//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data';
+//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_filled';
+//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data';
+//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data_filled';
+//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data';
+//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data_filled';
+//
+///*
+// * Notifications
+// */
+//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['smartgear']['ticket_creation'] = [
+//    'email_sender_name' => ['email_sender_name'],
+//    'email_sender_address' => ['sg_owner_email'],
+//    'email_subject' => ['ticket_subject', 'sg_title'],
+//    'recipients' => ['support_email', 'sg_owner_email'],
+//    'email_text' => ['ticket_*', 'sg_owner_name'],
+//    'email_html' => ['ticket_*', 'sg_owner_name'],
+//    'email_replyTo' => ['sg_owner_email'],
+//    'attachment_tokens' => ['ticket_file'],
+//];
 
 /*
  * Add custom rights
