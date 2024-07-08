@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Override;
 
 use Contao\CalendarEventsModel;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsFrontendModule;
 use Contao\Environment;
 use Contao\FilesModel;
 use Contao\Input;
@@ -23,6 +24,7 @@ use Contao\System;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFound;
 
+#[AsFrontendModule(type: 'events', name:'eventreader')]
 class ModuleEventReader extends \Contao\ModuleEventReader
 {
     /**

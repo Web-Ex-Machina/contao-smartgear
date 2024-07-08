@@ -14,10 +14,12 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Override;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsFrontendModule;
 use Contao\PageModel;
 use Contao\System;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+#[AsFrontendModule(type: 'user', name:'login')]
 class ModuleLogin extends \Contao\ModuleLogin
 {
 

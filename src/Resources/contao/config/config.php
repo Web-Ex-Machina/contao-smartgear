@@ -14,6 +14,11 @@ declare(strict_types=1);
 
 use Contao\ArrayUtil;
 use Contao\System;
+use WEM\SmartgearBundle\Model;
+use WEM\SmartgearBundle\Backend;
+use WEM\UtilsBundle\Classes\ScopeMatcher;
+use WEM\SmartgearBundle\Override;
+use WEM\SmartgearBundle\Module;
 
 if (!\defined('SG_ROBOTSTXT_HEADER')) {
     \define('SG_ROBOTSTXT_HEADER', '# RESERVED TO SMARTGEAR - START');
@@ -30,7 +35,7 @@ if (!\defined('SG_ROBOTSTXT_CONTENT')) {
 if (!\defined('SG_ROBOTSTXT_CONTENT_FULL')) {
     \define('SG_ROBOTSTXT_CONTENT_FULL', SG_ROBOTSTXT_HEADER."\n".SG_ROBOTSTXT_CONTENT."\n".SG_ROBOTSTXT_FOOTER);
 }
-/* @var \WEM\UtilsBundle\Classes\ScopeMatcher $scopeMatcher */
+/* @var ScopeMatcher $scopeMatcher */
 $scopeMatcher = System::getContainer()->get('wem.scope_matcher');
 // Load icon in Contao 4.2 backend
 
@@ -66,7 +71,7 @@ if (isset($bundles['ContaoNewsletterBundle'])) {
             'channels' => $GLOBALS['BE_MOD']['content']['newsletter'],
             'newsletter' => [
                 'tables' => ['tl_newsletter'],
-                'send' => [\WEM\SmartgearBundle\Override\Newsletter::class, 'send'],
+                'send' => [Override\Newsletter::class, 'send'],
                 'stylesheet' => 'bundles/contaonewsletter/style.css',
             ],
         ],
@@ -119,10 +124,10 @@ $GLOBALS['BE_FFL']['stylemanager'] = WEM\SmartgearBundle\Widget\ComponentStyleSe
 ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
     'wem_smartgear' => [
         'wem_sg_dashboard' => [
-            'callback' => \WEM\SmartgearBundle\Backend\Dashboard::class,
+            'callback' => Backend\Dashboard::class,
         ],
         'wem_sg_reminder' => [
-            'callback' => \WEM\SmartgearBundle\Backend\Reminder::class,
+            'callback' => Backend\Reminder::class,
         ],
         'undo' => $GLOBALS['BE_MOD']['system']['undo'],
     ],
@@ -130,13 +135,13 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
 ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
     'wem_smartgear_admin' => [
         'wem_sg_update' => [
-            'callback' => \WEM\SmartgearBundle\Backend\Update::class,
+            'callback' => Backend\Update::class,
         ],
         'wem_sg_backup' => [
-            'callback' => \WEM\SmartgearBundle\Backend\Backup::class,
+            'callback' => Backend\Backup::class,
         ],
         'wem_sg_clear_cache' => [
-            'callback' => \WEM\SmartgearBundle\Backend\CacheClear::class,
+            'callback' => Backend\CacheClear::class,
             // 'callback' => function (): void {
             //     $commandUtil = System::getContainer()->get('smartgear.classes.command.util');
             //     $this->commandUtil->executeCmd('cache:clear');
@@ -156,7 +161,7 @@ ArrayUtil::arrayInsert(
     array_search('article', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
     [
         'wem_sg_social_link' => [
-            'callback' => \WEM\SmartgearBundle\Backend\SocialLink::class,
+            'callback' => Backend\SocialLink::class,
         ],
     ]
 );
@@ -179,38 +184,38 @@ $GLOBALS['BE_MOD']['content']['form']['export'] = ['smartgear.backend.module.for
  */
 ArrayUtil::arrayInsert($GLOBALS['FE_MOD'], 2, [
     'smartgear' => [
-        'wem_sg_header' => \WEM\SmartgearBundle\Module\Header::class,
-        'wem_sg_social_link' => \WEM\SmartgearBundle\Module\SocialLink::class,
+        'wem_sg_header' => Module\Header::class,
+        'wem_sg_social_link' => Module\SocialLink::class,
     ],
 ]);
-$GLOBALS['FE_MOD']['news']['newsreader'] = \WEM\SmartgearBundle\Override\ModuleNewsReader::class;
-$GLOBALS['FE_MOD']['news']['newslist'] = \WEM\SmartgearBundle\Override\ModuleNewsList::class;
-$GLOBALS['FE_MOD']['events']['eventreader'] = \WEM\SmartgearBundle\Override\ModuleEventReader::class;
-$GLOBALS['FE_MOD']['events']['eventlist'] = \WEM\SmartgearBundle\Override\ModuleEventList::class;
-$GLOBALS['FE_MOD']['events']['calendar'] = \WEM\SmartgearBundle\Override\ModuleCalendar::class;
-$GLOBALS['FE_MOD']['user']['login'] = \WEM\SmartgearBundle\Override\ModuleLogin::class;
-$GLOBALS['FE_MOD']['navigationMenu']['breadcrumb'] = \WEM\SmartgearBundle\Override\ModuleBreadcrumb::class;
+//$GLOBALS['FE_MOD']['news']['newsreader'] = Override\ModuleNewsReader::class;
+//$GLOBALS['FE_MOD']['news']['newslist'] = Override\ModuleNewsList::class;
+//$GLOBALS['FE_MOD']['events']['eventreader'] = Override\ModuleEventReader::class;
+//$GLOBALS['FE_MOD']['events']['eventlist'] = Override\ModuleEventList::class;
+//$GLOBALS['FE_MOD']['events']['calendar'] = Override\ModuleCalendar::class;
+//$GLOBALS['FE_MOD']['user']['login'] = Override\ModuleLogin::class;
+//$GLOBALS['FE_MOD']['navigationMenu']['breadcrumb'] = Override\ModuleBreadcrumb::class;
 /*
  * Models
  */
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Backup::getTable()] = WEM\SmartgearBundle\Model\Backup::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialNetworkCategory::getTable()] = WEM\SmartgearBundle\Model\SocialNetworkCategory::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialNetwork::getTable()] = WEM\SmartgearBundle\Model\SocialNetwork::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialLink::getTable()] = WEM\SmartgearBundle\Model\SocialLink::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Member::getTable()] = WEM\SmartgearBundle\Model\Member::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorage::getTable()] = WEM\SmartgearBundle\Model\FormStorage::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorageData::getTable()] = WEM\SmartgearBundle\Model\FormStorageData::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\PageVisit::getTable()] = WEM\SmartgearBundle\Model\PageVisit::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Login::getTable()] = WEM\SmartgearBundle\Model\Login::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Configuration\Configuration::getTable()] = WEM\SmartgearBundle\Model\Configuration\Configuration::class;
-$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Configuration\ConfigurationItem::getTable()] = WEM\SmartgearBundle\Model\Configuration\ConfigurationItem::class;
+$GLOBALS['TL_MODELS'][Model\Backup::getTable()] = Model\Backup::class;
+$GLOBALS['TL_MODELS'][Model\SocialNetworkCategory::getTable()] = Model\SocialNetworkCategory::class;
+$GLOBALS['TL_MODELS'][Model\SocialNetwork::getTable()] = Model\SocialNetwork::class;
+$GLOBALS['TL_MODELS'][Model\SocialLink::getTable()] = Model\SocialLink::class;
+$GLOBALS['TL_MODELS'][Model\Member::getTable()] = Model\Member::class;
+$GLOBALS['TL_MODELS'][Model\FormStorage::getTable()] = Model\FormStorage::class;
+$GLOBALS['TL_MODELS'][Model\FormStorageData::getTable()] = Model\FormStorageData::class;
+$GLOBALS['TL_MODELS'][Model\PageVisit::getTable()] = Model\PageVisit::class;
+$GLOBALS['TL_MODELS'][Model\Login::getTable()] = Model\Login::class;
+$GLOBALS['TL_MODELS'][Model\Configuration\Configuration::getTable()] = Model\Configuration\Configuration::class;
+$GLOBALS['TL_MODELS'][Model\Configuration\ConfigurationItem::getTable()] = Model\Configuration\ConfigurationItem::class;
 /*
  * Add BE Hooks
  */
 //if ($scopeMatcher->isBackend()) {
-//    $GLOBALS['TL_HOOKS']['executePreActions'][] = [\WEM\SmartgearBundle\Backend\Smartgear::class, 'processAjaxRequest'];
-//    $GLOBALS['TL_HOOKS']['executePreActions'][] = [\WEM\SmartgearBundle\Backend\Dashboard::class, 'processAjaxRequest'];
-//    $GLOBALS['TL_HOOKS']['executePreActions'][] = [\WEM\SmartgearBundle\Backend\Reminder::class, 'processAjaxRequest'];
+//    $GLOBALS['TL_HOOKS']['executePreActions'][] = [Backend\Smartgear::class, 'processAjaxRequest'];
+//    $GLOBALS['TL_HOOKS']['executePreActions'][] = [Backend\Dashboard::class, 'processAjaxRequest'];
+//    $GLOBALS['TL_HOOKS']['executePreActions'][] = [Backend\Reminder::class, 'processAjaxRequest'];
 //    $GLOBALS['TL_HOOKS']['loadDataContainer'][] = ['smartgear.listener.load_data_container', '__invoke'];
 //    $GLOBALS['TL_HOOKS']['initializeSystem'][] = ['smartgear.listener.initialize_system', '__invoke'];
 //    $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['smartgear.listener.replace_insert_tags', 'onReplaceInsertTags'];

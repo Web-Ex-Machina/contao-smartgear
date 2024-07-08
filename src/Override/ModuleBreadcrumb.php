@@ -14,8 +14,10 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Override;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsFrontendModule;
 use Contao\System;
 
+#[AsFrontendModule(type: 'navigationMenu', name:'breadcrumb')]
 class ModuleBreadcrumb extends \Contao\ModuleBreadcrumb
 {
     public function generate(): string

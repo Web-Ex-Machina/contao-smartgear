@@ -14,10 +14,12 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Override;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsFrontendModule;
 use Contao\Input;
 use Contao\NewsModel;
 use Contao\UserModel;
 
+#[AsFrontendModule(type: 'news', name:'newslist')]
 class ModuleNewsList extends \Contao\ModuleNewsList
 {
 

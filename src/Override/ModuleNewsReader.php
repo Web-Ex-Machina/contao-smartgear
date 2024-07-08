@@ -21,7 +21,9 @@ use Contao\PageModel;
 use Contao\System;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFound;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsFrontendModule;
 
+#[AsFrontendModule(type: 'news', name:'newsreader')]
 class ModuleNewsReader extends \Contao\ModuleNewsReader
 {
     /**

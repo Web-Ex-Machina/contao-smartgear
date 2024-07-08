@@ -15,9 +15,11 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Override;
 
 use Contao\CalendarEventsModel;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsFrontendModule;
 use Contao\Input;
 use WEM\SmartgearBundle\Model\CalendarEvents;
 
+#[AsFrontendModule(type: 'events', name:'eventlist')]
 class ModuleEventList extends \Contao\ModuleEventlist
 {
     protected array $filters = [];
