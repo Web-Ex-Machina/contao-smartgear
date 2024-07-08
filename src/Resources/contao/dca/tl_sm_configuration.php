@@ -13,6 +13,7 @@ declare(strict_types=1);
  */
 
 use Contao\DataContainer;
+use Contao\System;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 use WEM\UtilsBundle\Classes\CountriesUtil;
 
@@ -172,7 +173,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             'search' => true,
             'default' => 'fr',
             'inputType' => 'select',
-            'options_callback' => static fn() => \Contao\System::getLanguages(),
+            'options_callback' => static fn() => System::getContainer()->get('contao.intl.locales')->getLocales(null, true),
             'eval' => ['mandatory' => true, 'chosen' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
