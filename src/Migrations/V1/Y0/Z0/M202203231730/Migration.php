@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Migrations\V1\Y0\Z0\M202203231730;
 
 use Doctrine\DBAL\Connection;
-use Oveleon\ContaoComponentStyleManager\StyleManagerArchiveModel;
-use Oveleon\ContaoComponentStyleManager\StyleManagerModel;
+use Oveleon\ContaoComponentStyleManager\Model\StyleManagerArchiveModel;
+use Oveleon\ContaoComponentStyleManager\Model\StyleManagerModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Migration\Result;

@@ -15,8 +15,9 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Widget;
 
 use WEM\SmartgearBundle\Classes\Utils\Configuration\ConfigurationUtil;
+use Oveleon\ContaoComponentStyleManager\Widget\ComponentStyleSelect as ComponentStyleSelectBase;
 
-class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\Widget\ComponentStyleSelect
+class ComponentStyleSelect extends ComponentStyleSelectBase
 {
     public function generate(): string
     {

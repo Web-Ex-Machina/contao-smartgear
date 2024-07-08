@@ -15,9 +15,9 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\EventListener\StyleManager;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
-use Oveleon\ContaoComponentStyleManager\ComponentStyleSelect; //TODO : Oveleon
-use Oveleon\ContaoComponentStyleManager\StyleManagerArchiveModel;
-use Oveleon\ContaoComponentStyleManager\StyleManagerModel;
+use Oveleon\ContaoComponentStyleManager\Model\StyleManagerModel;
+use Oveleon\ContaoComponentStyleManager\Widget\ComponentStyleSelect;
+use Oveleon\ContaoComponentStyleManager\Model\StyleManagerArchiveModel;
 use WEM\SmartgearBundle\Classes\Utils\Configuration\ConfigurationUtil;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 use WEM\UtilsBundle\Classes\ScopeMatcher;
