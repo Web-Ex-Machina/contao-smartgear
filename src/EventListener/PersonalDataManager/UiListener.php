@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\EventListener\PersonalDataManager;
 
 use Contao\Config;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Date;
 use Contao\File;
 use Contao\FilesModel;
@@ -28,10 +29,17 @@ use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\PersonalDataManagerBundle\Service\PersonalDataManagerUi;
 use WEM\SmartgearBundle\Classes\FileUtil;
 use WEM\SmartgearBundle\Classes\StringUtil;
-use WEM\SmartgearBundle\Model\Form;
 use WEM\SmartgearBundle\Model\FormStorage;
 use WEM\SmartgearBundle\Model\FormStorageData;
 
+#[AsHook('sortData','sortData',-1)]
+#[AsHook('renderSingleItemTitle','renderSingleItemTitle',-1)]
+#[AsHook('renderSingleItemBodyOriginalModelSingle','renderSingleItemBodyOriginalModelSingle',-1)]
+#[AsHook('renderSingleItemBodyOriginalModelSingleFieldValue','renderSingleItemBodyOriginalModelSingleFieldValue',-1)]
+#[AsHook('renderSingleItemBodyPersonalDataSingle','renderSingleItemBodyPersonalDataSingle',-1)]
+#[AsHook('buildSingleItemBodyPersonalDataSingleButtons','buildSingleItemBodyPersonalDataSingleButtons',-1)]
+#[AsHook('renderSingleItemBodyPersonalDataSingleFieldLabel','renderSingleItemBodyPersonalDataSingleFieldLabel',-1)]
+#[AsHook('renderSingleItemBodyPersonalDataSingleFieldValue','renderSingleItemBodyPersonalDataSingleFieldValue',-1)]
 class UiListener
 {
 

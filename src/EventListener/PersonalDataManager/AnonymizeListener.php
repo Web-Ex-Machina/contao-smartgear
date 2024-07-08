@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener\PersonalDataManager;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Model;
 use Contao\Model\Collection;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -21,6 +22,7 @@ use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\SmartgearBundle\Model\FormStorage;
 use WEM\SmartgearBundle\Model\FormStorageData;
 
+#[AsHook('anonymizeByPidAndPtableAndEmail','anonymizeByPidAndPtableAndEmail',-1)]
 class AnonymizeListener
 {
     public function __construct(protected TranslatorInterface $translator)

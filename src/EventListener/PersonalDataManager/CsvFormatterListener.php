@@ -14,11 +14,13 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener\PersonalDataManager;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\PersonalDataManagerBundle\Model\PersonalData as PersonalDataModel;
 use WEM\SmartgearBundle\Model\FormStorage;
 use WEM\SmartgearBundle\Model\FormStorageData;
 
+#[AsHook('formatSinglePersonalDataForCsvExport','formatSingle',-1)]
 class CsvFormatterListener
 {
     public function __construct(protected TranslatorInterface $translator)
