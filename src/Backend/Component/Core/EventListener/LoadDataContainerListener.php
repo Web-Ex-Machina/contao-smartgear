@@ -16,7 +16,7 @@ namespace WEM\SmartgearBundle\Backend\Component\Core\EventListener;
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\ModuleModel;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
