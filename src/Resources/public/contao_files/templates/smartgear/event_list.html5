@@ -6,9 +6,9 @@
       </<?php echo $this->href?'a':'div' ?> >
     <?php endif; ?>
     <div class="block-card__content">
-      <?php if (strpos($this->classList, 'bygone') !== false): ?><div class="event__icon bygone"><i class="far fa-calendar-times"></i></div><?php endif ?>
-      <?php if (strpos($this->classList, 'current') !== false): ?><div class="event__icon current"><i class="far fa-clock"></i></div><?php endif ?>
-      <?php if (strpos($this->classList, 'upcoming') !== false): ?><div class="event__icon upcoming"><i class="far fa-calendar"></i></div><?php endif ?>
+      <?php if (str_contains($this->classList, 'bygone')): ?><div class="event__icon bygone"><i class="far fa-calendar-times"></i></div><?php endif ?>
+      <?php if (str_contains($this->classList, 'current')): ?><div class="event__icon current"><i class="far fa-clock"></i></div><?php endif ?>
+      <?php if (str_contains($this->classList, 'upcoming')): ?><div class="event__icon upcoming"><i class="far fa-calendar"></i></div><?php endif ?>
       <<?php echo $this->href?'a href="'.$this->href.'"':'div' ?>  class="block-card__title h2" title="<?= $this->title ?>" >
         <?= $this->link ?>
         </<?php echo $this->href?'a':'div' ?> >

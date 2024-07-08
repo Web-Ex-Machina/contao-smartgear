@@ -1,9 +1,11 @@
 <!-- indexer::stop -->
-<?php $this->block('content'); ?>
+<?php use Contao\Input;
+
+$this->block('content'); ?>
 <?php if ($this->filters): ?>
     <form class="filters" method="get">
-      <?php if (\Input::get('sort')): ?>
-        <input type="hidden" name="sort" value="<?= \Input::get('sort') ?>">
+      <?php if (Input::get('sort')): ?>
+        <input type="hidden" name="sort" value="<?= Input::get('sort') ?>">
       <?php endif ?>
       <?php if ($this->filters['radio'] || $this->filters['checkbox'] || $this->filters['sort']): ?>
         <div class="filters__line line--1">
@@ -30,7 +32,7 @@
                     <select name="sort" id="group--value">
                       <option value> - </option>
                       <?php foreach ($this->filters['sort']['options'] as $key => $option): ?>
-                        <option value="<?= $option['field'] ?>" <?= (\Input::get('sort') == $option['field'])?'selected':'' ?>><?= $option['label'] ?></option>
+                        <option value="<?= $option['field'] ?>" <?= (Input::get('sort') == $option['field'])?'selected':'' ?>><?= $option['label'] ?></option>
                       <?php endforeach ?>
                     </select>
                   </div>
@@ -171,7 +173,7 @@
             <?php endforeach; ?>
           <?php endif ?>
           <?php if ($this->filters['search']): ?>
-            <input type="text" name="searchValue" id="searchValue" placeholder="<?= $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['BTN']['search'] ?>" value="<?= \Input::get('searchValue') ?>">
+            <input type="text" name="searchValue" id="searchValue" placeholder="<?= $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['BTN']['search'] ?>" value="<?= Input::get('searchValue') ?>">
           <?php endif ?>
           <!-- <button type="reset" class="submit-alone btn-sm btn-bd-grey squared"><i class="fa fa-times"></i></button> -->
           <button type="submit" class="submit-alone btn-sm squared"><i class="fa fa-search"></i></button>

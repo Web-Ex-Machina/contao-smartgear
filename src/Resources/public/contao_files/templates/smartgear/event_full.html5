@@ -7,9 +7,9 @@
 
   <div class="reader__headline">
     <h1 class="m-right m-bottom-0 ft-notrs" itemprop="name"><?= $this->title ?></h1>
-    <?php if (strpos($this->class, 'bygone') !== false): ?><div class="event__icon bygone"><i class="far fa-calendar-times"></i></div><?php endif ?>
-    <?php if (strpos($this->class, 'current') !== false): ?><div class="event__icon current"><i class="far fa-clock"></i></div><?php endif ?>
-    <?php if (strpos($this->class, 'upcoming') !== false): ?><div class="event__icon upcoming"><i class="far fa-calendar"></i></div><?php endif ?>
+    <?php if (str_contains($this->class, 'bygone')): ?><div class="event__icon bygone"><i class="far fa-calendar-times"></i></div><?php endif ?>
+    <?php if (str_contains($this->class, 'current')): ?><div class="event__icon current"><i class="far fa-clock"></i></div><?php endif ?>
+    <?php if (str_contains($this->class, 'upcoming')): ?><div class="event__icon upcoming"><i class="far fa-calendar"></i></div><?php endif ?>
   </div>
     <div class="reader__time">
       <?php if ($this->day) : echo $this->day . ' '; endif; ?>
