@@ -366,7 +366,8 @@ class Util
      */
     public static function getCustomPackageVersion(string $package): ?string
     {
-        $packages = json_decode(file_get_contents(TL_ROOT.'/vendor/composer/installed.json'));
+        $projectDir = System::getContainer()->getParameter('kernel.project_dir');
+        $packages = json_decode(file_get_contents($projectDir.'/vendor/composer/installed.json'));
 
         foreach ($packages->packages as $p) {
             $p = (array) $p;
@@ -587,8 +588,9 @@ class Util
      */
     public static function getLocalizedTemplateContent(string $tplPath, string $language, ?string $fallbackTplPath = null): string
     {
-        $tplPath = str_replace(['{root}', '{lang}', '{public_or_web}'], [TL_ROOT, $language, self::getPublicOrWebDirectory()], $tplPath);
-        $fallbackTplPath = str_replace(['{root}', '{lang}', '{public_or_web}'], [TL_ROOT, $language, self::getPublicOrWebDirectory()], $fallbackTplPath);
+        $projectDir = System::getContainer()->getParameter('kernel.project_dir');
+        $tplPath = str_replace(['{root}', '{lang}', '{public_or_web}'], [$projectDir, $language, self::getPublicOrWebDirectory()], $tplPath);
+        $fallbackTplPath = str_replace(['{root}', '{lang}', '{public_or_web}'], [$projectDir, $language, self::getPublicOrWebDirectory()], $fallbackTplPath);
 
         if (file_exists($tplPath)) {
             return file_get_contents($tplPath);
