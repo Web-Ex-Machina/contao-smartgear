@@ -20,11 +20,12 @@ use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Module;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\RenderStack;
+use WEM\UtilsBundle\Classes\ScopeMatcher;
 
 #[AsHook('getContentElement',null,-1)]
 class GetContentElementListener
 {
-    public function __construct(protected CoreConfigurationManager $configurationManager)
+    public function __construct(protected CoreConfigurationManager $configurationManager,protected readonly ScopeMatcher $scopeMatcher)
     {
     }
 
