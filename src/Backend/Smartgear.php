@@ -21,6 +21,7 @@ use Contao\CalendarModel;
 use Contao\Config;
 use Contao\ContentModel;
 use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\DataContainer;
 use Contao\Environment;
 use Contao\FaqCategoryModel;
@@ -60,12 +61,14 @@ use WEM\SmartgearBundle\Model\Member;
 use WEM\SmartgearBundle\Override\Controller;
 use WEM\SmartgearBundle\Update\UpdateManager;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\UtilsBundle\Classes\ScopeMatcher;
 
 /**
  * Back end module "smartgear".
  *
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
+#[AsHook('executePreActions','processAjaxRequest',-1)]
 class Smartgear extends BackendModule
 {
     /**
@@ -100,6 +103,7 @@ class Smartgear extends BackendModule
 
     public function __construct(
         protected readonly ContaoCsrfTokenManager   $contaoCsrfTokenManager,
+        protected readonly ScopeMatcher $scopeMatcher,
         DataContainer|null $dc = null)
     {
         parent::__construct($dc);
@@ -117,6 +121,7 @@ class Smartgear extends BackendModule
      */
     public function processAjaxRequest(string $strAction): void
     {
+        if(!$this->scopeMatcher->isBackend()) {exit();}
         // Catch AJAX Requests
         if (Input::post('TL_WEM_AJAX') && 'be_smartgear' === Input::post('wem_module')) {
             try {

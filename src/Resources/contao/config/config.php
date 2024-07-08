@@ -207,23 +207,23 @@ $GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Configuration\ConfigurationItem
 /*
  * Add BE Hooks
  */
-if ($scopeMatcher->isBackend()) {
-    $GLOBALS['TL_HOOKS']['executePreActions'][] = [\WEM\SmartgearBundle\Backend\Smartgear::class, 'processAjaxRequest'];
-    $GLOBALS['TL_HOOKS']['executePreActions'][] = [\WEM\SmartgearBundle\Backend\Dashboard::class, 'processAjaxRequest'];
-    $GLOBALS['TL_HOOKS']['executePreActions'][] = [\WEM\SmartgearBundle\Backend\Reminder::class, 'processAjaxRequest'];
-    $GLOBALS['TL_HOOKS']['loadDataContainer'][] = ['smartgear.listener.load_data_container', '__invoke'];
-    $GLOBALS['TL_HOOKS']['initializeSystem'][] = ['smartgear.listener.initialize_system', '__invoke'];
-    $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['smartgear.listener.replace_insert_tags', 'onReplaceInsertTags'];
-    $GLOBALS['TL_HOOKS']['generatePage'][] = ['smartgear.listener.generate_page', '__invoke'];
-    // Style Manager hooks
-    $GLOBALS['TL_HOOKS']['styleManagerWidgetComponentStyleSelectGetStyleManagerArchiveModelCollection'][] = ['smartgear.listener.style_manager.widget_component_style_select_get_style_manager_archive_model_collection', '__invoke'];
-    $GLOBALS['TL_HOOKS']['styleManagerWidgetComponentStyleSelectGetStyleManagerModelCollection'][] = ['smartgear.listener.style_manager.widget_component_style_select_get_style_manager_model_collection', '__invoke'];
-}
+//if ($scopeMatcher->isBackend()) {
+//    $GLOBALS['TL_HOOKS']['executePreActions'][] = [\WEM\SmartgearBundle\Backend\Smartgear::class, 'processAjaxRequest'];
+//    $GLOBALS['TL_HOOKS']['executePreActions'][] = [\WEM\SmartgearBundle\Backend\Dashboard::class, 'processAjaxRequest'];
+//    $GLOBALS['TL_HOOKS']['executePreActions'][] = [\WEM\SmartgearBundle\Backend\Reminder::class, 'processAjaxRequest'];
+//    $GLOBALS['TL_HOOKS']['loadDataContainer'][] = ['smartgear.listener.load_data_container', '__invoke'];
+//    $GLOBALS['TL_HOOKS']['initializeSystem'][] = ['smartgear.listener.initialize_system', '__invoke'];
+//    $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['smartgear.listener.replace_insert_tags', 'onReplaceInsertTags'];
+//    $GLOBALS['TL_HOOKS']['generatePage'][] = ['smartgear.listener.generate_page', '__invoke'];
+//    // Style Manager hooks
+//    $GLOBALS['TL_HOOKS']['styleManagerWidgetComponentStyleSelectGetStyleManagerArchiveModelCollection'][] = ['smartgear.listener.style_manager.widget_component_style_select_get_style_manager_archive_model_collection', '__invoke'];
+//    $GLOBALS['TL_HOOKS']['styleManagerWidgetComponentStyleSelectGetStyleManagerModelCollection'][] = ['smartgear.listener.style_manager.widget_component_style_select_get_style_manager_model_collection', '__invoke'];
+//}
 
 /*
  * Add FE Hooks
  */
-if ($scopeMatcher->isFrontend()) {
+//if ($scopeMatcher->isFrontend()) {
     // $GLOBALS['TL_HOOKS']['getPageLayout'][] = ['\WEM\SmartgearBundle\Hooks\GetPageLayoutHook', 'generateApiToken'];
     // $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Hooks\ExecutePreActionsHook', 'catchApiRequests'];
 
@@ -242,7 +242,7 @@ if ($scopeMatcher->isFrontend()) {
 //    $GLOBALS['TL_HOOKS']['generatePage'][] = ['smartgear.listener.generate_page', '__invoke'];
 //    $GLOBALS['TL_HOOKS']['getContentElement'][] = ['smartgear.listener.get_content_element', '__invoke'];
 //    $GLOBALS['TL_HOOKS']['getFrontendModule'][] = ['smartgear.listener.get_frontend_module', '__invoke'];
-}
+//}
 
 /*
  * Add globals Hooks

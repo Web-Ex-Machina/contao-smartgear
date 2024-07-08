@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Backend;
 use Contao\ArticleModel;
 use Contao\BackendModule;
 use Contao\ContentModel;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\DataContainer;
 use Contao\FaqModel;
 use Contao\Input;
@@ -28,7 +29,9 @@ use DateInterval;
 use DateTime;
 use Exception;
 use WEM\SmartgearBundle\Classes\Util;
+use WEM\UtilsBundle\Classes\ScopeMatcher;
 
+#[AsHook('executePreActions','processAjaxRequest',-1)]
 class Reminder extends BackendModule
 {
 
@@ -40,6 +43,7 @@ class Reminder extends BackendModule
 
     public function __construct(
         protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
+        protected readonly ScopeMatcher $scopeMatcher,
         DataContainer|null $dc = null)
     {
         parent::__construct($dc);
@@ -68,6 +72,8 @@ class Reminder extends BackendModule
 
     public function processAjaxRequest($strAction): void
     {
+        if(!$this->scopeMatcher->isBackend()) {exit();}
+
         if (Input::post('TL_WEM_AJAX') && $this->strId === Input::post('wem_module')) {
             try {
                 switch (Input::post('action')) {

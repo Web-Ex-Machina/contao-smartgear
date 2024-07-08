@@ -14,16 +14,24 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener\StyleManager;
 
-use Oveleon\ContaoComponentStyleManager\ComponentStyleSelect;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
+use Oveleon\ContaoComponentStyleManager\ComponentStyleSelect; //TODO : Oveleon
 use Oveleon\ContaoComponentStyleManager\StyleManagerArchiveModel;
 use Oveleon\ContaoComponentStyleManager\StyleManagerModel;
 use WEM\SmartgearBundle\Classes\Utils\Configuration\ConfigurationUtil;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
+use WEM\UtilsBundle\Classes\ScopeMatcher;
 
+#[AsHook('styleManagerWidgetComponentStyleSelectGetStyleManagerModelCollection',"onReplaceInsertTags",-1)]
 class WidgetComponentStyleSelectGetStyleManagerModelCollectionListener
 {
+    public function __construct(protected readonly ScopeMatcher $scopeMatcher)
+    {
+    }
+
     public function __invoke($collection, ComponentStyleSelect $widget)
     {
+        if(!$this->scopeMatcher->isBackend()) {exit();}
         /** @todo : retrieve in function of SG install */
         $strTable = $widget->dataContainer->table;
         $strId = $widget->activeRecord->id;

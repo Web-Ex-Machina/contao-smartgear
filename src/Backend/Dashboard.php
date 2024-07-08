@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend;
 
 use Contao\BackendModule;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\DataContainer;
 use Contao\Input;
 use Contao\Message;
@@ -28,7 +29,9 @@ use WEM\SmartgearBundle\Backend\Dashboard\Support;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
+use WEM\UtilsBundle\Classes\ScopeMatcher;
 
+#[AsHook('executePreActions','processAjaxRequest',-1)]
 class Dashboard extends BackendModule
 {
     /**
@@ -45,7 +48,7 @@ class Dashboard extends BackendModule
      */
     protected string $strBasePath = 'bundles/wemsmartgear';
 
-    public function __construct(DataContainer|null $dc = null)
+    public function __construct(DataContainer|null $dc = null,protected readonly ScopeMatcher $scopeMatcher)
     {
         parent::__construct($dc);
 
@@ -118,6 +121,8 @@ class Dashboard extends BackendModule
      */
     public function processAjaxRequest(string $strAction): void
     {
+        if(!$this->scopeMatcher->isFrontend()) {exit();}
+
         if (Input::post('TL_WEM_AJAX') && Input::post('wem_module') === $this->modSupport->getStrId()) {
             $this->modSupport->processAjaxRequest(Input::post('action'));
         }

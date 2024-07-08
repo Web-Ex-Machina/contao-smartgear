@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Input;
 use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -47,23 +48,27 @@ use WEM\SmartgearBundle\DataContainer\Theme as ThemeDCA;
 use WEM\SmartgearBundle\DataContainer\User as UserDCA;
 use WEM\SmartgearBundle\DataContainer\UserGroup as UserGroupDCA;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
+use WEM\UtilsBundle\Classes\ScopeMatcher;
 
+#[AsHook('loadDataContainer','processAjaxRequest',-1)]
 class LoadDataContainerListener
 {
     protected string $do;
 
     public function __construct(
-        protected \Symfony\Contracts\Translation\TranslatorInterface $translator,
-        protected CoreConfigurationManager $configurationManager,
-        protected ConfigurationManager $framwayConfigurationManager,
+        protected TranslatorInterface          $translator,
+        protected CoreConfigurationManager     $configurationManager,
+        protected ConfigurationManager         $framwayConfigurationManager,
         protected ConfigurationCombinedManager $framwayCombinedConfigurationManager,
-        protected array $listeners
+        protected array                        $listeners,
+        protected readonly ScopeMatcher        $scopeMatcher
     ) {
         $this->do = Input::get('do') ?? ''; // always empty ?
     }
 
     public function __invoke($tables): void
     {
+        if(!$this->scopeMatcher->isBackend()) {exit();}
         if (!\is_array($tables)) {
             $tables = [$tables];
         }
