@@ -40,7 +40,8 @@
         "oveleon/contao-component-style-manager": "^3.5",
         "webexmachina/contao-form-data-manager": "dev-main",
         "webexmachina/contao-personal-data-manager": "dev-php-8-2-preparation",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "ext-fileinfo": "*"
     },
     "require-dev":
     {
