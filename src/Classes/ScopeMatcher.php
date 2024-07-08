@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Classes;
 
 use Symfony\Component\HttpFoundation\RequestStack;
-use \Contao\CoreBundle\Routing\ScopeMatcher as ScopeMatcherBase;
+use Contao\CoreBundle\Routing\ScopeMatcher as ScopeMatcherBase;
 readonly class ScopeMatcher
 {
     /**
