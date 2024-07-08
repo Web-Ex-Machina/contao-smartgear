@@ -59,7 +59,7 @@ class Migration extends MigrationAbstract
             return $result;
         }
 
-        $schemaManager = $this->connection->getSchemaManager();
+        $schemaManager = $this->connection->createSchemaManager();
         if (!$schemaManager->tablesExist([Configuration::getTable(), ConfigurationItem::getTable()])) {
             $result
                 ->setStatus(Result::STATUS_FAIL)

@@ -75,7 +75,7 @@ class Migration extends MigrationAbstract
             return $result;
         }
 
-        $schemaManager = $this->connection->getSchemaManager();
+        $schemaManager = $this->connection->createSchemaManager();
         if (!$schemaManager->tablesExist(['tl_style_manager'])) {
             $result
                 ->setStatus(Result::STATUS_FAIL)
