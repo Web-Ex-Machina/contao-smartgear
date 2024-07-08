@@ -30,7 +30,7 @@ class Util
      *
      * @return string The command's output
      */
-    public function executeCmdPHP($strCmd): string
+    public function executeCmdPHP(string $strCmd): string
     {
         // Finally, clean the Contao cache
         $strConsolePath = $this->rootDir.'/vendor/bin/contao-console';

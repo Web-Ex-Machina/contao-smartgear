@@ -57,7 +57,7 @@ class ConfigurationStepManager extends StepManager
         $this->configurationManager->save($config);
     }
 
-    public function getCurrentStep(): ConfigurationStep
+    public function getCurrentStep(): AbstractStep
     {
         return parent::getCurrentStep();
     }

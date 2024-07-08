@@ -45,10 +45,7 @@ class Support extends BackendModule
      */
     protected $strTemplate = 'be_wem_sg_dashboard_support';
 
-    protected $strId = 'wem_sg_dashboard_support';
-
-
-
+    protected string $strId = 'wem_sg_dashboard_support';
 
     /**
      * Initialize the object.

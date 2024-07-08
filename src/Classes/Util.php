@@ -454,11 +454,11 @@ class Util
      * Remove permissions to user group.
      *
      * @param String/Array $varPermission [Permission name / Array of permission names to add]
-     * @param int $intGroup [User group ID, if not specified, we'll take Smartgear default user group]
+     * @param int|null $intGroup [User group ID, if not specified, we'll take Smartgear default user group]
      *
      * @return array [Permissions Array]
      */
-    public static function removePermissions($varPermission, $intGroup = null)
+    public static function removePermissions($varPermission, int $intGroup = null): array
     {
         $arrPermissions = [];
         if (null === $intGroup) {

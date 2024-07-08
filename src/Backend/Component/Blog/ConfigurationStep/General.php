@@ -133,7 +133,7 @@ class General extends ConfigurationStep
         $this->commandUtil->executeCmdPHP('contao:symlinks');
     }
 
-    public function presetAdd()
+    public function presetAdd(): ?int
     {
         if (empty(Input::post('new_config'))) {
             throw new \InvalidArgumentException($this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.fieldNewsPresetNameEmpty', [], 'contao_default'));
