@@ -15,7 +15,9 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\EventListener;
 
 use WEM\SmartgearBundle\Classes\CustomLanguageFileLoader;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 
+#[AsHook('loadLanguageFile',null,-1)]
 class LoadLanguageFileListener
 {
     public function __construct(protected CustomLanguageFileLoader $customLanguageFileLoader)

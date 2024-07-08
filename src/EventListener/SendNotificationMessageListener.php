@@ -15,7 +15,9 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\EventListener;
 
 use Contao\FormFieldModel;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 
+#[AsHook('sendNotificationMessage',null,-1)]
 class SendNotificationMessageListener
 {
 

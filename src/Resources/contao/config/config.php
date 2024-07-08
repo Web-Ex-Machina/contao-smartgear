@@ -245,8 +245,8 @@ if ($scopeMatcher->isFrontend()) {
 /*
  * Add globals Hooks
  */
-$GLOBALS['TL_HOOKS']['loadLanguageFile'][] = ['smartgear.listener.load_language_file', '__invoke'];
-$GLOBALS['TL_HOOKS']['sendNotificationMessage'][] = ['smartgear.listener.send_notification_message', '__invoke'];
+//$GLOBALS['TL_HOOKS']['loadLanguageFile'][] = ['smartgear.listener.load_language_file', '__invoke']; //replaced by Attributes
+//$GLOBALS['TL_HOOKS']['sendNotificationMessage'][] = ['smartgear.listener.send_notification_message', '__invoke'];  //replaced by Attributes
 
 ///*
 // * NC hooks
