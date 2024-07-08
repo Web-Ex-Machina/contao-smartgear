@@ -14,14 +14,21 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
+use Contao\Module;
+use WEM\UtilsBundle\Classes\ScopeMatcher;
+
+#[AsHook('createNewUser',null,-1)]
 class CreateNewUserListener
 {
-    public function __construct(protected array $listeners)
+    public function __construct(protected array $listeners, protected readonly ScopeMatcher $scopeMatcher)
     {
     }
 
-    public function __invoke(string $userId, array $data, \Contao\Module $module): void
+    public function __invoke(string $userId, array $data, Module $module): void
     {
+        if(!$this->scopeMatcher->isFrontend()) {exit();}
+
         foreach ($this->listeners as $listener) {
             $listener->__invoke($userId, $data, $module);
         }

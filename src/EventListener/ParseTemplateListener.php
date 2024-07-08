@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\LayoutModel;
 use Contao\Template;
 use Contao\TemplateLoader;
@@ -22,6 +23,7 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationM
 use WEM\SmartgearBundle\Classes\ScopeMatcher;
 use WEM\SmartgearBundle\Classes\TemplateFinder;
 
+#[AsHook('parseTemplate',null,-1)]
 class ParseTemplateListener
 {
     public function __construct(
@@ -31,7 +33,7 @@ class ParseTemplateListener
     {
     }
 
-    public function __invoke(Template $template): void
+    public function __invoke(Template $template): void // TODO : $template utile ? because deprecated in contao 6, use Twig templates instead.
     {
         if ($this->scopeMatcher->isFrontend()) {
             global $objPage;

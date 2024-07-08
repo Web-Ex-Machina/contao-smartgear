@@ -14,14 +14,17 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Model\Collection;
 use WEM\SmartgearBundle\Classes\Backend\Component\EventListener\ReplaceInsertTagsListener as AbstractReplaceInsertTagsListener;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
+use WEM\UtilsBundle\Classes\ScopeMatcher;
 
+#[AsHook('replaceInsertTags',"onReplaceInsertTags",-1)]
 class ReplaceInsertTagsListener
 {
-    public function __construct(protected array $listeners)
+    public function __construct(protected array $listeners,protected readonly ScopeMatcher $scopeMatcher)
     {
     }
 
@@ -52,6 +55,8 @@ class ReplaceInsertTagsListener
         int $_cnt
     ): false|string
     {
+        if(!$this->scopeMatcher->isFrontend()) {exit();}
+
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
         if ('sg' === $key) {

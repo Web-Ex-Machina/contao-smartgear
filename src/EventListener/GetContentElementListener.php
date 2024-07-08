@@ -16,10 +16,12 @@ namespace WEM\SmartgearBundle\EventListener;
 
 use Contao\ContentElement;
 use Contao\ContentModel;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Module;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\RenderStack;
 
+#[AsHook('getContentElement',null,-1)]
 class GetContentElementListener
 {
     public function __construct(protected CoreConfigurationManager $configurationManager)
@@ -28,6 +30,8 @@ class GetContentElementListener
 
     public function __invoke(ContentModel $contentModel, string $buffer, Module|ContentElement $element): string
     {
+        if(!$this->scopeMatcher->isFrontend()) {exit();}
+
         $renderStack = RenderStack::getInstance();
         $renderStack->add($contentModel, $buffer, $element);
 

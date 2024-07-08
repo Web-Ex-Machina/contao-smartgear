@@ -14,13 +14,23 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
+use Contao\Module;
 use Contao\NewsModel;
 use WEM\SmartgearBundle\Classes\Util;
+use WEM\UtilsBundle\Classes\ScopeMatcher;
 
+#[AsHook('newsListCountItems',null,-1)]
 class NewsListCountItemsListener
 {
-    public function __invoke(array $newsArchives, ?bool $featuredOnly, \Contao\Module $module)
+    public function __construct(protected readonly ScopeMatcher $scopeMatcher)
     {
+    }
+
+    public function __invoke(array $newsArchives, ?bool $featuredOnly, Module $module)
+    {
+        if(!$this->scopeMatcher->isFrontend()) {exit();}
+
         $searchConfig = $module->getConfig();
         if (!empty($searchConfig)) {
             $col = ['published = ?', '(start = "" OR start <= ?)', '(stop = "" OR stop >= ?)', 'pid IN (?)'];

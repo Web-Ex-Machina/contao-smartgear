@@ -14,17 +14,22 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Module;
 use Contao\PageModel;
+use WEM\UtilsBundle\Classes\ScopeMatcher;
 
+#[AsHook('generateBreadcrumb',null,-1)]
 class GenerateBreadcrumbListener
 {
-    public function __construct(protected array $listeners)
+    public function __construct(protected array $listeners, protected readonly ScopeMatcher $scopeMatcher)
     {
     }
 
-    public function __invoke(array $items, Module $module): array
+    public function __invoke(array $items, Module $module): ?array
     {
+        if(!$this->scopeMatcher->isFrontend()) {exit();}
+
         $arrSourceItems = $items;
         try {
             // Determine if we are at the root of the website

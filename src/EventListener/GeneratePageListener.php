@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Environment;
 use Contao\Input;
 use Contao\LayoutModel;
@@ -30,11 +31,12 @@ use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 use WEM\SmartgearBundle\Model\PageVisit;
 
+#[AsHook('generatePage',null,-1)]
 class GeneratePageListener
 {
     public function __construct(
         protected CoreConfigurationManager $configurationManager,
-        protected ScopeMatcher             $scopeMatcher,
+        protected readonly ScopeMatcher $scopeMatcher,
         protected CustomLanguageFileLoader $customLanguageFileLoader)
     {
     }

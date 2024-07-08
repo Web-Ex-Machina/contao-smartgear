@@ -14,18 +14,27 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
+use WEM\UtilsBundle\Classes\ScopeMatcher;
+
 /**
  * Class GenerateFrontendUrlListener.
  *
  * Handle Smartgear generateFrontendUrl hooks
  */
+#[AsHook('generateFrontendUrl',null,-1)]
 class GenerateFrontendUrlListener
 {
+    public function __construct(protected readonly ScopeMatcher $scopeMatcher)
+    {
+    }
     /**
      * Make sure empty requests are correctly redirected as root page.
      */
     public function __invoke(array $arrRow, string $strParams, string $strUrl): string
     {
+        if(!$this->scopeMatcher->isFrontend()) {exit();}
+
         if (!\is_array($arrRow)) {
             throw new \Exception('not an associative array.');
         }
