@@ -36,7 +36,7 @@ class Module extends \tl_module
      *
      * @return string
      */
-    public function editModule(DataContainer $dc)
+    public function editModule(DataContainer $dc): string
     {
         /* @var ContaoCsrfTokenManager $contaoCsrfTokenManager */
         $contaoCsrfTokenManager = System::getContainer()->getParameter('contao.csrf.token_manager');
@@ -49,7 +49,7 @@ class Module extends \tl_module
      *
      * @return array
      */
-    public function getModules()
+    public function getModules(): array
     {
         $arrModules = [];
         $objModules = $this->Database->execute(sprintf('SELECT m.id, m.name, t.name AS theme FROM tl_module m LEFT JOIN tl_theme t ON m.pid=t.id WHERE m.id != %s ORDER BY t.name, m.name', Input::get('id')));

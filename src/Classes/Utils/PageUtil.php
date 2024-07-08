@@ -234,7 +234,7 @@ class PageUtil
     /**
      * Shortcut for page w/ modules creations.
      */
-    public static function createPageWithModules($strTitle, $arrModules, $intPid = 0, $arrPageData = [])
+    public static function createPageWithModules($strTitle, $arrModules, $intPid = 0, $arrPageData = []): int
     {
         $arrConfig = Util::loadSmartgearConfig();
         if (0 === $intPid) {
@@ -261,7 +261,7 @@ class PageUtil
      *
      * @param mixed|null $arrHl
      */
-    public static function createPageWithText($strTitle, $strText, $intPid = 0, $arrHl = null)
+    public static function createPageWithText($strTitle, $strText, $intPid = 0, mixed $arrHl = null): int
     {
         $arrConfig = Util::loadSmartgearConfig();
         if (0 === $intPid) {
