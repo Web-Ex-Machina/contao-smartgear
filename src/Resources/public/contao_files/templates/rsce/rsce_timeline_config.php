@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 // $arrColors = function ($dc) {return \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id,'rsce');
 
+use Contao\Config;
+use Contao\System;
 use WEM\SmartgearBundle\Classes\Util;
 
 return [
@@ -50,12 +52,12 @@ return [
         'image' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['image'],
             'inputType' => 'fileTree',
-            'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => \Contao\Config::get('validImageTypes')],
+            'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => Config::get('validImageTypes')],
         ],
         'imageCrop' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_timeline']['imageCrop'],
             'inputType' => 'imageSize',
-            'options' => \Contao\System::getImageSizes(),
+            'options' => System::getContainer()->get('contao.image.image_sizes')->getAllOptions(),
             'reference' => &$GLOBALS['TL_LANG']['MSC'],
             'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50'],
         ],
