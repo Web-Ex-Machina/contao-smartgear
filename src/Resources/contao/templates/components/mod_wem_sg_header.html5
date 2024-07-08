@@ -1,11 +1,12 @@
 <?php
   // Get the file
 use Contao\FilesModel;
+use Contao\Image;
 use WEM\SmartgearBundle\Classes\StringUtil;
 
 $arrCrop = StringUtil::deserialize($this->imgSize);
   $objFile = FilesModel::findByUuid($this->singleSRC);
-  $strFile = $objFile ? \Image::get($objFile->path, $arrCrop[0], $arrCrop[1], $arrCrop[2]) : '';
+  $strFile = $objFile ? Image::get($objFile->path, $arrCrop[0], $arrCrop[1], $arrCrop[2]) : '';
 
   // construct classes
   $arrClasses = [];

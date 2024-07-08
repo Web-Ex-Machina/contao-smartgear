@@ -1,3 +1,9 @@
+<?php
+
+use Contao\System;
+use HeimrichHannot\BackendLostPasswordBundle\Manager\BackendLostPasswordManager;
+
+?>
 <!DOCTYPE html>
 <html lang="<?= $this->language ?>">
 <head>
@@ -44,7 +50,7 @@
         <form class="tl_login_form" method="post">
           <div class="formbody">
             <input type="hidden" name="FORM_SUBMIT" value="tl_login">
-            <input type="hidden" name="REQUEST_TOKEN" value="<?= REQUEST_TOKEN ?>">
+            <input type="hidden" name="REQUEST_TOKEN" value="<?= System::getContainer()->getParameter('kernel.project_dir') ?>">
             <input type="hidden" name="_target_path" value="<?= $this->targetPath ?>">
             <input type="hidden" name="_always_use_target_path" value="1">
             <h1><?= $this->headline ?></h1>
@@ -56,7 +62,7 @@
               <label for="password"><?= $this->password ?></label>
               <input type="password" name="password" id="password" class="tl_text" value="" placeholder="<?= $this->password ?>" required>
             </div>
-            <?= System::getContainer()->get(\HeimrichHannot\BackendLostPasswordBundle\Manager\BackendLostPasswordManager::class)->getLostPasswordLink() ?>
+            <?= System::getContainer()->get(BackendLostPasswordManager::class)->getLostPasswordLink() ?>
             <div class="submit_container cf">
               <button type="submit" name="login" id="login" class="tl_submit"><?= $this->loginButton ?></button>
               <a href="<?= $this->route('contao_root') ?>" class="footer_preview"><?= $this->feLink ?> ›</a>

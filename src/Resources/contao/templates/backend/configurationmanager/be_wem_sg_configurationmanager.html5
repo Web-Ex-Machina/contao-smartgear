@@ -1,3 +1,8 @@
+<?php
+
+use WEM\UtilsBundle\Classes\StringUtil;
+use Contao\Message;
+?>
 <style type="text/css">
 	.d-grid{
 		display: grid;
@@ -28,7 +33,7 @@
 	}
 </style>
 <div id="tl_buttons">
-  <a href="<?= ampersand($this->backButtonHref) ?>" class="header_back" title="<?= Contao\StringUtil::specialchars($this->backButtonTitle) ?>" accesskey="b"><?= $this->backButtonButton ?></a>
+  <a href="<?=  StringUtil::ampersand($this->backButtonHref) ?>" class="header_back" title="<?= StringUtil::specialchars($this->backButtonTitle) ?>" accesskey="b"><?= $this->backButtonButton ?></a>
 </div>
 
 <!-- Display messages -->

@@ -1,5 +1,10 @@
 <?php
-	$currentNetworkCategory = null;
+
+use Contao\Image;
+use Contao\Message;
+use WEM\UtilsBundle\Classes\StringUtil;
+
+$currentNetworkCategory = null;
 ?>
 <!-- Display messages -->
 <?= Message::generate(); ?>

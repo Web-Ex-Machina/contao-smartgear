@@ -1,5 +1,7 @@
 
-<?php if ($this->teaserOnly): ?>
+<?php use Contao\Image;
+
+if ($this->teaserOnly): ?>
 
   <?php $this->block('alias'); ?>
     <article class="<?= $this->class ?> block"<?= $this->cssID ?><?php if ($this->style): ?> style="<?= $this->style ?>"<?php endif; ?>>

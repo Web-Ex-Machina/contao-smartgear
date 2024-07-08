@@ -1,5 +1,7 @@
 
-<?php if ($this->sources): ?>
+<?php use Contao\Image;
+
+if ($this->sources): ?>
   <picture>
     <!--[if IE 9]><video style="display: none;"><![endif]-->
     <?php foreach ($this->sources as $source): ?>
@@ -9,7 +11,7 @@
 <?php endif; ?>
 <?php
 if($this->img['width'] > 1920) {
-  $src = \Image::get($this->img['src'], 1920, '', 'proportional');
+  $src = Image::get($this->img['src'], 1920, '', 'proportional');
 } else {
   $src = $this->img['src'];
 }

@@ -1,4 +1,6 @@
-<h3><?php echo $this->pagesUrlBaseTitle; ?></h3>
+<h3><?php use Contao\Image;
+
+    echo $this->pagesUrlBaseTitle; ?></h3>
 <div class="tl_listing_container list_view">
 	<table class="tl_listing showColumns">
 		<thead>

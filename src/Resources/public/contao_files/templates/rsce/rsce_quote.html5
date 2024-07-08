@@ -1,5 +1,6 @@
 <?php
   // Get the file
+use Contao\FilesModel;
 use WEM\SmartgearBundle\Classes\StringUtil;
 
 $arrCrop = StringUtil::deserialize($this->size);

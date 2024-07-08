@@ -8,7 +8,7 @@
 
       <div class="accordionFW" data-deployall="false" data-collapsible="true" data-autocollapse="false">
       <?php foreach ($category['items'] as $faq): ?>
-        <section class="accordionFW__item  <?= $faq->class ?> <?= strpos($faq->class,'first') !== false ? 'active':''; ?>">
+        <section class="accordionFW__item  <?= $faq->class ?> <?= str_contains($faq->class, 'first') ? 'active':''; ?>">
           <div class="accordionFW__title" id="<?= $faq->alias ?>"><?= $faq->question ?></div>
           <div class="accordionFW__content">
 

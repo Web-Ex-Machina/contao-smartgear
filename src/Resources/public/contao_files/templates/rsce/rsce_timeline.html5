@@ -1,5 +1,6 @@
 <?php
 
+use Contao\FilesModel;
 use WEM\SmartgearBundle\Classes\StringUtil;
 
 if ($this->image){

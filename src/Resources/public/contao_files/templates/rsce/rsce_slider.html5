@@ -1,6 +1,8 @@
 <?php
 
   // Prepare the main block classes
+use Contao\Config;
+use Contao\FilesModel;
 use WEM\SmartgearBundle\Classes\StringUtil;
 
 $arrClasses = [];
@@ -21,7 +23,8 @@ $arrClasses = [];
     $sliderHeight = 'viewport';
 
 
-  function formatSlide($slide, $objFile){
+  function formatSlide($slide, $objFile): array
+  {
     $arrCrop = StringUtil::deserialize($slide->img_size);
     $arrSlide = [
       "src"=>\Image::get($objFile->path, (!$arrCrop[0] && !$arrCrop[1]) ? 1920 : $arrCrop[0] , $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional")
@@ -85,7 +88,7 @@ $arrClasses = [];
         $objFiles = FilesModel::findMultipleFilesByFolder($objFile->path);
         if (!$objFiles){continue;}
         while ($objFiles->next()) {
-          if ($objFiles->type === 'file' && in_array($objFiles->extension,explode(',',\Config::get('validImageTypes'))))
+          if ($objFiles->type === 'file' && in_array($objFiles->extension,explode(',',Config::get('validImageTypes'))))
             $arrSlides[] = formatSlide($slide, $objFiles);
         }
       }

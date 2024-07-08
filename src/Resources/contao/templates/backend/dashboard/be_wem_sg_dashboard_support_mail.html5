@@ -1,4 +1,6 @@
-<h3><?php echo $this->title; ?></h3>
+<h3><?php use Contao\Image;
+
+    echo $this->title; ?></h3>
 <p>
 	<a href="<?php echo $this->url; ?>" title="<?php echo $this->mailLinkTitle; ?>">
 		<?php echo Image::getHtml('article.gif'); ?>

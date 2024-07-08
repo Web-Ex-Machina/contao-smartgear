@@ -1,3 +1,8 @@
+<?php
+
+use Contao\Environment;
+
+?>
 <div id="block-<?= $this->type; ?>-<?= $this->module; ?>" class="block content full block-install <?= $this->type; ?><?= ($this->actions) ? ' hasActions' : ''; ?>" data-type="<?= $this->type; ?>" data-module="<?= $this->module; ?>">
 	<h2 class="title"><i class="fas fa-<?= $this->icon; ?>"></i>Smartgear | Core | Installation</h2>
 	<?php if ($this->isError): ?>
@@ -122,7 +127,7 @@
 
 				<div class="widget w50">
 					<h3><label for="ctrl_ownerDomain">Domaine</label>*</h3>
-					<input name="ownerDomain" id="ctrl_ownerDomain" class="tl_text" value="<?= \Environment::get('base') ?>" required="" onfocus="Backend.getScrollOffset()" type="text">
+					<input name="ownerDomain" id="ctrl_ownerDomain" class="tl_text" value="<?= Environment::get('base') ?>" required="" onfocus="Backend.getScrollOffset()" type="text">
 					<p class="tl_help tl_tip" title="">Saisir le domaine principal du détenteur du site (laisser vide pour utiliser le domaine actuel)</p>
 				</div>
 
