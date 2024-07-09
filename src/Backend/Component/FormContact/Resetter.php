@@ -21,9 +21,9 @@ use Contao\FormModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\UserGroupModel;
-use NotificationCenter\Model\Language as NotificationLanguageModel; // TODO : Notification
-use NotificationCenter\Model\Message as NotificationMessageModel;
-use NotificationCenter\Model\Notification as NotificationModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Language as NotificationLanguageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Message as NotificationMessageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\Resetter as BackendResetter;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
@@ -74,7 +74,7 @@ class Resetter extends BackendResetter
                     $objFormContact->save();
                 }
 
-                $objNotification = NotificationModel::findOneById($formContactConfig->getSgNotification()); // TODO : Notification
+                $objNotification = NotificationModel::findOneById($formContactConfig->getSgNotification());
                 if ($objNotification) {
                     $objNotification->title = sprintf('%s (Archive-%s)', $objNotification->title, (string) $archiveTimestamp);
                     $objNotification->save();
@@ -156,7 +156,7 @@ class Resetter extends BackendResetter
                     $objField->delete();
                 }
 
-                $objNotification = NotificationModel::findOneById($formContactConfig->getSgNotification()); // TODO : Notification
+                $objNotification = NotificationModel::findOneById($formContactConfig->getSgNotification());
                 if ($objNotification) {
                     $objNotification->delete();
                 }

@@ -210,6 +210,12 @@ $GLOBALS['TL_MODELS'][Model\PageVisit::getTable()] = Model\PageVisit::class;
 $GLOBALS['TL_MODELS'][Model\Login::getTable()] = Model\Login::class;
 $GLOBALS['TL_MODELS'][Model\Configuration\Configuration::getTable()] = Model\Configuration\Configuration::class;
 $GLOBALS['TL_MODELS'][Model\Configuration\ConfigurationItem::getTable()] = Model\Configuration\ConfigurationItem::class;
+
+//Model for notification center because the v2 removed this
+$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\NotificationCenter\Notification::getTable()] = WEM\SmartgearBundle\Model\NotificationCenter\Notification::class;
+$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\NotificationCenter\Message::getTable()] = WEM\SmartgearBundle\Model\NotificationCenter\Message::class;
+$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\NotificationCenter\Language::getTable()] = WEM\SmartgearBundle\Model\NotificationCenter\Language::class;
+$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\NotificationCenter\Gateway::getTable()] = WEM\SmartgearBundle\Model\NotificationCenter\Gateway::class;
 /*
  * Add BE Hooks
  */

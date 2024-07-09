@@ -22,9 +22,9 @@ use Contao\LayoutModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\ThemeModel;
-use NotificationCenter\Model\Language as NotificationLanguageModel;
-use NotificationCenter\Model\Message as NotificationMessageModel;
-use NotificationCenter\Model\Notification as NotificationModel; // TODO : Notification
+use WEM\SmartgearBundle\Model\NotificationCenter\Language as NotificationLanguageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Message as NotificationMessageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Analyzer\Htaccess as HtaccessAnalyzer;
 use WEM\SmartgearBundle\Classes\Backend\Resetter as BackendResetter;
@@ -205,7 +205,7 @@ class Resetter extends BackendResetter
             }
         }
 
-        $notifications = NotificationModel::findAll(); // TODO : Notification
+        $notifications = NotificationModel::findAll();
         if ($notifications) {
             while ($notifications->next()) {
                 $messages = NotificationMessageModel::findBy('pid', $notifications->id);

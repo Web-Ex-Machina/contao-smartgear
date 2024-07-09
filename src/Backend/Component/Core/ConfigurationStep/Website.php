@@ -32,9 +32,10 @@ use Contao\ThemeModel;
 use Contao\UserGroupModel;
 use Contao\UserModel;
 use Exception;
-use NotificationCenter\Model\Language as NotificationLanguageModel;
-use NotificationCenter\Model\Message as NotificationMessageModel;
-use NotificationCenter\Model\Notification as NotificationModel; // TODO : Notification
+use WEM\SmartgearBundle\Model\NotificationCenter\Gateway;
+use WEM\SmartgearBundle\Model\NotificationCenter\Language as NotificationLanguageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Message as NotificationMessageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
@@ -78,7 +79,9 @@ class Website extends ConfigurationStep
         protected UpdateManager                         $updateManager,
         protected CommandUtil                           $commandUtil,
         protected array                                 $userGroupUpdaters,
-        protected HtmlDecoder                           $htmlDecoder
+        protected HtmlDecoder                           $htmlDecoder,
+        protected NcNotificationUtil                    $notificationUtil,
+        protected NcNotificationMessageUtil             $notificationMessageUtil,
     ) {
         parent::__construct($module, $type);
         $this->language = BackendUser::getInstance()->language;
@@ -1264,8 +1267,8 @@ class Website extends ConfigurationStep
 
         $nc = [];
         $objGateway = null !== $config->getSgNotificationGatewayEmail()
-            ? \NotificationCenter\Model\Gateway::findOneById($config->getSgNotificationGatewayEmail()) ?? new \NotificationCenter\Model\Gateway()
-            : new \NotificationCenter\Model\Gateway();
+            ? Gateway::findOneById($config->getSgNotificationGatewayEmail()) ?? new Gateway()
+            : new Gateway();
         $objGateway->tstamp = time();
         $objGateway->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['NotificationGatewayEmailSmartgearTitle'];
         $objGateway->type = 'email';
@@ -1278,7 +1281,7 @@ class Website extends ConfigurationStep
         return $nc;
     }
 
-    protected function createNotificationSupportGatewayNotification(): NotificationModel // TODO : Notification
+    protected function createNotificationSupportGatewayNotification(): NotificationModel
     {
         /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
@@ -1288,7 +1291,7 @@ class Website extends ConfigurationStep
         // $nc->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayNotification', [], 'contao_default');
         // $nc->type = 'ticket_creation';
         // $nc->save();
-        $nc = NcNotificationUtil::createSupportFormNotification($config->getSgNotificationSupport() ? ['id' => $config->getSgNotificationSupport()] : []);
+        $nc = $this->notificationUtil->createSupportFormNotification($config->getSgNotificationSupport() ? ['id' => $config->getSgNotificationSupport()] : []);
 
         $this->setConfigKey('setSgNotificationSupport', (int) $nc->id);
 
@@ -1308,7 +1311,7 @@ class Website extends ConfigurationStep
         // $nm->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayMessageUser', [], 'contao_default');
         // $nm->published = 1;
         // $nm->save();
-        $nm = NcNotificationMessageUtil::createSupportFormNotificationMessageUser((int) $config->getSgNotificationGatewayEmail(), 'email', (int) $gateway->id, $config->getSgNotificationSupportMessageUser() ? ['id' => $config->getSgNotificationSupportMessageUser()] : []);
+        $nm = $this->notificationMessageUtil->createSupportFormNotificationMessageUser((int) $config->getSgNotificationGatewayEmail(), 'email', (int) $gateway->id, $config->getSgNotificationSupportMessageUser() ? ['id' => $config->getSgNotificationSupportMessageUser()] : []);
 
         $this->setConfigKey('setSgNotificationSupportMessageUser', (int) $nm->id);
 
@@ -1328,14 +1331,14 @@ class Website extends ConfigurationStep
         // $nm->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayMessageAdmin', [], 'contao_default');
         // $nm->published = 1;
         // $nm->save();
-        $nm = NcNotificationMessageUtil::createSupportFormNotificationMessageAdmin((int) $config->getSgNotificationGatewayEmail(), 'email', (int) $gateway->id, $config->getSgNotificationSupportMessageAdmin() ? ['id' => $config->getSgNotificationSupportMessageAdmin()] : []);
+        $nm = $this->notificationMessageUtil->createSupportFormNotificationMessageAdmin((int) $config->getSgNotificationGatewayEmail(), 'email', (int) $gateway->id, $config->getSgNotificationSupportMessageAdmin() ? ['id' => $config->getSgNotificationSupportMessageAdmin()] : []);
 
         $this->setConfigKey('setSgNotificationSupportMessageAdmin', (int) $nm->id);
 
         return $nm;
     }
 
-    protected function createNotificationSupportGatewayMessages(NotificationModel $gateway): array // TODO : Notification
+    protected function createNotificationSupportGatewayMessages(NotificationModel $gateway): array
     {
         return [
             'user' => $this->createNotificationSupportGatewayMessagesUser($gateway),
@@ -1587,7 +1590,7 @@ class Website extends ConfigurationStep
         $this->configurationManager->save($config);
     }
 
-    protected function updateModuleConfigurationNotificationSupportGatewayNotification(NotificationModel $notificationSupport): void // TODO : Notification
+    protected function updateModuleConfigurationNotificationSupportGatewayNotification($notificationSupport): void
     {
         /** @var CoreConfig $config */
         $config = $this->configurationManager->load();

@@ -39,10 +39,10 @@ use Contao\ThemeModel;
 use Contao\UserGroupModel;
 use Contao\UserModel;
 use Exception;
-use NotificationCenter\Model\Gateway as NcGatewayModel;
-use NotificationCenter\Model\Language as NcLanguageModel;
-use NotificationCenter\Model\Message as NcMessageModel;
-use NotificationCenter\Model\Notification as NcNotificationModel; // TODO : Notification
+use WEM\SmartgearBundle\Model\NotificationCenter\Gateway as GatewayModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Language as LanguageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Message as MessageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 use WEM\SmartgearBundle\Backup\BackupManager;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\StringUtil;
@@ -1088,7 +1088,7 @@ class Smartgear extends BackendModule
         }
 
         $arrNcGateways = [];
-        $gateways = NcGatewayModel::findAll();
+        $gateways = GatewayModel::findAll();
         if ($gateways) {
             while ($gateways->next()) {
                 $arrNcGateways[$gateways->id] = [
@@ -1101,7 +1101,7 @@ class Smartgear extends BackendModule
         $arrNcNotifications = [];
         $arrNcMessages = [];
         $arrNcLanguages = [];
-        $notifications = NcNotificationModel::findAll(); // TODO : Notification
+        $notifications = NotificationModel::findAll();
 
         if ($notifications) {
             while ($notifications->next()) {
@@ -1110,7 +1110,7 @@ class Smartgear extends BackendModule
                     'text' => $notifications->title.' ('.$notifications->type.')',
                 ];
 
-                $messages = NcMessageModel::findBy('pid', $notifications->id);
+                $messages = MessageModel::findBy('pid', $notifications->id);
                 if ($messages) {
                     while ($messages->next()) {
                         $arrNcMessages[$messages->id] = [
@@ -1118,7 +1118,7 @@ class Smartgear extends BackendModule
                             'text' => $notifications->title.' ('.$notifications->type.') | '.$messages->title.' ('.$messages->gateway_type.')',
                         ];
 
-                        $languages = NcLanguageModel::findBy('pid', $messages->id);
+                        $languages = LanguageModel::findBy('pid', $messages->id);
                         if ($languages) {
                             while ($languages->next()) {
                                 $arrNcLanguages[$languages->id] = [

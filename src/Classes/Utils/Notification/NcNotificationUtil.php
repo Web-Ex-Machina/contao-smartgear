@@ -15,14 +15,15 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Classes\Utils\Notification;
 
 use Terminal42\NotificationCenterBundle\NotificationCenter;
+use Terminal42\NotificationCenterBundle\Receipt\ReceiptCollection;
 
 readonly class NcNotificationUtil
 {
     public function __construct(private NotificationCenter $notificationCenter){}
 
-    public function createSupportFormNotification(array $arrData = []): void
+    public function createSupportFormNotification(array $arrData = []): ReceiptCollection
     {
-        $this->notificationCenter->sendNotification($arrData['id'], array_merge([
+        return $this->notificationCenter->sendNotification($arrData['id'], array_merge([
             'title' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['titleNotificationSupportGatewayNotification'],
             'type' => 'ticket_creation',
         ], $arrData));

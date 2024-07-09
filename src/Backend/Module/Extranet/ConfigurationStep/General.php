@@ -26,10 +26,10 @@ use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\UserGroupModel;
 use Exception;
-use NotificationCenter\Model\Gateway as GatewayModel;
-use NotificationCenter\Model\Language as NotificationLanguageModel;
-use NotificationCenter\Model\Message as NotificationMessageModel;
-use NotificationCenter\Model\Notification as NotificationModel; // TODO : Notification
+use WEM\SmartgearBundle\Model\NotificationCenter\Gateway as GatewayModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Language as NotificationLanguageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Message as NotificationMessageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\GridBundle\Classes\GridStartManipulator;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
@@ -840,7 +840,6 @@ class General extends ConfigurationStep
         return $module;
     }
 
-// TODO : Notification
     protected function createModuleData(CoreConfig $config, ExtranetConfig $extranetConfig, PageModel $page, NotificationModel $notification): ModuleModel
     {
         $module = new ModuleModel();
@@ -869,7 +868,6 @@ class General extends ConfigurationStep
         return $module;
     }
 
-// TODO : Notification
     protected function createModulePassword(CoreConfig $config, ExtranetConfig $extranetConfig, PageModel $pageConfirm, PageModel $pageValidate, NotificationModel $notification): ModuleModel
     {
         $module = new ModuleModel();
@@ -927,7 +925,6 @@ class General extends ConfigurationStep
         return $module;
     }
 
-// TODO : Notification
     protected function createModuleSubscribe(CoreConfig $config, ExtranetConfig $extranetConfig, ?PageModel $pageConfirm, ?PageModel $pageValidate, ?NotificationModel $notification, MemberGroupModel $group): ?ModuleModel
     {
         $module = new ModuleModel();
@@ -1645,7 +1642,7 @@ class General extends ConfigurationStep
         ];
     }
 
-    protected function createNotificationChangeData(CoreConfig $config, ExtranetConfig $extranetConfig): NotificationModel // TODO : Notification
+    protected function createNotificationChangeData(CoreConfig $config, ExtranetConfig $extranetConfig): NotificationModel
     {
         $nc = NotificationModel::findOneById($extranetConfig->getSgNotificationChangeData()) ?? new NotificationModel();
         $nc->tstamp = time();
@@ -1658,7 +1655,7 @@ class General extends ConfigurationStep
         return $nc;
     }
 
-    protected function createNotificationPassword(CoreConfig $config, ExtranetConfig $extranetConfig): NotificationModel // TODO : Notification
+    protected function createNotificationPassword(CoreConfig $config, ExtranetConfig $extranetConfig): NotificationModel
     {
         $nc = NotificationModel::findOneById($extranetConfig->getSgNotificationPassword()) ?? new NotificationModel();
         $nc->tstamp = time();
@@ -1671,7 +1668,6 @@ class General extends ConfigurationStep
         return $nc;
     }
 
-// TODO : Notification
     protected function createNotificationSubscription(CoreConfig $config, ExtranetConfig $extranetConfig): ?NotificationModel
     {
         $nc = NotificationModel::findOneById($extranetConfig->getSgNotificationSubscription()) ?? new NotificationModel();
@@ -1709,7 +1705,6 @@ class General extends ConfigurationStep
         ];
     }
 
-// TODO : Notification
     protected function createNotificationsMessagesChangeData(CoreConfig $config, ExtranetConfig $extranetConfig, NotificationModel $notification, GatewayModel $gateway): NotificationMessageModel
     {
         $nm = NotificationMessageModel::findOneById($extranetConfig->getSgNotificationChangeDataMessage()) ?? new NotificationMessageModel();
@@ -1726,7 +1721,6 @@ class General extends ConfigurationStep
         return $nm;
     }
 
-// TODO : Notification
     protected function createNotificationsMessagesPassword(CoreConfig $config, ExtranetConfig $extranetConfig, NotificationModel $notification, GatewayModel $gateway): NotificationMessageModel
     {
         $nm = NotificationMessageModel::findOneById($extranetConfig->getSgNotificationPasswordMessage()) ?? new NotificationMessageModel();
@@ -1743,7 +1737,6 @@ class General extends ConfigurationStep
         return $nm;
     }
 
-// TODO : Notification
     protected function createNotificationsMessagesSubscription(CoreConfig $config, ExtranetConfig $extranetConfig, ?NotificationModel $notification, GatewayModel $gateway): ?NotificationMessageModel
     {
         $nm = NotificationMessageModel::findOneById($extranetConfig->getSgNotificationSubscriptionMessage()) ?? new NotificationMessageModel();

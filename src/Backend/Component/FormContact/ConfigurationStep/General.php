@@ -23,9 +23,9 @@ use Contao\Input;
 use Contao\PageModel;
 use Contao\UserGroupModel;
 use Exception;
-use NotificationCenter\Model\Language as NotificationLanguageModel;
-use NotificationCenter\Model\Message as NotificationMessageModel;
-use NotificationCenter\Model\Notification as NotificationModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Language as NotificationLanguageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Message as NotificationMessageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
@@ -352,7 +352,7 @@ class General extends ConfigurationStep
         return $nm;
     }
 
-    protected function createNotificationGatewayMessages(NotificationModel $gateway): array // TODO : Notification
+    protected function createNotificationGatewayMessages(NotificationModel $gateway): array
     {
         return [
             'user' => $this->createNotificationGatewayMessagesUser($gateway),
@@ -572,7 +572,7 @@ class General extends ConfigurationStep
         return ['name' => $inputName, 'email' => $inputEmail, 'message' => $inputMessage, 'consentDataTreatment' => $inputConsentDataTreatment, 'consentDataSave' => $inputConsentDataSave, 'captcha' => $inputCaptcha, 'submit' => $inputSubmit];
     }
 
-// TODO : Notification
+
     protected function updateModuleConfigurationAfterGenerations(array $pages, array $articles, array $contents, NotificationModel $notification, array $notificationGatewayMessages, array $notificationGatewayMessagesLanguages, FormModel $form, array $formInputs): void
     {
         /** @var CoreConfig $config */

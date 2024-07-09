@@ -27,7 +27,7 @@ use Contao\Model;
 use Contao\PageModel;
 use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Exception;
-use NotificationCenter\Model\Notification as NotificationModel; // TODO : Notification
+use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Api\Airtable\V0\Api as AirtableApi;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
@@ -159,7 +159,7 @@ class Support extends BackendModule
 
         // send email
         // $notification = NotificationModel::findByPk((int) $config->getSgNotificationSupport());
-        $notification = NotificationModel::findByPk((int) Config::get('wem_sg_support_form_notification')); // TODO : Notification
+        $notification = NotificationModel::findByPk((int) Config::get('wem_sg_support_form_notification'));
         if (!$notification) {
             return;
         }
