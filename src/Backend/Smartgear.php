@@ -122,6 +122,7 @@ class Smartgear extends BackendModule
     public function processAjaxRequest(string $strAction): void
     {
         if(!$this->scopeMatcher->isBackend()) {exit();}
+
         // Catch AJAX Requests
         if (Input::post('TL_WEM_AJAX') && 'be_smartgear' === Input::post('wem_module')) {
             try {

@@ -21,16 +21,11 @@ use WEM\PersonalDataManagerBundle\Dca\Field\Callback\Load as PdmCallback;
 
 class LoadConditionnal
 {
-    // TODO Entity Callback\Load ok ??
-    private readonly PdmCallback|WEM\PersonalDataManagerBundle\Dca\Field\Callback\Load $pdmCallback;
-
-    public function __construct(
-        PdmCallback $pdmCallback,
+    public function __construct( // TODO Entity Callback\Load ok ??
+        private readonly PdmCallback|WEM\PersonalDataManagerBundle\Dca\Field\Callback\Load $pdmCallback,
         private readonly string $frontendField,
         private readonly string $table
     ) {
-        $this->pdmCallback = $pdmCallback;
-
         $this->pdmCallback->setFrontendField($this->frontendField)->setTable($this->table);
     }
 

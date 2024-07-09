@@ -36,6 +36,7 @@ class Block extends BackendBlock
     protected string $icon = 'exclamation-triangle';
 
     protected string $title = 'FormDataManager';
+
     protected ContaoCsrfTokenManager $contaoCsrfTokenManager;
 
     public function __construct(

@@ -69,6 +69,7 @@ class LoadDataContainerListener
     public function __invoke($tables): void
     {
         if(!$this->scopeMatcher->isBackend()) {exit();}
+
         if (!\is_array($tables)) {
             $tables = [$tables];
         }

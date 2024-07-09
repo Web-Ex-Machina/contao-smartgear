@@ -28,6 +28,7 @@ class GenerateFrontendUrlListener
     public function __construct(protected readonly ScopeMatcher $scopeMatcher)
     {
     }
+
     /**
      * Make sure empty requests are correctly redirected as root page.
      */

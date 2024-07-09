@@ -35,20 +35,35 @@ class Block extends Controller
     use Traits\ActionsTrait;
     use Traits\MessagesTrait;
     public const MODE_DASHBOARD = 'dashboard';
+
     public const MODE_INSTALL = 'install';
+
     public const MODE_CONFIGURE = 'configure';
+
     protected array $logs = [];
+
     protected array $require = [];
+
     protected string $strTemplate = 'be_wem_sg_install_block_default';
+
     protected string $type = '';
+
     protected string $module = '';
+
     protected string $title = '';
+
     protected string $icon = '';
+
     protected string $class = '';
+
     protected string $mode = '';
+
     protected mixed $bundles ;
+
     protected mixed $objSession ;
+
     protected ContaoCsrfTokenManager $contaoCsrfTokenManager;
+
     /**
      * Construct the block object.
      */

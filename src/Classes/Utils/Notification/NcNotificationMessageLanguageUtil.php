@@ -22,6 +22,7 @@ use WEM\SmartgearBundle\Classes\Util;
 readonly class NcNotificationMessageLanguageUtil
 {
     public function __construct(private NotificationCenter $notificationCenter){}
+
     /**
      * Shortcut for article creation.
      */

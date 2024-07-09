@@ -29,8 +29,7 @@ use WEM\SmartgearBundle\Classes\StringUtil;
 
 class Content extends Backend
 {
-    /** @var Backend */
-    private $parent;
+    private readonly \tl_content_news|\tl_content_calendar|\tl_content $parent;
 
     public function __construct()
     {

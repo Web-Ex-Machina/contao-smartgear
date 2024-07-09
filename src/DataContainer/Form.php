@@ -32,8 +32,7 @@ use WEM\SmartgearBundle\Model\FormStorage;
 // class Form extends \tl_form
 class Form extends Backend
 {
-    /** @var Backend */
-    private $parent;
+    private readonly \tl_form $parent;
 
     public function __construct()
     {

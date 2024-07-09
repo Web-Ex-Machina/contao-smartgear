@@ -35,6 +35,7 @@ if (!\defined('SG_ROBOTSTXT_CONTENT')) {
 if (!\defined('SG_ROBOTSTXT_CONTENT_FULL')) {
     \define('SG_ROBOTSTXT_CONTENT_FULL', SG_ROBOTSTXT_HEADER."\n".SG_ROBOTSTXT_CONTENT."\n".SG_ROBOTSTXT_FOOTER);
 }
+
 /* @var ScopeMatcher $scopeMatcher */
 $scopeMatcher = System::getContainer()->get('wem.scope_matcher');
 // Load icon in Contao 4.2 backend

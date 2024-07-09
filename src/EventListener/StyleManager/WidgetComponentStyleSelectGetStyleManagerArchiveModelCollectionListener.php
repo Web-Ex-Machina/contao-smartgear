@@ -31,6 +31,7 @@ class WidgetComponentStyleSelectGetStyleManagerArchiveModelCollectionListener
     public function __invoke($collection, ComponentStyleSelect $widget)
     {
         if(!$this->scopeMatcher->isBackend()) {exit();}
+
         /** @todo : retrieve in function of SG install */
         $strTable = $widget->dataContainer->table;
         $strId = $widget->activeRecord->id;

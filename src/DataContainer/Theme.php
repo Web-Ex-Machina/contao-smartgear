@@ -24,8 +24,7 @@ use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class Theme extends \tl_theme
 {
-    /** @var Backend */ //TODO : Bon typage ??
-    private $parent;
+    private readonly \tl_theme $parent;
 
     public function __construct()
     {

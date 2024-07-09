@@ -150,8 +150,8 @@ class Newsletter extends ContaoNewsletter
                 $this->redirect($referer);
             }
 
-            $strWherePid = 'pid IN('.implode(',', array_map('intval', $arrChannels)).')';
-            $arrChannelsData = $this->prepareNewsletterChannelsData(array_map('intval', $arrChannels));
+            $strWherePid = 'pid IN('.implode(',', array_map(intval(...), $arrChannels)).')';
+            $arrChannelsData = $this->prepareNewsletterChannelsData(array_map(intval(...), $arrChannels));
 
             // Get the total number of recipients
             // OVERLOAD 3.1 : Apply OVERLOAD 3.0
@@ -357,7 +357,6 @@ class Newsletter extends ContaoNewsletter
      * @param array $arrRecipient
      * @param string $text
      * @param string $html
-     * @param null $css
      *
      */
     protected function sendNewsletter(Email $objEmail, Result $objNewsletter, $arrRecipient, $text, $html, $css = null): bool

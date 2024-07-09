@@ -48,7 +48,7 @@ class Dashboard extends BackendModule
      */
     protected string $strBasePath = 'bundles/wemsmartgear';
 
-    public function __construct(DataContainer|null $dc = null,protected readonly ScopeMatcher $scopeMatcher)
+    public function __construct(protected readonly ScopeMatcher $scopeMatcher, DataContainer|null $dc = null)
     {
         parent::__construct($dc);
 

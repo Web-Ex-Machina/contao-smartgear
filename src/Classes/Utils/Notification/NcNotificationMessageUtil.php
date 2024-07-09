@@ -20,6 +20,7 @@ use Terminal42\NotificationCenterBundle\Receipt\ReceiptCollection;
 readonly class NcNotificationMessageUtil
 {
     public function __construct(private NotificationCenter $notificationCenter){}
+
     /**
      * Shortcut for article creation.
      */

@@ -33,8 +33,6 @@ class Module extends \tl_module
 
     /**
      * Return the edit module wizard.
-     *
-     * @return string
      */
     public function editModule(DataContainer $dc): string
     {
@@ -46,8 +44,6 @@ class Module extends \tl_module
 
     /**
      * Get all modules and return them as array.
-     *
-     * @return array
      */
     public function getModules(): array
     {
