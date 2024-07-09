@@ -2,6 +2,8 @@
 
 declare(strict_types = 1);
 
+namespace WEM\SmartgearBundle\Classes\Utils\Notification;
+
 use Terminal42\NotificationCenterBundle\NotificationType\NotificationTypeInterface;
 use Terminal42\NotificationCenterBundle\Token\Definition\Factory\TokenDefinitionFactoryInterface;
 use Terminal42\NotificationCenterBundle\Token\Definition\FileTokenDefinition;
