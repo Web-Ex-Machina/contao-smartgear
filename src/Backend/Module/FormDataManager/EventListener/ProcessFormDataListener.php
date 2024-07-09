@@ -33,6 +33,7 @@ class ProcessFormDataListener
 {
     public function __construct(
         protected CoreConfigurationManager $coreConfigurationManager,
+        protected FormStorageData $formStorageData,
         protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
         protected $routingCandidates)
     {
@@ -146,7 +147,7 @@ class ProcessFormDataListener
             throw new Exception(sprintf('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('pid')->name));
         }
 
-        $objFormStorageData = new FormStorageData(); // TODO : encryption needed
+        $objFormStorageData = $this->formStorageData;
         $objFormStorageData->tstamp = time();
         $objFormStorageData->createdAt = time();
         $objFormStorageData->pid = $objFormStorage->id;
@@ -198,7 +199,7 @@ class ProcessFormDataListener
             $value = FormStorageData::FILE_UPLOADED_BUT_NOT_STORED;
         }
 
-        $objFormStorageData = new FormStorageData(); // TODO : encryption needed
+        $objFormStorageData = $this->formStorageData;
         $objFormStorageData->tstamp = time();
         $objFormStorageData->createdAt = time();
         $objFormStorageData->pid = $objFormStorage->id;
