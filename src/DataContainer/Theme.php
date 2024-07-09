@@ -19,17 +19,14 @@ use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\StringUtil;
-use tl_theme;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
-class Theme extends \tl_theme
+class Theme extends Backend
 {
-    private readonly \tl_theme $parent;
 
     public function __construct()
     {
         parent::__construct(); // TODO : Class 'parent' is marked as @internal
-        $this->parent = new tl_theme();
     }
 
     /**

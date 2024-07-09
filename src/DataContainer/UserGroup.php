@@ -14,17 +14,18 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\Backend;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use Contao\StringUtil;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
-class UserGroup extends \tl_user_group //TODO : Class 'tl_user_group' is marked as @internal
+class UserGroup extends Backend
 {
     public function __construct()
     {
-        parent::__construct(); //TODO : Class 'parent' is marked as @internal
+        parent::__construct();
     }
 
     /**

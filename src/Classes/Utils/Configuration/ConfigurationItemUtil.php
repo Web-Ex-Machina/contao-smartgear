@@ -40,6 +40,14 @@ use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem as ConfigurationIt
 
 class ConfigurationItemUtil
 {
+    public function __construct(
+        protected NcNotificationUtil                    $notificationUtil,
+        protected NcNotificationMessageUtil             $notificationMessageUtil,
+        protected NcNotificationMessageLanguageUtil     $notificationMessageLanguageUtil
+    )
+    {
+    }
+
     public static function deleteEverythingFromConfigurationItem(ConfigurationItemModel $objItem): ConfigurationItemModel
     {
         if ($objItem->contao_page) {
@@ -1328,7 +1336,7 @@ class ConfigurationItemUtil
         return $objItem;
     }
 
-    public static function manageNotificationFormContactSent(ConfigurationItemModel $objItem, bool $blnForceNotificationUpdate, ?int $tstamp = null): ConfigurationItemModel
+    public function manageNotificationFormContactSent(ConfigurationItemModel $objItem, bool $blnForceNotificationUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
         if (!empty($objItem->notification_name)
         && (0 === (int) $tstamp || $blnForceNotificationUpdate || (0 !== (int) $tstamp && empty($objItem->contao_notification))) // create mode or forced update
@@ -1336,25 +1344,25 @@ class ConfigurationItemUtil
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
             if ($objConfiguration->email_gateway) {
-                $objNotification = NcNotificationUtil::createFormContactSentNotification( // TODO : notification
+                $objNotification = $this->notificationUtil->createFormContactSentNotification( // TODO : Notification multiple bad usage fonction
                 $objItem->notification_name
             );
 
-                $objMessageUser = NcNotificationMessageUtil::createContactFormSentNotificationMessageUser(
+                $objMessageUser = $this->notificationMessageUtil->createContactFormSentNotificationMessageUser(
                 (int) $objConfiguration->email_gateway,
                 'email',
                 (int) $objNotification->id,
                 []
             );
 
-                $objMessageAdmin = NcNotificationMessageUtil::createContactFormSentNotificationMessageAdmin(
+                $objMessageAdmin = $this->notificationMessageUtil->createContactFormSentNotificationMessageAdmin(
                 (int) $objConfiguration->email_gateway,
                 'email',
                 (int) $objNotification->id,
                 []
             );
 
-                $objMessageUserLanguage = NcNotificationMessageLanguageUtil::createContactFormSentNotificationMessageUserLanguage(
+                $objMessageUserLanguage = $this->notificationMessageLanguageUtil->createContactFormSentNotificationMessageUserLanguage(
                 (int) $objMessageUser->id,
                 $objItem->form_name,
                 $objConfiguration->title,
@@ -1363,7 +1371,7 @@ class ConfigurationItemUtil
                 []
             );
 
-                $objMessageAdminLanguage = NcNotificationMessageLanguageUtil::createContactFormSentNotificationMessageAdminLanguage(
+                $objMessageAdminLanguage = $this->notificationMessageLanguageUtil->createContactFormSentNotificationMessageAdminLanguage(
                 (int) $objMessageAdmin->id,
                 $objItem->form_name,
                 $objConfiguration->title,
@@ -1420,14 +1428,14 @@ class ConfigurationItemUtil
         return self::managePageBlogFill($objItem, $blnForcePageUpdate || (int) $oldPageId !== (int) $objItem->contao_page, $tstamp);
     }
 
-    public static function manageMixedFormContact(ConfigurationItemModel $objItem, bool $blnForcePageFormUpdate, bool $blnForcePageFormSentUpdate, bool $blnForceFormUpdate, bool $blnForceNotificationUpdate, ?int $tstamp = null): ConfigurationItemModel
+    public function manageMixedFormContact(ConfigurationItemModel $objItem, bool $blnForcePageFormUpdate, bool $blnForcePageFormSentUpdate, bool $blnForceFormUpdate, bool $blnForceNotificationUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
         $oldPageFormId = $objItem->contao_page_form;
         $oldPageFormSentId = $objItem->contao_page_form_sent;
         $objItem = self::managePageFormContactCreate($objItem, $blnForcePageFormUpdate, $tstamp);
         $objItem = self::managePageFormContactSentCreate($objItem, $blnForcePageFormSentUpdate, $tstamp);
         $objItem = self::manageFormFormContact($objItem, $blnForceFormUpdate, $tstamp);
-        $objItem = self::manageNotificationFormContactSent($objItem, $blnForceNotificationUpdate, $tstamp);
+        $objItem = $this->manageNotificationFormContactSent($objItem, $blnForceNotificationUpdate, $tstamp);
 
         $objItem = self::managePageFormContactFill($objItem, $blnForcePageFormUpdate || (int) $oldPageFormId !== (int) $objItem->contao_page_form, $tstamp);
 

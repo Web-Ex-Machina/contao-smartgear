@@ -579,7 +579,7 @@ class Core implements ConfigModuleInterface
         }
 
         match ($submodule) {
-            'blog' => $this->setSgBlog($config), //TODO : Expected parameter of type '\WEM\SmartgearBundle\Config\Component\Blog\Blog', '\WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager' provided
+            'blog' => $this->setSgBlog($config), // TODO : Expected parameter of type '\WEM\SmartgearBundle\Config\Component\Blog\Blog', '\WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager' provided
             'events' => $this->setSgEvents($config),
             'faq' => $this->setSgFaq($config),
             'form_contact' => $this->setSgFormContact($config),
@@ -862,7 +862,7 @@ class Core implements ConfigModuleInterface
     {
         return array_merge(
             $this->getContaoNotificationsMessagesLanguagesIds(),
-            $this->getSgFormContact()->getContaoNotificationsMessagesLanguagesIds(), //TODO : Not found
+            $this->getSgFormContact()->getContaoNotificationsMessagesLanguagesIds(), // TODO : Not found
         );
     }
 

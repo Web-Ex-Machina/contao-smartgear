@@ -16,7 +16,7 @@ namespace WEM\SmartgearBundle\DataContainer\StyleManager;
 
 use Contao\DataContainer;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use tl_style_manager; //TODO : not found
+use tl_style_manager; // TODO : not found
 use WEM\SmartgearBundle\DataContainer\Core;
 
 class StyleManager extends Core

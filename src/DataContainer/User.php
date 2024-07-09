@@ -14,11 +14,12 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\Backend;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 
-class User extends \tl_user //TODO : Class 'tl_user' is marked as @internal
+class User extends Backend
 {
     public function __construct()
     {
@@ -32,7 +33,7 @@ class User extends \tl_user //TODO : Class 'tl_user' is marked as @internal
      */
     public function checkPermission(): void
     {
-        parent::checkPermission(); //TODO : Method 'checkPermission' not found in \tl_user
+//        parent::checkPermission(); // TODO : Method 'checkPermission' not found in \tl_user
 
         if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
             throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' user ID '.Input::get('id').'.');
@@ -42,14 +43,15 @@ class User extends \tl_user //TODO : Class 'tl_user' is marked as @internal
     /**
      * Return the delete user button.
      */
-    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
+    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): null|string
     {
         if (!$this->canItemBeDeleted((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
-        //TODO : Method 'deleteUser' not found in \tl_user
-        return parent::deleteUser($row, $href, $label, $title, $icon, $attributes);
+        // TODO : Method 'deleteUser' not found in \tl_user
+//        return parent::deleteUser($row, $href, $label, $title, $icon, $attributes);
+        return null;
     }
 
     /**

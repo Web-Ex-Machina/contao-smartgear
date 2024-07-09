@@ -14,17 +14,18 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\Backend;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Image;
 use Contao\Input;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
-class Page extends \tl_page // TODO : Class 'tl_page' is marked as @internal
+class Page extends Backend
 {
     public function __construct()
     {
-        parent::__construct(); // TODO : Class 'parent' is marked as @internal
+        parent::__construct();
     }
 
     /**
@@ -34,7 +35,7 @@ class Page extends \tl_page // TODO : Class 'tl_page' is marked as @internal
      */
     public function checkPermission(): void
     {
-        parent::checkPermission();  // TODO : Class 'parent' is marked as @internal & Method 'checkPermission' not found in \tl_page
+//        parent::checkPermission();  // TODO :Method 'checkPermission' not found in \Contao\Backend
 
         if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
             throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' page ID '.Input::get('id').'.');
@@ -44,13 +45,14 @@ class Page extends \tl_page // TODO : Class 'tl_page' is marked as @internal
     /**
      * Return the delete page button.
      */
-    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
+    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): null|string
     {
         if (!$this->canItemBeDeleted((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
-        return parent::deletePage(...\func_get_args()); // TODO : Method 'deletePage' not found in \tl_page
+//        return parent::deletePage(...\func_get_args()); // TODO : Method 'deletePage' not found
+        return null;
     }
 
     /**
