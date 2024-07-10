@@ -572,7 +572,7 @@ class Core implements ConfigModuleInterface
     /**
      * @throws Exception
      */
-    public function setSubmoduleConfig(string $submodule, FormDataManagerConfig $config): self
+    public function setSubmoduleConfig(string $submodule, ConfigModuleInterface $config): self
     {
         if (!$this->isSubmoduleNameKnown($submodule)) {
             throw new Exception(sprintf('The submodule "%s" is unknown', $submodule));

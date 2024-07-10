@@ -14,46 +14,62 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Utils\Notification;
 
-use Terminal42\NotificationCenterBundle\NotificationCenter;
-use Terminal42\NotificationCenterBundle\Receipt\ReceiptCollection;
+use WEM\SmartgearBundle\Model\NotificationCenter\Message;
 
+// This class creates data in DB, it does not send anything !
 readonly class NcNotificationMessageUtil
-{
-    public function __construct(private NotificationCenter $notificationCenter){}
-
+{    
     /**
-     * Shortcut for article creation.
+     * Shortcut for notification message creation.
      */
-    public function createNotification(int $pid, ?array $arrData = []): ReceiptCollection
+    public static function createNotificationMessage(int $gatewayId, string $gatewayType, int $pid, ?array $arrData = []): Message
     {
+        // Create the notification message
+        $objNotificationMessage = isset($arrData['id']) ? Message::findById($arrData['id']) ?? new Message() : new Message();
+        $objNotificationMessage->tstamp = time();
+        $objNotificationMessage->pid = $pid;
+        $objNotificationMessage->gateway = $gatewayId;
+        $objNotificationMessage->gateway_type = $gatewayType;
+        $objNotificationMessage->published = 1;
 
-        return $this->notificationCenter->sendNotification($pid, $arrData);
+        // Now we get the default values, get the arrData table
+        if (!empty($arrData)) {
+            foreach ($arrData as $k => $v) {
+                $objNotificationMessage->$k = $v;
+            }
+        }
+
+        $objNotificationMessage->save();
+
+        // Return the model
+        return $objNotificationMessage;
     }
 
-    public function createSupportFormNotificationMessageUser(int $pid, ?array $arrData = []): ReceiptCollection
+
+    public static function createSupportFormNotificationMessageUser(int $gatewayId, string $gatewayType,int $pid, ?array $arrData = []): Message
     {
-        return $this->createNotification($pid, array_merge([
+        return self::createNotificationMessage($gatewayId, $gatewayType, $pid, array_merge([
             'title' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['titleNotificationSupportGatewayMessageUser'],
         ], $arrData));
     }
 
-    public function createSupportFormNotificationMessageAdmin(int $pid, ?array $arrData = []): ReceiptCollection
+    public static function createSupportFormNotificationMessageAdmin(int $gatewayId, string $gatewayType,int $pid, ?array $arrData = []): Message
     {
-        return $this->createNotification($pid, array_merge([
+        return self::createNotificationMessage($gatewayId, $gatewayType, $pid, array_merge([
             'title' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['titleNotificationSupportGatewayMessageAdmin'],
         ], $arrData));
     }
 
-    public function createContactFormSentNotificationMessageUser(int $pid, ?array $arrData = []): ReceiptCollection
+    public static function createContactFormSentNotificationMessageUser(int $gatewayId, string $gatewayType,int $pid, ?array $arrData = []): Message
     {
-        return $this->createNotification($pid, array_merge([
+        return self::createNotificationMessage($gatewayId, $gatewayType, $pid, array_merge([
             'title' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['titleNotificationGatewayMessageUser'],
         ], $arrData));
     }
 
-    public function createContactFormSentNotificationMessageAdmin(int $pid, ?array $arrData = []): ReceiptCollection
+    public static function createContactFormSentNotificationMessageAdmin(int $gatewayId, string $gatewayType,int $pid, ?array $arrData = []): Message
     {
-        return $this->createNotification($pid, array_merge([
+        return self::createNotificationMessage($gatewayId, $gatewayType, $pid, array_merge([
             'title' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['titleNotificationGatewayMessageAdmin'],
         ], $arrData));
     }

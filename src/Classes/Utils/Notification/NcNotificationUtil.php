@@ -14,24 +14,44 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Utils\Notification;
 
-use Terminal42\NotificationCenterBundle\NotificationCenter;
-use Terminal42\NotificationCenterBundle\Receipt\ReceiptCollection;
+use NotificationCenter\Model\Notification;
+
 
 readonly class NcNotificationUtil
 {
-    public function __construct(private NotificationCenter $notificationCenter){}
-
-    public function createSupportFormNotification(array $arrData = []): ReceiptCollection
+    /**
+     * Shortcut for notification creation.
+     */
+    public static function createNotification(?array $arrData = []): Notification
     {
-        return $this->notificationCenter->sendNotification($arrData['id'], array_merge([
+        // Create the notification
+        $objNotification = isset($arrData['id']) ? Notification::findById($arrData['id']) ?? new Notification() : new Notification();
+        $objNotification->tstamp = time();
+
+        // Now we get the default values, get the arrData table
+        if (!empty($arrData)) {
+            foreach ($arrData as $k => $v) {
+                $objNotification->$k = $v;
+            }
+        }
+
+        $objNotification->save();
+
+        // Return the model
+        return $objNotification;
+    }
+
+    public static function createSupportFormNotification(array $arrData = []): Notification
+    {
+        return self::createNotification(array_merge([
             'title' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['titleNotificationSupportGatewayNotification'],
             'type' => 'ticket_creation',
         ], $arrData));
     }
 
-    public function createFormContactSentNotification(string $title, ?array $arrData = []): void
+    public static function createFormContactSentNotification(string $title, ?array $arrData = []): Notification
     {
-        $this->notificationCenter->sendNotification($arrData['id'],array_merge([
+        return self::createNotification(array_merge([
             'title' => $title,
             'type' => 'core_form',
         ], $arrData));

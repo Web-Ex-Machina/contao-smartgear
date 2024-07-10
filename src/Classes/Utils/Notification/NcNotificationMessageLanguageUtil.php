@@ -15,46 +15,43 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Classes\Utils\Notification;
 
 use Contao\System;
-use Terminal42\NotificationCenterBundle\NotificationCenter;
-use Terminal42\NotificationCenterBundle\Receipt\ReceiptCollection;
 use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\Model\NotificationCenter\Language;
 
 readonly class NcNotificationMessageLanguageUtil
 {
-    public function __construct(private NotificationCenter $notificationCenter){}
-
     /**
-     * Shortcut for article creation.
+     * Shortcut for notification message language creation.
      */
-//    public function createNotification(int $pid, string $language, bool $fallback, ?array $arrData = [])
-//    {
-//        // Create the article
-//        $objNotificationMessageLanguage = isset($arrData['id']) ? Language::findById($arrData['id']) ?? new Language() : new Language();
-//        $objNotificationMessageLanguage->tstamp = time();
-//        $objNotificationMessageLanguage->pid = $pid;
-//        $objNotificationMessageLanguage->language = $language;
-//        $objNotificationMessageLanguage->fallback = $fallback;
-//
-//        // Now we get the default values, get the arrData table
-//        if ($arrData !== null && $arrData !== []) {
-//            foreach ($arrData as $k => $v) {
-//                $objNotificationMessageLanguage->$k = $v;
-//            }
-//        }
-//
-//        $objNotificationMessageLanguage->save();
-//
-//        // Return the model
-//        return $objNotificationMessageLanguage;
-//    }
+   public static function createNotificationMessageLanguage(int $pid, string $language, bool $fallback, ?array $arrData = [])
+   {
+       // Create the notification message language
+       $objNotificationMessageLanguage = isset($arrData['id']) ? Language::findById($arrData['id']) ?? new Language() : new Language();
+       $objNotificationMessageLanguage->tstamp = time();
+       $objNotificationMessageLanguage->pid = $pid;
+       $objNotificationMessageLanguage->language = $language;
+       $objNotificationMessageLanguage->fallback = $fallback;
 
-    public function createSupportFormNotificationMessageUserLanguage(int $pid, string $language, bool $fallback, ?array $arrData = []): ReceiptCollection
+       // Now we get the default values, get the arrData table
+       if ($arrData !== null && $arrData !== []) {
+           foreach ($arrData as $k => $v) {
+               $objNotificationMessageLanguage->$k = $v;
+           }
+       }
+
+       $objNotificationMessageLanguage->save();
+
+       // Return the model
+       return $objNotificationMessageLanguage;
+   }
+
+    public static function createSupportFormNotificationMessageUserLanguage(int $pid, string $language, bool $fallback, ?array $arrData = []): Language
     {
         $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/dashboard/%s/ticket_mail_user.html', Util::getPublicOrWebDirectory(), $language));
 
         $htmlDecoder = System::getContainer()->get('contao.string.html_decoder');
 
-        return $this->notificationCenter->sendNotification($pid, array_merge([
+        return self::createNotificationMessageLanguage($pid, $language, $fallback, array_merge([
             'recipients' => '##sg_owner_email##',
             'gateway_type' => 'email',
             // 'email_sender_name' => $config->getSgWebsiteTitle(),
@@ -69,13 +66,13 @@ readonly class NcNotificationMessageLanguageUtil
         ], $arrData));
     }
 
-    public function createSupportFormNotificationMessageAdminLanguage(int $pid, string $language, bool $fallback, ?array $arrData = []): ReceiptCollection
+    public static function createSupportFormNotificationMessageAdminLanguage(int $pid, string $language, bool $fallback, ?array $arrData = []): Language
     {
         $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/dashboard/%s/ticket_mail_admin.html', Util::getPublicOrWebDirectory(), $language));
 
         $htmlDecoder = System::getContainer()->get('contao.string.html_decoder');
 
-        return $this->notificationCenter->sendNotification($pid, array_merge([
+        return self::createNotificationMessageLanguage($pid, $language, $fallback, array_merge([
             'recipients' => '##support_email##',
             'gateway_type' => 'email',
             // 'email_sender_name' => $config->getSgWebsiteTitle(),
@@ -92,13 +89,13 @@ readonly class NcNotificationMessageLanguageUtil
         ], $arrData));
     }
 
-    public function createContactFormSentNotificationMessageUserLanguage(int $pid, string $formTitle, string $websiteTitle, string $language, bool $fallback, ?array $arrData = []): ReceiptCollection
+    public static function createContactFormSentNotificationMessageUserLanguage(int $pid, string $formTitle, string $websiteTitle, string $language, bool $fallback, ?array $arrData = []): Language
     {
         $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/formContact/%s/user_form.html', Util::getPublicOrWebDirectory(), $language));
 
         $htmlDecoder = System::getContainer()->get('contao.string.html_decoder');
 
-        return $this->notificationCenter->sendNotification($pid, array_merge([
+        return self::createNotificationMessageLanguage($pid, $language, $fallback, array_merge([
             'recipients' => '##form_email##',
             'gateway_type' => 'email',
             // 'email_sender_name' => $config->getSgWebsiteTitle(),
@@ -113,13 +110,13 @@ readonly class NcNotificationMessageLanguageUtil
         ], $arrData));
     }
 
-    public function createContactFormSentNotificationMessageAdminLanguage(int $pid, string $formTitle, string $websiteTitle, string $ownerEmail, string $language, bool $fallback, ?array $arrData = []): ReceiptCollection
+    public static function createContactFormSentNotificationMessageAdminLanguage(int $pid, string $formTitle, string $websiteTitle, string $ownerEmail, string $language, bool $fallback, ?array $arrData = []): Language
     {
         $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/formContact/%s/admin_form.html', Util::getPublicOrWebDirectory(), $language));
 
         $htmlDecoder = System::getContainer()->get('contao.string.html_decoder');
 
-        return $this->notificationCenter->sendNotification($pid, array_merge([
+        return self::createNotificationMessageLanguage($pid, $language, $fallback, array_merge([
             'recipients' => '##admin_email##',
             'gateway_type' => 'email',
             // 'email_sender_name' => $config->getSgWebsiteTitle(),
