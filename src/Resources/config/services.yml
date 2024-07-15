@@ -416,11 +416,12 @@ services:
             $translator: '@contao.translation.translator'
         public: true
 
-    smartgear.data_container.style_manager.style_manager_archive:
-        class: WEM\SmartgearBundle\DataContainer\StyleManager\StyleManagerArchive
-        arguments:
-            $translator: '@contao.translation.translator'
-        public: true
+# TODO : Test if autowrite really work
+#    smartgear.data_container.style_manager.style_manager_archive:
+#        class: WEM\SmartgearBundle\DataContainer\StyleManager\StyleManagerArchive
+##        arguments:
+##            $translator: '@contao.translation.translator'
+#        public: true
 
     smartgear.data_container.configuration.configuration:
         class: WEM\SmartgearBundle\DataContainer\Configuration\Configuration
