@@ -33,8 +33,6 @@ class User extends Backend
      */
     public function checkPermission(): void
     {
-//        parent::checkPermission(); // TODO : Method 'checkPermission' not found in \tl_user
-
         if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
             throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' user ID '.Input::get('id').'.');
         }

@@ -33,10 +33,8 @@ class ParseTemplateListener
     {
     }
 
-    public function __invoke(Template $template): void // TODO : $template utile ? because deprecated in contao 6, use Twig templates instead.
+    public function __invoke(Template $template): void // TODO for futur : Deprecated since Contao 5.0, to be removed in Contao 6; use Twig templates instead
     {
-        // if Contao calls a function with parameters, I declare them, even if I don't plan to use them.
-        // For Contao 6 and deprecation, it will be later IMO
         if ($this->scopeMatcher->isFrontend()) {
             global $objPage;
             if (($objLayout = LayoutModel::findByPk($objPage->layout)) && ($objTheme = ThemeModel::findByPk($objLayout->pid))) {

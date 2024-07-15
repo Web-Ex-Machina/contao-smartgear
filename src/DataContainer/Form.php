@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\DataContainer;
 
 use Contao\Backend;
+use Contao\CoreBundle\DataContainer\DataContainerOperation;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\DataContainer;
 use Contao\Image;
@@ -94,9 +95,6 @@ class Form extends Backend
      */
     public function checkPermission(): void
     {
-        // parent::checkPermission();
-        $this->parent->checkPermission();
-
         if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
             throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' form ID '.Input::get('id').'.');
         }
@@ -105,13 +103,11 @@ class Form extends Backend
     /**
      * Return the delete form button.
      */
-    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
+    public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+            $config->disable();
         }
-
-        return $this->parent->deleteForm($row, $href, $label, $title, $icon, $attributes);
     }
 
     /**

@@ -14,12 +14,13 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\Backend;
+use Contao\CoreBundle\DataContainer\DataContainerOperation;
 use Contao\CoreBundle\Exception\AccessDeniedException;
-use Contao\Image;
 use Contao\Input;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
-class FaqCategory extends \tl_faq_category
+class FaqCategory extends Backend
 {
     public function __construct()
     {
@@ -33,8 +34,6 @@ class FaqCategory extends \tl_faq_category
      */
     public function checkPermission(): void
     {
-        parent::checkPermission();
-
         if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
             throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' FAQ Category ID '.Input::get('id').'.');
         }
@@ -43,13 +42,11 @@ class FaqCategory extends \tl_faq_category
     /**
      * Return the delete faq_category button.
      */
-    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
+    public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+            $config->disable();
         }
-
-        return parent::deleteCategory($row, $href, $label, $title, $icon, $attributes);
     }
 
     /**

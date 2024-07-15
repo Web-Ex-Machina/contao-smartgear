@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\DataContainer;
 
 use Contao\DataContainer;
 use Contao\System;
+use WEM\SmartgearBundle\Api\Nominatim\V4\Api;
 
 class CalendarEvents extends \tl_calendar_events
 {
@@ -61,7 +62,7 @@ class CalendarEvents extends \tl_calendar_events
                 $arrSet['addressLon'] = $otherItemsWithSameAddressAndCoordinatesFilled->addressLon;
             }
         } else {
-            /** @var \WEM\SmartgearBundle\Api\Nominatim\V4\Api $api */
+            /** @var Api $api */
             $api = System::getContainer()->get('smartgear.api.nominatim.v4.api');
             try {
                 $response = $api->search($dc->activeRecord->address);

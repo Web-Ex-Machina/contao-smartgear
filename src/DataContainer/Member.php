@@ -14,12 +14,12 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\Backend;
+use Contao\CoreBundle\DataContainer\DataContainerOperation;
 use Contao\CoreBundle\Exception\AccessDeniedException;
-use Contao\Image;
 use Contao\Input;
-use Contao\StringUtil;
 
-class Member extends \tl_member
+class Member extends Backend
 {
     public function __construct()
     {
@@ -41,13 +41,11 @@ class Member extends \tl_member
     /**
      * Return the delete member button.
      */
-    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
+    public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+            $config->disable();
         }
-
-        return '<a href="'.\Contao\Backend::addToUrl(($href ?? '').'&amp;id='.$row['id'].(Input::get('nb') ? '&amp;nc=1' : '')).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ';
     }
 
     /**

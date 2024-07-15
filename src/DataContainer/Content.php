@@ -16,9 +16,9 @@ namespace WEM\SmartgearBundle\DataContainer;
 
 use Contao\Backend;
 use Contao\ContentModel;
+use Contao\CoreBundle\DataContainer\DataContainerOperation;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\DataContainer;
-use Contao\Image;
 use Contao\Input;
 use Exception;
 use tl_content;
@@ -73,9 +73,6 @@ class Content extends Backend
      */
     public function checkPermission(): void
     {
-        // parent::checkPermission();
-        $this->parent->checkPermission();
-
         if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
             throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' content ID '.Input::get('id').'.');
         }
@@ -84,18 +81,11 @@ class Content extends Backend
     /**
      * Return the delete content button.
      */
-    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
+    public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+            $config->disable();
         }
-
-        // return parent::deleteElement($row, $href, $label, $title, $icon, $attributes);
-        if (method_exists($this->parent, 'deleteElement')) {
-            return $this->parent->deleteElement($row, $href, $label, $title, $icon, $attributes);
-        }
-
-        return (new tl_content())->deleteElement($row, $href, $label, $title, $icon, $attributes);
     }
 
     /**

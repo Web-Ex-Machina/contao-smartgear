@@ -14,16 +14,13 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\Backend;
+use Contao\CoreBundle\DataContainer\DataContainerOperation;
 use Contao\CoreBundle\Exception\AccessDeniedException;
-use Contao\Image;
 use Contao\Input;
-use Contao\StringUtil;
-use Contao\System;
-use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
-class MemberGroup extends \tl_member_group
+class MemberGroup extends Backend
 {
     public function __construct()
     {
@@ -45,13 +42,11 @@ class MemberGroup extends \tl_member_group
     /**
      * Return the delete member button.
      */
-    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
+    public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+            $config->disable();
         }
-
-        return '<a href="'.$href.'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ';
     }
 
     /**

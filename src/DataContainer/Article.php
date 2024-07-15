@@ -14,11 +14,12 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\Backend;
+use Contao\CoreBundle\DataContainer\DataContainerOperation;
 use Contao\CoreBundle\Exception\AccessDeniedException;
-use Contao\Image;
 use Contao\Input;
 
-class Article extends \tl_article
+class Article extends Backend
 {
     public function __construct()
     {
@@ -32,8 +33,6 @@ class Article extends \tl_article
      */
     public function checkPermission(): void
     {
-        parent::checkPermission();
-
         if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
             throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' article ID '.Input::get('id').'.');
         }
@@ -42,13 +41,11 @@ class Article extends \tl_article
     /**
      * Return the delete article button.
      */
-    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
+    public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+            $config->disable();
         }
-
-        return parent::deleteArticle($row, $href, $label, $title, $icon, $attributes);
     }
 
     /**

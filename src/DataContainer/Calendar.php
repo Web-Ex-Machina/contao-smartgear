@@ -14,14 +14,13 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\Backend;
+use Contao\CoreBundle\DataContainer\DataContainerOperation;
 use Contao\CoreBundle\Exception\AccessDeniedException;
-use Contao\Image;
 use Contao\Input;
-use Contao\System;
-use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
-class Calendar extends \tl_calendar
+class Calendar extends Backend
 {
     public function __construct()
     {
@@ -35,8 +34,6 @@ class Calendar extends \tl_calendar
      */
     public function checkPermission(): void
     {
-        parent::checkPermission();
-
         if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
             throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' calendar ID '.Input::get('id').'.');
         }
@@ -45,13 +42,11 @@ class Calendar extends \tl_calendar
     /**
      * Return the delete calendar button.
      */
-    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
+    public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+            $config->disable();
         }
-
-        return parent::deleteCalendar($row, $href, $label, $title, $icon, $attributes);
     }
 
     /**

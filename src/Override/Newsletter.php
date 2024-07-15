@@ -273,8 +273,6 @@ class Newsletter extends ContaoNewsletter
         $sprintf = $objNewsletter->senderName ? $objNewsletter->senderName.' &lt;%s&gt;' : '%s';
         $this->import(BackendUser::class, 'User');
 
-        // Preview newsletter TODO : TL_SCRIPT exist ??
-        // Where TL_SCRIPT ?
         $return = Message::generate().'
 <div id="tl_buttons">
 <a href="'.$this->getReferer(true).'" class="header_back" title="'.StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>

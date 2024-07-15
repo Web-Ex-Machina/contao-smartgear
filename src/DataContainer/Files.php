@@ -14,13 +14,14 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\Backend;
+use Contao\CoreBundle\DataContainer\DataContainerOperation;
 use Contao\CoreBundle\Exception\AccessDeniedException;
-use Contao\Image;
 use Contao\Input;
 use Exception;
 use WEM\SmartgearBundle\Classes\Util;
 
-class Files extends \tl_files
+class Files extends Backend
 {
     public function __construct()
     {
@@ -48,9 +49,7 @@ class Files extends \tl_files
      */
     public function checkPermission(): void
     {
-        parent::checkPermission();
-
-        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted(Input::get('id'))) {
+        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
             throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' files ID '.Input::get('id').'.');
         }
     }
@@ -58,19 +57,17 @@ class Files extends \tl_files
     /**
      * Return the delete files button.
      */
-    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
+    public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted($row['id'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+            $config->disable();
         }
-
-        return parent::deleteFile($row, $href, $label, $title, $icon, $attributes);
     }
 
     /**
      * Check if the files is being used by Smartgear.
      */
-    protected function isItemUsedBySmartgear(string $id): bool
+    protected function isItemUsedBySmartgear(int $id): bool
     {
         // try {
         //     /** @var CoreConfig $config */
@@ -84,7 +81,7 @@ class Files extends \tl_files
         return false;
     }
 
-    protected function canItemBeDeleted(string $id): bool
+    protected function canItemBeDeleted(int $id): bool
     {
         return $this->User->admin || !$this->isItemUsedBySmartgear($id);
     }
