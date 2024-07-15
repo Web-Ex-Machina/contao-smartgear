@@ -40,14 +40,6 @@ use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem as ConfigurationIt
 
 class ConfigurationItemUtil
 {
-    public function __construct(
-        protected NcNotificationUtil                    $notificationUtil,
-        protected NcNotificationMessageUtil             $notificationMessageUtil,
-        protected NcNotificationMessageLanguageUtil     $notificationMessageLanguageUtil
-    )
-    {
-    }
-
     public static function deleteEverythingFromConfigurationItem(ConfigurationItemModel $objItem): ConfigurationItemModel
     {
         if ($objItem->contao_page) {
@@ -1344,25 +1336,25 @@ class ConfigurationItemUtil
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
             if ($objConfiguration->email_gateway) {
-                $objNotification = $this->notificationUtil->createFormContactSentNotification( // TODO : Notification multiple bad usage fonction
+                $objNotification = NcNotificationUtil::createFormContactSentNotification(
                 $objItem->notification_name
             );
 
-                $objMessageUser = $this->notificationMessageUtil->createContactFormSentNotificationMessageUser(
+                $objMessageUser = NcNotificationMessageUtil::createContactFormSentNotificationMessageUser(
                 (int) $objConfiguration->email_gateway,
                 'email',
                 (int) $objNotification->id,
                 []
             );
 
-                $objMessageAdmin = $this->notificationMessageUtil->createContactFormSentNotificationMessageAdmin(
+                $objMessageAdmin = NcNotificationMessageUtil::createContactFormSentNotificationMessageAdmin(
                 (int) $objConfiguration->email_gateway,
                 'email',
                 (int) $objNotification->id,
                 []
             );
 
-                $objMessageUserLanguage = $this->notificationMessageLanguageUtil->createContactFormSentNotificationMessageUserLanguage(
+                $objMessageUserLanguage = NcNotificationMessageLanguageUtil::createContactFormSentNotificationMessageUserLanguage(
                 (int) $objMessageUser->id,
                 $objItem->form_name,
                 $objConfiguration->title,
@@ -1371,7 +1363,7 @@ class ConfigurationItemUtil
                 []
             );
 
-                $objMessageAdminLanguage = $this->notificationMessageLanguageUtil->createContactFormSentNotificationMessageAdminLanguage(
+                $objMessageAdminLanguage = NcNotificationMessageLanguageUtil::createContactFormSentNotificationMessageAdminLanguage(
                 (int) $objMessageAdmin->id,
                 $objItem->form_name,
                 $objConfiguration->title,

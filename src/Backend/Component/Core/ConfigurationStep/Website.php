@@ -79,10 +79,7 @@ class Website extends ConfigurationStep
         protected UpdateManager                         $updateManager,
         protected CommandUtil                           $commandUtil,
         protected array                                 $userGroupUpdaters,
-        protected HtmlDecoder                           $htmlDecoder,
-        protected NcNotificationUtil                    $notificationUtil,
-        protected NcNotificationMessageUtil             $notificationMessageUtil,
-        protected NcNotificationMessageLanguageUtil     $notificationMessageLanguageUtil
+        protected HtmlDecoder                           $htmlDecoder
     ) {
         parent::__construct($module, $type);
         $this->language = BackendUser::getInstance()->language;
@@ -1292,7 +1289,7 @@ class Website extends ConfigurationStep
         // $nc->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayNotification', [], 'contao_default');
         // $nc->type = 'ticket_creation';
         // $nc->save();
-        $nc = $this->notificationUtil->createSupportFormNotification($config->getSgNotificationSupport() ? ['id' => $config->getSgNotificationSupport()] : []);
+        $nc = NcNotificationUtil::createSupportFormNotification($config->getSgNotificationSupport() ? ['id' => $config->getSgNotificationSupport()] : []);
 
         $this->setConfigKey('setSgNotificationSupport', (int) $nc->id);
 
@@ -1312,8 +1309,8 @@ class Website extends ConfigurationStep
         // $nm->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayMessageUser', [], 'contao_default');
         // $nm->published = 1;
         // $nm->save();
-        // TODO : Notification bad usage fonction
-        $nm = $this->notificationMessageUtil->createSupportFormNotificationMessageUser((int) $config->getSgNotificationGatewayEmail(), 'email', (int) $gateway->id, $config->getSgNotificationSupportMessageUser() ? ['id' => $config->getSgNotificationSupportMessageUser()] : []);
+
+        $nm = NcNotificationMessageUtil::createSupportFormNotificationMessageUser((int) $config->getSgNotificationGatewayEmail(), 'email', (int) $gateway->id, $config->getSgNotificationSupportMessageUser() ? ['id' => $config->getSgNotificationSupportMessageUser()] : []);
 
         $this->setConfigKey('setSgNotificationSupportMessageUser', (int) $nm->id);
 
@@ -1333,8 +1330,8 @@ class Website extends ConfigurationStep
         // $nm->title = $this->translator->trans('WEMSG.INSTALL.WEBSITE.titleNotificationSupportGatewayMessageAdmin', [], 'contao_default');
         // $nm->published = 1;
         // $nm->save();
-        // TODO : Notification bad usage fonction
-        $nm = $this->notificationMessageUtil->createSupportFormNotificationMessageAdmin((int) $config->getSgNotificationGatewayEmail(), 'email', (int) $gateway->id, $config->getSgNotificationSupportMessageAdmin() ? ['id' => $config->getSgNotificationSupportMessageAdmin()] : []);
+
+        $nm = NcNotificationMessageUtil::createSupportFormNotificationMessageAdmin((int) $config->getSgNotificationGatewayEmail(), 'email', (int) $gateway->id, $config->getSgNotificationSupportMessageAdmin() ? ['id' => $config->getSgNotificationSupportMessageAdmin()] : []);
 
         $this->setConfigKey('setSgNotificationSupportMessageAdmin', (int) $nm->id);
 
@@ -1372,8 +1369,7 @@ class Website extends ConfigurationStep
         // $nl->attachment_tokens = '##ticket_file##';
         // $nl->save();
 
-        // TODO : Notification bad usage fonction
-        $nl = $this->notificationMessageLanguageUtil->createSupportFormNotificationMessageUserLanguage((int) $gatewayMessage->id, $this->language, true, $config->getSgNotificationSupportMessageUserLanguage() ? ['id' => $config->getSgNotificationSupportMessageUserLanguage()] : []);
+        $nl = NcNotificationMessageLanguageUtil::createSupportFormNotificationMessageUserLanguage((int) $gatewayMessage->id, $this->language, true, $config->getSgNotificationSupportMessageUserLanguage() ? ['id' => $config->getSgNotificationSupportMessageUserLanguage()] : []);
 
         $this->setConfigKey('setSgNotificationSupportMessageUserLanguage', (int) $nl->id);
 
@@ -1404,8 +1400,7 @@ class Website extends ConfigurationStep
         // $nl->attachment_tokens = '##ticket_file##';
         // $nl->save();
 
-        // TODO : Notification bad usage fonction
-        $nl = $this->notificationMessageLanguageUtil->createSupportFormNotificationMessageAdminLanguage((int) $gatewayMessage->id, $this->language, true, $config->getSgNotificationSupportMessageAdminLanguage() ? ['id' => $config->getSgNotificationSupportMessageAdminLanguage()] : []);
+        $nl = NcNotificationMessageLanguageUtil::createSupportFormNotificationMessageAdminLanguage((int) $gatewayMessage->id, $this->language, true, $config->getSgNotificationSupportMessageAdminLanguage() ? ['id' => $config->getSgNotificationSupportMessageAdminLanguage()] : []);
 
         $this->setConfigKey('setSgNotificationSupportMessageAdminLanguage', (int) $nl->id);
 
