@@ -862,7 +862,8 @@ class Core implements ConfigModuleInterface
     {
         return array_merge(
             $this->getContaoNotificationsMessagesLanguagesIds(),
-            $this->getSgFormContact()->getContaoNotificationsMessagesLanguagesIds(), // TODO : Not found
+            $this->getSgFormContact()->getContaoNotificationsLanguagesIds(),
+            $this->getSgFormContact()->getContaoNotificationsMessagesIds()
         );
     }
 
