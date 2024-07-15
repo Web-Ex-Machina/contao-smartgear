@@ -16,12 +16,12 @@ namespace WEM\SmartgearBundle\DataContainer\StyleManager;
 
 use Contao\DataContainer;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use tl_style_manager; // TODO : not found
+use Oveleon\ContaoComponentStyleManager\EventListener\DataContainer\StyleManagerListener;
 use WEM\SmartgearBundle\DataContainer\Core;
 
 class StyleManager extends Core
 {
-    public function __construct(private readonly TranslatorInterface $translator)
+    public function __construct(private readonly TranslatorInterface $translator, private readonly StyleManagerListener $styleManagerListener)
     {
         parent::__construct();
     }
@@ -38,6 +38,6 @@ class StyleManager extends Core
     {
         $row['title'] = $this->translator->trans($row['title'], [], 'contao_default');
 
-        return (new tl_style_manager())->listGroupRecords($row);
+        return $this->styleManagerListener->listGroupRecords($row);
     }
 }
