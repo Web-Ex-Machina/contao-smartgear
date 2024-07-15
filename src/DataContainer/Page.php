@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\DataContainer;
 
 use Contao\Backend;
+use Contao\CoreBundle\DataContainer\DataContainerOperation;
 use Contao\CoreBundle\Exception\AccessDeniedException;
-use Contao\Image;
 use Contao\Input;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
@@ -35,8 +35,6 @@ class Page extends Backend
      */
     public function checkPermission(): void
     {
-//        parent::checkPermission();  // TODO :Method 'checkPermission' not found in \Contao\Backend
-
         if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
             throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' page ID '.Input::get('id').'.');
         }
@@ -45,14 +43,11 @@ class Page extends Backend
     /**
      * Return the delete page button.
      */
-    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): null|string
+    public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+            $config->disable();
         }
-
-//        return parent::deletePage(...\func_get_args()); // TODO : Method 'deletePage' not found
-        return null;
     }
 
     /**
