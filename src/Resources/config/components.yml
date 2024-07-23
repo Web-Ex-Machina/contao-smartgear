@@ -9,7 +9,6 @@ services:
             $type: 'component'
             $configurationEnvFileManager: '@smartgear.config.manager.env_file.local'
             $htaccessAnalyzer: '@smartgear.classes.analyzer.htaccess'
-            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.component.core.block:
@@ -21,7 +20,7 @@ services:
             $dashboard: '@smartgear.backend.component.core.dashboard'
             $translator: '@contao.translation.translator'
         public: true
-    
+
     smartgear.backend.component.core.resetter:
         class: WEM\SmartgearBundle\Backend\Component\Core\Resetter
         arguments:
@@ -31,7 +30,7 @@ services:
             $htaccessAnalyzer: '@smartgear.classes.analyzer.htaccess'
             $module: 'core'
             $type: 'component'
-            $templatesDirs: 
+            $templatesDirs:
                 - 'templates/rsce'
                 - 'templates/smartgear'
             $componentsResetters:
@@ -52,7 +51,7 @@ services:
             $module: 'core'
             $type: 'component'
             $stepSessionKey: 'sg_core_install_step'
-            $steps: 
+            $steps:
                 - '@smartgear.backend.component.core.configuration_step.general'
                 # - '@smartgear.backend.component.core.configuration_step.framway_retrieval'
                 - '@smartgear.backend.component.core.configuration_step.framway_retrieval_minimal'
@@ -68,7 +67,7 @@ services:
             $module: 'core'
             $type: 'component'
             $stepSessionKey: 'sg_core_reset_step'
-            $steps: 
+            $steps:
                 - '@smartgear.backend.component.core.reset_step.general'
         public: true
 
@@ -80,7 +79,7 @@ services:
             $configurationManager: '@smartgear.config.manager.core'
             $localConfigManager: '@smartgear.config.manager.local_config'
             $commandUtil: '@smartgear.classes.command.util'
-            $foldersToCreate: 
+            $foldersToCreate:
                 - 'assets/smartgear/js'
         public: true
 
@@ -146,7 +145,7 @@ services:
                 - '@smartgear.backend.module.form_data_manager.configuration_step.general'
                 - '@smartgear.backend.module.extranet.configuration_step.general'
             $htmlDecoder: '@contao.string.html_decoder'
-                
+
         public: true
 
     smartgear.backend.component.core.reset_step.general:
@@ -193,7 +192,7 @@ services:
             - { name: kernel.event_listener, event: contao.backend_menu_build, method: __invoke }
 
     ############ BLOG ############
-    
+
     smartgear.backend.component.blog.block:
         class: WEM\SmartgearBundle\Backend\Component\Blog\Block
         arguments:
@@ -221,7 +220,7 @@ services:
             $module: 'blog'
             $type: 'component'
             $stepSessionKey: 'sg_blog_install_step'
-            $steps: 
+            $steps:
                 - '@smartgear.backend.component.blog.configuration_step.general'
                 - '@smartgear.backend.component.blog.configuration_step.dataset'
         public: true
@@ -254,7 +253,6 @@ services:
             $translator: '@contao.translation.translator'
             $module: 'blog'
             $type: 'component'
-            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.component.blog.reset_step_manager:
@@ -265,7 +263,7 @@ services:
             $module: 'blog'
             $type: 'component'
             $stepSessionKey: 'sg_core_reset_step'
-            $steps: 
+            $steps:
                 - '@smartgear.backend.component.blog.reset_step.general'
         public: true
 
@@ -300,7 +298,7 @@ services:
         public: true
 
     ############ EVENTS ############
-    
+
     smartgear.backend.component.events.block:
         class: WEM\SmartgearBundle\Backend\Component\Events\Block
         arguments:
@@ -328,7 +326,7 @@ services:
             $module: 'events'
             $type: 'component'
             $stepSessionKey: 'sg_events_install_step'
-            $steps: 
+            $steps:
                 - '@smartgear.backend.component.events.configuration_step.general'
                 - '@smartgear.backend.component.events.configuration_step.dataset'
         public: true
@@ -362,7 +360,6 @@ services:
             $translator: '@contao.translation.translator'
             $module: 'events'
             $type: 'component'
-            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.component.events.reset_step_manager:
@@ -373,7 +370,7 @@ services:
             $module: 'events'
             $type: 'component'
             $stepSessionKey: 'sg_core_reset_step'
-            $steps: 
+            $steps:
                 - '@smartgear.backend.component.events.reset_step.general'
         public: true
 
@@ -410,7 +407,7 @@ services:
     
 
     ############ FAQ ############
-    
+
     smartgear.backend.component.faq.block:
         class: WEM\SmartgearBundle\Backend\Component\Faq\Block
         arguments:
@@ -438,7 +435,7 @@ services:
             $module: 'faq'
             $type: 'component'
             $stepSessionKey: 'sg_faq_install_step'
-            $steps: 
+            $steps:
                 - '@smartgear.backend.component.faq.configuration_step.general'
         public: true
 
@@ -459,7 +456,6 @@ services:
             $translator: '@contao.translation.translator'
             $module: 'faq'
             $type: 'component'
-            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.component.faq.reset_step_manager:
@@ -470,7 +466,7 @@ services:
             $module: 'faq'
             $type: 'component'
             $stepSessionKey: 'sg_core_reset_step'
-            $steps: 
+            $steps:
                 - '@smartgear.backend.component.faq.reset_step.general'
         public: true
 
@@ -499,7 +495,7 @@ services:
         public: true
 
     ############ FormContact ############
-    
+
     smartgear.backend.component.form_contact.block:
         class: WEM\SmartgearBundle\Backend\Component\FormContact\Block
         arguments:
@@ -527,7 +523,7 @@ services:
             $module: 'form_contact'
             $type: 'component'
             $stepSessionKey: 'sg_form_contact_install_step'
-            $steps: 
+            $steps:
                 - '@smartgear.backend.component.form_contact.configuration_step.general'
         public: true
 
@@ -549,7 +545,6 @@ services:
             $translator: '@contao.translation.translator'
             $module: 'form_contact'
             $type: 'component'
-            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.component.form_contact.reset_step_manager:
@@ -560,7 +555,7 @@ services:
             $module: 'form_contact'
             $type: 'component'
             $stepSessionKey: 'sg_core_reset_step'
-            $steps: 
+            $steps:
                 - '@smartgear.backend.component.form_contact.reset_step.general'
         public: true
 

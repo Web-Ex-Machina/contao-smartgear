@@ -50,7 +50,7 @@ use WEM\SmartgearBundle\DataContainer\UserGroup as UserGroupDCA;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\UtilsBundle\Classes\ScopeMatcher;
 
-#[AsHook('loadDataContainer','processAjaxRequest',-1)]
+#[AsHook('loadDataContainer',priority: -1)]
 class LoadDataContainerListener
 {
     protected string $do;

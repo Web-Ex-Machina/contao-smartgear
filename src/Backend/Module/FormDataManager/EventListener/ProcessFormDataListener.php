@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Module\FormDataManager\EventListener;
 
 use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
+use Contao\CoreBundle\Routing\Candidates\LocaleCandidates;
 use Contao\Form;
 use Contao\FormFieldModel;
 use Contao\Model;
@@ -35,7 +36,7 @@ class ProcessFormDataListener
         protected CoreConfigurationManager $coreConfigurationManager,
         protected FormStorageData $formStorageData,
         protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
-        protected $routingCandidates)
+        protected LocaleCandidates $routingCandidates)
     {
     }
 

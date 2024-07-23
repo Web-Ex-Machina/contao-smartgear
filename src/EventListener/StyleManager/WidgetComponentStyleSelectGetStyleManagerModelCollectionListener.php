@@ -22,7 +22,7 @@ use WEM\SmartgearBundle\Classes\Utils\Configuration\ConfigurationUtil;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 use WEM\UtilsBundle\Classes\ScopeMatcher;
 
-#[AsHook('styleManagerWidgetComponentStyleSelectGetStyleManagerModelCollection',"onReplaceInsertTags",-1)]
+#[AsHook('styleManagerWidgetComponentStyleSelectGetStyleManagerModelCollection', priority: -1)]
 class WidgetComponentStyleSelectGetStyleManagerModelCollectionListener
 {
     public function __construct(protected readonly ScopeMatcher $scopeMatcher)

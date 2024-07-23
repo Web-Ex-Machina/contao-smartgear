@@ -50,7 +50,6 @@ services:
             $translator: '@contao.translation.translator'
             $module: 'extranet'
             $type: 'module'
-            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.module.extranet.reset_step_manager:
@@ -140,7 +139,6 @@ services:
             $translator: '@contao.translation.translator'
             $module: 'form_data_manager'
             $type: 'module'
-            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.module.form_data_manager.reset_step_manager:
@@ -202,8 +200,7 @@ services:
         class: WEM\SmartgearBundle\Backend\Module\FormDataManager\EventListener\ProcessFormDataListener
         arguments:
             $coreConfigurationManager: '@smartgear.config.manager.core'
-            $routingCandidates: '@contao.routing.candidates'
-            $csrfTokenManager: '@contao.csrf.token_manager'
+            $routingCandidates: '@contao.routing.locale_candidates'
         public: true
         
     smartgear.backend.module.form_data_manager.listener.compile_form_fields:

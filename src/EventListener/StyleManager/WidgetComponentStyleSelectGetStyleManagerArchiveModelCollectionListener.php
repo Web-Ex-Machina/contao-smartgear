@@ -21,7 +21,7 @@ use WEM\SmartgearBundle\Classes\Utils\Configuration\ConfigurationUtil;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 use WEM\UtilsBundle\Classes\ScopeMatcher;
 
-#[AsHook('styleManagerWidgetComponentStyleSelectGetStyleManagerArchiveModelCollection',"onReplaceInsertTags",-1)]
+#[AsHook('styleManagerWidgetComponentStyleSelectGetStyleManagerArchiveModelCollection', priority: -1)]
 class WidgetComponentStyleSelectGetStyleManagerArchiveModelCollectionListener
 {
     public function __construct(protected readonly ScopeMatcher $scopeMatcher)

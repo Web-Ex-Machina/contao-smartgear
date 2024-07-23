@@ -2,11 +2,12 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
-    WEM\:
+    WEM\SmartgearBundle\:
         resource: '../../../src/'
         exclude:
             - '../../../src/DependencyInjection/'
             - '../../../src/Config/'
+            - '../../../src/Resources/'
             - '../../../src/Model/'
             - '../../../src/Migrations/'
     # smartgear.backend.backupservice:
@@ -28,20 +29,14 @@ services:
 
     smartgear.backend.smartgear:
         class: WEM\SmartgearBundle\Backend\Smartgear
-        arguments:
-            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.reminder:
         class: WEM\SmartgearBundle\Backend\Reminder
-        arguments:
-            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.dashboard:
         class: WEM\SmartgearBundle\Backend\Dashboard
-        arguments:
-            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.backend.dashboard.shortcut_internal:
@@ -79,7 +74,6 @@ services:
             $translator: '@contao.translation.translator'
             $configurationManager: '@smartgear.config.manager.core'
             $airtableApi: '@smartgear.api.airtable.v0.api'
-            $csrfTokenManager: '@contao.csrf.token_manager'
         public: true
 
     smartgear.classes.directories_synchronizer.templates.rsce:
@@ -182,8 +176,6 @@ services:
 
     smartgear.classes.analyzer.htaccess:
         class: WEM\SmartgearBundle\Classes\Analyzer\Htaccess
-        arguments:
-            $htAccessFilePath: './.htaccess'
         public: true
 
     smartgear.classes.api.security.api_key:
