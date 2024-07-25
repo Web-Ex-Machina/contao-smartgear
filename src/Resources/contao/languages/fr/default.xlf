@@ -4005,6 +4005,20 @@
 			<target>Fichier templates/smartgear/form_captcha.html5 mis à jour.</target>
 		</trans-unit>
 
+		<!-- V1_0_35/M202407251417 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_35_M202407251417.name">
+			<source>Smartgear v1.0.35</source>
+			<target>Smartgear v1.0.35</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_35_M202407251417.description">
+			<source>Update templates/smartgear/form_password.html5 file.</source>
+			<target>Mise à jour du fichier templates/smartgear/form_password.html5 .</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_35_M202407251417.done">
+			<source>File templates/smartgear/form_password.html5 updated.</source>
+			<target>Fichier templates/smartgear/form_password.html5 mis à jour.</target>
+		</trans-unit>
+
 
 
 		<!-- Social networks -->
