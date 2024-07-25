@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.35 - 2024-07-25
+- Smartgear : fix `form_password.html5` regexp
+
 1.0.34 - 2024-07-02
 - Smartgear : display core's install form instead of dashboard when SG is not installed
 
