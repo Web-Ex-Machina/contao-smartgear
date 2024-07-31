@@ -75,11 +75,22 @@ class GeneratePageListener
         ? StringUtil::deserialize($breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_modules)
         : [];
 
+        $objModule = null;
+        if ($firstItemAfterBreadcrumb) {
+            if ('module' === $firstItemAfterBreadcrumb['model']->type) {
+                $objModule = \Contao\ModuleModel::findByPk($firstItemAfterBreadcrumb['model']->module);
+            }
+        }
+        
         if (
             $firstItemAfterBreadcrumb
             && (
                 \in_array($firstItemAfterBreadcrumb['model']->type, $breadcrumbItemsToPlaceAfterContentElements, true)
-                || \in_array($firstItemAfterBreadcrumb['model']->type, $breadcrumbItemsToPlaceAfterModules, true)
+                || (
+                    $objModule
+                    &&
+                    \in_array($objModule->type, $breadcrumbItemsToPlaceAfterModules, true)
+                )
             )
         ) {
             $pageRegular->Template->main = str_replace($breadcrumb['buffer'], '', $pageRegular->Template->main);
