@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.36 - 2024-07-31
+- Smartgear : fix `breadcrumb` autoplacement
+
 1.0.35 - 2024-07-25
 - Smartgear : fix `form_password.html5` regexp
 
