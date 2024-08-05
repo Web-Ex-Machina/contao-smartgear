@@ -34,7 +34,7 @@
         "terminal42/notification_center": "^1.6",
         "heimseiten/contao-sticky-footer-backend-bundle": "^1.0",
         "heimrichhannot/contao-email2username-bundle": "^1.4",
-        "webexmachina/contao-utils": "^1.0",
+        "webexmachina/contao-utils": "^1.0 || ^2.0",
         "webexmachina/contao-grid": "^1.0",
         "webexmachina/contao-component-style-manager": "^2.6",
         "webexmachina/contao-personal-data-manager": "^1.0"
