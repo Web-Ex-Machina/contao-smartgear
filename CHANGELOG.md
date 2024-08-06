@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.37 - 2024-08-06
+- Feat : Add compatibility with webexmachina/contao-utils 2.0
+
 1.0.36 - 2024-07-31
 - Smartgear : fix `breadcrumb` autoplacement
 
