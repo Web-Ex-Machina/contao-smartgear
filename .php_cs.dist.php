@@ -43,7 +43,10 @@ return $config->setRules([
     'combine_consecutive_unsets' => true,
     'comment_to_phpdoc' => true,
     'compact_nullable_typehint' => true,
-    'fully_qualified_strict_types' => true,
+    // 'fully_qualified_strict_types' => true,
+    'fully_qualified_strict_types' => [
+        'leading_backslash_in_global_namespace'=>true,
+    ],
     'header_comment' => ['header' => $header, 'comment_type' => 'PHPDoc'],
     'heredoc_to_nowdoc' => true,
     'linebreak_after_opening_tag' => true,

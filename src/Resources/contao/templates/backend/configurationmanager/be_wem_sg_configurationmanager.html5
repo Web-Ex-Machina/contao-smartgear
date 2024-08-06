@@ -92,6 +92,7 @@
 			</div>
 				
 				<!-- owner -->
+				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_websiteTitle','name'=>'core[websiteTitle]','type'=>'text','value'=>$this->core['websiteTitle']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerName','name'=>'core[ownerName]','type'=>'text','value'=>$this->core['ownerName']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerEmail','name'=>'core[ownerEmail]','type'=>'text','value'=>$this->core['ownerEmail']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'core_ownerDomain','name'=>'core[ownerDomain]','type'=>'text','value'=>$this->core['ownerDomain']]); ?>

@@ -44,7 +44,7 @@ class PageVisit extends CoreModel
      *
      * @return array
      */
-    public static function formatStatement($strField, $varValue, $strOperator = '=')
+    public static function formatStatement($strField, $varValue, $strOperator = '='): array
     {
         $arrColumns = [];
         $t = static::$strTable;

@@ -1,6 +1,32 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.37 - 2024-08-06
+- Feat : Add compatibility with webexmachina/contao-utils 2.0
+
+1.0.36 - 2024-07-31
+- Smartgear : fix `breadcrumb` autoplacement
+
+1.0.35 - 2024-07-25
+- Smartgear : fix `form_password.html5` regexp
+
+1.0.34 - 2024-07-02
+- Smartgear : display core's install form instead of dashboard when SG is not installed
+
+1.0.33 - 2024-06-24
+- Smartgear : fixed `websiteTitle` field not present in BE configuration form
+
+1.0.32 - 2024-05-31
+- Smartgear : fixed `form_captcha.html5`
+
+1.0.31 - 2024-05-14
+- Smartgear : some notifications' tokens updates 
+    + `useful_data` now uses `<br />` as carriage return, available in `email_html` & `email_text` (only for compatibility)
+    + `useful_data_filled` now uses `<br />` as carriage return, available in `email_html` & `email_text` (only for compatibility)
+    + `useful_data_text` (new token) uses `\n` as carriage return, available in `email_text` only
+    + `useful_data_filled_text` (new token) uses `\n` as carriage return, available in `email_text` only
+- Smartgear : `email` field `mandatory` property is no more required when form is managed by Form Data Manager
+
 1.0.30 - 2024-04-24
 - Smartgear : fixed call for Personal Data Manager when displaying personal data in back-end using the GPDR menu
 - Smartgear : fixed call for Personal Data Manager when displaying personal data in front-end

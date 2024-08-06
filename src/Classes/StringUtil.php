@@ -61,7 +61,7 @@ class StringUtil extends StringUtilBase
      *
      * @todo Add pattern rules
      */
-    public static function generateKey(?int $length = 16)
+    public static function generateKey(?int $length = 16): string
     {
         $characters = 'abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789_-';
         $randstring = '';

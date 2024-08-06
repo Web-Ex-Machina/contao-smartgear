@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -85,11 +85,21 @@ class GeneratePageListener
         ? StringUtil::deserialize($breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_modules)
         : [];
 
+        $objModule = null;
+        if ($firstItemAfterBreadcrumb) {
+            if ('module' === $firstItemAfterBreadcrumb['model']->type) {
+                $objModule = \Contao\ModuleModel::findByPk($firstItemAfterBreadcrumb['model']->module);
+            }
+        }
+
         if (
             $firstItemAfterBreadcrumb
             && (
                 \in_array($firstItemAfterBreadcrumb['model']->type, $breadcrumbItemsToPlaceAfterContentElements, true)
-                || \in_array($firstItemAfterBreadcrumb['model']->type, $breadcrumbItemsToPlaceAfterModules, true)
+                || (
+                    $objModule
+                    && \in_array($objModule->type, $breadcrumbItemsToPlaceAfterModules, true)
+                )
             )
         ) {
             $pageRegular->Template->main = str_replace($breadcrumb['buffer'], '', $pageRegular->Template->main);
@@ -117,7 +127,7 @@ class GeneratePageListener
             Util::setCookieVisitorUniqIdHash($hash);
         }
 
-        if (!$this->scopeMatcher->isFrontend() 
+        if (!$this->scopeMatcher->isFrontend()
         || Environment::get('isAjaxRequest')
         || Input::get('TL_AJAX')
         || Input::post('TL_AJAX')
@@ -144,9 +154,9 @@ class GeneratePageListener
         $objItem = new PageVisit();
         $objItem->pid = $pageModel->id;
         $objItem->page_url = $uri;
-        $objItem->page_url_base = false !== strpos($uri, '?') ? substr($uri, 0, strpos($uri, '?')) : $uri;
+        $objItem->page_url_base = str_contains($uri, '?') ? substr($uri, 0, strpos($uri, '?')) : $uri;
         $objItem->referer = $referer;
-        $objItem->referer_base = false !== strpos($referer, '?') ? substr($referer, 0, strpos($referer, '?')) : $referer;
+        $objItem->referer_base = str_contains($referer, '?') ? substr($referer, 0, strpos($referer, '?')) : $referer;
         $objItem->hash = $hash;
         $objItem->createdAt = time();
         $objItem->tstamp = time();

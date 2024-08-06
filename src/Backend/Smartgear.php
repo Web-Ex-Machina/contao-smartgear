@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -35,7 +35,6 @@ use Contao\System;
 use Contao\ThemeModel;
 use Contao\UserGroupModel;
 use Contao\UserModel;
-use Exception;
 use NotificationCenter\Model\Gateway as NcGatewayModel;
 use NotificationCenter\Model\Language as NcLanguageModel;
 use NotificationCenter\Model\Message as NcMessageModel;
@@ -121,7 +120,7 @@ class Smartgear extends \Contao\BackendModule
                 switch (Input::post('action')) {
                     case 'executeCmd':
                         if (!Input::post('cmd')) {
-                            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
+                            throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
 
                         try {
@@ -129,13 +128,13 @@ class Smartgear extends \Contao\BackendModule
                             $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
                             $arrResponse['output'] = $this->commandUtil->executeCmd(Input::post('cmd'));
                             // } catch (ProcessFailedException $e) {
-                        } catch (Exception $e) {
+                        } catch (\Exception $e) {
                             throw $e;
                         }
                         break;
                     case 'executeCmdPhp':
                         if (!Input::post('cmd')) {
-                            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
+                            throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
 
                         try {
@@ -143,13 +142,13 @@ class Smartgear extends \Contao\BackendModule
                             $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
                             $arrResponse['output'] = $this->commandUtil->executeCmdPHP(Input::post('cmd'));
                             // } catch (ProcessFailedException $e) {
-                        } catch (Exception $e) {
+                        } catch (\Exception $e) {
                             throw $e;
                         }
                         break;
                     case 'executeCmdLive':
                         if (!Input::post('cmd')) {
-                            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
+                            throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
 
                         $arrResponse['status'] = 'success';
@@ -157,22 +156,22 @@ class Smartgear extends \Contao\BackendModule
                         $res = $this->commandUtil->executeCmdLive(Input::post('cmd'));
                         $arrResponse['output'] = $res;
                         // exit();
-                    break;
+                        break;
 
                     default:
                         // Check if we get all the params we need first
                         if (!Input::post('type') || !Input::post('module') || !Input::post('action')) {
-                            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterMissing']);
+                            throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterMissing']);
                         }
                         $objBlock = System::getContainer()->get('smartgear.backend.'.Input::post('type').'.'.Input::post('module').'.block');
                         if ('parse' === Input::post('action')) {
                             echo $objBlock->processAjaxRequest();
-                            exit();
+                            exit;
                         }
                         $arrResponse = $objBlock->processAjaxRequest();
                         $arrResponse['logs'] = $objBlock->getLogs();
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
             }
 
@@ -186,7 +185,7 @@ class Smartgear extends \Contao\BackendModule
     /**
      * Generate the module.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function compile(): void
     {
@@ -220,13 +219,13 @@ class Smartgear extends \Contao\BackendModule
         if ('modal' === Input::get('act')) {
             // Catch Errors
             if (!Input::get('type')) {
-                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterTypeMissing']);
+                throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterTypeMissing']);
             }
             if (!Input::get('module')) {
-                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterModuleMissing']);
+                throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterModuleMissing']);
             }
             if (!Input::get('function')) {
-                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterFunctionMissing']);
+                throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterFunctionMissing']);
             }
 
             // Load the good block
@@ -286,7 +285,7 @@ class Smartgear extends \Contao\BackendModule
     {
         $this->Template = new BackendTemplate('be_wem_sg_backupmanager');
 
-        $memoryLimitInBytes = Util::formatPhpMemoryLimitToBytes(ini_get('memory_limit'));
+        $memoryLimitInBytes = Util::formatPhpMemoryLimitToBytes(\ini_get('memory_limit'));
         if ($memoryLimitInBytes < 0) {
             Message::addInfo(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageChunkSizeNoLimitDefined'], Util::humanReadableFilesize($this->backupManager->getChunkSizeInBytes(), 0)));
         } else {
@@ -303,7 +302,7 @@ class Smartgear extends \Contao\BackendModule
                 $this->objSession->set('wem_sg_backup_create_result', $result);
 
                 // Add Message
-                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageNewBackUpDone'], $result->getBackup()->getFile()->basename, ($end - $start)));
+                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageNewBackUpDone'], $result->getBackup()->getFile()->basename, $end - $start));
             } catch (ManagerException $e) {
                 Message::addError($e->getMessage());
             }
@@ -319,7 +318,7 @@ class Smartgear extends \Contao\BackendModule
                 $this->objSession->set('wem_sg_backup_restore_result', $result);
 
                 // Add Message
-                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageRestoreBackUpDone'], $result->getBackup()->getFile()->basename, ($end - $start)));
+                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageRestoreBackUpDone'], $result->getBackup()->getFile()->basename, $end - $start));
             } catch (ManagerException $e) {
                 Message::addError($e->getMessage());
             }
@@ -398,7 +397,7 @@ class Smartgear extends \Contao\BackendModule
 
                 // Add Message
                 Message::addConfirmation($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['messagePlayUpdatesDone']);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 Message::addError($e->getMessage());
             }
 
@@ -446,7 +445,7 @@ class Smartgear extends \Contao\BackendModule
 
                 // Add Message
                 Message::addConfirmation($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['messageSaveDone']);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 Message::addError($e->getMessage());
             }
         }
@@ -518,6 +517,7 @@ class Smartgear extends \Contao\BackendModule
                 ->setSgMode(Input::post('core')['mode'])
                 ->setSgAnalyticsMatomoHost(Input::post('core')['analyticsMatomoHost'])
                 ->setSgAnalyticsMatomoId(Input::post('core')['analyticsMatomoId'])
+                ->setSgWebsiteTitle(Input::post('core')['websiteTitle'])
                 ->setSgOwnerName(Input::post('core')['ownerName'])
                 ->setSgOwnerEmail(Input::post('core')['ownerEmail'])
                 ->setSgOwnerDomain(Input::post('core')['ownerDomain'])
@@ -716,7 +716,6 @@ class Smartgear extends \Contao\BackendModule
 
                 ->setSgFormContactTitle(Input::post('formContact')['formContactTitle'] ?? FormContactConfig::DEFAULT_FEED_TITLE)
                 ->setSgPageTitle(Input::post('formContact')['pageTitle'] ?? FormContactConfig::DEFAULT_PAGE_TITLE)
-
             ;
 
             $coreConfig->setSgFormContact($fcConfig);
@@ -976,7 +975,7 @@ class Smartgear extends \Contao\BackendModule
                                                 $arrContents[$objContent->id] = [
                                                     'value' => (int) $objContent->id,
                                                     // 'text' => $objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
-                                                    'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').') | '.$objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->inColumn.' - '.($objArticle->published ? 'publié' : 'dépublié').')'.' | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.' - '.($objContent->invisible ? 'invisible' : 'visible').')'.$this->getContentAdditionalInfos($objContent),
+                                                    'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').') | '.$objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->inColumn.' - '.($objArticle->published ? 'publié' : 'dépublié').') | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.' - '.($objContent->invisible ? 'invisible' : 'visible').')'.$this->getContentAdditionalInfos($objContent),
                                                     'selected' => false,
                                                 ];
                                             }
@@ -1054,7 +1053,7 @@ class Smartgear extends \Contao\BackendModule
                                 $arrContents[$objContent->id] = [
                                     'value' => (int) $objContent->id,
                                     // 'text' => $objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
-                                    'text' => $themeName.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').') | '.$objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->inColumn.' - '.($objArticle->published ? 'publié' : 'dépublié').')'.' | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.' - '.($objContent->invisible ? 'invisible' : 'visible').')'.$this->getContentAdditionalInfos($objContent),
+                                    'text' => $themeName.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').') | '.$objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->inColumn.' - '.($objArticle->published ? 'publié' : 'dépublié').') | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.' - '.($objContent->invisible ? 'invisible' : 'visible').')'.$this->getContentAdditionalInfos($objContent),
                                     'selected' => false,
                                 ];
                             }
@@ -1190,6 +1189,7 @@ class Smartgear extends \Contao\BackendModule
             'analyticsGoogleId' => $coreConfig->getSgAnalyticsGoogleId(),
             'analyticsMatomoHost' => $coreConfig->getSgAnalyticsMatomoHost() ?? CoreConfig::DEFAULT_ANALYTICS_SYSTEM_MATOMO_HOST,
             'analyticsMatomoId' => $coreConfig->getSgAnalyticsMatomoId(),
+            'websiteTitle' => $coreConfig->getSgWebsiteTitle(),
             'ownerName' => $coreConfig->getSgOwnerName(),
             'ownerEmail' => $coreConfig->getSgOwnerEmail(),
             'ownerDomain' => $coreConfig->getSgOwnerDomain(),
@@ -1747,12 +1747,12 @@ class Smartgear extends \Contao\BackendModule
                 if ($objModule = ModuleModel::findByPk($objContent->module)) {
                     $contentAdditionnalInfos = ' - '.$objModule->name;
                 }
-            break;
+                break;
             case 'article':
                 if ($objArticle = ArticleModel::findByPk($objContent->article)) {
                     $contentAdditionnalInfos = ' - '.$objArticle->title;
                 }
-            break;
+                break;
             case 'headline':
                 if ($objContent->text) {
                     $text = System::getContainer()->get('contao.string.html_decoder')->htmlToPlainText($objContent->text);
@@ -1763,7 +1763,7 @@ class Smartgear extends \Contao\BackendModule
                     // $contentAdditionnalInfos = ' - '.substr($arrHeadline['value'], 0, \strlen($arrHeadline['value']) > 20 ? 20 : \strlen($arrHeadline['value'])).'...';
                     $contentAdditionnalInfos = ' - '.$arrHeadline['value'];
                 }
-            break;
+                break;
             default:
                 if ($objContent->text) {
                     $text = System::getContainer()->get('contao.string.html_decoder')->htmlToPlainText($objContent->text);
