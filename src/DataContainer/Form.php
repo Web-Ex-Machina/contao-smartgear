@@ -170,6 +170,6 @@ class Form extends Backend
 
     protected function canItemBeDeleted(int $id): bool
     {
-        return $this->User->admin || !$this->isItemUsedBySmartgear($id);
+        return (null !== $this->User && $this->User->admin) || !$this->isItemUsedBySmartgear($id);
     }
 }
