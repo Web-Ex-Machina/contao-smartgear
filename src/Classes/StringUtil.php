@@ -24,9 +24,13 @@ class StringUtil extends StringUtilBase
         if (\is_array($value)) {
             $formattedValue = [];
             foreach ($value as $valueChunk) {
-                $formattedValue[] = sprintf('%s (%s)', $valueChunk['label'], $valueChunk['value']);
+                if (is_array($valueChunk) && array_key_exists('label', $valueChunk)) {
+                    $formattedValue[] = sprintf('%s (%s)', $valueChunk['label'], $valueChunk['value']);
+                } else {
+                    $formattedValue[] = $valueChunk;
+                }
             }
-            $formattedValue = implode(',', $formattedValue);
+            $formattedValue = implode(', ', $formattedValue);
         } else {
             $formattedValue = (string) $value;
         }
