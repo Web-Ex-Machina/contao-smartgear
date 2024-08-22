@@ -55,10 +55,16 @@ class SendNotificationMessageListener
             }
         }
 
+        $arrTokens['useful_data'] = '';
+        $arrTokens['useful_data_text'] = '';
+
         foreach ($arrTokens['useful_data_arr'] as $label => $value) {
             $arrTokens['useful_data'] .= sprintf('%s: %s<br />', $label, $value);
             $arrTokens['useful_data_text'] .= sprintf("%s: %s\n", $label, $value);
         }
+
+        $arrTokens['useful_data_filled'] = '';
+        $arrTokens['useful_data_filled_text'] = '';
 
         foreach ($arrTokens['useful_data_filled_arr'] as $label => $value) {
             $arrTokens['useful_data_filled'] .= sprintf('%s: %s<br />', $label, $value);
