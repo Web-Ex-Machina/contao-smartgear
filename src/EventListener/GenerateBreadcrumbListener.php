@@ -14,6 +14,9 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\EventListener;
 
+use Contao\Input;
+use Contao\NewsModel;
+
 class GenerateBreadcrumbListener
 {
     /** @var array */
@@ -40,6 +43,19 @@ class GenerateBreadcrumbListener
 
             foreach ($this->listeners as $listener) {
                 $items = $listener->__invoke($items, $module);
+            }
+
+            if (Input::get('auto_item')) {
+                $objNews = NewsModel::findByIdOrAlias(Input::get('auto_item'));
+
+                if ($objNews) {
+                    $lastItem = array_pop($items);
+
+                    $lastItem['title'] = $objNews->headline;
+                    $lastItem['link'] = $objNews->headline;
+
+                    $items[] = $lastItem;
+                }
             }
 
             return $items;
