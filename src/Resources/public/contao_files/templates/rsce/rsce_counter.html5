@@ -1,5 +1,5 @@
-<div class="countUpFW <?= $this->class ?><?php echo $this->color?' color--'.$this->color:'' ?>"<?= $this->cssID ?> data-startval="<?= $this->startVal ?>" data-endval="<?= $this->endVal ?>" data-decimals="<?= $this->decimals ?>" data-duration="<?= $this->duration ?>" data-delay="<?= $this->delay ?>" data-prefix="<?php echo $this->prefix ?>" data-separator="<?php echo $this->separator?'true':'false' ?>" data-decimal="<?php echo $this->decimal ?>">
-  <?php if ($this->icon): ?>
+<div class="countUpFW <?= $this->class ?><?php echo ($this->color??false)?' color--'.$this->color:'' ?>"<?= $this->cssID ?> data-startval="<?= $this->startVal ?>" data-endval="<?= $this->endVal ?>" data-decimals="<?= $this->decimals ?>" data-duration="<?= $this->duration ?>" data-delay="<?= $this->delay ?>" data-prefix="<?php echo $this->prefix ?>" data-separator="<?php echo $this->separator?'true':'false' ?>" data-decimal="<?php echo $this->decimal ?>">
+  <?php if ($this->icon ?? false): ?>
     <div class="countUpFW__icon"><?php echo $this->icon ?></div>
   <?php endif ?>
   <span class="countUpFW__num"></span>

@@ -76,6 +76,10 @@
     foreach($this->items as $slide){
       $objFile = FilesModel::findByUuid($slide->img_src);
 
+      if (!$objFile){
+        continue;
+      }
+      
       if ($objFile->type === 'file' ){
         $arrSlides[] = formatSlide($slide, $objFile);
       } else if ($objFile->type === 'folder'){

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -24,9 +24,6 @@ use Contao\Files;
 use Contao\PageModel;
 use Contao\System;
 use Contao\UserGroupModel;
-use DateInterval;
-use Exception;
-use InvalidArgumentException;
 use Psr\Log\LogLevel;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\UtilsBundle\Classes\StringUtil;
@@ -88,7 +85,7 @@ class Util
             }
 
             return $return;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
     }
@@ -131,8 +128,7 @@ class Util
                         $colors[] = $c['hexa'];
                         $colors[] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
                         ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
-                        : $c['label']
-                        ;
+                        : $c['label'];
                     }
                     $colors = json_encode($colors);
                     break;
@@ -142,13 +138,11 @@ class Util
                         if ('' === $k) {
                             $colors[$k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
                         ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
-                        : $c['label']
-                        ;
+                        : $c['label'];
                         } else {
                             $colors['ft-'.$k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
                         ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
-                        : $c['label']
-                        ;
+                        : $c['label'];
                         }
                     }
                     $colors = [
@@ -168,8 +162,7 @@ class Util
                     foreach ($arrColors as $k => $c) {
                         $colors[$k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
                         ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
-                        : $c['label']
-                        ;
+                        : $c['label'];
                     }
                     $colors = [
                         $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['meaningfulLabel'] => [
@@ -184,7 +177,7 @@ class Util
             }
 
             return $colors;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
     }
@@ -201,7 +194,7 @@ class Util
     {
         try {
             // If module is missing, try to explode strType
-            if ('' === $strModule && false !== strpos($strType, '_')) {
+            if ('' === $strModule && str_contains($strType, '_')) {
                 $arrObject = explode('_', $strType);
                 $strType = $arrObject[0];
                 $strModule = $arrObject[1];
@@ -212,14 +205,14 @@ class Util
 
             // Throw error if class doesn't exists
             if (!class_exists($strClass)) {
-                throw new Exception(sprintf('Unknown class %s', $strClass));
+                throw new \Exception(sprintf('Unknown class %s', $strClass));
             }
 
             // Create the object
             return new $strClass();
 
             // And return
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
     }
@@ -250,7 +243,7 @@ class Util
             $configManager = System::getContainer()->get('smartgear.config.manager.core');
 
             return $configManager->load();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
     }
@@ -295,7 +288,7 @@ class Util
 
             // And return the entire config, updated
             return $arrConfig;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
     }
@@ -314,7 +307,7 @@ class Util
             $objFile = $objFiles->fopen(static::$strConfigPath, 'w');
             $objFiles->fputs($objFile, '{}');
             $objFiles->fclose($objFile);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
     }
@@ -328,7 +321,7 @@ class Util
         if (\array_key_exists('id', $arrData)) {
             $objPage = PageModel::findOneById($arrData['id']);
             if (!$objPage) {
-                throw new InvalidArgumentException('La page ayant pour id "'.$arrData['id'].'" n\'existe pas');
+                throw new \InvalidArgumentException('La page ayant pour id "'.$arrData['id'].'" n\'existe pas');
             }
         } else {
             $objPage = new PageModel();
@@ -360,7 +353,7 @@ class Util
 
         $objPage->save();
 
-        \Contao\Controller::loadDataContainer(PageModel::getTable());
+        Controller::loadDataContainer(PageModel::getTable());
         $dc = new \Contao\DC_Table(PageModel::getTable());
         $dc->id = $objPage->id;
         $dc->activeRecord = $objPage;
@@ -506,10 +499,10 @@ class Util
             // $data[ 0 ] == "data:image/png;base64"
             // $data[ 1 ] == <actual base64 string>
             $data = explode(',', $base64);
-            $ext = substr($data[0], strpos($data[0], '/') + 1, (strpos($data[0], ';') - strpos($data[0], '/') - 1));
+            $ext = substr($data[0], strpos($data[0], '/') + 1, strpos($data[0], ';') - strpos($data[0], '/') - 1);
             $img = base64_decode($data[1], true);
 
-            if (false === strpos(Config::get('validImageTypes'), $ext)) {
+            if (!str_contains(Config::get('validImageTypes'), $ext)) {
                 throw new \Exception('Invalid image type : '.$ext);
             }
 
@@ -721,7 +714,7 @@ class Util
                         if ($action['attrs']) {
                             if (!$action['attrs']['class']) {
                                 $action['attrs']['class'] = 'tl_submit';
-                            } elseif (false === strpos($action['attrs']['class'], 'tl_submit')) {
+                            } elseif (!str_contains($action['attrs']['class'], 'tl_submit')) {
                                 $action['attrs']['class'] .= ' tl_submit';
                             }
 
@@ -758,16 +751,16 @@ class Util
             switch ($message['class']) {
                 case 'tl_error':
                     $class = 'error';
-                break;
+                    break;
                 case 'tl_info':
                     $class = 'info';
-                break;
+                    break;
                 case 'tl_confirm':
                     $class = 'success';
-                break;
+                    break;
                 case 'tl_new':
                     $class = 'info';
-                break;
+                    break;
             }
             $callbacks[] = [$class, $message['text']];
         }
@@ -786,7 +779,7 @@ class Util
     public static function log($message, ?string $filename = 'debug.log'): void
     {
         $message = \is_string($message) ? $message : print_r($message, true);
-        file_put_contents(\Contao\System::getContainer()->getParameter('kernel.project_dir').'/vendor/webexmachina/contao-smartgear/'.$filename, $message.\PHP_EOL, \FILE_APPEND);
+        file_put_contents(System::getContainer()->getParameter('kernel.project_dir').'/vendor/webexmachina/contao-smartgear/'.$filename, $message.\PHP_EOL, \FILE_APPEND);
     }
 
     /**
@@ -820,7 +813,7 @@ class Util
             return file_get_contents($fallbackTplPath);
         }
 
-        throw new Exception(sprintf('Unable to find "%s" nor "%s".', $tplPath, $fallbackTplPath));
+        throw new \Exception(sprintf('Unable to find "%s" nor "%s".', $tplPath, $fallbackTplPath));
     }
 
     public static function getTimestampsFromDateConfig(?int $year = null, ?int $month = null, ?int $day = null, ?int $startyear = 2000): array
@@ -987,7 +980,7 @@ class Util
             foreach ($hostingInformations as $hostname => $hostnameHostingInformations) {
                 if (!empty($hostnameHostingInformations['client_reference'])
                     && '' !== $hostnameHostingInformations['client_reference'][0]
-                    ) {
+                ) {
                     $clientsRef[] = $hostnameHostingInformations['client_reference'][0];
                 }
             }
@@ -996,7 +989,7 @@ class Util
         return $clientsRef;
     }
 
-    public static function formatDateInterval(DateInterval $interval, ?bool $includeSeconds = false): string
+    public static function formatDateInterval(\DateInterval $interval, ?bool $includeSeconds = false): string
     {
         $result = '';
         if ($interval->y) {

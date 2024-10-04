@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.39 - 2024-10-??
+- Smartgear : fix some `E_WARNING` in templates
+
 1.0.37 - 2024-08-06
 - Feat : Add compatibility with webexmachina/contao-utils 2.0
 
