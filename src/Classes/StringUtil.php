@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -24,8 +24,8 @@ class StringUtil extends StringUtilBase
         if (\is_array($value)) {
             $formattedValue = [];
             foreach ($value as $valueChunk) {
-                if (is_array($valueChunk) && array_key_exists('label', $valueChunk)) {
-                    $formattedValue[] = sprintf('%s (%s)', $valueChunk['label'], $valueChunk['value']);
+                if (\is_array($valueChunk) && \array_key_exists('label', $valueChunk)) {
+                    $formattedValue[] = \sprintf('%s (%s)', $valueChunk['label'], $valueChunk['value']);
                 } else {
                     $formattedValue[] = $valueChunk;
                 }
@@ -60,8 +60,6 @@ class StringUtil extends StringUtilBase
      * Generate a random key.
      *
      * @param int $length Optional password length
-     *
-     * @return string
      *
      * @todo Add pattern rules
      */
