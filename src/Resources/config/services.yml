@@ -380,6 +380,8 @@ services:
                 - '@smartgear.migrations.v1_0_34.m202407020000.migration'
                 - '@smartgear.migrations.v1_0_35.m202407251417.migration'
                 - '@smartgear.migrations.v1_0_36.m202407311645.migration'
+                - '@smartgear.migrations.v1_0_38.m202408221511.migration'
+                - '@smartgear.migrations.v1_0_39.m202410281417.migration'
         public: true
 
     smartgear.model.backup:

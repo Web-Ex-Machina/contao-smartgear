@@ -336,7 +336,7 @@ services:
       $y: 0
       $z: 29
     public: true
-
+    
   smartgear.migrations.v1_0_30.m202404240943.migration:
     class: WEM\SmartgearBundle\Migrations\PlaceholderMigration
     arguments:
@@ -415,6 +415,30 @@ services:
       $x: 1
       $y: 0
       $z: 36
+    public: true
+
+  smartgear.migrations.v1_0_38.m202408221511.migration:
+    class: WEM\SmartgearBundle\Migrations\PlaceholderMigration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+      $x: 1
+      $y: 0
+      $z: 38
+    public: true
+
+  smartgear.migrations.v1_0_39.m202410281417.migration:
+    class: WEM\SmartgearBundle\Migrations\PlaceholderMigration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+      $x: 1
+      $y: 0
+      $z: 38
     public: true
 
 
