@@ -5,13 +5,19 @@
 ?>
 <div class="<?= $this->class ?><?= $this->center&&$arrCrop[0]?' center':'' ?>"<?= $this->cssID ?>>
 	<div class="pdfviewer__iframe<?= $this->player_ratio? ' img-container '.$this->player_ratio:'' ?>" <?= $this->player_ratio ? 'style="width:'.($arrCrop[0]?$arrCrop[0].'px':'100%').'"' :'' ?>>
-		<iframe src="<?= $objFile->path; ?>" title="<?= $objFile->name; ?>" class="custom" width="<?= $arrCrop[0] ?: '100%' ?>" height="<?= $arrCrop[1] ?: 600 ?>"></iframe>
+		<?php if($objFile): ?>
+			<iframe src="<?= $objFile->path; ?>" title="<?= $objFile->name; ?>" class="custom" width="<?= $arrCrop[0] ?: '100%' ?>" height="<?= $arrCrop[1] ?: 600 ?>"></iframe>
+		<?php endif; ?>
 	</div>
 	<?php if((bool)$this->downloadable): ?>
 		<div class="pdfviewer__download">
-			<a href="<?= $objFile->path; ?>" title="<?= $this->title; ?>" class="<?= $buttonClasses; ?><?= $this->center?' center':'' ?>" target="_blank">
+			<?php if($objFile): ?>
 				<?= $this->linkTitle?:$GLOBALS['TL_LANG']['MSC']['fileDownload']; ?>
+				<a href="<?= $objFile->path; ?>" title="<?= $this->title; ?>" class="<?= $buttonClasses; ?><?= $this->center?' center':'' ?>" target="_blank">
 			</a>
+					<?= $this->linkTitle?:$GLOBALS['TL_LANG']['MSC']['fileDownload']; ?>
+				</a>
+			<?php endif; ?>
 		</div>
 	<?php endif; ?>
 </div>
