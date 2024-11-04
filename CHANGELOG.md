@@ -1,7 +1,7 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
-1.0.39 - 2024-10-28
+1.0.39 - 2024-11-XX
 - Dependencies bump
 
 1.0.38 - 2024-08-22
