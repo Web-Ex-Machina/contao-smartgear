@@ -45,7 +45,7 @@ services:
         chown -R www-data:www-data ${WORKDIR_CONTAO}/var && 
         runuser -u www-data -- ${WORKDIR_CONTAO}/vendor/bin/contao-console cache:clear &&
         chown -R www-data:www-data ${WORKDIR_CONTAO}/var && 
-        runuser -u www-data -- ${WORKDIR_CONTAO}/vendor/bin/contao-console contao:migrate --no-interaction --with-deletes --no-backup &&
+        runuser -u www-data -- ${WORKDIR_CONTAO}/vendor/bin/contao-console contao:migrate  -vv --no-interaction --with-deletes --no-backup &&
         mv ../${PRJ_NAME}/templates_save/* ../${PRJ_NAME}/templates &&
         rm -r ../${PRJ_NAME}/templates_save/ &&
         rm ../${PRJ_NAME}/templates/nothing &&

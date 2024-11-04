@@ -39,19 +39,19 @@
 ?>
 <div class="<?= $this->class ?>">
   <?php foreach($arrItems as $item): ?>
-    <div class="block-logo <?= implode(' ',$item['classes']) ?><?= $item['item_classes'] ? ' '.$item['item_classes']:'' ?>">
-      <?php if ($item['url']): ?>
+    <div class="block-logo <?= implode(' ',$item['classes']) ?><?= ($item['item_classes'] ?? false) ? ' '.$item['item_classes']:'' ?>">
+      <?php if ($item['url'] ?? false): ?>
         <a href="<?= $item['href'] ?>" title="<?= $item['title'] ?>" <?= ($item['target']) ? 'target="_blank"':'' ?>>
       <?php endif; ?>
-      <div class="block-logo__figure img-container fit--contain <?= $item['image_css'] ? $item['image_css']:'' ?>">
-        <?php if ($item['src']): ?>
+      <div class="block-logo__figure img-container fit--contain <?= ($item['image_css'] ?? false) ? $item['image_css']:'' ?>">
+        <?php if ($item['src'] ?? false): ?>
           <img class="block-logo__img" src="<?= $item['src'] ?>" alt="<?= $item['alt'] ?>">
         <?php endif; ?>
-        <?php if($item['icon']): ?>
+        <?php if($item['icon'] ?? false): ?>
           <?= $item['icon'] ?>
         <?php endif; ?>
       </div>
-      <?php if ($item['url']): ?>
+      <?php if ($item['url'] ?? false): ?>
         </a>
       <?php endif; ?>
     </div>

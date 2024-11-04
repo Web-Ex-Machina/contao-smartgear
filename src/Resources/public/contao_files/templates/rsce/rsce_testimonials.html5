@@ -25,7 +25,7 @@
     foreach($this->items as $slide){
       $arrCrop = deserialize($slide->slide_img_size);
       $objFile = FilesModel::findByUuid($slide->slide_img_src);
-      $strFile = \Image::get($objFile->path, (!$arrCrop[0] && !$arrCrop[1]) ? 1920 : $arrCrop[0] , $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
+      $strFile = !$objFile ? '' : \Image::get($objFile->path, (!$arrCrop[0] && !$arrCrop[1]) ? 1920 : $arrCrop[0] , $arrCrop[1] ?: '', $arrCrop[2] ?: "proportional");
       $arrSlide = [
         "src"=>$strFile
         ,"alt"=>$slide->slide_img_alt

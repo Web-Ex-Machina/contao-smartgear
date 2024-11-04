@@ -1,6 +1,14 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.39 - 2024-11-04
+- Dependencies bump
+- RSCE : avoiding some PHP warnings
+
+1.0.38 - 2024-08-22
+- FIX : Various fixes for dev mod
+- UPDATED : Adaptation to new PDM storage
+
 1.0.37 - 2024-08-06
 - Feat : Add compatibility with webexmachina/contao-utils 2.0
 
