@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.40 - 2024-12-17
+- Fix : `tl_sm_social_link.icon`'s input allows more than 15 characters
+
 1.0.39 - 2024-11-04
 - Dependencies bump
 - RSCE : avoiding some PHP warnings
