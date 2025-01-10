@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Model;
 
+use Contao\System;
 use WEM\PersonalDataManagerBundle\Model\Traits\PersonalDataTrait as PDMTrait;
 
 /**
@@ -84,4 +85,16 @@ class Member extends \Contao\MemberModel
      * @var string
      */
     protected static $strTable = 'tl_member';
+
+    public function shouldManagePersonalData(): bool
+    {
+        try {
+            /** @var CoreConfiguration */
+            $coreConfig = System::getContainer()->get('smartgear.config.manager.core')->load();
+        } catch (\Exception $e) {
+            $coreConfig = null;
+        }
+
+        return $coreConfig && $coreConfig->getSgUsePdmForMembers();
+    }
 }

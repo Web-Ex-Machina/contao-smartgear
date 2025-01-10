@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.41 - 2025-01-10
+- Smartgear : fixed using Personal Data Manager depending on configuration when registrering user in front-end
+
 1.0.40 - 2024-12-17
 - Fix : `tl_sm_social_link.icon`'s input allows more than 15 characters
 
