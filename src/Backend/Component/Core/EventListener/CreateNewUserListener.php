@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -14,22 +14,39 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Core\EventListener;
 
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Model\Member as MemberModel;
 
 class CreateNewUserListener
 {
-    public function __construct()
-    {
+    /** @var CoreConfigurationManager */
+    protected $coreConfigurationManager;
+
+    public function __construct(
+        CoreConfigurationManager $coreConfigurationManager
+    ) {
+        $this->coreConfigurationManager = $coreConfigurationManager;
     }
 
     public function __invoke(string $userId, array $data, \Contao\Module $module): void
     {
-        $objMember = MemberModel::findByPk($userId);
-        foreach ($data as $field => $value) {
-            if ($objMember->isFieldInPersonalDataFieldsNames($field)) {
-                $objMember->markModified($field);
-            }
+        try {
+            /** @var CoreConfiguration */
+            $coreConfig = $this->coreConfigurationManager->load();
+        } catch (\Exception $e) {
+            $coreConfig = null;
         }
-        $objMember->save(); // will automatically triggers the encryption of personal data
+
+        if ($coreConfig
+        && $coreConfig->getSgUsePdmForMembers()
+        ) {
+            $objMember = MemberModel::findByPk($userId);
+            foreach ($data as $field => $value) {
+                if ($objMember->isFieldInPersonalDataFieldsNames($field)) {
+                    $objMember->markModified($field);
+                }
+            }
+            $objMember->save(); // will automatically triggers the encryption of personal data
+        }
     }
 }
