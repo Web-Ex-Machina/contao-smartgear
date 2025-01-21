@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.42 - 2025-01-21
+- Fix : `tl_form_field.contains_personal_data` & `tl_form_field.is_technical_field` now have the `w50` class applied
+
 1.0.41 - 2025-01-10
 - Smartgear : fixed using Personal Data Manager depending on configuration when registrering user in front-end
 
