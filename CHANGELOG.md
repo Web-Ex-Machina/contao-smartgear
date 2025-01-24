@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.43 - 2025-01-24
+- Fix : `SendNotificationMessageListener::__invoke` - `$arrTokens` keys can be `int`, so cast them in `string` before calling `explode`
+
 1.0.42 - 2025-01-21
 - Fix : `tl_form_field.contains_personal_data` & `tl_form_field.is_technical_field` now have the `w50` class applied
 

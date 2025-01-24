@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2024 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -23,7 +23,7 @@ class SendNotificationMessageListener
         $arrTokens2 = [];
 
         foreach ($arrTokens as $key => $value) {
-            $chunks = explode('_', $key);
+            $chunks = explode('_', (string) $key);
             if (empty($chunks)) {
                 continue;
             }
@@ -59,16 +59,16 @@ class SendNotificationMessageListener
         $arrTokens['useful_data_text'] = '';
 
         foreach ($arrTokens['useful_data_arr'] as $label => $value) {
-            $arrTokens['useful_data'] .= sprintf('%s: %s<br />', $label, $value);
-            $arrTokens['useful_data_text'] .= sprintf("%s: %s\n", $label, $value);
+            $arrTokens['useful_data'] .= \sprintf('%s: %s<br />', $label, $value);
+            $arrTokens['useful_data_text'] .= \sprintf("%s: %s\n", $label, $value);
         }
 
         $arrTokens['useful_data_filled'] = '';
         $arrTokens['useful_data_filled_text'] = '';
 
         foreach ($arrTokens['useful_data_filled_arr'] as $label => $value) {
-            $arrTokens['useful_data_filled'] .= sprintf('%s: %s<br />', $label, $value);
-            $arrTokens['useful_data_filled_text'] .= sprintf("%s: %s\n", $label, $value);
+            $arrTokens['useful_data_filled'] .= \sprintf('%s: %s<br />', $label, $value);
+            $arrTokens['useful_data_filled_text'] .= \sprintf("%s: %s\n", $label, $value);
         }
         unset($arrTokens['useful_data_arr'], $arrTokens['useful_data_filled_arr']);
 
