@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Backend\Dashboard;
 use Contao\BackendModule;
 use Contao\BackendTemplate;
 use Contao\Config;
+use Contao\Environment;
 use Contao\Pagination;
 use DateInterval;
 use DateTime;
@@ -140,9 +141,10 @@ class AnalyticsInternal extends BackendModule
             'where' => [sprintf('createdAt BETWEEN %d AND %d',
                     $dt->setTime(0, 0, 0, 0)->getTimestamp(),
                     $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp()
-                )],
+                ), sprintf('referer NOT LIKE "%%%s%%"', Environment::get('host'))],
             'exclude_be_login' => true,
         ];
+        // dump($arrConfig);
         $arrOptions = ['group' => 'referer', 'order' => 'amount DESC'];
         $limit = 5;
 
