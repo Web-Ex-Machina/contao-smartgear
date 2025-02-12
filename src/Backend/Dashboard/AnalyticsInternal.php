@@ -137,8 +137,8 @@ class AnalyticsInternal extends BackendModule
     protected function getReferersAnalytics(): string
     {
         $dt = new DateTime();
-        $dtAfter = $dt->setTime(0, 0, 0, 0)->getTimestamp();
-        $dtBefore = $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp();
+        $dtAfter = $dt->setTime(23, 59, 59, 999)->getTimestamp();
+        $dtBefore = $dt->sub(new DateInterval('P7D'))->setTime(0, 0, 0, 0)->getTimestamp();
         $arrConfig = [
             'where' => [
                 sprintf('createdAt BETWEEN %d AND %d', $dtBefore, $dtAfter),
@@ -163,8 +163,8 @@ class AnalyticsInternal extends BackendModule
     protected function getReferersBaseAnalytics(): string
     {
         $dt = new DateTime();
-        $dtAfter = $dt->setTime(0, 0, 0, 0)->getTimestamp();
-        $dtBefore = $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp();
+        $dtAfter = $dt->setTime(23, 59, 59, 999)->getTimestamp();
+        $dtBefore = $dt->sub(new DateInterval('P7D'))->setTime(0, 0, 0, 0)->getTimestamp();
         $arrConfig = [
             'where' => [
                 sprintf('createdAt BETWEEN %d AND %d', $dtBefore, $dtAfter),
@@ -189,8 +189,8 @@ class AnalyticsInternal extends BackendModule
     protected function getPagesUrlAnalytics(): string
     {
         $dt = new DateTime();
-        $dtAfter = $dt->setTime(0, 0, 0, 0)->getTimestamp();
-        $dtBefore = $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp();
+        $dtAfter = $dt->setTime(23, 59, 59, 999)->getTimestamp();
+        $dtBefore = $dt->sub(new DateInterval('P7D'))->setTime(0, 0, 0, 0)->getTimestamp();
         $arrConfig = [
             'where' => [
                 sprintf('createdAt BETWEEN %d AND %d', $dtBefore, $dtAfter),
@@ -213,8 +213,8 @@ class AnalyticsInternal extends BackendModule
     protected function getPagesUrlBaseAnalytics(): string
     {
         $dt = new DateTime();
-        $dtAfter = $dt->setTime(0, 0, 0, 0)->getTimestamp();
-        $dtBefore = $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp();
+        $dtAfter = $dt->setTime(23, 59, 59, 999)->getTimestamp();
+        $dtBefore = $dt->sub(new DateInterval('P7D'))->setTime(0, 0, 0, 0)->getTimestamp();
         $arrConfig = [
             'where' => [
                 sprintf('createdAt BETWEEN %d AND %d', $dtBefore, $dtAfter),
