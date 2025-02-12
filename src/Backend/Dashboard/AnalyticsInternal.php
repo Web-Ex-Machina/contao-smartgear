@@ -74,13 +74,13 @@ class AnalyticsInternal extends BackendModule
         $this->Template->visits = $this->getVisitsAnalytics();
 
         // referers
-        $this->Template->referers = $this->getReferersAnalytics();
+        // $this->Template->referers = $this->getReferersAnalytics();
 
         // referers (without parameters)
         $this->Template->referersBase = $this->getReferersBaseAnalytics();
 
         // most viewed pages
-        $this->Template->pagesUrl = $this->getPagesUrlAnalytics();
+        // $this->Template->pagesUrl = $this->getPagesUrlAnalytics();
 
         // most viewed pages (without parameters)
         $this->Template->pagesUrlBase = $this->getPagesUrlBaseAnalytics();
