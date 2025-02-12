@@ -99,6 +99,12 @@ $GLOBALS['TL_DCA']['tl_sm_page_visit'] = [
             'eval' => ['mandatory' => false, 'rgxp' => 'url', 'tl_class' => 'w50'],
             'sql' => 'TEXT NULL',
         ],
+        'user_agent' => [
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['mandatory' => false, 'rgxp' => 'url', 'tl_class' => 'w50'],
+            'sql' => 'TEXT NULL',
+        ],
         'hash' => [
             'search' => true,
             'inputType' => 'text',
