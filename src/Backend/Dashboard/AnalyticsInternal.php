@@ -137,14 +137,14 @@ class AnalyticsInternal extends BackendModule
     protected function getReferersAnalytics(): string
     {
         $dt = new DateTime();
+        $dtAfter = $dt->setTime(0, 0, 0, 0)->getTimestamp();
+        $dtBefore = $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp();
         $arrConfig = [
-            'where' => [sprintf('createdAt BETWEEN %d AND %d',
-                    $dt->setTime(0, 0, 0, 0)->getTimestamp(),
-                    $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp()
-                ), sprintf('referer NOT LIKE "%%%s%%"', Environment::get('host'))],
+            'where' => [
+                sprintf('createdAt BETWEEN %d AND %d', $dtBefore, $dtAfter),
+            ],
             'exclude_be_login' => true,
         ];
-        // dump($arrConfig);
         $arrOptions = ['group' => 'referer', 'order' => 'amount DESC'];
         $limit = 5;
 
@@ -163,11 +163,12 @@ class AnalyticsInternal extends BackendModule
     protected function getReferersBaseAnalytics(): string
     {
         $dt = new DateTime();
+        $dtAfter = $dt->setTime(0, 0, 0, 0)->getTimestamp();
+        $dtBefore = $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp();
         $arrConfig = [
-            'where' => [sprintf('createdAt BETWEEN %d AND %d',
-                    $dt->setTime(0, 0, 0, 0)->getTimestamp(),
-                    $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp()
-                )],
+            'where' => [
+                sprintf('createdAt BETWEEN %d AND %d', $dtBefore, $dtAfter),
+            ],
             'exclude_be_login' => true,
         ];
         $arrOptions = ['group' => 'referer_base', 'order' => 'amount DESC'];
@@ -188,11 +189,12 @@ class AnalyticsInternal extends BackendModule
     protected function getPagesUrlAnalytics(): string
     {
         $dt = new DateTime();
+        $dtAfter = $dt->setTime(0, 0, 0, 0)->getTimestamp();
+        $dtBefore = $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp();
         $arrConfig = [
-            'where' => [sprintf('createdAt BETWEEN %d AND %d',
-                    $dt->setTime(0, 0, 0, 0)->getTimestamp(),
-                    $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp()
-                )],
+            'where' => [
+                sprintf('createdAt BETWEEN %d AND %d', $dtBefore, $dtAfter),
+            ],
             'exclude_be_login' => true,
         ];
         $arrOptions = ['group' => 'page_url', 'order' => 'amount DESC'];
@@ -211,11 +213,12 @@ class AnalyticsInternal extends BackendModule
     protected function getPagesUrlBaseAnalytics(): string
     {
         $dt = new DateTime();
+        $dtAfter = $dt->setTime(0, 0, 0, 0)->getTimestamp();
+        $dtBefore = $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp();
         $arrConfig = [
-            'where' => [sprintf('createdAt BETWEEN %d AND %d',
-                    $dt->setTime(0, 0, 0, 0)->getTimestamp(),
-                    $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp()
-                )],
+            'where' => [
+                sprintf('createdAt BETWEEN %d AND %d', $dtBefore, $dtAfter),
+            ],
             'exclude_be_login' => true,
         ];
         $arrOptions = ['group' => 'page_url_base', 'order' => 'amount DESC'];
