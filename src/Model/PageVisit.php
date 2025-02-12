@@ -132,7 +132,7 @@ class PageVisit extends CoreModel
         $where = self::formatColumns($arrConfig);
 
         $arrOptions['table'] = self::getTable();
-        $arrOptions['columns'] = $where;
+        $arrOptions['column'] = $where;
         $arrOptions['select'] = $arrSelect;
 
         $sql = self::buildFindQuery($arrOptions);
@@ -150,7 +150,7 @@ class PageVisit extends CoreModel
         $where = self::formatColumns($arrConfig);
 
         $arrOptions['table'] = self::getTable();
-        $arrOptions['columns'] = $where;
+        $arrOptions['column'] = $where;
         $arrOptions['select'] = $arrSelect;
 
         $sql = self::buildFindQuery($arrOptions);
