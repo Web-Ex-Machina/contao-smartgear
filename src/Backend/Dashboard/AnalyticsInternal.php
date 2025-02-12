@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Backend\Dashboard;
 use Contao\BackendModule;
 use Contao\BackendTemplate;
 use Contao\Config;
+use Contao\Environment;
 use Contao\Pagination;
 use DateInterval;
 use DateTime;
@@ -73,13 +74,13 @@ class AnalyticsInternal extends BackendModule
         $this->Template->visits = $this->getVisitsAnalytics();
 
         // referers
-        $this->Template->referers = $this->getReferersAnalytics();
+        // $this->Template->referers = $this->getReferersAnalytics();
 
         // referers (without parameters)
         $this->Template->referersBase = $this->getReferersBaseAnalytics();
 
         // most viewed pages
-        $this->Template->pagesUrl = $this->getPagesUrlAnalytics();
+        // $this->Template->pagesUrl = $this->getPagesUrlAnalytics();
 
         // most viewed pages (without parameters)
         $this->Template->pagesUrlBase = $this->getPagesUrlBaseAnalytics();
@@ -136,11 +137,12 @@ class AnalyticsInternal extends BackendModule
     protected function getReferersAnalytics(): string
     {
         $dt = new DateTime();
+        $dtAfter = $dt->setTime(23, 59, 59, 999)->getTimestamp();
+        $dtBefore = $dt->sub(new DateInterval('P7D'))->setTime(0, 0, 0, 0)->getTimestamp();
         $arrConfig = [
-            'where' => [sprintf('createdAt BETWEEN %d AND %d',
-                    $dt->setTime(0, 0, 0, 0)->getTimestamp(),
-                    $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp()
-                )],
+            'where' => [
+                sprintf('createdAt BETWEEN %d AND %d', $dtBefore, $dtAfter),
+            ],
             'exclude_be_login' => true,
         ];
         $arrOptions = ['group' => 'referer', 'order' => 'amount DESC'];
@@ -161,11 +163,12 @@ class AnalyticsInternal extends BackendModule
     protected function getReferersBaseAnalytics(): string
     {
         $dt = new DateTime();
+        $dtAfter = $dt->setTime(23, 59, 59, 999)->getTimestamp();
+        $dtBefore = $dt->sub(new DateInterval('P7D'))->setTime(0, 0, 0, 0)->getTimestamp();
         $arrConfig = [
-            'where' => [sprintf('createdAt BETWEEN %d AND %d',
-                    $dt->setTime(0, 0, 0, 0)->getTimestamp(),
-                    $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp()
-                )],
+            'where' => [
+                sprintf('createdAt BETWEEN %d AND %d', $dtBefore, $dtAfter),
+            ],
             'exclude_be_login' => true,
         ];
         $arrOptions = ['group' => 'referer_base', 'order' => 'amount DESC'];
@@ -186,11 +189,12 @@ class AnalyticsInternal extends BackendModule
     protected function getPagesUrlAnalytics(): string
     {
         $dt = new DateTime();
+        $dtAfter = $dt->setTime(23, 59, 59, 999)->getTimestamp();
+        $dtBefore = $dt->sub(new DateInterval('P7D'))->setTime(0, 0, 0, 0)->getTimestamp();
         $arrConfig = [
-            'where' => [sprintf('createdAt BETWEEN %d AND %d',
-                    $dt->setTime(0, 0, 0, 0)->getTimestamp(),
-                    $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp()
-                )],
+            'where' => [
+                sprintf('createdAt BETWEEN %d AND %d', $dtBefore, $dtAfter),
+            ],
             'exclude_be_login' => true,
         ];
         $arrOptions = ['group' => 'page_url', 'order' => 'amount DESC'];
@@ -209,11 +213,12 @@ class AnalyticsInternal extends BackendModule
     protected function getPagesUrlBaseAnalytics(): string
     {
         $dt = new DateTime();
+        $dtAfter = $dt->setTime(23, 59, 59, 999)->getTimestamp();
+        $dtBefore = $dt->sub(new DateInterval('P7D'))->setTime(0, 0, 0, 0)->getTimestamp();
         $arrConfig = [
-            'where' => [sprintf('createdAt BETWEEN %d AND %d',
-                    $dt->setTime(0, 0, 0, 0)->getTimestamp(),
-                    $dt->sub(new DateInterval('P7D'))->setTime(23, 59, 59, 999)->getTimestamp()
-                )],
+            'where' => [
+                sprintf('createdAt BETWEEN %d AND %d', $dtBefore, $dtAfter),
+            ],
             'exclude_be_login' => true,
         ];
         $arrOptions = ['group' => 'page_url_base', 'order' => 'amount DESC'];
