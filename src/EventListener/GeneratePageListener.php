@@ -158,6 +158,7 @@ class GeneratePageListener
         $objItem->page_url_base = str_contains($uri, '?') ? substr($uri, 0, strpos($uri, '?')) : $uri;
         $objItem->referer = $referer;
         $objItem->referer_base = $parse['host'];
+        $objItem->user_agent = Environment::get('httpUserAgent');
         $objItem->hash = $hash;
         $objItem->createdAt = time();
         $objItem->tstamp = time();
