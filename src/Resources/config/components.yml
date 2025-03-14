@@ -40,7 +40,6 @@ services:
                 - '@smartgear.backend.component.form_contact.resetter'
             $modulesResetters:
                 - '@smartgear.backend.module.extranet.resetter'
-                - '@smartgear.backend.module.form_data_manager.resetter'
         public: true
 
     smartgear.backend.component.core.configuration_step_manager:
@@ -142,7 +141,6 @@ services:
                 - '@smartgear.backend.component.events.configuration_step.general'
                 - '@smartgear.backend.component.faq.configuration_step.general'
                 - '@smartgear.backend.component.form_contact.configuration_step.general'
-                - '@smartgear.backend.module.form_data_manager.configuration_step.general'
                 - '@smartgear.backend.module.extranet.configuration_step.general'
             $htmlDecoder: '@contao.string.html_decoder'
                 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -38,8 +38,6 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage_data'] = [
             'headerFields' => ['form', 'tstamp', 'status'],
             // 'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
             'panelLayout' => 'filter;search,limit',
-            // 'child_record_callback' => [WEM\SmartgearBundle\DataContainer\FormStorageData::class, 'listItems'],
-            'child_record_callback' => ['smartgear.data_container.form_storage_data', 'listItems'],
         ],
         'global_operations' => [
             'all' => [

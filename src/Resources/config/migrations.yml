@@ -501,4 +501,14 @@ services:
       $z: 44
     public: true
 
+  smartgear.migrations.v1_0_45.m202503141412.migration:
+    class: WEM\SmartgearBundle\Migrations\V1_0_45\M202503141412\Migration
+    arguments:
+      $connection: '@database_connection'
+      $translator: '@contao.translation.translator'
+      $coreConfigurationManager: '@smartgear.config.manager.core'
+      $versionComparator: '@smartgear.classes.version.comparator'
+      $templatesSmartgearSynchronizer: '@smartgear.classes.directories_synchronizer.templates.smartgear'
+    public: true
+
 
