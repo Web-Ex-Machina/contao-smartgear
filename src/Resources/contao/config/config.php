@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2024 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -99,7 +99,7 @@ $GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_sm_form_storage';
 $GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_sm_form_storage_data';
 
 // ComponentStyleSelect override
-$GLOBALS['BE_FFL']['stylemanager'] = WEM\SmartgearBundle\Widget\ComponentStyleSelect::class;
+$GLOBALS['BE_FFL']['stylemanager'] = \WEM\SmartgearBundle\Widget\ComponentStyleSelect::class;
 /*
  * Backend modules
  */
@@ -132,19 +132,19 @@ ArrayUtil::arrayInsert(
         ],
     ]
 );
-ArrayUtil::arrayInsert(
-    $GLOBALS['BE_MOD']['content'],
-    array_search('form', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
-    [
-        'wem_sg_form_data_manager' => [
-            'tables' => ['tl_sm_form_storage', 'tl_sm_form_storage_data'],
-            'export_all' => ['smartgear.backend.module.form_data_manager.backend_controller', 'exportAll'],
-            'export' => ['smartgear.backend.module.form_data_manager.backend_controller', 'exportSingle'],
-        ],
-    ]
-);
-$GLOBALS['BE_MOD']['content']['form']['export_all'] = ['smartgear.backend.module.form_data_manager.backend_controller', 'exportAllFromForm'];
-$GLOBALS['BE_MOD']['content']['form']['export'] = ['smartgear.backend.module.form_data_manager.backend_controller', 'exportSingle'];
+// ArrayUtil::arrayInsert(
+//     $GLOBALS['BE_MOD']['content'],
+//     array_search('form', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
+//     [
+//         'wem_sg_form_data_manager' => [
+//             'tables' => ['tl_sm_form_storage', 'tl_sm_form_storage_data'],
+//             'export_all' => ['smartgear.backend.module.form_data_manager.backend_controller', 'exportAll'],
+//             'export' => ['smartgear.backend.module.form_data_manager.backend_controller', 'exportSingle'],
+//         ],
+//     ]
+// );
+// $GLOBALS['BE_MOD']['content']['form']['export_all'] = ['smartgear.backend.module.form_data_manager.backend_controller', 'exportAllFromForm'];
+// $GLOBALS['BE_MOD']['content']['form']['export'] = ['smartgear.backend.module.form_data_manager.backend_controller', 'exportSingle'];
 
 /*
  * Frontend modules
@@ -155,25 +155,25 @@ ArrayUtil::arrayInsert($GLOBALS['FE_MOD'], 2, [
         'wem_sg_social_link' => '\WEM\SmartgearBundle\Module\SocialLink',
     ],
 ]);
-$GLOBALS['FE_MOD']['news']['newsreader'] = WEM\SmartgearBundle\Override\ModuleNewsReader::class;
-$GLOBALS['FE_MOD']['news']['newslist'] = WEM\SmartgearBundle\Override\ModuleNewsList::class;
-$GLOBALS['FE_MOD']['events']['eventreader'] = WEM\SmartgearBundle\Override\ModuleEventReader::class;
-$GLOBALS['FE_MOD']['events']['eventlist'] = WEM\SmartgearBundle\Override\ModuleEventList::class;
-$GLOBALS['FE_MOD']['events']['calendar'] = WEM\SmartgearBundle\Override\ModuleCalendar::class;
-$GLOBALS['FE_MOD']['user']['login'] = WEM\SmartgearBundle\Override\ModuleLogin::class;
-$GLOBALS['FE_MOD']['navigationMenu']['breadcrumb'] = WEM\SmartgearBundle\Override\ModuleBreadcrumb::class;
+$GLOBALS['FE_MOD']['news']['newsreader'] = \WEM\SmartgearBundle\Override\ModuleNewsReader::class;
+$GLOBALS['FE_MOD']['news']['newslist'] = \WEM\SmartgearBundle\Override\ModuleNewsList::class;
+$GLOBALS['FE_MOD']['events']['eventreader'] = \WEM\SmartgearBundle\Override\ModuleEventReader::class;
+$GLOBALS['FE_MOD']['events']['eventlist'] = \WEM\SmartgearBundle\Override\ModuleEventList::class;
+$GLOBALS['FE_MOD']['events']['calendar'] = \WEM\SmartgearBundle\Override\ModuleCalendar::class;
+$GLOBALS['FE_MOD']['user']['login'] = \WEM\SmartgearBundle\Override\ModuleLogin::class;
+$GLOBALS['FE_MOD']['navigationMenu']['breadcrumb'] = \WEM\SmartgearBundle\Override\ModuleBreadcrumb::class;
 /*
  * Models
  */
-$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\Backup::getTable()] = WEM\SmartgearBundle\Model\Backup::class;
-$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\SocialNetworkCategory::getTable()] = WEM\SmartgearBundle\Model\SocialNetworkCategory::class;
-$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\SocialNetwork::getTable()] = WEM\SmartgearBundle\Model\SocialNetwork::class;
-$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\SocialLink::getTable()] = WEM\SmartgearBundle\Model\SocialLink::class;
-$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\Member::getTable()] = WEM\SmartgearBundle\Model\Member::class;
-$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\FormStorage::getTable()] = WEM\SmartgearBundle\Model\FormStorage::class;
-$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\FormStorageData::getTable()] = WEM\SmartgearBundle\Model\FormStorageData::class;
-$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\PageVisit::getTable()] = WEM\SmartgearBundle\Model\PageVisit::class;
-$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\Login::getTable()] = WEM\SmartgearBundle\Model\Login::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Backup::getTable()] = \WEM\SmartgearBundle\Model\Backup::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialNetworkCategory::getTable()] = \WEM\SmartgearBundle\Model\SocialNetworkCategory::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialNetwork::getTable()] = \WEM\SmartgearBundle\Model\SocialNetwork::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\SocialLink::getTable()] = \WEM\SmartgearBundle\Model\SocialLink::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Member::getTable()] = \WEM\SmartgearBundle\Model\Member::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorage::getTable()] = \WEM\SmartgearBundle\Model\FormStorage::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\FormStorageData::getTable()] = \WEM\SmartgearBundle\Model\FormStorageData::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\PageVisit::getTable()] = \WEM\SmartgearBundle\Model\PageVisit::class;
+$GLOBALS['TL_MODELS'][\WEM\SmartgearBundle\Model\Login::getTable()] = \WEM\SmartgearBundle\Model\Login::class;
 /*
  * Add BE Hooks
  */

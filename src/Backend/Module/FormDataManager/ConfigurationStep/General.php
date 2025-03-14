@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -142,7 +142,7 @@ class General extends ConfigurationStep
     {
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
         $userGroupManipulator
-            ->addAllowedModules(['wem_sg_form_data_manager'])
+            ->addAllowedModules(['wem_form_data_manager'])
         ;
         $objUserGroup = $userGroupManipulator->getUserGroup();
         $objUserGroup->save();

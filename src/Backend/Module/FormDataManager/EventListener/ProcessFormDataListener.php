@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -18,7 +18,6 @@ use Contao\Form;
 use Contao\FormFieldModel;
 use Contao\Model;
 use Contao\PageModel;
-use Exception;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\FormUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -49,6 +48,7 @@ class ProcessFormDataListener
         array $labels,
         Form $form
     ): void {
+        return;
         try {
             /** @var CoreConfig */
             $coreConfig = $this->coreConfigurationManager->load();
@@ -91,7 +91,7 @@ class ProcessFormDataListener
                     $this->storeFilesValues($files ?? [], $objFormStorage);
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
     }
@@ -107,7 +107,7 @@ class ProcessFormDataListener
                     $refererPageId = $objPage->id;
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
 
         return $refererPageId ? (int) $refererPageId : $refererPageId;
@@ -150,7 +150,7 @@ class ProcessFormDataListener
     {
         $objFormField = FormField::findItems(['name' => $fieldName, 'pid' => $objFormStorage->pid], 1);
         if (!$objFormField) {
-            throw new Exception(sprintf('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('pid')->name));
+            throw new \Exception(\sprintf('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('pid')->name));
         }
 
         $objFormStorageData = new FormStorageData();
@@ -189,7 +189,7 @@ class ProcessFormDataListener
     {
         $objFormField = FormField::findItems(['name' => $fieldName, 'pid' => $objFormStorage->pid], 1);
         if (!$objFormField) {
-            throw new Exception(sprintf('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('pid')->name));
+            throw new \Exception(\sprintf('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('pid')->name));
         }
 
         $value = '';
@@ -238,7 +238,7 @@ class ProcessFormDataListener
                     $optionsSelected[$submittedValueChunk] = ['label' => $options[$submittedValueChunk]['label'], 'value' => $submittedValueChunk];
                 }
                 $value = serialize($optionsSelected);
-            break;
+                break;
         }
 
         return $value;

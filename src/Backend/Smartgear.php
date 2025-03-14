@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2024 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -86,7 +86,7 @@ class Smartgear extends \Contao\BackendModule
     protected $strBasePath = 'bundles/wemsmartgear';
 
     /** @var array */
-    protected $modules = ['module' => ['extranet', 'form_data_manager'], 'component' => ['core', 'blog', 'events', 'faq', 'form_contact']];
+    protected $modules = ['module' => ['extranet'/* , 'form_data_manager' */], 'component' => ['core', 'blog', 'events', 'faq', 'form_contact']];
 
     /** @var BackupManager */
     protected $backupManager;
@@ -125,7 +125,7 @@ class Smartgear extends \Contao\BackendModule
 
                         try {
                             $arrResponse['status'] = 'success';
-                            $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
+                            $arrResponse['msg'] = \sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
                             $arrResponse['output'] = $this->commandUtil->executeCmd(Input::post('cmd'));
                             // } catch (ProcessFailedException $e) {
                         } catch (\Exception $e) {
@@ -139,7 +139,7 @@ class Smartgear extends \Contao\BackendModule
 
                         try {
                             $arrResponse['status'] = 'success';
-                            $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
+                            $arrResponse['msg'] = \sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
                             $arrResponse['output'] = $this->commandUtil->executeCmdPHP(Input::post('cmd'));
                             // } catch (ProcessFailedException $e) {
                         } catch (\Exception $e) {
@@ -152,7 +152,7 @@ class Smartgear extends \Contao\BackendModule
                         }
 
                         $arrResponse['status'] = 'success';
-                        $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
+                        $arrResponse['msg'] = \sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
                         $res = $this->commandUtil->executeCmdLive(Input::post('cmd'));
                         $arrResponse['output'] = $res;
                         // exit();
@@ -287,9 +287,9 @@ class Smartgear extends \Contao\BackendModule
 
         $memoryLimitInBytes = Util::formatPhpMemoryLimitToBytes(\ini_get('memory_limit'));
         if ($memoryLimitInBytes < 0) {
-            Message::addInfo(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageChunkSizeNoLimitDefined'], Util::humanReadableFilesize($this->backupManager->getChunkSizeInBytes(), 0)));
+            Message::addInfo(\sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageChunkSizeNoLimitDefined'], Util::humanReadableFilesize($this->backupManager->getChunkSizeInBytes(), 0)));
         } else {
-            Message::addInfo(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageChunkSize'], Util::humanReadableFilesize($this->backupManager->getChunkSizeInBytes(), 0)));
+            Message::addInfo(\sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageChunkSize'], Util::humanReadableFilesize($this->backupManager->getChunkSizeInBytes(), 0)));
         }
 
         if ('new' === Input::get('act')) {
@@ -302,7 +302,7 @@ class Smartgear extends \Contao\BackendModule
                 $this->objSession->set('wem_sg_backup_create_result', $result);
 
                 // Add Message
-                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageNewBackUpDone'], $result->getBackup()->getFile()->basename, $end - $start));
+                Message::addConfirmation(\sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageNewBackUpDone'], $result->getBackup()->getFile()->basename, $end - $start));
             } catch (ManagerException $e) {
                 Message::addError($e->getMessage());
             }
@@ -318,7 +318,7 @@ class Smartgear extends \Contao\BackendModule
                 $this->objSession->set('wem_sg_backup_restore_result', $result);
 
                 // Add Message
-                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageRestoreBackUpDone'], $result->getBackup()->getFile()->basename, $end - $start));
+                Message::addConfirmation(\sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageRestoreBackUpDone'], $result->getBackup()->getFile()->basename, $end - $start));
             } catch (ManagerException $e) {
                 Message::addError($e->getMessage());
             }
@@ -328,13 +328,13 @@ class Smartgear extends \Contao\BackendModule
             try {
                 if ($this->backupManager->delete(Input::get('backup'))) {
                     // Add Message
-                    Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpSuccess'], Input::get('backup')));
+                    Message::addConfirmation(\sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpSuccess'], Input::get('backup')));
                 } else {
                     // Add Message
-                    Message::addError(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
+                    Message::addError(\sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
                 }
             } catch (ManagerException $e) {
-                Message::addError(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
+                Message::addError(\sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
             }
 
             // And redirect
@@ -427,7 +427,7 @@ class Smartgear extends \Contao\BackendModule
         // play updates button
         $this->Template->playUpdatesWithoutBackupButtonHref = $this->addToUrl('&act=play&backup=0');
         $this->Template->playUpdatesWithoutBackupButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBTTitle']);
-        $this->Template->playUpdatesWithoutBackupButtonButton = sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBT'], \Contao\Image::getHtml('important.svg'));
+        $this->Template->playUpdatesWithoutBackupButtonButton = \sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBT'], \Contao\Image::getHtml('important.svg'));
         $this->Template->playUpdatesWithBackupButtonHref = $this->addToUrl('&act=play&backup=1');
         $this->Template->playUpdatesWithBackupButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithBackupBTTitle']);
         $this->Template->playUpdatesWithBackupButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithBackupBT'];
@@ -721,19 +721,19 @@ class Smartgear extends \Contao\BackendModule
             $coreConfig->setSgFormContact($fcConfig);
         }
 
-        if (Input::post('formDataManager')) {
-            /** @var FormDataManagerConfig */
-            $fdmConfig = $coreConfig->getSgFormDataManager();
+        // if (Input::post('formDataManager')) {
+        //     /** @var FormDataManagerConfig */
+        //     $fdmConfig = $coreConfig->getSgFormDataManager();
 
-            $fdmConfig
-                ->setSgInstallComplete((bool) Input::post('formDataManager')['installComplete'])
-                ->setSgArchived((bool) Input::post('formDataManager')['archived'])
-                ->setSgArchivedAt((int) Input::post('formDataManager')['archivedAt'])
-                ->setSgArchivedMode(Input::post('formDataManager')['archivedMode'])
-            ;
+        //     $fdmConfig
+        //         ->setSgInstallComplete((bool) Input::post('formDataManager')['installComplete'])
+        //         ->setSgArchived((bool) Input::post('formDataManager')['archived'])
+        //         ->setSgArchivedAt((int) Input::post('formDataManager')['archivedAt'])
+        //         ->setSgArchivedMode(Input::post('formDataManager')['archivedMode'])
+        //     ;
 
-            $coreConfig->setSgFormDataManager($fdmConfig);
-        }
+        //     $coreConfig->setSgFormDataManager($fdmConfig);
+        // }
 
         if (Input::post('extranet')) {
             /** @var ExtranetConfig */
@@ -1548,29 +1548,29 @@ class Smartgear extends \Contao\BackendModule
         $this->Template->fields = $empty + $arrFields;
 
         // FormDataManager
-        /** @var FormDataManagerConfig */
-        $fdmConfig = $coreConfig->getSgFormDataManager();
-        $archivedModeRaw = FormDataManagerConfig::ARCHIVE_MODES_ALLOWED;
-        $archivedMode = [];
-        foreach ($archivedModeRaw as $mode) {
-            $archivedMode[$mode] = [
-                'text' => !empty($mode) ? $mode : 'N/A',
-                'value' => $mode,
-                'selected' => false,
-            ];
-        }
-        if ($archivedMode[$fdmConfig->getSgArchivedMode()]) {
-            $archivedMode[$fdmConfig->getSgArchivedMode()]['selected'] = true;
-        }
+        // /** @var FormDataManagerConfig */
+        // $fdmConfig = $coreConfig->getSgFormDataManager();
+        // $archivedModeRaw = FormDataManagerConfig::ARCHIVE_MODES_ALLOWED;
+        // $archivedMode = [];
+        // foreach ($archivedModeRaw as $mode) {
+        //     $archivedMode[$mode] = [
+        //         'text' => !empty($mode) ? $mode : 'N/A',
+        //         'value' => $mode,
+        //         'selected' => false,
+        //     ];
+        // }
+        // if ($archivedMode[$fdmConfig->getSgArchivedMode()]) {
+        //     $archivedMode[$fdmConfig->getSgArchivedMode()]['selected'] = true;
+        // }
 
-        $formDataManager = [
-            'installComplete' => $fdmConfig->getSgInstallComplete(),
-            'archived' => $fdmConfig->getSgArchived(),
-            'archivedAt' => $fdmConfig->getSgArchivedAt(),
-            'archivedMode' => $archivedMode,
-        ];
+        // $formDataManager = [
+        //     'installComplete' => $fdmConfig->getSgInstallComplete(),
+        //     'archived' => $fdmConfig->getSgArchived(),
+        //     'archivedAt' => $fdmConfig->getSgArchivedAt(),
+        //     'archivedMode' => $archivedMode,
+        // ];
 
-        $this->Template->formDataManager = $formDataManager;
+        // $this->Template->formDataManager = $formDataManager;
 
         // Extranet
         /** @var ExtranetConfig */

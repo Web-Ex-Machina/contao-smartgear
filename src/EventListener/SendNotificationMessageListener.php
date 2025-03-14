@@ -20,6 +20,7 @@ class SendNotificationMessageListener
 {
     public function __invoke($objMessage, &$arrTokens, $language, $objGatewayModel): bool
     {
+        return true;
         $arrTokens2 = [];
 
         foreach ($arrTokens as $key => $value) {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -56,6 +56,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
         int $_rit,
         int $_cnt
     ) {
+        return false;
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
         if ('sg' === $key && 'formDataManager' === substr($elements[1], 0, 15)) {
@@ -71,18 +72,18 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
             switch ($elements[1]) {
                 case 'formDataManager_installComplete':
                     return $formDataManagerConfig->getSgInstallComplete() ? '1' : '0';
-                break;
+                    break;
                 case 'formDataManager_archived':
                     return $formDataManagerConfig->getSgArchived() ? '1' : '0';
-                break;
+                    break;
                 case 'formDataManager_archivedAt':
                     return $formDataManagerConfig->getSgArchivedAt();
-                break;
+                    break;
                 case 'formDataManager_archivedMode':
                     return $formDataManagerConfig->getSgArchivedMode();
-                break;
+                    break;
                 default:
-                return static::NOT_HANDLED;
+                    return static::NOT_HANDLED;
             }
         }
 

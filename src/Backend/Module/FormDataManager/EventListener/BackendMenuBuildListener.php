@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Module\FormDataManager\EventListener;
 
 use Contao\CoreBundle\Event\MenuEvent;
-use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
@@ -40,6 +39,7 @@ class BackendMenuBuildListener
 
     public function __invoke(MenuEvent $event): void
     {
+        return;
         try {
             /** @var CoreConfig */
             $coreConfig = $this->coreConfigurationManager->load();
@@ -52,7 +52,7 @@ class BackendMenuBuildListener
             }
         } catch (FileNotFoundException $e) {
             $this->removeFormDataManagerNode($event);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 

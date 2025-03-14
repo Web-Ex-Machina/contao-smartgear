@@ -113,14 +113,14 @@
 				<source>Configure links to your social networks</source>
 				<target>Configurer vos liens vers vos réseaux sociaux</target>
 			</trans-unit>
-			<trans-unit id="MOD.wem_sg_form_data_manager.0">
+			<!-- <trans-unit id="MOD.wem_sg_form_data_manager.0">
 				<source>Contacts</source>
 				<target>Contacts</target>
 			</trans-unit>
 			<trans-unit id="MOD.wem_sg_form_data_manager.1">
 				<source>Manage contacts</source>
 				<target>Gérer les contacts</target>
-			</trans-unit>
+			</trans-unit> -->
 	    <trans-unit id="MOD.nc_notifications.0">
 	      <source>Transactionnal emails</source>
 	      <target>Emails transactionnels</target>

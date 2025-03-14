@@ -1,6 +1,9 @@
 SMARTGEAR Project for Contao Open Source CMS
 ========
 
+1.0.45 - 2025-03-14
+- Feat : as Form Data Manager is now an external bundle, use it.
+
 1.0.44 - 2025-02-12
 - Feat : better management of pages visit
 
