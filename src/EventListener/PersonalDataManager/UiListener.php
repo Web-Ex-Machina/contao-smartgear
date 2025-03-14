@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2024 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -47,7 +47,6 @@ class UiListener
         $this->personalDataManagerUi = $personalDataManagerUi;
 
         $GLOBALS['TL_CSS'][] = 'bundles/wemsmartgear/css/module/personaldatamanager/frontend.css';
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/wemsmartgear/js/module/personaldatamanager/frontend.js';
     }
 
     public function sortData(array $sorted, ?Collection $personalDatas): array
@@ -92,7 +91,7 @@ class UiListener
             case FormStorage::getTable():
                 $objFormStorage = FormStorage::findOneBy('id', $pid);
                 $objForm = $objFormStorage->getRelated('pid');
-                $buffer = sprintf('%s %s', 'Formulaire', $objForm->title);
+                $buffer = \sprintf('%s %s', 'Formulaire', $objForm->title);
                 break;
         }
 
@@ -142,21 +141,21 @@ class UiListener
     public function renderSingleItemBodyOriginalModelSingleFieldValue(int $pid, string $ptable, string $email, string $field, $value, array $personalDatas, Model $originalModel, string $buffer): string
     {
         if (empty($buffer)) {
-            return sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
+            return \sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
         }
 
         switch ($ptable) {
             case 'tl_member':
                 switch ($field) {
                     case 'login':
-                        $buffer = sprintf('<input type="checkbox" readonly %s />', true === (bool) $value ? 'checked' : '');
+                        $buffer = \sprintf('<input type="checkbox" readonly %s />', true === (bool) $value ? 'checked' : '');
                         break;
                     case 'groups':
                         $groupIds = unserialize($value);
                         $buffer = '<ul>';
                         foreach ($groupIds as $groupId) {
                             $objGroup = MemberGroupModel::findById($groupId);
-                            $buffer .= sprintf('<li>- %s</li>', null !== $objGroup ? $objGroup->name : $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementUnknown', [], 'contao_default'));
+                            $buffer .= \sprintf('<li>- %s</li>', null !== $objGroup ? $objGroup->name : $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementUnknown', [], 'contao_default'));
                         }
                         $buffer .= '<ul>';
                         break;
@@ -198,7 +197,7 @@ class UiListener
                         break;
                     default:
                         if (empty($buffer)) {
-                            return sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
+                            return \sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
                         }
                         break;
                 }
@@ -230,7 +229,7 @@ class UiListener
                 break;
             default:
                 if (empty($buffer)) {
-                    return sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
+                    return \sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
                 }
                 break;
         }
@@ -275,13 +274,13 @@ class UiListener
         //                             $objFile = new File($objFileModel->path);
         if ($file) {
             if (FileUtil::isDisplayableInBrowser($file)) {
-                $buttons['show'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_show_file pdm-item__personal_data_single__button_show_file" target="_blank" data-path="%s">%s</a>',
+                $buttons['show'] = \sprintf('<br /><a href="%s" class="pdm-button pdm-button_show_file pdm-item__personal_data_single__button_show_file" target="_blank" data-path="%s">%s</a>',
                     $this->personalDataManagerUi->getUrl(),
                     $file->path,
                     $this->translator->trans('WEMSG.FDM.PDMUI.buttonShowFile', [], 'contao_default')
                 );
             }
-            $buttons['download'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_download_file pdm-item__personal_data_single__button_download_file" target="_blank" data-path="%s">%s</a>',
+            $buttons['download'] = \sprintf('<br /><a href="%s" class="pdm-button pdm-button_download_file pdm-item__personal_data_single__button_download_file" target="_blank" data-path="%s">%s</a>',
                 $this->personalDataManagerUi->getUrl(),
                 $file->path,
                 $this->translator->trans('WEMSG.FDM.PDMUI.buttonDownloadFile', [], 'contao_default')

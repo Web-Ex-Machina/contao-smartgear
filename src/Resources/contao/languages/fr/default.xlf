@@ -4019,7 +4019,19 @@
 			<target>Fichier templates/smartgear/form_password.html5 mis à jour.</target>
 		</trans-unit>
 
-
+		<!-- V1_0_45/M202503141412 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_45_M202503141412.name">
+			<source>Smartgear v1.0.45</source>
+			<target>Smartgear v1.0.45</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_45_M202503141412.description">
+			<source>Update FormData storage table.</source>
+			<target>Mise à jour de la table d'enregistrement des données de formulaires.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_45_M202503141412.done">
+			<source>FormData storage table updated.</source>
+			<target>Table d'enregistrement des données de formulaires mise à jour.</target>
+		</trans-unit>
 
 		<!-- Social networks -->
 		<trans-unit id="WEMSG.SOCIALNETWORK.CATEGORY.social">
@@ -4285,10 +4297,6 @@
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.legend_formContact">
 			<source>Contact Form</source>
 			<target>Formulaire de contact</target>
-		</trans-unit>
-		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.legend_formDataManager">
-			<source>Form Data Manager</source>
-			<target>Form Data Manager</target>
 		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.legend_extranet">
 			<source>Extranet</source>
@@ -4859,23 +4867,7 @@
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_pageTitle">
 			<source>Page title</source>
 			<target>Titre de la page</target>
-		</trans-unit>	
-		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formDataManager_installComplete">
-			<source>Is installed</source>
-			<target>Est installé</target>
-		</trans-unit>		
-		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formDataManager_archived">
-			<source>Is archived</source>
-			<target>Est archivé</target>
-		</trans-unit>	
-		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formDataManager_archivedAt">
-			<source>Archived at</source>
-			<target>Archivé le</target>
-		</trans-unit>	
-		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formDataManager_archivedMode">
-			<source>Archived mode</source>
-			<target>Mode d'archivage</target>
-		</trans-unit>	
+		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_installComplete">
 			<source>Is installed</source>
 			<target>Est installé</target>

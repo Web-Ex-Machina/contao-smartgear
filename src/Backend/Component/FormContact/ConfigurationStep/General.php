@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -22,7 +22,6 @@ use Contao\FormModel;
 use Contao\Input;
 use Contao\PageModel;
 use Contao\UserGroupModel;
-use Exception;
 use NotificationCenter\Model\Language as NotificationLanguageModel;
 use NotificationCenter\Model\Message as NotificationMessageModel;
 use NotificationCenter\Model\Notification as NotificationModel;
@@ -79,10 +78,10 @@ class General extends ConfigurationStep
     {
         // check if the step is correct
         if (null === Input::post('formContactTitle', null)) {
-            throw new Exception($this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.formContactTitleMissing', [], 'contao_default'));
+            throw new \Exception($this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.formContactTitleMissing', [], 'contao_default'));
         }
         if (null === Input::post('pageTitle', null)) {
-            throw new Exception($this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageTitleMissing', [], 'contao_default'));
+            throw new \Exception($this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageTitleMissing', [], 'contao_default'));
         }
 
         return true;
@@ -369,7 +368,7 @@ class General extends ConfigurationStep
         /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
-        $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/formContact/%s/user_form.html', Util::getPublicOrWebDirectory(), $this->language));
+        $strText = file_get_contents(\sprintf('%s/bundles/wemsmartgear/examples/formContact/%s/user_form.html', Util::getPublicOrWebDirectory(), $this->language));
 
         $nl = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageUserLanguage()) ?? new NotificationLanguageModel();
         $nl->pid = $gatewayMessage->id;
@@ -398,7 +397,7 @@ class General extends ConfigurationStep
         /** @var FormContactConfig */
         $formContactConfig = $config->getSgFormContact();
 
-        $strText = file_get_contents(sprintf('%s/bundles/wemsmartgear/examples/formContact/%s/admin_form.html', Util::getPublicOrWebDirectory(), $this->language));
+        $strText = file_get_contents(\sprintf('%s/bundles/wemsmartgear/examples/formContact/%s/admin_form.html', Util::getPublicOrWebDirectory(), $this->language));
 
         $nl = NotificationLanguageModel::findOneById($formContactConfig->getSgNotificationMessageAdminLanguage()) ?? new NotificationLanguageModel();
         $nl->pid = $gatewayMessage->id;
@@ -442,9 +441,7 @@ class General extends ConfigurationStep
         $form->jumpTo = $page->id;
         $form->nc_notification = $notification->id;
         $form->tstamp = time();
-        if ($config->getSgFormDataManager()->getSgInstallComplete()) {
-            $form->storeViaFormDataManager = true;
-        }
+        $form->storeViaFormDataManager = true;
         $form->save();
 
         $this->setFormContactConfigKey('setSgFormContact', (int) $form->id);
@@ -468,9 +465,7 @@ class General extends ConfigurationStep
         $inputName->placeholder = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.placeholderFormInputName', [], 'contao_default');
         $inputName->mandatory = 1;
         $inputName->tstamp = time();
-        if ($config->getSgFormDataManager()->getSgInstallComplete()) {
-            $inputName->contains_personal_data = true;
-        }
+        $inputName->contains_personal_data = true;
         $inputName->save();
 
         $this->setFormContactConfigKey('setSgFieldName', (int) $inputName->id);
@@ -498,9 +493,7 @@ class General extends ConfigurationStep
         $inputMessage->placeholder = $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.placeholderFormInputMessage', [], 'contao_default');
         $inputMessage->mandatory = 1;
         $inputMessage->tstamp = time();
-        if ($config->getSgFormDataManager()->getSgInstallComplete()) {
-            $inputMessage->contains_personal_data = true;
-        }
+        $inputMessage->contains_personal_data = true;
         $inputMessage->save();
 
         $this->setFormContactConfigKey('setSgFieldMessage', (int) $inputMessage->id);
@@ -526,7 +519,7 @@ class General extends ConfigurationStep
         $inputConsentDataSave->options = serialize([['value' => 1, 'label' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.optionLabelFormInputConsentDataSave', [], 'contao_default')]]);
         $inputConsentDataSave->mandatory = 1;
         $inputConsentDataSave->tstamp = time();
-        $inputConsentDataSave->invisible = !$config->getSgFormDataManager()->getSgInstallComplete();
+        $inputConsentDataSave->invisible = false;
         $inputConsentDataSave->save();
 
         $this->setFormContactConfigKey('setSgFieldConsentDataSave', (int) $inputConsentDataSave->id);
