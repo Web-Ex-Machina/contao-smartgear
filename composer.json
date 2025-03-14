@@ -38,7 +38,7 @@
         "webexmachina/contao-grid": "^1.0",
         "webexmachina/contao-component-style-manager": "^2.6",
         "webexmachina/contao-personal-data-manager": "^1.0",
-        "webexmachina/contao-form-data-manager": "dev-fix-remove-fdm-from-sg"
+        "webexmachina/contao-form-data-manager": "^1.0"
     },
     "require-dev":
     {

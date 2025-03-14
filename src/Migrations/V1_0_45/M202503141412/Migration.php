@@ -51,10 +51,13 @@ class Migration extends MigrationAbstract
             return $result;
         }
 
+        $schemaManager = $this->connection->getSchemaManager();
+
         if (!class_exists('\WEM\SmartgearBundle\Model\FormStorage')
         || !class_exists('\WEM\SmartgearBundle\Model\FormStorageData')
         || !class_exists('\WEM\ContaoFormDataManagerBundle\Model\FormStorage')
         || !class_exists('\WEM\ContaoFormDataManagerBundle\Model\FormStorageData')
+        || $schemaManager->tablesExist(['tl_sm_form_storage', 'tl_sm_form_storage_data'])
         ) {
             return (new Result())->setStatus(Result::STATUS_SKIPPED);
         }

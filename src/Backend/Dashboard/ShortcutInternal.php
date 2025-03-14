@@ -95,7 +95,6 @@ class ShortcutInternal extends BackendModule
             'text' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkFilesText', [], 'contao_default'),
             'title' => $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTINTERNAL.linkFilesTitle', [], 'contao_default'),
             'icon' => 'manager.gif',
-            'icon' => 'manager.gif',
         ];
 
         // events
