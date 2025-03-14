@@ -132,19 +132,6 @@ ArrayUtil::arrayInsert(
         ],
     ]
 );
-// ArrayUtil::arrayInsert(
-//     $GLOBALS['BE_MOD']['content'],
-//     array_search('form', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
-//     [
-//         'wem_sg_form_data_manager' => [
-//             'tables' => ['tl_sm_form_storage', 'tl_sm_form_storage_data'],
-//             'export_all' => ['smartgear.backend.module.form_data_manager.backend_controller', 'exportAll'],
-//             'export' => ['smartgear.backend.module.form_data_manager.backend_controller', 'exportSingle'],
-//         ],
-//     ]
-// );
-// $GLOBALS['BE_MOD']['content']['form']['export_all'] = ['smartgear.backend.module.form_data_manager.backend_controller', 'exportAllFromForm'];
-// $GLOBALS['BE_MOD']['content']['form']['export'] = ['smartgear.backend.module.form_data_manager.backend_controller', 'exportSingle'];
 
 /*
  * Frontend modules
@@ -213,7 +200,6 @@ if ('FE' === TL_MODE) {
  * Add globals Hooks
  */
 $GLOBALS['TL_HOOKS']['loadLanguageFile'][] = ['smartgear.listener.load_language_file', '__invoke'];
-$GLOBALS['TL_HOOKS']['sendNotificationMessage'][] = ['smartgear.listener.send_notification_message', '__invoke'];
 
 /*
  * NC hooks

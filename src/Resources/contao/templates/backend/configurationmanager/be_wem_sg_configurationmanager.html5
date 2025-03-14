@@ -320,24 +320,7 @@
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'formContact_formContactTitle','name'=>'formContact[formContactTitle]','value'=>$this->formContact['formContactTitle']]); ?>
 				<?php $this->insert('be_wem_sg_configurationmanager_input',['label'=>'formContact_pageTitle','name'=>'formContact[pageTitle]','value'=>$this->formContact['pageTitle']]); ?>
 			</fieldset>
-
-			<fieldset class="tl_box hidden">
-				<legend onclick="return toggleFieldset(this);">
-					<?php 
-						$key ='WEMSG.CONFIGURATIONMANAGER.FORM.legend_formDataManager'; 
-						$trans = $this->trans($key); 
-						echo $trans != $key ? $trans : 'legend_formDataManager';
-					?>
-				</legend>
-				<!-- install -->
-				<?php //$this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'formDataManager_installComplete','name'=>'formDataManager[installComplete]','value'=>'1','checked'=>(bool) $this->formDataManager['installComplete']]); ?>
-				
-				<!-- archive -->
-				<?php //$this->insert('be_wem_sg_configurationmanager_checkbox',['label'=>'formDataManager_archived','name'=>'formDataManager[archived]','value'=>'1','checked'=>(bool) $this->formDataManager['formDataManager_archived']]); ?>
-				<?php //$this->insert('be_wem_sg_configurationmanager_input',['label'=>'formDataManager_archivedAt','name'=>'formDataManager[archivedAt]','type'=>'text','value'=>$this->formDataManager['archivedAt']]); ?>
-				<?php //$this->insert('be_wem_sg_configurationmanager_select',['label'=>'formDataManager_archivedMode','name'=>'formDataManager[archivedMode]','options'=>$this->formDataManager['archivedMode']]); ?>
-			</fieldset>
-
+			
 			<fieldset class="tl_box">
 				<legend onclick="return toggleFieldset(this);">
 					<?php 

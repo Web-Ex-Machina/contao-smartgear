@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -31,7 +31,6 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
                 'pid' => 'index',
             ],
         ],
-        'onshow_callback' => [['smartgear.data_container.form_storage', 'onShowCallback']],
     ],
 
     // List
@@ -45,7 +44,6 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
         'label' => [
             'fields' => ['pid', 'createdAt', 'status', 'sender'],
             'showColumns' => true,
-            'label_callback' => ['smartgear.data_container.form_storage', 'listItems'],
         ],
         'global_operations' => [
             'all' => [
@@ -186,7 +184,6 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
         'form_storage_data' => [
             'search' => false,
             'exclude' => false,
-            'input_field_callback' => ['smartgear.data_container.form_storage', 'showData'],
         ],
         'sender' => [
             'search' => true,

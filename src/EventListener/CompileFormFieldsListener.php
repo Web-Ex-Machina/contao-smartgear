@@ -42,8 +42,6 @@ class CompileFormFieldsListener
         string $formId,
         Form $form
     ): array {
-        // $GLOBALS['TL_JAVASCRIPT']['sg_formdatamanager'] = 'bundles/wemsmartgear/js/module/formdatamanager/frontend.js';
-
         return $this->applyListeners($arrFields, $formId, $form);
     }
 

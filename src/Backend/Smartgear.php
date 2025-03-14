@@ -50,7 +50,6 @@ use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
 use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
 use WEM\SmartgearBundle\Config\Module\Extranet\Extranet as ExtranetConfig;
-use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Model\Member;
@@ -86,7 +85,7 @@ class Smartgear extends \Contao\BackendModule
     protected $strBasePath = 'bundles/wemsmartgear';
 
     /** @var array */
-    protected $modules = ['module' => ['extranet'/* , 'form_data_manager' */], 'component' => ['core', 'blog', 'events', 'faq', 'form_contact']];
+    protected $modules = ['module' => ['extranet'], 'component' => ['core', 'blog', 'events', 'faq', 'form_contact']];
 
     /** @var BackupManager */
     protected $backupManager;
@@ -720,20 +719,6 @@ class Smartgear extends \Contao\BackendModule
 
             $coreConfig->setSgFormContact($fcConfig);
         }
-
-        // if (Input::post('formDataManager')) {
-        //     /** @var FormDataManagerConfig */
-        //     $fdmConfig = $coreConfig->getSgFormDataManager();
-
-        //     $fdmConfig
-        //         ->setSgInstallComplete((bool) Input::post('formDataManager')['installComplete'])
-        //         ->setSgArchived((bool) Input::post('formDataManager')['archived'])
-        //         ->setSgArchivedAt((int) Input::post('formDataManager')['archivedAt'])
-        //         ->setSgArchivedMode(Input::post('formDataManager')['archivedMode'])
-        //     ;
-
-        //     $coreConfig->setSgFormDataManager($fdmConfig);
-        // }
 
         if (Input::post('extranet')) {
             /** @var ExtranetConfig */
@@ -1546,31 +1531,6 @@ class Smartgear extends \Contao\BackendModule
         $this->Template->formContact = $formContact;
         $this->Template->forms = $empty + $arrForms;
         $this->Template->fields = $empty + $arrFields;
-
-        // FormDataManager
-        // /** @var FormDataManagerConfig */
-        // $fdmConfig = $coreConfig->getSgFormDataManager();
-        // $archivedModeRaw = FormDataManagerConfig::ARCHIVE_MODES_ALLOWED;
-        // $archivedMode = [];
-        // foreach ($archivedModeRaw as $mode) {
-        //     $archivedMode[$mode] = [
-        //         'text' => !empty($mode) ? $mode : 'N/A',
-        //         'value' => $mode,
-        //         'selected' => false,
-        //     ];
-        // }
-        // if ($archivedMode[$fdmConfig->getSgArchivedMode()]) {
-        //     $archivedMode[$fdmConfig->getSgArchivedMode()]['selected'] = true;
-        // }
-
-        // $formDataManager = [
-        //     'installComplete' => $fdmConfig->getSgInstallComplete(),
-        //     'archived' => $fdmConfig->getSgArchived(),
-        //     'archivedAt' => $fdmConfig->getSgArchivedAt(),
-        //     'archivedMode' => $archivedMode,
-        // ];
-
-        // $this->Template->formDataManager = $formDataManager;
 
         // Extranet
         /** @var ExtranetConfig */

@@ -163,6 +163,7 @@ services:
         class: WEM\SmartgearBundle\Classes\Analyzer\Htaccess
         arguments:
             $htAccessFilePath: './.htaccess'
+            # $htAccessFilePath: '[public_or_web]/.htaccess'
         public: true
 
     smartgear.classes.api.security.api_key:
@@ -284,10 +285,6 @@ services:
         class: WEM\SmartgearBundle\Config\Module\Extranet\Extranet
         public: true
 
-    smartgear.config.form_data_manager:
-        class: WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager
-        public: true
-
     smartgear.config.framway:
         class: WEM\SmartgearBundle\Config\Framway
         public: true
@@ -387,6 +384,7 @@ services:
                 - '@smartgear.migrations.v1_0_42.m202501211648.migration'
                 - '@smartgear.migrations.v1_0_43.m202501241204.migration'
                 - '@smartgear.migrations.v1_0_44.m202502121430.migration'
+                - '@smartgear.migrations.v1_0_45.m202503141412.migration'
         public: true
 
     smartgear.model.backup:
@@ -395,18 +393,6 @@ services:
 
     smartgear.data_container.form:
         class: WEM\SmartgearBundle\DataContainer\Form
-        public: true
-
-    smartgear.data_container.form_storage:
-        class: WEM\SmartgearBundle\DataContainer\FormStorage
-        arguments:
-            $translator: '@contao.translation.translator'
-        public: true
-
-    smartgear.data_container.form_storage_data:
-        class: WEM\SmartgearBundle\DataContainer\FormStorageData
-        arguments:
-            $translator: '@contao.translation.translator'
         public: true
 
     smartgear.classes.dca.field.callback.load:

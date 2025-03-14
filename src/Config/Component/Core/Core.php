@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -14,14 +14,12 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Config\Component\Core;
 
-use Exception;
 use WEM\SmartgearBundle\Classes\Config\ConfigModuleInterface;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
 use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
 use WEM\SmartgearBundle\Config\Module\Extranet\Extranet as ExtranetConfig;
-use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
 
 class Core implements ConfigModuleInterface
 {
@@ -194,8 +192,6 @@ class Core implements ConfigModuleInterface
     protected $sgFormContact;
     /** @var ExtranetConfig */
     protected $sgExtranet;
-    /** @var FormDataManagerConfig */
-    protected $sgFormDataManager;
 
     public function __clone()
     {
@@ -277,7 +273,6 @@ class Core implements ConfigModuleInterface
             ->setSgFaq((new FaqConfig())->reset())
             ->setSgFormContact((new FormContactConfig())->reset())
             ->setSgExtranet((new ExtranetConfig())->reset())
-            ->setSgFormDataManager((new FormDataManagerConfig())->reset())
         ;
 
         return $this;
@@ -373,11 +368,6 @@ class Core implements ConfigModuleInterface
                 property_exists($json, 'extranet')
                 ? (new ExtranetConfig())->import($json->extranet)
                 : (new ExtranetConfig())->reset()
-            )
-            ->setSgFormDataManager(
-                property_exists($json, 'formDataManager')
-                ? (new FormDataManagerConfig())->import($json->formDataManager)
-                : (new FormDataManagerConfig())->reset()
             )
         ;
 
@@ -498,7 +488,6 @@ class Core implements ConfigModuleInterface
         $json->faq = $this->getSgFaq()->export();
         $json->formContact = $this->getSgFormContact()->export();
         $json->extranet = $this->getSgExtranet()->export();
-        $json->formDataManager = $this->getSgFormDataManager()->export();
 
         return json_encode($json, \JSON_PRETTY_PRINT);
     }
@@ -511,34 +500,30 @@ class Core implements ConfigModuleInterface
             'faq' => $this->getSubmoduleConfig('faq'),
             'form_contact' => $this->getSubmoduleConfig('form_contact'),
             'extranet' => $this->getSubmoduleConfig('extranet'),
-            'form_data_manager' => $this->getSubmoduleConfig('form_data_manager'),
         ];
     }
 
     public function getSubmoduleConfig(string $submodule)
     {
         if (!$this->isSubmoduleNameKnown($submodule)) {
-            throw new Exception(sprintf('The submodule "%s" is unknown', $submodule));
+            throw new \Exception(\sprintf('The submodule "%s" is unknown', $submodule));
         }
         switch ($submodule) {
             case 'blog':
                 return $this->getSgBlog();
-            break;
+                break;
             case 'events':
                 return $this->getSgEvents();
-            break;
+                break;
             case 'faq':
                 return $this->getSgFaq();
-            break;
+                break;
             case 'form_contact':
                 return $this->getSgFormContact();
-            break;
+                break;
             case 'extranet':
                 return $this->getSgExtranet();
-            break;
-            case 'form_data_manager':
-                return $this->getSgFormDataManager();
-            break;
+                break;
         }
     }
 
@@ -554,27 +539,24 @@ class Core implements ConfigModuleInterface
     public function setSubmoduleConfig(string $submodule, $config): self
     {
         if (!$this->isSubmoduleNameKnown($submodule)) {
-            throw new Exception(sprintf('The submodule "%s" is unknown', $submodule));
+            throw new \Exception(\sprintf('The submodule "%s" is unknown', $submodule));
         }
         switch ($submodule) {
             case 'blog':
                 $this->setSgBlog($config);
-            break;
+                break;
             case 'events':
                 $this->setSgEvents($config);
-            break;
+                break;
             case 'faq':
                 $this->setSgFaq($config);
-            break;
+                break;
             case 'form_contact':
                 $this->setSgFormContact($config);
-            break;
+                break;
             case 'extranet':
                 $this->setSgExtranet($config);
-            break;
-            case 'form_data_manager':
-                $this->setSgFormDataManager($config);
-            break;
+                break;
         }
 
         return $this;
@@ -589,7 +571,6 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoModulesIds(),
             $this->getSgFormContact()->getContaoModulesIds(),
             $this->getSgExtranet()->getContaoModulesIds(),
-            $this->getSgFormDataManager()->getContaoModulesIds(),
         );
     }
 
@@ -618,7 +599,6 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoPagesIds(),
             $this->getSgFormContact()->getContaoPagesIds(),
             $this->getSgExtranet()->getContaoPagesIds(),
-            $this->getSgFormDataManager()->getContaoPagesIds(),
         );
     }
 
@@ -647,7 +627,6 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoContentsIds(),
             $this->getSgFormContact()->getContaoContentsIds(),
             $this->getSgExtranet()->getContaoContentsIds(),
-            $this->getSgFormDataManager()->getContaoContentsIds(),
         );
     }
 
@@ -676,7 +655,6 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoArticlesIds(),
             $this->getSgFormContact()->getContaoArticlesIds(),
             $this->getSgExtranet()->getContaoArticlesIds(),
-            $this->getSgFormDataManager()->getContaoArticlesIds(),
         );
     }
 
@@ -704,7 +682,6 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoFoldersIds(),
             $this->getSgFormContact()->getContaoFoldersIds(),
             $this->getSgExtranet()->getContaoFoldersIds(),
-            $this->getSgFormDataManager()->getContaoFoldersIds(),
         );
     }
 
@@ -729,7 +706,6 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoUsersIds(),
             $this->getSgFormContact()->getContaoUsersIds(),
             $this->getSgExtranet()->getContaoUsersIds(),
-            $this->getSgFormDataManager()->getContaoUsersIds(),
         );
     }
 
@@ -753,7 +729,6 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoUserGroupsIds(),
             $this->getSgFormContact()->getContaoUserGroupsIds(),
             $this->getSgExtranet()->getContaoUserGroupsIds(),
-            $this->getSgFormDataManager()->getContaoUserGroupsIds(),
         );
     }
 
@@ -778,7 +753,6 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoMembersIds(),
             $this->getSgFormContact()->getContaoMembersIds(),
             $this->getSgExtranet()->getContaoMembersIds(),
-            $this->getSgFormDataManager()->getContaoMembersIds(),
         );
     }
 
@@ -800,7 +774,6 @@ class Core implements ConfigModuleInterface
             $this->getSgFaq()->getContaoMemberGroupsIds(),
             $this->getSgFormContact()->getContaoMemberGroupsIds(),
             $this->getSgExtranet()->getContaoMemberGroupsIds(),
-            $this->getSgFormDataManager()->getContaoMemberGroupsIds(),
         );
     }
 
@@ -851,7 +824,7 @@ class Core implements ConfigModuleInterface
     {
         return array_merge(
             $this->getContaoNotificationsMessagesLanguagesIds(),
-            $this->getSgFormContact()->getContaoNotificationsMessagesLanguagesIds(),
+            $this->getSgFormContact()->getContaoNotificationsLanguagesIds(),
         );
     }
 
@@ -1015,7 +988,7 @@ class Core implements ConfigModuleInterface
     public function setSgMode(string $sgMode): self
     {
         if (!\in_array($sgMode, static::MODES_ALLOWED, true)) {
-            throw new \InvalidArgumentException(sprintf('Invalid mode "%s" given', $sgMode));
+            throw new \InvalidArgumentException(\sprintf('Invalid mode "%s" given', $sgMode));
         }
 
         $this->sgMode = $sgMode;
@@ -1055,7 +1028,7 @@ class Core implements ConfigModuleInterface
     public function setSgAnalytics(string $sgAnalytics): self
     {
         if (!\in_array($sgAnalytics, static::ANALYTICS_SYSTEMS_ALLOWED, true)) {
-            throw new \InvalidArgumentException(sprintf('Invalid analytics system "%s" given', $sgAnalytics));
+            throw new \InvalidArgumentException(\sprintf('Invalid analytics system "%s" given', $sgAnalytics));
         }
 
         $this->sgAnalytics = $sgAnalytics;
@@ -1670,18 +1643,6 @@ class Core implements ConfigModuleInterface
     public function setSgEncryptionKey(?string $sgEncryptionKey): self
     {
         $this->sgEncryptionKey = $sgEncryptionKey;
-
-        return $this;
-    }
-
-    public function getSgFormDataManager(): FormDataManagerConfig
-    {
-        return $this->sgFormDataManager;
-    }
-
-    public function setSgFormDataManager(FormDataManagerConfig $sgFormDataManager): self
-    {
-        $this->sgFormDataManager = $sgFormDataManager;
 
         return $this;
     }
