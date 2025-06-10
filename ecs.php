@@ -11,14 +11,13 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 return ECSConfig::configure()->withSets([SetList::CONTAO])
     ->withConfiguredRule(HeaderCommentFixer::class, configuration: [
         'header' =>
-"Command Bundle for Contao 5 Open Source CMS
-Copyright (c) 2025-".date("Y")." Web ex Machina
+"SMARTGEAR for Contao Open Source CMS
+Copyright (c) 2015-".date("Y")." Web ex Machina
 
 @category ContaoBundle
-@package  Web-Ex-Machina/contao-command-bundle
+@package  Web-Ex-Machina/contao-smartgear
 @author   Web ex Machina <contact@webexmachina.fr>
-@link     https://github.com/Web-Ex-Machina/contao-command-bundle/"])
-
+@link     https://github.com/Web-Ex-Machina/contao-smartgear/"])
     ->withPaths([
     __DIR__ . '/src',
 ])
