@@ -24,11 +24,13 @@ use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class LoadDataContainerListener
 {
-
     protected string $do;
 
-    public function __construct(protected Security $security, protected CoreConfigurationManager $coreConfigurationManager, protected DCAManipulator $dcaManipulator)
-    {
+    public function __construct(
+        protected Security $security,
+        protected CoreConfigurationManager $coreConfigurationManager,
+        protected DCAManipulator $dcaManipulator
+    ) {
     }
 
     public function __invoke(string $table): void
@@ -46,8 +48,8 @@ class LoadDataContainerListener
                     // limiting singleSRC field to the event folder
                     // $this->dcaManipulator->setFieldSingleSRCPath($eventsConfig->getSgEventsFolder());
 
-                    if (!$this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::CORE_EXPERT)
-                    && !$this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::EVENTS_EXPERT)
+                    if (! $this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::CORE_EXPERT)
+                    && ! $this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::EVENTS_EXPERT)
                     ) {
                         //get rid of all unnecessary actions.
                         $this->dcaManipulator->removeListOperationsEdit();
@@ -63,13 +65,13 @@ class LoadDataContainerListener
                         $this->dcaManipulator->setFieldSourceOptionCallback(CalendarEventsDCA::class, 'getSourceOptions');
                     }
 
-                    $this->dcaManipulator->addFieldSaveCallback('headline', static fn($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
-                    $this->dcaManipulator->addFieldSaveCallback('title', static fn($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
-                    $this->dcaManipulator->addFieldSaveCallback('teaser', static fn($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
-                    $this->dcaManipulator->addFieldSaveCallback('description', static fn($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
-                break;
+                    $this->dcaManipulator->addFieldSaveCallback('headline', static fn ($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('title', static fn ($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('teaser', static fn ($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('description', static fn ($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
+                    break;
                 case 'tl_content':
-                    if ('calendar' !== $this->do) {
+                    if ($this->do !== 'calendar') {
                         return;
                     }
 
@@ -79,7 +81,7 @@ class LoadDataContainerListener
                     // }
                     // // limiting singleSRC field to the event folder
                     // $this->dcaManipulator->setFieldSingleSRCPath($eventsConfig->getSgEventsFolder());
-                break;
+                    break;
             }
         } catch (FileNotFoundException) {
             //nothing

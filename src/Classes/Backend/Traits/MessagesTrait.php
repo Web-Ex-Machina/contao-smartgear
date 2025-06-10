@@ -18,13 +18,10 @@ use Contao\System;
 
 trait MessagesTrait
 {
-
     protected array $messages = [];
 
     /**
      * Reset the errors array.
-     *
-     * @param mixed|null $strScope
      */
     // public function getMessages(?string $scope = 'smartgear'): array
     public function getMessages(mixed $strScope = null): array // needs to be the same as \Contao\System::getMessages, otherwise a warning is thrown "because"
@@ -45,7 +42,7 @@ trait MessagesTrait
      */
     public function getFlashBagKey(string $strType, ?string $scope = 'smartgear'): string
     {
-        return $this->getFlashBagKeyWithoutType($scope).strtolower(str_replace('tl_', '', $strType));
+        return $this->getFlashBagKeyWithoutType($scope) . strtolower(str_replace('tl_', '', $strType));
     }
 
     /**
@@ -55,7 +52,7 @@ trait MessagesTrait
      */
     public function getFlashBagKeyWithoutType(?string $scope = 'smartgear'): string
     {
-        return 'wemsg.message.'.strtolower((string) $scope).'.'; // do not remove this end dot
+        return 'wemsg.message.' . strtolower((string) $scope) . '.'; // do not remove this end dot
     }
 
     /**
@@ -67,14 +64,14 @@ trait MessagesTrait
 
         $session = System::getContainer()->get('session');
 
-        if (!$session->isStarted()) {
+        if (! $session->isStarted()) {
             return;
         }
 
         $flashBag = $session->getFlashBag();
 
         // Find all wemsg.message.$scope. keys
-        $keys = preg_grep('(^wemsg\.message\.'.$scope.'\.)', $flashBag->keys());
+        $keys = preg_grep('(^wemsg\.message\.' . $scope . '\.)', $flashBag->keys());
 
         foreach ($keys as $key) {
             $flashBag->get($key); // clears the message
@@ -86,9 +83,9 @@ trait MessagesTrait
      */
     protected function hasErrors(?string $scope = 'smartgear'): bool
     {
-        if (!empty($this->messages) && \array_key_exists($scope, $this->messages)) {
+        if (! empty($this->messages) && \array_key_exists($scope, $this->messages)) {
             foreach ($this->messages[$scope] as $m) {
-                if ('tl_error' === $m['class']) {
+                if ($m['class'] === 'tl_error') {
                     return true;
                 }
             }
@@ -102,9 +99,9 @@ trait MessagesTrait
      */
     protected function hasUpdates(?string $scope = 'smartgear'): bool
     {
-        if (!empty($this->messages) && \array_key_exists($scope, $this->messages)) {
+        if (! empty($this->messages) && \array_key_exists($scope, $this->messages)) {
             foreach ($this->messages[$scope] as $m) {
-                if ('tl_new' === $m['class']) {
+                if ($m['class'] === 'tl_new') {
                     return true;
                 }
             }

@@ -43,19 +43,19 @@ class BackupManager
     protected ?int $chunkSizeInBytes = null;
 
     public function __construct(
-        protected string                $rootDir,
-        protected string                $backupDirectory,
-        protected CommandUtil           $commandUtil,
-        protected string                $databaseBackupDirectory,
+        protected string $rootDir,
+        protected string $backupDirectory,
+        protected CommandUtil $commandUtil,
+        protected string $databaseBackupDirectory,
         protected DatabaseBackupManager $databaseBackupManager,
-        protected TranslatorInterface   $translator,
-        protected array                 $artifactsToBackup,
-        protected array                 $tablesToIgnore
+        protected TranslatorInterface $translator,
+        protected array $artifactsToBackup,
+        protected array $tablesToIgnore
     ) {
         $this->memoryLimitInBytes = Util::formatPhpMemoryLimitToBytes(ini_get('memory_limit'));
-        if ($this->memoryLimitInBytes  > 0) {
+        if ($this->memoryLimitInBytes > 0) {
             // because adding file to zip use twice its size, and keep a small margin
-            $this->chunkSizeInBytes = ($this->memoryLimitInBytes  / 4) - max(memory_get_usage(true), memory_get_usage());
+            $this->chunkSizeInBytes = ($this->memoryLimitInBytes / 4) - max(memory_get_usage(true), memory_get_usage());
         } else { // if the memory limit is not set, define arbitrary value, as we cannot know how much RAM the machine has
             $this->chunkSizeInBytes = self::DEFAULT_CHUNK_SIZES_BYTES;
         }
@@ -95,11 +95,11 @@ class BackupManager
     {
         try {
             $arrConfig = [];
-            if (null !== $before) {
+            if ($before !== null) {
                 $arrConfig['before'] = $before;
             }
 
-            if (null !== $after) {
+            if ($after !== null) {
                 $arrConfig['after'] = $after;
             }
 
@@ -115,8 +115,8 @@ class BackupManager
                 foreach ($models as $model) {
                     $result->addBackup(
                         (new BackupBusinessModel())
-                        ->setFile(new File($this->getBackupPath($model->name)))
-                        ->setSource($model->source)
+                            ->setFile(new File($this->getBackupPath($model->name)))
+                            ->setSource($model->source)
                     );
                 }
             }
@@ -133,7 +133,7 @@ class BackupManager
      */
     public function get(string $backupName): File
     {
-        if (!file_exists($this->getBackupFullPath($backupName))) {
+        if (! file_exists($this->getBackupFullPath($backupName))) {
             throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageRetrieveSingleError', [], 'contao_default'));
         }
 
@@ -152,8 +152,8 @@ class BackupManager
 
             $result->setBackup(
                 (new BackupBusinessModel())
-                ->setFile(new File($this->getBackupPath($backupName)))
-                ->setSource($model->source)
+                    ->setFile(new File($this->getBackupPath($backupName)))
+                    ->setSource($model->source)
             );
 
             $backup = new ZipReader($this->getBackupPath($backupName));
@@ -173,7 +173,7 @@ class BackupManager
 
                 if (preg_match('/(.*)\.parts\_index/', (string) $strFilename, $matches)) {
                     $strFilenameOrig = str_replace('.parts_index', '', $matches[1]);
-                    if (!\in_array($strFilenameOrig, $arrBigFiles, true)) {
+                    if (! \in_array($strFilenameOrig, $arrBigFiles, true)) {
                         $arrBigFiles[$strFilenameOrig] = [
                             'index' => 0,
                             'chunks_done' => 0,
@@ -189,7 +189,7 @@ class BackupManager
                     $strFilenameOrig = $matches[1];
                     $chunckIndex = $matches[2];
 
-                    if (!\in_array($strFilenameOrig, $arrBigFiles, true)) {
+                    if (! \in_array($strFilenameOrig, $arrBigFiles, true)) {
                         $arrBigFiles[$strFilenameOrig] = [
                             'index' => 0,
                             'chunks_done' => 0,
@@ -206,7 +206,7 @@ class BackupManager
                     // $objFile->truncate();
                     $objFile->append($strContent);
                     $objFile->close();
-                // how to know we have finished with this ? prrrrt.
+                    // how to know we have finished with this ? prrrrt.
                 } else {
                     $strContent = $backup->unzip();
 
@@ -261,7 +261,7 @@ class BackupManager
      */
     public function delete(string $backupName): bool
     {
-        if (!file_exists($this->getBackupFullPath($backupName))) {
+        if (! file_exists($this->getBackupFullPath($backupName))) {
             throw new BackupManagerException($this->translator->trans('WEM.SMARTGEAR.BACKUPMANAGER.messageDeleteError', [$this->getBackupFullPath($backupName)], 'contao_default'));
         }
 
@@ -290,16 +290,16 @@ class BackupManager
             $this->databaseBackupManager->create($databaseBackupConfig);
             $databaseBackup = $databaseBackupConfig->getBackup();
 
-            $backupArchive->addFile($this->databaseBackupDirectory.\DIRECTORY_SEPARATOR.$databaseBackup->getFilename());
-            $result->addFileBackuped($this->databaseBackupDirectory.\DIRECTORY_SEPARATOR.$databaseBackup->getFilename());
+            $backupArchive->addFile($this->databaseBackupDirectory . \DIRECTORY_SEPARATOR . $databaseBackup->getFilename());
+            $result->addFileBackuped($this->databaseBackupDirectory . \DIRECTORY_SEPARATOR . $databaseBackup->getFilename());
 
             foreach ($this->artifactsToBackup as $artifactPath) {
-                if (is_file($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath)) {
+                if (is_file($this->rootDir . \DIRECTORY_SEPARATOR . $artifactPath)) {
                     $this->addArtifactToBackup($backupArchive, $result, $artifactPath);
                 } else {
-                    $files = Util::getFileList($this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath);
+                    $files = Util::getFileList($this->rootDir . \DIRECTORY_SEPARATOR . $artifactPath);
                     foreach ($files as $filePath) {
-                        $this->addArtifactToBackup($backupArchive, $result, str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath));
+                        $this->addArtifactToBackup($backupArchive, $result, str_replace($this->rootDir . \DIRECTORY_SEPARATOR, '', $filePath));
                     }
                 }
             }
@@ -307,9 +307,9 @@ class BackupManager
             $backupArchive->close();
 
             $result->setBackup(
-                 (new BackupBusinessModel())
-                ->setFile(new File($path))
-                ->setSource($source)
+                (new BackupBusinessModel())
+                    ->setFile(new File($path))
+                    ->setSource($source)
             );
 
             $model = new BackupModel();
@@ -331,9 +331,9 @@ class BackupManager
      */
     protected function addArtifactToBackup(ZipWriter &$backupArchive, CreateResult &$result, string $artifactPath): void
     {
-        $artifactFullPath = $this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath;
-        if (!is_file($artifactFullPath)) {
-            throw new Exception($artifactPath.' is not a file');
+        $artifactFullPath = $this->rootDir . \DIRECTORY_SEPARATOR . $artifactPath;
+        if (! is_file($artifactFullPath)) {
+            throw new Exception($artifactPath . ' is not a file');
         }
 
         // if (-1 === $this->memoryLimitInBytes) {
@@ -350,7 +350,7 @@ class BackupManager
             while ($readBytes < $fileSize) {
                 ++$i;
                 $strContent = file_get_contents($artifactFullPath, false, null, $readBytes, $this->chunkSizeInBytes);
-                $chunkFileName = $artifactPath.'.part_'.sprintf('%08d', $i);
+                $chunkFileName = $artifactPath . '.part_' . sprintf('%08d', $i);
                 $backupArchive->addString($strContent, $chunkFileName);
                 $result->addFileBackuped($chunkFileName);
                 unset($strContent);
@@ -361,8 +361,8 @@ class BackupManager
                 unset($strContent);
             }
 
-            $backupArchive->addString($i, $artifactPath.'.parts_index');
-            $result->addFileBackuped($artifactPath.'.parts_index');
+            $backupArchive->addString($i, $artifactPath . '.parts_index');
+            $result->addFileBackuped($artifactPath . '.parts_index');
         } else {
             $backupArchive->addFile($artifactPath);
             $result->addFileBackuped($artifactPath);
@@ -377,7 +377,7 @@ class BackupManager
     {
         $filesDeleted = [];
         foreach ($this->artifactsToBackup as $artifactPath) {
-            $fullPath = $this->rootDir.\DIRECTORY_SEPARATOR.$artifactPath;
+            $fullPath = $this->rootDir . \DIRECTORY_SEPARATOR . $artifactPath;
             if (file_exists($fullPath)) {
                 if (is_file($fullPath)) {
                     unlink($fullPath);
@@ -386,7 +386,7 @@ class BackupManager
                     $files = Util::getFileList($fullPath);
                     foreach ($files as $filePath) {
                         unlink($filePath);
-                        $filesDeleted[] = str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $filePath);
+                        $filesDeleted[] = str_replace($this->rootDir . \DIRECTORY_SEPARATOR, '', $filePath);
                     }
 
                     $folder = new Folder($artifactPath);
@@ -400,16 +400,16 @@ class BackupManager
 
     protected function getNewBackupPath(): string
     {
-        return $this->backupDirectory.\DIRECTORY_SEPARATOR.date('YmdHis').'.zip';
+        return $this->backupDirectory . \DIRECTORY_SEPARATOR . date('YmdHis') . '.zip';
     }
 
     protected function getBackupPath(string $backupName): string
     {
-        return $this->backupDirectory.\DIRECTORY_SEPARATOR.$backupName;
+        return $this->backupDirectory . \DIRECTORY_SEPARATOR . $backupName;
     }
 
     protected function getBackupFullPath(string $backupName): string
     {
-        return $this->rootDir.\DIRECTORY_SEPARATOR.$this->getBackupPath($backupName);
+        return $this->rootDir . \DIRECTORY_SEPARATOR . $this->getBackupPath($backupName);
     }
 }

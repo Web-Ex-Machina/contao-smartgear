@@ -42,12 +42,12 @@ class FormStorage extends CoreModel
 
     public function getSender(): ?string
     {
-        if (!empty($this->sender)) {
+        if (! empty($this->sender)) {
             return $this->sender;
         }
 
         $formStorageDatas = FormStorageData::findItems(['pid' => $this->id, 'field_name' => 'email'], 1);
-        if (!$formStorageDatas instanceof Collection) {
+        if (! $formStorageDatas instanceof Collection) {
             return null;
         }
 

@@ -21,9 +21,6 @@ use Contao\MemberGroupModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\UserGroupModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Language as NotificationMessageLanguage;
-use WEM\SmartgearBundle\Model\NotificationCenter\Message as NotificationMessage;
-use WEM\SmartgearBundle\Model\NotificationCenter\Notification;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\Resetter as BackendResetter;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
@@ -32,6 +29,9 @@ use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Module\Extranet\Extranet as ExtranetConfig;
 use WEM\SmartgearBundle\Model\Member as MemberModel;
 use WEM\SmartgearBundle\Model\Module;
+use WEM\SmartgearBundle\Model\NotificationCenter\Language as NotificationMessageLanguage;
+use WEM\SmartgearBundle\Model\NotificationCenter\Message as NotificationMessage;
+use WEM\SmartgearBundle\Model\NotificationCenter\Notification;
 
 class Resetter extends BackendResetter
 {
@@ -64,7 +64,7 @@ class Resetter extends BackendResetter
         $config = $this->configurationManager->load();
 
         $extranetConfig = $config->getSgExtranet();
-        if (!$extranetConfig) {
+        if (! $extranetConfig) {
             return;
         }
 
@@ -74,12 +74,12 @@ class Resetter extends BackendResetter
         switch ($mode) {
             case ExtranetConfig::ARCHIVE_MODE_ARCHIVE:
                 $this->archiveModeArchive($extranetConfig, $archiveTimestamp);
-            break;
+                break;
             case ExtranetConfig::ARCHIVE_MODE_KEEP:
-            break;
+                break;
             case ExtranetConfig::ARCHIVE_MODE_DELETE:
                 $this->archiveModeDelete($extranetConfig);
-            break;
+                break;
             default:
                 throw new \InvalidArgumentException($this->translator->trans('WEMSG.EXTRANET.RESET.deleteModeUnknown', [], 'contao_default'));
         }
@@ -107,55 +107,55 @@ class Resetter extends BackendResetter
 
         // archive pages, articles, modules, contents, notifications, members & memberGroups
         $member = MemberModel::findById($extranetConfig->getSgMemberExample());
-        if (null !== $member) {
+        if ($member !== null) {
             $member->name = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$member->name, $date, $time], 'contao_default');
             $member->save();
         }
 
         $memberGroup = MemberGroupModel::findById($extranetConfig->getSgMemberGroupMembers());
-        if (null !== $memberGroup) {
+        if ($memberGroup !== null) {
             $memberGroup->name = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$memberGroup->name, $date, $time], 'contao_default');
             $memberGroup->save();
         }
 
         $module = ModuleModel::findById($extranetConfig->getSgModuleData());
-        if (null !== $module) {
+        if ($module !== null) {
             $module->name = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$module->name, $date, $time], 'contao_default');
             $module->save();
         }
 
         $module = ModuleModel::findById($extranetConfig->getSgModuleLogin());
-        if (null !== $module) {
+        if ($module !== null) {
             $module->name = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$module->name, $date, $time], 'contao_default');
             $module->save();
         }
 
         $module = ModuleModel::findById($extranetConfig->getSgModuleLogout());
-        if (null !== $module) {
+        if ($module !== null) {
             $module->name = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$module->name, $date, $time], 'contao_default');
             $module->save();
         }
 
         $module = ModuleModel::findById($extranetConfig->getSgModuleNav());
-        if (null !== $module) {
+        if ($module !== null) {
             $module->name = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$module->name, $date, $time], 'contao_default');
             $module->save();
         }
 
         $module = ModuleModel::findById($extranetConfig->getSgModulePassword());
-        if (null !== $module) {
+        if ($module !== null) {
             $module->name = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$module->name, $date, $time], 'contao_default');
             $module->save();
         }
 
         $module = ModuleModel::findById($extranetConfig->getSgModuleSubscribe());
-        if (null !== $module) {
+        if ($module !== null) {
             $module->name = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$module->name, $date, $time], 'contao_default');
             $module->save();
         }
 
         $module = ModuleModel::findById($extranetConfig->getSgModuleCloseAccount());
-        if (null !== $module) {
+        if ($module !== null) {
             $module->name = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$module->name, $date, $time], 'contao_default');
             $module->save();
         }
@@ -179,119 +179,119 @@ class Resetter extends BackendResetter
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageExtranet());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$page->title, $date, $time], 'contao_default');
             $page->published = 0;
             $page->save();
         }
 
         $page = PageModel::findById($extranetConfig->getSgPage401());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$page->title, $date, $time], 'contao_default');
             $page->published = 0;
             $page->save();
         }
 
         $page = PageModel::findById($extranetConfig->getSgPage403());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$page->title, $date, $time], 'contao_default');
             $page->published = 0;
             $page->save();
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageContent());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$page->title, $date, $time], 'contao_default');
             $page->published = 0;
             $page->save();
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageData());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$page->title, $date, $time], 'contao_default');
             $page->published = 0;
             $page->save();
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageDataConfirm());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$page->title, $date, $time], 'contao_default');
             $page->published = 0;
             $page->save();
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageLogout());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$page->title, $date, $time], 'contao_default');
             $page->published = 0;
             $page->save();
         }
 
         $page = PageModel::findById($extranetConfig->getSgPagePassword());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$page->title, $date, $time], 'contao_default');
             $page->published = 0;
             $page->save();
         }
 
         $page = PageModel::findById($extranetConfig->getSgPagePasswordConfirm());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$page->title, $date, $time], 'contao_default');
             $page->published = 0;
             $page->save();
         }
 
         $page = PageModel::findById($extranetConfig->getSgPagePasswordValidate());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$page->title, $date, $time], 'contao_default');
             $page->published = 0;
             $page->save();
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageSubscribe());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$page->title, $date, $time], 'contao_default');
             $page->published = 0;
             $page->save();
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageSubscribeConfirm());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$page->title, $date, $time], 'contao_default');
             $page->published = 0;
             $page->save();
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageSubscribeValidate());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$page->title, $date, $time], 'contao_default');
             $page->published = 0;
             $page->save();
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageUnsubscribeConfirm());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$page->title, $date, $time], 'contao_default');
             $page->published = 0;
             $page->save();
         }
 
         $notification = Notification::findById($extranetConfig->getSgNotificationChangeData());
-        if (null !== $notification) {
+        if ($notification !== null) {
             $notification->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$notification->title, $date, $time], 'contao_default');
             $notification->published = 0;
             $notification->save();
         }
 
         $notification = Notification::findById($extranetConfig->getSgNotificationPassword());
-        if (null !== $notification) {
+        if ($notification !== null) {
             $notification->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$notification->title, $date, $time], 'contao_default');
             $notification->published = 0;
             $notification->save();
         }
 
         $notification = Notification::findById($extranetConfig->getSgNotificationSubscription());
-        if (null !== $notification) {
+        if ($notification !== null) {
             $notification->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$notification->title, $date, $time], 'contao_default');
             $notification->published = 0;
             $notification->save();
@@ -312,55 +312,55 @@ class Resetter extends BackendResetter
 
         // delete pages (articles & contents will be deleted automatically), modules, notifications (message & languages will be deleted automatically), members & memberGroups
         $member = MemberModel::findById($extranetConfig->getSgMemberExample());
-        if (null !== $member) {
+        if ($member !== null) {
             $member->delete();
             $extranetConfig->setSgMemberExample(null);
         }
 
         $memberGroup = MemberGroupModel::findById($extranetConfig->getSgMemberGroupMembers());
-        if (null !== $memberGroup) {
+        if ($memberGroup !== null) {
             $memberGroup->delete();
             $extranetConfig->setSgMemberGroupMembers(null);
         }
 
         $module = ModuleModel::findById($extranetConfig->getSgModuleData());
-        if (null !== $module) {
+        if ($module !== null) {
             $module->delete();
             $extranetConfig->setSgModuleData(null);
         }
 
         $module = ModuleModel::findById($extranetConfig->getSgModuleLogin());
-        if (null !== $module) {
+        if ($module !== null) {
             $module->delete();
             $extranetConfig->setSgModuleLogin(null);
         }
 
         $module = ModuleModel::findById($extranetConfig->getSgModuleLogout());
-        if (null !== $module) {
+        if ($module !== null) {
             $module->delete();
             $extranetConfig->setSgModuleLogout(null);
         }
 
         $module = ModuleModel::findById($extranetConfig->getSgModuleNav());
-        if (null !== $module) {
+        if ($module !== null) {
             $module->delete();
             $extranetConfig->setSgModuleNav(null);
         }
 
         $module = ModuleModel::findById($extranetConfig->getSgModulePassword());
-        if (null !== $module) {
+        if ($module !== null) {
             $module->delete();
             $extranetConfig->setSgModulePassword(null);
         }
 
         $module = ModuleModel::findById($extranetConfig->getSgModuleSubscribe());
-        if (null !== $module) {
+        if ($module !== null) {
             $module->delete();
             $extranetConfig->setSgModuleSubscribe(null);
         }
 
         $module = ModuleModel::findById($extranetConfig->getSgModuleCloseAccount());
-        if (null !== $module) {
+        if ($module !== null) {
             $module->delete();
             $extranetConfig->setSgModuleCloseAccount(null);
         }
@@ -380,7 +380,7 @@ class Resetter extends BackendResetter
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageExtranet());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->delete();
             $extranetConfig
                 ->setSgPageExtranet(null)
@@ -397,7 +397,7 @@ class Resetter extends BackendResetter
         }
 
         $page = PageModel::findById($extranetConfig->getSgPage401());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->delete();
             $extranetConfig
                 ->setSgPage401(null)
@@ -409,7 +409,7 @@ class Resetter extends BackendResetter
         }
 
         $page = PageModel::findById($extranetConfig->getSgPage403());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->delete();
             $extranetConfig
                 ->setSgPage403(null)
@@ -421,7 +421,7 @@ class Resetter extends BackendResetter
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageContent());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->delete();
             $extranetConfig
                 ->setSgPageContent(null)
@@ -432,7 +432,7 @@ class Resetter extends BackendResetter
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageData());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->delete();
             $extranetConfig
                 ->setSgPageData(null)
@@ -446,7 +446,7 @@ class Resetter extends BackendResetter
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageDataConfirm());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->delete();
             $extranetConfig
                 ->setSgPageDataConfirm(null)
@@ -458,7 +458,7 @@ class Resetter extends BackendResetter
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageLogout());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->delete();
             $extranetConfig
                 ->setSgPageLogout(null)
@@ -468,7 +468,7 @@ class Resetter extends BackendResetter
         }
 
         $page = PageModel::findById($extranetConfig->getSgPagePassword());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->delete();
             $extranetConfig
                 ->setSgPagePassword(null)
@@ -479,7 +479,7 @@ class Resetter extends BackendResetter
         }
 
         $page = PageModel::findById($extranetConfig->getSgPagePasswordConfirm());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->delete();
             $extranetConfig
                 ->setSgPagePasswordConfirm(null)
@@ -490,7 +490,7 @@ class Resetter extends BackendResetter
         }
 
         $page = PageModel::findById($extranetConfig->getSgPagePasswordValidate());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->delete();
             $extranetConfig
                 ->setSgPagePasswordValidate(null)
@@ -501,7 +501,7 @@ class Resetter extends BackendResetter
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageSubscribe());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->delete();
             $extranetConfig
                 ->setSgPageSubscribe(null)
@@ -512,7 +512,7 @@ class Resetter extends BackendResetter
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageSubscribeConfirm());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->delete();
             $extranetConfig
                 ->setSgPageSubscribeConfirm(null)
@@ -523,7 +523,7 @@ class Resetter extends BackendResetter
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageSubscribeValidate());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->delete();
             $extranetConfig
                 ->setSgPageSubscribeValidate(null)
@@ -535,7 +535,7 @@ class Resetter extends BackendResetter
         }
 
         $page = PageModel::findById($extranetConfig->getSgPageUnsubscribeConfirm());
-        if (null !== $page) {
+        if ($page !== null) {
             $page->delete();
             $extranetConfig
                 ->setSgPageUnsubscribeConfirm(null)
@@ -547,17 +547,17 @@ class Resetter extends BackendResetter
         }
 
         $notificationML = NotificationMessageLanguage::findById($extranetConfig->getSgNotificationChangeDataMessageLanguage());
-        if (null !== $notificationML) {
+        if ($notificationML !== null) {
             $notificationML->delete();
         }
 
         $notificationM = NotificationMessage::findById($extranetConfig->getSgNotificationChangeDataMessage());
-        if (null !== $notificationM) {
+        if ($notificationM !== null) {
             $notificationM->delete();
         }
 
         $notification = Notification::findById($extranetConfig->getSgNotificationChangeData());
-        if (null !== $notification) {
+        if ($notification !== null) {
             $notification->delete();
         }
 
@@ -568,17 +568,17 @@ class Resetter extends BackendResetter
         ;
 
         $notificationML = NotificationMessageLanguage::findById($extranetConfig->getSgNotificationPasswordMessageLanguage());
-        if (null !== $notificationML) {
+        if ($notificationML !== null) {
             $notificationML->delete();
         }
 
         $notificationM = NotificationMessage::findById($extranetConfig->getSgNotificationPasswordMessage());
-        if (null !== $notificationM) {
+        if ($notificationM !== null) {
             $notificationM->delete();
         }
 
         $notification = Notification::findById($extranetConfig->getSgNotificationPassword());
-        if (null !== $notification) {
+        if ($notification !== null) {
             $notification->delete();
         }
 
@@ -589,17 +589,17 @@ class Resetter extends BackendResetter
         ;
 
         $notificationML = NotificationMessageLanguage::findById($extranetConfig->getSgNotificationSubscriptionMessageLanguage());
-        if (null !== $notificationML) {
+        if ($notificationML !== null) {
             $notificationML->delete();
         }
 
         $notificationM = NotificationMessage::findById($extranetConfig->getSgNotificationSubscriptionMessage());
-        if (null !== $notificationM) {
+        if ($notificationM !== null) {
             $notificationM->delete();
         }
 
         $notification = Notification::findById($extranetConfig->getSgNotificationSubscription());
-        if (null !== $notification) {
+        if ($notification !== null) {
             $notification->delete();
         }
 

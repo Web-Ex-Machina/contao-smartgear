@@ -16,7 +16,6 @@ namespace WEM\SmartgearBundle\Api\Nominatim\V4\Model;
 
 class SearchResponse
 {
-
     protected string $lat;
 
     protected string $lon;

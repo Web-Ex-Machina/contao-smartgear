@@ -23,21 +23,19 @@ use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class LoadDataContainerListener
 {
-
-
-
     protected string $do;
 
-    public function __construct(protected Security $security,
-                                protected CoreConfigurationManager $coreConfigurationManager,
-                                protected DCAManipulator $dcaManipulator)
-    {
+    public function __construct(
+        protected Security $security,
+        protected CoreConfigurationManager $coreConfigurationManager,
+        protected DCAManipulator $dcaManipulator
+    ) {
     }
 
     public function __invoke(string $table): void
     {
         try {
-            /* @var CoreConfig $config */
+            /** @var CoreConfig $config */
             // $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
             switch ($table) {
@@ -50,8 +48,8 @@ class LoadDataContainerListener
                     // limiting singleSRC field to the blog folder
                     // $this->dcaManipulator->setFieldSingleSRCPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
 
-                    if (!$this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::CORE_EXPERT)
-                    && !$this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::BLOG_EXPERT)
+                    if (! $this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::CORE_EXPERT)
+                    && ! $this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::BLOG_EXPERT)
                     ) {
                         //get rid of all unnecessary actions.
                         $this->dcaManipulator->removeListOperationsEdit();
@@ -66,12 +64,12 @@ class LoadDataContainerListener
                         $GLOBALS['TL_LANG'][$table]['teaser'][1] = &$GLOBALS['TL_LANG']['WEMSG']['BLOG']['FORM']['fieldTeaserHelp'];
                     }
 
-                    $this->dcaManipulator->addFieldSaveCallback('headline', static fn($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
-                    $this->dcaManipulator->addFieldSaveCallback('title', static fn($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
-                    $this->dcaManipulator->addFieldSaveCallback('teaser', static fn($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
-                break;
+                    $this->dcaManipulator->addFieldSaveCallback('headline', static fn ($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('title', static fn ($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('teaser', static fn ($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
+                    break;
                 case 'tl_content':
-                    if ('news' !== $this->do) {
+                    if ($this->do !== 'news') {
                         return;
                     }
 
@@ -81,7 +79,7 @@ class LoadDataContainerListener
                     // }
                     // // limiting singleSRC field to the blog folder
                     // $this->dcaManipulator->setFieldSingleSRCPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
-                break;
+                    break;
             }
         } catch (FileNotFoundException) {
             //nothing

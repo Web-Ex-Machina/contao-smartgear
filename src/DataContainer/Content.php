@@ -47,7 +47,7 @@ class Content extends Backend
      */
     public function getModules()
     {
-        if (!method_exists($this->parent, 'getModules')) {
+        if (! method_exists($this->parent, 'getModules')) {
             throw new Exception('Method "getModules" doesn\'t exists');
         }
 
@@ -59,7 +59,7 @@ class Content extends Backend
      */
     public function pagePicker(DataContainer $dc)
     {
-        if (!method_exists($this->parent, 'pagePicker')) {
+        if (! method_exists($this->parent, 'pagePicker')) {
             throw new Exception('Method "pagePicker" doesn\'t exists');
         }
 
@@ -73,8 +73,8 @@ class Content extends Backend
      */
     public function checkPermission(): void
     {
-        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
-            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' content ID '.Input::get('id').'.');
+        if (Input::get('act') === 'delete' && ! $this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to ' . Input::get('act') . ' content ID ' . Input::get('id') . '.');
         }
     }
 
@@ -83,7 +83,7 @@ class Content extends Backend
      */
     public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+        if (! $this->canItemBeDeleted((int) $config->getRecord()['id'])) {
             $config->disable();
         }
     }
@@ -95,7 +95,7 @@ class Content extends Backend
     {
         if ('tl_content' === $this->parent::class) {
             $objCte = ContentModel::findByPk($dc->id);
-            if (null === $objCte) {
+            if ($objCte === null) {
                 return;
             }
 
@@ -105,7 +105,7 @@ class Content extends Backend
                 case 'accordionStop':
                 case 'gallery':
                     Message::removeLatest();
-                break;
+                    break;
             }
         }
     }
@@ -138,7 +138,7 @@ class Content extends Backend
      */
     public function cleanText(mixed $varValue, DataContainer $objDc)
     {
-        if (!\is_string($varValue)) {
+        if (! \is_string($varValue)) {
             return $varValue;
         }
 
@@ -150,7 +150,7 @@ class Content extends Backend
      */
     public function editModule(DataContainer $dc)
     {
-        if (!method_exists($this->parent, 'editModule')) {
+        if (! method_exists($this->parent, 'editModule')) {
             throw new Exception('Method "editModule" doesn\'t exists');
         }
 
@@ -178,6 +178,6 @@ class Content extends Backend
 
     protected function canItemBeDeleted(int $id): bool
     {
-        return $this->parent->User->admin || !$this->isItemUsedBySmartgear($id);
+        return $this->parent->User->admin || ! $this->isItemUsedBySmartgear($id);
     }
 }

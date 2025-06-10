@@ -23,19 +23,16 @@ use Contao\System;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Model\FormStorage;
 use WEM\SmartgearBundle\Model\FormStorageData;
-use WEM\SmartgearBundle\Classes\StringUtil;
 
 class BackendController extends ControllerBackendController
 {
-
-
-
     public function __construct(
-        protected string               $module,
-        protected string               $type,
-        protected TranslatorInterface  $translator,
+        protected string $module,
+        protected string $type,
+        protected TranslatorInterface $translator,
         protected ConfigurationManager $configurationManager
     ) {
         System::loadLanguageFile(FormStorage::getTable());
@@ -46,9 +43,12 @@ class BackendController extends ControllerBackendController
     {
         $rows = FormStorage::findItems(['id' => Input::get('id')], 0, 0, ['order' => 'createdAt DESC']);
 
-        (new Response(mb_convert_encoding(StringUtil::decodeEntities($this->export($rows)), 'UTF-16LE', 'UTF-8'), Response::HTTP_OK, [
+        (new Response(
+            mb_convert_encoding(StringUtil::decodeEntities($this->export($rows)), 'UTF-16LE', 'UTF-8'),
+            Response::HTTP_OK,
+            [
             'Content-Type' => 'text/csv; charset=utf-16le',
-            'Content-Disposition' => 'attachment;filename='.sprintf(
+            'Content-Disposition' => 'attachment;filename=' . sprintf(
                 'contact_%s_%s_%s.csv',
                 $rows->first()->getRelated('pid')->title,
                 $rows->current()->getSender(),
@@ -61,13 +61,16 @@ class BackendController extends ControllerBackendController
 
     public function exportAll(): void
     {
-        if (!empty(Input::get('id'))) {
+        if (! empty(Input::get('id'))) {
             $this->exportAllFromForm();
         }
 
         $rows = FormStorage::findItems([], 0, 0, ['order' => 'createdAt DESC']);
 
-        (new Response(mb_convert_encoding(StringUtil::decodeEntities($this->export($rows)), 'UTF-16LE', 'UTF-8'), Response::HTTP_OK, [
+        (new Response(
+            mb_convert_encoding(StringUtil::decodeEntities($this->export($rows)), 'UTF-16LE', 'UTF-8'),
+            Response::HTTP_OK,
+            [
             'Content-Type' => 'text/csv; charset=utf-16le',
             'Content-Disposition' => 'attachment;filename=contacts.csv',
         ]
@@ -79,9 +82,12 @@ class BackendController extends ControllerBackendController
     {
         $rows = FormStorage::findItems(['pid' => Input::get('id')], 0, 0, ['order' => 'createdAt DESC']);
 
-        (new Response(mb_convert_encoding(StringUtil::decodeEntities($this->export($rows)), 'UTF-16LE', 'UTF-8'), Response::HTTP_OK, [
+        (new Response(
+            mb_convert_encoding(StringUtil::decodeEntities($this->export($rows)), 'UTF-16LE', 'UTF-8'),
+            Response::HTTP_OK,
+            [
             'Content-Type' => 'text/csv; charset=utf-16le',
-            'Content-Disposition' => 'attachment;filename='.sprintf(
+            'Content-Disposition' => 'attachment;filename=' . sprintf(
                 'contacts_%s.csv',
                 $rows->first()->getRelated('pid')->title
             ),
@@ -168,13 +174,13 @@ class BackendController extends ControllerBackendController
 
         if ($formStorageDatas instanceof Collection) {
             while ($formStorageDatas->next()) {
-                $headers[$formStorageDatas->field_name] = '"'.StringUtil::decodeEntities($formStorageDatas->current()->getValueAsString()).'"';
+                $headers[$formStorageDatas->field_name] = '"' . StringUtil::decodeEntities($formStorageDatas->current()->getValueAsString()) . '"';
                 $headersKeyToKeep[] = $formStorageDatas->field_name;
             }
         }
 
         foreach (array_keys($headers) as $key) {
-            if (!\in_array($key, $headersKeyToKeep, true)) {
+            if (! \in_array($key, $headersKeyToKeep, true)) {
                 $headers[$key] = $this->translator->trans('WEMSG.FDM.EXPORT.fieldNotPresentInForm', [], 'contao_default');
             }
         }

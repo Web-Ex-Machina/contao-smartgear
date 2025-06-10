@@ -21,9 +21,6 @@ use Contao\FormModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\UserGroupModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Language as NotificationLanguageModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Message as NotificationMessageModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\Resetter as BackendResetter;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
@@ -31,6 +28,9 @@ use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
 use WEM\SmartgearBundle\Model\Module;
+use WEM\SmartgearBundle\Model\NotificationCenter\Language as NotificationLanguageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Message as NotificationMessageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 
 class Resetter extends BackendResetter
 {
@@ -59,7 +59,7 @@ class Resetter extends BackendResetter
         /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
         $formContactConfig = $config->getSgFormContact();
-        if (!$formContactConfig) {
+        if (! $formContactConfig) {
             return;
         }
 
@@ -122,9 +122,9 @@ class Resetter extends BackendResetter
                     }
                 }
 
-            break;
+                break;
             case FormContactConfig::ARCHIVE_MODE_KEEP:
-            break;
+                break;
             case FormContactConfig::ARCHIVE_MODE_DELETE:
                 $objFormContact = FormModel::findById($formContactConfig->getSgFormContact());
                 if ($objFormContact) {
@@ -212,7 +212,7 @@ class Resetter extends BackendResetter
                     }
                 }
 
-            break;
+                break;
             default:
                 throw new \InvalidArgumentException($this->translator->trans('WEMSG.FORMCONTACT.RESET.deleteModeUnknown', [], 'contao_default'));
         }

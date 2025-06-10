@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\FormContact;
 
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\FrontendTemplate;
 use Contao\Input;
-use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Exception;
 use InvalidArgumentException;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -29,7 +29,7 @@ class Dashboard extends BackendDashboard
     protected string $strTemplate = 'be_wem_sg_block_formcontact_dashboard';
 
     public function __construct(
-        protected readonly ContaoCsrfTokenManager   $contaoCsrfTokenManager,
+        protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
         ConfigurationManager $configurationManager,
         TranslatorInterface $translator,
         string $module,
@@ -65,8 +65,8 @@ class Dashboard extends BackendDashboard
         $objTemplate->installComplete = $config->getSgFormContact()->getSgInstallComplete();
         $objTemplate->installLocked = $config->getSgInstallLocked();
 
-        if (!$config->getSgInstallLocked()) {
-            if (!$config->getSgFormContact()->getSgInstallComplete()) {
+        if (! $config->getSgInstallLocked()) {
+            if (! $config->getSgFormContact()->getSgInstallComplete()) {
                 $this->actions[] = ['action' => 'install', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonInstallationLabel']];
             } else {
                 $this->actions[] = ['action' => 'configure', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonConfigurationLabel']];

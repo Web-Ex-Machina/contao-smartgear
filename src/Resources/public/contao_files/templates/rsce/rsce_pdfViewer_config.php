@@ -32,9 +32,9 @@ return [
             'eval' => ['tl_class' => 'clr'],
         ],
         'title' => [
-            'label'     => &$GLOBALS['TL_LANG']['tl_content']['titleText'], 
-            'inputType' => 'text', 
-            'eval'      => ['tl_class' => 'w50'],
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['titleText'],
+            'inputType' => 'text',
+            'eval' => ['tl_class' => 'w50'],
         ],
         'player_ratio' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewer']['player_ratio'],
@@ -42,15 +42,15 @@ return [
             'options' => [
                 '' => 'Original',
                 'r_16-9' => '16:9',
-                'r_4-3'  => '4:3',
-                'r_2-1'  => '2:1',
-                'r_1-1'  => '1:1',
-                'r_1-2'  => '1:2',
+                'r_4-3' => '4:3',
+                'r_2-1' => '2:1',
+                'r_1-1' => '1:1',
+                'r_1-2' => '1:2',
             ],
-            'eval' => ['tl_class'=>'w50'],
+            'eval' => ['tl_class' => 'w50'],
         ],
         'playerSize' => [
-            'inputType' => 'standardField', 
+            'inputType' => 'standardField',
         ],
         'center' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_pdfviewer']['center'],

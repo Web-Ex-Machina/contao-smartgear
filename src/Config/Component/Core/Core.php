@@ -23,8 +23,6 @@ use WEM\SmartgearBundle\Config\Module\Extranet\Extranet as ExtranetConfig;
 
 class Core implements ConfigModuleInterface
 {
-    public ?string $sgDefaultClientFilesFolder = null;
-
     public const FORBIDDEN_WEBSITE_TITLES = ['rsce', 'smartgear'];
 
     public const ANALYTICS_SYSTEM_NONE = 'none';
@@ -68,11 +66,13 @@ class Core implements ConfigModuleInterface
 
     public const DEFAULT_ROOTPAGE_CHMOD = 'a:12:{i:0;s:2:"u1";i:1;s:2:"u2";i:2;s:2:"u3";i:3;s:2:"u4";i:4;s:2:"u5";i:5;s:2:"u6";i:6;s:2:"g1";i:7;s:2:"g2";i:8;s:2:"g3";i:9;s:2:"g4";i:10;s:2:"g5";i:11;s:2:"g6";}';
 
-    public const DEFAULT_CLIENT_FILES_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media';
+    public const DEFAULT_CLIENT_FILES_FOLDER = 'files' . \DIRECTORY_SEPARATOR . 'media';
 
-    public const DEFAULT_CLIENT_LOGOS_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media'.\DIRECTORY_SEPARATOR.'logos';
+    public const DEFAULT_CLIENT_LOGOS_FOLDER = 'files' . \DIRECTORY_SEPARATOR . 'media' . \DIRECTORY_SEPARATOR . 'logos';
 
     public const SUBMODULES_KEYS = ['blog', 'events', 'faq', 'form_contact', 'extranet', 'form_data_manager'];
+
+    public ?string $sgDefaultClientFilesFolder = null;
 
     protected bool $sgInstallComplete = false;
 
@@ -532,7 +532,7 @@ class Core implements ConfigModuleInterface
      */
     public function getSubmoduleConfig(string $submodule): BlogConfig|EventsConfig|FaqConfig|FormContactConfig|ExtranetConfig|FormDataManagerConfig|null
     {
-        if (!$this->isSubmoduleNameKnown($submodule)) {
+        if (! $this->isSubmoduleNameKnown($submodule)) {
             throw new \Exception(\sprintf('The submodule "%s" is unknown', $submodule));
         }
 
@@ -564,7 +564,7 @@ class Core implements ConfigModuleInterface
      */
     public function setSubmoduleConfig(string $submodule, ConfigModuleInterface $config): self
     {
-        if (!$this->isSubmoduleNameKnown($submodule)) {
+        if (! $this->isSubmoduleNameKnown($submodule)) {
             throw new \Exception(\sprintf('The submodule "%s" is unknown', $submodule));
         }
 
@@ -595,13 +595,13 @@ class Core implements ConfigModuleInterface
 
     public function getContaoModulesIds(): array
     {
-        if (!$this->getSgInstallComplete()) {
+        if (! $this->getSgInstallComplete()) {
             return [];
         }
 
         $modules = [];
         foreach ($this->getSgModules() as $module) {
-            if (null !== $module->id) {
+            if ($module->id !== null) {
                 $modules[] = (int) $module->id;
             }
         }
@@ -623,7 +623,7 @@ class Core implements ConfigModuleInterface
 
     public function getContaoPagesIds(): array
     {
-        if (!$this->getSgInstallComplete()) {
+        if (! $this->getSgInstallComplete()) {
             return [];
         }
 
@@ -651,7 +651,7 @@ class Core implements ConfigModuleInterface
 
     public function getContaoContentsIds(): array
     {
-        if (!$this->getSgInstallComplete()) {
+        if (! $this->getSgInstallComplete()) {
             return [];
         }
 
@@ -679,7 +679,7 @@ class Core implements ConfigModuleInterface
 
     public function getContaoArticlesIds(): array
     {
-        if (!$this->getSgInstallComplete()) {
+        if (! $this->getSgInstallComplete()) {
             return [];
         }
 
@@ -706,7 +706,7 @@ class Core implements ConfigModuleInterface
 
     public function getContaoFoldersIds(): array
     {
-        if (!$this->getSgInstallComplete()) {
+        if (! $this->getSgInstallComplete()) {
             return [];
         }
 
@@ -730,7 +730,7 @@ class Core implements ConfigModuleInterface
 
     public function getContaoUsersIds(): array
     {
-        if (!$this->getSgInstallComplete()) {
+        if (! $this->getSgInstallComplete()) {
             return [];
         }
 
@@ -753,7 +753,7 @@ class Core implements ConfigModuleInterface
 
     public function getContaoUserGroupsIds(): array
     {
-        if (!$this->getSgInstallComplete()) {
+        if (! $this->getSgInstallComplete()) {
             return [];
         }
 
@@ -777,7 +777,7 @@ class Core implements ConfigModuleInterface
 
     public function getContaoMembersIds(): array
     {
-        if (!$this->getSgInstallComplete()) {
+        if (! $this->getSgInstallComplete()) {
             return [];
         }
 
@@ -798,7 +798,7 @@ class Core implements ConfigModuleInterface
 
     public function getContaoMemberGroupsIds(): array
     {
-        if (!$this->getSgInstallComplete()) {
+        if (! $this->getSgInstallComplete()) {
             return [];
         }
 
@@ -815,7 +815,7 @@ class Core implements ConfigModuleInterface
 
     public function getContaoNotificationsIds(): array
     {
-        if (!$this->getSgInstallComplete()) {
+        if (! $this->getSgInstallComplete()) {
             return [];
         }
 
@@ -832,7 +832,7 @@ class Core implements ConfigModuleInterface
 
     public function getContaoNotificationsMessagesIds(): array
     {
-        if (!$this->getSgInstallComplete()) {
+        if (! $this->getSgInstallComplete()) {
             return [];
         }
 
@@ -850,7 +850,7 @@ class Core implements ConfigModuleInterface
 
     public function getContaoNotificationsMessagesLanguagesIds(): array
     {
-        if (!$this->getSgInstallComplete()) {
+        if (! $this->getSgInstallComplete()) {
             return [];
         }
 
@@ -861,7 +861,7 @@ class Core implements ConfigModuleInterface
     {
         $imageSizes = [];
         foreach ($this->getSgImageSizes() as $imageSize) {
-            if (null !== $imageSize->id) {
+            if ($imageSize->id !== null) {
                 $imageSizes[] = (int) $imageSize->id;
             }
         }
@@ -1007,7 +1007,7 @@ class Core implements ConfigModuleInterface
 
     public function setSgMode(string $sgMode): self
     {
-        if (!\in_array($sgMode, static::MODES_ALLOWED, true)) {
+        if (! \in_array($sgMode, static::MODES_ALLOWED, true)) {
             throw new \InvalidArgumentException(\sprintf('Invalid mode "%s" given', $sgMode));
         }
 
@@ -1047,7 +1047,7 @@ class Core implements ConfigModuleInterface
 
     public function setSgAnalytics(string $sgAnalytics): self
     {
-        if (!\in_array($sgAnalytics, static::ANALYTICS_SYSTEMS_ALLOWED, true)) {
+        if (! \in_array($sgAnalytics, static::ANALYTICS_SYSTEMS_ALLOWED, true)) {
             throw new \InvalidArgumentException(\sprintf('Invalid analytics system "%s" given', $sgAnalytics));
         }
 

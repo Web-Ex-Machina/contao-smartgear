@@ -17,7 +17,6 @@ namespace WEM\SmartgearBundle\Command\Update;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use WEM\SmartgearBundle\Update\Results\ListResult;
 
 class UpdateListCommand extends AbstractUpdateCommand
 {

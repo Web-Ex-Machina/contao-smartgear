@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Backend;
 
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\Environment;
 use Contao\FrontendTemplate;
-use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 
 class AbstractStep
 {
@@ -28,10 +28,10 @@ class AbstractStep
     protected string $strTemplate = 'be_wem_sg_install_block_configuration_step';
 
     public function __construct(
-        protected readonly ContaoCsrfTokenManager   $contaoCsrfTokenManager,
+        protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
         protected string $module,
-        protected string $type)
-    {
+        protected string $type
+    ) {
     }
 
     public function getFilledTemplate(): FrontendTemplate

@@ -99,7 +99,7 @@ class Util
                 ->get('monolog.logger.contao')
                 ->log(
                     LogLevel::ERROR,
-                    'Error when trying to get Framway Colors : '.$exception->getMessage(),
+                    'Error when trying to get Framway Colors : ' . $exception->getMessage(),
                     ['contao' => new ContaoContext(__METHOD__, 'SMARTGEAR')]
                 )
             ;
@@ -111,7 +111,7 @@ class Util
         switch ($strFor) {
             case 'tinymce':
                 foreach ($arrColors as $k => $c) {
-                    if ('' === $k) {
+                    if ($k === '') {
                         continue;
                     }
 
@@ -127,16 +127,16 @@ class Util
 
             case 'rsce-ft':
                 foreach ($arrColors as $k => $c) {
-                    if ('' === $k) {
+                    if ($k === '') {
                         $colors[$k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
                     ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
                     : $c['label']
-                    ;
+                        ;
                     } else {
-                        $colors['ft-'.$k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
+                        $colors['ft-' . $k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
                     ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
                     : $c['label']
-                    ;
+                        ;
                     }
                 }
 
@@ -184,9 +184,9 @@ class Util
      *
      * @throws Exception
      */
-    public static function findAndCreateObject(string $strType,string $strModule = ''): string
+    public static function findAndCreateObject(string $strType, string $strModule = ''): string
     {
-        if ('' === $strModule && str_contains($strType, '_')) {
+        if ($strModule === '' && str_contains($strType, '_')) {
             $arrObject = explode('_', $strType);
             $strType = $arrObject[0];
             $strModule = $arrObject[1];
@@ -195,7 +195,7 @@ class Util
         // Parse the classname
         $strClass = sprintf("WEM\SmartgearBundle\Backend\%s\%s", ucfirst($strType), ucfirst($strModule));
         // Throw error if class doesn't exists
-        if (!class_exists($strClass)) {
+        if (! class_exists($strClass)) {
             throw new Exception(sprintf('Unknown class %s', $strClass));
         }
 
@@ -222,9 +222,9 @@ class Util
      */
     public static function updateConfig(array $arrVars): array
     {
-        trigger_deprecation(package: "SmartGear", version: '1.0', message:"please dont Use");
+        trigger_deprecation(package: 'SmartGear', version: '1.0', message: 'please dont Use');
         $objFiles = Files::getInstance();
-        if (!file_exists(static::$strConfigPath)) {
+        if (! file_exists(static::$strConfigPath)) {
             $objFiles->mkdir(str_replace('/config.json', '', static::$strConfigPath));
             $objFiles->fopen(static::$strConfigPath, 'wb');
         }
@@ -277,22 +277,22 @@ class Util
      * @param boolean $blnReturnFile [Return the File Object if set to true]
      * @throws Exception
      */
-    public static function base64ToImage(string $base64, string $folder, string $file,bool $blnReturnFile = true): File|true
+    public static function base64ToImage(string $base64, string $folder, string $file, bool $blnReturnFile = true): File|true
     {
         $data = explode(',', $base64);
         $ext = substr($data[0], strpos($data[0], '/') + 1, (strpos($data[0], ';') - strpos($data[0], '/') - 1));
         $img = base64_decode($data[1], true);
-        if (!str_contains((string) Config::get('validImageTypes'), $ext)) {
-            throw new \Exception('Invalid image type : '.$ext);
+        if (! str_contains((string) Config::get('validImageTypes'), $ext)) {
+            throw new \Exception('Invalid image type : ' . $ext);
         }
 
         // Determine a filename if absent
-        $path = $folder.'/'.$file.'.'.$ext;
+        $path = $folder . '/' . $file . '.' . $ext;
         // Create & Close the file to generate the Model, and then, reopen the file
         // Because ->close() do not return the File object but true \o/
         $objFile = new File($path);
         $objFile->write($img);
-        if (!$objFile->close()) {
+        if (! $objFile->close()) {
             throw new \Exception(sprintf("The file %s hasn't been saved correctly", $path));
         }
 
@@ -311,7 +311,7 @@ class Util
         $result = [];
         $root = scandir($strDir);
         foreach ($root as $value) {
-            if ('.' === $value || '..' === $value) {
+            if ($value === '.' || $value === '..') {
                 continue;
             }
 
@@ -333,7 +333,7 @@ class Util
         $files = [];
         $root = scandir($strDir);
         foreach ($root as $value) {
-            if ('.' === $value || '..' === $value) {
+            if ($value === '.' || $value === '..') {
                 continue;
             }
 
@@ -367,7 +367,7 @@ class Util
     public static function getCustomPackageVersion(string $package): ?string
     {
         $projectDir = System::getContainer()->getParameter('kernel.project_dir');
-        $packages = json_decode(file_get_contents($projectDir.'/vendor/composer/installed.json'));
+        $packages = json_decode(file_get_contents($projectDir . '/vendor/composer/installed.json'));
 
         foreach ($packages->packages as $p) {
             $p = (array) $p;
@@ -387,7 +387,7 @@ class Util
         $rootDir = System::getContainer()->getParameter('kernel.project_dir');
         $webDir = System::getContainer()->getParameter('contao.web_dir');
 
-        return $relative ? str_replace($rootDir.\DIRECTORY_SEPARATOR, '', $webDir) : $webDir;
+        return $relative ? str_replace($rootDir . \DIRECTORY_SEPARATOR, '', $webDir) : $webDir;
     }
 
     /**
@@ -422,12 +422,12 @@ class Util
     public static function addPermissions(string|array $varPermission, int $intGroup = null): array
     {
         $arrPermissions = [];
-        if (null === $intGroup) {
+        if ($intGroup === null) {
             $conf = self::loadSmartgearConfig();
 
             // if ($conf['sgInstallUserGroup']) {
             $objUserGroup = UserGroupModel::findOneById($conf->getSgUserGroupRedactors());
-        // }
+            // }
         } else {
             $objUserGroup = UserGroupModel::findByPk($intGroup);
         }
@@ -439,11 +439,11 @@ class Util
         // Add the permissions
         if (\is_array($varPermission)) {
             foreach ($varPermission as $strPermission) {
-                if (self::canAddPermission($strPermission) && !\in_array($strPermission, $arrPermissions, true)) {
+                if (self::canAddPermission($strPermission) && ! \in_array($strPermission, $arrPermissions, true)) {
                     $arrPermissions[] = $strPermission;
                 }
             }
-        } elseif (self::canAddPermission($varPermission) && !\in_array($varPermission, $arrPermissions, true)) {
+        } elseif (self::canAddPermission($varPermission) && ! \in_array($varPermission, $arrPermissions, true)) {
             $arrPermissions[] = $varPermission;
         }
 
@@ -461,7 +461,7 @@ class Util
     public static function removePermissions($varPermission, int $intGroup = null): array
     {
         $arrPermissions = [];
-        if (null === $intGroup) {
+        if ($intGroup === null) {
             $conf = self::loadSmartgearConfig();
 
             if ($conf['sgInstallUserGroup']) {
@@ -497,9 +497,9 @@ class Util
                 case 2:
                     $arrAttributes = [];
                     if ($action['attrs']) {
-                        if (!$action['attrs']['class']) {
+                        if (! $action['attrs']['class']) {
                             $action['attrs']['class'] = 'tl_submit';
-                        } elseif (!str_contains((string) $action['attrs']['class'], 'tl_submit')) {
+                        } elseif (! str_contains((string) $action['attrs']['class'], 'tl_submit')) {
                             $action['attrs']['class'] .= ' tl_submit';
                         }
 
@@ -511,7 +511,7 @@ class Util
                     $arrActions[] = sprintf(
                         '<%s %s>%s</%s>',
                         ($action['tag']) ?: 'button',
-                        ([] !== $arrAttributes) ? implode(' ', $arrAttributes) : '',
+                        ($arrAttributes !== []) ? implode(' ', $arrAttributes) : '',
                         ($action['text']) ?: 'text missing',
                         ($action['tag']) ?: 'button'
                     );
@@ -520,7 +520,7 @@ class Util
                     $arrActions[] = sprintf(
                         '<button type="submit" name="action" value="%s" class="tl_submit" %s>%s</button>',
                         $action['action'],
-                        ($action['attributes']) ?: "" ,
+                        ($action['attributes']) ?: '',
                         $action['label']
                     );
             }
@@ -536,14 +536,14 @@ class Util
             switch ($message['class']) {
                 case 'tl_error':
                     $class = 'error';
-                break;
+                    break;
                 case 'tl_info':
                 case 'tl_new':
                     $class = 'info';
-                break;
+                    break;
                 case 'tl_confirm':
                     $class = 'success';
-                break;
+                    break;
             }
 
             $callbacks[] = [$class, $message['text']];
@@ -554,20 +554,20 @@ class Util
 
     public static function humanReadableFilesize(int $size, ?int $precision = 2): string
     {
-        $units = ['B','kB','MB','GB','TB','PB','EB','ZB','YB'];
+        $units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
         $step = 1024;
         $i = 0;
         while (($size / $step) > 0.9) {
             $size = $size / $step;
             $i++;
         }
-        return round($size, $precision).$units[$i];
+        return round($size, $precision) . $units[$i];
     }
 
     public static function log($message, ?string $filename = 'debug.log'): void
     {
         $message = \is_string($message) ? $message : print_r($message, true);
-        file_put_contents(System::getContainer()->getParameter('kernel.project_dir').'/vendor/webexmachina/contao-smartgear/'.$filename, $message.\PHP_EOL, \FILE_APPEND);
+        file_put_contents(System::getContainer()->getParameter('kernel.project_dir') . '/vendor/webexmachina/contao-smartgear/' . $filename, $message . \PHP_EOL, \FILE_APPEND);
     }
 
     /**
@@ -613,14 +613,14 @@ class Util
         $timestamps = [];
         if ($day && $month && $year) {
             // 24 hours gap
-            $date = \DateTime::createFromFormat('Y-m-d', $year.'-'.$month.'-'.$day);
+            $date = \DateTime::createFromFormat('Y-m-d', $year . '-' . $month . '-' . $day);
             $timestamps[] = [
                 $date->setTime(0, 0, 0, 0)->getTimestamp(),
                 $date->setTime(0, 0, 0, 0)->add(new \DateInterval('P1D'))->getTimestamp(),
             ];
         } elseif ($month && $year) {
             // 1 month gap
-            $date = \DateTime::createFromFormat('Y-m-d', $year.'-'.$month.'-01');
+            $date = \DateTime::createFromFormat('Y-m-d', $year . '-' . $month . '-01');
             $timestamps[] = [
                 $date->setTime(0, 0, 0, 0)->getTimestamp(),
                 $date->setTime(0, 0, 0, 0)->add(new \DateInterval('P1M'))->getTimestamp(),
@@ -677,7 +677,7 @@ class Util
 
     public static function buildCookieVisitorUniqIdHash(): string
     {
-        return sha1(System::getContainer()->get('session')->getId().time());
+        return sha1(System::getContainer()->get('session')->getId() . time());
     }
 
     public static function setCookieVisitorUniqIdHash(string $value): void
@@ -709,7 +709,7 @@ class Util
         $arrDomains = [];
         if ($rootPages) {
             while ($rootPages->next()) {
-                if (!$publishedOnly || ($publishedOnly && $rootPages->current()->published)) {
+                if (! $publishedOnly || ($publishedOnly && $rootPages->current()->published)) {
                     $arrDomains[] = self::transformHostnameForAirtableUse($rootPages->current()->dns);
                 }
             }
@@ -722,9 +722,9 @@ class Util
     {
         $clientsRef = [];
         foreach ($hostingInformations as $hostnameHostingInformations) {
-            if (!empty($hostnameHostingInformations['client_reference'])
-                && '' !== $hostnameHostingInformations['client_reference'][0]
-                ) {
+            if (! empty($hostnameHostingInformations['client_reference'])
+                && $hostnameHostingInformations['client_reference'][0] !== ''
+            ) {
                 $clientsRef[] = $hostnameHostingInformations['client_reference'][0];
             }
         }
@@ -736,27 +736,27 @@ class Util
     {
         $result = '';
         if ($interval->y) {
-            $result .= $interval->format('%y '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['year'.($interval->y > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%y ' . strtolower((string) $GLOBALS['TL_LANG']['MSC']['year' . ($interval->y > 1 ? 's' : '')]) . ' ');
         }
 
         if ($interval->m) {
-            $result .= $interval->format('%m '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['month'.($interval->m > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%m ' . strtolower((string) $GLOBALS['TL_LANG']['MSC']['month' . ($interval->m > 1 ? 's' : '')]) . ' ');
         }
 
         if ($interval->d) {
-            $result .= $interval->format('%d '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['day'.($interval->d > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%d ' . strtolower((string) $GLOBALS['TL_LANG']['MSC']['day' . ($interval->d > 1 ? 's' : '')]) . ' ');
         }
 
         if ($interval->h) {
-            $result .= $interval->format('%h '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['hour'.($interval->h > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%h ' . strtolower((string) $GLOBALS['TL_LANG']['MSC']['hour' . ($interval->h > 1 ? 's' : '')]) . ' ');
         }
 
         if ($interval->i) {
-            $result .= $interval->format('%i '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['minute'.($interval->i > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%i ' . strtolower((string) $GLOBALS['TL_LANG']['MSC']['minute' . ($interval->i > 1 ? 's' : '')]) . ' ');
         }
 
         if ($includeSeconds && $interval->s) {
-            $result .= $interval->format('%s '.strtolower((string) $GLOBALS['TL_LANG']['MSC']['second'.($interval->s > 1 ? 's' : '')]).' ');
+            $result .= $interval->format('%s ' . strtolower((string) $GLOBALS['TL_LANG']['MSC']['second' . ($interval->s > 1 ? 's' : '')]) . ' ');
         }
 
         return trim($result);
@@ -764,7 +764,7 @@ class Util
 
     public static function formatPhpMemoryLimitToBytes($value): int
     {
-        if ('-1' === (string) $value) {
+        if ((string) $value === '-1') {
             return -1;
         }
 
@@ -811,21 +811,21 @@ class Util
      */
     private static function getContaoPermissions(bool $blnRefresh = false): array
     {
-        if (!static::$arrContaoPermissions || $blnRefresh) {
+        if (! static::$arrContaoPermissions || $blnRefresh) {
             Controller::loadDataContainer('tl_user_group');
             $stdClass = $GLOBALS['TL_DCA']['tl_user_group']['fields']['alexf']['options_callback'][0];
             $stdMethod = $GLOBALS['TL_DCA']['tl_user_group']['fields']['alexf']['options_callback'][1];
             $objClass = new $stdClass();
-            $arrContaoPermissions = $objClass->$stdMethod();
+            $arrContaoPermissions = $objClass->{$stdMethod}();
 
             // Format available permissions into one flat array
-            if (!\is_array($arrContaoPermissions) || $arrContaoPermissions === []) {
+            if (! \is_array($arrContaoPermissions) || $arrContaoPermissions === []) {
                 throw new \Exception("Les permissions Contao n'ont pas été correctement récupérées");
             }
 
             $arrPermissions = [];
             foreach ($arrContaoPermissions as $arrContaoPermissions) {
-                if (!\is_array($arrContaoPermissions) || $arrContaoPermissions === []) {
+                if (! \is_array($arrContaoPermissions) || $arrContaoPermissions === []) {
                     continue;
                 }
 

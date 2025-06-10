@@ -18,7 +18,7 @@ use WEM\SmartgearBundle\Model\NotificationCenter\Message;
 
 // This class creates data in DB, it does not send anything !
 readonly class NcNotificationMessageUtil
-{    
+{
     /**
      * Shortcut for notification message creation.
      */
@@ -35,7 +35,7 @@ readonly class NcNotificationMessageUtil
         // Now we get the default values, get the arrData table
         if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
-                $objNotificationMessage->$k = $v;
+                $objNotificationMessage->{$k} = $v;
             }
         }
 
@@ -45,29 +45,28 @@ readonly class NcNotificationMessageUtil
         return $objNotificationMessage;
     }
 
-
-    public static function createSupportFormNotificationMessageUser(int $gatewayId, string $gatewayType,int $pid, ?array $arrData = []): Message
+    public static function createSupportFormNotificationMessageUser(int $gatewayId, string $gatewayType, int $pid, ?array $arrData = []): Message
     {
         return self::createNotificationMessage($gatewayId, $gatewayType, $pid, array_merge([
             'title' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['titleNotificationSupportGatewayMessageUser'],
         ], $arrData));
     }
 
-    public static function createSupportFormNotificationMessageAdmin(int $gatewayId, string $gatewayType,int $pid, ?array $arrData = []): Message
+    public static function createSupportFormNotificationMessageAdmin(int $gatewayId, string $gatewayType, int $pid, ?array $arrData = []): Message
     {
         return self::createNotificationMessage($gatewayId, $gatewayType, $pid, array_merge([
             'title' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['titleNotificationSupportGatewayMessageAdmin'],
         ], $arrData));
     }
 
-    public static function createContactFormSentNotificationMessageUser(int $gatewayId, string $gatewayType,int $pid, ?array $arrData = []): Message
+    public static function createContactFormSentNotificationMessageUser(int $gatewayId, string $gatewayType, int $pid, ?array $arrData = []): Message
     {
         return self::createNotificationMessage($gatewayId, $gatewayType, $pid, array_merge([
             'title' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['titleNotificationGatewayMessageUser'],
         ], $arrData));
     }
 
-    public static function createContactFormSentNotificationMessageAdmin(int $gatewayId, string $gatewayType,int $pid, ?array $arrData = []): Message
+    public static function createContactFormSentNotificationMessageAdmin(int $gatewayId, string $gatewayType, int $pid, ?array $arrData = []): Message
     {
         return self::createNotificationMessage($gatewayId, $gatewayType, $pid, array_merge([
             'title' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['titleNotificationGatewayMessageAdmin'],

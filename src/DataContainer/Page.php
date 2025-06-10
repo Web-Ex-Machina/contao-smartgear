@@ -35,8 +35,8 @@ class Page extends Backend
      */
     public function checkPermission(): void
     {
-        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
-            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' page ID '.Input::get('id').'.');
+        if (Input::get('act') === 'delete' && ! $this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to ' . Input::get('act') . ' page ID ' . Input::get('id') . '.');
         }
     }
 
@@ -45,7 +45,7 @@ class Page extends Backend
      */
     public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+        if (! $this->canItemBeDeleted((int) $config->getRecord()['id'])) {
             $config->disable();
         }
     }
@@ -58,16 +58,16 @@ class Page extends Backend
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
-        return 0 < Configuration::countItems(['contao_page_root' => $id])
-        || 0 < Configuration::countItems(['contao_page_home' => $id])
-        || 0 < Configuration::countItems(['contao_page_404' => $id])
-        || 0 < ConfigurationItem::countItems(['contao_page' => $id])
-        || 0 < ConfigurationItem::countItems(['contao_page_form' => $id])
-        || 0 < ConfigurationItem::countItems(['contao_page_form_sent' => $id]);
+        return Configuration::countItems(['contao_page_root' => $id]) > 0
+        || Configuration::countItems(['contao_page_home' => $id]) > 0
+        || Configuration::countItems(['contao_page_404' => $id]) > 0
+        || ConfigurationItem::countItems(['contao_page' => $id]) > 0
+        || ConfigurationItem::countItems(['contao_page_form' => $id]) > 0
+        || ConfigurationItem::countItems(['contao_page_form_sent' => $id]) > 0;
     }
 
     protected function canItemBeDeleted(int $id): bool
     {
-        return $this->User->admin || !$this->isItemUsedBySmartgear($id);
+        return $this->User->admin || ! $this->isItemUsedBySmartgear($id);
     }
 }

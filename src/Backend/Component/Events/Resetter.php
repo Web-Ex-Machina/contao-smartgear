@@ -27,10 +27,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\Resetter as BackendResetter;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 use WEM\SmartgearBundle\Model\Module;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class Resetter extends BackendResetter
 {
@@ -63,7 +63,7 @@ class Resetter extends BackendResetter
         $config = $this->configurationManager->load();
 
         $eventsConfig = $config->getSgEvents();
-        if (!$eventsConfig) {
+        if (! $eventsConfig) {
             return;
         }
 
@@ -107,9 +107,9 @@ class Resetter extends BackendResetter
                     }
                 }
 
-            break;
+                break;
             case EventsConfig::ARCHIVE_MODE_KEEP:
-            break;
+                break;
             case EventsConfig::ARCHIVE_MODE_DELETE:
                 $objFolder = new Folder($eventsConfig->getSgEventsFolder());
                 if ($objFolder) {
@@ -154,7 +154,7 @@ class Resetter extends BackendResetter
                     }
                 }
 
-            break;
+                break;
             default:
                 throw new \InvalidArgumentException($this->translator->trans('WEMSG.EVENTS.RESET.deleteModeUnknown', [], 'contao_default'));
         }

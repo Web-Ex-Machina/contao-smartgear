@@ -49,8 +49,8 @@ class Files extends Backend
      */
     public function checkPermission(): void
     {
-        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
-            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' files ID '.Input::get('id').'.');
+        if (Input::get('act') === 'delete' && ! $this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to ' . Input::get('act') . ' files ID ' . Input::get('id') . '.');
         }
     }
 
@@ -59,7 +59,7 @@ class Files extends Backend
      */
     public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+        if (! $this->canItemBeDeleted((int) $config->getRecord()['id'])) {
             $config->disable();
         }
     }
@@ -83,6 +83,6 @@ class Files extends Backend
 
     protected function canItemBeDeleted(int $id): bool
     {
-        return $this->User->admin || !$this->isItemUsedBySmartgear($id);
+        return $this->User->admin || ! $this->isItemUsedBySmartgear($id);
     }
 }

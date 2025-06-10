@@ -53,7 +53,7 @@ class SocialLink extends BackendModule
 
     protected function compile(): void
     {
-        if (null !== Input::post('FORM_SUBMIT')) {
+        if (Input::post('FORM_SUBMIT') !== null) {
             $this->save();
         }
 
@@ -105,10 +105,10 @@ class SocialLink extends BackendModule
     protected function prepareFormData(): array
     {
         $formData = [];
-        if (null !== Input::post('FORM_SUBMIT')) {
+        if (Input::post('FORM_SUBMIT') !== null) {
             $rows = Input::post($this->strId);
             foreach ($rows as $index => $row) {
-                if (!empty($row['value'])) {
+                if (! empty($row['value'])) {
                     $formData[$index] = $row;
                 }
             }

@@ -22,14 +22,13 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class LoadDataContainerListener
 {
-
     protected string $do;
 
     public function __construct(
-        protected Security                 $security,
+        protected Security $security,
         protected CoreConfigurationManager $coreConfigurationManager,
-        protected DCAManipulator           $dcaManipulator)
-    {
+        protected DCAManipulator $dcaManipulator
+    ) {
     }
 
     public function __invoke(string $table): void

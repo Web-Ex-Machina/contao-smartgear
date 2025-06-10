@@ -137,31 +137,31 @@ class Framway implements ConfigJsonInterface
         $json->useTarteaucitron = $this->getUseTarteaucitron();
         $json->debug = $this->getDebug();
         $json->colors = $this->getColors();
-        if (null !== $this->getPrimary()) {
+        if ($this->getPrimary() !== null) {
             $json->primary = $this->getPrimary();
         }
 
-        if (null !== $this->getSecondary()) {
+        if ($this->getSecondary() !== null) {
             $json->secondary = $this->getSecondary();
         }
 
-        if (null !== $this->getTertiary()) {
+        if ($this->getTertiary() !== null) {
             $json->tertiary = $this->getTertiary();
         }
 
-        if (null !== $this->getSuccess()) {
+        if ($this->getSuccess() !== null) {
             $json->success = $this->getSuccess();
         }
 
-        if (null !== $this->getInfo()) {
+        if ($this->getInfo() !== null) {
             $json->info = $this->getInfo();
         }
 
-        if (null !== $this->getWarning()) {
+        if ($this->getWarning() !== null) {
             $json->warning = $this->getWarning();
         }
 
-        if (null !== $this->getError()) {
+        if ($this->getError() !== null) {
             $json->error = $this->getError();
         }
 

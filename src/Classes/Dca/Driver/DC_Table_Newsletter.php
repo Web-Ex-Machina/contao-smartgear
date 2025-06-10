@@ -22,7 +22,7 @@ class DC_Table_Newsletter extends \Contao\DC_Table
     {
         if (DataContainer::$currentPid) {
             $this->procedure[] = 'channels REGEXP ?';
-            $this->values[] = '.*;s:[0-9]+:"'.DataContainer::$currentPid.'".*';
+            $this->values[] = '.*;s:[0-9]+:"' . DataContainer::$currentPid . '".*';
         }
 
         return parent::showAll();
@@ -31,7 +31,7 @@ class DC_Table_Newsletter extends \Contao\DC_Table
     protected function removePidFilter(): void
     {
         $idx = array_search('pid=?', $this->procedure, true);
-        if (!($idx === 0 || ($idx === '' || $idx === '0') || $idx === false)) {
+        if (! ($idx === 0 || ($idx === '' || $idx === '0') || $idx === false)) {
             unset($this->procedure[$idx], $this->values[$idx]);
         }
     }

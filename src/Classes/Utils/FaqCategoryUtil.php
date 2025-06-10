@@ -27,8 +27,8 @@ class FaqCategoryUtil
         // Create the theme
         if (\array_key_exists('id', $arrData)) {
             $objFaqCategory = FaqCategoryModel::findOneById($arrData['id']);
-            if (!$objFaqCategory) {
-                throw new InvalidArgumentException('La categorie FAQ ayant pour id "'.$arrData['id'].'" n\'existe pas');
+            if (! $objFaqCategory) {
+                throw new InvalidArgumentException('La categorie FAQ ayant pour id "' . $arrData['id'] . '" n\'existe pas');
             }
         } else {
             $objFaqCategory = new FaqCategoryModel();
@@ -41,7 +41,7 @@ class FaqCategoryUtil
         // Now we get the default values, get the arrData table
         if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
-                $objFaqCategory->$k = $v;
+                $objFaqCategory->{$k} = $v;
             }
         }
 

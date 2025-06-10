@@ -19,20 +19,21 @@ use Exception;
 use Knp\Menu\ItemInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class BackendMenuBuildListener
 {
-    public function __construct(protected TranslatorInterface $translator, protected CoreConfigurationManager $coreConfigurationManager)
-    {
+    public function __construct(
+        protected TranslatorInterface $translator,
+        protected CoreConfigurationManager $coreConfigurationManager
+    ) {
     }
 
     public function __invoke(MenuEvent $event): void
     {
         try {
             $coreConfig = $this->coreConfigurationManager->load();
-            if (!$coreConfig->getSgInstallComplete()) {
+            if (! $coreConfig->getSgInstallComplete()) {
                 $this->removeDashboardNode($event);
             }
         } catch (FileNotFoundException) {
@@ -45,7 +46,7 @@ class BackendMenuBuildListener
     {
         $tree = $event->getTree();
 
-        if ('mainMenu' !== $tree->getName()) {
+        if ($tree->getName() !== 'mainMenu') {
             return;
         }
 
@@ -53,7 +54,7 @@ class BackendMenuBuildListener
         if ($contentNode instanceof ItemInterface) {
             $contentNode->removeChild('wem_sg_dashboard');
 
-            if (0 === $contentNode->count()) {
+            if ($contentNode->count() === 0) {
                 $tree->removeChild('wem_smartgear');
             }
         }

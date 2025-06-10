@@ -16,7 +16,6 @@ namespace WEM\SmartgearBundle\Classes\Utils\Notification;
 
 use NotificationCenter\Model\Notification;
 
-
 readonly class NcNotificationUtil
 {
     /**
@@ -31,7 +30,7 @@ readonly class NcNotificationUtil
         // Now we get the default values, get the arrData table
         if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
-                $objNotification->$k = $v;
+                $objNotification->{$k} = $v;
             }
         }
 

@@ -34,8 +34,8 @@ class PageUtil
         // Create the page
         if (\array_key_exists('id', $arrData)) {
             $objPage = PageModel::findOneById($arrData['id']);
-            if (!$objPage) {
-                throw new InvalidArgumentException('La page ayant pour id "'.$arrData['id'].'" n\'existe pas');
+            if (! $objPage) {
+                throw new InvalidArgumentException('La page ayant pour id "' . $arrData['id'] . '" n\'existe pas');
             }
         } else {
             $objPage = new PageModel();
@@ -45,7 +45,7 @@ class PageUtil
         $objPage->pid = $intPid;
         if (\array_key_exists('sorting', $arrData)) {
             $objPage->sorting = $arrData['sorting'];
-        } elseif (0 !== $intPid) {
+        } elseif ($intPid !== 0) {
             $objPage->sorting = self::getNextAvailablePageSortingByParentPage((int) $intPid);
         } elseif (\array_key_exists('layout', $arrData)) {
             $objPage->sorting = self::getNextAvailablePageSortingByLayout((int) $arrData['layout']);
@@ -60,9 +60,9 @@ class PageUtil
         $objPage->published = 1;
 
         // Now we get the default values, get the arrData table
-        if (!empty($arrData)) {
+        if (! empty($arrData)) {
             foreach ($arrData as $k => $v) {
-                $objPage->$k = $v;
+                $objPage->{$k} = $v;
             }
         }
 
@@ -240,7 +240,7 @@ class PageUtil
     public static function createPageWithModules($strTitle, $arrModules, $intPid = 0, $arrPageData = []): int
     {
         $arrConfig = Util::loadSmartgearConfig();
-        if (0 === $intPid) {
+        if ($intPid === 0) {
             $intPid = $arrConfig['sgInstallRootPage'];
         }
 
@@ -261,13 +261,11 @@ class PageUtil
 
     /**
      * Shortcut for page w/ texts creations.
-     *
-     * @param mixed|null $arrHl
      */
     public static function createPageWithText($strTitle, $strText, $intPid = 0, mixed $arrHl = null): int
     {
         $arrConfig = Util::loadSmartgearConfig();
-        if (0 === $intPid) {
+        if ($intPid === 0) {
             $intPid = $arrConfig['sgInstallRootPage'];
         }
 
@@ -294,12 +292,12 @@ class PageUtil
     public static function getNextAvailablePageSortingByParentPage(int $parentPageId): int
     {
         $pidPage = PageModel::findById($parentPageId);
-        if (!$pidPage) {
+        if (! $pidPage) {
             return 128;
         }
 
         $pages = PageModel::findBy('pid', $parentPageId, ['order' => 'sorting DESC']);
-        if (!$pages) {
+        if (! $pages) {
             // return (int) $pidPage->sorting + 128;
             return 128;
         }
@@ -319,12 +317,12 @@ class PageUtil
     public static function getNextAvailablePageSortingByLayout(int $layoutId): int
     {
         $rootPage = PageModel::findBy(['layout = ?', 'type = ?'], [$layoutId, 'root']);
-        if (!$rootPage) {
+        if (! $rootPage) {
             return 128;
         }
 
         $pages = PageModel::findBy('pid', $rootPage, ['order' => 'sorting DESC']);
-        if (!$pages) {
+        if (! $pages) {
             // return (int) $rootPage->sorting + 128;
             return 128;
         }

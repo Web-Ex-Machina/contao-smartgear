@@ -33,6 +33,7 @@ class Block extends Controller
 {
     use Traits\ActionsTrait;
     use Traits\MessagesTrait;
+
     public const MODE_DASHBOARD = 'dashboard';
 
     public const MODE_INSTALL = 'install';
@@ -57,9 +58,9 @@ class Block extends Controller
 
     protected string $mode = '';
 
-    protected mixed $bundles ;
+    protected mixed $bundles;
 
-    protected mixed $objSession ;
+    protected mixed $objSession;
 
     protected ContaoCsrfTokenManager $contaoCsrfTokenManager;
 
@@ -115,8 +116,8 @@ class Block extends Controller
 
         // Add actions only if we can manage the module
         if ($blnCanManage) {
-            if (!$this->isInstalled()) {
-                if (self::MODE_DASHBOARD === $this->getMode()) {
+            if (! $this->isInstalled()) {
+                if ($this->getMode() === self::MODE_DASHBOARD) {
                     $objTemplate = $this->parseDependingOnMode($objTemplate);
                 } else {
                     $this->setMode(self::MODE_INSTALL);
@@ -129,7 +130,7 @@ class Block extends Controller
                 $objTemplate->messages = $this->getMessages($this->module);
             } else {
                 // if module installed but mode install, nope, dashboard mode
-                if (self::MODE_INSTALL === $this->getMode()) {
+                if ($this->getMode() === self::MODE_INSTALL) {
                     $this->setMode(self::MODE_DASHBOARD);
                 }
 
@@ -162,10 +163,10 @@ class Block extends Controller
     {
         return match ($key) {
             'toastrDisplay' => ['method' => 'toastrDisplay', 'args' => [$args[0], $args[1]]],
-            'refreshBlock' => ['method' => 'refreshBlock', 'args' => ['block-'.$this->type.'-'.$this->module]],
-            'replaceBlockContent' => ['method' => 'replaceBlockContent', 'args' => ['block-'.$this->type.'-'.$this->module, $args[0]]],
+            'refreshBlock' => ['method' => 'refreshBlock', 'args' => ['block-' . $this->type . '-' . $this->module]],
+            'replaceBlockContent' => ['method' => 'replaceBlockContent', 'args' => ['block-' . $this->type . '-' . $this->module, $args[0]]],
             'reload' => ['method' => 'reload', 'args' => []],
-            default => throw new Exception('Callback inconnu : '.$key),
+            default => throw new Exception('Callback inconnu : ' . $key),
         };
     }
 
@@ -268,9 +269,9 @@ class Block extends Controller
         if ($this->require) {
             $arrMissingModules = [];
             foreach ($this->require as $type => $block) {
-                $objModule = System::getContainer()->get('smartgear.backend.'.$type.'.'.$block.'.block');
+                $objModule = System::getContainer()->get('smartgear.backend.' . $type . '.' . $block . '.block');
 
-                if (!$objModule->isInstalled()) {
+                if (! $objModule->isInstalled()) {
                     $arrMissingModules[] = $block;
                 }
 
@@ -352,12 +353,12 @@ class Block extends Controller
 
     protected function parseDependingOnMode(FrontendTemplate $objTemplate): FrontendTemplate
     {
-        if (self::MODE_CONFIGURE === $this->getMode()) {
+        if ($this->getMode() === self::MODE_CONFIGURE) {
             $this->configurationStepManager->setMode($this->configurationStepManager::MODE_CONFIGURE);
             $objTemplate->steps = $this->configurationStepManager->parseSteps();
             $objTemplate->content = $this->configurationStepManager->parse();
             $objTemplate->messages = $this->getMessages($this->module);
-        } elseif (self::MODE_DASHBOARD === $this->getMode()) {
+        } elseif ($this->getMode() === self::MODE_DASHBOARD) {
             $objTemplate->content = $this->dashboard->parse();
             // $objTemplate->fields = $this->dashboard->fields;
             $objTemplate->logs = $this->dashboard->getLogs();
@@ -370,7 +371,7 @@ class Block extends Controller
 
     protected function getModeSessionKey(): string
     {
-        return 'sg_'.$this->module.'_mode';
+        return 'sg_' . $this->module . '_mode';
     }
 
     protected function setMode(string $mode): self

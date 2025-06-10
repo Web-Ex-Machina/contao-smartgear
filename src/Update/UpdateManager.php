@@ -32,8 +32,8 @@ class UpdateManager
         protected DirectoriesSynchronizer $templatesSmartgearSynchronizer,
         protected DirectoriesSynchronizer $templatesRsceSynchronizer,
         protected DirectoriesSynchronizer $templatesGeneralSynchronizer,
-        protected array $migrations)
-    {
+        protected array $migrations
+    ) {
     }
 
     public function list(): ListResult
@@ -62,14 +62,14 @@ class UpdateManager
         foreach ($this->migrations as $migration) {
             $singleMigrationResult = $this->updateSingle($migration);
             $updateResult->addResult($singleMigrationResult);
-            if (MigrationResult::STATUS_FAIL === $singleMigrationResult->getResult()->getStatus()) {
+            if ($singleMigrationResult->getResult()->getStatus() === MigrationResult::STATUS_FAIL) {
                 $updateResult->setStatusFail();
                 $updateResult = $this->setRemainingMigrationsAsUntouched($updateResult);
                 break;
             }
         }
 
-        if (!$updateResult->isFail()) {
+        if (! $updateResult->isFail()) {
             $updateResult->setStatusSuccess();
         }
 
@@ -82,11 +82,11 @@ class UpdateManager
         foreach ($remainingMigrations as $remainingMigration) {
             $updateResult->addResult(
                 (new SingleMigrationResult())
-                ->setMigration($remainingMigration)
-                ->setResult(
-                    (new MigrationResult())
-                    ->setStatus(MigrationResult::STATUS_NOT_EXCUTED_YET)
-                )
+                    ->setMigration($remainingMigration)
+                    ->setResult(
+                        (new MigrationResult())
+                            ->setStatus(MigrationResult::STATUS_NOT_EXCUTED_YET)
+                    )
             );
         }
 
@@ -101,7 +101,7 @@ class UpdateManager
     protected function updateSingle(MigrationInterface $migration): SingleMigrationResult
     {
         $singleMigrationResult = $this->shouldRunSingle($migration);
-        if (MigrationResult::STATUS_SHOULD_RUN !== $singleMigrationResult->getResult()->getStatus()) {
+        if ($singleMigrationResult->getResult()->getStatus() !== MigrationResult::STATUS_SHOULD_RUN) {
             return $singleMigrationResult;
         }
 

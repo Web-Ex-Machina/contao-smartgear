@@ -36,7 +36,7 @@ class ListResult
     {
         $numbersOfUpdatesToPlay = 0;
         foreach ($this->getResults() as $singleMigrationResult) {
-            $numbersOfUpdatesToPlay = MigrationResult::STATUS_SHOULD_RUN === $singleMigrationResult->getResult()->getStatus() ? $numbersOfUpdatesToPlay + 1 : $numbersOfUpdatesToPlay;
+            $numbersOfUpdatesToPlay = $singleMigrationResult->getResult()->getStatus() === MigrationResult::STATUS_SHOULD_RUN ? $numbersOfUpdatesToPlay + 1 : $numbersOfUpdatesToPlay;
         }
 
         return $numbersOfUpdatesToPlay;

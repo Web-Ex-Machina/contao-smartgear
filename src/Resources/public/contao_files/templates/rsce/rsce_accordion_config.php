@@ -13,13 +13,13 @@ declare(strict_types=1);
  */
 
 return [
-    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_accordion'], 
-    'contentCategory' => 'accordion', 'standardFields' => ['cssID'], 
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_accordion'],
+    'contentCategory' => 'accordion', 'standardFields' => ['cssID'],
     'fields' => [
         // Items
          'items' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_accordion']['items_legend'], 
-            'elementLabel' => &$GLOBALS['TL_LANG']['tl_content']['rsce_accordion']['item_legend'], 
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_accordion']['items_legend'],
+            'elementLabel' => &$GLOBALS['TL_LANG']['tl_content']['rsce_accordion']['item_legend'],
             'inputType' => 'list', 'fields' => [
                 // Content
                 'headline' => [
@@ -34,8 +34,7 @@ return [
                         'h6' => 'H6',
                     ],
                     'eval' => ['tl_class' => 'w50 clr', 'mandatory' => true, 'includeBlankOption' => true, 'allowHtml' => true],
-                ]
-                , 'content' => [
+                ], 'content' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_accordion']['content'], 'inputType' => 'textarea', 'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr', 'mandatory' => true],
                 ], 'lock' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_accordion']['lock'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50'],
@@ -52,6 +51,6 @@ return [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_accordion']['disable_collapse'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50 clr'],
         ], 'auto_collapse' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_accordion']['auto_collapse'], 'inputType' => 'checkbox', 'eval' => ['tl_class' => 'w50 clr'],
-        ]
+        ],
     ],
 ];

@@ -22,8 +22,9 @@ use WEM\SmartgearBundle\Module\SocialLink;
 
 class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
 {
-    public function __construct(protected CoreConfigurationManager $coreConfigurationManager)
-    {
+    public function __construct(
+        protected CoreConfigurationManager $coreConfigurationManager
+    ) {
     }
 
     /**
@@ -51,8 +52,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
         array $cache,
         int $_rit,
         int $_cnt
-    ): false|string
-    {
+    ): false|string {
         $elements = explode('::', $insertTag);
 
         return static::NOT_HANDLED;

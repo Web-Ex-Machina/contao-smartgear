@@ -19,8 +19,9 @@ use Symfony\Component\Process\Process;
 
 class Util
 {
-    public function __construct(protected string $rootDir)
-    {
+    public function __construct(
+        protected string $rootDir
+    ) {
     }
 
     /**
@@ -33,7 +34,7 @@ class Util
     public function executeCmdPHP(string $strCmd): string
     {
         // Finally, clean the Contao cache
-        $strConsolePath = $this->rootDir.'/vendor/bin/contao-console';
+        $strConsolePath = $this->rootDir . '/vendor/bin/contao-console';
         $cmd = sprintf(
             '%s/php -q %s %s --env=prod',
             \PHP_BINDIR,
@@ -64,7 +65,7 @@ class Util
         while ($i <= $process->getTimeout()) {
             sleep(1);
             if ($process->isTerminated()) {
-                if (!$process->isSuccessful()) {
+                if (! $process->isSuccessful()) {
                     throw new ProcessFailedException($process);
                 }
 
@@ -93,13 +94,13 @@ class Util
             $cmd
         ) : new Process([$cmd]);
         $process->setTimeout($timeout);
-        $process->run(static function ($type, $buffer) : void {
-            if (Process::ERR === $type) {
-                echo json_encode(['data' => $buffer, 'status' => 'error']).',';
+        $process->run(static function ($type, $buffer): void {
+            if ($type === Process::ERR) {
+                echo json_encode(['data' => $buffer, 'status' => 'error']) . ',';
             } else {
-                echo json_encode(['data' => $buffer, 'status' => 'success']).',';
+                echo json_encode(['data' => $buffer, 'status' => 'success']) . ',';
             }
-            
+
             @flush();
         });
 
@@ -107,7 +108,7 @@ class Util
         while ($i <= $process->getTimeout()) {
             sleep(1);
             if ($process->isTerminated()) {
-                if (!$process->isSuccessful()) {
+                if (! $process->isSuccessful()) {
                     throw new ProcessFailedException($process);
                 }
 

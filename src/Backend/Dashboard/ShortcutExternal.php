@@ -34,7 +34,7 @@ class ShortcutExternal extends BackendModule
 
     public function __construct(
         protected TranslatorInterface $translator,
-        protected configurationManager          $configurationManager
+        protected configurationManager $configurationManager
     ) {
         parent::__construct();
     }
@@ -68,14 +68,14 @@ class ShortcutExternal extends BackendModule
         $this->Template->analyticsUrl = '';
         $this->Template->linkAnalyticsText = '';
         $this->Template->linkAnalyticsTitle = '';
-        if (Core::ANALYTICS_SYSTEM_NONE !== $config->getSgAnalytics()) {
+        if ($config->getSgAnalytics() !== Core::ANALYTICS_SYSTEM_NONE) {
             switch ($config->getSgAnalytics()) {
                 case Core::ANALYTICS_SYSTEM_GOOGLE:
                     $this->Template->analyticsUrl = 'https://analytics.google.com';
-                break;
+                    break;
                 case Core::ANALYTICS_SYSTEM_MATOMO:
-                    $this->Template->analyticsUrl = 'https:'.$config->getSgAnalyticsMatomoHost();
-                break;
+                    $this->Template->analyticsUrl = 'https:' . $config->getSgAnalyticsMatomoHost();
+                    break;
             }
 
             $this->Template->linkAnalyticsText = $this->translator->trans('WEMSG.DASHBOARD.SHORTCUTEXTERNAL.linkAnalyticsText', [$config->getSgAnalytics()], 'contao_default');

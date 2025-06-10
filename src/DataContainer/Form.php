@@ -15,9 +15,9 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\DataContainer;
 
 use Contao\Backend;
-use Contao\Input;
 use Contao\CoreBundle\DataContainer\DataContainerOperation;
 use Contao\CoreBundle\Exception\AccessDeniedException;
+use Contao\Input;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
 // class Form extends \tl_form
@@ -35,8 +35,8 @@ class Form extends Backend
      */
     public function checkPermission(): void
     {
-        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
-            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' form ID '.Input::get('id').'.');
+        if (Input::get('act') === 'delete' && ! $this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to ' . Input::get('act') . ' form ID ' . Input::get('id') . '.');
         }
     }
 
@@ -45,7 +45,7 @@ class Form extends Backend
      */
     public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+        if (! $this->canItemBeDeleted((int) $config->getRecord()['id'])) {
             $config->disable();
         }
     }
@@ -65,11 +65,11 @@ class Form extends Backend
         //     }
         // } catch (\Exception $e) {
         // }
-        return 0 < ConfigurationItem::countItems(['contao_form' => $id]);
+        return ConfigurationItem::countItems(['contao_form' => $id]) > 0;
     }
 
     protected function canItemBeDeleted(int $id): bool
     {
-        return (null !== $this->User && $this->User->admin) || !$this->isItemUsedBySmartgear($id);
+        return ($this->User !== null && $this->User->admin) || ! $this->isItemUsedBySmartgear($id);
     }
 }

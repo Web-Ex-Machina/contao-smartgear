@@ -20,11 +20,10 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
 class ManagerJson extends AbstractManager implements ManagerJsonInterface
 {
-
     public function __construct(
-        TranslatorInterface       $translator,
+        TranslatorInterface $translator,
         protected ConfigInterface $configuration,
-        protected ?string         $configurationFilePath
+        protected ?string $configurationFilePath
     ) {
         parent::__construct($translator);
     }
@@ -64,7 +63,7 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
      */
     public function createBackupFile(): bool|string
     {
-        $backupFilePath = $this->configurationFilePath.'_'.date('Ymd_His');
+        $backupFilePath = $this->configurationFilePath . '_' . date('Ymd_His');
         $this->load();
         return $this->file_force_contents($backupFilePath, $this->configuration->export()) ? $backupFilePath : false;
     }
@@ -90,8 +89,8 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
         $file = array_pop($parts);
         $dir = '';
         foreach ($parts as $part) {
-            if ('.' !== $part) {
-                if (!is_dir($dir .= '/' . $part)) {
+            if ($part !== '.') {
+                if (! is_dir($dir .= '/' . $part)) {
                     mkdir($dir);
                 }
             } else {
@@ -99,6 +98,6 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
             }
         }
 
-        return false !== file_put_contents(sprintf('%s/%s', $dir, $file), $content);
+        return file_put_contents(sprintf('%s/%s', $dir, $file), $content) !== false;
     }
 }

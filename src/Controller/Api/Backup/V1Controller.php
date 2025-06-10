@@ -15,30 +15,28 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Controller\Api\Backup;
 
 use Contao\Controller;
+use Contao\CoreBundle\Framework\ContaoFramework;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Terminal42\ServiceAnnotationBundle\Annotation\ServiceTag;
 use WEM\SmartgearBundle\Api\Backup\V1\Api;
-use Contao\CoreBundle\Framework\ContaoFramework;
 use WEM\SmartgearBundle\Classes\Api\Security\Token;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Exceptions\Api\InvalidTokenException;
 
 #[Route(path: '/api/backup/v1')]
-#[ServiceTag(["controller.service_arguments"])]
+#[ServiceTag(['controller.service_arguments'])]
 class V1Controller extends Controller
 {
-
     public function __construct(
-        protected ContaoFramework     $framework,
+        protected ContaoFramework $framework,
         protected TranslatorInterface $translator,
-        protected Api                 $api,
-        protected Token               $securityToken
-    )
-    {
+        protected Api $api,
+        protected Token $securityToken
+    ) {
         $this->framework->initialize();
         parent::__construct();
     }
@@ -46,20 +44,20 @@ class V1Controller extends Controller
     #[Route(path: '/list', methods: ['GET'])]
     public function listAction(Request $request): Response
     {
-        try{
+        try {
             $this->validateToken($request);
             return new Response(
                 $this->api->list(
-                    $request->query->getInt('limit',10),
-                    $request->query->getInt('offset',0),
-                    -1 === $request->query->getInt('before',-1) ? null : $request->query->getInt('before'),
-                    -1 === $request->query->getInt('after',-1) ? null : $request->query->getInt('after')
+                    $request->query->getInt('limit', 10),
+                    $request->query->getInt('offset', 0),
+                    $request->query->getInt('before', -1) === -1 ? null : $request->query->getInt('before'),
+                    $request->query->getInt('after', -1) === -1 ? null : $request->query->getInt('after')
                 )->toJson(),
                 200,
-                ['Content-Type'=>'application/json']
-             );
-        }catch(\Exception $exception){
-            return new Response(json_encode(['message'=>$exception->getMessage()]), 400,['Content-Type'=>'application/json']);
+                ['Content-Type' => 'application/json']
+            );
+        } catch (\Exception $exception) {
+            return new Response(json_encode(['message' => $exception->getMessage()]), 400, ['Content-Type' => 'application/json']);
         }
 
     }
@@ -67,15 +65,15 @@ class V1Controller extends Controller
     #[Route(path: '/create', methods: ['POST'])]
     public function createAction(Request $request): Response
     {
-        try{
+        try {
             $this->validateToken($request);
             return new Response(
                 $this->api->create()->toJson(),
                 200,
-                ['Content-Type'=>'application/json']
-             );
-        }catch(\Exception $exception){
-            return new Response(json_encode(['message'=>$exception->getMessage()]), 400,['Content-Type'=>'application/json']);
+                ['Content-Type' => 'application/json']
+            );
+        } catch (\Exception $exception) {
+            return new Response(json_encode(['message' => $exception->getMessage()]), 400, ['Content-Type' => 'application/json']);
         }
 
     }
@@ -83,37 +81,37 @@ class V1Controller extends Controller
     #[Route(path: '/delete/{backupname}', methods: ['POST'])]
     public function deleteAction(Request $request, string $backupname): Response
     {
-        try{
+        try {
             $this->validateToken($request);
             return new Response(
                 $this->api->delete($backupname),
                 200,
-                ['Content-Type'=>'application/json']
-             );
-        }catch(\Exception $exception){
-            return new Response(json_encode(['message'=>$exception->getMessage()]), 400,['Content-Type'=>'application/json']);
+                ['Content-Type' => 'application/json']
+            );
+        } catch (\Exception $exception) {
+            return new Response(json_encode(['message' => $exception->getMessage()]), 400, ['Content-Type' => 'application/json']);
         }
     }
 
     #[Route(path: '/restore/{backupname}', methods: ['POST'])]
     public function restoreAction(Request $request, string $backupname): Response
     {
-        try{
+        try {
             $this->validateToken($request);
             return new Response(
                 $this->api->restore($backupname),
                 200,
-                ['Content-Type'=>'application/json']
-             );
-        }catch(\Exception $exception){
-            return new Response(json_encode(['message'=>$exception->getMessage()]), 400,['Content-Type'=>'application/json']);
+                ['Content-Type' => 'application/json']
+            );
+        } catch (\Exception $exception) {
+            return new Response(json_encode(['message' => $exception->getMessage()]), 400, ['Content-Type' => 'application/json']);
         }
     }
 
     #[Route(path: '/get/{backupname}', methods: ['GET'])]
     public function getAction(Request $request, string $backupname): Response
     {
-        try{
+        try {
             $this->validateToken($request);
             $file = $this->api->get($backupname);
             $response = new BinaryFileResponse($file->path);
@@ -124,14 +122,14 @@ class V1Controller extends Controller
             );
             $response->setStatusCode(200);
             return $response;
-        }catch(\Exception $exception){
-            return new Response(json_encode(['message'=>$exception->getMessage()]), 400,['Content-Type'=>'application/json']);
+        } catch (\Exception $exception) {
+            return new Response(json_encode(['message' => $exception->getMessage()]), 400, ['Content-Type' => 'application/json']);
         }
     }
 
     protected function validateToken(Request $request): void
     {
-        if(!$this->securityToken->validate($request->query->get('token'))){
+        if (! $this->securityToken->validate($request->query->get('token'))) {
             throw new InvalidTokenException($this->translator->trans('WEM.SMARTGEAR.DEFAULT.InvalidToken', [], 'contao_default'));
         }
     }

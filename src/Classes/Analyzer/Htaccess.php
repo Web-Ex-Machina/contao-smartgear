@@ -40,8 +40,9 @@ class Htaccess
 
     public const REWRITE_RULE_WWW = 'RewriteRule (.*) https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]';
 
-    public function __construct(protected string $filepath)
-    {
+    public function __construct(
+        protected string $filepath
+    ) {
     }
 
     public function hasRedirectToWwwAndHttps_OLD(): bool
@@ -159,10 +160,10 @@ class Htaccess
             }
         }
 
-        if (!$foundInFirstLoop) {
+        if (! $foundInFirstLoop) {
             foreach ($content as $index => $line) {
                 if ($this->isLineARewriteEngineOn($line)) {
-                    $content[$index] = $line.self::REWRITE_COND_HTTPS.\PHP_EOL.self::REWRITE_RULE_HTTPS.\PHP_EOL.self::REWRITE_COND_WWW.\PHP_EOL.self::REWRITE_RULE_WWW.\PHP_EOL;
+                    $content[$index] = $line . self::REWRITE_COND_HTTPS . \PHP_EOL . self::REWRITE_RULE_HTTPS . \PHP_EOL . self::REWRITE_COND_WWW . \PHP_EOL . self::REWRITE_RULE_WWW . \PHP_EOL;
                 }
             }
         }
@@ -174,8 +175,9 @@ class Htaccess
     {
         $content = $this->getLines();
         foreach ($content as $index => $line) {
-            if (!$this->isComment($line)
-            && ($this->isLineARedirectionToHttps1_OLD($line)
+            if (! $this->isComment($line)
+            && (
+                $this->isLineARedirectionToHttps1_OLD($line)
                 || $this->isLineARedirectionToHttps2_OLD($line)
                 || $this->isLineARedirectionToWWW1_OLD($line)
                 || $this->isLineARedirectionToWWW2_OLD($line)
@@ -192,8 +194,9 @@ class Htaccess
     {
         $content = $this->getLines();
         foreach ($content as $index => $line) {
-            if (!$this->isComment($line)
-            && ($this->isLineARewriteCondHttps($line)
+            if (! $this->isComment($line)
+            && (
+                $this->isLineARewriteCondHttps($line)
                 || $this->isLineARewriteRuleHttps($line)
                 || $this->isLineARewriteCondWww($line)
                 || $this->isLineARewriteRuleWww($line)
@@ -209,8 +212,8 @@ class Htaccess
     {
         $content = $this->getLines();
         foreach ($content as $index => $line) {
-            if (!$this->isComment($line) && $this->isLineARewriteRuleFwAssetsOld($line)) {
-                $content[$index] = $this->comment($line).self::REWRITE_RULE_FW_ASSETS_NEW.\PHP_EOL;
+            if (! $this->isComment($line) && $this->isLineARewriteRuleFwAssetsOld($line)) {
+                $content[$index] = $this->comment($line) . self::REWRITE_RULE_FW_ASSETS_NEW . \PHP_EOL;
             }
         }
 
@@ -225,7 +228,7 @@ class Htaccess
                 $content[$index] = $this->uncomment($line);
             }
 
-            if (!$this->isComment($line) && $this->isLineARewriteRuleFwAssetsNew($line)) {
+            if (! $this->isComment($line) && $this->isLineARewriteRuleFwAssetsNew($line)) {
                 unset($content[$index]);
             }
         }
@@ -235,67 +238,67 @@ class Htaccess
 
     protected function isLineARewriteEngineOn(string $line): bool
     {
-        return false !== stripos($line, self::REWRITE_ENGINE_ON);
+        return stripos($line, self::REWRITE_ENGINE_ON) !== false;
     }
 
     protected function isLineARedirectionToHttps1_OLD(string $line): bool
     {
-        return false !== stripos($line, self::REWRITE_COND_HTTPS_1_OLD);
+        return stripos($line, self::REWRITE_COND_HTTPS_1_OLD) !== false;
     }
 
     protected function isLineARedirectionToHttps2_OLD(string $line): bool
     {
-        return false !== stripos($line, self::REWRITE_COND_HTTPS_2_OLD);
+        return stripos($line, self::REWRITE_COND_HTTPS_2_OLD) !== false;
     }
 
     protected function isLineARedirectionToWWW1_OLD(string $line): bool
     {
-        return false !== stripos($line, self::REWRITE_COND_WWW_1_OLD);
+        return stripos($line, self::REWRITE_COND_WWW_1_OLD) !== false;
     }
 
     protected function isLineARedirectionToWWW2_OLD(string $line): bool
     {
-        return false !== stripos($line, self::REWRITE_COND_WWW_2_OLD);
+        return stripos($line, self::REWRITE_COND_WWW_2_OLD) !== false;
     }
 
     protected function isLineARedirectionToWwwAndHttps_OLD(string $line): bool
     {
-        return false !== stripos($line, self::REWRITE_RULE_OLD);
+        return stripos($line, self::REWRITE_RULE_OLD) !== false;
     }
 
     protected function isLineARewriteCondHttps(string $line): bool
     {
-        return false !== stripos($line, self::REWRITE_COND_HTTPS);
+        return stripos($line, self::REWRITE_COND_HTTPS) !== false;
     }
 
     protected function isLineARewriteRuleHttps(string $line): bool
     {
-        return false !== stripos($line, self::REWRITE_RULE_HTTPS);
+        return stripos($line, self::REWRITE_RULE_HTTPS) !== false;
     }
 
     protected function isLineARewriteCondWww(string $line): bool
     {
-        return false !== stripos($line, self::REWRITE_COND_WWW);
+        return stripos($line, self::REWRITE_COND_WWW) !== false;
     }
 
     protected function isLineARewriteRuleWww(string $line): bool
     {
-        return false !== stripos($line, self::REWRITE_RULE_WWW);
+        return stripos($line, self::REWRITE_RULE_WWW) !== false;
     }
 
     protected function isLineARewriteRuleFwAssetsOld(string $line): bool
     {
-        return false !== stripos($line, self::REWRITE_RULE_FW_ASSETS_OLD);
+        return stripos($line, self::REWRITE_RULE_FW_ASSETS_OLD) !== false;
     }
 
     protected function isLineARewriteRuleFwAssetsNew(string $line): bool
     {
-        return false !== stripos($line, self::REWRITE_RULE_FW_ASSETS_NEW);
+        return stripos($line, self::REWRITE_RULE_FW_ASSETS_NEW) !== false;
     }
 
     protected function isComment(string $line): bool
     {
-        return 0 === strncmp('#', $line, 1);
+        return strncmp('#', $line, 1) === 0;
     }
 
     protected function uncomment(string $line): string
@@ -305,7 +308,7 @@ class Htaccess
 
     protected function comment(string $line): string
     {
-        return '#'.$line;
+        return '#' . $line;
     }
 
     protected function getLines(): array
@@ -317,11 +320,11 @@ class Htaccess
     {
         $this->createBackupFile();
 
-        return false !== file_put_contents($this->filepath, implode('', $lines));
+        return file_put_contents($this->filepath, implode('', $lines)) !== false;
     }
 
     protected function createBackupFile(): bool
     {
-        return false !== file_put_contents($this->filepath.'_'.date('Ymd_his'), file_get_contents($this->filepath));
+        return file_put_contents($this->filepath . '_' . date('Ymd_his'), file_get_contents($this->filepath)) !== false;
     }
 }

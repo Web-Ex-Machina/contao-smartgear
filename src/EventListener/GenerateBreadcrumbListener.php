@@ -19,16 +19,20 @@ use Contao\Module;
 use Contao\PageModel;
 use WEM\UtilsBundle\Classes\ScopeMatcher;
 
-#[AsHook('generateBreadcrumb',null,-1)]
+#[AsHook('generateBreadcrumb', null, -1)]
 class GenerateBreadcrumbListener
 {
-    public function __construct(protected array $listeners, protected readonly ScopeMatcher $scopeMatcher)
-    {
+    public function __construct(
+        protected array $listeners,
+        protected readonly ScopeMatcher $scopeMatcher
+    ) {
     }
 
     public function __invoke(array $items, Module $module): ?array
     {
-        if(!$this->scopeMatcher->isFrontend()) {exit();}
+        if (! $this->scopeMatcher->isFrontend()) {
+            exit();
+        }
 
         $arrSourceItems = $items;
         try {

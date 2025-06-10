@@ -45,12 +45,10 @@ class AnalyticsExternal extends BackendModule
 
     protected string $strId = 'wem_sg_dashboard_analytics_external';
 
-
-
     public function __construct(
-        protected TranslatorInterface  $translator,
+        protected TranslatorInterface $translator,
         protected ConfigurationManager $configurationManager,
-        protected AirtableApi          $airtableApi
+        protected AirtableApi $airtableApi
     ) {
         parent::__construct();
     }
@@ -92,7 +90,7 @@ class AnalyticsExternal extends BackendModule
                     'price' => $hostnameHostingInfos['invoices_prices'][$index],
                     'url' => $hostnameHostingInfos['invoices_urls'][$index],
                 ];
-                $blnAirtableClientFound = $blnAirtableClientFound || !empty($hostnameHostingInfos['client_id']);
+                $blnAirtableClientFound = $blnAirtableClientFound || ! empty($hostnameHostingInfos['client_id']);
                 $arrBirthdays[$domain] = (new Date($hostnameHostingInfos['birthday'], 'Y-m-d'))->date;
             }
         }
@@ -129,7 +127,7 @@ class AnalyticsExternal extends BackendModule
             }
 
             $diskSpaceAllowed += (float) $hostnameHostingInfos['allowed_space'];
-            $blnAirtableClientFound = $blnAirtableClientFound || !empty($hostnameHostingInfos['client_id']);
+            $blnAirtableClientFound = $blnAirtableClientFound || ! empty($hostnameHostingInfos['client_id']);
         }
 
         $diskSpaceAllowed = (int) $diskSpaceAllowed * 1024 * 1024 * 1024;
@@ -150,7 +148,7 @@ class AnalyticsExternal extends BackendModule
         $objTemplate->diskSpaceAllowed = Util::humanReadableFilesize($diskSpaceAllowed, 2);
 
         $objTemplate->diskUsagePercentLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.diskUsagePercentLabel', [], 'contao_default');
-        $objTemplate->diskUsagePercent = 0 !== $diskSpaceAllowed ? round($diskUsage * 100 / ($diskSpaceAllowed), 2) : 0;
+        $objTemplate->diskUsagePercent = $diskSpaceAllowed !== 0 ? round($diskUsage * 100 / ($diskSpaceAllowed), 2) : 0;
 
         if ($objTemplate->diskUsagePercent < 75) {
             $objTemplate->diskUsageBarColor = 'green';
@@ -218,7 +216,8 @@ class AnalyticsExternal extends BackendModule
             return (int) $cacheManager->retrieveFromCache()['data']['size'];
         }
 
-        $query = sprintf('
+        $query = sprintf(
+            '
             SELECT SUM(DATA_LENGTH) + SUM(INDEX_LENGTH) AS usage_estimate
             FROM INFORMATION_SCHEMA.tables
             WHERE table_schema = \'%s\'',
@@ -226,7 +225,7 @@ class AnalyticsExternal extends BackendModule
         );
         $result = Database::getInstance()->execute($query);
 
-        if (0 === $result->count()) {
+        if ($result->count() === 0) {
             return 0;
         }
 
@@ -243,7 +242,7 @@ class AnalyticsExternal extends BackendModule
         $size = 0;
 
         // foreach (glob(rtrim($dir, '/').'/*', \GLOB_NOSORT) as $each) {
-        foreach (glob(rtrim((string) $dir, '/').'/{*,.[!.]*,..?*}', \GLOB_BRACE | \GLOB_NOSORT) as $each) {
+        foreach (glob(rtrim((string) $dir, '/') . '/{*,.[!.]*,..?*}', \GLOB_BRACE | \GLOB_NOSORT) as $each) {
             $size += is_file($each) ? filesize($each) : $this->folderSize($each);
         }
 
@@ -254,7 +253,7 @@ class AnalyticsExternal extends BackendModule
     {
         $bytestotal = 0;
         $path = realpath($path);
-        if (false !== $path && '' !== $path && file_exists($path)) {
+        if ($path !== false && $path !== '' && file_exists($path)) {
             foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS)) as $object) {
                 try {
                     $bytestotal += $object->getSize();

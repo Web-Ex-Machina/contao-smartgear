@@ -17,7 +17,6 @@ namespace WEM\SmartgearBundle\Backend\Component\Core\ResetStep;
 use Contao\Input;
 use WEM\SmartgearBundle\Backend\Component\Core\Resetter;
 use WEM\SmartgearBundle\Backup\BackupManager;
-use WEM\SmartgearBundle\Backup\Model\Results\CreateResult;
 use WEM\SmartgearBundle\Classes\Backend\AbstractStep;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 

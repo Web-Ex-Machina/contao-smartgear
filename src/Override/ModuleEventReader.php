@@ -24,7 +24,7 @@ use Contao\System;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFound;
 
-#[AsFrontendModule(type: 'events', name:'eventreader')]
+#[AsFrontendModule(type: 'events', name: 'eventreader')]
 class ModuleEventReader extends \Contao\ModuleEventReader
 {
     /**
@@ -59,13 +59,13 @@ class ModuleEventReader extends \Contao\ModuleEventReader
             if ($objEvent->addImage) {
                 $objImage = FilesModel::findByUuid($objEvent->singleSRC);
                 if ($objImage) {
-                    $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:image" content="%s">', Environment::get('base').$objImage->path);
+                    $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:image" content="%s">', Environment::get('base') . $objImage->path);
                 }
             }
         }
 
         $configManager = System::getContainer()->get('smartgear.config.manager.core');
-        /* @var UrlGeneratorInterface $routeGenerator*/
+        /** @var UrlGeneratorInterface $routeGenerator*/
         $routeGenerator = System::getContainer()->get('contao.routing.content_url_generator');
         try {
             $eventConfig = $configManager->load()->getSgEvents();

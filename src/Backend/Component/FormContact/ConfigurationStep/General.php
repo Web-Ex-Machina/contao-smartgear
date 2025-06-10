@@ -22,41 +22,39 @@ use Contao\FormModel;
 use Contao\Input;
 use Contao\PageModel;
 use Contao\UserGroupModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Language as NotificationLanguageModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Message as NotificationMessageModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
 use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
+use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Classes\Utils\ArticleUtil;
 use WEM\SmartgearBundle\Classes\Utils\ContentUtil;
 use WEM\SmartgearBundle\Classes\Utils\FormFieldUtil;
-use WEM\SmartgearBundle\Classes\Utils\FormUtil;
 use WEM\SmartgearBundle\Classes\Utils\Notification\NcNotificationMessageLanguageUtil;
 use WEM\SmartgearBundle\Classes\Utils\Notification\NcNotificationMessageUtil;
 use WEM\SmartgearBundle\Classes\Utils\Notification\NcNotificationUtil;
 use WEM\SmartgearBundle\Classes\Utils\PageUtil;
-// use WEM\SmartgearBundle\DataContainer\NotificationGateway;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
+// use WEM\SmartgearBundle\DataContainer\NotificationGateway;
 use WEM\SmartgearBundle\Model\Module;
-use WEM\SmartgearBundle\Classes\StringUtil;
+use WEM\SmartgearBundle\Model\NotificationCenter\Language as NotificationLanguageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Message as NotificationMessageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 
 class General extends ConfigurationStep
 {
-
     protected string $language;
 
     public function __construct(
-        string                         $module,
-        string                         $type,
-        protected TranslatorInterface  $translator,
+        string $module,
+        string $type,
+        protected TranslatorInterface $translator,
         protected ConfigurationManager $configurationManager,
-        protected CommandUtil          $commandUtil,
-        protected HtmlDecoder          $htmlDecoder
+        protected CommandUtil $commandUtil,
+        protected HtmlDecoder $htmlDecoder
     ) {
         parent::__construct($module, $type);
         $this->language = BackendUser::getInstance()->language;
@@ -76,11 +74,11 @@ class General extends ConfigurationStep
     public function isStepValid(): bool
     {
         // check if the step is correct
-        if (null === Input::post('formContactTitle', null)) {
+        if (Input::post('formContactTitle', null) === null) {
             throw new \Exception($this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.formContactTitleMissing', [], 'contao_default'));
         }
 
-        if (null === Input::post('pageTitle', null)) {
+        if (Input::post('pageTitle', null) === null) {
             throw new \Exception($this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageTitleMissing', [], 'contao_default'));
         }
 
@@ -154,7 +152,7 @@ class General extends ConfigurationStep
             //     'robots' => 'index,follow',
             //     'description' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormDescription', [$formContactConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
             //     'published' => 1,
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setFormContactConfigKey('setSgPageForm', (int) $page->id);
 
@@ -180,7 +178,7 @@ class General extends ConfigurationStep
             //     'description' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.pageFormSentDescription', [$formContactConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
             //     'published' => 1,
             //     'hide' => 1,
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setFormContactConfigKey('setSgPageFormSent', (int) $page->id);
 
@@ -202,7 +200,7 @@ class General extends ConfigurationStep
 
         $article = ArticleModel::findById($formContactConfig->getSgArticleForm());
 
-        $article = ArticleUtil::createArticle($page, null !== $article ? ['id' => $article->id] : []);
+        $article = ArticleUtil::createArticle($page, $article !== null ? ['id' => $article->id] : []);
 
         $this->setFormContactConfigKey('setSgArticleForm', (int) $article->id);
 
@@ -217,7 +215,7 @@ class General extends ConfigurationStep
 
         $article = ArticleModel::findById($formContactConfig->getSgArticleFormSent());
 
-        $article = ArticleUtil::createArticle($page, null !== $article ? ['id' => $article->id] : []);
+        $article = ArticleUtil::createArticle($page, $article !== null ? ['id' => $article->id] : []);
 
         $this->setFormContactConfigKey('setSgArticleFormSent', (int) $article->id);
 
@@ -242,7 +240,7 @@ class General extends ConfigurationStep
         $headline = ContentUtil::createContent($article, array_merge([
             'headline' => serialize(['unit' => 'h1', 'value' => $page->title]),
             'cssID' => ',sep-bottom',
-        ], null !== $headline ? ['id' => $headline->id] : []));
+        ], $headline !== null ? ['id' => $headline->id] : []));
 
         $this->setFormContactConfigKey('setSgContentHeadlineArticleForm', (int) $headline->id);
 
@@ -250,7 +248,7 @@ class General extends ConfigurationStep
         $contentForm = ContentUtil::createContent($article, array_merge([
             'type' => 'form',
             'form' => $form->id,
-        ], null !== $contentForm ? ['id' => $contentForm->id] : []));
+        ], $contentForm !== null ? ['id' => $contentForm->id] : []));
 
         $this->setFormContactConfigKey('setSgContentFormArticleForm', (int) $contentForm->id);
 
@@ -267,14 +265,14 @@ class General extends ConfigurationStep
         $headline = ContentUtil::createContent($article, array_merge([
             'headline' => serialize(['unit' => 'h1', 'value' => $page->title]),
             'cssID' => ',sep-bottom',
-        ], null !== $headline ? ['id' => $headline->id] : []));
+        ], $headline !== null ? ['id' => $headline->id] : []));
 
         $this->setFormContactConfigKey('setSgContentHeadlineArticleFormSent', (int) $headline->id);
 
         $text = ContentModel::findOneById((int) $formContactConfig->getSgContentTextArticleFormSent());
         $text = ContentUtil::createContent($article, array_merge([
             'text' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.contentTextPageFormSent', [], 'contao_default'),
-        ], null !== $text ? ['id' => $text->id] : []));
+        ], $text !== null ? ['id' => $text->id] : []));
 
         $this->setFormContactConfigKey('setSgContentTextArticleFormSent', (int) $text->id);
 
@@ -313,7 +311,11 @@ class General extends ConfigurationStep
         $config = $this->configurationManager->load();
         $formContactConfig = $config->getSgFormContact();
 
-        $nm = NcNotificationMessageUtil::createContactFormSentNotificationMessageUser((int) $objNotification->id, 'email', (int) $config->getSgNotificationGatewayEmail(), $formContactConfig->getSgNotificationMessageUser() ? ['id' => $formContactConfig->getSgNotificationMessageUser()] : []
+        $nm = NcNotificationMessageUtil::createContactFormSentNotificationMessageUser(
+            (int) $objNotification->id,
+            'email',
+            (int) $config->getSgNotificationGatewayEmail(),
+            $formContactConfig->getSgNotificationMessageUser() ? ['id' => $formContactConfig->getSgNotificationMessageUser()] : []
         );
         // $nm = NotificationMessageModel::findOneById($formContactConfig->getSgNotificationMessageUser()) ?? new NotificationMessageModel();
         // $nm->pid = $objNotification->id;
@@ -335,7 +337,11 @@ class General extends ConfigurationStep
         $config = $this->configurationManager->load();
         $formContactConfig = $config->getSgFormContact();
 
-        $nm = NcNotificationMessageUtil::createContactFormSentNotificationMessageAdmin((int) $objNotification->id, 'email', (int) $config->getSgNotificationGatewayEmail(), $formContactConfig->getSgNotificationMessageAdmin() ? ['id' => $formContactConfig->getSgNotificationMessageAdmin()] : []
+        $nm = NcNotificationMessageUtil::createContactFormSentNotificationMessageAdmin(
+            (int) $objNotification->id,
+            'email',
+            (int) $config->getSgNotificationGatewayEmail(),
+            $formContactConfig->getSgNotificationMessageAdmin() ? ['id' => $formContactConfig->getSgNotificationMessageAdmin()] : []
         );
         // $nm = NotificationMessageModel::findOneById($formContactConfig->getSgNotificationMessageAdmin()) ?? new NotificationMessageModel();
         // $nm->pid = $gateway->id;
@@ -483,7 +489,8 @@ class General extends ConfigurationStep
 
         $this->setFormContactConfigKey('setSgFieldName', (int) $inputName->id);
 
-        $inputEmail = FormFieldUtil::createFormField((int) $form->id, array_merge([
+        $inputEmail = FormFieldUtil::createFormField((int) $form->id, array_merge(
+            [
             'sorting' => 256,
             'type' => 'text',
             'name' => 'email',
@@ -493,7 +500,7 @@ class General extends ConfigurationStep
             'rgxp' => 'email',
             'tstamp' => time(),
         ],
-        $formContactConfig->getSgFieldEmail() ? ['id' => $formContactConfig->getSgFieldEmail()] : []
+            $formContactConfig->getSgFieldEmail() ? ['id' => $formContactConfig->getSgFieldEmail()] : []
         ));
 
         $this->setFormContactConfigKey('setSgFieldEmail', (int) $inputEmail->id);
@@ -512,14 +519,15 @@ class General extends ConfigurationStep
 
         $this->setFormContactConfigKey('setSgFieldMessage', (int) $inputMessage->id);
 
-        $inputConsentDataTreatment = FormFieldUtil::createFormField((int) $form->id, array_merge([
+        $inputConsentDataTreatment = FormFieldUtil::createFormField((int) $form->id, array_merge(
+            [
             'sorting' => 512,
             'type' => 'checkbox',
             'name' => 'consent_data_treatment',
             'options' => serialize([['value' => 1, 'label' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.optionLabelFormInputConsentDataTreatment', [], 'contao_default')]]),
             'mandatory' => true,
         ],
-        $formContactConfig->getSgFieldConsentDataTreatment() ? ['id' => $formContactConfig->getSgFieldConsentDataTreatment()] : []
+            $formContactConfig->getSgFieldConsentDataTreatment() ? ['id' => $formContactConfig->getSgFieldConsentDataTreatment()] : []
         ));
 
         $this->setFormContactConfigKey('setSgFieldConsentDataTreatment', (int) $inputConsentDataTreatment->id);
@@ -537,33 +545,34 @@ class General extends ConfigurationStep
 
         $this->setFormContactConfigKey('setSgFieldConsentDataSave', (int) $inputConsentDataSave->id);
 
-        $inputCaptcha = FormFieldUtil::createFormField((int) $form->id, array_merge([
+        $inputCaptcha = FormFieldUtil::createFormField((int) $form->id, array_merge(
+            [
             'sorting' => 1152,
             'type' => 'captcha',
             'name' => 'captcha',
             'label' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputCaptcha', [], 'contao_default'),
             'mandatory' => 1,
         ],
-        $formContactConfig->getSgFieldCaptcha() ? ['id' => $formContactConfig->getSgFieldCaptcha()] : []
+            $formContactConfig->getSgFieldCaptcha() ? ['id' => $formContactConfig->getSgFieldCaptcha()] : []
         ));
 
         $this->setFormContactConfigKey('setSgFieldCaptcha', (int) $inputCaptcha->id);
 
-        $inputSubmit = FormFieldUtil::createFormField((int) $form->id, array_merge([
+        $inputSubmit = FormFieldUtil::createFormField((int) $form->id, array_merge(
+            [
             'sorting' => 1280,
             'type' => 'submit',
             'name' => 'submit',
             'slabel' => $this->translator->trans('WEMSG.FORMCONTACT.INSTALL_GENERAL.labelFormInputSubmit', [], 'contao_default'),
             'mandatory' => 1,
         ],
-        $formContactConfig->getSgFieldSubmit() ? ['id' => $formContactConfig->getSgFieldSubmit()] : []
+            $formContactConfig->getSgFieldSubmit() ? ['id' => $formContactConfig->getSgFieldSubmit()] : []
         ));
 
         $this->setFormContactConfigKey('setSgFieldSubmit', (int) $inputSubmit->id);
 
         return ['name' => $inputName, 'email' => $inputEmail, 'message' => $inputMessage, 'consentDataTreatment' => $inputConsentDataTreatment, 'consentDataSave' => $inputConsentDataSave, 'captcha' => $inputCaptcha, 'submit' => $inputSubmit];
     }
-
 
     protected function updateModuleConfigurationAfterGenerations(array $pages, array $articles, array $contents, NotificationModel $notification, array $notificationGatewayMessages, array $notificationGatewayMessagesLanguages, FormModel $form, array $formInputs): void
     {

@@ -15,9 +15,9 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\EventListener\StyleManager;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
+use Oveleon\ContaoComponentStyleManager\Model\StyleManagerArchiveModel;
 use Oveleon\ContaoComponentStyleManager\Model\StyleManagerModel;
 use Oveleon\ContaoComponentStyleManager\Widget\ComponentStyleSelect;
-use Oveleon\ContaoComponentStyleManager\Model\StyleManagerArchiveModel;
 use WEM\SmartgearBundle\Classes\Utils\Configuration\ConfigurationUtil;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 use WEM\UtilsBundle\Classes\ScopeMatcher;
@@ -25,13 +25,16 @@ use WEM\UtilsBundle\Classes\ScopeMatcher;
 #[AsHook('styleManagerWidgetComponentStyleSelectGetStyleManagerModelCollection', priority: -1)]
 class WidgetComponentStyleSelectGetStyleManagerModelCollectionListener
 {
-    public function __construct(protected readonly ScopeMatcher $scopeMatcher)
-    {
+    public function __construct(
+        protected readonly ScopeMatcher $scopeMatcher
+    ) {
     }
 
     public function __invoke($collection, ComponentStyleSelect $widget)
     {
-        if(!$this->scopeMatcher->isBackend()) {exit();}
+        if (! $this->scopeMatcher->isBackend()) {
+            exit();
+        }
 
         /** @todo : retrieve in function of SG install */
         $strTable = $widget->dataContainer->table;
@@ -46,7 +49,7 @@ class WidgetComponentStyleSelectGetStyleManagerModelCollectionListener
         if ($objConfiguration instanceof Configuration) {
             $collection = StyleManagerModel::findByTable($strTable, [
                 'order' => 'sorting',
-                'column' => 'pid IN (SELECT sma.id FROM '.StyleManagerArchiveModel::getTable().' sma WHERE sma.wem_sg_install = '.$objConfiguration->id.')',
+                'column' => 'pid IN (SELECT sma.id FROM ' . StyleManagerArchiveModel::getTable() . ' sma WHERE sma.wem_sg_install = ' . $objConfiguration->id . ')',
             ]);
         }
 

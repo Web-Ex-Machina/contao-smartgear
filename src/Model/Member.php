@@ -24,6 +24,7 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationM
 class Member extends \Contao\MemberModel
 {
     use PDMTrait;
+
     /**
      * Default order column.
      *

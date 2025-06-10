@@ -22,11 +22,12 @@ use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\SmartgearBundle\Model\FormStorage;
 use WEM\SmartgearBundle\Model\FormStorageData;
 
-#[AsHook('anonymizeByPidAndPtableAndEmail','anonymizeByPidAndPtableAndEmail',-1)]
+#[AsHook('anonymizeByPidAndPtableAndEmail', 'anonymizeByPidAndPtableAndEmail', -1)]
 class AnonymizeListener
 {
-    public function __construct(protected TranslatorInterface $translator)
-    {
+    public function __construct(
+        protected TranslatorInterface $translator
+    ) {
     }
 
     public function anonymizeByPidAndPtableAndEmail(int $pid, string $ptable, string $email, ?Collection $pdms): ?Collection
@@ -42,7 +43,7 @@ class AnonymizeListener
                     }
                 }
             }
-            
+
             $pdms = \count($arrModels) > 0 ? new Collection($arrModels, PersonalData::getTable()) : null;
         }
 

@@ -33,7 +33,7 @@ class Manipulator
         return $this;
     }
 
-    public static function create(string $table): Manipulator
+    public static function create(string $table): self
     {
         return (new self())->setTable($table);
     }
@@ -243,13 +243,13 @@ class Manipulator
         }
 
         foreach ($palettesNames as $paletteName) {
-            if (!\is_array($GLOBALS['TL_DCA'][$this->table]['palettes'][$paletteName])) {
+            if (! \is_array($GLOBALS['TL_DCA'][$this->table]['palettes'][$paletteName])) {
                 $pm->applyToPalette($paletteName, $this->table);
             }
         }
 
         foreach ($subpalettesNames as $subpaletteName) {
-            if (!\is_array($GLOBALS['TL_DCA'][$this->table]['subpalettes'][$subpaletteName])) {
+            if (! \is_array($GLOBALS['TL_DCA'][$this->table]['subpalettes'][$subpaletteName])) {
                 $pm->applyToSubpalette($subpaletteName, $this->table);
             }
         }
@@ -399,11 +399,11 @@ class Manipulator
      */
     protected function checkConfiguration(): void
     {
-        if (null === $this->table) {
+        if ($this->table === null) {
             throw new Exception('No table defined. Please call `setTable` method before.');
         }
 
-        if (!\array_key_exists($this->table, $GLOBALS['TL_DCA'])) {
+        if (! \array_key_exists($this->table, $GLOBALS['TL_DCA'])) {
             throw new Exception(sprintf('Table "%s" not found.', $this->table));
         }
     }

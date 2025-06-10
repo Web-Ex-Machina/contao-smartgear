@@ -20,15 +20,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\UtilsBundle\Classes\ScopeMatcher;
 
-#[AsHook('compileFormFields',null,-1)]
+#[AsHook('compileFormFields', null, -1)]
 class CompileFormFieldsListener
 {
     public function __construct(
         protected TranslatorInterface $translator,
         protected CoreConfigurationManager $configurationManager,
         protected readonly ScopeMatcher $scopeMatcher,
-        protected array $listeners)
-    {
+        protected array $listeners
+    ) {
     }
 
     public function __invoke(
@@ -36,7 +36,9 @@ class CompileFormFieldsListener
         string $formId,
         Form $form
     ): array {
-        if(!$this->scopeMatcher->isFrontend()) {exit();}
+        if (! $this->scopeMatcher->isFrontend()) {
+            exit();
+        }
 
         return $this->applyListeners($arrFields, $formId, $form);
     }

@@ -43,8 +43,9 @@ class Api
 
     protected string $apiKeyWrite;
 
-    public function __construct(protected CoreConfigManager $configurationManager)
-    {
+    public function __construct(
+        protected CoreConfigManager $configurationManager
+    ) {
         try {
             /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
@@ -61,7 +62,7 @@ class Api
     {
         $filename = 'airtable_hosting_informations.json';
 
-        $cacheManager = new CacheFileManager(self::CACHE_PATH.$filename, 86400);
+        $cacheManager = new CacheFileManager(self::CACHE_PATH . $filename, 86400);
         $data = [];
 
         foreach ($hostnames as $hostname) {
@@ -80,7 +81,7 @@ class Api
         $viewName = 'All'; // All
         $filename = 'airtable_hosting_informations.json';
 
-        $cacheManager = new CacheFileManager(self::CACHE_PATH.$filename, 86400);
+        $cacheManager = new CacheFileManager(self::CACHE_PATH . $filename, 86400);
         $cacheData = [];
 
         if ($cacheManager->cacheFileExists() && $cacheManager->hasValidCache()) {
@@ -94,7 +95,7 @@ class Api
         $url = sprintf('%s%s/%s?maxRecords=1&view=%s&filterByFormula=%s&returnFieldsByFieldId=1', self::BASE_URL, $base, $tableId, urlencode($viewName), urlencode(sprintf('{Domaines concernés} = "%s"', $hostname)));
         $arrRecords = $this->callForRead($url)->records;
 
-        if (!$arrRecords) {
+        if (! $arrRecords) {
             return [];
         }
 
@@ -148,7 +149,7 @@ class Api
     {
         $filename = 'airtable_support_client_informations.json';
 
-        $cacheManager = new CacheFileManager(self::CACHE_PATH.$filename, 86400);
+        $cacheManager = new CacheFileManager(self::CACHE_PATH . $filename, 86400);
         $data = [];
 
         foreach ($clientsRef as $clientRef) {
@@ -167,7 +168,7 @@ class Api
         $viewName = 'Grid view'; // Grid view
         $filename = 'airtable_support_client_informations.json';
 
-        $cacheManager = new CacheFileManager(self::CACHE_PATH.$filename, 86400);
+        $cacheManager = new CacheFileManager(self::CACHE_PATH . $filename, 86400);
         $cacheData = [];
 
         if ($cacheManager->cacheFileExists() && $cacheManager->hasValidCache()) {
@@ -181,7 +182,7 @@ class Api
         $url = sprintf('%s%s/%s?maxRecords=1&view=%s&filterByFormula=%s&returnFieldsByFieldId=1', self::BASE_URL, $base, $tableId, urlencode($viewName), urlencode(sprintf('{Reference} = "%s"', $clientRef)));
         $arrRecords = $this->callForRead($url)->records;
 
-        if (!$arrRecords) {
+        if (! $arrRecords) {
             return [];
         }
 
@@ -259,14 +260,14 @@ class Api
                 ],
             ],
         ];
-        if (null !== $screenshotFileUrl) {
+        if ($screenshotFileUrl !== null) {
             $data['records'][0]['fields'][$fieldIds['Capture d\'écran']][] = ['url' => $screenshotFileUrl];
         }
 
         $result = $this->callForWrite($apiUrl, $data);
 
         if ($result->error) {
-            throw new Exception('['.$result->error->type.'] '.$result->error->message);
+            throw new Exception('[' . $result->error->type . '] ' . $result->error->message);
         }
     }
 
@@ -324,15 +325,15 @@ class Api
     {
         $baseUrl = static::BASE_URL;
 
-        if (!str_contains($url, (string) $baseUrl)) {
-            $url = $baseUrl.$url;
+        if (! str_contains($url, (string) $baseUrl)) {
+            $url = $baseUrl . $url;
         }
 
         $curl = curl_init();
         $httpHeaders = [sprintf('Authorization: Bearer %s', $apiKey)];
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_USERAGENT, 'webexmachina/1.0 +'. Environment::get('base'));
+        curl_setopt($curl, CURLOPT_USERAGENT, 'webexmachina/1.0 +' . Environment::get('base'));
         if ($data !== []) {
             $httpHeaders['Content-Type'] = 'application/json';
             curl_setopt($curl, CURLOPT_POST, true);
@@ -344,14 +345,14 @@ class Api
         curl_close($curl);
         $json = json_decode($jsonRaw);
 
-        if (\JSON_ERROR_NONE !== json_last_error()) {
+        if (json_last_error() !== \JSON_ERROR_NONE) {
             throw new ResponseSyntaxException(json_last_error_msg());
         }
 
         // @TODO : find a working way to test the response' http code
         // https://www.php.net/manual/fr/function.curl-getinfo.php
         // (official method responds "0" which isn't helpful)
-        if (1 === \count(get_object_vars($json)) && !empty($json->message)) {
+        if (\count(get_object_vars($json)) === 1 && ! empty($json->message)) {
             throw new ResponseContentException($json->message);
         }
 

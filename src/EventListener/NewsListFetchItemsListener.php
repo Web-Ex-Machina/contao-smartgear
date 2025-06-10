@@ -19,19 +19,22 @@ use Contao\NewsModel;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\UtilsBundle\Classes\ScopeMatcher;
 
-#[AsHook('newsListFetchItems',null,-1)]
+#[AsHook('newsListFetchItems', null, -1)]
 class NewsListFetchItemsListener
 {
-    public function __construct(protected readonly ScopeMatcher $scopeMatcher)
-    {
+    public function __construct(
+        protected readonly ScopeMatcher $scopeMatcher
+    ) {
     }
 
     public function __invoke(array $newsArchives, ?bool $featuredOnly, int $limit, int $offset, \Contao\Module $module)
     {
-        if(!$this->scopeMatcher->isFrontend()) {exit();}
+        if (! $this->scopeMatcher->isFrontend()) {
+            exit();
+        }
 
         $searchConfig = $module->getConfig();
-        if (!empty($searchConfig)) {
+        if (! empty($searchConfig)) {
             $col = ['published = ?', '(start = "" OR start <= ?)', '(stop = "" OR stop >= ?)', 'pid IN (?)'];
             $val = ['1', time(), time(), implode(',', $newsArchives)];
 
@@ -40,21 +43,21 @@ class NewsListFetchItemsListener
                 $val[] = '1';
             }
 
-            if (\array_key_exists('author', $searchConfig) && !empty($searchConfig['author'])) {
+            if (\array_key_exists('author', $searchConfig) && ! empty($searchConfig['author'])) {
                 $col[] = 'author = ?';
                 $val[] = $searchConfig['author'];
             }
 
-            if (\array_key_exists('date', $searchConfig) && !empty($searchConfig['date'])
+            if (\array_key_exists('date', $searchConfig) && ! empty($searchConfig['date'])
             && (
-                (\array_key_exists('year', $searchConfig['date']) && !empty($searchConfig['date']['year']))
+                (\array_key_exists('year', $searchConfig['date']) && ! empty($searchConfig['date']['year']))
                 ||
-                \array_key_exists('month', $searchConfig['date']) && !empty($searchConfig['date']['month'])
+                \array_key_exists('month', $searchConfig['date']) && ! empty($searchConfig['date']['month'])
             )
             ) {
                 $timestampsDuo = Util::getTimestampsFromDateConfig(
-                    \array_key_exists('year', $searchConfig['date']) && !empty($searchConfig['date']['year']) ? (int) $searchConfig['date']['year'] : null,
-                    \array_key_exists('month', $searchConfig['date']) && !empty($searchConfig['date']['month']) ? (int) $searchConfig['date']['month'] : null,
+                    \array_key_exists('year', $searchConfig['date']) && ! empty($searchConfig['date']['year']) ? (int) $searchConfig['date']['year'] : null,
+                    \array_key_exists('month', $searchConfig['date']) && ! empty($searchConfig['date']['month']) ? (int) $searchConfig['date']['month'] : null,
                     null
                 );
                 $colConfig = [];

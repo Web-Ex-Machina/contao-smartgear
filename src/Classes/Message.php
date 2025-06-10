@@ -20,13 +20,13 @@ class Message extends \Contao\Message
 {
     public static function removeLatest($strScope = TL_MODE): void
     {
-        if (!self::hasMessages($strScope)) {
+        if (! self::hasMessages($strScope)) {
             return;
         }
 
         $session = System::getContainer()->get('session');
 
-        if (!$session->isStarted()) {
+        if (! $session->isStarted()) {
             return;
         }
 

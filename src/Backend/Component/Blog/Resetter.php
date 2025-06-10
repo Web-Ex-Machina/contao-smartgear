@@ -28,9 +28,9 @@ use WEM\SmartgearBundle\Classes\Backend\Resetter as BackendResetter;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\UserGroupModelUtil;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
+use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Model\Module;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class Resetter extends BackendResetter
 {
@@ -63,13 +63,13 @@ class Resetter extends BackendResetter
         $config = $this->configurationManager->load();
         $blogConfig = $config->getSgBlog();
 
-        if (!$blogConfig) {
+        if (! $blogConfig) {
             return;
         }
 
         $presetConfig = $blogConfig->getCurrentPreset();
 
-        if (!$presetConfig) {
+        if (! $presetConfig) {
             return;
         }
 
@@ -114,9 +114,9 @@ class Resetter extends BackendResetter
                     }
                 }
 
-            break;
+                break;
             case BlogConfig::ARCHIVE_MODE_KEEP:
-            break;
+                break;
             case BlogConfig::ARCHIVE_MODE_DELETE:
                 $objFolder = new Folder($presetConfig->getSgNewsFolder());
                 if ($objFolder) {
@@ -161,7 +161,7 @@ class Resetter extends BackendResetter
                     }
                 }
 
-            break;
+                break;
             default:
                 throw new \InvalidArgumentException($this->translator->trans('WEMSG.BLOG.RESET.deleteModeUnknown', [], 'contao_default'));
         }

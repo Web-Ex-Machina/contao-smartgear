@@ -55,12 +55,12 @@ class ConfigurationUtil
         if ($objItem->contao_page_home) {
             $objPage = $objItem->getRelated('contao_page_home');
             if ($objPage
-            && 0 === ConfigurationItem::countItems(['contao_page' => $objItem->contao_page_home, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItem::countItems(['contao_page_form' => $objItem->contao_page_home, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItem::countItems(['contao_page_form_sent' => $objItem->contao_page_home, 'not_id' => $objItem->id])
-            && 0 === Configuration::countItems(['contao_page_home' => $objItem->contao_page_home, 'not_id' => $objItem->id])
-            && 0 === Configuration::countItems(['contao_page_404' => $objItem->contao_page_home, 'not_id' => $objItem->id])
-            && 0 === Configuration::countItems(['contao_page_root' => $objItem->contao_page_home, 'not_id' => $objItem->id])
+            && ConfigurationItem::countItems(['contao_page' => $objItem->contao_page_home, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItem::countItems(['contao_page_form' => $objItem->contao_page_home, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItem::countItems(['contao_page_form_sent' => $objItem->contao_page_home, 'not_id' => $objItem->id]) === 0
+            && Configuration::countItems(['contao_page_home' => $objItem->contao_page_home, 'not_id' => $objItem->id]) === 0
+            && Configuration::countItems(['contao_page_404' => $objItem->contao_page_home, 'not_id' => $objItem->id]) === 0
+            && Configuration::countItems(['contao_page_root' => $objItem->contao_page_home, 'not_id' => $objItem->id]) === 0
             ) {
                 $objPage->delete();
                 $objItem->contao_page_home = null;
@@ -70,12 +70,12 @@ class ConfigurationUtil
         if ($objItem->contao_page_404) {
             $objPage = $objItem->getRelated('contao_page_404');
             if ($objPage
-            && 0 === ConfigurationItem::countItems(['contao_page' => $objItem->contao_page_404, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItem::countItems(['contao_page_form' => $objItem->contao_page_404, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItem::countItems(['contao_page_form_sent' => $objItem->contao_page_404, 'not_id' => $objItem->id])
-            && 0 === Configuration::countItems(['contao_page_home' => $objItem->contao_page_404, 'not_id' => $objItem->id])
-            && 0 === Configuration::countItems(['contao_page_404' => $objItem->contao_page_404, 'not_id' => $objItem->id])
-            && 0 === Configuration::countItems(['contao_page_root' => $objItem->contao_page_404, 'not_id' => $objItem->id])
+            && ConfigurationItem::countItems(['contao_page' => $objItem->contao_page_404, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItem::countItems(['contao_page_form' => $objItem->contao_page_404, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItem::countItems(['contao_page_form_sent' => $objItem->contao_page_404, 'not_id' => $objItem->id]) === 0
+            && Configuration::countItems(['contao_page_home' => $objItem->contao_page_404, 'not_id' => $objItem->id]) === 0
+            && Configuration::countItems(['contao_page_404' => $objItem->contao_page_404, 'not_id' => $objItem->id]) === 0
+            && Configuration::countItems(['contao_page_root' => $objItem->contao_page_404, 'not_id' => $objItem->id]) === 0
             ) {
                 $objPage->delete();
                 $objItem->contao_page_404 = null;
@@ -85,12 +85,12 @@ class ConfigurationUtil
         if ($objItem->contao_page_root) {
             $objPage = $objItem->getRelated('contao_page_root');
             if ($objPage
-            && 0 === ConfigurationItem::countItems(['contao_page' => $objItem->contao_page_root, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItem::countItems(['contao_page_form' => $objItem->contao_page_root, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItem::countItems(['contao_page_form_sent' => $objItem->contao_page_root, 'not_id' => $objItem->id])
-            && 0 === Configuration::countItems(['contao_page_home' => $objItem->contao_page_root, 'not_id' => $objItem->id])
-            && 0 === Configuration::countItems(['contao_page_404' => $objItem->contao_page_root, 'not_id' => $objItem->id])
-            && 0 === Configuration::countItems(['contao_page_root' => $objItem->contao_page_root, 'not_id' => $objItem->id])
+            && ConfigurationItem::countItems(['contao_page' => $objItem->contao_page_root, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItem::countItems(['contao_page_form' => $objItem->contao_page_root, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItem::countItems(['contao_page_form_sent' => $objItem->contao_page_root, 'not_id' => $objItem->id]) === 0
+            && Configuration::countItems(['contao_page_home' => $objItem->contao_page_root, 'not_id' => $objItem->id]) === 0
+            && Configuration::countItems(['contao_page_404' => $objItem->contao_page_root, 'not_id' => $objItem->id]) === 0
+            && Configuration::countItems(['contao_page_root' => $objItem->contao_page_root, 'not_id' => $objItem->id]) === 0
             ) {
                 $objPage->delete();
                 $objItem->contao_page_root = null;
@@ -100,11 +100,11 @@ class ConfigurationUtil
         if ($objItem->contao_module_sitemap) {
             $objModule = $objItem->getRelated('contao_module_sitemap');
             if ($objModule
-            && 0 === ConfigurationItem::countItems(['contao_module' => $objItem->contao_module_sitemap, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItem::countItems(['contao_module_reader' => $objItem->contao_module_sitemap, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItem::countItems(['contao_module_list' => $objItem->contao_module_sitemap, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItem::countItems(['contao_module_calendar' => $objItem->contao_module_sitemap, 'not_id' => $objItem->id])
-            && 0 === Configuration::countItems(['contao_module_sitemap' => $objItem->contao_module_sitemap, 'not_id' => $objItem->id])
+            && ConfigurationItem::countItems(['contao_module' => $objItem->contao_module_sitemap, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItem::countItems(['contao_module_reader' => $objItem->contao_module_sitemap, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItem::countItems(['contao_module_list' => $objItem->contao_module_sitemap, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItem::countItems(['contao_module_calendar' => $objItem->contao_module_sitemap, 'not_id' => $objItem->id]) === 0
+            && Configuration::countItems(['contao_module_sitemap' => $objItem->contao_module_sitemap, 'not_id' => $objItem->id]) === 0
             ) {
                 $objModule->delete();
                 $objItem->contao_module_sitemap = null;
@@ -114,8 +114,8 @@ class ConfigurationUtil
         if ($objItem->contao_layout_full) {
             $objLayout = $objItem->getRelated('contao_layout_full');
             if ($objLayout
-            && 0 === Configuration::countItems(['contao_layout_full' => $objItem->contao_layout_full, 'not_id' => $objItem->id])
-            && 0 === Configuration::countItems(['contao_layout_standard' => $objItem->contao_layout_full, 'not_id' => $objItem->id])
+            && Configuration::countItems(['contao_layout_full' => $objItem->contao_layout_full, 'not_id' => $objItem->id]) === 0
+            && Configuration::countItems(['contao_layout_standard' => $objItem->contao_layout_full, 'not_id' => $objItem->id]) === 0
             ) {
                 $objLayout->delete();
                 $objItem->contao_layout_full = null;
@@ -125,8 +125,8 @@ class ConfigurationUtil
         if ($objItem->contao_layout_standard) {
             $objLayout = $objItem->getRelated('contao_layout_standard');
             if ($objLayout
-            && 0 === Configuration::countItems(['contao_layout_full' => $objItem->contao_layout_standard, 'not_id' => $objItem->id])
-            && 0 === Configuration::countItems(['contao_layout_standard' => $objItem->contao_layout_standard, 'not_id' => $objItem->id])
+            && Configuration::countItems(['contao_layout_full' => $objItem->contao_layout_standard, 'not_id' => $objItem->id]) === 0
+            && Configuration::countItems(['contao_layout_standard' => $objItem->contao_layout_standard, 'not_id' => $objItem->id]) === 0
             ) {
                 $objLayout->delete();
                 $objItem->contao_layout_standard = null;
@@ -136,7 +136,7 @@ class ConfigurationUtil
         if ($objItem->contao_theme) {
             $objTheme = $objItem->getRelated('contao_theme');
             if ($objTheme
-            && 0 === Configuration::countItems(['contao_theme' => $objItem->contao_theme, 'not_id' => $objItem->id])
+            && Configuration::countItems(['contao_theme' => $objItem->contao_theme, 'not_id' => $objItem->id]) === 0
             ) {
                 $objTheme->delete();
                 $objItem->contao_theme = null;
@@ -152,68 +152,70 @@ class ConfigurationUtil
     public static function createEverythingFromConfiguration(Configuration $objItem): Configuration
     {
         // here we'll call everything to create contao contents
-        if (!empty($objItem->contao_theme)) {
+        if (! empty($objItem->contao_theme)) {
             $objTheme = ThemeModel::findByPk($objItem->contao_theme);
         }
 
-        if (!$objTheme) {
-            $clientTemplatesFolder = new Folder('templates'.\DIRECTORY_SEPARATOR.StringUtil::generateAlias($objItem->title));
+        if (! $objTheme) {
+            $clientTemplatesFolder = new Folder('templates' . \DIRECTORY_SEPARATOR . StringUtil::generateAlias($objItem->title));
 
-            $objTheme = ThemeUtil::createTheme('Smartgear '.$objItem->title, array_merge([
+            $objTheme = ThemeUtil::createTheme('Smartgear ' . $objItem->title, array_merge(
+                [
                 'author' => 'Web Ex Machina',
                 'templates' => sprintf('templates/%s', StringUtil::generateAlias($objItem->title)),
             ],
-            empty($objItem->contao_theme) ? [] : ['id' => $objItem->contao_theme]
+                empty($objItem->contao_theme) ? [] : ['id' => $objItem->contao_theme]
             ));
             $objItem->contao_theme = $objTheme->id;
             // check for images sizes
             $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '16:9']);
-            if (!$objImageSize) {
+            if (! $objImageSize) {
                 ImageSizeUtil::createImageSize_16_9((int) $objItem->contao_theme);
             }
 
             $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '2:1']);
-            if (!$objImageSize) {
+            if (! $objImageSize) {
                 ImageSizeUtil::createImageSize_2_1((int) $objItem->contao_theme);
             }
 
             $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '1:2']);
-            if (!$objImageSize) {
+            if (! $objImageSize) {
                 ImageSizeUtil::createImageSize_1_2((int) $objItem->contao_theme);
             }
 
             $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '1:1']);
-            if (!$objImageSize) {
+            if (! $objImageSize) {
                 ImageSizeUtil::createImageSize_1_1((int) $objItem->contao_theme);
             }
 
             $objImageSize = ImageSizeModel::findBy(['pid = ?', 'name = ?'], [$objItem->contao_theme, '4:3']);
-            if (!$objImageSize) {
+            if (! $objImageSize) {
                 ImageSizeUtil::createImageSize_4_3((int) $objItem->contao_theme);
             }
         }
 
         // create modules
         // sitemap
-        if (!empty($objItem->contao_module_sitemap)) {
+        if (! empty($objItem->contao_module_sitemap)) {
             $objModuleSitemap = ModuleModel::findByPk($objItem->contao_module_sitemap);
         }
 
-        if (!$objModuleSitemap) {
+        if (! $objModuleSitemap) {
             $objModuleSitemap = ModuleUtil::createModuleSitemap((int) $objTheme->id, empty($objItem->contao_module_sitemap) ? [] : ['id' => $objItem->contao_module_sitemap]);
             $objItem->contao_module_sitemap = $objModuleSitemap->id;
         }
 
         // create Contao Layout fullwidth
-        if (!empty($objItem->contao_layout_full)) {
+        if (! empty($objItem->contao_layout_full)) {
             $objLayoutFull = LayoutModel::findByPk($objItem->contao_layout_full);
         }
 
-        if (!$objLayoutFull) {
+        if (! $objLayoutFull) {
             $objLayoutFull = LayoutUtil::createLayoutFullpage(
                 $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardFullwidthName'],
                 (int) $objTheme->id,
-                array_merge([
+                array_merge(
+                    [
                     'webfonts' => $objItem->google_fonts,
                     // 'modules_raw' => [
                     //     'nav' => $objModuleNav,
@@ -237,21 +239,23 @@ class ConfigurationUtil
                         ],
                     ],
                 ],
-            empty($objItem->contao_layout_full) ? [] : ['id' => $objItem->contao_layout_full]
-            ));
+                    empty($objItem->contao_layout_full) ? [] : ['id' => $objItem->contao_layout_full]
+                )
+            );
             $objItem->contao_layout_full = $objLayoutFull->id;
         }
 
         // create Contao Layout standard
-        if (!empty($objItem->contao_layout_standard)) {
+        if (! empty($objItem->contao_layout_standard)) {
             $objLayoutStandard = LayoutModel::findByPk($objItem->contao_layout_standard);
         }
 
-        if (!$objLayoutStandard) {
+        if (! $objLayoutStandard) {
             $objLayoutStandard = LayoutUtil::createLayoutStandard(
                 $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['LayoutStandardName'],
                 (int) $objTheme->id,
-                array_merge([
+                array_merge(
+                    [
                     'webfonts' => $objItem->google_fonts,
                     // 'modules_raw' => [
                     //     'nav' => $objModuleNav,
@@ -275,18 +279,19 @@ class ConfigurationUtil
                         ],
                     ],
                 ],
-            empty($objItem->contao_layout_standard) ? [] : ['id' => $objItem->contao_layout_standard]
-            ));
+                    empty($objItem->contao_layout_standard) ? [] : ['id' => $objItem->contao_layout_standard]
+                )
+            );
 
             $objItem->contao_layout_standard = $objLayoutStandard->id;
         }
 
         // Page - root
-        if (!empty($objItem->contao_page_root)) {
+        if (! empty($objItem->contao_page_root)) {
             $objPageRoot = PageModel::findByPk($objItem->contao_page_root);
         }
 
-        if (!$objPageRoot) {
+        if (! $objPageRoot) {
             $objPageRoot = PageUtil::createPageRoot($objItem->title, $objItem->legal_owner_email, (int) $objLayoutStandard->id, $objItem->language, empty($objItem->contao_page_root) ? [] : ['id' => $objItem->contao_page_root]);
             $objItem->contao_page_root = $objPageRoot->id;
 
@@ -294,11 +299,11 @@ class ConfigurationUtil
         }
 
         // Page - homepage
-        if (!empty($objItem->contao_page_home)) {
+        if (! empty($objItem->contao_page_home)) {
             $objPageHome = PageModel::findByPk($objItem->contao_page_home);
         }
 
-        if (!$objPageHome) {
+        if (! $objPageHome) {
             $objPageHome = PageUtil::createPageHome($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['PageHomeTitle'], (int) $objItem->contao_page_root, empty($objItem->contao_page_home) ? [] : ['id' => $objItem->contao_page_home]);
             $objItem->contao_page_home = $objPageHome->id;
 
@@ -308,11 +313,11 @@ class ConfigurationUtil
         }
 
         // Page - 404
-        if (!empty($objItem->contao_page_404)) {
+        if (! empty($objItem->contao_page_404)) {
             $objPage404 = PageModel::findByPk($objItem->contao_page_404);
         }
 
-        if (!$objPage404) {
+        if (! $objPage404) {
             $objPage404 = PageUtil::createPage404($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['Page404Title'], (int) $objItem->contao_page_root, empty($objItem->contao_page_404) ? [] : ['id' => $objItem->contao_page_404]);
             $objItem->contao_page_404 = $objPage404->id;
 
@@ -332,8 +337,8 @@ class ConfigurationUtil
         // allow "onclick" on "<a>" tag
         $allowedAttributes = StringUtil::deserialize(Config::get('allowedAttributes'), true);
         foreach ($allowedAttributes as $index => $allowedAttribute) {
-            if ('a' === $allowedAttribute['key']
-            && !str_contains((string) $allowedAttribute['value'], 'onclick')
+            if ($allowedAttribute['key'] === 'a'
+            && ! str_contains((string) $allowedAttribute['value'], 'onclick')
             ) {
                 $allowedAttributes[$index]['value'] .= ',onclick';
                 Config::set('allowedAttributes', serialize($allowedAttributes));
@@ -374,7 +379,7 @@ class ConfigurationUtil
         $localConfigManager->save($config);
 
         // sync templates + FW build
-        /** @var DirectoriesSynchronizer $synchronizer*/
+        /** @var DirectoriesSynchronizer $synchronizer */
         $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.templates.rsce');
         $synchronizer->synchronize();
         $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.templates.smartgear');
@@ -393,7 +398,7 @@ class ConfigurationUtil
         /** @var UtilFramway $fwUtil */
         $fwUtil = System::getContainer()->get('smartgear.classes.util_framway');
         $fwUtil->setConfigurationRootFilePath($objItem->framway_path);
-        if (!$fwUtil->checkPresence()) {
+        if (! $fwUtil->checkPresence()) {
             /** @todo : FW path can change + check files are not already present ! (lot of changes to do) */
             $synchronizer = System::getContainer()->get('smartgear.classes.directories_synchronizer.framway');
             $synchronizer->setDestinationDirectory($objItem->framway_path);
@@ -414,59 +419,59 @@ class ConfigurationUtil
         switch ($table) {
             case ContentModel::getTable():
                 $objContent = ContentModel::findByPk($id);
-                if (!$objContent) {
+                if (! $objContent) {
                     return null;
                 }
 
                 return self::findConfigurationForItem($objContent->ptable, (int) $objContent->pid);
             case ArticleModel::getTable():
                 $objArticle = ArticleModel::findByPk($id);
-                if (!$objArticle) {
+                if (! $objArticle) {
                     return null;
                 }
 
                 return self::findConfigurationForItem(PageModel::getTable(), (int) $objArticle->pid);
             case PageModel::getTable():
                 $objPage = PageModel::findByPk($id);
-                if (!$objPage) {
+                if (! $objPage) {
                     return null;
                 }
 
                 $objPage->loadDetails();
-                if (null === $objPage->rootId) {
+                if ($objPage->rootId === null) {
                     return null;
                 }
 
                 return Configuration::findOneBy('contao_page_root', $objPage->rootId);
             case ModuleModel::getTable():
                 $objModule = ModuleModel::findByPk($id);
-                if (!$objModule) {
+                if (! $objModule) {
                     return null;
                 }
 
                 return self::findConfigurationForItem(ThemeModel::getTable(), (int) $objModule->pid);
             case ThemeModel::getTable():
                 $objTheme = ThemeModel::findByPk($id);
-                if (!$objTheme) {
+                if (! $objTheme) {
                     return null;
                 }
 
                 return Configuration::findOneBy('contao_theme', $objTheme->id);
             case FormModel::getTable():
                 $objForm = FormModel::findByPk($id);
-                if (!$objForm) {
+                if (! $objForm) {
                     return null;
                 }
 
                 $objContent = ContentModel::findOneBy(['type = ?', 'form = ?'], ['form', $objForm->id]);
-                if (!$objContent) {
+                if (! $objContent) {
                     return null;
                 }
 
                 return self::findConfigurationForItem($objContent::getTable(), (int) $objContent->id);
             case FormFieldModel::getTable():
                 $objFormField = FormFieldModel::findByPk($id);
-                if (!$objFormField) {
+                if (! $objFormField) {
                     return null;
                 }
 

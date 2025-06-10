@@ -26,24 +26,23 @@ use WEM\SmartgearBundle\Config\Manager\Framway as ConfigurationManagerFramway;
 
 class FramwayRetrievalMinimal extends ConfigurationStep
 {
-
     protected string $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_retrieval_minimal';
 
     public function __construct(
-        string                                $module,
-        string                                $type,
-        protected ConfigurationManager        $configurationManager,
+        string $module,
+        string $type,
+        protected ConfigurationManager $configurationManager,
         protected ConfigurationManagerFramway $configurationManagerFramway,
-        protected DirectoriesSynchronizer     $framwaySynchronizer,
-        protected DirectoriesSynchronizer     $templateRSCESynchronizer,
-        protected DirectoriesSynchronizer     $templateSmartgearSynchronizer,
-        protected DirectoriesSynchronizer     $templateGeneralSynchronizer,
-        protected DirectoriesSynchronizer     $tinyMCEPluginsSynchronizer,
-        protected DirectoriesSynchronizer     $tarteAuCitronSynchronizer,
-        protected DirectoriesSynchronizer     $outdatedBrowserSynchronizer,
-        protected DirectoriesSynchronizer     $socialShareButtonsSynchronizer,
-        protected UtilFramway                 $framwayUtil,
-        protected HtaccessAnalyzer            $htaccessAnalyzer
+        protected DirectoriesSynchronizer $framwaySynchronizer,
+        protected DirectoriesSynchronizer $templateRSCESynchronizer,
+        protected DirectoriesSynchronizer $templateSmartgearSynchronizer,
+        protected DirectoriesSynchronizer $templateGeneralSynchronizer,
+        protected DirectoriesSynchronizer $tinyMCEPluginsSynchronizer,
+        protected DirectoriesSynchronizer $tarteAuCitronSynchronizer,
+        protected DirectoriesSynchronizer $outdatedBrowserSynchronizer,
+        protected DirectoriesSynchronizer $socialShareButtonsSynchronizer,
+        protected UtilFramway $framwayUtil,
+        protected HtaccessAnalyzer $htaccessAnalyzer
     ) {
         parent::__construct($module, $type);
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYRETRIEVALMINIMAL']['Title'];
@@ -57,7 +56,7 @@ class FramwayRetrievalMinimal extends ConfigurationStep
 
         $arrFilesToCheck = $this->framwayUtil->getFilesToCheck();
         foreach ($arrFilesToCheck as $key => $filetoCheck) {
-            $arrFilesToCheck[$key] = $this->framwayUtil->getFramwayPath().\DIRECTORY_SEPARATOR.$filetoCheck;
+            $arrFilesToCheck[$key] = $this->framwayUtil->getFramwayPath() . \DIRECTORY_SEPARATOR . $filetoCheck;
         }
 
         $objTemplate->filesToCheck = $arrFilesToCheck;
@@ -78,7 +77,7 @@ class FramwayRetrievalMinimal extends ConfigurationStep
     public function do(): void
     {
         // do what is meant to be done in this step
-        if (!$this->checkFramwayPresence()) {
+        if (! $this->checkFramwayPresence()) {
             $this->importFramway();
         }
 

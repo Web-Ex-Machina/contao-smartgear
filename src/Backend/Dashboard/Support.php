@@ -18,6 +18,7 @@ use Contao\BackendModule;
 use Contao\BackendTemplate;
 use Contao\BackendUser;
 use Contao\Config;
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\File;
 use Contao\FileUpload;
 use Contao\Folder;
@@ -25,9 +26,7 @@ use Contao\Input;
 use Contao\Message;
 use Contao\Model;
 use Contao\PageModel;
-use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Exception;
-use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Api\Airtable\V0\Api as AirtableApi;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
@@ -35,6 +34,7 @@ use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
+use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 
 class Support extends BackendModule
 {
@@ -51,10 +51,10 @@ class Support extends BackendModule
      * Initialize the object.
      */
     public function __construct(
-        protected TranslatorInterface  $translator,
+        protected TranslatorInterface $translator,
         protected ConfigurationManager $configurationManager,
-        protected readonly ContaoCsrfTokenManager   $contaoCsrfTokenManager,
-        protected AirtableApi          $airtableApi
+        protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
+        protected AirtableApi $airtableApi
     ) {
         parent::__construct();
     }
@@ -66,22 +66,6 @@ class Support extends BackendModule
         }
 
         return parent::generate();
-    }
-
-    protected function compile(): void
-    {
-        try {
-            /** @var CoreConfig $config */
-            $config = $this->configurationManager->load();
-        } catch (NotFound) {
-            return;
-        }
-
-        $this->Template->title = $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.title', [], 'contao_default');
-        $this->Template->help = $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.helpText', [], 'contao_default');
-
-        $this->Template->supportMail = $this->getSupportMail();
-        $this->Template->supportForm = $this->getSupportForm();
     }
 
     /**
@@ -111,6 +95,22 @@ class Support extends BackendModule
         return $this->strId;
     }
 
+    protected function compile(): void
+    {
+        try {
+            /** @var CoreConfig $config */
+            $config = $this->configurationManager->load();
+        } catch (NotFound) {
+            return;
+        }
+
+        $this->Template->title = $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.title', [], 'contao_default');
+        $this->Template->help = $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.helpText', [], 'contao_default');
+
+        $this->Template->supportMail = $this->getSupportMail();
+        $this->Template->supportForm = $this->getSupportForm();
+    }
+
     protected function ticketCreate(string $domain, string $subject, string $url, string $message, string $mail, array $screenshotFile): void
     {
         try {
@@ -120,7 +120,7 @@ class Support extends BackendModule
             return;
         }
 
-        if (!Config::get('wem_sg_support_form_enabled')) {
+        if (! Config::get('wem_sg_support_form_enabled')) {
             return;
         }
 
@@ -142,7 +142,7 @@ class Support extends BackendModule
         $objFile = null;
         $fileUrl = null;
         if ($screenshotFile !== []) {
-            $objFolder = new Folder(CoreConfig::DEFAULT_CLIENT_FILES_FOLDER.\DIRECTORY_SEPARATOR.'tickets');
+            $objFolder = new Folder(CoreConfig::DEFAULT_CLIENT_FILES_FOLDER . \DIRECTORY_SEPARATOR . 'tickets');
             $objFolder->unprotect();
             $fileUploader = new FileUpload();
             $arrFiles = $fileUploader->uploadTo($objFolder->path);
@@ -152,7 +152,7 @@ class Support extends BackendModule
 
             $objFile = new File($arrFiles[0]);
             // $fileUrl = $config->getSgOwnerDomain().$objFile->path;
-            $fileUrl = $domain.$objFile->path;
+            $fileUrl = $domain . $objFile->path;
         }
 
         // $this->airtableApi->createTicket($subject, $url, $message, $mail, $config->getSgVersion(), $clientId, $clientRef, $fileUrl);
@@ -160,7 +160,7 @@ class Support extends BackendModule
         // send email
         // $notification = NotificationModel::findByPk((int) $config->getSgNotificationSupport());
         $notification = NotificationModel::findByPk((int) Config::get('wem_sg_support_form_notification'));
-        if (!$notification) {
+        if (! $notification) {
             return;
         }
 
@@ -172,7 +172,8 @@ class Support extends BackendModule
             'email_sender_name' => $objPage ? $objPage->title : 'N/A',
             // 'sg_owner_email' => $config->getSgOwnerEmail(),
             'sg_owner_email' => $objPage ? ($objPage->adminEmail ?: (
-                        $objConfiguration instanceof Model ? ($objConfiguration->legal_owner_email ?: Config::get('adminEmail')) : Config::get('adminEmail'))) : Config::get('adminEmail'),
+                $objConfiguration instanceof Model ? ($objConfiguration->legal_owner_email ?: Config::get('adminEmail')) : Config::get('adminEmail')
+            )) : Config::get('adminEmail'),
             // 'sg_owner_name' => $config->getSgOwnerName(),
             'sg_owner_name' => $objConfiguration instanceof Model ? $objConfiguration->getLegalOwnerName() : Config::get('adminEmail'),
             'support_email' => 'support@webexmachina.fr',
@@ -204,10 +205,10 @@ class Support extends BackendModule
                 BackendUser::getInstance()->name ?? $config->getSgOwnerName(), ], 'contao_default')),
         ];
         foreach ($urlMailtoParams as $key => $value) {
-            $urlMailto .= '&'.$key.'='.$value;
+            $urlMailto .= '&' . $key . '=' . $value;
         }
 
-        $urlMailto = 'mailto:'.$mail.'?'.substr($urlMailto, 1);
+        $urlMailto = 'mailto:' . $mail . '?' . substr($urlMailto, 1);
 
         $objTemplate = new BackendTemplate('be_wem_sg_dashboard_support_mail');
         $objTemplate->title = $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.mailTitle', [], 'contao_default');
@@ -220,7 +221,7 @@ class Support extends BackendModule
 
     protected function getSupportForm(): string
     {
-        if (!Config::get('wem_sg_support_form_enabled')) {
+        if (! Config::get('wem_sg_support_form_enabled')) {
             return '';
         }
 

@@ -24,7 +24,6 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class Framway extends AbstractManager implements ManagerJsonInterface
 {
-
     protected ?string $configurationFilePath = null;
 
     protected ?string $configurationRootFilePath = null;
@@ -68,7 +67,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         try {
             return json_decode($notJsonCompliant, false, 512, \JSON_THROW_ON_ERROR);
         } catch (Exception $exception) {
-            throw new Exception($this->translator->trans('WEMSG.ERR.FRAMWAY.configJsonDecodeError', [\JSON_ERROR_NONE !== json_last_error() ? json_last_error_msg() : $exception->getMessage()], 'contao_default'), $exception->getCode(), $exception);
+            throw new Exception($this->translator->trans('WEMSG.ERR.FRAMWAY.configJsonDecodeError', [json_last_error() !== \JSON_ERROR_NONE ? json_last_error_msg() : $exception->getMessage()], 'contao_default'), $exception->getCode(), $exception);
         }
     }
 
@@ -86,7 +85,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         $json = preg_replace('/"(.*)"/', '\'$1\'', $json);
         $this->assignConfigurationFilePathIfNotDefined();
 
-        return false !== file_put_contents($this->getConfigurationFilePath(), 'module.exports = '.$json);
+        return file_put_contents($this->getConfigurationFilePath(), 'module.exports = ' . $json) !== false;
     }
 
     public function getConfigurationFilePath(): string
@@ -140,7 +139,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
     protected function retrieveConfigurationFromFile(): string
     {
         $this->assignConfigurationFilePathIfNotDefined();
-        if (!file_exists($this->getConfigurationFilePath())) {
+        if (! file_exists($this->getConfigurationFilePath())) {
             throw new FileNotFoundException($this->translator->trans('WEMSG.CONFIGURATIONMANAGER.fileNotFound', [], 'contao_default'));
         }
 
@@ -149,18 +148,18 @@ class Framway extends AbstractManager implements ManagerJsonInterface
 
     protected function assignConfigurationFilePathIfNotDefined(): void
     {
-        if (null === $this->configurationFilePath) {
+        if ($this->configurationFilePath === null) {
             $this->assignConfigurationFilePath();
         }
     }
 
     protected function assignConfigurationFilePath(): void
     {
-        if (null !== $this->getConfigurationRootFilePath()) {
-            $this->configurationFilePath = $this->getConfigurationRootFilePath().\DIRECTORY_SEPARATOR.'framway.config.js';
+        if ($this->getConfigurationRootFilePath() !== null) {
+            $this->configurationFilePath = $this->getConfigurationRootFilePath() . \DIRECTORY_SEPARATOR . 'framway.config.js';
         } else {
             $config = $this->configurationManagerCore->load();
-            $this->configurationFilePath = $config->getSgFramwayPath().\DIRECTORY_SEPARATOR.'framway.config.js';
+            $this->configurationFilePath = $config->getSgFramwayPath() . \DIRECTORY_SEPARATOR . 'framway.config.js';
         }
     }
 }

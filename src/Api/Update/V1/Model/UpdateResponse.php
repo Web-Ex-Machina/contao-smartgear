@@ -16,7 +16,6 @@ namespace WEM\SmartgearBundle\Api\Update\V1\Model;
 
 class UpdateResponse
 {
-
     protected array $updates = [];
 
     protected array $backup = [];

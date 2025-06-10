@@ -41,9 +41,6 @@ use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class General extends ConfigurationStep
 {
-
-
-
     public function __construct(
         string $module,
         string $type,
@@ -68,7 +65,7 @@ class General extends ConfigurationStep
             'isDownloads' => false,
             'files' => false, ]);
 
-        $this->addCheckboxField('expertMode', $this->translator->trans('WEMSG.EVENTS.INSTALL_GENERAL.expertMode', [], 'contao_default'), '1', EventsConfig::MODE_EXPERT === $config->getSgMode());
+        $this->addCheckboxField('expertMode', $this->translator->trans('WEMSG.EVENTS.INSTALL_GENERAL.expertMode', [], 'contao_default'), '1', $config->getSgMode() === EventsConfig::MODE_EXPERT);
     }
 
     /**
@@ -77,23 +74,23 @@ class General extends ConfigurationStep
     public function isStepValid(): bool
     {
         // check if the step is correct
-        if (null === Input::post('calendarTitle', null)) {
+        if (Input::post('calendarTitle', null) === null) {
             throw new Exception($this->translator->trans('WEMSG.EVENTS.INSTALL_GENERAL.calendarTitleMissing', [], 'contao_default'));
         }
 
-        if (null === Input::post('eventsListPerPage', null)) {
+        if (Input::post('eventsListPerPage', null) === null) {
             throw new Exception($this->translator->trans('WEMSG.EVENTS.INSTALL_GENERAL.eventsListPerPageMissing', [], 'contao_default'));
         }
 
-        if (0 > (int) Input::post('eventsListPerPage')) {
+        if ((int) Input::post('eventsListPerPage') < 0) {
             throw new Exception($this->translator->trans('WEMSG.EVENTS.INSTALL_GENERAL.eventsListPerPageTooLow', [], 'contao_default'));
         }
 
-        if (null === Input::post('pageTitle', null)) {
+        if (Input::post('pageTitle', null) === null) {
             throw new Exception($this->translator->trans('WEMSG.EVENTS.INSTALL_GENERAL.pageTitleMissing', [], 'contao_default'));
         }
 
-        if (null === Input::post('eventsFolder', null)) {
+        if (Input::post('eventsFolder', null) === null) {
             throw new Exception($this->translator->trans('WEMSG.EVENTS.INSTALL_GENERAL.eventsFolderMissing', [], 'contao_default'));
         }
 
@@ -183,7 +180,7 @@ class General extends ConfigurationStep
             // 'robots' => 'index,follow',
             // 'type' => 'regular',
             // 'published' => 1,
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setEventConfigKey('setSgPage', (int) $page->id);
 
@@ -201,7 +198,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $eventsConfig->getSgPageTitle(),
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setEventConfigKey('setSgArticle', (int) $article->id);
 
@@ -242,38 +239,40 @@ class General extends ConfigurationStep
         $moduleList = new ModuleModel();
         $moduleCalendar = new ModuleModel();
 
-        if (null !== $eventsConfig->getSgModuleReader()) {
+        if ($eventsConfig->getSgModuleReader() !== null) {
             $moduleReaderOld = ModuleModel::findById($eventsConfig->getSgModuleReader());
             if ($moduleReaderOld) {
                 $moduleReaderOld->delete();
             }
         }
 
-        $moduleReader = ModuleUtil::createModuleEventsReader((int) $config->getSgTheme(), (int) $calendar->id, array_merge([
+        $moduleReader = ModuleUtil::createModuleEventsReader((int) $config->getSgTheme(), (int) $calendar->id, array_merge(
+            [
             // $moduleReader = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
-            'name' => $page->title.' - Reader',
+            'name' => $page->title . ' - Reader',
             // 'pid' => $config->getSgTheme(),
             // 'type' => 'eventreader',
             // 'cal_calendar' => serialize([$calendar->id]),
             // 'imgSize' => serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
         ],
-        null !== $eventsConfig->getSgModuleReader() ? ['id' => $eventsConfig->getSgModuleReader()] : []
+            $eventsConfig->getSgModuleReader() !== null ? ['id' => $eventsConfig->getSgModuleReader()] : []
         ));
 
         $moduleReader->save();
 
         $this->setEventConfigKey('setSgModuleReader', (int) $moduleReader->id);
 
-        if (null !== $eventsConfig->getSgModuleList()) {
+        if ($eventsConfig->getSgModuleList() !== null) {
             $moduleListOld = ModuleModel::findById($eventsConfig->getSgModuleList());
             if ($moduleListOld) {
                 $moduleListOld->delete();
             }
         }
 
-        $moduleList = ModuleUtil::createModuleEventsList((int) $config->getSgTheme(), (int) $calendar->id, (int) $moduleReader->id, array_merge([
+        $moduleList = ModuleUtil::createModuleEventsList((int) $config->getSgTheme(), (int) $calendar->id, (int) $moduleReader->id, array_merge(
+            [
             // $moduleList = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
-            'name' => $page->title.' - List',
+            'name' => $page->title . ' - List',
             'headline' => serialize(['unit' => 'h1', 'value' => $page->title]),
             // 'pid' => $config->getSgTheme(),
             // 'type' => 'eventlist',
@@ -286,21 +285,22 @@ class General extends ConfigurationStep
             // 'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
             // 'tstamp' => time(),
         ],
-        null !== $eventsConfig->getSgModuleList() ? ['id' => $eventsConfig->getSgModuleList()] : []
+            $eventsConfig->getSgModuleList() !== null ? ['id' => $eventsConfig->getSgModuleList()] : []
         ));
 
         $this->setEventConfigKey('setSgModuleList', (int) $moduleList->id);
 
-        if (null !== $eventsConfig->getSgModuleCalendar()) {
+        if ($eventsConfig->getSgModuleCalendar() !== null) {
             $moduleListOld = ModuleModel::findById($eventsConfig->getSgModuleCalendar());
             if ($moduleListOld) {
                 $moduleListOld->delete();
             }
         }
 
-        $moduleCalendar = ModuleUtil::createModuleEventsCalendar((int) $config->getSgTheme(), (int) $calendar->id, (int) $moduleReader->id, array_merge([
+        $moduleCalendar = ModuleUtil::createModuleEventsCalendar((int) $config->getSgTheme(), (int) $calendar->id, (int) $moduleReader->id, array_merge(
+            [
             // $moduleCalendar = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
-            'name' => $page->title.' - Calendar',
+            'name' => $page->title . ' - Calendar',
             // 'pid' => $config->getSgTheme(),
             // 'type' => 'calendar',
             // 'cal_calendar' => serialize([$calendar->id]),
@@ -312,7 +312,7 @@ class General extends ConfigurationStep
             // 'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
             // 'tstamp' => time(),
         ],
-        null !== $eventsConfig->getSgModuleCalendar() ? ['id' => $eventsConfig->getSgModuleCalendar()] : []
+            $eventsConfig->getSgModuleCalendar() !== null ? ['id' => $eventsConfig->getSgModuleCalendar()] : []
         ));
 
         $this->setEventConfigKey('setSgModuleCalendar', (int) $moduleCalendar->id);
@@ -327,7 +327,7 @@ class General extends ConfigurationStep
         $eventsConfig = $config->getSgEvents();
 
         $list = ContentModel::findById($eventsConfig->getSgContentList());
-        $list = ContentUtil::createContent($article, ['type' => 'module', 'pid' => $article->id, 'ptable' => 'tl_article', 'module' => $modules['list']->id, 'id' => null !== $list ? $list->id : null]);
+        $list = ContentUtil::createContent($article, ['type' => 'module', 'pid' => $article->id, 'ptable' => 'tl_article', 'module' => $modules['list']->id, 'id' => $list !== null ? $list->id : null]);
 
         $article->save();
 
@@ -369,8 +369,8 @@ class General extends ConfigurationStep
     protected function updateUserGroup(UserGroupModel $objUserGroup, bool $expertMode, EventsConfig $eventsConfig): void
     {
         $objFolder = FilesModel::findByPath($eventsConfig->getSgEventsFolder());
-        if (!$objFolder) {
-            throw new Exception('Unable to find the "'.$eventsConfig->getSgEventsFolder().'" folder');
+        if (! $objFolder) {
+            throw new Exception('Unable to find the "' . $eventsConfig->getSgEventsFolder() . '" folder');
         }
 
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);

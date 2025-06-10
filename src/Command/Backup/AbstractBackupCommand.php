@@ -14,14 +14,16 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Command\Backup;
 
-use WEM\SmartgearBundle\Command\AbstractCommand;
-use WEM\SmartgearBundle\Backup\BackupManager;
 use Contao\CoreBundle\Framework\ContaoFramework;
+use WEM\SmartgearBundle\Backup\BackupManager;
+use WEM\SmartgearBundle\Command\AbstractCommand;
 
 class AbstractBackupCommand extends AbstractCommand
 {
-    public function __construct(protected BackupManager $backupManager, ContaoFramework $framework)
-    {
+    public function __construct(
+        protected BackupManager $backupManager,
+        ContaoFramework $framework
+    ) {
         parent::__construct($framework);
 
         $this->framework->initialize();

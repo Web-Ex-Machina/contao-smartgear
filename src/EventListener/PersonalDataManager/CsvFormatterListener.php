@@ -20,11 +20,12 @@ use WEM\PersonalDataManagerBundle\Model\PersonalData as PersonalDataModel;
 use WEM\SmartgearBundle\Model\FormStorage;
 use WEM\SmartgearBundle\Model\FormStorageData;
 
-#[AsHook('formatSinglePersonalDataForCsvExport','formatSingle',-1)]
+#[AsHook('formatSinglePersonalDataForCsvExport', 'formatSingle', -1)]
 class CsvFormatterListener
 {
-    public function __construct(protected TranslatorInterface $translator)
-    {
+    public function __construct(
+        protected TranslatorInterface $translator
+    ) {
     }
 
     public function formatSingle(PersonalDataModel $personalData, array $header, array $row): array
@@ -35,7 +36,7 @@ class CsvFormatterListener
                 FormStorage::getTable(),
                 $personalData->email,
                 $objFormStorageData->field_label,
-                $personalData->anonymized ? $personalData->value : '"'.$objFormStorageData->getValueAsString().'"',
+                $personalData->anonymized ? $personalData->value : '"' . $objFormStorageData->getValueAsString() . '"',
                 $personalData->anonymized ? $this->translator->trans('WEM.PEDAMA.CSV.columnAnonymizedValueYes', [], 'contao_default') : $this->translator->trans('WEM.PEDAMA.CSV.columnAnonymizedValueNo', [], 'contao_default'),
             ];
         }

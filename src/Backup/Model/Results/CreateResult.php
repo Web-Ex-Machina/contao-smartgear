@@ -16,7 +16,6 @@ namespace WEM\SmartgearBundle\Backup\Model\Results;
 
 class CreateResult extends AbstractResult
 {
-
     protected array $filesBackuped = [];
 
     public function getFilesBackuped(): array

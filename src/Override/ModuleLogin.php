@@ -19,10 +19,9 @@ use Contao\PageModel;
 use Contao\System;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-#[AsFrontendModule(type: 'user', name:'login')]
+#[AsFrontendModule(type: 'user', name: 'login')]
 class ModuleLogin extends \Contao\ModuleLogin
 {
-
     public function generate(): string
     {
         return parent::generate();
@@ -37,7 +36,7 @@ class ModuleLogin extends \Contao\ModuleLogin
 
         parent::compile();
 
-        /* @var UrlGeneratorInterface $routeGenerator*/
+        /** @var UrlGeneratorInterface $routeGenerator*/
         $routeGenerator = System::getContainer()->get('contao.routing.content_url_generator');
 
         if (($objTarget = $this->objModel->getRelated('wem_sg_login_pwd_lost_jumpTo')) instanceof PageModel) {

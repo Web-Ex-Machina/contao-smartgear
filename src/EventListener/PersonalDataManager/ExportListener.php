@@ -22,11 +22,12 @@ use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\SmartgearBundle\Model\FormStorage;
 use WEM\SmartgearBundle\Model\FormStorageData;
 
-#[AsHook('exportByPidAndPtableAndEmail','exportByPidAndPtableAndEmail',-1)]
+#[AsHook('exportByPidAndPtableAndEmail', 'exportByPidAndPtableAndEmail', -1)]
 class ExportListener
 {
-    public function __construct(protected TranslatorInterface $translator)
-    {
+    public function __construct(
+        protected TranslatorInterface $translator
+    ) {
     }
 
     public function exportByPidAndPtableAndEmail(int $pid, string $ptable, string $email, ?Collection $pdms): ?Collection
@@ -42,7 +43,7 @@ class ExportListener
                     }
                 }
             }
-            
+
             $pdms = \count($arrModels) > 0 ? new Collection($arrModels, PersonalData::getTable()) : null;
         }
 

@@ -25,8 +25,8 @@ class Api
     public function __construct(
         protected UpdateManager $updateManager,
         protected ListResultToListResponse $listResultToListResponseMapper,
-        protected UpdateResultToUpdateResponse $updateResultToUpdateResponseMapper)
-    {
+        protected UpdateResultToUpdateResponse $updateResultToUpdateResponseMapper
+    ) {
     }
 
     /**
@@ -50,7 +50,7 @@ class Api
     public function update(?bool $noBackup = false): UpdateResponse
     {
         try {
-            $updateResult = $this->updateManager->update(!$noBackup);
+            $updateResult = $this->updateManager->update(! $noBackup);
             $response = $this->updateResultToUpdateResponseMapper->map($updateResult, (new UpdateResponse()));
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);

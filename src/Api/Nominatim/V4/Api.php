@@ -26,8 +26,9 @@ class Api
 {
     public const BASE_URL = 'https://nominatim.openstreetmap.org/';
 
-    public function __construct(protected StdClassToSearchResponseMapper $stdClassToSearchResponseMapper)
-    {
+    public function __construct(
+        protected StdClassToSearchResponseMapper $stdClassToSearchResponseMapper
+    ) {
     }
 
     /**
@@ -38,7 +39,7 @@ class Api
     {
         $apiResponse = $this->call(sprintf('%ssearch?q=%s&format=jsonv2', self::BASE_URL, urlencode($search)))[0];
 
-        return null !== $apiResponse
+        return $apiResponse !== null
         ? $this->stdClassToSearchResponseMapper->map(
             $apiResponse,
             new SearchResponse()
@@ -55,27 +56,27 @@ class Api
     {
         $baseUrl = static::BASE_URL;
 
-        if (!str_contains($url, (string) $baseUrl)) {
-            $url = $baseUrl.$url;
+        if (! str_contains($url, (string) $baseUrl)) {
+            $url = $baseUrl . $url;
         }
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_USERAGENT, 'webexmachina/1.0 +'.\Contao\Environment::get('base'));
+        curl_setopt($curl, CURLOPT_USERAGENT, 'webexmachina/1.0 +' . \Contao\Environment::get('base'));
         sleep(1);
         $jsonRaw = curl_exec($curl);
         curl_close($curl);
         $json = json_decode($jsonRaw);
 
-        if (\JSON_ERROR_NONE !== json_last_error()) {
+        if (json_last_error() !== \JSON_ERROR_NONE) {
             throw new ResponseSyntaxException(json_last_error_msg());
         }
 
         // @TODO : find a working way to test the response' http code
         // https://www.php.net/manual/fr/function.curl-getinfo.php
         // (official method responds "0" which isn't helpful)
-        if (1 === \count(get_object_vars($json)) && !empty($json->message)) {
+        if (\count(get_object_vars($json)) === 1 && ! empty($json->message)) {
             throw new ResponseContentException($json->message);
         }
 

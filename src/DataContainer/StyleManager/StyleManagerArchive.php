@@ -15,19 +15,21 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\DataContainer\StyleManager;
 
 use Contao\DataContainer;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Oveleon\ContaoComponentStyleManager\EventListener\DataContainer\StyleManagerArchiveListener;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\DataContainer\Core;
 
 class StyleManagerArchive extends Core
 {
-    public function __construct(private readonly TranslatorInterface $translator, private readonly StyleManagerArchiveListener $styleManagerArchiveListener)
-    {
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+        private readonly StyleManagerArchiveListener $styleManagerArchiveListener
+    ) {
         parent::__construct();
     }
 
     public function listItems(array $row, string $label, DataContainer $dc, array $labels): string
     {
-        return $this->translator->trans($row['title'], [], 'contao_default').$this->styleManagerArchiveListener->addIdentifierInfo($row, '');
+        return $this->translator->trans($row['title'], [], 'contao_default') . $this->styleManagerArchiveListener->addIdentifierInfo($row, '');
     }
 }

@@ -28,8 +28,8 @@ class Api
         protected TranslatorInterface $translator,
         protected BackupManager $backupManager,
         protected ListResultToListResponse $listResultToListResponseMapper,
-        protected CreateResultToCreateResponse $createResultToCreateResponseMapper)
-    {
+        protected CreateResultToCreateResponse $createResultToCreateResponseMapper
+    ) {
     }
 
     /**
@@ -68,7 +68,7 @@ class Api
     public function delete(string $backupName): false|string
     {
         try {
-            if (!$this->backupManager->delete($backupName)) {
+            if (! $this->backupManager->delete($backupName)) {
                 throw new \Exception($this->translator->trans('WEMSG.BACKUPMANAGER.API.messageDeleteError', [$backupName], 'contao_default'));
             }
         } catch (\Exception $exception) {

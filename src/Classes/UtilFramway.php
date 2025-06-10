@@ -51,7 +51,8 @@ class UtilFramway
         protected CommandUtil $commandUtil,
         protected ConfigurationThemeManager $configurationThemeManager,
         protected ConfigurationCombinedManager $configurationCombinedManager
-    ){}
+    ) {
+    }
 
     public function getThemeColors(string $fwPath, ?string $themeName = null): array
     {
@@ -67,10 +68,10 @@ class UtilFramway
     {
         set_time_limit(0);
         if ($live) {
-            return $this->commandUtil->executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_retrieve.sh ./'.$this->getFramwayPath());
+            return $this->commandUtil->executeCmdLive('sh ' . self::SCRIPTS_PATH . 'framway_retrieve.sh ./' . $this->getFramwayPath());
         }
 
-        return $this->commandUtil->executeCmd('sh '.self::SCRIPTS_PATH.'framway_retrieve.sh ./'.$this->getFramwayPath());
+        return $this->commandUtil->executeCmd('sh ' . self::SCRIPTS_PATH . 'framway_retrieve.sh ./' . $this->getFramwayPath());
     }
 
     public function install(bool $live = false): string
@@ -78,10 +79,10 @@ class UtilFramway
         set_time_limit(0);
 
         if ($live) {
-            return $this->commandUtil->executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_install.sh ./'.$this->getFramwayPath());
+            return $this->commandUtil->executeCmdLive('sh ' . self::SCRIPTS_PATH . 'framway_install.sh ./' . $this->getFramwayPath());
         }
 
-        return $this->commandUtil->executeCmd('sh '.self::SCRIPTS_PATH.'framway_install.sh ./'.$this->getFramwayPath());
+        return $this->commandUtil->executeCmd('sh ' . self::SCRIPTS_PATH . 'framway_install.sh ./' . $this->getFramwayPath());
     }
 
     public function initialize(bool $live = false): string
@@ -89,10 +90,10 @@ class UtilFramway
         set_time_limit(0);
 
         if ($live) {
-            return $this->commandUtil->executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_initialize.sh ./'.$this->getFramwayPath());
+            return $this->commandUtil->executeCmdLive('sh ' . self::SCRIPTS_PATH . 'framway_initialize.sh ./' . $this->getFramwayPath());
         }
 
-        return $this->commandUtil->executeCmd('sh '.self::SCRIPTS_PATH.'framway_initialize.sh ./'.$this->getFramwayPath());
+        return $this->commandUtil->executeCmd('sh ' . self::SCRIPTS_PATH . 'framway_initialize.sh ./' . $this->getFramwayPath());
     }
 
     public function build(bool $live = false): string
@@ -100,16 +101,16 @@ class UtilFramway
         set_time_limit(0);
 
         if ($live) {
-            return $this->commandUtil->executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_build.sh ./'.$this->getFramwayPath());
+            return $this->commandUtil->executeCmdLive('sh ' . self::SCRIPTS_PATH . 'framway_build.sh ./' . $this->getFramwayPath());
         }
 
-        return $this->commandUtil->executeCmd('sh '.self::SCRIPTS_PATH.'framway_build.sh ./'.$this->getFramwayPath());
+        return $this->commandUtil->executeCmd('sh ' . self::SCRIPTS_PATH . 'framway_build.sh ./' . $this->getFramwayPath());
     }
 
     public function checkPresence(): bool
     {
         foreach ($this->filesToCheck as $fileToCheck) {
-            if (!file_exists($this->getFramwayPath().\DIRECTORY_SEPARATOR.$fileToCheck)) {
+            if (! file_exists($this->getFramwayPath() . \DIRECTORY_SEPARATOR . $fileToCheck)) {
                 return false;
             }
         }
@@ -122,15 +123,15 @@ class UtilFramway
         $this->checkThemeName($themeName);
 
         if ($live) {
-            return $this->commandUtil->executeCmdLive('sh '.self::SCRIPTS_PATH.'framway_theme_add.sh ./'.$this->getFramwayPath());
+            return $this->commandUtil->executeCmdLive('sh ' . self::SCRIPTS_PATH . 'framway_theme_add.sh ./' . $this->getFramwayPath());
         }
 
-        return $this->commandUtil->executeCmd('sh '.self::SCRIPTS_PATH.'framway_theme_add.sh ./'.$this->getFramwayPath().' '.$themeName);
+        return $this->commandUtil->executeCmd('sh ' . self::SCRIPTS_PATH . 'framway_theme_add.sh ./' . $this->getFramwayPath() . ' ' . $themeName);
     }
 
     public function checkThemeName(string $themeName): void
     {
-        if (!preg_match(self::THEME_NAME_REGEXP, $themeName)) {
+        if (! preg_match(self::THEME_NAME_REGEXP, $themeName)) {
             throw new \InvalidArgumentException('New theme\'s name is incorrect ! Authorized characters are : letters, numbers, middlescores ("-"),underscores ("_"), dots ("."), semicolon (":"), slashes ("/"") and arobase ("@").');
         }
     }
@@ -138,9 +139,9 @@ class UtilFramway
     public function getAvailableThemes(): array
     {
         $arrThemes = [];
-        if ($handle = opendir($this->getFramwayPath().\DIRECTORY_SEPARATOR.'src/themes')) {
+        if ($handle = opendir($this->getFramwayPath() . \DIRECTORY_SEPARATOR . 'src/themes')) {
             while (false !== ($entry = readdir($handle))) {
-                if ('.' !== $entry && '..' !== $entry) {
+                if ($entry !== '.' && $entry !== '..') {
                     $arrThemes[] = ['label' => $entry, 'value' => $entry];
                 }
             }
@@ -154,9 +155,9 @@ class UtilFramway
     public function getAvailableComponents(): array
     {
         $arrComponents = [];
-        if ($handle = opendir($this->getFramwayPath().\DIRECTORY_SEPARATOR.'src/components')) {
+        if ($handle = opendir($this->getFramwayPath() . \DIRECTORY_SEPARATOR . 'src/components')) {
             while (false !== ($entry = readdir($handle))) {
-                if ('.' !== $entry && '..' !== $entry) {
+                if ($entry !== '.' && $entry !== '..') {
                     $arrComponents[] = ['label' => $entry, 'value' => $entry];
                 }
             }

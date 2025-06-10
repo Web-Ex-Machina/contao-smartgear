@@ -161,7 +161,7 @@ DCAManipulator::create('tl_module')
     ->addField('wem_sg_header_search_bg', [
         'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['search_bg'],
         'inputType' => 'select',
-        'options_callback' => static fn($dc): string|array|false => Util::getSmartgearColors($dc->table, (int) $dc->id),
+        'options_callback' => static fn ($dc): string|array|false => Util::getSmartgearColors($dc->table, (int) $dc->id),
         'eval' => ['tl_class' => 'w50 ', 'includeBlankOption' => true],
         'dependsOn' => [
             'field' => 'add_search',
@@ -197,7 +197,7 @@ DCAManipulator::create('tl_module')
     ->addField('wem_sg_header_lang_selector_bg', [
         'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['lang_selector_bg'],
         'inputType' => 'select',
-        'options_callback' => static fn($dc): string|array|false => Util::getSmartgearColors($dc->table, (int) $dc->id),
+        'options_callback' => static fn ($dc): string|array|false => Util::getSmartgearColors($dc->table, (int) $dc->id),
         'eval' => ['tl_class' => 'w50 ', 'includeBlankOption' => true],
         'dependsOn' => [
             'field' => 'add_lang_selector',
@@ -235,7 +235,7 @@ DCAManipulator::create('tl_module')
     ->addField('wem_sg_header_topbar_bg', [
         'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['topbar_bg'],
         'inputType' => 'select',
-        'options_callback' => static fn($dc): string|array|false => Util::getSmartgearColors($dc->table, (int) $dc->id),
+        'options_callback' => static fn ($dc): string|array|false => Util::getSmartgearColors($dc->table, (int) $dc->id),
         'eval' => ['tl_class' => 'w50 ', 'includeBlankOption' => true],
         'dependsOn' => [
             'field' => 'add_topbar',
@@ -271,7 +271,7 @@ DCAManipulator::create('tl_module')
     ->addField('wem_sg_header_background', [
         'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['background'],
         'inputType' => 'select',
-        'options_callback' => static fn($dc): string|array|false => Util::getSmartgearColors($dc->table, (int) $dc->id),
+        'options_callback' => static fn ($dc): string|array|false => Util::getSmartgearColors($dc->table, (int) $dc->id),
         'eval' => ['tl_class' => 'w50 clr', 'includeBlankOption' => true],
         'sql' => "varchar(255) NOT NULL default ''",
     ])

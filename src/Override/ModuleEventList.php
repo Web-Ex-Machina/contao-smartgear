@@ -19,7 +19,7 @@ use Contao\CoreBundle\DependencyInjection\Attribute\AsFrontendModule;
 use Contao\Input;
 use WEM\SmartgearBundle\Model\CalendarEvents;
 
-#[AsFrontendModule(type: 'events', name:'eventlist')]
+#[AsFrontendModule(type: 'events', name: 'eventlist')]
 class ModuleEventList extends \Contao\ModuleEventlist
 {
     protected array $filters = [];
@@ -65,18 +65,18 @@ class ModuleEventList extends \Contao\ModuleEventlist
             ],
         ];
 
-        if (null !== Input::get('date')
+        if (Input::get('date') !== null
         && (
-            '' !== Input::get('date')['year']
-            || '' !== Input::get('date')['month']
+            Input::get('date')['year'] !== ''
+            || Input::get('date')['month'] !== ''
         )
         ) {
             $this->config['date']['year'] = Input::get('date')['year'];
             $this->config['date']['month'] = Input::get('date')['month'];
 
-            if (!empty($this->config['date']['month'])) {
+            if (! empty($this->config['date']['month'])) {
                 $this->cal_format = 'cal_month';
-            } elseif (!empty($this->config['date']['year'])) {
+            } elseif (! empty($this->config['date']['year'])) {
                 $this->cal_format = 'cal_year';
             }
         }
@@ -90,7 +90,7 @@ class ModuleEventList extends \Contao\ModuleEventlist
             $this->filters['select']['location']['options'][] = ['value' => $location, 'label' => $location];
         }
 
-        if (null !== Input::get('location')) {
+        if (Input::get('location') !== null) {
             $this->config['location'] = Input::get('location');
         }
     }
@@ -98,9 +98,9 @@ class ModuleEventList extends \Contao\ModuleEventlist
     protected function adaptFiltersToEventlist(): void
     {
         if (\array_key_exists('date', $this->config)) {
-            if (\array_key_exists('month', $this->config['date']) && !empty($this->config['date']['month'])) {
+            if (\array_key_exists('month', $this->config['date']) && ! empty($this->config['date']['month'])) {
                 $_GET['month'] = sprintf('%s%s', empty($this->config['date']['year']) ? date('Y') : $this->config['date']['year'], $this->config['date']['month']);
-            } elseif (\array_key_exists('year', $this->config['date']) && !empty($this->config['date']['year'])) {
+            } elseif (\array_key_exists('year', $this->config['date']) && ! empty($this->config['date']['year'])) {
                 $_GET['year'] = $this->config['date']['year'];
             }
         }

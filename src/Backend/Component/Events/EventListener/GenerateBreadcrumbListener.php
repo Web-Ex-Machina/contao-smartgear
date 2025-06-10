@@ -26,8 +26,9 @@ use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
 class GenerateBreadcrumbListener
 {
-    public function __construct(protected CoreConfigurationManager $coreConfigurationManager)
-    {
+    public function __construct(
+        protected CoreConfigurationManager $coreConfigurationManager
+    ) {
     }
 
     public function __invoke(array $items, Module $module): array

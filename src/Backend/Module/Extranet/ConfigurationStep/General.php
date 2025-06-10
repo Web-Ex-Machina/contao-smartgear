@@ -26,10 +26,6 @@ use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\UserGroupModel;
 use Exception;
-use WEM\SmartgearBundle\Model\NotificationCenter\Gateway as GatewayModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Language as NotificationLanguageModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Message as NotificationMessageModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\GridBundle\Classes\GridStartManipulator;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStep;
@@ -45,19 +41,22 @@ use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Module\Extranet\Extranet as ExtranetConfig;
 use WEM\SmartgearBundle\Model\Member as MemberModel;
 use WEM\SmartgearBundle\Model\Module;
+use WEM\SmartgearBundle\Model\NotificationCenter\Gateway as GatewayModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Language as NotificationLanguageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Message as NotificationMessageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 
 class General extends ConfigurationStep
 {
-
     protected string $language;
 
     public function __construct(
-        string                          $module,
-        string                          $type,
-        protected TranslatorInterface   $translator,
-        protected ConfigurationManager  $configurationManager,
-        protected CommandUtil           $commandUtil,
-        protected HtmlDecoder           $htmlDecoder
+        string $module,
+        string $type,
+        protected TranslatorInterface $translator,
+        protected ConfigurationManager $configurationManager,
+        protected CommandUtil $commandUtil,
+        protected HtmlDecoder $htmlDecoder
     ) {
         parent::__construct($module, $type);
         $this->language = BackendUser::getInstance()->language;
@@ -79,11 +78,11 @@ class General extends ConfigurationStep
     public function isStepValid(): bool
     {
         // check if the step is correct
-        if (null === Input::post('groupTitle')) {
+        if (Input::post('groupTitle') === null) {
             throw new Exception($this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.groupTitleMissing', [], 'contao_default'));
         }
 
-        if (null === Input::post('pageTitle')) {
+        if (Input::post('pageTitle') === null) {
             throw new Exception($this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.pageTitleMissing', [], 'contao_default'));
         }
 
@@ -110,7 +109,7 @@ class General extends ConfigurationStep
         $contents = $this->createContents($pages, $articles, $modules, $memberGroups);
 
         // clean subscription related content if users can't subscribe
-        if (false === (bool) Input::post('canSubscribe')) {
+        if ((bool) Input::post('canSubscribe') === false) {
             $this->cleanSubscriptionRelatedEntities();
         }
 
@@ -131,7 +130,7 @@ class General extends ConfigurationStep
 
         $modulesTypes = [];
         foreach ($modules as $module) {
-            if (null !== $module && null !== $module->type) {
+            if ($module !== null && $module->type !== null) {
                 $modulesTypes[] = $module->type;
             }
         }
@@ -191,7 +190,7 @@ class General extends ConfigurationStep
             'robots' => 'index,follow',
             'description' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.pageExtranetDescription', [$extranetConfig->getSgPageExtranetTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
             'published' => 1,
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setExtranetConfigKey('setSgPageExtranet', (int) $page->id);
 
@@ -209,7 +208,7 @@ class General extends ConfigurationStep
             'type' => 'error_401',
             'robots' => 'noindex,nofollow',
             'published' => 1,
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setExtranetConfigKey('setSgPage401', (int) $page->id);
 
@@ -228,7 +227,7 @@ class General extends ConfigurationStep
             'type' => 'error_403',
             'robots' => 'noindex,nofollow',
             'published' => 1,
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setExtranetConfigKey('setSgPage403', (int) $page->id);
 
@@ -250,7 +249,7 @@ class General extends ConfigurationStep
             'noSearch' => 1,
             'published' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setExtranetConfigKey('setSgPageContent', (int) $page->id);
 
@@ -272,7 +271,7 @@ class General extends ConfigurationStep
             'noSearch' => 1,
             'published' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setExtranetConfigKey('setSgPageData', (int) $page->id);
 
@@ -295,7 +294,7 @@ class General extends ConfigurationStep
             'published' => 1,
             'hide' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setExtranetConfigKey('setSgPageDataConfirm', (int) $page->id);
 
@@ -316,7 +315,7 @@ class General extends ConfigurationStep
             'published' => 1,
             'hide' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setExtranetConfigKey('setSgPagePassword', (int) $page->id);
 
@@ -337,7 +336,7 @@ class General extends ConfigurationStep
             'published' => 1,
             'hide' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setExtranetConfigKey('setSgPagePasswordConfirm', (int) $page->id);
 
@@ -358,7 +357,7 @@ class General extends ConfigurationStep
             'published' => 1,
             'hide' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setExtranetConfigKey('setSgPagePasswordValidate', (int) $page->id);
 
@@ -379,7 +378,7 @@ class General extends ConfigurationStep
             'published' => 1,
             'hide' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setExtranetConfigKey('setSgPageLogout', (int) $page->id);
 
@@ -390,8 +389,8 @@ class General extends ConfigurationStep
     {
         $page = PageModel::findById($extranetConfig->getSgPageSubscribe());
 
-        if (!$extranetConfig->getSgCanSubscribe()) {
-            if (null !== $page) {
+        if (! $extranetConfig->getSgCanSubscribe()) {
+            if ($page !== null) {
                 $page->delete();
             }
 
@@ -410,7 +409,7 @@ class General extends ConfigurationStep
             'published' => 1,
             'hide' => 1,
             'guests' => 1,
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setExtranetConfigKey('setSgPageSubscribe', (int) $page->id);
 
@@ -421,8 +420,8 @@ class General extends ConfigurationStep
     {
         $page = PageModel::findById($extranetConfig->getSgPageSubscribeConfirm());
 
-        if (!$extranetConfig->getSgCanSubscribe()) {
-            if (null !== $page) {
+        if (! $extranetConfig->getSgCanSubscribe()) {
+            if ($page !== null) {
                 $page->delete();
             }
 
@@ -442,7 +441,7 @@ class General extends ConfigurationStep
             'hide' => 1,
             'guests' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setExtranetConfigKey('setSgPageSubscribeConfirm', (int) $page->id);
 
@@ -453,8 +452,8 @@ class General extends ConfigurationStep
     {
         $page = PageModel::findById($extranetConfig->getSgPageSubscribeValidate());
 
-        if (!$extranetConfig->getSgCanSubscribe()) {
-            if (null !== $page) {
+        if (! $extranetConfig->getSgCanSubscribe()) {
+            if ($page !== null) {
                 $page->delete();
             }
 
@@ -474,7 +473,7 @@ class General extends ConfigurationStep
             'hide' => 1,
             'guests' => 1,
             'sitemap' => 'map_never',
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setExtranetConfigKey('setSgPageSubscribeValidate', (int) $page->id);
 
@@ -485,8 +484,8 @@ class General extends ConfigurationStep
     {
         $page = PageModel::findById($extranetConfig->getSgPageUnsubscribeConfirm());
 
-        if (!$extranetConfig->getSgCanSubscribe()) {
-            if (null !== $page) {
+        if (! $extranetConfig->getSgCanSubscribe()) {
+            if ($page !== null) {
                 $page->delete();
             }
 
@@ -504,7 +503,7 @@ class General extends ConfigurationStep
             'noSearch' => 1,
             'published' => 1,
             'hide' => 1,
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setExtranetConfigKey('setSgPageUnsubscribeConfirm', (int) $page->id);
 
@@ -543,7 +542,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $extranetConfig->getSgPageExtranetTitle(),
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setExtranetConfigKey('setSgArticleExtranet', (int) $article->id);
 
@@ -556,7 +555,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $page->title,
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setExtranetConfigKey('setSgArticle401', (int) $article->id);
 
@@ -569,7 +568,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $page->title,
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setExtranetConfigKey('setSgArticle403', (int) $article->id);
 
@@ -582,7 +581,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $page->title,
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setExtranetConfigKey('setSgArticleContent', (int) $article->id);
 
@@ -595,7 +594,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $page->title,
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setExtranetConfigKey('setSgArticleData', (int) $article->id);
 
@@ -608,7 +607,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $page->title,
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setExtranetConfigKey('setSgArticleDataConfirm', (int) $article->id);
 
@@ -621,7 +620,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $page->title,
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setExtranetConfigKey('setSgArticlePassword', (int) $article->id);
 
@@ -634,7 +633,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $page->title,
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setExtranetConfigKey('setSgArticlePasswordConfirm', (int) $article->id);
 
@@ -647,7 +646,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $page->title,
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setExtranetConfigKey('setSgArticlePasswordValidate', (int) $article->id);
 
@@ -660,7 +659,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $page->title,
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setExtranetConfigKey('setSgArticleLogout', (int) $article->id);
 
@@ -671,8 +670,8 @@ class General extends ConfigurationStep
     {
         $article = ArticleModel::findById($extranetConfig->getSgArticleSubscribe());
 
-        if (!$extranetConfig->getSgCanSubscribe()) {
-            if (null !== $article) {
+        if (! $extranetConfig->getSgCanSubscribe()) {
+            if ($article !== null) {
                 $article->delete();
             }
 
@@ -683,7 +682,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $page->title,
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setExtranetConfigKey('setSgArticleSubscribe', (int) $article->id);
 
@@ -694,8 +693,8 @@ class General extends ConfigurationStep
     {
         $article = ArticleModel::findById($extranetConfig->getSgArticleSubscribeConfirm());
 
-        if (!$extranetConfig->getSgCanSubscribe()) {
-            if (null !== $article) {
+        if (! $extranetConfig->getSgCanSubscribe()) {
+            if ($article !== null) {
                 $article->delete();
             }
 
@@ -706,7 +705,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $page->title,
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setExtranetConfigKey('setSgArticleSubscribeConfirm', (int) $article->id);
 
@@ -717,8 +716,8 @@ class General extends ConfigurationStep
     {
         $article = ArticleModel::findById($extranetConfig->getSgArticleSubscribeValidate());
 
-        if (!$extranetConfig->getSgCanSubscribe()) {
-            if (null !== $article) {
+        if (! $extranetConfig->getSgCanSubscribe()) {
+            if ($article !== null) {
                 $article->delete();
             }
 
@@ -729,7 +728,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $page->title,
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setExtranetConfigKey('setSgArticleSubscribeValidate', (int) $article->id);
 
@@ -740,8 +739,8 @@ class General extends ConfigurationStep
     {
         $article = ArticleModel::findById($extranetConfig->getSgArticleUnsubscribeConfirm());
 
-        if (!$extranetConfig->getSgCanSubscribe()) {
-            if (null !== $article) {
+        if (! $extranetConfig->getSgCanSubscribe()) {
+            if ($article !== null) {
                 $article->delete();
             }
 
@@ -752,7 +751,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $page->title,
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setExtranetConfigKey('setSgArticleUnsubscribeConfirm', (int) $article->id);
 
@@ -788,7 +787,7 @@ class General extends ConfigurationStep
     {
         $module = new ModuleModel();
 
-        if (null !== $extranetConfig->getSgModuleLogin()) {
+        if ($extranetConfig->getSgModuleLogin() !== null) {
             $moduleListOld = ModuleModel::findById($extranetConfig->getSgModuleLogin());
             if ($moduleListOld) {
                 $moduleListOld->delete();
@@ -797,7 +796,8 @@ class General extends ConfigurationStep
             // $module->id = $extranetConfig->getSgModuleLogin();
         }
 
-        $module = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+        $module = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge(
+            [
             'name' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.moduleLoginName', [], 'contao_default'),
             'pid' => $config->getSgTheme(),
             'type' => 'login',
@@ -805,8 +805,8 @@ class General extends ConfigurationStep
             'redirectBack' => 1,
             'wem_sg_login_pwd_lost_jumpTo' => $pagePwdLost->id,
         ],
-        $extranetConfig->getSgCanSubscribe() ? ['wem_sg_login_register_jumpTo' => $pageSubscribe->id] : [],
-        null !== $extranetConfig->getSgModuleLogin() ? ['id' => $extranetConfig->getSgModuleLogin()] : []
+            $extranetConfig->getSgCanSubscribe() ? ['wem_sg_login_register_jumpTo' => $pageSubscribe->id] : [],
+            $extranetConfig->getSgModuleLogin() !== null ? ['id' => $extranetConfig->getSgModuleLogin()] : []
         ));
 
         $this->setExtranetConfigKey('setSgModuleLogin', (int) $module->id);
@@ -818,21 +818,22 @@ class General extends ConfigurationStep
     {
         $module = new ModuleModel();
 
-        if (null !== $extranetConfig->getSgModuleLogout()) {
+        if ($extranetConfig->getSgModuleLogout() !== null) {
             $moduleListOld = ModuleModel::findById($extranetConfig->getSgModuleLogout());
             if ($moduleListOld) {
                 $moduleListOld->delete();
             }
         }
 
-        $module = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+        $module = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge(
+            [
             'name' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.moduleLogoutName', [], 'contao_default'),
             'pid' => $config->getSgTheme(),
             'type' => 'logout',
             'jumpTo' => $page->id,
             'tstamp' => time(),
         ],
-        null !== $extranetConfig->getSgModuleLogout() ? ['id' => $extranetConfig->getSgModuleLogout()] : []
+            $extranetConfig->getSgModuleLogout() !== null ? ['id' => $extranetConfig->getSgModuleLogout()] : []
         ));
 
         $this->setExtranetConfigKey('setSgModuleLogout', (int) $module->id);
@@ -844,14 +845,15 @@ class General extends ConfigurationStep
     {
         $module = new ModuleModel();
 
-        if (null !== $extranetConfig->getSgModuleData()) {
+        if ($extranetConfig->getSgModuleData() !== null) {
             $moduleListOld = ModuleModel::findById($extranetConfig->getSgModuleData());
             if ($moduleListOld) {
                 $moduleListOld->delete();
             }
         }
 
-        $module = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+        $module = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge(
+            [
             'name' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.moduleDataName', [], 'contao_default'),
             'pid' => $config->getSgTheme(),
             'type' => 'personalData',
@@ -860,7 +862,7 @@ class General extends ConfigurationStep
             'nc_notification' => $notification->id,
             'tstamp' => time(),
         ],
-        null !== $extranetConfig->getSgModuleData() ? ['id' => $extranetConfig->getSgModuleData()] : []
+            $extranetConfig->getSgModuleData() !== null ? ['id' => $extranetConfig->getSgModuleData()] : []
         ));
 
         $this->setExtranetConfigKey('setSgModuleData', (int) $module->id);
@@ -872,14 +874,15 @@ class General extends ConfigurationStep
     {
         $module = new ModuleModel();
 
-        if (null !== $extranetConfig->getSgModulePassword()) {
+        if ($extranetConfig->getSgModulePassword() !== null) {
             $moduleListOld = ModuleModel::findById($extranetConfig->getSgModulePassword());
             if ($moduleListOld) {
                 $moduleListOld->delete();
             }
         }
 
-        $module = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+        $module = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge(
+            [
             'name' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.modulePasswordName', [], 'contao_default'),
             'pid' => $config->getSgTheme(),
             'type' => 'lostPasswordNotificationCenter',
@@ -889,7 +892,7 @@ class General extends ConfigurationStep
             'nc_notification' => $notification->id,
             'tstamp' => time(),
         ],
-        null !== $extranetConfig->getSgModulePassword() ? ['id' => $extranetConfig->getSgModulePassword()] : []
+            $extranetConfig->getSgModulePassword() !== null ? ['id' => $extranetConfig->getSgModulePassword()] : []
         ));
 
         $this->setExtranetConfigKey('setSgModulePassword', (int) $module->id);
@@ -901,14 +904,15 @@ class General extends ConfigurationStep
     {
         $module = new ModuleModel();
 
-        if (null !== $extranetConfig->getSgModuleNav()) {
+        if ($extranetConfig->getSgModuleNav() !== null) {
             $moduleListOld = ModuleModel::findById($extranetConfig->getSgModuleNav());
             if ($moduleListOld) {
                 $moduleListOld->delete();
             }
         }
 
-        $module = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+        $module = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge(
+            [
             'name' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.moduleNavName', [], 'contao_default'),
             'pid' => $config->getSgTheme(),
             'type' => 'navigation',
@@ -917,7 +921,7 @@ class General extends ConfigurationStep
             'rootPage' => $page->id,
             'tstamp' => time(),
         ],
-        null !== $extranetConfig->getSgModuleNav() ? ['id' => $extranetConfig->getSgModuleNav()] : []
+            $extranetConfig->getSgModuleNav() !== null ? ['id' => $extranetConfig->getSgModuleNav()] : []
         ));
 
         $this->setExtranetConfigKey('setSgModuleNav', (int) $module->id);
@@ -929,20 +933,21 @@ class General extends ConfigurationStep
     {
         $module = new ModuleModel();
 
-        if (null !== $extranetConfig->getSgModuleSubscribe()) {
+        if ($extranetConfig->getSgModuleSubscribe() !== null) {
             $moduleListOld = ModuleModel::findById($extranetConfig->getSgModuleSubscribe());
             if ($moduleListOld) {
                 $moduleListOld->delete();
             }
         }
 
-        if (!$extranetConfig->getSgCanSubscribe()) {
+        if (! $extranetConfig->getSgCanSubscribe()) {
             $this->setExtranetConfigKey('setSgModuleSubscribe', null);
 
             return null;
         }
 
-        $module = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+        $module = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge(
+            [
             'name' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.moduleSubscribeName', [], 'contao_default'),
             'pid' => $config->getSgTheme(),
             'type' => 'registration',
@@ -954,7 +959,7 @@ class General extends ConfigurationStep
             'reg_groups' => serialize([$group->id]),
             'tstamp' => time(),
         ],
-        null !== $extranetConfig->getSgModuleSubscribe() ? ['id' => $extranetConfig->getSgModuleSubscribe()] : []
+            $extranetConfig->getSgModuleSubscribe() !== null ? ['id' => $extranetConfig->getSgModuleSubscribe()] : []
         ));
 
         $this->setExtranetConfigKey('setSgModuleSubscribe', (int) $module->id);
@@ -966,20 +971,21 @@ class General extends ConfigurationStep
     {
         $module = new ModuleModel();
 
-        if (null !== $extranetConfig->getSgModuleCloseAccount()) {
+        if ($extranetConfig->getSgModuleCloseAccount() !== null) {
             $moduleListOld = ModuleModel::findById($extranetConfig->getSgModuleCloseAccount());
             if ($moduleListOld) {
                 $moduleListOld->delete();
             }
         }
 
-        if (!$extranetConfig->getSgCanSubscribe()) {
+        if (! $extranetConfig->getSgCanSubscribe()) {
             $this->setExtranetConfigKey('setSgModuleCloseAccount', null);
 
             return null;
         }
 
-        $module = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+        $module = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge(
+            [
             'name' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.moduleCloseAccountName', [], 'contao_default'),
             'pid' => $config->getSgTheme(),
             'type' => 'closeAccount',
@@ -987,7 +993,7 @@ class General extends ConfigurationStep
             'reg_close' => 'close_delete',
             'tstamp' => time(),
         ],
-        null !== $extranetConfig->getSgModuleCloseAccount() ? ['id' => $extranetConfig->getSgModuleCloseAccount()] : []
+            $extranetConfig->getSgModuleCloseAccount() !== null ? ['id' => $extranetConfig->getSgModuleCloseAccount()] : []
         ));
 
         $this->setExtranetConfigKey('setSgModuleCloseAccount', (int) $module->id);
@@ -1029,35 +1035,35 @@ class General extends ConfigurationStep
             'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleExtranetHeadline', [], 'contao_default')]),
             'cssID' => ',sep-bottom',
             'sorting' => 128,
-        ], null !== $headline ? ['id' => $headline->id] : []));
+        ], $headline !== null ? ['id' => $headline->id] : []));
 
         $this->setExtranetConfigKey('setSgContentArticleExtranetHeadline', (int) $headline->id);
 
-        $moduleLoginGuests = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['login']->id, 'guests' => 1, 'sorting' => 256, 'id' => null !== $moduleLoginGuests ? $moduleLoginGuests->id : null]);
+        $moduleLoginGuests = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['login']->id, 'guests' => 1, 'sorting' => 256, 'id' => $moduleLoginGuests !== null ? $moduleLoginGuests->id : null]);
 
         $this->setExtranetConfigKey('setSgContentArticleExtranetModuleLoginGuests', (int) $moduleLoginGuests->id);
 
-        $gridStartA = ContentUtil::createContent($article, ['type' => 'grid-start', 'protected' => 1, 'groups' => serialize([$group->id]), 'sorting' => 384, 'id' => null !== $gridStartA ? $gridStartA->id : null]);
+        $gridStartA = ContentUtil::createContent($article, ['type' => 'grid-start', 'protected' => 1, 'groups' => serialize([$group->id]), 'sorting' => 384, 'id' => $gridStartA !== null ? $gridStartA->id : null]);
 
         $this->setExtranetConfigKey('setSgContentArticleExtranetGridStartA', (int) $gridStartA->id);
 
-        $gridStartB = ContentUtil::createContent($article, ['type' => 'grid-start', 'protected' => 1, 'groups' => serialize([$group->id]), 'sorting' => 512, 'id' => null !== $gridStartB ? $gridStartB->id : null]);
+        $gridStartB = ContentUtil::createContent($article, ['type' => 'grid-start', 'protected' => 1, 'groups' => serialize([$group->id]), 'sorting' => 512, 'id' => $gridStartB !== null ? $gridStartB->id : null]);
 
         $this->setExtranetConfigKey('setSgContentArticleExtranetGridStartB', (int) $gridStartB->id);
 
-        $moduleLoginLogged = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['login']->id, 'protected' => 1, 'groups' => serialize([$group->id]), 'sorting' => 640, 'id' => null !== $moduleLoginLogged ? $moduleLoginLogged->id : null]);
+        $moduleLoginLogged = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['login']->id, 'protected' => 1, 'groups' => serialize([$group->id]), 'sorting' => 640, 'id' => $moduleLoginLogged !== null ? $moduleLoginLogged->id : null]);
 
         $this->setExtranetConfigKey('setSgContentArticleExtranetModuleLoginLogged', (int) $moduleLoginLogged->id);
 
-        $moduleNav = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['nav']->id, 'protected' => 1, 'groups' => serialize([$group->id]), 'sorting' => 768, 'id' => null !== $moduleNav ? $moduleNav->id : null]);
+        $moduleNav = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['nav']->id, 'protected' => 1, 'groups' => serialize([$group->id]), 'sorting' => 768, 'id' => $moduleNav !== null ? $moduleNav->id : null]);
 
         $this->setExtranetConfigKey('setSgContentArticleExtranetModuleNav', (int) $moduleNav->id);
 
-        $gridStopB = ContentUtil::createContent($article, ['type' => 'grid-stop', 'sorting' => 896, 'id' => null !== $gridStopB ? $gridStopB->id : null]);
+        $gridStopB = ContentUtil::createContent($article, ['type' => 'grid-stop', 'sorting' => 896, 'id' => $gridStopB !== null ? $gridStopB->id : null]);
 
         $this->setExtranetConfigKey('setSgContentArticleExtranetGridStopB', (int) $gridStopB->id);
 
-        $gridStopA = ContentUtil::createContent($article, ['type' => 'grid-stop', 'sorting' => 1152, 'id' => null !== $gridStopA ? $gridStopA->id : null]);
+        $gridStopA = ContentUtil::createContent($article, ['type' => 'grid-stop', 'sorting' => 1152, 'id' => $gridStopA !== null ? $gridStopA->id : null]);
 
         $this->setExtranetConfigKey('setSgContentArticleExtranetGridStopA', (int) $gridStopA->id);
 
@@ -1102,7 +1108,7 @@ class General extends ConfigurationStep
             'type' => 'headline',
             'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle401Headline', [], 'contao_default')]),
             'cssID' => ',sep-bottom',
-        ], null !== $headline ? ['id' => $headline->id] : []));
+        ], $headline !== null ? ['id' => $headline->id] : []));
 
         $this->setExtranetConfigKey('setSgContentArticle401Headline', (int) $headline->id);
 
@@ -1110,11 +1116,11 @@ class General extends ConfigurationStep
             'type' => 'text',
             'text' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle401Text', [], 'contao_default'),
             'cssID' => ',sep-bottom',
-        ], null !== $text ? ['id' => $text->id] : []));
+        ], $text !== null ? ['id' => $text->id] : []));
 
         $this->setExtranetConfigKey('setSgContentArticle401Text', (int) $text->id);
 
-        $moduleLoginGuests = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['login']->id, 'guests' => 1, 'id' => null !== $moduleLoginGuests ? $moduleLoginGuests->id : null]);
+        $moduleLoginGuests = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['login']->id, 'guests' => 1, 'id' => $moduleLoginGuests !== null ? $moduleLoginGuests->id : null]);
 
         $this->setExtranetConfigKey('setSgContentArticle401ModuleLoginGuests', (int) $moduleLoginGuests->id);
 
@@ -1135,7 +1141,7 @@ class General extends ConfigurationStep
             'type' => 'headline',
             'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle403Headline', [], 'contao_default')]),
             'cssID' => ',sep-bottom',
-        ], null !== $headline ? ['id' => $headline->id] : []));
+        ], $headline !== null ? ['id' => $headline->id] : []));
 
         $this->setExtranetConfigKey('setSgContentArticle403Headline', (int) $headline->id);
 
@@ -1143,11 +1149,11 @@ class General extends ConfigurationStep
             'type' => 'text',
             'text' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle403Text', [], 'contao_default'),
             'cssID' => ',sep-bottom',
-        ], null !== $text ? ['id' => $text->id] : []));
+        ], $text !== null ? ['id' => $text->id] : []));
 
         $this->setExtranetConfigKey('setSgContentArticle403Text', (int) $text->id);
 
-        $hyperlink = ContentUtil::createContent($article, ['type' => 'hyperlink', 'url' => sprintf('{{link_url::%s}}', $pageExtranet->id), 'linkTitle' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle403Hyperlink', [], 'contao_default'), 'titleText' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle403Hyperlink', [], 'contao_default'), 'id' => null !== $hyperlink ? $hyperlink->id : null]);
+        $hyperlink = ContentUtil::createContent($article, ['type' => 'hyperlink', 'url' => sprintf('{{link_url::%s}}', $pageExtranet->id), 'linkTitle' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle403Hyperlink', [], 'contao_default'), 'titleText' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticle403Hyperlink', [], 'contao_default'), 'id' => $hyperlink !== null ? $hyperlink->id : null]);
 
         $this->setExtranetConfigKey('setSgContentArticle403Hyperlink', (int) $hyperlink->id);
 
@@ -1167,7 +1173,7 @@ class General extends ConfigurationStep
             'type' => 'headline',
             'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleContentHeadline', [], 'contao_default')]),
             'cssID' => ',sep-bottom',
-        ], null !== $headline ? ['id' => $headline->id] : []));
+        ], $headline !== null ? ['id' => $headline->id] : []));
 
         $this->setExtranetConfigKey('setSgContentArticleContentHeadline', (int) $headline->id);
 
@@ -1175,7 +1181,7 @@ class General extends ConfigurationStep
             'type' => 'text',
             'text' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleContentText', [], 'contao_default'),
             'cssID' => ',sep-bottom',
-        ], null !== $text ? ['id' => $text->id] : []));
+        ], $text !== null ? ['id' => $text->id] : []));
 
         $this->setExtranetConfigKey('setSgContentArticleContentText', (int) $text->id);
 
@@ -1197,11 +1203,11 @@ class General extends ConfigurationStep
             'type' => 'headline',
             'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataHeadline', [], 'contao_default')]),
             'cssID' => ',sep-bottom',
-        ], null !== $headline ? ['id' => $headline->id] : []));
+        ], $headline !== null ? ['id' => $headline->id] : []));
 
         $this->setExtranetConfigKey('setSgContentArticleDataHeadline', (int) $headline->id);
 
-        $moduleData = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['data']->id, 'id' => null !== $moduleData ? $moduleData->id : null]);
+        $moduleData = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['data']->id, 'id' => $moduleData !== null ? $moduleData->id : null]);
 
         $this->setExtranetConfigKey('setSgContentArticleDataModuleData', (int) $moduleData->id);
 
@@ -1210,7 +1216,7 @@ class General extends ConfigurationStep
                 'type' => 'headline',
                 'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataHeadlineCloseAccount', [], 'contao_default')]),
                 'cssID' => ',sep-bottom',
-            ], null !== $headlineCloseAccount ? ['id' => $headlineCloseAccount->id] : []));
+            ], $headlineCloseAccount !== null ? ['id' => $headlineCloseAccount->id] : []));
 
             $this->setExtranetConfigKey('setSgContentArticleDataHeadlineCloseAccount', (int) $headlineCloseAccount->id);
 
@@ -1218,29 +1224,29 @@ class General extends ConfigurationStep
                 'type' => 'text',
                 'text' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataTextCloseAccount', [], 'contao_default'),
                 'cssID' => ',sep-bottom',
-            ], null !== $textCloseAccount ? ['id' => $textCloseAccount->id] : []));
+            ], $textCloseAccount !== null ? ['id' => $textCloseAccount->id] : []));
 
             $this->setExtranetConfigKey('setSgContentArticleDataTextCloseAccount', (int) $textCloseAccount->id);
 
-            $moduleCloseAccount = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['closeAccount']->id, 'id' => null !== $moduleCloseAccount ? $moduleCloseAccount->id : null]);
+            $moduleCloseAccount = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['closeAccount']->id, 'id' => $moduleCloseAccount !== null ? $moduleCloseAccount->id : null]);
 
             $this->setExtranetConfigKey('setSgContentArticleDataModuleCloseAccount', (int) $moduleCloseAccount->id);
         } else {
-            if (null !== $headlineCloseAccount) {
+            if ($headlineCloseAccount !== null) {
                 $headlineCloseAccount->delete();
                 $headlineCloseAccount = null;
 
                 $this->setExtranetConfigKey('setSgContentArticleDataHeadlineCloseAccount', null);
             }
 
-            if (null !== $textCloseAccount) {
+            if ($textCloseAccount !== null) {
                 $textCloseAccount->delete();
                 $textCloseAccount = null;
 
                 $this->setExtranetConfigKey('setSgContentArticleDataTextCloseAccount', null);
             }
 
-            if (null !== $moduleCloseAccount) {
+            if ($moduleCloseAccount !== null) {
                 $moduleCloseAccount->delete();
                 $moduleCloseAccount = null;
 
@@ -1267,7 +1273,7 @@ class General extends ConfigurationStep
             'type' => 'headline',
             'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataConfirmHeadline', [], 'contao_default')]),
             'cssID' => ',sep-bottom',
-        ], null !== $headline ? ['id' => $headline->id] : []));
+        ], $headline !== null ? ['id' => $headline->id] : []));
 
         $this->setExtranetConfigKey('setSgContentArticleDataConfirmHeadline', (int) $headline->id);
 
@@ -1275,11 +1281,11 @@ class General extends ConfigurationStep
             'type' => 'text',
             'text' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataConfirmText', [], 'contao_default'),
             'cssID' => ',sep-bottom',
-        ], null !== $text ? ['id' => $text->id] : []));
+        ], $text !== null ? ['id' => $text->id] : []));
 
         $this->setExtranetConfigKey('setSgContentArticleDataConfirmText', (int) $text->id);
 
-        $hyperlink = ContentUtil::createContent($article, ['type' => 'hyperlink', 'url' => sprintf('{{link_url::%s}}', $pageExtranet->id), 'linkTitle' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataConfirmHyperlink', [], 'contao_default'), 'titleText' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataConfirmHyperlink', [], 'contao_default'), 'id' => null !== $hyperlink ? $hyperlink->id : null]);
+        $hyperlink = ContentUtil::createContent($article, ['type' => 'hyperlink', 'url' => sprintf('{{link_url::%s}}', $pageExtranet->id), 'linkTitle' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataConfirmHyperlink', [], 'contao_default'), 'titleText' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleDataConfirmHyperlink', [], 'contao_default'), 'id' => $hyperlink !== null ? $hyperlink->id : null]);
 
         $this->setExtranetConfigKey('setSgContentArticleDataConfirmHyperlink', (int) $hyperlink->id);
 
@@ -1299,11 +1305,11 @@ class General extends ConfigurationStep
             'type' => 'headline',
             'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticlePasswordHeadline', [], 'contao_default')]),
             'cssID' => ',sep-bottom',
-        ], null !== $headline ? ['id' => $headline->id] : []));
+        ], $headline !== null ? ['id' => $headline->id] : []));
 
         $this->setExtranetConfigKey('setSgContentArticlePasswordHeadline', (int) $headline->id);
 
-        $modulePassword = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['password']->id, 'id' => null !== $modulePassword ? $modulePassword->id : null]);
+        $modulePassword = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['password']->id, 'id' => $modulePassword !== null ? $modulePassword->id : null]);
 
         $this->setExtranetConfigKey('setSgContentArticlePasswordModulePassword', (int) $modulePassword->id);
 
@@ -1322,7 +1328,7 @@ class General extends ConfigurationStep
             'type' => 'headline',
             'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticlePasswordConfirmHeadline', [], 'contao_default')]),
             'cssID' => ',sep-bottom',
-        ], null !== $headline ? ['id' => $headline->id] : []));
+        ], $headline !== null ? ['id' => $headline->id] : []));
 
         $this->setExtranetConfigKey('setSgContentArticlePasswordConfirmHeadline', (int) $headline->id);
 
@@ -1330,7 +1336,7 @@ class General extends ConfigurationStep
             'type' => 'text',
             'text' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticlePasswordConfirmText', [], 'contao_default'),
             'cssID' => ',sep-bottom',
-        ], null !== $text ? ['id' => $text->id] : []));
+        ], $text !== null ? ['id' => $text->id] : []));
 
         $this->setExtranetConfigKey('setSgContentArticlePasswordConfirmText', (int) $text->id);
 
@@ -1349,11 +1355,11 @@ class General extends ConfigurationStep
             'type' => 'headline',
             'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticlePasswordValidateHeadline', [], 'contao_default')]),
             'cssID' => ',sep-bottom',
-        ], null !== $headline ? ['id' => $headline->id] : []));
+        ], $headline !== null ? ['id' => $headline->id] : []));
 
         $this->setExtranetConfigKey('setSgContentArticlePasswordValidateHeadline', (int) $headline->id);
 
-        $modulePassword = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['password']->id, 'id' => null !== $modulePassword ? $modulePassword->id : null]);
+        $modulePassword = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['password']->id, 'id' => $modulePassword !== null ? $modulePassword->id : null]);
 
         $this->setExtranetConfigKey('setSgContentArticlePasswordValidateModulePassword', (int) $modulePassword->id);
 
@@ -1367,7 +1373,7 @@ class General extends ConfigurationStep
     {
         $moduleLogout = ContentModel::findById($extranetConfig->getSgContentArticleLogoutModuleLogout());
 
-        $moduleLogout = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['logout']->id, 'id' => null !== $moduleLogout ? $moduleLogout->id : null]);
+        $moduleLogout = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['logout']->id, 'id' => $moduleLogout !== null ? $moduleLogout->id : null]);
 
         $this->setExtranetConfigKey('setSgContentArticleLogoutModuleLogout', (int) $moduleLogout->id);
 
@@ -1386,22 +1392,22 @@ class General extends ConfigurationStep
                 'type' => 'headline',
                 'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleSubscribeHeadline', [], 'contao_default')]),
                 'cssID' => ',sep-bottom',
-            ], null !== $headline ? ['id' => $headline->id] : []));
+            ], $headline !== null ? ['id' => $headline->id] : []));
 
             $this->setExtranetConfigKey('setSgContentArticleSubscribeHeadline', (int) $headline->id);
 
-            $moduleSubscribe = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['subscribe']->id, 'id' => null !== $moduleSubscribe ? $moduleSubscribe->id : null]);
+            $moduleSubscribe = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['subscribe']->id, 'id' => $moduleSubscribe !== null ? $moduleSubscribe->id : null]);
 
             $this->setExtranetConfigKey('setSgContentArticleSubscribeModuleSubscribe', (int) $moduleSubscribe->id);
         } else {
-            if (null !== $headline) {
+            if ($headline !== null) {
                 $headline->delete();
                 $headline = null;
 
                 $this->setExtranetConfigKey('setSgContentArticleSubscribeHeadline', null);
             }
 
-            if (null !== $moduleSubscribe) {
+            if ($moduleSubscribe !== null) {
                 $moduleSubscribe->delete();
                 $moduleSubscribe = null;
 
@@ -1425,7 +1431,7 @@ class General extends ConfigurationStep
                 'type' => 'headline',
                 'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleSubscribeConfirmHeadline', [], 'contao_default')]),
                 'cssID' => ',sep-bottom',
-            ], null !== $headline ? ['id' => $headline->id] : []));
+            ], $headline !== null ? ['id' => $headline->id] : []));
 
             $this->setExtranetConfigKey('setSgContentArticleSubscribeConfirmHeadline', (int) $headline->id);
 
@@ -1433,18 +1439,18 @@ class General extends ConfigurationStep
                 'type' => 'text',
                 'text' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleSubscribeConfirmText', [], 'contao_default'),
                 'cssID' => ',sep-bottom',
-            ], null !== $text ? ['id' => $text->id] : []));
+            ], $text !== null ? ['id' => $text->id] : []));
 
             $this->setExtranetConfigKey('setSgContentArticleSubscribeConfirmText', (int) $text->id);
         } else {
-            if (null !== $headline) {
+            if ($headline !== null) {
                 $headline->delete();
                 $headline = null;
 
                 $this->setExtranetConfigKey('setSgContentArticleSubscribeConfirmHeadline', null);
             }
 
-            if (null !== $text) {
+            if ($text !== null) {
                 $text->delete();
                 $text = null;
 
@@ -1469,7 +1475,7 @@ class General extends ConfigurationStep
                 'type' => 'headline',
                 'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleSubscribeValidateHeadline', [], 'contao_default')]),
                 'cssID' => ',sep-bottom',
-            ], null !== $headline ? ['id' => $headline->id] : []));
+            ], $headline !== null ? ['id' => $headline->id] : []));
 
             $this->setExtranetConfigKey('setSgContentArticleSubscribeValidateHeadline', (int) $headline->id);
 
@@ -1477,29 +1483,29 @@ class General extends ConfigurationStep
                 'type' => 'text',
                 'text' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleSubscribeValidateText', [], 'contao_default'),
                 'cssID' => ',sep-bottom',
-            ], null !== $text ? ['id' => $text->id] : []));
+            ], $text !== null ? ['id' => $text->id] : []));
 
             $this->setExtranetConfigKey('setSgContentArticleSubscribeValidateText', (int) $text->id);
 
-            $moduleLoginGuests = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['login']->id, 'guests' => 1, 'id' => null !== $moduleLoginGuests ? $moduleLoginGuests->id : null]);
+            $moduleLoginGuests = ContentUtil::createContent($article, ['type' => 'module', 'module' => $modules['login']->id, 'guests' => 1, 'id' => $moduleLoginGuests !== null ? $moduleLoginGuests->id : null]);
 
             $this->setExtranetConfigKey('setSgContentArticleSubscribeValidateModuleLoginGuests', (int) $moduleLoginGuests->id);
         } else {
-            if (null !== $headline) {
+            if ($headline !== null) {
                 $headline->delete();
                 $headline = null;
 
                 $this->setExtranetConfigKey('setSgContentArticleSubscribeValidateHeadline', null);
             }
 
-            if (null !== $text) {
+            if ($text !== null) {
                 $text->delete();
                 $text = null;
 
                 $this->setExtranetConfigKey('setSgContentArticleSubscribeValidateText', null);
             }
 
-            if (null !== $moduleLoginGuests) {
+            if ($moduleLoginGuests !== null) {
                 $moduleLoginGuests->delete();
                 $moduleLoginGuests = null;
 
@@ -1524,7 +1530,7 @@ class General extends ConfigurationStep
                 'type' => 'headline',
                 'headline' => serialize(['unit' => 'h1', 'value' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleUnsubscribeHeadline', [], 'contao_default')]),
                 'cssID' => ',sep-bottom',
-            ], null !== $headline ? ['id' => $headline->id] : []));
+            ], $headline !== null ? ['id' => $headline->id] : []));
 
             $this->setExtranetConfigKey('setSgContentArticleUnsubscribeHeadline', (int) $headline->id);
 
@@ -1532,29 +1538,29 @@ class General extends ConfigurationStep
                 'type' => 'text',
                 'text' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleUnsubscribeText', [], 'contao_default'),
                 'cssID' => ',sep-bottom',
-            ], null !== $text ? ['id' => $text->id] : []));
+            ], $text !== null ? ['id' => $text->id] : []));
 
             $this->setExtranetConfigKey('setSgContentArticleUnsubscribeText', (int) $text->id);
 
-            $hyperlink = ContentUtil::createContent($article, ['type' => 'hyperlink', 'url' => sprintf('{{link_url::%s}}', $pageExtranet->id), 'linkTitle' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleUnsubscribeHyperlink', [], 'contao_default'), 'titleText' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleUnsubscribeHyperlink', [], 'contao_default'), 'id' => null !== $hyperlink ? $hyperlink->id : null]);
+            $hyperlink = ContentUtil::createContent($article, ['type' => 'hyperlink', 'url' => sprintf('{{link_url::%s}}', $pageExtranet->id), 'linkTitle' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleUnsubscribeHyperlink', [], 'contao_default'), 'titleText' => $this->translator->trans('WEMSG.EXTRANET.INSTALL_GENERAL.contentHeadlineArticleUnsubscribeHyperlink', [], 'contao_default'), 'id' => $hyperlink !== null ? $hyperlink->id : null]);
 
             $this->setExtranetConfigKey('setSgContentArticleUnsubscribeHyperlink', (int) $hyperlink->id);
         } else {
-            if (null !== $headline) {
+            if ($headline !== null) {
                 $headline->delete();
                 $headline = null;
 
                 $this->setExtranetConfigKey('setSgContentArticleUnsubscribeHeadline', null);
             }
 
-            if (null !== $text) {
+            if ($text !== null) {
                 $text->delete();
                 $text = null;
 
                 $this->setExtranetConfigKey('setSgContentArticleUnsubscribeText', null);
             }
 
-            if (null !== $hyperlink) {
+            if ($hyperlink !== null) {
                 $hyperlink->delete();
                 $hyperlink = null;
 
@@ -1599,10 +1605,10 @@ class General extends ConfigurationStep
         $config = $this->configurationManager->load();
         $extranetConfig = $config->getSgExtranet();
 
-        $objUser = null !== $extranetConfig->getSgMemberExample()
+        $objUser = $extranetConfig->getSgMemberExample() !== null
                     ? MemberModel::findOneById($extranetConfig->getSgMemberExample()) ?? new MemberModel()
                     : MemberModel::findOneByUsername('test@webexmachina.fr') ?? new MemberModel()
-;
+        ;
         $objUser->tstamp = time();
         $objUser->dateAdded = time();
         $objUser->firstname = 'John';
@@ -1625,7 +1631,7 @@ class General extends ConfigurationStep
         $config = $this->configurationManager->load();
         $extranetConfig = $config->getSgExtranet();
 
-        if (null !== $extranetConfig->getSgMemberGroupMembers()) {
+        if ($extranetConfig->getSgMemberGroupMembers() !== null) {
             $objUserGroup = MemberGroupModel::findOneById($extranetConfig->getSgMemberGroupMembers()) ?? new MemberGroupModel();
         } else {
             $objUserGroup = new MemberGroupModel();
@@ -1672,8 +1678,8 @@ class General extends ConfigurationStep
     {
         $nc = NotificationModel::findOneById($extranetConfig->getSgNotificationSubscription()) ?? new NotificationModel();
 
-        if (!$extranetConfig->getSgCanSubscribe()) {
-            if (null !== $nc) {
+        if (! $extranetConfig->getSgCanSubscribe()) {
+            if ($nc !== null) {
                 $nc->delete();
             }
 
@@ -1741,8 +1747,8 @@ class General extends ConfigurationStep
     {
         $nm = NotificationMessageModel::findOneById($extranetConfig->getSgNotificationSubscriptionMessage()) ?? new NotificationMessageModel();
 
-        if (!$extranetConfig->getSgCanSubscribe()) {
-            if (null !== $nm) {
+        if (! $extranetConfig->getSgCanSubscribe()) {
+            if ($nm !== null) {
                 $nm->delete();
             }
 
@@ -1833,8 +1839,8 @@ class General extends ConfigurationStep
 
         $nl = NotificationLanguageModel::findOneById($extranetConfig->getSgNotificationSubscriptionMessageLanguage()) ?? new NotificationLanguageModel();
 
-        if (!$extranetConfig->getSgCanSubscribe()) {
-            if (null !== $nl) {
+        if (! $extranetConfig->getSgCanSubscribe()) {
+            if ($nl !== null) {
                 $nl->delete();
             }
 
@@ -1895,22 +1901,22 @@ class General extends ConfigurationStep
             ->setSgPagePasswordValidate((int) $pages['passwordValidate']->id)
             ->setSgPageLogout((int) $pages['logout']->id)
             ->setSgPageSubscribe(
-                null === $pages['subscribe']
+                $pages['subscribe'] === null
                 ? $pages['subscribe']
                 : (int) $pages['subscribe']->id
             )
             ->setSgPageSubscribeConfirm(
-                null === $pages['subscribeConfirm']
+                $pages['subscribeConfirm'] === null
                 ? $pages['subscribeConfirm']
                 : (int) $pages['subscribeConfirm']->id
             )
             ->setSgPageSubscribeValidate(
-                null === $pages['subscribeValidate']
+                $pages['subscribeValidate'] === null
                 ? $pages['subscribeValidate']
                 : (int) $pages['subscribeValidate']->id
             )
             ->setSgPageUnsubscribeConfirm(
-                null === $pages['unsubscribeConfirm']
+                $pages['unsubscribeConfirm'] === null
                 ? $pages['unsubscribeConfirm']
                 : (int) $pages['unsubscribeConfirm']->id
             )
@@ -1925,43 +1931,43 @@ class General extends ConfigurationStep
             ->setSgArticlePasswordValidate((int) $articles['passwordValidate']->id)
             ->setSgArticleLogout((int) $articles['logout']->id)
             ->setSgArticleSubscribe(
-                null === $articles['subscribe']
+                $articles['subscribe'] === null
                 ? $articles['subscribe']
                 : (int) $articles['subscribe']->id
             )
             ->setSgArticleSubscribeConfirm(
-                null === $articles['subscribeConfirm']
+                $articles['subscribeConfirm'] === null
                 ? $articles['subscribeConfirm']
                 : (int) $articles['subscribeConfirm']->id
             )
             ->setSgArticleSubscribeValidate(
-                null === $articles['subscribeValidate']
+                $articles['subscribeValidate'] === null
                 ? $articles['subscribeValidate']
                 : (int) $articles['subscribeValidate']->id
             )
             ->setSgArticleUnsubscribeConfirm(
-                null === $articles['unsubscribeConfirm']
+                $articles['unsubscribeConfirm'] === null
                 ? $articles['unsubscribeConfirm']
                 : (int) $articles['unsubscribeConfirm']->id
             )
             ->setSgNotificationChangeData((int) $notifications['changeData']->id)
             ->setSgNotificationPassword((int) $notifications['password']->id)
             ->setSgNotificationSubscription(
-                null === $notifications['subscription']
+                $notifications['subscription'] === null
                 ? $notifications['subscription']
                 : (int) $notifications['subscription']->id
             )
             ->setSgNotificationChangeDataMessage((int) $notificationMessages['changeData']->id)
             ->setSgNotificationPasswordMessage((int) $notificationMessages['password']->id)
             ->setSgNotificationSubscriptionMessage(
-                null === $notificationMessages['subscription']
+                $notificationMessages['subscription'] === null
                 ? $notificationMessages['subscription']
                 : (int) $notificationMessages['subscription']->id
             )
             ->setSgNotificationChangeDataMessageLanguage((int) $notificationMessagesLanguages['changeData']->id)
             ->setSgNotificationPasswordMessageLanguage((int) $notificationMessagesLanguages['password']->id)
             ->setSgNotificationSubscriptionMessageLanguage(
-                null === $notificationMessagesLanguages['subscription']
+                $notificationMessagesLanguages['subscription'] === null
                 ? $notificationMessagesLanguages['subscription']
                 : (int) $notificationMessagesLanguages['subscription']->id
             )
@@ -1971,12 +1977,12 @@ class General extends ConfigurationStep
             ->setSgModulePassword((int) $modules['password']->id)
             ->setSgModuleNav((int) $modules['nav']->id)
             ->setSgModuleSubscribe(
-                null === $modules['subscribe']
+                $modules['subscribe'] === null
                 ? $modules['subscribe']
                 : (int) $modules['subscribe']->id
             )
             ->setSgModuleCloseAccount(
-                null === $modules['closeAccount']
+                $modules['closeAccount'] === null
                 ? $modules['closeAccount']
                 : (int) $modules['closeAccount']->id
             )
@@ -1999,17 +2005,17 @@ class General extends ConfigurationStep
             ->setSgContentArticleDataHeadline((int) $contents['data']['headline']->id)
             ->setSgContentArticleDataModuleData((int) $contents['data']['moduleData']->id)
             ->setSgContentArticleDataHeadlineCloseAccount(
-                null === $contents['data']['headlineCloseAccount']
+                $contents['data']['headlineCloseAccount'] === null
                 ? $contents['data']['headlineCloseAccount']
                 : (int) $contents['data']['headlineCloseAccount']->id
             )
             ->setSgContentArticleDataTextCloseAccount(
-                null === $contents['data']['textCloseAccount']
+                $contents['data']['textCloseAccount'] === null
                 ? $contents['data']['textCloseAccount']
                 : (int) $contents['data']['textCloseAccount']->id
             )
             ->setSgContentArticleDataModuleCloseAccount(
-                null === $contents['data']['moduleCloseAccount']
+                $contents['data']['moduleCloseAccount'] === null
                 ? $contents['data']['moduleCloseAccount']
                 : (int) $contents['data']['moduleCloseAccount']->id
             )
@@ -2024,52 +2030,52 @@ class General extends ConfigurationStep
             ->setSgContentArticlePasswordValidateModulePassword((int) $contents['passwordValidate']['modulePassword']->id)
             ->setSgContentArticleLogoutModuleLogout((int) $contents['logout']['moduleLogout']->id)
             ->setSgContentArticleSubscribeHeadline(
-                null === $contents['subscribe']['headline']
+                $contents['subscribe']['headline'] === null
                 ? $contents['subscribe']['headline']
                 : (int) $contents['subscribe']['headline']->id
             )
             ->setSgContentArticleSubscribeModuleSubscribe(
-                null === $contents['subscribe']['moduleSubscribe']
+                $contents['subscribe']['moduleSubscribe'] === null
                 ? $contents['subscribe']['moduleSubscribe']
                 : (int) $contents['subscribe']['moduleSubscribe']->id
             )
             ->setSgContentArticleSubscribeConfirmHeadline(
-                null === $contents['subscribeConfirm']['headline']
+                $contents['subscribeConfirm']['headline'] === null
                 ? $contents['subscribeConfirm']['headline']
                 : (int) $contents['subscribeConfirm']['headline']->id
             )
             ->setSgContentArticleSubscribeConfirmText(
-                null === $contents['subscribeConfirm']['text']
+                $contents['subscribeConfirm']['text'] === null
                 ? $contents['subscribeConfirm']['text']
                 : (int) $contents['subscribeConfirm']['text']->id
             )
             ->setSgContentArticleSubscribeValidateHeadline(
-                null === $contents['subscribeValidate']['headline']
+                $contents['subscribeValidate']['headline'] === null
                 ? $contents['subscribeValidate']['headline']
                 : (int) $contents['subscribeValidate']['headline']->id
             )
             ->setSgContentArticleSubscribeValidateText(
-                null === $contents['subscribeValidate']['text']
+                $contents['subscribeValidate']['text'] === null
                 ? $contents['subscribeValidate']['text']
                 : (int) $contents['subscribeValidate']['text']->id
             )
             ->setSgContentArticleSubscribeValidateModuleLoginGuests(
-                null === $contents['subscribeValidate']['moduleLoginGuests']
+                $contents['subscribeValidate']['moduleLoginGuests'] === null
                 ? $contents['subscribeValidate']['moduleLoginGuests']
                 : (int) $contents['subscribeValidate']['moduleLoginGuests']->id
             )
             ->setSgContentArticleUnsubscribeHeadline(
-                null === $contents['unsubscribe']['headline']
+                $contents['unsubscribe']['headline'] === null
                 ? $contents['unsubscribe']['headline']
                 : (int) $contents['unsubscribe']['headline']->id
             )
             ->setSgContentArticleUnsubscribeText(
-                null === $contents['unsubscribe']['text']
+                $contents['unsubscribe']['text'] === null
                 ? $contents['unsubscribe']['text']
                 : (int) $contents['unsubscribe']['text']->id
             )
             ->setSgContentArticleUnsubscribeHyperlink(
-                null === $contents['unsubscribe']['hyperlink']
+                $contents['unsubscribe']['hyperlink'] === null
                 ? $contents['unsubscribe']['hyperlink']
                 : (int) $contents['unsubscribe']['hyperlink']->id
             )
@@ -2083,8 +2089,8 @@ class General extends ConfigurationStep
     protected function updateUserGroup(UserGroupModel $objUserGroup, ExtranetConfig $extranetConfig, array $modules): void
     {
         $objFolder = FilesModel::findByPath($extranetConfig->getSgExtranetFolder());
-        if (!$objFolder) {
-            throw new Exception('Unable to find the "'.$extranetConfig->getSgExtranetFolder().'" folder');
+        if (! $objFolder) {
+            throw new Exception('Unable to find the "' . $extranetConfig->getSgExtranetFolder() . '" folder');
         }
 
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);

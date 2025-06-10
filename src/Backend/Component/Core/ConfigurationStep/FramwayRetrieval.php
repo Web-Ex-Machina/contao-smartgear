@@ -22,7 +22,6 @@ use WEM\SmartgearBundle\Classes\UtilFramway;
 
 class FramwayRetrieval extends ConfigurationStep
 {
-
     protected DirectoriesSynchronizer $framwaySynchronizer;
 
     protected string $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_retrieval';

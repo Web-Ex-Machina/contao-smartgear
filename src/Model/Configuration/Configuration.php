@@ -80,9 +80,9 @@ class Configuration extends CoreModel
 
     public const DEFAULT_ROOTPAGE_CHMOD = 'a:12:{i:0;s:2:"u1";i:1;s:2:"u2";i:2;s:2:"u3";i:3;s:2:"u4";i:4;s:2:"u5";i:5;s:2:"u6";i:6;s:2:"g1";i:7;s:2:"g2";i:8;s:2:"g3";i:9;s:2:"g4";i:10;s:2:"g5";i:11;s:2:"g6";}';
 
-    public const DEFAULT_CLIENT_FILES_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media';
+    public const DEFAULT_CLIENT_FILES_FOLDER = 'files' . \DIRECTORY_SEPARATOR . 'media';
 
-    public const DEFAULT_CLIENT_LOGOS_FOLDER = 'files'.\DIRECTORY_SEPARATOR.'media'.\DIRECTORY_SEPARATOR.'logos';
+    public const DEFAULT_CLIENT_LOGOS_FOLDER = 'files' . \DIRECTORY_SEPARATOR . 'media' . \DIRECTORY_SEPARATOR . 'logos';
 
     /**
      * Search fields.
@@ -118,11 +118,11 @@ class Configuration extends CoreModel
         switch ($strField) {
             case 'not_id':
                 $varValue = \is_array($varValue) ? $varValue : [$varValue];
-                $arrColumns[] = sprintf($t . ".id NOT IN (%s)", implode(',', $varValue));
+                $arrColumns[] = sprintf($t . '.id NOT IN (%s)', implode(',', $varValue));
                 break;
             case 'minimum_version':
-                $arrColumns[] = $t . ".version = (SELECT min(c.version) FROM " . $t . " c)";
-            break;
+                $arrColumns[] = $t . '.version = (SELECT min(c.version) FROM ' . $t . ' c)';
+                break;
             default:
                 return parent::formatStatement($strField, $varValue, $strOperator);
         }
@@ -130,7 +130,7 @@ class Configuration extends CoreModel
         return $arrColumns;
     }
 
-    public static function findOneByPage(PageModel $objPage, ?array $arrOptions = []): Model|Configuration|null
+    public static function findOneByPage(PageModel $objPage, ?array $arrOptions = []): Model|self|null
     {
         if ($objLayout = LayoutModel::findByPk($objPage->layout)) {
             // if ($objTheme = ThemeModel::findByPk($objLayout->pid)) {
@@ -141,7 +141,7 @@ class Configuration extends CoreModel
         return null;
     }
 
-    public static function findByPage(PageModel $objPage, ?array $arrOptions = []): Collection|Model|Configuration|null
+    public static function findByPage(PageModel $objPage, ?array $arrOptions = []): Collection|Model|self|null
     {
         if ($objLayout = LayoutModel::findByPk($objPage->layout)) {
             // if ($objTheme = ThemeModel::findByPk($objLayout->pid)) {
@@ -152,7 +152,7 @@ class Configuration extends CoreModel
         return null;
     }
 
-    public static function findOneByPageId(int $pageId, ?array $arrOptions = []): Model|Configuration|null
+    public static function findOneByPageId(int $pageId, ?array $arrOptions = []): Model|self|null
     {
         $objPage = PageModel::findOneByPk($pageId);
         if ($objPage) {
@@ -162,7 +162,7 @@ class Configuration extends CoreModel
         return null;
     }
 
-    public static function findByPageId(int $pageId, ?array $arrOptions = []): Collection|Model|Configuration|null
+    public static function findByPageId(int $pageId, ?array $arrOptions = []): Collection|Model|self|null
     {
         $objPage = PageModel::findOneByPk($pageId);
         if ($objPage) {
@@ -176,7 +176,7 @@ class Configuration extends CoreModel
     {
         return match ($this->legal_owner_type) {
             self::TYPE_COMPANY => $this->legal_owner_company_name,
-            self::TYPE_PERSON => strtoupper($this->legal_owner_person_lastname).' '.$this->legal_owner_person_firstname,
+            self::TYPE_PERSON => strtoupper($this->legal_owner_person_lastname) . ' ' . $this->legal_owner_person_firstname,
             default => '',
         };
     }

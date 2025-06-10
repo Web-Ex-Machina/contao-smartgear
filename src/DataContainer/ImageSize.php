@@ -17,11 +17,7 @@ namespace WEM\SmartgearBundle\DataContainer;
 use Contao\Backend;
 use Contao\CoreBundle\DataContainer\DataContainerOperation;
 use Contao\CoreBundle\Exception\AccessDeniedException;
-use Contao\Image;
 use Contao\Input;
-use Contao\StringUtil;
-use Contao\System;
-use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 
 class ImageSize extends Backend
 {
@@ -37,8 +33,8 @@ class ImageSize extends Backend
      */
     public function checkPermission(): void
     {
-        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
-            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' layout ID '.Input::get('id').'.');
+        if (Input::get('act') === 'delete' && ! $this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to ' . Input::get('act') . ' layout ID ' . Input::get('id') . '.');
         }
     }
 
@@ -47,7 +43,7 @@ class ImageSize extends Backend
      */
     public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+        if (! $this->canItemBeDeleted((int) $config->getRecord()['id'])) {
             $config->disable();
         }
     }
@@ -72,6 +68,6 @@ class ImageSize extends Backend
 
     protected function canItemBeDeleted(int $id): bool
     {
-        return $this->User->admin || !$this->isItemUsedBySmartgear($id);
+        return $this->User->admin || ! $this->isItemUsedBySmartgear($id);
     }
 }

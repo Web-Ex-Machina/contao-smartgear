@@ -62,7 +62,9 @@ class LocalConfig implements ConfigYamlInterface
 
     protected ?array $imageSizes = null;
 
-    /** @var bool Default on true because package have troubles @todo : do not manage this settings here once the package is corrected */
+    /**
+     * @var bool Default on true because package have troubles @todo : do not manage this settings here once the package is corrected
+     */
     protected bool $fileusageSkipReplaceInsertTags = true;
 
     protected ?bool $fileusageSkipDatabase = null;
@@ -128,7 +130,7 @@ class LocalConfig implements ConfigYamlInterface
         ;
 
         unset($content['contao']['localconfig']['dateFormat'], $content['contao']['localconfig']['timeFormat'], $content['contao']['localconfig']['datimFormat'], $content['contao']['localconfig']['timeZone'], $content['contao']['localconfig']['characterSet'], $content['contao']['localconfig']['useAutoItem'], $content['contao']['localconfig']['folderUrl'], $content['contao']['localconfig']['maxResultsPerPage'], $content['contao']['localconfig']['privacyAnonymizeIp'], $content['contao']['localconfig']['privacyAnonymizeGA'], $content['contao']['localconfig']['gdMaxImgWidth'], $content['contao']['localconfig']['gdMaxImgHeight'], $content['contao']['localconfig']['maxFileSize'], $content['contao']['localconfig']['undoPeriod'], $content['contao']['localconfig']['versionPeriod'], $content['contao']['localconfig']['logPeriod'], $content['contao']['localconfig']['allowedTags'], $content['contao']['localconfig']['sgOwnerDomain'], $content['contao']['localconfig']['sgOwnerHost'], $content['contao']['image']['reject_large_uploads'], $content['contao']['image']['sizes'],$content['contao']['localconfig']['fileusageSkipReplaceInsertTags'],$content['contao']['localconfig']['fileusageSkipDatabase']
-    );
+        );
 
         $this->untouchedConfig = $content;
 
@@ -139,101 +141,101 @@ class LocalConfig implements ConfigYamlInterface
     {
         $config = $this->getUntouchedConfig() ?? [];
 
-        if (null !== $this->getDateFormat()) {
+        if ($this->getDateFormat() !== null) {
             $config['contao']['localconfig']['dateFormat'] = $this->getDateFormat();
         }
 
-        if (null !== $this->getTimeFormat()) {
+        if ($this->getTimeFormat() !== null) {
             $config['contao']['localconfig']['timeFormat'] = $this->getTimeFormat();
         }
 
-        if (null !== $this->getDatimFormat()) {
+        if ($this->getDatimFormat() !== null) {
             $config['contao']['localconfig']['datimFormat'] = $this->getDatimFormat();
         }
 
-        if (null !== $this->getTimeZone()) {
+        if ($this->getTimeZone() !== null) {
             $config['contao']['localconfig']['timeZone'] = $this->getTimeZone();
         }
 
-        if (null !== $this->getCharacterSet()) {
+        if ($this->getCharacterSet() !== null) {
             $config['contao']['localconfig']['characterSet'] = $this->getCharacterSet();
         }
 
-        if (null !== $this->getUseAutoItem()) {
+        if ($this->getUseAutoItem() !== null) {
             $config['contao']['localconfig']['useAutoItem'] = $this->getUseAutoItem();
         }
 
-        if (null !== $this->getFolderUrl()) {
+        if ($this->getFolderUrl() !== null) {
             $config['contao']['localconfig']['folderUrl'] = $this->getFolderUrl();
         }
 
-        if (null !== $this->getMaxResultsPerPage()) {
+        if ($this->getMaxResultsPerPage() !== null) {
             $config['contao']['localconfig']['maxResultsPerPage'] = $this->getMaxResultsPerPage();
         }
 
-        if (null !== $this->getPrivacyAnonymizeIp()) {
+        if ($this->getPrivacyAnonymizeIp() !== null) {
             $config['contao']['localconfig']['privacyAnonymizeIp'] = $this->getPrivacyAnonymizeIp();
         }
 
-        if (null !== $this->getPrivacyAnonymizeGA()) {
+        if ($this->getPrivacyAnonymizeGA() !== null) {
             $config['contao']['localconfig']['privacyAnonymizeGA'] = $this->getPrivacyAnonymizeGA();
         }
 
-        if (null !== $this->getGdMaxImgWidth()) {
+        if ($this->getGdMaxImgWidth() !== null) {
             $config['contao']['localconfig']['gdMaxImgWidth'] = $this->getGdMaxImgWidth();
         }
 
-        if (null !== $this->getGdMaxImgHeight()) {
+        if ($this->getGdMaxImgHeight() !== null) {
             $config['contao']['localconfig']['gdMaxImgHeight'] = $this->getGdMaxImgHeight();
         }
 
-        if (null !== $this->getMaxFileSize()) {
+        if ($this->getMaxFileSize() !== null) {
             $config['contao']['localconfig']['maxFileSize'] = $this->getMaxFileSize();
         }
 
-        if (null !== $this->getUndoPeriod()) {
+        if ($this->getUndoPeriod() !== null) {
             $config['contao']['localconfig']['undoPeriod'] = $this->getUndoPeriod();
         }
 
-        if (null !== $this->getVersionPeriod()) {
+        if ($this->getVersionPeriod() !== null) {
             $config['contao']['localconfig']['versionPeriod'] = $this->getVersionPeriod();
         }
 
-        if (null !== $this->getLogPeriod()) {
+        if ($this->getLogPeriod() !== null) {
             $config['contao']['localconfig']['logPeriod'] = $this->getLogPeriod();
         }
 
-        if (null !== $this->getAllowedTags()) {
+        if ($this->getAllowedTags() !== null) {
             $config['contao']['localconfig']['allowedTags'] = $this->getAllowedTags();
         }
 
-        if (null !== $this->getSgOwnerDomain()) {
+        if ($this->getSgOwnerDomain() !== null) {
             $config['contao']['localconfig']['sgOwnerDomain'] = $this->getSgOwnerDomain();
         }
 
-        if (null !== $this->getSgOwnerHost()) {
+        if ($this->getSgOwnerHost() !== null) {
             $config['contao']['localconfig']['sgOwnerHost'] = $this->getSgOwnerHost();
         }
 
-        if (null !== $this->getRejectLargeUploads()) {
+        if ($this->getRejectLargeUploads() !== null) {
             $config['contao']['image']['reject_large_uploads'] = $this->getRejectLargeUploads();
         }
 
-        if (null !== $this->getImageSizes()) {
+        if ($this->getImageSizes() !== null) {
             $config['contao']['image']['sizes'] = $this->getImageSizes();
         }
 
         $config['contao']['localconfig']['fileusageSkipReplaceInsertTags'] = $this->getFileusageSkipReplaceInsertTags();
 
-        if (null !== $this->getFileusageSkipDatabase()) {
+        if ($this->getFileusageSkipDatabase() !== null) {
             $config['contao']['localconfig']['fileusageSkipDatabase'] = $this->getFileusageSkipDatabase();
         }
 
-        if (0 === \count($config['contao']['localconfig'] ?? [])) {
+        if (\count($config['contao']['localconfig'] ?? []) === 0) {
             unset($config['contao']['localconfig']);
         }
 
-        if (0 === \count($config['contao']['image'] ?? [])) {
+        if (\count($config['contao']['image'] ?? []) === 0) {
             unset($config['contao']['image']);
         }
 

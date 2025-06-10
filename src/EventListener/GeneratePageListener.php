@@ -31,14 +31,14 @@ use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 use WEM\SmartgearBundle\Model\PageVisit;
 
-#[AsHook('generatePage',null,-1)]
+#[AsHook('generatePage', null, -1)]
 class GeneratePageListener
 {
     public function __construct(
         protected CoreConfigurationManager $configurationManager,
         protected readonly ScopeMatcher $scopeMatcher,
-        protected CustomLanguageFileLoader $customLanguageFileLoader)
-    {
+        protected CustomLanguageFileLoader $customLanguageFileLoader
+    ) {
     }
 
     public function __invoke(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
@@ -59,8 +59,8 @@ class GeneratePageListener
         $mainBreadcrumItems = $renderStack->getBreadcrumbItems('main');
 
         if ($mainBreadcrumItems === []
-        || 0 !== $mainBreadcrumItems[0]['index_in_column']
-        || false === (bool) $mainBreadcrumItems[0]['model']->wem_sg_breadcrumb_auto_placement
+        || $mainBreadcrumItems[0]['index_in_column'] !== 0
+        || (bool) $mainBreadcrumItems[0]['model']->wem_sg_breadcrumb_auto_placement === false
         ) {
             return;
         }
@@ -68,16 +68,16 @@ class GeneratePageListener
         $breadcrumb = $mainBreadcrumItems[0];
         $mainItems = $renderStack->getItems('main');
         $firstItemAfterBreadcrumb = $mainItems[1] ?? null;
-        $breadcrumbItemsToPlaceAfterContentElements = null !== $breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_content_elements
+        $breadcrumbItemsToPlaceAfterContentElements = $breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_content_elements !== null
         ? StringUtil::deserialize($breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_content_elements)
         : [];
-        $breadcrumbItemsToPlaceAfterModules = null !== $breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_modules
+        $breadcrumbItemsToPlaceAfterModules = $breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_modules !== null
         ? StringUtil::deserialize($breadcrumb['model']->wem_sg_breadcrumb_auto_placement_after_modules)
         : [];
 
         $objModule = null;
         if ($firstItemAfterBreadcrumb) {
-            if ('module' === $firstItemAfterBreadcrumb['model']->type) {
+            if ($firstItemAfterBreadcrumb['model']->type === 'module') {
                 $objModule = \Contao\ModuleModel::findByPk($firstItemAfterBreadcrumb['model']->module);
             }
         }
@@ -94,7 +94,7 @@ class GeneratePageListener
             )
         ) {
             $pageRegular->Template->main = str_replace($breadcrumb['buffer'], '', $pageRegular->Template->main);
-            $pageRegular->Template->main = str_replace($firstItemAfterBreadcrumb['buffer'], $firstItemAfterBreadcrumb['buffer'].$breadcrumb['buffer'], $pageRegular->Template->main);
+            $pageRegular->Template->main = str_replace($firstItemAfterBreadcrumb['buffer'], $firstItemAfterBreadcrumb['buffer'] . $breadcrumb['buffer'], $pageRegular->Template->main);
         }
     }
 
@@ -117,12 +117,12 @@ class GeneratePageListener
         }
 
         $hash = Util::getCookieVisitorUniqIdHash();
-        if (null === $hash) {
+        if ($hash === null) {
             $hash = Util::buildCookieVisitorUniqIdHash();
             Util::setCookieVisitorUniqIdHash($hash);
         }
 
-        if (!$this->scopeMatcher->isFrontend()
+        if (! $this->scopeMatcher->isFrontend()
         || Environment::get('isAjaxRequest')
         || Input::get('TL_AJAX')
         || Input::post('TL_AJAX')
@@ -142,7 +142,7 @@ class GeneratePageListener
             $extension = substr($uriWithoutUrl, $lastdot + 1);
         }
 
-        if ('html' !== strtolower($extension)) {
+        if (strtolower($extension) !== 'html') {
             return;
         }
 

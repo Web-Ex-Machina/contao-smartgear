@@ -39,8 +39,8 @@ class NotificationNotification extends Backend
     public function checkPermission(): void
     {
         if (Input::get('act') === 'delete') {
-            if (!$this->canItemBeDeleted((int) Input::get('id'))) {
-                throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' notification ID '.Input::get('id').'.');
+            if (! $this->canItemBeDeleted((int) Input::get('id'))) {
+                throw new AccessDeniedException('Not enough permissions to ' . Input::get('act') . ' notification ID ' . Input::get('id') . '.');
             }
         }
     }
@@ -50,11 +50,11 @@ class NotificationNotification extends Backend
      */
     public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
     {
-        if (!$this->canItemBeDeleted((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.gif$/i', '_.gif', $icon)).' '; // yup, gif not svg
+        if (! $this->canItemBeDeleted((int) $row['id'])) {
+            return Image::getHtml(preg_replace('/\.gif$/i', '_.gif', $icon)) . ' '; // yup, gif not svg
         }
 
-        return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ';
+        return '<a href="' . $this->addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label) . '</a> ';
     }
 
     /**
@@ -84,12 +84,12 @@ class NotificationNotification extends Backend
         //     }
         // } catch (\Exception $e) {
         // }
-        return 0 < Configuration::countItems(['contao_notification' => $id])
+        return Configuration::countItems(['contao_notification' => $id]) > 0
         || $id === (int) Config::get('wem_sg_support_notification');
     }
 
     protected function canItemBeDeleted(int $id): bool
     {
-        return $this->User->admin || !$this->isItemUsedBySmartgear($id);
+        return $this->User->admin || ! $this->isItemUsedBySmartgear($id);
     }
 }

@@ -17,7 +17,6 @@ namespace WEM\SmartgearBundle\Backend\Dashboard;
 use Contao\BackendModule;
 use Contao\BackendTemplate;
 use Contao\Config;
-use Contao\Environment;
 use Contao\Pagination;
 use DateInterval;
 use DateTime;
@@ -40,7 +39,7 @@ class AnalyticsInternal extends BackendModule
 
     public function __construct(
         protected TranslatorInterface $translator,
-        protected configurationManager          $configurationManager
+        protected configurationManager $configurationManager
     ) {
         parent::__construct();
     }
@@ -120,10 +119,11 @@ class AnalyticsInternal extends BackendModule
     protected function getPageVisitsForDay(DateTime $dt): int
     {
         return PageVisit::countItems([
-            'where' => [sprintf('createdAt BETWEEN %d AND %d',
-                    $dt->setTime(0, 0, 0, 0)->getTimestamp(),
-                    $dt->setTime(23, 59, 59, 999)->getTimestamp()
-                )],
+            'where' => [sprintf(
+                'createdAt BETWEEN %d AND %d',
+                $dt->setTime(0, 0, 0, 0)->getTimestamp(),
+                $dt->setTime(23, 59, 59, 999)->getTimestamp()
+            )],
             'exclude_be_login' => true,
         ]);
     }

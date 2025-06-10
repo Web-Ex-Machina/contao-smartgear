@@ -27,8 +27,8 @@ class ThemeUtil
         // Create the theme
         if (\array_key_exists('id', $arrData)) {
             $objTheme = ThemeModel::findOneById($arrData['id']);
-            if (!$objTheme) {
-                throw new InvalidArgumentException('Le thème ayant pour id "'.$arrData['id'].'" n\'existe pas');
+            if (! $objTheme) {
+                throw new InvalidArgumentException('Le thème ayant pour id "' . $arrData['id'] . '" n\'existe pas');
             }
         } else {
             $objTheme = new ThemeModel();
@@ -40,7 +40,7 @@ class ThemeUtil
         // Now we get the default values, get the arrData table
         if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
-                $objTheme->$k = $v;
+                $objTheme->{$k} = $v;
             }
         }
 

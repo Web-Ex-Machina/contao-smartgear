@@ -23,14 +23,14 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationM
 use WEM\SmartgearBundle\Classes\ScopeMatcher;
 use WEM\SmartgearBundle\Classes\TemplateFinder;
 
-#[AsHook('parseTemplate',null,-1)]
+#[AsHook('parseTemplate', null, -1)]
 class ParseTemplateListener
 {
     public function __construct(
         protected CoreConfigurationManager $configurationManager,
         protected ScopeMatcher $scopeMatcher,
-        protected TemplateFinder $templateFinder)
-    {
+        protected TemplateFinder $templateFinder
+    ) {
     }
 
     public function __invoke(Template $template): void // TODO for futur : Deprecated since Contao 5.0, to be removed in Contao 6; use Twig templates instead

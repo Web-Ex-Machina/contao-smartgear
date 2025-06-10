@@ -17,18 +17,18 @@ namespace WEM\SmartgearBundle\DataContainer;
 use Contao\Config;
 use Contao\DataContainer;
 use Contao\System;
-use WEM\SmartgearBundle\Model\NotificationCenter\Gateway;
-use WEM\SmartgearBundle\Model\NotificationCenter\Notification;
 use WEM\SmartgearBundle\Classes\Utils\Notification\NcNotificationMessageLanguageUtil;
 use WEM\SmartgearBundle\Classes\Utils\Notification\NcNotificationMessageUtil;
 use WEM\SmartgearBundle\Classes\Utils\Notification\NcNotificationUtil;
+use WEM\SmartgearBundle\Model\NotificationCenter\Gateway;
+use WEM\SmartgearBundle\Model\NotificationCenter\Notification;
 
 class Settings
 {
     public function onsubmitCallback(DataContainer $dc): void
     {
         // create support notification
-        if (Config::get('wem_sg_support_form_enabled') && (Config::get('wem_sg_support_form_gateway') && !Config::get('wem_sg_support_form_notification')) && ($objGateway = Gateway::findByPk(Config::get('wem_sg_support_form_gateway')))) {
+        if (Config::get('wem_sg_support_form_enabled') && (Config::get('wem_sg_support_form_gateway') && ! Config::get('wem_sg_support_form_notification')) && ($objGateway = Gateway::findByPk(Config::get('wem_sg_support_form_gateway')))) {
             $objNcNotification = NcNotificationUtil::createSupportFormNotification();
             $objNcNotificationMessageUser = NcNotificationMessageUtil::createSupportFormNotificationMessageUser((int) $objGateway->id, 'email', (int) $objNcNotification->id);
             $objNcNotificationMessageUserLanguage = NcNotificationMessageLanguageUtil::createSupportFormNotificationMessageUserLanguage((int) $objNcNotificationMessageUser->id, 'fr', true);
@@ -96,7 +96,7 @@ class Settings
         $gateways = Gateway::findAll();
         if ($gateways) {
             while ($gateways->next()) {
-                $arrOptions[$gateways->id] = $gateways->title.' ('.$gateways->type.')';
+                $arrOptions[$gateways->id] = $gateways->title . ' (' . $gateways->type . ')';
             }
         }
 

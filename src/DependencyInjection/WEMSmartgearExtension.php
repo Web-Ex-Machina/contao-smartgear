@@ -26,14 +26,11 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  */
 class WEMSmartgearExtension extends Extension
 {
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $mergedConfig, ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator(__DIR__.'/../Resources/config')
+            new FileLocator(__DIR__ . '/../Resources/config')
         );
 
         $loader->load('services.yml');

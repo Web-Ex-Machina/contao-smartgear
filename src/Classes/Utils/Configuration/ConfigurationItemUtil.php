@@ -45,12 +45,12 @@ class ConfigurationItemUtil
         if ($objItem->contao_page) {
             $objPage = $objItem->getRelated('contao_page');
             if ($objPage
-            && 0 === ConfigurationItemModel::countItems(['contao_page' => $objItem->contao_page, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_page_form' => $objItem->contao_page, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_page_form_sent' => $objItem->contao_page, 'not_id' => $objItem->id])
-            && 0 === ConfigurationModel::countItems(['contao_page_home' => $objItem->contao_page, 'not_id' => $objItem->id])
-            && 0 === ConfigurationModel::countItems(['contao_page_404' => $objItem->contao_page, 'not_id' => $objItem->id])
-            && 0 === ConfigurationModel::countItems(['contao_page_root' => $objItem->contao_page, 'not_id' => $objItem->id])
+            && ConfigurationItemModel::countItems(['contao_page' => $objItem->contao_page, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_page_form' => $objItem->contao_page, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_page_form_sent' => $objItem->contao_page, 'not_id' => $objItem->id]) === 0
+            && ConfigurationModel::countItems(['contao_page_home' => $objItem->contao_page, 'not_id' => $objItem->id]) === 0
+            && ConfigurationModel::countItems(['contao_page_404' => $objItem->contao_page, 'not_id' => $objItem->id]) === 0
+            && ConfigurationModel::countItems(['contao_page_root' => $objItem->contao_page, 'not_id' => $objItem->id]) === 0
             ) {
                 $objPage->delete();
                 $objItem->contao_page = null;
@@ -60,12 +60,12 @@ class ConfigurationItemUtil
         if ($objItem->contao_page_form) {
             $objPage = $objItem->getRelated('contao_page_form');
             if ($objPage
-            && 0 === ConfigurationItemModel::countItems(['contao_page' => $objItem->contao_page_form, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_page_form' => $objItem->contao_page_form, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_page_form_sent' => $objItem->contao_page_form, 'not_id' => $objItem->id])
-            && 0 === ConfigurationModel::countItems(['contao_page_home' => $objItem->contao_page_form, 'not_id' => $objItem->id])
-            && 0 === ConfigurationModel::countItems(['contao_page_404' => $objItem->contao_page_form, 'not_id' => $objItem->id])
-            && 0 === ConfigurationModel::countItems(['contao_page_root' => $objItem->contao_page_form, 'not_id' => $objItem->id])
+            && ConfigurationItemModel::countItems(['contao_page' => $objItem->contao_page_form, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_page_form' => $objItem->contao_page_form, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_page_form_sent' => $objItem->contao_page_form, 'not_id' => $objItem->id]) === 0
+            && ConfigurationModel::countItems(['contao_page_home' => $objItem->contao_page_form, 'not_id' => $objItem->id]) === 0
+            && ConfigurationModel::countItems(['contao_page_404' => $objItem->contao_page_form, 'not_id' => $objItem->id]) === 0
+            && ConfigurationModel::countItems(['contao_page_root' => $objItem->contao_page_form, 'not_id' => $objItem->id]) === 0
             ) {
                 $objPage->delete();
                 $objItem->contao_page_form = null;
@@ -75,12 +75,12 @@ class ConfigurationItemUtil
         if ($objItem->contao_page_form_sent) {
             $objPage = $objItem->getRelated('contao_page_form_sent');
             if ($objPage
-            && 0 === ConfigurationItemModel::countItems(['contao_page' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_page_form' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_page_form_sent' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id])
-            && 0 === ConfigurationModel::countItems(['contao_page_home' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id])
-            && 0 === ConfigurationModel::countItems(['contao_page_404' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id])
-            && 0 === ConfigurationModel::countItems(['contao_page_root' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id])
+            && ConfigurationItemModel::countItems(['contao_page' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_page_form' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_page_form_sent' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id]) === 0
+            && ConfigurationModel::countItems(['contao_page_home' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id]) === 0
+            && ConfigurationModel::countItems(['contao_page_404' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id]) === 0
+            && ConfigurationModel::countItems(['contao_page_root' => $objItem->contao_page_form_sent, 'not_id' => $objItem->id]) === 0
             ) {
                 $objPage->delete();
                 $objItem->contao_page_form_sent = null;
@@ -90,11 +90,11 @@ class ConfigurationItemUtil
         if ($objItem->contao_module) {
             $objModule = $objItem->getRelated('contao_module');
             if ($objModule
-            && 0 === ConfigurationItemModel::countItems(['contao_module' => $objItem->contao_module, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_module_reader' => $objItem->contao_module, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_module_list' => $objItem->contao_module, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_module_calendar' => $objItem->contao_module, 'not_id' => $objItem->id])
-            && 0 === ConfigurationModel::countItems(['contao_module_sitemap' => $objItem->contao_module, 'not_id' => $objItem->id])
+            && ConfigurationItemModel::countItems(['contao_module' => $objItem->contao_module, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_module_reader' => $objItem->contao_module, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_module_list' => $objItem->contao_module, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_module_calendar' => $objItem->contao_module, 'not_id' => $objItem->id]) === 0
+            && ConfigurationModel::countItems(['contao_module_sitemap' => $objItem->contao_module, 'not_id' => $objItem->id]) === 0
             ) {
                 $objModule->delete();
                 $objItem->contao_module = null;
@@ -104,11 +104,11 @@ class ConfigurationItemUtil
         if ($objItem->contao_module_reader) {
             $objModule = $objItem->getRelated('contao_module_reader');
             if ($objModule
-            && 0 === ConfigurationItemModel::countItems(['contao_module' => $objItem->contao_module_reader, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_module_reader' => $objItem->contao_module_reader, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_module_list' => $objItem->contao_module_reader, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_module_calendar' => $objItem->contao_module_reader, 'not_id' => $objItem->id])
-            && 0 === ConfigurationModel::countItems(['contao_module_sitemap' => $objItem->contao_module_reader, 'not_id' => $objItem->id])
+            && ConfigurationItemModel::countItems(['contao_module' => $objItem->contao_module_reader, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_module_reader' => $objItem->contao_module_reader, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_module_list' => $objItem->contao_module_reader, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_module_calendar' => $objItem->contao_module_reader, 'not_id' => $objItem->id]) === 0
+            && ConfigurationModel::countItems(['contao_module_sitemap' => $objItem->contao_module_reader, 'not_id' => $objItem->id]) === 0
             ) {
                 $objModule->delete();
                 $objItem->contao_module_reader = null;
@@ -118,11 +118,11 @@ class ConfigurationItemUtil
         if ($objItem->contao_module_list) {
             $objModule = $objItem->getRelated('contao_module_list');
             if ($objModule
-            && 0 === ConfigurationItemModel::countItems(['contao_module' => $objItem->contao_module_list, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_module_reader' => $objItem->contao_module_list, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_module_list' => $objItem->contao_module_list, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_module_calendar' => $objItem->contao_module_list, 'not_id' => $objItem->id])
-            && 0 === ConfigurationModel::countItems(['contao_module_sitemap' => $objItem->contao_module_list, 'not_id' => $objItem->id])
+            && ConfigurationItemModel::countItems(['contao_module' => $objItem->contao_module_list, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_module_reader' => $objItem->contao_module_list, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_module_list' => $objItem->contao_module_list, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_module_calendar' => $objItem->contao_module_list, 'not_id' => $objItem->id]) === 0
+            && ConfigurationModel::countItems(['contao_module_sitemap' => $objItem->contao_module_list, 'not_id' => $objItem->id]) === 0
             ) {
                 $objModule->delete();
                 $objItem->contao_module_list = null;
@@ -132,11 +132,11 @@ class ConfigurationItemUtil
         if ($objItem->contao_module_calendar) {
             $objModule = $objItem->getRelated('contao_module_calendar');
             if ($objModule
-            && 0 === ConfigurationItemModel::countItems(['contao_module' => $objItem->contao_module_calendar, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_module_reader' => $objItem->contao_module_calendar, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_module_list' => $objItem->contao_module_calendar, 'not_id' => $objItem->id])
-            && 0 === ConfigurationItemModel::countItems(['contao_module_calendar' => $objItem->contao_module_calendar, 'not_id' => $objItem->id])
-            && 0 === ConfigurationModel::countItems(['contao_module_sitemap' => $objItem->contao_module_calendar, 'not_id' => $objItem->id])
+            && ConfigurationItemModel::countItems(['contao_module' => $objItem->contao_module_calendar, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_module_reader' => $objItem->contao_module_calendar, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_module_list' => $objItem->contao_module_calendar, 'not_id' => $objItem->id]) === 0
+            && ConfigurationItemModel::countItems(['contao_module_calendar' => $objItem->contao_module_calendar, 'not_id' => $objItem->id]) === 0
+            && ConfigurationModel::countItems(['contao_module_sitemap' => $objItem->contao_module_calendar, 'not_id' => $objItem->id]) === 0
             ) {
                 $objModule->delete();
                 $objItem->contao_module_calendar = null;
@@ -146,7 +146,7 @@ class ConfigurationItemUtil
         if ($objItem->contao_user_group) {
             $objUserGroup = $objItem->getRelated('contao_user_group');
             if ($objUserGroup
-            && 0 === ConfigurationItemModel::countItems(['contao_user_group' => $objItem->contao_user_group, 'not_id' => $objItem->id])
+            && ConfigurationItemModel::countItems(['contao_user_group' => $objItem->contao_user_group, 'not_id' => $objItem->id]) === 0
             ) {
                 $objUserGroup->delete();
                 $objItem->contao_user_group = null;
@@ -156,7 +156,7 @@ class ConfigurationItemUtil
         if ($objItem->contao_news_archive) {
             $objNewsArchive = $objItem->getRelated('contao_news_archive');
             if ($objNewsArchive
-            && 0 === ConfigurationItemModel::countItems(['contao_news_archive' => $objItem->contao_news_archive, 'not_id' => $objItem->id])
+            && ConfigurationItemModel::countItems(['contao_news_archive' => $objItem->contao_news_archive, 'not_id' => $objItem->id]) === 0
             ) {
                 $objNewsArchive->delete();
                 $objItem->contao_news_archive = null;
@@ -166,7 +166,7 @@ class ConfigurationItemUtil
         if ($objItem->contao_faq_category) {
             $objFaqCategory = $objItem->getRelated('contao_faq_category');
             if ($objFaqCategory
-            && 0 === ConfigurationItemModel::countItems(['contao_faq_category' => $objItem->contao_faq_category, 'not_id' => $objItem->id])
+            && ConfigurationItemModel::countItems(['contao_faq_category' => $objItem->contao_faq_category, 'not_id' => $objItem->id]) === 0
             ) {
                 $objFaqCategory->delete();
                 $objItem->contao_faq_category = null;
@@ -176,7 +176,7 @@ class ConfigurationItemUtil
         if ($objItem->contao_calendar) {
             $objCalendar = $objItem->getRelated('contao_calendar');
             if ($objCalendar
-            && 0 === ConfigurationItemModel::countItems(['contao_calendar' => $objItem->contao_calendar, 'not_id' => $objItem->id])
+            && ConfigurationItemModel::countItems(['contao_calendar' => $objItem->contao_calendar, 'not_id' => $objItem->id]) === 0
             ) {
                 $objCalendar->delete();
                 $objItem->contao_calendar = null;
@@ -186,7 +186,7 @@ class ConfigurationItemUtil
         if ($objItem->contao_form) {
             $objForm = $objItem->getRelated('contao_form');
             if ($objForm
-            && 0 === ConfigurationItemModel::countItems(['contao_form' => $objItem->contao_form, 'not_id' => $objItem->id])
+            && ConfigurationItemModel::countItems(['contao_form' => $objItem->contao_form, 'not_id' => $objItem->id]) === 0
             ) {
                 $objForm->delete();
                 $objItem->contao_form = null;
@@ -196,7 +196,7 @@ class ConfigurationItemUtil
         if ($objItem->contao_notification) {
             $objForm = $objItem->getRelated('contao_notification');
             if ($objForm
-            && 0 === ConfigurationItemModel::countItems(['contao_notification' => $objItem->contao_notification, 'not_id' => $objItem->id])
+            && ConfigurationItemModel::countItems(['contao_notification' => $objItem->contao_notification, 'not_id' => $objItem->id]) === 0
             && (int) $objItem->contao_notification !== Config::get('wem_sg_support_form_notification')
             ) {
                 $objForm->delete();
@@ -280,13 +280,13 @@ class ConfigurationItemUtil
 
     public static function managePageLegalNotice(ConfigurationItemModel $objItem, bool $blnForcePageUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->page_name) && !empty($objItem->content_template)
-        && (0 === (int) $tstamp || $blnForcePageUpdate || (0 !== (int) $tstamp && empty($objItem->contao_page))) // create mode or forced update
+        if (! empty($objItem->page_name) && ! empty($objItem->content_template)
+        && ((int) $tstamp === 0 || $blnForcePageUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_page))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
-            if (!empty($objItem->contao_page)) {
+            if (! empty($objItem->contao_page)) {
                 $objPage = PageModel::findByPk($objItem->contao_page);
                 if ($objPage) {
                     PageUtil::emptyPage((int) $objItem->contao_page);
@@ -313,13 +313,13 @@ class ConfigurationItemUtil
 
     public static function managePagePrivacyPolitics(ConfigurationItemModel $objItem, bool $blnForcePageUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->page_name) && !empty($objItem->content_template)
-        && (0 === (int) $tstamp || $blnForcePageUpdate || (0 !== (int) $tstamp && empty($objItem->contao_page))) // create mode or forced update
+        if (! empty($objItem->page_name) && ! empty($objItem->content_template)
+        && ((int) $tstamp === 0 || $blnForcePageUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_page))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
-            if (!empty($objItem->contao_page)) {
+            if (! empty($objItem->contao_page)) {
                 $objPage = PageModel::findByPk($objItem->contao_page);
                 if ($objPage) {
                     PageUtil::emptyPage((int) $objItem->contao_page);
@@ -362,14 +362,14 @@ class ConfigurationItemUtil
         // update + page name + page => update IF blnForcePageUpdate
         // update + no page name + page => nothing
 
-        if (!empty($objItem->page_name)
-        && !empty($objItem->contao_module) // should not be empty, as it must have been created beforehand if left empty in form
-        && (0 === (int) $tstamp || $blnForcePageUpdate || (0 !== (int) $tstamp && empty($objItem->contao_page))) // create mode or forced update
+        if (! empty($objItem->page_name)
+        && ! empty($objItem->contao_module) // should not be empty, as it must have been created beforehand if left empty in form
+        && ((int) $tstamp === 0 || $blnForcePageUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_page))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
-            if (!empty($objItem->contao_page)) {
+            if (! empty($objItem->contao_page)) {
                 $objPage = PageModel::findByPk($objItem->contao_page);
                 if ($objPage) {
                     PageUtil::emptyPage((int) $objItem->contao_page);
@@ -382,7 +382,7 @@ class ConfigurationItemUtil
 
             // $objModuleSitemap = $objConfiguration->getRelated('contao_module_sitemap');
             $objModuleSitemap = ModuleModel::findByPk($objItem->contao_module);
-            if (!$objModuleSitemap) {
+            if (! $objModuleSitemap) {
                 $objModuleSitemap = ModuleUtil::createModuleSitemap((int) $objConfiguration->contao_theme, ['id' => $objItem->contao_module]);
             }
 
@@ -412,13 +412,13 @@ class ConfigurationItemUtil
         // update + page name + page => update IF blnForcePageUpdate
         // update + no page name + page => nothing
 
-        if (!empty($objItem->page_name)
-        && (0 === (int) $tstamp || $blnForcePageUpdate || (0 !== (int) $tstamp && empty($objItem->contao_page))) // create mode or forced update
+        if (! empty($objItem->page_name)
+        && ((int) $tstamp === 0 || $blnForcePageUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_page))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
-            if (!empty($objItem->contao_page)) {
+            if (! empty($objItem->contao_page)) {
                 $objPage = PageModel::findByPk($objItem->contao_page);
                 if ($objPage) {
                     PageUtil::emptyPage((int) $objItem->contao_page);
@@ -444,15 +444,16 @@ class ConfigurationItemUtil
         // update + page name + page => update IF blnForcePageUpdate
         // update + no page name + page => nothing
 
-        if (!empty($objItem->contao_page)
-        && !empty($objItem->contao_module) // should not be empty, as it must have been created beforehand if left empty in form
+        if (! empty($objItem->contao_page)
+        && ! empty($objItem->contao_module) // should not be empty, as it must have been created beforehand if left empty in form
         && (
-            0 === (int) $tstamp
+            (int) $tstamp === 0
             || $blnForcePageUpdate
             || (
-                0 !== (int) $tstamp
-                && empty($objItem->contao_page))
-            ) // create mode or forced update
+                (int) $tstamp !== 0
+                && empty($objItem->contao_page)
+            )
+        ) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -486,13 +487,13 @@ class ConfigurationItemUtil
         // update + page name + page => update IF blnForcePageUpdate
         // update + no page name + page => nothing
 
-        if (!empty($objItem->page_name)
-        && (0 === (int) $tstamp || $blnForcePageUpdate || (0 !== (int) $tstamp && empty($objItem->contao_page))) // create mode or forced update
+        if (! empty($objItem->page_name)
+        && ((int) $tstamp === 0 || $blnForcePageUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_page))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
-            if (!empty($objItem->contao_page)) {
+            if (! empty($objItem->contao_page)) {
                 $objPage = PageModel::findByPk($objItem->contao_page);
                 if ($objPage) {
                     PageUtil::emptyPage((int) $objItem->contao_page);
@@ -518,11 +519,11 @@ class ConfigurationItemUtil
         // update + page name + page => update IF blnForcePageUpdate
         // update + no page name + page => nothing
 
-        if (!empty($objItem->contao_page)
-        && !empty($objItem->contao_module_reader) // should not be empty, as it must have been created beforehand if left empty in form
-        && !empty($objItem->contao_module_list) // should not be empty, as it must have been created beforehand if left empty in form
-        && !empty($objItem->contao_module_calendar) // should not be empty, as it must have been created beforehand if left empty in form
-        && (0 === (int) $tstamp || $blnForcePageUpdate || (0 !== (int) $tstamp && empty($objItem->contao_page))) // create mode or forced update
+        if (! empty($objItem->contao_page)
+        && ! empty($objItem->contao_module_reader) // should not be empty, as it must have been created beforehand if left empty in form
+        && ! empty($objItem->contao_module_list) // should not be empty, as it must have been created beforehand if left empty in form
+        && ! empty($objItem->contao_module_calendar) // should not be empty, as it must have been created beforehand if left empty in form
+        && ((int) $tstamp === 0 || $blnForcePageUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_page))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -557,13 +558,13 @@ class ConfigurationItemUtil
         // update + page name + page => update IF blnForcePageUpdate
         // update + no page name + page => nothing
 
-        if (!empty($objItem->page_name)
-        && (0 === (int) $tstamp || $blnForcePageUpdate || (0 !== (int) $tstamp && empty($objItem->contao_page))) // create mode or forced update
+        if (! empty($objItem->page_name)
+        && ((int) $tstamp === 0 || $blnForcePageUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_page))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
-            if (!empty($objItem->contao_page)) {
+            if (! empty($objItem->contao_page)) {
                 $objPage = PageModel::findByPk($objItem->contao_page);
                 if ($objPage) {
                     PageUtil::emptyPage((int) $objItem->contao_page);
@@ -589,10 +590,10 @@ class ConfigurationItemUtil
         // update + page name + page => update IF blnForcePageUpdate
         // update + no page name + page => nothing
 
-        if (!empty($objItem->contao_page)
-        && !empty($objItem->contao_module_reader) // should not be empty, as it must have been created beforehand if left empty in form
-        && !empty($objItem->contao_module_list) // should not be empty, as it must have been created beforehand if left empty in form
-        && (0 === (int) $tstamp || $blnForcePageUpdate || (0 !== (int) $tstamp && empty($objItem->contao_page))) // create mode or forced update
+        if (! empty($objItem->contao_page)
+        && ! empty($objItem->contao_module_reader) // should not be empty, as it must have been created beforehand if left empty in form
+        && ! empty($objItem->contao_module_list) // should not be empty, as it must have been created beforehand if left empty in form
+        && ((int) $tstamp === 0 || $blnForcePageUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_page))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -626,13 +627,13 @@ class ConfigurationItemUtil
         // update + page name + page => update IF blnForcePageUpdate
         // update + no page name + page => nothing
 
-        if (!empty($objItem->page_form_name)
-        && (0 === (int) $tstamp || $blnForcePageUpdate || (0 !== (int) $tstamp && empty($objItem->contao_page_form))) // create mode or forced update
+        if (! empty($objItem->page_form_name)
+        && ((int) $tstamp === 0 || $blnForcePageUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_page_form))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
-            if (!empty($objItem->contao_page_form)) {
+            if (! empty($objItem->contao_page_form)) {
                 $objPage = PageModel::findByPk($objItem->contao_page_form);
                 if ($objPage) {
                     PageUtil::emptyPage((int) $objItem->contao_page_form);
@@ -658,9 +659,9 @@ class ConfigurationItemUtil
         // update + page name + page => update IF blnForcePageUpdate
         // update + no page name + page => nothing
 
-        if (!empty($objItem->contao_page_form)
-        && !empty($objItem->contao_form) // should not be empty, as it must have been created beforehand if left empty in form
-        && (0 === (int) $tstamp || $blnForcePageUpdate || (0 !== (int) $tstamp && empty($objItem->contao_page_form))) // create mode or forced update
+        if (! empty($objItem->contao_page_form)
+        && ! empty($objItem->contao_form) // should not be empty, as it must have been created beforehand if left empty in form
+        && ((int) $tstamp === 0 || $blnForcePageUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_page_form))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -695,13 +696,13 @@ class ConfigurationItemUtil
         // update + page name + page => update IF blnForcePageUpdate
         // update + no page name + page => nothing
 
-        if (!empty($objItem->page_form_sent_name)
-        && (0 === (int) $tstamp || $blnForcePageUpdate || (0 !== (int) $tstamp && empty($objItem->contao_page_form_sent))) // create mode or forced update
+        if (! empty($objItem->page_form_sent_name)
+        && ((int) $tstamp === 0 || $blnForcePageUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_page_form_sent))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
-            if (!empty($objItem->contao_page_form_sent)) {
+            if (! empty($objItem->contao_page_form_sent)) {
                 $objPage = PageModel::findByPk($objItem->contao_page_form_sent);
                 if ($objPage) {
                     PageUtil::emptyPage((int) $objItem->contao_page_form_sent);
@@ -727,8 +728,8 @@ class ConfigurationItemUtil
         // update + page name + page => update IF blnForcePageUpdate
         // update + no page name + page => nothing
 
-        if (!empty($objItem->contao_page_form_sent)
-        && (0 === (int) $tstamp || $blnForcePageUpdate || (0 !== (int) $tstamp && empty($objItem->contao_page_form_sent))) // create mode or forced update
+        if (! empty($objItem->contao_page_form_sent)
+        && ((int) $tstamp === 0 || $blnForcePageUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_page_form_sent))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -752,8 +753,8 @@ class ConfigurationItemUtil
 
     public static function manageUserGroupAdministrators(ConfigurationItemModel $objItem, bool $blnForceUserGroupUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->user_group_name)
-        && (0 === (int) $tstamp || $blnForceUserGroupUpdate || (0 !== (int) $tstamp && empty($objItem->contao_user_group))) // create mode or forced update
+        if (! empty($objItem->user_group_name)
+        && ((int) $tstamp === 0 || $blnForceUserGroupUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_user_group))) // create mode or forced update
         ) {
             $objUserGroup = UserGroupUtil::createUserGroupAdministrators($objItem->user_group_name, $objItem->contao_user_group ? ['id' => $objItem->contao_user_group] : []);
 
@@ -767,8 +768,8 @@ class ConfigurationItemUtil
 
     public static function manageUserGroupRedactors(ConfigurationItemModel $objItem, bool $blnForceUserGroupUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->user_group_name)
-        && (0 === (int) $tstamp || $blnForceUserGroupUpdate || (0 !== (int) $tstamp && empty($objItem->contao_user_group))) // create mode or forced update
+        if (! empty($objItem->user_group_name)
+        && ((int) $tstamp === 0 || $blnForceUserGroupUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_user_group))) // create mode or forced update
         ) {
             $objUserGroup = UserGroupUtil::createUserGroupRedactors($objItem->user_group_name, $objItem->contao_user_group ? ['id' => $objItem->contao_user_group] : []);
 
@@ -782,14 +783,14 @@ class ConfigurationItemUtil
 
     public static function manageModuleWemSgHeader(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->module_name) && !empty($objItem->singleSRC)
-        && (0 === (int) $tstamp || $blnForceModuleUpdate || (0 !== (int) $tstamp && empty($objItem->contao_module))) // create mode or forced update
+        if (! empty($objItem->module_name) && ! empty($objItem->singleSRC)
+        && ((int) $tstamp === 0 || $blnForceModuleUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_module))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
 
             // create the navigation module associated
-            if (!empty($objItem->contao_module)) {
+            if (! empty($objItem->contao_module)) {
                 // get the module
                 $objModule = ModuleModel::findByPk($objItem->contao_module);
             }
@@ -797,11 +798,11 @@ class ConfigurationItemUtil
             if ($objModule) {
                 // get the nav module associated
                 $objModuleNav = ModuleModel::findByPk($objModule->wem_sg_header_nav_module);
-                $objModuleNav->name = $objItem->module_name.' - Nav';
+                $objModuleNav->name = $objItem->module_name . ' - Nav';
                 $objModuleNav->save();
             } else {
                 // create the nav module
-                $objModuleNav = ModuleUtil::createModuleNav((int) $objConfiguration->contao_theme, ['name' => $objItem->module_name.' - Nav']);
+                $objModuleNav = ModuleUtil::createModuleNav((int) $objConfiguration->contao_theme, ['name' => $objItem->module_name . ' - Nav']);
             }
 
             $objModule = ModuleUtil::createModuleWemSgHeader(
@@ -835,8 +836,8 @@ class ConfigurationItemUtil
 
     public static function manageModuleWemSgFooter(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->module_name) && !empty($objItem->content_template)
-        && (0 === (int) $tstamp || $blnForceModuleUpdate || (0 !== (int) $tstamp && empty($objItem->contao_module))) // create mode or forced update
+        if (! empty($objItem->module_name) && ! empty($objItem->content_template)
+        && ((int) $tstamp === 0 || $blnForceModuleUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_module))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -870,8 +871,8 @@ class ConfigurationItemUtil
 
     public static function manageModuleBreadcrumb(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->module_name)
-        && (0 === (int) $tstamp || $blnForceModuleUpdate || (0 !== (int) $tstamp && empty($objItem->contao_module))) // create mode or forced update
+        if (! empty($objItem->module_name)
+        && ((int) $tstamp === 0 || $blnForceModuleUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_module))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -904,8 +905,8 @@ class ConfigurationItemUtil
 
     public static function manageModuleWemSgSocialNetworks(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->module_name)
-        && (0 === (int) $tstamp || $blnForceModuleUpdate || (0 !== (int) $tstamp && empty($objItem->contao_module))) // create mode or forced update
+        if (! empty($objItem->module_name)
+        && ((int) $tstamp === 0 || $blnForceModuleUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_module))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -927,8 +928,8 @@ class ConfigurationItemUtil
 
     public static function manageModuleSitemap(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->module_name)
-        && (0 === (int) $tstamp || $blnForceModuleUpdate || (0 !== (int) $tstamp && empty($objItem->contao_module))) // create mode or forced update
+        if (! empty($objItem->module_name)
+        && ((int) $tstamp === 0 || $blnForceModuleUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_module))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -950,8 +951,8 @@ class ConfigurationItemUtil
 
     public static function manageModuleFaq(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->module_name)
-        && (0 === (int) $tstamp || $blnForceModuleUpdate || (0 !== (int) $tstamp && empty($objItem->contao_module))) // create mode or forced update
+        if (! empty($objItem->module_name)
+        && ((int) $tstamp === 0 || $blnForceModuleUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_module))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -974,8 +975,8 @@ class ConfigurationItemUtil
 
     public static function manageModuleEventsList(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->module_list_name)
-        && (0 === (int) $tstamp || $blnForceModuleUpdate || (0 !== (int) $tstamp && empty($objItem->contao_module_list))) // create mode or forced update
+        if (! empty($objItem->module_list_name)
+        && ((int) $tstamp === 0 || $blnForceModuleUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_module_list))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -1000,8 +1001,8 @@ class ConfigurationItemUtil
 
     public static function manageModuleEventsReader(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->module_reader_name)
-        && (0 === (int) $tstamp || $blnForceModuleUpdate || (0 !== (int) $tstamp && empty($objItem->contao_module_reader))) // create mode or forced update
+        if (! empty($objItem->module_reader_name)
+        && ((int) $tstamp === 0 || $blnForceModuleUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_module_reader))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -1024,8 +1025,8 @@ class ConfigurationItemUtil
 
     public static function manageModuleEventsCalendar(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->module_calendar_name)
-        && (0 === (int) $tstamp || $blnForceModuleUpdate || (0 !== (int) $tstamp && empty($objItem->contao_module_calendar))) // create mode or forced update
+        if (! empty($objItem->module_calendar_name)
+        && ((int) $tstamp === 0 || $blnForceModuleUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_module_calendar))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -1049,8 +1050,8 @@ class ConfigurationItemUtil
 
     public static function manageModuleBlogList(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->module_list_name)
-        && (0 === (int) $tstamp || $blnForceModuleUpdate || (0 !== (int) $tstamp && empty($objItem->contao_module_list))) // create mode or forced update
+        if (! empty($objItem->module_list_name)
+        && ((int) $tstamp === 0 || $blnForceModuleUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_module_list))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -1075,8 +1076,8 @@ class ConfigurationItemUtil
 
     public static function manageModuleBlogReader(ConfigurationItemModel $objItem, bool $blnForceModuleUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->module_reader_name)
-        && (0 === (int) $tstamp || $blnForceModuleUpdate || (0 !== (int) $tstamp && empty($objItem->contao_module_reader))) // create mode or forced update
+        if (! empty($objItem->module_reader_name)
+        && ((int) $tstamp === 0 || $blnForceModuleUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_module_reader))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -1099,8 +1100,8 @@ class ConfigurationItemUtil
 
     public static function manageFaqCategory(ConfigurationItemModel $objItem, bool $blnForceFaqUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->faq_category_name)
-        && (0 === (int) $tstamp || $blnForceFaqUpdate || (0 !== (int) $tstamp && empty($objItem->contao_faq_category))) // create mode or forced update
+        if (! empty($objItem->faq_category_name)
+        && ((int) $tstamp === 0 || $blnForceFaqUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_faq_category))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -1136,8 +1137,8 @@ class ConfigurationItemUtil
 
     public static function manageCalendar(ConfigurationItemModel $objItem, bool $blnForceCalUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->calendar_name)
-        && (0 === (int) $tstamp || $blnForceCalUpdate || (0 !== (int) $tstamp && empty($objItem->contao_calendar))) // create mode or forced update
+        if (! empty($objItem->calendar_name)
+        && ((int) $tstamp === 0 || $blnForceCalUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_calendar))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -1173,8 +1174,8 @@ class ConfigurationItemUtil
 
     public static function manageNewsArchive(ConfigurationItemModel $objItem, bool $blnForceNewsArchiveUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->news_archive_name)
-        && (0 === (int) $tstamp || $blnForceNewsArchiveUpdate || (0 !== (int) $tstamp && empty($objItem->contao_news_archive))) // create mode or forced update
+        if (! empty($objItem->news_archive_name)
+        && ((int) $tstamp === 0 || $blnForceNewsArchiveUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_news_archive))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -1210,8 +1211,8 @@ class ConfigurationItemUtil
 
     public static function manageFormFormContact(ConfigurationItemModel $objItem, bool $blnForceFormUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->form_name)
-        && (0 === (int) $tstamp || $blnForceFormUpdate || (0 !== (int) $tstamp && empty($objItem->contao_form))) // create mode or forced update
+        if (! empty($objItem->form_name)
+        && ((int) $tstamp === 0 || $blnForceFormUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_form))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
@@ -1243,7 +1244,8 @@ class ConfigurationItemUtil
 
             //empty form ?
             //fill it with fields
-            FormFieldUtil::createFormField((int) $objForm->id, array_merge([
+            FormFieldUtil::createFormField((int) $objForm->id, array_merge(
+                [
                 'sorting' => 128,
                 'type' => 'text',
                 'name' => 'name',
@@ -1252,10 +1254,11 @@ class ConfigurationItemUtil
                 'mandatory' => 1,
                 'contains_personal_data' => true,
             ],
-            ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'name'])) ? ['id' => $objFF->id] : []
+                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'name'])) ? ['id' => $objFF->id] : []
             ));
 
-            FormFieldUtil::createFormField((int) $objForm->id, array_merge([
+            FormFieldUtil::createFormField((int) $objForm->id, array_merge(
+                [
                 'sorting' => 256,
                 'type' => 'text',
                 'name' => 'email',
@@ -1265,10 +1268,11 @@ class ConfigurationItemUtil
                 'rgxp' => 'email',
                 'tstamp' => time(),
             ],
-            ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'email'])) ? ['id' => $objFF->id] : []
+                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'email'])) ? ['id' => $objFF->id] : []
             ));
 
-            FormFieldUtil::createFormField((int) $objForm->id, array_merge([
+            FormFieldUtil::createFormField((int) $objForm->id, array_merge(
+                [
                 'sorting' => 384,
                 'type' => 'textarea',
                 'name' => 'message',
@@ -1277,20 +1281,22 @@ class ConfigurationItemUtil
                 'mandatory' => 1,
                 'contains_personal_data' => true,
             ],
-            ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'message'])) ? ['id' => $objFF->id] : []
+                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'message'])) ? ['id' => $objFF->id] : []
             ));
 
-            FormFieldUtil::createFormField((int) $objForm->id, array_merge([
+            FormFieldUtil::createFormField((int) $objForm->id, array_merge(
+                [
                 'sorting' => 512,
                 'type' => 'checkbox',
                 'name' => 'consent_data_treatment',
                 'options' => serialize([['value' => 1, 'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['optionLabelFormInputConsentDataTreatment']]]),
                 'mandatory' => true,
             ],
-            ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'consent_data_treatment'])) ? ['id' => $objFF->id] : []
+                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'consent_data_treatment'])) ? ['id' => $objFF->id] : []
             ));
 
-            FormFieldUtil::createFormField((int) $objForm->id, array_merge([
+            FormFieldUtil::createFormField((int) $objForm->id, array_merge(
+                [
                 'sorting' => 896,
                 'type' => 'checkbox',
                 'name' => 'consent_data_save',
@@ -1299,27 +1305,29 @@ class ConfigurationItemUtil
                 // 'invisible' => !$config->getSgFormDataManager()->getSgInstallComplete(),
                 'invisible' => false,
             ],
-            ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'consent_data_save'])) ? ['id' => $objFF->id] : []
+                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'consent_data_save'])) ? ['id' => $objFF->id] : []
             ));
 
-            FormFieldUtil::createFormField((int) $objForm->id, array_merge([
+            FormFieldUtil::createFormField((int) $objForm->id, array_merge(
+                [
                 'sorting' => 1152,
                 'type' => 'captcha',
                 'name' => 'captcha',
                 'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputCaptcha'],
                 'mandatory' => 1,
             ],
-            ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'captcha'])) ? ['id' => $objFF->id] : []
+                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'captcha'])) ? ['id' => $objFF->id] : []
             ));
 
-            FormFieldUtil::createFormField((int) $objForm->id, array_merge([
+            FormFieldUtil::createFormField((int) $objForm->id, array_merge(
+                [
                 'sorting' => 1280,
                 'type' => 'submit',
                 'name' => 'submit',
                 'slabel' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputSubmit'],
                 'mandatory' => 1,
             ],
-            ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'submit'])) ? ['id' => $objFF->id] : []
+                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'submit'])) ? ['id' => $objFF->id] : []
             ));
 
             $objItem->contao_form = $objForm->id;
@@ -1330,48 +1338,48 @@ class ConfigurationItemUtil
 
     public function manageNotificationFormContactSent(ConfigurationItemModel $objItem, bool $blnForceNotificationUpdate, ?int $tstamp = null): ConfigurationItemModel
     {
-        if (!empty($objItem->notification_name)
-        && (0 === (int) $tstamp || $blnForceNotificationUpdate || (0 !== (int) $tstamp && empty($objItem->contao_notification))) // create mode or forced update
+        if (! empty($objItem->notification_name)
+        && ((int) $tstamp === 0 || $blnForceNotificationUpdate || ((int) $tstamp !== 0 && empty($objItem->contao_notification))) // create mode or forced update
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
             if ($objConfiguration->email_gateway) {
                 $objNotification = NcNotificationUtil::createFormContactSentNotification(
-                $objItem->notification_name
-            );
+                    $objItem->notification_name
+                );
 
                 $objMessageUser = NcNotificationMessageUtil::createContactFormSentNotificationMessageUser(
-                (int) $objConfiguration->email_gateway,
-                'email',
-                (int) $objNotification->id,
-                []
-            );
+                    (int) $objConfiguration->email_gateway,
+                    'email',
+                    (int) $objNotification->id,
+                    []
+                );
 
                 $objMessageAdmin = NcNotificationMessageUtil::createContactFormSentNotificationMessageAdmin(
-                (int) $objConfiguration->email_gateway,
-                'email',
-                (int) $objNotification->id,
-                []
-            );
+                    (int) $objConfiguration->email_gateway,
+                    'email',
+                    (int) $objNotification->id,
+                    []
+                );
 
                 $objMessageUserLanguage = NcNotificationMessageLanguageUtil::createContactFormSentNotificationMessageUserLanguage(
-                (int) $objMessageUser->id,
-                $objItem->form_name,
-                $objConfiguration->title,
-                $objConfiguration->language,
-                true,
-                []
-            );
+                    (int) $objMessageUser->id,
+                    $objItem->form_name,
+                    $objConfiguration->title,
+                    $objConfiguration->language,
+                    true,
+                    []
+                );
 
                 $objMessageAdminLanguage = NcNotificationMessageLanguageUtil::createContactFormSentNotificationMessageAdminLanguage(
-                (int) $objMessageAdmin->id,
-                $objItem->form_name,
-                $objConfiguration->title,
-                $objConfiguration->legal_owner_email,
-                $objConfiguration->language,
-                true,
-                []
-            );
+                    (int) $objMessageAdmin->id,
+                    $objItem->form_name,
+                    $objConfiguration->title,
+                    $objConfiguration->legal_owner_email,
+                    $objConfiguration->language,
+                    true,
+                    []
+                );
 
                 $objItem->contao_notification = $objNotification->id;
             }

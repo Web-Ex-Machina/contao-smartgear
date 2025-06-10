@@ -40,11 +40,11 @@ class Block extends BackendBlock
     protected ContaoCsrfTokenManager $contaoCsrfTokenManager;
 
     public function __construct(
-        TranslatorInterface        $translator,
-        ConfigurationManager       $configurationManager,
-        ConfigurationStepManager   $configurationStepManager,
+        TranslatorInterface $translator,
+        ConfigurationManager $configurationManager,
+        ConfigurationStepManager $configurationStepManager,
         protected ResetStepManager $resetStepManager,
-        Dashboard                  $dashboard
+        Dashboard $dashboard
     ) {
         $this->contaoCsrfTokenManager = System::getContainer()->getParameter('contao.csrf.token_manager');
         parent::__construct($configurationManager, $configurationStepManager, $dashboard, $translator);
@@ -63,39 +63,39 @@ class Block extends BackendBlock
                         $arrResponse['index'] = $newPresetIndex;
                     } catch (Exception $e) {
                         $arrResponse['status'] = 'error';
-                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigAddAjaxMessageError'].$e->getMessage();
+                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigAddAjaxMessageError'] . $e->getMessage();
                         $arrResponse['output'] = $e->getMessage();
                     }
 
-                break;
+                    break;
                 case 'blogPresetGet':
                     try {
                         $generalConfigurationStep = System::getContainer()->get('smartgear.backend.component.blog.configuration_step.general');
                         $config = $generalConfigurationStep->presetGet((int) Input::post('id'));
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigGetAjaxMessageSuccess'];
-                        $arrResponse['config'] = null !== $config ? $config->export() : null;
+                        $arrResponse['config'] = $config !== null ? $config->export() : null;
                     } catch (Exception $e) {
                         $arrResponse['status'] = 'error';
-                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigGetAjaxMessageError'].$e->getMessage();
+                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['BLOG']['BLOCK']['blogNewsConfigGetAjaxMessageError'] . $e->getMessage();
                         // $arrResponse['output'] = $e->getMessage();
                     }
 
-                break;
+                    break;
                 case 'reset_mode':
                     $this->setMode(self::MODE_RESET);
                     $this->resetStepManager->goToStep(0);
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
-                break;
+                    break;
                 case 'reset_mode_check_cancel':
                 case 'back_to_dashboard':
                     $this->setMode(self::MODE_DASHBOARD);
                     $content = $this->parse();
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('replaceBlockContent', [$content])]];
-                break;
+                    break;
                 default:
                     parent::processAjaxRequest();
-                break;
+                    break;
             }
         } catch (Exception $exception) {
             $arrResponse = ['status' => 'error', 'msg' => $exception->getMessage(), 'trace' => $exception->getTrace()];
@@ -120,10 +120,10 @@ class Block extends BackendBlock
             case self::MODE_RESET:
                 $objTemplate->steps = $this->resetStepManager->parseSteps();
                 $objTemplate->content = $this->resetStepManager->parse();
-            break;
+                break;
             default:
                 $objTemplate = parent::parseDependingOnMode($objTemplate);
-            break;
+                break;
         }
 
         return $objTemplate;
@@ -187,9 +187,8 @@ class Block extends BackendBlock
         $i = $this->getMode();
         if ($i === self::MODE_RESET) {
             return $this->configurationStepManager->parseSteps();
-        } else {
-            parent::parseSteps();
         }
+        parent::parseSteps();
 
         return null;
     }

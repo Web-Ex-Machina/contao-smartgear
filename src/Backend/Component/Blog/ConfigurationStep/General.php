@@ -42,15 +42,14 @@ use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class General extends ConfigurationStep
 {
-
     protected string $strTemplate = 'be_wem_sg_install_block_configuration_step_blog_general';
 
     public function __construct(
-        string                         $module,
-        string                         $type,
-        protected TranslatorInterface  $translator,
+        string $module,
+        string $type,
+        protected TranslatorInterface $translator,
         protected ConfigurationManager $configurationManager,
-        protected CommandUtil          $commandUtil
+        protected CommandUtil $commandUtil
     ) {
         parent::__construct($module, $type);
 
@@ -69,17 +68,17 @@ class General extends ConfigurationStep
 
         $sgNewsArchiveConfig = \count($config->getSgPresets()) > 0 ? $config->getCurrentPreset() : null;
 
-        $this->addTextField('newsArchiveTitle', $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsArchiveTitle', [], 'contao_default'), null === $sgNewsArchiveConfig ? null : $sgNewsArchiveConfig->getSgNewsArchiveTitle(), true);
+        $this->addTextField('newsArchiveTitle', $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsArchiveTitle', [], 'contao_default'), $sgNewsArchiveConfig === null ? null : $sgNewsArchiveConfig->getSgNewsArchiveTitle(), true);
 
-        $this->addTextField('newsListPerPage', $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsListPerPage', [], 'contao_default'), null === $sgNewsArchiveConfig ? null : (string) $sgNewsArchiveConfig->getSgNewsListPerPage(), false, '', 'number');
+        $this->addTextField('newsListPerPage', $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsListPerPage', [], 'contao_default'), $sgNewsArchiveConfig === null ? null : (string) $sgNewsArchiveConfig->getSgNewsListPerPage(), false, '', 'number');
 
-        $this->addTextField('pageTitle', $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.pageTitle', [], 'contao_default'), null === $sgNewsArchiveConfig ? null : $sgNewsArchiveConfig->getSgPageTitle(), true);
+        $this->addTextField('pageTitle', $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.pageTitle', [], 'contao_default'), $sgNewsArchiveConfig === null ? null : $sgNewsArchiveConfig->getSgPageTitle(), true);
 
-        $this->addSimpleFileTree('newsFolder', $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsFolder', [], 'contao_default'), null === $sgNewsArchiveConfig ? null : $sgNewsArchiveConfig->getSgNewsFolder(), true, false, '', $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsFolderHelp', [], 'contao_default'), ['multiple' => false, 'isGallery' => false,
+        $this->addSimpleFileTree('newsFolder', $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsFolder', [], 'contao_default'), $sgNewsArchiveConfig === null ? null : $sgNewsArchiveConfig->getSgNewsFolder(), true, false, '', $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsFolderHelp', [], 'contao_default'), ['multiple' => false, 'isGallery' => false,
             'isDownloads' => false,
             'files' => false, ]);
 
-        $this->addCheckboxField('expertMode', $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.expertMode', [], 'contao_default'), '1', BlogConfig::MODE_EXPERT === $config->getSgMode());
+        $this->addCheckboxField('expertMode', $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.expertMode', [], 'contao_default'), '1', $config->getSgMode() === BlogConfig::MODE_EXPERT);
     }
 
     /**
@@ -88,27 +87,27 @@ class General extends ConfigurationStep
     public function isStepValid(): bool
     {
         // check if the step is correct
-        if (null === Input::post('newsConfig', null)) {
+        if (Input::post('newsConfig', null) === null) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsConfigMissing', [], 'contao_default'));
         }
 
-        if (null === Input::post('newsArchiveTitle', null)) {
+        if (Input::post('newsArchiveTitle', null) === null) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsArchiveTitleMissing', [], 'contao_default'));
         }
 
-        if (null === Input::post('newsListPerPage', null)) {
+        if (Input::post('newsListPerPage', null) === null) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsListPerPageMissing', [], 'contao_default'));
         }
 
-        if (0 > (int) Input::post('newsListPerPage')) {
+        if ((int) Input::post('newsListPerPage') < 0) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsListPerPageTooLow', [], 'contao_default'));
         }
 
-        if (null === Input::post('pageTitle', null)) {
+        if (Input::post('pageTitle', null) === null) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.pageTitleMissing', [], 'contao_default'));
         }
 
-        if (null === Input::post('newsFolder', null)) {
+        if (Input::post('newsFolder', null) === null) {
             throw new Exception($this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.newsFolderMissing', [], 'contao_default'));
         }
 
@@ -141,7 +140,7 @@ class General extends ConfigurationStep
 
         $newsConfigTitle = Input::post('new_config');
 
-        if (!preg_match('/^([A-Za-z0-9-_]+)$/', $newsConfigTitle)) {
+        if (! preg_match('/^([A-Za-z0-9-_]+)$/', $newsConfigTitle)) {
             throw new \InvalidArgumentException($this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.fieldNewsPresetNameIncorrectFormat', [], 'contao_default'));
         }
 
@@ -158,7 +157,7 @@ class General extends ConfigurationStep
 
     public function presetGet(int $id): BlogPresetConfig
     {
-        /* @var BlogPresetConfig */
+        /** @var BlogPresetConfig */
         return $this->configurationManager->load()->getSgBlog()->getPresetByIndex($id);
     }
 
@@ -229,7 +228,7 @@ class General extends ConfigurationStep
             // 'type' => 'regular',
             // 'published' => 1,
             'description' => $this->translator->trans('WEMSG.BLOG.INSTALL_GENERAL.pageDescription', [$presetConfig->getSgPageTitle(), $config->getSgWebsiteTitle()], 'contao_default'),
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setBlogConfigKey('setSgPage', (int) $page->id);
 
@@ -247,7 +246,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $presetConfig->getSgPageTitle(),
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setBlogConfigKey('setSgArticle', (int) $article->id);
 
@@ -291,7 +290,7 @@ class General extends ConfigurationStep
         $moduleReader = new ModuleModel();
         $moduleList = new ModuleModel();
 
-        if (null !== $blogConfig->getSgModuleReader()) {
+        if ($blogConfig->getSgModuleReader() !== null) {
             $moduleReaderOld = ModuleModel::findById($blogConfig->getSgModuleReader());
             if ($moduleReaderOld) {
                 $moduleReaderOld->delete();
@@ -310,11 +309,11 @@ class General extends ConfigurationStep
             //     'imgSize' => serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
             //     'news_template' => 'news_full',
             //     'wem_sg_display_share_buttons' => '1',
-        ], null !== $blogConfig->getSgModuleReader() ? ['id' => $blogConfig->getSgModuleReader()] : []));
+        ], $blogConfig->getSgModuleReader() !== null ? ['id' => $blogConfig->getSgModuleReader()] : []));
 
         $this->setBlogConfigKey('setSgModuleReader', (int) $moduleReader->id);
 
-        if (null !== $blogConfig->getSgModuleList()) {
+        if ($blogConfig->getSgModuleList() !== null) {
             $moduleListOld = ModuleModel::findById($blogConfig->getSgModuleList());
             if ($moduleListOld) {
                 $moduleListOld->delete();
@@ -340,7 +339,7 @@ class General extends ConfigurationStep
             //     'news_metaFields' => serialize(['date', 'author']),
             //     'tstamp' => time(),
             //     'wem_sg_number_of_characters' => 200,
-        ], null !== $blogConfig->getSgModuleList() ? ['id' => $blogConfig->getSgModuleList()] : []));
+        ], $blogConfig->getSgModuleList() !== null ? ['id' => $blogConfig->getSgModuleList()] : []));
 
         $this->setBlogConfigKey('setSgModuleList', (int) $moduleList->id);
 
@@ -354,7 +353,7 @@ class General extends ConfigurationStep
         $blogConfig = $config->getSgBlog();
 
         $list = ContentModel::findById($blogConfig->getSgContentList());
-        $list = ContentUtil::createContent($article, ['type' => 'module', 'pid' => $article->id, 'ptable' => 'tl_article', 'module' => $modules['list']->id, 'id' => null !== $list ? $list->id : null]);
+        $list = ContentUtil::createContent($article, ['type' => 'module', 'pid' => $article->id, 'ptable' => 'tl_article', 'module' => $modules['list']->id, 'id' => $list !== null ? $list->id : null]);
 
         $article->save();
 
@@ -390,8 +389,8 @@ class General extends ConfigurationStep
     protected function updateUserGroup(UserGroupModel $objUserGroup, bool $expertMode, BlogConfig $blogConfig): void
     {
         $objFolder = FilesModel::findByPath($blogConfig->getCurrentPreset()->getSgNewsFolder());
-        if (!$objFolder) {
-            throw new Exception('Unable to find the "'.$blogConfig->getCurrentPreset()->getSgNewsFolder().'" folder');
+        if (! $objFolder) {
+            throw new Exception('Unable to find the "' . $blogConfig->getCurrentPreset()->getSgNewsFolder() . '" folder');
         }
 
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);

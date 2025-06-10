@@ -39,8 +39,8 @@ return [
                     'eval' => ['tl_class' => 'w50', 'rgxp' => 'digit', 'mandatory' => true],
                 ],
                 'text' => [
-                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_ratings']['text'], 
-                    'inputType' => 'textarea', 
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_ratings']['text'],
+                    'inputType' => 'textarea',
                     'eval' => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
                 ],
             ],

@@ -63,7 +63,7 @@ class LocalConfig extends AbstractManager implements ManagerYamlInterface
         $this->configuration = $configuration;
         $yaml = Yaml::dump($this->configuration->export(), 10);
 
-        return false !== file_put_contents($this->configurationFilePath, $yaml);
+        return file_put_contents($this->configurationFilePath, $yaml) !== false;
     }
 
     public function retrieveConfigurationAsImportableFormatFromFile(): array

@@ -14,16 +14,17 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Command;
 
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\System;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Contao\CoreBundle\Framework\ContaoFramework;
 
 class AbstractCommand extends Command
 {
-    public function __construct(protected ContaoFramework $framework)
-    {
+    public function __construct(
+        protected ContaoFramework $framework
+    ) {
         parent::__construct();
 
         $this->framework->initialize();
@@ -42,10 +43,10 @@ class AbstractCommand extends Command
     {
         $format = $input->getOption('format');
 
-        if (!\in_array($format, ['json', 'txt'], true)) {
+        if (! \in_array($format, ['json', 'txt'], true)) {
             throw new \InvalidArgumentException('This command only supports the "txt" and "json" formats.');
         }
 
-        return 'json' === $format;
+        return $format === 'json';
     }
 }

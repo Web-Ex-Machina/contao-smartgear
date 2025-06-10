@@ -38,7 +38,7 @@ class ArticleUtil
         // Now we get the default values, get the arrData table
         if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
-                $objArticle->$k = $v;
+                $objArticle->{$k} = $v;
             }
         }
 

@@ -16,24 +16,28 @@ namespace WEM\SmartgearBundle\EventListener;
 
 use Contao\ContentElement;
 use Contao\ContentModel;
-use Contao\ModuleModel;
-use Contao\System;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Module;
+use Contao\ModuleModel;
+use Contao\System;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\RenderStack;
 use WEM\UtilsBundle\Classes\ScopeMatcher;
 
-#[AsHook('getContentElement',null,-1)]
+#[AsHook('getContentElement', null, -1)]
 class GetContentElementListener
 {
-    public function __construct(protected CoreConfigurationManager $configurationManager,protected readonly ScopeMatcher $scopeMatcher)
-    {
+    public function __construct(
+        protected CoreConfigurationManager $configurationManager,
+        protected readonly ScopeMatcher $scopeMatcher
+    ) {
     }
 
     public function __invoke(ContentModel $contentModel, string $buffer, Module|ContentElement $element): string
     {
-        if(!$this->scopeMatcher->isFrontend()) {exit();}
+        if (! $this->scopeMatcher->isFrontend()) {
+            exit();
+        }
 
         $buffer = $this->alterForPersonalDataModule($contentModel, $buffer, $element);
         $this->addToRenderStack($contentModel, $buffer, $element);
@@ -65,17 +69,17 @@ class GetContentElementListener
      */
     protected function alterForPersonalDataModule(ContentModel $contentModel, string $buffer, $element): string
     {
-        if ('module' !== $contentModel->type) {
+        if ($contentModel->type !== 'module') {
             return $buffer;
         }
 
         $objModule = ModuleModel::findByPk($contentModel->module);
 
-        if (!$objModule) {
+        if (! $objModule) {
             return $buffer;
         }
 
-        if ('personalData' !== $objModule->type) {
+        if ($objModule->type !== 'personalData') {
             return $buffer;
         }
 
@@ -86,7 +90,7 @@ class GetContentElementListener
             $coreConfig = null;
         }
 
-        if (!$coreConfig
+        if (! $coreConfig
         || $coreConfig->getSgUsePdmForMembers() // TODO : not exist ??
         ) {
             $service = System::getContainer()->get('smartgear.listener.load_data_container');

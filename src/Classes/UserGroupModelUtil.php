@@ -32,7 +32,7 @@ class UserGroupModelUtil
         return $this;
     }
 
-    public static function create(UserGroupModel $userGroup): UserGroupModelUtil
+    public static function create(UserGroupModel $userGroup): self
     {
         return (new self())->setUserGroup($userGroup);
     }
@@ -356,7 +356,7 @@ class UserGroupModelUtil
      */
     public function addAllowedFields(array $fields): self
     {
-        $alexf = null !== $this->userGroup->alexf ? unserialize($this->userGroup->alexf) : [];
+        $alexf = $this->userGroup->alexf !== null ? unserialize($this->userGroup->alexf) : [];
         $this->userGroup->alexf = serialize(array_unique(array_merge($alexf, $fields)));
 
         return $this;
@@ -369,7 +369,7 @@ class UserGroupModelUtil
      */
     public function removeAllowedFields(array $fields): self
     {
-        $alexf = null !== $this->userGroup->alexf ? unserialize($this->userGroup->alexf) : [];
+        $alexf = $this->userGroup->alexf !== null ? unserialize($this->userGroup->alexf) : [];
         $this->userGroup->alexf = serialize(array_unique(array_diff($alexf, $fields)));
 
         return $this;
@@ -385,7 +385,7 @@ class UserGroupModelUtil
     {
         $allowedFields = [];
         foreach ($tables as $table) {
-            if (!\array_key_exists($table, $GLOBALS['TL_DCA'] ?? [])) {
+            if (! \array_key_exists($table, $GLOBALS['TL_DCA'] ?? [])) {
                 $loader = new \Contao\DcaLoader($table);
                 $loader->load();
             }
@@ -394,7 +394,7 @@ class UserGroupModelUtil
             foreach ($dcaFields as $key => $config) {
                 // see tl_user_group::getExcludedFields
                 if (($config['exclude'] ?? null) || ($config['orig_exclude'] ?? null)) {
-                    $allowedFields[] = $table.'::'.$key;
+                    $allowedFields[] = $table . '::' . $key;
                 }
             }
         }
@@ -415,7 +415,7 @@ class UserGroupModelUtil
             $fieldNameKeyToDelete = $prefix;
             $fieldNameKeyToDeleteLength = \strlen((string) $fieldNameKeyToDelete);
             foreach ($alexf as $index => $fieldName) {
-                if (!\is_string($fieldName)) {
+                if (! \is_string($fieldName)) {
                     unset($alexf[$index]);
                     continue;
                 }
@@ -441,9 +441,9 @@ class UserGroupModelUtil
      */
     protected function addAllowedItems(?string $rawValue, array $items): ?string
     {
-        $allowedItems = null !== $rawValue ? unserialize($rawValue) : [];
+        $allowedItems = $rawValue !== null ? unserialize($rawValue) : [];
         foreach ($items as $item) {
-            if (!\in_array($item, $allowedItems, true)) {
+            if (! \in_array($item, $allowedItems, true)) {
                 $allowedItems[] = $item;
             }
 
@@ -466,10 +466,10 @@ class UserGroupModelUtil
      */
     protected function removeAllowedItems(?string $rawValue, array $items): ?string
     {
-        $allowedItems = null !== $rawValue ? unserialize($rawValue) : [];
+        $allowedItems = $rawValue !== null ? unserialize($rawValue) : [];
         foreach ($items as $item) {
             $itemIndex = array_search($item, $allowedItems, true);
-            if (false !== $itemIndex) {
+            if ($itemIndex !== false) {
                 unset($allowedItems[$itemIndex]);
             }
         }

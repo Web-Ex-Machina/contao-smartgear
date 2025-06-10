@@ -31,7 +31,7 @@ class ImageSizeUtil
         // Now we get the default values, get the arrData table
         if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
-                $objImageSize->$k = $v;
+                $objImageSize->{$k} = $v;
             }
         }
 

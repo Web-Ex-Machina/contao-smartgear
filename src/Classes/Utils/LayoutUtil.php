@@ -32,7 +32,7 @@ class LayoutUtil
         // Create the theme
         if (\array_key_exists('id', $arrData)) {
             $objLayout = LayoutModel::findOneById($arrData['id']);
-            if (!$objLayout) {
+            if (! $objLayout) {
                 //     throw new InvalidArgumentException('La présentation de page ayant pour id "'.$arrData['id'].'" n\'existe pas');
                 $objLayout = new LayoutModel();
                 $objLayout->id = $arrData['id'];
@@ -48,7 +48,7 @@ class LayoutUtil
         // Now we get the default values, get the arrData table
         if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
-                $objLayout->$k = $v;
+                $objLayout->{$k} = $v;
             }
         }
 
@@ -145,7 +145,7 @@ class LayoutUtil
 
     public static function buildHead(?array $arrReplace = []): string
     {
-        $head = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+        $head = file_get_contents(Util::getPublicOrWebDirectory() . '/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
         foreach ($arrReplace as $toReplace => $newValue) {
             $head = str_replace($toReplace, $newValue, $head);
         }
@@ -157,10 +157,10 @@ class LayoutUtil
 
     public static function buildScript(?array $arrReplace = []): string
     {
-        $script = file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
+        $script = file_get_contents(Util::getPublicOrWebDirectory() . '/bundles/wemsmartgear/examples/code_javascript_personnalise_1.js');
 
         if (\array_key_exists('{{config.googleFonts}}', $arrReplace)) {
-            $script = str_replace('{{config.googleFonts}}', "'".$arrReplace['{{config.googleFonts}}']."'", $script);
+            $script = str_replace('{{config.googleFonts}}', "'" . $arrReplace['{{config.googleFonts}}'] . "'", $script);
         } else {
             $script = preg_replace('/\/\/ -- GFONT(.*)\/\/ -- \/GFONT/s', '', $script);
         }
@@ -170,16 +170,16 @@ class LayoutUtil
             case Configuration::ANALYTICS_SOLUTION_NONE:
                 $script = preg_replace('/\/\/ -- GTAG(.*)\/\/ -- \/GTAG/s', '', $script);
                 $script = preg_replace('/\/\/ -- MATOMO(.*)\/\/ -- \/MATOMO/s', '', (string) $script);
-            break;
+                break;
             case Configuration::ANALYTICS_SOLUTION_GOOGLE:
                 $script = str_replace('{{config.analytics.google.id}}', $arrReplace['{{config.analytics.google.id}}'], $script);
                 $script = preg_replace('/\/\/ -- MATOMO(.*)\/\/ -- \/MATOMO/s', '', $script);
-            break;
+                break;
             case Configuration::ANALYTICS_SOLUTION_MATOMO:
                 $script = str_replace('{{config.analytics.matomo.host}}', $arrReplace['{{config.analytics.matomo.host}}'], $script);
                 $script = str_replace('{{config.analytics.matomo.id}}', $arrReplace['{{config.analytics.matomo.id}}'], $script);
                 $script = preg_replace('/\/\/ -- GTAG(.*)\/\/ -- \/GTAG/s', '', $script);
-            break;
+                break;
         }
 
         // $head = str_replace('{{config.framway.path}}', $config->getSgFramwayPath(), $head);
@@ -218,7 +218,7 @@ class LayoutUtil
                 }
             }
 
-            if (!$layoutMOduleDefaultFoundInLayoutModule) {
+            if (! $layoutMOduleDefaultFoundInLayoutModule) {
                 $currentLayoutModules[] = $layoutModuleDefault;
             }
         }
@@ -249,7 +249,7 @@ class LayoutUtil
             } elseif ((int) $layoutModule['mod'] === (int) $modules['breadcrumb']->id) {
                 $layoutModuleBreadcrumb = $layoutModule;
                 $layoutModuleBreadcrumbIndex = $index;
-            } elseif (0 === (int) $layoutModule['mod']) { // content
+            } elseif ((int) $layoutModule['mod'] === 0) { // content
                 $layoutModuleContentIndex = $index;
             }
         }
@@ -271,14 +271,14 @@ class LayoutUtil
     public static function replaceHeader(int $layoutId, int $moduleHeaderId): void
     {
         $objLayout = LayoutModel::findByPk($layoutId);
-        if (!$objLayout) {
-            throw new InvalidArgumentException('Layout with id "'.$layoutId.'" not found');
+        if (! $objLayout) {
+            throw new InvalidArgumentException('Layout with id "' . $layoutId . '" not found');
         }
 
         $layoutModules = StringUtil::deserialize($objLayout->modules, true);
         $previousHeaderIndex = null;
         foreach ($layoutModules as $index => $layoutModule) {
-            if ('header' === $layoutModule['col']) {
+            if ($layoutModule['col'] === 'header') {
                 $objModule = ModuleModel::findById($layoutModule['mod']);
                 if (\in_array($objModule->type, ['wem_sg_header', 'header'], true)) {
                     $previousHeaderIndex = $index;
@@ -287,7 +287,7 @@ class LayoutUtil
             }
         }
 
-        if (null !== $previousHeaderIndex) {
+        if ($previousHeaderIndex !== null) {
             $layoutModules[$previousHeaderIndex]['mod'] = $moduleHeaderId;
             $layoutModules[$previousHeaderIndex]['enable'] = 1;
         } else {
@@ -302,14 +302,14 @@ class LayoutUtil
     public static function replaceFooter(int $layoutId, int $moduleFooterId): void
     {
         $objLayout = LayoutModel::findByPk($layoutId);
-        if (!$objLayout) {
-            throw new InvalidArgumentException('Layout with id "'.$layoutId.'" not found');
+        if (! $objLayout) {
+            throw new InvalidArgumentException('Layout with id "' . $layoutId . '" not found');
         }
 
         $layoutModules = array_reverse(StringUtil::deserialize($objLayout->modules, true), true);
         $previousFooterIndex = null;
         foreach ($layoutModules as $index => $layoutModule) {
-            if ('footer' === $layoutModule['col']) {
+            if ($layoutModule['col'] === 'footer') {
                 $objModule = ModuleModel::findById($layoutModule['mod']);
                 if (\in_array($objModule->type, ['wem_sg_footer', 'footer', 'html'], true)) {
                     $previousFooterIndex = $index;
@@ -319,7 +319,7 @@ class LayoutUtil
         }
 
         $layoutModules = array_reverse($layoutModules, true);
-        if (null !== $previousFooterIndex) {
+        if ($previousFooterIndex !== null) {
             $layoutModules[$previousFooterIndex]['mod'] = $moduleFooterId;
             $layoutModules[$previousFooterIndex]['enable'] = 1;
         } else {
@@ -334,15 +334,15 @@ class LayoutUtil
     public static function replaceBreadcrumb(int $layoutId, int $moduleBreadcrumbId): void
     {
         $objLayout = LayoutModel::findByPk($layoutId);
-        if (!$objLayout) {
-            throw new InvalidArgumentException('Layout with id "'.$layoutId.'" not found');
+        if (! $objLayout) {
+            throw new InvalidArgumentException('Layout with id "' . $layoutId . '" not found');
         }
 
         $layoutModules = StringUtil::deserialize($objLayout->modules, true);
         $previousBreadcrumbIndex = null;
         $firstMainColumnIndex = null;
         foreach ($layoutModules as $index => $layoutModule) {
-            if ('main' === $layoutModule['col']) {
+            if ($layoutModule['col'] === 'main') {
                 $firstMainColumnIndex ??= $index;
 
                 $objModule = ModuleModel::findById($layoutModule['mod']);
@@ -353,10 +353,10 @@ class LayoutUtil
             }
         }
 
-        if (null !== $previousBreadcrumbIndex) {
+        if ($previousBreadcrumbIndex !== null) {
             $layoutModules[$previousBreadcrumbIndex]['mod'] = $moduleBreadcrumbId;
             $layoutModules[$previousBreadcrumbIndex]['enable'] = 1;
-        } elseif (null !== $firstMainColumnIndex) {
+        } elseif ($firstMainColumnIndex !== null) {
             // breadcrumb is first in main col
             $layoutModulesBefore = \array_slice($layoutModules, 0, $firstMainColumnIndex);
             $layoutModulesAfter = \array_slice($layoutModules, $firstMainColumnIndex, null, true);

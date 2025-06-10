@@ -28,13 +28,13 @@ class Core extends Backend
 {
     public function updateReminder(DataContainer $dc): void
     {
-        if (!$dc->id) {
+        if (! $dc->id) {
             return;
         }
 
         $model = Model::getClassFromTable($dc->table);
         $objItem = $model::findById($dc->id);
-        if (!$objItem) {
+        if (! $objItem) {
             return;
         }
 
@@ -55,13 +55,13 @@ class Core extends Backend
 
     public function displayReminderMessage(DataContainer $dc): void
     {
-        if (!$dc->id || null === \Contao\Input::get('act')) {
+        if (! $dc->id || \Contao\Input::get('act') === null) {
             return;
         }
 
         $model = Model::getClassFromTable($dc->table);
         $objItem = $model::findById($dc->id);
-        if (!$objItem) {
+        if (! $objItem) {
             return;
         }
 

@@ -40,13 +40,12 @@ use WEM\SmartgearBundle\Model\Module;
 
 class General extends ConfigurationStep
 {
-
     public function __construct(
-        string                         $module,
-        string                         $type,
-        protected TranslatorInterface  $translator,
+        string $module,
+        string $type,
+        protected TranslatorInterface $translator,
         protected ConfigurationManager $configurationManager,
-        protected CommandUtil          $commandUtil
+        protected CommandUtil $commandUtil
     ) {
         parent::__construct($module, $type);
 
@@ -65,11 +64,11 @@ class General extends ConfigurationStep
     public function isStepValid(): bool
     {
         // check if the step is correct
-        if (null === Input::post('faqTitle', null)) {
+        if (Input::post('faqTitle', null) === null) {
             throw new Exception($this->translator->trans('WEMSG.FAQ.INSTALL_GENERAL.faqTitleMissing', [], 'contao_default'));
         }
 
-        if (null === Input::post('pageTitle', null)) {
+        if (Input::post('pageTitle', null) === null) {
             throw new Exception($this->translator->trans('WEMSG.FAQ.INSTALL_GENERAL.pageTitleMissing', [], 'contao_default'));
         }
 
@@ -147,7 +146,7 @@ class General extends ConfigurationStep
             // 'robots' => 'index,follow',
             // 'type' => 'regular',
             // 'published' => 1,
-        ], null !== $page ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
+        ], $page !== null ? ['id' => $page->id, 'sorting' => $page->sorting] : []));
 
         $this->setFAQConfigKey('setSgPage', (int) $page->id);
 
@@ -164,7 +163,7 @@ class General extends ConfigurationStep
 
         $article = ArticleUtil::createArticle($page, array_merge([
             'title' => $faqConfig->getSgPageTitle(),
-        ], null !== $article ? ['id' => $article->id] : []));
+        ], $article !== null ? ['id' => $article->id] : []));
 
         $this->setFAQConfigKey('setSgArticle', (int) $article->id);
 
@@ -201,14 +200,15 @@ class General extends ConfigurationStep
 
         $moduleFaq = new ModuleModel();
 
-        if (null !== $faqConfig->getSgModuleFaq()) {
+        if ($faqConfig->getSgModuleFaq() !== null) {
             $moduleListOld = ModuleModel::findById($faqConfig->getSgModuleFaq());
             if ($moduleListOld) {
                 $moduleListOld->delete();
             }
         }
 
-        $moduleFaq = ModuleUtil::createModuleFaq((int) $config->getSgTheme(), (int) $faqCategory->id, array_merge([
+        $moduleFaq = ModuleUtil::createModuleFaq((int) $config->getSgTheme(), (int) $faqCategory->id, array_merge(
+            [
             // $moduleFaq = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
             //     'name' => $page->title.' - Reader',
             //     'pid' => $config->getSgTheme(),
@@ -218,7 +218,7 @@ class General extends ConfigurationStep
             //     'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
             //     'tstamp' => time(),
         ],
-        null !== $faqConfig->getSgModuleFaq() ? ['id' => $faqConfig->getSgModuleFaq()] : []
+            $faqConfig->getSgModuleFaq() !== null ? ['id' => $faqConfig->getSgModuleFaq()] : []
         ));
 
         $this->setFAQConfigKey('setSgModuleFaq', (int) $moduleFaq->id);
@@ -233,7 +233,7 @@ class General extends ConfigurationStep
         $faqConfig = $config->getSgFaq();
 
         $faq = ContentModel::findById($faqConfig->getSgContent());
-        $faq = ContentUtil::createContent($article, ['type' => 'module', 'pid' => $article->id, 'ptable' => 'tl_article', 'module' => $modules['faq']->id, 'id' => null !== $faq ? $faq->id : null]);
+        $faq = ContentUtil::createContent($article, ['type' => 'module', 'pid' => $article->id, 'ptable' => 'tl_article', 'module' => $modules['faq']->id, 'id' => $faq !== null ? $faq->id : null]);
 
         $article->save();
 
@@ -267,8 +267,8 @@ class General extends ConfigurationStep
     protected function updateUserGroup(UserGroupModel $objUserGroup, FaqConfig $faqConfig): void
     {
         $objFolder = FilesModel::findByPath($faqConfig->getSgFaqFolder());
-        if (!$objFolder) {
-            throw new Exception('Unable to find the "'.$faqConfig->getSgFaqFolder().'" folder');
+        if (! $objFolder) {
+            throw new Exception('Unable to find the "' . $faqConfig->getSgFaqFolder() . '" folder');
         }
 
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);

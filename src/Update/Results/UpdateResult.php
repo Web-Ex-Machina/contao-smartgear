@@ -44,12 +44,12 @@ class UpdateResult
 
     public function isSuccess(): bool
     {
-        return self::STATUS_SUCCESS === $this->status;
+        return $this->status === self::STATUS_SUCCESS;
     }
 
     public function isFail(): bool
     {
-        return self::STATUS_FAIL === $this->status;
+        return $this->status === self::STATUS_FAIL;
     }
 
     public function setStatusSuccess(): self

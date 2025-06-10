@@ -16,7 +16,6 @@ namespace WEM\SmartgearBundle\Classes\Backend\Traits;
 
 trait ActionsTrait
 {
-
     protected array $actions = [];
 
     public function getActions(): array
@@ -30,7 +29,7 @@ trait ActionsTrait
         $arrActions = [];
         if (\is_array($unformattedActions) && $unformattedActions !== []) {
             foreach ($unformattedActions as $action) {
-                if (!\array_key_exists('v', $action)) {
+                if (! \array_key_exists('v', $action)) {
                     $action['v'] = '???';
                 }
 
@@ -38,9 +37,9 @@ trait ActionsTrait
                     case 2:
                         $arrAttributes = [];
                         if ($action['attrs']) {
-                            if (!$action['attrs']['class']) {
+                            if (! $action['attrs']['class']) {
                                 $action['attrs']['class'] = 'tl_submit';
-                            } elseif (!str_contains((string) $action['attrs']['class'], 'tl_submit')) {
+                            } elseif (! str_contains((string) $action['attrs']['class'], 'tl_submit')) {
                                 $action['attrs']['class'] .= ' tl_submit';
                             }
 
@@ -52,7 +51,7 @@ trait ActionsTrait
                         $arrActions[] = sprintf(
                             '<%s %s>%s</%s>',
                             ($action['tag']) ?: 'button',
-                            ([] !== $arrAttributes) ? implode(' ', $arrAttributes) : '',
+                            ($arrAttributes !== []) ? implode(' ', $arrAttributes) : '',
                             ($action['text']) ?: 'text missing',
                             ($action['tag']) ?: 'button'
                         );

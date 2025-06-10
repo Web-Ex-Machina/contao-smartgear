@@ -25,8 +25,9 @@ use WEM\SmartgearBundle\Model\SocialLink as SocialLinkModel;
 
 class SocialNetwork extends Backend
 {
-    public function __construct(private readonly TranslatorInterface $translator)
-    {
+    public function __construct(
+        private readonly TranslatorInterface $translator
+    ) {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
     }
@@ -43,8 +44,8 @@ class SocialNetwork extends Backend
     {
         $label = $this->translator->trans($row['name'], [], 'contao_default');
 
-        if (!empty($row['icon'])) {
-            $label .= ' ['.$row['icon'].']';
+        if (! empty($row['icon'])) {
+            $label .= ' [' . $row['icon'] . ']';
         }
 
         return $label;
@@ -57,8 +58,8 @@ class SocialNetwork extends Backend
      */
     public function checkPermission(): void
     {
-        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
-            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' social network ID '.Input::get('id').'.');
+        if (Input::get('act') === 'delete' && ! $this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to ' . Input::get('act') . ' social network ID ' . Input::get('id') . '.');
         }
     }
 
@@ -67,7 +68,7 @@ class SocialNetwork extends Backend
      */
     public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+        if (! $this->canItemBeDeleted((int) $config->getRecord()['id'])) {
             $config->disable();
         }
     }
@@ -84,6 +85,6 @@ class SocialNetwork extends Backend
 
     protected function canItemBeDeleted(int $id): bool
     {
-        return $this->User->admin || !$this->isItemUsed($id);
+        return $this->User->admin || ! $this->isItemUsed($id);
     }
 }

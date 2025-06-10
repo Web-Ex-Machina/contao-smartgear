@@ -159,7 +159,7 @@ class Blog implements ConfigModuleInterface
 
     public function getContaoModulesIds(): array
     {
-        if (!$this->getSgInstallComplete()
+        if (! $this->getSgInstallComplete()
         && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
         ) {
             return [];
@@ -173,7 +173,7 @@ class Blog implements ConfigModuleInterface
 
     public function getContaoPagesIds(): array
     {
-        if (!$this->getSgInstallComplete()
+        if (! $this->getSgInstallComplete()
         && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
         ) {
             return [];
@@ -184,7 +184,7 @@ class Blog implements ConfigModuleInterface
 
     public function getContaoContentsIds(): array
     {
-        if (!$this->getSgInstallComplete()
+        if (! $this->getSgInstallComplete()
         && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
         ) {
             return [];
@@ -197,7 +197,7 @@ class Blog implements ConfigModuleInterface
 
     public function getContaoArticlesIds(): array
     {
-        if (!$this->getSgInstallComplete()
+        if (! $this->getSgInstallComplete()
         && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
         ) {
             return [];
@@ -208,7 +208,7 @@ class Blog implements ConfigModuleInterface
 
     public function getContaoFoldersIds(): array
     {
-        if (!$this->getSgInstallComplete()
+        if (! $this->getSgInstallComplete()
         && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
         ) {
             return [];
@@ -297,7 +297,7 @@ class Blog implements ConfigModuleInterface
 
     public function setSgMode(string $sgMode): self
     {
-        if (!\in_array($sgMode, static::MODES_ALLOWED, true)) {
+        if (! \in_array($sgMode, static::MODES_ALLOWED, true)) {
             throw new \InvalidArgumentException(sprintf('Invalid mode "%s" given', $sgMode));
         }
 
@@ -344,14 +344,14 @@ class Blog implements ConfigModuleInterface
 
     public function addOrUpdatePreset(Preset $preset, ?int $index = null): self
     {
-        if (null === $index) {
+        if ($index === null) {
             $this->sgPresets[] = $preset;
         } else {
             $this->sgPresets[$index] = $preset;
         }
 
-        if (1 === \count($this->sgPresets)
-        && null === $this->sgCurrentPresetIndex
+        if (\count($this->sgPresets) === 1
+        && $this->sgCurrentPresetIndex === null
         ) {
             $this->sgCurrentPresetIndex = 0;
         }
@@ -387,8 +387,8 @@ class Blog implements ConfigModuleInterface
 
     public function setSgCurrentPresetIndex(?int $sgCurrentPresetIndex): self
     {
-        if (null !== $sgCurrentPresetIndex
-        && !$this->getPresetByIndex($sgCurrentPresetIndex) instanceof Preset) {
+        if ($sgCurrentPresetIndex !== null
+        && ! $this->getPresetByIndex($sgCurrentPresetIndex) instanceof Preset) {
             throw new InvalidArgumentException('The provided preset ID does not refer to any known preset configuration.');
         }
 
@@ -401,7 +401,7 @@ class Blog implements ConfigModuleInterface
     {
         $presetIndex = $this->getSgCurrentPresetIndex();
 
-        return null !== $presetIndex ? $this->getPresetByIndex($presetIndex) : null;
+        return $presetIndex !== null ? $this->getPresetByIndex($presetIndex) : null;
     }
 
     public function getSgModuleReader(): ?int
@@ -459,7 +459,7 @@ class Blog implements ConfigModuleInterface
 
     public function setSgArchivedMode(string $sgArchivedMode): self
     {
-        if (!\in_array($sgArchivedMode, static::ARCHIVE_MODES_ALLOWED, true)) {
+        if (! \in_array($sgArchivedMode, static::ARCHIVE_MODES_ALLOWED, true)) {
             throw new \InvalidArgumentException(sprintf('Invalid archive mode "%s" given', $sgArchivedMode));
         }
 

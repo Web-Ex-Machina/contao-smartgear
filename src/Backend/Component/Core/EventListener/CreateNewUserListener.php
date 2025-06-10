@@ -20,8 +20,9 @@ use WEM\SmartgearBundle\Model\Member as MemberModel;
 
 class CreateNewUserListener
 {
-    public function __construct(protected CoreConfigurationManager $coreConfigurationManager)
-    {
+    public function __construct(
+        protected CoreConfigurationManager $coreConfigurationManager
+    ) {
     }
 
     public function __invoke(string $userId, array $data, Module $module): void
@@ -38,10 +39,10 @@ class CreateNewUserListener
         ) {
             $objMember = MemberModel::findByPk($userId);
             foreach (array_keys($data) as $field) {
-            if ($objMember->isFieldInPersonalDataFieldsNames($field)) {
-                $objMember->markModified($field);
+                if ($objMember->isFieldInPersonalDataFieldsNames($field)) {
+                    $objMember->markModified($field);
+                }
             }
-        }
 
             $objMember->save(); // will automatically triggers the encryption of personal data
         }

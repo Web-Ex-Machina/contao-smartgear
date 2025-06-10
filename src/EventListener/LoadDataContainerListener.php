@@ -49,27 +49,29 @@ use WEM\SmartgearBundle\DataContainer\UserGroup as UserGroupDCA;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\UtilsBundle\Classes\ScopeMatcher;
 
-#[AsHook('loadDataContainer',priority: -1)]
+#[AsHook('loadDataContainer', priority: -1)]
 class LoadDataContainerListener
 {
     protected string $do;
 
     public function __construct(
-        protected TranslatorInterface          $translator,
-        protected CoreConfigurationManager     $configurationManager,
-        protected ConfigurationManager         $framwayConfigurationManager,
+        protected TranslatorInterface $translator,
+        protected CoreConfigurationManager $configurationManager,
+        protected ConfigurationManager $framwayConfigurationManager,
         protected ConfigurationCombinedManager $framwayCombinedConfigurationManager,
-        protected array                        $listeners,
-        protected readonly ScopeMatcher        $scopeMatcher
+        protected array $listeners,
+        protected readonly ScopeMatcher $scopeMatcher
     ) {
         $this->do = Input::get('do') ?? ''; // always empty ?
     }
 
     public function __invoke($tables): void
     {
-        if(!$this->scopeMatcher->isBackend()) {exit();}
+        if (! $this->scopeMatcher->isBackend()) {
+            exit();
+        }
 
-        if (!\is_array($tables)) {
+        if (! \is_array($tables)) {
             $tables = [$tables];
         }
 
@@ -144,13 +146,13 @@ class LoadDataContainerListener
                     ->setListOperationsDeleteButtonCallback(MemberDCA::class, 'deleteItem')
                 ;
                 try {
-                    /** @var CoreConfiguration */
+                    /** @var CoreConfiguration $coreConfig */
                     $coreConfig = $this->configurationManager->load();
                 } catch (\Exception) {
                     $coreConfig = null;
                 }
 
-                if (!$coreConfig
+                if (! $coreConfig
                 || $coreConfig->getSgUsePdmForMembers()
                 ) {
                     DCAManipulator::create($table)
@@ -285,13 +287,13 @@ class LoadDataContainerListener
 
             $help = ['framway_path' => [Input::get('framway_path'), Input::get('framway_path')]]; // will be deleted in be_help.html5
             try {
-                /** @var FramwayConfiguration */
+                /** @var FramwayConfiguration $config */
                 $config = $this->framwayConfigurationManager->setConfigurationRootFilePath(Input::get('framway_path'))->load();
                 $help['meaningfulLabel'] = ['headspan', $this->translator->trans('WEMSG.FRAMWAY.COLORS.meaningfulLabel', [], 'contao_default')];
                 $meaningfulColors = ['primary', 'secondary', 'success', 'info', 'warning', 'error'];
                 foreach ($meaningfulColors as $name) {
                     $help[$name] = [
-                        '<div style="width:15px;height:15px;border:1px dotted black;" class="bg-'.$name.'"></div>',
+                        '<div style="width:15px;height:15px;border:1px dotted black;" class="bg-' . $name . '"></div>',
                         $this->translator->trans(\sprintf('WEMSG.FRAMWAY.COLORS.%s', $name), [], 'contao_default'),
                     ];
                 }
@@ -300,13 +302,13 @@ class LoadDataContainerListener
             }
 
             try {
-                /** @var FramwayThemeConfiguration */
+                /** @var FramwayThemeConfiguration $themeConfig */
                 $themeConfig = $this->framwayCombinedConfigurationManager->setConfigurationRootFilePath(Input::get('framway_path'))->load();
                 $help['rawLabel'] = ['headspan', $this->translator->trans('WEMSG.FRAMWAY.COLORS.rawLabel', [], 'contao_default')];
                 $colors = $themeConfig->getColors();
                 foreach (array_keys($colors) as $name) {
                     $help[$name] = [
-                        '<div style="width:15px;height:15px;border:1px dotted black;" class="bg-'.$name.'"></div>',
+                        '<div style="width:15px;height:15px;border:1px dotted black;" class="bg-' . $name . '"></div>',
                         $this->translator->trans(\sprintf('WEMSG.FRAMWAY.COLORS.%s', $name), [], 'contao_default'),
                     ];
                 }

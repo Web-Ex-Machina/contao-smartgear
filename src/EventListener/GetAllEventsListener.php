@@ -17,25 +17,28 @@ namespace WEM\SmartgearBundle\EventListener;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use WEM\UtilsBundle\Classes\ScopeMatcher;
 
-#[AsHook('getAllEvents',null,-1)]
+#[AsHook('getAllEvents', null, -1)]
 class GetAllEventsListener
 {
-    public function __construct(protected readonly ScopeMatcher $scopeMatcher)
-    {
+    public function __construct(
+        protected readonly ScopeMatcher $scopeMatcher
+    ) {
     }
 
     public function __invoke(array $events, array $calendars, int $timeStart, int $timeEnd, \Contao\Module $module): array
     {
-        if(!$this->scopeMatcher->isFrontend()) {exit();}
+        if (! $this->scopeMatcher->isFrontend()) {
+            exit();
+        }
 
         $searchConfig = $module->getConfig();
-        if (!empty($searchConfig)) {
+        if (! empty($searchConfig)) {
             // we get rid of events not compliant with our criterias
             foreach ($events as $startDate => $dateEvents) {
                 foreach ($dateEvents as $startTime => $timeEvents) {
                     foreach ($timeEvents as $index => $event) {
                         // do our things
-                        if (\array_key_exists('location', $searchConfig) && !empty($searchConfig['location']) && $event['location'] !== $searchConfig['location']) {
+                        if (\array_key_exists('location', $searchConfig) && ! empty($searchConfig['location']) && $event['location'] !== $searchConfig['location']) {
                             unset($events[$startDate][$startTime][$index]);
                         }
                     }

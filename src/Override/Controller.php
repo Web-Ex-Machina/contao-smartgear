@@ -42,14 +42,14 @@ class Controller extends \Contao\Controller
 
         // Backwards compatibility (see #725)
         if (str_ends_with($strGlobPrefix, '_')) {
-            $strGlobPrefix = substr($strGlobPrefix, 0, -1).'[_-]';
+            $strGlobPrefix = substr($strGlobPrefix, 0, -1) . '[_-]';
         }
 
         $projectDir = System::getContainer()->getParameter('kernel.project_dir');
 
-        $arrSGTemplates = parent::braceGlob($projectDir.'/templates/smartgear/'.$strGlobPrefix.'*.html5');
+        $arrSGTemplates = parent::braceGlob($projectDir . '/templates/smartgear/' . $strGlobPrefix . '*.html5');
         $arrNewTemplates = [];
-        if (!empty($arrSGTemplates) && \is_array($arrSGTemplates)) {
+        if (! empty($arrSGTemplates) && \is_array($arrSGTemplates)) {
             foreach ($arrSGTemplates as $strFile) {
                 $strTemplate = basename((string) $strFile, strrchr((string) $strFile, '.'));
                 $arrNewTemplates[$strTemplate][] = 'Dossier Smartgear';
@@ -58,9 +58,9 @@ class Controller extends \Contao\Controller
 
         // Show the template sources (see #6875)
         foreach ($arrNewTemplates as $k => $v) {
-            $v = array_filter($v, static fn($a): true => 'root' !== $a);
+            $v = array_filter($v, static fn ($a): true => $a !== 'root');
 
-            $arrNewTemplates[$k] = $v === [] ? $k : $k.' ('.implode(', ', $v).')';
+            $arrNewTemplates[$k] = $v === [] ? $k : $k . ' (' . implode(', ', $v) . ')';
         }
 
         // Merge

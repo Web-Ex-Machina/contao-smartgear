@@ -22,9 +22,6 @@ use Contao\LayoutModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\ThemeModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Language as NotificationLanguageModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Message as NotificationMessageModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Analyzer\Htaccess as HtaccessAnalyzer;
 use WEM\SmartgearBundle\Classes\Backend\Resetter as BackendResetter;
@@ -32,6 +29,9 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\LocalConfig;
 use WEM\SmartgearBundle\Config\Manager\LocalConfig as LocalConfigManager;
+use WEM\SmartgearBundle\Model\NotificationCenter\Language as NotificationLanguageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Message as NotificationMessageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 
 class Resetter extends BackendResetter
 {
@@ -111,7 +111,7 @@ class Resetter extends BackendResetter
             ++$itemsResetted;
         }
 
-        if (0 !== $itemsResetted) {
+        if ($itemsResetted !== 0) {
             $this->markModulesAndComponentsAsUninstalled();
         }
 

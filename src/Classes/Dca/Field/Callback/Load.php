@@ -18,7 +18,9 @@ use WEM\PersonalDataManagerBundle\Dca\Field\Callback\Load as PdmCallback;
 
 class Load
 {
-    /** @var WEM\PersonalDataManagerBundle\Dca\Field\Callback\Load */
+    /**
+     * @var WEM\PersonalDataManagerBundle\Dca\Field\Callback\Load
+     */
     private $pdmCallback;
 
     public function __construct(

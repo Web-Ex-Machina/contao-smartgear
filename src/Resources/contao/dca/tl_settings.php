@@ -74,7 +74,7 @@ DCAManipulator::create('tl_settings')
 ;
 
 foreach ($GLOBALS['TL_DCA']['tl_settings']['palettes'] as $paletteName => $paletteConfig) {
-    if ('__selector__' !== $paletteName) {
+    if ($paletteName !== '__selector__') {
         PaletteManipulator::create()
             ->addLegend('smartgear_legend')
             ->addField('wem_sg_encryption_key', 'smartgear_legend')

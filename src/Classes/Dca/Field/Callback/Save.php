@@ -18,7 +18,9 @@ use WEM\PersonalDataManagerBundle\Dca\Field\Callback\Save as PdmCallback;
 
 class Save
 {
-    /** @var WEM\PersonalDataManagerBundle\Dca\Field\Callback\Save */
+    /**
+     * @var WEM\PersonalDataManagerBundle\Dca\Field\Callback\Save
+     */
     private $pdmCallback;
 
     public function __construct(

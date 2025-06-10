@@ -20,7 +20,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DirectoriesSynchronizer
 {
-
     protected TranslatorInterface $translator;
 
     protected array $filesToAdd = [];
@@ -40,8 +39,8 @@ class DirectoriesSynchronizer
         protected string $sourceDirectory,
         protected string $destinationDirectory,
         protected string $rootDir,
-        protected bool $manageSubfolders)
-    {
+        protected bool $manageSubfolders
+    ) {
     }
 
     /**
@@ -62,14 +61,14 @@ class DirectoriesSynchronizer
 
         foreach ($this->filesToAdd as $relativePath => $realPath) {
             $objFile = new File($realPath);
-            if (!$objFile->copyTo($this->destinationDirectory.$relativePath)) {
-                throw new Exception($this->translator->trans('WEMSG.DIRECTORIESSYNCHRONIZER.error', [$realPath, $this->destinationDirectory.$relativePath], 'contao_default'));
+            if (! $objFile->copyTo($this->destinationDirectory . $relativePath)) {
+                throw new Exception($this->translator->trans('WEMSG.DIRECTORIESSYNCHRONIZER.error', [$realPath, $this->destinationDirectory . $relativePath], 'contao_default'));
             }
         }
 
         foreach ($this->filesToUpdate as $relativePath => $realPath) {
             $objFileFrom = new File($realPath);
-            $objFileTo = new File($this->destinationDirectory.$relativePath);
+            $objFileTo = new File($this->destinationDirectory . $relativePath);
 
             $objFileTo->truncate();
             $objFileTo->write($objFileFrom->getContent());
@@ -120,12 +119,12 @@ class DirectoriesSynchronizer
 
     protected function getSourceDirectoryFiles(): array
     {
-        return $this->getFiles($this->rootDir.\DIRECTORY_SEPARATOR.$this->sourceDirectory, $this->manageSubfolders);
+        return $this->getFiles($this->rootDir . \DIRECTORY_SEPARATOR . $this->sourceDirectory, $this->manageSubfolders);
     }
 
     protected function getDestinationDirectoryFiles(): array
     {
-        return $this->getFiles($this->rootDir.\DIRECTORY_SEPARATOR.$this->destinationDirectory, $this->manageSubfolders);
+        return $this->getFiles($this->rootDir . \DIRECTORY_SEPARATOR . $this->destinationDirectory, $this->manageSubfolders);
     }
 
     /**
@@ -151,7 +150,7 @@ class DirectoriesSynchronizer
         }
 
         foreach ($destinationFiles as $relativePath => $realPath) {
-            if (!\array_key_exists($relativePath, $sourceFiles)) {
+            if (! \array_key_exists($relativePath, $sourceFiles)) {
                 $this->filesToDelete[$relativePath] = $realPath;
             }
         }
@@ -167,20 +166,20 @@ class DirectoriesSynchronizer
      */
     protected function getFiles(string $startPath, ?bool $blnGetSubFolders = true, ?string $relativePathFromStartPath = ''): array
     {
-        $strBasePath = $startPath.$relativePathFromStartPath;
+        $strBasePath = $startPath . $relativePathFromStartPath;
         $arrFiles = is_dir($strBasePath) ? scandir($strBasePath) : [];
         $arrPaths = [];
         foreach ($arrFiles as $f) {
-            if ('.' === $f || '..' === $f) {
+            if ($f === '.' || $f === '..') {
                 continue;
             }
 
-            $isFolder = is_dir($strBasePath.\DIRECTORY_SEPARATOR.$f);
+            $isFolder = is_dir($strBasePath . \DIRECTORY_SEPARATOR . $f);
 
             if ($blnGetSubFolders && $isFolder) {
-                $arrPaths = array_merge($arrPaths, $this->getFiles($startPath, $blnGetSubFolders, $relativePathFromStartPath.\DIRECTORY_SEPARATOR.$f));
-            } elseif (!$isFolder) {
-                $arrPaths[$relativePathFromStartPath.\DIRECTORY_SEPARATOR.$f] = $this->stripRootPathFromPath($strBasePath.\DIRECTORY_SEPARATOR.$f);
+                $arrPaths = array_merge($arrPaths, $this->getFiles($startPath, $blnGetSubFolders, $relativePathFromStartPath . \DIRECTORY_SEPARATOR . $f));
+            } elseif (! $isFolder) {
+                $arrPaths[$relativePathFromStartPath . \DIRECTORY_SEPARATOR . $f] = $this->stripRootPathFromPath($strBasePath . \DIRECTORY_SEPARATOR . $f);
             }
         }
 
@@ -195,11 +194,11 @@ class DirectoriesSynchronizer
      */
     protected function checkIfFilesAreDifferent(File $objFileA, File $objFileB): bool
     {
-        if (!$objFileA->exists()) {
+        if (! $objFileA->exists()) {
             return true;
         }
 
-        if (!$objFileB->exists()) {
+        if (! $objFileB->exists()) {
             return true;
         }
 
@@ -219,6 +218,6 @@ class DirectoriesSynchronizer
             return $path;
         }
 
-        return str_replace($this->rootDir.\DIRECTORY_SEPARATOR, '', $path);
+        return str_replace($this->rootDir . \DIRECTORY_SEPARATOR, '', $path);
     }
 }

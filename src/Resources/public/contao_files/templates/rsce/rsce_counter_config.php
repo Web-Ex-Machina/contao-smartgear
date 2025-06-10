@@ -64,7 +64,7 @@ return [
         'color' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['dominant_color'],
             'inputType' => 'select',
-            'options_callback' => static fn($dc): string|array|false => Util::getSmartgearColors($dc->table, (int) $dc->id),
+            'options_callback' => static fn ($dc): string|array|false => Util::getSmartgearColors($dc->table, (int) $dc->id),
             'eval' => ['tl_class' => 'w50', 'includeBlankOption' => true],
         ],
     ],

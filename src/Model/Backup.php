@@ -57,10 +57,10 @@ class Backup extends CoreModel
 
         switch ($strField) {
             case 'before':
-                $arrColumns[] = sprintf($t . ".tstamp <= %s", $varValue);
+                $arrColumns[] = sprintf($t . '.tstamp <= %s', $varValue);
                 break;
             case 'after':
-                $arrColumns[] = sprintf($t . ".tstamp >= %s", $varValue);
+                $arrColumns[] = sprintf($t . '.tstamp >= %s', $varValue);
                 break;
             default:
                 return parent::formatStatement($strField, $varValue, $strOperator);

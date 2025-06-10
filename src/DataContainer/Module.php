@@ -37,10 +37,10 @@ class Module extends Backend
      */
     public function editModule(DataContainer $dc): string
     {
-        /* @var ContaoCsrfTokenManager $contaoCsrfTokenManager */
+        /** @var ContaoCsrfTokenManager $contaoCsrfTokenManager */
         $contaoCsrfTokenManager = System::getContainer()->getParameter('contao.csrf.token_manager');
         $contaoCsrfTokenManager->getDefaultTokenValue();
-        return ($dc->value < 1) ? '' : ' <a href="contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id='.$dc->value.'&amp;popup=1&amp;nb=1&amp;rt='.$contaoCsrfTokenManager->getDefaultTokenValue().'" title="'.sprintf(StringUtil::specialchars($GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $dc->value).'" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG']['tl_content']['editalias'][1], $dc->value))).'\',\'url\':this.href});return false">'.Image::getHtml('alias.svg', $GLOBALS['TL_LANG']['tl_content']['editalias'][0]).'</a>';
+        return ($dc->value < 1) ? '' : ' <a href="contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $dc->value . '&amp;popup=1&amp;nb=1&amp;rt=' . $contaoCsrfTokenManager->getDefaultTokenValue() . '" title="' . sprintf(StringUtil::specialchars($GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $dc->value) . '" onclick="Backend.openModalIframe({\'title\':\'' . StringUtil::specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG']['tl_content']['editalias'][1], $dc->value))) . '\',\'url\':this.href});return false">' . Image::getHtml('alias.svg', $GLOBALS['TL_LANG']['tl_content']['editalias'][0]) . '</a>';
     }
 
     /**
@@ -52,7 +52,7 @@ class Module extends Backend
         $objModules = $this->Database->execute(sprintf('SELECT m.id, m.name, t.name AS theme FROM tl_module m LEFT JOIN tl_theme t ON m.pid=t.id WHERE m.id != %s ORDER BY t.name, m.name', Input::get('id')));
 
         while ($objModules->next()) {
-            $arrModules[$objModules->theme][$objModules->id] = $objModules->name.' (ID '.$objModules->id.')';
+            $arrModules[$objModules->theme][$objModules->id] = $objModules->name . ' (ID ' . $objModules->id . ')';
         }
 
         return $arrModules;
@@ -65,8 +65,8 @@ class Module extends Backend
      */
     public function checkPermission(): void
     {
-        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
-            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' module ID '.Input::get('id').'.');
+        if (Input::get('act') === 'delete' && ! $this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to ' . Input::get('act') . ' module ID ' . Input::get('id') . '.');
         }
     }
 
@@ -75,7 +75,7 @@ class Module extends Backend
      */
     public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+        if (! $this->canItemBeDeleted((int) $config->getRecord()['id'])) {
             $config->disable();
         }
     }
@@ -89,7 +89,7 @@ class Module extends Backend
 
         foreach ($GLOBALS['TL_CTE'] as $k => $v) {
             foreach (array_keys($v) as $kk) {
-                $arrOptions[$GLOBALS['TL_LANG']['CTE'][$k]][$kk] = $GLOBALS['TL_LANG']['CTE'][$kk][0].' ('.$kk.')';
+                $arrOptions[$GLOBALS['TL_LANG']['CTE'][$k]][$kk] = $GLOBALS['TL_LANG']['CTE'][$kk][0] . ' (' . $kk . ')';
             }
         }
 
@@ -105,7 +105,7 @@ class Module extends Backend
 
         foreach ($GLOBALS['FE_MOD'] as $k => $v) {
             foreach (array_keys($v) as $kk) {
-                $arrOptions[$GLOBALS['TL_LANG']['FMD'][$k]][$kk] = $GLOBALS['TL_LANG']['FMD'][$kk][0].' ('.$kk.')';
+                $arrOptions[$GLOBALS['TL_LANG']['FMD'][$k]][$kk] = $GLOBALS['TL_LANG']['FMD'][$kk][0] . ' (' . $kk . ')';
             }
         }
 
@@ -127,14 +127,14 @@ class Module extends Backend
         //     }
         // } catch (\Exception $e) {
         // }
-        return 0 < ConfigurationItem::countItems(['contao_module' => $id])
-        || 0 < ConfigurationItem::countItems(['contao_module_reader' => $id])
-        || 0 < ConfigurationItem::countItems(['contao_module_list' => $id])
-        || 0 < ConfigurationItem::countItems(['contao_module_calendar' => $id]);
+        return ConfigurationItem::countItems(['contao_module' => $id]) > 0
+        || ConfigurationItem::countItems(['contao_module_reader' => $id]) > 0
+        || ConfigurationItem::countItems(['contao_module_list' => $id]) > 0
+        || ConfigurationItem::countItems(['contao_module_calendar' => $id]) > 0;
     }
 
     protected function canItemBeDeleted(int $id): bool
     {
-        return $this->User->admin || !$this->isItemUsedBySmartgear($id);
+        return $this->User->admin || ! $this->isItemUsedBySmartgear($id);
     }
 }

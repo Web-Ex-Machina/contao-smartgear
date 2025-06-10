@@ -34,7 +34,7 @@ class LoadConditionnal
      */
     public function __invoke()
     {
-        if (2 === \func_num_args()) {
+        if (\func_num_args() === 2) {
             return $this->invokeBackend(...\func_get_args());
         }
 

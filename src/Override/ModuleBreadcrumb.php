@@ -17,7 +17,7 @@ namespace WEM\SmartgearBundle\Override;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsFrontendModule;
 use Contao\System;
 
-#[AsFrontendModule(type: 'navigationMenu', name:'breadcrumb')]
+#[AsFrontendModule(type: 'navigationMenu', name: 'breadcrumb')]
 class ModuleBreadcrumb extends \Contao\ModuleBreadcrumb
 {
     public function generate(): string
@@ -30,7 +30,7 @@ class ModuleBreadcrumb extends \Contao\ModuleBreadcrumb
 
         $str = parent::generate();
 
-        if (0 === \count($this->Template->items)) {
+        if (\count($this->Template->items) === 0) {
             return '';
         }
 

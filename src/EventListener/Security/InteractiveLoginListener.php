@@ -30,8 +30,10 @@ class InteractiveLoginListener
     /**
      * Initialize the object.
      */
-    public function __construct(protected ConfigurationManager $configurationManager, protected ScopeMatcher $scopeMatcher)
-    {
+    public function __construct(
+        protected ConfigurationManager $configurationManager,
+        protected ScopeMatcher $scopeMatcher
+    ) {
     }
 
     public function __invoke(InteractiveLoginEvent $event): void
@@ -42,12 +44,12 @@ class InteractiveLoginListener
 
     protected function registerBackendLoginInformations(): void
     {
-        if (!$this->scopeMatcher->isBackend()) {
+        if (! $this->scopeMatcher->isBackend()) {
             return;
         }
 
         $hash = Util::getCookieVisitorUniqIdHash();
-        if (null === $hash) {
+        if ($hash === null) {
             $hash = Util::buildCookieVisitorUniqIdHash();
             Util::setCookieVisitorUniqIdHash($hash);
         }
@@ -63,7 +65,7 @@ class InteractiveLoginListener
 
     protected function redirectToSmargearDashboard(): void
     {
-        if (!$this->scopeMatcher->isBackend()) {
+        if (! $this->scopeMatcher->isBackend()) {
             return;
         }
 
@@ -74,11 +76,11 @@ class InteractiveLoginListener
             return;
         }
 
-        if (!$config->getSgInstallComplete()) {
+        if (! $config->getSgInstallComplete()) {
             return;
         }
 
-        if (null !== Input::get('redirect')) {
+        if (Input::get('redirect') !== null) {
             return;
         }
 

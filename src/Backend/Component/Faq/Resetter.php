@@ -61,7 +61,7 @@ class Resetter extends BackendResetter
         /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
         $faqConfig = $config->getSgFaq();
-        if (!$faqConfig) {
+        if (! $faqConfig) {
             return;
         }
 
@@ -105,9 +105,9 @@ class Resetter extends BackendResetter
                     }
                 }
 
-            break;
+                break;
             case FaqConfig::ARCHIVE_MODE_KEEP:
-            break;
+                break;
             case FaqConfig::ARCHIVE_MODE_DELETE:
                 $objFolder = new Folder($faqConfig->getSgFaqFolder());
                 if ($objFolder) {
@@ -152,7 +152,7 @@ class Resetter extends BackendResetter
                     }
                 }
 
-            break;
+                break;
             default:
                 throw new \InvalidArgumentException($this->translator->trans('WEMSG.FAQ.RESET.deleteModeUnknown', [], 'contao_default'));
         }

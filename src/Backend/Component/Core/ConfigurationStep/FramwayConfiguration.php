@@ -26,22 +26,21 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
 class FramwayConfiguration extends ConfigurationStep
 {
-
     protected string $strTemplate = 'be_wem_sg_install_block_configuration_step_core_framway_configuration';
 
     public function __construct(
-        string                                             $module,
-        string                                             $type,
-        protected ConfigurationManager                     $configurationManager,
-        protected ConfigurationManagerFramway              $configurationManagerFramway,
-        protected DirectoriesSynchronizer                  $templateRSCESynchronizer,
-        protected DirectoriesSynchronizer                  $templateSmartgearSynchronizer,
-        protected DirectoriesSynchronizer                  $templateGeneralSynchronizer,
-        protected DirectoriesSynchronizer                  $tinyMCEPluginsSynchronizer,
-        protected DirectoriesSynchronizer                  $tarteAuCitronSynchronizer,
-        protected DirectoriesSynchronizer                  $outdatedBrowserSynchronizer,
-        protected DirectoriesSynchronizer                  $socialShareButtonsSynchronizer,
-        protected UtilFramway                              $framwayUtil
+        string $module,
+        string $type,
+        protected ConfigurationManager $configurationManager,
+        protected ConfigurationManagerFramway $configurationManagerFramway,
+        protected DirectoriesSynchronizer $templateRSCESynchronizer,
+        protected DirectoriesSynchronizer $templateSmartgearSynchronizer,
+        protected DirectoriesSynchronizer $templateGeneralSynchronizer,
+        protected DirectoriesSynchronizer $tinyMCEPluginsSynchronizer,
+        protected DirectoriesSynchronizer $tarteAuCitronSynchronizer,
+        protected DirectoriesSynchronizer $outdatedBrowserSynchronizer,
+        protected DirectoriesSynchronizer $socialShareButtonsSynchronizer,
+        protected UtilFramway $framwayUtil
     ) {
         parent::__construct($module, $type);
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['Title'];
@@ -73,7 +72,7 @@ class FramwayConfiguration extends ConfigurationStep
     public function isStepValid(): bool
     {
         // check if the step is correct
-        return !empty(Input::post('themes')) && !empty(Input::post('components'));
+        return ! empty(Input::post('themes')) && ! empty(Input::post('components'));
     }
 
     /**
@@ -113,7 +112,7 @@ class FramwayConfiguration extends ConfigurationStep
 
         $theme = Input::post('new_theme');
 
-        if (!preg_match($this->framwayUtil::THEME_NAME_REGEXP, $theme)) {
+        if (! preg_match($this->framwayUtil::THEME_NAME_REGEXP, $theme)) {
             throw new \InvalidArgumentException($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['FieldNewThemeIncorrectFormat']);
         }
 

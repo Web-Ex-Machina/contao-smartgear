@@ -61,12 +61,12 @@ class FormStorageData extends CoreModel
     public function getPersonalDataEmailFieldValue(): string
     {
         $objFS = FormStorage::findItems(['id' => $this->pid]);
-        if ($objFS && !empty($objFS->sender)) {
+        if ($objFS && ! empty($objFS->sender)) {
             return $objFS->sender;
         }
 
         $objFDS = self::findItems(['pid' => $this->pid, 'field_name' => 'email'], 1);
-        if (!$objFDS instanceof \Contao\Model\Collection) {
+        if (! $objFDS instanceof \Contao\Model\Collection) {
             throw new Exception('Unable to find the email field');
         }
 
@@ -90,15 +90,15 @@ class FormStorageData extends CoreModel
             case 'textarea':
             case 'textareacustom':
                 $value = nl2br($value ?? '');
-            break;
+                break;
             case 'upload':
                 switch ($value) {
                     case self::NO_FILE_UPLOADED:
                         $value = $GLOBALS['TL_LANG']['WEMSG']['FDM']['ERROR']['noFileUploaded'];
-                    break;
+                        break;
                     case self::FILE_UPLOADED_BUT_NOT_STORED:
                         $value = $GLOBALS['TL_LANG']['WEMSG']['FDM']['ERROR']['fileUploadedButNotStored'];
-                    break;
+                        break;
                     default:
                         if (Validator::isStringUuid($value)) {
                             // we should have an UUID here
@@ -106,10 +106,10 @@ class FormStorageData extends CoreModel
                             $value = $objFile ? $objFile->path : $GLOBALS['TL_LANG']['WEMSG']['FDM']['ERROR']['uploadedFileNotFound'];
                         }
 
-                    break;
+                        break;
                 }
 
-            break;
+                break;
         }
 
         return $value;

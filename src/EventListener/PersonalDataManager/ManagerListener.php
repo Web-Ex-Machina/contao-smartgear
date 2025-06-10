@@ -21,12 +21,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\SmartgearBundle\Model\FormStorageData;
 
-#[AsHook('getFileByPidAndPtableAndEmailAndField','getFileByPidAndPtableAndEmailAndField',-1)]
-#[AsHook('isPersonalDataLinkedToFile','isPersonalDataLinkedToFile',-1)]
+#[AsHook('getFileByPidAndPtableAndEmailAndField', 'getFileByPidAndPtableAndEmailAndField', -1)]
+#[AsHook('isPersonalDataLinkedToFile', 'isPersonalDataLinkedToFile', -1)]
 class ManagerListener
 {
-    public function __construct(protected TranslatorInterface $translator)
-    {
+    public function __construct(
+        protected TranslatorInterface $translator
+    ) {
     }
 
     public function getFileByPidAndPtableAndEmailAndField(int $pid, string $ptable, string $email, string $field, PersonalData $personalData, $value, ?FilesModel $objFileModel): ?FilesModel

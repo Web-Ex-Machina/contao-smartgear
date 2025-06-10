@@ -72,10 +72,10 @@ class Update extends BackendModule
     protected function compile(): void
     {
         // Add WEM styles to template
-        $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
+        $GLOBALS['TL_CSS'][] = $this->strBasePath . '/backend/wemsg.css';
 
         $this->Template = new BackendTemplate('be_wem_sg_updatemanager');
-        if ('play' === Input::get('act')) {
+        if (Input::get('act') === 'play') {
             try {
                 set_time_limit(0);
                 $result = $this->updateManager->update((bool) Input::get('backup'));
@@ -100,7 +100,7 @@ class Update extends BackendModule
         // Retrieve updates
         $listResults = $this->updateManager->list();
         $this->objSession->set('wem_sg_update_to_play_number', $listResults->getNumbersOfUpdatesToPlay());
-        if (!$listResults) {
+        if (! $listResults) {
             $this->Template->empty = true;
         } else {
             $this->Template->empty = false;

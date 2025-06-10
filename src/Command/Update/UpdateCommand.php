@@ -41,7 +41,7 @@ class UpdateCommand extends AbstractUpdateCommand
         $io = new SymfonyStyle($input, $output);
         $io->title('Play updates');
         try {
-            $updateResult = $this->updateManager->update(!$input->getOption('nobackup'));
+            $updateResult = $this->updateManager->update(! $input->getOption('nobackup'));
         } catch (\Exception $exception) {
             if ($this->isJson($input)) {
                 $io->writeln(json_encode(['error' => $exception->getMessage()]));
@@ -66,8 +66,8 @@ class UpdateCommand extends AbstractUpdateCommand
 
         if ($input->getOption('nobackup')) {
             $io->info('No backup created because of the "--nobackup" option');
-        } elseif (!$updateResult->getBackupResult() instanceof CreateResult
-        || !$updateResult->getBackupResult()->getBackup() instanceof Backup) {
+        } elseif (! $updateResult->getBackupResult() instanceof CreateResult
+        || ! $updateResult->getBackupResult()->getBackup() instanceof Backup) {
             $io->error('An error occured when creating the backup');
         } else {
             $io->success(sprintf('Backup : %s', $updateResult->getBackupResult()->getBackup()->getFile()->basename));

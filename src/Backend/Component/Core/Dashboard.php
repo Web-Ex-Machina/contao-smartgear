@@ -14,11 +14,11 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Core;
 
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\Environment;
 use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\PageModel;
-use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\UserGroupModel;
 use Contao\UserModel;
 use Exception;
@@ -34,11 +34,10 @@ use WEM\SmartgearBundle\Config\Manager\EnvFile as ConfigurationEnvFileManager;
 
 class Dashboard extends BackendDashboard
 {
-
     protected string $strTemplate = 'be_wem_sg_block_core_dashboard';
 
     public function __construct(
-        protected readonly ContaoCsrfTokenManager   $contaoCsrfTokenManager,
+        protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
         ConfigurationManager $configurationManager,
         TranslatorInterface $translator,
         string $module,
@@ -79,10 +78,10 @@ class Dashboard extends BackendDashboard
         foreach ($rootPages as $rootPage) {
             $robotsTxtSGHeaderPos = strpos($rootPage->robotsTxt ?? '', SG_ROBOTSTXT_HEADER);
             $robotsTxtSGFooterPos = strpos($rootPage->robotsTxt ?? '', SG_ROBOTSTXT_FOOTER);
-            if (false !== $robotsTxtSGHeaderPos && false !== $robotsTxtSGFooterPos) {
-                $rootPage->robotsTxt = substr_replace($rootPage->robotsTxt, "\n".SG_ROBOTSTXT_CONTENT."\n", $robotsTxtSGHeaderPos + \strlen(SG_ROBOTSTXT_HEADER), $robotsTxtSGFooterPos - $robotsTxtSGHeaderPos - \strlen(SG_ROBOTSTXT_FOOTER) - 2);
+            if ($robotsTxtSGHeaderPos !== false && $robotsTxtSGFooterPos !== false) {
+                $rootPage->robotsTxt = substr_replace($rootPage->robotsTxt, "\n" . SG_ROBOTSTXT_CONTENT . "\n", $robotsTxtSGHeaderPos + \strlen(SG_ROBOTSTXT_HEADER), $robotsTxtSGFooterPos - $robotsTxtSGHeaderPos - \strlen(SG_ROBOTSTXT_FOOTER) - 2);
             } else {
-                $rootPage->robotsTxt = SG_ROBOTSTXT_CONTENT_FULL."\n".$rootPage->robotsTxt;
+                $rootPage->robotsTxt = SG_ROBOTSTXT_CONTENT_FULL . "\n" . $rootPage->robotsTxt;
             }
 
             $rootPage->includeCache = '';
@@ -92,7 +91,7 @@ class Dashboard extends BackendDashboard
         $this->htaccessAnalyzer->disableRedirectToWwwAndHttps();
 
         $envFilePath = '../.env';
-        if (!file_exists($envFilePath)) {
+        if (! file_exists($envFilePath)) {
             file_put_contents($envFilePath, '');
         }
 
@@ -112,7 +111,7 @@ class Dashboard extends BackendDashboard
 
         $this->configurationManager->save($config);
         $envFilePath = '../.env';
-        if (!file_exists($envFilePath)) {
+        if (! file_exists($envFilePath)) {
             file_put_contents($envFilePath, '');
         }
 
@@ -125,7 +124,7 @@ class Dashboard extends BackendDashboard
         foreach ($rootPages as $rootPage) {
             $robotsTxtSGHeaderPos = strpos($rootPage->robotsTxt ?? '', SG_ROBOTSTXT_HEADER);
             $robotsTxtSGFooterPos = strpos($rootPage->robotsTxt ?? '', SG_ROBOTSTXT_FOOTER);
-            if (false !== $robotsTxtSGHeaderPos && false !== $robotsTxtSGFooterPos) {
+            if ($robotsTxtSGHeaderPos !== false && $robotsTxtSGFooterPos !== false) {
                 $rootPage->robotsTxt = substr_replace($rootPage->robotsTxt, "\n", $robotsTxtSGHeaderPos + \strlen(SG_ROBOTSTXT_HEADER), $robotsTxtSGFooterPos - $robotsTxtSGHeaderPos - \strlen(SG_ROBOTSTXT_FOOTER) - 2);
             }
 
@@ -171,7 +170,7 @@ class Dashboard extends BackendDashboard
             $this->addError($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeAdminEmailMissing']);
         }
 
-        if (!$this->htaccessAnalyzer->hasRedirectToWwwAndHttps()) {
+        if (! $this->htaccessAnalyzer->hasRedirectToWwwAndHttps()) {
             $this->addError($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeHtaccessRedirectMissing']);
         }
 
@@ -180,7 +179,7 @@ class Dashboard extends BackendDashboard
         $this->actions = [];
         $this->actions[] = ['action' => 'prod_mode_check_cancel', 'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['Cancel']];
         if ($this->hasErrors()) {
-            $this->actions[] = ['action' => 'prod_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeButtonForceProdModeLabel'], 'attributes' => 'onclick="if(!confirm(\''.$GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeButtonForceProdModeConfirm'].'\'))return false;Backend.getScrollOffset()"'];
+            $this->actions[] = ['action' => 'prod_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeButtonForceProdModeLabel'], 'attributes' => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeButtonForceProdModeConfirm'] . '\'))return false;Backend.getScrollOffset()"'];
         } else {
             $this->actions[] = ['action' => 'prod_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeButtonProdModeLabel']];
         }
@@ -200,8 +199,8 @@ class Dashboard extends BackendDashboard
         $objTemplate->mode = $config->getSgMode();
         $objTemplate->installLocked = $config->getSgInstallLocked();
 
-        if (!$config->getSgInstallLocked()) {
-            if (CoreConfig::MODE_DEV === $config->getSgMode()) {
+        if (! $config->getSgInstallLocked()) {
+            if ($config->getSgMode() === CoreConfig::MODE_DEV) {
                 $this->actions[] = ['action' => 'prod_mode_check', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonProdModeLabel']];
             } else {
                 $this->actions[] = ['action' => 'dev_mode', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonDevModeLabel']];

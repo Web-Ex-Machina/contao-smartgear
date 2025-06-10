@@ -20,11 +20,12 @@ use WEM\SmartgearBundle\Classes\Backend\Component\EventListener\ReplaceInsertTag
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
-#[AsHook('replaceInsertTags',"onReplaceInsertTags",-1)]
+#[AsHook('replaceInsertTags', 'onReplaceInsertTags', -1)]
 class ReplaceInsertTagsListener
 {
-    public function __construct(protected array $listeners)
-    {
+    public function __construct(
+        protected array $listeners
+    ) {
     }
 
     /**
@@ -52,19 +53,18 @@ class ReplaceInsertTagsListener
         array $cache,
         int $_rit,
         int $_cnt
-    ): false|string
-    {
+    ): false|string {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
-        if ('sg' === $key) {
+        if ($key === 'sg') {
             $returnValue = $this->replaceInsertTags($insertTag, $useCache, $cachedValue, $flags, $tags, $cache, $_rit, $_cnt);
-            if (AbstractReplaceInsertTagsListener::NOT_HANDLED !== $returnValue) {
+            if ($returnValue !== AbstractReplaceInsertTagsListener::NOT_HANDLED) {
                 return $returnValue;
             }
 
             foreach ($this->listeners as $listener) {
                 $returnValue = $listener->onReplaceInsertTags($insertTag, $useCache, $cachedValue, $flags, $tags, $cache, $_rit, $_cnt);
-                if (AbstractReplaceInsertTagsListener::NOT_HANDLED !== $returnValue) {
+                if ($returnValue !== AbstractReplaceInsertTagsListener::NOT_HANDLED) {
                     return $returnValue;
                 }
             }
@@ -85,21 +85,21 @@ class ReplaceInsertTagsListener
     ) {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
-        if ('sg' === $key) {
+        if ($key === 'sg') {
             global $objPage;
             $objConfiguration = $objPage ? Configuration::findOneByPage($objPage) : null;
 
-            if (!$objPage || !$objConfiguration) {
+            if (! $objPage || ! $objConfiguration) {
                 return false;
             }
 
             switch ($elements[1]) {
                 case 'config':
                     if ($elements[2] === 'title') {
-                    return $objConfiguration->title;
-                }
+                        return $objConfiguration->title;
+                    }
 
-                break;
+                    break;
                 case 'title':
                 case 'version':
                 case 'mode':
@@ -146,54 +146,54 @@ class ReplaceInsertTagsListener
                 case 'websiteTitle':
                     return $objConfiguration->title;
                 case 'legal_owner_address_full':
-                    return $objConfiguration->legal_owner_street.' '.$objConfiguration->legal_owner_postal_code.' '.$objConfiguration->legal_owner_city.' '.$objConfiguration->legal_owner_region.' '.$objConfiguration->legal_owner_country;
+                    return $objConfiguration->legal_owner_street . ' ' . $objConfiguration->legal_owner_postal_code . ' ' . $objConfiguration->legal_owner_city . ' ' . $objConfiguration->legal_owner_region . ' ' . $objConfiguration->legal_owner_country;
                 case 'domain_full':
                     return str_contains($objConfiguration->domain, 'https://')
                     ? $objConfiguration->domain
                     : (
                         str_contains($objConfiguration->domain, 'http://')
                         ? str_replace('http://', 'https://', $objConfiguration->domain)
-                        : 'https://'.$objConfiguration->domain
+                        : 'https://' . $objConfiguration->domain
                     )
                     ;
                 case 'pouet':
                     return 'https://pouet-pouet-pouet.fr';
                 case 'page-legal-notice':
                     $objCI = ConfigurationItem::findItems(['pid' => $objConfiguration->id, 'type' => ConfigurationItem::TYPE_PAGE_LEGAL_NOTICE], 1);
-                    if (!$objCI instanceof Collection) {
+                    if (! $objCI instanceof Collection) {
                         return false;
                     }
 
                     $objPage2 = $objCI->getRelated('contao_page');
-                    if (!$objPage2) {
+                    if (! $objPage2) {
                         return false;
                     }
 
                     return \array_key_exists(2, $elements) ? $objPage2->{$elements[2]} : $objPage2->alias;
                 case 'page-privacy-politics':
                     $objCI = ConfigurationItem::findItems(['pid' => $objConfiguration->id, 'type' => ConfigurationItem::TYPE_PAGE_PRIVACY_POLITICS], 1);
-                    if (!$objCI instanceof Collection) {
+                    if (! $objCI instanceof Collection) {
                         return false;
                     }
 
                     $objPage2 = $objCI->getRelated('contao_page');
-                    if (!$objPage2) {
+                    if (! $objPage2) {
                         return false;
                     }
 
                     return \array_key_exists(2, $elements) ? $objPage2->{$elements[2]} : $objPage2->alias;
                 case 'page-sitemap':
                     $objCI = ConfigurationItem::findItems(['pid' => $objConfiguration->id, 'type' => ConfigurationItem::TYPE_PAGE_SITEMAP], 1);
-                    if (!$objCI instanceof Collection) {
+                    if (! $objCI instanceof Collection) {
                         $objCI = ConfigurationItem::findItems(['pid' => $objConfiguration->id, 'type' => ConfigurationItem::TYPE_MIXED_SITEMAP], 1);
                     }
 
-                    if (!$objCI instanceof Collection) {
+                    if (! $objCI instanceof Collection) {
                         return false;
                     }
 
                     $objPage2 = $objCI->getRelated('contao_page');
-                    if (!$objPage2) {
+                    if (! $objPage2) {
                         return false;
                     }
 

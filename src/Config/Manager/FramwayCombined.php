@@ -21,7 +21,6 @@ use WEM\SmartgearBundle\Config\Manager\Framway as ManagerFramway;
 
 class FramwayCombined extends ManagerFramway
 {
-
     public function __construct(
         TranslatorInterface $translator,
         ConfigInterface $configuration,
@@ -55,42 +54,42 @@ class FramwayCombined extends ManagerFramway
         ];
         $fileContent = $this->retrieveConfigurationFromFile();
         // retrieve colors
-        if (0 !== preg_match('/\$colors: \((.*)\);/msU', $fileContent, $matches)) {
+        if (preg_match('/\$colors: \((.*)\);/msU', $fileContent, $matches) !== 0) {
             $matchingColorLines = explode(',', $matches[1]);
             // dump($matchingColorLines);
             foreach ($matchingColorLines as $matchingColorLine) {
-                if (0 !== preg_match("/'(.*)': (.*)/", $matchingColorLine, $colorLineMatches)) {
+                if (preg_match("/'(.*)': (.*)/", $matchingColorLine, $colorLineMatches) !== 0) {
                     $futureJson['colors'][$colorLineMatches[1]] = $colorLineMatches[2];
                 }
             }
         }
 
         // retrieve others
-        if (0 !== preg_match('/\$primary:(.*);/', $fileContent, $matches)) {
+        if (preg_match('/\$primary:(.*);/', $fileContent, $matches) !== 0) {
             $futureJson['primary'] = trim($matches[1]);
         }
 
-        if (0 !== preg_match('/\$secondary:(.*);/', $fileContent, $matches)) {
+        if (preg_match('/\$secondary:(.*);/', $fileContent, $matches) !== 0) {
             $futureJson['secondary'] = trim($matches[1]);
         }
 
-        if (0 !== preg_match('/\$tertiary:(.*);/', $fileContent, $matches)) {
+        if (preg_match('/\$tertiary:(.*);/', $fileContent, $matches) !== 0) {
             $futureJson['tertiary'] = trim($matches[1]);
         }
 
-        if (0 !== preg_match('/\$success:(.*);/', $fileContent, $matches)) {
+        if (preg_match('/\$success:(.*);/', $fileContent, $matches) !== 0) {
             $futureJson['success'] = trim($matches[1]);
         }
 
-        if (0 !== preg_match('/\$info:(.*);/', $fileContent, $matches)) {
+        if (preg_match('/\$info:(.*);/', $fileContent, $matches) !== 0) {
             $futureJson['info'] = trim($matches[1]);
         }
 
-        if (0 !== preg_match('/\$warning:(.*);/', $fileContent, $matches)) {
+        if (preg_match('/\$warning:(.*);/', $fileContent, $matches) !== 0) {
             $futureJson['warning'] = trim($matches[1]);
         }
 
-        if (0 !== preg_match('/\$error:(.*);/', $fileContent, $matches)) {
+        if (preg_match('/\$error:(.*);/', $fileContent, $matches) !== 0) {
             $futureJson['error'] = trim($matches[1]);
         }
 
@@ -101,6 +100,6 @@ class FramwayCombined extends ManagerFramway
     {
         $rootPath = $this->getConfigurationRootFilePath() ?? $this->configurationManagerCore->load()->getSgFramwayPath();
 
-        $this->configurationFilePath = $rootPath.\DIRECTORY_SEPARATOR.'build'.\DIRECTORY_SEPARATOR.'combined'.\DIRECTORY_SEPARATOR.'_config.scss';
+        $this->configurationFilePath = $rootPath . \DIRECTORY_SEPARATOR . 'build' . \DIRECTORY_SEPARATOR . 'combined' . \DIRECTORY_SEPARATOR . '_config.scss';
     }
 }

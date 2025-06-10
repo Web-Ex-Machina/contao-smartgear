@@ -27,7 +27,7 @@ class Resetter
         protected ConfigurationManager $configurationManager,
         protected TranslatorInterface $translator,
         protected string $module,
-        protected string $type)
-    {
+        protected string $type
+    ) {
     }
 }

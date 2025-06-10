@@ -50,15 +50,16 @@ class PageVisit extends CoreModel
 
         switch ($strField) {
             case 'exclude_be_login':
-                $arrColumns[] = sprintf($t . ".hash NOT IN (
+                $arrColumns[] = sprintf(
+                    $t . ".hash NOT IN (
                     SELECT l.hash
                     FROM %s l
                     WHERE l.context = '%s'
                 )",
-                Login::getTable(),
-                self::getTable(),
-                self::getTable(),
-                Login::CONTEXT_BE
+                    Login::getTable(),
+                    self::getTable(),
+                    self::getTable(),
+                    Login::CONTEXT_BE
                 );
                 break;
             default:
@@ -72,56 +73,56 @@ class PageVisit extends CoreModel
     {
         $t = self::getTable();
 
-        return self::getAnalytics(['count(*) as amount', $t.'.referer'], $arrConfig, $limit, $offset, $arrOptions);
+        return self::getAnalytics(['count(*) as amount', $t . '.referer'], $arrConfig, $limit, $offset, $arrOptions);
     }
 
     public static function getReferersBaseAnalytics(?array $arrConfig = [], ?int $limit = 5, ?int $offset = 0, ?array $arrOptions = [])
     {
         $t = self::getTable();
 
-        return self::getAnalytics(['count(*) as amount', $t.'.referer_base'], $arrConfig, $limit, $offset, $arrOptions);
+        return self::getAnalytics(['count(*) as amount', $t . '.referer_base'], $arrConfig, $limit, $offset, $arrOptions);
     }
 
     public static function getPagesUrlAnalytics(?array $arrConfig = [], ?int $limit = 5, ?int $offset = 0, ?array $arrOptions = [])
     {
         $t = self::getTable();
 
-        return self::getAnalytics(['count(*) as amount', $t.'.page_url'], $arrConfig, $limit, $offset, $arrOptions);
+        return self::getAnalytics(['count(*) as amount', $t . '.page_url'], $arrConfig, $limit, $offset, $arrOptions);
     }
 
     public static function getPagesUrlBaseAnalytics(?array $arrConfig = [], ?int $limit = 5, ?int $offset = 0, ?array $arrOptions = [])
     {
         $t = self::getTable();
 
-        return self::getAnalytics(['count(*) as amount', $t.'.page_url_base'], $arrConfig, $limit, $offset, $arrOptions);
+        return self::getAnalytics(['count(*) as amount', $t . '.page_url_base'], $arrConfig, $limit, $offset, $arrOptions);
     }
 
     public static function countReferersAnalytics(?array $arrConfig = [], ?array $arrOptions = []): int
     {
         $t = self::getTable();
 
-        return self::countAnalytics(['count(*) as amount', $t.'.referer'], $arrConfig, $arrOptions);
+        return self::countAnalytics(['count(*) as amount', $t . '.referer'], $arrConfig, $arrOptions);
     }
 
     public static function countReferersBaseAnalytics(?array $arrConfig = [], ?array $arrOptions = []): int
     {
         $t = self::getTable();
 
-        return self::countAnalytics(['count(*) as amount', $t.'.referer_base'], $arrConfig, $arrOptions);
+        return self::countAnalytics(['count(*) as amount', $t . '.referer_base'], $arrConfig, $arrOptions);
     }
 
     public static function countPagesUrlAnalytics(?array $arrConfig = [], ?array $arrOptions = []): int
     {
         $t = self::getTable();
 
-        return self::countAnalytics(['count(*) as amount', $t.'.page_url'], $arrConfig, $arrOptions);
+        return self::countAnalytics(['count(*) as amount', $t . '.page_url'], $arrConfig, $arrOptions);
     }
 
     public static function countPagesUrlBaseAnalytics(?array $arrConfig = [], ?array $arrOptions = []): int
     {
         $t = self::getTable();
 
-        return self::countAnalytics(['count(*) as amount', $t.'.page_url_base'], $arrConfig, $arrOptions);
+        return self::countAnalytics(['count(*) as amount', $t . '.page_url_base'], $arrConfig, $arrOptions);
     }
 
     public static function getAnalytics(array $arrSelect, ?array $arrConfig = [], ?int $limit = 5, ?int $offset = 0, ?array $arrOptions = [])
@@ -135,7 +136,7 @@ class PageVisit extends CoreModel
 
         $sql = self::buildFindQuery($arrOptions);
 
-        return Database::getInstance()->prepare($sql.' LIMIT '.$offset.','.$limit)->execute();
+        return Database::getInstance()->prepare($sql . ' LIMIT ' . $offset . ',' . $limit)->execute();
     }
 
     public static function countAnalytics(array $arrSelect, ?array $arrConfig = [], ?array $arrOptions = []): int
@@ -149,6 +150,6 @@ class PageVisit extends CoreModel
 
         $sql = self::buildFindQuery($arrOptions);
 
-        return (int) Database::getInstance()->prepare('SELECT count(*) as amount FROM ('.$sql.') as subquery')->execute()->fetchAssoc()['amount'];
+        return (int) Database::getInstance()->prepare('SELECT count(*) as amount FROM (' . $sql . ') as subquery')->execute()->fetchAssoc()['amount'];
     }
 }

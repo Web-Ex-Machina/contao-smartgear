@@ -35,10 +35,10 @@ class FramwayTheme extends ManagerFramway
     {
         $rootPath = $this->getConfigurationRootFilePath() ?? $this->configurationManagerCore->load()->getSgFramwayPath();
 
-        return $rootPath.\DIRECTORY_SEPARATOR.(
-            '' !== $this->getThemeName()
-            ? 'src'.\DIRECTORY_SEPARATOR.'themes'.\DIRECTORY_SEPARATOR.$this->getThemeName().\DIRECTORY_SEPARATOR.'config.js'
-            : 'src'.\DIRECTORY_SEPARATOR.'core'.\DIRECTORY_SEPARATOR.'config.js'
+        return $rootPath . \DIRECTORY_SEPARATOR . (
+            $this->getThemeName() !== ''
+            ? 'src' . \DIRECTORY_SEPARATOR . 'themes' . \DIRECTORY_SEPARATOR . $this->getThemeName() . \DIRECTORY_SEPARATOR . 'config.js'
+            : 'src' . \DIRECTORY_SEPARATOR . 'core' . \DIRECTORY_SEPARATOR . 'config.js'
         );
     }
 

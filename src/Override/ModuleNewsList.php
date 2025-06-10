@@ -19,10 +19,9 @@ use Contao\Input;
 use Contao\NewsModel;
 use Contao\UserModel;
 
-#[AsFrontendModule(type: 'news', name:'newslist')]
+#[AsFrontendModule(type: 'news', name: 'newslist')]
 class ModuleNewsList extends \Contao\ModuleNewsList
 {
-
     protected array $filters = [];
 
     protected array $arrFilters = ['author', 'date'];
@@ -62,7 +61,7 @@ class ModuleNewsList extends \Contao\ModuleNewsList
             while ($objItems->next()) {
                 $objUser = UserModel::findByPk($objItems->author);
 
-                if (!$objUser->name) {
+                if (! $objUser->name) {
                     continue;
                 }
 
@@ -88,7 +87,7 @@ class ModuleNewsList extends \Contao\ModuleNewsList
                 'label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['dateMonth'],
             ],
         ];
-        if (null !== Input::get('date')) {
+        if (Input::get('date') !== null) {
             $this->config['date']['month'] = Input::get('date')['month'];
             $this->config['date']['year'] = Input::get('date')['year'];
         }
@@ -102,8 +101,8 @@ class ModuleNewsList extends \Contao\ModuleNewsList
         $lastEvent = NewsModel::findBy($col, $val, ['limit' => 1, 'order' => 'published DESC, tstamp DESC']);
 
         return [
-            'start' => (new \DateTime())->setTimestamp((int) ('' !== $firstEvent->start ? $firstEvent->start : $firstEvent->tstamp))->format('Y'),
-            'stop' => (new \DateTime())->setTimestamp((int) ('' !== $lastEvent->start ? $lastEvent->start : $lastEvent->tstamp))->format('Y'),
+            'start' => (new \DateTime())->setTimestamp((int) ($firstEvent->start !== '' ? $firstEvent->start : $firstEvent->tstamp))->format('Y'),
+            'stop' => (new \DateTime())->setTimestamp((int) ($lastEvent->start !== '' ? $lastEvent->start : $lastEvent->tstamp))->format('Y'),
         ];
     }
 }

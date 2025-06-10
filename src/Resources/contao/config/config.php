@@ -14,29 +14,29 @@ declare(strict_types=1);
 
 use Contao\ArrayUtil;
 use Contao\System;
-use WEM\SmartgearBundle\Model;
 use WEM\SmartgearBundle\Backend;
-use WEM\UtilsBundle\Classes\ScopeMatcher;
-use WEM\SmartgearBundle\Override;
+use WEM\SmartgearBundle\Model;
 use WEM\SmartgearBundle\Module;
+use WEM\SmartgearBundle\Override;
+use WEM\UtilsBundle\Classes\ScopeMatcher;
 
-if (!\defined('SG_ROBOTSTXT_HEADER')) {
+if (! \defined('SG_ROBOTSTXT_HEADER')) {
     \define('SG_ROBOTSTXT_HEADER', '# RESERVED TO SMARTGEAR - START');
 }
 
-if (!\defined('SG_ROBOTSTXT_FOOTER')) {
+if (! \defined('SG_ROBOTSTXT_FOOTER')) {
     \define('SG_ROBOTSTXT_FOOTER', '# RESERVED TO SMARTGEAR - END');
 }
 
-if (!\defined('SG_ROBOTSTXT_CONTENT')) {
+if (! \defined('SG_ROBOTSTXT_CONTENT')) {
     \define('SG_ROBOTSTXT_CONTENT', "User-agent: *\nUser-agent: AdsBot-Google\nDisallow: /");
 }
 
-if (!\defined('SG_ROBOTSTXT_CONTENT_FULL')) {
-    \define('SG_ROBOTSTXT_CONTENT_FULL', SG_ROBOTSTXT_HEADER."\n".SG_ROBOTSTXT_CONTENT."\n".SG_ROBOTSTXT_FOOTER);
+if (! \defined('SG_ROBOTSTXT_CONTENT_FULL')) {
+    \define('SG_ROBOTSTXT_CONTENT_FULL', SG_ROBOTSTXT_HEADER . "\n" . SG_ROBOTSTXT_CONTENT . "\n" . SG_ROBOTSTXT_FOOTER);
 }
 
-/* @var ScopeMatcher $scopeMatcher */
+/** @var ScopeMatcher $scopeMatcher */
 $scopeMatcher = System::getContainer()->get('wem.scope_matcher');
 // Load icon in Contao 4.2 backend
 
@@ -112,15 +112,15 @@ $GLOBALS['BE_FFL']['stylemanager'] = \WEM\SmartgearBundle\Widget\ComponentStyleS
  * Backend modules
  */
 // ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 0, [
-    // 'smartgear' => [
-    //     'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
-    // ],
-    //     'wem_sg_smartgear_configuration' => [
-    //         'tables' => ['tl_sm_configuration', 'tl_sm_configuration_item'],
-    //     ],
-    //     'wem_sg_social_link_config_categories' => [
-    //         'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
-    //     ],
+// 'smartgear' => [
+//     'callback' => "\WEM\SmartgearBundle\Backend\Smartgear",
+// ],
+//     'wem_sg_smartgear_configuration' => [
+//         'tables' => ['tl_sm_configuration', 'tl_sm_configuration_item'],
+//     ],
+//     'wem_sg_social_link_config_categories' => [
+//         'tables' => ['tl_sm_social_network_category', 'tl_sm_social_network'],
+//     ],
 // ]);
 ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 0, [
     'wem_smartgear' => [
@@ -223,8 +223,8 @@ $GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\NotificationCenter\Gateway::getT
  * Add FE Hooks
  */
 //if ($scopeMatcher->isFrontend()) {
-    // $GLOBALS['TL_HOOKS']['getPageLayout'][] = ['\WEM\SmartgearBundle\Hooks\GetPageLayoutHook', 'generateApiToken'];
-    // $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Hooks\ExecutePreActionsHook', 'catchApiRequests'];
+// $GLOBALS['TL_HOOKS']['getPageLayout'][] = ['\WEM\SmartgearBundle\Hooks\GetPageLayoutHook', 'generateApiToken'];
+// $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Hooks\ExecutePreActionsHook', 'catchApiRequests'];
 
 // All replaced by attribute
 //    $GLOBALS['TL_HOOKS']['generateFrontendUrl'][] = ['smartgear.listener.generate_frontend_url', '__invoke'];

@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Override;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsFrontendModule;
 use Contao\FilesModel;
 use Contao\Input;
 use Contao\NewsModel;
@@ -21,9 +22,8 @@ use Contao\PageModel;
 use Contao\System;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFound;
-use Contao\CoreBundle\DependencyInjection\Attribute\AsFrontendModule;
 
-#[AsFrontendModule(type: 'news', name:'newsreader')]
+#[AsFrontendModule(type: 'news', name: 'newsreader')]
 class ModuleNewsReader extends \Contao\ModuleNewsReader
 {
     /**
@@ -53,13 +53,13 @@ class ModuleNewsReader extends \Contao\ModuleNewsReader
             if ($objArticle->addImage) {
                 $objImage = FilesModel::findByUuid($objArticle->singleSRC);
                 if ($objImage) {
-                    $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:image" content="%s">', \Contao\Environment::get('base').$objImage->path);
+                    $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:image" content="%s">', \Contao\Environment::get('base') . $objImage->path);
                 }
             }
         }
 
         $configManager = System::getContainer()->get('smartgear.config.manager.core');
-        /* @var UrlGeneratorInterface $routeGenerator*/
+        /** @var UrlGeneratorInterface $routeGenerator*/
         $routeGenerator = System::getContainer()->get('contao.routing.content_url_generator');
         try {
             $blogConfig = $configManager->load()->getSgBlog();

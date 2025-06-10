@@ -31,7 +31,7 @@ use WEM\SmartgearBundle\Config\Component\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 use WEM\UtilsBundle\Classes\ScopeMatcher;
 
-#[AsHook('executePreActions','processAjaxRequest',-1)]
+#[AsHook('executePreActions', 'processAjaxRequest', -1)]
 class Dashboard extends BackendModule
 {
     /**
@@ -48,8 +48,10 @@ class Dashboard extends BackendModule
      */
     protected string $strBasePath = 'bundles/wemsmartgear';
 
-    public function __construct(protected readonly ScopeMatcher $scopeMatcher, DataContainer|null $dc = null)
-    {
+    public function __construct(
+        protected readonly ScopeMatcher $scopeMatcher,
+        DataContainer|null $dc = null
+    ) {
         parent::__construct($dc);
 
         $configurationManager = System::getContainer()->get('smartgear.config.manager.core');
@@ -63,31 +65,47 @@ class Dashboard extends BackendModule
 
             $arrDomains = Util::getRootPagesDomains();
             $hostingInformations = $airtableApi->getHostingInformations($arrDomains);
-            if (!empty($hostingInformations)) {
+            if (! empty($hostingInformations)) {
                 $clientsRef = Util::getAirtableClientsRef($hostingInformations);
                 $airtableApi->getSupportClientInformations($clientsRef);
             }
         } catch (NotFound) {
         }
 
-        /* @var ShortcutInternal $this->modShortcutInternal */
+        /** @var ShortcutInternal $this->modShortcutInternal */
         $this->modShortcutInternal = System::getContainer()->get('smartgear.backend.dashboard.shortcut_internal');
-        /* @var ShortcutExternal $this->modShortcutExternal */
+        /** @var ShortcutExternal $this->modShortcutExternal */
         $this->modShortcutExternal = System::getContainer()->get('smartgear.backend.dashboard.shortcut_external');
-        /* @var AnalyticsInternal $this->modAnalyticsInternal */
+        /** @var AnalyticsInternal $this->modAnalyticsInternal */
         $this->modAnalyticsInternal = System::getContainer()->get('smartgear.backend.dashboard.analytics_internal');
-        /* @var AnalyticsExternal $this->modAnalyticsExternal */
+        /** @var AnalyticsExternal $this->modAnalyticsExternal */
         $this->modAnalyticsExternal = System::getContainer()->get('smartgear.backend.dashboard.analytics_external');
-        /* @var Support $this->modSupport */
+        /** @var Support $this->modSupport */
         $this->modSupport = System::getContainer()->get('smartgear.backend.dashboard.support');
     }
 
     public function generate(): string
     {
         // Add WEM styles to template
-        $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
+        $GLOBALS['TL_CSS'][] = $this->strBasePath . '/backend/wemsg.css';
 
         return parent::generate();
+    }
+
+    /**
+     * Process AJAX actions.
+     *
+     * @param string $strAction - Ajax action wanted
+     */
+    public function processAjaxRequest(string $strAction): void
+    {
+        if (! $this->scopeMatcher->isFrontend()) {
+            exit();
+        }
+
+        if (Input::post('TL_WEM_AJAX') && Input::post('wem_module') === $this->modSupport->getStrId()) {
+            $this->modSupport->processAjaxRequest(Input::post('action'));
+        }
     }
 
     protected function compile(): void
@@ -100,7 +118,7 @@ class Dashboard extends BackendModule
             return;
         }
 
-        if (!$config->getSgInstallComplete()) {
+        if (! $config->getSgInstallComplete()) {
             Message::add($GLOBALS['TL_LANG']['WEMSG']['DASHBOARD']['smartgearNotInstalled'], 'TL_ERROR');
 
             return;
@@ -112,19 +130,5 @@ class Dashboard extends BackendModule
         $this->Template->analyticsInternal = $this->modAnalyticsInternal->generate();
         $this->Template->analyticsExternal = $this->modAnalyticsExternal->generate();
         $this->Template->support = $this->modSupport->generate();
-    }
-
-    /**
-     * Process AJAX actions.
-     *
-     * @param string $strAction - Ajax action wanted
-     */
-    public function processAjaxRequest(string $strAction): void
-    {
-        if(!$this->scopeMatcher->isFrontend()) {exit();}
-
-        if (Input::post('TL_WEM_AJAX') && Input::post('wem_module') === $this->modSupport->getStrId()) {
-            $this->modSupport->processAjaxRequest(Input::post('action'));
-        }
     }
 }

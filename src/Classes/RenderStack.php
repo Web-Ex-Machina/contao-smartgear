@@ -42,9 +42,9 @@ class RenderStack
         ],
     ];
 
-    public static function getInstance(): RenderStack
+    public static function getInstance(): self
     {
-        if (!self::$instance instanceof RenderStack) {
+        if (! self::$instance instanceof self) {
             self::$instance = new self();
         }
 
@@ -60,13 +60,13 @@ class RenderStack
      */
     public function add(ModuleModel|ContentModel $model, string $buffer, Module|ContentElement $contentOrModule): void
     {
-        if (!is_a($model, ModuleModel::class) && !$model instanceof ContentModel) {
+        if (! is_a($model, ModuleModel::class) && ! $model instanceof ContentModel) {
             return;
         }
 
         $column = $contentOrModule->Template->inColumn ?? 'main';
 
-        if (!\array_key_exists($column, $this->stack['current_index'])) {
+        if (! \array_key_exists($column, $this->stack['current_index'])) {
             $this->stack['current_index'][$column] = 0;
         }
 
@@ -79,7 +79,7 @@ class RenderStack
             'column' => $column,
         ];
 
-        if (is_a($model, ModuleModel::class) && 'breadcrumb' === $model->type) {
+        if (is_a($model, ModuleModel::class) && $model->type === 'breadcrumb') {
             $this->stack['breadcrumb_indexes']['all'][] = $this->stack['current_index']['all'];
             $this->stack['breadcrumb_indexes'][$column][] = $this->stack['current_index'][$column];
         }
@@ -97,7 +97,7 @@ class RenderStack
      */
     public function get(int $index): array
     {
-        if (!\array_key_exists($index, $this->stack['items'])) {
+        if (! \array_key_exists($index, $this->stack['items'])) {
             throw new Exception('Out of bounds');
         }
 
@@ -112,7 +112,7 @@ class RenderStack
     public function getBreadcrumbIndexes(?string $column = null): array
     {
         $column ??= 'all';
-        if (!\array_key_exists($column, $this->stack['breadcrumb_indexes'])) {
+        if (! \array_key_exists($column, $this->stack['breadcrumb_indexes'])) {
             return [];
         }
 
@@ -126,7 +126,7 @@ class RenderStack
      */
     public function getItems(?string $column = null): array
     {
-        if (null === $column) {
+        if ($column === null) {
             return $this->stack['items'];
         }
 
@@ -152,7 +152,7 @@ class RenderStack
         $indexes = $this->getBreadcrumbIndexes();
 
         foreach ($indexes as $index) {
-            if ('all' === $column || $column === $this->stack['items'][$index]['column']) {
+            if ($column === 'all' || $column === $this->stack['items'][$index]['column']) {
                 $breadcrumbItems[] = $this->stack['items'][$index];
             }
         }

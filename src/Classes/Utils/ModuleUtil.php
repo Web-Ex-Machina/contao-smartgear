@@ -32,7 +32,7 @@ class ModuleUtil
         // Now we get the default values, get the arrData table
         if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
-                $objModule->$k = $v;
+                $objModule->{$k} = $v;
             }
         }
 
@@ -87,7 +87,7 @@ class ModuleUtil
         $arrData = array_merge([
             'type' => 'html',
             'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleFooterName'],
-            'html' => file_get_contents(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/footer_1.html'),
+            'html' => file_get_contents(Util::getPublicOrWebDirectory() . '/bundles/wemsmartgear/examples/footer_1.html'),
         ], $arrData);
         // Return the model
         return self::createModule($pid, $arrData);

@@ -35,7 +35,7 @@ class Version implements \Stringable
     public function fromString(string $version, ?string $separator = '.'): self
     {
         $fragments = explode($separator, $version);
-        if (3 !== \count($fragments)) {
+        if (\count($fragments) !== 3) {
             throw new BadFormatException(sprintf('Version "%s" has an incorrect format', $version));
         }
 

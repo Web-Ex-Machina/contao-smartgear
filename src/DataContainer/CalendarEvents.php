@@ -28,7 +28,7 @@ class CalendarEvents extends \tl_calendar_events
         $arrOptions = parent::getSourceOptions($dc);
         $valuesToKeep = ['default', 'external'];
         foreach ($arrOptions as $index => $value) {
-            if (!\in_array($value, $valuesToKeep, true)) {
+            if (! \in_array($value, $valuesToKeep, true)) {
                 unset($arrOptions[$index]);
             }
         }
@@ -39,7 +39,7 @@ class CalendarEvents extends \tl_calendar_events
     public function fillCoordinates(DataContainer $dc): void
     {
         // Return if there is no active record (override all)
-        if (!$dc->activeRecord
+        if (! $dc->activeRecord
         || empty($dc->activeRecord->address)
         ) {
             return;

@@ -23,15 +23,14 @@ use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
 
 class General extends AbstractStep
 {
-
     protected string $strTemplate = 'be_wem_sg_install_block_reset_step_faq_general';
 
     public function __construct(
-        string                         $module,
-        string                         $type,
-        protected TranslatorInterface  $translator,
+        string $module,
+        string $type,
+        protected TranslatorInterface $translator,
         protected ConfigurationManager $configurationManager,
-        protected Resetter             $resetter
+        protected Resetter $resetter
     ) {
         parent::__construct($module, $type);
 
@@ -58,7 +57,7 @@ class General extends AbstractStep
     public function isStepValid(): bool
     {
         // check if the step is correct
-        if (!\in_array(Input::post('deleteMode'), FaqConfig::ARCHIVE_MODES_ALLOWED, true)) {
+        if (! \in_array(Input::post('deleteMode'), FaqConfig::ARCHIVE_MODES_ALLOWED, true)) {
             throw new \InvalidArgumentException($this->translator->trans('WEMSG.FAQ.RESET.deleteModeUnknown', [], 'contao_default'));
         }
 

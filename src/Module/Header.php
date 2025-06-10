@@ -43,11 +43,11 @@ class Header extends Module
 
             $objTemplate = new BackendTemplate('be_wildcard');
 
-            $objTemplate->wildcard = '### '.mb_strtoupper((string) $GLOBALS['TL_LANG']['FMD']['wem_sg_header'][0], 'UTF-8').' ###';
+            $objTemplate->wildcard = '### ' . mb_strtoupper((string) $GLOBALS['TL_LANG']['FMD']['wem_sg_header'][0], 'UTF-8') . ' ###';
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
-            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id='.$this->id;
+            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
 
             return $objTemplate->parse();
         }
@@ -63,7 +63,7 @@ class Header extends Module
         try {
             global $objPage;
 
-            $isRoot = 'root' === $objPage->type || 'index' === $objPage->alias;
+            $isRoot = $objPage->type === 'root' || $objPage->alias === 'index';
 
             $this->Template->isRoot = $isRoot;
         } catch (Exception $exception) {

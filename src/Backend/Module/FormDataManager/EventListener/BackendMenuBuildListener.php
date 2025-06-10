@@ -26,8 +26,8 @@ class BackendMenuBuildListener
 {
     public function __construct(
         protected TranslatorInterface $translator,
-        protected CoreConfigurationManager $coreConfigurationManager)
-    {
+        protected CoreConfigurationManager $coreConfigurationManager
+    ) {
     }
 
     public function __invoke(MenuEvent $event): void
@@ -52,7 +52,7 @@ class BackendMenuBuildListener
     {
         $tree = $event->getTree();
 
-        if ('mainMenu' !== $tree->getName()) {
+        if ($tree->getName() !== 'mainMenu') {
             return;
         }
 

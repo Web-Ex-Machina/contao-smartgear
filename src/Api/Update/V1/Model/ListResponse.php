@@ -16,7 +16,6 @@ namespace WEM\SmartgearBundle\Api\Update\V1\Model;
 
 class ListResponse
 {
-
     protected int $total = 0;
 
     protected array $updates = [];

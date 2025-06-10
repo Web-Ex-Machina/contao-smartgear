@@ -27,8 +27,8 @@ class NewsArchiveUtil
         // Create the theme
         if (\array_key_exists('id', $arrData)) {
             $objCalFee = NewsArchiveModel::findOneById($arrData['id']);
-            if (!$objCalFee) {
-                throw new InvalidArgumentException('L\'archive d\'actualités ayant pour id "'.$arrData['id'].'" n\'existe pas');
+            if (! $objCalFee) {
+                throw new InvalidArgumentException('L\'archive d\'actualités ayant pour id "' . $arrData['id'] . '" n\'existe pas');
             }
         } else {
             $objCalFee = new NewsArchiveModel();
@@ -41,7 +41,7 @@ class NewsArchiveUtil
         // Now we get the default values, get the arrData table
         if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
-                $objCalFee->$k = $v;
+                $objCalFee->{$k} = $v;
             }
         }
 

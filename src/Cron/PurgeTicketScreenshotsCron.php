@@ -24,7 +24,7 @@ class PurgeTicketScreenshotsCron
      */
     public function __invoke(): void
     {
-        $objFolder = new Folder(CoreConfig::DEFAULT_CLIENT_FILES_FOLDER.\DIRECTORY_SEPARATOR.'tickets');
+        $objFolder = new Folder(CoreConfig::DEFAULT_CLIENT_FILES_FOLDER . \DIRECTORY_SEPARATOR . 'tickets');
         $objFolder->purge();
     }
 }

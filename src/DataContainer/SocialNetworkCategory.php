@@ -29,8 +29,9 @@ use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class SocialNetworkCategory extends Backend
 {
-    public function __construct(private readonly TranslatorInterface $translator)
-    {
+    public function __construct(
+        private readonly TranslatorInterface $translator
+    ) {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
     }
@@ -53,8 +54,8 @@ class SocialNetworkCategory extends Backend
      */
     public function checkPermission(): void
     {
-        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
-            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' social network category ID '.Input::get('id').'.');
+        if (Input::get('act') === 'delete' && ! $this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to ' . Input::get('act') . ' social network category ID ' . Input::get('id') . '.');
         }
     }
 
@@ -63,7 +64,7 @@ class SocialNetworkCategory extends Backend
      */
     public function editHeader(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
     {
-        return System::getContainer()->get('security.helper')->isGranted(SmartgearPermissions::SOCIALLINK_EXPERT) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ' : Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+        return System::getContainer()->get('security.helper')->isGranted(SmartgearPermissions::SOCIALLINK_EXPERT) ? '<a href="' . $this->addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label) . '</a> ' : Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
     }
 
     /**
@@ -71,7 +72,7 @@ class SocialNetworkCategory extends Backend
      */
     public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+        if (! $this->canItemBeDeleted((int) $config->getRecord()['id'])) {
             $config->disable();
         }
     }
@@ -88,6 +89,6 @@ class SocialNetworkCategory extends Backend
 
     protected function canItemBeDeleted(int $id): bool
     {
-        return $this->User->admin || !$this->isItemUsed($id);
+        return $this->User->admin || ! $this->isItemUsed($id);
     }
 }

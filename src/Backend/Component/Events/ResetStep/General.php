@@ -23,8 +23,6 @@ use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 
 class General extends AbstractStep
 {
-
-
     protected string $strTemplate = 'be_wem_sg_install_block_reset_step_events_general';
 
     public function __construct(
@@ -59,7 +57,7 @@ class General extends AbstractStep
     public function isStepValid(): bool
     {
         // check if the step is correct
-        if (!\in_array(Input::post('deleteMode'), EventsConfig::ARCHIVE_MODES_ALLOWED, true)) {
+        if (! \in_array(Input::post('deleteMode'), EventsConfig::ARCHIVE_MODES_ALLOWED, true)) {
             throw new \InvalidArgumentException($this->translator->trans('WEMSG.EVENTS.RESET.deleteModeUnknown', [], 'contao_default'));
         }
 

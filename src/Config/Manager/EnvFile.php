@@ -19,7 +19,6 @@ use WEM\SmartgearBundle\Classes\Config\ConfigEnvInterface;
 use WEM\SmartgearBundle\Classes\Config\ConfigInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\AbstractManager;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerEnvInterface;
-use WEM\SmartgearBundle\Config\EnvFile as ConfigEnvFile;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class EnvFile extends AbstractManager implements ManagerEnvInterface
@@ -57,7 +56,7 @@ class EnvFile extends AbstractManager implements ManagerEnvInterface
     {
         $this->configuration = $configuration;
 
-        return false !== file_put_contents($this->configurationFilePath, $this->configuration->export());
+        return file_put_contents($this->configurationFilePath, $this->configuration->export()) !== false;
     }
 
     public function retrieveConfigurationAsImportableFormatFromFile(): array

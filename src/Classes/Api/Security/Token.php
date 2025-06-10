@@ -12,17 +12,14 @@
 
 namespace WEM\SmartgearBundle\Classes\Api\Security;
 
-use Contao\System;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use Contao\System;
 
-class Token{
-	
+class Token
+{
     public function __construct(
         protected ContaoFramework $framework
-    )
-    {
+    ) {
         $this->framework->initialize();
     }
 

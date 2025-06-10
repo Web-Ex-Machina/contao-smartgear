@@ -40,11 +40,11 @@ class Block extends BackendBlock
     protected ContaoCsrfTokenManager $contaoCsrfTokenManager;
 
     public function __construct(
-        TranslatorInterface        $translator,
-        ConfigurationManager       $configurationManager,
-        ConfigurationStepManager   $configurationStepManager,
+        TranslatorInterface $translator,
+        ConfigurationManager $configurationManager,
+        ConfigurationStepManager $configurationStepManager,
         protected ResetStepManager $resetStepManager,
-        Dashboard                  $dashboard
+        Dashboard $dashboard
     ) {
         $this->contaoCsrfTokenManager = System::getContainer()->getParameter('contao.csrf.token_manager');
         parent::__construct($configurationManager, $configurationStepManager, $dashboard, $translator);
@@ -58,15 +58,15 @@ class Block extends BackendBlock
                     $this->setMode(self::MODE_RESET);
                     $this->resetStepManager->goToStep(0);
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
-                break;
+                    break;
                 case 'reset_mode_check_cancel':
                     $this->setMode(self::MODE_DASHBOARD);
                     $content = $this->parse();
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('replaceBlockContent', [$content])]];
-                break;
+                    break;
                 default:
                     parent::processAjaxRequest();
-                break;
+                    break;
             }
         } catch (Exception $exception) {
             $arrResponse = ['status' => 'error', 'msg' => $exception->getMessage(), 'trace' => $exception->getTrace()];
@@ -91,10 +91,10 @@ class Block extends BackendBlock
             case self::MODE_RESET:
                 $objTemplate->steps = $this->resetStepManager->parseSteps();
                 $objTemplate->content = $this->resetStepManager->parse();
-            break;
+                break;
             default:
                 $objTemplate = parent::parseDependingOnMode($objTemplate);
-            break;
+                break;
         }
 
         return $objTemplate;
@@ -158,9 +158,8 @@ class Block extends BackendBlock
         $i = $this->getMode();
         if ($i === self::MODE_RESET) {
             return $this->configurationStepManager->parseSteps();
-        } else {
-            parent::parseSteps();
         }
+        parent::parseSteps();
 
         return null;
     }

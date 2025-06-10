@@ -45,7 +45,7 @@ DCAManipulator::create('tl_faq')
     ->addField('update_reminder_date', [
         'label' => &$GLOBALS['TL_LANG']['WEMSG']['DCA']['update_reminder_date'],
         'inputType' => 'text',
-        'eval' => ['rgxp'=>'datim', 'datepicker'=>true, 'tl_class'=>'w50', 'readonly'=>true],
+        'eval' => ['rgxp' => 'datim', 'datepicker' => true, 'tl_class' => 'w50', 'readonly' => true],
         'sql' => "int(10) unsigned NOT NULL default '0'",
     ])
     ->addConfigOnsubmitCallback(\WEM\SmartgearBundle\DataContainer\Core::class, 'updateReminder')
@@ -53,7 +53,7 @@ DCAManipulator::create('tl_faq')
 ;
 
 foreach ($GLOBALS['TL_DCA']['tl_faq']['palettes'] as $paletteName => $paletteConfig) {
-    if ('__selector__' !== $paletteName) {
+    if ($paletteName !== '__selector__') {
         PaletteManipulator::create()
             ->addLegend('update_reminder_legend')
             ->addField('update_reminder', 'update_reminder_legend')

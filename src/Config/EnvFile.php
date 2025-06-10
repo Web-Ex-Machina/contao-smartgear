@@ -86,40 +86,40 @@ class EnvFile implements ConfigEnvInterface
     public function export(): string
     {
         $str = 'APP_ENV=' . $this->getAPPENV() . "\n";
-        if (null !== $this->getAPPSECRET()) {
-            $str .= 'APP_SECRET='.$this->getAPPSECRET()."\n";
+        if ($this->getAPPSECRET() !== null) {
+            $str .= 'APP_SECRET=' . $this->getAPPSECRET() . "\n";
         }
 
-        if (null !== $this->getCOOKIEWHITELIST()) {
-            $str .= 'COOKIE_WHITELIST='.$this->getCOOKIEWHITELIST()."\n";
+        if ($this->getCOOKIEWHITELIST() !== null) {
+            $str .= 'COOKIE_WHITELIST=' . $this->getCOOKIEWHITELIST() . "\n";
         }
 
-        if (null !== $this->getCOOKIEREMOVEFROMDENYLIST()) {
-            $str .= 'COOKIE_REMOVE_FROM_DENY_LIST='.$this->getCOOKIEREMOVEFROMDENYLIST()."\n";
+        if ($this->getCOOKIEREMOVEFROMDENYLIST() !== null) {
+            $str .= 'COOKIE_REMOVE_FROM_DENY_LIST=' . $this->getCOOKIEREMOVEFROMDENYLIST() . "\n";
         }
 
-        if (null !== $this->getQUERYPARAMSALLOWLIST()) {
-            $str .= 'QUERY_PARAMS_ALLOW_LIST='.$this->getQUERYPARAMSALLOWLIST()."\n";
+        if ($this->getQUERYPARAMSALLOWLIST() !== null) {
+            $str .= 'QUERY_PARAMS_ALLOW_LIST=' . $this->getQUERYPARAMSALLOWLIST() . "\n";
         }
 
-        if (null !== $this->getQUERYPARAMSREMOVEFROMDENYLIST()) {
-            $str .= 'QUERY_PARAMS_REMOVE_FROM_DENY_LIST='.$this->getQUERYPARAMSREMOVEFROMDENYLIST()."\n";
+        if ($this->getQUERYPARAMSREMOVEFROMDENYLIST() !== null) {
+            $str .= 'QUERY_PARAMS_REMOVE_FROM_DENY_LIST=' . $this->getQUERYPARAMSREMOVEFROMDENYLIST() . "\n";
         }
 
-        if (null !== $this->getDATABASEURL()) {
-            $str .= 'DATABASE_URL='.$this->getDATABASEURL()."\n";
+        if ($this->getDATABASEURL() !== null) {
+            $str .= 'DATABASE_URL=' . $this->getDATABASEURL() . "\n";
         }
 
-        if (null !== $this->getMAILERURL()) {
-            $str .= 'MAILER_URL='.$this->getMAILERURL()."\n";
+        if ($this->getMAILERURL() !== null) {
+            $str .= 'MAILER_URL=' . $this->getMAILERURL() . "\n";
         }
 
-        if (null !== $this->getTRUSTEDPROXIES()) {
-            $str .= 'TRUSTED_PROXIES='.$this->getTRUSTEDPROXIES()."\n";
+        if ($this->getTRUSTEDPROXIES() !== null) {
+            $str .= 'TRUSTED_PROXIES=' . $this->getTRUSTEDPROXIES() . "\n";
         }
 
-        if (null !== $this->getTRUSTEDHOSTS()) {
-            $str .= 'TRUSTED_HOSTS='.$this->getTRUSTEDHOSTS()."\n";
+        if ($this->getTRUSTEDHOSTS() !== null) {
+            $str .= 'TRUSTED_HOSTS=' . $this->getTRUSTEDHOSTS() . "\n";
         }
 
         return $str;

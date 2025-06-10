@@ -14,13 +14,11 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Migration;
 
-
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Version\Version;
 
 abstract class MigrationAbstract implements MigrationInterface
 {
-
     protected string $name;
 
     protected string $description;
@@ -29,8 +27,9 @@ abstract class MigrationAbstract implements MigrationInterface
 
     protected string $translation_key = '';
 
-    public function __construct(protected TranslatorInterface $translator)
-    {
+    public function __construct(
+        protected TranslatorInterface $translator
+    ) {
     }
 
     public function getName(): string
@@ -77,7 +76,7 @@ abstract class MigrationAbstract implements MigrationInterface
      */
     protected function buildTranslationKey(string $property): string
     {
-        return $this->getTranslationKey().'.'.$property;
+        return $this->getTranslationKey() . '.' . $property;
     }
 
     /**
@@ -90,6 +89,6 @@ abstract class MigrationAbstract implements MigrationInterface
      */
     protected function buildTranslationKeyLocal(string $property): string
     {
-        return $this->translation_key.'.'.$property;
+        return $this->translation_key . '.' . $property;
     }
 }

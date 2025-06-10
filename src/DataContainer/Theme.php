@@ -22,7 +22,6 @@ use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class Theme extends Backend
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -40,8 +39,8 @@ class Theme extends Backend
         }
 
         // Check current action
-        if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
-            throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' theme ID '.Input::get('id').'.');
+        if (Input::get('act') === 'delete' && ! $this->canItemBeDeleted((int) Input::get('id'))) {
+            throw new AccessDeniedException('Not enough permissions to ' . Input::get('act') . ' theme ID ' . Input::get('id') . '.');
         }
     }
 
@@ -50,7 +49,7 @@ class Theme extends Backend
      */
     public function deleteItem(DataContainerOperation &$config): void
     {
-        if (!$this->canItemBeDeleted((int) $config->getRecord()['id'])) {
+        if (! $this->canItemBeDeleted((int) $config->getRecord()['id'])) {
             $config->disable();
         }
     }
@@ -70,11 +69,11 @@ class Theme extends Backend
         //     }
         // } catch (\Exception $e) {
         // }
-        return 0 < Configuration::countItems(['contao_theme' => $id]);
+        return Configuration::countItems(['contao_theme' => $id]) > 0;
     }
 
     protected function canItemBeDeleted(int $id): bool
     {
-        return $this->User->admin || !$this->isItemUsedBySmartgear($id);
+        return $this->User->admin || ! $this->isItemUsedBySmartgear($id);
     }
 }

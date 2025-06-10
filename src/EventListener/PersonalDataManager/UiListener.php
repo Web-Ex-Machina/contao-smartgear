@@ -32,17 +32,16 @@ use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Model\FormStorage;
 use WEM\SmartgearBundle\Model\FormStorageData;
 
-#[AsHook('sortData','sortData',-1)]
-#[AsHook('renderSingleItemTitle','renderSingleItemTitle',-1)]
-#[AsHook('renderSingleItemBodyOriginalModelSingle','renderSingleItemBodyOriginalModelSingle',-1)]
-#[AsHook('renderSingleItemBodyOriginalModelSingleFieldValue','renderSingleItemBodyOriginalModelSingleFieldValue',-1)]
-#[AsHook('renderSingleItemBodyPersonalDataSingle','renderSingleItemBodyPersonalDataSingle',-1)]
-#[AsHook('buildSingleItemBodyPersonalDataSingleButtons','buildSingleItemBodyPersonalDataSingleButtons',-1)]
-#[AsHook('renderSingleItemBodyPersonalDataSingleFieldLabel','renderSingleItemBodyPersonalDataSingleFieldLabel',-1)]
-#[AsHook('renderSingleItemBodyPersonalDataSingleFieldValue','renderSingleItemBodyPersonalDataSingleFieldValue',-1)]
+#[AsHook('sortData', 'sortData', -1)]
+#[AsHook('renderSingleItemTitle', 'renderSingleItemTitle', -1)]
+#[AsHook('renderSingleItemBodyOriginalModelSingle', 'renderSingleItemBodyOriginalModelSingle', -1)]
+#[AsHook('renderSingleItemBodyOriginalModelSingleFieldValue', 'renderSingleItemBodyOriginalModelSingleFieldValue', -1)]
+#[AsHook('renderSingleItemBodyPersonalDataSingle', 'renderSingleItemBodyPersonalDataSingle', -1)]
+#[AsHook('buildSingleItemBodyPersonalDataSingleButtons', 'buildSingleItemBodyPersonalDataSingleButtons', -1)]
+#[AsHook('renderSingleItemBodyPersonalDataSingleFieldLabel', 'renderSingleItemBodyPersonalDataSingleFieldLabel', -1)]
+#[AsHook('renderSingleItemBodyPersonalDataSingleFieldValue', 'renderSingleItemBodyPersonalDataSingleFieldValue', -1)]
 class UiListener
 {
-
     public function __construct(
         protected TranslatorInterface $translator,
         protected PersonalDataManagerUi $personalDataManagerUi
@@ -59,18 +58,18 @@ class UiListener
                 foreach ($ptableDatas as $id => $idDatas) {
                     $objFormStorageData = FormStorageData::findOneBy('id', $idDatas['personalDatas'][0]->pid);
                     // in case the data has been deleted but pdm data are still present
-                    if (!$objFormStorageData) {
+                    if (! $objFormStorageData) {
                         continue;
                     }
 
                     /** @var FormStorage $objFormStorage */
                     $objFormStorage = $objFormStorageData->getRelated('pid');
 
-                    if (!\array_key_exists(FormStorage::getTable(), $sorted2)) {
+                    if (! \array_key_exists(FormStorage::getTable(), $sorted2)) {
                         $sorted2[FormStorage::getTable()] = [];
                     }
 
-                    if (!\array_key_exists($objFormStorage->id, $sorted2[FormStorage::getTable()])) {
+                    if (! \array_key_exists($objFormStorage->id, $sorted2[FormStorage::getTable()])) {
                         $arrPersonalDatas = $this->getPersonalDataForFormStorage($objFormStorage);
                         $sorted2[FormStorage::getTable()][$objFormStorage->id] = [
                             'originalModel' => $arrPersonalDatas[0],
@@ -123,7 +122,7 @@ class UiListener
                         break;
                 }
 
-            break;
+                break;
             case FormStorage::getTable():
                 switch ($field) {
                     case 'id':
@@ -138,7 +137,7 @@ class UiListener
                         break;
                 }
 
-            break;
+                break;
         }
 
         return $buffer;
@@ -161,14 +160,14 @@ class UiListener
                         $buffer = '<ul>';
                         foreach ($groupIds as $groupId) {
                             $objGroup = MemberGroupModel::findById($groupId);
-                            $buffer .= \sprintf('<li>- %s</li>', null !== $objGroup ? $objGroup->name : $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementUnknown', [], 'contao_default'));
+                            $buffer .= \sprintf('<li>- %s</li>', $objGroup !== null ? $objGroup->name : $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementUnknown', [], 'contao_default'));
                         }
 
                         $buffer .= '<ul>';
                         break;
                 }
 
-            break;
+                break;
             case FormStorage::getTable():
                 switch ($field) {
                     case 'pid':
@@ -181,17 +180,17 @@ class UiListener
                         break;
                     case 'current_page':
                     case 'referer_page':
-                        if (!empty($value)) {
+                        if (! empty($value)) {
                             $objPage = PageModel::findOneById($value);
                             if ($objPage) {
                                 $buffer = $objPage->title;
                             }
                         }
 
-                    break;
+                        break;
                 }
 
-            break;
+                break;
         }
 
         return $buffer;
@@ -210,10 +209,10 @@ class UiListener
                             return \sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
                         }
 
-                    break;
+                        break;
                 }
 
-            break;
+                break;
             case FormStorage::getTable():
                 $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
                 break;
@@ -225,14 +224,14 @@ class UiListener
                             $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
                             if (Validator::isStringUuid($buffer)) {
                                 $objFileModel = FilesModel::findByUuid($buffer);
-                                if (!$objFileModel) {
+                                if (! $objFileModel) {
                                     $buffer = $this->translator->trans('WEMSG.FDM.PDMUI.fileNotFound', [], 'contao_default');
                                 } else {
                                     $buffer = $objFileModel->name;
                                 }
                             }
 
-                        break;
+                            break;
                         default:
                             $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
                     }
@@ -240,13 +239,13 @@ class UiListener
                     $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
                 }
 
-            break;
+                break;
             default:
                 if ($buffer === '' || $buffer === '0') {
                     return \sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
                 }
 
-            break;
+                break;
         }
 
         return $buffer;
@@ -256,7 +255,7 @@ class UiListener
     {
         return match ($ptable) {
             FormStorage::getTable(), FormStorageData::getTable() => $personalData->field_label ?? $buffer,
-                default => $buffer,
+            default => $buffer,
         };
     }
 
@@ -283,14 +282,16 @@ class UiListener
         //                             $objFile = new File($objFileModel->path);
         if ($file instanceof File) {
             if (FileUtil::isDisplayableInBrowser($file)) {
-                $buttons['show'] = \sprintf('<br /><a href="%s" class="pdm-button pdm-button_show_file pdm-item__personal_data_single__button_show_file" target="_blank" data-path="%s">%s</a>',
+                $buttons['show'] = \sprintf(
+                    '<br /><a href="%s" class="pdm-button pdm-button_show_file pdm-item__personal_data_single__button_show_file" target="_blank" data-path="%s">%s</a>',
                     $this->personalDataManagerUi->getUrl(),
                     $file->path,
                     $this->translator->trans('WEMSG.FDM.PDMUI.buttonShowFile', [], 'contao_default')
                 );
             }
 
-            $buttons['download'] = \sprintf('<br /><a href="%s" class="pdm-button pdm-button_download_file pdm-item__personal_data_single__button_download_file" target="_blank" data-path="%s">%s</a>',
+            $buttons['download'] = \sprintf(
+                '<br /><a href="%s" class="pdm-button pdm-button_download_file pdm-item__personal_data_single__button_download_file" target="_blank" data-path="%s">%s</a>',
                 $this->personalDataManagerUi->getUrl(),
                 $file->path,
                 $this->translator->trans('WEMSG.FDM.PDMUI.buttonDownloadFile', [], 'contao_default')

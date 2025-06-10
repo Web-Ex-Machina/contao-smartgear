@@ -14,8 +14,9 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes;
 
-use Symfony\Component\HttpFoundation\RequestStack;
 use Contao\CoreBundle\Routing\ScopeMatcher as ScopeMatcherBase;
+use Symfony\Component\HttpFoundation\RequestStack;
+
 readonly class ScopeMatcher
 {
     /**
@@ -25,9 +26,9 @@ readonly class ScopeMatcher
      * @param ScopeMatcherBase $scopeMatcher [description]
      */
     public function __construct(
-        private RequestStack     $requestStack,
-        private ScopeMatcherBase $scopeMatcher)
-    {
+        private RequestStack $requestStack,
+        private ScopeMatcherBase $scopeMatcher
+    ) {
     }
 
     public function isBackend(): bool

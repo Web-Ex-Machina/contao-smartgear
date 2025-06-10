@@ -218,7 +218,7 @@ class ConfigurationItem extends Core
 
         $labels = [];
         foreach ($arrData as $property => $value) {
-            $labels[] = '<strong>'.$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()][$property][0].' :</strong> '.$value;
+            $labels[] = '<strong>' . $GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()][$property][0] . ' :</strong> ' . $value;
         }
 
         return implode('<br />', $labels);
@@ -226,7 +226,7 @@ class ConfigurationItem extends Core
 
     public function onloadCallback(DataContainer $dc): void
     {
-        if ('edit' === Input::get('act')) {
+        if (Input::get('act') === 'edit') {
             // check contents linked tstamp against the configuration item one
             $this->checkLinkedContaoContentUpdated($dc);
             $this->checkRequiredConditions($dc);
@@ -236,7 +236,7 @@ class ConfigurationItem extends Core
     public function onsubmitCallback(DataContainer $dc): void
     {
         // only do that if it is a real save, not a reload
-        if ('auto' === Input::post('SUBMIT_TYPE')) {
+        if (Input::post('SUBMIT_TYPE') === 'auto') {
             return;
         }
 
@@ -273,13 +273,13 @@ class ConfigurationItem extends Core
 
         switch ($dc->activeRecord->type) {
             case ConfigurationItemModel::TYPE_PAGE_LEGAL_NOTICE:
-                $arrOptions = Util::getFileListByLanguages(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/legal-notice');
+                $arrOptions = Util::getFileListByLanguages(Util::getPublicOrWebDirectory() . '/bundles/wemsmartgear/examples/legal-notice');
                 break;
             case ConfigurationItemModel::TYPE_PAGE_PRIVACY_POLITICS:
-                $arrOptions = Util::getFileListByLanguages(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/privacy-politics');
+                $arrOptions = Util::getFileListByLanguages(Util::getPublicOrWebDirectory() . '/bundles/wemsmartgear/examples/privacy-politics');
                 break;
             case ConfigurationItemModel::TYPE_MODULE_WEM_SG_FOOTER:
-                $arrOptions = Util::getFileListByLanguages(Util::getPublicOrWebDirectory().'/bundles/wemsmartgear/examples/footer');
+                $arrOptions = Util::getFileListByLanguages(Util::getPublicOrWebDirectory() . '/bundles/wemsmartgear/examples/footer');
                 break;
         }
 
@@ -332,7 +332,7 @@ class ConfigurationItem extends Core
 
     public function checkRequiredConditions(DataContainer $dc): void
     {
-        if (!$dc->id) {
+        if (! $dc->id) {
             return;
         }
 
@@ -345,7 +345,7 @@ class ConfigurationItem extends Core
 
     public function checkLinkedContaoContentUpdated(DataContainer $dc): void
     {
-        if (!$dc->id) {
+        if (! $dc->id) {
             return;
         }
 
@@ -362,12 +362,12 @@ class ConfigurationItem extends Core
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_page_updated_outside_sg_configuration'], $objPage->title, $objPage->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
 
-            if (0 !== (int) $objItem->tstamp) {
+            if ((int) $objItem->tstamp !== 0) {
                 $dcaManipulator
                     ->addField('update_page', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_page'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn ($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -383,12 +383,12 @@ class ConfigurationItem extends Core
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_page_form_updated_outside_sg_configuration'], $objPage->title, $objPage->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
 
-            if (0 !== (int) $objItem->tstamp) {
+            if ((int) $objItem->tstamp !== 0) {
                 $dcaManipulator
                     ->addField('update_page_form', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_page_form'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn ($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -404,12 +404,12 @@ class ConfigurationItem extends Core
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_page_form_sent_updated_outside_sg_configuration'], $objPage->title, $objPage->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
 
-            if (0 !== (int) $objItem->tstamp) {
+            if ((int) $objItem->tstamp !== 0) {
                 $dcaManipulator
                     ->addField('update_page_form_sent', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_page_form_sent'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn ($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -425,12 +425,12 @@ class ConfigurationItem extends Core
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_module_updated_outside_sg_configuration'], $objModule->name, $objModule->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
 
-            if (0 !== (int) $objItem->tstamp) {
+            if ((int) $objItem->tstamp !== 0) {
                 $dcaManipulator
                     ->addField('update_module', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_module'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn ($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -447,12 +447,12 @@ class ConfigurationItem extends Core
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_module_list_updated_outside_sg_configuration'], $objModule->name, $objModule->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
 
-            if (0 !== (int) $objItem->tstamp) {
+            if ((int) $objItem->tstamp !== 0) {
                 $dcaManipulator
                     ->addField('update_module_list', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_module_list'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn ($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -469,12 +469,12 @@ class ConfigurationItem extends Core
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_module_reader_updated_outside_sg_configuration'], $objModule->name, $objModule->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
 
-            if (0 !== (int) $objItem->tstamp) {
+            if ((int) $objItem->tstamp !== 0) {
                 $dcaManipulator
                     ->addField('update_module_reader', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_module_reader'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn ($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -491,12 +491,12 @@ class ConfigurationItem extends Core
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_module_calendar_updated_outside_sg_configuration'], $objModule->name, $objModule->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
 
-            if (0 !== (int) $objItem->tstamp) {
+            if ((int) $objItem->tstamp !== 0) {
                 $dcaManipulator
                     ->addField('update_module_calendar', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_module_calendar'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn ($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -513,12 +513,12 @@ class ConfigurationItem extends Core
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_user_group_updated_outside_sg_configuration'], $objUserGroup->name, $objUserGroup->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
 
-            if (0 !== (int) $objItem->tstamp) {
+            if ((int) $objItem->tstamp !== 0) {
                 $dcaManipulator
                     ->addField('update_user_group', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_user_group'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn ($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -534,12 +534,12 @@ class ConfigurationItem extends Core
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_faq_category_updated_outside_sg_configuration'], $objFaqCat->name, $objFaqCat->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
 
-            if (0 !== (int) $objItem->tstamp) {
+            if ((int) $objItem->tstamp !== 0) {
                 $dcaManipulator
                     ->addField('update_faq_category', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_faq_category'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn ($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -555,12 +555,12 @@ class ConfigurationItem extends Core
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_calendar_updated_outside_sg_configuration'], $objCal->name, $objCal->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
 
-            if (0 !== (int) $objItem->tstamp) {
+            if ((int) $objItem->tstamp !== 0) {
                 $dcaManipulator
                     ->addField('update_calendar', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_calendar'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn ($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -576,12 +576,12 @@ class ConfigurationItem extends Core
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_news_archive_updated_outside_sg_configuration'], $objNewsArch->title, $objNewsArch->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
 
-            if (0 !== (int) $objItem->tstamp) {
+            if ((int) $objItem->tstamp !== 0) {
                 $dcaManipulator
                     ->addField('update_news_archive', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_news_archive'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn ($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -597,12 +597,12 @@ class ConfigurationItem extends Core
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_form_updated_outside_sg_configuration'], $objForm->title, $objForm->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
 
-            if (0 !== (int) $objItem->tstamp) {
+            if ((int) $objItem->tstamp !== 0) {
                 $dcaManipulator
                     ->addField('update_form', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_form'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn ($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -618,12 +618,12 @@ class ConfigurationItem extends Core
                 Message::addInfo(sprintf($GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['contao_notification_updated_outside_sg_configuration'], $objNcNotif->title, $objNcNotif->id, Date::parse(Config::get('datimFormat'), (int) $objItem->tstamp)));
             }
 
-            if (0 !== (int) $objItem->tstamp) {
+            if ((int) $objItem->tstamp !== 0) {
                 $dcaManipulator
                     ->addField('update_notification', [
                         'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_notification'],
                         'inputType' => 'checkbox',
-                        'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
+                        'save_callback' => [static fn ($val): string => ''], // so Contao does not try to save this fake field
                         'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                     ])
                 ;
@@ -632,13 +632,13 @@ class ConfigurationItem extends Core
         }
 
         if (\in_array($objItem->type, array_merge(ConfigurationItemModel::TYPES_MIXED, ConfigurationItemModel::TYPES_PAGE, ConfigurationItemModel::TYPES_MODULE), true)
-        && 0 < ConfigurationItemModel::countItems(['pid' => $objItem->pid, 'type' => ConfigurationItemModel::TYPES_USER_GROUP])
+        && ConfigurationItemModel::countItems(['pid' => $objItem->pid, 'type' => ConfigurationItemModel::TYPES_USER_GROUP]) > 0
         ) {
             $dcaManipulator
                 ->addField('update_user_group_permission', [
                     'label' => &$GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()]['update_user_group_permission'],
                     'inputType' => 'checkbox',
-                    'save_callback' => [static fn($val): string => ''], // so Contao does not try to save this fake field
+                    'save_callback' => [static fn ($val): string => ''], // so Contao does not try to save this fake field
                     'eval' => ['doNotSaveEmpty' => true], // so Contao does not try to save this fake field
                 ])
             ;

@@ -15,14 +15,16 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\DataContainer\StyleManager;
 
 use Contao\DataContainer;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Oveleon\ContaoComponentStyleManager\EventListener\DataContainer\StyleManagerListener;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\DataContainer\Core;
 
 class StyleManager extends Core
 {
-    public function __construct(private readonly TranslatorInterface $translator, private readonly StyleManagerListener $styleManagerListener)
-    {
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+        private readonly StyleManagerListener $styleManagerListener
+    ) {
         parent::__construct();
     }
 

@@ -41,11 +41,11 @@ class Block extends BackendBlock
     protected ContaoCsrfTokenManager $contaoCsrfTokenManager;
 
     public function __construct(
-        ConfigurationManager       $configurationManager,
-        ConfigurationStepManager   $configurationStepManager,
+        ConfigurationManager $configurationManager,
+        ConfigurationStepManager $configurationStepManager,
         protected ResetStepManager $resetStepManager,
-        Dashboard                  $dashboard,
-        TranslatorInterface        $translator
+        Dashboard $dashboard,
+        TranslatorInterface $translator
     ) {
         $this->contaoCsrfTokenManager = System::getContainer()->getParameter('contao.csrf.token_manager');
         parent::__construct($configurationManager, $configurationStepManager, $dashboard, $translator);
@@ -75,7 +75,7 @@ class Block extends BackendBlock
                         $arrResponse['output'] = $e->getMessage();
                     }
 
-                break;
+                    break;
                 case 'framwayInitialize':
                     try {
                         $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.component.core.configuration_step.framway_retrieval');
@@ -89,7 +89,7 @@ class Block extends BackendBlock
                         $arrResponse['output'] = $e->getMessage();
                     }
 
-                break;
+                    break;
                 case 'framwayBuild':
                     try {
                         $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.component.core.configuration_step.framway_retrieval');
@@ -113,7 +113,7 @@ class Block extends BackendBlock
                         $arrResponse['output'] = $res;
                     } catch (\Exception $e) {
                         $arrResponse['status'] = 'error';
-                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayThemeAddAjaxMessageError'].$e->getMessage();
+                        $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayThemeAddAjaxMessageError'] . $e->getMessage();
                         $arrResponse['output'] = $e->getMessage();
                     }
 

@@ -23,27 +23,27 @@ readonly class NcNotificationMessageLanguageUtil
     /**
      * Shortcut for notification message language creation.
      */
-   public static function createNotificationMessageLanguage(int $pid, string $language, bool $fallback, ?array $arrData = [])
-   {
-       // Create the notification message language
-       $objNotificationMessageLanguage = isset($arrData['id']) ? Language::findById($arrData['id']) ?? new Language() : new Language();
-       $objNotificationMessageLanguage->tstamp = time();
-       $objNotificationMessageLanguage->pid = $pid;
-       $objNotificationMessageLanguage->language = $language;
-       $objNotificationMessageLanguage->fallback = $fallback;
+    public static function createNotificationMessageLanguage(int $pid, string $language, bool $fallback, ?array $arrData = [])
+    {
+        // Create the notification message language
+        $objNotificationMessageLanguage = isset($arrData['id']) ? Language::findById($arrData['id']) ?? new Language() : new Language();
+        $objNotificationMessageLanguage->tstamp = time();
+        $objNotificationMessageLanguage->pid = $pid;
+        $objNotificationMessageLanguage->language = $language;
+        $objNotificationMessageLanguage->fallback = $fallback;
 
-       // Now we get the default values, get the arrData table
-       if ($arrData !== null && $arrData !== []) {
-           foreach ($arrData as $k => $v) {
-               $objNotificationMessageLanguage->$k = $v;
-           }
-       }
+        // Now we get the default values, get the arrData table
+        if ($arrData !== null && $arrData !== []) {
+            foreach ($arrData as $k => $v) {
+                $objNotificationMessageLanguage->{$k} = $v;
+            }
+        }
 
-       $objNotificationMessageLanguage->save();
+        $objNotificationMessageLanguage->save();
 
-       // Return the model
-       return $objNotificationMessageLanguage;
-   }
+        // Return the model
+        return $objNotificationMessageLanguage;
+    }
 
     public static function createSupportFormNotificationMessageUserLanguage(int $pid, string $language, bool $fallback, ?array $arrData = []): Language
     {

@@ -65,7 +65,7 @@ class Backup extends BackendModule
     protected function compile(): void
     {
         // Add WEM styles to template
-        $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
+        $GLOBALS['TL_CSS'][] = $this->strBasePath . '/backend/wemsg.css';
 
         $memoryLimitInBytes = Util::formatPhpMemoryLimitToBytes(ini_get('memory_limit'));
         if ($memoryLimitInBytes < 0) {
@@ -74,7 +74,7 @@ class Backup extends BackendModule
             Message::addInfo(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageChunkSize'], Util::humanReadableFilesize($this->backupManager->getChunkSizeInBytes(), 0)));
         }
 
-        if ('new' === Input::get('act')) {
+        if (Input::get('act') === 'new') {
             try {
                 set_time_limit(0);
                 $start = microtime(true);
@@ -91,7 +91,7 @@ class Backup extends BackendModule
 
             // And redirect
             Controller::redirect(str_replace('&act=new', '', Environment::get('request')));
-        } elseif ('restore' === Input::get('act')) {
+        } elseif (Input::get('act') === 'restore') {
             try {
                 set_time_limit(0);
                 $start = microtime(true);
@@ -107,8 +107,8 @@ class Backup extends BackendModule
             }
 
             // And redirect
-            Controller::redirect(str_replace('&act=restore&backup='.Input::get('backup'), '', Environment::get('request')));
-        } elseif ('delete' === Input::get('act')) {
+            Controller::redirect(str_replace('&act=restore&backup=' . Input::get('backup'), '', Environment::get('request')));
+        } elseif (Input::get('act') === 'delete') {
             try {
                 if ($this->backupManager->delete(Input::get('backup'))) {
                     // Add Message
@@ -122,8 +122,8 @@ class Backup extends BackendModule
             }
 
             // And redirect
-            Controller::redirect(str_replace('&act=delete&backup='.Input::get('backup'), '', Environment::get('request')));
-        } elseif ('download' === Input::get('act')) {
+            Controller::redirect(str_replace('&act=delete&backup=' . Input::get('backup'), '', Environment::get('request')));
+        } elseif (Input::get('act') === 'download') {
             $objFile = $this->backupManager->get(Input::get('backup'));
             $objFile->sendToBrowser();
         }
@@ -149,7 +149,7 @@ class Backup extends BackendModule
             Input::get('before'),
             Input::get('after'),
         );
-        if (!$listResults) {
+        if (! $listResults) {
             $this->Template->empty = true;
         } else {
             $this->Template->empty = false;

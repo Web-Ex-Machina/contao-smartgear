@@ -19,7 +19,9 @@ use WEM\PersonalDataManagerBundle\Dca\Field\Callback\Save as PdmCallback;
 
 class SaveConditionnal
 {
-    /** @var WEM\PersonalDataManagerBundle\Dca\Field\Callback\Save */
+    /**
+     * @var WEM\PersonalDataManagerBundle\Dca\Field\Callback\Save
+     */
     private $pdmCallback;
 
     public function __construct(
@@ -34,13 +36,13 @@ class SaveConditionnal
 
     public function __invoke()
     {
-        if (1 === \func_num_args()
-        || (2 === \func_num_args() && null === func_get_arg(1))
+        if (\func_num_args() === 1
+        || (\func_num_args() === 2 && func_get_arg(1) === null)
         ) {
             return $this->invokeFrontendRegistration(...\func_get_args());
         }
 
-        if (2 === \func_num_args()) {
+        if (\func_num_args() === 2) {
             return $this->invokeBackend(...\func_get_args());
         }
 

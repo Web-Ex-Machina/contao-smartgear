@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Faq;
 
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\FrontendTemplate;
 use Contao\Input;
-use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Exception;
 use InvalidArgumentException;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -26,11 +26,10 @@ use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class Dashboard extends BackendDashboard
 {
-
     protected string $strTemplate = 'be_wem_sg_block_faq_dashboard';
 
     public function __construct(
-        protected readonly ContaoCsrfTokenManager   $contaoCsrfTokenManager,
+        protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
         ConfigurationManager $configurationManager,
         TranslatorInterface $translator,
         string $module,
@@ -66,8 +65,8 @@ class Dashboard extends BackendDashboard
         $objTemplate->installComplete = $config->getSgFaq()->getSgInstallComplete();
         $objTemplate->installLocked = $config->getSgInstallLocked();
 
-        if (!$config->getSgInstallLocked()) {
-            if (!$config->getSgFaq()->getSgInstallComplete()) {
+        if (! $config->getSgInstallLocked()) {
+            if (! $config->getSgFaq()->getSgInstallComplete()) {
                 $this->actions[] = ['action' => 'install', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonInstallationLabel']];
             } else {
                 $this->actions[] = ['action' => 'configure', 'label' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['buttonConfigurationLabel']];

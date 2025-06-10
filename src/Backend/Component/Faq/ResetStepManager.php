@@ -51,7 +51,7 @@ class ResetStepManager extends StepManager
     {
         $this->actions[] = ['action' => 'reset_mode_check_cancel', 'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['Cancel']];
 
-        if (0 !== $this->getCurrentStepIndex()) {
+        if ($this->getCurrentStepIndex() !== 0) {
             $this->actions[] = ['action' => 'previous', 'label' => $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['PreviousStep']];
         }
 

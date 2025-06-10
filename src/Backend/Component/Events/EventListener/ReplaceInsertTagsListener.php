@@ -16,12 +16,12 @@ namespace WEM\SmartgearBundle\Backend\Component\Events\EventListener;
 
 use WEM\SmartgearBundle\Classes\Backend\Component\EventListener\ReplaceInsertTagsListener as AbstractReplaceInsertTagsListener;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 
 class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
 {
-    public function __construct(protected CoreConfigurationManager $coreConfigurationManager)
-    {
+    public function __construct(
+        protected CoreConfigurationManager $coreConfigurationManager
+    ) {
     }
 
     /**
@@ -49,8 +49,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
         array $cache,
         int $_rit,
         int $_cnt
-    ): false|string
-    {
+    ): false|string {
         $elements = explode('::', $insertTag);
 
         return static::NOT_HANDLED;

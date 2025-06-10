@@ -25,12 +25,11 @@ use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class Api
 {
-
     public function __construct(
         protected ManagerJson $coreConfigurationManager,
         protected ApiKey $securityApiKey,
-        protected Token $securityToken)
-    {
+        protected Token $securityToken
+    ) {
     }
 
     public function token(): string
@@ -51,7 +50,7 @@ class Api
                 $config = $this->coreConfigurationManager->load();
 
                 $sgVersion = $config->getSgVersion();
-            break;
+                break;
             case 'database':
                 $objConfiguration = Configuration::findOneBy('id', $objSession->get('configuration_id'));
                 if ($objConfiguration) {
@@ -59,7 +58,7 @@ class Api
                     $sgVersion = $objConfiguration->version;
                 }
 
-            break;
+                break;
         }
 
         $fwPackageJSON = $fwInstallPath ? $this->getFramwayPackageJson($fwInstallPath) : null;

@@ -26,7 +26,7 @@ class ContentUtil
     public static function createContent(ArticleModel $objArticle, ?array $arrData = []): ContentModel
     {
         // Dynamic ptable support
-        if (!$arrData['ptable']) {
+        if (! $arrData['ptable']) {
             $arrData['ptable'] = 'tl_article';
         }
 
@@ -41,9 +41,9 @@ class ContentUtil
         $objContent->type = 'text';
 
         // Now we get the default values, get the arrData table
-        if (!empty($arrData)) {
+        if (! empty($arrData)) {
             foreach ($arrData as $k => $v) {
-                $objContent->$k = $v;
+                $objContent->{$k} = $v;
             }
         }
 

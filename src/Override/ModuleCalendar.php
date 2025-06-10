@@ -17,7 +17,7 @@ namespace WEM\SmartgearBundle\Override;
 use Contao\Config;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsFrontendModule;
 
-#[AsFrontendModule(type: 'events', name:'calendar')]
+#[AsFrontendModule(type: 'events', name: 'calendar')]
 class ModuleCalendar extends \Contao\ModuleCalendar
 {
     protected array $filters = [];

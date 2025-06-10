@@ -23,13 +23,12 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationM
 
 class BackendMenuBuildListener
 {
-
     public function __construct(
         protected CoreConfigurationManager $configurationManager,
         protected RouterInterface $router,
         protected RequestStack $requestStack,
-        protected TranslatorInterface $translator)
-    {
+        protected TranslatorInterface $translator
+    ) {
     }
 
     public function __invoke(MenuEvent $event): void
@@ -50,7 +49,7 @@ class BackendMenuBuildListener
      */
     protected function createExtranetMenu(MenuEvent $event, ItemInterface $tree): ItemInterface
     {
-        if ('mainMenu' !== $tree->getName()) {
+        if ($tree->getName() !== 'mainMenu') {
             return $tree;
         }
 
@@ -61,14 +60,14 @@ class BackendMenuBuildListener
         $menu = $factory
             ->createItem('extranet')
             ->setLabel($this->translator->trans('MOD.extranet.0', [], 'contao_default'))
-            ->setUri($path.'?mtg=wem_extranet')
+            ->setUri($path . '?mtg=wem_extranet')
             ->setLinkAttribute('class', 'group-wem_extranet')
             ->setLinkAttribute('title', $this->translator->trans('MOD.extranet.0', [], 'contao_default'))
-            ->setLinkAttribute('onclick', "return AjaxRequest.toggleNavigation(this, 'wem_extranet', '".$path."')")
+            ->setLinkAttribute('onclick', "return AjaxRequest.toggleNavigation(this, 'wem_extranet', '" . $path . "')")
             ->setLinkAttribute('aria-controls', 'wem_extranet')
             ->setChildrenAttribute('id', 'wem_extranet')
             ->setExtra('translation_domain', false)
-            ->setCurrent('member' === $this->requestStack->getCurrentRequest()->get('do') || 'mgroup' === $this->requestStack->getCurrentRequest()->get('do'))
+            ->setCurrent($this->requestStack->getCurrentRequest()->get('do') === 'member' || $this->requestStack->getCurrentRequest()->get('do') === 'mgroup')
         ;
 
         if ($tree->getChild('accounts') instanceof ItemInterface) {
@@ -99,13 +98,13 @@ class BackendMenuBuildListener
      */
     protected function hideEmptySubMenus(ItemInterface $tree): ItemInterface
     {
-        if ('mainMenu' !== $tree->getName()) {
+        if ($tree->getName() !== 'mainMenu') {
             return $tree;
         }
 
         $subMenus = $tree->getChildren();
         foreach ($subMenus as $index => $subMenu) {
-            if (0 === \count($subMenu->getChildren())) {
+            if (\count($subMenu->getChildren()) === 0) {
                 $subMenu->setDisplay(false);
             }
 
@@ -126,7 +125,7 @@ class BackendMenuBuildListener
      */
     protected function putSystemMenuAtTheEnd(ItemInterface $tree): ItemInterface
     {
-        if ('mainMenu' !== $tree->getName()) {
+        if ($tree->getName() !== 'mainMenu') {
             return $tree;
         }
 

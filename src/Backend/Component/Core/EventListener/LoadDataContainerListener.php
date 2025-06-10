@@ -25,11 +25,13 @@ use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class LoadDataContainerListener
 {
-
     protected string $do;
 
-    public function __construct(protected Security $security, protected CoreConfigurationManager $coreConfigurationManager, protected DCAManipulator $dcaManipulator)
-    {
+    public function __construct(
+        protected Security $security,
+        protected CoreConfigurationManager $coreConfigurationManager,
+        protected DCAManipulator $dcaManipulator
+    ) {
     }
 
     public function __invoke(string $table): void
@@ -40,7 +42,7 @@ class LoadDataContainerListener
             $this->dcaManipulator->setTable($table);
             switch ($table) {
                 case 'tl_content':
-                    if (!$this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::CORE_EXPERT)
+                    if (! $this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::CORE_EXPERT)
                     ) {
                         // do not display grid_gap settings
                         $this->dcaManipulator->removeFields(['grid_gap']);
@@ -60,23 +62,23 @@ class LoadDataContainerListener
                         $this->updatePaletteGallery();
                     }
 
-                    $this->dcaManipulator->addFieldSaveCallback('headline', static fn($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
-                    $this->dcaManipulator->addFieldSaveCallback('text', static fn($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('headline', static fn ($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('text', static fn ($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
                     $this->dcaManipulator->setFieldEvalProperty('sortBy', 'tl_class', 'hidden');
-                break;
+                    break;
                 case 'tl_module':
                     $nbChangeLanguageModules = ModuleModel::countByType('changelanguage');
-                    if (0 === (int) $nbChangeLanguageModules) {
+                    if ((int) $nbChangeLanguageModules === 0) {
                         // do not display lang_selector settings
                         $this->dcaManipulator->removeFields(['wem_sg_header_add_lang_selector', 'wem_sg_header_lang_selector_bg', 'wem_sg_header_lang_selector_module']);
                     }
 
-                break;
+                    break;
                 case 'tl_nc_language':
                     // if ($config->getSgInstallComplete()) {
-                        $this->dcaManipulator->removeFields(['attachment_templates']);
+                    $this->dcaManipulator->removeFields(['attachment_templates']);
                     // }
-                break;
+                    break;
             }
         } catch (FileNotFoundException) {
             //nothing
@@ -93,119 +95,119 @@ class LoadDataContainerListener
     protected function updatePaletteHeadline(): void
     {
         PaletteManipulator::create()
-        ->removeField('customTpl')
-        ->applyToPalette('headline', 'tl_content')
-    ;
+            ->removeField('customTpl')
+            ->applyToPalette('headline', 'tl_content')
+        ;
     }
 
     protected function updatePaletteText(): void
     {
         PaletteManipulator::create()
-        ->removeField('headline')
-        ->removeField('customTpl')
-        ->applyToPalette('text', 'tl_content')
-    ;
+            ->removeField('headline')
+            ->removeField('customTpl')
+            ->applyToPalette('text', 'tl_content')
+        ;
         PaletteManipulator::create()
-        ->removeField('imagemargin')
-        ->applyToSubpalette('addImage', 'tl_content')
-    ;
+            ->removeField('imagemargin')
+            ->applyToSubpalette('addImage', 'tl_content')
+        ;
     }
 
     protected function updatePaletteTable(): void
     {
         PaletteManipulator::create()
-        ->removeField('headline')
-        ->removeField('customTpl')
-        ->removeField('sortable')
-        ->applyToPalette('table', 'tl_content')
-    ;
+            ->removeField('headline')
+            ->removeField('customTpl')
+            ->removeField('sortable')
+            ->applyToPalette('table', 'tl_content')
+        ;
     }
 
     protected function updatePaletteAccordion(): void
     {
         PaletteManipulator::create()
-        ->removeField('headline')
-        ->removeField('customTpl')
-        ->removeField('mooStyle')
-        ->removeField('mooClasses')
-        ->applyToPalette('accordionStart', 'tl_content')
-    ;
+            ->removeField('headline')
+            ->removeField('customTpl')
+            ->removeField('mooStyle')
+            ->removeField('mooClasses')
+            ->applyToPalette('accordionStart', 'tl_content')
+        ;
         PaletteManipulator::create()
-        ->removeField('headline')
-        ->removeField('customTpl')
-        ->removeField('mooStyle')
-        ->removeField('mooClasses')
-        ->applyToPalette('accordionStop', 'tl_content')
-    ;
+            ->removeField('headline')
+            ->removeField('customTpl')
+            ->removeField('mooStyle')
+            ->removeField('mooClasses')
+            ->applyToPalette('accordionStop', 'tl_content')
+        ;
     }
 
     protected function updatePaletteHyperlink(): void
     {
         PaletteManipulator::create()
-        ->removeField('headline')
-        ->removeField('customTpl')
-        ->removeField('embed')
-        ->removeField('rel')
-        ->removeField('useImage')
-        ->applyToPalette('hyperlink', 'tl_content')
-    ;
+            ->removeField('headline')
+            ->removeField('customTpl')
+            ->removeField('embed')
+            ->removeField('rel')
+            ->removeField('useImage')
+            ->applyToPalette('hyperlink', 'tl_content')
+        ;
     }
 
     protected function updatePaletteImage(): void
     {
         PaletteManipulator::create()
-        ->removeField('headline')
-        ->removeField('customTpl')
-        ->removeField('imagemargin')
-        ->applyToPalette('image', 'tl_content')
-    ;
+            ->removeField('headline')
+            ->removeField('customTpl')
+            ->removeField('imagemargin')
+            ->applyToPalette('image', 'tl_content')
+        ;
     }
 
     protected function updatePalettePlayer(): void
     {
         PaletteManipulator::create()
-        ->removeField('headline')
-        ->removeField('customTpl')
-        ->applyToPalette('player', 'tl_content')
-    ;
+            ->removeField('headline')
+            ->removeField('customTpl')
+            ->applyToPalette('player', 'tl_content')
+        ;
     }
 
     protected function updatePaletteYoutube(): void
     {
         PaletteManipulator::create()
-        ->removeField('headline')
-        ->removeField('customTpl')
-        ->applyToPalette('youtube', 'tl_content')
-    ;
+            ->removeField('headline')
+            ->removeField('customTpl')
+            ->applyToPalette('youtube', 'tl_content')
+        ;
     }
 
     protected function updatePaletteVimeo(): void
     {
         PaletteManipulator::create()
-        ->removeField('headline')
-        ->removeField('customTpl')
-        ->applyToPalette('vimeo', 'tl_content')
-    ;
+            ->removeField('headline')
+            ->removeField('customTpl')
+            ->applyToPalette('vimeo', 'tl_content')
+        ;
     }
 
     protected function updatePaletteDownloads(): void
     {
         PaletteManipulator::create()
-        ->removeField('headline')
-        ->removeField('customTpl')
-        ->applyToPalette('downloads', 'tl_content')
-    ;
+            ->removeField('headline')
+            ->removeField('customTpl')
+            ->applyToPalette('downloads', 'tl_content')
+        ;
     }
 
     protected function updatePaletteGallery(): void
     {
         PaletteManipulator::create()
-        ->removeField('headline')
-        ->removeField('metaIgnore')
-        ->removeField('imagemargin')
-        ->removeField('perPage')
-        ->removeField('numberOfItems')
-        ->applyToPalette('gallery', 'tl_content')
-    ;
+            ->removeField('headline')
+            ->removeField('metaIgnore')
+            ->removeField('imagemargin')
+            ->removeField('perPage')
+            ->removeField('numberOfItems')
+            ->applyToPalette('gallery', 'tl_content')
+        ;
     }
 }

@@ -17,13 +17,13 @@ namespace WEM\SmartgearBundle\Backend;
 use Contao\ArticleModel;
 use Contao\BackendModule;
 use Contao\ContentModel;
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\DataContainer;
 use Contao\FaqModel;
 use Contao\Input;
 use Contao\NewsModel;
 use Contao\PageModel;
-use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\System;
 use DateInterval;
 use DateTime;
@@ -31,10 +31,9 @@ use Exception;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\UtilsBundle\Classes\ScopeMatcher;
 
-#[AsHook('executePreActions','processAjaxRequest',-1)]
+#[AsHook('executePreActions', 'processAjaxRequest', -1)]
 class Reminder extends BackendModule
 {
-
     protected $strTemplate = 'be_wem_sg_remindermanager';
 
     protected mixed $security;
@@ -44,8 +43,8 @@ class Reminder extends BackendModule
     public function __construct(
         protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
         protected readonly ScopeMatcher $scopeMatcher,
-        DataContainer|null $dc = null)
-    {
+        DataContainer|null $dc = null
+    ) {
         parent::__construct($dc);
         $this->security = System::getContainer()->get('security.helper');
     }
@@ -53,6 +52,61 @@ class Reminder extends BackendModule
     public function generate(): string
     {
         return parent::generate();
+    }
+
+    public function processAjaxRequest($strAction): void
+    {
+        if (! $this->scopeMatcher->isBackend()) {
+            exit();
+        }
+
+        if (Input::post('TL_WEM_AJAX') && $this->strId === Input::post('wem_module')) {
+            try {
+                switch (Input::post('action')) {
+                    case 'resetReminder':
+                        $model = \Contao\Model::getClassFromTable(Input::post('ptable'));
+                        $objItem = $model::findById(Input::post('pid'));
+                        if (! $objItem) {
+                            throw new Exception('Not found');
+                        }
+
+                        $dti = new DateInterval($objItem->update_reminder_period);
+                        $updateReminderDate = (new DateTime())
+                            ->setTimestamp(time())
+                            ->add($dti)
+                        ;
+                        $updateReminderDate->setTime((int) $updateReminderDate->format('H'), (int) $updateReminderDate->format('i'), 0);
+                        $updateReminderDate = $updateReminderDate->getTimestamp();
+                        $objItem->update_reminder_date = $updateReminderDate;
+                        $objItem->save();
+                        $arrResponse['status'] = 'success';
+                        $arrResponse['msg'] = 'OK';
+
+                        break;
+                    case 'disableReminder':
+                        $model = \Contao\Model::getClassFromTable(Input::post('ptable'));
+                        $objItem = $model::findById(Input::post('pid'));
+                        if (! $objItem) {
+                            throw new Exception('Not found');
+                        }
+
+                        $objItem->update_reminder = 0;
+                        $objItem->update_reminder_date = 0;
+                        $objItem->save();
+                        $arrResponse['status'] = 'success';
+                        $arrResponse['msg'] = 'OK';
+
+                        break;
+                }
+            } catch (Exception $e) {
+                $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
+            }
+
+            // Add Request Token to JSON answer and return
+            $arrResponse['rt'] = $this->contaoCsrfTokenManager->getDefaultTokenValue();
+            echo json_encode($arrResponse);
+            exit;
+        }
     }
 
     protected function compile(): void
@@ -64,63 +118,10 @@ class Reminder extends BackendModule
         $this->dtNow = new DateTime();
 
         $arrItems = array_merge($this->getContents(), $this->getArticles(), $this->getPages(), $this->getNews(), $this->getFAQ());
-        usort($arrItems, static fn($itemA, $itemB): bool => (int) $itemA['obsolete_since'] < (int) $itemB['obsolete_since']);
+        usort($arrItems, static fn ($itemA, $itemB): bool => (int) $itemA['obsolete_since'] < (int) $itemB['obsolete_since']);
         $this->Template->arrItems = $arrItems;
         $this->Template->strId = $this->strId;
         $this->Template->token = $this->contaoCsrfTokenManager->getDefaultTokenValue();
-    }
-
-    public function processAjaxRequest($strAction): void
-    {
-        if(!$this->scopeMatcher->isBackend()) {exit();}
-
-        if (Input::post('TL_WEM_AJAX') && $this->strId === Input::post('wem_module')) {
-            try {
-                switch (Input::post('action')) {
-                case 'resetReminder':
-                    $model = \Contao\Model::getClassFromTable(Input::post('ptable'));
-                    $objItem = $model::findById(Input::post('pid'));
-                    if (!$objItem) {
-                        throw new Exception('Not found');
-                    }
-
-                    $dti = new DateInterval($objItem->update_reminder_period);
-                    $updateReminderDate = (new DateTime())
-                        ->setTimestamp(time())
-                        ->add($dti)
-                    ;
-                    $updateReminderDate->setTime((int) $updateReminderDate->format('H'), (int) $updateReminderDate->format('i'), 0);
-                    $updateReminderDate = $updateReminderDate->getTimestamp();
-                    $objItem->update_reminder_date = $updateReminderDate;
-                    $objItem->save();
-                    $arrResponse['status'] = 'success';
-                    $arrResponse['msg'] = 'OK';
-
-                    break;
-                case 'disableReminder':
-                    $model = \Contao\Model::getClassFromTable(Input::post('ptable'));
-                    $objItem = $model::findById(Input::post('pid'));
-                    if (!$objItem) {
-                        throw new Exception('Not found');
-                    }
-
-                    $objItem->update_reminder = 0;
-                    $objItem->update_reminder_date = 0;
-                    $objItem->save();
-                    $arrResponse['status'] = 'success';
-                    $arrResponse['msg'] = 'OK';
-
-                    break;
-            }
-            } catch (Exception $e) {
-                $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
-            }
-
-            // Add Request Token to JSON answer and return
-            $arrResponse['rt'] = $this->contaoCsrfTokenManager->getDefaultTokenValue();
-            echo json_encode($arrResponse);
-            exit;
-        }
     }
 
     protected function getContents(): array
@@ -147,7 +148,7 @@ class Reminder extends BackendModule
                             'icon' => 'system/themes/flexible/icons/edit.svg',
                             // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
-                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=article&table='.ContentModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.$this->contaoCsrfTokenManager->getDefaultTokenValue(),
+                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix') . '?do=article&table=' . ContentModel::getTable() . '&act=edit&id=' . $objItem->id . '&rt=' . $this->contaoCsrfTokenManager->getDefaultTokenValue(),
                         ],
                         'reset' => [
                             'class' => 'reset',
@@ -203,7 +204,7 @@ class Reminder extends BackendModule
                             'icon' => 'system/themes/flexible/icons/edit.svg',
                             // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
-                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=article&act=edit&id='.$objItem->id.'&rt='.$this->contaoCsrfTokenManager->getDefaultTokenValue(),
+                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix') . '?do=article&act=edit&id=' . $objItem->id . '&rt=' . $this->contaoCsrfTokenManager->getDefaultTokenValue(),
                         ],
                         'reset' => [
                             'class' => 'reset',
@@ -257,7 +258,7 @@ class Reminder extends BackendModule
                             'icon' => 'system/themes/flexible/icons/edit.svg',
                             // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
-                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=page&act=edit&id='.$objItem->id.'&rt='.$this->contaoCsrfTokenManager->getDefaultTokenValue(),
+                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix') . '?do=page&act=edit&id=' . $objItem->id . '&rt=' . $this->contaoCsrfTokenManager->getDefaultTokenValue(),
                         ],
                         'reset' => [
                             'class' => 'reset',
@@ -311,7 +312,7 @@ class Reminder extends BackendModule
                             'icon' => 'system/themes/flexible/icons/edit.svg',
                             // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
-                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=news&table='.NewsModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.$this->contaoCsrfTokenManager->getDefaultTokenValue(),
+                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix') . '?do=news&table=' . NewsModel::getTable() . '&act=edit&id=' . $objItem->id . '&rt=' . $this->contaoCsrfTokenManager->getDefaultTokenValue(),
                         ],
                         'reset' => [
                             'class' => 'reset',
@@ -365,7 +366,7 @@ class Reminder extends BackendModule
                             'icon' => 'system/themes/flexible/icons/edit.svg',
                             // 'label' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEdit'],
                             'title' => &$GLOBALS['TL_LANG']['WEMSG']['REMINDERMANAGER']['LIST']['actionEditTitle'],
-                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix').'?do=faq&table='.FaqModel::getTable().'&act=edit&id='.$objItem->id.'&rt='.$this->contaoCsrfTokenManager->getDefaultTokenValue(),
+                            'href' => System::getContainer()->getParameter('contao.backend.route_prefix') . '?do=faq&table=' . FaqModel::getTable() . '&act=edit&id=' . $objItem->id . '&rt=' . $this->contaoCsrfTokenManager->getDefaultTokenValue(),
                         ],
                         'reset' => [
                             'class' => 'reset',

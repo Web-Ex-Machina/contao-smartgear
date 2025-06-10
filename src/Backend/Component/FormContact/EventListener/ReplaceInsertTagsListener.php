@@ -16,13 +16,12 @@ namespace WEM\SmartgearBundle\Backend\Component\FormContact\EventListener;
 
 use WEM\SmartgearBundle\Classes\Backend\Component\EventListener\ReplaceInsertTagsListener as AbstractReplaceInsertTagsListener;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
-use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
 
 class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
 {
-    public function __construct(protected CoreConfigurationManager $coreConfigurationManager)
-    {
+    public function __construct(
+        protected CoreConfigurationManager $coreConfigurationManager
+    ) {
     }
 
     /**
@@ -50,8 +49,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
         array $cache,
         int $_rit,
         int $_cnt
-    ): false|string
-    {
-      return static::NOT_HANDLED;
+    ): false|string {
+        return static::NOT_HANDLED;
     }
 }

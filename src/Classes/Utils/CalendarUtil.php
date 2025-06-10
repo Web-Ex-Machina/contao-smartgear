@@ -27,8 +27,8 @@ class CalendarUtil
         // Create the theme
         if (\array_key_exists('id', $arrData)) {
             $objCalFee = CalendarModel::findOneById($arrData['id']);
-            if (!$objCalFee) {
-                throw new InvalidArgumentException('Le calendrier d\'évènements ayant pour id "'.$arrData['id'].'" n\'existe pas');
+            if (! $objCalFee) {
+                throw new InvalidArgumentException('Le calendrier d\'évènements ayant pour id "' . $arrData['id'] . '" n\'existe pas');
             }
         } else {
             $objCalFee = new CalendarModel();
@@ -41,7 +41,7 @@ class CalendarUtil
         // Now we get the default values, get the arrData table
         if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
-                $objCalFee->$k = $v;
+                $objCalFee->{$k} = $v;
             }
         }
 

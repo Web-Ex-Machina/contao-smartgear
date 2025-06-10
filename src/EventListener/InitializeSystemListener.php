@@ -21,14 +21,13 @@ use WEM\SmartgearBundle\Classes\TemplateFinder;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Exceptions\File\NotFound;
 
-#[AsHook('initializeSystem',null,-1)]
+#[AsHook('initializeSystem', null, -1)]
 class InitializeSystemListener
 {
-
     public function __construct(
         protected CoreConfigurationManager $configurationManager,
-        protected TemplateFinder $templateFinder)
-    {
+        protected TemplateFinder $templateFinder
+    ) {
     }
 
     public function __invoke(): void
@@ -41,7 +40,7 @@ class InitializeSystemListener
             return;
         }
 
-        if (!$config->getSgInstallComplete()) {
+        if (! $config->getSgInstallComplete()) {
             return;
         }
 

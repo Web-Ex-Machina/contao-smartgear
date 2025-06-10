@@ -87,7 +87,7 @@ class UserGroupUtil
         // Now we get the default values, get the arrData table
         if ($arrData !== null && $arrData !== []) {
             foreach ($arrData as $k => $v) {
-                $objUserGroup->$k = $v;
+                $objUserGroup->{$k} = $v;
             }
         }
 
@@ -156,9 +156,9 @@ class UserGroupUtil
         $objUserGroup = $userGroupManipulator->getUserGroup();
 
         // Now we get the default values, get the arrData table
-        if (!empty($arrData)) {
+        if (! empty($arrData)) {
             foreach ($arrData as $k => $v) {
-                $objUserGroup->$k = $v;
+                $objUserGroup->{$k} = $v;
             }
         }
 
@@ -365,7 +365,7 @@ class UserGroupUtil
         }
 
         Util::log(__METHOD__);
-        Util::log('$objConfiguration->contao_theme : '.$objConfiguration->contao_theme);
+        Util::log('$objConfiguration->contao_theme : ' . $objConfiguration->contao_theme);
         if ($objConfiguration->contao_theme) {
             $imageSizes = ImageSizeModel::findBy('pid', $objConfiguration->contao_theme);
             if ($imageSizes) {
@@ -644,7 +644,7 @@ class UserGroupUtil
             // 'pid' => $objConfigurationItem->pid,
             'contao_page' => $objConfigurationItem->contao_page,
         ]);
-        if (0 === $nbOtherItemSameProperty) {
+        if ($nbOtherItemSameProperty === 0) {
             $userGroupManipulator
                 ->removeAllowedPagemounts([$objConfigurationItem->contao_page])
             ;
@@ -655,7 +655,7 @@ class UserGroupUtil
             // 'pid' => $objConfigurationItem->pid,
             'contao_page_form' => $objConfigurationItem->contao_page_form,
         ]);
-        if (0 === $nbOtherItemSameProperty) {
+        if ($nbOtherItemSameProperty === 0) {
             $userGroupManipulator
                 ->removeAllowedPagemounts([$objConfigurationItem->contao_page_form])
             ;
@@ -666,7 +666,7 @@ class UserGroupUtil
             // 'pid' => $objConfigurationItem->pid,
             'contao_page_form_sent' => $objConfigurationItem->contao_page_form_sent,
         ]);
-        if (0 === $nbOtherItemSameProperty) {
+        if ($nbOtherItemSameProperty === 0) {
             $userGroupManipulator
                 ->removeAllowedPagemounts([$objConfigurationItem->contao_page_form_sent])
             ;
@@ -678,7 +678,7 @@ class UserGroupUtil
             // 'pid' => $objConfigurationItem->pid,
             'contao_module' => $objConfigurationItem->contao_module,
         ]);
-        if (0 === $nbOtherItemSameProperty) {
+        if ($nbOtherItemSameProperty === 0) {
             $userGroupManipulator
                 ->removeAllowedModules([$objConfigurationItem->contao_module])
             ;
@@ -689,7 +689,7 @@ class UserGroupUtil
             // 'pid' => $objConfigurationItem->pid,
             'contao_module_reader' => $objConfigurationItem->contao_module_reader,
         ]);
-        if (0 === $nbOtherItemSameProperty) {
+        if ($nbOtherItemSameProperty === 0) {
             $userGroupManipulator
                 ->removeAllowedModules([$objConfigurationItem->contao_module_reader])
             ;
@@ -700,7 +700,7 @@ class UserGroupUtil
             // 'pid' => $objConfigurationItem->pid,
             'contao_module_list' => $objConfigurationItem->contao_module_list,
         ]);
-        if (0 === $nbOtherItemSameProperty) {
+        if ($nbOtherItemSameProperty === 0) {
             $userGroupManipulator
                 ->removeAllowedModules([$objConfigurationItem->contao_module_list])
             ;
@@ -711,7 +711,7 @@ class UserGroupUtil
             // 'pid' => $objConfigurationItem->pid,
             'contao_module_calendar' => $objConfigurationItem->contao_module_calendar,
         ]);
-        if (0 === $nbOtherItemSameProperty) {
+        if ($nbOtherItemSameProperty === 0) {
             $userGroupManipulator
                 ->removeAllowedModules([$objConfigurationItem->contao_module_calendar])
             ;
@@ -722,7 +722,7 @@ class UserGroupUtil
             // 'pid' => $objConfigurationItem->pid,
             'contao_module' => $objConfigurationItem->contao_module,
         ]);
-        if (0 === $nbOtherItemSameProperty) {
+        if ($nbOtherItemSameProperty === 0) {
             $userGroupManipulator
                 ->removeAllowedModules([$objConfigurationItem->contao_module])
             ;
@@ -734,7 +734,7 @@ class UserGroupUtil
             // 'pid' => $objConfigurationItem->pid,
             'contao_form' => $objConfigurationItem->contao_form,
         ]);
-        if (0 === $nbOtherItemSameProperty) {
+        if ($nbOtherItemSameProperty === 0) {
             $userGroupManipulator
                 ->removeAllowedForms([$objConfigurationItem->contao_form])
             ;
@@ -746,7 +746,7 @@ class UserGroupUtil
             // 'pid' => $objConfigurationItem->pid,
             'contao_news_archive' => $objConfigurationItem->contao_news_archive,
         ]);
-        if (0 === $nbOtherItemSameProperty) {
+        if ($nbOtherItemSameProperty === 0) {
             $userGroupManipulator
                 ->removeAllowedNewsArchive([$objConfigurationItem->contao_news_archive])
             ;
@@ -758,7 +758,7 @@ class UserGroupUtil
             // 'pid' => $objConfigurationItem->pid,
             'contao_faq_category' => $objConfigurationItem->contao_faq_category,
         ]);
-        if (0 === $nbOtherItemSameProperty) {
+        if ($nbOtherItemSameProperty === 0) {
             $userGroupManipulator
                 ->removeAllowedFaq([$objConfigurationItem->contao_faq_category])
             ;
@@ -770,7 +770,7 @@ class UserGroupUtil
             // 'pid' => $objConfigurationItem->pid,
             'contao_calendar' => $objConfigurationItem->contao_calendar,
         ]);
-        if (0 === $nbOtherItemSameProperty) {
+        if ($nbOtherItemSameProperty === 0) {
             $userGroupManipulator
                 ->removeAllowedCalendar([$objConfigurationItem->contao_calendar])
             ;

@@ -29,7 +29,6 @@ use WEM\SmartgearBundle\Config\Manager\LocalConfig as LocalConfigManager;
 
 class General extends ConfigurationStep
 {
-
     public function __construct(
         string $module,
         string $type,
@@ -95,7 +94,7 @@ class General extends ConfigurationStep
             throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgOwnerEmailEmpty']);
         }
 
-        if (CoreConfig::ANALYTICS_SYSTEM_MATOMO === Input::post('sgAnalytics')) {
+        if (Input::post('sgAnalytics') === CoreConfig::ANALYTICS_SYSTEM_MATOMO) {
             if (empty(Input::post('sgAnalyticsMatomoId'))) {
                 throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsMatomoIdEmpty']);
             }
@@ -105,7 +104,7 @@ class General extends ConfigurationStep
             }
         }
 
-        if (CoreConfig::ANALYTICS_SYSTEM_GOOGLE === Input::post('sgAnalytics') && empty(Input::post('sgAnalyticsGoogleId'))) {
+        if (Input::post('sgAnalytics') === CoreConfig::ANALYTICS_SYSTEM_GOOGLE && empty(Input::post('sgAnalyticsGoogleId'))) {
             throw new Exception($GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['sgAnalyticsGoogleIdEmpty']);
         }
 
@@ -189,8 +188,8 @@ class General extends ConfigurationStep
         // allow "onclick" on "<a>" tag
         $allowedAttributes = StringUtil::deserialize(Config::get('allowedAttributes'), true);
         foreach ($allowedAttributes as $index => $allowedAttribute) {
-            if ('a' === $allowedAttribute['key']
-            && !str_contains((string) $allowedAttribute['value'], 'onclick')
+            if ($allowedAttribute['key'] === 'a'
+            && ! str_contains((string) $allowedAttribute['value'], 'onclick')
             ) {
                 $allowedAttributes[$index]['value'] .= ',onclick';
                 Config::set('allowedAttributes', serialize($allowedAttributes));
@@ -206,26 +205,26 @@ class General extends ConfigurationStep
         $config = $this->localConfigManager->load();
 
         $config->setDateFormat('d/m/Y')
-        ->setTimeFormat('H:i')
-        ->setDatimFormat('d/m/Y à H:i')
-        ->setTimeZone('Europe/Paris')
-        ->setCharacterSet('utf-8')
-        ->setUseAutoItem(true)
-        ->setFolderUrl(true)
-        ->setMaxResultsPerPage(500)
-        ->setPrivacyAnonymizeIp(true)
-        ->setPrivacyAnonymizeGA(true)
-        ->setGdMaxImgWidth(5000)
-        ->setGdMaxImgHeight(5000)
-        ->setMaxFileSize(10000000)
-        ->setUndoPeriod(7776000)
-        ->setVersionPeriod(7776000)
-        ->setLogPeriod(7776000)
-        ->setAllowedTags('<script><iframe><a><abbr><acronym><address><area><article><aside><audio><b><bdi><bdo><big><blockquote><br><base><button><canvas><caption><cite><code><col><colgroup><data><datalist><dataset><dd><del><dfn><div><dl><dt><em><fieldset><figcaption><figure><footer><form><h1><h2><h3><h4><h5><h6><header><hgroup><hr><i><img><input><ins><kbd><keygen><label><legend><li><link><map><mark><menu><nav><object><ol><optgroup><option><output><p><param><picture><pre><q><s><samp><section><select><small><source><span><strong><style><sub><sup><table><tbody><td><textarea><tfoot><th><thead><time><tr><tt><u><ul><var><video><wbr>')
-        ->setSgOwnerDomain(Environment::get('base'))
-        ->setSgOwnerHost(CoreConfig::DEFAULT_OWNER_HOST)
-        ->setRejectLargeUploads(true)
-        ->setFileusageSkipReplaceInsertTags(true) // Still needed on some installations
+            ->setTimeFormat('H:i')
+            ->setDatimFormat('d/m/Y à H:i')
+            ->setTimeZone('Europe/Paris')
+            ->setCharacterSet('utf-8')
+            ->setUseAutoItem(true)
+            ->setFolderUrl(true)
+            ->setMaxResultsPerPage(500)
+            ->setPrivacyAnonymizeIp(true)
+            ->setPrivacyAnonymizeGA(true)
+            ->setGdMaxImgWidth(5000)
+            ->setGdMaxImgHeight(5000)
+            ->setMaxFileSize(10000000)
+            ->setUndoPeriod(7776000)
+            ->setVersionPeriod(7776000)
+            ->setLogPeriod(7776000)
+            ->setAllowedTags('<script><iframe><a><abbr><acronym><address><area><article><aside><audio><b><bdi><bdo><big><blockquote><br><base><button><canvas><caption><cite><code><col><colgroup><data><datalist><dataset><dd><del><dfn><div><dl><dt><em><fieldset><figcaption><figure><footer><form><h1><h2><h3><h4><h5><h6><header><hgroup><hr><i><img><input><ins><kbd><keygen><label><legend><li><link><map><mark><menu><nav><object><ol><optgroup><option><output><p><param><picture><pre><q><s><samp><section><select><small><source><span><strong><style><sub><sup><table><tbody><td><textarea><tfoot><th><thead><time><tr><tt><u><ul><var><video><wbr>')
+            ->setSgOwnerDomain(Environment::get('base'))
+            ->setSgOwnerHost(CoreConfig::DEFAULT_OWNER_HOST)
+            ->setRejectLargeUploads(true)
+            ->setFileusageSkipReplaceInsertTags(true) // Still needed on some installations
         ;
 
         $this->localConfigManager->save($config);

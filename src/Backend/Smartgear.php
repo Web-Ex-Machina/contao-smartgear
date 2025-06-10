@@ -38,12 +38,8 @@ use Contao\System;
 use Contao\ThemeModel;
 use Contao\UserGroupModel;
 use Contao\UserModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Gateway as GatewayModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Language as LanguageModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Message as MessageModel;
-use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 use WEM\SmartgearBundle\Backup\BackupManager;
-use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
@@ -56,9 +52,12 @@ use WEM\SmartgearBundle\Config\Module\Extranet\Extranet as ExtranetConfig;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Model\Member;
+use WEM\SmartgearBundle\Model\NotificationCenter\Gateway as GatewayModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Language as LanguageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Message as MessageModel;
+use WEM\SmartgearBundle\Model\NotificationCenter\Notification as NotificationModel;
 use WEM\SmartgearBundle\Override\Controller;
 use WEM\SmartgearBundle\Update\UpdateManager;
-use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\UtilsBundle\Classes\ScopeMatcher;
 
 /**
@@ -66,7 +65,7 @@ use WEM\UtilsBundle\Classes\ScopeMatcher;
  *
  * @author Web ex Machina <https://www.webexmachina.fr>
  */
-#[AsHook('executePreActions','processAjaxRequest',-1)]
+#[AsHook('executePreActions', 'processAjaxRequest', -1)]
 class Smartgear extends BackendModule
 {
     /**
@@ -97,10 +96,10 @@ class Smartgear extends BackendModule
     protected mixed $objSession;
 
     public function __construct(
-        protected readonly ContaoCsrfTokenManager   $contaoCsrfTokenManager,
+        protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
         protected readonly ScopeMatcher $scopeMatcher,
-        DataContainer|null $dc = null)
-    {
+        DataContainer|null $dc = null
+    ) {
         parent::__construct($dc);
         $this->backupManager = System::getContainer()->get('smartgear.backup.backup_manager');
         $this->updateManager = System::getContainer()->get('smartgear.update.update_manager');
@@ -116,14 +115,16 @@ class Smartgear extends BackendModule
      */
     public function processAjaxRequest(string $strAction): void
     {
-        if(!$this->scopeMatcher->isBackend()) {exit();}
+        if (! $this->scopeMatcher->isBackend()) {
+            exit();
+        }
 
         // Catch AJAX Requests
-        if (Input::post('TL_WEM_AJAX') && 'be_smartgear' === Input::post('wem_module')) {
+        if (Input::post('TL_WEM_AJAX') && Input::post('wem_module') === 'be_smartgear') {
             try {
                 switch (Input::post('action')) {
                     case 'executeCmd':
-                        if (!Input::post('cmd')) {
+                        if (! Input::post('cmd')) {
                             throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
 
@@ -131,10 +132,9 @@ class Smartgear extends BackendModule
                         $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
                         $arrResponse['output'] = $this->commandUtil->executeCmd(Input::post('cmd'));
 
-
                         break;
                     case 'executeCmdPhp':
-                        if (!Input::post('cmd')) {
+                        if (! Input::post('cmd')) {
                             throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
 
@@ -142,10 +142,9 @@ class Smartgear extends BackendModule
                         $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
                         $arrResponse['output'] = $this->commandUtil->executeCmdPHP(Input::post('cmd'));
 
-
                         break;
                     case 'executeCmdLive':
-                        if (!Input::post('cmd')) {
+                        if (! Input::post('cmd')) {
                             throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
 
@@ -158,12 +157,12 @@ class Smartgear extends BackendModule
 
                     default:
                         // Check if we get all the params we need first
-                        if (!Input::post('type') || !Input::post('module') || !Input::post('action')) {
+                        if (! Input::post('type') || ! Input::post('module') || ! Input::post('action')) {
                             throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterMissing']);
                         }
 
-                        $objBlock = System::getContainer()->get('smartgear.backend.'.Input::post('type').'.'.Input::post('module').'.block');
-                        if ('parse' === Input::post('action')) {
+                        $objBlock = System::getContainer()->get('smartgear.backend.' . Input::post('type') . '.' . Input::post('module') . '.block');
+                        if (Input::post('action') === 'parse') {
                             echo $objBlock->processAjaxRequest();
                             exit;
                         }
@@ -183,106 +182,6 @@ class Smartgear extends BackendModule
     }
 
     /**
-     * Generate the module.
-     *
-     * @throws \Exception
-     */
-    protected function compile(): void
-    {
-        // Add WEM styles to template
-        $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
-        try {
-            $coreConfig = $this->coreConfigurationManager->load();
-        } catch (FileNotFoundException) {
-            $coreConfig = $this->coreConfigurationManager->new();
-            $save = $this->coreConfigurationManager->save($coreConfig);
-        }
-
-        if ('backupmanager' === Input::get('key')) {
-            $this->getBackupManager();
-
-            return;
-        }
-
-        if ('updatemanager' === Input::get('key')) {
-            $this->getUpdateManager();
-
-            return;
-        }
-
-        if ('configurationmanager' === Input::get('key')) {
-            $this->getConfigurationManager();
-
-            return;
-        }
-
-        // Catch Modal Calls
-        if ('modal' === Input::get('act')) {
-            // Catch Errors
-            if (!Input::get('type')) {
-                throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterTypeMissing']);
-            }
-
-            if (!Input::get('module')) {
-                throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterModuleMissing']);
-            }
-
-            if (!Input::get('function')) {
-                throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterFunctionMissing']);
-            }
-
-            // Load the good block
-            $objModule = Util::findAndCreateObject(Input::get('type'), Input::get('module'));
-            $this->Template = $objModule->{Input::get('function')}();
-
-            return;
-        }
-
-        // If there is nothing setup, trigger Smartgear Install
-        if (!$coreConfig->getSgInstallComplete()) {
-            $coreBlock = System::getContainer()->get('smartgear.backend.component.core.block');
-            $arrBlocks[$coreBlock->getType()][] = $coreBlock->parse();
-            $this->getConfigurationManagerButton();
-        } else {
-            // Retrieve number of updates to play if session key is undefined
-            // @todo : find a way to update this value after an update by the Contao-Manager
-            if ($this->objSession->get('wem_sg_update_to_play_number')) {
-                $this->Template->update_to_play_number = $this->objSession->get('wem_sg_update_to_play_number');
-            } else {
-                $listResults = $this->updateManager->list();
-                $this->Template->update_to_play_number = $listResults->getNumbersOfUpdatesToPlay();
-                $this->objSession->set('wem_sg_update_to_play_number', $this->Template->update_to_play_number);
-            }
-
-            // Load buttons
-            $this->getBackupManagerButton();
-            $this->getUpdateManagerButton();
-            $this->getConfigurationManagerButton();
-
-            // Parse Smartgear components
-            foreach ($this->modules as $type => $blocks) {
-                foreach ($blocks as $block) {
-                    $objModule = $this->getContainer()->get('smartgear.backend.'.$type.'.'.$block.'.block');
-                    $arrBlocks[$type][] = $objModule->parse();
-                }
-            }
-        }
-
-        // Send blocks to template
-        $this->Template->blocks = $arrBlocks;
-
-        // Send msc data to template
-        $this->Template->request = Environment::get('request');
-        $this->Template->token = RequestToken::get();
-        $this->Template->websiteTitle = Config::get('websiteTitle');
-        $this->Template->version = $this->coreConfigurationManager->load()->getSgVersion();
-
-        if ($coreConfig->getSgInstallLocked()) {
-            Message::addInfo($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['installLocked']);
-        }
-    }
-
-    /**
      * Backup manager behaviour.
      * @throws ManagerException
      */
@@ -297,7 +196,7 @@ class Smartgear extends BackendModule
             Message::addInfo(\sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageChunkSize'], Util::humanReadableFilesize($this->backupManager->getChunkSizeInBytes(), 0)));
         }
 
-        if ('new' === Input::get('act')) {
+        if (Input::get('act') === 'new') {
             try {
                 set_time_limit(0);
                 $start = microtime(true);
@@ -314,7 +213,7 @@ class Smartgear extends BackendModule
 
             // And redirect
             Controller::redirect(str_replace('&act=new', '', Environment::get('request')));
-        } elseif ('restore' === Input::get('act')) {
+        } elseif (Input::get('act') === 'restore') {
             try {
                 set_time_limit(0);
                 $start = microtime(true);
@@ -330,8 +229,8 @@ class Smartgear extends BackendModule
             }
 
             // And redirect
-            Controller::redirect(str_replace('&act=restore&backup='.Input::get('backup'), '', Environment::get('request')));
-        } elseif ('delete' === Input::get('act')) {
+            Controller::redirect(str_replace('&act=restore&backup=' . Input::get('backup'), '', Environment::get('request')));
+        } elseif (Input::get('act') === 'delete') {
             try {
                 if ($this->backupManager->delete(Input::get('backup'))) {
                     // Add Message
@@ -345,8 +244,8 @@ class Smartgear extends BackendModule
             }
 
             // And redirect
-            Controller::redirect(str_replace('&act=delete&backup='.Input::get('backup'), '', Environment::get('request')));
-        } elseif ('download' === Input::get('act')) {
+            Controller::redirect(str_replace('&act=delete&backup=' . Input::get('backup'), '', Environment::get('request')));
+        } elseif (Input::get('act') === 'download') {
             $objFile = $this->backupManager->get(Input::get('backup'));
             $objFile->sendToBrowser();
         }
@@ -372,7 +271,7 @@ class Smartgear extends BackendModule
             Input::get('before'),
             Input::get('after'),
         );
-        if (!$listResults) {
+        if (! $listResults) {
             $this->Template->empty = true;
         } else {
             $this->Template->empty = false;
@@ -394,12 +293,12 @@ class Smartgear extends BackendModule
     /**
      * Generate the module.
      *
-     * @throws Exception
+     * @throws \Exception
      */
-    protected function compile(): void //TODO : nani ? two compile ?
+    protected function compile(): void
     {
         // Add WEM styles to template
-        $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
+        $GLOBALS['TL_CSS'][] = $this->strBasePath . '/backend/wemsg.css';
         try {
             $coreConfig = $this->coreConfigurationManager->load();
         } catch (FileNotFoundException) {
@@ -407,37 +306,37 @@ class Smartgear extends BackendModule
             $save = $this->coreConfigurationManager->save($coreConfig);
         }
 
-        if ('backupmanager' === Input::get('key')) {
+        if (Input::get('key') === 'backupmanager') {
             $this->getBackupManager();
 
             return;
         }
 
-        if ('updatemanager' === Input::get('key')) {
+        if (Input::get('key') === 'updatemanager') {
             $this->getUpdateManager();
 
             return;
         }
 
-        if ('configurationmanager' === Input::get('key')) {
+        if (Input::get('key') === 'configurationmanager') {
             $this->getConfigurationManager();
 
             return;
         }
 
         // Catch Modal Calls
-        if ('modal' === Input::get('act')) {
+        if (Input::get('act') === 'modal') {
             // Catch Errors
-            if (!Input::get('type')) {
-                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterTypeMissing']);
+            if (! Input::get('type')) {
+                throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterTypeMissing']);
             }
 
-            if (!Input::get('module')) {
-                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterModuleMissing']);
+            if (! Input::get('module')) {
+                throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterModuleMissing']);
             }
 
-            if (!Input::get('function')) {
-                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterFunctionMissing']);
+            if (! Input::get('function')) {
+                throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterFunctionMissing']);
             }
 
             // Load the good block
@@ -448,7 +347,7 @@ class Smartgear extends BackendModule
         }
 
         // If there is nothing setup, trigger Smartgear Install
-        if (!$coreConfig->getSgInstallComplete()) {
+        if (! $coreConfig->getSgInstallComplete()) {
             $coreBlock = System::getContainer()->get('smartgear.backend.component.core.block');
             $arrBlocks[$coreBlock->getType()][] = $coreBlock->parse();
             $this->getConfigurationManagerButton();
@@ -471,7 +370,107 @@ class Smartgear extends BackendModule
             // Parse Smartgear components
             foreach ($this->modules as $type => $blocks) {
                 foreach ($blocks as $block) {
-                    $objModule = $this->getContainer()->get('smartgear.backend.'.$type.'.'.$block.'.block');
+                    $objModule = $this->getContainer()->get('smartgear.backend.' . $type . '.' . $block . '.block');
+                    $arrBlocks[$type][] = $objModule->parse();
+                }
+            }
+        }
+
+        // Send blocks to template
+        $this->Template->blocks = $arrBlocks;
+
+        // Send msc data to template
+        $this->Template->request = Environment::get('request');
+        $this->Template->token = RequestToken::get();
+        $this->Template->websiteTitle = Config::get('websiteTitle');
+        $this->Template->version = $this->coreConfigurationManager->load()->getSgVersion();
+
+        if ($coreConfig->getSgInstallLocked()) {
+            Message::addInfo($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['installLocked']);
+        }
+    }
+
+    /**
+     * Generate the module.
+     *
+     * @throws Exception
+     */
+    protected function compile(): void //TODO : nani ? two compile ?
+    {
+        // Add WEM styles to template
+        $GLOBALS['TL_CSS'][] = $this->strBasePath . '/backend/wemsg.css';
+        try {
+            $coreConfig = $this->coreConfigurationManager->load();
+        } catch (FileNotFoundException) {
+            $coreConfig = $this->coreConfigurationManager->new();
+            $save = $this->coreConfigurationManager->save($coreConfig);
+        }
+
+        if (Input::get('key') === 'backupmanager') {
+            $this->getBackupManager();
+
+            return;
+        }
+
+        if (Input::get('key') === 'updatemanager') {
+            $this->getUpdateManager();
+
+            return;
+        }
+
+        if (Input::get('key') === 'configurationmanager') {
+            $this->getConfigurationManager();
+
+            return;
+        }
+
+        // Catch Modal Calls
+        if (Input::get('act') === 'modal') {
+            // Catch Errors
+            if (! Input::get('type')) {
+                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterTypeMissing']);
+            }
+
+            if (! Input::get('module')) {
+                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterModuleMissing']);
+            }
+
+            if (! Input::get('function')) {
+                throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterFunctionMissing']);
+            }
+
+            // Load the good block
+            $objModule = Util::findAndCreateObject(Input::get('type'), Input::get('module'));
+            $this->Template = $objModule->{Input::get('function')}();
+
+            return;
+        }
+
+        // If there is nothing setup, trigger Smartgear Install
+        if (! $coreConfig->getSgInstallComplete()) {
+            $coreBlock = System::getContainer()->get('smartgear.backend.component.core.block');
+            $arrBlocks[$coreBlock->getType()][] = $coreBlock->parse();
+            $this->getConfigurationManagerButton();
+        } else {
+            // Retrieve number of updates to play if session key is undefined
+            // @todo : find a way to update this value after an update by the Contao-Manager
+            if ($this->objSession->get('wem_sg_update_to_play_number')) {
+                $this->Template->update_to_play_number = $this->objSession->get('wem_sg_update_to_play_number');
+            } else {
+                $listResults = $this->updateManager->list();
+                $this->Template->update_to_play_number = $listResults->getNumbersOfUpdatesToPlay();
+                $this->objSession->set('wem_sg_update_to_play_number', $this->Template->update_to_play_number);
+            }
+
+            // Load buttons
+            $this->getBackupManagerButton();
+            $this->getUpdateManagerButton();
+            $this->getConfigurationManagerButton();
+
+            // Parse Smartgear components
+            foreach ($this->modules as $type => $blocks) {
+                foreach ($blocks as $block) {
+                    $objModule = $this->getContainer()->get('smartgear.backend.' . $type . '.' . $block . '.block');
                     $arrBlocks[$type][] = $objModule->parse();
                 }
             }
@@ -497,7 +496,7 @@ class Smartgear extends BackendModule
     protected function getUpdateManager(): void
     {
         $this->Template = new BackendTemplate('be_wem_sg_updatemanager');
-        if ('play' === Input::get('act')) {
+        if (Input::get('act') === 'play') {
             try {
                 set_time_limit(0);
                 $result = $this->updateManager->update((bool) Input::get('backup'));
@@ -522,7 +521,7 @@ class Smartgear extends BackendModule
         // Retrieve updates
         $listResults = $this->updateManager->list();
         $this->objSession->set('wem_sg_update_to_play_number', $listResults->getNumbersOfUpdatesToPlay());
-        if (!$listResults) {
+        if (! $listResults) {
             $this->Template->empty = true;
         } else {
             $this->Template->empty = false;
@@ -547,7 +546,7 @@ class Smartgear extends BackendModule
     protected function getConfigurationManager(): void
     {
         $this->Template = new BackendTemplate('be_wem_sg_configurationmanager');
-        if ('save' === Input::post('act')) {
+        if (Input::post('act') === 'save') {
             try {
                 $this->saveConfigurationManagerForm();
 
@@ -710,7 +709,7 @@ class Smartgear extends BackendModule
 
             $arrBlogPresets = [];
             $arrBlogPresetsExisting = $blogConfig->getSgPresets();
-            if (!empty($arrBlogPresetsExisting)) {
+            if (! empty($arrBlogPresetsExisting)) {
                 foreach ($arrBlogPresetsExisting as $index => $preset) {
                     /** @var BlogPresetConfig $preset */
                     $preset
@@ -993,7 +992,7 @@ class Smartgear extends BackendModule
                         // $arrLayouts[$objTheme->id]['options'][$objModule->id] = [
                         $arrModules[$objModule->id] = [
                             'value' => (int) $objModule->id,
-                            'text' => $objTheme->name.' | '.$objModule->name.' ('.$objModule->type.')',
+                            'text' => $objTheme->name . ' | ' . $objModule->name . ' (' . $objModule->type . ')',
                             'selected' => false,
                         ];
                     }
@@ -1011,7 +1010,7 @@ class Smartgear extends BackendModule
                         // $arrLayouts[$objTheme->id]['options'][$objLayout->id] = [
                         $arrLayouts[$objLayout->id] = [
                             'value' => (int) $objLayout->id,
-                            'text' => $objTheme->name.' | '.$objLayout->name,
+                            'text' => $objTheme->name . ' | ' . $objLayout->name,
                             'selected' => false,
                         ];
 
@@ -1030,7 +1029,7 @@ class Smartgear extends BackendModule
                                 $arrPages[$objPage->id] = [
                                     'value' => (int) $objPage->id,
                                     // 'text' => $objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.')',
-                                    'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').')',
+                                    'text' => $objTheme->name . ' | ' . $objPage->sorting . ' - ' . $objPage->title . ' (' . $objPage->type . ' - ' . ($objPage->published ? 'publiée' : 'dépubliée') . ')',
                                     'selected' => false,
                                 ];
 
@@ -1049,7 +1048,7 @@ class Smartgear extends BackendModule
                                         $arrArticles[$objArticle->id] = [
                                             'value' => (int) $objArticle->id,
                                             // 'text' => $objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->type.')',
-                                            'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').') | '.$objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->inColumn.' - '.($objArticle->published ? 'publié' : 'dépublié').')',
+                                            'text' => $objTheme->name . ' | ' . $objPage->sorting . ' - ' . $objPage->title . ' (' . $objPage->type . ' - ' . ($objPage->published ? 'publiée' : 'dépubliée') . ') | ' . $objArticle->sorting . ' - ' . $objArticle->title . ' (' . $objArticle->inColumn . ' - ' . ($objArticle->published ? 'publié' : 'dépublié') . ')',
                                             'selected' => false,
                                         ];
 
@@ -1069,7 +1068,7 @@ class Smartgear extends BackendModule
                                                 $arrContents[$objContent->id] = [
                                                     'value' => (int) $objContent->id,
                                                     // 'text' => $objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
-                                                    'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').') | '.$objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->inColumn.' - '.($objArticle->published ? 'publié' : 'dépublié').') | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.' - '.($objContent->invisible ? 'invisible' : 'visible').')'.$this->getContentAdditionalInfos($objContent),
+                                                    'text' => $objTheme->name . ' | ' . $objPage->sorting . ' - ' . $objPage->title . ' (' . $objPage->type . ' - ' . ($objPage->published ? 'publiée' : 'dépubliée') . ') | ' . $objArticle->sorting . ' - ' . $objArticle->title . ' (' . $objArticle->inColumn . ' - ' . ($objArticle->published ? 'publié' : 'dépublié') . ') | ' . $objContent->sorting . ' - ' . $objContent->title . ' (' . $objContent->type . ' - ' . ($objContent->invisible ? 'invisible' : 'visible') . ')' . $this->getContentAdditionalInfos($objContent),
                                                     'selected' => false,
                                                 ];
                                             }
@@ -1098,14 +1097,14 @@ class Smartgear extends BackendModule
                 }
 
                 $objPage->loadDetails();
-                if (0 !== $objPage->layout && ($objLayout = LayoutModel::findByPk($objPage->layout)) && ($objTheme = ThemeModel::findByPk($objLayout->pid))) {
+                if ($objPage->layout !== 0 && ($objLayout = LayoutModel::findByPk($objPage->layout)) && ($objTheme = ThemeModel::findByPk($objLayout->pid))) {
                     $themeName = $objTheme->name;
                 }
 
                 // $arrPages[0]['options'][$pages->id] = [
                 $arrPages[$pages->id] = [
                     'value' => (int) $objPage->id,
-                    'text' => $themeName.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').')',
+                    'text' => $themeName . ' | ' . $objPage->sorting . ' - ' . $objPage->title . ' (' . $objPage->type . ' - ' . ($objPage->published ? 'publiée' : 'dépubliée') . ')',
                     'selected' => false,
                 ];
                 // if (!$arrArticles[$objPage->id]) {
@@ -1123,7 +1122,7 @@ class Smartgear extends BackendModule
                         $arrArticles[$objArticle->id] = [
                             'value' => (int) $objArticle->id,
                             // 'text' => $objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->type.')',
-                            'text' => $themeName.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').') | '.$objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->inColumn.' - '.($objArticle->published ? 'publié' : 'dépublié').')',
+                            'text' => $themeName . ' | ' . $objPage->sorting . ' - ' . $objPage->title . ' (' . $objPage->type . ' - ' . ($objPage->published ? 'publiée' : 'dépubliée') . ') | ' . $objArticle->sorting . ' - ' . $objArticle->title . ' (' . $objArticle->inColumn . ' - ' . ($objArticle->published ? 'publié' : 'dépublié') . ')',
                             'selected' => false,
                         ];
 
@@ -1143,7 +1142,7 @@ class Smartgear extends BackendModule
                                 $arrContents[$objContent->id] = [
                                     'value' => (int) $objContent->id,
                                     // 'text' => $objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
-                                    'text' => $themeName.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').') | '.$objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->inColumn.' - '.($objArticle->published ? 'publié' : 'dépublié').') | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.' - '.($objContent->invisible ? 'invisible' : 'visible').')'.$this->getContentAdditionalInfos($objContent),
+                                    'text' => $themeName . ' | ' . $objPage->sorting . ' - ' . $objPage->title . ' (' . $objPage->type . ' - ' . ($objPage->published ? 'publiée' : 'dépubliée') . ') | ' . $objArticle->sorting . ' - ' . $objArticle->title . ' (' . $objArticle->inColumn . ' - ' . ($objArticle->published ? 'publié' : 'dépublié') . ') | ' . $objContent->sorting . ' - ' . $objContent->title . ' (' . $objContent->type . ' - ' . ($objContent->invisible ? 'invisible' : 'visible') . ')' . $this->getContentAdditionalInfos($objContent),
                                     'selected' => false,
                                 ];
                             }
@@ -1181,7 +1180,7 @@ class Smartgear extends BackendModule
             while ($gateways->next()) {
                 $arrNcGateways[$gateways->id] = [
                     'value' => (int) $gateways->id,
-                    'text' => $gateways->title.' ('.$gateways->type.')',
+                    'text' => $gateways->title . ' (' . $gateways->type . ')',
                 ];
             }
         }
@@ -1195,7 +1194,7 @@ class Smartgear extends BackendModule
             while ($notifications->next()) {
                 $arrNcNotifications[$notifications->id] = [
                     'value' => (int) $notifications->id,
-                    'text' => $notifications->title.' ('.$notifications->type.')',
+                    'text' => $notifications->title . ' (' . $notifications->type . ')',
                 ];
 
                 $messages = MessageModel::findBy('pid', $notifications->id);
@@ -1203,7 +1202,7 @@ class Smartgear extends BackendModule
                     while ($messages->next()) {
                         $arrNcMessages[$messages->id] = [
                             'value' => (int) $messages->id,
-                            'text' => $notifications->title.' ('.$notifications->type.') | '.$messages->title.' ('.$messages->gateway_type.')',
+                            'text' => $notifications->title . ' (' . $notifications->type . ') | ' . $messages->title . ' (' . $messages->gateway_type . ')',
                         ];
 
                         $languages = LanguageModel::findBy('pid', $messages->id);
@@ -1211,7 +1210,7 @@ class Smartgear extends BackendModule
                             while ($languages->next()) {
                                 $arrNcLanguages[$languages->id] = [
                                     'value' => (int) $languages->id,
-                                    'text' => $notifications->title.' ('.$notifications->type.') | '.$messages->title.' ('.$messages->gateway_type.') | '.$languages->language,
+                                    'text' => $notifications->title . ' (' . $notifications->type . ') | ' . $messages->title . ' (' . $messages->gateway_type . ') | ' . $languages->language,
                                 ];
                             }
                         }
@@ -1351,7 +1350,7 @@ class Smartgear extends BackendModule
         ];
 
         foreach ($arrMandatoryModules as $mandatoryModule) {
-            if (!\array_key_exists($mandatoryModule, $core['modules'])) {
+            if (! \array_key_exists($mandatoryModule, $core['modules'])) {
                 $core['modules'][$mandatoryModule] = null;
             }
         }
@@ -1359,7 +1358,7 @@ class Smartgear extends BackendModule
         $this->Template->core = $core;
 
         // blog
-        /** @var BlogConfig */
+        /** @var BlogConfig $blogConfig */
         $blogConfig = $coreConfig->getSgBlog();
         $archivedModeRaw = BlogConfig::ARCHIVE_MODES_ALLOWED;
         $archivedMode = [];
@@ -1432,7 +1431,7 @@ class Smartgear extends BackendModule
             ];
             $arrBlogPresets[$index] = [
                 'value' => $index,
-                'text' => $index.' | '.$preset->getSgPageTitle().' | '.$preset->getSgNewsArchiveTitle().' | '.$preset->getSgNewsListPerPage().' | '.$preset->getSgNewsListPerPage(),
+                'text' => $index . ' | ' . $preset->getSgPageTitle() . ' | ' . $preset->getSgNewsArchiveTitle() . ' | ' . $preset->getSgNewsListPerPage() . ' | ' . $preset->getSgNewsListPerPage(),
             ];
         }
 
@@ -1604,7 +1603,7 @@ class Smartgear extends BackendModule
                         $objField = $fields->current();
                         $arrFields[$objField->id] = [
                             'value' => (int) $objField->id,
-                            'text' => $objForm->title.' | '.$objField->name.' ('.$objField->type.')',
+                            'text' => $objForm->title . ' | ' . $objField->name . ' (' . $objField->type . ')',
                         ];
                     }
                 }
@@ -1651,7 +1650,7 @@ class Smartgear extends BackendModule
         $this->Template->fields = $empty + $arrFields;
 
         // Extranet
-        /** @var ExtranetConfig */
+        /** @var ExtranetConfig $extranetConfig */
         $extranetConfig = $coreConfig->getSgExtranet();
         $archivedModeRaw = ExtranetConfig::ARCHIVE_MODES_ALLOWED;
         $archivedMode = [];
@@ -1674,7 +1673,7 @@ class Smartgear extends BackendModule
                 $objMember = $members->current();
                 $arrMembers[$objMember->id] = [
                     'value' => (int) $objMember->id,
-                    'text' => $objMember->firstname.' '.$objMember->lastname.' ('.$objMember->email.')',
+                    'text' => $objMember->firstname . ' ' . $objMember->lastname . ' (' . $objMember->email . ')',
                 ];
             }
         }
@@ -1825,32 +1824,32 @@ class Smartgear extends BackendModule
         switch ($objContent->type) {
             case 'module':
                 if ($objModule = ModuleModel::findByPk($objContent->module)) {
-                    $contentAdditionnalInfos = ' - '.$objModule->name;
+                    $contentAdditionnalInfos = ' - ' . $objModule->name;
                 }
 
-            break;
+                break;
             case 'article':
                 if ($objArticle = ArticleModel::findByPk($objContent->article)) {
-                    $contentAdditionnalInfos = ' - '.$objArticle->title;
+                    $contentAdditionnalInfos = ' - ' . $objArticle->title;
                 }
 
-            break;
+                break;
             case 'headline':
                 if ($objContent->text) {
                     $text = System::getContainer()->get('contao.string.html_decoder')->htmlToPlainText($objContent->text);
-                    $contentAdditionnalInfos = ' - '.substr((string) $text, 0, \strlen((string) $text) > 20 ? 20 : \strlen((string) $text)).'...';
+                    $contentAdditionnalInfos = ' - ' . substr((string) $text, 0, \strlen((string) $text) > 20 ? 20 : \strlen((string) $text)) . '...';
                 } elseif ($objContent->headline) {
                     $arrHeadline = StringUtil::deserialize($objContent->headline);
 
                     // $contentAdditionnalInfos = ' - '.substr($arrHeadline['value'], 0, \strlen($arrHeadline['value']) > 20 ? 20 : \strlen($arrHeadline['value'])).'...';
-                    $contentAdditionnalInfos = ' - '.$arrHeadline['value'];
+                    $contentAdditionnalInfos = ' - ' . $arrHeadline['value'];
                 }
 
-            break;
+                break;
             default:
                 if ($objContent->text) {
                     $text = System::getContainer()->get('contao.string.html_decoder')->htmlToPlainText($objContent->text);
-                    $contentAdditionnalInfos = ' - '.substr((string) $text, 0, \strlen((string) $text) > 20 ? 20 : \strlen((string) $text)).'...';
+                    $contentAdditionnalInfos = ' - ' . substr((string) $text, 0, \strlen((string) $text) > 20 ? 20 : \strlen((string) $text)) . '...';
                 }
         }
 

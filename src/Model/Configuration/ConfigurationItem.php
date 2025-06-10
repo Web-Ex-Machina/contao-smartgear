@@ -116,7 +116,7 @@ class ConfigurationItem extends CoreModel
         switch ($strField) {
             case 'not_id':
                 $varValue = \is_array($varValue) ? $varValue : [$varValue];
-                $arrColumns[] = sprintf($t . ".id NOT IN (%s)", implode(',', $varValue));
+                $arrColumns[] = sprintf($t . '.id NOT IN (%s)', implode(',', $varValue));
                 break;
             case 'type':
                 $varValue = \is_array($varValue) ? $varValue : [$varValue];

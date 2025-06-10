@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * SMARTGEAR for Contao Open Source CMS
@@ -19,14 +19,14 @@ use Terminal42\NotificationCenterBundle\Token\Definition\Factory\TokenDefinition
 use Terminal42\NotificationCenterBundle\Token\Definition\FileTokenDefinition;
 use Terminal42\NotificationCenterBundle\Token\Definition\HtmlTokenDefinition;
 use Terminal42\NotificationCenterBundle\Token\Definition\TextTokenDefinition;
-use Terminal42\NotificationCenterBundle\Token\Definition\TokenDefinitionInterface;
 
 class FormGeneratorNotificationType implements NotificationTypeInterface
 {
     public const NAME = 'core_form';
 
-    public function __construct(private readonly TokenDefinitionFactoryInterface $factory)
-    {
+    public function __construct(
+        private readonly TokenDefinitionFactoryInterface $factory
+    ) {
     }
 
     public function getName(): string
@@ -46,16 +46,15 @@ class FormGeneratorNotificationType implements NotificationTypeInterface
         ];
     }
 
-
-//    /*
-// * NC hooks
-// */
-//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data';
-//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_filled';
-//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data';
-//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data_filled';
-//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data';
-//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data_filled';
-//
+    //    /*
+    // * NC hooks
+    // */
+    //$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data';
+    //$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_filled';
+    //$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data';
+    //$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data_filled';
+    //$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data';
+    //$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data_filled';
+    //
 
 }

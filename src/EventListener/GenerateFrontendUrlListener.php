@@ -22,11 +22,12 @@ use WEM\UtilsBundle\Classes\ScopeMatcher;
  *
  * Handle Smartgear generateFrontendUrl hooks
  */
-#[AsHook('generateFrontendUrl',null,-1)]
+#[AsHook('generateFrontendUrl', null, -1)]
 class GenerateFrontendUrlListener
 {
-    public function __construct(protected readonly ScopeMatcher $scopeMatcher)
-    {
+    public function __construct(
+        protected readonly ScopeMatcher $scopeMatcher
+    ) {
     }
 
     /**
@@ -34,14 +35,16 @@ class GenerateFrontendUrlListener
      */
     public function __invoke(array $arrRow, string $strParams, string $strUrl): string
     {
-        if(!$this->scopeMatcher->isFrontend()) {exit();}
+        if (! $this->scopeMatcher->isFrontend()) {
+            exit();
+        }
 
-        if (!\is_array($arrRow)) {
+        if (! \is_array($arrRow)) {
             throw new \Exception('not an associative array.');
         }
 
         // Catch "/" page aliases and do not add suffix to them (as they are considered as base request)
-        if ('/' === $arrRow['alias']) {
+        if ($arrRow['alias'] === '/') {
             $strUrl = '/';
         }
 

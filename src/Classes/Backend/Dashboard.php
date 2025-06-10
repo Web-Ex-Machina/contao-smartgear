@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Backend;
 
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\Environment;
 use Contao\FrontendTemplate;
 use Contao\Input;
-use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\System;
 use Exception;
 use InvalidArgumentException;
@@ -36,11 +36,11 @@ class Dashboard
     protected array $logs = [];
 
     public function __construct(
-        protected ConfigurationManager              $configurationManager,
-        protected TranslatorInterface               $translator,
-        protected string                            $module,
-        protected readonly ContaoCsrfTokenManager   $contaoCsrfTokenManager,
-        protected string                            $type
+        protected ConfigurationManager $configurationManager,
+        protected TranslatorInterface $translator,
+        protected string $module,
+        protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
+        protected string $type
     ) {
         // Init session
         $this->objSession = System::getContainer()->get('session');

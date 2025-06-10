@@ -35,7 +35,7 @@ DCAManipulator::create('tl_style_manager_archive')
 ;
 
 foreach ($GLOBALS['TL_DCA']['tl_style_manager_archive']['palettes'] as $paletteName => $paletteConfig) {
-    if ('__selector__' !== $paletteName) {
+    if ($paletteName !== '__selector__') {
         PaletteManipulator::create()
             ->addLegend('wem_sg_install_legend')
             ->addField('wem_sg_install', 'wem_sg_install_legend')

@@ -18,7 +18,6 @@ use WEM\SmartgearBundle\Backup\Model\Backup as BackupBusinessModel;
 
 abstract class AbstractResult
 {
-
     protected BackupBusinessModel $backup;
 
     protected array $files = [];

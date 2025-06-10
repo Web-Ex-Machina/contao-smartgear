@@ -23,7 +23,6 @@ use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 
 class General extends AbstractStep
 {
-
     protected string $strTemplate = 'be_wem_sg_install_block_reset_step_blog_general';
 
     public function __construct(
@@ -58,7 +57,7 @@ class General extends AbstractStep
     public function isStepValid(): bool
     {
         // check if the step is correct
-        if (!\in_array(Input::post('deleteMode'), BlogConfig::ARCHIVE_MODES_ALLOWED, true)) {
+        if (! \in_array(Input::post('deleteMode'), BlogConfig::ARCHIVE_MODES_ALLOWED, true)) {
             throw new \InvalidArgumentException($this->translator->trans('WEMSG.BLOG.RESET.deleteModeUnknown', [], 'contao_default'));
         }
 
