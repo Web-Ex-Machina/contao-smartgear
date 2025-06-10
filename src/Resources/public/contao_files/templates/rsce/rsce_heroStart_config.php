@@ -12,6 +12,8 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+use Contao\BackendUser;
+use Contao\System;
 use WEM\SmartgearBundle\Classes\Util;
 
 return [
@@ -24,7 +26,7 @@ return [
             'inputType' => 'standardField',
         ],
         'image_size' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_content']['size'], 'inputType' => 'imageSize', 'reference' => &$GLOBALS['TL_LANG']['MSC'], 'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50 clr'], 'options_callback' => static fn () => \Contao\System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(\Contao\BackendUser::getInstance()),
+            'label' => &$GLOBALS['TL_LANG']['tl_content']['size'], 'inputType' => 'imageSize', 'reference' => &$GLOBALS['TL_LANG']['MSC'], 'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50 clr'], 'options_callback' => static fn () => System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance()),
         ],
         'alt' => [
             'inputType' => 'standardField',

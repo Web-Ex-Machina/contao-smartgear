@@ -64,7 +64,7 @@ class Dataset extends ConfigurationStep
         protected TranslatorInterface $translator,
         protected ConfigurationManager $configurationManager,
         protected CommandUtil $commandUtil,
-        string $sourceDirectory
+        string $sourceDirectory,
     ) {
         parent::__construct($module, $type);
         $this->sourceDirectory = str_replace('[public_or_web]', Util::getPublicOrWebDirectory(true), $sourceDirectory);
@@ -202,6 +202,7 @@ class Dataset extends ConfigurationStep
         $directory = $eventsConfig->getSgEventsFolder();
         $eventsConfig->getSgCalendar();
         $fileNamesToDelete = ['fileA.jpg', 'fileB.jpg', 'fileC.jpg', 'fileD.jpg', 'fileE.jpg', 'fileF.jpg', 'fileG.jpg', 'fileH.jpg', 'fileI.jpg', 'fileJ.jpg', 'fileK.jpg', 'fileL.jpg', 'fileM.jpg', 'fileN.jpg'];
+
         foreach ($fileNamesToDelete as $filenameToDelete) {
             $objFile = new File($directory . \DIRECTORY_SEPARATOR . $filenameToDelete);
             if ($objFile->exists()) {
@@ -210,6 +211,7 @@ class Dataset extends ConfigurationStep
         }
 
         $eventsAliasesToDelete = ['event-test-a', 'event-test-b', 'évènement-c', 'évènement-d', 'évènement-e', 'évènement-f', 'évènement-g', 'évènement-h', 'évènement-i', 'évènement-j', 'évènement-k', 'évènement-l', 'évènement-m', 'évènement-n', 'évènement-o', 'évènement-p', 'évènement-q', 'évènement-r', 'event-test-a-2', 'event-test-b-2', 'évènement-c-2', 'évènement-d-2', 'évènement-e-2', 'évènement-f-2', 'évènement-g-2', 'évènement-h-2', 'évènement-i-2', 'évènement-j-2', 'évènement-k-2', 'évènement-l-2', 'évènement-m-2', 'évènement-n-2', 'évènement-o-2', 'évènement-p-2', 'évènement-q-2', 'évènement-r-2'];
+
         foreach ($eventsAliasesToDelete as $eventsAliasToDelete) {
             $objNews = CalendarEventsModel::findOneByAlias($eventsAliasToDelete);
             if ($objNews) {
@@ -225,6 +227,7 @@ class Dataset extends ConfigurationStep
     {
         $eventsConfig = $this->configurationManager->load()->getSgEvents();
         $destinationDirectory = $eventsConfig->getSgEventsFolder();
+
         foreach ($filenames as $filenameToCopy) {
             $objFile = new File($this->sourceDirectory . \DIRECTORY_SEPARATOR . $filenameToCopy);
             if (! $objFile->copyTo($destinationDirectory . \DIRECTORY_SEPARATOR . $filenameToCopy)) {

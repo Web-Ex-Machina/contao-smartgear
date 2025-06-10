@@ -40,6 +40,7 @@ class UpdateCommand extends AbstractUpdateCommand
     {
         $io = new SymfonyStyle($input, $output);
         $io->title('Play updates');
+
         try {
             $updateResult = $this->updateManager->update(! $input->getOption('nobackup'));
         } catch (\Exception $exception) {
@@ -81,6 +82,7 @@ class UpdateCommand extends AbstractUpdateCommand
     private function formatForTable(array $singleMigrationResults): array
     {
         $formatted = [];
+
         foreach ($singleMigrationResults as $singleMigrationResult) {
             $formatted[] = [
                 $singleMigrationResult->getVersion()->__toString(),

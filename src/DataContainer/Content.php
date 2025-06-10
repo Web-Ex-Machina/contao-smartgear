@@ -115,7 +115,7 @@ class Content extends Backend
      * Rule #1 : Replace [nbsp] tags by ' '
      * Rule #2 : Find special characters and add an [nbsp] just before.
      *
-     * @param DataContainer $objDc    [description]
+     * @param DataContainer $objDc [description]
      */
     public function cleanHeadline(mixed $varValue, DataContainer $objDc): string
     {
@@ -134,7 +134,7 @@ class Content extends Backend
      * Rule #1 : Replace [nbsp] tags by ' '
      * Rule #2 : Find special characters and add an [nbsp] just before.
      *
-     * @param DataContainer $objDc    [description]
+     * @param DataContainer $objDc [description]
      */
     public function cleanText(mixed $varValue, DataContainer $objDc)
     {

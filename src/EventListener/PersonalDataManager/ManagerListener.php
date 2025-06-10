@@ -26,7 +26,7 @@ use WEM\SmartgearBundle\Model\FormStorageData;
 class ManagerListener
 {
     public function __construct(
-        protected TranslatorInterface $translator
+        protected TranslatorInterface $translator,
     ) {
     }
 

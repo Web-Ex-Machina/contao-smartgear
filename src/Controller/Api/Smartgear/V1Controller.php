@@ -34,7 +34,7 @@ class V1Controller extends Controller
         protected TranslatorInterface $translator,
         protected Api $api,
         protected ApiKey $securityApiKey,
-        protected Token $securityToken
+        protected Token $securityToken,
     ) {
         parent::__construct();
     }

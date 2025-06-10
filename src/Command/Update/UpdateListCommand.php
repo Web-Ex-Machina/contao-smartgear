@@ -28,6 +28,7 @@ class UpdateListCommand extends AbstractUpdateCommand
     {
         $io = new SymfonyStyle($input, $output);
         $io->title('Update list');
+
         try {
             $listResult = $this->updateManager->list();
         } catch (\Exception $exception) {
@@ -54,13 +55,14 @@ class UpdateListCommand extends AbstractUpdateCommand
     private function formatForTable(array $singleMigrationResults): array
     {
         $formatted = [];
+
         foreach ($singleMigrationResults as $singleMigrationResult) {
             $formatted[] = [
                 $singleMigrationResult->getVersion()->__toString(),
                 $singleMigrationResult->getName(),
                 $singleMigrationResult->getDescription(),
                 $singleMigrationResult->getResult()->getStatus(),
-                implode(\PHP_EOL, $singleMigrationResult->getResult()->getLogs()),
+                implode(PHP_EOL, $singleMigrationResult->getResult()->getLogs()),
             ];
         }
 

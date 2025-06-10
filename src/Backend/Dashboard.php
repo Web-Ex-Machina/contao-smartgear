@@ -50,7 +50,7 @@ class Dashboard extends BackendModule
 
     public function __construct(
         protected readonly ScopeMatcher $scopeMatcher,
-        DataContainer|null $dc = null
+        DataContainer|null $dc = null,
     ) {
         parent::__construct($dc);
 
@@ -100,7 +100,7 @@ class Dashboard extends BackendModule
     public function processAjaxRequest(string $strAction): void
     {
         if (! $this->scopeMatcher->isFrontend()) {
-            exit();
+            exit;
         }
 
         if (Input::post('TL_WEM_AJAX') && Input::post('wem_module') === $this->modSupport->getStrId()) {
@@ -111,6 +111,7 @@ class Dashboard extends BackendModule
     protected function compile(): void
     {
         $configurationManager = System::getContainer()->get('smartgear.config.manager.core');
+
         try {
             /** @var CoreConfig $config */
             $config = $configurationManager->load();

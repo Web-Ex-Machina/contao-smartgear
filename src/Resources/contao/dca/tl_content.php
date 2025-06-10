@@ -13,13 +13,15 @@ declare(strict_types=1);
  */
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Contao\DataContainer;
 use Contao\DcaLoader;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\DataContainer\Core;
+use WEM\SmartgearBundle\Override\Controller;
 
 (new DcaLoader('tl_content'))->load();
 
-$GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['options_callback'] = static fn (Contao\DataContainer $dc): array => WEM\SmartgearBundle\Override\Controller::getTemplateGroup('ce_' . $dc->activeRecord->type . '_', [], 'ce_' . $dc->activeRecord->type);
+$GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['options_callback'] = static fn (DataContainer $dc): array => Controller::getTemplateGroup('ce_' . $dc->activeRecord->type . '_', [], 'ce_' . $dc->activeRecord->type);
 $GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['eval']['includeBlankOption'] = true;
 
 DCAManipulator::create('tl_content')

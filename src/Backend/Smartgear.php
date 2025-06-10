@@ -27,6 +27,7 @@ use Contao\Environment;
 use Contao\FaqCategoryModel;
 use Contao\FormFieldModel;
 use Contao\FormModel;
+use Contao\Image;
 use Contao\Input;
 use Contao\LayoutModel;
 use Contao\MemberGroupModel;
@@ -34,6 +35,7 @@ use Contao\Message;
 use Contao\ModuleModel;
 use Contao\NewsArchiveModel;
 use Contao\PageModel;
+use Contao\Pagination;
 use Contao\System;
 use Contao\ThemeModel;
 use Contao\UserGroupModel;
@@ -62,8 +64,6 @@ use WEM\UtilsBundle\Classes\ScopeMatcher;
 
 /**
  * Back end module "smartgear".
- *
- * @author Web ex Machina <https://www.webexmachina.fr>
  */
 #[AsHook('executePreActions', 'processAjaxRequest', -1)]
 class Smartgear extends BackendModule
@@ -98,7 +98,7 @@ class Smartgear extends BackendModule
     public function __construct(
         protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
         protected readonly ScopeMatcher $scopeMatcher,
-        DataContainer|null $dc = null
+        DataContainer|null $dc = null,
     ) {
         parent::__construct($dc);
         $this->backupManager = System::getContainer()->get('smartgear.backup.backup_manager');
@@ -116,7 +116,7 @@ class Smartgear extends BackendModule
     public function processAjaxRequest(string $strAction): void
     {
         if (! $this->scopeMatcher->isBackend()) {
-            exit();
+            exit;
         }
 
         // Catch AJAX Requests
@@ -183,6 +183,7 @@ class Smartgear extends BackendModule
 
     /**
      * Backup manager behaviour.
+     *
      * @throws ManagerException
      */
     public function getBackupManager(): void
@@ -278,7 +279,7 @@ class Smartgear extends BackendModule
             $this->Template->backups = $listResults;
         }
 
-        $objPagination = new \Contao\Pagination($listResults->getTotal(), $listResults->getLimit());
+        $objPagination = new Pagination($listResults->getTotal(), $listResults->getLimit());
         $this->Template->pagination = $objPagination->generate("\n  ");
 
         // Back button
@@ -299,6 +300,7 @@ class Smartgear extends BackendModule
     {
         // Add WEM styles to template
         $GLOBALS['TL_CSS'][] = $this->strBasePath . '/backend/wemsg.css';
+
         try {
             $coreConfig = $this->coreConfigurationManager->load();
         } catch (FileNotFoundException) {
@@ -395,10 +397,11 @@ class Smartgear extends BackendModule
      *
      * @throws Exception
      */
-    protected function compile(): void //TODO : nani ? two compile ?
+    protected function compile(): void // TODO : nani ? two compile ?
     {
         // Add WEM styles to template
         $GLOBALS['TL_CSS'][] = $this->strBasePath . '/backend/wemsg.css';
+
         try {
             $coreConfig = $this->coreConfigurationManager->load();
         } catch (FileNotFoundException) {
@@ -534,7 +537,7 @@ class Smartgear extends BackendModule
         // play updates button
         $this->Template->playUpdatesWithoutBackupButtonHref = $this->addToUrl('&act=play&backup=0');
         $this->Template->playUpdatesWithoutBackupButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBTTitle']);
-        $this->Template->playUpdatesWithoutBackupButtonButton = \sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBT'], \Contao\Image::getHtml('important.svg'));
+        $this->Template->playUpdatesWithoutBackupButtonButton = \sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBT'], Image::getHtml('important.svg'));
         $this->Template->playUpdatesWithBackupButtonHref = $this->addToUrl('&act=play&backup=1');
         $this->Template->playUpdatesWithBackupButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithBackupBTTitle']);
         $this->Template->playUpdatesWithBackupButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithBackupBT'];
@@ -677,6 +680,7 @@ class Smartgear extends BackendModule
             ;
 
             $arrModules = [];
+
             foreach (Input::post('core')['modules'] ?? [] as $key => $moduleId) {
                 $objModule = ModuleModel::findById($moduleId); // resets config to its old value ... :thinking:
                 $arrModules[] = [
@@ -692,7 +696,6 @@ class Smartgear extends BackendModule
         if (Input::post('blog')) {
             /** @var BlogConfig $blogConfig */
             $blogConfig = $coreConfig->getSgBlog();
-
             $blogConfig
                 ->setSgInstallComplete((bool) Input::post('blog')['installComplete'])
                 ->setSgArchived((bool) Input::post('blog')['archived'])
@@ -741,7 +744,6 @@ class Smartgear extends BackendModule
         if (Input::post('events')) {
             /** @var EventsConfig $coreConfig */
             $eventsConfig = $coreConfig->getSgEvents();
-
             $eventsConfig
                 ->setSgInstallComplete((bool) Input::post('events')['installComplete'])
                 ->setSgArchived((bool) Input::post('events')['archived'])
@@ -767,7 +769,6 @@ class Smartgear extends BackendModule
         if (Input::post('faq')) {
             /** @var FaqConfig $coreConfig */
             $faqConfig = $coreConfig->getSgFaq();
-
             $faqConfig
                 ->setSgInstallComplete((bool) Input::post('faq')['installComplete'])
                 ->setSgArchived((bool) Input::post('faq')['archived'])
@@ -789,7 +790,6 @@ class Smartgear extends BackendModule
         if (Input::post('formContact')) {
             /** @var FormContactConfig $coreConfig */
             $fcConfig = $coreConfig->getSgFormContact();
-
             $fcConfig
                 ->setSgInstallComplete((bool) Input::post('formContact')['installComplete'])
                 ->setSgArchived((bool) Input::post('formContact')['archived'])
@@ -830,7 +830,6 @@ class Smartgear extends BackendModule
         if (Input::post('extranet')) {
             /** @var ExtranetConfig $coreConfig */
             $extranetConfig = $coreConfig->getSgExtranet();
-
             $extranetConfig
                 ->setSgInstallComplete((bool) Input::post('extranet')['installComplete'])
                 ->setSgArchived((bool) Input::post('extranet')['archived'])
@@ -1240,6 +1239,7 @@ class Smartgear extends BackendModule
 
         $analyticsRaw = CoreConfig::ANALYTICS_SYSTEMS_ALLOWED;
         $analytics = [];
+
         foreach ($analyticsRaw as $mode) {
             $analytics[$mode] = [
                 'text' => $mode,
@@ -1254,6 +1254,7 @@ class Smartgear extends BackendModule
 
         $modesRaw = CoreConfig::MODES_ALLOWED;
         $modes = [];
+
         foreach ($modesRaw as $mode) {
             $modes[$mode] = [
                 'text' => $mode,
@@ -1332,6 +1333,7 @@ class Smartgear extends BackendModule
             'airtableApiKeyForWrite' => $coreConfig->getSgAirtableApiKeyForWrite(),
         ];
         $core['modules'] = [];
+
         foreach ($coreConfig->getSgModules() as $module) {
             $core['modules'][$module->key] = (int) $module->id;
         }
@@ -1362,6 +1364,7 @@ class Smartgear extends BackendModule
         $blogConfig = $coreConfig->getSgBlog();
         $archivedModeRaw = BlogConfig::ARCHIVE_MODES_ALLOWED;
         $archivedMode = [];
+
         foreach ($archivedModeRaw as $mode) {
             $archivedMode[$mode] = [
                 'text' => $mode === '' || $mode === '0' ? 'N/A' : $mode,
@@ -1376,6 +1379,7 @@ class Smartgear extends BackendModule
 
         $modesRaw = BlogConfig::MODES_ALLOWED;
         $modes = [];
+
         foreach ($modesRaw as $mode) {
             $modes[$mode] = [
                 'text' => $mode,
@@ -1422,6 +1426,7 @@ class Smartgear extends BackendModule
         ];
 
         $arrBlogPresets = [];
+
         foreach ($blogConfig->getSgPresets() as $index => $preset) {
             $blog['presets'][$index] = [
                 'newsFolder' => $preset->getSgNewsFolder(),
@@ -1457,6 +1462,7 @@ class Smartgear extends BackendModule
         $eventConfig = $coreConfig->getSgEvents();
         $archivedModeRaw = EventsConfig::ARCHIVE_MODES_ALLOWED;
         $archivedMode = [];
+
         foreach ($archivedModeRaw as $mode) {
             $archivedMode[$mode] = [
                 'text' => $mode === '' || $mode === '0' ? 'N/A' : $mode,
@@ -1471,6 +1477,7 @@ class Smartgear extends BackendModule
 
         $modesRaw = EventsConfig::MODES_ALLOWED;
         $modes = [];
+
         foreach ($modesRaw as $mode) {
             $modes[$mode] = [
                 'text' => $mode,
@@ -1525,6 +1532,7 @@ class Smartgear extends BackendModule
         $eventConfig = $coreConfig->getSgFaq();
         $archivedModeRaw = FaqConfig::ARCHIVE_MODES_ALLOWED;
         $archivedMode = [];
+
         foreach ($archivedModeRaw as $mode) {
             $archivedMode[$mode] = [
                 'text' => $mode === '' || $mode === '0' ? 'N/A' : $mode,
@@ -1575,6 +1583,7 @@ class Smartgear extends BackendModule
         $fcConfig = $coreConfig->getSgFormContact();
         $archivedModeRaw = FormContactConfig::ARCHIVE_MODES_ALLOWED;
         $archivedMode = [];
+
         foreach ($archivedModeRaw as $mode) {
             $archivedMode[$mode] = [
                 'text' => $mode === '' || $mode === '0' ? 'N/A' : $mode,
@@ -1654,6 +1663,7 @@ class Smartgear extends BackendModule
         $extranetConfig = $coreConfig->getSgExtranet();
         $archivedModeRaw = ExtranetConfig::ARCHIVE_MODES_ALLOWED;
         $archivedMode = [];
+
         foreach ($archivedModeRaw as $mode) {
             $archivedMode[$mode] = [
                 'text' => $mode === '' || $mode === '0' ? 'N/A' : $mode,

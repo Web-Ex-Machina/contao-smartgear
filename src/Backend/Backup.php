@@ -19,6 +19,7 @@ use Contao\DataContainer;
 use Contao\Environment;
 use Contao\Input;
 use Contao\Message;
+use Contao\Pagination;
 use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Backup\BackupManager;
@@ -29,8 +30,6 @@ use WEM\SmartgearBundle\Override\Controller;
 
 /**
  * Back end module "smartgear".
- *
- * @author Web ex Machina <https://www.webexmachina.fr>
  */
 class Backup extends BackendModule
 {
@@ -84,7 +83,7 @@ class Backup extends BackendModule
                 $this->objSession->set('wem_sg_backup_create_result', $result);
 
                 // Add Message
-                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageNewBackUpDone'], $result->getBackup()->getFile()->basename, ($end - $start)));
+                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageNewBackUpDone'], $result->getBackup()->getFile()->basename, $end - $start));
             } catch (ManagerException $e) {
                 Message::addError($e->getMessage());
             }
@@ -101,7 +100,7 @@ class Backup extends BackendModule
                 $this->objSession->set('wem_sg_backup_restore_result', $result);
 
                 // Add Message
-                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageRestoreBackUpDone'], $result->getBackup()->getFile()->basename, ($end - $start)));
+                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageRestoreBackUpDone'], $result->getBackup()->getFile()->basename, $end - $start));
             } catch (ManagerException $e) {
                 Message::addError($e->getMessage());
             }
@@ -156,7 +155,7 @@ class Backup extends BackendModule
             $this->Template->backups = $listResults;
         }
 
-        $objPagination = new \Contao\Pagination($listResults->getTotal(), $listResults->getLimit());
+        $objPagination = new Pagination($listResults->getTotal(), $listResults->getLimit());
         $this->Template->pagination = $objPagination->generate("\n  ");
 
         // Back button

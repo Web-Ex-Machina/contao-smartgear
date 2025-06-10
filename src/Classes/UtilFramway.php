@@ -19,16 +19,6 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManag
 use WEM\SmartgearBundle\Config\Manager\FramwayCombined as ConfigurationCombinedManager;
 use WEM\SmartgearBundle\Config\Manager\FramwayTheme as ConfigurationThemeManager;
 
-/**
- * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina.
- *
- * @category ContaoBundle
- *
- * @author   Web ex Machina <contact@webexmachina.fr>
- *
- * @see     https://github.com/Web-Ex-Machina/contao-smartgear/
- */
 class UtilFramway
 {
     public const THEME_NAME_REGEXP = '/^([A-Za-z0-9-_:@.\/]+)$/';
@@ -50,7 +40,7 @@ class UtilFramway
         protected ConfigurationManager $configurationManager,
         protected CommandUtil $commandUtil,
         protected ConfigurationThemeManager $configurationThemeManager,
-        protected ConfigurationCombinedManager $configurationCombinedManager
+        protected ConfigurationCombinedManager $configurationCombinedManager,
     ) {
     }
 

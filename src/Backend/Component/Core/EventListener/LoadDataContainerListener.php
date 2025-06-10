@@ -15,11 +15,13 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Component\Core\EventListener;
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Contao\DataContainer;
 use Contao\ModuleModel;
 use Symfony\Bundle\SecurityBundle\Security;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\DataContainer\Content;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
@@ -30,7 +32,7 @@ class LoadDataContainerListener
     public function __construct(
         protected Security $security,
         protected CoreConfigurationManager $coreConfigurationManager,
-        protected DCAManipulator $dcaManipulator
+        protected DCAManipulator $dcaManipulator,
     ) {
     }
 
@@ -40,6 +42,7 @@ class LoadDataContainerListener
             /** @var CoreConfig $config */
             // $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
+
             switch ($table) {
                 case 'tl_content':
                     if (! $this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::CORE_EXPERT)
@@ -62,8 +65,8 @@ class LoadDataContainerListener
                         $this->updatePaletteGallery();
                     }
 
-                    $this->dcaManipulator->addFieldSaveCallback('headline', static fn ($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
-                    $this->dcaManipulator->addFieldSaveCallback('text', static fn ($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('headline', static fn ($varValue, DataContainer $objDc): string => (new Content())->cleanHeadline($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('text', static fn ($varValue, DataContainer $objDc) => (new Content())->cleanText($varValue, $objDc));
                     $this->dcaManipulator->setFieldEvalProperty('sortBy', 'tl_class', 'hidden');
                     break;
                 case 'tl_module':
@@ -81,7 +84,7 @@ class LoadDataContainerListener
                     break;
             }
         } catch (FileNotFoundException) {
-            //nothing
+            // nothing
         }
     }
 

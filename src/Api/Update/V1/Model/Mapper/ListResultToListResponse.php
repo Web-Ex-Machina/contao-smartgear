@@ -22,6 +22,7 @@ class ListResultToListResponse
     public function map(ListResult $listResult, ListResponse $listResponse): ListResponse
     {
         $listResponse->setTotal(\count($listResult->getResults()));
+
         foreach ($listResult->getResults() as $item) {
             $listResponse->addUpdate([
                 // 'update' => \get_class($item->getMigration()),

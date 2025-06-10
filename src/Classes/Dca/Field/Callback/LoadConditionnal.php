@@ -24,7 +24,7 @@ class LoadConditionnal
     public function __construct(
         private readonly PdmCallback $pdmCallback,
         private readonly string $frontendField,
-        private readonly string $table
+        private readonly string $table,
     ) {
         $this->pdmCallback->setFrontendField($this->frontendField)->setTable($this->table);
     }
@@ -43,7 +43,7 @@ class LoadConditionnal
 
     public function invokeBackend($value, DataContainer $dc)
     {
-        return $dc->activeRecord->contains_personal_data ? $this->pdmCallback->__invoke(...\func_get_args()) : $value;
+        return $dc->activeRecord->contains_personal_data ? $this->pdmCallback(...\func_get_args()) : $value;
     }
 
     /**
@@ -51,6 +51,6 @@ class LoadConditionnal
      */
     public function invokeFrontend($value, FrontendUser $user, ModulePersonalData $module)
     {
-        return $this->pdmCallback->__invoke(...\func_get_args());
+        return $this->pdmCallback(...\func_get_args());
     }
 }

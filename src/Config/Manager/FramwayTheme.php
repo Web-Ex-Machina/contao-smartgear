@@ -26,7 +26,7 @@ class FramwayTheme extends ManagerFramway
     public function __construct(
         TranslatorInterface $translator,
         ConfigInterface $configuration,
-        ConfigurationManagerCore $configurationManagerCore
+        ConfigurationManagerCore $configurationManagerCore,
     ) {
         parent::__construct($translator, $configuration, $configurationManagerCore);
     }

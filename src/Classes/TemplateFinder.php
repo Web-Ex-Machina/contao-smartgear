@@ -24,7 +24,7 @@ class TemplateFinder
 {
     public function __construct(
         protected string $projectDir,
-        protected CoreConfigurationManager $configurationManager
+        protected CoreConfigurationManager $configurationManager,
     ) {
     }
 
@@ -73,6 +73,7 @@ class TemplateFinder
     protected function getTemplatesFromFolder(string $folderPath): array
     {
         $templates = [];
+
         foreach ((new ResourceFinder([$folderPath]))->find()->files()->depth('==0')->name('*.html5') as $fileInfo) {
             $templates[str_replace('.html5', '', $fileInfo->getFilename())] = str_replace($this->projectDir . \DIRECTORY_SEPARATOR, '', $folderPath);
         }

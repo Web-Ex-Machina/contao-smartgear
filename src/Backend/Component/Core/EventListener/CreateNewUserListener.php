@@ -21,7 +21,7 @@ use WEM\SmartgearBundle\Model\Member as MemberModel;
 class CreateNewUserListener
 {
     public function __construct(
-        protected CoreConfigurationManager $coreConfigurationManager
+        protected CoreConfigurationManager $coreConfigurationManager,
     ) {
     }
 
@@ -38,6 +38,7 @@ class CreateNewUserListener
         && $coreConfig->getSgUsePdmForMembers()
         ) {
             $objMember = MemberModel::findById($userId);
+
             foreach (array_keys($data) as $field) {
                 if ($objMember->isFieldInPersonalDataFieldsNames($field)) {
                     $objMember->markModified($field);

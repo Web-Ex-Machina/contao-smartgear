@@ -22,8 +22,6 @@ use WEM\SmartgearBundle\Model\SocialLink as SocialLinkModel;
 
 /**
  * Front end module.
- *
- * @author Web ex Machina <https://www.webexmachina.fr>
  */
 class SocialLink extends Module
 {

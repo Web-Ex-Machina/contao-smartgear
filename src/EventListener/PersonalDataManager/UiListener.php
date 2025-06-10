@@ -44,7 +44,7 @@ class UiListener
 {
     public function __construct(
         protected TranslatorInterface $translator,
-        protected PersonalDataManagerUi $personalDataManagerUi
+        protected PersonalDataManagerUi $personalDataManagerUi,
     ) {
         $GLOBALS['TL_CSS'][] = 'bundles/wemsmartgear/css/module/personaldatamanager/frontend.css';
     }
@@ -158,6 +158,7 @@ class UiListener
                     case 'groups':
                         $groupIds = unserialize($value);
                         $buffer = '<ul>';
+
                         foreach ($groupIds as $groupId) {
                             $objGroup = MemberGroupModel::findById($groupId);
                             $buffer .= \sprintf('<li>- %s</li>', $objGroup !== null ? $objGroup->name : $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementUnknown', [], 'contao_default'));
@@ -286,7 +287,7 @@ class UiListener
                     '<br /><a href="%s" class="pdm-button pdm-button_show_file pdm-item__personal_data_single__button_show_file" target="_blank" data-path="%s">%s</a>',
                     $this->personalDataManagerUi->getUrl(),
                     $file->path,
-                    $this->translator->trans('WEMSG.FDM.PDMUI.buttonShowFile', [], 'contao_default')
+                    $this->translator->trans('WEMSG.FDM.PDMUI.buttonShowFile', [], 'contao_default'),
                 );
             }
 
@@ -294,7 +295,7 @@ class UiListener
                 '<br /><a href="%s" class="pdm-button pdm-button_download_file pdm-item__personal_data_single__button_download_file" target="_blank" data-path="%s">%s</a>',
                 $this->personalDataManagerUi->getUrl(),
                 $file->path,
-                $this->translator->trans('WEMSG.FDM.PDMUI.buttonDownloadFile', [], 'contao_default')
+                $this->translator->trans('WEMSG.FDM.PDMUI.buttonDownloadFile', [], 'contao_default'),
             );
         }
 

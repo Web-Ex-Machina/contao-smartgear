@@ -368,27 +368,27 @@ class Core implements ConfigModuleInterface
             ->setSgBlog(
                 property_exists($json, 'blog')
                 ? (new BlogConfig())->import($json->blog)
-                : (new BlogConfig())->reset()
+                : (new BlogConfig())->reset(),
             )
             ->setSgEvents(
                 property_exists($json, 'events')
                 ? (new EventsConfig())->import($json->events)
-                : (new EventsConfig())->reset()
+                : (new EventsConfig())->reset(),
             )
             ->setSgFaq(
                 property_exists($json, 'faq')
                 ? (new FaqConfig())->import($json->faq)
-                : (new FaqConfig())->reset()
+                : (new FaqConfig())->reset(),
             )
             ->setSgFormContact(
                 property_exists($json, 'formContact')
                 ? (new FormContactConfig())->import($json->formContact)
-                : (new FormContactConfig())->reset()
+                : (new FormContactConfig())->reset(),
             )
             ->setSgExtranet(
                 property_exists($json, 'extranet')
                 ? (new ExtranetConfig())->import($json->extranet)
-                : (new ExtranetConfig())->reset()
+                : (new ExtranetConfig())->reset(),
             )
         ;
 
@@ -510,7 +510,7 @@ class Core implements ConfigModuleInterface
         $json->formContact = $this->getSgFormContact()->export();
         $json->extranet = $this->getSgExtranet()->export();
 
-        return json_encode($json, \JSON_PRETTY_PRINT);
+        return json_encode($json, JSON_PRETTY_PRINT);
     }
 
     /**
@@ -600,6 +600,7 @@ class Core implements ConfigModuleInterface
         }
 
         $modules = [];
+
         foreach ($this->getSgModules() as $module) {
             if ($module->id !== null) {
                 $modules[] = (int) $module->id;
@@ -844,7 +845,7 @@ class Core implements ConfigModuleInterface
         return array_merge(
             $this->getContaoNotificationsMessagesLanguagesIds(),
             $this->getSgFormContact()->getContaoNotificationsLanguagesIds(),
-            $this->getSgFormContact()->getContaoNotificationsMessagesIds()
+            $this->getSgFormContact()->getContaoNotificationsMessagesIds(),
         );
     }
 
@@ -860,6 +861,7 @@ class Core implements ConfigModuleInterface
     public function getContaoImageSizesIds(): array
     {
         $imageSizes = [];
+
         foreach ($this->getSgImageSizes() as $imageSize) {
             if ($imageSize->id !== null) {
                 $imageSizes[] = (int) $imageSize->id;

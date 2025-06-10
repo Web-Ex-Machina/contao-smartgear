@@ -44,7 +44,7 @@ class Api
     protected string $apiKeyWrite;
 
     public function __construct(
-        protected CoreConfigManager $configurationManager
+        protected CoreConfigManager $configurationManager,
     ) {
         try {
             /** @var CoreConfig $config */
@@ -316,10 +316,10 @@ class Api
      * @param string $apiKey The API key to use
      * @param array  $data   The data to transmit
      *
+     * @return \stdClass The decoded response JSON
+     *
      * @throws ResponseSyntaxException  If the response isn't a valid JSON
      * @throws ResponseContentException If the response contains an error
-     *
-     * @return \stdClass The decoded response JSON
      */
     protected function call(string $url, string $apiKey, array $data = []): stdClass
     {
@@ -345,7 +345,7 @@ class Api
         curl_close($curl);
         $json = json_decode($jsonRaw);
 
-        if (json_last_error() !== \JSON_ERROR_NONE) {
+        if (json_last_error() !== JSON_ERROR_NONE) {
             throw new ResponseSyntaxException(json_last_error_msg());
         }
 

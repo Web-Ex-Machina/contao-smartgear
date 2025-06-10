@@ -28,7 +28,7 @@ class ConfigurationStepManager extends ConfigurationStepManagerBase
         string $module,
         string $type,
         string $stepSessionKey,
-        array $steps
+        array $steps,
     ) {
         parent::__construct($configurationManager, $translator, $module, $type, $stepSessionKey, $steps);
     }

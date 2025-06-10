@@ -42,7 +42,7 @@ class FramwayRetrievalMinimal extends ConfigurationStep
         protected DirectoriesSynchronizer $outdatedBrowserSynchronizer,
         protected DirectoriesSynchronizer $socialShareButtonsSynchronizer,
         protected UtilFramway $framwayUtil,
-        protected HtaccessAnalyzer $htaccessAnalyzer
+        protected HtaccessAnalyzer $htaccessAnalyzer,
     ) {
         parent::__construct($module, $type);
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYRETRIEVALMINIMAL']['Title'];
@@ -55,11 +55,13 @@ class FramwayRetrievalMinimal extends ConfigurationStep
         $objTemplate->framway_is_present = $this->checkFramwayPresence();
 
         $arrFilesToCheck = $this->framwayUtil->getFilesToCheck();
+
         foreach ($arrFilesToCheck as $key => $filetoCheck) {
             $arrFilesToCheck[$key] = $this->framwayUtil->getFramwayPath() . \DIRECTORY_SEPARATOR . $filetoCheck;
         }
 
         $objTemplate->filesToCheck = $arrFilesToCheck;
+
         // And return the template, parsed.
         return $objTemplate;
     }
@@ -68,7 +70,7 @@ class FramwayRetrievalMinimal extends ConfigurationStep
     {
         // check if the step is correct
 
-        return true; //$this->checkFramwayPresence();
+        return true; // $this->checkFramwayPresence();
     }
 
     /**

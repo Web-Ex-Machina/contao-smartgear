@@ -35,7 +35,7 @@ class V1Controller extends Controller
         protected ContaoFramework $framework,
         protected TranslatorInterface $translator,
         protected Api $api,
-        protected Token $securityToken
+        protected Token $securityToken,
     ) {
         $this->framework->initialize();
         parent::__construct();
@@ -46,15 +46,16 @@ class V1Controller extends Controller
     {
         try {
             $this->validateToken($request);
+
             return new Response(
                 $this->api->list(
                     $request->query->getInt('limit', 10),
                     $request->query->getInt('offset', 0),
                     $request->query->getInt('before', -1) === -1 ? null : $request->query->getInt('before'),
-                    $request->query->getInt('after', -1) === -1 ? null : $request->query->getInt('after')
+                    $request->query->getInt('after', -1) === -1 ? null : $request->query->getInt('after'),
                 )->toJson(),
                 200,
-                ['Content-Type' => 'application/json']
+                ['Content-Type' => 'application/json'],
             );
         } catch (\Exception $exception) {
             return new Response(json_encode(['message' => $exception->getMessage()]), 400, ['Content-Type' => 'application/json']);
@@ -67,10 +68,11 @@ class V1Controller extends Controller
     {
         try {
             $this->validateToken($request);
+
             return new Response(
                 $this->api->create()->toJson(),
                 200,
-                ['Content-Type' => 'application/json']
+                ['Content-Type' => 'application/json'],
             );
         } catch (\Exception $exception) {
             return new Response(json_encode(['message' => $exception->getMessage()]), 400, ['Content-Type' => 'application/json']);
@@ -83,10 +85,11 @@ class V1Controller extends Controller
     {
         try {
             $this->validateToken($request);
+
             return new Response(
                 $this->api->delete($backupname),
                 200,
-                ['Content-Type' => 'application/json']
+                ['Content-Type' => 'application/json'],
             );
         } catch (\Exception $exception) {
             return new Response(json_encode(['message' => $exception->getMessage()]), 400, ['Content-Type' => 'application/json']);
@@ -98,10 +101,11 @@ class V1Controller extends Controller
     {
         try {
             $this->validateToken($request);
+
             return new Response(
                 $this->api->restore($backupname),
                 200,
-                ['Content-Type' => 'application/json']
+                ['Content-Type' => 'application/json'],
             );
         } catch (\Exception $exception) {
             return new Response(json_encode(['message' => $exception->getMessage()]), 400, ['Content-Type' => 'application/json']);
@@ -118,9 +122,10 @@ class V1Controller extends Controller
             $response->headers->set('Content-Type', 'application/zip');
             $response->setContentDisposition(
                 ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-                $file->basename
+                $file->basename,
             );
             $response->setStatusCode(200);
+
             return $response;
         } catch (\Exception $exception) {
             return new Response(json_encode(['message' => $exception->getMessage()]), 400, ['Content-Type' => 'application/json']);

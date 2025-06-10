@@ -33,12 +33,12 @@ class RenderStack
     protected array $stack = [
         'current_index' => [
             'all' => 0,
-            //other columns will go here
+            // other columns will go here
         ],
         'items' => [],
         'breadcrumb_indexes' => [
             'all' => [],
-            //other columns will go here
+            // other columns will go here
         ],
     ];
 
@@ -131,6 +131,7 @@ class RenderStack
         }
 
         $items = [];
+
         foreach ($this->stack['items'] as $item) {
             if ($column === $item['column']) {
                 $items[] = $item;

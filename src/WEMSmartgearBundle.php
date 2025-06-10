@@ -18,8 +18,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * Configures the Contao Smartgear bundle.
- *
- * @author Web ex Machina <https://www.webexmachina.fr>
  */
 class WEMSmartgearBundle extends Bundle
 {

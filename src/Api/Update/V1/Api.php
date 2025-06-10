@@ -25,7 +25,7 @@ class Api
     public function __construct(
         protected UpdateManager $updateManager,
         protected ListResultToListResponse $listResultToListResponseMapper,
-        protected UpdateResultToUpdateResponse $updateResultToUpdateResponseMapper
+        protected UpdateResultToUpdateResponse $updateResultToUpdateResponseMapper,
     ) {
     }
 
@@ -36,7 +36,7 @@ class Api
     {
         try {
             $listResult = $this->updateManager->list();
-            $response = $this->listResultToListResponseMapper->map($listResult, (new ListResponse()));
+            $response = $this->listResultToListResponseMapper->map($listResult, new ListResponse());
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
@@ -51,7 +51,7 @@ class Api
     {
         try {
             $updateResult = $this->updateManager->update(! $noBackup);
-            $response = $this->updateResultToUpdateResponseMapper->map($updateResult, (new UpdateResponse()));
+            $response = $this->updateResultToUpdateResponseMapper->map($updateResult, new UpdateResponse());
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);
         }

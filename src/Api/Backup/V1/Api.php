@@ -28,7 +28,7 @@ class Api
         protected TranslatorInterface $translator,
         protected BackupManager $backupManager,
         protected ListResultToListResponse $listResultToListResponseMapper,
-        protected CreateResultToCreateResponse $createResultToCreateResponseMapper
+        protected CreateResultToCreateResponse $createResultToCreateResponseMapper,
     ) {
     }
 
@@ -39,7 +39,7 @@ class Api
     {
         try {
             $listResult = $this->backupManager->list($limit, $offset, $before, $after);
-            $response = $this->listResultToListResponseMapper->map($listResult, (new ListResponse()));
+            $response = $this->listResultToListResponseMapper->map($listResult, new ListResponse());
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
@@ -54,7 +54,7 @@ class Api
     {
         try {
             $createResult = $this->backupManager->newFromAPI();
-            $response = $this->createResultToCreateResponseMapper->map($createResult, (new CreateResponse()));
+            $response = $this->createResultToCreateResponseMapper->map($createResult, new CreateResponse());
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);
         }

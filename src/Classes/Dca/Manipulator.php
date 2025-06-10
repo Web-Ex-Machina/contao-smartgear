@@ -57,6 +57,7 @@ class Manipulator
     public function addCtables(array $tables): static
     {
         $this->checkConfiguration();
+
         foreach ($tables as $table) {
             $this->addCtable($table);
         }
@@ -75,6 +76,7 @@ class Manipulator
     public function removeCtables(array $tables): static
     {
         $this->checkConfiguration();
+
         foreach ($tables as $table) {
             $this->removeCtable($table);
         }
@@ -221,7 +223,7 @@ class Manipulator
     public function removeOtherFields(array $fieldsKeyToKeep): self
     {
         $this->checkConfiguration();
-        //get rid of all unnecessary fields
+        // get rid of all unnecessary fields
         $fieldsKeyToRemove = array_diff(array_keys($GLOBALS['TL_DCA'][$this->table]['fields']), $fieldsKeyToKeep);
         $this->removeFields($fieldsKeyToRemove);
 
@@ -234,10 +236,11 @@ class Manipulator
     public function removeFields(array $fieldsKey): self
     {
         $this->checkConfiguration();
-        //get rid of all unnecessary fields
+        // get rid of all unnecessary fields
         $palettesNames = array_keys($GLOBALS['TL_DCA'][$this->table]['palettes']);
         $subpalettesNames = array_keys($GLOBALS['TL_DCA'][$this->table]['subpalettes']);
         $pm = PaletteManipulator::create();
+
         foreach ($fieldsKey as $field) {
             $pm->removeField($field);
         }
@@ -305,6 +308,7 @@ class Manipulator
     public function removeListOperations(array $keys): self
     {
         $this->checkConfiguration();
+
         foreach ($keys as $key) {
             $this->removeListOperation($key);
         }
@@ -323,6 +327,7 @@ class Manipulator
     public function addListOperations(array $operations): self
     {
         $this->checkConfiguration();
+
         foreach ($operations as $key => $options) {
             $this->addListOperation($key, $options);
         }

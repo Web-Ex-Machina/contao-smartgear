@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\DataContainer;
 
+use Contao\CalendarEventsModel;
 use Contao\DataContainer;
 use Contao\System;
 use WEM\SmartgearBundle\Api\Nominatim\V4\Api;
@@ -27,6 +28,7 @@ class CalendarEvents extends \tl_calendar_events
     {
         $arrOptions = parent::getSourceOptions($dc);
         $valuesToKeep = ['default', 'external'];
+
         foreach ($arrOptions as $index => $value) {
             if (! \in_array($value, $valuesToKeep, true)) {
                 unset($arrOptions[$index]);
@@ -54,7 +56,7 @@ class CalendarEvents extends \tl_calendar_events
         $arrSet['addressLon'] = $dc->activeRecord->addressLon;
 
         // check if there are other events with same address and filled coordinates
-        $otherItemsWithSameAddressAndCoordinatesFilled = \Contao\CalendarEventsModel::findBy(['address = ?', 'addressLat != ""', 'addressLon != ""'], $dc->activeRecord->address);
+        $otherItemsWithSameAddressAndCoordinatesFilled = CalendarEventsModel::findBy(['address = ?', 'addressLat != ""', 'addressLon != ""'], $dc->activeRecord->address);
         // If those events exist, use their coordinates instead of calling the API
         if ($otherItemsWithSameAddressAndCoordinatesFilled) {
             while ($otherItemsWithSameAddressAndCoordinatesFilled->next()) {
@@ -64,6 +66,7 @@ class CalendarEvents extends \tl_calendar_events
         } else {
             /** @var Api $api */
             $api = System::getContainer()->get('smartgear.api.nominatim.v4.api');
+
             try {
                 $response = $api->search($dc->activeRecord->address);
                 $arrSet['addressLat'] = $response->getLat() ?? '';

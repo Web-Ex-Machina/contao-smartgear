@@ -31,8 +31,6 @@ use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 /**
  * Back end module "smartgear".
- *
- * @author Web ex Machina <https://www.webexmachina.fr>
  */
 class Util
 {
@@ -64,6 +62,7 @@ class Util
      * @param ?string $strFWTheme Get the colors of a specific theme
      *
      * @return array Framway colors
+     *
      * @todo Find a way to add friendly names to the colors retrieved
      * @todo Maybe store these colors into a file to avoid load/format a shitload of stuff ?
      */
@@ -74,6 +73,7 @@ class Util
         $fwPath = $objConfiguration instanceof Configuration ? $objConfiguration->framway_path : Configuration::DEFAULT_FRAMWAY_PATH;
         $colors = $strFWTheme === null || $strFWTheme === '' || $strFWTheme === '0' ? $framwayUtil->getCombinedColors($fwPath) : $framwayUtil->getThemeColors($fwPath, $strFWTheme);
         $return = [];
+
         foreach ($colors as $label => $hexa) {
             $return[$label] = ['label' => trim((string) $label), 'hexa' => trim(str_replace('#', '', $hexa))];
         }
@@ -84,7 +84,7 @@ class Util
     /**
      * Get available colors in Smartgear.
      *
-     * @param string $strFor Format wanted
+     * @param string  $strFor     Format wanted
      * @param ?string $strFWTheme Framway theme wanted
      *
      * @return array|false|string An Array of classes / color names
@@ -100,7 +100,7 @@ class Util
                 ->log(
                     LogLevel::ERROR,
                     'Error when trying to get Framway Colors : ' . $exception->getMessage(),
-                    ['contao' => new ContaoContext(__METHOD__, 'SMARTGEAR')]
+                    ['contao' => new ContaoContext(__METHOD__, 'SMARTGEAR')],
                 )
             ;
             $arrColors = self::getDefaultColors();
@@ -108,6 +108,7 @@ class Util
 
         // Depending on who asks the array, we will need a specific format
         $colors = [];
+
         switch ($strFor) {
             case 'tinymce':
                 foreach ($arrColors as $k => $c) {
@@ -118,8 +119,7 @@ class Util
                     $colors[] = $c['hexa'];
                     $colors[] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
                     ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
-                    : $c['label']
-                    ;
+                    : $c['label'];
                 }
 
                 $colors = json_encode($colors);
@@ -130,13 +130,11 @@ class Util
                     if ($k === '') {
                         $colors[$k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
                     ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
-                    : $c['label']
-                        ;
+                    : $c['label'];
                     } else {
                         $colors['ft-' . $k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
                     ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
-                    : $c['label']
-                        ;
+                    : $c['label'];
                     }
                 }
 
@@ -157,8 +155,7 @@ class Util
                 foreach ($arrColors as $k => $c) {
                     $colors[$k] = \array_key_exists($c['label'], $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'] ?? [])
                     ? $GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS'][$c['label']]
-                    : $c['label']
-                    ;
+                    : $c['label'];
                 }
 
                 $colors = [
@@ -193,7 +190,7 @@ class Util
         }
 
         // Parse the classname
-        $strClass = sprintf("WEM\SmartgearBundle\Backend\%s\%s", ucfirst($strType), ucfirst($strModule));
+        $strClass = sprintf('WEM\\SmartgearBundle\\Backend\\%s\\%s', ucfirst($strType), ucfirst($strModule));
         // Throw error if class doesn't exists
         if (! class_exists($strClass)) {
             throw new Exception(sprintf('Unknown class %s', $strClass));
@@ -210,6 +207,7 @@ class Util
     public static function loadSmartgearConfig(): CoreConfig
     {
         $configManager = System::getContainer()->get('smartgear.config.manager.core');
+
         return $configManager->load();
     }
 
@@ -249,7 +247,8 @@ class Util
 
         // Open and update the config file
         $objFile = $objFiles->fopen(static::$strConfigPath, 'w');
-        $objFiles->fputs($objFile, json_encode($arrConfig, \JSON_PRETTY_PRINT));
+        $objFiles->fputs($objFile, json_encode($arrConfig, JSON_PRETTY_PRINT));
+
         // And return the entire config, updated
         return $arrConfig;
     }
@@ -271,16 +270,17 @@ class Util
     /**
      * Contao Friendly Base64 Converter to FileSystem.
      *
-     * @param string  $base64        [Base64 String to decode]
-     * @param string  $folder        [Folder name]
-     * @param string  $file          [File name]
-     * @param boolean $blnReturnFile [Return the File Object if set to true]
+     * @param string $base64        [Base64 String to decode]
+     * @param string $folder        [Folder name]
+     * @param string $file          [File name]
+     * @param bool   $blnReturnFile [Return the File Object if set to true]
+     *
      * @throws Exception
      */
     public static function base64ToImage(string $base64, string $folder, string $file, bool $blnReturnFile = true): File|true
     {
         $data = explode(',', $base64);
-        $ext = substr($data[0], strpos($data[0], '/') + 1, (strpos($data[0], ';') - strpos($data[0], '/') - 1));
+        $ext = substr($data[0], strpos($data[0], '/') + 1, strpos($data[0], ';') - strpos($data[0], '/') - 1);
         $img = base64_decode($data[1], true);
         if (! str_contains((string) Config::get('validImageTypes'), $ext)) {
             throw new \Exception('Invalid image type : ' . $ext);
@@ -310,6 +310,7 @@ class Util
     {
         $result = [];
         $root = scandir($strDir);
+
         foreach ($root as $value) {
             if ($value === '.' || $value === '..') {
                 continue;
@@ -332,6 +333,7 @@ class Util
     {
         $files = [];
         $root = scandir($strDir);
+
         foreach ($root as $value) {
             if ($value === '.' || $value === '..') {
                 continue;
@@ -341,6 +343,7 @@ class Util
                 $files[$value] = [];
 
                 $filesInDir = scandir(sprintf('%s/%s', $strDir, $value));
+
                 foreach ($filesInDir as $subValue) {
                     if (is_file(sprintf('%s/%s/%s', $strDir, $value, $subValue))) {
                         $files[$value][] = sprintf('%s/%s/%s', $strDir, $value, $subValue);
@@ -414,12 +417,13 @@ class Util
      * Add permissions to user group.
      *
      * @param string|array $varPermission [Permission name / Array of permission names to add]
-     * @param int|null $intGroup [User group ID, if not specified, we'll take Smartgear default user group]
+     * @param int|null     $intGroup      [User group ID, if not specified, we'll take Smartgear default user group]
      *
      * @return array [Permissions Array]
+     *
      * @throws Exception
      */
-    public static function addPermissions(string|array $varPermission, int $intGroup = null): array
+    public static function addPermissions(string|array $varPermission, ?int $intGroup = null): array
     {
         $arrPermissions = [];
         if ($intGroup === null) {
@@ -458,7 +462,7 @@ class Util
      *
      * @return array [Permissions Array]
      */
-    public static function removePermissions($varPermission, int $intGroup = null): array
+    public static function removePermissions($varPermission, ?int $intGroup = null): array
     {
         $arrPermissions = [];
         if ($intGroup === null) {
@@ -492,6 +496,7 @@ class Util
     public static function formatActions(array $arrUnformattedActions): array
     {
         $arrActions = [];
+
         foreach ($arrUnformattedActions as &$action) {
             switch ($action['v']) {
                 case 2:
@@ -510,18 +515,18 @@ class Util
 
                     $arrActions[] = sprintf(
                         '<%s %s>%s</%s>',
-                        ($action['tag']) ?: 'button',
-                        ($arrAttributes !== []) ? implode(' ', $arrAttributes) : '',
-                        ($action['text']) ?: 'text missing',
-                        ($action['tag']) ?: 'button'
+                        $action['tag'] ?: 'button',
+                        $arrAttributes !== [] ? implode(' ', $arrAttributes) : '',
+                        $action['text'] ?: 'text missing',
+                        $action['tag'] ?: 'button',
                     );
                     break;
                 default:
                     $arrActions[] = sprintf(
                         '<button type="submit" name="action" value="%s" class="tl_submit" %s>%s</button>',
                         $action['action'],
-                        ($action['attributes']) ?: '',
-                        $action['label']
+                        $action['attributes'] ?: '',
+                        $action['label'],
                     );
             }
         }
@@ -532,6 +537,7 @@ class Util
     public static function messagesToToastrCallbacksParameters(array $messages): array
     {
         $callbacks = [];
+
         foreach ($messages as $message) {
             switch ($message['class']) {
                 case 'tl_error':
@@ -557,9 +563,10 @@ class Util
         $units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
         $step = 1024;
         $i = 0;
-        while (($size / $step) > 0.9) {
+
+        while ($size / $step > 0.9) {
             $size /= $step;
-            $i++;
+            ++$i;
         }
 
         return round($size, $precision) . $units[$i];
@@ -568,7 +575,7 @@ class Util
     public static function log($message, ?string $filename = 'debug.log'): void
     {
         $message = \is_string($message) ? $message : print_r($message, true);
-        file_put_contents(System::getContainer()->getParameter('kernel.project_dir') . '/vendor/webexmachina/contao-smartgear/' . $filename, $message . \PHP_EOL, \FILE_APPEND);
+        file_put_contents(System::getContainer()->getParameter('kernel.project_dir') . '/vendor/webexmachina/contao-smartgear/' . $filename, $message . PHP_EOL, FILE_APPEND);
     }
 
     /**
@@ -722,6 +729,7 @@ class Util
     public static function getAirtableClientsRef(array $hostingInformations): array
     {
         $clientsRef = [];
+
         foreach ($hostingInformations as $hostnameHostingInformations) {
             if (! empty($hostnameHostingInformations['client_reference'])
                 && $hostnameHostingInformations['client_reference'][0] !== ''
@@ -777,14 +785,15 @@ class Util
         $value = trim((string) $value);
         $last = strtolower($value[\strlen($value) - 1]);
         $value = substr($value, 0, -1);
+
         switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0
             case 'g':
                 $value *= 1024;
-                // no break
+            // no break
             case 'm':
                 $value *= 1024;
-                // no break
+            // no break
             case 'k':
                 $value *= 1024;
         }
@@ -796,6 +805,7 @@ class Util
      * Check if a permission can be added into.
      *
      * @param string $strPermission [Permission to add]
+     *
      * @throws Exception
      */
     private static function canAddPermission(string $strPermission): bool
@@ -825,6 +835,7 @@ class Util
             }
 
             $arrPermissions = [];
+
             foreach ($arrContaoPermissions as $arrContaoPermissions) {
                 if (! \is_array($arrContaoPermissions) || $arrContaoPermissions === []) {
                     continue;

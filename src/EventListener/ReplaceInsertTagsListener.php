@@ -24,7 +24,7 @@ use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 class ReplaceInsertTagsListener
 {
     public function __construct(
-        protected array $listeners
+        protected array $listeners,
     ) {
     }
 
@@ -52,7 +52,7 @@ class ReplaceInsertTagsListener
         array $tags,
         array $cache,
         int $_rit,
-        int $_cnt
+        int $_cnt,
     ): false|string {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
@@ -81,7 +81,7 @@ class ReplaceInsertTagsListener
         array $tags,
         array $cache,
         int $_rit,
-        int $_cnt
+        int $_cnt,
     ) {
         $elements = explode('::', $insertTag);
         $key = strtolower($elements[0]);
@@ -154,8 +154,7 @@ class ReplaceInsertTagsListener
                         str_contains($objConfiguration->domain, 'http://')
                         ? str_replace('http://', 'https://', $objConfiguration->domain)
                         : 'https://' . $objConfiguration->domain
-                    )
-                    ;
+                    );
                 case 'pouet':
                     return 'https://pouet-pouet-pouet.fr';
                 case 'page-legal-notice':

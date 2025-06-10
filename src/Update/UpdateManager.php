@@ -32,7 +32,7 @@ class UpdateManager
         protected DirectoriesSynchronizer $templatesSmartgearSynchronizer,
         protected DirectoriesSynchronizer $templatesRsceSynchronizer,
         protected DirectoriesSynchronizer $templatesGeneralSynchronizer,
-        protected array $migrations
+        protected array $migrations,
     ) {
     }
 
@@ -79,14 +79,15 @@ class UpdateManager
     protected function setRemainingMigrationsAsUntouched(UpdateResult $updateResult): UpdateResult
     {
         $remainingMigrations = \array_slice($this->migrations, \count($updateResult->getResults()));
+
         foreach ($remainingMigrations as $remainingMigration) {
             $updateResult->addResult(
                 (new SingleMigrationResult())
                     ->setMigration($remainingMigration)
                     ->setResult(
                         (new MigrationResult())
-                            ->setStatus(MigrationResult::STATUS_NOT_EXCUTED_YET)
-                    )
+                            ->setStatus(MigrationResult::STATUS_NOT_EXCUTED_YET),
+                    ),
             );
         }
 

@@ -41,7 +41,7 @@ class Htaccess
     public const REWRITE_RULE_WWW = 'RewriteRule (.*) https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]';
 
     public function __construct(
-        protected string $filepath
+        protected string $filepath,
     ) {
     }
 
@@ -142,6 +142,7 @@ class Htaccess
     {
         $content = $this->getLines();
         $foundInFirstLoop = false;
+
         // we loop once to find if the lines are already here
         // but may be commented
         // If lines weren't found, we loop until
@@ -163,7 +164,7 @@ class Htaccess
         if (! $foundInFirstLoop) {
             foreach ($content as $index => $line) {
                 if ($this->isLineARewriteEngineOn($line)) {
-                    $content[$index] = $line . self::REWRITE_COND_HTTPS . \PHP_EOL . self::REWRITE_RULE_HTTPS . \PHP_EOL . self::REWRITE_COND_WWW . \PHP_EOL . self::REWRITE_RULE_WWW . \PHP_EOL;
+                    $content[$index] = $line . self::REWRITE_COND_HTTPS . PHP_EOL . self::REWRITE_RULE_HTTPS . PHP_EOL . self::REWRITE_COND_WWW . PHP_EOL . self::REWRITE_RULE_WWW . PHP_EOL;
                 }
             }
         }
@@ -174,6 +175,7 @@ class Htaccess
     public function disableRedirectToWwwAndHttps_OLD(): bool
     {
         $content = $this->getLines();
+
         foreach ($content as $index => $line) {
             if (! $this->isComment($line)
             && (
@@ -193,6 +195,7 @@ class Htaccess
     public function disableRedirectToWwwAndHttps(): bool
     {
         $content = $this->getLines();
+
         foreach ($content as $index => $line) {
             if (! $this->isComment($line)
             && (
@@ -211,9 +214,10 @@ class Htaccess
     public function enableFramwayAssetsManagementRules(): bool
     {
         $content = $this->getLines();
+
         foreach ($content as $index => $line) {
             if (! $this->isComment($line) && $this->isLineARewriteRuleFwAssetsOld($line)) {
-                $content[$index] = $this->comment($line) . self::REWRITE_RULE_FW_ASSETS_NEW . \PHP_EOL;
+                $content[$index] = $this->comment($line) . self::REWRITE_RULE_FW_ASSETS_NEW . PHP_EOL;
             }
         }
 
@@ -223,6 +227,7 @@ class Htaccess
     public function disableFramwayAssetsManagementRules(): bool
     {
         $content = $this->getLines();
+
         foreach ($content as $index => $line) {
             if ($this->isComment($line) && $this->isLineARewriteRuleFwAssetsOld($line)) {
                 $content[$index] = $this->uncomment($line);

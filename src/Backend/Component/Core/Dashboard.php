@@ -27,7 +27,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Analyzer\Htaccess as HtaccessAnalyzer;
 use WEM\SmartgearBundle\Classes\Backend\Dashboard as BackendDashboard;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
-use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\EnvFile as EnvFileConfig;
 use WEM\SmartgearBundle\Config\Manager\EnvFile as ConfigurationEnvFileManager;
@@ -43,7 +42,7 @@ class Dashboard extends BackendDashboard
         string $module,
         string $type,
         protected ConfigurationEnvFileManager $configurationEnvFileManager,
-        protected HtaccessAnalyzer $htaccessAnalyzer
+        protected HtaccessAnalyzer $htaccessAnalyzer,
     ) {
         parent::__construct($configurationManager, $translator, $module, $contaoCsrfTokenManager, $type);
     }
@@ -75,6 +74,7 @@ class Dashboard extends BackendDashboard
         $this->configurationManager->save($config);
 
         $rootPages = PageModel::findPublishedRootPages();
+
         foreach ($rootPages as $rootPage) {
             $robotsTxtSGHeaderPos = strpos($rootPage->robotsTxt ?? '', SG_ROBOTSTXT_HEADER);
             $robotsTxtSGFooterPos = strpos($rootPage->robotsTxt ?? '', SG_ROBOTSTXT_FOOTER);
@@ -121,6 +121,7 @@ class Dashboard extends BackendDashboard
 
         $this->configurationEnvFileManager->save($envConfig);
         $rootPages = PageModel::findPublishedRootPages();
+
         foreach ($rootPages as $rootPage) {
             $robotsTxtSGHeaderPos = strpos($rootPage->robotsTxt ?? '', SG_ROBOTSTXT_HEADER);
             $robotsTxtSGFooterPos = strpos($rootPage->robotsTxt ?? '', SG_ROBOTSTXT_FOOTER);
@@ -156,6 +157,7 @@ class Dashboard extends BackendDashboard
         $objTemplate = $this->getFilledTemplate();
 
         $rootPages = PageModel::findPublishedRootPages();
+
         foreach ($rootPages as $rootPage) {
             if (empty($rootPage->dns)) {
                 $this->addError(sprintf($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['checkProdModeRootpageDomainMissing'], $rootPage->title));

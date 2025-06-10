@@ -14,11 +14,13 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Events\EventListener;
 
+use Contao\DataContainer;
 use Symfony\Bundle\SecurityBundle\Security;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\DataContainer\CalendarEvents as CalendarEventsDCA;
+use WEM\SmartgearBundle\DataContainer\Content;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
@@ -29,7 +31,7 @@ class LoadDataContainerListener
     public function __construct(
         protected Security $security,
         protected CoreConfigurationManager $coreConfigurationManager,
-        protected DCAManipulator $dcaManipulator
+        protected DCAManipulator $dcaManipulator,
     ) {
     }
 
@@ -39,6 +41,7 @@ class LoadDataContainerListener
             /** @var CoreConfig $config */
             // $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
+
             switch ($table) {
                 case 'tl_calendar_events':
                     // $eventsConfig = $config->getSgEvents();
@@ -51,9 +54,9 @@ class LoadDataContainerListener
                     if (! $this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::CORE_EXPERT)
                     && ! $this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::EVENTS_EXPERT)
                     ) {
-                        //get rid of all unnecessary actions.
+                        // get rid of all unnecessary actions.
                         $this->dcaManipulator->removeListOperationsEdit();
-                        //get rid of all unnecessary fields
+                        // get rid of all unnecessary fields
                         $fieldsKeyToKeep = ['headline', 'title', 'alias', 'author', 'addTime', 'startTime', 'endTime', 'startDate', 'endDate', 'pageTitle', 'description', 'location', 'address', 'teaser', 'addImage', 'singleSRC', 'recurring', 'repeatEach', 'repeatEnd', 'recurrences', 'source', 'jumpTo', 'published', 'start', 'stop'];
                         $this->dcaManipulator->removeOtherFields($fieldsKeyToKeep);
 
@@ -65,10 +68,10 @@ class LoadDataContainerListener
                         $this->dcaManipulator->setFieldSourceOptionCallback(CalendarEventsDCA::class, 'getSourceOptions');
                     }
 
-                    $this->dcaManipulator->addFieldSaveCallback('headline', static fn ($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
-                    $this->dcaManipulator->addFieldSaveCallback('title', static fn ($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
-                    $this->dcaManipulator->addFieldSaveCallback('teaser', static fn ($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
-                    $this->dcaManipulator->addFieldSaveCallback('description', static fn ($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('headline', static fn ($varValue, DataContainer $objDc): string => (new Content())->cleanHeadline($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('title', static fn ($varValue, DataContainer $objDc): string => (new Content())->cleanHeadline($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('teaser', static fn ($varValue, DataContainer $objDc) => (new Content())->cleanText($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('description', static fn ($varValue, DataContainer $objDc) => (new Content())->cleanText($varValue, $objDc));
                     break;
                 case 'tl_content':
                     if ($this->do !== 'calendar') {
@@ -84,7 +87,7 @@ class LoadDataContainerListener
                     break;
             }
         } catch (FileNotFoundException) {
-            //nothing
+            // nothing
         }
     }
 

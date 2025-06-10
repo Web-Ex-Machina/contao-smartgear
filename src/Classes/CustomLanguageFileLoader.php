@@ -53,6 +53,7 @@ class CustomLanguageFileLoader
         foreach ($json as $key => $value) {
             // check if key is 4 chunks long max
             $keys = explode('.', $key);
+
             switch (\count($keys)) {
                 case 1:
                     $GLOBALS['TL_LANG'][$keys[0]] = $value;

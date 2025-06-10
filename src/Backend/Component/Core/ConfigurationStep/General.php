@@ -35,10 +35,11 @@ class General extends ConfigurationStep
         protected ConfigurationManager $configurationManager,
         protected LocalConfigManager $localConfigManager,
         protected CommandUtil $commandUtil,
-        protected array $foldersToCreate
+        protected array $foldersToCreate,
     ) {
         parent::__construct($module, $type);
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['GENERAL']['Title'];
+
         try {
             /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
@@ -187,6 +188,7 @@ class General extends ConfigurationStep
 
         // allow "onclick" on "<a>" tag
         $allowedAttributes = StringUtil::deserialize(Config::get('allowedAttributes'), true);
+
         foreach ($allowedAttributes as $index => $allowedAttribute) {
             if ($allowedAttribute['key'] === 'a'
             && ! str_contains((string) $allowedAttribute['value'], 'onclick')

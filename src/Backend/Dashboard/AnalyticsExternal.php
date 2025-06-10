@@ -24,7 +24,6 @@ use Contao\MemberModel;
 use Contao\NewsModel;
 use Contao\System;
 use Exception;
-use Psr\Log\LogLevel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Api\Airtable\V0\Api as AirtableApi;
 use WEM\SmartgearBundle\Classes\CacheFileManager;
@@ -48,7 +47,7 @@ class AnalyticsExternal extends BackendModule
     public function __construct(
         protected TranslatorInterface $translator,
         protected ConfigurationManager $configurationManager,
-        protected AirtableApi $airtableApi
+        protected AirtableApi $airtableApi,
     ) {
         parent::__construct();
     }
@@ -82,6 +81,7 @@ class AnalyticsExternal extends BackendModule
         $blnAirtableClientFound = false;
         $arrBirthdays = [];
         $arrInvoices = [];
+
         foreach ($hostingInfos as $domain => $hostnameHostingInfos) {
             foreach ($hostnameHostingInfos['invoices_ids'] ?? [] as $index => $id) {
                 $arrInvoices[] = [
@@ -95,7 +95,7 @@ class AnalyticsExternal extends BackendModule
             }
         }
 
-        $arrInvoices = array_unique($arrInvoices, \SORT_REGULAR);
+        $arrInvoices = array_unique($arrInvoices, SORT_REGULAR);
 
         $objTemplate = new BackendTemplate('be_wem_sg_dashboard_analytics_external_invoices');
         $objTemplate->invoicesTitle = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.invoicesTitle', [], 'contao_default');
@@ -121,6 +121,7 @@ class AnalyticsExternal extends BackendModule
 
         $blnAirtableClientFound = false;
         $diskSpaceAllowed = 0;
+
         foreach ($hostingInfos as $hostnameHostingInfos) {
             if (empty($hostnameHostingInfos)) {
                 continue;
@@ -148,7 +149,7 @@ class AnalyticsExternal extends BackendModule
         $objTemplate->diskSpaceAllowed = Util::humanReadableFilesize($diskSpaceAllowed, 2);
 
         $objTemplate->diskUsagePercentLabel = $this->translator->trans('WEMSG.DASHBOARD.ANALYTICSEXTERNAL.diskUsagePercentLabel', [], 'contao_default');
-        $objTemplate->diskUsagePercent = $diskSpaceAllowed !== 0 ? round($diskUsage * 100 / ($diskSpaceAllowed), 2) : 0;
+        $objTemplate->diskUsagePercent = $diskSpaceAllowed !== 0 ? round($diskUsage * 100 / $diskSpaceAllowed, 2) : 0;
 
         if ($objTemplate->diskUsagePercent < 75) {
             $objTemplate->diskUsageBarColor = 'green';
@@ -221,7 +222,7 @@ class AnalyticsExternal extends BackendModule
             SELECT SUM(DATA_LENGTH) + SUM(INDEX_LENGTH) AS usage_estimate
             FROM INFORMATION_SCHEMA.tables
             WHERE table_schema = \'%s\'',
-            System::getContainer()->get('database_connection')->getDatabase()
+            System::getContainer()->get('database_connection')->getDatabase(),
         );
         $result = Database::getInstance()->execute($query);
 
@@ -242,7 +243,7 @@ class AnalyticsExternal extends BackendModule
         $size = 0;
 
         // foreach (glob(rtrim($dir, '/').'/*', \GLOB_NOSORT) as $each) {
-        foreach (glob(rtrim((string) $dir, '/') . '/{*,.[!.]*,..?*}', \GLOB_BRACE | \GLOB_NOSORT) as $each) {
+        foreach (glob(rtrim((string) $dir, '/') . '/{*,.[!.]*,..?*}', GLOB_BRACE | GLOB_NOSORT) as $each) {
             $size += is_file($each) ? filesize($each) : $this->folderSize($each);
         }
 

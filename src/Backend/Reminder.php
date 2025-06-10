@@ -22,6 +22,7 @@ use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\DataContainer;
 use Contao\FaqModel;
 use Contao\Input;
+use Contao\Model;
 use Contao\NewsModel;
 use Contao\PageModel;
 use Contao\System;
@@ -43,7 +44,7 @@ class Reminder extends BackendModule
     public function __construct(
         protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
         protected readonly ScopeMatcher $scopeMatcher,
-        DataContainer|null $dc = null
+        DataContainer|null $dc = null,
     ) {
         parent::__construct($dc);
         $this->security = System::getContainer()->get('security.helper');
@@ -57,14 +58,14 @@ class Reminder extends BackendModule
     public function processAjaxRequest($strAction): void
     {
         if (! $this->scopeMatcher->isBackend()) {
-            exit();
+            exit;
         }
 
         if (Input::post('TL_WEM_AJAX') && $this->strId === Input::post('wem_module')) {
             try {
                 switch (Input::post('action')) {
                     case 'resetReminder':
-                        $model = \Contao\Model::getClassFromTable(Input::post('ptable'));
+                        $model = Model::getClassFromTable(Input::post('ptable'));
                         $objItem = $model::findById(Input::post('pid'));
                         if (! $objItem) {
                             throw new Exception('Not found');
@@ -84,7 +85,7 @@ class Reminder extends BackendModule
 
                         break;
                     case 'disableReminder':
-                        $model = \Contao\Model::getClassFromTable(Input::post('ptable'));
+                        $model = Model::getClassFromTable(Input::post('ptable'));
                         $objItem = $model::findById(Input::post('pid'));
                         if (! $objItem) {
                             throw new Exception('Not found');

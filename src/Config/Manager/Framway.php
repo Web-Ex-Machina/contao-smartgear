@@ -31,7 +31,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
     public function __construct(
         TranslatorInterface $translator,
         protected ConfigInterface $configuration,
-        protected ConfigurationManagerCore $configurationManagerCore
+        protected ConfigurationManagerCore $configurationManagerCore,
     ) {
         parent::__construct($translator);
     }
@@ -65,9 +65,9 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         $notJsonCompliant = $this->specificPregReplaceForNotJsonCompliantConfigurationImport($notJsonCompliant);
 
         try {
-            return json_decode($notJsonCompliant, false, 512, \JSON_THROW_ON_ERROR);
+            return json_decode($notJsonCompliant, false, 512, JSON_THROW_ON_ERROR);
         } catch (Exception $exception) {
-            throw new Exception($this->translator->trans('WEMSG.ERR.FRAMWAY.configJsonDecodeError', [json_last_error() !== \JSON_ERROR_NONE ? json_last_error_msg() : $exception->getMessage()], 'contao_default'), $exception->getCode(), $exception);
+            throw new Exception($this->translator->trans('WEMSG.ERR.FRAMWAY.configJsonDecodeError', [json_last_error() !== JSON_ERROR_NONE ? json_last_error_msg() : $exception->getMessage()], 'contao_default'), $exception->getCode(), $exception);
         }
     }
 
@@ -113,7 +113,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         $notJsonCompliant = preg_replace('/^(.*)\'\,([\s\t]*)\/\/(.*)/m', '$1\',', (string) $notJsonCompliant); // remove comments at the end of a line
         $notJsonCompliant = preg_replace('/^(.*)\,([\s\t]*)\/\/(.*)/m', '$1,', (string) $notJsonCompliant); // remove comments at the end of a line
 
-        ////////
+        // //////
         $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([\{]{1})/', '$1"$2":{', (string) $notJsonCompliant);
         $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([\[]{1})/', '$1"$2":[', (string) $notJsonCompliant);
         // $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([^\/\:])/', '$1"$2":', $notJsonCompliant);
@@ -122,7 +122,7 @@ class Framway extends AbstractManager implements ManagerJsonInterface
         $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([A-Za-z_\-0-9$]*)/', '$1"$2":$5', (string) $notJsonCompliant);
 
         $notJsonCompliant = preg_replace('/([\"]+)([A-Za-z_\-0-9$]+)([\"]+)/', '"$2"', (string) $notJsonCompliant);
-        ////////
+        // //////
 
         $notJsonCompliant = preg_replace('/\t/', '', (string) $notJsonCompliant);
         $notJsonCompliant = preg_replace('/\n/', '', (string) $notJsonCompliant);

@@ -31,7 +31,7 @@ class LocalConfig extends AbstractManager implements ManagerYamlInterface
     public function __construct(
         TranslatorInterface $translator,
         protected ConfigLocalConfig|ConfigInterface $configuration,
-        protected ?string $configurationFilePath
+        protected ?string $configurationFilePath,
     ) {
         parent::__construct($translator);
         $this->parser = new Parser();

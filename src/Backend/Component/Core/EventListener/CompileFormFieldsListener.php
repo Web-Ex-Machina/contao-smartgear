@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Core\EventListener;
 
+use Contao\BackendUser;
 use Contao\Form;
 use Contao\System;
 use Exception;
@@ -25,7 +26,7 @@ use WEM\SmartgearBundle\Model\FormField;
 class CompileFormFieldsListener
 {
     public function __construct(
-        protected CoreConfigurationManager $coreConfigurationManager
+        protected CoreConfigurationManager $coreConfigurationManager,
     ) {
     }
 
@@ -35,7 +36,7 @@ class CompileFormFieldsListener
     public function __invoke(
         array $arrFields,
         string $formId,
-        Form $form
+        Form $form,
     ): array {
         try {
             $coreConfig = $this->coreConfigurationManager->load();
@@ -44,11 +45,11 @@ class CompileFormFieldsListener
                 global $objPage;
                 $scopeMatcher = System::getContainer()->get('wem.scope_matcher');
 
-                $objFormFieldWarning = (new FormField());
+                $objFormFieldWarning = new FormField();
                 $objFormFieldWarning->pid = $form->getModel()->id;
                 $objFormFieldWarning->sorting = 16;
                 $objFormFieldWarning->type = 'html';
-                $objFormFieldWarning->html = '<div class="mt-2">' . Util::getLocalizedTemplateContent('{root}/templates/smartgear/settings/{lang}/form_warning_message.html5', $scopeMatcher->isFrontend() ? $objPage->rootLanguage : \Contao\BackendUser::getInstance()->language, '{root}/templates/smartgear/settings/fr/form_warning_message.html5') . '</div>';
+                $objFormFieldWarning->html = '<div class="mt-2">' . Util::getLocalizedTemplateContent('{root}/templates/smartgear/settings/{lang}/form_warning_message.html5', $scopeMatcher->isFrontend() ? $objPage->rootLanguage : BackendUser::getInstance()->language, '{root}/templates/smartgear/settings/fr/form_warning_message.html5') . '</div>';
 
                 $arrFields['warning'] = $objFormFieldWarning;
             }

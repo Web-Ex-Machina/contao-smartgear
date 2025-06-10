@@ -37,7 +37,6 @@ use WEM\SmartgearBundle\Classes\Utils\PageUtil;
 use WEM\SmartgearBundle\Config\Component\Blog\Blog as BlogConfig;
 use WEM\SmartgearBundle\Config\Component\Blog\Preset as BlogPresetConfig;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
-use WEM\SmartgearBundle\Model\Module;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
 class General extends ConfigurationStep
@@ -49,7 +48,7 @@ class General extends ConfigurationStep
         string $type,
         protected TranslatorInterface $translator,
         protected ConfigurationManager $configurationManager,
-        protected CommandUtil $commandUtil
+        protected CommandUtil $commandUtil,
     ) {
         parent::__construct($module, $type);
 
@@ -176,7 +175,6 @@ class General extends ConfigurationStep
         /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
         $blogConfig = $config->getSgBlog();
-
         $blogConfig
             ->setSgMode(Input::post('expertMode') ? BlogConfig::MODE_EXPERT : BlogConfig::MODE_SIMPLE)
             ->setSgCurrentPresetIndex((int) Input::post('newsConfig'))
@@ -265,7 +263,7 @@ class General extends ConfigurationStep
 
         $newsArchive = NewsArchiveUtil::createNewsArchive($presetConfig->getSgNewsArchiveTitle(), (int) $page->id, array_merge(
             $blogConfig->getSgNewsArchive() ? ['id' => $blogConfig->getSgNewsArchive()] : [],
-            ['groups' => serialize([$objUserGroupAdministrators->id, $objUserGroupRedactors->id])]
+            ['groups' => serialize([$objUserGroupAdministrators->id, $objUserGroupRedactors->id])],
         ));
         // $newsArchive = NewsArchiveModel::findById($blogConfig->getSgNewsArchive()) ?? new NewsArchiveModel();
         // $newsArchive->title = $presetConfig->getSgNewsArchiveTitle();
@@ -368,7 +366,6 @@ class General extends ConfigurationStep
         $config = $this->configurationManager->load();
 
         $blogConfig = $config->getSgBlog();
-
         $blogConfig
             ->setSgPage((int) $page->id)
             ->setSgArticle((int) $article->id)

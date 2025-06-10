@@ -47,7 +47,7 @@ class General extends ConfigurationStep
         protected TranslatorInterface $translator,
         protected ConfigurationManager $configurationManager,
         protected CommandUtil $commandUtil,
-        protected DirectoriesSynchronizer $leafletDirectorySynchronizer
+        protected DirectoriesSynchronizer $leafletDirectorySynchronizer,
     ) {
         parent::__construct($module, $type);
 
@@ -135,7 +135,6 @@ class General extends ConfigurationStep
         $config = $this->configurationManager->load();
 
         $eventsConfig = $config->getSgEvents();
-
         $eventsConfig
             ->setSgMode(Input::post('expertMode') ? EventsConfig::MODE_EXPERT : EventsConfig::MODE_SIMPLE)
             ->setSgCalendarTitle(Input::post('calendarTitle'))
@@ -248,14 +247,14 @@ class General extends ConfigurationStep
 
         $moduleReader = ModuleUtil::createModuleEventsReader((int) $config->getSgTheme(), (int) $calendar->id, array_merge(
             [
-            // $moduleReader = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
-            'name' => $page->title . ' - Reader',
-            // 'pid' => $config->getSgTheme(),
-            // 'type' => 'eventreader',
-            // 'cal_calendar' => serialize([$calendar->id]),
-            // 'imgSize' => serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
-        ],
-            $eventsConfig->getSgModuleReader() !== null ? ['id' => $eventsConfig->getSgModuleReader()] : []
+                // $moduleReader = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+                'name' => $page->title . ' - Reader',
+                // 'pid' => $config->getSgTheme(),
+                // 'type' => 'eventreader',
+                // 'cal_calendar' => serialize([$calendar->id]),
+                // 'imgSize' => serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            ],
+            $eventsConfig->getSgModuleReader() !== null ? ['id' => $eventsConfig->getSgModuleReader()] : [],
         ));
 
         $moduleReader->save();
@@ -271,21 +270,21 @@ class General extends ConfigurationStep
 
         $moduleList = ModuleUtil::createModuleEventsList((int) $config->getSgTheme(), (int) $calendar->id, (int) $moduleReader->id, array_merge(
             [
-            // $moduleList = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
-            'name' => $page->title . ' - List',
-            'headline' => serialize(['unit' => 'h1', 'value' => $page->title]),
-            // 'pid' => $config->getSgTheme(),
-            // 'type' => 'eventlist',
-            // 'cal_calendar' => serialize([$calendar->id]),
-            // 'numberOfItems' => 0,
-            // 'cal_format' => 'cal_month',
-            // 'cal_order' => 'descending',
-            // 'cal_readerModule' => $moduleReader->id,
-            'perPage' => $eventsConfig->getSgEventsListPerPage(),
-            // 'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
-            // 'tstamp' => time(),
-        ],
-            $eventsConfig->getSgModuleList() !== null ? ['id' => $eventsConfig->getSgModuleList()] : []
+                // $moduleList = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+                'name' => $page->title . ' - List',
+                'headline' => serialize(['unit' => 'h1', 'value' => $page->title]),
+                // 'pid' => $config->getSgTheme(),
+                // 'type' => 'eventlist',
+                // 'cal_calendar' => serialize([$calendar->id]),
+                // 'numberOfItems' => 0,
+                // 'cal_format' => 'cal_month',
+                // 'cal_order' => 'descending',
+                // 'cal_readerModule' => $moduleReader->id,
+                'perPage' => $eventsConfig->getSgEventsListPerPage(),
+                // 'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+                // 'tstamp' => time(),
+            ],
+            $eventsConfig->getSgModuleList() !== null ? ['id' => $eventsConfig->getSgModuleList()] : [],
         ));
 
         $this->setEventConfigKey('setSgModuleList', (int) $moduleList->id);
@@ -299,20 +298,20 @@ class General extends ConfigurationStep
 
         $moduleCalendar = ModuleUtil::createModuleEventsCalendar((int) $config->getSgTheme(), (int) $calendar->id, (int) $moduleReader->id, array_merge(
             [
-            // $moduleCalendar = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
-            'name' => $page->title . ' - Calendar',
-            // 'pid' => $config->getSgTheme(),
-            // 'type' => 'calendar',
-            // 'cal_calendar' => serialize([$calendar->id]),
-            // 'numberOfItems' => 0,
-            // 'cal_format' => 'cal_month',
-            // 'cal_order' => 'descending',
-            // 'cal_readerModule' => $moduleReader->id,
-            'perPage' => $eventsConfig->getSgEventsListPerPage(),
-            // 'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
-            // 'tstamp' => time(),
-        ],
-            $eventsConfig->getSgModuleCalendar() !== null ? ['id' => $eventsConfig->getSgModuleCalendar()] : []
+                // $moduleCalendar = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+                'name' => $page->title . ' - Calendar',
+                // 'pid' => $config->getSgTheme(),
+                // 'type' => 'calendar',
+                // 'cal_calendar' => serialize([$calendar->id]),
+                // 'numberOfItems' => 0,
+                // 'cal_format' => 'cal_month',
+                // 'cal_order' => 'descending',
+                // 'cal_readerModule' => $moduleReader->id,
+                'perPage' => $eventsConfig->getSgEventsListPerPage(),
+                // 'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+                // 'tstamp' => time(),
+            ],
+            $eventsConfig->getSgModuleCalendar() !== null ? ['id' => $eventsConfig->getSgModuleCalendar()] : [],
         ));
 
         $this->setEventConfigKey('setSgModuleCalendar', (int) $moduleCalendar->id);
@@ -350,7 +349,6 @@ class General extends ConfigurationStep
         $config = $this->configurationManager->load();
 
         $eventsConfig = $config->getSgEvents();
-
         $eventsConfig
             ->setSgPage((int) $page->id)
             ->setSgArticle((int) $article->id)

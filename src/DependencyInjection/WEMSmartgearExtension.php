@@ -21,8 +21,6 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
  * Adds the bundle services to the container.
- *
- * @author Web ex Machina <https://www.webexmachina.fr>
  */
 class WEMSmartgearExtension extends Extension
 {
@@ -30,7 +28,7 @@ class WEMSmartgearExtension extends Extension
     {
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator(__DIR__ . '/../Resources/config')
+            new FileLocator(__DIR__ . '/../Resources/config'),
         );
 
         $loader->load('services.yml');

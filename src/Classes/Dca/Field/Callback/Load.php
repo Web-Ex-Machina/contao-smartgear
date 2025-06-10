@@ -26,7 +26,7 @@ class Load
     public function __construct(
         PdmCallback $pdmCallback,
         private readonly string $frontendField,
-        private readonly string $table
+        private readonly string $table,
     ) {
         $this->pdmCallback = $pdmCallback;
 
@@ -35,6 +35,6 @@ class Load
 
     public function __invoke()
     {
-        return $this->pdmCallback->__invoke(...\func_get_args());
+        return $this->pdmCallback(...\func_get_args());
     }
 }

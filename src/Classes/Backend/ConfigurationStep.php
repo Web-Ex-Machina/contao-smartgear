@@ -20,7 +20,7 @@ class ConfigurationStep extends AbstractStep
 
     public function __construct(
         string $module,
-        string $type
+        string $type,
     ) {
         parent::__construct($module, $type);
     }

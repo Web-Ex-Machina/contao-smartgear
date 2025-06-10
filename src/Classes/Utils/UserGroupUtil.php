@@ -581,6 +581,7 @@ class UserGroupUtil
     public static function updateRemoveUserGroupSettingsAccordingToConfigurationItem(UserGroupModel $objUserGroup, ConfigurationItem $objConfigurationItem): UserGroupModel
     {
         $objUserGroup = self::updateRemoveUserGroupSettingsCommon($objUserGroup, $objConfigurationItem);
+
         return match ($objConfigurationItem->type) {
             ConfigurationItem::TYPE_MIXED_BLOG => self::updateRemoveUserGroupSettingsBlog($objUserGroup, $objConfigurationItem),
             ConfigurationItem::TYPE_MIXED_EVENTS => self::updateRemoveUserGroupSettingsEvents($objUserGroup, $objConfigurationItem),

@@ -29,14 +29,14 @@ class GetContentElementListener
 {
     public function __construct(
         protected CoreConfigurationManager $configurationManager,
-        protected readonly ScopeMatcher $scopeMatcher
+        protected readonly ScopeMatcher $scopeMatcher,
     ) {
     }
 
     public function __invoke(ContentModel $contentModel, string $buffer, Module|ContentElement $element): string
     {
         if (! $this->scopeMatcher->isFrontend()) {
-            exit();
+            exit;
         }
 
         $buffer = $this->alterForPersonalDataModule($contentModel, $buffer, $element);
@@ -94,7 +94,7 @@ class GetContentElementListener
         || $coreConfig->getSgUsePdmForMembers() // TODO : not exist ??
         ) {
             $service = System::getContainer()->get('smartgear.listener.load_data_container');
-            $service->__invoke(['tl_member']);
+            $service(['tl_member']);
 
             $buffer = $element->generate();
         }

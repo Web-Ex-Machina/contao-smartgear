@@ -18,6 +18,7 @@ use Contao\Backend;
 use Contao\Config;
 use Contao\DataContainer;
 use Contao\Date;
+use Contao\Input;
 use Contao\Message;
 use Contao\Model;
 use DateInterval;
@@ -55,7 +56,7 @@ class Core extends Backend
 
     public function displayReminderMessage(DataContainer $dc): void
     {
-        if (! $dc->id || \Contao\Input::get('act') === null) {
+        if (! $dc->id || Input::get('act') === null) {
             return;
         }
 
@@ -67,7 +68,7 @@ class Core extends Backend
 
         if ((bool) $objItem->update_reminder) {
             $dtReminder = (new DateTime())->setTimestamp((int) $objItem->update_reminder_date);
-            $dtNow = (new DateTime());
+            $dtNow = new DateTime();
 
             if (time() < (int) $objItem->update_reminder_date) {
                 Message::addInfo(sprintf($GLOBALS['TL_LANG']['WEMSG']['DCA']['MESSAGE']['updateReminderFuture'], Date::parse(Config::get('datimFormat'), (int) $objItem->update_reminder_date), Util::formatDateInterval($dtReminder->diff($dtNow))));

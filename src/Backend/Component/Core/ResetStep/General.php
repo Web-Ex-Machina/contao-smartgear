@@ -31,7 +31,7 @@ class General extends AbstractStep
         string $type,
         protected ConfigurationManager $configurationManager,
         protected BackupManager $backupManager,
-        protected Resetter $resetter
+        protected Resetter $resetter,
     ) {
         parent::__construct($module, $type);
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['RESET']['GENERAL']['Title'];

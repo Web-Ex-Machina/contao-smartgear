@@ -15,6 +15,8 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Classes\Dca\Field\Callback;
 
 use Contao\DataContainer;
+use Contao\FrontendUser;
+use Contao\ModulePersonalData;
 use WEM\PersonalDataManagerBundle\Dca\Field\Callback\Save as PdmCallback;
 
 class SaveConditionnal
@@ -27,7 +29,7 @@ class SaveConditionnal
     public function __construct(
         PdmCallback $pdmCallback,
         private readonly string $frontendField,
-        private readonly string $table
+        private readonly string $table,
     ) {
         $this->pdmCallback = $pdmCallback;
 
@@ -51,12 +53,12 @@ class SaveConditionnal
 
     public function invokeBackend($value, DataContainer $dc)
     {
-        return (bool) $dc->activeRecord->contains_personal_data ? $this->pdmCallback->__invoke(...\func_get_args()) : $value;
+        return (bool) $dc->activeRecord->contains_personal_data ? $this->pdmCallback(...\func_get_args()) : $value;
     }
 
-    public function invokeFrontend($value, \Contao\FrontendUser $user, \Contao\ModulePersonalData $module): void
+    public function invokeFrontend($value, FrontendUser $user, ModulePersonalData $module): void
     {
-        $this->pdmCallback->__invoke(...\func_get_args());
+        $this->pdmCallback(...\func_get_args());
     }
 
     public function invokeFrontendRegistration($value)

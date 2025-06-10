@@ -813,8 +813,8 @@ class ConfigurationItemUtil
                         'name' => $objItem->module_name,
                         'singleSRC' => $objItem->singleSRC,
                     ],
-                    $objItem->contao_module ? ['id' => $objItem->contao_module] : []
-                )
+                    $objItem->contao_module ? ['id' => $objItem->contao_module] : [],
+                ),
             );
             $objItem->contao_module = $objModule->id;
         }
@@ -827,6 +827,7 @@ class ConfigurationItemUtil
         // $contaoLayoutsToUpdate = StringUtil::deserialize($objItem->contao_layout_to_update, true);
         // }
         $contaoLayoutsToUpdate = StringUtil::deserialize($objItem->contao_layout_to_update, true);
+
         foreach ($contaoLayoutsToUpdate as $layoutId) {
             LayoutUtil::replaceHeader((int) $layoutId, (int) $objItem->contao_module);
         }
@@ -849,8 +850,8 @@ class ConfigurationItemUtil
                         'name' => $objItem->module_name,
                         'html' => ContentUtil::buildContentWemSgFooter($objItem->content_template),
                     ],
-                    $objItem->contao_module ? ['id' => $objItem->contao_module] : []
-                )
+                    $objItem->contao_module ? ['id' => $objItem->contao_module] : [],
+                ),
             );
             $objItem->contao_module = $objModule->id;
         }
@@ -861,6 +862,7 @@ class ConfigurationItemUtil
         //     $contaoLayoutsToUpdate = $objItem->contao_layout_to_update;
         // } else {
         $contaoLayoutsToUpdate = StringUtil::deserialize($objItem->contao_layout_to_update, true);
+
         // }
         foreach ($contaoLayoutsToUpdate as $layoutId) {
             LayoutUtil::replaceFooter((int) $layoutId, (int) $objItem->contao_module);
@@ -883,8 +885,8 @@ class ConfigurationItemUtil
                     [
                         'name' => $objItem->module_name,
                     ],
-                    $objItem->contao_module ? ['id' => $objItem->contao_module] : []
-                )
+                    $objItem->contao_module ? ['id' => $objItem->contao_module] : [],
+                ),
             );
             $objItem->contao_module = $objModule->id;
         }
@@ -895,6 +897,7 @@ class ConfigurationItemUtil
         //     $contaoLayoutsToUpdate = $objItem->contao_layout_to_update;
         // } else {
         $contaoLayoutsToUpdate = StringUtil::deserialize($objItem->contao_layout_to_update, true);
+
         // }
         foreach ($contaoLayoutsToUpdate as $layoutId) {
             LayoutUtil::replaceBreadcrumb((int) $layoutId, (int) $objItem->contao_module);
@@ -917,8 +920,8 @@ class ConfigurationItemUtil
                     [
                         'name' => $objItem->module_name,
                     ],
-                    $objItem->contao_module ? ['id' => $objItem->contao_module] : []
-                )
+                    $objItem->contao_module ? ['id' => $objItem->contao_module] : [],
+                ),
             );
             $objItem->contao_module = $objModule->id;
         }
@@ -940,8 +943,8 @@ class ConfigurationItemUtil
                     [
                         'name' => $objItem->module_name,
                     ],
-                    $objItem->contao_module ? ['id' => $objItem->contao_module] : []
-                )
+                    $objItem->contao_module ? ['id' => $objItem->contao_module] : [],
+                ),
             );
             $objItem->contao_module = $objModule->id;
         }
@@ -964,8 +967,8 @@ class ConfigurationItemUtil
                     [
                         'name' => $objItem->module_name,
                     ],
-                    $objItem->contao_module ? ['id' => $objItem->contao_module] : []
-                )
+                    $objItem->contao_module ? ['id' => $objItem->contao_module] : [],
+                ),
             );
             $objItem->contao_module = $objModule->id;
         }
@@ -990,8 +993,8 @@ class ConfigurationItemUtil
                         'name' => $objItem->module_list_name,
                         'perPage' => $objItem->module_list_perPage,
                     ],
-                    $objItem->contao_module_list ? ['id' => $objItem->contao_module_list] : []
-                )
+                    $objItem->contao_module_list ? ['id' => $objItem->contao_module_list] : [],
+                ),
             );
             $objItem->contao_module_list = $objModule->id;
         }
@@ -1014,8 +1017,8 @@ class ConfigurationItemUtil
                     [
                         'name' => $objItem->module_reader_name,
                     ],
-                    $objItem->contao_module_reader ? ['id' => $objItem->contao_module_reader] : []
-                )
+                    $objItem->contao_module_reader ? ['id' => $objItem->contao_module_reader] : [],
+                ),
             );
             $objItem->contao_module_reader = $objModule->id;
         }
@@ -1039,8 +1042,8 @@ class ConfigurationItemUtil
                     [
                         'name' => $objItem->module_calendar_name,
                     ],
-                    $objItem->contao_module_calendar ? ['id' => $objItem->contao_module_calendar] : []
-                )
+                    $objItem->contao_module_calendar ? ['id' => $objItem->contao_module_calendar] : [],
+                ),
             );
             $objItem->contao_module_calendar = $objModule->id;
         }
@@ -1065,8 +1068,8 @@ class ConfigurationItemUtil
                         'name' => $objItem->module_list_name,
                         'perPage' => $objItem->module_list_perPage,
                     ],
-                    $objItem->contao_module_list ? ['id' => $objItem->contao_module_list] : []
-                )
+                    $objItem->contao_module_list ? ['id' => $objItem->contao_module_list] : [],
+                ),
             );
             $objItem->contao_module_list = $objModule->id;
         }
@@ -1089,8 +1092,8 @@ class ConfigurationItemUtil
                     [
                         'name' => $objItem->module_reader_name,
                     ],
-                    $objItem->contao_module_reader ? ['id' => $objItem->contao_module_reader] : []
-                )
+                    $objItem->contao_module_reader ? ['id' => $objItem->contao_module_reader] : [],
+                ),
             );
             $objItem->contao_module_reader = $objModule->id;
         }
@@ -1126,8 +1129,8 @@ class ConfigurationItemUtil
                 (int) $objItem->contao_page,
                 array_merge(
                     // !empty($arrGroups) ? ['groups' => serialize($arrGroups)] : [],
-                    $objItem->contao_faq_category ? ['id' => $objItem->contao_faq_category] : []
-                )
+                    $objItem->contao_faq_category ? ['id' => $objItem->contao_faq_category] : [],
+                ),
             );
             $objItem->contao_faq_category = $objFaqCategory->id;
         }
@@ -1163,8 +1166,8 @@ class ConfigurationItemUtil
                 (int) $objItem->contao_page,
                 array_merge(
                     // !empty($arrGroups) ? ['groups' => serialize($arrGroups)] : [],
-                    $objItem->contao_calendar ? ['id' => $objItem->contao_calendar] : []
-                )
+                    $objItem->contao_calendar ? ['id' => $objItem->contao_calendar] : [],
+                ),
             );
             $objItem->contao_calendar = $objCalFee->id;
         }
@@ -1200,8 +1203,8 @@ class ConfigurationItemUtil
                 (int) $objItem->contao_page,
                 array_merge(
                     // !empty($arrGroups) ? ['groups' => serialize($arrGroups)] : [],
-                    $objItem->contao_news_archive ? ['id' => $objItem->contao_news_archive] : []
-                )
+                    $objItem->contao_news_archive ? ['id' => $objItem->contao_news_archive] : [],
+                ),
             );
             $objItem->contao_news_archive = $objCalFee->id;
         }
@@ -1238,96 +1241,96 @@ class ConfigurationItemUtil
                 (int) $objItem->contao_notification,
                 array_merge(
                     ['storeViaFormDataManager' => true],
-                    $objItem->contao_form ? ['id' => $objItem->contao_form] : []
-                )
+                    $objItem->contao_form ? ['id' => $objItem->contao_form] : [],
+                ),
             );
 
-            //empty form ?
-            //fill it with fields
+            // empty form ?
+            // fill it with fields
             FormFieldUtil::createFormField((int) $objForm->id, array_merge(
                 [
-                'sorting' => 128,
-                'type' => 'text',
-                'name' => 'name',
-                'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputName'],
-                'placeholder' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['placeholderFormInputName'],
-                'mandatory' => 1,
-                'contains_personal_data' => true,
-            ],
-                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'name'])) ? ['id' => $objFF->id] : []
+                    'sorting' => 128,
+                    'type' => 'text',
+                    'name' => 'name',
+                    'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputName'],
+                    'placeholder' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['placeholderFormInputName'],
+                    'mandatory' => 1,
+                    'contains_personal_data' => true,
+                ],
+                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'name'])) ? ['id' => $objFF->id] : [],
             ));
 
             FormFieldUtil::createFormField((int) $objForm->id, array_merge(
                 [
-                'sorting' => 256,
-                'type' => 'text',
-                'name' => 'email',
-                'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputEmail'],
-                'placeholder' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['placeholderFormInputEmail'],
-                'mandatory' => 1,
-                'rgxp' => 'email',
-                'tstamp' => time(),
-            ],
-                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'email'])) ? ['id' => $objFF->id] : []
+                    'sorting' => 256,
+                    'type' => 'text',
+                    'name' => 'email',
+                    'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputEmail'],
+                    'placeholder' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['placeholderFormInputEmail'],
+                    'mandatory' => 1,
+                    'rgxp' => 'email',
+                    'tstamp' => time(),
+                ],
+                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'email'])) ? ['id' => $objFF->id] : [],
             ));
 
             FormFieldUtil::createFormField((int) $objForm->id, array_merge(
                 [
-                'sorting' => 384,
-                'type' => 'textarea',
-                'name' => 'message',
-                'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputMessage'],
-                'placeholder' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['placeholderFormInputMessage'],
-                'mandatory' => 1,
-                'contains_personal_data' => true,
-            ],
-                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'message'])) ? ['id' => $objFF->id] : []
+                    'sorting' => 384,
+                    'type' => 'textarea',
+                    'name' => 'message',
+                    'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputMessage'],
+                    'placeholder' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['placeholderFormInputMessage'],
+                    'mandatory' => 1,
+                    'contains_personal_data' => true,
+                ],
+                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'message'])) ? ['id' => $objFF->id] : [],
             ));
 
             FormFieldUtil::createFormField((int) $objForm->id, array_merge(
                 [
-                'sorting' => 512,
-                'type' => 'checkbox',
-                'name' => 'consent_data_treatment',
-                'options' => serialize([['value' => 1, 'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['optionLabelFormInputConsentDataTreatment']]]),
-                'mandatory' => true,
-            ],
-                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'consent_data_treatment'])) ? ['id' => $objFF->id] : []
+                    'sorting' => 512,
+                    'type' => 'checkbox',
+                    'name' => 'consent_data_treatment',
+                    'options' => serialize([['value' => 1, 'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['optionLabelFormInputConsentDataTreatment']]]),
+                    'mandatory' => true,
+                ],
+                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'consent_data_treatment'])) ? ['id' => $objFF->id] : [],
             ));
 
             FormFieldUtil::createFormField((int) $objForm->id, array_merge(
                 [
-                'sorting' => 896,
-                'type' => 'checkbox',
-                'name' => 'consent_data_save',
-                'options' => serialize([['value' => 1, 'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['optionLabelFormInputConsentDataSave']]]),
-                'mandatory' => 1,
-                // 'invisible' => !$config->getSgFormDataManager()->getSgInstallComplete(),
-                'invisible' => false,
-            ],
-                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'consent_data_save'])) ? ['id' => $objFF->id] : []
+                    'sorting' => 896,
+                    'type' => 'checkbox',
+                    'name' => 'consent_data_save',
+                    'options' => serialize([['value' => 1, 'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['optionLabelFormInputConsentDataSave']]]),
+                    'mandatory' => 1,
+                    // 'invisible' => !$config->getSgFormDataManager()->getSgInstallComplete(),
+                    'invisible' => false,
+                ],
+                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'consent_data_save'])) ? ['id' => $objFF->id] : [],
             ));
 
             FormFieldUtil::createFormField((int) $objForm->id, array_merge(
                 [
-                'sorting' => 1152,
-                'type' => 'captcha',
-                'name' => 'captcha',
-                'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputCaptcha'],
-                'mandatory' => 1,
-            ],
-                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'captcha'])) ? ['id' => $objFF->id] : []
+                    'sorting' => 1152,
+                    'type' => 'captcha',
+                    'name' => 'captcha',
+                    'label' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputCaptcha'],
+                    'mandatory' => 1,
+                ],
+                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'captcha'])) ? ['id' => $objFF->id] : [],
             ));
 
             FormFieldUtil::createFormField((int) $objForm->id, array_merge(
                 [
-                'sorting' => 1280,
-                'type' => 'submit',
-                'name' => 'submit',
-                'slabel' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputSubmit'],
-                'mandatory' => 1,
-            ],
-                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'submit'])) ? ['id' => $objFF->id] : []
+                    'sorting' => 1280,
+                    'type' => 'submit',
+                    'name' => 'submit',
+                    'slabel' => $GLOBALS['TL_LANG']['WEMSG']['FORMCONTACT']['INSTALL_GENERAL']['labelFormInputSubmit'],
+                    'mandatory' => 1,
+                ],
+                ($objFF = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$objForm->id, 'submit'])) ? ['id' => $objFF->id] : [],
             ));
 
             $objItem->contao_form = $objForm->id;
@@ -1345,21 +1348,21 @@ class ConfigurationItemUtil
             $objConfiguration = $objItem->getRelated('pid');
             if ($objConfiguration->email_gateway) {
                 $objNotification = NcNotificationUtil::createFormContactSentNotification(
-                    $objItem->notification_name
+                    $objItem->notification_name,
                 );
 
                 $objMessageUser = NcNotificationMessageUtil::createContactFormSentNotificationMessageUser(
                     (int) $objConfiguration->email_gateway,
                     'email',
                     (int) $objNotification->id,
-                    []
+                    [],
                 );
 
                 $objMessageAdmin = NcNotificationMessageUtil::createContactFormSentNotificationMessageAdmin(
                     (int) $objConfiguration->email_gateway,
                     'email',
                     (int) $objNotification->id,
-                    []
+                    [],
                 );
 
                 $objMessageUserLanguage = NcNotificationMessageLanguageUtil::createContactFormSentNotificationMessageUserLanguage(
@@ -1368,7 +1371,7 @@ class ConfigurationItemUtil
                     $objConfiguration->title,
                     $objConfiguration->language,
                     true,
-                    []
+                    [],
                 );
 
                 $objMessageAdminLanguage = NcNotificationMessageLanguageUtil::createContactFormSentNotificationMessageAdminLanguage(
@@ -1378,7 +1381,7 @@ class ConfigurationItemUtil
                     $objConfiguration->legal_owner_email,
                     $objConfiguration->language,
                     true,
-                    []
+                    [],
                 );
 
                 $objItem->contao_notification = $objNotification->id;

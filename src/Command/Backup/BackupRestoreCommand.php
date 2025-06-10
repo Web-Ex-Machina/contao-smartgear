@@ -75,6 +75,7 @@ class BackupRestoreCommand extends AbstractBackupCommand
     private function formatForTable(RestoreResult $result): array
     {
         $formatted = [];
+
         foreach ($result->getFilesDeletedByRestore() as $filepath) {
             $formatted[] = [$filepath, 'deleted'];
         }

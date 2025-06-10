@@ -67,6 +67,7 @@ class ModuleEventReader extends \Contao\ModuleEventReader
         $configManager = System::getContainer()->get('smartgear.config.manager.core');
         /** @var UrlGeneratorInterface $routeGenerator */
         $routeGenerator = System::getContainer()->get('contao.routing.content_url_generator');
+
         try {
             $eventConfig = $configManager->load()->getSgEvents();
             if ($eventConfig->getSgInstallComplete()) {

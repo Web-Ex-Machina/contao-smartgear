@@ -59,7 +59,7 @@ class PageVisit extends CoreModel
                     Login::getTable(),
                     self::getTable(),
                     self::getTable(),
-                    Login::CONTEXT_BE
+                    Login::CONTEXT_BE,
                 );
                 break;
             default:

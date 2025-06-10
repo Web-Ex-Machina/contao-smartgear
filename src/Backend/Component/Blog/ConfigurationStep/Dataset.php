@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Component\Blog\ConfigurationStep;
 
 use Contao\File;
+use Contao\FilesModel;
 use Contao\Input;
 use Contao\NewsModel;
 use Exception;
@@ -36,7 +37,7 @@ class Dataset extends ConfigurationStep
         protected TranslatorInterface $translator,
         protected ConfigurationManager $configurationManager,
         protected CommandUtil $commandUtil,
-        string $sourceDirectory
+        string $sourceDirectory,
     ) {
         parent::__construct($module, $type);
         $this->sourceDirectory = str_replace('[public_or_web]', Util::getPublicOrWebDirectory(true), $sourceDirectory);
@@ -147,6 +148,7 @@ class Dataset extends ConfigurationStep
         $directory = $blogConfig->getCurrentPreset()->getSgNewsFolder();
         $blogConfig->getSgNewsArchive();
         $fileNamesToDelete = ['fileA.jpg', 'fileB.jpg', 'fileC.jpg', 'fileD.jpg', 'fileE.jpg', 'fileF.jpg', 'fileG.jpg', 'fileH.jpg', 'fileI.jpg', 'fileJ.jpg', 'fileK.jpg', 'fileL.jpg', 'fileM.jpg', 'fileN.jpg'];
+
         foreach ($fileNamesToDelete as $filenameToDelete) {
             $objFile = new File($directory . \DIRECTORY_SEPARATOR . $filenameToDelete);
             if ($objFile->exists()) {
@@ -155,6 +157,7 @@ class Dataset extends ConfigurationStep
         }
 
         $newsAliasesToDelete = ['news-test-a', 'news-test-b', 'actualité-c'];
+
         foreach ($newsAliasesToDelete as $newsAliasToDelete) {
             $objNews = NewsModel::findOneByAlias($newsAliasToDelete);
             if ($objNews) {
@@ -170,6 +173,7 @@ class Dataset extends ConfigurationStep
     {
         $blogConfig = $this->configurationManager->load()->getSgBlog();
         $destinationDirectory = $blogConfig->getCurrentPreset()->getSgNewsFolder();
+
         foreach ($filenames as $filenameToCopy) {
             $objFile = new File($this->sourceDirectory . \DIRECTORY_SEPARATOR . $filenameToCopy);
             if (! $objFile->copyTo($destinationDirectory . \DIRECTORY_SEPARATOR . $filenameToCopy)) {
@@ -182,7 +186,7 @@ class Dataset extends ConfigurationStep
     {
         $singleSRC = $fileSRC;
         if ($fileSRC !== '' && $fileSRC !== '0') {
-            $objFile = \Contao\FilesModel::findByPath($fileSRC);
+            $objFile = FilesModel::findByPath($fileSRC);
             $singleSRC = $objFile ? $objFile->uuid : null;
         }
 

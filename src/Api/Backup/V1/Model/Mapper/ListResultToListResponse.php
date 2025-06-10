@@ -23,6 +23,7 @@ class ListResultToListResponse
     public function map(ListResult $listResult, ListResponse $listResponse): ListResponse
     {
         $listResponse->setTotal($listResult->getTotal());
+
         foreach ($listResult->getBackups() as $backup) {
             $listResponse->addBackup([
                 'timestamp' => $backup->getFile()->ctime,

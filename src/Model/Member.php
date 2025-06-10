@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Model;
 
+use Contao\MemberModel;
 use Contao\System;
 use WEM\PersonalDataManagerBundle\Model\Traits\PersonalDataTrait as PDMTrait;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
@@ -21,7 +22,7 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationM
 /**
  * Reads and writes items.
  */
-class Member extends \Contao\MemberModel
+class Member extends MemberModel
 {
     use PDMTrait;
 

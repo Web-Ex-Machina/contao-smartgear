@@ -161,10 +161,10 @@ class ConfigurationUtil
 
             $objTheme = ThemeUtil::createTheme('Smartgear ' . $objItem->title, array_merge(
                 [
-                'author' => 'Web Ex Machina',
-                'templates' => sprintf('templates/%s', StringUtil::generateAlias($objItem->title)),
-            ],
-                empty($objItem->contao_theme) ? [] : ['id' => $objItem->contao_theme]
+                    'author' => 'Web Ex Machina',
+                    'templates' => sprintf('templates/%s', StringUtil::generateAlias($objItem->title)),
+                ],
+                empty($objItem->contao_theme) ? [] : ['id' => $objItem->contao_theme],
             ));
             $objItem->contao_theme = $objTheme->id;
             // check for images sizes
@@ -216,31 +216,31 @@ class ConfigurationUtil
                 (int) $objTheme->id,
                 array_merge(
                     [
-                    'webfonts' => $objItem->google_fonts,
-                    // 'modules_raw' => [
-                    //     'nav' => $objModuleNav,
-                    //     'wem_sg_header' => $objModuleWemSgHeader,
-                    //     'breadcrumb' => $objModuleBreadcrumb,
-                    //     'wem_sg_footer' => $objModuleWemSgFooter,
-                    //     'sitemap' => $objModuleSitemap,
-                    //     'footernav' => $objModuleFooterNav,
-                    // ],
-                    'replace' => [
-                        'head' => [
-                            '{{config.framway.path}}' => $objItem->framway_path,
-                        ],
-                        'script' => [
-                            '{{config.googleFonts}}' => $objItem->google_fonts,
-                            '{{config.framway.path}}' => $objItem->framway_path,
-                            '{{config.analytics.system}}' => $objItem->analytics_solution,
-                            '{{config.analytics.google.id}}' => $objItem->google_id,
-                            '{{config.analytics.matomo.host}}' => $objItem->matomo_host,
-                            '{{config.analytics.matomo.id}}' => $objItem->matomo_id,
+                        'webfonts' => $objItem->google_fonts,
+                        // 'modules_raw' => [
+                        //     'nav' => $objModuleNav,
+                        //     'wem_sg_header' => $objModuleWemSgHeader,
+                        //     'breadcrumb' => $objModuleBreadcrumb,
+                        //     'wem_sg_footer' => $objModuleWemSgFooter,
+                        //     'sitemap' => $objModuleSitemap,
+                        //     'footernav' => $objModuleFooterNav,
+                        // ],
+                        'replace' => [
+                            'head' => [
+                                '{{config.framway.path}}' => $objItem->framway_path,
+                            ],
+                            'script' => [
+                                '{{config.googleFonts}}' => $objItem->google_fonts,
+                                '{{config.framway.path}}' => $objItem->framway_path,
+                                '{{config.analytics.system}}' => $objItem->analytics_solution,
+                                '{{config.analytics.google.id}}' => $objItem->google_id,
+                                '{{config.analytics.matomo.host}}' => $objItem->matomo_host,
+                                '{{config.analytics.matomo.id}}' => $objItem->matomo_id,
+                            ],
                         ],
                     ],
-                ],
-                    empty($objItem->contao_layout_full) ? [] : ['id' => $objItem->contao_layout_full]
-                )
+                    empty($objItem->contao_layout_full) ? [] : ['id' => $objItem->contao_layout_full],
+                ),
             );
             $objItem->contao_layout_full = $objLayoutFull->id;
         }
@@ -256,31 +256,31 @@ class ConfigurationUtil
                 (int) $objTheme->id,
                 array_merge(
                     [
-                    'webfonts' => $objItem->google_fonts,
-                    // 'modules_raw' => [
-                    //     'nav' => $objModuleNav,
-                    //     'wem_sg_header' => $objModuleWemSgHeader,
-                    //     'breadcrumb' => $objModuleBreadcrumb,
-                    //     'wem_sg_footer' => $objModuleWemSgFooter,
-                    //     'sitemap' => $objModuleSitemap,
-                    //     'footernav' => $objModuleFooterNav,
-                    // ],
-                    'replace' => [
-                        'head' => [
-                            '{{config.framway.path}}' => $objItem->framway_path,
-                        ],
-                        'script' => [
-                            '{{config.googleFonts}}' => $objItem->google_fonts,
-                            '{{config.framway.path}}' => $objItem->framway_path,
-                            '{{config.analytics.system}}' => $objItem->analytics_solution,
-                            '{{config.analytics.google.id}}' => $objItem->google_id,
-                            '{{config.analytics.matomo.host}}' => $objItem->matomo_host,
-                            '{{config.analytics.matomo.id}}' => $objItem->matomo_id,
+                        'webfonts' => $objItem->google_fonts,
+                        // 'modules_raw' => [
+                        //     'nav' => $objModuleNav,
+                        //     'wem_sg_header' => $objModuleWemSgHeader,
+                        //     'breadcrumb' => $objModuleBreadcrumb,
+                        //     'wem_sg_footer' => $objModuleWemSgFooter,
+                        //     'sitemap' => $objModuleSitemap,
+                        //     'footernav' => $objModuleFooterNav,
+                        // ],
+                        'replace' => [
+                            'head' => [
+                                '{{config.framway.path}}' => $objItem->framway_path,
+                            ],
+                            'script' => [
+                                '{{config.googleFonts}}' => $objItem->google_fonts,
+                                '{{config.framway.path}}' => $objItem->framway_path,
+                                '{{config.analytics.system}}' => $objItem->analytics_solution,
+                                '{{config.analytics.google.id}}' => $objItem->google_id,
+                                '{{config.analytics.matomo.host}}' => $objItem->matomo_host,
+                                '{{config.analytics.matomo.id}}' => $objItem->matomo_id,
+                            ],
                         ],
                     ],
-                ],
-                    empty($objItem->contao_layout_standard) ? [] : ['id' => $objItem->contao_layout_standard]
-                )
+                    empty($objItem->contao_layout_standard) ? [] : ['id' => $objItem->contao_layout_standard],
+                ),
             );
 
             $objItem->contao_layout_standard = $objLayoutStandard->id;
@@ -336,6 +336,7 @@ class ConfigurationUtil
 
         // allow "onclick" on "<a>" tag
         $allowedAttributes = StringUtil::deserialize(Config::get('allowedAttributes'), true);
+
         foreach ($allowedAttributes as $index => $allowedAttribute) {
             if ($allowedAttribute['key'] === 'a'
             && ! str_contains((string) $allowedAttribute['value'], 'onclick')
@@ -351,7 +352,6 @@ class ConfigurationUtil
         $localConfigManager = System::getContainer()->get('smartgear.config.manager.local_config');
         /** @var LocalConfig $config */
         $config = $localConfigManager->load();
-
         $config
             ->setDateFormat('d/m/Y')
             ->setTimeFormat('H:i')

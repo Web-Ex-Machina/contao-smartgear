@@ -28,7 +28,7 @@ abstract class MigrationAbstract implements MigrationInterface
     protected string $translation_key = '';
 
     public function __construct(
-        protected TranslatorInterface $translator
+        protected TranslatorInterface $translator,
     ) {
     }
 

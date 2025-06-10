@@ -28,7 +28,7 @@ class Api
     public function __construct(
         protected ManagerJson $coreConfigurationManager,
         protected ApiKey $securityApiKey,
-        protected Token $securityToken
+        protected Token $securityToken,
     ) {
     }
 
@@ -43,6 +43,7 @@ class Api
         $fwInstallPath = null;
 
         $objSession = System::getContainer()->get('session');
+
         switch ($objSession->get('configuration_source')) {
             case 'file':
                 $fwInstallPath = 'assets/framway';
@@ -68,7 +69,7 @@ class Api
                 'installed' => $sgVersion,
                 'package' => Util::getPackageVersion(),
             ],
-            'php' => \PHP_VERSION,
+            'php' => PHP_VERSION,
             'contao' => Util::getCustomPackageVersion('contao/core-bundle'),
             'framway' => $fwPackageJSON?->version,
         ]);

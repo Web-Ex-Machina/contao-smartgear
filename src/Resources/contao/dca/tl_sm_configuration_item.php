@@ -13,12 +13,14 @@ declare(strict_types=1);
  */
 
 use Contao\DataContainer;
+use Contao\DC_Table;
+use WEM\SmartgearBundle\DataContainer\Content;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
 $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
     // Config
     'config' => [
-        'dataContainer' => \Contao\DC_Table::class,
+        'dataContainer' => DC_Table::class,
         'ptable' => 'tl_sm_configuration',
         'switchToEdit' => true,
         'enableVersioning' => true,
@@ -215,7 +217,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'eval' => ['mandatory' => false, 'includeBlankOption' => true, 'maxlength' => 255, 'tl_class' => 'w50 wizard'],
             'sql' => 'int(10) NOT NULL default 0',
             'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
-            'wizard' => [[\WEM\SmartgearBundle\DataContainer\Content::class, 'editModule']],
+            'wizard' => [[Content::class, 'editModule']],
             'reference' => &$GLOBALS['TL_LANG']['FMD'],
         ],
         'module_name' => [
@@ -235,7 +237,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'eval' => ['mandatory' => false, 'includeBlankOption' => true, 'maxlength' => 255, 'tl_class' => 'w50 wizard'],
             'sql' => 'int(10) NOT NULL default 0',
             'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
-            'wizard' => [[\WEM\SmartgearBundle\DataContainer\Content::class, 'editModule']],
+            'wizard' => [[Content::class, 'editModule']],
             'reference' => &$GLOBALS['TL_LANG']['FMD'],
         ],
         'module_reader_name' => [
@@ -255,7 +257,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'eval' => ['mandatory' => false, 'includeBlankOption' => true, 'maxlength' => 255, 'tl_class' => 'w50 wizard'],
             'sql' => 'int(10) NOT NULL default 0',
             'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
-            'wizard' => [[\WEM\SmartgearBundle\DataContainer\Content::class, 'editModule']],
+            'wizard' => [[Content::class, 'editModule']],
             'reference' => &$GLOBALS['TL_LANG']['FMD'],
         ],
         'module_list_name' => [
@@ -282,7 +284,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration_item'] = [
             'eval' => ['mandatory' => false, 'includeBlankOption' => true, 'maxlength' => 255, 'tl_class' => 'w50 wizard'],
             'sql' => 'int(10) NOT NULL default 0',
             'relation' => ['type' => 'belongsTo', 'load' => 'lazy', 'field' => 'id'],
-            'wizard' => [[\WEM\SmartgearBundle\DataContainer\Content::class, 'editModule']],
+            'wizard' => [[Content::class, 'editModule']],
             'reference' => &$GLOBALS['TL_LANG']['FMD'],
         ],
         'module_calendar_name' => [

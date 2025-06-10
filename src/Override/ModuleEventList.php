@@ -86,6 +86,7 @@ class ModuleEventList extends \Contao\ModuleEventlist
             'label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['location'],
             'options' => [],
         ];
+
         foreach ($locations as $location) {
             $this->filters['select']['location']['options'][] = ['value' => $location, 'label' => $location];
         }

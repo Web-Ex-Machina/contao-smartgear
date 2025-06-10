@@ -17,7 +17,7 @@ return [
     'contentCategory' => 'accordion', 'standardFields' => ['cssID'],
     'fields' => [
         // Items
-         'items' => [
+        'items' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_accordion']['items_legend'],
             'elementLabel' => &$GLOBALS['TL_LANG']['tl_content']['rsce_accordion']['item_legend'],
             'inputType' => 'list', 'fields' => [

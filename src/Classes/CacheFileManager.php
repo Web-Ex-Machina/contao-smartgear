@@ -18,7 +18,7 @@ class CacheFileManager
 {
     public function __construct(
         protected string $path,
-        protected int $validityInSeconds
+        protected int $validityInSeconds,
     ) {
     }
 

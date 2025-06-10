@@ -30,7 +30,7 @@ use WEM\SmartgearBundle\Security\SmartgearPermissions;
 class SocialNetworkCategory extends Backend
 {
     public function __construct(
-        private readonly TranslatorInterface $translator
+        private readonly TranslatorInterface $translator,
     ) {
         parent::__construct();
         $this->import(BackendUser::class, 'User');

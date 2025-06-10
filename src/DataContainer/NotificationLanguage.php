@@ -26,7 +26,7 @@ class NotificationLanguage extends Backend
     public function __construct()
     {
         $this->import(BackendUser::class, 'User');
-        Parent::__construct();
+        parent::__construct();
     }
 
     /**

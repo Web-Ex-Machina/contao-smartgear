@@ -23,7 +23,7 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
     public function __construct(
         TranslatorInterface $translator,
         protected ConfigInterface $configuration,
-        protected ?string $configurationFilePath
+        protected ?string $configurationFilePath,
     ) {
         parent::__construct($translator);
     }
@@ -65,16 +65,18 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
     {
         $backupFilePath = $this->configurationFilePath . '_' . date('Ymd_His');
         $this->load();
+
         return $this->file_force_contents($backupFilePath, $this->configuration->export()) ? $backupFilePath : false;
     }
 
     /**
      * Retrieve the configuration from the file, but as an importable format.
+     *
      * @throws \JsonException|NotFound
      */
     public function retrieveConfigurationAsImportableFormatFromFile(): \stdClass
     {
-        return json_decode($this->retrieveConfigurationFromFile(), false, 512, \JSON_THROW_ON_ERROR);
+        return json_decode($this->retrieveConfigurationFromFile(), false, 512, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -88,6 +90,7 @@ class ManagerJson extends AbstractManager implements ManagerJsonInterface
         $parts = explode('/', $filepath);
         $file = array_pop($parts);
         $dir = '';
+
         foreach ($parts as $part) {
             if ($part !== '.') {
                 if (! is_dir($dir .= '/' . $part)) {

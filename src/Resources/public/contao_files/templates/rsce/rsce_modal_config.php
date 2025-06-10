@@ -12,6 +12,8 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+use Contao\Config;
+
 return [
     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal'],
     'contentCategory' => 'links',
@@ -85,7 +87,7 @@ return [
         ],
         'singleSRC' => [
             'inputType' => 'standardField',
-            'eval' => ['mandatory' => false, 'extensions' => \Contao\Config::get('validImageTypes'), 'tl_class' => 'clr'],
+            'eval' => ['mandatory' => false, 'extensions' => Config::get('validImageTypes'), 'tl_class' => 'clr'],
             'dependsOn' => [
                 'field' => 'content_type',
                 'value' => 'picture',

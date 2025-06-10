@@ -27,7 +27,7 @@ class ProcessFormDataListener
         protected TranslatorInterface $translator,
         protected readonly ScopeMatcher $scopeMatcher,
         protected CoreConfigurationManager $configurationManager,
-        protected array $listeners
+        protected array $listeners,
     ) {
     }
 
@@ -36,10 +36,10 @@ class ProcessFormDataListener
         array $formData,
         ?array $files,
         array $labels,
-        Form $form
+        Form $form,
     ): void {
         if (! $this->scopeMatcher->isFrontend()) {
-            exit();
+            exit;
         }
 
         $this->applyListeners($submittedData, $formData, $files, $labels, $form);
@@ -50,10 +50,10 @@ class ProcessFormDataListener
         array $formData,
         ?array $files,
         array $labels,
-        Form $form
+        Form $form,
     ): void {
         foreach ($this->listeners as $listener) {
-            $listener->__invoke($submittedData, $formData, $files, $labels, $form);
+            $listener($submittedData, $formData, $files, $labels, $form);
         }
     }
 }

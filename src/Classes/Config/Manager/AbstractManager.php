@@ -22,12 +22,13 @@ abstract class AbstractManager implements ManagerInterface
     protected ?string $configurationFilePath = null;
 
     public function __construct(
-        protected TranslatorInterface $translator
+        protected TranslatorInterface $translator,
     ) {
     }
 
     /**
      * Retrieve content from configuration file.
+     *
      * @throws FileNotFoundException
      */
     protected function retrieveConfigurationFromFile(): string

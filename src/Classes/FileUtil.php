@@ -26,6 +26,7 @@ class FileUtil
     public static function isDisplayableInBrowser(File $objFile): bool
     {
         $mime = strtolower($objFile->mime);
+
         return str_starts_with($mime, 'image/') || $mime === 'application/pdf';
     }
 }

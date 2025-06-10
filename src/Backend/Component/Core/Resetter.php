@@ -54,7 +54,7 @@ class Resetter extends BackendResetter
         string $type,
         protected array $templatesDirs,
         protected array $componentsResetters,
-        protected array $modulesResetters
+        protected array $modulesResetters,
     ) {
         parent::__construct($configurationManager, $translator, $module, $type);
     }
@@ -132,6 +132,7 @@ class Resetter extends BackendResetter
         $config = $this->configurationManager->load();
         // mark all modules & components as uninstalled
         $submodulesConfig = $config->getSubmodulesConfigs();
+
         foreach ($submodulesConfig as $key => $submoduleConfig) {
             $submoduleConfig
                 ->setSgInstallComplete(false)

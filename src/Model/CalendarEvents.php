@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Model;
 
+use Contao\Database;
 use WEM\UtilsBundle\Model\Model as CoreModel;
 
 /**
@@ -24,7 +25,7 @@ class CalendarEvents extends CoreModel
     /**
      * Search fields.
      */
-    public static array $arrSearchFields = [];
+    public static $arrSearchFields = [];
 
     /**
      * Table name.
@@ -48,9 +49,10 @@ class CalendarEvents extends CoreModel
             self::getTable(),
             implode(',', $calendars),
             $date->getTimestamp(),
-            $date->getTimestamp()
+            $date->getTimestamp(),
         );
-        $objResults = \Contao\Database::getInstance()->prepare($sql)->execute();
+        $objResults = Database::getInstance()->prepare($sql)->execute();
+
         while ($objResults->next()) {
             $items[] = $objResults->location;
         }

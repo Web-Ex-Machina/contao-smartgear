@@ -20,7 +20,7 @@ use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationM
 class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
 {
     public function __construct(
-        protected CoreConfigurationManager $coreConfigurationManager
+        protected CoreConfigurationManager $coreConfigurationManager,
     ) {
     }
 
@@ -48,7 +48,7 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
         array $tags,
         array $cache,
         int $_rit,
-        int $_cnt
+        int $_cnt,
     ): false|string {
         return static::NOT_HANDLED;
     }

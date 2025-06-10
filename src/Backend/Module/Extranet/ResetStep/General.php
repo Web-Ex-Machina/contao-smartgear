@@ -30,7 +30,7 @@ class General extends AbstractStep
         string $type,
         protected TranslatorInterface $translator,
         protected ConfigurationManager $configurationManager,
-        protected Resetter $resetter
+        protected Resetter $resetter,
     ) {
         parent::__construct($module, $type);
 

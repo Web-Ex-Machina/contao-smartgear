@@ -12,10 +12,9 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-/*
- * Register the templates.
- */
-Contao\TemplateLoader::addFiles(
+use Contao\TemplateLoader;
+
+TemplateLoader::addFiles(
     [
         // Backend Templates
         'be_wem_sg_install' => 'system/modules/wem-contao-smartgear/templates/backend',
@@ -29,5 +28,5 @@ Contao\TemplateLoader::addFiles(
         // Backend Modals
         'be_wem_sg_install_modal_core_configure' => 'system/modules/wem-contao-smartgear/templates/backend/modals',
         'be_wem_sg_install_modal_blog_configure' => 'system/modules/wem-contao-smartgear/templates/backend/modals',
-    ]
+    ],
 );

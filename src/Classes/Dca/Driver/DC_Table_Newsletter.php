@@ -15,8 +15,9 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Classes\Dca\Driver;
 
 use Contao\DataContainer;
+use Contao\DC_Table;
 
-class DC_Table_Newsletter extends \Contao\DC_Table
+class DC_Table_Newsletter extends DC_Table
 {
     public function showAll(): string
     {

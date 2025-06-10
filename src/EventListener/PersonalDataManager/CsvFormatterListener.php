@@ -24,7 +24,7 @@ use WEM\SmartgearBundle\Model\FormStorageData;
 class CsvFormatterListener
 {
     public function __construct(
-        protected TranslatorInterface $translator
+        protected TranslatorInterface $translator,
     ) {
     }
 
@@ -32,6 +32,7 @@ class CsvFormatterListener
     {
         if ($personalData->ptable === FormStorageData::getTable()) {
             $objFormStorageData = FormStorageData::findById($personalData->pid);
+
             return [
                 FormStorage::getTable(),
                 $personalData->email,

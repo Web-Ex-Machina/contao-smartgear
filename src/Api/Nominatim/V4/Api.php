@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Api\Nominatim\V4;
 
+use Contao\Environment;
 use WEM\SmartgearBundle\Api\Nominatim\V4\Model\Mapper\StdClassToSearchResponse as StdClassToSearchResponseMapper;
 use WEM\SmartgearBundle\Api\Nominatim\V4\Model\SearchResponse;
 use WEM\SmartgearBundle\Exceptions\Api\ResponseContentException;
@@ -27,7 +28,7 @@ class Api
     public const BASE_URL = 'https://nominatim.openstreetmap.org/';
 
     public function __construct(
-        protected StdClassToSearchResponseMapper $stdClassToSearchResponseMapper
+        protected StdClassToSearchResponseMapper $stdClassToSearchResponseMapper,
     ) {
     }
 
@@ -42,10 +43,9 @@ class Api
         return $apiResponse !== null
         ? $this->stdClassToSearchResponseMapper->map(
             $apiResponse,
-            new SearchResponse()
+            new SearchResponse(),
         )
-        : new SearchResponse()
-        ;
+        : new SearchResponse();
     }
 
     /**
@@ -63,13 +63,13 @@ class Api
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_USERAGENT, 'webexmachina/1.0 +' . \Contao\Environment::get('base'));
+        curl_setopt($curl, CURLOPT_USERAGENT, 'webexmachina/1.0 +' . Environment::get('base'));
         sleep(1);
         $jsonRaw = curl_exec($curl);
         curl_close($curl);
         $json = json_decode($jsonRaw);
 
-        if (json_last_error() !== \JSON_ERROR_NONE) {
+        if (json_last_error() !== JSON_ERROR_NONE) {
             throw new ResponseSyntaxException(json_last_error_msg());
         }
 

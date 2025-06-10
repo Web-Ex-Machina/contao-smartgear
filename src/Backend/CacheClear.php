@@ -23,8 +23,6 @@ use WEM\SmartgearBundle\Classes\Command\Util as CommandUtil;
 
 /**
  * Back end module "smartgear".
- *
- * @author Web ex Machina <https://www.webexmachina.fr>
  */
 class CacheClear extends BackendModule
 {

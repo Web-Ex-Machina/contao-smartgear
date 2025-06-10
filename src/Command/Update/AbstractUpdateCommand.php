@@ -22,7 +22,7 @@ class AbstractUpdateCommand extends AbstractCommand
 {
     public function __construct(
         protected UpdateManager $updateManager,
-        ContaoFramework $framework
+        ContaoFramework $framework,
     ) {
         parent::__construct($framework);
 

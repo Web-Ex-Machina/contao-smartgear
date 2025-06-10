@@ -14,10 +14,12 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Faq\EventListener;
 
+use Contao\DataContainer;
 use Symfony\Bundle\SecurityBundle\Security;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\DataContainer\Content;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class LoadDataContainerListener
@@ -27,7 +29,7 @@ class LoadDataContainerListener
     public function __construct(
         protected Security $security,
         protected CoreConfigurationManager $coreConfigurationManager,
-        protected DCAManipulator $dcaManipulator
+        protected DCAManipulator $dcaManipulator,
     ) {
     }
 
@@ -44,11 +46,11 @@ class LoadDataContainerListener
                 // }
                 // // limiting singleSRC fierld to the blog folder
                 // $this->dcaManipulator->setFieldSingleSRCPath($faqConfig->getSgFaqFolder());
-                $this->dcaManipulator->addFieldSaveCallback('question', static fn ($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
-                $this->dcaManipulator->addFieldSaveCallback('description', static fn ($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
+                $this->dcaManipulator->addFieldSaveCallback('question', static fn ($varValue, DataContainer $objDc): string => (new Content())->cleanHeadline($varValue, $objDc));
+                $this->dcaManipulator->addFieldSaveCallback('description', static fn ($varValue, DataContainer $objDc) => (new Content())->cleanText($varValue, $objDc));
             }
         } catch (FileNotFoundException) {
-            //nothing
+            // nothing
         }
     }
 

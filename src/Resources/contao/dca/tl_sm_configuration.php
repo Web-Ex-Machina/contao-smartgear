@@ -13,6 +13,7 @@ declare(strict_types=1);
  */
 
 use Contao\DataContainer;
+use Contao\DC_Table;
 use Contao\System;
 use WEM\SmartgearBundle\Model\Configuration\Configuration;
 use WEM\UtilsBundle\Classes\CountriesUtil;
@@ -20,7 +21,7 @@ use WEM\UtilsBundle\Classes\CountriesUtil;
 $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
     // Config
     'config' => [
-        'dataContainer' => \Contao\DC_Table::class,
+        'dataContainer' => DC_Table::class,
         'ctable' => ['tl_sm_configuration_item'],
         'switchToEdit' => true,
         'enableVersioning' => true,
@@ -325,7 +326,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             'default' => 'fr',
             'inputType' => 'select',
             'options_callback' => static fn (): ?array => CountriesUtil::getCountries(),
-            'eval' => ['mandatory' => false,  'chosen' => true, 'tl_class' => 'w50'],
+            'eval' => ['mandatory' => false, 'chosen' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
 
@@ -370,7 +371,7 @@ $GLOBALS['TL_DCA']['tl_sm_configuration'] = [
             'default' => 'fr',
             'inputType' => 'select',
             'options_callback' => static fn (): ?array => CountriesUtil::getCountries(),
-            'eval' => ['mandatory' => false,  'chosen' => true, 'tl_class' => 'w50'],
+            'eval' => ['mandatory' => false, 'chosen' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
         'contao_theme' => [

@@ -25,7 +25,7 @@ class BackendMenuBuildListener
 {
     public function __construct(
         protected TranslatorInterface $translator,
-        protected CoreConfigurationManager $coreConfigurationManager
+        protected CoreConfigurationManager $coreConfigurationManager,
     ) {
     }
 

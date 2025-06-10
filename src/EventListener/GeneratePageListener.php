@@ -18,6 +18,7 @@ use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Environment;
 use Contao\Input;
 use Contao\LayoutModel;
+use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\PageRegular;
 use Contao\System;
@@ -37,7 +38,7 @@ class GeneratePageListener
     public function __construct(
         protected CoreConfigurationManager $configurationManager,
         protected readonly ScopeMatcher $scopeMatcher,
-        protected CustomLanguageFileLoader $customLanguageFileLoader
+        protected CustomLanguageFileLoader $customLanguageFileLoader,
     ) {
     }
 
@@ -78,7 +79,7 @@ class GeneratePageListener
         $objModule = null;
         if ($firstItemAfterBreadcrumb) {
             if ($firstItemAfterBreadcrumb['model']->type === 'module') {
-                $objModule = \Contao\ModuleModel::findById($firstItemAfterBreadcrumb['model']->module);
+                $objModule = ModuleModel::findById($firstItemAfterBreadcrumb['model']->module);
             }
         }
 
@@ -88,8 +89,7 @@ class GeneratePageListener
                 \in_array($firstItemAfterBreadcrumb['model']->type, $breadcrumbItemsToPlaceAfterContentElements, true)
                 || (
                     $objModule
-                    &&
-                    \in_array($objModule->type, $breadcrumbItemsToPlaceAfterModules, true)
+                    && \in_array($objModule->type, $breadcrumbItemsToPlaceAfterModules, true)
                 )
             )
         ) {
@@ -171,7 +171,7 @@ class GeneratePageListener
     }
 
     /**
-     * Detect crawlers
+     * Detect crawlers.
      */
     protected function isRobot(): bool
     {

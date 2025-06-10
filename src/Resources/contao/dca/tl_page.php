@@ -15,6 +15,7 @@ declare(strict_types=1);
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\DcaLoader;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
+use WEM\SmartgearBundle\DataContainer\Core;
 
 (new DcaLoader('tl_page'))->load();
 
@@ -48,8 +49,8 @@ DCAManipulator::create('tl_page')
         'eval' => ['rgxp' => 'datim', 'datepicker' => true, 'tl_class' => 'w50', 'readonly' => true],
         'sql' => "int(10) unsigned NOT NULL default '0'",
     ])
-    ->addConfigOnsubmitCallback(\WEM\SmartgearBundle\DataContainer\Core::class, 'updateReminder')
-    ->addConfigOnloadCallback(\WEM\SmartgearBundle\DataContainer\Core::class, 'displayReminderMessage')
+    ->addConfigOnsubmitCallback(Core::class, 'updateReminder')
+    ->addConfigOnloadCallback(Core::class, 'displayReminderMessage')
 ;
 
 foreach ($GLOBALS['TL_DCA']['tl_page']['palettes'] as $paletteName => $paletteConfig) {

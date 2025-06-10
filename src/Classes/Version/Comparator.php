@@ -23,7 +23,7 @@ class Comparator
     public const CURRENT_VERSION_LOWER = 1;
 
     /**
-     * Compare  2 versions.
+     * Compare 2 versions.
      *
      * example : (new Comparator())->compare((new Version())->fromString('1.0.0'), (new Version())->fromString('1.2.3'))
      *

@@ -17,6 +17,7 @@ namespace WEM\SmartgearBundle\Backend\Module\Extranet;
 use Contao\ArticleModel;
 use Contao\ContentModel;
 use Contao\FilesModel;
+use Contao\Folder;
 use Contao\MemberGroupModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
@@ -52,7 +53,7 @@ class Resetter extends BackendResetter
         ConfigurationManager $configurationManager,
         TranslatorInterface $translator,
         string $module,
-        string $type
+        string $type,
     ) {
         parent::__construct($configurationManager, $translator, $module, $type);
     }
@@ -96,7 +97,7 @@ class Resetter extends BackendResetter
 
     protected function archiveModeArchive(ExtranetConfig $extranetConfig, int $archiveTimestamp): ExtranetConfig
     {
-        $objFolder = new \Contao\Folder($extranetConfig->getSgExtranetFolder());
+        $objFolder = new Folder($extranetConfig->getSgExtranetFolder());
         if ($objFolder) {
             $objFolder->renameTo(sprintf('files/archives/extranet-%s', (string) $archiveTimestamp));
         }
@@ -305,7 +306,7 @@ class Resetter extends BackendResetter
      */
     protected function archiveModeDelete(ExtranetConfig $extranetConfig): ExtranetConfig
     {
-        $objFolder = new \Contao\Folder($extranetConfig->getSgExtranetFolder());
+        $objFolder = new Folder($extranetConfig->getSgExtranetFolder());
         if ($objFolder) {
             $objFolder->delete();
         }

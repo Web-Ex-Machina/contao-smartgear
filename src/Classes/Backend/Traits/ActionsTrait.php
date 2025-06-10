@@ -50,10 +50,10 @@ trait ActionsTrait
 
                         $arrActions[] = sprintf(
                             '<%s %s>%s</%s>',
-                            ($action['tag']) ?: 'button',
-                            ($arrAttributes !== []) ? implode(' ', $arrAttributes) : '',
-                            ($action['text']) ?: 'text missing',
-                            ($action['tag']) ?: 'button'
+                            $action['tag'] ?: 'button',
+                            $arrAttributes !== [] ? implode(' ', $arrAttributes) : '',
+                            $action['text'] ?: 'text missing',
+                            $action['tag'] ?: 'button',
                         );
                         break;
                     default:
@@ -61,7 +61,7 @@ trait ActionsTrait
                             '<button type="submit" name="action" value="%s" class="tl_submit" %s>%s</button>',
                             $action['action'],
                             $action['attributes'] ?? '',
-                            $action['label']
+                            $action['label'],
                         );
                 }
             }

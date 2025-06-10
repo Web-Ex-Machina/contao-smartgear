@@ -32,7 +32,7 @@ class InteractiveLoginListener
      */
     public function __construct(
         protected ConfigurationManager $configurationManager,
-        protected ScopeMatcher $scopeMatcher
+        protected ScopeMatcher $scopeMatcher,
     ) {
     }
 

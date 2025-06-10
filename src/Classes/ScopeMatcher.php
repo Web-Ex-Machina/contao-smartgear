@@ -22,12 +22,12 @@ readonly class ScopeMatcher
     /**
      * I use FQDN because PHP doesn't care about the "use".
      *
-     * @param RequestStack $requestStack [description]
+     * @param RequestStack     $requestStack [description]
      * @param ScopeMatcherBase $scopeMatcher [description]
      */
     public function __construct(
         private RequestStack $requestStack,
-        private ScopeMatcherBase $scopeMatcher
+        private ScopeMatcherBase $scopeMatcher,
     ) {
     }
 

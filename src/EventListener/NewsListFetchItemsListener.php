@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\EventListener;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
+use Contao\Module;
 use Contao\NewsModel;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\UtilsBundle\Classes\ScopeMatcher;
@@ -23,14 +24,14 @@ use WEM\UtilsBundle\Classes\ScopeMatcher;
 class NewsListFetchItemsListener
 {
     public function __construct(
-        protected readonly ScopeMatcher $scopeMatcher
+        protected readonly ScopeMatcher $scopeMatcher,
     ) {
     }
 
-    public function __invoke(array $newsArchives, ?bool $featuredOnly, int $limit, int $offset, \Contao\Module $module)
+    public function __invoke(array $newsArchives, ?bool $featuredOnly, int $limit, int $offset, Module $module)
     {
         if (! $this->scopeMatcher->isFrontend()) {
-            exit();
+            exit;
         }
 
         $searchConfig = $module->getConfig();
@@ -51,16 +52,16 @@ class NewsListFetchItemsListener
             if (\array_key_exists('date', $searchConfig) && ! empty($searchConfig['date'])
             && (
                 (\array_key_exists('year', $searchConfig['date']) && ! empty($searchConfig['date']['year']))
-                ||
-                \array_key_exists('month', $searchConfig['date']) && ! empty($searchConfig['date']['month'])
+                || \array_key_exists('month', $searchConfig['date']) && ! empty($searchConfig['date']['month'])
             )
             ) {
                 $timestampsDuo = Util::getTimestampsFromDateConfig(
                     \array_key_exists('year', $searchConfig['date']) && ! empty($searchConfig['date']['year']) ? (int) $searchConfig['date']['year'] : null,
                     \array_key_exists('month', $searchConfig['date']) && ! empty($searchConfig['date']['month']) ? (int) $searchConfig['date']['month'] : null,
-                    null
+                    null,
                 );
                 $colConfig = [];
+
                 foreach ($timestampsDuo as $duo) {
                     $colConfig[] = 'date >= ? AND date <= ?';
                     $val[] = $duo[0];

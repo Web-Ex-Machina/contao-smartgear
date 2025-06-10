@@ -40,10 +40,11 @@ class FramwayConfiguration extends ConfigurationStep
         protected DirectoriesSynchronizer $tarteAuCitronSynchronizer,
         protected DirectoriesSynchronizer $outdatedBrowserSynchronizer,
         protected DirectoriesSynchronizer $socialShareButtonsSynchronizer,
-        protected UtilFramway $framwayUtil
+        protected UtilFramway $framwayUtil,
     ) {
         parent::__construct($module, $type);
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYCONFIGURATION']['Title'];
+
         try {
             /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
@@ -51,11 +52,13 @@ class FramwayConfiguration extends ConfigurationStep
             $framwayConfig = $this->configurationManagerFramway->load();
 
             $themesOptions = [];
+
             foreach ($framwayConfig->getThemesAvailables() as $theme) {
                 $themesOptions[] = ['value' => $theme, 'label' => $theme];
             }
 
             $componentsOptions = [];
+
             foreach ($framwayConfig->getComponentsAvailables() as $component) {
                 $componentsOptions[] = ['value' => $component, 'label' => $component];
             }

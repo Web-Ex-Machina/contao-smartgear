@@ -53,6 +53,7 @@ class UserGroup extends Backend
      * Check if the user group is being used by Smartgear.
      *
      * @param int $id user group's ID
+     *
      * @throws \Exception
      */
     protected function isItemUsedBySmartgear(int $id): bool

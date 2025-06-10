@@ -601,7 +601,7 @@ class Extranet implements ConfigModuleInterface
     public function getContaoModulesIds(): array
     {
         if (! $this->getSgInstallComplete()
-        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        && \in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true)
         ) {
             return [];
         }
@@ -624,7 +624,7 @@ class Extranet implements ConfigModuleInterface
     public function getContaoPagesIds(): array
     {
         if (! $this->getSgInstallComplete()
-        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        && \in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true)
         ) {
             return [];
         }
@@ -654,7 +654,7 @@ class Extranet implements ConfigModuleInterface
     public function getContaoContentsIds(): array
     {
         if (! $this->getSgInstallComplete()
-        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        && \in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true)
         ) {
             return [];
         }
@@ -711,7 +711,7 @@ class Extranet implements ConfigModuleInterface
     public function getContaoArticlesIds(): array
     {
         if (! $this->getSgInstallComplete()
-        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        && \in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true)
         ) {
             return [];
         }
@@ -741,7 +741,7 @@ class Extranet implements ConfigModuleInterface
     public function getContaoFoldersIds(): array
     {
         if (! $this->getSgInstallComplete()
-        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        && \in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true)
         ) {
             return [];
         }
@@ -762,7 +762,7 @@ class Extranet implements ConfigModuleInterface
     public function getContaoMembersIds(): array
     {
         if (! $this->getSgInstallComplete()
-        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        && \in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true)
         ) {
             return [];
         }
@@ -773,7 +773,7 @@ class Extranet implements ConfigModuleInterface
     public function getContaoMemberGroupsIds(): array
     {
         if (! $this->getSgInstallComplete()
-        && (\in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true))
+        && \in_array($this->getSgArchivedMode(), [self::ARCHIVE_MODE_EMPTY, self::ARCHIVE_MODE_DELETE], true)
         ) {
             return [];
         }

@@ -69,6 +69,7 @@ class BackupCreateCommand extends AbstractBackupCommand
     private function formatForTable(CreateResult $result): array
     {
         $formatted = [];
+
         foreach ($result->getFilesInError() as $filepath) {
             $formatted[] = [$filepath, 'not backuped'];
         }

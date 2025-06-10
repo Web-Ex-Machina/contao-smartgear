@@ -26,7 +26,7 @@ class TicketCreationNotificationType implements NotificationTypeInterface
     public const NAME = 'ticket_creation';
 
     public function __construct(
-        private readonly TokenDefinitionFactoryInterface $factory
+        private readonly TokenDefinitionFactoryInterface $factory,
     ) {
     }
 
@@ -50,14 +50,14 @@ class TicketCreationNotificationType implements NotificationTypeInterface
         ];
     }
 
-    //$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['smartgear']['ticket_creation'] = [
-    //'email_sender_name' => ['email_sender_name'],
-    //'email_sender_address' => ['sg_owner_email'],
-    //'email_subject' => ['ticket_subject', 'sg_title'],
-    //'recipients' => ['support_email', 'sg_owner_email'],
-    //'email_text' => ['ticket_*', 'sg_owner_name'],
-    //'email_html' => ['ticket_*', 'sg_owner_name'],
-    //'email_replyTo' => ['sg_owner_email'],
-    //'attachment_tokens' => ['ticket_file'],
-    //];
+    // $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['smartgear']['ticket_creation'] = [
+    // 'email_sender_name' => ['email_sender_name'],
+    // 'email_sender_address' => ['sg_owner_email'],
+    // 'email_subject' => ['ticket_subject', 'sg_title'],
+    // 'recipients' => ['support_email', 'sg_owner_email'],
+    // 'email_text' => ['ticket_*', 'sg_owner_name'],
+    // 'email_html' => ['ticket_*', 'sg_owner_name'],
+    // 'email_replyTo' => ['sg_owner_email'],
+    // 'attachment_tokens' => ['ticket_file'],
+    // ];
 }

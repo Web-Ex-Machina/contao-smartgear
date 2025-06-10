@@ -12,6 +12,11 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+use Contao\BackendUser;
+use Contao\Config;
+use Contao\System;
+use WEM\SmartgearBundle\Classes\Util;
+
 return [
     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_slider'], 'contentCategory' => 'slider', 'standardFields' => ['cssID'], 'fields' => [
         // Items
@@ -30,7 +35,7 @@ return [
                         'fieldType' => 'radio',
                         'isGallery' => true,
                         // 'isSortable' => true, // doesn't work
-                        'extensions' => \Contao\Config::get('validImageTypes'),
+                        'extensions' => Config::get('validImageTypes'),
                     ],
                 ],
                 'img_size' => [
@@ -38,7 +43,7 @@ return [
                     'inputType' => 'imageSize',
                     'reference' => &$GLOBALS['TL_LANG']['MSC'],
                     'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50 clr'],
-                    'options_callback' => static fn () => \Contao\System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(\Contao\BackendUser::getInstance()),
+                    'options_callback' => static fn () => System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance()),
                 ],
                 'img_alt' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['alt'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
@@ -91,7 +96,7 @@ return [
                 'overlay_background' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['overlay_background'],
                     'inputType' => 'select',
-                    'options_callback' => static fn ($dc): string|array|false => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id),
+                    'options_callback' => static fn ($dc): string|array|false => Util::getSmartgearColors($dc->table, (int) $dc->id),
                     'eval' => ['tl_class' => 'w50 clr', 'includeBlankOption' => true],
                 ],
                 'overlay_opacity' => [
@@ -171,7 +176,7 @@ return [
                 'content_fontcolor' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_slider']['content_fontcolor'],
                     'inputType' => 'select',
-                    'options_callback' => static fn ($dc): string|array|false => \WEM\SmartgearBundle\Classes\Util::getSmartgearColors($dc->table, (int) $dc->id),
+                    'options_callback' => static fn ($dc): string|array|false => Util::getSmartgearColors($dc->table, (int) $dc->id),
                     'eval' => ['tl_class' => 'w50 clr', 'includeBlankOption' => true],
                 ],
 

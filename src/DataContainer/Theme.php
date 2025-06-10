@@ -58,6 +58,7 @@ class Theme extends Backend
      * Check if the theme is being used by Smartgear.
      *
      * @param int $id theme's ID
+     *
      * @throws \Exception
      */
     protected function isItemUsedBySmartgear(int $id): bool

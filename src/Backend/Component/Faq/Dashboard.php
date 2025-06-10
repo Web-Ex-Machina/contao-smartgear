@@ -33,7 +33,7 @@ class Dashboard extends BackendDashboard
         ConfigurationManager $configurationManager,
         TranslatorInterface $translator,
         string $module,
-        string $type
+        string $type,
     ) {
         parent::__construct($configurationManager, $translator, $module, $contaoCsrfTokenManager, $type);
     }

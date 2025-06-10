@@ -15,9 +15,11 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\DataContainer;
 
 use Contao\Backend;
+use Contao\BackendUser;
 use Contao\CoreBundle\DataContainer\DataContainerOperation;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Input;
+use Contao\Message;
 use Exception;
 use WEM\SmartgearBundle\Classes\Util;
 
@@ -31,14 +33,15 @@ class Files extends Backend
     public function uploadWarningMessage(): void
     {
         $strText = '';
+
         try {
-            $strText = Util::getLocalizedTemplateContent('{public_or_web}/bundles/wemsmartgear/backend/tl_files/{lang}/upload_warning.html5', \Contao\BackendUser::getInstance()->language, '{public_or_web}/bundles/wemsmartgear/backend/tl_files/fr/upload_warning.html5');
+            $strText = Util::getLocalizedTemplateContent('{public_or_web}/bundles/wemsmartgear/backend/tl_files/{lang}/upload_warning.html5', BackendUser::getInstance()->language, '{public_or_web}/bundles/wemsmartgear/backend/tl_files/fr/upload_warning.html5');
         } catch (Exception) {
             // do nothing
         }
 
         if ($strText !== '' && $strText !== '0') {
-            \Contao\Message::addInfo($strText);
+            Message::addInfo($strText);
         }
     }
 

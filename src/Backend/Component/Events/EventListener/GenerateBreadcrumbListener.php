@@ -20,14 +20,12 @@ use Contao\Input;
 use Contao\Model\Collection;
 use Contao\Module;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
-use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
 class GenerateBreadcrumbListener
 {
     public function __construct(
-        protected CoreConfigurationManager $coreConfigurationManager
+        protected CoreConfigurationManager $coreConfigurationManager,
     ) {
     }
 

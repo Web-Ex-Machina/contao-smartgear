@@ -25,14 +25,14 @@ use WEM\UtilsBundle\Classes\ScopeMatcher;
 class WidgetComponentStyleSelectGetStyleManagerArchiveModelCollectionListener
 {
     public function __construct(
-        protected readonly ScopeMatcher $scopeMatcher
+        protected readonly ScopeMatcher $scopeMatcher,
     ) {
     }
 
     public function __invoke($collection, ComponentStyleSelect $widget)
     {
         if (! $this->scopeMatcher->isBackend()) {
-            exit();
+            exit;
         }
 
         /** @todo : retrieve in function of SG install */

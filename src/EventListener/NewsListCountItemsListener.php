@@ -24,14 +24,14 @@ use WEM\UtilsBundle\Classes\ScopeMatcher;
 class NewsListCountItemsListener
 {
     public function __construct(
-        protected readonly ScopeMatcher $scopeMatcher
+        protected readonly ScopeMatcher $scopeMatcher,
     ) {
     }
 
     public function __invoke(array $newsArchives, ?bool $featuredOnly, Module $module)
     {
         if (! $this->scopeMatcher->isFrontend()) {
-            exit();
+            exit;
         }
 
         $searchConfig = $module->getConfig();
@@ -52,16 +52,16 @@ class NewsListCountItemsListener
             if (\array_key_exists('date', $searchConfig) && ! empty($searchConfig['date'])
             && (
                 (\array_key_exists('year', $searchConfig['date']) && ! empty($searchConfig['date']['year']))
-                ||
-                \array_key_exists('month', $searchConfig['date']) && ! empty($searchConfig['date']['month'])
+                || \array_key_exists('month', $searchConfig['date']) && ! empty($searchConfig['date']['month'])
             )
             ) {
                 $timestampsDuo = Util::getTimestampsFromDateConfig(
                     \array_key_exists('year', $searchConfig['date']) && ! empty($searchConfig['date']['year']) ? (int) $searchConfig['date']['year'] : null,
                     \array_key_exists('month', $searchConfig['date']) && ! empty($searchConfig['date']['month']) ? (int) $searchConfig['date']['month'] : null,
-                    null
+                    null,
                 );
                 $colConfig = [];
+
                 foreach ($timestampsDuo as $duo) {
                     $colConfig[] = 'date >= ? AND date <= ?';
                     $val[] = $duo[0];

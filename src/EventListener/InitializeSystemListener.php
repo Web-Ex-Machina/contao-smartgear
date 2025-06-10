@@ -26,7 +26,7 @@ class InitializeSystemListener
 {
     public function __construct(
         protected CoreConfigurationManager $configurationManager,
-        protected TemplateFinder $templateFinder
+        protected TemplateFinder $templateFinder,
     ) {
     }
 

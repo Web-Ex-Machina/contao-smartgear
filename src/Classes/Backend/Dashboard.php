@@ -40,7 +40,7 @@ class Dashboard
         protected TranslatorInterface $translator,
         protected string $module,
         protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
-        protected string $type
+        protected string $type,
     ) {
         // Init session
         $this->objSession = System::getContainer()->get('session');

@@ -29,6 +29,7 @@ class ModuleLogin extends \Contao\ModuleLogin
 
     /**
      * Generate the module.
+     *
      * @throws \Exception
      */
     protected function compile(): void

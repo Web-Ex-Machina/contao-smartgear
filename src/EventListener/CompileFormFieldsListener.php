@@ -27,17 +27,17 @@ class CompileFormFieldsListener
         protected TranslatorInterface $translator,
         protected CoreConfigurationManager $configurationManager,
         protected readonly ScopeMatcher $scopeMatcher,
-        protected array $listeners
+        protected array $listeners,
     ) {
     }
 
     public function __invoke(
         array $arrFields,
         string $formId,
-        Form $form
+        Form $form,
     ): array {
         if (! $this->scopeMatcher->isFrontend()) {
-            exit();
+            exit;
         }
 
         return $this->applyListeners($arrFields, $formId, $form);
@@ -46,10 +46,10 @@ class CompileFormFieldsListener
     protected function applyListeners(
         array $arrFields,
         string $formId,
-        Form $form
+        Form $form,
     ): array {
         foreach ($this->listeners as $listener) {
-            $arrFields = $listener->__invoke($arrFields, $formId, $form);
+            $arrFields = $listener($arrFields, $formId, $form);
         }
 
         return $arrFields;

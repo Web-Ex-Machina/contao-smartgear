@@ -18,7 +18,7 @@ use WEM\SmartgearBundle\Api\Nominatim\V4\Model\SearchResponse;
 
 class StdClassToSearchResponse
 {
-    public function map(\StdClass $stdClass, SearchResponse $searchResponse): SearchResponse
+    public function map(\stdClass $stdClass, SearchResponse $searchResponse): SearchResponse
     {
         $searchResponse
             ->setLat($stdClass->lat)

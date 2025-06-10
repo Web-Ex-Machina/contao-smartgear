@@ -21,7 +21,7 @@ use WEM\SmartgearBundle\Classes\CustomLanguageFileLoader;
 class LoadLanguageFileListener
 {
     public function __construct(
-        protected CustomLanguageFileLoader $customLanguageFileLoader
+        protected CustomLanguageFileLoader $customLanguageFileLoader,
     ) {
     }
 

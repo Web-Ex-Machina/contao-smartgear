@@ -30,7 +30,7 @@ class AbstractStep
     public function __construct(
         protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
         protected string $module,
-        protected string $type
+        protected string $type,
     ) {
     }
 

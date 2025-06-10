@@ -16,24 +16,29 @@ use Contao\ArrayUtil;
 use Contao\System;
 use WEM\SmartgearBundle\Backend;
 use WEM\SmartgearBundle\Model;
+use WEM\SmartgearBundle\Model\NotificationCenter\Gateway;
+use WEM\SmartgearBundle\Model\NotificationCenter\Language;
+use WEM\SmartgearBundle\Model\NotificationCenter\Message;
+use WEM\SmartgearBundle\Model\NotificationCenter\Notification;
 use WEM\SmartgearBundle\Module;
 use WEM\SmartgearBundle\Override;
+use WEM\SmartgearBundle\Widget\ComponentStyleSelect;
 use WEM\UtilsBundle\Classes\ScopeMatcher;
 
-if (! \defined('SG_ROBOTSTXT_HEADER')) {
-    \define('SG_ROBOTSTXT_HEADER', '# RESERVED TO SMARTGEAR - START');
+if (! defined('SG_ROBOTSTXT_HEADER')) {
+    define('SG_ROBOTSTXT_HEADER', '# RESERVED TO SMARTGEAR - START');
 }
 
-if (! \defined('SG_ROBOTSTXT_FOOTER')) {
-    \define('SG_ROBOTSTXT_FOOTER', '# RESERVED TO SMARTGEAR - END');
+if (! defined('SG_ROBOTSTXT_FOOTER')) {
+    define('SG_ROBOTSTXT_FOOTER', '# RESERVED TO SMARTGEAR - END');
 }
 
-if (! \defined('SG_ROBOTSTXT_CONTENT')) {
-    \define('SG_ROBOTSTXT_CONTENT', "User-agent: *\nUser-agent: AdsBot-Google\nDisallow: /");
+if (! defined('SG_ROBOTSTXT_CONTENT')) {
+    define('SG_ROBOTSTXT_CONTENT', "User-agent: *\nUser-agent: AdsBot-Google\nDisallow: /");
 }
 
-if (! \defined('SG_ROBOTSTXT_CONTENT_FULL')) {
-    \define('SG_ROBOTSTXT_CONTENT_FULL', SG_ROBOTSTXT_HEADER . "\n" . SG_ROBOTSTXT_CONTENT . "\n" . SG_ROBOTSTXT_FOOTER);
+if (! defined('SG_ROBOTSTXT_CONTENT_FULL')) {
+    define('SG_ROBOTSTXT_CONTENT_FULL', SG_ROBOTSTXT_HEADER . "\n" . SG_ROBOTSTXT_CONTENT . "\n" . SG_ROBOTSTXT_FOOTER);
 }
 
 /** @var ScopeMatcher $scopeMatcher */
@@ -89,7 +94,7 @@ if (isset($bundles['VerstaerkerI18nl10nBundle'])) {
         array_search('page', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
         [
             'i18nl10n' => $GLOBALS['BE_MOD']['design']['i18nl10n'],
-        ]
+        ],
     );
     unset($GLOBALS['BE_MOD']['design']['i18nl10n']);
 }
@@ -107,7 +112,7 @@ $GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_sm_form_storage';
 $GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_sm_form_storage_data';
 
 // ComponentStyleSelect override
-$GLOBALS['BE_FFL']['stylemanager'] = \WEM\SmartgearBundle\Widget\ComponentStyleSelect::class;
+$GLOBALS['BE_FFL']['stylemanager'] = ComponentStyleSelect::class;
 /*
  * Backend modules
  */
@@ -164,7 +169,7 @@ ArrayUtil::arrayInsert(
         'wem_sg_social_link' => [
             'callback' => Backend\SocialLink::class,
         ],
-    ]
+    ],
 );
 
 /*
@@ -176,13 +181,13 @@ ArrayUtil::arrayInsert($GLOBALS['FE_MOD'], 2, [
         'wem_sg_social_link' => Module\SocialLink::class,
     ],
 ]);
-//$GLOBALS['FE_MOD']['news']['newsreader'] = Override\ModuleNewsReader::class;
-//$GLOBALS['FE_MOD']['news']['newslist'] = Override\ModuleNewsList::class;
-//$GLOBALS['FE_MOD']['events']['eventreader'] = Override\ModuleEventReader::class;
-//$GLOBALS['FE_MOD']['events']['eventlist'] = Override\ModuleEventList::class;
-//$GLOBALS['FE_MOD']['events']['calendar'] = Override\ModuleCalendar::class;
-//$GLOBALS['FE_MOD']['user']['login'] = Override\ModuleLogin::class;
-//$GLOBALS['FE_MOD']['navigationMenu']['breadcrumb'] = Override\ModuleBreadcrumb::class;
+// $GLOBALS['FE_MOD']['news']['newsreader'] = Override\ModuleNewsReader::class;
+// $GLOBALS['FE_MOD']['news']['newslist'] = Override\ModuleNewsList::class;
+// $GLOBALS['FE_MOD']['events']['eventreader'] = Override\ModuleEventReader::class;
+// $GLOBALS['FE_MOD']['events']['eventlist'] = Override\ModuleEventList::class;
+// $GLOBALS['FE_MOD']['events']['calendar'] = Override\ModuleCalendar::class;
+// $GLOBALS['FE_MOD']['user']['login'] = Override\ModuleLogin::class;
+// $GLOBALS['FE_MOD']['navigationMenu']['breadcrumb'] = Override\ModuleBreadcrumb::class;
 /*
  * Models
  */
@@ -198,15 +203,15 @@ $GLOBALS['TL_MODELS'][Model\Login::getTable()] = Model\Login::class;
 $GLOBALS['TL_MODELS'][Model\Configuration\Configuration::getTable()] = Model\Configuration\Configuration::class;
 $GLOBALS['TL_MODELS'][Model\Configuration\ConfigurationItem::getTable()] = Model\Configuration\ConfigurationItem::class;
 
-//Model for notification center because the v2 removed this
-$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\NotificationCenter\Notification::getTable()] = WEM\SmartgearBundle\Model\NotificationCenter\Notification::class;
-$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\NotificationCenter\Message::getTable()] = WEM\SmartgearBundle\Model\NotificationCenter\Message::class;
-$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\NotificationCenter\Language::getTable()] = WEM\SmartgearBundle\Model\NotificationCenter\Language::class;
-$GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\NotificationCenter\Gateway::getTable()] = WEM\SmartgearBundle\Model\NotificationCenter\Gateway::class;
+// Model for notification center because the v2 removed this
+$GLOBALS['TL_MODELS'][Notification::getTable()] = WEM\SmartgearBundle\Model\NotificationCenter\Notification::class;
+$GLOBALS['TL_MODELS'][Message::getTable()] = WEM\SmartgearBundle\Model\NotificationCenter\Message::class;
+$GLOBALS['TL_MODELS'][Language::getTable()] = WEM\SmartgearBundle\Model\NotificationCenter\Language::class;
+$GLOBALS['TL_MODELS'][Gateway::getTable()] = WEM\SmartgearBundle\Model\NotificationCenter\Gateway::class;
 /*
  * Add BE Hooks
  */
-//if ($scopeMatcher->isBackend()) {
+// if ($scopeMatcher->isBackend()) {
 //    $GLOBALS['TL_HOOKS']['executePreActions'][] = [Backend\Smartgear::class, 'processAjaxRequest'];
 //    $GLOBALS['TL_HOOKS']['executePreActions'][] = [Backend\Dashboard::class, 'processAjaxRequest'];
 //    $GLOBALS['TL_HOOKS']['executePreActions'][] = [Backend\Reminder::class, 'processAjaxRequest'];
@@ -217,12 +222,12 @@ $GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\NotificationCenter\Gateway::getT
 //    // Style Manager hooks
 //    $GLOBALS['TL_HOOKS']['styleManagerWidgetComponentStyleSelectGetStyleManagerArchiveModelCollection'][] = ['smartgear.listener.style_manager.widget_component_style_select_get_style_manager_archive_model_collection', '__invoke'];
 //    $GLOBALS['TL_HOOKS']['styleManagerWidgetComponentStyleSelectGetStyleManagerModelCollection'][] = ['smartgear.listener.style_manager.widget_component_style_select_get_style_manager_model_collection', '__invoke'];
-//}
+// }
 
 /*
  * Add FE Hooks
  */
-//if ($scopeMatcher->isFrontend()) {
+// if ($scopeMatcher->isFrontend()) {
 // $GLOBALS['TL_HOOKS']['getPageLayout'][] = ['\WEM\SmartgearBundle\Hooks\GetPageLayoutHook', 'generateApiToken'];
 // $GLOBALS['TL_HOOKS']['executePreActions'][] = ['\WEM\SmartgearBundle\Hooks\ExecutePreActionsHook', 'catchApiRequests'];
 
@@ -241,29 +246,29 @@ $GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\NotificationCenter\Gateway::getT
 //    $GLOBALS['TL_HOOKS']['generatePage'][] = ['smartgear.listener.generate_page', '__invoke'];
 //    $GLOBALS['TL_HOOKS']['getContentElement'][] = ['smartgear.listener.get_content_element', '__invoke'];
 //    $GLOBALS['TL_HOOKS']['getFrontendModule'][] = ['smartgear.listener.get_frontend_module', '__invoke'];
-//}
+// }
 
 /*
  * Add globals Hooks
  */
-//$GLOBALS['TL_HOOKS']['loadLanguageFile'][] = ['smartgear.listener.load_language_file', '__invoke'];
+// $GLOBALS['TL_HOOKS']['loadLanguageFile'][] = ['smartgear.listener.load_language_file', '__invoke'];
 
-///*
+// /*
 // * NC hooks
 // */
-//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data';
-//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_text';
-//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_filled';
-//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_filled_text';
-//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data';
-//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data_filled';
-//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data';
-//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data_filled';
+// $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data';
+// $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_text';
+// $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_filled';
+// $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_filled_text';
+// $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data';
+// $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data_filled';
+// $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data';
+// $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data_filled';
 //
-///*
+// /*
 // * Notifications
 // */
-//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['smartgear']['ticket_creation'] = [
+// $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['smartgear']['ticket_creation'] = [
 //    'email_sender_address' => ['sg_owner_email'],
 //    'recipients' => ['support_email', 'sg_owner_email'],
 //    'email_subject' => ['ticket_*'],
@@ -271,29 +276,29 @@ $GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\NotificationCenter\Gateway::getT
 //    'email_html' => ['ticket_*', 'sg_owner_name'],
 //    'email_replyTo' => ['sg_owner_email'],
 //    'attachment_tokens' => ['ticket_file'],
-//];
+// ];
 
 /*
  * Add custom rights
  */
 $GLOBALS['TL_PERMISSIONS'][] = 'smartgear_permissions';
 // PDM EXPORT
-//$GLOBALS['WEM_HOOKS']['formatSinglePersonalDataForCsvExport'][] = ['smartgear.listener.personal_data_csv_formatter', 'formatSingle'];
-//$GLOBALS['WEM_HOOKS']['exportByPidAndPtableAndEmail'][] = ['smartgear.listener.personal_data_export', 'exportByPidAndPtableAndEmail'];
-//// PDM ANONYMIZE
-//$GLOBALS['WEM_HOOKS']['anonymizeByPidAndPtableAndEmail'][] = ['smartgear.listener.personal_data_anonymize', 'anonymizeByPidAndPtableAndEmail'];
-//// PDM UI
-//$GLOBALS['WEM_HOOKS']['sortData'][] = ['smartgear.listener.personal_data_ui', 'sortData'];
-//$GLOBALS['WEM_HOOKS']['renderSingleItemTitle'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemTitle'];
-//$GLOBALS['WEM_HOOKS']['renderSingleItemBodyOriginalModelSingle'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyOriginalModelSingle'];
-//$GLOBALS['WEM_HOOKS']['renderSingleItemBodyOriginalModelSingleFieldValue'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyOriginalModelSingleFieldValue'];
-//$GLOBALS['WEM_HOOKS']['renderSingleItemBodyPersonalDataSingle'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyPersonalDataSingle'];
-//$GLOBALS['WEM_HOOKS']['buildSingleItemBodyPersonalDataSingleButtons'][] = ['smartgear.listener.personal_data_ui', 'buildSingleItemBodyPersonalDataSingleButtons'];
-//$GLOBALS['WEM_HOOKS']['renderSingleItemBodyPersonalDataSingleFieldLabel'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyPersonalDataSingleFieldLabel'];
-//$GLOBALS['WEM_HOOKS']['renderSingleItemBodyPersonalDataSingleFieldValue'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyPersonalDataSingleFieldValue'];
-//// PDM Manager
-//$GLOBALS['WEM_HOOKS']['getFileByPidAndPtableAndEmailAndField'][] = ['smartgear.listener.personal_data_manager', 'getFileByPidAndPtableAndEmailAndField'];
-//$GLOBALS['WEM_HOOKS']['isPersonalDataLinkedToFile'][] = ['smartgear.listener.personal_data_manager', 'isPersonalDataLinkedToFile'];
+// $GLOBALS['WEM_HOOKS']['formatSinglePersonalDataForCsvExport'][] = ['smartgear.listener.personal_data_csv_formatter', 'formatSingle'];
+// $GLOBALS['WEM_HOOKS']['exportByPidAndPtableAndEmail'][] = ['smartgear.listener.personal_data_export', 'exportByPidAndPtableAndEmail'];
+// // PDM ANONYMIZE
+// $GLOBALS['WEM_HOOKS']['anonymizeByPidAndPtableAndEmail'][] = ['smartgear.listener.personal_data_anonymize', 'anonymizeByPidAndPtableAndEmail'];
+// // PDM UI
+// $GLOBALS['WEM_HOOKS']['sortData'][] = ['smartgear.listener.personal_data_ui', 'sortData'];
+// $GLOBALS['WEM_HOOKS']['renderSingleItemTitle'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemTitle'];
+// $GLOBALS['WEM_HOOKS']['renderSingleItemBodyOriginalModelSingle'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyOriginalModelSingle'];
+// $GLOBALS['WEM_HOOKS']['renderSingleItemBodyOriginalModelSingleFieldValue'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyOriginalModelSingleFieldValue'];
+// $GLOBALS['WEM_HOOKS']['renderSingleItemBodyPersonalDataSingle'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyPersonalDataSingle'];
+// $GLOBALS['WEM_HOOKS']['buildSingleItemBodyPersonalDataSingleButtons'][] = ['smartgear.listener.personal_data_ui', 'buildSingleItemBodyPersonalDataSingleButtons'];
+// $GLOBALS['WEM_HOOKS']['renderSingleItemBodyPersonalDataSingleFieldLabel'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyPersonalDataSingleFieldLabel'];
+// $GLOBALS['WEM_HOOKS']['renderSingleItemBodyPersonalDataSingleFieldValue'][] = ['smartgear.listener.personal_data_ui', 'renderSingleItemBodyPersonalDataSingleFieldValue'];
+// // PDM Manager
+// $GLOBALS['WEM_HOOKS']['getFileByPidAndPtableAndEmailAndField'][] = ['smartgear.listener.personal_data_manager', 'getFileByPidAndPtableAndEmailAndField'];
+// $GLOBALS['WEM_HOOKS']['isPersonalDataLinkedToFile'][] = ['smartgear.listener.personal_data_manager', 'isPersonalDataLinkedToFile'];
 
 // override Contao alias
 // class_alias(\WEM\SmartgearBundle\Model\Member::class, 'MemberModel');

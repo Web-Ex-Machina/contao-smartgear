@@ -23,7 +23,7 @@ use Symfony\Component\Console\Input\InputOption;
 class AbstractCommand extends Command
 {
     public function __construct(
-        protected ContaoFramework $framework
+        protected ContaoFramework $framework,
     ) {
         parent::__construct();
 

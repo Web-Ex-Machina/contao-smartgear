@@ -23,6 +23,7 @@ class StringUtil extends StringUtilBase
         $value = self::deserialize($mixed);
         if (\is_array($value)) {
             $formattedValue = [];
+
             foreach ($value as $valueChunk) {
                 if (is_array($valueChunk) && array_key_exists('label', $valueChunk)) {
                     $formattedValue[] = sprintf('%s (%s)', $valueChunk['label'], $valueChunk['value']);
@@ -52,9 +53,9 @@ class StringUtil extends StringUtilBase
         $varValue = str_replace(['[nbsp]', '&nbsp;'], [' ', ' '], $varValue);
 
         // Rule #2
-        $varValue = preg_replace("/\s(\?|\!|\:|\;|\»)/", '&nbsp;\\1', $varValue);
+        $varValue = preg_replace('/\\s(\\?|\\!|\\:|\\;|\\»)/', '&nbsp;\\1', $varValue);
 
-        return preg_replace("/(\«)\s/", '\\1&nbsp;', (string) $varValue);
+        return preg_replace('/(\\«)\\s/', '\\1&nbsp;', (string) $varValue);
     }
 
     /**
@@ -68,6 +69,7 @@ class StringUtil extends StringUtilBase
     {
         $characters = 'abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789_-';
         $randstring = '';
+
         for ($i = 0; $i < $length; ++$i) {
             $randstring .= $characters[random_int(0, \strlen($characters) - 1)];
         }

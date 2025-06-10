@@ -34,7 +34,7 @@ class ShortcutExternal extends BackendModule
 
     public function __construct(
         protected TranslatorInterface $translator,
-        protected configurationManager $configurationManager
+        protected configurationManager $configurationManager,
     ) {
         parent::__construct();
     }

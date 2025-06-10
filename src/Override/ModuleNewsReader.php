@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Override;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsFrontendModule;
+use Contao\Environment;
 use Contao\FilesModel;
 use Contao\Input;
 use Contao\NewsModel;
@@ -53,7 +54,7 @@ class ModuleNewsReader extends \Contao\ModuleNewsReader
             if ($objArticle->addImage) {
                 $objImage = FilesModel::findByUuid($objArticle->singleSRC);
                 if ($objImage) {
-                    $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:image" content="%s">', \Contao\Environment::get('base') . $objImage->path);
+                    $GLOBALS['TL_HEAD'][] = sprintf('<meta property="og:image" content="%s">', Environment::get('base') . $objImage->path);
                 }
             }
         }
@@ -61,6 +62,7 @@ class ModuleNewsReader extends \Contao\ModuleNewsReader
         $configManager = System::getContainer()->get('smartgear.config.manager.core');
         /** @var UrlGeneratorInterface $routeGenerator */
         $routeGenerator = System::getContainer()->get('contao.routing.content_url_generator');
+
         try {
             $blogConfig = $configManager->load()->getSgBlog();
             if ($blogConfig->getSgInstallComplete()) {

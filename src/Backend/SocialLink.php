@@ -69,6 +69,7 @@ class SocialLink extends BackendModule
     {
         $formData = $this->prepareFormData();
         $arrIdsToKeep = [];
+
         foreach ($formData as $index => $row) {
             $objLink = SocialLinkModel::findById($index + 1) ?? new SocialLinkModel();
             $objLink->id = $index + 1;
@@ -107,6 +108,7 @@ class SocialLink extends BackendModule
         $formData = [];
         if (Input::post('FORM_SUBMIT') !== null) {
             $rows = Input::post($this->strId);
+
             foreach ($rows as $index => $row) {
                 if (! empty($row['value'])) {
                     $formData[$index] = $row;
@@ -115,6 +117,7 @@ class SocialLink extends BackendModule
         } else {
             $objLinks = SocialLinkModel::findAll(['order' => 'sorting ASC']);
             $index = 0;
+
             foreach ($objLinks as $objLink) {
                 $formData[$index] = [
                     'pid' => $objLink->pid,

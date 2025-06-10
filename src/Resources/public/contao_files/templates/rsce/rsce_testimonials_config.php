@@ -12,6 +12,10 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
+use Contao\BackendUser;
+use Contao\Config;
+use Contao\System;
+
 return [
     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials'], 'contentCategory' => 'miscellaneous', 'standardFields' => ['cssID'], 'fields' => [
         'config_legend' => [
@@ -35,9 +39,9 @@ return [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['items_legend'], 'elementLabel' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['item_legend'], 'inputType' => 'list', 'fields' => [
                 // Background
                 'slide_img_src' => [
-                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['slide_img_src'], 'inputType' => 'fileTree', 'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => \Contao\Config::get('validImageTypes')],
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_testimonials']['slide_img_src'], 'inputType' => 'fileTree', 'eval' => ['filesOnly' => true, 'fieldType' => 'radio', 'extensions' => Config::get('validImageTypes')],
                 ], 'slide_img_size' => [
-                    'label' => &$GLOBALS['TL_LANG']['tl_content']['size'], 'inputType' => 'imageSize', 'reference' => &$GLOBALS['TL_LANG']['MSC'], 'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50 clr'], 'options_callback' => static fn () => \Contao\System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(\Contao\BackendUser::getInstance()),
+                    'label' => &$GLOBALS['TL_LANG']['tl_content']['size'], 'inputType' => 'imageSize', 'reference' => &$GLOBALS['TL_LANG']['MSC'], 'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50 clr'], 'options_callback' => static fn () => System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance()),
                 ], 'slide_img_alt' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_content']['alt'], 'inputType' => 'text', 'eval' => ['tl_class' => 'w50'],
                 ]

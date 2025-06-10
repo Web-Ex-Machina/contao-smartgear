@@ -30,6 +30,7 @@ class BackupListCommand extends AbstractBackupCommand
     {
         $io = new SymfonyStyle($input, $output);
         $io->title('Backup list');
+
         try {
             $listResult = $this->backupManager->list(0, 0);
         } catch (BackupManagerException $backupManagerException) {
@@ -56,6 +57,7 @@ class BackupListCommand extends AbstractBackupCommand
     private function formatForTable(array $backups): array
     {
         $formatted = [];
+
         foreach ($backups as $backup) {
             $formatted[] = [
                 $backup->getFile()->basename,

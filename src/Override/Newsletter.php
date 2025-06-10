@@ -34,8 +34,6 @@ use WEM\SmartgearBundle\Model\Member;
 
 /**
  * Override Newsletter Contao Backend Class.
- *
- * @author Web ex Machina <https://www.webexmachina.fr>
  */
 class Newsletter extends ContaoNewsletter
 {
@@ -169,7 +167,7 @@ class Newsletter extends ContaoNewsletter
             $intTotal = $objTotal->count;
 
             // Get page and timeout
-            $intTimeout = (Input::get('timeout') > 0) ? Input::get('timeout') : 1;
+            $intTimeout = Input::get('timeout') > 0 ? Input::get('timeout') : 1;
             $intStart = Input::get('start') ?: 0;
             $intPages = Input::get('mpc') ?: 10;
 
@@ -296,7 +294,7 @@ class Newsletter extends ContaoNewsletter
   <tr class="row_2">
     <td class="col_0">' . $GLOBALS['TL_LANG']['tl_newsletter_channel']['template'][0] . '</td>
     <td class="col_1">' . ($objNewsletter->template ?: 'mail_default') . '</td>
-  </tr>' . (($arrAttachments !== [] && \is_array($arrAttachments)) ? '
+  </tr>' . ($arrAttachments !== [] && \is_array($arrAttachments) ? '
   <tr class="row_3">
     <td class="col_0">' . $GLOBALS['TL_LANG']['tl_newsletter']['attachments'] . '</td>
     <td class="col_1">' . implode(', ', $arrAttachments) . '</td>
@@ -312,23 +310,23 @@ class Newsletter extends ContaoNewsletter
 <fieldset class="tl_tbox nolegend">
 <div class="w50 widget">
   <h3><label for="ctrl_mpc">' . $GLOBALS['TL_LANG']['tl_newsletter']['mailsPerCycle'][0] . '</label></h3>
-  <input type="text" name="mpc" id="ctrl_mpc" value="10" class="tl_text" onfocus="Backend.getScrollOffset()">' . (($GLOBALS['TL_LANG']['tl_newsletter']['mailsPerCycle'][1] && Config::get('showHelp')) ? '
+  <input type="text" name="mpc" id="ctrl_mpc" value="10" class="tl_text" onfocus="Backend.getScrollOffset()">' . ($GLOBALS['TL_LANG']['tl_newsletter']['mailsPerCycle'][1] && Config::get('showHelp') ? '
   <p class="tl_help tl_tip">' . $GLOBALS['TL_LANG']['tl_newsletter']['mailsPerCycle'][1] . '</p>' : '') . '
 </div>
 <div class="w50 widget">
   <h3><label for="ctrl_timeout">' . $GLOBALS['TL_LANG']['tl_newsletter']['timeout'][0] . '</label></h3>
-  <input type="text" name="timeout" id="ctrl_timeout" value="1" class="tl_text" onfocus="Backend.getScrollOffset()">' . (($GLOBALS['TL_LANG']['tl_newsletter']['timeout'][1] && Config::get('showHelp')) ? '
+  <input type="text" name="timeout" id="ctrl_timeout" value="1" class="tl_text" onfocus="Backend.getScrollOffset()">' . ($GLOBALS['TL_LANG']['tl_newsletter']['timeout'][1] && Config::get('showHelp') ? '
   <p class="tl_help tl_tip">' . $GLOBALS['TL_LANG']['tl_newsletter']['timeout'][1] . '</p>' : '') . '
 </div>
 <div class="w50 widget">
   <h3><label for="ctrl_start">' . $GLOBALS['TL_LANG']['tl_newsletter']['start'][0] . '</label></h3>
-  <input type="text" name="start" id="ctrl_start" value="0" class="tl_text" onfocus="Backend.getScrollOffset()">' . (($GLOBALS['TL_LANG']['tl_newsletter']['start'][1] && Config::get('showHelp')) ? '
+  <input type="text" name="start" id="ctrl_start" value="0" class="tl_text" onfocus="Backend.getScrollOffset()">' . ($GLOBALS['TL_LANG']['tl_newsletter']['start'][1] && Config::get('showHelp') ? '
   <p class="tl_help tl_tip">' . sprintf($GLOBALS['TL_LANG']['tl_newsletter']['start'][1], $objNewsletter->id) . '</p>' : '') . '
 </div>
 <div class="w50 widget">
   <h3><label for="ctrl_recipient">' . $GLOBALS['TL_LANG']['tl_newsletter']['sendPreviewTo'][0] . '</label></h3>
   <input type="text" name="recipient" id="ctrl_recipient" value="' . Idna::decodeEmail($this->User->email) . '" class="tl_text" onfocus="Backend.getScrollOffset()">' . (isset($_SESSION['TL_PREVIEW_MAIL_ERROR']) ? '
-  <div class="tl_error">' . $GLOBALS['TL_LANG']['ERR']['email'] . '</div>' : (($GLOBALS['TL_LANG']['tl_newsletter']['sendPreviewTo'][1] && Config::get('showHelp')) ? '
+  <div class="tl_error">' . $GLOBALS['TL_LANG']['ERR']['email'] . '</div>' : ($GLOBALS['TL_LANG']['tl_newsletter']['sendPreviewTo'][1] && Config::get('showHelp') ? '
   <p class="tl_help tl_tip">' . $GLOBALS['TL_LANG']['tl_newsletter']['sendPreviewTo'][1] . '</p>' : '')) . '
 </div>
 </fieldset>
@@ -353,7 +351,7 @@ class Newsletter extends ContaoNewsletter
     /**
      * Compile the newsletter and send it.
      *
-     * @param array $arrRecipient
+     * @param array  $arrRecipient
      * @param string $text
      * @param string $html
      */

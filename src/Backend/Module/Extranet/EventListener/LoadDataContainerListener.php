@@ -27,7 +27,7 @@ class LoadDataContainerListener
     public function __construct(
         protected Security $security,
         protected CoreConfigurationManager $coreConfigurationManager,
-        protected DCAManipulator $dcaManipulator
+        protected DCAManipulator $dcaManipulator,
     ) {
     }
 
@@ -38,7 +38,7 @@ class LoadDataContainerListener
             $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
         } catch (FileNotFoundException) {
-            //nothing
+            // nothing
         }
     }
 

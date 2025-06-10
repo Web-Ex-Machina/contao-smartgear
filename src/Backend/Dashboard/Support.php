@@ -54,7 +54,7 @@ class Support extends BackendModule
         protected TranslatorInterface $translator,
         protected ConfigurationManager $configurationManager,
         protected readonly ContaoCsrfTokenManager $contaoCsrfTokenManager,
-        protected AirtableApi $airtableApi
+        protected AirtableApi $airtableApi,
     ) {
         parent::__construct();
     }
@@ -204,6 +204,7 @@ class Support extends BackendModule
             'body' => str_replace("\r\n", '%0D%0A', $this->translator->trans('WEMSG.DASHBOARD.SUPPORT.mailContent', [
                 BackendUser::getInstance()->name ?? $config->getSgOwnerName(), ], 'contao_default')),
         ];
+
         foreach ($urlMailtoParams as $key => $value) {
             $urlMailto .= '&' . $key . '=' . $value;
         }
@@ -235,6 +236,7 @@ class Support extends BackendModule
         $arrDomains = Util::getRootPagesDomains();
         $hostingInformations = $this->airtableApi->getHostingInformations($arrDomains);
         $arrDomainsHavingClientRef = [];
+
         foreach ($hostingInformations as $domain => $hostnameHostingInformations) {
             if ($hostnameHostingInformations['client_reference'] ?? null
             && \is_array($hostnameHostingInformations['client_reference'])

@@ -26,7 +26,7 @@ class EnvFile extends AbstractManager implements ManagerEnvInterface
     public function __construct(
         TranslatorInterface $translator,
         protected ConfigInterface $configuration,
-        protected ?string $configurationFilePath
+        protected ?string $configurationFilePath,
     ) {
         parent::__construct($translator);
     }
@@ -69,6 +69,7 @@ class EnvFile extends AbstractManager implements ManagerEnvInterface
 
         $arrLines = explode("\n", $content);
         $arrFinal = [];
+
         foreach ($arrLines as $line) {
             if ($line === '' || $line === '0') {
                 continue;

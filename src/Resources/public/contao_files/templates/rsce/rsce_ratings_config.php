@@ -15,7 +15,7 @@ declare(strict_types=1);
 return [
     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_ratings'],
     'contentCategory' => 'miscellaneous',
-    'standardFields' => ['cssID'/*,'headline'*/],
+    'standardFields' => ['cssID'/* ,'headline' */],
     'fields' => [
         'noteMax' => [
             'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_ratings']['note_max'],

@@ -26,7 +26,7 @@ class ResetStepManager extends StepManager
         string $module,
         string $type,
         string $stepSessionKey,
-        array $steps
+        array $steps,
     ) {
         parent::__construct($translator, $module, $type, $stepSessionKey, $steps);
     }

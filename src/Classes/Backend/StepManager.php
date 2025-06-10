@@ -35,7 +35,7 @@ class StepManager
         protected string $module,
         protected string $type,
         protected string $stepSessionKey,
-        protected array $steps
+        protected array $steps,
     ) {
         // Init session
         $this->objSession = System::getContainer()->get('session');
@@ -62,6 +62,7 @@ class StepManager
         $objTemplate = new FrontendTemplate($this->strStepsTemplate);
 
         $arrSteps = [];
+
         foreach ($this->steps as $index => $step) {
             $arrSteps[] = [
                 'active' => $index === $this->getCurrentStepIndex(),

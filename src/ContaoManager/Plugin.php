@@ -30,8 +30,6 @@ use WEM\SmartgearBundle\WEMSmartgearBundle;
 
 /**
  * Plugin for the Contao Manager.
- *
- * @author Web ex Machina <https://www.webexmachina.fr>
  */
 class Plugin implements BundlePluginInterface, RoutingPluginInterface
 {

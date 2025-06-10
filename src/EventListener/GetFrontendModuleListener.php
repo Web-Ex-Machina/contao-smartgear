@@ -27,14 +27,14 @@ class GetFrontendModuleListener
 {
     public function __construct(
         protected CoreConfigurationManager $configurationManager,
-        protected readonly ScopeMatcher $scopeMatcher
+        protected readonly ScopeMatcher $scopeMatcher,
     ) {
     }
 
     public function __invoke(ModuleModel $model, string $buffer, Module|ContentElement $module): string
     {
         if (! $this->scopeMatcher->isFrontend()) {
-            exit();
+            exit;
         }
 
         $renderStack = RenderStack::getInstance();

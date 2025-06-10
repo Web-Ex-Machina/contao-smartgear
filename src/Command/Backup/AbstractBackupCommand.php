@@ -22,7 +22,7 @@ class AbstractBackupCommand extends AbstractCommand
 {
     public function __construct(
         protected BackupManager $backupManager,
-        ContaoFramework $framework
+        ContaoFramework $framework,
     ) {
         parent::__construct($framework);
 

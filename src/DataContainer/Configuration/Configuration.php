@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\DataContainer\Configuration;
 
 use Contao\DataContainer;
+use Contao\System;
 use Exception;
 use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Classes\Utils\Configuration\ConfigurationUtil;
@@ -60,14 +61,14 @@ class Configuration extends Core
 
     public function apiKeySaveCallback($value, DataContainer $dc)
     {
-        $encryptionService = \Contao\System::getContainer()->get('plenta.encryption');
+        $encryptionService = System::getContainer()->get('plenta.encryption');
 
         return $encryptionService->encrypt($value);
     }
 
     public function apiKeyLoadCallback($value, DataContainer $dc)
     {
-        $encryptionService = \Contao\System::getContainer()->get('plenta.encryption');
+        $encryptionService = System::getContainer()->get('plenta.encryption');
 
         return $encryptionService->decrypt($value);
     }
@@ -78,7 +79,7 @@ class Configuration extends Core
             return $value;
         }
 
-        $coreConfigurationManager = \Contao\System::getContainer()->get('smartgear.config.manager.core');
+        $coreConfigurationManager = System::getContainer()->get('smartgear.config.manager.core');
 
         try {
             $coreConfig = $coreConfigurationManager->load();

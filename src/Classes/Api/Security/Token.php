@@ -20,7 +20,7 @@ use Contao\System;
 class Token
 {
     public function __construct(
-        protected ContaoFramework $framework
+        protected ContaoFramework $framework,
     ) {
         $this->framework->initialize();
     }
@@ -34,6 +34,7 @@ class Token
     {
         $token = str_replace(['=', '+', '/'], '', base64_encode(hash('sha256', random_bytes(20), true)));
         System::getContainer()->get('session')->set('token', $token);
+
         return $token;
     }
 }

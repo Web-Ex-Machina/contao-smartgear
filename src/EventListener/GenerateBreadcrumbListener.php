@@ -24,17 +24,18 @@ class GenerateBreadcrumbListener
 {
     public function __construct(
         protected array $listeners,
-        protected readonly ScopeMatcher $scopeMatcher
+        protected readonly ScopeMatcher $scopeMatcher,
     ) {
     }
 
     public function __invoke(array $items, Module $module): ?array
     {
         if (! $this->scopeMatcher->isFrontend()) {
-            exit();
+            exit;
         }
 
         $arrSourceItems = $items;
+
         try {
             // Determine if we are at the root of the website
             global $objPage;
@@ -46,7 +47,7 @@ class GenerateBreadcrumbListener
             }
 
             foreach ($this->listeners as $listener) {
-                $items = $listener->__invoke($items, $module);
+                $items = $listener($items, $module);
             }
 
             return $items;

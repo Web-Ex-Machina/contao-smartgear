@@ -14,10 +14,12 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Backend\Component\Blog\EventListener;
 
+use Contao\DataContainer;
 use Symfony\Bundle\SecurityBundle\Security;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
+use WEM\SmartgearBundle\DataContainer\Content;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Security\SmartgearPermissions;
 
@@ -28,7 +30,7 @@ class LoadDataContainerListener
     public function __construct(
         protected Security $security,
         protected CoreConfigurationManager $coreConfigurationManager,
-        protected DCAManipulator $dcaManipulator
+        protected DCAManipulator $dcaManipulator,
     ) {
     }
 
@@ -38,6 +40,7 @@ class LoadDataContainerListener
             /** @var CoreConfig $config */
             // $config = $this->coreConfigurationManager->load();
             $this->dcaManipulator->setTable($table);
+
             switch ($table) {
                 case 'tl_news':
                     // $blogConfig = $config->getSgBlog();
@@ -51,9 +54,9 @@ class LoadDataContainerListener
                     if (! $this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::CORE_EXPERT)
                     && ! $this->security->isGranted('contao_user.smartgear_permissions', SmartgearPermissions::BLOG_EXPERT)
                     ) {
-                        //get rid of all unnecessary actions.
+                        // get rid of all unnecessary actions.
                         $this->dcaManipulator->removeListOperationsEdit();
-                        //get rid of all unnecessary fields
+                        // get rid of all unnecessary fields
                         $fieldsKeyToKeep = ['headline', 'title', 'alias', 'author', 'date', 'time', 'jumpTo', 'pageTitle', 'description', 'teaser', 'addImage', 'singleSRC', 'published', 'start', 'stop'];
                         $this->dcaManipulator->removeOtherFields($fieldsKeyToKeep);
 
@@ -64,9 +67,9 @@ class LoadDataContainerListener
                         $GLOBALS['TL_LANG'][$table]['teaser'][1] = &$GLOBALS['TL_LANG']['WEMSG']['BLOG']['FORM']['fieldTeaserHelp'];
                     }
 
-                    $this->dcaManipulator->addFieldSaveCallback('headline', static fn ($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
-                    $this->dcaManipulator->addFieldSaveCallback('title', static fn ($varValue, \Contao\DataContainer $objDc): string => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanHeadline($varValue, $objDc));
-                    $this->dcaManipulator->addFieldSaveCallback('teaser', static fn ($varValue, \Contao\DataContainer $objDc) => (new \WEM\SmartgearBundle\DataContainer\Content())->cleanText($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('headline', static fn ($varValue, DataContainer $objDc): string => (new Content())->cleanHeadline($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('title', static fn ($varValue, DataContainer $objDc): string => (new Content())->cleanHeadline($varValue, $objDc));
+                    $this->dcaManipulator->addFieldSaveCallback('teaser', static fn ($varValue, DataContainer $objDc) => (new Content())->cleanText($varValue, $objDc));
                     break;
                 case 'tl_content':
                     if ($this->do !== 'news') {
@@ -82,7 +85,7 @@ class LoadDataContainerListener
                     break;
             }
         } catch (FileNotFoundException) {
-            //nothing
+            // nothing
         }
     }
 

@@ -33,7 +33,7 @@ class V1Controller extends Controller
         protected ContaoFramework $framework,
         protected TranslatorInterface $translator,
         protected Api $api,
-        protected Token $securityToken
+        protected Token $securityToken,
     ) {
         $this->framework->initialize();
         parent::__construct();
@@ -44,10 +44,11 @@ class V1Controller extends Controller
     {
         try {
             $this->validateToken($request);
+
             return new Response(
                 $this->api->list()->toJson(),
                 200,
-                ['Content-Type' => 'application/json']
+                ['Content-Type' => 'application/json'],
             );
         } catch (\Exception $exception) {
             return new Response(json_encode(['message' => $exception->getMessage()]), 400, ['Content-Type' => 'application/json']);
@@ -59,10 +60,11 @@ class V1Controller extends Controller
     {
         try {
             $this->validateToken($request);
+
             return new Response(
                 $this->api->update($request->query->getBoolean('nobackup'))->toJson(),
                 200,
-                ['Content-Type' => 'application/json']
+                ['Content-Type' => 'application/json'],
             );
         } catch (\Exception $exception) {
             return new Response(json_encode(['message' => $exception->getMessage()]), 400, ['Content-Type' => 'application/json']);

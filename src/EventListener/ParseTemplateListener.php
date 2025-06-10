@@ -29,7 +29,7 @@ class ParseTemplateListener
     public function __construct(
         protected CoreConfigurationManager $configurationManager,
         protected ScopeMatcher $scopeMatcher,
-        protected TemplateFinder $templateFinder
+        protected TemplateFinder $templateFinder,
     ) {
     }
 

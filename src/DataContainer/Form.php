@@ -54,6 +54,7 @@ class Form extends Backend
      * Check if the form is being used by Smartgear.
      *
      * @param int $id form's ID
+     *
      * @throws \Exception
      */
     protected function isItemUsedBySmartgear(int $id): bool

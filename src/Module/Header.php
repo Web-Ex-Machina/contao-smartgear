@@ -21,8 +21,6 @@ use Exception;
 
 /**
  * Front end module.
- *
- * @author Web ex Machina <https://www.webexmachina.fr>
  */
 class Header extends Module
 {

@@ -45,7 +45,7 @@ class Block extends BackendBlock
         ConfigurationStepManager $configurationStepManager,
         protected ResetStepManager $resetStepManager,
         Dashboard $dashboard,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
     ) {
         $this->contaoCsrfTokenManager = System::getContainer()->getParameter('contao.csrf.token_manager');
         parent::__construct($configurationManager, $configurationStepManager, $dashboard, $translator);
@@ -225,6 +225,7 @@ class Block extends BackendBlock
             case self::MODE_RESET:
                 $this->resetStepManager->finish();
                 $messageParameters = Util::messagesToToastrCallbacksParameters($this->resetStepManager->getCurrentStep()->getMessages());
+
                 foreach ($messageParameters as $singleMessageParameters) {
                     $callbacks[] = $this->callback('toastrDisplay', $singleMessageParameters);
                 }

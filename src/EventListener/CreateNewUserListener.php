@@ -23,18 +23,18 @@ class CreateNewUserListener
 {
     public function __construct(
         protected array $listeners,
-        protected readonly ScopeMatcher $scopeMatcher
+        protected readonly ScopeMatcher $scopeMatcher,
     ) {
     }
 
     public function __invoke(string $userId, array $data, Module $module): void
     {
         if (! $this->scopeMatcher->isFrontend()) {
-            exit();
+            exit;
         }
 
         foreach ($this->listeners as $listener) {
-            $listener->__invoke($userId, $data, $module);
+            $listener($userId, $data, $module);
         }
     }
 }

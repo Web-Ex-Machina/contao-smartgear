@@ -53,8 +53,7 @@ class FramwayCombined implements ConfigJsonInterface
 
     public function import(\stdClass $json): self
     {
-        $this->setOriginalConfig($json)
-        ;
+        $this->setOriginalConfig($json);
 
         if ($json->colors) {
             $this->setColors(json_decode(json_encode($json->colors), true));
@@ -105,7 +104,7 @@ class FramwayCombined implements ConfigJsonInterface
             $json->error = $this->getError();
         }
 
-        return json_encode($json, \JSON_PRETTY_PRINT);
+        return json_encode($json, JSON_PRETTY_PRINT);
     }
 
     public function getColors(): array

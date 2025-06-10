@@ -26,8 +26,6 @@ use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 /**
  * Back end module "smartgear".
- *
- * @author Web ex Machina <https://www.webexmachina.fr>
  */
 class Block extends Controller
 {
@@ -71,7 +69,7 @@ class Block extends Controller
         protected ConfigurationManager $configurationManager,
         protected ConfigurationStepManager $configurationStepManager,
         protected Dashboard $dashboard,
-        protected TranslatorInterface $translator
+        protected TranslatorInterface $translator,
     ) {
         // Load the bundles, since we will need them in every block
         $this->bundles = System::getContainer()->getParameter('kernel.bundles');
@@ -82,7 +80,7 @@ class Block extends Controller
         // Init session
         $this->objSession = System::getContainer()->get('session');
         $this->contaoCsrfTokenManager = System::getContainer()->getParameter('contao.csrf.token_manager');
-        Parent::__construct();
+        parent::__construct();
     }
 
     /**
@@ -153,13 +151,14 @@ class Block extends Controller
     /**
      * Get generic callbacks for requests.
      *
-     * @param string $key [Key of the callbacks array]
+     * @param string     $key  [Key of the callbacks array]
      * @param array|null $args [Optional array of arguments]
      *
      * @return array [Callback array]
+     *
      * @throws Exception
      */
-    public function callback(string $key, array $args = null): array
+    public function callback(string $key, ?array $args = null): array
     {
         return match ($key) {
             'toastrDisplay' => ['method' => 'toastrDisplay', 'args' => [$args[0], $args[1]]],
@@ -268,6 +267,7 @@ class Block extends Controller
         $requiermentsMet = true;
         if ($this->require) {
             $arrMissingModules = [];
+
             foreach ($this->require as $type => $block) {
                 $objModule = System::getContainer()->get('smartgear.backend.' . $type . '.' . $block . '.block');
 

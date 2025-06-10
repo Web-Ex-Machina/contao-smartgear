@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes;
 
+use Contao\DcaLoader;
 use Contao\UserGroupModel;
 
 class UserGroupModelUtil
@@ -379,18 +380,21 @@ class UserGroupModelUtil
      * Add allowed fields by table name.
      *
      * @param array $tables Name of tables to retrieve fields from their DCA
+     *
      * @throws \Exception
      */
     public function addAllowedFieldsByTables(array $tables): self
     {
         $allowedFields = [];
+
         foreach ($tables as $table) {
             if (! \array_key_exists($table, $GLOBALS['TL_DCA'] ?? [])) {
-                $loader = new \Contao\DcaLoader($table);
+                $loader = new DcaLoader($table);
                 $loader->load();
             }
 
             $dcaFields = $GLOBALS['TL_DCA'][$table]['fields'] ?? [];
+
             foreach ($dcaFields as $key => $config) {
                 // see tl_user_group::getExcludedFields
                 if (($config['exclude'] ?? null) || ($config['orig_exclude'] ?? null)) {
@@ -414,6 +418,7 @@ class UserGroupModelUtil
         foreach ($prefixes as $prefix) {
             $fieldNameKeyToDelete = $prefix;
             $fieldNameKeyToDeleteLength = \strlen((string) $fieldNameKeyToDelete);
+
             foreach ($alexf as $index => $fieldName) {
                 if (! \is_string($fieldName)) {
                     unset($alexf[$index]);
@@ -442,6 +447,7 @@ class UserGroupModelUtil
     protected function addAllowedItems(?string $rawValue, array $items): ?string
     {
         $allowedItems = $rawValue !== null ? unserialize($rawValue) : [];
+
         foreach ($items as $item) {
             if (! \in_array($item, $allowedItems, true)) {
                 $allowedItems[] = $item;
@@ -467,6 +473,7 @@ class UserGroupModelUtil
     protected function removeAllowedItems(?string $rawValue, array $items): ?string
     {
         $allowedItems = $rawValue !== null ? unserialize($rawValue) : [];
+
         foreach ($items as $item) {
             $itemIndex = array_search($item, $allowedItems, true);
             if ($itemIndex !== false) {

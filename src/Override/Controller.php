@@ -19,8 +19,6 @@ use WEM\SmartgearBundle\Classes\Util;
 
 /**
  * Override Controller Contao Class.
- *
- * @author Web ex Machina <https://www.webexmachina.fr>
  */
 class Controller extends \Contao\Controller
 {

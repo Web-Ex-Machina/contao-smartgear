@@ -97,13 +97,13 @@ class Framway implements ConfigJsonInterface
             ->setThemesAvailables(
                 property_exists($json, 'themesAvailables')
                 ? $json->themesAvailables
-                : $json->themes ?? []
+                : $json->themes ?? [],
             )
             ->setComponents($json->components ?? [])
             ->setComponentsAvailables(
                 property_exists($json, 'componentsAvailables')
                 ? $json->componentsAvailables
-                : $json->components ?? []
+                : $json->components ?? [],
             )
             ->setColors($json->colors ?? [])
             ->setPrimary($json->primary ?? null)
@@ -165,7 +165,7 @@ class Framway implements ConfigJsonInterface
             $json->error = $this->getError();
         }
 
-        return json_encode($json, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES);
+        return json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 
     public function getDebug(): bool

@@ -50,7 +50,7 @@ class BackupManager
         protected DatabaseBackupManager $databaseBackupManager,
         protected TranslatorInterface $translator,
         protected array $artifactsToBackup,
-        protected array $tablesToIgnore
+        protected array $tablesToIgnore,
     ) {
         $this->memoryLimitInBytes = Util::formatPhpMemoryLimitToBytes(ini_get('memory_limit'));
         if ($this->memoryLimitInBytes > 0) {
@@ -116,7 +116,7 @@ class BackupManager
                     $result->addBackup(
                         (new BackupBusinessModel())
                             ->setFile(new File($this->getBackupPath($model->name)))
-                            ->setSource($model->source)
+                            ->setSource($model->source),
                     );
                 }
             }
@@ -153,7 +153,7 @@ class BackupManager
             $result->setBackup(
                 (new BackupBusinessModel())
                     ->setFile(new File($this->getBackupPath($backupName)))
-                    ->setSource($model->source)
+                    ->setSource($model->source),
             );
 
             $backup = new ZipReader($this->getBackupPath($backupName));
@@ -275,6 +275,7 @@ class BackupManager
      * Create a new backup.
      *
      * @return CreateResult The backup result
+     *
      * @throws BackupManagerException
      */
     protected function new(string $source): CreateResult
@@ -298,6 +299,7 @@ class BackupManager
                     $this->addArtifactToBackup($backupArchive, $result, $artifactPath);
                 } else {
                     $files = Util::getFileList($this->rootDir . \DIRECTORY_SEPARATOR . $artifactPath);
+
                     foreach ($files as $filePath) {
                         $this->addArtifactToBackup($backupArchive, $result, str_replace($this->rootDir . \DIRECTORY_SEPARATOR, '', $filePath));
                     }
@@ -309,7 +311,7 @@ class BackupManager
             $result->setBackup(
                 (new BackupBusinessModel())
                     ->setFile(new File($path))
-                    ->setSource($source)
+                    ->setSource($source),
             );
 
             $model = new BackupModel();
@@ -347,6 +349,7 @@ class BackupManager
             $i = 0;
             // new
             $readBytes = 0;
+
             while ($readBytes < $fileSize) {
                 ++$i;
                 $strContent = file_get_contents($artifactFullPath, false, null, $readBytes, $this->chunkSizeInBytes);
@@ -376,6 +379,7 @@ class BackupManager
     protected function cleanArtifactsBeforeRestore(): array
     {
         $filesDeleted = [];
+
         foreach ($this->artifactsToBackup as $artifactPath) {
             $fullPath = $this->rootDir . \DIRECTORY_SEPARATOR . $artifactPath;
             if (file_exists($fullPath)) {
@@ -384,6 +388,7 @@ class BackupManager
                     $filesDeleted[] = $artifactPath;
                 } else {
                     $files = Util::getFileList($fullPath);
+
                     foreach ($files as $filePath) {
                         unlink($filePath);
                         $filesDeleted[] = str_replace($this->rootDir . \DIRECTORY_SEPARATOR, '', $filePath);

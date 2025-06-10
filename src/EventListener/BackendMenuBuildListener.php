@@ -27,7 +27,7 @@ class BackendMenuBuildListener
         protected CoreConfigurationManager $configurationManager,
         protected RouterInterface $router,
         protected RequestStack $requestStack,
-        protected TranslatorInterface $translator
+        protected TranslatorInterface $translator,
     ) {
     }
 
@@ -103,6 +103,7 @@ class BackendMenuBuildListener
         }
 
         $subMenus = $tree->getChildren();
+
         foreach ($subMenus as $index => $subMenu) {
             if (\count($subMenu->getChildren()) === 0) {
                 $subMenu->setDisplay(false);

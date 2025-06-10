@@ -30,7 +30,7 @@ class FramwayRetrieval extends ConfigurationStep
         string $module,
         string $type,
         protected ConfigurationManager $configurationManager,
-        protected UtilFramway $framwayUtil
+        protected UtilFramway $framwayUtil,
     ) {
         parent::__construct($module, $type);
         $this->title = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['FRAMWAYRETRIEVAL']['Title'];
@@ -41,6 +41,7 @@ class FramwayRetrieval extends ConfigurationStep
         // to render the step
         $objTemplate = parent::getFilledTemplate();
         $objTemplate->framway_is_present = $this->checkFramwayPresence();
+
         // And return the template, parsed.
         return $objTemplate;
     }

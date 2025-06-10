@@ -23,7 +23,6 @@ use Contao\LayoutModel;
 use Contao\Message;
 use Contao\ModuleModel;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
-use WEM\SmartgearBundle\Classes\StringUtil;
 use WEM\SmartgearBundle\Classes\Util;
 use WEM\SmartgearBundle\Classes\Utils\Configuration\ConfigurationItemUtil;
 use WEM\SmartgearBundle\DataContainer\Core;
@@ -217,6 +216,7 @@ class ConfigurationItem extends Core
         }
 
         $labels = [];
+
         foreach ($arrData as $property => $value) {
             $labels[] = '<strong>' . $GLOBALS['TL_LANG'][ConfigurationItemModel::getTable()][$property][0] . ' :</strong> ' . $value;
         }

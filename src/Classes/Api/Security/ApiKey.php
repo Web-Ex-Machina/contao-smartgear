@@ -25,7 +25,7 @@ class ApiKey
 {
     public function __construct(
         protected ContaoFramework $framework,
-        protected ManagerJson $coreConfigurationManager
+        protected ManagerJson $coreConfigurationManager,
     ) {
         $this->framework->initialize();
     }
@@ -35,6 +35,7 @@ class ApiKey
         $configurations = Configuration::findItems();
         if ($configurations instanceof Collection) {
             $encryptionService = System::getContainer()->get('plenta.encryption');
+
             while ($configurations->next()) {
                 if ($apiKey === $encryptionService->decrypt($configurations->api_key)) {
                     System::getContainer()->get('session')->set('configuration_source', 'database');

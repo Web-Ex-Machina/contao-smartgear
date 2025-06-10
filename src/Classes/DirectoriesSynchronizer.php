@@ -39,7 +39,7 @@ class DirectoriesSynchronizer
         protected string $sourceDirectory,
         protected string $destinationDirectory,
         protected string $rootDir,
-        protected bool $manageSubfolders
+        protected bool $manageSubfolders,
     ) {
     }
 
@@ -47,6 +47,7 @@ class DirectoriesSynchronizer
      * Synchronize folders.
      *
      * @param ?bool $withDeletions true to delete files in destination not present in source
+     *
      * @throws Exception
      */
     public function synchronize(?bool $withDeletions = true): void
@@ -56,7 +57,7 @@ class DirectoriesSynchronizer
 
         $this->checkFiles(
             $this->getSourceDirectoryFiles(),
-            $this->getDestinationDirectoryFiles()
+            $this->getDestinationDirectoryFiles(),
         );
 
         foreach ($this->filesToAdd as $relativePath => $realPath) {
@@ -132,6 +133,7 @@ class DirectoriesSynchronizer
      *
      * @param array $sourceFiles      path from the "getFiles" method
      * @param array $destinationFiles path from the "getFiles" method
+     *
      * @throws Exception
      */
     protected function checkFiles(array $sourceFiles, array $destinationFiles): void
@@ -169,6 +171,7 @@ class DirectoriesSynchronizer
         $strBasePath = $startPath . $relativePathFromStartPath;
         $arrFiles = is_dir($strBasePath) ? scandir($strBasePath) : [];
         $arrPaths = [];
+
         foreach ($arrFiles as $f) {
             if ($f === '.' || $f === '..') {
                 continue;

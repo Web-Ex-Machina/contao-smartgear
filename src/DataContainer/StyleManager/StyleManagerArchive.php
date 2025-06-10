@@ -23,7 +23,7 @@ class StyleManagerArchive extends Core
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
-        private readonly StyleManagerArchiveListener $styleManagerArchiveListener
+        private readonly StyleManagerArchiveListener $styleManagerArchiveListener,
     ) {
         parent::__construct();
     }

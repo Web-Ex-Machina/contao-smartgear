@@ -15,6 +15,7 @@ declare(strict_types=1);
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
 use WEM\SmartgearBundle\Classes\Util;
+use WEM\SmartgearBundle\DataContainer\Content;
 use WEM\SmartgearBundle\DataContainer\Module as ModuleDCA;
 
 /*
@@ -114,7 +115,7 @@ DCAManipulator::create('tl_module')
     ->addField('wem_sg_header_nav_module', [
         'label' => &$GLOBALS['TL_LANG']['tl_content']['header']['nav_custom_module'],
         'inputType' => 'select',
-        'options_callback' => [WEM\SmartgearBundle\DataContainer\Content::class, 'getModules'],
+        'options_callback' => [Content::class, 'getModules'],
         'eval' => ['mandatory' => true, 'tl_class' => 'w50 wizard', 'includeBlankOption' => true],
         // 'wizard' => [['tl_content', 'editModule']],  // doesn't seem to work
         'sql' => "int(10) unsigned NOT NULL default '0'",
@@ -322,17 +323,16 @@ DCAManipulator::create('tl_module')
         'label' => &$GLOBALS['TL_LANG']['tl_content']['breadcrumb']['auto_placement_after_content_elements'],
         'inputType' => 'select',
         'eval' => ['tl_class' => 'w50 clr', 'multiple' => true, 'mandatory' => false, 'chosen' => true],
-        'options_callback' => (new WEM\SmartgearBundle\DataContainer\Module())->getOptionsForBreadcrumbAutoPlacementAfterContentElements(...),
+        'options_callback' => (new ModuleDCA())->getOptionsForBreadcrumbAutoPlacementAfterContentElements(...),
         'sql' => 'TEXT NULL',
     ])
     ->addField('wem_sg_breadcrumb_auto_placement_after_modules', [
         'label' => &$GLOBALS['TL_LANG']['tl_content']['breadcrumb']['auto_placement_after_modules'],
         'inputType' => 'select',
         'eval' => ['tl_class' => 'w50 clr', 'multiple' => true, 'mandatory' => false, 'chosen' => true],
-        'options_callback' => (new WEM\SmartgearBundle\DataContainer\Module())->getOptionsForBreadcrumbAutoPlacementAfterModules(...),
+        'options_callback' => (new ModuleDCA())->getOptionsForBreadcrumbAutoPlacementAfterModules(...),
         'sql' => 'TEXT NULL',
     ])
-
 ;
 
 $paletteManipulator = PaletteManipulator::create()
@@ -347,7 +347,7 @@ $palettesToUpdate = [
 ];
 
 foreach ($palettesToUpdate as $paletteName) {
-    if (\array_key_exists($paletteName, $GLOBALS['TL_DCA']['tl_module']['palettes'])) {
+    if (array_key_exists($paletteName, $GLOBALS['TL_DCA']['tl_module']['palettes'])) {
         $paletteManipulator->applyToPalette($paletteName, 'tl_module');
     }
 }
@@ -364,8 +364,9 @@ $palettesToUpdate = [
     'faqreader',
     'newsletterreader',
 ];
+
 foreach ($palettesToUpdate as $paletteName) {
-    if (\array_key_exists($paletteName, $GLOBALS['TL_DCA']['tl_module']['palettes'])) {
+    if (array_key_exists($paletteName, $GLOBALS['TL_DCA']['tl_module']['palettes'])) {
         $paletteManipulator->applyToPalette($paletteName, 'tl_module');
     }
 }
@@ -378,8 +379,9 @@ $paletteManipulator = PaletteManipulator::create()
 $palettesToUpdate = [
     'login',
 ];
+
 foreach ($palettesToUpdate as $paletteName) {
-    if (\array_key_exists($paletteName, $GLOBALS['TL_DCA']['tl_module']['palettes'])) {
+    if (array_key_exists($paletteName, $GLOBALS['TL_DCA']['tl_module']['palettes'])) {
         $paletteManipulator->applyToPalette($paletteName, 'tl_module');
     }
 }
@@ -391,8 +393,9 @@ $paletteManipulator = PaletteManipulator::create()
 $palettesToUpdate = [
     'breadcrumb',
 ];
+
 foreach ($palettesToUpdate as $paletteName) {
-    if (\array_key_exists($paletteName, $GLOBALS['TL_DCA']['tl_module']['palettes'])) {
+    if (array_key_exists($paletteName, $GLOBALS['TL_DCA']['tl_module']['palettes'])) {
         $paletteManipulator->applyToPalette($paletteName, 'tl_module');
     }
 }

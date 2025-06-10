@@ -26,7 +26,7 @@ use WEM\UtilsBundle\Classes\ScopeMatcher;
 class GenerateFrontendUrlListener
 {
     public function __construct(
-        protected readonly ScopeMatcher $scopeMatcher
+        protected readonly ScopeMatcher $scopeMatcher,
     ) {
     }
 
@@ -36,7 +36,7 @@ class GenerateFrontendUrlListener
     public function __invoke(array $arrRow, string $strParams, string $strUrl): string
     {
         if (! $this->scopeMatcher->isFrontend()) {
-            exit();
+            exit;
         }
 
         if (! \is_array($arrRow)) {

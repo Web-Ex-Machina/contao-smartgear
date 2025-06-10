@@ -26,7 +26,7 @@ use WEM\SmartgearBundle\Model\SocialLink as SocialLinkModel;
 class SocialNetwork extends Backend
 {
     public function __construct(
-        private readonly TranslatorInterface $translator
+        private readonly TranslatorInterface $translator,
     ) {
         parent::__construct();
         $this->import(BackendUser::class, 'User');

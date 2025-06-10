@@ -16,6 +16,8 @@ namespace WEM\SmartgearBundle\Model;
 
 use Contao\Database;
 use Contao\FilesModel;
+use Contao\Model\Collection;
+use Contao\System;
 use Contao\Validator;
 use Exception;
 use WEM\PersonalDataManagerBundle\Model\Traits\PersonalDataTrait as PDMTrait;
@@ -66,7 +68,7 @@ class FormStorageData extends CoreModel
         }
 
         $objFDS = self::findItems(['pid' => $this->pid, 'field_name' => 'email'], 1);
-        if (! $objFDS instanceof \Contao\Model\Collection) {
+        if (! $objFDS instanceof Collection) {
             throw new Exception('Unable to find the email field');
         }
 
@@ -86,6 +88,7 @@ class FormStorageData extends CoreModel
     public function getValueAsStringFormatted(): string
     {
         $value = $this->getValueAsString();
+
         switch ($this->field_type) {
             case 'textarea':
             case 'textareacustom':
@@ -120,7 +123,7 @@ class FormStorageData extends CoreModel
         $objStatement = Database::getInstance()->prepare(sprintf('DELETE FROM %s', self::getTable()));
         $objStatement->execute();
 
-        $manager = \Contao\System::getContainer()->get('wem.personal_data_manager.service.personal_data_manager');
+        $manager = System::getContainer()->get('wem.personal_data_manager.service.personal_data_manager');
         $manager->deleteByPtable(self::getTable());
     }
 }

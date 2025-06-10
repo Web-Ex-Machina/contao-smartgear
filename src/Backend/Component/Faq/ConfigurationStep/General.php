@@ -36,7 +36,6 @@ use WEM\SmartgearBundle\Classes\Utils\ModuleUtil;
 use WEM\SmartgearBundle\Classes\Utils\PageUtil;
 use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
 use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
-use WEM\SmartgearBundle\Model\Module;
 
 class General extends ConfigurationStep
 {
@@ -45,7 +44,7 @@ class General extends ConfigurationStep
         string $type,
         protected TranslatorInterface $translator,
         protected ConfigurationManager $configurationManager,
-        protected CommandUtil $commandUtil
+        protected CommandUtil $commandUtil,
     ) {
         parent::__construct($module, $type);
 
@@ -107,7 +106,6 @@ class General extends ConfigurationStep
         /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
         $faqConfig = $config->getSgFaq();
-
         $faqConfig
             ->setSgFaqTitle(Input::post('faqTitle'))
             ->setSgPageTitle(Input::post('pageTitle'))
@@ -209,16 +207,16 @@ class General extends ConfigurationStep
 
         $moduleFaq = ModuleUtil::createModuleFaq((int) $config->getSgTheme(), (int) $faqCategory->id, array_merge(
             [
-            // $moduleFaq = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
-            //     'name' => $page->title.' - Reader',
-            //     'pid' => $config->getSgTheme(),
-            //     'type' => 'faqpage',
-            //     'faq_categories' => serialize([$faqCategory->id]),
-            //     'numberOfItems' => 0,
-            //     'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
-            //     'tstamp' => time(),
-        ],
-            $faqConfig->getSgModuleFaq() !== null ? ['id' => $faqConfig->getSgModuleFaq()] : []
+                // $moduleFaq = ModuleUtil::createModule((int) $config->getSgTheme(), array_merge([
+                //     'name' => $page->title.' - Reader',
+                //     'pid' => $config->getSgTheme(),
+                //     'type' => 'faqpage',
+                //     'faq_categories' => serialize([$faqCategory->id]),
+                //     'numberOfItems' => 0,
+                //     'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+                //     'tstamp' => time(),
+            ],
+            $faqConfig->getSgModuleFaq() !== null ? ['id' => $faqConfig->getSgModuleFaq()] : [],
         ));
 
         $this->setFAQConfigKey('setSgModuleFaq', (int) $moduleFaq->id);
@@ -247,7 +245,6 @@ class General extends ConfigurationStep
         /** @var CoreConfig $config */
         $config = $this->configurationManager->load();
         $faqConfig = $config->getSgFaq();
-
         $faqConfig
             ->setSgPage((int) $page->id)
             ->setSgArticle((int) $article->id)

@@ -24,7 +24,7 @@ class FramwayCombined extends ManagerFramway
     public function __construct(
         TranslatorInterface $translator,
         ConfigInterface $configuration,
-        ConfigurationManagerCore $configurationManagerCore
+        ConfigurationManagerCore $configurationManagerCore,
     ) {
         parent::__construct($translator, $configuration, $configurationManagerCore);
         $this->configurationFilePath = null;
@@ -56,6 +56,7 @@ class FramwayCombined extends ManagerFramway
         // retrieve colors
         if (preg_match('/\$colors: \((.*)\);/msU', $fileContent, $matches) !== 0) {
             $matchingColorLines = explode(',', $matches[1]);
+
             // dump($matchingColorLines);
             foreach ($matchingColorLines as $matchingColorLine) {
                 if (preg_match("/'(.*)': (.*)/", $matchingColorLine, $colorLineMatches) !== 0) {
@@ -93,7 +94,7 @@ class FramwayCombined extends ManagerFramway
             $futureJson['error'] = trim($matches[1]);
         }
 
-        return json_decode(json_encode($futureJson), false, 512, \JSON_THROW_ON_ERROR);
+        return json_decode(json_encode($futureJson), false, 512, JSON_THROW_ON_ERROR);
     }
 
     protected function assignConfigurationFilePath(): void

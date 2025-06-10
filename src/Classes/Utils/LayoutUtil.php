@@ -75,9 +75,9 @@ class LayoutUtil
                         (int) $arrData['modules_raw']['wem_sg_header']->id,
                         (int) $arrData['modules_raw']['breadcrumb']->id,
                         (int) $arrData['modules_raw']['wem_sg_footer']->id,
-                    )
+                    ),
                 ),
-                $arrData['modules_raw']
+                $arrData['modules_raw'],
             );
         }
 
@@ -118,9 +118,9 @@ class LayoutUtil
                         (int) $arrData['modules_raw']['wem_sg_header']->id,
                         (int) $arrData['modules_raw']['breadcrumb']->id,
                         (int) $arrData['modules_raw']['wem_sg_footer']->id,
-                    )
+                    ),
                 ),
-                $arrData['modules_raw']
+                $arrData['modules_raw'],
             );
         }
 
@@ -146,6 +146,7 @@ class LayoutUtil
     public static function buildHead(?array $arrReplace = []): string
     {
         $head = file_get_contents(Util::getPublicOrWebDirectory() . '/bundles/wemsmartgear/examples/balises_supplementaires_1.js');
+
         foreach ($arrReplace as $toReplace => $newValue) {
             $head = str_replace($toReplace, $newValue, $head);
         }
@@ -166,6 +167,7 @@ class LayoutUtil
         }
 
         $script = str_replace('{{config.framway.path}}', $arrReplace['{{config.framway.path}}'], $script);
+
         switch ($arrReplace['{{config.analytics.system}}']) {
             case Configuration::ANALYTICS_SOLUTION_NONE:
                 $script = preg_replace('/\/\/ -- GTAG(.*)\/\/ -- \/GTAG/s', '', $script);
@@ -211,6 +213,7 @@ class LayoutUtil
 
         foreach ($defaultLayoutModules as $layoutModuleDefault) {
             $layoutMOduleDefaultFoundInLayoutModule = false;
+
             foreach ($currentLayoutModules as $layoutModule) {
                 if ((int) $layoutModule['mod'] === (int) $layoutModuleDefault['mod']) {
                     $layoutMOduleDefaultFoundInLayoutModule = true;
@@ -239,6 +242,7 @@ class LayoutUtil
         $layoutModuleBreadcrumb = null;
         $layoutModuleBreadcrumbIndex = null;
         $layoutModuleContentIndex = null;
+
         foreach ($layoutModules as $index => $layoutModule) {
             if ((int) $layoutModule['mod'] === (int) $modules['wem_sg_header']->id) {
                 $layoutModuleHeader = $layoutModule;
@@ -277,6 +281,7 @@ class LayoutUtil
 
         $layoutModules = StringUtil::deserialize($objLayout->modules, true);
         $previousHeaderIndex = null;
+
         foreach ($layoutModules as $index => $layoutModule) {
             if ($layoutModule['col'] === 'header') {
                 $objModule = ModuleModel::findById($layoutModule['mod']);
@@ -308,6 +313,7 @@ class LayoutUtil
 
         $layoutModules = array_reverse(StringUtil::deserialize($objLayout->modules, true), true);
         $previousFooterIndex = null;
+
         foreach ($layoutModules as $index => $layoutModule) {
             if ($layoutModule['col'] === 'footer') {
                 $objModule = ModuleModel::findById($layoutModule['mod']);
@@ -341,6 +347,7 @@ class LayoutUtil
         $layoutModules = StringUtil::deserialize($objLayout->modules, true);
         $previousBreadcrumbIndex = null;
         $firstMainColumnIndex = null;
+
         foreach ($layoutModules as $index => $layoutModule) {
             if ($layoutModule['col'] === 'main') {
                 $firstMainColumnIndex ??= $index;

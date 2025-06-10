@@ -54,6 +54,7 @@ class Page extends Backend
      * Check if the page is being used by Smartgear.
      *
      * @param int $id page's ID
+     *
      * @throws \Exception
      */
     protected function isItemUsedBySmartgear(int $id): bool

@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Classes\Utils;
 
+use Contao\Image\ResizeConfiguration;
 use Contao\ModuleModel;
 use WEM\SmartgearBundle\Classes\Util;
 
@@ -48,6 +49,7 @@ class ModuleUtil
             'type' => 'navigation',
             'name' => 'Nav - main',
         ], $arrData);
+
         // Return the model
         return self::createModule($pid, $arrData);
     }
@@ -65,6 +67,7 @@ class ModuleUtil
             'wem_sg_header_nav_position' => 'right',
             'wem_sg_header_panel_position' => 'right',
         ], $arrData);
+
         // Return the model
         return self::createModule($pid, $arrData);
     }
@@ -78,6 +81,7 @@ class ModuleUtil
             'wem_sg_breadcrumb_auto_placement_after_content_elements' => serialize(['rsce_hero', 'rsce_heroStart']),
             'wem_sg_breadcrumb_auto_placement_after_modules' => serialize(['rsce_hero', 'rsce_heroStart']),
         ], $arrData);
+
         // Return the model
         return self::createModule($pid, $arrData);
     }
@@ -89,6 +93,7 @@ class ModuleUtil
             'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleFooterName'],
             'html' => file_get_contents(Util::getPublicOrWebDirectory() . '/bundles/wemsmartgear/examples/footer_1.html'),
         ], $arrData);
+
         // Return the model
         return self::createModule($pid, $arrData);
     }
@@ -99,6 +104,7 @@ class ModuleUtil
             'type' => 'sitemap',
             'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSitemapName'],
         ], $arrData);
+
         // Return the model
         return self::createModule($pid, $arrData);
     }
@@ -109,6 +115,7 @@ class ModuleUtil
             'type' => 'wem_sg_social_link',
             'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSocialLinkName'],
         ], $arrData);
+
         // Return the model
         return self::createModule($pid, $arrData);
     }
@@ -119,6 +126,7 @@ class ModuleUtil
             'type' => 'wem_sg_social_link_config_categories',
             'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['ModuleSocialLinkConfigCategoriesName'],
         ], $arrData);
+
         // Return the model
         return self::createModule($pid, $arrData);
     }
@@ -129,6 +137,7 @@ class ModuleUtil
             'type' => 'wem_personaldatamanager',
             'name' => $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['modulePersonalDataManagerName'],
         ], $arrData);
+
         // Return the model
         return self::createModule($pid, $arrData);
     }
@@ -141,6 +150,7 @@ class ModuleUtil
             'pages' => $arrPagesIds,
             'navigationTpl' => 'nav_default',
         ], $arrData);
+
         // Return the model
         return self::createModule($pid, $arrData);
     }
@@ -153,8 +163,9 @@ class ModuleUtil
             'type' => 'faqpage',
             'faq_categories' => serialize([$faqCategoryId]),
             'numberOfItems' => 0,
-            'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            'imgSize' => serialize([0 => '480', 1 => '0', 2 => ResizeConfiguration::MODE_PROPORTIONAL]),
         ], $arrData);
+
         // Return the model
         return self::createModule($pid, $arrData);
     }
@@ -172,8 +183,9 @@ class ModuleUtil
             'cal_order' => 'descending',
             'cal_readerModule' => $moduleReaderId,
             'perPage' => 15,
-            'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            'imgSize' => serialize([0 => '480', 1 => '0', 2 => ResizeConfiguration::MODE_PROPORTIONAL]),
         ], $arrData);
+
         // Return the model
         return self::createModule($pid, $arrData);
     }
@@ -185,8 +197,9 @@ class ModuleUtil
             'pid' => $pid,
             'type' => 'eventreader',
             'cal_calendar' => serialize([$calendarId]),
-            'imgSize' => serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            'imgSize' => serialize([0 => '1200', 1 => '0', 2 => ResizeConfiguration::MODE_PROPORTIONAL]),
         ], $arrData);
+
         // Return the model
         return self::createModule($pid, $arrData);
     }
@@ -203,8 +216,9 @@ class ModuleUtil
             'cal_order' => 'descending',
             'cal_readerModule' => $moduleReaderId,
             'perPage' => 15,
-            'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            'imgSize' => serialize([0 => '480', 1 => '0', 2 => ResizeConfiguration::MODE_PROPORTIONAL]),
         ], $arrData);
+
         // Return the model
         return self::createModule($pid, $arrData);
     }
@@ -220,7 +234,7 @@ class ModuleUtil
             'news_readerModule' => $moduleReaderId,
             'news_order' => 'order_date_desc',
             'perPage' => 15,
-            'imgSize' => serialize([0 => '480', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            'imgSize' => serialize([0 => '480', 1 => '0', 2 => ResizeConfiguration::MODE_PROPORTIONAL]),
             'news_featured' => 'all_items',
             'news_template' => 'news_latest',
             'skipFirst' => 0,
@@ -228,6 +242,7 @@ class ModuleUtil
             // 'tstamp' => time(),
             'wem_sg_number_of_characters' => 200,
         ], $arrData);
+
         // Return the model
         return self::createModule($pid, $arrData);
     }
@@ -240,10 +255,11 @@ class ModuleUtil
             'type' => 'newsreader',
             'news_archives' => serialize([$newsArchiveId]),
             'news_metaFields' => serialize(['date', 'author']),
-            'imgSize' => serialize([0 => '1200', 1 => '0', 2 => \Contao\Image\ResizeConfiguration::MODE_PROPORTIONAL]),
+            'imgSize' => serialize([0 => '1200', 1 => '0', 2 => ResizeConfiguration::MODE_PROPORTIONAL]),
             'news_template' => 'news_full',
             'wem_sg_display_share_buttons' => '1',
         ], $arrData);
+
         // Return the model
         return self::createModule($pid, $arrData);
     }

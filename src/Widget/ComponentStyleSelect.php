@@ -14,8 +14,11 @@ declare(strict_types=1);
 
 namespace WEM\SmartgearBundle\Widget;
 
+use Contao\Image;
+use Contao\StringUtil;
 use Oveleon\ContaoComponentStyleManager\Widget\ComponentStyleSelect as ComponentStyleSelectBase;
 use WEM\SmartgearBundle\Classes\Utils\Configuration\ConfigurationUtil;
+use WEM\SmartgearBundle\Model\Configuration\Configuration;
 
 class ComponentStyleSelect extends ComponentStyleSelectBase
 {
@@ -27,25 +30,27 @@ class ComponentStyleSelect extends ComponentStyleSelectBase
             '/>([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)</',
             static function (array $match): string {
                 $translation = sprintf('>%s<', $GLOBALS['TL_LANG'][$match[1]][$match[2]][$match[3]][$match[4]]);
+
                 return $translation ?: implode('.', $match);
             },
-            $content
+            $content,
         );
         // combined translation keys (with color)
         $content = preg_replace_callback(
             '/>([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+) \(([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\)</',
             static function (array $match): string {
                 $colorTranslation = $GLOBALS['TL_LANG'][$match[5]][$match[6]][$match[7]][$match[8]] ?? $match[8];
+
                 return sprintf('>%s<', sprintf($GLOBALS['TL_LANG'][$match[1]][$match[2]][$match[3]][$match[4]], $colorTranslation));
             },
-            (string) $content
+            (string) $content,
         );
 
         // normal translation keys for optgroup
         $content = preg_replace_callback(
             '/label\="([\s|&nbsp;]+)([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)"/',
             static fn ($match): string => sprintf('label="%s%s"', $match[1], $GLOBALS['TL_LANG'][$match[2]][$match[3]][$match[4]][$match[5]]),
-            (string) $content
+            (string) $content,
         );
 
         $content = preg_replace_callback(
@@ -58,14 +63,14 @@ class ComponentStyleSelect extends ComponentStyleSelectBase
                 || preg_match('|<option value="(.*)-red"|', $match[2])
                 ) {
                     $objConfiguration = ConfigurationUtil::findConfigurationForItem($this->arrConfiguration['strTable'], (int) $this->arrConfiguration['currentRecord']);
-                    $helpA = '<a href="contao/help.php?table=' . $this->arrConfiguration['strTable'] . '&amp;field=' . $this->arrConfiguration['strField'] . '&amp;id=' . $this->arrConfiguration['currentRecord'] . '&amp;framway_path=' . ($objConfiguration instanceof \WEM\SmartgearBundle\Model\Configuration\Configuration ? $objConfiguration->framway_path : \WEM\SmartgearBundle\Model\Configuration\Configuration::DEFAULT_FRAMWAY_PATH) . '" title="' . \Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['helpWizard']) . '" onclick="Backend.openModalIframe({\'title\':\'' . \Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['helpWizardTitle']) . '\',\'url\':this.href});return false">' . \Contao\Image::getHtml('about.svg', $GLOBALS['TL_LANG']['MSC']['helpWizard']) . '</a>';
+                    $helpA = '<a href="contao/help.php?table=' . $this->arrConfiguration['strTable'] . '&amp;field=' . $this->arrConfiguration['strField'] . '&amp;id=' . $this->arrConfiguration['currentRecord'] . '&amp;framway_path=' . ($objConfiguration instanceof Configuration ? $objConfiguration->framway_path : Configuration::DEFAULT_FRAMWAY_PATH) . '" title="' . StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['helpWizard']) . '" onclick="Backend.openModalIframe({\'title\':\'' . StringUtil::specialchars($GLOBALS['TL_LANG']['WEMSG']['FRAMWAY']['COLORS']['helpWizardTitle']) . '\',\'url\':this.href});return false">' . Image::getHtml('about.svg', $GLOBALS['TL_LANG']['MSC']['helpWizard']) . '</a>';
 
                     return $helpA . '</h3><select' . $match[1] . '>' . $match[2] . '</select>';
                 }
 
                 return '</h3><select' . $match[1] . '>' . $match[2] . '</select>';
             },
-            (string) $content
+            (string) $content,
         );
 
         return $content . '';

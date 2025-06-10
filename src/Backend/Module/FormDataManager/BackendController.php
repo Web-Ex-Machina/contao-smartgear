@@ -33,7 +33,7 @@ class BackendController extends ControllerBackendController
         protected string $module,
         protected string $type,
         protected TranslatorInterface $translator,
-        protected ConfigurationManager $configurationManager
+        protected ConfigurationManager $configurationManager,
     ) {
         System::loadLanguageFile(FormStorage::getTable());
         System::loadLanguageFile(FormStorageData::getTable());
@@ -47,16 +47,16 @@ class BackendController extends ControllerBackendController
             mb_convert_encoding(StringUtil::decodeEntities($this->export($rows)), 'UTF-16LE', 'UTF-8'),
             Response::HTTP_OK,
             [
-            'Content-Type' => 'text/csv; charset=utf-16le',
-            'Content-Disposition' => 'attachment;filename=' . sprintf(
-                'contact_%s_%s_%s.csv',
-                $rows->first()->getRelated('pid')->title,
-                $rows->current()->getSender(),
-                Date::parse(Config::get('datimFormat'), (int) $rows->first()->createdAt),
-            ),
-        ]
+                'Content-Type' => 'text/csv; charset=utf-16le',
+                'Content-Disposition' => 'attachment;filename=' . sprintf(
+                    'contact_%s_%s_%s.csv',
+                    $rows->first()->getRelated('pid')->title,
+                    $rows->current()->getSender(),
+                    Date::parse(Config::get('datimFormat'), (int) $rows->first()->createdAt),
+                ),
+            ],
         ))->send();
-        exit();
+        exit;
     }
 
     public function exportAll(): void
@@ -71,11 +71,11 @@ class BackendController extends ControllerBackendController
             mb_convert_encoding(StringUtil::decodeEntities($this->export($rows)), 'UTF-16LE', 'UTF-8'),
             Response::HTTP_OK,
             [
-            'Content-Type' => 'text/csv; charset=utf-16le',
-            'Content-Disposition' => 'attachment;filename=contacts.csv',
-        ]
+                'Content-Type' => 'text/csv; charset=utf-16le',
+                'Content-Disposition' => 'attachment;filename=contacts.csv',
+            ],
         ))->send();
-        exit();
+        exit;
     }
 
     public function exportAllFromForm(): void
@@ -86,14 +86,14 @@ class BackendController extends ControllerBackendController
             mb_convert_encoding(StringUtil::decodeEntities($this->export($rows)), 'UTF-16LE', 'UTF-8'),
             Response::HTTP_OK,
             [
-            'Content-Type' => 'text/csv; charset=utf-16le',
-            'Content-Disposition' => 'attachment;filename=' . sprintf(
-                'contacts_%s.csv',
-                $rows->first()->getRelated('pid')->title
-            ),
-        ]
+                'Content-Type' => 'text/csv; charset=utf-16le',
+                'Content-Disposition' => 'attachment;filename=' . sprintf(
+                    'contacts_%s.csv',
+                    $rows->first()->getRelated('pid')->title,
+                ),
+            ],
         ))->send();
-        exit();
+        exit;
     }
 
     protected function export($rows): string
@@ -127,6 +127,7 @@ class BackendController extends ControllerBackendController
             'delay_to_submission' => $this->translator->trans('tl_sm_form_storage.delay_to_submission.0', [], 'contao_default'),
         ];
         $rows->reset();
+
         while ($rows->next()) {
             // find datas and create appropriate columns
             $formStorageDatas = FormStorageData::findItems(['pid' => $rows->id]);
@@ -144,6 +145,7 @@ class BackendController extends ControllerBackendController
     {
         $csvRows = [];
         $rows->reset();
+
         while ($rows->next()) {
             $csvRows[] = $this->buildRow($rows->current(), $headers);
         }

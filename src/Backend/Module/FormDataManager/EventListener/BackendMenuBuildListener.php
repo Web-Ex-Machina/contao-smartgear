@@ -15,18 +15,14 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\Backend\Module\FormDataManager\EventListener;
 
 use Contao\CoreBundle\Event\MenuEvent;
-use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
-use WEM\SmartgearBundle\Config\Component\Core\Core as CoreConfig;
-use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
-use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 
 class BackendMenuBuildListener
 {
     public function __construct(
         protected TranslatorInterface $translator,
-        protected CoreConfigurationManager $coreConfigurationManager
+        protected CoreConfigurationManager $coreConfigurationManager,
     ) {
     }
 

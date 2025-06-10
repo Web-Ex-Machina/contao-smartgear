@@ -18,6 +18,7 @@ use Contao\BackendModule;
 use Contao\BackendTemplate;
 use Contao\DataContainer;
 use Contao\Environment;
+use Contao\Image;
 use Contao\Input;
 use Contao\Message;
 use Contao\System;
@@ -28,8 +29,6 @@ use WEM\SmartgearBundle\Update\UpdateManager;
 
 /**
  * Back end module "smartgear".
- *
- * @author Web ex Machina <https://www.webexmachina.fr>
  */
 class Update extends BackendModule
 {
@@ -113,7 +112,7 @@ class Update extends BackendModule
         // play updates button
         $this->Template->playUpdatesWithoutBackupButtonHref = $this->addToUrl('&act=play&backup=0');
         $this->Template->playUpdatesWithoutBackupButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBTTitle']);
-        $this->Template->playUpdatesWithoutBackupButtonButton = sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBT'], \Contao\Image::getHtml('important.svg'));
+        $this->Template->playUpdatesWithoutBackupButtonButton = sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBT'], Image::getHtml('important.svg'));
         $this->Template->playUpdatesWithBackupButtonHref = $this->addToUrl('&act=play&backup=1');
         $this->Template->playUpdatesWithBackupButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithBackupBTTitle']);
         $this->Template->playUpdatesWithBackupButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithBackupBT'];
