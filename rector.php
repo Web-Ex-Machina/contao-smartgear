@@ -8,6 +8,7 @@ use Rector\Config\RectorConfig;
 
 return RectorConfig::configure()
     ->withPaths([__DIR__ . '/src'])
+    ->withSkipPath(__DIR__ . '/src/Migrations')
     ->withPhpSets(php82: true)
     ->withSkip([
         CombineIfRector::class
