@@ -188,6 +188,7 @@ class Block extends BackendBlock
         if ($i === self::MODE_RESET) {
             return $this->configurationStepManager->parseSteps();
         }
+
         parent::parseSteps();
 
         return null;

@@ -558,9 +558,10 @@ class Util
         $step = 1024;
         $i = 0;
         while (($size / $step) > 0.9) {
-            $size = $size / $step;
+            $size /= $step;
             $i++;
         }
+
         return round($size, $precision) . $units[$i];
     }
 
