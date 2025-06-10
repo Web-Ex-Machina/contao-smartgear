@@ -40,6 +40,7 @@ use Contao\System;
 use Contao\ThemeModel;
 use Contao\UserGroupModel;
 use Contao\UserModel;
+use Exception;
 use WEM\SmartgearBundle\Backup\BackupManager;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Classes\StringUtil;
@@ -125,7 +126,7 @@ class Smartgear extends BackendModule
                 switch (Input::post('action')) {
                     case 'executeCmd':
                         if (! Input::post('cmd')) {
-                            throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
+                            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
 
                         $arrResponse['status'] = 'success';
@@ -135,7 +136,7 @@ class Smartgear extends BackendModule
                         break;
                     case 'executeCmdPhp':
                         if (! Input::post('cmd')) {
-                            throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
+                            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
 
                         $arrResponse['status'] = 'success';
@@ -145,7 +146,7 @@ class Smartgear extends BackendModule
                         break;
                     case 'executeCmdLive':
                         if (! Input::post('cmd')) {
-                            throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
+                            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
 
                         $arrResponse['status'] = 'success';
@@ -158,7 +159,7 @@ class Smartgear extends BackendModule
                     default:
                         // Check if we get all the params we need first
                         if (! Input::post('type') || ! Input::post('module') || ! Input::post('action')) {
-                            throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterMissing']);
+                            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterMissing']);
                         }
 
                         $objBlock = System::getContainer()->get('smartgear.backend.' . Input::post('type') . '.' . Input::post('module') . '.block');
@@ -170,7 +171,7 @@ class Smartgear extends BackendModule
                         $arrResponse = $objBlock->processAjaxRequest();
                         $arrResponse['logs'] = $objBlock->getLogs();
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
             }
 
@@ -294,110 +295,9 @@ class Smartgear extends BackendModule
     /**
      * Generate the module.
      *
-     * @throws \Exception
-     */
-    protected function compile(): void
-    {
-        // Add WEM styles to template
-        $GLOBALS['TL_CSS'][] = $this->strBasePath . '/backend/wemsg.css';
-
-        try {
-            $coreConfig = $this->coreConfigurationManager->load();
-        } catch (FileNotFoundException) {
-            $coreConfig = $this->coreConfigurationManager->new();
-            $save = $this->coreConfigurationManager->save($coreConfig);
-        }
-
-        if (Input::get('key') === 'backupmanager') {
-            $this->getBackupManager();
-
-            return;
-        }
-
-        if (Input::get('key') === 'updatemanager') {
-            $this->getUpdateManager();
-
-            return;
-        }
-
-        if (Input::get('key') === 'configurationmanager') {
-            $this->getConfigurationManager();
-
-            return;
-        }
-
-        // Catch Modal Calls
-        if (Input::get('act') === 'modal') {
-            // Catch Errors
-            if (! Input::get('type')) {
-                throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterTypeMissing']);
-            }
-
-            if (! Input::get('module')) {
-                throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterModuleMissing']);
-            }
-
-            if (! Input::get('function')) {
-                throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterFunctionMissing']);
-            }
-
-            // Load the good block
-            $objModule = Util::findAndCreateObject(Input::get('type'), Input::get('module'));
-            $this->Template = $objModule->{Input::get('function')}();
-
-            return;
-        }
-
-        // If there is nothing setup, trigger Smartgear Install
-        if (! $coreConfig->getSgInstallComplete()) {
-            $coreBlock = System::getContainer()->get('smartgear.backend.component.core.block');
-            $arrBlocks[$coreBlock->getType()][] = $coreBlock->parse();
-            $this->getConfigurationManagerButton();
-        } else {
-            // Retrieve number of updates to play if session key is undefined
-            // @todo : find a way to update this value after an update by the Contao-Manager
-            if ($this->objSession->get('wem_sg_update_to_play_number')) {
-                $this->Template->update_to_play_number = $this->objSession->get('wem_sg_update_to_play_number');
-            } else {
-                $listResults = $this->updateManager->list();
-                $this->Template->update_to_play_number = $listResults->getNumbersOfUpdatesToPlay();
-                $this->objSession->set('wem_sg_update_to_play_number', $this->Template->update_to_play_number);
-            }
-
-            // Load buttons
-            $this->getBackupManagerButton();
-            $this->getUpdateManagerButton();
-            $this->getConfigurationManagerButton();
-
-            // Parse Smartgear components
-            foreach ($this->modules as $type => $blocks) {
-                foreach ($blocks as $block) {
-                    $objModule = $this->getContainer()->get('smartgear.backend.' . $type . '.' . $block . '.block');
-                    $arrBlocks[$type][] = $objModule->parse();
-                }
-            }
-        }
-
-        // Send blocks to template
-        $this->Template->blocks = $arrBlocks;
-
-        // Send msc data to template
-        $this->Template->request = Environment::get('request');
-        $this->Template->token = RequestToken::get();
-        $this->Template->websiteTitle = Config::get('websiteTitle');
-        $this->Template->version = $this->coreConfigurationManager->load()->getSgVersion();
-
-        if ($coreConfig->getSgInstallLocked()) {
-            Message::addInfo($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['installLocked']);
-        }
-    }
-
-    /**
-     * Generate the module.
-     *
      * @throws Exception
      */
-    protected function compile(): void // TODO : nani ? two compile ?
+    protected function compile(): void
     {
         // Add WEM styles to template
         $GLOBALS['TL_CSS'][] = $this->strBasePath . '/backend/wemsg.css';
@@ -507,7 +407,7 @@ class Smartgear extends BackendModule
 
                 // Add Message
                 Message::addConfirmation($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['messagePlayUpdatesDone']);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Message::addError($e->getMessage());
             }
 
@@ -555,7 +455,7 @@ class Smartgear extends BackendModule
 
                 // Add Message
                 Message::addConfirmation($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['messageSaveDone']);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Message::addError($e->getMessage());
             }
         }
