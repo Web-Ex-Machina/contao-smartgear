@@ -36,11 +36,27 @@ use WEM\SmartgearBundle\Model\Backup as BackupModel;
 
 class BackupManager
 {
-    public const DEFAULT_CHUNK_SIZES_BYTES = 1073741824;
-
-    protected int $memoryLimitInBytes;
-
-    protected mixed $chunkSizeInBytes;
+    public const DEFAULT_CHUNK_SIZES_BYTES = 1073741824; // 1GB
+    /** @var string */
+    protected $rootDir;
+    /** @var string */
+    protected $backupDirectory;
+    /** @var CommandUtil */
+    protected $commandUtil;
+    /** @var string */
+    protected $databaseBackupDirectory;
+    /** @var DatabaseBackupManager */
+    protected $databaseBackupManager;
+    /** @var TranslatorInterface */
+    protected $translator;
+    /** @var array */
+    protected $artifactsToBackup = [];
+    /** @var array */
+    protected $tablesToIgnore = [];
+    /** @var int */
+    protected $memoryLimitInBytes;
+    /** @var int */
+    protected $chunkSizeInBytes;
 
     public function __construct(
         protected string                $rootDir,
@@ -53,10 +69,9 @@ class BackupManager
         protected array                 $tablesToIgnore
     ) {
         $this->memoryLimitInBytes = Util::formatPhpMemoryLimitToBytes(ini_get('memory_limit'));
-        $memoryLimitInBytes = Util::formatPhpMemoryLimitToBytes(ini_get('memory_limit'));
-        if ($memoryLimitInBytes > 0) {
+        if ($this->memoryLimitInBytes  > 0) {
             // because adding file to zip use twice its size, and keep a small margin
-            $this->chunkSizeInBytes = ($memoryLimitInBytes / 4) - max(memory_get_usage(true), memory_get_usage());
+            $this->chunkSizeInBytes = ($this->memoryLimitInBytes  / 4) - max(memory_get_usage(true), memory_get_usage());
         } else { // if the memory limit is not set, define arbitrary value, as we cannot know how much RAM the machine has
             $this->chunkSizeInBytes = self::DEFAULT_CHUNK_SIZES_BYTES;
         }
@@ -356,6 +371,10 @@ class BackupManager
                 $result->addFileBackuped($chunkFileName);
                 unset($strContent);
                 $readBytes += $this->chunkSizeInBytes;
+            }
+
+            if (isset($strContent)) {
+                unset($strContent);
             }
 
             $backupArchive->addString($i, $artifactPath.'.parts_index');

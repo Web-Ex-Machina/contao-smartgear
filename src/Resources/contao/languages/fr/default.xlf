@@ -4020,7 +4020,47 @@
 			<target>Les tables de configuration necessaire à la v1.1 ne sont pas présentes dans la base de données.</target>
 		</trans-unit>
 
+		<!-- V1_0_32/M202405311133 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_32_M202405311133.name">
+			<source>Smartgear v1.0.32</source>
+			<target>Smartgear v1.0.32</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_32_M202405311133.description">
+			<source>Update templates/smartgear/form_captcha.html5 file.</source>
+			<target>Mise à jour du fichier templates/smartgear/form_captcha.html5 .</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_32_M202405311133.done">
+			<source>File templates/smartgear/form_captcha.html5 updated.</source>
+			<target>Fichier templates/smartgear/form_captcha.html5 mis à jour.</target>
+		</trans-unit>
 
+		<!-- V1_0_35/M202407251417 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_35_M202407251417.name">
+			<source>Smartgear v1.0.35</source>
+			<target>Smartgear v1.0.35</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_35_M202407251417.description">
+			<source>Update templates/smartgear/form_password.html5 file.</source>
+			<target>Mise à jour du fichier templates/smartgear/form_password.html5 .</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_35_M202407251417.done">
+			<source>File templates/smartgear/form_password.html5 updated.</source>
+			<target>Fichier templates/smartgear/form_password.html5 mis à jour.</target>
+		</trans-unit>
+
+		<!-- V1_0_45/M202503141412 -->
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_45_M202503141412.name">
+			<source>Smartgear v1.0.45</source>
+			<target>Smartgear v1.0.45</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_45_M202503141412.description">
+			<source>Update FormData storage table.</source>
+			<target>Mise à jour de la table d'enregistrement des données de formulaires.</target>
+		</trans-unit>
+		<trans-unit id="WEMSG.MIGRATIONS.V1_0_45_M202503141412.done">
+			<source>FormData storage table updated.</source>
+			<target>Table d'enregistrement des données de formulaires mise à jour.</target>
+		</trans-unit>
 
 		<!-- Social networks -->
 		<trans-unit id="WEMSG.SOCIALNETWORK.CATEGORY.social">
@@ -4287,10 +4327,6 @@
 			<source>Contact Form</source>
 			<target>Formulaire de contact</target>
 		</trans-unit>
-		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.legend_formDataManager">
-			<source>Form Data Manager</source>
-			<target>Form Data Manager</target>
-		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.legend_extranet">
 			<source>Extranet</source>
 			<target>Extranet</target>
@@ -4347,6 +4383,10 @@
 			<source>Matomo ID</source>
 			<target>Matomo ID</target>
 		</trans-unit>	
+		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_websiteTitle">
+			<source>Website's title</source>
+			<target>Titre du site web</target>
+		</trans-unit>		
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_core_ownerName">
 			<source>Owner name</source>
 			<target>Proprétaire</target>
@@ -4856,23 +4896,7 @@
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formContact_pageTitle">
 			<source>Page title</source>
 			<target>Titre de la page</target>
-		</trans-unit>	
-		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formDataManager_installComplete">
-			<source>Is installed</source>
-			<target>Est installé</target>
-		</trans-unit>		
-		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formDataManager_archived">
-			<source>Is archived</source>
-			<target>Est archivé</target>
-		</trans-unit>	
-		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formDataManager_archivedAt">
-			<source>Archived at</source>
-			<target>Archivé le</target>
-		</trans-unit>	
-		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_formDataManager_archivedMode">
-			<source>Archived mode</source>
-			<target>Mode d'archivage</target>
-		</trans-unit>	
+		</trans-unit>
 		<trans-unit id="WEMSG.CONFIGURATIONMANAGER.FORM.field_extranet_installComplete">
 			<source>Is installed</source>
 			<target>Est installé</target>

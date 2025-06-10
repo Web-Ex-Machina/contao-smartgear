@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 $header = <<<'EOF'
 SMARTGEAR for Contao Open Source CMS
-Copyright (c) 2015-2024 Web ex Machina
+Copyright (c) 2015-2025 Web ex Machina
 
 @category ContaoBundle
 @package  Web-Ex-Machina/contao-smartgear
@@ -43,7 +43,10 @@ return $config->setRules([
     'combine_consecutive_unsets' => true,
     'comment_to_phpdoc' => true,
     'compact_nullable_typehint' => true,
-    'fully_qualified_strict_types' => true,
+    // 'fully_qualified_strict_types' => true,
+    'fully_qualified_strict_types' => [
+        'leading_backslash_in_global_namespace'=>true,
+    ],
     'header_comment' => ['header' => $header, 'comment_type' => 'PHPDoc'],
     'heredoc_to_nowdoc' => true,
     'linebreak_after_opening_tag' => true,

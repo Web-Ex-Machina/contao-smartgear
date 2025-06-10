@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -81,7 +81,7 @@ class GeneratePageListener
                 $objModule = \Contao\ModuleModel::findByPk($firstItemAfterBreadcrumb['model']->module);
             }
         }
-        
+
         if (
             $firstItemAfterBreadcrumb
             && (
@@ -105,6 +105,10 @@ class GeneratePageListener
      */
     protected function registerPageVisit(PageModel $pageModel): void
     {
+        if ($this->isRobot()) {
+            return;
+        }
+
         try {
             /** @var CoreConfig $config */
             $config = $this->configurationManager->load();
@@ -129,6 +133,7 @@ class GeneratePageListener
         $url = Environment::get('url');
         $uri = Environment::get('uri');
         $referer = System::getReferer();
+        $parse = parse_url($referer);
 
         $uriWithoutUrl = str_replace($url, '', $uri);
 
@@ -145,9 +150,10 @@ class GeneratePageListener
         $objItem = new PageVisit();
         $objItem->pid = $pageModel->id;
         $objItem->page_url = $uri;
-        $objItem->page_url_base = str_contains((string) $uri, '?') ? substr((string) $uri, 0, strpos((string) $uri, '?')) : $uri;
+        $objItem->page_url_base = str_contains($uri, '?') ? substr($uri, 0, strpos($uri, '?')) : $uri;
         $objItem->referer = $referer;
-        $objItem->referer_base = str_contains($referer, '?') ? substr($referer, 0, strpos($referer, '?')) : $referer;
+        $objItem->referer_base = $parse['host'];
+        $objItem->user_agent = Environment::get('httpUserAgent');
         $objItem->hash = $hash;
         $objItem->createdAt = time();
         $objItem->tstamp = time();
@@ -162,5 +168,43 @@ class GeneratePageListener
     protected function loadCustomLanguageFile(PageModel $pageModel): void
     {
         $this->customLanguageFileLoader->loadCustomLanguageFile();
+    }
+
+    /**
+     * Detect crawlers
+     */
+    protected function isRobot()
+    {
+        $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+
+        // List of typical robot user agent strings
+        $robotStrings = array(
+            'Googlebot',
+            'Googlebot-Image',
+            'Googlebot-Video',
+            'Googlebot-Mobile',
+            'Mediapartners-Google',
+            'AdsBot-Google',
+            'APIs-Google',
+            'Google Web Preview',
+            'FeedFetcher-Google',
+            'Google-Read-Aloud',
+            'bingbot',
+            'Baiduspider',
+            'YandexBot',
+            'DuckDuckBot',
+            'Slackbot',
+            'Slackbot',
+            'ChatGPT',
+            // Add other strings for other known robots
+        );
+
+        foreach ($robotStrings as $botString) {
+            if (stripos($userAgent, $botString) !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

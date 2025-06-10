@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -20,7 +20,6 @@ use Contao\Environment;
 use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\System;
-use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
@@ -181,39 +180,39 @@ class Block extends Controller
                 case 'next':
                     $this->goToNextStep();
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
-                break;
+                    break;
                 case 'previous':
                     $this->goToPreviousStep();
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
-                break;
+                    break;
                 case 'setStep':
                     $this->goToStep((int) Input::post('step') ?? 0);
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
-                break;
+                    break;
                 case 'finish':
                     $arrResponse = $this->finish();
-                break;
+                    break;
                 case 'save':
                     $this->save();
                     $arrResponse = ['status' => 'success', 'msg' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.dataSaved', [], 'contao_default'), 'callbacks' => [
                         $this->callback('refreshBlock'),
                         $this->callback('toastrDisplay', ['success', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.dataSaved', [], 'contao_default')]),
                     ]];
-                break;
+                    break;
                 case 'install':
                     $this->setMode(self::MODE_INSTALL);
                     $this->configurationStepManager->goToStep(0);
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
-                break;
+                    break;
                 case 'configure':
                     $this->setMode(self::MODE_CONFIGURE);
                     $this->configurationStepManager->goToStep(0);
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
-                break;
+                    break;
                 case 'dashboard':
                     $this->setMode(self::MODE_DASHBOARD);
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
-                break;
+                    break;
                 case 'getSteps':
                     echo $this->parseSteps();
                     exit;
@@ -294,7 +293,7 @@ class Block extends Controller
             case self::MODE_CONFIGURE:
             case self::MODE_INSTALL:
                 $this->configurationStepManager->goToNextStep();
-            break;
+                break;
         }
     }
 
@@ -304,7 +303,7 @@ class Block extends Controller
             case self::MODE_CONFIGURE:
             case self::MODE_INSTALL:
                 $this->configurationStepManager->goToPreviousStep();
-            break;
+                break;
         }
     }
 
@@ -314,7 +313,7 @@ class Block extends Controller
             case self::MODE_CONFIGURE:
             case self::MODE_INSTALL:
                 $this->configurationStepManager->goToStep($stepIndex);
-            break;
+                break;
         }
     }
 
@@ -326,7 +325,7 @@ class Block extends Controller
                 $this->configurationStepManager->finish();
                 $this->setMode(self::MODE_DASHBOARD);
                 $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
-            break;
+                break;
         }
 
         return $arrResponse;
@@ -338,7 +337,7 @@ class Block extends Controller
             case self::MODE_CONFIGURE:
             case self::MODE_INSTALL:
                 $this->configurationStepManager->save();
-            break;
+                break;
         }
     }
 

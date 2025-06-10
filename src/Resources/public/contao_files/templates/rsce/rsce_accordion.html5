@@ -2,7 +2,7 @@
   <?php if(!empty($this->items)): ?>
       <?php foreach($this->items as $item): ?>
         <div class="accordionFW__item <?= !$item->lock ? '' : 'lock' ?> <?= !$item->active ? '' : 'active' ?>">
-          <<?= $item->headline['unit'] ?: 'div'; ?> class="accordionFW__title"><?= $item->headline['value'] ?></<?= $item->headline['unit'] ?: 'div'; ?>>
+          <<?= ($item->headline['unit'] ?? false) ?: 'div'; ?> class="accordionFW__title"><?= $item->headline['value'] ?></<?= ($item->headline['unit'] ?? false) ?: 'div'; ?>>
           <div class="accordionFW__content">
             <?= $item->content ?>
           </div>

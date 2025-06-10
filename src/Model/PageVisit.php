@@ -53,8 +53,7 @@ class PageVisit extends CoreModel
                 $arrColumns[] = sprintf($t . ".hash NOT IN (
                     SELECT l.hash
                     FROM %s l
-                    WHERE l.createdAt BETWEEN (%s.createdAt - 86400) AND (%s.createdAt + 86400)
-                    AND l.context = '%s'
+                    WHERE l.context = '%s'
                 )",
                 Login::getTable(),
                 self::getTable(),
@@ -131,7 +130,7 @@ class PageVisit extends CoreModel
         $where = self::formatColumns($arrConfig);
 
         $arrOptions['table'] = self::getTable();
-        $arrOptions['columns'] = $where;
+        $arrOptions['column'] = $where;
         $arrOptions['select'] = $arrSelect;
 
         $sql = self::buildFindQuery($arrOptions);
@@ -145,7 +144,7 @@ class PageVisit extends CoreModel
         $where = self::formatColumns($arrConfig);
 
         $arrOptions['table'] = self::getTable();
-        $arrOptions['columns'] = $where;
+        $arrOptions['column'] = $where;
         $arrOptions['select'] = $arrSelect;
 
         $sql = self::buildFindQuery($arrOptions);

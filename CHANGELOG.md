@@ -16,6 +16,71 @@ TODO :
 - Smartgear : new install process !
 - Smartgear : ability to manage multiple Smartgear installs in one Contao
 
+1.0.45 - 2025-03-14
+- Feat : as Form Data Manager is now an external bundle, use it.
+
+1.0.44 - 2025-02-12
+- Feat : better management of pages visit
+
+1.0.43 - 2025-01-24
+- Fix : `SendNotificationMessageListener::__invoke` - `$arrTokens` keys can be `int`, so cast them in `string` before calling `explode`
+
+1.0.42 - 2025-01-21
+- Fix : `tl_form_field.contains_personal_data` & `tl_form_field.is_technical_field` now have the `w50` class applied
+
+1.0.41 - 2025-01-10
+- Smartgear : fixed using Personal Data Manager depending on configuration when registrering user in front-end
+
+1.0.40 - 2024-12-17
+- Fix : `tl_sm_social_link.icon`'s input allows more than 15 characters
+
+1.0.39 - 2024-11-04
+- Dependencies bump
+- RSCE : avoiding some PHP warnings
+
+1.0.38 - 2024-08-22
+- FIX : Various fixes for dev mod
+- UPDATED : Adaptation to new PDM storage
+
+1.0.37 - 2024-08-06
+- Feat : Add compatibility with webexmachina/contao-utils 2.0
+
+1.0.36 - 2024-07-31
+- Smartgear : fix `breadcrumb` autoplacement
+
+1.0.35 - 2024-07-25
+- Smartgear : fix `form_password.html5` regexp
+
+1.0.34 - 2024-07-02
+- Smartgear : display core's install form instead of dashboard when SG is not installed
+
+1.0.33 - 2024-06-24
+- Smartgear : fixed `websiteTitle` field not present in BE configuration form
+
+1.0.32 - 2024-05-31
+- Smartgear : fixed `form_captcha.html5`
+
+1.0.31 - 2024-05-14
+- Smartgear : some notifications' tokens updates 
+    + `useful_data` now uses `<br />` as carriage return, available in `email_html` & `email_text` (only for compatibility)
+    + `useful_data_filled` now uses `<br />` as carriage return, available in `email_html` & `email_text` (only for compatibility)
+    + `useful_data_text` (new token) uses `\n` as carriage return, available in `email_text` only
+    + `useful_data_filled_text` (new token) uses `\n` as carriage return, available in `email_text` only
+- Smartgear : `email` field `mandatory` property is no more required when form is managed by Form Data Manager
+
+1.0.30 - 2024-04-24
+- Smartgear : fixed call for Personal Data Manager when displaying personal data in back-end using the GPDR menu
+- Smartgear : fixed call for Personal Data Manager when displaying personal data in front-end
+
+1.0.29 - 2024-04-15
+- Fix : remove `heimrichhannot/contao-filename-sanitizer-bundle` to avoid problems in PHP > 8.1 (autowiring issue, bundle not updated since 2022)
+
+1.0.28 - 2024-02-09
+- Smartgear : Backup Manager better decides when to split large files in smaller files (avoid memory limit overflow, but isn't faster)
+
+1.0.27 - 2024-01-19
+- Smartgear : fixed an exception triggers by a Contao 4.13.36 updated (checkPermission removed from tl_theme DCA)
+
 1.0.26 - 2023-11-28
 - Smartgear : fixed backend menu alteration which could lead in an error
 

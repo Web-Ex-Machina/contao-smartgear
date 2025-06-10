@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -107,7 +107,7 @@ $GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_sm_form_storage';
 $GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_sm_form_storage_data';
 
 // ComponentStyleSelect override
-$GLOBALS['BE_FFL']['stylemanager'] = WEM\SmartgearBundle\Widget\ComponentStyleSelect::class;
+$GLOBALS['BE_FFL']['stylemanager'] = \WEM\SmartgearBundle\Widget\ComponentStyleSelect::class;
 /*
  * Backend modules
  */
@@ -166,19 +166,6 @@ ArrayUtil::arrayInsert(
         ],
     ]
 );
-ArrayUtil::arrayInsert(
-    $GLOBALS['BE_MOD']['content'],
-    array_search('form', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
-    [
-        'wem_sg_form_data_manager' => [
-            'tables' => ['tl_sm_form_storage', 'tl_sm_form_storage_data'],
-            'export_all' => ['smartgear.backend.module.form_data_manager.backend_controller', 'exportAll'],
-            'export' => ['smartgear.backend.module.form_data_manager.backend_controller', 'exportSingle'],
-        ],
-    ]
-);
-$GLOBALS['BE_MOD']['content']['form']['export_all'] = ['smartgear.backend.module.form_data_manager.backend_controller', 'exportAllFromForm'];
-$GLOBALS['BE_MOD']['content']['form']['export'] = ['smartgear.backend.module.form_data_manager.backend_controller', 'exportSingle'];
 
 /*
  * Frontend modules
@@ -259,14 +246,15 @@ $GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\NotificationCenter\Gateway::getT
 /*
  * Add globals Hooks
  */
-//$GLOBALS['TL_HOOKS']['loadLanguageFile'][] = ['smartgear.listener.load_language_file', '__invoke']; //replaced by Attributes
-//$GLOBALS['TL_HOOKS']['sendNotificationMessage'][] = ['smartgear.listener.send_notification_message', '__invoke'];  //replaced by Attributes
+//$GLOBALS['TL_HOOKS']['loadLanguageFile'][] = ['smartgear.listener.load_language_file', '__invoke'];
 
 ///*
 // * NC hooks
 // */
 //$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data';
+//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_text';
 //$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_filled';
+//$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_text'][] = 'useful_data_filled_text';
 //$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data';
 //$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['email_html'][] = 'useful_data_filled';
 //$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data';
@@ -276,10 +264,9 @@ $GLOBALS['TL_MODELS'][WEM\SmartgearBundle\Model\NotificationCenter\Gateway::getT
 // * Notifications
 // */
 //$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['smartgear']['ticket_creation'] = [
-//    'email_sender_name' => ['email_sender_name'],
 //    'email_sender_address' => ['sg_owner_email'],
-//    'email_subject' => ['ticket_subject', 'sg_title'],
 //    'recipients' => ['support_email', 'sg_owner_email'],
+//    'email_subject' => ['ticket_*'],
 //    'email_text' => ['ticket_*', 'sg_owner_name'],
 //    'email_html' => ['ticket_*', 'sg_owner_name'],
 //    'email_replyTo' => ['sg_owner_email'],

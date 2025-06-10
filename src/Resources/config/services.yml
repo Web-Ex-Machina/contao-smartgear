@@ -176,6 +176,9 @@ services:
 
     smartgear.classes.analyzer.htaccess:
         class: WEM\SmartgearBundle\Classes\Analyzer\Htaccess
+        arguments:
+            $htAccessFilePath: './.htaccess'
+            # $htAccessFilePath: '[public_or_web]/.htaccess'
         public: true
 
     smartgear.classes.api.security.api_key:
@@ -297,10 +300,6 @@ services:
         class: WEM\SmartgearBundle\Config\Module\Extranet\Extranet
         public: true
 
-    smartgear.config.form_data_manager:
-        class: WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager
-        public: true
-
     smartgear.config.framway:
         class: WEM\SmartgearBundle\Config\Framway
         public: true
@@ -383,7 +382,24 @@ services:
                 - '@smartgear.migrations.v1_0_24.m202311021346.migration'
                 - '@smartgear.migrations.v1_0_25.m202311201059.migration'
                 - '@smartgear.migrations.v1_0_26.m202311281720.migration'
-                - '@smartgear.migrations.v1_1_0.m202311301519.migration'
+                - '@smartgear.migrations.v1_0_27.m202401191210.migration'
+                - '@smartgear.migrations.v1_0_28.m202402061818.migration'
+                - '@smartgear.migrations.v1_0_29.m202404150950.migration'
+                - '@smartgear.migrations.v1_0_30.m202404240943.migration'
+                - '@smartgear.migrations.v1_0_31.m202405141120.migration'
+                - '@smartgear.migrations.v1_0_32.m202405311133.migration'
+                - '@smartgear.migrations.v1_0_33.m202406240000.migration'
+                - '@smartgear.migrations.v1_0_34.m202407020000.migration'
+                - '@smartgear.migrations.v1_0_35.m202407251417.migration'
+                - '@smartgear.migrations.v1_0_36.m202407311645.migration'
+                - '@smartgear.migrations.v1_0_38.m202408221511.migration'
+                - '@smartgear.migrations.v1_0_39.m202410281417.migration'
+                - '@smartgear.migrations.v1_0_40.m202412171530.migration'
+                - '@smartgear.migrations.v1_0_41.m202501101501.migration'
+                - '@smartgear.migrations.v1_0_42.m202501211648.migration'
+                - '@smartgear.migrations.v1_0_43.m202501241204.migration'
+                - '@smartgear.migrations.v1_0_44.m202502121430.migration'
+                - '@smartgear.migrations.v1_0_45.m202503141412.migration'
         public: true
 
     smartgear.model.backup:
@@ -430,18 +446,6 @@ services:
 
     smartgear.data_container.form:
         class: WEM\SmartgearBundle\DataContainer\Form
-        public: true
-
-    smartgear.data_container.form_storage:
-        class: WEM\SmartgearBundle\DataContainer\FormStorage
-        arguments:
-            $translator: '@contao.translation.translator'
-        public: true
-
-    smartgear.data_container.form_storage_data:
-        class: WEM\SmartgearBundle\DataContainer\FormStorageData
-        arguments:
-            $translator: '@contao.translation.translator'
         public: true
 
     smartgear.classes.dca.field.callback.load:

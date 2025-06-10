@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2024 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -17,75 +17,27 @@ namespace WEM\SmartgearBundle\DataContainer;
 use Contao\Backend;
 use Contao\CoreBundle\DataContainer\DataContainerOperation;
 use Contao\CoreBundle\Exception\AccessDeniedException;
-use Contao\DataContainer;
 use Contao\Image;
 use Contao\Input;
-use Exception;
+use Contao\System;
 use tl_form;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\FormUtil;
-use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\EmailFieldNotMandatoryInForm;
-use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\FormNotConfiguredToStoreValues;
-use WEM\SmartgearBundle\Exceptions\Module\FormDataManager\NoEmailFieldInForm;
-use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
-use WEM\SmartgearBundle\Model\FormField;
-use WEM\SmartgearBundle\Model\FormStorage;
 
 // class Form extends \tl_form
 class Form extends Backend
 {
-    private readonly \tl_form $parent;
+    /** @var CoreConfigurationManager */
+    private $configurationManager;
+
+    /** @var Backend */
+    private $parent;
 
     public function __construct()
     {
         parent::__construct();
-        $this->parent = new tl_form();
-    }
-
-    public function listItems(array $row, string $label, DataContainer $dc, array $labels): array
-    {
-        try {
-            // check form configuration
-            FormUtil::checkFormConfigurationCompliantForFormDataManager($row['id']);
-
-            $nbFormStorage = FormStorage::countItems(['pid' => $row['id']]);
-
-            $labels[1] = FormStorage::countItems(['pid' => $row['id']]);
-        } catch (FormNotConfiguredToStoreValues|NoEmailFieldInForm|EmailFieldNotMandatoryInForm|Exception $e) {
-            $labels[1] = $e->getMessage();
-        }
-
-        return $labels;
-    }
-
-    public function onSubmitCallback(DataContainer $dc): void
-    {
-        // if the form has to be managed by FDM, assign a mandatory email field
-        try {
-            // check form configuration
-            FormUtil::checkFormConfigurationCompliantForFormDataManager($dc->id);
-        } catch (FormNotConfiguredToStoreValues) {
-            // do nothing
-        } catch (NoEmailFieldInForm) {
-            // add a mandatory email field
-            $objFormFieldEmail = new FormField();
-            $objFormFieldEmail->pid = $dc->id;
-            $objFormFieldEmail->type = 'text';
-            $objFormFieldEmail->rgxp = 'email';
-            $objFormFieldEmail->name = 'email';
-            $objFormFieldEmail->label = $GLOBALS['TL_LANG']['WEMSG']['FDM']['FORM']['emailFieldLabel'];
-            $objFormFieldEmail->placeholder = $GLOBALS['TL_LANG']['WEMSG']['FDM']['FORM']['emailFieldPlaceholder'];
-            $objFormFieldEmail->sorting = 32;
-            $objFormFieldEmail->mandatory = 1;
-            $objFormFieldEmail->tstamp = time();
-            $objFormFieldEmail->save();
-        } catch (EmailFieldNotMandatoryInForm) {
-            // retrieve the email field and make it mandatory
-            $objFormFieldEmail = FormField::findItems(['pid' => $dc->id, 'name' => 'email']);
-            $objFormFieldEmail->mandatory = 1;
-            $objFormFieldEmail->save();
-        } catch (Exception $e) {
-            $labels[1] = $e->getMessage();
-        }
+        $this->configurationManager = System::getContainer()->get('smartgear.config.manager.core');
+        $this->parent = new \tl_form();
     }
 
     /**
@@ -129,6 +81,6 @@ class Form extends Backend
 
     protected function canItemBeDeleted(int $id): bool
     {
-        return $this->User->admin || !$this->isItemUsedBySmartgear($id);
+        return (null !== $this->User && $this->User->admin) || !$this->isItemUsedBySmartgear($id);
     }
 }

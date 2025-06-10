@@ -35,6 +35,11 @@ class Theme extends Backend
      */
     public function checkPermission(): void
     {
+        if (method_exists(\tl_theme::class, 'checkPermission')) {
+            parent::checkPermission();
+        }
+
+        // Check current action
         if (Input::get('act') === 'delete' && !$this->canItemBeDeleted((int) Input::get('id'))) {
             throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' theme ID '.Input::get('id').'.');
         }

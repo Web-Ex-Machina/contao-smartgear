@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2024 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -38,7 +38,6 @@ use Contao\System;
 use Contao\ThemeModel;
 use Contao\UserGroupModel;
 use Contao\UserModel;
-use Exception;
 use WEM\SmartgearBundle\Model\NotificationCenter\Gateway as GatewayModel;
 use WEM\SmartgearBundle\Model\NotificationCenter\Language as LanguageModel;
 use WEM\SmartgearBundle\Model\NotificationCenter\Message as MessageModel;
@@ -54,7 +53,6 @@ use WEM\SmartgearBundle\Config\Component\Events\Events as EventsConfig;
 use WEM\SmartgearBundle\Config\Component\Faq\Faq as FaqConfig;
 use WEM\SmartgearBundle\Config\Component\FormContact\FormContact as FormContactConfig;
 use WEM\SmartgearBundle\Config\Module\Extranet\Extranet as ExtranetConfig;
-use WEM\SmartgearBundle\Config\Module\FormDataManager\FormDataManager as FormDataManagerConfig;
 use WEM\SmartgearBundle\Exceptions\Backup\ManagerException;
 use WEM\SmartgearBundle\Exceptions\File\NotFound as FileNotFoundException;
 use WEM\SmartgearBundle\Model\Member;
@@ -88,14 +86,11 @@ class Smartgear extends BackendModule
      */
     protected string $strBasePath = 'bundles/wemsmartgear';
 
-    // protected $modules = ['module' => ['extranet', 'form_data_manager'], 'component' => ['core', 'blog', 'events', 'faq', 'form_contact']];
-    protected array $modules = ['module' => [], 'component' => []];
+    protected $modules = ['module' => ['extranet'], 'component' => ['core', 'blog', 'events', 'faq', 'form_contact']];
 
     protected ?BackupManager $backupManager;
 
     protected ?UpdateManager $updateManager;
-
-    protected ?CommandUtil $commandUtil;
 
     protected ConfigurationManager $coreConfigurationManager;
 
@@ -129,7 +124,7 @@ class Smartgear extends BackendModule
                 switch (Input::post('action')) {
                     case 'executeCmd':
                         if (!Input::post('cmd')) {
-                            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
+                            throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
 
                         $arrResponse['status'] = 'success';
@@ -140,7 +135,7 @@ class Smartgear extends BackendModule
                         break;
                     case 'executeCmdPhp':
                         if (!Input::post('cmd')) {
-                            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
+                            throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
 
                         $arrResponse['status'] = 'success';
@@ -151,32 +146,32 @@ class Smartgear extends BackendModule
                         break;
                     case 'executeCmdLive':
                         if (!Input::post('cmd')) {
-                            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
+                            throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageCmdNotSpecified']);
                         }
 
                         $arrResponse['status'] = 'success';
-                        $arrResponse['msg'] = sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
+                        $arrResponse['msg'] = \sprintf($GLOBALS['TL_LANG']['WEMSG']['AJAX']['COMMAND']['messageSuccess'], Input::post('cmd'));
                         $res = $this->commandUtil->executeCmdLive(Input::post('cmd'));
                         $arrResponse['output'] = $res;
                         // exit();
-                    break;
+                        break;
 
                     default:
                         // Check if we get all the params we need first
                         if (!Input::post('type') || !Input::post('module') || !Input::post('action')) {
-                            throw new Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterMissing']);
+                            throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterMissing']);
                         }
 
                         $objBlock = System::getContainer()->get('smartgear.backend.'.Input::post('type').'.'.Input::post('module').'.block');
                         if ('parse' === Input::post('action')) {
                             echo $objBlock->processAjaxRequest();
-                            exit();
+                            exit;
                         }
 
                         $arrResponse = $objBlock->processAjaxRequest();
                         $arrResponse['logs'] = $objBlock->getLogs();
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $arrResponse = ['status' => 'error', 'msg' => $e->getMessage(), 'trace' => $e->getTrace()];
             }
 
@@ -188,12 +183,115 @@ class Smartgear extends BackendModule
     }
 
     /**
+     * Generate the module.
+     *
+     * @throws \Exception
+     */
+    protected function compile(): void
+    {
+        // Add WEM styles to template
+        $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
+        try {
+            $coreConfig = $this->coreConfigurationManager->load();
+        } catch (FileNotFoundException $e) {
+            $coreConfig = $this->coreConfigurationManager->new();
+            $save = $this->coreConfigurationManager->save($coreConfig);
+        }
+
+        if ('backupmanager' === Input::get('key')) {
+            $this->getBackupManager();
+
+            return;
+        }
+
+        if ('updatemanager' === Input::get('key')) {
+            $this->getUpdateManager();
+
+            return;
+        }
+
+        if ('configurationmanager' === Input::get('key')) {
+            $this->getConfigurationManager();
+
+            return;
+        }
+        // Catch Modal Calls
+        if ('modal' === Input::get('act')) {
+            // Catch Errors
+            if (!Input::get('type')) {
+                throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterTypeMissing']);
+            }
+            if (!Input::get('module')) {
+                throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterModuleMissing']);
+            }
+            if (!Input::get('function')) {
+                throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterFunctionMissing']);
+            }
+
+            // Load the good block
+            $objModule = Util::findAndCreateObject(Input::get('type'), Input::get('module'));
+            $this->Template = $objModule->{Input::get('function')}();
+
+            return;
+        }
+
+        // If there is nothing setup, trigger Smartgear Install
+        if (!$coreConfig->getSgInstallComplete()) {
+            $coreBlock = System::getContainer()->get('smartgear.backend.component.core.block');
+            $arrBlocks[$coreBlock->getType()][] = $coreBlock->parse();
+            $this->getConfigurationManagerButton();
+        } else {
+            // Retrieve number of updates to play if session key is undefined
+            // @todo : find a way to update this value after an update by the Contao-Manager
+            if ($this->objSession->get('wem_sg_update_to_play_number')) {
+                $this->Template->update_to_play_number = $this->objSession->get('wem_sg_update_to_play_number');
+            } else {
+                $listResults = $this->updateManager->list();
+                $this->Template->update_to_play_number = $listResults->getNumbersOfUpdatesToPlay();
+                $this->objSession->set('wem_sg_update_to_play_number', $this->Template->update_to_play_number);
+            }
+
+            // Load buttons
+            $this->getBackupManagerButton();
+            $this->getUpdateManagerButton();
+            $this->getConfigurationManagerButton();
+
+            // Parse Smartgear components
+            foreach ($this->modules as $type => $blocks) {
+                foreach ($blocks as $block) {
+                    $objModule = $this->getContainer()->get('smartgear.backend.'.$type.'.'.$block.'.block');
+                    $arrBlocks[$type][] = $objModule->parse();
+                }
+            }
+        }
+        // Send blocks to template
+        $this->Template->blocks = $arrBlocks;
+
+        // Send msc data to template
+        $this->Template->request = Environment::get('request');
+        $this->Template->token = RequestToken::get();
+        $this->Template->websiteTitle = Config::get('websiteTitle');
+        $this->Template->version = $this->coreConfigurationManager->load()->getSgVersion();
+
+        if ($coreConfig->getSgInstallLocked()) {
+            Message::addInfo($GLOBALS['TL_LANG']['WEMSG']['CORE']['DASHBOARD']['installLocked']);
+        }
+    }
+
+    /**
      * Backup manager behaviour.
      * @throws ManagerException
      */
     public function getBackupManager(): void
     {
         $this->Template = new BackendTemplate('be_wem_sg_backupmanager');
+
+        $memoryLimitInBytes = Util::formatPhpMemoryLimitToBytes(\ini_get('memory_limit'));
+        if ($memoryLimitInBytes < 0) {
+            Message::addInfo(\sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageChunkSizeNoLimitDefined'], Util::humanReadableFilesize($this->backupManager->getChunkSizeInBytes(), 0)));
+        } else {
+            Message::addInfo(\sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageChunkSize'], Util::humanReadableFilesize($this->backupManager->getChunkSizeInBytes(), 0)));
+        }
 
         if ('new' === Input::get('act')) {
             try {
@@ -205,7 +303,7 @@ class Smartgear extends BackendModule
                 $this->objSession->set('wem_sg_backup_create_result', $result);
 
                 // Add Message
-                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageNewBackUpDone'], $result->getBackup()->getFile()->basename, ($end - $start)));
+                Message::addConfirmation(\sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageNewBackUpDone'], $result->getBackup()->getFile()->basename, $end - $start));
             } catch (ManagerException $e) {
                 Message::addError($e->getMessage());
             }
@@ -222,7 +320,7 @@ class Smartgear extends BackendModule
                 $this->objSession->set('wem_sg_backup_restore_result', $result);
 
                 // Add Message
-                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageRestoreBackUpDone'], $result->getBackup()->getFile()->basename, ($end - $start)));
+                Message::addConfirmation(\sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageRestoreBackUpDone'], $result->getBackup()->getFile()->basename, $end - $start));
             } catch (ManagerException $e) {
                 Message::addError($e->getMessage());
             }
@@ -233,13 +331,13 @@ class Smartgear extends BackendModule
             try {
                 if ($this->backupManager->delete(Input::get('backup'))) {
                     // Add Message
-                    Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpSuccess'], Input::get('backup')));
+                    Message::addConfirmation(\sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpSuccess'], Input::get('backup')));
                 } else {
                     // Add Message
-                    Message::addError(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
+                    Message::addError(\sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
                 }
             } catch (ManagerException) {
-                Message::addError(sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
+                Message::addError(\sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['BACKUPMANAGER']['messageDeleteBackUpError'], Input::get('backup')));
             }
 
             // And redirect
@@ -403,7 +501,7 @@ class Smartgear extends BackendModule
 
                 // Add Message
                 Message::addConfirmation($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['messagePlayUpdatesDone']);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 Message::addError($e->getMessage());
             }
 
@@ -433,7 +531,7 @@ class Smartgear extends BackendModule
         // play updates button
         $this->Template->playUpdatesWithoutBackupButtonHref = $this->addToUrl('&act=play&backup=0');
         $this->Template->playUpdatesWithoutBackupButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBTTitle']);
-        $this->Template->playUpdatesWithoutBackupButtonButton = sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBT'], \Contao\Image::getHtml('important.svg'));
+        $this->Template->playUpdatesWithoutBackupButtonButton = \sprintf($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithoutBackupBT'], \Contao\Image::getHtml('important.svg'));
         $this->Template->playUpdatesWithBackupButtonHref = $this->addToUrl('&act=play&backup=1');
         $this->Template->playUpdatesWithBackupButtonTitle = StringUtil::specialchars($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithBackupBTTitle']);
         $this->Template->playUpdatesWithBackupButtonButton = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['UPDATEMANAGER']['playUpdatesWithBackupBT'];
@@ -451,7 +549,7 @@ class Smartgear extends BackendModule
 
                 // Add Message
                 Message::addConfirmation($GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['CONFIGURATIONMANAGER']['messageSaveDone']);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 Message::addError($e->getMessage());
             }
         }
@@ -522,6 +620,7 @@ class Smartgear extends BackendModule
                 ->setSgMode(Input::post('core')['mode'])
                 ->setSgAnalyticsMatomoHost(Input::post('core')['analyticsMatomoHost'])
                 ->setSgAnalyticsMatomoId(Input::post('core')['analyticsMatomoId'])
+                ->setSgWebsiteTitle(Input::post('core')['websiteTitle'])
                 ->setSgOwnerName(Input::post('core')['ownerName'])
                 ->setSgOwnerEmail(Input::post('core')['ownerEmail'])
                 ->setSgOwnerDomain(Input::post('core')['ownerDomain'])
@@ -720,24 +819,9 @@ class Smartgear extends BackendModule
 
                 ->setSgFormContactTitle(Input::post('formContact')['formContactTitle'] ?? FormContactConfig::DEFAULT_FEED_TITLE)
                 ->setSgPageTitle(Input::post('formContact')['pageTitle'] ?? FormContactConfig::DEFAULT_PAGE_TITLE)
-
             ;
 
             $coreConfig->setSgFormContact($fcConfig);
-        }
-
-        if (Input::post('formDataManager')) {
-            /** @var FormDataManagerConfig $coreConfig */
-            $fdmConfig = $coreConfig->getSgFormDataManager();
-
-            $fdmConfig
-                ->setSgInstallComplete((bool) Input::post('formDataManager')['installComplete'])
-                ->setSgArchived((bool) Input::post('formDataManager')['archived'])
-                ->setSgArchivedAt((int) Input::post('formDataManager')['archivedAt'])
-                ->setSgArchivedMode(Input::post('formDataManager')['archivedMode'])
-            ;
-
-            $coreConfig->setSgFormDataManager($fdmConfig);
         }
 
         if (Input::post('extranet')) {
@@ -981,7 +1065,7 @@ class Smartgear extends BackendModule
                                                 $arrContents[$objContent->id] = [
                                                     'value' => (int) $objContent->id,
                                                     // 'text' => $objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
-                                                    'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').') | '.$objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->inColumn.' - '.($objArticle->published ? 'publié' : 'dépublié').')'.' | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.' - '.($objContent->invisible ? 'invisible' : 'visible').')'.$this->getContentAdditionalInfos($objContent),
+                                                    'text' => $objTheme->name.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').') | '.$objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->inColumn.' - '.($objArticle->published ? 'publié' : 'dépublié').') | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.' - '.($objContent->invisible ? 'invisible' : 'visible').')'.$this->getContentAdditionalInfos($objContent),
                                                     'selected' => false,
                                                 ];
                                             }
@@ -1055,7 +1139,7 @@ class Smartgear extends BackendModule
                                 $arrContents[$objContent->id] = [
                                     'value' => (int) $objContent->id,
                                     // 'text' => $objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.')',
-                                    'text' => $themeName.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').') | '.$objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->inColumn.' - '.($objArticle->published ? 'publié' : 'dépublié').')'.' | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.' - '.($objContent->invisible ? 'invisible' : 'visible').')'.$this->getContentAdditionalInfos($objContent),
+                                    'text' => $themeName.' | '.$objPage->sorting.' - '.$objPage->title.' ('.$objPage->type.' - '.($objPage->published ? 'publiée' : 'dépubliée').') | '.$objArticle->sorting.' - '.$objArticle->title.' ('.$objArticle->inColumn.' - '.($objArticle->published ? 'publié' : 'dépublié').') | '.$objContent->sorting.' - '.$objContent->title.' ('.$objContent->type.' - '.($objContent->invisible ? 'invisible' : 'visible').')'.$this->getContentAdditionalInfos($objContent),
                                     'selected' => false,
                                 ];
                             }
@@ -1193,6 +1277,7 @@ class Smartgear extends BackendModule
             'analyticsGoogleId' => $coreConfig->getSgAnalyticsGoogleId(),
             'analyticsMatomoHost' => $coreConfig->getSgAnalyticsMatomoHost() ?? CoreConfig::DEFAULT_ANALYTICS_SYSTEM_MATOMO_HOST,
             'analyticsMatomoId' => $coreConfig->getSgAnalyticsMatomoId(),
+            'websiteTitle' => $coreConfig->getSgWebsiteTitle(),
             'ownerName' => $coreConfig->getSgOwnerName(),
             'ownerEmail' => $coreConfig->getSgOwnerEmail(),
             'ownerDomain' => $coreConfig->getSgOwnerDomain(),
@@ -1560,32 +1645,6 @@ class Smartgear extends BackendModule
 
         $this->Template->forms = $empty + $arrForms;
         $this->Template->fields = $empty + $arrFields;
-
-        // FormDataManager
-        /** @var FormDataManagerConfig $coreConfig */
-        $fdmConfig = $coreConfig->getSgFormDataManager();
-        $archivedModeRaw = FormDataManagerConfig::ARCHIVE_MODES_ALLOWED;
-        $archivedMode = [];
-        foreach ($archivedModeRaw as $mode) {
-            $archivedMode[$mode] = [
-                'text' => $mode === '' || $mode === '0' ? 'N/A' : $mode,
-                'value' => $mode,
-                'selected' => false,
-            ];
-        }
-
-        if ($archivedMode[$fdmConfig->getSgArchivedMode()]) {
-            $archivedMode[$fdmConfig->getSgArchivedMode()]['selected'] = true;
-        }
-
-        $formDataManager = [
-            'installComplete' => $fdmConfig->getSgInstallComplete(),
-            'archived' => $fdmConfig->getSgArchived(),
-            'archivedAt' => $fdmConfig->getSgArchivedAt(),
-            'archivedMode' => $archivedMode,
-        ];
-
-        $this->Template->formDataManager = $formDataManager;
 
         // Extranet
         /** @var ExtranetConfig */

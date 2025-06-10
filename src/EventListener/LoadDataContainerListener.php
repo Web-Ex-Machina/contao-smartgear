@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
+ * Copyright (c) 2015-2025 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -16,7 +16,6 @@ namespace WEM\SmartgearBundle\EventListener;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Input;
-use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\SmartgearBundle\Classes\Dca\Manipulator as DCAManipulator;
@@ -89,56 +88,56 @@ class LoadDataContainerListener
                     ->addConfigOnloadCallback(ArticleDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(ArticleDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_calendar':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(CalendarDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(CalendarDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_calendar_events':
                 DCAManipulator::create($table)
                     ->addConfigOnsubmitCallback(CalendarEventsDCA::class, 'fillCoordinates')
                 ;
-            break;
+                break;
             case 'tl_content':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(ContentDCA::class, 'checkPermission')
                     ->addConfigOnloadCallback(ContentDCA::class, 'showJsLibraryHint')
                     ->setListOperationsDeleteButtonCallback(ContentDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_faq_category':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(FaqCategoryDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(FaqCategoryDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_files':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(FilesDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(FilesDCA::class, 'deleteItem')
                     ->addConfigOnloadCallback(FilesDCA::class, 'uploadWarningMessage')
                 ;
-            break;
+                break;
             case 'tl_form':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(FormDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(FormDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_image_size':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(ImageSizeDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(ImageSizeDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_layout':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(LayoutDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(LayoutDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_member':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(MemberDCA::class, 'checkPermission')
@@ -147,7 +146,7 @@ class LoadDataContainerListener
                 try {
                     /** @var CoreConfiguration */
                     $coreConfig = $this->configurationManager->load();
-                } catch (Exception) {
+                } catch (\Exception) {
                     $coreConfig = null;
                 }
 
@@ -179,86 +178,86 @@ class LoadDataContainerListener
                     ;
                 }
 
-            break;
+                break;
             case 'tl_member_group':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(MemberGroupDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(MemberGroupDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_module':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(ModuleDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(ModuleDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_nc_gateway':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(NotificationGatewayDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(NotificationGatewayDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_nc_language':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(NotificationLanguageDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(NotificationLanguageDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_nc_message':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(NotificationMessageDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(NotificationMessageDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_nc_notification':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(NotificationNotificationDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(NotificationNotificationDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_news_archive':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(NewsArchiveDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(NewsArchiveDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_page':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(PageDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(PageDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_sm_social_network_category':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback('smartgear.data_container.social_network_category', 'checkPermission')
                     ->setListOperationsDeleteButtonCallback('smartgear.data_container.social_network_category', 'deleteItem')
                     ->setListOperationsEditheaderButtonCallback('smartgear.data_container.social_network_category', 'editHeader')
                 ;
-            break;
+                break;
             case 'tl_sm_social_network':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback('smartgear.data_container.social_network', 'checkPermission')
                     ->setListOperationsDeleteButtonCallback('smartgear.data_container.social_network', 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_theme':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(ThemeDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(ThemeDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_user':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(UserDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(UserDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
             case 'tl_user_group':
                 DCAManipulator::create($table)
                     ->addConfigOnloadCallback(UserGroupDCA::class, 'checkPermission')
                     ->setListOperationsDeleteButtonCallback(UserGroupDCA::class, 'deleteItem')
                 ;
-            break;
+                break;
         }
     }
 
@@ -293,7 +292,7 @@ class LoadDataContainerListener
                 foreach ($meaningfulColors as $name) {
                     $help[$name] = [
                         '<div style="width:15px;height:15px;border:1px dotted black;" class="bg-'.$name.'"></div>',
-                        $this->translator->trans(sprintf('WEMSG.FRAMWAY.COLORS.%s', $name), [], 'contao_default'),
+                        $this->translator->trans(\sprintf('WEMSG.FRAMWAY.COLORS.%s', $name), [], 'contao_default'),
                     ];
                 }
             } catch (FileNotFoundException) {
@@ -308,7 +307,7 @@ class LoadDataContainerListener
                 foreach (array_keys($colors) as $name) {
                     $help[$name] = [
                         '<div style="width:15px;height:15px;border:1px dotted black;" class="bg-'.$name.'"></div>',
-                        $this->translator->trans(sprintf('WEMSG.FRAMWAY.COLORS.%s', $name), [], 'contao_default'),
+                        $this->translator->trans(\sprintf('WEMSG.FRAMWAY.COLORS.%s', $name), [], 'contao_default'),
                     ];
                 }
             } catch (FileNotFoundException) {

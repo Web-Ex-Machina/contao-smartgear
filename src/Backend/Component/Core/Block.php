@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2022 Web ex Machina
+ * Copyright (c) 2015-2024 Web ex Machina
  *
  * @category ContaoBundle
  * @package  Web-Ex-Machina/contao-smartgear
@@ -18,7 +18,6 @@ use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\System;
-use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\SmartgearBundle\Classes\Backend\Block as BackendBlock;
 use WEM\SmartgearBundle\Classes\Backend\ConfigurationStepManager;
@@ -62,7 +61,7 @@ class Block extends BackendBlock
                     $arrResponse['status'] = 'success';
                     $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayRetrievalAjaxMessageSuccess'];
                     $arrResponse['output'] = $res;
-                break;
+                    break;
                 case 'framwayInstall':
                     try {
                         $framwayRetrievalStep = System::getContainer()->get('smartgear.backend.component.core.configuration_step.framway_retrieval');
@@ -70,7 +69,7 @@ class Block extends BackendBlock
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayInstallAjaxMessageSuccess'];
                         $arrResponse['output'] = $res;
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         $arrResponse['status'] = 'error';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayInstallAjaxMessageError'];
                         $arrResponse['output'] = $e->getMessage();
@@ -84,7 +83,7 @@ class Block extends BackendBlock
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayInitialiazeAjaxMessageSuccess'];
                         $arrResponse['output'] = $res;
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         $arrResponse['status'] = 'error';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayInitialiazeAjaxMessageError'];
                         $arrResponse['output'] = $e->getMessage();
@@ -98,13 +97,13 @@ class Block extends BackendBlock
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayBuildAjaxMessageSuccess'];
                         $arrResponse['output'] = $res;
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         $arrResponse['status'] = 'error';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayBuildAjaxMessageError'];
                         $arrResponse['output'] = $e->getMessage();
                     }
 
-                break;
+                    break;
                 case 'framwayThemeAdd':
                     try {
                         $framwayConfigurationStep = System::getContainer()->get('smartgear.backend.component.core.configuration_step.framway_configuration');
@@ -112,40 +111,39 @@ class Block extends BackendBlock
                         $arrResponse['status'] = 'success';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayThemeAddAjaxMessageSuccess'];
                         $arrResponse['output'] = $res;
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         $arrResponse['status'] = 'error';
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayThemeAddAjaxMessageError'].$e->getMessage();
                         $arrResponse['output'] = $e->getMessage();
                     }
-
-                break;
+                    break;
                 case 'dev_mode':
                     $this->dashboard->enableDevMode();
                     $arrResponse = ['status' => 'success', 'msg' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['enableDevModeAjaxMessageSuccess'], 'callbacks' => [$this->callback('refreshBlock')]];
-                break;
+                    break;
                 case 'prod_mode':
                     $this->dashboard->enableProdMode();
                     $arrResponse = ['status' => 'success', 'msg' => $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['enableProdModeAjaxMessageSuccess'], 'callbacks' => [$this->callback('refreshBlock')]];
-                break;
+                    break;
                 case 'prod_mode_check':
                     $this->setMode(self::MODE_CHECK_PROD);
                     $content = $this->parse();
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('replaceBlockContent', [$content])]];
-                break;
+                    break;
                 case 'reset_mode':
                     $this->setMode(self::MODE_RESET);
                     $this->resetStepManager->goToStep(0);
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('refreshBlock')]];
-                break;
+                    break;
                 case 'prod_mode_check_cancel':
                 case 'reset_mode_check_cancel':
                     $this->setMode(self::MODE_DASHBOARD);
                     $content = $this->parse();
                     $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('replaceBlockContent', [$content])]];
-                break;
+                    break;
                 default:
                     parent::processAjaxRequest();
-                break;
+                    break;
             }
         } catch (Exception $exception) {
             $arrResponse = ['status' => 'error', 'msg' => $exception->getMessage(), 'trace' => $exception->getTrace()];
@@ -166,14 +164,24 @@ class Block extends BackendBlock
                 $objTemplate->logs = $this->dashboard->getLogs();
                 $objTemplate->messages = $this->dashboard->getMessages();
                 $objTemplate->actions = $this->formatActions($this->dashboard->getActions());
-            break;
+                break;
             case self::MODE_RESET:
                 $objTemplate->steps = $this->resetStepManager->parseSteps();
                 $objTemplate->content = $this->resetStepManager->parse();
-            break;
+                break;
+            case self::MODE_DASHBOARD:
+                if ($this->isInstalled()) {
+                    $objTemplate = parent::parseDependingOnMode($objTemplate);
+                } else {
+                    $this->setMode(self::MODE_INSTALL);
+                    $this->configurationStepManager->setMode($this->configurationStepManager::MODE_INSTALL);
+                    $objTemplate->steps = $this->configurationStepManager->parseSteps();
+                    $objTemplate->content = $this->configurationStepManager->parse();
+                }
+                break;
             default:
                 $objTemplate = parent::parseDependingOnMode($objTemplate);
-            break;
+                break;
         }
 
         return $objTemplate;
@@ -224,12 +232,12 @@ class Block extends BackendBlock
                 $this->setMode(self::MODE_INSTALL);
                 $this->configurationStepManager->setCurrentStepIndex(0);
                 $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => $callbacks];
-            break;
+                break;
             case self::MODE_CONFIGURE:
             case self::MODE_INSTALL:
                 $arrResponse = parent::finish();
                 $arrResponse = ['status' => 'success', 'msg' => '', 'callbacks' => [$this->callback('reload')]];
-            break;
+                break;
             default:
                 return parent::finish();
         }
@@ -255,7 +263,7 @@ class Block extends BackendBlock
                 return $this->configurationStepManager->parseSteps();
             default:
                 parent::parseSteps();
-            break;
+                break;
         }
 
         return null;

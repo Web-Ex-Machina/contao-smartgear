@@ -1,0 +1,6 @@
+services:
+  WEM\UtilsBundle\Classes\Encryption:
+    arguments:
+      $secret: '%env(APP_SECRET)%'
+      $truncateKey: false
+  

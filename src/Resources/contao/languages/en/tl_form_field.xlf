@@ -1,9 +1,0 @@
-<?xml version="1.0" ?><xliff version="1.1">
-  <file datatype="php" target-language="en">
-    <body>
-		<trans-unit id="tl_formfield.contains_personal_data.0">
-			<source>Contains personal data</source>
-		</trans-unit>
-    </body>
-  </file>
-</xliff>
