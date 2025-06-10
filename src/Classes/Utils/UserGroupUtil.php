@@ -33,6 +33,7 @@ class UserGroupUtil
         $objUserGroup = isset($arrData['id']) ? UserGroupModel::findById($arrData['id']) ?? new UserGroupModel() : new UserGroupModel();
         $objUserGroup->tstamp = time();
         $objUserGroup->name = $strName;
+
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
         $userGroupManipulator
             ->addAllowedModules(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance', 'wem_sg_social_link', 'wem_sg_social_link_config_categories', 'wem_sg_dashboard'])
@@ -105,6 +106,7 @@ class UserGroupUtil
         $objUserGroup = isset($arrData['id']) ? UserGroupModel::findById($arrData['id']) ?? new UserGroupModel() : new UserGroupModel();
         $objUserGroup->tstamp = time();
         $objUserGroup->name = $strName;
+
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
         $userGroupManipulator
             ->addAllowedModules(['article', 'files', 'form', 'wem_sg_social_link', 'wem_sg_dashboard'])

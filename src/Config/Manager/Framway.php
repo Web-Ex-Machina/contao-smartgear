@@ -111,30 +111,30 @@ class Framway extends AbstractManager implements ManagerJsonInterface
     {
         $notJsonCompliant = str_replace('module.exports = ', '', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/^([\s\t]*)\/\/(.*)/m', '', $notJsonCompliant); // remove one liner comments
-        $notJsonCompliant = preg_replace('/^(.*)\'\,([\s\t]*)\/\/(.*)/m', '$1\',', $notJsonCompliant); // remove comments at the end of a line
-        $notJsonCompliant = preg_replace('/^(.*)\,([\s\t]*)\/\/(.*)/m', '$1,', $notJsonCompliant); // remove comments at the end of a line
+        $notJsonCompliant = preg_replace('/^(.*)\'\,([\s\t]*)\/\/(.*)/m', '$1\',', (string) $notJsonCompliant); // remove comments at the end of a line
+        $notJsonCompliant = preg_replace('/^(.*)\,([\s\t]*)\/\/(.*)/m', '$1,', (string) $notJsonCompliant); // remove comments at the end of a line
 
         ////////
-        $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([\{]{1})/', '$1"$2":{', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([\[]{1})/', '$1"$2":[', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([\{]{1})/', '$1"$2":{', (string) $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([\[]{1})/', '$1"$2":[', (string) $notJsonCompliant);
         // $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([^\/\:])/', '$1"$2":', $notJsonCompliant);
-        $notJsonCompliant = preg_replace("/'/", '"', $notJsonCompliant);
+        $notJsonCompliant = preg_replace("/'/", '"', (string) $notJsonCompliant);
         // $notJsonCompliant = preg_replace('/\"([A-Za-z_\-0-9$]*)\":[\s]\[/', '"$1":[', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([A-Za-z_\-0-9$]*)/', '$1"$2":$5', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/([\s]*)([A-Za-z_\-0-9$]*)([\s]*):([\s]*)([A-Za-z_\-0-9$]*)/', '$1"$2":$5', (string) $notJsonCompliant);
 
-        $notJsonCompliant = preg_replace('/([\"]+)([A-Za-z_\-0-9$]+)([\"]+)/', '"$2"', $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/([\"]+)([A-Za-z_\-0-9$]+)([\"]+)/', '"$2"', (string) $notJsonCompliant);
         ////////
 
-        $notJsonCompliant = preg_replace('/\t/', '', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/\n/', '', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/\s\s/', '', $notJsonCompliant);
-        $notJsonCompliant = preg_replace('/,([\s]*)\]/', ']', $notJsonCompliant); // final comma in array
-        $notJsonCompliant = preg_replace('/,([\s]*)\}/', '}', $notJsonCompliant); // final comma in object
+        $notJsonCompliant = preg_replace('/\t/', '', (string) $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/\n/', '', (string) $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/\s\s/', '', (string) $notJsonCompliant);
+        $notJsonCompliant = preg_replace('/,([\s]*)\]/', ']', (string) $notJsonCompliant); // final comma in array
+        $notJsonCompliant = preg_replace('/,([\s]*)\}/', '}', (string) $notJsonCompliant); // final comma in object
 
-        $notJsonCompliant = preg_replace('/\.\"com\":/', '.com:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
-        $notJsonCompliant = preg_replace('/\"https\":/', '"https:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
+        $notJsonCompliant = preg_replace('/\.\"com\":/', '.com:', (string) $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
+        $notJsonCompliant = preg_replace('/\"https\":/', '"https:', (string) $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
 
-        return preg_replace('/\"http\":/', '"http:', $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
+        return preg_replace('/\"http\":/', '"http:', (string) $notJsonCompliant); // dirty quickfix, don't know yet how to cleanly workaround this
     }
 
     protected function retrieveConfigurationFromFile(): string

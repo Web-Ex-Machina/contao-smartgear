@@ -80,7 +80,7 @@ class LoadDataContainerListener
         }
     }
 
-    protected function applySmartgearBehaviour($table): void
+    protected function applySmartgearBehaviour(string $table): void
     {
         switch ($table) {
             case 'tl_article':

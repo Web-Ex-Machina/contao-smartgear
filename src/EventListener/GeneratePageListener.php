@@ -150,7 +150,7 @@ class GeneratePageListener
         $objItem = new PageVisit();
         $objItem->pid = $pageModel->id;
         $objItem->page_url = $uri;
-        $objItem->page_url_base = str_contains($uri, '?') ? substr($uri, 0, strpos($uri, '?')) : $uri;
+        $objItem->page_url_base = str_contains((string) $uri, '?') ? substr((string) $uri, 0, strpos((string) $uri, '?')) : $uri;
         $objItem->referer = $referer;
         $objItem->referer_base = $parse['host'];
         $objItem->user_agent = Environment::get('httpUserAgent');
@@ -173,12 +173,12 @@ class GeneratePageListener
     /**
      * Detect crawlers
      */
-    protected function isRobot()
+    protected function isRobot(): bool
     {
-        $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
 
         // List of typical robot user agent strings
-        $robotStrings = array(
+        $robotStrings = [
             'Googlebot',
             'Googlebot-Image',
             'Googlebot-Video',
@@ -197,10 +197,10 @@ class GeneratePageListener
             'Slackbot',
             'ChatGPT',
             // Add other strings for other known robots
-        );
+        ];
 
         foreach ($robotStrings as $botString) {
-            if (stripos($userAgent, $botString) !== false) {
+            if (stripos((string) $userAgent, $botString) !== false) {
                 return true;
             }
         }

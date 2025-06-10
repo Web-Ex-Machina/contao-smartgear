@@ -203,7 +203,7 @@ class UiListener
             case 'tl_member':
                 switch ($personalData->field) {
                     case 'dateOfBirth':
-                        $buffer = !empty($buffer) ? Date::parse(Config::get('dateFormat'), (int) $buffer) : $buffer;
+                        $buffer = $buffer === '' || $buffer === '0' ? $buffer : Date::parse(Config::get('dateFormat'), (int) $buffer);
                         break;
                     default:
                         if ($buffer === '' || $buffer === '0') {

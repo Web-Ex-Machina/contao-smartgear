@@ -193,7 +193,7 @@ class Smartgear extends BackendModule
         $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';
         try {
             $coreConfig = $this->coreConfigurationManager->load();
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             $coreConfig = $this->coreConfigurationManager->new();
             $save = $this->coreConfigurationManager->save($coreConfig);
         }
@@ -215,15 +215,18 @@ class Smartgear extends BackendModule
 
             return;
         }
+
         // Catch Modal Calls
         if ('modal' === Input::get('act')) {
             // Catch Errors
             if (!Input::get('type')) {
                 throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterTypeMissing']);
             }
+
             if (!Input::get('module')) {
                 throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterModuleMissing']);
             }
+
             if (!Input::get('function')) {
                 throw new \Exception($GLOBALS['TL_LANG']['WEMSG']['AJAX']['SUBBLOCK']['messageParameterFunctionMissing']);
             }
@@ -264,6 +267,7 @@ class Smartgear extends BackendModule
                 }
             }
         }
+
         // Send blocks to template
         $this->Template->blocks = $arrBlocks;
 
@@ -392,7 +396,7 @@ class Smartgear extends BackendModule
      *
      * @throws Exception
      */
-    protected function compile(): void
+    protected function compile(): void //TODO : nani ? two compile ?
     {
         // Add WEM styles to template
         $GLOBALS['TL_CSS'][] = $this->strBasePath.'/backend/wemsg.css';

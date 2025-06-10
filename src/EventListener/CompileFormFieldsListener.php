@@ -37,6 +37,7 @@ class CompileFormFieldsListener
         Form $form
     ): array {
         if(!$this->scopeMatcher->isFrontend()) {exit();}
+
         return $this->applyListeners($arrFields, $formId, $form);
     }
 

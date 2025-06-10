@@ -58,11 +58,11 @@ class FramwayTheme extends ManagerFramway
     {
         $notJsonCompliant = str_replace('module.exports = ', '', $notJsonCompliant);
         $notJsonCompliant = preg_replace('/^([\s\t]*)\/\/(.*)/m', '', $notJsonCompliant); // remove one liner comments
-        $notJsonCompliant = preg_replace('/^(.*)\'\,([\s\t]*)\/\/(.*)/m', '$1\',', $notJsonCompliant); // remove comments at the end of a line
-        $notJsonCompliant = preg_replace('/^(.*)\,([\s\t]*)\/\/(.*)/m', '$1,', $notJsonCompliant); // remove comments at the end of a line
-        $notJsonCompliant = preg_replace('/,([\s]*)\]/', ']', $notJsonCompliant); // final comma in array
-        $notJsonCompliant = preg_replace('/,([\s]*)\}/', '}', $notJsonCompliant); // final comma in object
+        $notJsonCompliant = preg_replace('/^(.*)\'\,([\s\t]*)\/\/(.*)/m', '$1\',', (string) $notJsonCompliant); // remove comments at the end of a line
+        $notJsonCompliant = preg_replace('/^(.*)\,([\s\t]*)\/\/(.*)/m', '$1,', (string) $notJsonCompliant); // remove comments at the end of a line
+        $notJsonCompliant = preg_replace('/,([\s]*)\]/', ']', (string) $notJsonCompliant); // final comma in array
+        $notJsonCompliant = preg_replace('/,([\s]*)\}/', '}', (string) $notJsonCompliant); // final comma in object
 
-        return preg_replace("/'([^']*)'/", '"$1"', $notJsonCompliant);
+        return preg_replace("/'([^']*)'/", '"$1"', (string) $notJsonCompliant);
     }
 }

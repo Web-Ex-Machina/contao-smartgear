@@ -80,6 +80,7 @@ class ConfigurationStepManager extends StepManager
         } else {
             $this->actions[] = ['action' => 'finish', 'label' => $this->translator->trans('WEMSG.CONFIGURATIONSTEPMANAGER.BUTTONS.finish', [], 'contao_default')];
         }
+
         if (self::MODE_CONFIGURE === $this->mode) {
             $this->actions[] = ['action' => 'dashboard', 'label' => $this->translator->trans('WEM.SMARTGEAR.DEFAULT.BackToDashboard', [], 'contao_default')];
         }

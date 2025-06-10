@@ -34,6 +34,7 @@ class GetContentElementListener
     public function __invoke(ContentModel $contentModel, string $buffer, Module|ContentElement $element): string
     {
         if(!$this->scopeMatcher->isFrontend()) {exit();}
+
         $buffer = $this->alterForPersonalDataModule($contentModel, $buffer, $element);
         $this->addToRenderStack($contentModel, $buffer, $element);
 
@@ -47,7 +48,7 @@ class GetContentElementListener
      * @param string       $buffer       The generated HTML
      * @param mixed        $element      The content element object (a module, form, text ...)
      */
-    protected function addToRenderStack(ContentModel $contentModel, string $buffer, $element): void
+    protected function addToRenderStack(ContentModel $contentModel, string $buffer, Module|ContentElement $element): void
     {
         $renderStack = RenderStack::getInstance();
         $renderStack->add($contentModel, $buffer, $element);
@@ -79,14 +80,14 @@ class GetContentElementListener
         }
 
         try {
-            /** @var CoreConfiguration */
+            /** @var CoreConfigurationManager $coreConfig */
             $coreConfig = $this->configurationManager->load();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $coreConfig = null;
         }
 
         if (!$coreConfig
-        || $coreConfig->getSgUsePdmForMembers()
+        || $coreConfig->getSgUsePdmForMembers() // TODO : not exist ??
         ) {
             $service = System::getContainer()->get('smartgear.listener.load_data_container');
             $service->__invoke(['tl_member']);

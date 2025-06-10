@@ -120,7 +120,7 @@ class Newsletter extends ContaoNewsletter
 
         // Send newsletter
         if ($token && $token === $objSession->get('tl_newsletter_send')) {
-            $referer = preg_replace('/&(amp;)?(start|mpc|token|recipient|preview)=[^&]*/', '', Environment::get('request'));
+            $referer = preg_replace('/&(amp;)?(start|mpc|token|recipient|preview)=[^&]*/', '', (string) Environment::get('request'));
 
             // Preview
             if (isset($_GET['preview'])) {
@@ -258,7 +258,7 @@ class Newsletter extends ContaoNewsletter
 
             // Redirect to the next cycle
             else {
-                $url = preg_replace('/&(amp;)?(start|mpc|recipient)=[^&]*/', '', Environment::get('request')).'&start='.($intStart + $intPages).'&mpc='.$intPages;
+                $url = preg_replace('/&(amp;)?(start|mpc|recipient)=[^&]*/', '', (string) Environment::get('request')).'&start='.($intStart + $intPages).'&mpc='.$intPages;
 
                 echo '<script>setTimeout(\'window.location="'.Environment::get('base').$url.'"\','.($intTimeout * 1000).')</script>';
                 echo '<a href="'.Environment::get('base').$url.'">Please click here to proceed if you are not using JavaScript</a>';

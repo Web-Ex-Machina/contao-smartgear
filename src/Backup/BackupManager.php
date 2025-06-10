@@ -37,26 +37,10 @@ use WEM\SmartgearBundle\Model\Backup as BackupModel;
 class BackupManager
 {
     public const DEFAULT_CHUNK_SIZES_BYTES = 1073741824; // 1GB
-    /** @var string */
-    protected $rootDir;
-    /** @var string */
-    protected $backupDirectory;
-    /** @var CommandUtil */
-    protected $commandUtil;
-    /** @var string */
-    protected $databaseBackupDirectory;
-    /** @var DatabaseBackupManager */
-    protected $databaseBackupManager;
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var array */
-    protected $artifactsToBackup = [];
-    /** @var array */
-    protected $tablesToIgnore = [];
-    /** @var int */
-    protected $memoryLimitInBytes;
-    /** @var int */
-    protected $chunkSizeInBytes;
+
+    protected ?int $memoryLimitInBytes = null;
+
+    protected ?int $chunkSizeInBytes = null;
 
     public function __construct(
         protected string                $rootDir,

@@ -38,14 +38,14 @@ class ComponentStyleSelect extends ComponentStyleSelectBase
                 $colorTranslation = $GLOBALS['TL_LANG'][$match[5]][$match[6]][$match[7]][$match[8]] ?? $match[8];
                 return sprintf('>%s<', sprintf($GLOBALS['TL_LANG'][$match[1]][$match[2]][$match[3]][$match[4]], $colorTranslation));
             },
-            $content
+            (string) $content
         );
 
         // normal translation keys for optgroup
         $content = preg_replace_callback(
             '/label\="([\s|&nbsp;]+)([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)"/',
             static fn($match): string => sprintf('label="%s%s"', $match[1], $GLOBALS['TL_LANG'][$match[2]][$match[3]][$match[4]][$match[5]]),
-            $content
+            (string) $content
         );
 
         $content = preg_replace_callback(
@@ -65,7 +65,7 @@ class ComponentStyleSelect extends ComponentStyleSelectBase
 
                 return '</h3><select'.$match[1].'>'.$match[2].'</select>';
             },
-            $content
+            (string) $content
         );
 
         return $content . '';

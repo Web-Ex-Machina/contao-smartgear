@@ -554,7 +554,7 @@ class Util
 
     public static function humanReadableFilesize(int $size, ?int $precision = 2): string
     {
-        for ($i = 0; ($size / 1024) > 0.9; $i++, $size /= 1024) {}
+        for ($i = 0; ($size / 1024) > 0.9; $i++, $size /= 1024) {} // TODO : replace with better method
 
         return round($size, $precision).['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'][$i];
     }
@@ -577,7 +577,7 @@ class Util
         $minutes = (int) ($duration / 60000);
         $duration = ($duration % 60000);
         $seconds = (int) ($duration / 1000);
-        $duration = ($duration % 1000);
+        $duration = ($duration % 1000); // TODO : better medhods ??
         $ms = $duration;
 
         return sprintf('%02dm%02ds%03dms', $minutes, $seconds, $ms);

@@ -30,6 +30,7 @@ class StringUtil extends StringUtilBase
                     $formattedValue[] = $valueChunk;
                 }
             }
+
             $formattedValue = implode(', ', $formattedValue);
         } else {
             $formattedValue = (string) $value;
@@ -53,7 +54,7 @@ class StringUtil extends StringUtilBase
         // Rule #2
         $varValue = preg_replace("/\s(\?|\!|\:|\;|\»)/", '&nbsp;\\1', $varValue);
 
-        return preg_replace("/(\«)\s/", '\\1&nbsp;', $varValue);
+        return preg_replace("/(\«)\s/", '\\1&nbsp;', (string) $varValue);
     }
 
     /**

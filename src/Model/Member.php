@@ -16,6 +16,7 @@ namespace WEM\SmartgearBundle\Model;
 
 use Contao\System;
 use WEM\PersonalDataManagerBundle\Model\Traits\PersonalDataTrait as PDMTrait;
+use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 
 /**
  * Reads and writes items.
@@ -94,12 +95,12 @@ class Member extends \Contao\MemberModel
     public function shouldManagePersonalData(): bool
     {
         try {
-            /** @var CoreConfiguration */
+            /** @var CoreConfigurationManager $coreConfig */
             $coreConfig = System::getContainer()->get('smartgear.config.manager.core')->load();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $coreConfig = null;
         }
 
-        return $coreConfig && $coreConfig->getSgUsePdmForMembers();
+        return $coreConfig && $coreConfig->getSgUsePdmForMembers(); // TODO ; not exist ??
     }
 }

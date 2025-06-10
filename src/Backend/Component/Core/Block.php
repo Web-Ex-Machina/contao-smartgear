@@ -116,6 +116,7 @@ class Block extends BackendBlock
                         $arrResponse['msg'] = $GLOBALS['TL_LANG']['WEMSG']['CORE']['BLOCK']['framwayThemeAddAjaxMessageError'].$e->getMessage();
                         $arrResponse['output'] = $e->getMessage();
                     }
+
                     break;
                 case 'dev_mode':
                     $this->dashboard->enableDevMode();
@@ -178,6 +179,7 @@ class Block extends BackendBlock
                     $objTemplate->steps = $this->configurationStepManager->parseSteps();
                     $objTemplate->content = $this->configurationStepManager->parse();
                 }
+
                 break;
             default:
                 $objTemplate = parent::parseDependingOnMode($objTemplate);

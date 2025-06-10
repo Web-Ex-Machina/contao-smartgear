@@ -20,12 +20,8 @@ use WEM\SmartgearBundle\Model\Member as MemberModel;
 
 class CreateNewUserListener
 {
-    protected CoreConfigurationManager $coreConfigurationManager;
-
-    public function __construct(
-        CoreConfigurationManager $coreConfigurationManager
-    ) {
-        $this->coreConfigurationManager = $coreConfigurationManager;
+    public function __construct(protected CoreConfigurationManager $coreConfigurationManager)
+    {
     }
 
     public function __invoke(string $userId, array $data, Module $module): void
@@ -33,7 +29,7 @@ class CreateNewUserListener
         try {
             /** @var CoreConfigurationManager $coreConfig */
             $coreConfig = $this->coreConfigurationManager->load();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $coreConfig = null;
         }
 

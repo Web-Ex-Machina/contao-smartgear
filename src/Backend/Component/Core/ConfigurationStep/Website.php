@@ -732,6 +732,7 @@ class Website extends ConfigurationStep
 
         $objUserGroup->tstamp = time();
         $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupAdministratorsName'];
+
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
         $userGroupManipulator
             ->addAllowedModules(['page', 'article', 'form', 'files', 'nc_notifications', 'user', 'log', 'maintenance', 'wem_sg_social_link', 'wem_sg_social_link_config_categories', 'wem_sg_dashboard'])
@@ -796,6 +797,7 @@ class Website extends ConfigurationStep
 
         $objUserGroup->tstamp = time();
         $objUserGroup->name = $GLOBALS['TL_LANG']['WEMSG']['INSTALL']['WEBSITE']['UsergroupRedactorsName'];
+
         $userGroupManipulator = UserGroupModelUtil::create($objUserGroup);
         $userGroupManipulator
             ->addAllowedModules(['article', 'files', 'form', 'wem_sg_social_link', 'wem_sg_dashboard'])
@@ -1248,6 +1250,7 @@ class Website extends ConfigurationStep
         $html = str_replace('link::plan-du-site', 'link::'.$pages['sitemap']->id, $html);
         $html = str_replace('link::mentions-legales', 'link::'.$pages['legal_notice']->id, $html);
         $html = str_replace('link::confidentialite', 'link::'.$pages['privacy_politics']->id, $html);
+
         $objFooterModule->html = $html;
 
         $objFooterModule->save();

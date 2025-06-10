@@ -16,6 +16,8 @@ namespace WEM\SmartgearBundle\Classes\Utils;
 
 use Contao\ArticleModel;
 use Contao\ContentModel;
+use Contao\Controller;
+use Contao\DC_Table;
 use Contao\PageModel;
 use Contao\System;
 use InvalidArgumentException;
@@ -66,10 +68,11 @@ class PageUtil
 
         $objPage->save();
 
-        \Contao\Controller::loadDataContainer(PageModel::getTable());
-        $dc = new \Contao\DC_Table(PageModel::getTable());
+        Controller::loadDataContainer(PageModel::getTable());
+        $dc = new DC_Table(PageModel::getTable());
         $dc->id = $objPage->id;
         $dc->activeRecord = $objPage;
+
         $alias = System::getContainer()
             ->get('contao.listener.data_container.page_url')
             ->generateAlias($arrData['alias'] ?? '', $dc)

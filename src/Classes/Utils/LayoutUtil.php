@@ -169,7 +169,7 @@ class LayoutUtil
         switch ($arrReplace['{{config.analytics.system}}']) {
             case Configuration::ANALYTICS_SOLUTION_NONE:
                 $script = preg_replace('/\/\/ -- GTAG(.*)\/\/ -- \/GTAG/s', '', $script);
-                $script = preg_replace('/\/\/ -- MATOMO(.*)\/\/ -- \/MATOMO/s', '', $script);
+                $script = preg_replace('/\/\/ -- MATOMO(.*)\/\/ -- \/MATOMO/s', '', (string) $script);
             break;
             case Configuration::ANALYTICS_SOLUTION_GOOGLE:
                 $script = str_replace('{{config.analytics.google.id}}', $arrReplace['{{config.analytics.google.id}}'], $script);

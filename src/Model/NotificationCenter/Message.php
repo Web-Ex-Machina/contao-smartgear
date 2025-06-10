@@ -23,16 +23,16 @@ class Message extends CoreModel
 {
     /**
      * Search fields.
-     *
-     * @var array
      */
-    public static array $arrSearchFields = ['tstamp', 'title'];
+    public static $arrSearchFields = ['tstamp', 'title'];
+
     /**
      * Table name.
      *
      * @var string
      */
     protected static $strTable = 'tl_nc_message';
+
     /**
      * Default order column.
      *

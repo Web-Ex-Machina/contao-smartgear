@@ -15,29 +15,17 @@ declare(strict_types=1);
 namespace WEM\SmartgearBundle\DataContainer;
 
 use Contao\Backend;
+use Contao\Input;
 use Contao\CoreBundle\DataContainer\DataContainerOperation;
 use Contao\CoreBundle\Exception\AccessDeniedException;
-use Contao\Image;
-use Contao\Input;
-use Contao\System;
-use tl_form;
-use WEM\SmartgearBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
-use WEM\SmartgearBundle\Classes\FormUtil;
+use WEM\SmartgearBundle\Model\Configuration\ConfigurationItem;
 
 // class Form extends \tl_form
 class Form extends Backend
 {
-    /** @var CoreConfigurationManager */
-    private $configurationManager;
-
-    /** @var Backend */
-    private $parent;
-
     public function __construct()
     {
         parent::__construct();
-        $this->configurationManager = System::getContainer()->get('smartgear.config.manager.core');
-        $this->parent = new \tl_form();
     }
 
     /**
@@ -66,6 +54,7 @@ class Form extends Backend
      * Check if the form is being used by Smartgear.
      *
      * @param int $id form's ID
+     * @throws \Exception
      */
     protected function isItemUsedBySmartgear(int $id): bool
     {
