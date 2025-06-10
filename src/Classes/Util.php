@@ -554,9 +554,14 @@ class Util
 
     public static function humanReadableFilesize(int $size, ?int $precision = 2): string
     {
-        for ($i = 0; ($size / 1024) > 0.9; $i++, $size /= 1024) {} // TODO : replace with better method
-
-        return round($size, $precision).['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'][$i];
+        $units = ['B','kB','MB','GB','TB','PB','EB','ZB','YB'];
+        $step = 1024;
+        $i = 0;
+        while (($size / $step) > 0.9) {
+            $size = $size / $step;
+            $i++;
+        }
+        return round($size, $precision).$units[$i];
     }
 
     public static function log($message, ?string $filename = 'debug.log'): void
@@ -575,9 +580,9 @@ class Util
     public static function humanReadableDuration(int $duration): string
     {
         $minutes = (int) ($duration / 60000);
-        $duration = ($duration % 60000);
+        $duration %= 60000;
         $seconds = (int) ($duration / 1000);
-        $duration = ($duration % 1000); // TODO : better medhods ??
+        $duration %= 1000;
         $ms = $duration;
 
         return sprintf('%02dm%02ds%03dms', $minutes, $seconds, $ms);

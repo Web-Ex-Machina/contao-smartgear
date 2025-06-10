@@ -40,12 +40,6 @@ class TicketCreationNotificationType implements NotificationTypeInterface
         ];
     }
 
-
-    private function createDefinition(string $definitionClass, string $tokenName): TokenDefinitionInterface
-    {
-        return $this->factory->create($definitionClass, $tokenName, self::NAME.'.'.$tokenName);
-    }
-
 //$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['smartgear']['ticket_creation'] = [
 //'email_sender_name' => ['email_sender_name'],
 //'email_sender_address' => ['sg_owner_email'],

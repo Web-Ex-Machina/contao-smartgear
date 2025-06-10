@@ -53,10 +53,6 @@ class ReplaceInsertTagsListener extends AbstractReplaceInsertTagsListener
     ): false|string
     {
         $elements = explode('::', $insertTag);
-        $key = strtolower($elements[0]);
-        if ('sg' === $key && str_starts_with($elements[1], 'extranet')) {
-            return static::NOT_HANDLED;
-        }
 
         return static::NOT_HANDLED;
     }

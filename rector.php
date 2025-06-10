@@ -8,7 +8,7 @@ use Rector\Config\RectorConfig;
 
 return RectorConfig::configure()
     ->withPaths([__DIR__ . '/src'])
-    ->withSkipPath(__DIR__ . '/src/Migrations')
+    ->withSkip([__DIR__ . '/src/Migrations',__DIR__ . '/src/Resources/contao/dca'])
     ->withSkip([
         CombineIfRector::class
     ])

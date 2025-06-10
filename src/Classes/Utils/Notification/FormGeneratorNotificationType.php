@@ -36,11 +36,6 @@ class FormGeneratorNotificationType implements NotificationTypeInterface
         ];
     }
 
-    private function createDefinition(string $definitionClass, string $tokenName): TokenDefinitionInterface
-    {
-        return $this->factory->create($definitionClass, $tokenName, self::NAME.'.'.$tokenName);
-    }
-
 
 //    /*
 // * NC hooks
