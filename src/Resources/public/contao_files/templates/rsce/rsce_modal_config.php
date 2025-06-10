@@ -1,9 +1,15 @@
 <?php
 
-/**
- * rsce_modal_config.php
- * https://demo.smartgear.webexmachina.fr/guidelines.html
+/*
+ * SMARTGEAR for Contao Open Source CMS
+ * Copyright (c) 2015-2025 Web ex Machina
+ *
+ * @category ContaoBundle
+ * @package  Web-Ex-Machina/contao-smartgear
+ * @author   Web ex Machina <contact@webexmachina.fr>
+ * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
+
 return [
     'label' => &$GLOBALS['TL_LANG']['tl_content']['rsce_modal'], 
     'contentCategory' => 'links',
