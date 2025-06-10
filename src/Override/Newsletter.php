@@ -360,7 +360,7 @@ class Newsletter extends ContaoNewsletter
     protected function sendNewsletter(Email $objEmail, Result $objNewsletter, $arrRecipient, $text, $html, $css = null): bool
     {
         if (\array_key_exists('id', $arrRecipient)) {
-            $objMember = Member::findByPk($arrRecipient['id']);
+            $objMember = Member::findById($arrRecipient['id']);
         } elseif (\array_key_exists('email', $arrRecipient)) {
             $objMember = Member::findByEmail($arrRecipient['email']);
         }

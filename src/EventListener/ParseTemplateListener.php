@@ -37,7 +37,7 @@ class ParseTemplateListener
     {
         if ($this->scopeMatcher->isFrontend()) {
             global $objPage;
-            if (($objLayout = LayoutModel::findByPk($objPage->layout)) && ($objTheme = ThemeModel::findByPk($objLayout->pid))) {
+            if (($objLayout = LayoutModel::findById($objPage->layout)) && ($objTheme = ThemeModel::findById($objLayout->pid))) {
                 TemplateLoader::addFiles($this->templateFinder->buildList($objTheme->templates));
             }
         }

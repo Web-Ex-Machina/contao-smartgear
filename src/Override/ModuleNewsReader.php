@@ -64,7 +64,7 @@ class ModuleNewsReader extends \Contao\ModuleNewsReader
         try {
             $blogConfig = $configManager->load()->getSgBlog();
             if ($blogConfig->getSgInstallComplete()) {
-                $objPage = PageModel::findByPk($blogConfig->getSgPage());
+                $objPage = PageModel::findById($blogConfig->getSgPage());
                 $this->Template->referer = $routeGenerator->generate($objPage->name, [], UrlGeneratorInterface::ABSOLUTE_URL);
             }
         } catch (FileNotFound) {

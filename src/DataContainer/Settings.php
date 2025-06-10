@@ -28,7 +28,7 @@ class Settings
     public function onsubmitCallback(DataContainer $dc): void
     {
         // create support notification
-        if (Config::get('wem_sg_support_form_enabled') && (Config::get('wem_sg_support_form_gateway') && ! Config::get('wem_sg_support_form_notification')) && ($objGateway = Gateway::findByPk(Config::get('wem_sg_support_form_gateway')))) {
+        if (Config::get('wem_sg_support_form_enabled') && (Config::get('wem_sg_support_form_gateway') && ! Config::get('wem_sg_support_form_notification')) && ($objGateway = Gateway::findById(Config::get('wem_sg_support_form_gateway')))) {
             $objNcNotification = NcNotificationUtil::createSupportFormNotification();
             $objNcNotificationMessageUser = NcNotificationMessageUtil::createSupportFormNotificationMessageUser((int) $objGateway->id, 'email', (int) $objNcNotification->id);
             $objNcNotificationMessageUserLanguage = NcNotificationMessageLanguageUtil::createSupportFormNotificationMessageUserLanguage((int) $objNcNotificationMessageUser->id, 'fr', true);

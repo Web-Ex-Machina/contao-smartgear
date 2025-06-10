@@ -70,7 +70,7 @@ class ModuleEventReader extends \Contao\ModuleEventReader
         try {
             $eventConfig = $configManager->load()->getSgEvents();
             if ($eventConfig->getSgInstallComplete()) {
-                $objPage = PageModel::findByPk($eventConfig->getSgPage());
+                $objPage = PageModel::findById($eventConfig->getSgPage());
                 $this->Template->referer = $routeGenerator->generate($objPage->name, [], UrlGeneratorInterface::ABSOLUTE_URL);
             }
         } catch (FileNotFound) {

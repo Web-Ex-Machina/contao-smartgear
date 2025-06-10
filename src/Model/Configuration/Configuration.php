@@ -132,7 +132,7 @@ class Configuration extends CoreModel
 
     public static function findOneByPage(PageModel $objPage, ?array $arrOptions = []): Model|self|null
     {
-        if ($objLayout = LayoutModel::findByPk($objPage->layout)) {
+        if ($objLayout = LayoutModel::findById($objPage->layout)) {
             // if ($objTheme = ThemeModel::findByPk($objLayout->pid)) {
             return self::findOneBy('contao_theme', $objLayout->pid, $arrOptions);
             // }
@@ -143,7 +143,7 @@ class Configuration extends CoreModel
 
     public static function findByPage(PageModel $objPage, ?array $arrOptions = []): Collection|Model|self|null
     {
-        if ($objLayout = LayoutModel::findByPk($objPage->layout)) {
+        if ($objLayout = LayoutModel::findById($objPage->layout)) {
             // if ($objTheme = ThemeModel::findByPk($objLayout->pid)) {
             return self::findBy('contao_theme', $objLayout->pid, $arrOptions);
             // }

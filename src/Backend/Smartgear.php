@@ -678,7 +678,7 @@ class Smartgear extends BackendModule
 
             $arrModules = [];
             foreach (Input::post('core')['modules'] ?? [] as $key => $moduleId) {
-                $objModule = ModuleModel::findByPk($moduleId); // resets config to its old value ... :thinking:
+                $objModule = ModuleModel::findById($moduleId); // resets config to its old value ... :thinking:
                 $arrModules[] = [
                     'key' => $key,
                     'id' => $objModule ? $objModule->id : null,
@@ -1097,7 +1097,7 @@ class Smartgear extends BackendModule
                 }
 
                 $objPage->loadDetails();
-                if ($objPage->layout !== 0 && ($objLayout = LayoutModel::findByPk($objPage->layout)) && ($objTheme = ThemeModel::findByPk($objLayout->pid))) {
+                if ($objPage->layout !== 0 && ($objLayout = LayoutModel::findById($objPage->layout)) && ($objTheme = ThemeModel::findById($objLayout->pid))) {
                     $themeName = $objTheme->name;
                 }
 
@@ -1823,13 +1823,13 @@ class Smartgear extends BackendModule
 
         switch ($objContent->type) {
             case 'module':
-                if ($objModule = ModuleModel::findByPk($objContent->module)) {
+                if ($objModule = ModuleModel::findById($objContent->module)) {
                     $contentAdditionnalInfos = ' - ' . $objModule->name;
                 }
 
                 break;
             case 'article':
-                if ($objArticle = ArticleModel::findByPk($objContent->article)) {
+                if ($objArticle = ArticleModel::findById($objContent->article)) {
                     $contentAdditionnalInfos = ' - ' . $objArticle->title;
                 }
 

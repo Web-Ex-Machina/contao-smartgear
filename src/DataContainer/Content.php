@@ -94,7 +94,7 @@ class Content extends Backend
     public function showJsLibraryHint($dc): void
     {
         if ('tl_content' === $this->parent::class) {
-            $objCte = ContentModel::findByPk($dc->id);
+            $objCte = ContentModel::findById($dc->id);
             if ($objCte === null) {
                 return;
             }

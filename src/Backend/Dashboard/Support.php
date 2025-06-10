@@ -159,7 +159,7 @@ class Support extends BackendModule
 
         // send email
         // $notification = NotificationModel::findByPk((int) $config->getSgNotificationSupport());
-        $notification = NotificationModel::findByPk((int) Config::get('wem_sg_support_form_notification'));
+        $notification = NotificationModel::findById((int) Config::get('wem_sg_support_form_notification'));
         if (! $notification) {
             return;
         }

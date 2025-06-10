@@ -59,7 +59,7 @@ class ModuleNewsList extends \Contao\ModuleNewsList
             $this->filters['select']['author'] = ['label' => $GLOBALS['TL_LANG']['WEMSG']['FILTERS']['LBL']['author'], 'options' => []];
 
             while ($objItems->next()) {
-                $objUser = UserModel::findByPk($objItems->author);
+                $objUser = UserModel::findById($objItems->author);
 
                 if (! $objUser->name) {
                     continue;

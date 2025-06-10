@@ -33,7 +33,7 @@ class ManagerListener
     public function getFileByPidAndPtableAndEmailAndField(int $pid, string $ptable, string $email, string $field, PersonalData $personalData, $value, ?FilesModel $objFileModel): ?FilesModel
     {
         if ($ptable === FormStorageData::getTable()) {
-            $objFormStorageData = FormStorageData::findByPk($pid);
+            $objFormStorageData = FormStorageData::findById($pid);
             if ($objFormStorageData && $objFormStorageData->field_type === 'upload' && Validator::isStringUuid($objFormStorageData->value)) {
                 $objFileModel = FilesModel::findByUuid($objFormStorageData->value);
             }
@@ -45,7 +45,7 @@ class ManagerListener
     public function isPersonalDataLinkedToFile(PersonalData $personalData, bool $isLinkedToFile): bool
     {
         if ($personalData->ptable === FormStorageData::getTable()) {
-            $objFormStorageData = FormStorageData::findByPk($personalData->pid);
+            $objFormStorageData = FormStorageData::findById($personalData->pid);
             if ($objFormStorageData && $objFormStorageData->field_type === 'upload' && Validator::isStringUuid($objFormStorageData->value)) {
                 $isLinkedToFile = true;
             }

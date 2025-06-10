@@ -73,7 +73,7 @@ class GetContentElementListener
             return $buffer;
         }
 
-        $objModule = ModuleModel::findByPk($contentModel->module);
+        $objModule = ModuleModel::findById($contentModel->module);
 
         if (! $objModule) {
             return $buffer;

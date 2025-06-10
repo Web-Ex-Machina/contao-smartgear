@@ -70,7 +70,7 @@ class SocialLink extends BackendModule
         $formData = $this->prepareFormData();
         $arrIdsToKeep = [];
         foreach ($formData as $index => $row) {
-            $objLink = SocialLinkModel::findByPk($index + 1) ?? new SocialLinkModel();
+            $objLink = SocialLinkModel::findById($index + 1) ?? new SocialLinkModel();
             $objLink->id = $index + 1;
             $objLink->pid = $row['pid'];
             $objLink->value = $row['value'];

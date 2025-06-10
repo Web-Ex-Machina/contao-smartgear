@@ -78,7 +78,7 @@ class GeneratePageListener
         $objModule = null;
         if ($firstItemAfterBreadcrumb) {
             if ($firstItemAfterBreadcrumb['model']->type === 'module') {
-                $objModule = \Contao\ModuleModel::findByPk($firstItemAfterBreadcrumb['model']->module);
+                $objModule = \Contao\ModuleModel::findById($firstItemAfterBreadcrumb['model']->module);
             }
         }
 

@@ -153,7 +153,7 @@ class ConfigurationUtil
     {
         // here we'll call everything to create contao contents
         if (! empty($objItem->contao_theme)) {
-            $objTheme = ThemeModel::findByPk($objItem->contao_theme);
+            $objTheme = ThemeModel::findById($objItem->contao_theme);
         }
 
         if (! $objTheme) {
@@ -197,7 +197,7 @@ class ConfigurationUtil
         // create modules
         // sitemap
         if (! empty($objItem->contao_module_sitemap)) {
-            $objModuleSitemap = ModuleModel::findByPk($objItem->contao_module_sitemap);
+            $objModuleSitemap = ModuleModel::findById($objItem->contao_module_sitemap);
         }
 
         if (! $objModuleSitemap) {
@@ -207,7 +207,7 @@ class ConfigurationUtil
 
         // create Contao Layout fullwidth
         if (! empty($objItem->contao_layout_full)) {
-            $objLayoutFull = LayoutModel::findByPk($objItem->contao_layout_full);
+            $objLayoutFull = LayoutModel::findById($objItem->contao_layout_full);
         }
 
         if (! $objLayoutFull) {
@@ -247,7 +247,7 @@ class ConfigurationUtil
 
         // create Contao Layout standard
         if (! empty($objItem->contao_layout_standard)) {
-            $objLayoutStandard = LayoutModel::findByPk($objItem->contao_layout_standard);
+            $objLayoutStandard = LayoutModel::findById($objItem->contao_layout_standard);
         }
 
         if (! $objLayoutStandard) {
@@ -288,7 +288,7 @@ class ConfigurationUtil
 
         // Page - root
         if (! empty($objItem->contao_page_root)) {
-            $objPageRoot = PageModel::findByPk($objItem->contao_page_root);
+            $objPageRoot = PageModel::findById($objItem->contao_page_root);
         }
 
         if (! $objPageRoot) {
@@ -300,7 +300,7 @@ class ConfigurationUtil
 
         // Page - homepage
         if (! empty($objItem->contao_page_home)) {
-            $objPageHome = PageModel::findByPk($objItem->contao_page_home);
+            $objPageHome = PageModel::findById($objItem->contao_page_home);
         }
 
         if (! $objPageHome) {
@@ -314,7 +314,7 @@ class ConfigurationUtil
 
         // Page - 404
         if (! empty($objItem->contao_page_404)) {
-            $objPage404 = PageModel::findByPk($objItem->contao_page_404);
+            $objPage404 = PageModel::findById($objItem->contao_page_404);
         }
 
         if (! $objPage404) {
@@ -418,21 +418,21 @@ class ConfigurationUtil
     {
         switch ($table) {
             case ContentModel::getTable():
-                $objContent = ContentModel::findByPk($id);
+                $objContent = ContentModel::findById($id);
                 if (! $objContent) {
                     return null;
                 }
 
                 return self::findConfigurationForItem($objContent->ptable, (int) $objContent->pid);
             case ArticleModel::getTable():
-                $objArticle = ArticleModel::findByPk($id);
+                $objArticle = ArticleModel::findById($id);
                 if (! $objArticle) {
                     return null;
                 }
 
                 return self::findConfigurationForItem(PageModel::getTable(), (int) $objArticle->pid);
             case PageModel::getTable():
-                $objPage = PageModel::findByPk($id);
+                $objPage = PageModel::findById($id);
                 if (! $objPage) {
                     return null;
                 }
@@ -444,21 +444,21 @@ class ConfigurationUtil
 
                 return Configuration::findOneBy('contao_page_root', $objPage->rootId);
             case ModuleModel::getTable():
-                $objModule = ModuleModel::findByPk($id);
+                $objModule = ModuleModel::findById($id);
                 if (! $objModule) {
                     return null;
                 }
 
                 return self::findConfigurationForItem(ThemeModel::getTable(), (int) $objModule->pid);
             case ThemeModel::getTable():
-                $objTheme = ThemeModel::findByPk($id);
+                $objTheme = ThemeModel::findById($id);
                 if (! $objTheme) {
                     return null;
                 }
 
                 return Configuration::findOneBy('contao_theme', $objTheme->id);
             case FormModel::getTable():
-                $objForm = FormModel::findByPk($id);
+                $objForm = FormModel::findById($id);
                 if (! $objForm) {
                     return null;
                 }
@@ -470,7 +470,7 @@ class ConfigurationUtil
 
                 return self::findConfigurationForItem($objContent::getTable(), (int) $objContent->id);
             case FormFieldModel::getTable():
-                $objFormField = FormFieldModel::findByPk($id);
+                $objFormField = FormFieldModel::findById($id);
                 if (! $objFormField) {
                     return null;
                 }

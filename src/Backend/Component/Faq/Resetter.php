@@ -88,7 +88,7 @@ class Resetter extends BackendResetter
                 }
 
                 foreach ($faqConfig->getContaoArticlesIds() as $id) {
-                    $objArticle = ArticleModel::findByPk($id);
+                    $objArticle = ArticleModel::findById($id);
                     if ($objArticle) {
                         $objArticle->published = false;
                         $objArticle->title = sprintf('%s (Archive-%s)', $objArticle->title, (string) $archiveTimestamp);
@@ -97,7 +97,7 @@ class Resetter extends BackendResetter
                 }
 
                 foreach ($faqConfig->getContaoModulesIds() as $id) {
-                    $objModule = ModuleModel::findByPk($id);
+                    $objModule = ModuleModel::findById($id);
                     if ($objModule) {
                         $objModule->published = false;
                         $objModule->title = sprintf('%s (Archive-%s)', $objModule->title, (string) $archiveTimestamp);
@@ -132,21 +132,21 @@ class Resetter extends BackendResetter
                 }
 
                 foreach ($faqConfig->getContaoArticlesIds() as $id) {
-                    $objArticle = ArticleModel::findByPk($id);
+                    $objArticle = ArticleModel::findById($id);
                     if ($objArticle) {
                         $objArticle->delete();
                     }
                 }
 
                 foreach ($faqConfig->getContaoContentsIds() as $id) {
-                    $objContent = ContentModel::findByPk($id);
+                    $objContent = ContentModel::findById($id);
                     if ($objContent) {
                         $objContent->delete();
                     }
                 }
 
                 foreach ($faqConfig->getContaoModulesIds() as $id) {
-                    $objModule = ModuleModel::findByPk($id);
+                    $objModule = ModuleModel::findById($id);
                     if ($objModule) {
                         $objModule->delete();
                     }

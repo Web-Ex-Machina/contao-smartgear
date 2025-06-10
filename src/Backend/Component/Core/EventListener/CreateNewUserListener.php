@@ -37,7 +37,7 @@ class CreateNewUserListener
         if ($coreConfig
         && $coreConfig->getSgUsePdmForMembers()
         ) {
-            $objMember = MemberModel::findByPk($userId);
+            $objMember = MemberModel::findById($userId);
             foreach (array_keys($data) as $field) {
                 if ($objMember->isFieldInPersonalDataFieldsNames($field)) {
                     $objMember->markModified($field);

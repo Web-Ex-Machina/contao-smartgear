@@ -287,7 +287,7 @@ class ConfigurationItemUtil
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
             if (! empty($objItem->contao_page)) {
-                $objPage = PageModel::findByPk($objItem->contao_page);
+                $objPage = PageModel::findById($objItem->contao_page);
                 if ($objPage) {
                     PageUtil::emptyPage((int) $objItem->contao_page);
                 }
@@ -320,7 +320,7 @@ class ConfigurationItemUtil
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
             if (! empty($objItem->contao_page)) {
-                $objPage = PageModel::findByPk($objItem->contao_page);
+                $objPage = PageModel::findById($objItem->contao_page);
                 if ($objPage) {
                     PageUtil::emptyPage((int) $objItem->contao_page);
                 }
@@ -370,7 +370,7 @@ class ConfigurationItemUtil
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
             if (! empty($objItem->contao_page)) {
-                $objPage = PageModel::findByPk($objItem->contao_page);
+                $objPage = PageModel::findById($objItem->contao_page);
                 if ($objPage) {
                     PageUtil::emptyPage((int) $objItem->contao_page);
                 }
@@ -381,7 +381,7 @@ class ConfigurationItemUtil
             $objArticle = ArticleUtil::createArticle($objPage);
 
             // $objModuleSitemap = $objConfiguration->getRelated('contao_module_sitemap');
-            $objModuleSitemap = ModuleModel::findByPk($objItem->contao_module);
+            $objModuleSitemap = ModuleModel::findById($objItem->contao_module);
             if (! $objModuleSitemap) {
                 $objModuleSitemap = ModuleUtil::createModuleSitemap((int) $objConfiguration->contao_theme, ['id' => $objItem->contao_module]);
             }
@@ -419,7 +419,7 @@ class ConfigurationItemUtil
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
             if (! empty($objItem->contao_page)) {
-                $objPage = PageModel::findByPk($objItem->contao_page);
+                $objPage = PageModel::findById($objItem->contao_page);
                 if ($objPage) {
                     PageUtil::emptyPage((int) $objItem->contao_page);
                 }
@@ -457,11 +457,11 @@ class ConfigurationItemUtil
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
-            $objPage = PageModel::findByPk($objItem->contao_page);
+            $objPage = PageModel::findById($objItem->contao_page);
 
             $objArticle = ArticleUtil::createArticle($objPage);
 
-            $objModuleFaq = ModuleModel::findByPk($objItem->contao_module);
+            $objModuleFaq = ModuleModel::findById($objItem->contao_module);
 
             ContentUtil::createContent($objArticle, [
                 'headline' => serialize(['unit' => 'h1', 'value' => $objItem->page_name]),
@@ -494,7 +494,7 @@ class ConfigurationItemUtil
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
             if (! empty($objItem->contao_page)) {
-                $objPage = PageModel::findByPk($objItem->contao_page);
+                $objPage = PageModel::findById($objItem->contao_page);
                 if ($objPage) {
                     PageUtil::emptyPage((int) $objItem->contao_page);
                 }
@@ -528,11 +528,11 @@ class ConfigurationItemUtil
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
 
-            $objPage = PageModel::findByPk($objItem->contao_page);
+            $objPage = PageModel::findById($objItem->contao_page);
 
             $objArticle = ArticleUtil::createArticle($objPage);
 
-            $objModuleList = ModuleModel::findByPk($objItem->contao_module_list);
+            $objModuleList = ModuleModel::findById($objItem->contao_module_list);
 
             ContentUtil::createContent($objArticle, [
                 'headline' => serialize(['unit' => 'h1', 'value' => $objItem->page_name]),
@@ -565,7 +565,7 @@ class ConfigurationItemUtil
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
             if (! empty($objItem->contao_page)) {
-                $objPage = PageModel::findByPk($objItem->contao_page);
+                $objPage = PageModel::findById($objItem->contao_page);
                 if ($objPage) {
                     PageUtil::emptyPage((int) $objItem->contao_page);
                 }
@@ -597,11 +597,11 @@ class ConfigurationItemUtil
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
-            $objPage = PageModel::findByPk($objItem->contao_page);
+            $objPage = PageModel::findById($objItem->contao_page);
 
             $objArticle = ArticleUtil::createArticle($objPage);
 
-            $objModuleList = ModuleModel::findByPk($objItem->contao_module_list);
+            $objModuleList = ModuleModel::findById($objItem->contao_module_list);
 
             ContentUtil::createContent($objArticle, [
                 'headline' => serialize(['unit' => 'h1', 'value' => $objItem->page_name]),
@@ -634,7 +634,7 @@ class ConfigurationItemUtil
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
             if (! empty($objItem->contao_page_form)) {
-                $objPage = PageModel::findByPk($objItem->contao_page_form);
+                $objPage = PageModel::findById($objItem->contao_page_form);
                 if ($objPage) {
                     PageUtil::emptyPage((int) $objItem->contao_page_form);
                 }
@@ -665,11 +665,11 @@ class ConfigurationItemUtil
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
-            $objPage = PageModel::findByPk($objItem->contao_page_form);
+            $objPage = PageModel::findById($objItem->contao_page_form);
 
             $objArticle = ArticleUtil::createArticle($objPage);
 
-            $objForm = FormModel::findByPk($objItem->contao_form);
+            $objForm = FormModel::findById($objItem->contao_form);
 
             ContentUtil::createContent($objArticle, [
                 'headline' => serialize(['unit' => 'h1', 'value' => $objItem->page_form_name]),
@@ -703,7 +703,7 @@ class ConfigurationItemUtil
             $objConfiguration = $objItem->getRelated('pid');
             $objPage = null;
             if (! empty($objItem->contao_page_form_sent)) {
-                $objPage = PageModel::findByPk($objItem->contao_page_form_sent);
+                $objPage = PageModel::findById($objItem->contao_page_form_sent);
                 if ($objPage) {
                     PageUtil::emptyPage((int) $objItem->contao_page_form_sent);
                 }
@@ -733,7 +733,7 @@ class ConfigurationItemUtil
         ) {
             /** @var ConfigurationModel $objConfiguration */
             $objConfiguration = $objItem->getRelated('pid');
-            $objPage = PageModel::findByPk($objItem->contao_page_form_sent);
+            $objPage = PageModel::findById($objItem->contao_page_form_sent);
 
             $objArticle = ArticleUtil::createArticle($objPage);
 
@@ -792,12 +792,12 @@ class ConfigurationItemUtil
             // create the navigation module associated
             if (! empty($objItem->contao_module)) {
                 // get the module
-                $objModule = ModuleModel::findByPk($objItem->contao_module);
+                $objModule = ModuleModel::findById($objItem->contao_module);
             }
 
             if ($objModule) {
                 // get the nav module associated
-                $objModuleNav = ModuleModel::findByPk($objModule->wem_sg_header_nav_module);
+                $objModuleNav = ModuleModel::findById($objModule->wem_sg_header_nav_module);
                 $objModuleNav->name = $objItem->module_name . ' - Nav';
                 $objModuleNav->save();
             } else {

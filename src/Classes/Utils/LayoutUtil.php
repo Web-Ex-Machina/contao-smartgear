@@ -270,7 +270,7 @@ class LayoutUtil
 
     public static function replaceHeader(int $layoutId, int $moduleHeaderId): void
     {
-        $objLayout = LayoutModel::findByPk($layoutId);
+        $objLayout = LayoutModel::findById($layoutId);
         if (! $objLayout) {
             throw new InvalidArgumentException('Layout with id "' . $layoutId . '" not found');
         }
@@ -301,7 +301,7 @@ class LayoutUtil
 
     public static function replaceFooter(int $layoutId, int $moduleFooterId): void
     {
-        $objLayout = LayoutModel::findByPk($layoutId);
+        $objLayout = LayoutModel::findById($layoutId);
         if (! $objLayout) {
             throw new InvalidArgumentException('Layout with id "' . $layoutId . '" not found');
         }
@@ -333,7 +333,7 @@ class LayoutUtil
 
     public static function replaceBreadcrumb(int $layoutId, int $moduleBreadcrumbId): void
     {
-        $objLayout = LayoutModel::findByPk($layoutId);
+        $objLayout = LayoutModel::findById($layoutId);
         if (! $objLayout) {
             throw new InvalidArgumentException('Layout with id "' . $layoutId . '" not found');
         }

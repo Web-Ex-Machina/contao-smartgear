@@ -161,7 +161,7 @@ class Resetter extends BackendResetter
         }
 
         foreach ($extranetConfig->getContaoArticlesIds() as $id) {
-            $objArticle = ArticleModel::findByPk($id);
+            $objArticle = ArticleModel::findById($id);
             if ($objArticle) {
                 $objArticle->published = false;
                 $objArticle->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$objArticle->name, $date, $time], 'contao_default');
@@ -170,7 +170,7 @@ class Resetter extends BackendResetter
         }
 
         foreach ($extranetConfig->getContaoModulesIds() as $id) {
-            $objModule = ModuleModel::findByPk($id);
+            $objModule = ModuleModel::findById($id);
             if ($objModule) {
                 $objModule->published = false;
                 $objModule->title = $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementArchivedAt', [$objModule->name, $date, $time], 'contao_default');
@@ -366,14 +366,14 @@ class Resetter extends BackendResetter
         }
 
         foreach ($extranetConfig->getContaoArticlesIds() as $id) {
-            $objArticle = ArticleModel::findByPk($id);
+            $objArticle = ArticleModel::findById($id);
             if ($objArticle) {
                 $objArticle->delete();
             }
         }
 
         foreach ($extranetConfig->getContaoContentsIds() as $id) {
-            $objContent = ContentModel::findByPk($id);
+            $objContent = ContentModel::findById($id);
             if ($objContent) {
                 $objContent->delete();
             }

@@ -217,7 +217,7 @@ class UiListener
                 $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
                 break;
             case FormStorageData::getTable():
-                $objFormStorageData = FormStorageData::findByPk($pid);
+                $objFormStorageData = FormStorageData::findById($pid);
                 if ($objFormStorageData) {
                     switch ($objFormStorageData->field_type) {
                         case 'upload':

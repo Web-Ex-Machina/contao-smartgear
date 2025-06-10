@@ -31,7 +31,7 @@ class CsvFormatterListener
     public function formatSingle(PersonalDataModel $personalData, array $header, array $row): array
     {
         if ($personalData->ptable === FormStorageData::getTable()) {
-            $objFormStorageData = FormStorageData::findByPk($personalData->pid);
+            $objFormStorageData = FormStorageData::findById($personalData->pid);
             return [
                 FormStorage::getTable(),
                 $personalData->email,
