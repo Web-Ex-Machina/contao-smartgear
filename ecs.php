@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer;
 
@@ -23,12 +24,8 @@ Copyright (c) 2015-".date("Y")." Web ex Machina
 ])
 ->withSkip([
     ArrayOpenerAndCloserNewlineFixer::class,
-    __DIR__ . '/migrations',
-    __DIR__ . '/vendor',
-    __DIR__ . '/var',
-    __DIR__ . '/config/jwt',
-    __DIR__ . '/config/secrets',
-    __DIR__ . '/config/bundles.php',
+    ArraySyntaxFixer::class,
+    __DIR__ . '/src/Migrations',
 ])
 
     // NOTE : common intègre les règles : arrays, spaces, namespaces, docblocks, controlStructures, phpunit, comments
@@ -36,4 +33,4 @@ Copyright (c) 2015-".date("Y")." Web ex Machina
     $psr12=true,
     $common=true,
     $strict=true,
-);
+)->withRootFiles();
