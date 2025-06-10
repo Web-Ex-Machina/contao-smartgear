@@ -59,7 +59,7 @@ class ModuleNewsReader extends \Contao\ModuleNewsReader
         }
 
         $configManager = System::getContainer()->get('smartgear.config.manager.core');
-        /** @var UrlGeneratorInterface $routeGenerator*/
+        /** @var UrlGeneratorInterface $routeGenerator */
         $routeGenerator = System::getContainer()->get('contao.routing.content_url_generator');
         try {
             $blogConfig = $configManager->load()->getSgBlog();

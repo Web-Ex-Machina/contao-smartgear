@@ -36,5 +36,6 @@ return RectorConfig::configure()
         deadCode: true,
         codeQuality: true,
         codingStyle: true,
-        typeDeclarations: true)
+        typeDeclarations: true
+    )
     ->withRootFiles();

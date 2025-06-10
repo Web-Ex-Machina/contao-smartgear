@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * SMARTGEAR for Contao Open Source CMS
  * Copyright (c) 2015-2025 Web ex Machina
