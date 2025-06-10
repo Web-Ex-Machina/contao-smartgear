@@ -37,7 +37,7 @@
         "heimrichhannot/contao-email2username-bundle": "^1.5",
         "webexmachina/contao-utils": "2.*",
         "webexmachina/contao-grid": "^1.0",
-        "webexmachina/contao-component-style-manager": "^2.6",
+        "oveleon/contao-component-style-manager": "3.*",
         "webexmachina/contao-form-data-manager": "^1.0",
         "webexmachina/contao-personal-data-manager": "^1.0",
         "ext-curl": "*",
@@ -45,14 +45,11 @@
     },
     "require-dev":
     {
-        "rector/rector": "^1.0",
-        "phpunit/phpunit": "^10.0",
-        "codeception/codeception": "^5",
-        "codeception/module-phpbrowser": "^3.0",
-        "codeception/module-asserts": "^3.0",
-        "codeception/module-webdriver": "^4.0",
-        "contao/test-case":"~4",
-        "contao/contao-rector": "dev-main"
+        "phpunit/phpunit": "@stable",
+        "contao/test-case":"@stable",
+        "contao/contao-rector": "dev-main",
+        "contao/easy-coding-standard": "@stable",
+        "phpstan/phpstan": "@stable"
     },
     "autoload":
     {
@@ -70,6 +67,13 @@
             "src/Resources/contao/templates/"
         ]
     },
+    "scripts": {
+        "rector": "vendor/bin/rector p --ansi",
+        "rector-dry": "vendor/bin/rector p --dry-run --ansi",
+        "check-cs": "vendor/bin/ecs check --ansi",
+        "fix-cs": "vendor/bin/ecs check --fix --ansi",
+        "phpstan": "vendor/bin/phpstan analyse --level max src"
+    },
     "extra":
     {
         "contao-manager-plugin": "WEM\\SmartgearBundle\\ContaoManager\\Plugin"
@@ -80,7 +84,8 @@
             "contao/manager-plugin": true,
             "composer/package-versions-deprecated": true,
             "contao-community-alliance/composer-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     }
 }
