@@ -19,7 +19,7 @@
 					<?php foreach($this->formData as $index => $row): ?>
 					<tr>
 						<td>
-							<select name="<?= $this->strId; ?>[<?= $index; ?>][pid]" id="<?= $this->strId; ?>_pid_<?= $row['id']; ?>" class="tl_select tl_text"><!-- tl_text class is used for making reordering work -->
+							<select name="<?= $this->strId; ?>[<?= $index; ?>][pid]" id="<?= $this->strId; ?>_pid_<?= $row['id'] ?? 0; ?>" class="tl_select tl_text"><!-- tl_text class is used for making reordering work -->
 								<?php foreach($this->networks as $network): ?>
 									<?php if($currentNetworkCategory !== $network->pid): ?>
 										<?php if($currentNetworkCategory !== null): ?>
@@ -37,10 +37,10 @@
 							</select>
 						</td>
 						<td>
-							<input type="text" name="<?= $this->strId; ?>[<?= $index; ?>][value]" id="<?= $this->strId; ?>_value_<?= $row['id']; ?>" class="tl_text" value="<?= $row['value']; ?>"/>
+							<input type="text" name="<?= $this->strId; ?>[<?= $index; ?>][value]" id="<?= $this->strId; ?>_value_<?= $row['id'] ?? 0; ?>" class="tl_text" value="<?= $row['value']; ?>"/>
 						</td>
 						<td class="<?= $this->modeExpert ? '' : 'hidden'; ?>">
-							<input type="<?= $this->modeExpert ? 'text' : 'hidden'; ?>" name="<?= $this->strId; ?>[<?= $index; ?>][icon]" id="<?= $this->strId; ?>_icon_<?= $row['id']; ?>" class="tl_text" value="<?= $row['icon']; ?>"/>
+							<input type="<?= $this->modeExpert ? 'text' : 'hidden'; ?>" name="<?= $this->strId; ?>[<?= $index; ?>][icon]" id="<?= $this->strId; ?>_icon_<?= $row['id'] ?? 0; ?>" class="tl_text" value="<?= $row['icon']; ?>"/>
 						</td>
 						<td>
 							<button type="button" data-command="copy" title="<?= StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['ow_copy']); ?>"><?= Image::getHtml('copy.svg'); ?></button>
