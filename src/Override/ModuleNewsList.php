@@ -101,6 +101,10 @@ class ModuleNewsList extends \Contao\ModuleNewsList
         $firstEvent = NewsModel::findBy($col, $val, ['limit' => 1, 'order' => 'published ASC, tstamp ASC']);
         $lastEvent = NewsModel::findBy($col, $val, ['limit' => 1, 'order' => 'published DESC, tstamp DESC']);
 
+        if (!$firstEvent || !$lastEvent) {
+            return ['start' => 1970, 'stop' => 2099];
+        }
+
         return [
             'start' => (new \DateTime())->setTimestamp((int) ('' !== $firstEvent->start ? $firstEvent->start : $firstEvent->tstamp))->format('Y'),
             'stop' => (new \DateTime())->setTimestamp((int) ('' !== $lastEvent->start ? $lastEvent->start : $lastEvent->tstamp))->format('Y'),
