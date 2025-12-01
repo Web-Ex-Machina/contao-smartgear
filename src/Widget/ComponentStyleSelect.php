@@ -23,7 +23,7 @@ class ComponentStyleSelect extends \Oveleon\ContaoComponentStyleManager\Componen
         $content = preg_replace_callback(
             '/>([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)</',
             function ($match) {
-                $translation = sprintf('>%s<', $GLOBALS['TL_LANG'][$match[1]][$match[2]][$match[3]][$match[4]]);
+                $translation = sprintf('>%s<', $GLOBALS['TL_LANG'][$match[1]][$match[2]][$match[3]][$match[4]] ?? '%s');
 
                 return $translation ? $translation : implode('.', $match);
             },
