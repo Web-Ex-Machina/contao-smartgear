@@ -94,7 +94,7 @@ class Api
         }
 
         $url = sprintf('%s%s/%s?maxRecords=1&view=%s&filterByFormula=%s&returnFieldsByFieldId=1', self::BASE_URL, $base, $tableId, urlencode($viewName), urlencode(sprintf('{Domaines concernés} = "%s"', $hostname)));
-        $arrRecords = $this->callForRead($url)->records;
+        $arrRecords = $this->callForRead($url)->records ?? [];
 
         if (!$arrRecords) {
             return [];
